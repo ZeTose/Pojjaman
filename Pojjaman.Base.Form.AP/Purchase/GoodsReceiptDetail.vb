@@ -2604,14 +2604,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
       End If
     End Sub
-    Private Sub RefreshDocs()
-      Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-      RefreshBlankGrid()
-      Me.m_treeManager.Treetable.AcceptChanges()
-      Me.UpdateAmount()
-      Me.m_isInitialized = True
-    End Sub
+        Private Sub RefreshDocs()
+            Me.m_isInitialized = False
+            Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+            RefreshBlankGrid()
+            Me.m_treeManager.Treetable.AcceptChanges()
+            Me.UpdateAmount()
+            Me.m_isInitialized = True
+        End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If Me.m_isInitialized AndAlso (e.Name = "ItemChanged" Or e.Name = "QtyChanged") Then
         If e.Name = "QtyChanged" Then

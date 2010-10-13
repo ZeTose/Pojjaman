@@ -66,6 +66,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents btnLciCodeNameFind As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents txtItemCode As System.Windows.Forms.TextBox
         Friend WithEvents lblItemCode As System.Windows.Forms.Label
+        Friend WithEvents txtPOCode As System.Windows.Forms.TextBox
+        Friend WithEvents lblPOCode As System.Windows.Forms.Label
+        Friend WithEvents KeepKeyCombo1 As Longkong.Pojjaman.Gui.Components.KeepKeyCombo
         Friend WithEvents chkLCI As System.Windows.Forms.CheckBox
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
@@ -81,14 +84,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkWage = New System.Windows.Forms.CheckBox()
             Me.chkLCI = New System.Windows.Forms.CheckBox()
             Me.btnSuppliEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.KeepKeyCombo1 = New Longkong.Pojjaman.Gui.Components.KeepKeyCombo()
             Me.txtSuppliCodeEnd = New System.Windows.Forms.TextBox()
             Me.lblSuppliEnd = New System.Windows.Forms.Label()
-            Me.btnSuppliStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
             Me.txtSuppliCodeStart = New System.Windows.Forms.TextBox()
             Me.lblSuppliStart = New System.Windows.Forms.Label()
             Me.txtTemp = New System.Windows.Forms.TextBox()
             Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.txtPOCode = New System.Windows.Forms.TextBox()
+            Me.lblPOCode = New System.Windows.Forms.Label()
             Me.btnLciCodeNameFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.btnSuppliStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
             Me.txtItemCode = New System.Windows.Forms.TextBox()
             Me.lblItemCode = New System.Windows.Forms.Label()
             Me.chkIncludeChildren = New System.Windows.Forms.CheckBox()
@@ -126,9 +132,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.grbMaster.Controls.Add(Me.grbDisplay)
             Me.grbMaster.Controls.Add(Me.btnSuppliEndFind)
+            Me.grbMaster.Controls.Add(Me.KeepKeyCombo1)
             Me.grbMaster.Controls.Add(Me.txtSuppliCodeEnd)
             Me.grbMaster.Controls.Add(Me.lblSuppliEnd)
-            Me.grbMaster.Controls.Add(Me.btnSuppliStartFind)
             Me.grbMaster.Controls.Add(Me.txtSuppliCodeStart)
             Me.grbMaster.Controls.Add(Me.lblSuppliStart)
             Me.grbMaster.Controls.Add(Me.txtTemp)
@@ -139,7 +145,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.grbMaster.Location = New System.Drawing.Point(8, 8)
             Me.grbMaster.Name = "grbMaster"
-            Me.grbMaster.Size = New System.Drawing.Size(680, 256)
+            Me.grbMaster.Size = New System.Drawing.Size(680, 244)
             Me.grbMaster.TabIndex = 0
             Me.grbMaster.TabStop = False
             Me.grbMaster.Text = "เช็ครับ"
@@ -152,7 +158,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDisplay.Location = New System.Drawing.Point(416, 16)
             Me.grbDisplay.Name = "grbDisplay"
-            Me.grbDisplay.Size = New System.Drawing.Size(256, 200)
+            Me.grbDisplay.Size = New System.Drawing.Size(256, 192)
             Me.grbDisplay.TabIndex = 30
             Me.grbDisplay.TabStop = False
             Me.grbDisplay.Text = "รูปแบบการแสดงผล"
@@ -160,7 +166,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'cmbStatus
             '
             Me.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-            Me.cmbStatus.Location = New System.Drawing.Point(72, 34)
+            Me.cmbStatus.Location = New System.Drawing.Point(72, 28)
             Me.cmbStatus.Name = "cmbStatus"
             Me.cmbStatus.Size = New System.Drawing.Size(168, 21)
             Me.cmbStatus.TabIndex = 1
@@ -169,7 +175,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblStatus.ForeColor = System.Drawing.Color.Black
-            Me.lblStatus.Location = New System.Drawing.Point(8, 34)
+            Me.lblStatus.Location = New System.Drawing.Point(8, 28)
             Me.lblStatus.Name = "lblStatus"
             Me.lblStatus.Size = New System.Drawing.Size(56, 18)
             Me.lblStatus.TabIndex = 0
@@ -184,7 +190,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbTypeDisplay.Controls.Add(Me.chkWage)
             Me.grbTypeDisplay.Controls.Add(Me.chkLCI)
             Me.grbTypeDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.grbTypeDisplay.Location = New System.Drawing.Point(8, 72)
+            Me.grbTypeDisplay.Location = New System.Drawing.Point(8, 60)
             Me.grbTypeDisplay.Name = "grbTypeDisplay"
             Me.grbTypeDisplay.Size = New System.Drawing.Size(240, 120)
             Me.grbTypeDisplay.TabIndex = 7
@@ -248,6 +254,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnSuppliEndFind.TabStop = False
             Me.btnSuppliEndFind.ThemedImage = CType(resources.GetObject("btnSuppliEndFind.ThemedImage"), System.Drawing.Bitmap)
             '
+            'KeepKeyCombo1
+            '
+            Me.KeepKeyCombo1.FormattingEnabled = True
+            Me.KeepKeyCombo1.Location = New System.Drawing.Point(283, 224)
+            Me.KeepKeyCombo1.Name = "KeepKeyCombo1"
+            Me.KeepKeyCombo1.Size = New System.Drawing.Size(121, 21)
+            Me.KeepKeyCombo1.TabIndex = 63
+            Me.KeepKeyCombo1.Visible = False
+            '
             'txtSuppliCodeEnd
             '
             Me.Validator.SetDataType(Me.txtSuppliCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
@@ -274,18 +289,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblSuppliEnd.TabIndex = 29
             Me.lblSuppliEnd.Text = "ถึง"
             Me.lblSuppliEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'btnSuppliStartFind
-            '
-            Me.btnSuppliStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSuppliStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnSuppliStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnSuppliStartFind.Location = New System.Drawing.Point(216, 80)
-            Me.btnSuppliStartFind.Name = "btnSuppliStartFind"
-            Me.btnSuppliStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnSuppliStartFind.TabIndex = 26
-            Me.btnSuppliStartFind.TabStop = False
-            Me.btnSuppliStartFind.ThemedImage = CType(resources.GetObject("btnSuppliStartFind.ThemedImage"), System.Drawing.Bitmap)
             '
             'txtSuppliCodeStart
             '
@@ -333,7 +336,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'grbDetail
             '
+            Me.grbDetail.Controls.Add(Me.txtPOCode)
+            Me.grbDetail.Controls.Add(Me.lblPOCode)
             Me.grbDetail.Controls.Add(Me.btnLciCodeNameFind)
+            Me.grbDetail.Controls.Add(Me.btnSuppliStartFind)
             Me.grbDetail.Controls.Add(Me.txtItemCode)
             Me.grbDetail.Controls.Add(Me.lblItemCode)
             Me.grbDetail.Controls.Add(Me.chkIncludeChildren)
@@ -342,24 +348,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.Controls.Add(Me.lblCCStart)
             Me.grbDetail.Controls.Add(Me.txtCostCenterName)
             Me.grbDetail.Controls.Add(Me.btnLciEndFind)
-            Me.grbDetail.Controls.Add(Me.txtLciCodeEnd)
-            Me.grbDetail.Controls.Add(Me.lblLciEnd)
-            Me.grbDetail.Controls.Add(Me.btnLciStartFind)
-            Me.grbDetail.Controls.Add(Me.txtLciCodeStart)
-            Me.grbDetail.Controls.Add(Me.lblLciStart)
             Me.grbDetail.Controls.Add(Me.txtDocDateEnd)
+            Me.grbDetail.Controls.Add(Me.lblLciStart)
+            Me.grbDetail.Controls.Add(Me.txtLciCodeEnd)
             Me.grbDetail.Controls.Add(Me.txtDocDateStart)
+            Me.grbDetail.Controls.Add(Me.txtLciCodeStart)
             Me.grbDetail.Controls.Add(Me.dtpDocDateStart)
+            Me.grbDetail.Controls.Add(Me.lblLciEnd)
             Me.grbDetail.Controls.Add(Me.dtpDocDateEnd)
+            Me.grbDetail.Controls.Add(Me.btnLciStartFind)
             Me.grbDetail.Controls.Add(Me.lblDocDateStart)
             Me.grbDetail.Controls.Add(Me.lblDocDateEnd)
             Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDetail.Location = New System.Drawing.Point(16, 16)
             Me.grbDetail.Name = "grbDetail"
-            Me.grbDetail.Size = New System.Drawing.Size(400, 200)
+            Me.grbDetail.Size = New System.Drawing.Size(400, 192)
             Me.grbDetail.TabIndex = 0
             Me.grbDetail.TabStop = False
             Me.grbDetail.Text = "ข้อมูลทั่วไป"
+            '
+            'txtPOCode
+            '
+            Me.Validator.SetDataType(Me.txtPOCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtPOCode, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtPOCode, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtPOCode, System.Drawing.Color.Empty)
+            Me.txtPOCode.Location = New System.Drawing.Point(105, 135)
+            Me.Validator.SetMinValue(Me.txtPOCode, "")
+            Me.txtPOCode.Name = "txtPOCode"
+            Me.Validator.SetRegularExpression(Me.txtPOCode, "")
+            Me.Validator.SetRequired(Me.txtPOCode, False)
+            Me.txtPOCode.Size = New System.Drawing.Size(123, 21)
+            Me.txtPOCode.TabIndex = 65
+            '
+            'lblPOCode
+            '
+            Me.lblPOCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblPOCode.ForeColor = System.Drawing.Color.Black
+            Me.lblPOCode.Location = New System.Drawing.Point(6, 135)
+            Me.lblPOCode.Name = "lblPOCode"
+            Me.lblPOCode.Size = New System.Drawing.Size(91, 18)
+            Me.lblPOCode.TabIndex = 64
+            Me.lblPOCode.Text = "รหัสใบสั่งซื้อ:"
+            Me.lblPOCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
             'btnLciCodeNameFind
             '
@@ -372,6 +403,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnLciCodeNameFind.TabIndex = 62
             Me.btnLciCodeNameFind.TabStop = False
             Me.btnLciCodeNameFind.ThemedImage = CType(resources.GetObject("btnLciCodeNameFind.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'btnSuppliStartFind
+            '
+            Me.btnSuppliStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnSuppliStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnSuppliStartFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnSuppliStartFind.Location = New System.Drawing.Point(202, 64)
+            Me.btnSuppliStartFind.Name = "btnSuppliStartFind"
+            Me.btnSuppliStartFind.Size = New System.Drawing.Size(24, 22)
+            Me.btnSuppliStartFind.TabIndex = 26
+            Me.btnSuppliStartFind.TabStop = False
+            Me.btnSuppliStartFind.ThemedImage = CType(resources.GetObject("btnSuppliStartFind.ThemedImage"), System.Drawing.Bitmap)
             '
             'txtItemCode
             '
@@ -413,7 +456,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnCCCodeStart.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnCCCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btnCCCodeStart.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnCCCodeStart.Location = New System.Drawing.Point(200, 88)
+            Me.btnCCCodeStart.Location = New System.Drawing.Point(202, 88)
             Me.btnCCCodeStart.Name = "btnCCCodeStart"
             Me.btnCCCodeStart.Size = New System.Drawing.Size(24, 22)
             Me.btnCCCodeStart.TabIndex = 27
@@ -456,14 +499,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
             Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterName, -15)
             Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-            Me.txtCostCenterName.Location = New System.Drawing.Point(224, 88)
+            Me.txtCostCenterName.Location = New System.Drawing.Point(226, 88)
             Me.txtCostCenterName.MaxLength = 50
             Me.Validator.SetMinValue(Me.txtCostCenterName, "")
             Me.txtCostCenterName.Name = "txtCostCenterName"
             Me.txtCostCenterName.ReadOnly = True
             Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
             Me.Validator.SetRequired(Me.txtCostCenterName, False)
-            Me.txtCostCenterName.Size = New System.Drawing.Size(160, 21)
+            Me.txtCostCenterName.Size = New System.Drawing.Size(161, 21)
             Me.txtCostCenterName.TabIndex = 25
             '
             'btnLciEndFind
@@ -471,7 +514,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnLciEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnLciEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btnLciEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnLciEndFind.Location = New System.Drawing.Point(360, 137)
+            Me.btnLciEndFind.Location = New System.Drawing.Point(361, 159)
             Me.btnLciEndFind.Name = "btnLciEndFind"
             Me.btnLciEndFind.Size = New System.Drawing.Size(24, 22)
             Me.btnLciEndFind.TabIndex = 11
@@ -487,7 +530,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtLciCodeEnd, System.Drawing.Color.Empty)
             Me.ErrorProvider1.SetIconPadding(Me.txtLciCodeEnd, -15)
             Me.Validator.SetInvalidBackColor(Me.txtLciCodeEnd, System.Drawing.Color.Empty)
-            Me.txtLciCodeEnd.Location = New System.Drawing.Point(264, 137)
+            Me.txtLciCodeEnd.Location = New System.Drawing.Point(265, 159)
             Me.Validator.SetMinValue(Me.txtLciCodeEnd, "")
             Me.txtLciCodeEnd.Name = "txtLciCodeEnd"
             Me.Validator.SetRegularExpression(Me.txtLciCodeEnd, "")
@@ -500,7 +543,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.lblLciEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblLciEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblLciEnd.Location = New System.Drawing.Point(232, 137)
+            Me.lblLciEnd.Location = New System.Drawing.Point(233, 159)
             Me.lblLciEnd.Name = "lblLciEnd"
             Me.lblLciEnd.Size = New System.Drawing.Size(24, 18)
             Me.lblLciEnd.TabIndex = 9
@@ -513,7 +556,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnLciStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.btnLciStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.btnLciStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnLciStartFind.Location = New System.Drawing.Point(200, 137)
+            Me.btnLciStartFind.Location = New System.Drawing.Point(201, 159)
             Me.btnLciStartFind.Name = "btnLciStartFind"
             Me.btnLciStartFind.Size = New System.Drawing.Size(24, 22)
             Me.btnLciStartFind.TabIndex = 8
@@ -529,7 +572,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtLciCodeStart, System.Drawing.Color.Empty)
             Me.ErrorProvider1.SetIconPadding(Me.txtLciCodeStart, -15)
             Me.Validator.SetInvalidBackColor(Me.txtLciCodeStart, System.Drawing.Color.Empty)
-            Me.txtLciCodeStart.Location = New System.Drawing.Point(104, 137)
+            Me.txtLciCodeStart.Location = New System.Drawing.Point(105, 159)
             Me.Validator.SetMinValue(Me.txtLciCodeStart, "")
             Me.txtLciCodeStart.Name = "txtLciCodeStart"
             Me.Validator.SetRegularExpression(Me.txtLciCodeStart, "")
@@ -542,7 +585,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.lblLciStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblLciStart.ForeColor = System.Drawing.Color.Black
-            Me.lblLciStart.Location = New System.Drawing.Point(8, 137)
+            Me.lblLciStart.Location = New System.Drawing.Point(9, 159)
             Me.lblLciStart.Name = "lblLciStart"
             Me.lblLciStart.Size = New System.Drawing.Size(88, 18)
             Me.lblLciStart.TabIndex = 6
@@ -626,7 +669,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(592, 224)
+            Me.btnSearch.Location = New System.Drawing.Point(592, 212)
             Me.btnSearch.Name = "btnSearch"
             Me.btnSearch.Size = New System.Drawing.Size(75, 23)
             Me.btnSearch.TabIndex = 2
@@ -636,7 +679,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnReset.Location = New System.Drawing.Point(512, 224)
+            Me.btnReset.Location = New System.Drawing.Point(512, 212)
             Me.btnReset.Name = "btnReset"
             Me.btnReset.Size = New System.Drawing.Size(75, 23)
             Me.btnReset.TabIndex = 1
@@ -661,7 +704,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Controls.Add(Me.grbMaster)
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Name = "RptPObyLCIFilterSubPanel"
-            Me.Size = New System.Drawing.Size(696, 272)
+            Me.Size = New System.Drawing.Size(696, 255)
             Me.grbMaster.ResumeLayout(False)
             Me.grbMaster.PerformLayout()
             Me.grbDisplay.ResumeLayout(False)
@@ -824,7 +867,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(11) As Filter
+            Dim arr(12) As Filter
             arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
             arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
             arr(2) = New Filter("LciCodeStart", IIf(txtLciCodeStart.TextLength > 0, txtLciCodeStart.Text, DBNull.Value))
@@ -837,6 +880,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(9) = New Filter("Status", Me.cmbStatus.SelectedIndex)
             arr(10) = New Filter("Type", GetChekType())
             arr(11) = New Filter("ItemCode", IIf(Me.lblItemCode.Text.Length = 0, DBNull.Value, Me.txtItemCode.Text))
+            arr(12) = New Filter("POCodePrefix", IIf(Me.lblPOCode.Text.Length = 0, DBNull.Value, Me.txtPOCode.Text))
             Return arr
         End Function
         Private Function GetChekType() As String

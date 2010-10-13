@@ -14,20 +14,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits CodeDescription
 
 #Region "Constructors"
-    Public Sub New(ByVal value As Integer)
-      MyBase.New(value)
-    End Sub
+        Public Sub New(ByVal value As Integer)
+            MyBase.New(value)
+        End Sub
 #End Region
 
 #Region "Properties"
-    Public Overrides ReadOnly Property CodeName() As String
-      Get
-        Return "vat_direction"
-      End Get
-    End Property
+        Public Overrides ReadOnly Property CodeName() As String
+            Get
+                Return "vat_direction"
+            End Get
+        End Property
 #End Region
 
-  End Class
+    End Class
 
   Public Class Vat
     Inherits SimpleBusinessEntityBase
