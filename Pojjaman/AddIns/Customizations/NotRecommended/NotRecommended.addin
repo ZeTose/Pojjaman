@@ -1,0 +1,27 @@
+<AddIn name="Pojjaman Not Recommended Form" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Ask Developer" version="1.0.0">
+	<Runtime>
+		<Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+    <Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>    
+  	<Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>
+    <Import assembly="../../Forms/Asset/Pojjaman.Base.Form.Asset.dll"/>
+    
+		<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/>
+    <Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>
+    <Import assembly="../../Reports/AP/Pojjaman.Base.Report.AP.dll"/>
+    <Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Stock">
+    <MenuItem id="Separator[NotRec1]" insertafter="LaborGroup" label="-"/>
+    <MenuItem id="Asset[NotRec1]" insertafter="Separator[NotRec1]" label="${res:MainMenu.AssetMenu}">
+      <MenuItem id="AssetWithdraw" label="${res:MainMenu.StockMenu.AssetWithdraw}" icon="Icons.16x16.EqipmentWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWithdraw"/>
+      <MenuItem id="AssetReturn" label="${res:MainMenu.StockMenu.AssetReturn}" icon="Icons.16x16.EquipmentReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetReturn"/>
+    </MenuItem>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Stock/MatetialStock">
+    <MenuItem id="Separator[NotRec2]" insertafter="MatReceipt" label="-"/>
+    <MenuItem id="MatWithdraw" icon="Icons.16x16.MatWithdraw" label="${res:MainMenu.StockMenu.MatWithdraw}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdraw"/>
+    <MenuItem id="MatReturn" icon="Icons.16x16.MatReturn" label="${res:MainMenu.StockMenu.MatReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturn"/>
+    <MenuItem id="MatWithdrawForOperation" icon="Icons.16x16.MatWithdrawForOperation" label="${res:MainMenu.StockMenu.MatWithdrawForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation"/>
+    <MenuItem id="MatReturnForOperation" icon="Icons.16x16.MatReturnForOperation" label="${res:MainMenu.StockMenu.MatReturnForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturnForOperation"/>
+  </Extension>
+</AddIn>

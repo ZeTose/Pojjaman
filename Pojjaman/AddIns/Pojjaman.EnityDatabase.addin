@@ -85,11 +85,11 @@
           <MenuItem id="MatOperationReturn" icon="Icons.16x16.MatOperationReturn" label="${res:MainMenu.StockMenu.MatOperationReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationReturn"/>
           <MenuItem id="MatTransfer" icon="Icons.16x16.MatTransfer" label="${res:MainMenu.StockMenu.MatTransfer}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatTransfer"/>
           <MenuItem id="MatReceipt" icon="Icons.16x16.MatReceipt" label="${res:MainMenu.StockMenu.MatReceipt}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReceipt"/>
-          <MenuItem id="MatetialStockSeparator2" label="-"></MenuItem>
-          <MenuItem id="MatWithdraw" icon="Icons.16x16.MatWithdraw" label="${res:MainMenu.StockMenu.MatWithdraw}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdraw"/>
-          <MenuItem id="MatReturn" icon="Icons.16x16.MatReturn" label="${res:MainMenu.StockMenu.MatReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturn"/>
-          <MenuItem id="MatWithdrawForOperation" icon="Icons.16x16.MatWithdrawForOperation" label="${res:MainMenu.StockMenu.MatWithdrawForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation"/>
-          <MenuItem id="MatReturnForOperation" icon="Icons.16x16.MatReturnForOperation" label="${res:MainMenu.StockMenu.MatReturnForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturnForOperation"/>
+          <!--<MenuItem id="MatetialStockSeparator2" label="-"></MenuItem>-->
+          <!--<MenuItem id="MatWithdraw" icon="Icons.16x16.MatWithdraw" label="${res:MainMenu.StockMenu.MatWithdraw}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdraw"/>-->
+          <!--<MenuItem id="MatReturn" icon="Icons.16x16.MatReturn" label="${res:MainMenu.StockMenu.MatReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturn"/>-->
+          <!--<MenuItem id="MatWithdrawForOperation" icon="Icons.16x16.MatWithdrawForOperation" label="${res:MainMenu.StockMenu.MatWithdrawForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation"/>-->
+          <!--<MenuItem id="MatReturnForOperation" icon="Icons.16x16.MatReturnForOperation" label="${res:MainMenu.StockMenu.MatReturnForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturnForOperation"/>-->
           <MenuItem id="MatetialStockSeparator3" label="-"></MenuItem>
           <MenuItem id="MatOpenningBalance" label="${res:MainMenu.StockMenu.MatOpenningBalance}" icon="Icons.16x16.MatOpenningBalance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOpenningBalance"/>
           <MenuItem id="MatetialStockSeparator4" label="-"></MenuItem>
