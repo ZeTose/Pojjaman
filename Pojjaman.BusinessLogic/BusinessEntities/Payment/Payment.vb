@@ -907,7 +907,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   If lastCheckCode.Length <> 0 Then
                     check.Code = CodeGenerator.Generate(Entity.GetAutoCodeFormat(check.EntityId), lastCheckCode, check)
                   Else
-                    check.Code = check.GetNextCode
+                    check.Code = check.GetNextCode(conn, trans)
                   End If
                   check.AutoGen = False
                   check.DocStatus = New OutgoingCheckDocStatus(-1)
@@ -1057,6 +1057,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         daDrCr.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
+      Finally
+
       End Try
       Return New SaveErrorException("0")
     End Function
