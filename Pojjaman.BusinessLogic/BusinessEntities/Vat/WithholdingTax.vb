@@ -195,6 +195,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .wht_paymentType = New WitholdingTaxPaymentType(1)
         .wht_direction = New WitholdingTaxDirection(0)
         .wht_docDate = Now.Date
+        .SequenceNo = New WitholdingTaxSequence
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -206,7 +207,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         If Not dr.IsNull(aliasPrefix & "wht_sequenceNo") Then
-          .SequenceNo = CStr(dr(aliasPrefix & "wht_sequenceNo"))
+          .SequenceNo = New WitholdingTaxSequence
+          .SequenceNo.Code = CStr(dr(aliasPrefix & "wht_sequenceNo"))
+          If .SequenceNo.Code.Length > 0 Then
+            .SequenceNo.Id = .Id
+            .SequenceNo.AutoGen = False
+          End If
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "wht_bookNo") AndAlso Not dr.IsNull(aliasPrefix & "wht_bookNo") Then
@@ -333,7 +339,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property SequenceNo As String
+    Private m_sequenceNo As WitholdingTaxSequence
+    Public Property SequenceNo As WitholdingTaxSequence
+      Get
+        Return m_sequenceNo
+      End Get
+      Set(ByVal value As WitholdingTaxSequence)
+        m_sequenceNo = value
+      End Set
+    End Property
+
     Public ReadOnly Property Maindoc() As ISimpleEntity Implements IHasMainDoc.MainDoc
       Get
         Return CType(wht_refDoc, ISimpleEntity)
@@ -992,12 +1007,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.AutoGen And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
+        If Me.SequenceNo.AutoGen And Me.SequenceNo.Code.Length = 0 Then
+          Me.SequenceNo.Code = Me.SequenceNo.GetNextCode
+        End If
 
         Me.AutoGen = False
         paramArrayList.Add(New SqlParameter("@wht_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@wht_docDate", Me.ValidDateOrDBNull(Me.DocDate)))
         paramArrayList.Add(New SqlParameter("@wht_bookNo", Me.BookNo))
-        paramArrayList.Add(New SqlParameter("@wht_SequenceNo", Me.SequenceNo))
+        paramArrayList.Add(New SqlParameter("@wht_SequenceNo", Me.SequenceNo.Code))
 
         Dim refDocType As Integer
         If TypeOf Me.RefDoc Is ISimpleEntity Then
@@ -2355,6 +2373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
+      Dim refSequenceNo As Boolean = False
       Dim refTaxBase As Decimal = 0
       If TypeOf wht_refDoc Is ReceiveSelection Then
         If Me.WitholdingTaxbase > CType(wht_refDoc, ReceiveSelection).GetMaximumWitholdingTaxBase Then
@@ -2511,6 +2530,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '---------------END ź WHT ---------------------------
 
         For Each wht As WitholdingTax In Me
+          If wht.SequenceNo.AutoGen Then
+            wht.SequenceNo.Code = wht.SequenceNo.GetNextCode
+          End If
+
           Dim drWHT As DataRow
           If Not wht.Originated OrElse Not wht.RefDoc Is Me.RefDoc Then
             drWHT = dtWHT.NewRow
@@ -3000,5 +3023,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+  End Class
+
+  Public Class WitholdingTaxSequence
+    Inherits SimpleBusinessEntityBase
+
+    Public Sub New()
+      MyBase.New()
+    End Sub
+
+    Public Property LastestCode() As String
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "WitholdingTaxSequence"
+      End Get
+    End Property
+
+    Public Overrides Function GetLastCode(ByVal prefixPattern As String) As String
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select top 1 wht_SequenceNo from WitholdingTax where wht_SequenceNo like '" & prefixPattern & "%' " & " order by wht_id desc"
+
+      conn.Open()
+
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
+
+      Dim obj As Object = cmd.ExecuteScalar
+      If Not IsDBNull(obj) AndAlso Not obj Is Nothing Then
+        Return obj.ToString
+      End If
+      Return ""
+    End Function
+
+    Public Overrides Function DuplicateCode(ByVal newCode As String) As Boolean
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select count(*) from WitholdingTax where wht_SequenceNo='" & newCode & "' and wht_id <> " & Me.Id
+
+      conn.Open()
+
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
+      Dim recordCount As Object = cmd.ExecuteScalar
+      conn.Close()
+      If Not IsDBNull(recordCount) AndAlso CInt(recordCount) > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
+
   End Class
 End Namespace

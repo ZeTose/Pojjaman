@@ -105,6 +105,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents FixedGroupBox1 As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents txtSeqId As System.Windows.Forms.TextBox
     Friend WithEvents lblSeqId As System.Windows.Forms.Label
+    Friend WithEvents chkSeqAutoRun As System.Windows.Forms.CheckBox
     Friend WithEvents chkWHT As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -183,6 +184,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnDelWht = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblTotalAmount = New System.Windows.Forms.Label()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.chkSeqAutoRun = New System.Windows.Forms.CheckBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
@@ -790,6 +792,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'FixedGroupBox1
       '
+      Me.FixedGroupBox1.Controls.Add(Me.chkSeqAutoRun)
       Me.FixedGroupBox1.Controls.Add(Me.txtSeqId)
       Me.FixedGroupBox1.Controls.Add(Me.txtPrintName)
       Me.FixedGroupBox1.Controls.Add(Me.lblRepresentIdNo)
@@ -1159,6 +1162,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTotalAmount.Text = "รวมภาษีหัก ณ ที่จ่ายทุกเอกสาร:"
       Me.lblTotalAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'chkSeqAutoRun
+      '
+      Me.chkSeqAutoRun.Appearance = System.Windows.Forms.Appearance.Button
+      Me.chkSeqAutoRun.Image = CType(resources.GetObject("chkSeqAutoRun.Image"), System.Drawing.Image)
+      Me.chkSeqAutoRun.Location = New System.Drawing.Point(263, 16)
+      Me.chkSeqAutoRun.Name = "chkSeqAutoRun"
+      Me.chkSeqAutoRun.Size = New System.Drawing.Size(21, 21)
+      Me.chkSeqAutoRun.TabIndex = 33
+      '
       'WHTDetail
       '
       Me.Controls.Add(Me.grbDetail)
@@ -1421,7 +1433,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dtpDocDate.Value = MinDateToNow(Me.m_wht.DocDate)
       Me.txtBookNo.Text = Me.m_wht.BookNo
       Me.txtCode.Text = Me.m_wht.Code
-      Me.txtSeqId.Text = Me.m_wht.SequenceNo
+      'Me.txtSeqId.Text = Me.m_wht.SequenceNo.Code
 
       'UpdateCheckWHT()
       Me.chkWHT.Enabled = Me.m_whtcol.CanBeDelay
@@ -1450,6 +1462,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtCode.ReadOnly = True
         End If
       End If
+
+      Me.chkSeqAutoRun.Checked = Me.m_wht.SequenceNo.AutoGen
+      UpdateSeqAutoGenStatus()
+      'Me.txtSeqId.Text = Me.m_wht.SequenceNo.Code
 
       UpdateAmount()
       UpdateRefDoc()
@@ -1571,7 +1587,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "txtseqid"
-          Me.m_wht.SequenceNo = txtSeqId.Text
+          Me.m_wht.SequenceNo.Code = txtSeqId.Text
           dirtyFlag = True
         Case "txtcode"
           m_txtCodeChange = True
@@ -1736,6 +1752,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 item.Entity = whtRefDoc.Person
               Next
               m_wht = m_whtcol(0)
+              m_wht.SequenceNo.LastestCode = m_whtcol(0).SequenceNo.Code
             Else
               'If whtRefDoc.WitholdingTaxCollection.Count > 0 AndAlso _
               '   Not whtRefDoc.WitholdingTaxCollection.CanBeDelay Then
@@ -1745,6 +1762,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
               m_wht.RefDoc = whtRefDoc
               m_wht.Entity = whtRefDoc.Person
+              m_wht.SequenceNo.LastestCode = m_wht.SequenceNo.Code
               m_whtcol.Add(m_wht)
               'End If
             End If
@@ -1765,6 +1783,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If m_whtcol.Count > 0 Then
           If Not m_whtcol Is Nothing AndAlso m_whtcol.Contains(m_whtcol(0)) Then
             m_wht = m_whtcol(0)
+            m_wht.SequenceNo.LastestCode = m_whtcol(0).SequenceNo.Code
           End If
         Else
           If TypeOf m_entity Is IWitholdingTaxable Then
@@ -1777,6 +1796,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_wht.RefDoc.WitholdingTaxCollection = m_whtcol
             m_wht.RefDoc = whtRefDoc
             m_wht.Entity = whtRefDoc.Person
+            m_wht.SequenceNo.LastestCode = m_wht.SequenceNo.Code
             m_whtcol.Add(m_wht)
           End If
         End If
@@ -1826,6 +1846,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_dontUpdate = False
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
+    Private Sub chkSeqAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSeqAutoRun.CheckedChanged
+      If Me.m_wht Is Nothing OrElse Not m_isInitialized Then
+        Return
+      End If
+      UpdateSeqAutoGenStatus()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
         'Me.Validator.SetRequired(Me.txtCode, False)
@@ -1841,6 +1868,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtCode.Text = Me.m_wht.Code
         Me.txtCode.ReadOnly = False
         Me.m_wht.AutoGen = False
+      End If
+    End Sub
+    Private Sub UpdateSeqAutoGenStatus()
+      If Me.chkSeqAutoRun.Checked Then
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        Me.ErrorProvider1.SetError(Me.txtSeqId, "")
+        Me.txtSeqId.ReadOnly = True
+        Me.m_wht.SequenceNo.LastestCode = Me.txtSeqId.Text
+        Me.m_wht.SequenceNo.Code = BusinessLogic.Entity.GetAutoCodeFormat("WitholdingTaxSequence")
+        Me.txtSeqId.Text = Me.m_wht.SequenceNo.Code
+        Me.m_wht.SequenceNo.AutoGen = True
+      Else
+        'Me.Validator.SetRequired(Me.txtCode, True)
+        Me.m_wht.SequenceNo.Code = Me.m_wht.SequenceNo.LastestCode
+        Me.txtSeqId.Text = Me.m_wht.SequenceNo.Code
+        Me.txtSeqId.ReadOnly = False
+        Me.m_wht.SequenceNo.AutoGen = False
       End If
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
