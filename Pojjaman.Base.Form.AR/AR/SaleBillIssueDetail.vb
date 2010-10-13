@@ -1463,12 +1463,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       If Me.m_entity.Status.Value = 0 _
-      OrElse m_entityRefed = 1 _
-      Then
-        Me.Enabled = False
+      OrElse m_entityRefed = 1 Then
+        'Me.Enabled = False
+        For Each ctrl As Control In Me.Controls
+          Trace.WriteLine(ctrl.Name & ":" & ctrl.GetType.ToString)
+          ctrl.Enabled = False
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
       Else
-        Me.Enabled = True
+        'Me.Enabled = True
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = False
+        Next
       End If
+      'Then
+      '  Me.Enabled = False
+      'Else
+      '  Me.Enabled = True
+      'End If
     End Sub
     Public Overrides Sub ClearDetail()
       For Each crlt As Control In Me.Controls
@@ -1538,6 +1557,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtEmployeeCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtEmployeeCode.TextChanged, AddressOf Me.TextHandler
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     Private customerCodeChanged As Boolean = False
     Private txtCreditPeriodChanged As Boolean = False
@@ -1780,6 +1802,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+
+      If tr Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer = CInt(tr("refdoc")) 'drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = CInt(tr("reftype")) 'doc.drh.GetValue(Of Integer)("DocType")
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub

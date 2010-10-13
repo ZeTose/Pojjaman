@@ -195,6 +195,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("UnreceivedAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RealAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("salebillii_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("refdoc", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("reftype", GetType(String)))
 
       'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -1834,6 +1836,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newRow("UnreceivedAmount") = Configuration.FormatToString(bai.UnreceivedAmount, DigitConfig.Price)
         newRow(Me.m_prefix & "_amt") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
         newRow(Me.m_prefix & "_note") = bai.Note
+        newRow("refdoc") = bai.Id
+        newRow("reftype") = bai.EntityId
         newRow.Tag = bai
       Next
     End Sub
