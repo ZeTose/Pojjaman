@@ -838,17 +838,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			vati.PrintName = Me.RefDoc.Person.Name
 			Me.ItemCollection.Add(vati)
 		End Sub
-		Public Sub RefreshVatTaxBase()
-			If Me.RefDoc.GetMaximumTaxBase = Me.RefDoc.TaxBase Then
-				Me.VatTaxBase = Me.RefDoc.GetMaximumTaxBase
-			Else
-				If Me.TaxBase > 0 Then
-					Me.VatTaxBase = Me.RefDoc.GetMaximumTaxBase
-				Else
-					Me.VatTaxBase = Me.RefDoc.GetMaximumTaxBase - Me.RefDoc.TaxBase
-				End If
-			End If
-		End Sub
+    Public Sub RefreshVatTaxBase()
+      Dim mtb As Decimal = Me.RefDoc.GetMaximumTaxBase
+      If mtb = Me.RefDoc.TaxBase Then
+        Me.VatTaxBase = mtb
+      Else
+        If Me.TaxBase > 0 Then
+          Me.VatTaxBase = mtb
+        ElseIf mtb > Me.RefDoc.TaxBase Then
+          Me.VatTaxBase = mtb - Me.RefDoc.TaxBase
+        Else
+          Me.VatTaxBase = 0
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region "UI Validation Code"
