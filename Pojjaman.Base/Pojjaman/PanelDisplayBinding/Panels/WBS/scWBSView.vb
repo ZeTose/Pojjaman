@@ -456,6 +456,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Return dst
     End Function
+    Private Sub SetHideColumns()
+      For Each colStyle As DataGridColumnStyle In Me.m_wbsTreeManager.GridTableStyle.GridColumnStyles
+        If (colStyle.MappingName.ToLower = "BudgetRemain".ToLower OrElse
+            colStyle.MappingName.ToLower = "QtyRemain".ToLower) Then
+          colStyle.Width = 0
+          colStyle.ResetHeaderText()
+        End If
+      Next
+    End Sub
     Public Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
       e.HilightValue = False
       e.RedText = False
@@ -813,6 +822,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ClearDetail()
       If m_entity Is Nothing Then
         Return
+      End If
+
+      If TypeOf Me.m_entity Is IAbleHideCostByView Then
+        If CType(Me.m_entity, IAbleHideCostByView).HideCost Then
+          SetHideColumns()
+        End If
       End If
 
       If TypeOf Me.m_entity Is IWBSAllocatable Then

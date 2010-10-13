@@ -2004,6 +2004,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           Me.m_entity = Nothing
           Me.m_entity = CType(Value, GoodsReceipt)
+          Me.m_entity.ViewName = Me.Name
         End If
         If Not Me.m_entity Is Nothing Then
           If Me.m_entity.IsReferenced Then

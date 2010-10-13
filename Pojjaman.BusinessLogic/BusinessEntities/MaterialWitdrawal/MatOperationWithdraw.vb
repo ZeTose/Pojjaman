@@ -1196,7 +1196,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim Cost As Decimal = 0
 
         Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
-        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ") and stockiw_direction = 1", conn)
+        Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ") and stockiw_direction = 0", conn)
 
         Dim ds As New DataSet
 

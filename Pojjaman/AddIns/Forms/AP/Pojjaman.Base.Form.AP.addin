@@ -72,6 +72,7 @@
 		</EntityTab>
 		<EntityTab id="goodsreceiptforoperation">
 			<EntityTab id="GoodsReceiptForOperationDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptForOperationDetail"/>
+      <EntityTab id="scWBSView" view="Longkong.Pojjaman.Gui.Panels.scWBSView"/>
 		</EntityTab>			
 		<EntityTab id="goodsreceiptforapprove">
 			<EntityTab id="GoodsReceiptDetail" view="Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail"/>
