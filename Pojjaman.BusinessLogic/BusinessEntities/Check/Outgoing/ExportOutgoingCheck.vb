@@ -520,7 +520,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_receive.PayeeAddress4 = ""
           m_receive.TaxID = ""
           m_receive.PersonalID = ""
-          m_receive.BeneRef = ""
+          If Not item.Entity Is Nothing AndAlso Not item.Entity.Supplier Is Nothing Then
+            m_receive.BeneRef = item.Entity.Supplier.Code
+          End If
           If item.WHTCollection.Count > 0 Then
             m_receive.BeneRef = item.WHTCollection(0).Code  'item.GetWHTCodeList
           End If
