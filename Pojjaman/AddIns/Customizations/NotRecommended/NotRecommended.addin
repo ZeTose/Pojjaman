@@ -24,4 +24,7 @@
     <MenuItem id="MatWithdrawForOperation" icon="Icons.16x16.MatWithdrawForOperation" label="${res:MainMenu.StockMenu.MatWithdrawForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatWithdrawForOperation"/>
     <MenuItem id="MatReturnForOperation" icon="Icons.16x16.MatReturnForOperation" label="${res:MainMenu.StockMenu.MatReturnForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReturnForOperation"/>
   </Extension>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Asset">
+    <MenuItem id="AssetSold" insertafter="Separator3" insertbefore="AssetWriteOff" icon="Icons.16x16.AssetSold" label="${res:MainMenu.AssetMenu.AssetSold}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetSold"/>
+  </Extension>
 </AddIn>

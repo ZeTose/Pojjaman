@@ -19,7 +19,7 @@
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="assetwithdraw">
 			<EntityTab id="AssetWithdrawDetail" view="Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail"/>
-			<EntityTab id="InternalCharegDetail" view="Longkong.Pojjaman.Gui.Panels.InternalCharegDetail"/>
+			<EntityTab id="InternalChargeDetail" view="Longkong.Pojjaman.Gui.Panels.InternalChargeDetail"/>
 		</EntityTab>		
 		<EntityTab id="assetreturn">
 			<EntityTab id="AssetReturnDetail" view="Longkong.Pojjaman.Gui.Panels.AssetReturnDetail"/>
