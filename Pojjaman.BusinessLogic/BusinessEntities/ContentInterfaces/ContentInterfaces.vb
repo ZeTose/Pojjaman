@@ -32,6 +32,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+  Public Interface IAbleHideCostByView
+    ReadOnly Property HideCost As Boolean
+  End Interface
   Public Interface ICanSaveTreeTable
     Function SaveTreeTable(ByVal tt As Longkong.Pojjaman.Gui.Components.TreeTable) As SaveErrorException
   End Interface

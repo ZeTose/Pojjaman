@@ -504,10 +504,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
     Public Function ChequeReceiverList() As System.Collections.Generic.List(Of ChequeReceiver) Implements ICOCExportable.ChequeReceiverList
-      If m_receiveList Is Nothing Then
-        m_receiveList = New List(Of ChequeReceiver)
-      End If
-      Dim m_receiveVatList As New List(Of ChequePaymentVat)
+      'If m_receiveList Is Nothing Then
+      m_receiveList = New List(Of ChequeReceiver)
+      'End If
       For Each item As ExportOutgoingCheckItem In Me.ItemCollection
         Dim m_receive As New ChequeReceiver
         m_receive.PartIdentifier = "D"
@@ -521,6 +520,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_receive.PayeeAddress4 = ""
           m_receive.TaxID = ""
           m_receive.PersonalID = ""
+          m_receive.BeneRef = ""
           If item.WHTCollection.Count > 0 Then
             m_receive.BeneRef = item.WHTCollection(0).Code  'item.GetWHTCodeList
           End If
@@ -529,15 +529,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_receive.PickupLocationCode = item.PickupCode
           m_receive.DocumentForPickup = item.DocumentForPickup
           m_receive.AttachmentSubfile = ""
-          m_receive.AdviceMode = ""
-          m_receive.FaxNo = ""
+          m_receive.AdviceMode = "F"
+          If Not item.Entity Is Nothing AndAlso Not item.Entity.Supplier Is Nothing Then
+            If item.Entity.Supplier.Fax Is Nothing OrElse item.Entity.Supplier.Fax.Length = 0 Then
+              Dim fax As String = CStr(Configuration.GetConfig("FixedFaxNumberToExportCheck"))
+              m_receive.FaxNo = fax
+            Else
+              m_receive.FaxNo = item.Entity.Supplier.Fax
+            End If
+          End If
           m_receive.EmailID = ""
-          m_receive.TotalInvAmtBefVAT = item.AmountBeforeVat
+          m_receive.TotalInvAmtBefVAT = item.WHTCollection.WitholdingTaxbase
           m_receive.TotalTaxDeductedAmt = item.WHTCollection.Amount
-          m_receive.TotalInvAmtAfterVAT = item.AmountAfterVat
+          m_receive.TotalInvAmtAfterVAT = item.WHTCollection.WitholdingTaxbase + item.WHTCollection.Amount
           m_receive.TaxInfoCount = item.WHTCollection.Count
 
           'Dim whtIndex As Integer = 1
+          Dim m_receiveVatList As New List(Of ChequePaymentVat)
           For Each wht As WitholdingTax In item.WHTCollection
             For Each row As TreeRow In wht.ItemTable.Rows
               Dim m_vatreceive As New ChequePaymentVat
@@ -546,10 +554,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               m_vatreceive.PartIdentifier = "T"
               m_vatreceive.TaxForm = Me.TaxFormCode(wht.Type.Value)
-              m_vatreceive.TaxSeq = wht.SequenceNo
+              m_vatreceive.TaxSeq = wht.SequenceNo.Code
 
               m_vatreceive.TaxRate = whti.TaxRate
-              m_vatreceive.TypeofTaxDeducted = whti.Type.Description
+              m_vatreceive.TypeofTaxDeducted = whti.Description
               m_vatreceive.InvAmtBefVAT = wht.TaxBase
               m_vatreceive.TaxDeductedAmt = wht.Amount
               m_vatreceive.InvAmtAfterVAT = wht.TaxBase + wht.Amount
@@ -570,7 +578,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return m_receiveList
     End Function
-
     Private Function TaxFormCode(ByVal id As Integer) As String
       Dim newTaxFormCode As String = ""
       Select Case id

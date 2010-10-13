@@ -1719,7 +1719,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-24}", cqritem.DocumentForPickup).Substring(0, 24) 'Document for Pickup
         creditText &= String.Format("{0,-50}", cqritem.AttachmentSubfile).Substring(0, 50) 'Attachment Sub-file
         creditText &= cqritem.AdviceMode 'Advice Mode (F = fax)
-        creditText &= String.Format("{0,-50}", cqritem.FaxNo) 'Fax No.
+        creditText &= String.Format("{0,-50}", SetDigitOnly(cqritem.FaxNo)) 'Fax No.
         creditText &= String.Format("{0,-50}", cqritem.EmailID).Substring(0, 50) 'Email ID
         creditText &= String.Format("{0:0000000000.00}", cqritem.TotalInvAmtBefVAT) 'Total Inv Amt bef VAT (10.2)
         creditText &= String.Format("{0:0000000000.00}", cqritem.TotalTaxDeductedAmt) 'Total Tax deducted Amt (10.2)
@@ -1780,6 +1780,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
     End Sub
+    Public Shared Function SetDigitOnly(ByVal val As String) As String
+      Dim dg As String = val
+      dg = dg.Replace(" ", "")
+      dg = dg.Replace("(", "")
+      dg = dg.Replace(")", "")
+      dg = dg.Replace("-", "")
+      Return dg
+    End Function
     Private Shared Function ItemEqualKbankMCL(ByVal i1 As PaymentForList, ByVal i2 As PaymentForList) As Boolean
       If i1.KbankMCBank <> i2.KbankMCBank Then
         Return False

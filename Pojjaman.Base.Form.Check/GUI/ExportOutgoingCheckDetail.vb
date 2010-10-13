@@ -1465,10 +1465,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Return
         End If
 
+        Dim culture As New CultureInfo("en-US", True)
         Dim myOpb As New SaveFileDialog
         myOpb.Filter = "All Files|*.*|Text File (*.txt)|*.txt"
         myOpb.FilterIndex = 2
-        'myOpb.FileName = "String" & Replace(ComboBox1.SelectedValue, "_", "s.") & ".resources"
+        myOpb.FileName = "COC" & Now.ToString("yyyyMMdd", culture) & Now.ToString("hhmm") & ".txt"
         If myOpb.ShowDialog() = DialogResult.OK Then
           Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
           Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.Default)
