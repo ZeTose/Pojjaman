@@ -361,9 +361,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim config As Object = Configuration.GetConfig("AllowNoCqCode")
       Dim AllowNoCqCode As Boolean = False
       If CBool(config) Then
-        If Me.Bankacct.Type.Value = 3 AndAlso Me.BankacctDestinate.Type.Value = 3 Then
-          AllowNoCqCode = True
-        End If
+        'If Me.Bankacct.Type.Value = 3 AndAlso Me.BankacctDestinate.Type.Value = 3 Then
+        AllowNoCqCode = True
+        'End If
       End If
 
       If Not AllowNoCqCode Then
