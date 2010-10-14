@@ -1743,7 +1743,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtCode.Text = Me.m_entity.Code
           dirtyFlag = True
         Case "chkcancel"
-          Me.m_entity.Canceled = chkCancel.Checked
+          'Me.m_entity.Canceled = chkCancel.Checked
+          Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          Me.m_entity.SetCancel(chkCancel.Checked, secSrv.CurrentUser.Id)
           CheckFormEnable()
           dirtyFlag = True
         Case "chkunvatable"

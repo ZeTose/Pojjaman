@@ -630,6 +630,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function SetCancel(ByVal canceled As Boolean, ByVal userId As Integer) As Boolean
+      Me.Canceled = canceled
+      Me.CancelDate = Now
+      Me.CancelPerson = New User(userId)
+    End Function
     Public Function IsReferenced() As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
       , CommandType.StoredProcedure _
