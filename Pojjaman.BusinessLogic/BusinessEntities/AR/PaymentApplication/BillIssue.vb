@@ -2505,6 +2505,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As Milestone In Me.ItemCollection
         i += 1
         Dim parRow As TreeRow = FindRow(item.CostCenter.Id, item.CostCenter.Code & ":" & item.CostCenter.Name, dt)
+        parRow.Tag = item.PMAId
         Dim row As TreeRow = parRow.Childs.Add()
         row("Linenumber") = i
         row("Type") = item.Type.Description

@@ -1931,6 +1931,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       newRow("Code") = desc
       newRow("Button") = "invisible"
+
+      If type = 125 Then 'ใบวางบิล
+        Dim sbi As New SaleBillIssue
+        sbi.Id = id
+        newRow.Tag = sbi
+      Else '81 ใบวางบิลงวด
+        Dim bi As New BillIssue
+        bi.Id = id
+        newRow.Tag = bi
+      End If
+
       Return newRow
     End Function
 #End Region

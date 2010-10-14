@@ -2805,6 +2805,11 @@ Public Class BillAcceptanceItemCollection
       End If
       newRow("Code") = desc
       newRow("Button") = "invisible"
+
+      Dim bi As New BillAcceptance
+      bi.Id = id
+
+      newRow.Tag = bi
       Return newRow
     End Function
 #End Region

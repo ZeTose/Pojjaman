@@ -386,6 +386,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Shared"
     Public Shared Function GetTaxBaseDeductedWithoutThisRefDoc(ByVal vati_refdoc As Integer _
+, ByVal vati_refdoctype As Integer, ByVal vat_refdoc As Integer, ByVal vat_refdoctype As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn _
+                                                   , trans _
+      , CommandType.StoredProcedure _
+      , "GetTaxBaseDeductedWithoutThisRefDoc" _
+      , New SqlParameter("@vati_refdoc", vati_refdoc) _
+      , New SqlParameter("@vati_refdoctype", vati_refdoctype) _
+      , New SqlParameter("@vat_refdoc", vat_refdoc) _
+      , New SqlParameter("@vat_refdoctype", vat_refdoctype) _
+      )
+      If ds.Tables(0).Rows.Count = 1 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
+    Public Shared Function GetTaxBaseDeductedWithoutThisRefDoc(ByVal vati_refdoc As Integer _
   , ByVal vati_refdoctype As Integer, ByVal vat_refdoc As Integer, ByVal vat_refdoctype As Integer) As Decimal
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
       , CommandType.StoredProcedure _
@@ -402,55 +420,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return 0
     End Function
-		Public Shared Function GetSchemaTable() As TreeTable
-			Dim myDatatable As New TreeTable("Vat")
-			myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
-			myDatatable.Columns.Add(New DataColumn("vati_linenumber", GetType(Integer)))
-			myDatatable.Columns.Add(New DataColumn("vati_code", GetType(String)))
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("Vat")
+      myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("vati_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_code", GetType(String)))
 
-			Dim dateCol As New DataColumn("vati_docdate", GetType(Date))
-			dateCol.DefaultValue = Date.MinValue
-			myDatatable.Columns.Add(dateCol)
-			myDatatable.Columns.Add(New DataColumn("vati_runnumber", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("SupplierButton", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("vati_printName", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("vati_printaddress", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("vati_taxbase", GetType(String)))		'เอาไว้แสดง
-			myDatatable.Columns.Add(New DataColumn("vati_realtaxbase", GetType(Decimal)))		 'เก็บค่าเต็มๆ
-			myDatatable.Columns.Add(New DataColumn("vati_taxrate", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("useCustomAmt", GetType(Boolean)))
-			myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("vati_note", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("vati_cc", GetType(Integer)))
+      Dim dateCol As New DataColumn("vati_docdate", GetType(Date))
+      dateCol.DefaultValue = Date.MinValue
+      myDatatable.Columns.Add(dateCol)
+      myDatatable.Columns.Add(New DataColumn("vati_runnumber", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("SupplierButton", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("vati_printName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("vati_printaddress", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("vati_taxbase", GetType(String)))    'เอาไว้แสดง
+      myDatatable.Columns.Add(New DataColumn("vati_realtaxbase", GetType(Decimal)))    'เก็บค่าเต็มๆ
+      myDatatable.Columns.Add(New DataColumn("vati_taxrate", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("useCustomAmt", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("vati_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("vati_cc", GetType(Integer)))
 
-			myDatatable.Columns.Add(New DataColumn("vati_submitaldate", GetType(Date)))
-			myDatatable.Columns.Add(New DataColumn("vati_group", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_submitaldate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("vati_group", GetType(Integer)))
 
-			myDatatable.Columns.Add(New DataColumn("vati_refdoc", GetType(Integer)))
-			myDatatable.Columns.Add(New DataColumn("vati_refdoctype", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_refdoc", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_refdoctype", GetType(Integer)))
 
-			Return myDatatable
-		End Function
+      Return myDatatable
+    End Function
 
-		Public Shared Function GetExcludedVatAmount(ByVal valueIncludedVat As Decimal) As Decimal
-			Dim vatRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
-			Return GetExcludedVatAmount(valueIncludedVat, vatRate)
-		End Function
-		Public Shared Function GetExcludedVatAmount(ByVal valueIncludedVat As Decimal, ByVal vatRate As Decimal) As Decimal
-			Return Configuration.Format((valueIncludedVat / (vatRate + 100)) * 100, DigitConfig.Price)
-		End Function
-		Public Shared Function GetExcludedVatAmountWithoutRound(ByVal valueIncludedVat As Decimal, ByVal vatRate As Decimal) As Decimal
-			Return (valueIncludedVat / (vatRate + 100)) * 100
-		End Function
+    Public Shared Function GetExcludedVatAmount(ByVal valueIncludedVat As Decimal) As Decimal
+      Dim vatRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
+      Return GetExcludedVatAmount(valueIncludedVat, vatRate)
+    End Function
+    Public Shared Function GetExcludedVatAmount(ByVal valueIncludedVat As Decimal, ByVal vatRate As Decimal) As Decimal
+      Return Configuration.Format((valueIncludedVat / (vatRate + 100)) * 100, DigitConfig.Price)
+    End Function
+    Public Shared Function GetExcludedVatAmountWithoutRound(ByVal valueIncludedVat As Decimal, ByVal vatRate As Decimal) As Decimal
+      Return (valueIncludedVat / (vatRate + 100)) * 100
+    End Function
 
-		Public Shared Function GetVatAmount(ByVal valueBeforeVat As Decimal) As Decimal
-			Dim vatRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
-			Return GetVatAmount(valueBeforeVat, vatRate)
-		End Function
+    Public Shared Function GetVatAmount(ByVal valueBeforeVat As Decimal) As Decimal
+      Dim vatRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
+      Return GetVatAmount(valueBeforeVat, vatRate)
+    End Function
 
-		Public Shared Function GetVatAmount(ByVal valueBeforeVat As Decimal, ByVal vatRate As Decimal) As Decimal
-			Return (valueBeforeVat * vatRate) / 100
-		End Function
+    Public Shared Function GetVatAmount(ByVal valueBeforeVat As Decimal, ByVal vatRate As Decimal) As Decimal
+      Return (valueBeforeVat * vatRate) / 100
+    End Function
 #End Region
 
 #Region "Methods"
@@ -588,7 +606,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Vat.ValidVatAmount}"))
           End If
         Else
-          tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
+          If TypeOf Me.RefDoc Is GoodsReceipt Then
+            tmpRefTaxBase = CType(Me.RefDoc, GoodsReceipt).TaxBaseDeductedWithoutThisRefDoc
+          Else
+            tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
+          End If
         End If
 
         Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")

@@ -1048,6 +1048,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtCustomerCode.Validated, AddressOf ChangeProperty
 
       AddHandler chkSingleVat.CheckedChanged, AddressOf Me.ChangeProperty
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     Private txtCreditPeriodChanged As Boolean = False
     Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
@@ -1299,6 +1302,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Return Nothing
         End If
         If Not TypeOf row.Tag Is Milestone Then
+          If TypeOf row.Tag Is Integer Then
+            Dim mi As New Milestone
+            mi.PMAId = CType(row.Tag, Integer)
+            Return mi
+          End If
           Return Nothing
         End If
         Return CType(row.Tag, Milestone)
@@ -1412,6 +1420,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As Milestone = Me.CurrentItem
+
+      'Dim dpar As IHasIBillablePerson = Me.CurrentParItem
+
+      Dim docId As Integer = doc.PMAId
+      Dim docType As Integer = 76
+
+      'If doc Is Nothing AndAlso dpar Is Nothing Then
+      '  Return
+      'ElseIf Not dpar Is Nothing Then
+      '  If TypeOf dpar Is SaleBillIssue Then
+      '    docId = CType(dpar, SaleBillIssue).Id
+      '    docType = 125
+      '  ElseIf TypeOf dpar Is BillIssue Then
+      '    docId = CType(dpar, BillIssue).Id
+      '    docType = 81
+      '  End If
+      'Else
+      '  docId = doc.Id
+      '  docType = doc.EntityId
+      'End If
+
+      'If docType = 75 OrElse docType = 77 OrElse docType = 78 OrElse docType = 79 OrElse docType = 86 Then 'รับวางบิล Retention
+      'Dim mi As New Milestone(docId)
+      'docId = mi.PMAId
+      'docType = 76
+      'End If
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
