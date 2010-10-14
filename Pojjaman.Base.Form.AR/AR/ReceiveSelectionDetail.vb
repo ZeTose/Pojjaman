@@ -715,6 +715,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return CType(row.Tag, SaleBillIssueItem)
       End Get
     End Property
+    Private ReadOnly Property CurrentParItem() As IHasIBillablePerson
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return Nothing
+        End If
+        If Not TypeOf row.Tag Is IHasIBillablePerson Then
+          Return Nothing
+        End If
+        Return CType(row.Tag, IHasIBillablePerson)
+      End Get
+    End Property
 #End Region
 
 #Region "TreeTable Handlers"
@@ -1483,6 +1495,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtCustomerCode.TextChanged, AddressOf Me.TextHandler
+
+      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     Private customerCodeChanged As Boolean = False
     Private txtCreditPeriodChanged As Boolean = False
@@ -1728,6 +1743,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As SaleBillIssueItem = Me.CurrentItem
+
+      Dim dpar As IHasIBillablePerson = Me.CurrentParItem
+
+      Dim docId As Integer
+      Dim docType As Integer
+
+      If doc Is Nothing AndAlso dpar Is Nothing Then
+        Return
+      ElseIf Not dpar Is Nothing Then
+        If TypeOf dpar Is SaleBillIssue Then
+          docId = CType(dpar, SaleBillIssue).Id
+          docType = 125
+        ElseIf TypeOf dpar Is BillIssue Then
+          docId = CType(dpar, BillIssue).Id
+          docType = 81
+        End If
+      Else
+        docId = doc.Id
+        docType = doc.EntityId
+      End If
+
+      If docType = 75 OrElse docType = 77 OrElse docType = 78 OrElse docType = 79 OrElse docType = 86 Then 'รับวางบิล Retention
+        Dim mi As New Milestone(docId)
+        docId = mi.PMAId
+        docType = 76
+      End If
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
@@ -1765,10 +1817,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim index As Integer = tgItem.CurrentRowIndex
       Dim row As DataRow = Me.m_treeManager.Treetable.Rows(index)
-      If row.IsNull("receivesi_entityType") And row.IsNull("Code") Then
-        Return
-      End If
-
+      'If row.IsNull("receivesi_entityType") And row.IsNull("Code") Then
+      '  Return
+      'End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.m_entity Is Nothing Then
         Return
@@ -1859,6 +1910,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return ret
     End Function
     Private Sub SetItems(ByVal items As BasketItemCollection)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If items.Count = 0 Then
         Return
       End If
@@ -1899,6 +1951,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
         If Not newItem Is Nothing Then
+          If Not Me.m_entity.ValidateReferenceDocDate(newItem) Then
+            msgServ.ShowWarningFormatted("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Message.DocDateLessThanRefDocDae}", New String() {newItem.Date.ToShortDateString, Me.m_entity.DocDate.ToShortDateString})
+            Return
+          End If
           newItem.Amount = Math.Min(newItem.UnreceivedAmount, newItem.BilledAmount)
           If newItem.EntityId = 366 OrElse newItem.EntityId = 83 Then
             newItem.ARretention = 0
@@ -1931,13 +1987,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
               theDoc.Date = newItem.Date
             End If
           Else
+            If Not Me.m_entity.ValidateReferenceDocDate(newItem) Then
+              msgServ.ShowWarningFormatted("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Message.DocDateLessThanRefDocDae}", New String() {newItem.Date.ToShortDateString, Me.m_entity.DocDate.ToShortDateString})
+              Return
+            End If
             Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
           End If
         End If
       Next
-			RefreshDocs()
-			UpdateVat(True)
-			tgItem.CurrentRowIndex = index
+      RefreshDocs()
+      UpdateVat(True)
+      tgItem.CurrentRowIndex = index
       UpdateAmount()
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
@@ -1946,9 +2006,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Me.m_entity.ItemCollection.Insert(index, New SaleBillIssueItem)
-			RefreshDocs()
-			UpdateVat(True)
-			tgItem.CurrentRowIndex = index
+      RefreshDocs()
+      UpdateVat(True)
+      tgItem.CurrentRowIndex = index
       Dim re As New DataColumnChangeEventArgs(Me.m_treeManager.Treetable.Rows(index) _
   , Me.m_treeManager.Treetable.Columns("receivesi_amt") _
   , Me.CurrentItem.Amount)
@@ -1971,7 +2031,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If doc.Originated Then
         UpdateVat(True)
       End If
-			Me.tgItem.CurrentRowIndex = index
+      Me.tgItem.CurrentRowIndex = index
     End Sub
     Private Sub ReIndex()
       Dim i As Integer = 0
@@ -1984,9 +2044,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub chkShowDetail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowDetail.CheckedChanged
       Me.m_entity.ItemCollection.ShowDetail = chkShowDetail.Checked
-			Me.RefreshDocs()
-			UpdateVat(False)
-		End Sub
+      Me.RefreshDocs()
+      UpdateVat(False)
+    End Sub
 #End Region
 
 #Region "IValidatable"
@@ -2069,28 +2129,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
+      'If Me.tgItem.Height = 0 Then
+      '  Return
+      'End If
+      'Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      'Dim noParentText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.BlankParentText}")
+      'Dim parRow As TreeRow = SaleBillIssueItemCollection.FindRow(Me.m_treeManager.Treetable, 0, noParentText, 0)
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim maxVisibleCount As Integer
+      'Dim tgRowHeight As Integer = 17
+      'maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
+      'Do While Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1
+      '  'เพิ่มแถวจนเต็ม
+      '  parRow.Childs.Add()
+      'Loop
+      'parRow.Childs.Add() 'add เพิ่มอันนึงเผื่อไว้แก้ปัญหา
+      ''If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
+      ''    If Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1 Then
+      ''        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      ''        parRow.Childs.Add()
+      ''    End If
+      ''End If
+      'Me.m_treeManager.Treetable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+
       If Me.tgItem.Height = 0 Then
         Return
       End If
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim noParentText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.BlankParentText}")
-      Dim parRow As TreeRow = SaleBillIssueItemCollection.FindRow(Me.m_treeManager.Treetable, 0, noParentText, 0)
       Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim maxVisibleCount As Integer
-      Dim tgRowHeight As Integer = 17
-      maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1
+      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
         'เพิ่มแถวจนเต็ม
-        parRow.Childs.Add()
+        Me.m_treeManager.Treetable.Childs.Add()
       Loop
-      parRow.Childs.Add() 'add เพิ่มอันนึงเผื่อไว้แก้ปัญหา
-      'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-      '    If Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1 Then
-      '        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-      '        parRow.Childs.Add()
-      '    End If
-      'End If
+
+      Dim rowCount As Integer = 0
+      For Each child As TreeRow In Me.m_treeManager.Treetable.Childs
+        rowCount += child.Childs.Count
+      Next
+      If Me.m_entity.ItemCollection.Count = rowCount Then
+        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+        Me.m_treeManager.Treetable.Childs.Add()
+      End If
+
       Me.m_treeManager.Treetable.AcceptChanges()
       tgItem.CurrentRowIndex = Math.Max(0, index)
       Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag

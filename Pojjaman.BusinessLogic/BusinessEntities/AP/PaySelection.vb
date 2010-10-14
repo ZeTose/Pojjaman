@@ -418,6 +418,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function ValidateReferenceDocDate(ByVal bi As BillAcceptanceItem) As Boolean
+      If Not bi Is Nothing Then
+        If bi.Date <= Me.DocDate Then
+          Return True
+        End If
+      End If
+      Return False
+    End Function
     Private Sub ResetID(ByVal oldid As Integer, ByVal oldpay As Integer, ByVal oldje As Integer, ByVal oldVatId As Integer)
       Me.Id = oldid
       Me.m_payment.Id = oldpay

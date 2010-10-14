@@ -808,6 +808,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return CType(row.Tag, BillAcceptanceItem)
       End Get
     End Property
+    Private ReadOnly Property CurrentParItem() As BillAcceptance
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return Nothing
+        End If
+        If Not TypeOf row.Tag Is BillAcceptance Then
+          Return Nothing
+        End If
+        Return CType(row.Tag, BillAcceptance)
+      End Get
+    End Property
 #End Region
 
 #Region "TreeTable Handlers"
@@ -1733,12 +1745,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim doc As BillAcceptanceItem = Me.CurrentItem
 
-      If doc Is Nothing Then
-        Return
-      End If
+      Dim dpar As BillAcceptance = Me.CurrentParItem
 
-      Dim docId As Integer = doc.Id 'drh.GetValue(Of Integer)("DocId")
-      Dim docType As Integer = doc.EntityId 'doc.drh.GetValue(Of Integer)("DocType")
+      Dim docId As Integer
+      Dim docType As Integer
+
+      If doc Is Nothing AndAlso dpar Is Nothing Then
+        Return
+      Else
+        If Not dpar Is Nothing Then
+          docId = dpar.Id
+          docType = dpar.EntityId
+        Else
+          docId = doc.Id
+          docType = doc.EntityId
+        End If
+      End If
 
       If docType = 199 Then 'รับวางบิล Retention
         docType = doc.RetentionType
@@ -1861,6 +1883,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return ret
     End Function
     Private Sub SetItems(ByVal items As BasketItemCollection)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If items.Count = 0 Then
         Return
       End If
@@ -1931,6 +1954,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
         If Not newItem Is Nothing Then
+          If Not Me.m_entity.ValidateReferenceDocDate(newItem) Then
+            msgServ.ShowWarningFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.Message.DocDateLessThanRefDocDae}", New String() {newItem.Date.ToShortDateString, Me.m_entity.DocDate.ToShortDateString})
+            Return
+          End If
           'newItem.Amount = Math.Min(newItem.UnpaidAmount, newItem.BilledAmount)
           'newItem.UnpaidAmount = Math.Min(newItem.RealAmount, newItem.UnpaidAmount)
           newItem.Amount = 0
@@ -1963,6 +1990,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
               theDoc.RetentionType = newItem.RetentionType
             End If
           Else
+            If Not Me.m_entity.ValidateReferenceDocDate(newItem) Then
+              msgServ.ShowWarningFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.Message.DocDateLessThanRefDocDae}", New String() {newItem.Date.ToShortDateString, Me.m_entity.DocDate.ToShortDateString})
+              Return
+            End If
             Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
           End If
           If TypeOf payable Is ICanDelayWHT Then
