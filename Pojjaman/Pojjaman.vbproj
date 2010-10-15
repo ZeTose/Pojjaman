@@ -297,6 +297,7 @@
     <Content Include="data\forms\TPC\รายงานสรุปการสั่งซื้อแบบแจกแจง.xml" />
     <Content Include="data\forms\TPC\รายงานสรุปสถานะใบสั่งซื้อ.xml" />
     <Content Include="data\options\MainMenuItems.xml" />
+    <Content Include="data\options\PojjamanConfigurations.xml" />
     <Content Include="data\options\SharpDevelop-templates.xml" />
     <Content Include="data\options\SharpDevelop-tools.xml" />
     <Content Include="data\options\SharpDevelopProperties.xml" />
