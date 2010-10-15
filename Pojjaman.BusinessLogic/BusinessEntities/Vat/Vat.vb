@@ -207,8 +207,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				End If
 				If Me.ItemCollection.Count > 0 Then
 					Dim item As VatItem = Me.ItemCollection(0)
-					Return MinDateToNow(item.SubmitalDate)
-				End If
+          Return MinDateToNow(item.SubmitalDate)
+        ElseIf Me.ItemCollection.Count = 0 Then
+          Return Me.RefDoc.Date
+        End If
 				Return Now.Date
 			End Get
 			Set(ByVal Value As Date)
