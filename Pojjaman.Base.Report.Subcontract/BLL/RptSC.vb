@@ -8,6 +8,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class RptSC
         Inherits Report
@@ -30,6 +32,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
         Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
+            RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
             m_grid.BeginUpdate()
             m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
             m_grid.Model.Options.NumberedColHeaders = False
@@ -37,6 +41,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             CreateHeader()
             PopulateData()
             m_grid.EndUpdate()
+        End Sub
+        Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+
+            Dim dr As DataRow = CType(m_grid(e.RowIndex, 0).Tag, DataRow)
+            If dr Is Nothing Then
+                Return
+            End If
+
+            Dim drh As New DataRowHelper(dr)
+
+            Dim docId As Integer = drh.GetValue(Of Integer)("sc_id")
+            Dim docType As Integer = 289
+
+            If docId > 0 AndAlso docType > 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+                myEntityPanelService.OpenDetailPanel(en)
+            End If
         End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 0
@@ -62,7 +84,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -95,7 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -124,6 +146,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each row As DataRow In dt.Rows
                 m_grid.RowCount += 1
                 currItemIndex = m_grid.RowCount
+                m_grid(currItemIndex, 0).Tag = row
                 m_grid.RowStyles(currItemIndex).ReadOnly = True
                 m_grid(currItemIndex, 1).CellValue = row("SCcode")
                 If Not row.IsNull("SCdocdate") Then
@@ -135,28 +158,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not row.IsNull("ccinfo") Then
                     m_grid(currItemIndex, 4).CellValue = row("ccinfo").ToString
                 End If
-          
-        If Not row.IsNull("sc_beforetax") Then
-          m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(row("sc_beforetax")), DigitConfig.Price)
-          SumAmount += CDec(row("sc_beforetax"))
-        End If
-        If Not row.IsNull("sc_taxamt") Then
-          m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("sc_taxamt")), DigitConfig.Price)
-          SumTaxAmt += CDec(row("sc_taxamt"))
-        End If
-        If Not row.IsNull("sc_aftertax") Then
-          m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("sc_aftertax")), DigitConfig.Price)
-          SumAfterTax += CDec(row("sc_aftertax"))
-        End If
-        m_grid(currItemIndex, 8).CellValue = row("SCnote").ToString
-        m_grid(currItemIndex, 9).CellValue = row("closestatus").ToString
-        m_grid(currItemIndex, 10).CellValue = row("refstatus").ToString
 
-        m_grid(currItemIndex, 11).CellValue = row("SCstatusinfo").ToString
+                If Not row.IsNull("sc_beforetax") Then
+                    m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(row("sc_beforetax")), DigitConfig.Price)
+                    SumAmount += CDec(row("sc_beforetax"))
+                End If
+                If Not row.IsNull("sc_taxamt") Then
+                    m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("sc_taxamt")), DigitConfig.Price)
+                    SumTaxAmt += CDec(row("sc_taxamt"))
+                End If
+                If Not row.IsNull("sc_aftertax") Then
+                    m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("sc_aftertax")), DigitConfig.Price)
+                    SumAfterTax += CDec(row("sc_aftertax"))
+                End If
+                m_grid(currItemIndex, 8).CellValue = row("SCnote").ToString
+                m_grid(currItemIndex, 9).CellValue = row("closestatus").ToString
+                m_grid(currItemIndex, 10).CellValue = row("refstatus").ToString
 
-        m_grid(currItemIndex, 12).CellValue = row("Director").ToString
+                m_grid(currItemIndex, 11).CellValue = row("SCstatusinfo").ToString
 
-      Next
+                m_grid(currItemIndex, 12).CellValue = row("Director").ToString
+
+            Next
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
             m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(128, 255, 128)
