@@ -54,6 +54,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Properties"
     Public Property StatusDescription As String
+    Public Property StatusMessage As String
+    Public Property StatusColor As Color
     <Browsable(False)> _
     Public ReadOnly Property StatusBarService() As IStatusBarService
       Get
@@ -201,12 +203,139 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cevent.Value = Decimal.Parse(cevent.Value.ToString, Globalization.NumberStyles.Currency, Nothing)
 
     End Sub
+    Private Sub SetStatus()
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+
+      Dim cancelPersonName As String = ""
+      Dim lastEditorPersonName As String = ""
+      Dim originatorPersonName As String = ""
+
+      Dim cancelDate As String = ""
+      Dim lastEditDate As String = ""
+      Dim originDate As String = ""
+
+      Dim approvePersonName As String = ""
+      Dim approveDate As String = ""
+
+      Me.StatusDescription = ""
+      Me.StatusMessage = ""
+      Me.StatusColor = Color.FromArgb(0, Color.White)
+
+      If Me.Entity Is Nothing Then
+        Return
+      End If
+
+      If Not Me.Entity.Originated Then
+        Me.StatusDescription = myStringParserService.Parse("${res:Global.Already}")
+      Else
+        If Not Me.Entity.CancelPerson Is Nothing Then
+          cancelPersonName = Me.Entity.CancelPerson.Name
+        End If
+        If Not Me.Entity.LastEditor Is Nothing Then
+          lastEditorPersonName = Me.Entity.LastEditor.Name
+        End If
+        If Not Me.Entity.Originator Is Nothing Then
+          originatorPersonName = Me.Entity.Originator.Name
+        End If
+
+        If IsDate(Me.Entity.CancelDate) AndAlso Not Me.Entity.CancelDate.Equals(Date.MinValue) Then
+          cancelDate = Me.Entity.CancelDate.ToShortDateString & " " & Me.Entity.CancelDate.ToShortTimeString
+        End If
+        If IsDate(Me.Entity.LastEditDate) AndAlso Not Me.Entity.LastEditDate.Equals(Date.MinValue) Then
+          lastEditDate = Me.Entity.LastEditDate.ToShortDateString & " " & Me.Entity.LastEditDate.ToShortTimeString
+        End If
+        If IsDate(Me.Entity.OriginDate) AndAlso Not Me.Entity.OriginDate.Equals(Date.MinValue) Then
+          originDate = Me.Entity.OriginDate.ToShortDateString & " " & Me.Entity.OriginDate.ToShortTimeString
+        End If
+
+        If Me.Entity.Canceled Then
+          Me.StatusDescription = myStringParserService.Parse("${res:Global.Cancel}") & ": " & cancelDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & cancelPersonName
+          Me.StatusMessage = myStringParserService.Parse("${res:Global.Cancel}")
+          Me.StatusColor = Color.FromArgb(85, Color.Red)
+        ElseIf Me.Entity.Status.Value = 0 Then
+          Me.StatusDescription = myStringParserService.Parse("${res:Global.Cancel}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
+          Me.StatusMessage = myStringParserService.Parse("${res:Global.Cancel}")
+          Me.StatusColor = Color.FromArgb(85, Color.Red)
+        ElseIf Me.Entity.Status.Value = 4 Then
+          If Me.Entity.Edited Then
+            Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
+          Else
+            Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
+          End If
+          Me.StatusMessage = myStringParserService.Parse("${res:Global.GLPasseded}")
+          Me.StatusColor = Color.FromArgb(85, Color.Orange)
+        ElseIf Me.Entity.Edited Then
+          Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
+
+          If TypeOf Me.Entity Is IApprovAble Then
+            Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
+            If aprov.IsApproved Then
+              Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
+              If Not Me.StatusColor.Equals(Color.FromArgb(85, Color.Red)) Then
+                Me.StatusColor = Color.FromArgb(85, Color.Green)
+              Else
+                Me.StatusColor = Color.FromArgb(85, Color.Blue)
+              End If
+            End If
+          End If
+
+          If TypeOf Me.Entity Is IDocStatusAble Then
+            Dim doc As IDocStatusAble = CType(Me.Entity, IDocStatusAble)
+            If doc.IsReferenced Then
+              If Me.StatusMessage.Length > 0 Then
+                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
+              Else
+                Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
+                Me.StatusColor = Color.FromArgb(85, Color.Pink)
+              End If
+            End If
+          End If
+
+        Else
+          Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
+          Me.StatusMessage = ""
+          Me.StatusColor = Color.FromArgb(0, Color.White)
+
+          If TypeOf Me.Entity Is IApprovAble Then
+            Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
+            If aprov.IsApproved Then
+              Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
+              If Not Me.StatusColor.Equals(Color.FromArgb(85, Color.Red)) Then
+                Me.StatusColor = Color.FromArgb(85, Color.Green)
+              Else
+                Me.StatusColor = Color.FromArgb(85, Color.Blue)
+              End If
+            End If
+          End If
+
+          If TypeOf Me.Entity Is IDocStatusAble Then
+            Dim doc As IDocStatusAble = CType(Me.Entity, IDocStatusAble)
+            If doc.IsReferenced Then
+              If Me.StatusMessage.Length > 0 Then
+                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
+              Else
+                Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
+                Me.StatusColor = Color.FromArgb(85, Color.Pink)
+              End If
+            End If
+          End If
+
+        End If
+      End If
+    End Sub
+
 #End Region
 
 #Region "Event Handler"
     Private Sub PanelView_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
       If Not Me.DesignMode Then
-        Me.StatusBarService.SetMessage(Me.StatusDescription)
+        Try
+          Me.SetStatus()
+          Me.StatusBarService.SetMessage(Me.StatusDescription)
+          Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
+        Catch ex As Exception
+
+        End Try
       End If
     End Sub
 #End Region
