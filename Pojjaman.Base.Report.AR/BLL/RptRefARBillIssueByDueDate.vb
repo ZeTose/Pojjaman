@@ -50,7 +50,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Dim drh As New DataRowHelper(dr)
 
-            Dim docId As Integer = drh.GetValue(Of Integer)("DocID")
+            Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
             Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
 
             If docId > 0 AndAlso docType > 0 Then
@@ -177,6 +177,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
                     m_grid.RowCount += 1
                     currentBillaIndex = m_grid.RowCount
+                    m_grid(currentBillaIndex, 0).Tag = row
                     m_grid.RowStyles(currentBillaIndex).BackColor = Color.FromArgb(128, 255, 128)
                     m_grid.RowStyles(currentBillaIndex).Font.Bold = True
                     m_grid.RowStyles(currentBillaIndex).ReadOnly = True

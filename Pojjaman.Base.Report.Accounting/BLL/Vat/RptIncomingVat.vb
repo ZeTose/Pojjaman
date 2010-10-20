@@ -1,4 +1,3 @@
-Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
 Imports System.IO
@@ -7,6 +6,9 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.DataAccessLayer
+
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class RptIncomingVat
         Inherits Report
@@ -29,6 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
         Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
+            RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
             m_grid.BeginUpdate()
             m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
             m_grid.Model.Options.NumberedColHeaders = False
@@ -36,6 +40,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             CreateHeader()
             PopulateData()
             m_grid.EndUpdate()
+        End Sub
+        Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+
+            Dim dr As DataRow = CType(m_grid(e.RowIndex, 0).Tag, DataRow)
+            If dr Is Nothing Then
+                Return
+            End If
+
+            Dim drh As New DataRowHelper(dr)
+
+            Dim docId As Integer = drh.GetValue(Of Integer)("docId")
+            Dim docType As Integer = drh.GetValue(Of Integer)("doctype")
+
+            If docId > 0 AndAlso docType > 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+                myEntityPanelService.OpenDetailPanel(en)
+            End If
         End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 0
@@ -102,50 +124,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Dim currDocIndex As Integer = -1
             For Each row As DataRow In dt.Rows
-				If row("docId").ToString & row("vatrunnumber").ToString <> currentDocCode Then
-					currentDocCode = row("docId").ToString & row("vatrunnumber").ToString
-					m_grid.RowCount += 1
-					currDocIndex = m_grid.RowCount
-					m_grid.RowStyles(currDocIndex).ReadOnly = True
-					If IsDate(row("DocDate")) Then
-						m_grid(currDocIndex, 1).CellValue = CDate(row("DocDate")).ToShortDateString
-					End If
-					If IsDate(row("SubmitalDate")) Then
-						m_grid(currDocIndex, 2).CellValue = CDate(row("SubmitalDate")).ToShortDateString
-					End If
-					If Not row.IsNull("Invoice") Then
-						m_grid(currDocIndex, 3).CellValue = row("Invoice").ToString
-					End If
-					If Not row.IsNull("DocCode") Then
-						m_grid(currDocIndex, 4).CellValue = row("DocCode").ToString
-					End If
-					If Not row.IsNull("VatRunNumber") Then
-						m_grid(currDocIndex, 5).CellValue = row("VatRunNumber").ToString
-					End If
-					If Not row.IsNull("RelatedDoc") Then
-						m_grid(currDocIndex, 6).CellValue = row("RelatedDoc").ToString
-					End If
-					If Not row.IsNull("Supplier") Then
-						m_grid(currDocIndex, 7).CellValue = row("Supplier").ToString
-					End If
-					If Not row.IsNull("GroupName") Then
-						m_grid(currDocIndex, 8).CellValue = row("GroupName").ToString
-					End If
-					If IsNumeric(row("BeforeTax")) Then
-						m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(row("BeforeTax")), DigitConfig.Price)
-						SumBeforeTax += Configuration.Format(CDec(row("BeforeTax")), DigitConfig.Price)
-					End If
-					If IsNumeric(row("TaxAmt")) Then
-						m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(CDec(row("TaxAmt")), DigitConfig.Price)
-						SumTaxAmount += Configuration.Format(CDec(row("TaxAmt")), DigitConfig.Price)
-					End If
-					If IsNumeric(row("AfterTax")) Then
-						m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
-						SumAfterTax += Configuration.Format(CDec(row("AfterTax")), DigitConfig.Price)
-					End If
+                If row("docId").ToString & row("vatrunnumber").ToString <> currentDocCode Then
+                    currentDocCode = row("docId").ToString & row("vatrunnumber").ToString
+                    m_grid.RowCount += 1
+                    currDocIndex = m_grid.RowCount
+                    m_grid(currDocIndex, 0).Tag = row
+                    m_grid.RowStyles(currDocIndex).ReadOnly = True
+                    If IsDate(row("DocDate")) Then
+                        m_grid(currDocIndex, 1).CellValue = CDate(row("DocDate")).ToShortDateString
+                    End If
+                    If IsDate(row("SubmitalDate")) Then
+                        m_grid(currDocIndex, 2).CellValue = CDate(row("SubmitalDate")).ToShortDateString
+                    End If
+                    If Not row.IsNull("Invoice") Then
+                        m_grid(currDocIndex, 3).CellValue = row("Invoice").ToString
+                    End If
+                    If Not row.IsNull("DocCode") Then
+                        m_grid(currDocIndex, 4).CellValue = row("DocCode").ToString
+                    End If
+                    If Not row.IsNull("VatRunNumber") Then
+                        m_grid(currDocIndex, 5).CellValue = row("VatRunNumber").ToString
+                    End If
+                    If Not row.IsNull("RelatedDoc") Then
+                        m_grid(currDocIndex, 6).CellValue = row("RelatedDoc").ToString
+                    End If
+                    If Not row.IsNull("Supplier") Then
+                        m_grid(currDocIndex, 7).CellValue = row("Supplier").ToString
+                    End If
+                    If Not row.IsNull("GroupName") Then
+                        m_grid(currDocIndex, 8).CellValue = row("GroupName").ToString
+                    End If
+                    If IsNumeric(row("BeforeTax")) Then
+                        m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(row("BeforeTax")), DigitConfig.Price)
+                        SumBeforeTax += Configuration.Format(CDec(row("BeforeTax")), DigitConfig.Price)
+                    End If
+                    If IsNumeric(row("TaxAmt")) Then
+                        m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(CDec(row("TaxAmt")), DigitConfig.Price)
+                        SumTaxAmount += Configuration.Format(CDec(row("TaxAmt")), DigitConfig.Price)
+                    End If
+                    If IsNumeric(row("AfterTax")) Then
+                        m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
+                        SumAfterTax += Configuration.Format(CDec(row("AfterTax")), DigitConfig.Price)
+                    End If
 
-				End If
-			Next
+                End If
+            Next
             m_grid.RowCount += 1
             currDocIndex = m_grid.RowCount
             m_grid.RowStyles(currDocIndex).BackColor = Color.FromArgb(128, 255, 128)

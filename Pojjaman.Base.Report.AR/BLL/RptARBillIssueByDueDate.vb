@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class RptARBillIssueByDueDate
         Inherits Report
@@ -14,6 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
         Private m_reportColumns As ReportColumnCollection
+        Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -29,6 +32,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
         Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
+            RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
             m_grid.BeginUpdate()
             m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
             m_grid.Model.Options.NumberedColHeaders = False
@@ -36,6 +41,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
             CreateHeader()
             PopulateData()
             m_grid.EndUpdate()
+        End Sub
+        Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+            Dim tr As Object = m_hashData(e.RowIndex)
+            If tr Is Nothing Then
+                Return
+            End If
+
+            If TypeOf tr Is KeyValuePair Then
+                Dim IDandType As KeyValuePair = CType(tr, KeyValuePair)
+                If IDandType Is Nothing Then
+                    Return
+                End If
+
+                Dim docId As Integer = 0
+                Dim docType As Integer = 0
+
+                docId = IDandType.Value
+                docType = IDandType.Key
+
+                If docId > 0 AndAlso docType > 0 Then
+                    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+                    myEntityPanelService.OpenDetailPanel(en)
+                End If
+            End If
         End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 1
@@ -108,12 +138,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim SummaryBaseBilledAmt As Decimal = 0
             Dim SummaryBaseRemainAmt As Decimal = 0
 
+            m_hashData = New Hashtable
+            Dim dc0 As New DataColumn("id")
+            dt.Columns.Add(dc0)
+            Dim dc1 As New DataColumn("docType")
+            dt.Columns.Add(dc1)
+
             Dim indent As String = Space(3)
             For Each row As DataRow In dt.Rows
                 If row("DocCode").ToString <> currentDocCode Then
                     If Not currentDocCode = "" Then
-            m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
-            m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
+                        m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
+                        m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
                         m_grid.RowCount += 1
                         currentBilliIndex = m_grid.RowCount
                         m_grid.RowStyles(currentBilliIndex).ReadOnly = True
@@ -128,6 +164,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
                     m_grid.RowCount += 1
                     currentBillaIndex = m_grid.RowCount
+
+                    Dim IDandType As New KeyValuePair(CInt(row("DocType")), CInt(row("DocID")))
+                    m_hashData(currentBillaIndex) = IDandType
+
                     m_grid.RowStyles(currentBillaIndex).BackColor = Color.FromArgb(128, 255, 128)
                     m_grid.RowStyles(currentBillaIndex).Font.Bold = True
                     m_grid.RowStyles(currentBillaIndex).ReadOnly = True
@@ -157,36 +197,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     If Not row.IsNull("CCName") Then
                         m_grid(currentBilliIndex, 4).CellValue = indent & (row("CCName")).ToString
                     End If
-          If IsNumeric(row("SaleBillAmount")) Then
-            If CInt(row("stock_type")) <> 79 Then
-              m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")), DigitConfig.Price)
-              tmpTotalBilledAmount += CDec(row("SaleBillAmount"))
-              SummaryBaseBilledAmt += CDec(row("SaleBillAmount"))
-            Else
-              m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")) * -1, DigitConfig.Price)
-              tmpTotalBilledAmount -= CDec(row("SaleBillAmount"))
-              SummaryBaseBilledAmt -= CDec(row("SaleBillAmount"))
-            End If
-          End If
-          If IsNumeric(row("SaleBillUnpaid")) Then
-            If CInt(row("stock_type")) <> 79 Then
-              m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")), DigitConfig.Price)
-              tmpTotalUnpaid += CDec(row("SaleBillUnpaid"))
-              SummaryBaseRemainAmt += CDec(row("SaleBillUnpaid"))
-            Else
-              m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")) * -1, DigitConfig.Price)
-              tmpTotalUnpaid -= CDec(row("SaleBillUnpaid"))
-              SummaryBaseRemainAmt -= CDec(row("SaleBillUnpaid"))
-            End If
+                    If IsNumeric(row("SaleBillAmount")) Then
+                        If CInt(row("stock_type")) <> 79 Then
+                            m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")), DigitConfig.Price)
+                            tmpTotalBilledAmount += CDec(row("SaleBillAmount"))
+                            SummaryBaseBilledAmt += CDec(row("SaleBillAmount"))
+                        Else
+                            m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")) * -1, DigitConfig.Price)
+                            tmpTotalBilledAmount -= CDec(row("SaleBillAmount"))
+                            SummaryBaseBilledAmt -= CDec(row("SaleBillAmount"))
+                        End If
+                    End If
+                    If IsNumeric(row("SaleBillUnpaid")) Then
+                        If CInt(row("stock_type")) <> 79 Then
+                            m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")), DigitConfig.Price)
+                            tmpTotalUnpaid += CDec(row("SaleBillUnpaid"))
+                            SummaryBaseRemainAmt += CDec(row("SaleBillUnpaid"))
+                        Else
+                            m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")) * -1, DigitConfig.Price)
+                            tmpTotalUnpaid -= CDec(row("SaleBillUnpaid"))
+                            SummaryBaseRemainAmt -= CDec(row("SaleBillUnpaid"))
+                        End If
 
-          End If
-          m_grid(currentBilliIndex, 7).CellValue = row("Type").ToString
+                    End If
+                    m_grid(currentBilliIndex, 7).CellValue = row("Type").ToString
 
-          currentBillCode = indent & row("SaleBillCode").ToString
-        End If
-      Next
-      m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
-      m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
+                    currentBillCode = indent & row("SaleBillCode").ToString
+                End If
+            Next
+            m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
+            m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
 
             m_grid.RowCount += 1
             currentBilliIndex = m_grid.RowCount

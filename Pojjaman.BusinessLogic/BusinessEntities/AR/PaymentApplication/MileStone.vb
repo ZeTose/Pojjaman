@@ -555,12 +555,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_name = Value
       End Set
     End Property
-    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property    Public ReadOnly Property Customer() As Customer      Get        If m_pma Is Nothing Then          Return Nothing
+    Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property    Public ReadOnly Property Customer() As Customer      Get        If m_pma Is Nothing Then                    m_pma = New PaymentApplication(m_pmaId)
+                    'Return Nothing
         End If        Return Me.CostCenter.Customer      End Get    End Property    Public ReadOnly Property CostCenter() As CostCenter
       Get
-        If m_pma Is Nothing Then
-          Return Nothing
-        End If
+                If m_pma Is Nothing Then
+                    m_pma = New PaymentApplication(m_pmaId)
+
+                    'Return Nothing
+                End If
         Return m_pma.CostCenter
       End Get
     End Property#Region "No Effect to TaxAmount Properties"    Public Overridable Property Retention() As Decimal
