@@ -42,6 +42,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       MyBase.New()
       Me.AutoScroll = True
     End Sub
+
     Private Sub AbstractEntityDetailPanelView_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
       Dim fullName As String = Me.GetType.FullName
       'm_accessTale = Access.GetFormAccessTable(fullName)
@@ -203,7 +204,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cevent.Value = Decimal.Parse(cevent.Value.ToString, Globalization.NumberStyles.Currency, Nothing)
 
     End Sub
-    Private Sub SetStatus()
+    Public Overridable Sub SetStatusBarMessage()
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
       Dim cancelPersonName As String = ""
@@ -251,11 +252,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Me.Entity.Canceled Then
           Me.StatusDescription = myStringParserService.Parse("${res:Global.Cancel}") & ": " & cancelDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & cancelPersonName
           Me.StatusMessage = myStringParserService.Parse("${res:Global.Cancel}")
-          Me.StatusColor = Color.FromArgb(85, Color.Red)
+          Me.StatusColor = Color.FromArgb(95, Color.Red)
         ElseIf Me.Entity.Status.Value = 0 Then
           Me.StatusDescription = myStringParserService.Parse("${res:Global.Cancel}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
           Me.StatusMessage = myStringParserService.Parse("${res:Global.Cancel}")
-          Me.StatusColor = Color.FromArgb(85, Color.Red)
+          Me.StatusColor = Color.FromArgb(95, Color.Red)
         ElseIf Me.Entity.Status.Value = 4 Then
           If Me.Entity.Edited Then
             Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
@@ -263,7 +264,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
           End If
           Me.StatusMessage = myStringParserService.Parse("${res:Global.GLPasseded}")
-          Me.StatusColor = Color.FromArgb(85, Color.Orange)
+          Me.StatusColor = Color.FromArgb(95, Color.Orange)
         ElseIf Me.Entity.Edited Then
           Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
 
@@ -271,10 +272,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
             If aprov.IsApproved Then
               Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
-              If Not Me.StatusColor.Equals(Color.FromArgb(85, Color.Red)) Then
-                Me.StatusColor = Color.FromArgb(85, Color.Green)
+              If Not Me.StatusColor.Equals(Color.FromArgb(95, Color.Red)) Then
+                Me.StatusColor = Color.FromArgb(95, Color.Green)
               Else
-                Me.StatusColor = Color.FromArgb(85, Color.Blue)
+                Me.StatusColor = Color.FromArgb(95, Color.Blue)
               End If
             End If
           End If
@@ -286,7 +287,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
               Else
                 Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
-                Me.StatusColor = Color.FromArgb(85, Color.Pink)
+                Me.StatusColor = Color.FromArgb(95, Color.Pink)
               End If
             End If
           End If
@@ -300,10 +301,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
             If aprov.IsApproved Then
               Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
-              If Not Me.StatusColor.Equals(Color.FromArgb(85, Color.Red)) Then
-                Me.StatusColor = Color.FromArgb(85, Color.Green)
+              If Not Me.StatusColor.Equals(Color.FromArgb(95, Color.Red)) Then
+                Me.StatusColor = Color.FromArgb(95, Color.Green)
               Else
-                Me.StatusColor = Color.FromArgb(85, Color.Blue)
+                Me.StatusColor = Color.FromArgb(95, Color.Blue)
               End If
             End If
           End If
@@ -315,7 +316,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
               Else
                 Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
-                Me.StatusColor = Color.FromArgb(85, Color.Pink)
+                Me.StatusColor = Color.FromArgb(95, Color.Pink)
               End If
             End If
           End If
@@ -330,12 +331,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub PanelView_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
       If Not Me.DesignMode Then
         Try
-          Me.SetStatus()
+          'Me.SetStatus()
           Me.StatusBarService.SetMessage(Me.StatusDescription)
           Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
         Catch ex As Exception
 
         End Try
+      End If
+    End Sub
+    Private Sub AbstractEntityDetailPanelView_ParentChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ParentChanged
+      If Not Me.DesignMode Then
+        Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        Me.StatusColor = Color.FromArgb(0, Color.White)
+        Me.StatusDescription = myStringParserService.Parse("${res:Global.Already}")
+        Me.StatusBarService.SetMessage(Me.StatusDescription)
+        Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
+      End If
+    End Sub
+
+    Private Sub AbstractEntityDetailPanelView_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+      If Not Me.DesignMode Then
+        Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        Me.StatusColor = Color.FromArgb(0, Color.White)
+        Me.StatusDescription = myStringParserService.Parse("${res:Global.Already}")
+        Me.StatusBarService.SetMessage(Me.StatusDescription)
+        Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
       End If
     End Sub
 #End Region
