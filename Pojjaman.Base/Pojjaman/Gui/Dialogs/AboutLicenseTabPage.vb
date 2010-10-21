@@ -12,7 +12,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
     'Friend WithEvents m_dbVersionLabel As System.Windows.Forms.Label
     Friend WithEvents ListView1 As System.Windows.Forms.ListView
     Private hashListConnect As Hashtable
-    Private lvt As Timer
+    Public Shared timerL As Timer
 #End Region
 
 #Region "Constructors"
@@ -77,10 +77,10 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 
       RefreshList()
 
-      lvt = New Timer
-      lvt.Interval = 1000
-      AddHandler lvt.Tick, AddressOf TimerEvent
-      lvt.Start()
+      timerL = New Timer
+      timerL.Interval = 1000
+      AddHandler timerL.Tick, AddressOf TimerEvent
+      timerL.Start()
     End Sub
     Private Sub TimerEvent(ByVal sender As Object, ByVal e As EventArgs)
       RefreshList()
@@ -190,8 +190,12 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 #End Region
 
     Private Sub AboutLicenseTabPage_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
-      lvt.Stop()
-      lvt.Dispose()
+      Try
+        timerL.Stop()
+        timerL.Dispose()
+      Catch ex As Exception
+
+      End Try
     End Sub
   End Class
 End Namespace

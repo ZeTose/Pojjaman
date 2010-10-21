@@ -15,7 +15,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
     Friend WithEvents m_dbVersionLabel As System.Windows.Forms.Label
     Friend WithEvents lblLicense As System.Windows.Forms.Label
     Private m_availableLicense As Integer
-    Private lvt As Timer
+    Public Shared timerT As Timer
 #End Region
 
 #Region "Constructors"
@@ -68,10 +68,10 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
           User.LicenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
           lblLicense.Text = String.Format("License Usage : {0} / {1} ", User.LicenseCount, m_availableLicense)
 
-          lvt = New Timer
-          lvt.Interval = 1000
-          AddHandler lvt.Tick, AddressOf TimerEvent
-          lvt.Start()
+          timerT = New Timer
+          timerT.Interval = 1000
+          AddHandler timerT.Tick, AddressOf TimerEvent
+          timerT.Start()
         End If
       End If
 
@@ -151,8 +151,12 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 #End Region
 
     Private Sub AboutPojjamanTabPage_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
-      lvt.Stop()
-      lvt.Dispose()
+      Try
+        timerT.Stop()
+        timerT.Dispose()
+      Catch ex As Exception
+
+      End Try
     End Sub
   End Class
 End Namespace

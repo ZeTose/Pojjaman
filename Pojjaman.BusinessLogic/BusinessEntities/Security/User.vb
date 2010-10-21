@@ -292,7 +292,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , CommandType.Text _
                 , " select convert(nvarchar(50),spid)+convert(nvarchar(8),login_time,112)+replace(convert(nvarchar(20),login_time,114),':','') [spid] " & _
                   ", db_name(dbid) [dbname], ltrim(rtrim(hostname)) [hostname],ltrim(rtrim(program_name)) [program_name] " & _
-                  " from master..sysprocesses where program_name like 'Pojjaman.CBS%' " _
+                  " from master..sysprocesses where program_name like 'Pojjaman.CBS%' " & _
+                  " order by login_time " _
                 )
         If ds.Tables(0).Rows.Count > 0 Then
           Return ds

@@ -33,6 +33,17 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
         End Sub
 #End Region
 
-    End Class
+    Private Sub CommonAboutDialog_FormClosed(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
+      Try
+        AboutPojjamanTabPage.timerT.Stop()
+        AboutPojjamanTabPage.timerT.Dispose()
+
+        AboutLicenseTabPage.timerL.Stop()
+        AboutLicenseTabPage.timerL.Dispose()
+      Catch ex As Exception
+
+      End Try
+    End Sub
+  End Class
 End Namespace
 
