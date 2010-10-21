@@ -944,7 +944,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Return True
 			End If
 			Return False
-		End Function
+    End Function
+    Private Function GetCurrencyConversion() As Decimal
+      If TypeOf Me.RefDoc Is IHasCurrency Then
+        Return CType(Me.RefDoc, IHasCurrency).Currency.Conversion
+      End If
+      Return 1
+    End Function
+    Private Function GetConvertedRefdocMaximumTaxBase() As Decimal
+      Return Me.RefDoc.GetMaximumWitholdingTaxBase * GetCurrencyConversion()
+    End Function
 		Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
 			With Me
 				If Me.MaxRowIndex < 0 Then		 '.ItemTable.Childs.Count = 0 Then
@@ -955,31 +964,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim refTaxBase As Decimal = 0
         If TypeOf RefDoc Is ReceiveSelection Then
-          If Me.Amount > CType(RefDoc, ReceiveSelection).GetMaximumWitholdingTaxBase Then
+          If Me.Amount > GetConvertedRefdocMaximumTaxBase() Then
             If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                   New String() { _
                                                     Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
-                                                    Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                    Configuration.FormatToString(GetConvertedRefdocMaximumTaxBase, DigitConfig.Price) _
                                                   }) Then
               Return New SaveErrorException("")
             End If
           End If
         ElseIf TypeOf RefDoc Is PaySelection Then
-          If Me.Amount > CType(RefDoc, PaySelection).GetMaximumWitholdingTaxBase Then
+          If Me.Amount > GetConvertedRefdocMaximumTaxBase() Then
             If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                   New String() { _
                                                     Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
-                                                    Configuration.FormatToString(CType(wht_refDoc, PaySelection).GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                    Configuration.FormatToString(GetConvertedRefdocMaximumTaxBase, DigitConfig.Price) _
                                                   }) Then
               Return New SaveErrorException("")
             End If
           End If
         Else
-          If Me.Amount > RefDoc.GetMaximumWitholdingTaxBase Then
+          If Me.Amount > GetConvertedRefdocMaximumTaxBase() Then
             If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                   New String() { _
                                                     Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
-                                                    Configuration.FormatToString(RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                    Configuration.FormatToString(GetConvertedRefdocMaximumTaxBase, DigitConfig.Price) _
                                                   }) Then
               Return New SaveErrorException("")
             End If
@@ -2365,6 +2374,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
     End Function
+    Private Function GetCurrencyConversion() As Decimal
+      If TypeOf Me.RefDoc Is IHasCurrency Then
+        Return CType(Me.RefDoc, IHasCurrency).Currency.Conversion
+      End If
+      Return 1
+    End Function
+    Public Function GetConvertedRefdocMaximumTaxBase() As Decimal
+      Return Me.RefDoc.GetMaximumWitholdingTaxBase * GetCurrencyConversion()
+    End Function
     Public Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       If wht_refDoc Is Nothing Then
         'UNDONE
@@ -2376,31 +2394,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim refSequenceNo As Boolean = False
       Dim refTaxBase As Decimal = 0
       If TypeOf wht_refDoc Is ReceiveSelection Then
-        If Me.WitholdingTaxbase > CType(wht_refDoc, ReceiveSelection).GetMaximumWitholdingTaxBase Then
+        If Me.WitholdingTaxbase > GetConvertedRefdocMaximumTaxBase Then
           If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                 New String() { _
                                                   Configuration.FormatToString(Me.WitholdingTaxbase, DigitConfig.Price), _
-                                                  Configuration.FormatToString(CType(wht_refDoc, ReceiveSelection).GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                  Configuration.FormatToString(GetConvertedRefdocMaximumTaxBase, DigitConfig.Price) _
                                                 }) Then
             Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
           End If
         End If
       ElseIf TypeOf wht_refDoc Is PaySelection Then
-        If Me.WitholdingTaxbase > CType(wht_refDoc, PaySelection).GetMaximumWitholdingTaxBase Then
+        If Me.WitholdingTaxbase > GetConvertedRefdocMaximumTaxBase Then
           If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                 New String() { _
                                                   Configuration.FormatToString(Me.WitholdingTaxbase, DigitConfig.Price), _
-                                                  Configuration.FormatToString(CType(wht_refDoc, PaySelection).GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                  Configuration.FormatToString(GetConvertedRefdocMaximumTaxBase, DigitConfig.Price) _
                                                 }) Then
             Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
           End If
         End If
       Else
-        If Me.Amount > wht_refDoc.GetMaximumWitholdingTaxBase Then
+        If Me.Amount > GetConvertedRefdocMaximumTaxBase Then
           If Not myMessage.AskQuestionFormatted("${res:Longkong.Pojjaman.BusinessLogic.WitholdingTax.ExceededTaxBase}", _
                                                   New String() { _
                                                     Configuration.FormatToString(Me.Amount, DigitConfig.Price), _
-                                                    Configuration.FormatToString(RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price) _
+                                                    Configuration.FormatToString(GetConvertedRefdocMaximumTaxBase, DigitConfig.Price) _
                                                   }) Then
             Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
           End If

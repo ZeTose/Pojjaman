@@ -123,9 +123,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Country\CountryDetail.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Country\CountryDetail.vb" />
     <Compile Include="GL\AccountLinkDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>

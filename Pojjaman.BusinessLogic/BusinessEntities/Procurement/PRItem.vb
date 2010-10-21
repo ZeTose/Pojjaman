@@ -273,11 +273,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End Set
     End Property
-    Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
+    Public ReadOnly Property Amount() As Decimal
       Get
         Return Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
       End Get
     End Property
+
+    '==============CURRENCY=================================
+    Public ReadOnly Property Cost() As Decimal Implements IWBSAllocatableItem.ItemAmount
+      Get
+        Return Configuration.Format((Me.UnitPrice * Me.Qty * Me.Pr.Currency.Conversion), DigitConfig.Price)
+      End Get
+    End Property
+    '==============CURRENCY=================================
+
     Public ReadOnly Property OriginAmount() As Decimal
       Get
         Return Configuration.Format((Me.UnitPrice * Me.OriginQty), DigitConfig.Price)

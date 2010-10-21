@@ -53,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
     , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
-   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable, IDuplicable, IAbleHideCostByView
+   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable, IDuplicable, IAbleHideCostByView, IHasCurrency
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -345,6 +345,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'm_itemCollection.RefreshBudget()
 
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      '==============CURRENCY=================================
+      BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      '==============CURRENCY=================================
     End Sub
 #End Region
 
@@ -560,6 +564,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Note = m_po.Note
         End If
         '-----------------------NOTE--------------------------------------
+
+        '==============CURRENCY=================================
+        Me.Currency = m_po.Currency.Clone
+        '==============CURRENCY=================================
 
         Me.Supplier = Me.m_po.Supplier
         Me.CreditPeriod = Me.m_po.CreditPeriod
@@ -2110,6 +2118,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
+          '==============CURRENCY=================================
+          'Save Currency
+          If Me.Originated Then
+            BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+          End If
+          '==============CURRENCY=================================
+
           '==============================STOCKCOST=========================================
           'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
           If Not Me.IsReferenced Then
@@ -2871,10 +2886,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีซื้อไม่ถึงกำหนด
-      If Me.RealTaxAmount - Me.Vat.Amount > 0 Then
+      If (Me.RealTaxAmount * Me.Currency.Conversion) - Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "E3.5.1"
-        ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+        ji.Amount = Configuration.Format((Me.RealTaxAmount * Me.Currency.Conversion) - Me.Vat.Amount, DigitConfig.Price)
         If Me.ToCostCenter.Originated Then
           ji.CostCenter = Me.ToCostCenter
         Else
@@ -5303,7 +5318,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Event AdvanceClick(ByVal sender As Object, ByVal e As System.EventArgs)
 #End Region
 
-
+    '==============CURRENCY=================================
+#Region "IHasCurrency"
+    Private m_currency As Currency
+    Public Property Currency As Currency Implements IHasCurrency.Currency
+      Get
+        If m_currency Is Nothing Then
+          m_currency = Currency.DefaultCurrency.Clone
+        End If
+        Return m_currency
+      End Get
+      Set(ByVal value As Currency)
+        m_currency = value
+      End Set
+    End Property
+#End Region
+    '==============CURRENCY=================================
   End Class
 
   Public Class GoodsReceiptForApprove

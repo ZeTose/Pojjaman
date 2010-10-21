@@ -682,7 +682,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If tmpCost = 0 Then
           tmpCost = Me.Amount
         End If
-        Return tmpCost
+
+        '==============CURRENCY=================================
+        Return tmpCost * Me.Po.Currency.Conversion
+        '==============CURRENCY=================================
       End Get
     End Property
     Private m_amount As Decimal

@@ -16,7 +16,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 	End Class
 	Public Class PO
 		Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IApprovAble, ICancelable, IHasIBillablePerson, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable
+    Implements IPrintableEntity, IApprovAble, ICancelable, IHasIBillablePerson, IHasToCostCenter _
+      , IDuplicable, ICheckPeriod, IWBSAllocatable _
+      , IHasCurrency
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -45,8 +47,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_contact As String
     Private m_attachment As String
     Private m_specialCondition As String
-
-    Private m_country As Country
 
     Private m_closed As Boolean
     Private m_closedBefor As Boolean
@@ -108,8 +108,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_termNote = ""
         .m_deliveryTime = ""
         .m_placeOfDelivery = ""
-        m_country = New Country
-        m_country.Id = 366
         .m_useTerm = False
         '.m_attachment = "..............................................................."
         '.m_specialCondition = "..............................................................."
@@ -258,17 +256,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_attachment = CStr(dr(aliasPrefix & "po_attachment"))
         End If
 
-        ' Country
-        If dr.Table.Columns.Contains("country_id") Then
-          If Not dr.IsNull("country_id") Then
-            .m_country = New Country(dr, "")
-          End If
-        Else
-          If Not dr.IsNull(aliasPrefix & "po_currencyCountry") Then
-            .m_country = New Country(CInt(dr(aliasPrefix & "po_currencyCountry")))
-          End If
-        End If
-
         'Closing Status
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_closed") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_closed") Then
           .m_closed = CBool(dr(aliasPrefix & Me.Prefix & "_closed"))
@@ -324,6 +311,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       EQActualHash = New Hashtable
       m_itemCollection = New POItemCollection(Me)
       'm_itemCollection.RefreshBudget()
+
+      '==============CURRENCY=================================
+      BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      '==============CURRENCY=================================
     End Sub
 #End Region
 
@@ -372,14 +363,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Boolean)
         m_closedBefor = Value
-      End Set
-    End Property
-    Public Property Country() As Country
-      Get
-        Return m_country
-      End Get
-      Set(ByVal Value As Country)
-        m_country = Value
       End Set
     End Property
     Public Property UseTerm() As Boolean
@@ -495,6 +478,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return dummyCC
     End Function
+
+    '==============CURRENCY=================================
+    Public Function GetCurrencyFromPR() As Currency
+      Dim dummyCurrency As Currency = BusinessLogic.Currency.DefaultCurrency
+      For Each myPr As PR In Me.ItemCollection.PRHASH.Values
+        Dim cc As Currency = myPr.Currency
+        If Not dummyCurrency Is Nothing AndAlso Not cc.Equals(dummyCurrency) Then
+          Return BusinessLogic.Currency.DefaultCurrency
+        End If
+        dummyCurrency = cc
+      Next
+      Return dummyCurrency
+    End Function
+    '==============CURRENCY=================================
+
     Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate
       Get
         Return m_docDate
@@ -1196,7 +1194,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, Me.EntityId) + rootWBS.GetActualLab(Me, Me.EntityId) + rootWBS.GetActualEq(Me, Me.EntityId))
           Dim thisActual As Decimal = rootWBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, wbsd.CostCenter.Id)
           Dim currentActual As Decimal = wbsd.Amount
-       
+
           Dim tActual As Decimal = (wbsd.WBS.GetActualMat(Me, Me.EntityId) + wbsd.WBS.GetActualLab(Me, Me.EntityId) + wbsd.WBS.GetActualEq(Me, Me.EntityId))
           Dim tcActual As Decimal = wbsd.WBS.GetThisDocActualFromDB(Me.EntityId, Me.Id, wbsd.CostCenter.Id)
           If onlyWBSAllocate Then
@@ -1370,7 +1368,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_placeofdelivery", Me.PlaceOfDelivery))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", ValidIdOrDBNull(Me.CostCenter)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_currencycountry", ValidIdOrDBNull(Me.Country)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_employee", ValidIdOrDBNull(Me.Requestor)))
         paramArrayList.Add(New SqlParameter("@" & "po_retention", Me.Retention))
         paramArrayList.Add(New SqlParameter("@" & "po_retentionnote", Me.RetentionNote))
@@ -1453,6 +1450,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ResetCode(oldcode, oldautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
+
+          '==============CURRENCY=================================
+          'Save Currency
+          If Me.Originated Then
+            BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+          End If
+          '==============CURRENCY=================================
 
           'Save CustomNote จากการ Copy เอกสาร
           If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
@@ -2201,15 +2205,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
 
-      If Not Me.Country Is Nothing AndAlso Me.Country.Originated Then
-        'Currency
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Currency"
-        dpi.Value = Me.Country.Unit
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-      End If
-
       'Note
       dpi = New DocPrintingItem
       dpi.Mapping = "Note"
@@ -2640,7 +2635,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' RefPRCode
       If Not prList Is Nothing AndAlso prList.Length > 0 Then
-                'If prList.StartsWith(",") Then prList = prList.Substring(1)
+        'If prList.StartsWith(",") Then prList = prList.Substring(1)
         dpi = New DocPrintingItem
         dpi.Mapping = "RefPRCode"
         dpi.Value = prList
@@ -2922,11 +2917,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not prArr.Contains(prCode) Then
             prArr.Add(prCode)
             prList += "," & prCode
-                        If prList.StartsWith(",") Then
-                            prList = prList.Substring(1)
+            If prList.StartsWith(",") Then
+              prList = prList.Substring(1)
+            End If
           End If
         End If
-                End If
       Next
 
       'TotalItem
@@ -2945,7 +2940,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' RefUngroupPRCode
       If Not prList Is Nothing AndAlso prList.Length > 0 Then
-                'If prList.StartsWith(",") Then prList = prList.Substring(1)
+        'If prList.StartsWith(",") Then prList = prList.Substring(1)
         dpi = New DocPrintingItem
         dpi.Mapping = "RefUngroupPRCode"
         dpi.Value = prList
@@ -3261,11 +3256,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not prArr.Contains(prCode) Then
             prArr.Add(prCode)
             prList += "," & prCode
-                        If prList.StartsWith(",") Then
-                            prList = prList.Substring(1)
+            If prList.StartsWith(",") Then
+              prList = prList.Substring(1)
+            End If
           End If
         End If
-                End If
       Next
 
       'RefUngroup2PRDocDate
@@ -3282,7 +3277,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ' RefUngroup2PRCode
       If Not prList Is Nothing AndAlso prList.Length > 0 Then
-                'If prList.StartsWith(",") Then prList = prList.Substring(1)
+        'If prList.StartsWith(",") Then prList = prList.Substring(1)
         dpi = New DocPrintingItem
         dpi.Mapping = "RefUngroup2PRCode"
         dpi.Value = prList
@@ -4030,6 +4025,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 #End Region
+
+    '==============CURRENCY=================================
+#Region "IHasCurrency"
+    Private m_currency As Currency
+    Public Property Currency As Currency Implements IHasCurrency.Currency
+      Get
+        If m_currency Is Nothing Then
+          m_currency = Currency.DefaultCurrency.Clone
+        End If
+        Return m_currency
+      End Get
+      Set(ByVal value As Currency)
+        m_currency = value
+      End Set
+    End Property
+#End Region
+    '==============CURRENCY=================================
+
+
 
   End Class
   Public Class POStatus

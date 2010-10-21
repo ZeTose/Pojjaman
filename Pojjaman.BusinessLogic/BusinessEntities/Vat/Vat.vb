@@ -319,71 +319,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
 				Next
 				Return Configuration.Format(sumAmount, DigitConfig.Price)
 			End Get
-		End Property
-		Public Property VatTaxBase() As Decimal
-			Get
-				Return Me.vat_taxbase
-			End Get
-			Set(ByVal Value As Decimal)
-				Me.vat_taxbase = Value
-			End Set
-		End Property
-		Public Overrides ReadOnly Property GetListSprocName() As String
-			Get
-				Return "GetVatList"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property GetSprocName() As String
-			Get
-				Return "GetVat"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property ClassName() As String
-			Get
-				Return "Vat"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property TableName() As String
-			Get
-				Return "Vat"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property Prefix() As String
-			Get
-				Return "vat"
-			End Get
-		End Property
+    End Property
+    Public Property VatTaxBase() As Decimal
+      Get
+        Return Me.vat_taxbase
+      End Get
+      Set(ByVal Value As Decimal)
+        Me.vat_taxbase = Value
+      End Set
+    End Property
+    Public Overrides ReadOnly Property GetListSprocName() As String
+      Get
+        Return "GetVatList"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property GetSprocName() As String
+      Get
+        Return "GetVat"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "Vat"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TableName() As String
+      Get
+        Return "Vat"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "vat"
+      End Get
+    End Property
 
-		Public Overrides ReadOnly Property DetailPanelTitle() As String
-			Get
-				Return "${res:Longkong.Pojjaman.BusinessLogic.Vat.DetailLabel}"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property DetailPanelIcon() As String
-			Get
-				Return "Icons.16x16.Vat"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property ListPanelIcon() As String
-			Get
-				Return "Icons.16x16.Vat"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property ListPanelTitle() As String
-			Get
-				Return "${res:Longkong.Pojjaman.BusinessLogic.Vat.ListLabel}"
-			End Get
-		End Property
-		Public Overrides ReadOnly Property TabPageText() As String
-			Get
-				Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-				Dim blankSuffix As String = "()"
-				If tpt.EndsWith(blankSuffix) Then
-					tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
-				End If
-				Return tpt
-			End Get
-		End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.Vat.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.Vat"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.Vat"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.Vat.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        Dim blankSuffix As String = "()"
+        If tpt.EndsWith(blankSuffix) Then
+          tpt = tpt.Remove(tpt.Length - blankSuffix.Length, blankSuffix.Length)
+        End If
+        Return tpt
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
@@ -474,80 +474,80 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-		Public Sub SetCCId(ByVal ccId As Integer)
-			For Each item As VatItem In Me.ItemCollection
-				item.CcId = ccId
-			Next
-		End Sub
-		Public Sub SetRefDocToItem(ByVal vati_refdoc As Integer, ByVal vati_refdocType As Integer)
-			For Each item As VatItem In Me.ItemCollection
-				item.Refdoc = vati_refdoc
-				item.RefdocType = vati_refdocType
-			Next
-		End Sub
-		Public Function GetVatItemCodes() As String
-			Dim ret As String = ""
-			For Each item As VatItem In Me.ItemCollection
-				ret &= item.Code & ","
-			Next
-			If ret.Length > 0 Then
-				ret = ret.TrimEnd(","c)
-			End If
-			Return ret
-		End Function
+    Public Sub SetCCId(ByVal ccId As Integer)
+      For Each item As VatItem In Me.ItemCollection
+        item.CcId = ccId
+      Next
+    End Sub
+    Public Sub SetRefDocToItem(ByVal vati_refdoc As Integer, ByVal vati_refdocType As Integer)
+      For Each item As VatItem In Me.ItemCollection
+        item.Refdoc = vati_refdoc
+        item.RefdocType = vati_refdocType
+      Next
+    End Sub
+    Public Function GetVatItemCodes() As String
+      Dim ret As String = ""
+      For Each item As VatItem In Me.ItemCollection
+        ret &= item.Code & ","
+      Next
+      If ret.Length > 0 Then
+        ret = ret.TrimEnd(","c)
+      End If
+      Return ret
+    End Function
 
-		Public Function GetVatItemDates() As String
-			Dim ret As String = ""
-			For Each item As VatItem In Me.ItemCollection
-				ret &= item.DocDate.ToShortDateString & ","
-			Next
-			If ret.Length > 0 Then
-				ret = ret.TrimEnd(","c)
-			End If
-			Return ret
-		End Function
+    Public Function GetVatItemDates() As String
+      Dim ret As String = ""
+      For Each item As VatItem In Me.ItemCollection
+        ret &= item.DocDate.ToShortDateString & ","
+      Next
+      If ret.Length > 0 Then
+        ret = ret.TrimEnd(","c)
+      End If
+      Return ret
+    End Function
 
-		Public Function GetVatItemNotes() As String
-			Dim ret As String = ""
-			For Each item As VatItem In Me.ItemCollection
-				ret &= item.Note & ","
-			Next
-			If ret.Length > 0 Then
-				ret = ret.TrimEnd(","c)
-			End If
-			Return ret
-		End Function
-		Private Sub ResetID(ByVal oldid As Integer)
-			Me.Id = oldid
-		End Sub
-		Private Function DupInside(ByVal target As VatItem) As String
-			For Each item As VatItem In Me.ItemCollection
-				If Not item Is target Then
-					If item.Code.ToLower = target.Code.ToLower Then
-						Return item.Code
-					End If
-				End If
-			Next
-			Return ""
-		End Function
-		Private Function DupCode() As String
-			For Each item As VatItem In Me.ItemCollection
-				If DupInside(item).Length > 0 Then
-					Return item.Code
-				End If
-				Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString()
-				Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
-										, CommandType.StoredProcedure _
-										, "GetDupVatCode" _
-										, New SqlParameter("@vati_code", item.Code) _
-										, New SqlParameter("@vat_supplier", Me.Entity.Id) _
-										, New SqlParameter("@vat_id", Me.Id) _
-										)
-				If ds.Tables(0).Rows.Count > 0 Then
-					Return item.Code
-				End If
-			Next
-			Return ""
+    Public Function GetVatItemNotes() As String
+      Dim ret As String = ""
+      For Each item As VatItem In Me.ItemCollection
+        ret &= item.Note & ","
+      Next
+      If ret.Length > 0 Then
+        ret = ret.TrimEnd(","c)
+      End If
+      Return ret
+    End Function
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
+    Private Function DupInside(ByVal target As VatItem) As String
+      For Each item As VatItem In Me.ItemCollection
+        If Not item Is target Then
+          If item.Code.ToLower = target.Code.ToLower Then
+            Return item.Code
+          End If
+        End If
+      Next
+      Return ""
+    End Function
+    Private Function DupCode() As String
+      For Each item As VatItem In Me.ItemCollection
+        If DupInside(item).Length > 0 Then
+          Return item.Code
+        End If
+        Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString()
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+              , CommandType.StoredProcedure _
+              , "GetDupVatCode" _
+              , New SqlParameter("@vati_code", item.Code) _
+              , New SqlParameter("@vat_supplier", Me.Entity.Id) _
+              , New SqlParameter("@vat_id", Me.Id) _
+              )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Return item.Code
+        End If
+      Next
+      Return ""
     End Function
     Private Function DupSalesVatCode() As String
       Dim codes As String = ""
@@ -569,17 +569,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ""
     End Function
-		Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
-			With Me
-				Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
-				If Not o Is Nothing Then
-					Dim config As Boolean = CBool(o)
-					If config AndAlso Me.Direction.Value = 1 Then
-						Dim theDup As String = DupCode()
-						If theDup.Length > 0 Then
-							Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
-						End If
-					End If
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      With Me
+        Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
+        If Not o Is Nothing Then
+          Dim config As Boolean = CBool(o)
+          If config AndAlso Me.Direction.Value = 1 Then
+            Dim theDup As String = DupCode()
+            If theDup.Length > 0 Then
+              Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
+            End If
+          End If
         End If
 
         '================Checking for duplicate Vat Code (Sales Tax) =============
@@ -594,10 +594,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.RefreshVatTaxBase()
         'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
         'tmpRefTaxBase คือ Taxbase ของเอกสารอ้างอิงที่ออกได้ทั้งหมด
-				Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
-				If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
-					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-				End If
+        Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
+        If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
 
         Dim tmpRefTaxBase As Decimal = 0
         If TypeOf Me.RefDoc Is PaySelection Then
@@ -777,101 +777,113 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(ex.ToString)
         End Try
       End With
-		End Function
-		Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
+    End Function
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
 
-			Dim da As New SqlDataAdapter("Select * from Vatitem where vati_vat=" & Me.Id, conn)
-			Dim cmdBuilder As New SqlCommandBuilder(da)
+      Dim da As New SqlDataAdapter("Select * from Vatitem where vati_vat=" & Me.Id, conn)
+      Dim cmdBuilder As New SqlCommandBuilder(da)
 
-			Dim ds As New DataSet
+      Dim ds As New DataSet
 
-			da.SelectCommand.Transaction = trans
+      da.SelectCommand.Transaction = trans
 
-			'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-			cmdBuilder.GetDeleteCommand.Transaction = trans
-			cmdBuilder.GetInsertCommand.Transaction = trans
-			cmdBuilder.GetUpdateCommand.Transaction = trans
+      'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+      cmdBuilder.GetDeleteCommand.Transaction = trans
+      cmdBuilder.GetInsertCommand.Transaction = trans
+      cmdBuilder.GetUpdateCommand.Transaction = trans
 
-			da.Fill(ds, "Vatitem")
+      da.Fill(ds, "Vatitem")
 
-			Dim dbCount As Integer = ds.Tables("Vatitem").Rows.Count
-			Dim i As Integer = 0
-			Dim vi As New VatItem
-			Dim ptn As String = Longkong.Pojjaman.BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
-			Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-			pattern = CodeGenerator.GetPattern(pattern)
-			Dim lastCode As String = vi.GetLastCode(pattern)
+      Dim dbCount As Integer = ds.Tables("Vatitem").Rows.Count
+      Dim i As Integer = 0
+      Dim vi As New VatItem
+      Dim ptn As String = Longkong.Pojjaman.BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
+      Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      pattern = CodeGenerator.GetPattern(pattern)
+      Dim lastCode As String = vi.GetLastCode(pattern)
 
-			With ds.Tables("Vatitem")
-				For Each row As DataRow In .Rows
-					row.Delete()
-				Next
-				Dim myDirection As Boolean = False
-				If Me.Direction.Value = 1 Then
-					myDirection = True
-				End If
-				For Each item As VatItem In Me.ItemCollection
-					i += 1
-					Dim dr As DataRow = .NewRow
+      With ds.Tables("Vatitem")
+        For Each row As DataRow In .Rows
+          row.Delete()
+        Next
+        Dim myDirection As Boolean = False
+        If Me.Direction.Value = 1 Then
+          myDirection = True
+        End If
+        For Each item As VatItem In Me.ItemCollection
+          i += 1
+          Dim dr As DataRow = .NewRow
           If (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
             'item.Code = item.GetNextCode
             Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
             item.Code = newCode
             lastCode = newCode
           End If
-					If item.Runnumber Is Nothing Or Trim(item.Runnumber) = "" Then
-						dr("vati_runnumber") = Me.RefDoc.Code & "-" & i.ToString.PadLeft(2, "0"c)
-					Else
-						dr("vati_runnumber") = item.Runnumber
-					End If
-					dr("vati_vat") = Me.Id
-					dr("vati_linenumber") = i					'itemRow("vati_linenumber")
-					dr("vati_code") = item.Code
-					dr("vati_docdate") = IIf(item.DocDate.Equals(Date.MinValue), Date.Now.Date, item.DocDate.Date)
-					dr("vati_printName") = item.PrintName
-					dr("vati_printAddress") = item.PrintAddress
-					dr("vati_taxrate") = item.TaxRate
-					dr("vati_taxbase") = Configuration.Format(item.TaxBase, DigitConfig.Price)
-					dr("vati_amt") = item.Amount
-					dr("vati_note") = item.Note
-					dr("vati_direction") = myDirection
-					dr("vati_cc") = item.CcId
-					dr("vati_submitaldate") = ValidDateOrDBNull(item.SubmitalDate)
-					dr("vati_group") = ValidIdOrDBNull(item.VatGroup)
+          If item.Runnumber Is Nothing Or Trim(item.Runnumber) = "" Then
+            dr("vati_runnumber") = Me.RefDoc.Code & "-" & i.ToString.PadLeft(2, "0"c)
+          Else
+            dr("vati_runnumber") = item.Runnumber
+          End If
+          dr("vati_vat") = Me.Id
+          dr("vati_linenumber") = i         'itemRow("vati_linenumber")
+          dr("vati_code") = item.Code
+          dr("vati_docdate") = IIf(item.DocDate.Equals(Date.MinValue), Date.Now.Date, item.DocDate.Date)
+          dr("vati_printName") = item.PrintName
+          dr("vati_printAddress") = item.PrintAddress
+          dr("vati_taxrate") = item.TaxRate
+          dr("vati_taxbase") = Configuration.Format(item.TaxBase, DigitConfig.Price)
+          dr("vati_amt") = item.Amount
+          dr("vati_note") = item.Note
+          dr("vati_direction") = myDirection
+          dr("vati_cc") = item.CcId
+          dr("vati_submitaldate") = ValidDateOrDBNull(item.SubmitalDate)
+          dr("vati_group") = ValidIdOrDBNull(item.VatGroup)
           dr("vati_refdoc") = item.Refdoc
-					dr("vati_refdoctype") = item.RefdocType
-					dr("vati_customTaxAmount") = item.UseCustomTaxAmount
-					.Rows.Add(dr)
-				Next
-			End With
-			Dim dt As DataTable = ds.Tables("Vatitem")
-			' First process deletes.
-			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-			' Next process updates.
-			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-			' Finally process inserts.
-			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-		End Function
-		Public Sub ResetToDefaultVatitem(ByVal code As String, ByVal [date] As Date)
-			Me.ItemCollection.Clear()
-			Dim vati As New VatItem
-			vati.TaxBase = Me.RefDoc.GetMaximumTaxBase
-			vati.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
-			vati.Code = code
-			vati.DocDate = [date]
-			vati.PrintAddress = Me.RefDoc.Person.BillingAddress
-			vati.PrintName = Me.RefDoc.Person.Name
-			Me.ItemCollection.Add(vati)
-		End Sub
+          dr("vati_refdoctype") = item.RefdocType
+          dr("vati_customTaxAmount") = item.UseCustomTaxAmount
+          .Rows.Add(dr)
+        Next
+      End With
+      Dim dt As DataTable = ds.Tables("Vatitem")
+      ' First process deletes.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+      ' Next process updates.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+      ' Finally process inserts.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+    End Function
+    Private Function GetCurrencyConversion() As Decimal
+      If TypeOf Me.RefDoc Is IHasCurrency Then
+        Return CType(Me.RefDoc, IHasCurrency).Currency.Conversion
+      End If
+      Return 1
+    End Function
+    Private Function GetConvertedRefdocMaximumTaxBase() As Decimal
+      Return Me.RefDoc.GetMaximumTaxBase * GetCurrencyConversion()
+    End Function
+    Private Function GetConvertedRefdocTaxBase() As Decimal
+      Return Me.RefDoc.TaxBase * GetCurrencyConversion()
+    End Function
+    Public Sub ResetToDefaultVatitem(ByVal code As String, ByVal [date] As Date)
+      Me.ItemCollection.Clear()
+      Dim vati As New VatItem
+      vati.TaxBase = Me.GetConvertedRefdocMaximumTaxBase()
+      vati.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
+      vati.Code = code
+      vati.DocDate = [date]
+      vati.PrintAddress = Me.RefDoc.Person.BillingAddress
+      vati.PrintName = Me.RefDoc.Person.Name
+      Me.ItemCollection.Add(vati)
+    End Sub
     Public Sub RefreshVatTaxBase()
-      Dim mtb As Decimal = Me.RefDoc.GetMaximumTaxBase
-      If mtb = Me.RefDoc.TaxBase Then
+      Dim mtb As Decimal = Me.GetConvertedRefdocMaximumTaxBase
+      If mtb = Me.RefDoc.TaxBase * Me.GetCurrencyConversion Then
         Me.VatTaxBase = mtb
       Else
         If Me.TaxBase > 0 Then
           Me.VatTaxBase = mtb
-        ElseIf mtb > Me.RefDoc.TaxBase Then
-          Me.VatTaxBase = mtb - Me.RefDoc.TaxBase
+        ElseIf mtb > GetConvertedRefdocTaxBase() Then
+          Me.VatTaxBase = mtb - GetConvertedRefdocTaxBase()
         Else
           Me.VatTaxBase = 0
         End If
@@ -880,7 +892,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "UI Validation Code"
-		Public Sub CodeChanged(ByVal newCode As String)
+    Public Sub CodeChanged(ByVal newCode As String)
       Dim vi As VatItem
       If newCode.Trim.Length > 0 Then
         If Me.ItemCollection.Count <= 0 Then
@@ -895,15 +907,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         vi.PrintName = Me.RefDoc.Person.Name
         vi.PrintAddress = Me.RefDoc.Person.BillingAddress
 
-        vi.TaxBase = Me.RefDoc.TaxBase
+        vi.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()
         '--------------------------------------------------
       Else
         Me.ItemCollection.Clear()
       End If
     End Sub
-		Public Function DateTextChanged(ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker, ByVal validator As PJMTextboxValidator) As Boolean
-			Dim dirtyFlag As Boolean = False
-			Dim vi As VatItem
+    Public Function DateTextChanged(ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker, ByVal validator As PJMTextboxValidator) As Boolean
+      Dim dirtyFlag As Boolean = False
+      Dim vi As VatItem
       If Me.ItemCollection.Count > 0 Then
         'vi = New VatItem
         'Me.ItemCollection.Add(vi)
@@ -922,10 +934,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return dirtyFlag
       End If
-		End Function
-		Public Function DatePickerChanged(ByVal dtpInvoiceDate As DateTimePicker, ByVal txtInvoiceDate As TextBox, ByVal dateSetting As Boolean) As Boolean
-			Dim dirtyFlag As Boolean = False
-			Dim vi As VatItem
+    End Function
+    Public Function DatePickerChanged(ByVal dtpInvoiceDate As DateTimePicker, ByVal txtInvoiceDate As TextBox, ByVal dateSetting As Boolean) As Boolean
+      Dim dirtyFlag As Boolean = False
+      Dim vi As VatItem
       If Me.ItemCollection.Count > 0 Then
         'vi = New VatItem
         'Me.ItemCollection.Add(vi)
@@ -940,249 +952,249 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return dirtyFlag
       End If
-		End Function
-		Public Function MinDateToNull(ByVal dt As Date, ByVal nullString As String) As String
-			If dt.Equals(Date.MinValue) Then
-				Return nullString
-			End If
-			Return dt.ToShortDateString		'พี่ดำมาแก้คืนว่ะ
-			'Return dt.ToString("dd/MM/yyyy")  ' เหน่งมาแก้นะครับ
-		End Function
-		Public Sub SetVatToOneDoc(ByVal txtInvoiceCode As TextBox, ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker)
-			If Me.ItemCollection.Count > 0 Then
-				Dim vitem As VatItem = Me.ItemCollection(0)
-				If Me.ItemCollection.Count = 1 Then
-					'มี 1 ใบ
-					txtInvoiceCode.Text = vitem.Code
-					txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, "")
-					dtpInvoiceDate.Value = MinDateToNow(vitem.DocDate)
-				Else
-					'มีหลายใบ
-					txtInvoiceCode.Text = ""
-					txtInvoiceDate.Text = MinDateToNull(Now, "")
-					dtpInvoiceDate.Value = Now
-					vitem.Code = txtInvoiceCode.Text
-					vitem.DocDate = dtpInvoiceDate.Value
-				End If
-				'If Me.MaxRowIndex = -1 Then 'Not Me.m_entity.Originated Then
-				'    vitem.TaxBase = Me.m_entity.TaxBase
-				'End If
-				vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
-				Me.ItemCollection.Clear()
-				Me.ItemCollection.Add(vitem)
-			Else
-				Return
+    End Function
+    Public Function MinDateToNull(ByVal dt As Date, ByVal nullString As String) As String
+      If dt.Equals(Date.MinValue) Then
+        Return nullString
+      End If
+      Return dt.ToShortDateString   'พี่ดำมาแก้คืนว่ะ
+      'Return dt.ToString("dd/MM/yyyy")  ' เหน่งมาแก้นะครับ
+    End Function
+    Public Sub SetVatToOneDoc(ByVal txtInvoiceCode As TextBox, ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker)
+      If Me.ItemCollection.Count > 0 Then
+        Dim vitem As VatItem = Me.ItemCollection(0)
+        If Me.ItemCollection.Count = 1 Then
+          'มี 1 ใบ
+          txtInvoiceCode.Text = vitem.Code
+          txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, "")
+          dtpInvoiceDate.Value = MinDateToNow(vitem.DocDate)
+        Else
+          'มีหลายใบ
+          txtInvoiceCode.Text = ""
+          txtInvoiceDate.Text = MinDateToNull(Now, "")
+          dtpInvoiceDate.Value = Now
+          vitem.Code = txtInvoiceCode.Text
+          vitem.DocDate = dtpInvoiceDate.Value
+        End If
+        'If Me.MaxRowIndex = -1 Then 'Not Me.m_entity.Originated Then
+        '    vitem.TaxBase = Me.m_entity.TaxBase * Me.GetCurrencyConversion()
+        'End If
+        vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
+        Me.ItemCollection.Clear()
+        Me.ItemCollection.Add(vitem)
+      Else
+        Return
 
-				'ไม่มี Vatitem เลย
-				Dim vitem As New VatItem
-				vitem.DocDate = Me.RefDoc.Date
-				vitem.PrintName = Me.RefDoc.Person.Name
-				vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
+        'ไม่มี Vatitem เลย
+        Dim vitem As New VatItem
+        vitem.DocDate = Me.RefDoc.Date
+        vitem.PrintName = Me.RefDoc.Person.Name
+        vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
 
 
-				vitem.TaxBase = Me.RefDoc.TaxBase
+        vitem.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()
 
-				vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
-				Me.ItemCollection.Clear()
-				Me.ItemCollection.Add(vitem)
-				txtInvoiceDate.Text = MinDateToNull(Now, "")
-				dtpInvoiceDate.Value = Now
-			End If
-		End Sub
-		Public Delegate Sub OneArg()
-		Public Sub SetVatToOneDoc(ByVal txtInvoiceCode As TextBox, ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker, ByVal UpdateVatAutogenStatus As OneArg)
-			If Me.ItemCollection.Count > 0 Then
-				Dim vitem As VatItem
-				vitem = Me.ItemCollection(0)
-				If Me.ItemCollection.Count = 1 Then
-					'มี 1 ใบ
-					'Me.txtInvoiceCode.Text = vitem.Code
-					UpdateVatAutogenStatus.Invoke()
-					txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, "")
-					'txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-					dtpInvoiceDate.Value = MinDateToNow(vitem.DocDate)
-				End If
-				If Not vitem.UseCustomTaxAmount Then
-					vitem.TaxBase = Me.RefDoc.TaxBase			'มันจะอัปเดท taxbase ใน tab ภาษีอัตโนมัติ
-				End If
-				vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
-			Else
-				'ไม่มี Vatitem เลย
-				Dim vitem As New VatItem
-				vitem.DocDate = Me.RefDoc.Date
-				vitem.PrintName = Me.RefDoc.Person.Name
-				vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
-				vitem.TaxBase = Me.RefDoc.TaxBase
-				vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
-				Me.ItemCollection.Add(vitem)
-				UpdateVatAutogenStatus.Invoke()
-				txtInvoiceDate.Text = MinDateToNull(Now, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-				dtpInvoiceDate.Value = Now
-			End If
-		End Sub
+        vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
+        Me.ItemCollection.Clear()
+        Me.ItemCollection.Add(vitem)
+        txtInvoiceDate.Text = MinDateToNull(Now, "")
+        dtpInvoiceDate.Value = Now
+      End If
+    End Sub
+    Public Delegate Sub OneArg()
+    Public Sub SetVatToOneDoc(ByVal txtInvoiceCode As TextBox, ByVal txtInvoiceDate As TextBox, ByVal dtpInvoiceDate As DateTimePicker, ByVal UpdateVatAutogenStatus As OneArg)
+      If Me.ItemCollection.Count > 0 Then
+        Dim vitem As VatItem
+        vitem = Me.ItemCollection(0)
+        If Me.ItemCollection.Count = 1 Then
+          'มี 1 ใบ
+          'Me.txtInvoiceCode.Text = vitem.Code
+          UpdateVatAutogenStatus.Invoke()
+          txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, "")
+          'txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          dtpInvoiceDate.Value = MinDateToNow(vitem.DocDate)
+        End If
+        If Not vitem.UseCustomTaxAmount Then
+          vitem.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()     'มันจะอัปเดท taxbase ใน tab ภาษีอัตโนมัติ
+        End If
+        vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
+      Else
+        'ไม่มี Vatitem เลย
+        Dim vitem As New VatItem
+        vitem.DocDate = Me.RefDoc.Date
+        vitem.PrintName = Me.RefDoc.Person.Name
+        vitem.PrintAddress = Me.RefDoc.Person.BillingAddress
+        vitem.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()
+        vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
+        Me.ItemCollection.Add(vitem)
+        UpdateVatAutogenStatus.Invoke()
+        txtInvoiceDate.Text = MinDateToNull(Now, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        dtpInvoiceDate.Value = Now
+      End If
+    End Sub
 #End Region
 
 #Region "IPrintableEntity"
-		Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-			Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\IV.dfm"
-		End Function
-		Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
-			Return "IV"
-		End Function
-		Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\IV.dfm"
+    End Function
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+      Return "IV"
+    End Function
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
       'Me.RefreshTaxBase()
-			'Code
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Code"
-			dpi.Value = Me.Code
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Code
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Code"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			If TypeOf Me.RefDoc Is GoodsSold Then
-				Dim gs As GoodsSold = CType(Me.RefDoc, GoodsSold)
-				dpi = New DocPrintingItem
-				dpi.Mapping = "PORefCode"
-				dpi.Value = gs.PoDocCode
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+      If TypeOf Me.RefDoc Is GoodsSold Then
+        Dim gs As GoodsSold = CType(Me.RefDoc, GoodsSold)
+        dpi = New DocPrintingItem
+        dpi.Mapping = "PORefCode"
+        dpi.Value = gs.PoDocCode
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'AdvanceReceiveAmount
-				dpi = New DocPrintingItem
-				dpi.Mapping = "AdvanceReceiveAmount"
-				dpi.Value = Configuration.FormatToString(gs.AdvanceReceiveItemCollection.GetAmount, DigitConfig.Price)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'AdvanceReceiveAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AdvanceReceiveAmount"
+        dpi.Value = Configuration.FormatToString(gs.AdvanceReceiveItemCollection.GetAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'AdvanceReceiveVATAmount
-				dpi = New DocPrintingItem
-				dpi.Mapping = "AdvanceReceiveVATAmount"
-				dpi.Value = Configuration.FormatToString(gs.AdvanceReceiveItemCollection.GetVATAmount, DigitConfig.Price)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-			End If
+        'AdvanceReceiveVATAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AdvanceReceiveVATAmount"
+        dpi.Value = Configuration.FormatToString(gs.AdvanceReceiveItemCollection.GetVATAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
-			'DocDate
-			dpi = New DocPrintingItem
-			dpi.Mapping = "DocDate"
-			dpi.Value = Me.RefDoc.Date.ToShortDateString
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'DocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DocDate"
+      dpi.Value = Me.RefDoc.Date.ToShortDateString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'VatItemCodes
-			dpi = New DocPrintingItem
-			dpi.Mapping = "VatItemCodes"
-			dpi.Value = Me.GetVatItemCodes
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'VatItemCodes
+      dpi = New DocPrintingItem
+      dpi.Mapping = "VatItemCodes"
+      dpi.Value = Me.GetVatItemCodes
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'InvoiceCode
-			dpi = New DocPrintingItem
-			dpi.Mapping = "InvoiceCode"
-			dpi.Value = Me.GetVatItemCodes
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'InvoiceCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "InvoiceCode"
+      dpi.Value = Me.GetVatItemCodes
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'VatItemDocDate
-			dpi = New DocPrintingItem
-			dpi.Mapping = "VatItemDates"
-			dpi.Value = Me.GetVatItemDates
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'VatItemDocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "VatItemDates"
+      dpi.Value = Me.GetVatItemDates
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'Note
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Note"
-			dpi.Value = Me.Note
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Note
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'Note2
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Note2"
-			dpi.Value = Me.GetVatItemNotes
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Note2
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note2"
+      dpi.Value = Me.GetVatItemNotes
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'Type
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Type"
-			dpi.Value = Me.Direction.Description
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Type
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Type"
+      dpi.Value = Me.Direction.Description
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'Amount
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Amount"
-			dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Amount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Amount"
+      dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			If TypeOf Me.Entity Is IBillablePerson Then
-				'CustomerCode 'รหัส
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerCode"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Code
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+      If TypeOf Me.Entity Is IBillablePerson Then
+        'CustomerCode 'รหัส
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerCode"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerName 'ชื่อ
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerName"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerName 'ชื่อ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerName"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerInfo 'รหัส:ชื่อ
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerInfo"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Code & ":" & CType(Me.Entity, IBillablePerson).Name
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerInfo 'รหัส:ชื่อ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerInfo"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Code & ":" & CType(Me.Entity, IBillablePerson).Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerBillingAddress  ที่อยู่ออกบิล *****
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerBillingAddress"
-				dpi.Value = CType(Me.Entity, IBillablePerson).BillingAddress
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerBillingAddress  ที่อยู่ออกบิล *****
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerBillingAddress"
+        dpi.Value = CType(Me.Entity, IBillablePerson).BillingAddress
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerAddress 'ที่อยู่ปัจจุบัน
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerAddress"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Address
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerAddress 'ที่อยู่ปัจจุบัน
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerAddress"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Address
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerMobile 'มือถือ
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerMobile"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Mobile
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerMobile 'มือถือ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerMobile"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Mobile
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerPhone 'โทรศัพท์
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerPhone"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Phone
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerPhone 'โทรศัพท์
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerPhone"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Phone
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerFax 'Fax
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerFax"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Fax
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        'CustomerFax 'Fax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerFax"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Fax
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'CustomerContact 'ผู้ติดต่อ
-				dpi = New DocPrintingItem
-				dpi.Mapping = "CustomerContact"
-				dpi.Value = CType(Me.Entity, IBillablePerson).Contact
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-			End If
+        'CustomerContact 'ผู้ติดต่อ
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerContact"
+        dpi.Value = CType(Me.Entity, IBillablePerson).Contact
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
 
       If TypeOf Me.Entity Is IHasIBillablePerson Then
         Dim bP As IBillablePerson = CType(Me.Entity, IHasIBillablePerson).BillablePerson
@@ -2096,7 +2108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
-	End Class
+  End Class
   Public Class VatForSelection
     Inherits Vat
 
@@ -3263,7 +3275,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Configuration.FormatToString(Me.TaxBase + Me.Amount, DigitConfig.Price)
         dpi.DataType = "System.Decimal"
         dpiColl.Add(dpi)
-       
+
       End If
       If TypeOf Me.Vat.RefDoc Is BillIssue Then
         Dim bi As BillIssue = CType(Me.Vat.RefDoc, BillIssue)
@@ -3324,144 +3336,144 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               If Not (typeValue = 160 OrElse typeValue = 162) Then
 
-              'Item.LineNumber
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.LineNumber"
-              If lineTexts(13) = "Detail" Then
-                dpi.Value = ""
-              Else
-                dpi.Value = y + 1
-              End If
-              dpi.DataType = "System.Int32"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.LineNumber
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.LineNumber"
+                If lineTexts(13) = "Detail" Then
+                  dpi.Value = ""
+                Else
+                  dpi.Value = y + 1
+                End If
+                dpi.DataType = "System.Int32"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-             
 
-              'Item.Unit
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.Unit"
-              dpi.Value = lineTexts(8)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
 
-              'Item.Qty
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.Qty"
-              dpi.Value = lineTexts(9)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.Unit
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Unit"
+                dpi.Value = lineTexts(8)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.UnitPrice
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.UnitPrice"
-              dpi.Value = lineTexts(1)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.Qty
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Qty"
+                dpi.Value = lineTexts(9)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.UnitPrice
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.RealUnitPrice"
-              dpi.Value = lineTexts(1)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.UnitPrice
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.UnitPrice"
+                dpi.Value = lineTexts(1)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.Amount
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.Amount"
-              dpi.Value = lineTexts(2)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.UnitPrice
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.RealUnitPrice"
+                dpi.Value = lineTexts(1)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.DiscountRate
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.DiscountRate"
-              dpi.Value = lineTexts(10)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.Amount
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Amount"
+                dpi.Value = lineTexts(2)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.DiscountAmount()
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.DiscountAmount"
-              dpi.Value = lineTexts(4)
-              dpi.DataType = "System.Decimal"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.DiscountRate
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.DiscountRate"
+                dpi.Value = lineTexts(10)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.Note
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.Note"
-              dpi.Value = lineTexts(3)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.DiscountAmount()
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.DiscountAmount"
+                dpi.Value = lineTexts(4)
+                dpi.DataType = "System.Decimal"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              ''Item.Amount
-              'dpi = New DocPrintingItem
-              'dpi.Mapping = "Item.Amount"
-              'dpi.Value = lineTexts(2)
-              'dpi.DataType = "System.String"
-              'dpi.Row = i + 1
-              'dpi.Table = "Item"
-              'dpiColl.Add(dpi)
+                'Item.Note
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Note"
+                dpi.Value = lineTexts(3)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.UnitPriceWithoutDeduct
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.UnitPriceWithoutDeduct"
-              dpi.Value = lineTexts(6)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                ''Item.Amount
+                'dpi = New DocPrintingItem
+                'dpi.Mapping = "Item.Amount"
+                'dpi.Value = lineTexts(2)
+                'dpi.DataType = "System.String"
+                'dpi.Row = i + 1
+                'dpi.Table = "Item"
+                'dpiColl.Add(dpi)
 
-              'Item.AmountWithoutDeduct
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.AmountWithoutDeduct"
-              dpi.Value = lineTexts(6)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.UnitPriceWithoutDeduct
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.UnitPriceWithoutDeduct"
+                dpi.Value = lineTexts(6)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              'Item.TaxBase
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.TaxBase"
-              dpi.Value = lineTexts(12)
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                'Item.AmountWithoutDeduct
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.AmountWithoutDeduct"
+                dpi.Value = lineTexts(6)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-              If IsNumeric(lineTexts(4)) Then
-                sumDiscount += CDec(lineTexts(4))
-              End If
-              If IsNumeric(lineTexts(5)) Then
-                sumAdvance += CDec(lineTexts(5))
-              End If
-              If IsNumeric(lineTexts(6)) Then
-                sumMilestoneAmount += CDec(lineTexts(6))
-              End If
-              If IsNumeric(lineTexts(7)) Then
-                sumRetention += CDec(lineTexts(7))
-              End If
-              If IsNumeric(lineTexts(11)) Then
-                sumAftertax += CDec(lineTexts(11))
-              End If
+                'Item.TaxBase
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.TaxBase"
+                dpi.Value = lineTexts(12)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                If IsNumeric(lineTexts(4)) Then
+                  sumDiscount += CDec(lineTexts(4))
+                End If
+                If IsNumeric(lineTexts(5)) Then
+                  sumAdvance += CDec(lineTexts(5))
+                End If
+                If IsNumeric(lineTexts(6)) Then
+                  sumMilestoneAmount += CDec(lineTexts(6))
+                End If
+                If IsNumeric(lineTexts(7)) Then
+                  sumRetention += CDec(lineTexts(7))
+                End If
+                If IsNumeric(lineTexts(11)) Then
+                  sumAftertax += CDec(lineTexts(11))
+                End If
               End If
 
               y += 1

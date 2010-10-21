@@ -71,6 +71,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents lblStoreApprove As System.Windows.Forms.Label
     Friend WithEvents btnApproveStore As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents FixedGroupBox1 As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblRate As System.Windows.Forms.Label
+    Friend WithEvents lblLanguage As System.Windows.Forms.Label
+    Friend WithEvents txtRate As System.Windows.Forms.TextBox
+    Friend WithEvents lblUnit2 As System.Windows.Forms.Label
+    Friend WithEvents txtUnit1 As System.Windows.Forms.TextBox
+    Friend WithEvents lblUnit1 As System.Windows.Forms.Label
+    Friend WithEvents txtUnit2 As System.Windows.Forms.TextBox
+    Friend WithEvents txtLanguage As System.Windows.Forms.TextBox
     Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -113,9 +122,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblRate = New System.Windows.Forms.Label()
+      Me.lblLanguage = New System.Windows.Forms.Label()
+      Me.txtRate = New System.Windows.Forms.TextBox()
+      Me.lblUnit2 = New System.Windows.Forms.Label()
+      Me.txtUnit1 = New System.Windows.Forms.TextBox()
+      Me.lblUnit1 = New System.Windows.Forms.Label()
+      Me.txtUnit2 = New System.Windows.Forms.TextBox()
+      Me.txtLanguage = New System.Windows.Forms.TextBox()
       Me.grbDetail.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.FixedGroupBox1.SuspendLayout()
       Me.SuspendLayout()
       '
       'grbDetail
@@ -123,6 +142,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.chkClosed)
       Me.grbDetail.Controls.Add(Me.btnApproveStore)
       Me.grbDetail.Controls.Add(Me.lblStoreApprove)
@@ -162,7 +182,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 4)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(768, 509)
+      Me.grbDetail.Size = New System.Drawing.Size(914, 509)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด:"
@@ -183,7 +203,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApproveStore.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApproveStore.ForeColor = System.Drawing.Color.Black
       Me.btnApproveStore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApproveStore.Location = New System.Drawing.Point(640, 56)
+      Me.btnApproveStore.Location = New System.Drawing.Point(786, 56)
       Me.btnApproveStore.Name = "btnApproveStore"
       Me.btnApproveStore.Size = New System.Drawing.Size(120, 24)
       Me.btnApproveStore.TabIndex = 334
@@ -194,7 +214,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblStoreApprove
       '
       Me.lblStoreApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.lblStoreApprove.Location = New System.Drawing.Point(640, 56)
+      Me.lblStoreApprove.Location = New System.Drawing.Point(786, 56)
       Me.lblStoreApprove.Name = "lblStoreApprove"
       Me.lblStoreApprove.Size = New System.Drawing.Size(120, 40)
       Me.lblStoreApprove.TabIndex = 333
@@ -214,7 +234,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ForeColor = System.Drawing.Color.Black
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(640, 16)
+      Me.btnApprove.Location = New System.Drawing.Point(786, 16)
       Me.btnApprove.Name = "btnApprove"
       Me.btnApprove.Size = New System.Drawing.Size(120, 24)
       Me.btnApprove.TabIndex = 331
@@ -228,7 +248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGross.BackColor = System.Drawing.Color.Transparent
       Me.lblGross.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblGross.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblGross.Location = New System.Drawing.Point(542, 481)
+      Me.lblGross.Location = New System.Drawing.Point(688, 481)
       Me.lblGross.Name = "lblGross"
       Me.lblGross.Size = New System.Drawing.Size(80, 18)
       Me.lblGross.TabIndex = 329
@@ -243,7 +263,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtGross, "")
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
-      Me.txtGross.Location = New System.Drawing.Point(624, 481)
+      Me.txtGross.Location = New System.Drawing.Point(770, 481)
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
@@ -443,7 +463,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(11, 184)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(749, 291)
+      Me.tgItem.Size = New System.Drawing.Size(895, 291)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 6
       Me.tgItem.TreeManager = Nothing
@@ -618,16 +638,139 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'FixedGroupBox1
+      '
+      Me.FixedGroupBox1.Controls.Add(Me.lblRate)
+      Me.FixedGroupBox1.Controls.Add(Me.lblLanguage)
+      Me.FixedGroupBox1.Controls.Add(Me.txtRate)
+      Me.FixedGroupBox1.Controls.Add(Me.lblUnit2)
+      Me.FixedGroupBox1.Controls.Add(Me.txtUnit1)
+      Me.FixedGroupBox1.Controls.Add(Me.lblUnit1)
+      Me.FixedGroupBox1.Controls.Add(Me.txtUnit2)
+      Me.FixedGroupBox1.Controls.Add(Me.txtLanguage)
+      Me.FixedGroupBox1.Location = New System.Drawing.Point(605, 90)
+      Me.FixedGroupBox1.Name = "FixedGroupBox1"
+      Me.FixedGroupBox1.Size = New System.Drawing.Size(280, 64)
+      Me.FixedGroupBox1.TabIndex = 344
+      Me.FixedGroupBox1.TabStop = False
+      Me.FixedGroupBox1.Text = "Currency"
+      '
+      'lblRate
+      '
+      Me.lblRate.BackColor = System.Drawing.Color.Transparent
+      Me.lblRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRate.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblRate.Location = New System.Drawing.Point(6, 14)
+      Me.lblRate.Name = "lblRate"
+      Me.lblRate.Size = New System.Drawing.Size(62, 18)
+      Me.lblRate.TabIndex = 342
+      Me.lblRate.Text = "Rate"
+      Me.lblRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'lblLanguage
+      '
+      Me.lblLanguage.BackColor = System.Drawing.Color.Transparent
+      Me.lblLanguage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblLanguage.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblLanguage.Location = New System.Drawing.Point(210, 15)
+      Me.lblLanguage.Name = "lblLanguage"
+      Me.lblLanguage.Size = New System.Drawing.Size(62, 18)
+      Me.lblLanguage.TabIndex = 342
+      Me.lblLanguage.Text = "Language"
+      Me.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtRate
+      '
+      Me.Validator.SetDataType(Me.txtRate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRate, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
+      Me.txtRate.Location = New System.Drawing.Point(6, 34)
+      Me.Validator.SetMinValue(Me.txtRate, "")
+      Me.txtRate.Name = "txtRate"
+      Me.Validator.SetRegularExpression(Me.txtRate, "")
+      Me.Validator.SetRequired(Me.txtRate, False)
+      Me.txtRate.Size = New System.Drawing.Size(62, 21)
+      Me.txtRate.TabIndex = 341
+      '
+      'lblUnit2
+      '
+      Me.lblUnit2.BackColor = System.Drawing.Color.Transparent
+      Me.lblUnit2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUnit2.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblUnit2.Location = New System.Drawing.Point(142, 15)
+      Me.lblUnit2.Name = "lblUnit2"
+      Me.lblUnit2.Size = New System.Drawing.Size(62, 18)
+      Me.lblUnit2.TabIndex = 342
+      Me.lblUnit2.Text = "Unit2"
+      Me.lblUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtUnit1
+      '
+      Me.Validator.SetDataType(Me.txtUnit1, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtUnit1, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+      Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
+      Me.Validator.SetMinValue(Me.txtUnit1, "")
+      Me.txtUnit1.Name = "txtUnit1"
+      Me.Validator.SetRegularExpression(Me.txtUnit1, "")
+      Me.Validator.SetRequired(Me.txtUnit1, False)
+      Me.txtUnit1.Size = New System.Drawing.Size(62, 21)
+      Me.txtUnit1.TabIndex = 341
+      '
+      'lblUnit1
+      '
+      Me.lblUnit1.BackColor = System.Drawing.Color.Transparent
+      Me.lblUnit1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUnit1.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblUnit1.Location = New System.Drawing.Point(74, 15)
+      Me.lblUnit1.Name = "lblUnit1"
+      Me.lblUnit1.Size = New System.Drawing.Size(62, 18)
+      Me.lblUnit1.TabIndex = 342
+      Me.lblUnit1.Text = "Unit1"
+      Me.lblUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtUnit2
+      '
+      Me.Validator.SetDataType(Me.txtUnit2, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtUnit2, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+      Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
+      Me.Validator.SetMinValue(Me.txtUnit2, "")
+      Me.txtUnit2.Name = "txtUnit2"
+      Me.Validator.SetRegularExpression(Me.txtUnit2, "")
+      Me.Validator.SetRequired(Me.txtUnit2, False)
+      Me.txtUnit2.Size = New System.Drawing.Size(62, 21)
+      Me.txtUnit2.TabIndex = 341
+      '
+      'txtLanguage
+      '
+      Me.Validator.SetDataType(Me.txtLanguage, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtLanguage, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+      Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
+      Me.Validator.SetMinValue(Me.txtLanguage, "")
+      Me.txtLanguage.Name = "txtLanguage"
+      Me.Validator.SetRegularExpression(Me.txtLanguage, "")
+      Me.Validator.SetRequired(Me.txtLanguage, False)
+      Me.txtLanguage.Size = New System.Drawing.Size(62, 21)
+      Me.txtLanguage.TabIndex = 341
+      '
       'PRPanelView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "PRPanelView"
-      Me.Size = New System.Drawing.Size(784, 520)
+      Me.Size = New System.Drawing.Size(930, 520)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.FixedGroupBox1.ResumeLayout(False)
+      Me.FixedGroupBox1.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1190,6 +1333,13 @@ FinalLine:
       AddHandler txtRequestorCode.TextChanged, AddressOf TextHandler
       AddHandler txtCostCenterCode.TextChanged, AddressOf TextHandler
 
+      '==============CURRENCY=================================
+      AddHandler txtRate.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRate.Validated, AddressOf Me.TextHandler
+      AddHandler txtUnit1.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtUnit2.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtLanguage.TextChanged, AddressOf Me.ChangeProperty
+      '==============CURRENCY=================================
     End Sub
     Private requestorCodeChanged As Boolean = False
     Private isCostCenterCodeBlank As Boolean = True
@@ -1203,6 +1353,21 @@ FinalLine:
         isCostCenterCodeBlank = False
       End If
       Select Case CType(sender, Control).Name.ToLower
+        '==============CURRENCY=================================
+        Case "txtrate"
+          Dim txt As String = Me.txtRate.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.Currency.Conversion = 0
+          Else
+            Try
+              Me.m_entity.Currency.Conversion = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.Currency.Conversion = 0
+            End Try
+          End If
+          Me.txtRate.Text = Configuration.FormatToString(Me.m_entity.Currency.Conversion, DigitConfig.Price)
+          '==============CURRENCY=================================
         Case "txtrequestorcode"
           requestorCodeChanged = True
         Case "txtcostcentercode"
@@ -1236,6 +1401,13 @@ FinalLine:
 
       txtReceivingDate.Text = MinDateToNull(Me.m_entity.ReceivingDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpReceivingDate.Value = MinDateToNow(Me.m_entity.ReceivingDate)
+
+      '==============CURRENCY=================================
+      txtRate.Text = Configuration.FormatToString(Me.m_entity.Currency.Conversion, DigitConfig.Price)
+      txtLanguage.Text = Me.m_entity.Currency.Language
+      txtUnit1.Text = Me.m_entity.Currency.Unit
+      txtUnit2.Text = Me.m_entity.Currency.SubUnit
+      '==============CURRENCY=================================
 
       RefreshDocs()
 
@@ -1275,6 +1447,19 @@ FinalLine:
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
+        '==============CURRENCY=================================
+        Case "txtrate"
+          dirtyFlag = True
+        Case "txtlanguage"
+          Me.m_entity.Currency.Language = txtLanguage.Text
+          dirtyFlag = True
+        Case "txtunit1"
+          Me.m_entity.Currency.Unit = txtUnit1.Text
+          dirtyFlag = True
+        Case "txtunit2"
+          Me.m_entity.Currency.SubUnit = txtUnit2.Text
+          dirtyFlag = True
+          '==============CURRENCY=================================
         Case "cmbcode"
           If m_entity.AutoGen Then
             'เพิ่ม AutoCode

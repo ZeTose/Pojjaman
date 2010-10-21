@@ -258,9 +258,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return DebitAmount + Me.OtherRevenue + Me.DiscountAmount + Me.WitholdingTax
       End Get
     End Property
+    Private Function GetCurrencyConversion() As Decimal
+      If TypeOf Me.RefDoc Is IHasCurrency Then
+        Return CType(Me.RefDoc, IHasCurrency).Currency.Conversion
+      End If
+      Return 1
+    End Function
+    Public ReadOnly Property AmountToPay As Decimal
+      Get
+        Return Me.RefDoc.AmountToPay * GetCurrencyConversion()
+      End Get
+    End Property
     Public ReadOnly Property Amount() As Decimal
       Get
-        Return Me.RefDoc.AmountToPay + Me.SumCreditAmount - Me.SumDebitAmount
+        Return AmountToPay + Me.SumCreditAmount - Me.SumDebitAmount
       End Get
     End Property
     Public Property CCId() As Integer

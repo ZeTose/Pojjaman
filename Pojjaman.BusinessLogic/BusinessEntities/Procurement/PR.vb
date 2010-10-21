@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PR
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable
+    Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IHasCurrency
 
 #Region "Members"
     Private pr_docDate As Date
@@ -233,6 +233,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       EQActualHash = New Hashtable
       m_itemCollection = New PRItemCollection(Me)
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      '==============CURRENCY=================================
+      BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      '==============CURRENCY=================================
     End Sub
 #End Region
 
@@ -1126,6 +1130,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          '==============CURRENCY=================================
+          'Save Currency
+          If Me.Originated Then
+            BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+          End If
+          '==============CURRENCY=================================
 
           'Save CustomNote จากการ Copy เอกสาร
           If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
@@ -2634,6 +2645,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 #End Region
+
+    '==============CURRENCY=================================
+#Region "IHasCurrency"
+    Private m_currency As Currency
+    Public Property Currency As Currency Implements IHasCurrency.Currency
+      Get
+        If m_currency Is Nothing Then
+          m_currency = Currency.DefaultCurrency.Clone
+        End If
+        Return m_currency
+      End Get
+      Set(ByVal value As Currency)
+        m_currency = value
+      End Set
+    End Property
+#End Region
+    '==============CURRENCY=================================
 
   End Class
   Public Class PRForApprove

@@ -1494,7 +1494,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocCode.Text = Me.m_payment.RefDoc.Code
       Me.txtRefDocDate.Text = MinDateToNull(Me.m_payment.RefDoc.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       Me.dtpRefDocDate.Value = MinDateToNow(Me.m_payment.RefDoc.Date)
-      Me.txtRefAmount.Text = Configuration.FormatToString(m_payment.RefDoc.AmountToPay, DigitConfig.Price)
+      Me.txtRefAmount.Text = Configuration.FormatToString(m_payment.AmountToPay, DigitConfig.Price)
     End Sub
     Private Sub UpdateAmount()
       Dim oldFlag As Boolean = m_isInitialized

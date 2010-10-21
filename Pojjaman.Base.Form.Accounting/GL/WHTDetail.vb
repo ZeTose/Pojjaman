@@ -1496,7 +1496,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocCode.Text = Me.m_wht.RefDoc.Code
       Me.txtRefDocDate.Text = MinDateToNull(Me.m_wht.RefDoc.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       Me.dtpRefDocDate.Value = MinDateToNow(Me.m_wht.RefDoc.Date)
-      Me.txtRefTaxBase.Text = Configuration.FormatToString(Me.m_whtcol.RefDoc.GetMaximumWitholdingTaxBase, DigitConfig.Price)
+      Me.txtRefTaxBase.Text = Configuration.FormatToString(Me.m_whtcol.GetConvertedRefdocMaximumTaxBase, DigitConfig.Price)
       For Each item As IdValuePair In Me.cmbDirection.Items
         If Me.m_wht.Direction.Value = item.Id Then
           Me.cmbDirection.SelectedItem = item

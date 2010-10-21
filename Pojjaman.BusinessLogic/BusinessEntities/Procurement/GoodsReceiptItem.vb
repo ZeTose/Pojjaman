@@ -805,8 +805,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property CostAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
-        Dim amtFormatted As Decimal = Configuration.Format((Me.UnitCost * Me.StockQty), DigitConfig.Price)
-        Return amtFormatted
+        Return Me.Cost
       End Get
     End Property
     Public ReadOnly Property AmountWithoutFormat() As Decimal
@@ -985,7 +984,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           tmpCost = tmpCost / Me.StockQty
 
-          Return tmpCost
+          '==============CURRENCY=================================
+          Return tmpCost * Me.GoodsReceipt.Currency.Conversion
+          '==============CURRENCY=================================
         End If
         Return 0
       End Get

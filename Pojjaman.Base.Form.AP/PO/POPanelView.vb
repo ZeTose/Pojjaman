@@ -96,6 +96,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblPOPlaceDeli As System.Windows.Forms.Label
     Friend WithEvents cmbContact As System.Windows.Forms.ComboBox
     Friend WithEvents lblContact As System.Windows.Forms.Label
+    Friend WithEvents lblLanguage As System.Windows.Forms.Label
+    Friend WithEvents lblUnit2 As System.Windows.Forms.Label
+    Friend WithEvents lblUnit1 As System.Windows.Forms.Label
+    Friend WithEvents lblRate As System.Windows.Forms.Label
+    Friend WithEvents txtLanguage As System.Windows.Forms.TextBox
+    Friend WithEvents txtUnit2 As System.Windows.Forms.TextBox
+    Friend WithEvents txtUnit1 As System.Windows.Forms.TextBox
+    Friend WithEvents txtRate As System.Windows.Forms.TextBox
+    Friend WithEvents FixedGroupBox1 As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -148,6 +157,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnSupplierEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblDay = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbContact = New System.Windows.Forms.ComboBox()
+      Me.lblContact = New System.Windows.Forms.Label()
       Me.cmbPOPlaceDeli = New System.Windows.Forms.ComboBox()
       Me.lblPOPlaceDeli = New System.Windows.Forms.Label()
       Me.cmbCode = New System.Windows.Forms.ComboBox()
@@ -176,12 +187,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkClosed = New System.Windows.Forms.CheckBox()
       Me.lblPercent = New System.Windows.Forms.Label()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.cmbContact = New System.Windows.Forms.ComboBox()
-      Me.lblContact = New System.Windows.Forms.Label()
+      Me.txtRate = New System.Windows.Forms.TextBox()
+      Me.lblRate = New System.Windows.Forms.Label()
+      Me.txtUnit1 = New System.Windows.Forms.TextBox()
+      Me.lblUnit1 = New System.Windows.Forms.Label()
+      Me.txtUnit2 = New System.Windows.Forms.TextBox()
+      Me.lblUnit2 = New System.Windows.Forms.Label()
+      Me.txtLanguage = New System.Windows.Forms.TextBox()
+      Me.lblLanguage = New System.Windows.Forms.Label()
+      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.grbRetention.SuspendLayout()
+      Me.FixedGroupBox1.SuspendLayout()
       Me.SuspendLayout()
       '
       'tgItem
@@ -835,6 +854,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.cmbContact)
       Me.grbDetail.Controls.Add(Me.lblContact)
       Me.grbDetail.Controls.Add(Me.cmbPOPlaceDeli)
@@ -912,6 +932,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
+      '
+      'cmbContact
+      '
+      Me.cmbContact.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.cmbContact.Location = New System.Drawing.Point(96, 84)
+      Me.cmbContact.Name = "cmbContact"
+      Me.cmbContact.Size = New System.Drawing.Size(456, 21)
+      Me.cmbContact.TabIndex = 8
+      '
+      'lblContact
+      '
+      Me.lblContact.BackColor = System.Drawing.Color.Transparent
+      Me.lblContact.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblContact.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblContact.Location = New System.Drawing.Point(16, 84)
+      Me.lblContact.Name = "lblContact"
+      Me.lblContact.Size = New System.Drawing.Size(80, 18)
+      Me.lblContact.TabIndex = 339
+      Me.lblContact.Text = "ผู้ติดต่อ:"
+      Me.lblContact.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'cmbPOPlaceDeli
       '
@@ -1219,25 +1259,126 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent.Text = "%"
       Me.lblPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'cmbContact
+      'txtRate
       '
-      Me.cmbContact.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbContact.Location = New System.Drawing.Point(96, 84)
-      Me.cmbContact.Name = "cmbContact"
-      Me.cmbContact.Size = New System.Drawing.Size(456, 21)
-      Me.cmbContact.TabIndex = 8
+      Me.Validator.SetDataType(Me.txtRate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRate, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
+      Me.txtRate.Location = New System.Drawing.Point(6, 34)
+      Me.Validator.SetMinValue(Me.txtRate, "")
+      Me.txtRate.Name = "txtRate"
+      Me.Validator.SetRegularExpression(Me.txtRate, "")
+      Me.Validator.SetRequired(Me.txtRate, False)
+      Me.txtRate.Size = New System.Drawing.Size(62, 21)
+      Me.txtRate.TabIndex = 341
       '
-      'lblContact
+      'lblRate
       '
-      Me.lblContact.BackColor = System.Drawing.Color.Transparent
-      Me.lblContact.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblContact.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblContact.Location = New System.Drawing.Point(16, 84)
-      Me.lblContact.Name = "lblContact"
-      Me.lblContact.Size = New System.Drawing.Size(80, 18)
-      Me.lblContact.TabIndex = 339
-      Me.lblContact.Text = "ผู้ติดต่อ:"
-      Me.lblContact.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblRate.BackColor = System.Drawing.Color.Transparent
+      Me.lblRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRate.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblRate.Location = New System.Drawing.Point(6, 14)
+      Me.lblRate.Name = "lblRate"
+      Me.lblRate.Size = New System.Drawing.Size(62, 18)
+      Me.lblRate.TabIndex = 342
+      Me.lblRate.Text = "Rate"
+      Me.lblRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtUnit1
+      '
+      Me.Validator.SetDataType(Me.txtUnit1, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtUnit1, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+      Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
+      Me.Validator.SetMinValue(Me.txtUnit1, "")
+      Me.txtUnit1.Name = "txtUnit1"
+      Me.Validator.SetRegularExpression(Me.txtUnit1, "")
+      Me.Validator.SetRequired(Me.txtUnit1, False)
+      Me.txtUnit1.Size = New System.Drawing.Size(62, 21)
+      Me.txtUnit1.TabIndex = 341
+      '
+      'lblUnit1
+      '
+      Me.lblUnit1.BackColor = System.Drawing.Color.Transparent
+      Me.lblUnit1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUnit1.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblUnit1.Location = New System.Drawing.Point(74, 15)
+      Me.lblUnit1.Name = "lblUnit1"
+      Me.lblUnit1.Size = New System.Drawing.Size(62, 18)
+      Me.lblUnit1.TabIndex = 342
+      Me.lblUnit1.Text = "Unit1"
+      Me.lblUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtUnit2
+      '
+      Me.Validator.SetDataType(Me.txtUnit2, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtUnit2, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+      Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
+      Me.Validator.SetMinValue(Me.txtUnit2, "")
+      Me.txtUnit2.Name = "txtUnit2"
+      Me.Validator.SetRegularExpression(Me.txtUnit2, "")
+      Me.Validator.SetRequired(Me.txtUnit2, False)
+      Me.txtUnit2.Size = New System.Drawing.Size(62, 21)
+      Me.txtUnit2.TabIndex = 341
+      '
+      'lblUnit2
+      '
+      Me.lblUnit2.BackColor = System.Drawing.Color.Transparent
+      Me.lblUnit2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUnit2.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblUnit2.Location = New System.Drawing.Point(142, 15)
+      Me.lblUnit2.Name = "lblUnit2"
+      Me.lblUnit2.Size = New System.Drawing.Size(62, 18)
+      Me.lblUnit2.TabIndex = 342
+      Me.lblUnit2.Text = "Unit2"
+      Me.lblUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtLanguage
+      '
+      Me.Validator.SetDataType(Me.txtLanguage, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtLanguage, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+      Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
+      Me.Validator.SetMinValue(Me.txtLanguage, "")
+      Me.txtLanguage.Name = "txtLanguage"
+      Me.Validator.SetRegularExpression(Me.txtLanguage, "")
+      Me.Validator.SetRequired(Me.txtLanguage, False)
+      Me.txtLanguage.Size = New System.Drawing.Size(62, 21)
+      Me.txtLanguage.TabIndex = 341
+      '
+      'lblLanguage
+      '
+      Me.lblLanguage.BackColor = System.Drawing.Color.Transparent
+      Me.lblLanguage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblLanguage.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblLanguage.Location = New System.Drawing.Point(210, 15)
+      Me.lblLanguage.Name = "lblLanguage"
+      Me.lblLanguage.Size = New System.Drawing.Size(62, 18)
+      Me.lblLanguage.TabIndex = 342
+      Me.lblLanguage.Text = "Language"
+      Me.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'FixedGroupBox1
+      '
+      Me.FixedGroupBox1.Controls.Add(Me.lblRate)
+      Me.FixedGroupBox1.Controls.Add(Me.lblLanguage)
+      Me.FixedGroupBox1.Controls.Add(Me.txtRate)
+      Me.FixedGroupBox1.Controls.Add(Me.lblUnit2)
+      Me.FixedGroupBox1.Controls.Add(Me.txtUnit1)
+      Me.FixedGroupBox1.Controls.Add(Me.lblUnit1)
+      Me.FixedGroupBox1.Controls.Add(Me.txtUnit2)
+      Me.FixedGroupBox1.Controls.Add(Me.txtLanguage)
+      Me.FixedGroupBox1.Location = New System.Drawing.Point(560, 130)
+      Me.FixedGroupBox1.Name = "FixedGroupBox1"
+      Me.FixedGroupBox1.Size = New System.Drawing.Size(280, 64)
+      Me.FixedGroupBox1.TabIndex = 343
+      Me.FixedGroupBox1.TabStop = False
+      Me.FixedGroupBox1.Text = "Currency"
       '
       'POPanelView
       '
@@ -1251,6 +1392,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.PerformLayout()
       Me.grbRetention.ResumeLayout(False)
       Me.grbRetention.PerformLayout()
+      Me.FixedGroupBox1.ResumeLayout(False)
+      Me.FixedGroupBox1.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1910,6 +2053,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtRealGross.Validated, AddressOf Me.TextHandler
 
       AddHandler cmbContact.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
+      '==============CURRENCY=================================
+      AddHandler txtRate.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtRate.Validated, AddressOf Me.TextHandler
+      AddHandler txtUnit1.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtUnit2.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtLanguage.TextChanged, AddressOf Me.ChangeProperty
+      '==============CURRENCY=================================
     End Sub
     Private requestorCodeChanged As Boolean = False
     Private supplierCodeChanged As Boolean = False
@@ -1924,6 +2075,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
           CCCodeChanged = True
         Case "txtsuppliercode"
           supplierCodeChanged = True
+
+          '==============CURRENCY=================================
+        Case "txtrate"
+          Dim txt As String = Me.txtRate.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.Currency.Conversion = 0
+          Else
+            Try
+              Me.m_entity.Currency.Conversion = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.Currency.Conversion = 0
+            End Try
+          End If
+          Me.txtRate.Text = Configuration.FormatToString(Me.m_entity.Currency.Conversion, DigitConfig.Price)
+          '==============CURRENCY=================================
+
         Case "txtretention"
           Dim txt As String = Me.txtRetention.Text
           txt = txt.Replace(",", "")
@@ -2027,6 +2195,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
       txtRetentionNote.Text = m_entity.RetentionNote
 
+      '==============CURRENCY=================================
+      txtRate.Text = Configuration.FormatToString(Me.m_entity.Currency.Conversion, DigitConfig.Price)
+      txtLanguage.Text = Me.m_entity.Currency.Language
+      txtUnit1.Text = Me.m_entity.Currency.Unit
+      txtUnit2.Text = Me.m_entity.Currency.SubUnit
+      '==============CURRENCY=================================
+
       If Not m_entity.Supplier Is Nothing Then
         For itemIndex As Integer = 0 To Me.cmbContact.Items.Count - 1
           If Me.m_entity.Contact = Me.cmbContact.Items(itemIndex) Then
@@ -2106,6 +2281,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
+        '==============CURRENCY=================================
+        Case "txtrate"
+          dirtyFlag = True
+        Case "txtlanguage"
+          Me.m_entity.Currency.Language = txtLanguage.Text
+          dirtyFlag = True
+        Case "txtunit1"
+          Me.m_entity.Currency.Unit = txtUnit1.Text
+          dirtyFlag = True
+        Case "txtunit2"
+          Me.m_entity.Currency.SubUnit = txtUnit2.Text
+          dirtyFlag = True
+          '==============CURRENCY=================================
+
         Case "txtrealtaxbase"
           dirtyFlag = True
         Case "txtrealtaxamount"
@@ -2711,6 +2900,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not cc Is Nothing AndAlso cc.Id <> Me.m_entity.CostCenter.Id Then
         Me.SetCostCenterDialog(cc)
       End If
+
+      '==============CURRENCY=================================
+      Dim cu As Currency = Me.m_entity.GetCurrencyFromPR
+      If Not cu Is Nothing AndAlso Not Me.m_entity.Currency.Equals(cu) Then
+        Me.m_entity.Currency = cu.Clone
+      End If
+      '==============CURRENCY=================================
+
       SetcmbPOPlace()
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
