@@ -1142,15 +1142,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '--- Pui 20080422 เนื่องจาก รับชำระหน้าภาษี สามารถแบ่งรับชำระได้
       'ภาษีขาย-ไม่ถึงกำหนด
-      If jVat <> 0 Then
-        'If TaxAmount > 0 Then
-        ji = New JournalEntryItem
-        ji.Mapping = "C8.3"
-        'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
-        ji.Amount = Configuration.Format(jVat, DigitConfig.Price)
-        ji.CostCenter = cc   ' GetVatCC()
-        jiColl.Add(ji)
-      End If
+      For Each i As SaleBillIssueItem In Me.ItemCollection
+        Dim itamt As Decimal = Vat.GetVatAmount(i.TaxBase)
+        If itamt <> 0 Then
+          'If TaxAmount > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.3"
+          'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+          ji.Amount = Configuration.Format(itamt, DigitConfig.Price)
+          ji.CostCenter = cc   ' GetVatCC()
+          jiColl.Add(ji)
+
+          'If TaxAmount > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.3D"
+          'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+          ji.Amount = Configuration.Format(itamt, DigitConfig.Price)
+          ji.CostCenter = cc   ' GetVatCC()
+          ji.Note = i.Code
+          jiColl.Add(ji)
+        End If
+      Next
+
+      
 
       'ภาษีขาย 
       If jVat <> 0 Then

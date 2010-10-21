@@ -423,13 +423,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Me.RefreshTaxBase()
-        Dim tmpTaxBase As Decimal = Configuration.Format(Me.RealTaxBase, DigitConfig.Price) 'ใช้ RealTaxBase แทน TaxBase
-        Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
-        If Me.Vat.TaxBase <> 0 AndAlso tmpTaxBase <> tmpVatTaxBase Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-          New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
-          , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
-        End If
+        'มีเช็คแล้วใน class vat ไม่ต้องมาทำที่นี่ก็ได้
+        'Dim tmpTaxBase As Decimal = Configuration.Format(Me.RealTaxBase, DigitConfig.Price) 'ใช้ RealTaxBase แทน TaxBase
+        'Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
+        'If Me.Vat.TaxBase <> 0 AndAlso tmpTaxBase <> tmpVatTaxBase Then
+        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '  New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
+        '  , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
+        'End If
         If Me.ItemCollection.Count <= 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If

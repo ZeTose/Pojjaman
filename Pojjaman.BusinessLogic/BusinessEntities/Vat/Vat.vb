@@ -635,6 +635,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OrElse TypeOf Me.RefDoc Is APOpeningBalance _
         OrElse TypeOf Me.RefDoc Is EqMaintenance _
         OrElse TypeOf Me.RefDoc Is GoodsSold _
+        OrElse TypeOf Me.RefDoc Is ReceiveSelection _
         OrElse TypeOf Me.RefDoc Is PA _
         OrElse TypeOf Me.RefDoc Is AssetWriteOff _
         ) _
