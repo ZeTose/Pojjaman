@@ -183,6 +183,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Shared CurrentUserName As String
+    Public Shared LicenseCount As Integer
     Public Property AccessCollection() As AccessCollection Implements IHasAccess.AccessCollection
       Get
         Return m_accessCollection
@@ -289,7 +290,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 SimpleBusinessEntityBase.ConnectionString _
                 , CommandType.Text _
-                , " select db_name(dbid) [dbname], ltrim(rtrim(hostname)) [hostname],ltrim(rtrim(program_name)) [program_name] " & _
+                , " select convert(nvarchar(50),spid)+convert(nvarchar(8),login_time,112)+replace(convert(nvarchar(20),login_time,114),':','') [spid] " & _
+                  ", db_name(dbid) [dbname], ltrim(rtrim(hostname)) [hostname],ltrim(rtrim(program_name)) [program_name] " & _
                   " from master..sysprocesses where program_name like 'Pojjaman.CBS%' " _
                 )
         If ds.Tables(0).Rows.Count > 0 Then

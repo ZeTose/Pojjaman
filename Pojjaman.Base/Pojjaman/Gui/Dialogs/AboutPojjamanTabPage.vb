@@ -14,6 +14,8 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
     Friend WithEvents m_dbVersionTextBox As System.Windows.Forms.TextBox
     Friend WithEvents m_dbVersionLabel As System.Windows.Forms.Label
     Friend WithEvents lblLicense As System.Windows.Forms.Label
+    Private m_availableLicense As Integer
+    Private lvt As Timer
 #End Region
 
 #Region "Constructors"
@@ -36,10 +38,12 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.m_dbVersionTextBox.Text = Longkong.Pojjaman.DataAccessLayer.SqlHelper.GetRealVersion
 
       lblLicense.Text = ""
+      m_availableLicense = 0
+      User.LicenseCount = 0
 
       Dim validLicense As Boolean = False
-      Dim availableLicense As Integer = 0
-      Dim licenseCount As Integer = 0
+      'Dim availableLicense As Integer = 0
+      'Dim licenseCount As Integer = 0
 
       Dim ds As DataSet = User.GetLicenseInfo
 
@@ -53,21 +57,28 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Else
         'ау view
         Dim machineCode As String = User.BytesToHexSmall(CType(ds.Tables(0).Rows(0)("machineCode"), Byte())) 'ds.Tables(0).Rows(0)("machineCode").ToString()
-        availableLicense = CInt(ds.Tables(0).Rows(0)("license"))
-        Dim s As String = availableLicense.ToString() + User.SALT + machineCode
+        m_availableLicense = CInt(ds.Tables(0).Rows(0)("license"))
+        Dim s As String = m_availableLicense.ToString() + User.SALT + machineCode
         s = User.GetMD5Hash(s)
         Dim checkSum As String = ds.Tables(0).Rows(0)("pepper").ToString.ToLower 'User.BytesToHexSmall(CType(ds.Tables(0).Rows(0)("pepper"), Byte()))
         If s <> checkSum Then
-          availableLicense = -1
-          lblLicense.Text = String.Format("License is Changed: machineCode = {0}, available = {1} , checksum = {2}", machineCode, availableLicense, checkSum)
+          m_availableLicense = -1
+          lblLicense.Text = String.Format("License is Changed: machineCode = {0}, available = {1} , checksum = {2}", machineCode, m_availableLicense, checkSum)
         Else
-          licenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
-          lblLicense.Text = String.Format("License Usage : {0} / {1} ", licenseCount, availableLicense)
+          User.LicenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
+          lblLicense.Text = String.Format("License Usage : {0} / {1} ", User.LicenseCount, m_availableLicense)
+
+          lvt = New Timer
+          lvt.Interval = 1000
+          AddHandler lvt.Tick, AddressOf TimerEvent
+          lvt.Start()
         End If
       End If
 
     End Sub
-
+    Private Sub TimerEvent(ByVal sender As Object, ByVal e As EventArgs)
+      lblLicense.Text = String.Format("License Usage : {0} / {1} ", User.LicenseCount, m_availableLicense)
+    End Sub
     Private Sub InitializeComponent()
       Me.m_versionLabel = New System.Windows.Forms.Label()
       Me.m_versionTextBox = New System.Windows.Forms.TextBox()
@@ -139,6 +150,10 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
     End Sub
 #End Region
 
+    Private Sub AboutPojjamanTabPage_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+      lvt.Stop()
+      lvt.Dispose()
+    End Sub
   End Class
 End Namespace
 

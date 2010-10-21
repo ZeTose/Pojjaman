@@ -11,6 +11,8 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 #Region "Members"
     'Friend WithEvents m_dbVersionLabel As System.Windows.Forms.Label
     Friend WithEvents ListView1 As System.Windows.Forms.ListView
+    Private hashListConnect As Hashtable
+    Private lvt As Timer
 #End Region
 
 #Region "Constructors"
@@ -62,37 +64,93 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       '    lblLicense.Text = String.Format("License Usage : {0} / {1} ", licenseCount, availableLicense)
       '  End If
       'End If
-
+      hashListConnect = New Hashtable
       Me.SetListview()
 
     End Sub
     Private Sub SetListview()
-      Dim ds As DataSet = User.GetUserConnecting
-      If ds Is Nothing OrElse ds.Tables(0).Rows.Count = 0 Then
-        ListView1.Visible = False
-      Else
-        ListView1.Visible = True
-      End If
-
       ListView1.Columns.Add("#", 25)
       ListView1.Columns.Add("Database", 90)
       ListView1.Columns.Add("Client", 80)
       ListView1.Columns.Add("Account", 80)
       ListView1.Columns.Add("Login", 80)
 
+      RefreshList()
+
+      lvt = New Timer
+      lvt.Interval = 1000
+      AddHandler lvt.Tick, AddressOf TimerEvent
+      lvt.Start()
+    End Sub
+    Private Sub TimerEvent(ByVal sender As Object, ByVal e As EventArgs)
+      RefreshList()
+    End Sub
+    Private Sub RefreshList()
+      Dim ds As DataSet = User.GetUserConnecting
+
+      Dim spid As Decimal = 0
+
+      'If ds Is Nothing OrElse ds.Tables(0).Rows.Count = 0 Then
+      '  ListView1.Visible = False
+      'Else
+      '  ListView1.Visible = True
+      'End If
+
+      'ListView1.Items.Clear()
+
       Dim linenumber As Integer = 0
       For Each row As DataRow In ds.Tables(0).Rows
+        'For i As Integer = ds.Tables(0).Rows.Count - 1 To 0 Step -1
+        '  Dim row As DataRow = ds.Tables(0).Rows(i)
         Dim drh As New DataRowHelper(row)
         linenumber += 1
+        spid = drh.GetValue(Of Decimal)("spid")
 
-        Dim itx As New ListViewItem
-        itx.Text = linenumber.ToString
-        itx.SubItems.Add(drh.GetValue(Of String)("dbname"))
-        itx.SubItems.Add(drh.GetValue(Of String)("hostname"))
-        SetAccountName(itx, drh.GetValue(Of String)("program_name"))
-        ListView1.Items.Add(itx)
+        If Not hashListConnect.ContainsKey(spid) Then
+          Dim itx As New ListViewItem
+          'itx.Text = linenumber.ToString
+          itx.SubItems.Add(drh.GetValue(Of String)("dbname"))
+          itx.SubItems.Add(drh.GetValue(Of String)("hostname"))
+          SetAccountName(itx, drh.GetValue(Of String)("program_name"))
+          itx.Tag = spid
+          ListView1.Items.Insert(0, itx)
+          hashListConnect(spid) = itx
+          'Else
+          '  Dim itxd As ListViewItem = Nothing
+          '  Dim found As Boolean = False
+          '  For Each itx As ListViewItem In ListView1.Items
+          '    If CInt(itx.Tag) = spid Then
+          '      found = True
+          '      Exit For
+          '    End If
+          '    itxd = itx
+          '  Next
+          '  If Not found Then
+          '    ListView1.Items.Remove(itxd)
+          '  End If
+        End If
+
       Next
 
+      Dim itxList As New ArrayList
+      For Each itx As ListViewItem In ListView1.Items
+        spid = CDec(itx.Tag)
+        Dim dr() As DataRow = ds.Tables(0).Select("spid='" & spid.ToString & "'")
+        If dr.Length = 0 Then
+          itxList.Add(itx)
+        End If
+      Next
+      For Each itx As ListViewItem In itxList
+        ListView1.Items.Remove(itx)
+      Next
+
+      Dim crAllListCout As Integer = ListView1.Items.Count
+      For Each itx As ListViewItem In ListView1.Items
+        itx.Text = crAllListCout.ToString
+        crAllListCout -= 1
+      Next
+
+      User.LicenseCount = linenumber
     End Sub
     Private Sub SetAccountName(ByVal lvi As ListViewItem, ByVal progname As String)
       If progname.Length = 0 Then
@@ -118,6 +176,8 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.ListView1.TabIndex = 7
       Me.ListView1.UseCompatibleStateImageBehavior = False
       Me.ListView1.View = System.Windows.Forms.View.Details
+      Me.ListView1.MultiSelect = True
+      Me.ListView1.FullRowSelect = True
       '
       'AboutLicenseTabPage
       '
@@ -129,6 +189,10 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
     End Sub
 #End Region
 
+    Private Sub AboutLicenseTabPage_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
+      lvt.Stop()
+      lvt.Dispose()
+    End Sub
   End Class
 End Namespace
 
