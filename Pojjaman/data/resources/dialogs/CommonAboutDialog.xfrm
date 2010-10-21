@@ -46,6 +46,14 @@
 					</Controls>
 				</System.Windows.Forms.TabPage>
 			</TabPages>
+      <TabPages>
+        <System.Windows.Forms.TabPage>
+          <Text value="${res:Dialog.About.LicenseDescription}"/>
+          <Controls>
+            <Longkong.Pojjaman.Gui.Dialogs.AboutLicenseTabPage/>
+          </Controls>
+        </System.Windows.Forms.TabPage>
+      </TabPages>
 		</System.Windows.Forms.TabControl>
 		
 		<!-- OK Button -->

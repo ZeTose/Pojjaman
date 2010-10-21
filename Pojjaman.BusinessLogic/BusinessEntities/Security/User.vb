@@ -182,6 +182,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Shared CurrentUserName As String
     Public Property AccessCollection() As AccessCollection Implements IHasAccess.AccessCollection
       Get
         Return m_accessCollection
@@ -283,30 +284,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Shared Function GetUserConnecting() As DataSet
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                SimpleBusinessEntityBase.ConnectionString _
+                , CommandType.Text _
+                , " select db_name(dbid) [dbname], ltrim(rtrim(hostname)) [hostname],ltrim(rtrim(program_name)) [program_name] " & _
+                  " from master..sysprocesses where program_name like 'Pojjaman.CBS%' " _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Return ds
+        End If
+        Return Nothing
+      Catch ex As Exception
+        MessageBox.Show(ex.Message)
+      End Try
+    End Function
     Private Shared Function GetLKConString(ByVal conString As String) As String
-      Dim serverName As String = "."
-      Dim re As New Regex("Data Source=(.*)")
-      Dim reDB As New Regex("Initial Catalog=(.*);")
-      Dim m As Match = re.Match(conString)
-      Dim databaseName As String = "master"
-      If m.Success Then
-        serverName = m.Groups(1).Value.Replace(";", "")
-      End If
-      m = reDB.Match(conString)
-      If m.Success Then
-        databaseName = m.Groups(1).Value
-      End If
-      Dim userName As String = "50e6d914-044f-45f8-b209-545a6260bb42"
-      Dim password As String = "1f4bee680ca047a114e8bc900c8ec921"
+      'Dim serverName As String = "."
+      'Dim re As New Regex("Data Source=(.*)")
+      'Dim reDB As New Regex("Initial Catalog=(.*);")
+      'Dim m As Match = re.Match(conString)
+      'Dim databaseName As String = "master"
+      'If m.Success Then
+      '    serverName = m.Groups(1).Value.Replace(";", "")
+      'End If
+      'm = reDB.Match(conString)
+      'If m.Success Then
+      '    databaseName = m.Groups(1).Value
+      'End If
+      'Dim userName As String = "50e6d914-044f-45f8-b209-545a6260bb42"
+      'Dim password As String = "1f4bee680ca047a114e8bc900c8ec921"
 
       Dim connectionString As String = String.Empty
-      connectionString &= ("Data Source=" + serverName)
+      'connectionString &= ("Data Source=" + serverName)
 
-      connectionString &= (";initial catalog=" + databaseName)
+      'connectionString &= (";initial catalog=" + databaseName)
 
-      connectionString &= (";user id=" + userName + ";password=" + password)
+      'connectionString &= (";user id=" + userName + ";password=" + password)
 
-      connectionString &= (";pooling=false;application name=Longkong - Pojjaman")
+      'connectionString &= (";pooling=false;application name=Longkong - Pojjaman")
+
+      connectionString &= conString
+      connectionString &= ";pooling=false;application name=Pojjaman.CBS" & "-" & UserAccount.GetCurrentAccountName & "-" & User.CurrentUserName
       Return connectionString
     End Function
     Private Shared Function ChangeDB(ByVal conString As String) As String
@@ -321,42 +341,73 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim con As New SqlConnection(ChangeDB(RecentCompanies.CurrentCompany.ConnectionString))
       con.Open()
       Dim cmd As New SqlCommand
-      cmd.CommandText = _
-      "if not exists(select * from sysobjects where xtype = 'v' and name = 'licenseregister') " & _
-      "begin " & _
-      "   if not exists(select * from sysobjects where xtype = 'v' and name = 'demoregister') " & _
-      "   begin " & _
-      "      select 1 [license], (select sid from syslogins where name = '50e6d914-044f-45f8-b209-545a6260bb42') [machinecode] " & _
-      "      ,null [pepper], 30 [licenseday] " & _
-      "   end " & _
-      "   else " & _
-      "   begin " & _
-      "      select license, (select sid from syslogins where name = '50e6d914-044f-45f8-b209-545a6260bb42') [machinecode] " & _
-      "      ,pepper, licenseday from demoregister " & _
-      "   end " & _
-      "End " & _
-      "else " & _
-      "begin " & _
-      "select license " & _
-      ", (select sid from syslogins where name = '50e6d914-044f-45f8-b209-545a6260bb42') [machinecode] " & _
-      ", pepper " & _
-      ", null [licenseday] " & _
-      "from licenseregister " & _
-      "end; " & _
-      "declare @licenseday numeric(18,0) " & _
-      "set @licenseday = 30  " & _
-      "if exists (select * from sysobjects where xtype = 'v' and name = 'demoregister')  " & _
-      "begin select @licenseday = licenseday from demoregister end; " & _
-      "select count(*) [hostnumber] " & _
-      "from (" & _
-      "select distinct dbid,hostname,net_address from sysprocesses " & _
-      "where loginame = '50e6d914-044f-45f8-b209-545a6260bb42'" & _
-      ")[sysprocesses]; " & _
-      "select isnull(sum(remainingday),0) [remainingday] " & _
-      "from ( " & _
-      "select datediff(day,getdate(),dateadd(day,@licenseday,createdate)) [remainingday] " & _
-      "from syslogins where name = '50e6d914-044f-45f8-b209-545a6260bb42'" & _
-      ")[syslogins]"
+      cmd.CommandText =
+      " " & _
+" if not exists ( select  * " & _
+"                 from    sysobjects " & _
+"                 where   xtype = 'v' " & _
+"                         and name = 'licenseregister' ) " & _
+"     begin " & _
+"         if not exists ( select  * " & _
+"                         from    sysobjects " & _
+"                         where   xtype = 'v' " & _
+"                                 and name = 'demoregister' ) " & _
+"             begin " & _
+"                 select  1 [license], " & _
+"                         ( select    sid " & _
+"                           from      syslogins " & _
+"                           where     name like '%50e6d914-044f-45f8-b209-545a6260bb42' " & _
+"                         ) [machinecode], " & _
+"                         null [pepper], " & _
+"                         30 [licenseday] " & _
+"             end " & _
+"         else " & _
+"             begin " & _
+"                 select  license, " & _
+"                         ( select    sid " & _
+"                           from      syslogins " & _
+"                           where     name like '%50e6d914-044f-45f8-b209-545a6260bb42' " & _
+"                         ) [machinecode], " & _
+"                         pepper, " & _
+"                         licenseday " & _
+"                 from    demoregister " & _
+"             end " & _
+"     End " & _
+" else " & _
+"     begin " & _
+"         select  license, " & _
+"                 ( select    sid " & _
+"                   from      syslogins " & _
+"                   where     name like '%50e6d914-044f-45f8-b209-545a6260bb42' " & _
+"                 ) [machinecode], " & _
+"                 pepper, " & _
+"                 null [licenseday] " & _
+"         from    licenseregister " & _
+"     end ; " & _
+" declare @licenseday numeric(18, 0) " & _
+" set @licenseday = 30 " & _
+" if exists ( select  * " & _
+"             from    sysobjects " & _
+"             where   xtype = 'v' " & _
+"                     and name = 'demoregister' ) " & _
+"    begin " & _
+"        select  @licenseday = licenseday " & _
+"        from    demoregister " & _
+"    end ; " & _
+" select  isnull(count(*),0) [hostnumber] " & _
+" from    ( select    dbid, " & _
+"                    hostname, " & _
+"                    program_name " & _
+"          from      sysprocesses " & _
+"          where     program_name like 'Pojjaman.CBS%' " & _
+"        ) [sysprocesses] " & _
+" select  isnull(sum(remainingday), 0) [remainingday] " & _
+" from    ( select    datediff(day, getdate(), " & _
+"                             dateadd(day, @licenseday, createdate)) [remainingday] " & _
+"          from      syslogins " & _
+"          where     name like '%50e6d914-044f-45f8-b209-545a6260bb42' " & _
+"        ) [syslogins] "
+
 
       cmd.CommandType = CommandType.Text
       cmd.Connection = con
@@ -375,19 +426,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Shared con As SqlConnection
     Public Shared Sub HitDB()
       Dim conStr As String = GetLKConString(RecentCompanies.CurrentCompany.ConnectionString)
+      'Dim conStr As String = RecentCompanies.CurrentCompany.ConnectionString
       'Return
       If con Is Nothing Then
         con = New SqlConnection(conStr)
       End If
       Try
-        If con.State <> ConnectionState.Open Then
-          con.Open()
+        If con.State = ConnectionState.Broken Then
+          con.Close()
         End If
-        Dim cmd As New SqlCommand
-        cmd.CommandText = "select 1"
-        cmd.CommandType = CommandType.Text
-        cmd.Connection = con
-        cmd.ExecuteNonQuery()
+        If con.State = ConnectionState.Closed Then
+          Dim trans As SqlTransaction
+
+          con.Open()
+          trans = con.BeginTransaction
+          Dim cmd As New SqlCommand
+          cmd.CommandText = "select 1"
+          cmd.CommandType = CommandType.Text
+          cmd.Connection = con
+          cmd.Transaction = trans
+          cmd.ExecuteNonQuery()
+        End If
+
       Catch ex As Exception
         MessageBox.Show("Error checking Liecnes:" & ex.Message)
         Application.ExitThread()
@@ -988,6 +1048,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Trace.WriteLine(a.FileName)
       Next
       Return hasAddIns
+    End Function
+  End Class
+
+  Public Class UserAccount
+    Public Shared Function GetCurrentAccountName() As String
+      Try
+        Dim UserIdentityInfo As System.Security.Principal.WindowsIdentity
+        UserIdentityInfo = System.Security.Principal.WindowsIdentity.GetCurrent()
+        Return UserIdentityInfo.Name
+      Catch ex As Exception
+        Return ""
+      End Try
     End Function
   End Class
 End Namespace

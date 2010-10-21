@@ -77,6 +77,7 @@ Namespace Longkong.Pojjaman.Services
       If ret = DialogResult.OK Then
         Dim loginUser As User
         User.RefreshUserTable()
+        User.CurrentUserName = dlg.UserName
         If NoPassword Then  'Hack
           loginUser = New User(dlg.UserName)
         Else
@@ -161,9 +162,12 @@ Namespace Longkong.Pojjaman.Services
         End If
       End If
 
-      licenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
-
-      validLicense = licenseCount < availableLicense
+      If isDemo Then
+        validLicense = False
+      Else
+        licenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
+        validLicense = licenseCount < availableLicense
+      End If
 
       If Not validLicense Then
         MessageBox.Show(String.Format("License used : {0}/{1}", licenseCount, availableLicense))
@@ -173,7 +177,7 @@ Namespace Longkong.Pojjaman.Services
         If Not isDemo Then
           User.HitDB()
           Dim t As New Timer
-          t.Interval = 60000
+          t.Interval = 360000
           AddHandler t.Tick, AddressOf TimerEvent
           t.Start()
         End If

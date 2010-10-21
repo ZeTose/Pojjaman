@@ -3,6 +3,7 @@ Imports Longkong.Pojjaman.Gui.XmlForms
 Imports System.Reflection
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.BusinessLogic
+Imports Longkong.Pojjaman.DataAccessLayer
 Namespace Longkong.Pojjaman.Gui.Dialogs
   Public Class AboutPojjamanTabPage
     Inherits UserControl
@@ -10,8 +11,6 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 #Region "Members"
     Friend WithEvents m_versionLabel As System.Windows.Forms.Label
     Friend WithEvents m_versionTextBox As System.Windows.Forms.TextBox
-    Friend WithEvents m_buildLabel As System.Windows.Forms.Label
-    Friend WithEvents m_buildTextBox As System.Windows.Forms.TextBox
     Friend WithEvents m_dbVersionTextBox As System.Windows.Forms.TextBox
     Friend WithEvents m_dbVersionLabel As System.Windows.Forms.Label
     Friend WithEvents lblLicense As System.Windows.Forms.Label
@@ -32,7 +31,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       'Me.m_buildTextBox.Text = Me.m_versionTextBox.Text.Trim & "" & pjmRealVersion   'pjmVersion.Revision.ToString
       Dim service1 As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
       Me.m_versionLabel.Text = service1.GetString("Dialog.About.m_versionLabelText")
-      Me.m_buildLabel.Text = service1.GetString("Dialog.About.m_buildLabelText")
+      'Me.m_buildLabel.Text = service1.GetString("Dialog.About.m_buildLabelText")
       Me.m_dbVersionLabel.Text = service1.GetString("Dialog.About.m_dbVersionLabel")
       Me.m_dbVersionTextBox.Text = Longkong.Pojjaman.DataAccessLayer.SqlHelper.GetRealVersion
 
@@ -66,12 +65,12 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
           lblLicense.Text = String.Format("License Usage : {0} / {1} ", licenseCount, availableLicense)
         End If
       End If
+
     End Sub
+
     Private Sub InitializeComponent()
       Me.m_versionLabel = New System.Windows.Forms.Label()
       Me.m_versionTextBox = New System.Windows.Forms.TextBox()
-      Me.m_buildLabel = New System.Windows.Forms.Label()
-      Me.m_buildTextBox = New System.Windows.Forms.TextBox()
       Me.m_dbVersionTextBox = New System.Windows.Forms.TextBox()
       Me.m_dbVersionLabel = New System.Windows.Forms.Label()
       Me.lblLicense = New System.Windows.Forms.Label()
@@ -80,7 +79,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       'm_versionLabel
       '
       Me.m_versionLabel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.m_versionLabel.Location = New System.Drawing.Point(16, 16)
+      Me.m_versionLabel.Location = New System.Drawing.Point(16, 11)
       Me.m_versionLabel.Name = "m_versionLabel"
       Me.m_versionLabel.Size = New System.Drawing.Size(100, 23)
       Me.m_versionLabel.TabIndex = 0
@@ -89,43 +88,27 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       '
       'm_versionTextBox
       '
-      Me.m_versionTextBox.Location = New System.Drawing.Point(120, 17)
+      Me.m_versionTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.m_versionTextBox.Location = New System.Drawing.Point(120, 11)
       Me.m_versionTextBox.Name = "m_versionTextBox"
       Me.m_versionTextBox.ReadOnly = True
-      Me.m_versionTextBox.Size = New System.Drawing.Size(272, 20)
+      Me.m_versionTextBox.Size = New System.Drawing.Size(263, 20)
       Me.m_versionTextBox.TabIndex = 1
-      '
-      'm_buildLabel
-      '
-      Me.m_buildLabel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.m_buildLabel.Location = New System.Drawing.Point(8, 125)
-      Me.m_buildLabel.Name = "m_buildLabel"
-      Me.m_buildLabel.Size = New System.Drawing.Size(100, 23)
-      Me.m_buildLabel.TabIndex = 2
-      Me.m_buildLabel.Text = "m_buildLabel"
-      Me.m_buildLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.m_buildLabel.Visible = False
-      '
-      'm_buildTextBox
-      '
-      Me.m_buildTextBox.Location = New System.Drawing.Point(120, 126)
-      Me.m_buildTextBox.Name = "m_buildTextBox"
-      Me.m_buildTextBox.ReadOnly = True
-      Me.m_buildTextBox.Size = New System.Drawing.Size(144, 20)
-      Me.m_buildTextBox.TabIndex = 3
-      Me.m_buildTextBox.Visible = False
       '
       'm_dbVersionTextBox
       '
-      Me.m_dbVersionTextBox.Location = New System.Drawing.Point(120, 43)
+      Me.m_dbVersionTextBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.m_dbVersionTextBox.Location = New System.Drawing.Point(120, 37)
       Me.m_dbVersionTextBox.Name = "m_dbVersionTextBox"
       Me.m_dbVersionTextBox.ReadOnly = True
-      Me.m_dbVersionTextBox.Size = New System.Drawing.Size(272, 20)
+      Me.m_dbVersionTextBox.Size = New System.Drawing.Size(263, 20)
       Me.m_dbVersionTextBox.TabIndex = 5
       '
       'm_dbVersionLabel
       '
-      Me.m_dbVersionLabel.Location = New System.Drawing.Point(17, 43)
+      Me.m_dbVersionLabel.Location = New System.Drawing.Point(17, 37)
       Me.m_dbVersionLabel.Name = "m_dbVersionLabel"
       Me.m_dbVersionLabel.Size = New System.Drawing.Size(100, 23)
       Me.m_dbVersionLabel.TabIndex = 4
@@ -133,23 +116,23 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       '
       'lblLicense
       '
-      Me.lblLicense.Location = New System.Drawing.Point(38, 72)
+      Me.lblLicense.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblLicense.Location = New System.Drawing.Point(38, 68)
       Me.lblLicense.Name = "lblLicense"
-      Me.lblLicense.Size = New System.Drawing.Size(432, 23)
+      Me.lblLicense.Size = New System.Drawing.Size(345, 23)
       Me.lblLicense.TabIndex = 6
       Me.lblLicense.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'AboutPojjamanTabPage
       '
       Me.Controls.Add(Me.lblLicense)
-      Me.Controls.Add(Me.m_buildTextBox)
-      Me.Controls.Add(Me.m_buildLabel)
       Me.Controls.Add(Me.m_versionTextBox)
       Me.Controls.Add(Me.m_versionLabel)
       Me.Controls.Add(Me.m_dbVersionTextBox)
       Me.Controls.Add(Me.m_dbVersionLabel)
       Me.Name = "AboutPojjamanTabPage"
-      Me.Size = New System.Drawing.Size(528, 168)
+      Me.Size = New System.Drawing.Size(407, 241)
       Me.ResumeLayout(False)
       Me.PerformLayout()
 

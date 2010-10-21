@@ -67,9 +67,11 @@ Namespace Longkong.Pojjaman.Services
                 If el.Name = "COMPANY" Then
                     Dim name As String = el.Attributes.ItemOf("name").InnerText
                     Dim connstring As String = el.Attributes.ItemOf("connstring").InnerText
+                    connstring = BlendedCodeHelper.GetConnString(connstring, False)
                     Dim siteconnstring As String = ""
                     If Not el.Attributes.ItemOf("siteconnstring") Is Nothing Then
                         siteconnstring = el.Attributes.ItemOf("siteconnstring").InnerText
+                        siteconnstring = BlendedCodeHelper.GetConnString(siteconnstring, False)
                     End If
                     Dim co As New Company(name, connstring, siteconnstring)
                     Me.m_lastCompanies.Add(co)
@@ -161,7 +163,7 @@ Namespace Longkong.Pojjaman.Services
                 name.InnerText = co.Name
                 coEl.Attributes.Append(name)
                 Dim connstring As XmlAttribute = doc.CreateAttribute("connstring")
-                connstring.InnerText = co.ConnectionString
+                connstring.InnerText = BlendedCodeHelper.GetConnString(co.ConnectionString, True)
                 If co.SiteConnectionString.Length = 0 Then
                     co.SiteConnectionString = co.ConnectionString
                 End If
@@ -177,6 +179,117 @@ Namespace Longkong.Pojjaman.Services
 #End Region
 
     End Class
+
+    Public Class BlendedCodeHelper
+        Private Shared Function DeCode(ByVal passwordToEnCode As String, ByVal aliasName As String) As String
+            If Not (passwordToEnCode.StartsWith("[") AndAlso passwordToEnCode.EndsWith("]")) Then
+                Return passwordToEnCode
+            End If
+
+            Dim arrayPws As New ArrayList
+
+            Dim ctext As String = ""
+            For i As Integer = passwordToEnCode.Length - 1 To 0 Step -1
+                ctext = passwordToEnCode.Substring(i, 1)
+                arrayPws.Add(ctext)
+            Next
+            For i As Integer = 0 To aliasName.Length - 1
+                If i Mod 2 = 0 Then
+                    arrayPws.RemoveAt(i)
+                End If
+            Next
+
+            'Dim passwordLength As Integer = passwordToEnCode.Length
+            'Dim cList As New ArrayList
+            'Dim cInteger As Integer
+            'Dim startEnCodeWithAsc As Integer = 216
+            'For i As Integer = passwordLength - 1 To 0 Step -1
+            '    cInteger = CInt(AscW(passwordToEnCode.Substring(i, 1))) - startEnCodeWithAsc
+            '    Dim obj As Object
+            '    obj = ChrW(cInteger)
+            '    cList.Add(obj)
+            'Next
+            'passwordToEnCode = String.Concat(cList.ToArray)
+            'passwordToEnCode = Replace(passwordToEnCode.Substring(0, passwordToEnCode.Length - 3), aliasName, "").Trim
+            Return String.Concat(arrayPws.ToArray)
+        End Function
+        Private Shared Function EnCode(ByVal passwordToEnCode As String, ByVal aliasName As String) As String
+            If Not (passwordToEnCode.StartsWith("[") AndAlso passwordToEnCode.EndsWith("]")) Then
+                Return passwordToEnCode
+            End If
+
+            Dim hashPws As New Hashtable
+            Dim hashAls As New Hashtable
+
+            Dim ctext As String = ""
+            For i As Integer = passwordToEnCode.Length - 1 To 0 Step -1
+                ctext = passwordToEnCode.Substring(i, 1)
+                hashPws(i) = ctext
+            Next
+
+            For i As Integer = aliasName.Length - 1 To 0 Step -1
+                ctext = aliasName.Substring(i, 1)
+                hashAls(i) = ctext
+            Next
+
+            Dim maxLenght As Integer = 0
+            If hashPws.Count > hashAls.Count Then
+                maxLenght = hashPws.Count
+            Else
+                maxLenght = hashAls.Count
+            End If
+            Dim blendtext As String = ""
+            For index As Integer = maxLenght - 1 To 0 Step -1
+                If hashPws.Contains(index) Then
+                    blendtext &= CType(hashPws(index), String)
+                End If
+                If hashAls.Contains(index) Then
+                    blendtext &= CType(hashAls(index), String)
+                End If
+            Next
+
+            Return blendtext
+        End Function
+        Public Shared Function GetConnString(ByVal ConnectionString As String, ByVal WithEncode As Boolean, Optional ByVal AliasPrefix As String = "") As String
+            'Password=tmhctr;Persist Security Info=True;User ID=sa;Initial Catalog=testsc;Data Source=(local)
+            Dim splitString() As String = ConnectionString.Split(";"c)
+            Dim newConnString As String = ""
+            Dim passwordIndex As Integer
+            Dim password As String = ""
+            Dim dbName As String = ""
+            Dim dataSource As String = ""
+
+            For i As Integer = 0 To splitString.Length - 1
+                If splitString(i).StartsWith("Password") Then
+                    password = splitString(i).Split("="c)(1)
+                    passwordIndex = i
+                ElseIf splitString(i).StartsWith("Initial") Then
+                    dbName = splitString(i).Split("="c)(1)
+                ElseIf splitString(i).StartsWith("Data") Then
+                    dataSource = splitString(i).Split("="c)(1)
+                End If
+            Next
+
+            If AliasPrefix.Length = 0 Then
+                AliasPrefix = dataSource & dbName
+            End If
+
+            'If WithEncode Then
+            '    password = BlendedCodeHelper.EnCode(password, AliasPrefix)
+            'Else
+            '    password = BlendedCodeHelper.DeCode(password, AliasPrefix)
+            'End If
+
+            '
+            splitString(passwordIndex) = "Password=" & password
+            '
+
+            newConnString = String.Join(";", splitString)
+            Return newConnString
+
+        End Function
+    End Class
+
 End Namespace
 
 
