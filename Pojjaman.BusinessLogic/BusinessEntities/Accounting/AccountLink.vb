@@ -517,6 +517,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'TradeDiscount4 = 57 'ส่วนลดการค้า (หมวด 4)
       SCPenalty = 60 'ค่าปรับผู้รับเหมาจากหน้า หัก DR
       AssetProfitLoss = 61 'กำไร/ขาดทุน จากการจำหน่ายสินทรัพย์
+      CurrencyProfitLoss = 62 'กำไร/ขาดทุนจากอัตราแลกเปลี่ยน
     End Enum
 #End Region
 

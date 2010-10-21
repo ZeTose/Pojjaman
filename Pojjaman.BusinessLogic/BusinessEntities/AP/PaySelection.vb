@@ -63,7 +63,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PaySelection
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IWitholdingTaxable, IPrintableEntity, IPayable, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh
+    Implements IGLAble, IWitholdingTaxable, IPrintableEntity, IPayable, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh, IHasCurrency
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -182,6 +182,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         CreateRefDocs()
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      '==============CURRENCY=================================
+      BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      '==============CURRENCY=================================
     End Sub
     Public Function FindStock(ByVal id As Integer, ByVal type As Integer) As Stock
       For Each s As Stock In Refinform
@@ -613,6 +617,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "ClearPayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
 
           SaveDetail(Me.Id, conn, trans)
+
+          '==============CURRENCY=================================
+          'Save Currency
+          If Me.Originated Then
+            BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+          End If
+          '==============CURRENCY=================================
+
           Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           Dim mycc As CostCenter = GetCCFromItem()
           If Not mycc Is Nothing Then
@@ -1054,6 +1066,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim myGross As Decimal = doc.AmountForGL
         Dim myRetention As Decimal = doc.RetentionForGL
         Dim myDebt As Decimal = myGross - myRetention
+
         If myDebt <> 0 Then
           'เจ้าหนี้การค้า
           ji = New JournalEntryItem
@@ -1141,6 +1154,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Note = itemCode & ":" & itemType
           jiColl.Add(ji)
         End If
+
+        '===CURRENCY===
+        Dim myGrossPaysCurrency As Decimal = doc.AmountPaysConversionForGL
+        Dim myRetentionPaysCurrency As Decimal = doc.RetentionPaysConversionForGL
+        Dim myDebtPaysCurrency As Decimal = myGrossPaysCurrency - myRetentionPaysCurrency
+        Dim diffCurrency As Decimal = myDebt - myDebtPaysCurrency
+        If diffCurrency <> 0 Then
+          'กำไร/ขาดทุน
+          ji = New JournalEntryItem
+          ji.Mapping = "THROUGH"
+          ji.Amount = diffCurrency
+          ji.IsDebit = False
+          ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CurrencyProfitLoss).Account
+          ji.CostCenter = itemCC
+          ji.Note = itemType
+          jiColl.Add(ji)
+        End If
+        '===CURRENCY===
 
         'Retention หัก
         If retentionHere AndAlso doc.Retention <> 0 Then
@@ -1551,6 +1582,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
+
+    '==============CURRENCY=================================
+#Region "IHasCurrency"
+    Private m_currency As Currency
+    Public Property Currency As Currency Implements IHasCurrency.Currency
+      Get
+        If m_currency Is Nothing Then
+          m_currency = Currency.DefaultCurrency.Clone
+        End If
+        Return m_currency
+      End Get
+      Set(ByVal value As Currency)
+        m_currency = value
+      End Set
+    End Property
+#End Region
+    '==============CURRENCY=================================
 
   End Class
 

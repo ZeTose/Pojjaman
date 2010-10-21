@@ -1484,7 +1484,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If TypeOf payable Is ISimpleEntity Then
         m_typeId = CType(payable, ISimpleEntity).EntityId
-      End If
+      End If      
     End Sub
     Public Sub New(ByVal advancepay As AdvancePay, ByVal apvi As APVatInput)
       MyBase.New()
@@ -1594,6 +1594,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & "stock_retention") AndAlso Not dr.IsNull(aliasPrefix & "stock_retention") Then
         Me.m_retention = CDec(dr(aliasPrefix & "stock_retention"))
       End If
+
+      '====CURRENCY===
+      Me.Currency = BusinessLogic.Currency.DefaultCurrency.Clone
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_currencyconversion") AndAlso Not dr.IsNull(aliasPrefix & "stock_currencyconversion") Then
+        Me.Currency.Conversion = CDec(dr(aliasPrefix & "stock_currencyconversion"))
+      End If
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_currencyUnit") AndAlso Not dr.IsNull(aliasPrefix & "stock_currencyUnit") Then
+        Me.Currency.Unit = CStr(dr(aliasPrefix & "stock_currencyUnit"))
+      End If
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_currencysubUnit") AndAlso Not dr.IsNull(aliasPrefix & "stock_currencysubUnit") Then
+        Me.Currency.SubUnit = CStr(dr(aliasPrefix & "stock_currencysubUnit"))
+      End If
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_currencylanguage") AndAlso Not dr.IsNull(aliasPrefix & "stock_currencylanguage") Then
+        Me.Currency.Language = CStr(dr(aliasPrefix & "stock_currencylanguage"))
+      End If
+      '====CURRENCY===
+
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_retentiontype") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_retentiontype") Then
         Me.m_retentionType = CInt(dr(aliasPrefix & m_itemprefix & "_retentiontype"))
       End If
@@ -1767,6 +1784,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_taxBase = Value
       End Set
     End Property
+
+    Private m_currency As Currency
+    Public Property Currency As Currency
+      Get
+        If m_currency Is Nothing Then
+          m_currency = BusinessLogic.Currency.DefaultCurrency.Clone
+        End If
+        Return m_currency
+      End Get
+      Set(ByVal value As Currency)
+        m_currency = value
+      End Set
+    End Property
     Public Property DeductTaxBase() As Decimal
       Get
         If m_deducttaxBase.HasValue Then
@@ -1843,7 +1873,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End Get
     End Property
-      
+
     'Private m_taxBaseDeducted As Decimal = Decimal.MinValue
     'Public Property TaxBaseDeducted() As Decimal
     '  Get
@@ -1903,7 +1933,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property RetentionForGL() As Decimal
       Get
         If Me.EntityId = 199 Then
-          Return Me.Amount
+          Return Me.Amount * Me.Currency.Conversion
         End If
         Return 0
       End Get
@@ -1911,13 +1941,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property AmountForGL As Decimal
       Get
         If Me.EntityId = 46 Then
-          Return -Me.Amount
+          Return -(Me.Amount * Me.Currency.Conversion)
         Else
-          Return Me.Amount
+          Return Me.Amount * Me.Currency.Conversion
         End If
       End Get
     End Property
 
+    Public ReadOnly Property RetentionPaysConversionForGL() As Decimal
+      Get
+        Dim cv As Decimal = 1
+        If m_pays IsNot Nothing Then
+          cv = m_pays.Currency.Conversion
+        End If
+        If Me.EntityId = 199 Then
+          Return Me.Amount * cv
+        End If
+        Return 0
+      End Get
+    End Property
+    Public ReadOnly Property AmountPaysConversionForGL As Decimal
+      Get
+        Dim cv As Decimal = 1
+        If m_pays IsNot Nothing Then
+          cv = m_pays.Currency.Conversion
+        End If
+        If Me.EntityId = 46 Then
+          Return -(Me.Amount * cv)
+        Else
+          Return Me.Amount * cv
+        End If
+      End Get
+    End Property
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "BillAcceptanceItem"
@@ -2037,7 +2092,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetRemainingAmountPayselection(ByVal pays_id As Integer) As Decimal Implements IBillAcceptable.GetRemainingAmountPayselection
       Try
         If Me.ParentId <> 0 Then
-          Return GetRemainingAmountPayselection(pays_id, Me.ParentId)
+          Return GetRemainingAmountPayselection(pays_id, Me.ParentId) / Me.Currency.Conversion
         Else
           Dim sproc As String = "GetUnpaidStockRetentionAmount"
           If Me.m_typeId = 199 Then
@@ -2051,14 +2106,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , New SqlParameter("@retentiontype", Me.RetentionType) _
                 )
             If dsr.Tables(0).Rows.Count > 0 Then
-              Return Configuration.Format(CDec(dsr.Tables(0).Rows(0)(0)), DigitConfig.Price)
+              Return Configuration.Format(CDec(dsr.Tables(0).Rows(0)(0)) / Me.Currency.Conversion, DigitConfig.Price)
             End If
           ElseIf Me.m_typeId = 46 Then
             sproc = "GetUnpaidPurchaseCNAmount"
           Else
             sproc = "GetUnpaidStockAmount"
             If m_Remained.HasValue Then
-              Return m_Remained.Value
+              Return m_Remained.Value / Me.Currency.Conversion
             End If
           End If
           Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -2070,7 +2125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   , New SqlParameter("@stock_type", Me.m_typeId) _
                   )
           If ds.Tables(0).Rows.Count > 0 Then
-            Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
+            Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)) / Me.Currency.Conversion, DigitConfig.Price)
           End If
         End If
       Catch ex As Exception
