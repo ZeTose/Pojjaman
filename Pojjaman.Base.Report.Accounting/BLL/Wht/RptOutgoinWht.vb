@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class RptOutgoinWht
         Inherits Report
@@ -29,6 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
         Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
+            RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
             m_grid.BeginUpdate()
             m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
             m_grid.Model.Options.NumberedColHeaders = False
@@ -37,10 +41,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
             PopulateData()
             m_grid.EndUpdate()
         End Sub
+        Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+
+            Dim dr As DataRow = CType(m_grid(e.RowIndex, 0).Tag, DataRow)
+            If dr Is Nothing Then
+                Return
+            End If
+
+            Dim drh As New DataRowHelper(dr)
+
+            Dim docId As Integer = drh.GetValue(Of Integer)("docId")
+            Dim docType As Integer = drh.GetValue(Of Integer)("docType")
+
+            If docId > 0 AndAlso docType > 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+                myEntityPanelService.OpenDetailPanel(en)
+            End If
+        End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 1
-			m_grid.ColCount = 9
-			m_grid.Model.Cols.Hidden(9) = True
+            m_grid.ColCount = 9
+            m_grid.Model.Cols.Hidden(9) = True
             m_grid.ColWidths(1) = 100
             m_grid.ColWidths(2) = 120
             m_grid.ColWidths(3) = 120
@@ -58,7 +80,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-     
+
             m_grid.Rows.HeaderCount = 1
             m_grid.Rows.FrozenCount = 1
 
@@ -111,6 +133,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
                     m_grid.RowCount += 1
                     currCustomerIndex = m_grid.RowCount
+                    m_grid(currCustomerIndex, 0).Tag = row
                     m_grid.RowStyles(currCustomerIndex).BackColor = Color.FromArgb(128, 255, 128)
                     m_grid.RowStyles(currCustomerIndex).Font.Bold = True
                     m_grid.RowStyles(currCustomerIndex).ReadOnly = True
@@ -139,9 +162,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(CDec(row("WHTAmt")), DigitConfig.Price)
                     tmpWHT += CDec(row("WHTAmt"))
                     SumWHT += CDec(row("WHTAmt"))
-				End If
-				m_grid(currDocIndex, 9).CellValue = 0
-			Next
+                End If
+                m_grid(currDocIndex, 9).CellValue = 0
+            Next
             m_grid.RowCount += 1
             currDocIndex = m_grid.RowCount
             m_grid.RowStyles(currDocIndex).ReadOnly = True
@@ -149,14 +172,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(tmpAmount, DigitConfig.Price)
             m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(tmpWHT, DigitConfig.Price)
 
-			'm_grid.RowCount += 1
-			'currDocIndex = m_grid.RowCount
-			'm_grid.RowStyles(currDocIndex).BackColor = Color.FromArgb(128, 255, 128)
-			'm_grid.RowStyles(currDocIndex).Font.Bold = True
-			'm_grid.RowStyles(currDocIndex).ReadOnly = True
-			'm_grid(currDocIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinWht.SumAll}")		'"รวมทั้งหมด"
-			'm_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(SumAmount, DigitConfig.Price)
-			'm_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(SumWHT, DigitConfig.Price)
+            'm_grid.RowCount += 1
+            'currDocIndex = m_grid.RowCount
+            'm_grid.RowStyles(currDocIndex).BackColor = Color.FromArgb(128, 255, 128)
+            'm_grid.RowStyles(currDocIndex).Font.Bold = True
+            'm_grid.RowStyles(currDocIndex).ReadOnly = True
+            'm_grid(currDocIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinWht.SumAll}")		'"รวมทั้งหมด"
+            'm_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(SumAmount, DigitConfig.Price)
+            'm_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(SumWHT, DigitConfig.Price)
         End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"        Public Overrides ReadOnly Property ClassName() As String
@@ -274,27 +297,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi.DataType = "System.String"
                 dpi.Row = n + 1
                 dpi.Table = "Item"
-				dpiColl.Add(dpi)
+                dpiColl.Add(dpi)
 
-				'เอาไว้ดูว่า Row ไหนมาจากการ Sum
-				dpi = New DocPrintingItem
-				dpi.Mapping = "Group Level"
-				dpi.Value = m_grid(rowIndex, 9).CellValue
-				dpi.DataType = "System.Integer"
-				dpi.Row = n + 1
-				dpi.Table = "Item"
-				dpiColl.Add(dpi)
+                'เอาไว้ดูว่า Row ไหนมาจากการ Sum
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Group Level"
+                dpi.Value = m_grid(rowIndex, 9).CellValue
+                dpi.DataType = "System.Integer"
+                dpi.Row = n + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-				n += 1
-				If IsNumeric(m_grid(rowIndex, 9).CellValue) AndAlso CInt(m_grid(rowIndex, 9).CellValue) = 0 Then
-					If IsNumeric(m_grid(rowIndex, 6).CellValue) Then
-						SumAmt += CDec(m_grid(rowIndex, 6).CellValue)
-					End If
-					If IsNumeric(m_grid(rowIndex, 8).CellValue) Then
-						SumWHT += CDec(m_grid(rowIndex, 8).CellValue)
-					End If
-				End If
-			Next
+                n += 1
+                If IsNumeric(m_grid(rowIndex, 9).CellValue) AndAlso CInt(m_grid(rowIndex, 9).CellValue) = 0 Then
+                    If IsNumeric(m_grid(rowIndex, 6).CellValue) Then
+                        SumAmt += CDec(m_grid(rowIndex, 6).CellValue)
+                    End If
+                    If IsNumeric(m_grid(rowIndex, 8).CellValue) Then
+                        SumWHT += CDec(m_grid(rowIndex, 8).CellValue)
+                    End If
+                End If
+            Next
 
             'SumText
             dpi = New DocPrintingItem
