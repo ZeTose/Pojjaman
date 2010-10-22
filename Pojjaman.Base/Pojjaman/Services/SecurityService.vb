@@ -84,7 +84,9 @@ Namespace Longkong.Pojjaman.Services
           loginUser = New User(dlg.UserName, dlg.Password)
         End If
         If loginUser.Originated Then
-          CheckLicense()
+          If Not CheckLicense() Then
+            Return ret.Cancel
+          End If
           Me.m_curentUser = loginUser
 
           '========================================SETUP===========================================
@@ -112,12 +114,13 @@ Namespace Longkong.Pojjaman.Services
       End If
       Return ret
     End Function
-    Private Sub CheckLicense()
+    Private Function CheckLicense() As Boolean
       Dim validLicense As Boolean = False
       Dim availableLicense As Integer = 0
       Dim licenseCount As Integer = 0
       Dim ds As DataSet = User.GetLicenseInfo
       Dim isDemo As Boolean = False
+      CheckLicense = True
 
       'If ds.Tables(0).Rows(0).IsNull("machineCode") Then
       If Not ds.Tables(0).Rows(0).IsNull("licenseday") Then
@@ -162,14 +165,15 @@ Namespace Longkong.Pojjaman.Services
         End If
       End If
 
-      If isDemo Then
-        validLicense = False
-      Else
-        licenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
-        validLicense = licenseCount < availableLicense
-      End If
+      'If isDemo Then
+      '  validLicense = False
+      'Else
+      licenseCount = CInt(ds.Tables(1).Rows(0)("hostnumber"))
+      validLicense = licenseCount < availableLicense
+      'End If
 
       If Not validLicense Then
+        CheckLicense = False
         MessageBox.Show(String.Format("License used : {0}/{1}", licenseCount, availableLicense))
         Application.ExitThread()
         Application.Exit()
@@ -182,7 +186,7 @@ Namespace Longkong.Pojjaman.Services
           t.Start()
         End If
       End If
-    End Sub
+    End Function
     Private Sub TimerEvent(ByVal sender As Object, ByVal e As EventArgs)
       User.HitDB()
     End Sub
