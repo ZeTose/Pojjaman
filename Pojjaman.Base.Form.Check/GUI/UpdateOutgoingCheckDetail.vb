@@ -876,7 +876,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       Next
       tgItem.CurrentRowIndex = index
-
       RefreshBlankGrid()
       ' Summary ...
       SetSummaryText()
@@ -890,6 +889,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case 1  ' เช็คในมือ
           filter = -1
         Case 2  ' เช็คผ่าน
+          filter = 1
+        Case 3  ' เช็คในมือผู้ขาย
           filter = 1
         Case Else
           filter = -1

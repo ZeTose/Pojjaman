@@ -940,7 +940,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "H2.2D"
           ji.Amount = CDec(row("check_amount"))
           ji.Account = bankacct.Account
-          ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+          ji.Note = "" 'CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+          If Not row.IsNull("check_cqcode") Then
+            ji.Note &= CStr(row("check_cqcode"))
+          End If
+          If Not row.IsNull("bankacct_name") Then
+            ji.Note &= ":" & CStr(row("bankacct_name"))
+          End If
+          If Not row.IsNull("check_recipient") Then
+            ji.Note &= "/" & CStr(row("check_recipient"))
+          End If
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           jiColl.Add(ji)
         End If
@@ -972,7 +981,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If acct.Originated Then
               ji.Account = acct
             End If
-            ji.Note = CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+            ji.Note = "" 'CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
+            If Not row.IsNull("check_cqcode") Then
+              ji.Note &= CStr(row("check_cqcode"))
+            End If
+            If Not row.IsNull("bankacct_name") Then
+              ji.Note &= ":" & CStr(row("bankacct_name"))
+            End If
+            If Not row.IsNull("check_recipient") Then
+              ji.Note &= "/" & CStr(row("check_recipient"))
+            End If
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jiColl.Add(ji)
           End If
