@@ -277,13 +277,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newbankaccount = oldbankaccount
       End If
       txtCode.Text = newbankaccount.Code
-      txtName.Text = newbankaccount.Name
-      If oldbankaccount.Id <> newbankaccount.Id Then
-        oldbankaccount = newbankaccount
-        Return True
-      End If
-      Return False
-    End Function
+            txtName.Text = newbankaccount.Name
+            If Not oldbankaccount Is Nothing Then
+                If oldbankaccount.Id <> newbankaccount.Id Then
+                    oldbankaccount = newbankaccount
+                    Return True
+                End If
+            End If
+            Return False
+        End Function
     Public Shared Function GetBankAccountBankCode(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldbankaccount As BankAccount) As Boolean
       Dim newbankaccount As New BankAccount(txtCode.Text)
       If txtCode.Text.Length <> 0 AndAlso Not newbankaccount.Valid Then

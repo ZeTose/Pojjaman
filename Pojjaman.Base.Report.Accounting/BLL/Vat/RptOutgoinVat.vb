@@ -61,18 +61,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 0
-            m_grid.ColCount = 10
+            m_grid.ColCount = 11
 
             m_grid.ColWidths(1) = 100
             m_grid.ColWidths(2) = 100
             m_grid.ColWidths(3) = 120
             m_grid.ColWidths(4) = 120
-            m_grid.ColWidths(5) = 120
+            m_grid.ColWidths(5) = 100
             m_grid.ColWidths(6) = 200
             m_grid.ColWidths(7) = 120
             m_grid.ColWidths(8) = 120
             m_grid.ColWidths(9) = 100
             m_grid.ColWidths(10) = 100
+            m_grid.ColWidths(11) = 100
 
             m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -81,9 +82,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
             m_grid.Rows.HeaderCount = 0
             m_grid.Rows.FrozenCount = 0
@@ -93,11 +95,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.VatRunNumber}") '"เลขที่"
             m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.Invoice}") '"ใบกำกับภาษี"
             m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.DocCode}") '"เลขที่เอกสาร"
-            m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.CustomerName}") '"ชื่อลูกค้า"
-            m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.GroupName}") '"กลุ่มภาษี"
-            m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.BeforeTax}") '"มูลค่าสินค้า/บริการ"
-            m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.TaxAmount}") '"จำนวนเงินภาษี"
-            m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.AfterTax}") '"รวม"
+            m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.CCName}") '"เลขที่เอกสาร"
+            m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.CustomerName}") '"ชื่อลูกค้า"
+            m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.GroupName}") '"กลุ่มภาษี"
+            m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.BeforeTax}") '"มูลค่าสินค้า/บริการ"
+            m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.TaxAmount}") '"จำนวนเงินภาษี"
+            m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.AfterTax}") '"รวม"
 
             m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -106,9 +109,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
         End Sub
         Private Sub PopulateData()
             Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -139,22 +143,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not row.IsNull("DocCode") Then
                     m_grid(currDocIndex, 5).CellValue = row("DocCode").ToString
                 End If
+                If Not row.IsNull("CostcenterName") Then
+                    m_grid(currDocIndex, 6).CellValue = row("CostcenterName").ToString
+                End If
                 If Not row.IsNull("Supplier") Then
-                    m_grid(currDocIndex, 6).CellValue = row("Supplier").ToString
+                    m_grid(currDocIndex, 7).CellValue = row("Supplier").ToString
                 End If
                 If Not row.IsNull("GroupName") Then
-                    m_grid(currDocIndex, 7).CellValue = row("GroupName").ToString
+                    m_grid(currDocIndex, 8).CellValue = row("GroupName").ToString
                 End If
                 If IsNumeric(row("BeforeTax")) Then
-                    m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(CDec(row("BeforeTax")), DigitConfig.Price)
+                    m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(row("BeforeTax")), DigitConfig.Price)
                     SumBeforeTax += Configuration.Format(CDec(row("BeforeTax")), DigitConfig.Price)
                 End If
                 If IsNumeric(row("TaxAmt")) Then
-                    m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TaxAmt")), DigitConfig.Price)
+                    m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(CDec(row("TaxAmt")), DigitConfig.Price)
                     SumTaxAmount += Configuration.Format(CDec(row("TaxAmt")), DigitConfig.Price)
                 End If
                 If IsNumeric(row("AfterTax")) Then
-                    m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
+                    m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
                     SumAfterTax += Configuration.Format(CDec(row("AfterTax")), DigitConfig.Price)
                 End If
             Next
@@ -163,10 +170,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.RowStyles(currDocIndex).BackColor = Color.FromArgb(128, 255, 128)
             m_grid.RowStyles(currDocIndex).Font.Bold = True
             m_grid.RowStyles(currDocIndex).ReadOnly = True
-            m_grid(currDocIndex, 7).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.SumAll}")
-            m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(SumBeforeTax, DigitConfig.Price)
-            m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(SumTaxAmount, DigitConfig.Price)
-            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(SumAfterTax, DigitConfig.Price)
+            m_grid(currDocIndex, 8).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoinVat.SumAll}")
+            m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(SumBeforeTax, DigitConfig.Price)
+            m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(SumTaxAmount, DigitConfig.Price)
+            m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(SumAfterTax, DigitConfig.Price)
         End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"        Public Overrides ReadOnly Property ClassName() As String
@@ -354,6 +361,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi = New DocPrintingItem
                 dpi.Mapping = "Item.GroupName"
                 dpi.Value = itemRow("GroupName")
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.CostcenterName
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.CostcenterName"
+                dpi.Value = itemRow("CostcenterName")
                 dpi.DataType = "System.String"
                 dpi.Row = i + 1
                 dpi.Table = "Item"
