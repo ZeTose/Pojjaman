@@ -131,6 +131,8 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\Vat\RptVatNotDueByDebt.vb" />
+    <Compile Include="BLL\Vat\RptVatNotDue.vb" />
     <Compile Include="BLL\Vat\RptIncomingVat.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -145,6 +147,12 @@
     </Compile>
     <Compile Include="BLL\Wht\RptOutgoinWht.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\Vat\RptVatNotDueByDebtFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Vat\RptVatNotDueFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Vat\RptIncomingVatFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -161,6 +169,12 @@
     <Compile Include="UI\Wht\RptOutgoingWhtFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\Vat\RptVatNotDueByDebtFilterSubPanel.resx">
+      <DependentUpon>RptVatNotDueByDebtFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Vat\RptVatNotDueFilterSubPanel.resx">
+      <DependentUpon>RptVatNotDueFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Vat\RptIncomingVatFilterSubPanel.resx">
       <DependentUpon>RptIncomingVatFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>

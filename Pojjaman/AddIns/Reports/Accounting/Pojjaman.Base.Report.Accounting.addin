@@ -6,7 +6,9 @@
 		<Conditional applicationmode="Accounting" action="Exclude">
 		<MenuItem id="TaxReport" label="${res:MainMenu.ReportMenu.TaxReport}"  insertafter="CheckReport" insertbefore="AssetReport">
 				<MenuItem id="VATReport" label="${res:MainMenu.ReportMenu.VATReport}">
-					<MenuItem id="rptincomingvat" icon="Icons.16x16.RptIncomingVat" label="${res:MainMenu.PurchaseMenu.RptIncomingVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingVat"/>
+          <MenuItem id="rptincomingvat" icon="Icons.16x16.RptIncomingVat" label="${res:MainMenu.PurchaseMenu.RptIncomingVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingVat"/>
+          <MenuItem id="rptvatnotdue" icon="Icons.16x16.RptVatNotDue" label="${res:MainMenu.PurchaseMenu.RptVatNotDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVatNotDue"/>
+          <MenuItem id="rptvatnotduebydebt" icon="Icons.16x16.RptVatNotDueByDebt" label="${res:MainMenu.PurchaseMenu.RptVatNotDueByDebt.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVatNotDueByDebt"/>
 					<MenuItem id="rptoutgoinvat" icon="Icons.16x16.RptOutgoinVat" label="${res:MainMenu.PurchaseMenu.RptOutgoinVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinVat"/>
 				</MenuItem>
 				<MenuItem id="WHTReport" label="${res:MainMenu.ReportMenu.WHTReport}">
@@ -19,7 +21,9 @@
 		</Conditional>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
-		<EntityFilter id="rptincomingvat" entity="rptincomingvat" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel"/>
+    <EntityFilter id="rptincomingvat" entity="rptincomingvat" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel"/>
+    <EntityFilter id="rptvatnotdue" entity="rptvatnotdue" filter="Longkong.Pojjaman.Gui.Panels.RptVatNotDueFilterSubPanel"/>
+    <EntityFilter id="rptvatnotduebydebt" entity="rptvatnotduebydebt" filter="Longkong.Pojjaman.Gui.Panels.RptVatNotDueByDebtFilterSubPanel"/>
 		<EntityFilter id="rptoutgoinvat" entity="rptoutgoinvat" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingVatFilterSubPanel"/>
 		<EntityFilter id="rptincomingwht" entity="rptincomingwht" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingWhtFilterSubPanel"/>
 		<EntityFilter id="rptoutgoinwht" entity="rptoutgoinwht" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingWhtFilterSubPanel"/>
@@ -29,6 +33,12 @@
 		<EntityTab id="rptincomingvat">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
+    <EntityTab id="rptvatnotdue">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rptvatnotduebydebt">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
 		<EntityTab id="rptoutgoinvat">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
