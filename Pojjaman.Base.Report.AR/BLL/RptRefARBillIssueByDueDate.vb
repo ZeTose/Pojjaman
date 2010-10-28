@@ -93,22 +93,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim indent As String = Space(3)
             'm_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.LimitDate}")       '"วันที่ครบกำหนด"
             m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.BillAcceptance}")  '"ใบรับวางบิล"
-            m_grid(0, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.DocDate}")   '"วันที่เอกสาร"
+            'm_grid(0, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.DocDate}")   '"วันที่เอกสาร"
             m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.CustName}")         '"ชื่อลูกค้า"
             m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.SumBillAcceptance}")       '"ยอดรับวางบิลทั้งหมด"
-            m_grid(0, 6).Text = "รับชำระหนี้"
+            m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Receiveselection}") '"รับชำระหนี้"
             m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.BillAcceptaceRemaining}")  '"ยอดค้างชำระทั้งหมด"
             m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Note}")            '"หมายเหตุ"
 
             m_grid(1, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.LimitDate}")       '"วันที่ครบกำหนด"
             m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.DocID}")       '"รหัสเอกสาร"
-            'm_grid(1, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Date}")            '"วันที่"
+            m_grid(1, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Date}")            '"วันที่"
             m_grid(1, 4).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.CostCenter}")    '"CostCenter"
             m_grid(1, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.BillAcceptanceTotal}")  '"ยอดรับวางบิล"
-            m_grid(1, 6).Text = "ยอดชำระ"
-            m_grid(1, 7).Text = "เลขที่เอกสารอ้างอิง"
-            m_grid(1, 8).Text = "วันที่"
-            m_grid(1, 9).Text = "เลขที่รับชำระหนี้"
+            m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.ReceiveAmt}")  '"ยอดชำระ"
+            m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.RefDoc}") '"เอกสารอ้างอิง"
+            m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Date}")            '"วันที่"
+            m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.ReceiveCode}") '"เลขที่รับชำระหนี้"
             m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Remaining}")   '"ยอดค้างชำระ"
             m_grid(1, 11).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.DocType}")     '"ประเภทเอกสาร"
 
@@ -161,19 +161,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalReceiveAmount, DigitConfig.Price)
                         m_grid(currentBillaIndex, 10).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
 
-                        m_grid.RowCount += 1
-                        currentBilliIndex = m_grid.RowCount
-                        m_grid.RowStyles(currentBilliIndex).ReadOnly = True
-                        m_grid(currentBilliIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Total}") '"รวม"
-                        m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
-                        m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(tmpTotalReceiveAmount, DigitConfig.Price)
-                        m_grid(currentBilliIndex, 10).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
-                        m_grid(currentBilliIndex, 1).Tag = "Font.Bold"
-
-                        'SumBilledAmt += tmpTotalBilledAmount
-                        'SumReceivedAmt += tmpTotalReceiveAmount
-                        'SumRemain += tmpTotalUnpaid
-
                     End If
                     m_grid.RowCount += 1
                     currentBillaIndex = m_grid.RowCount
@@ -181,13 +168,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     m_grid.RowStyles(currentBillaIndex).BackColor = Color.FromArgb(128, 255, 128)
                     m_grid.RowStyles(currentBillaIndex).Font.Bold = True
                     m_grid.RowStyles(currentBillaIndex).ReadOnly = True
-                    'm_grid(currentBillaIndex, 1).CellValue = CDate(row("DueDate")).ToShortDateString
-                    m_grid(currentBillaIndex, 2).CellValue = row("DocCode")
-                    m_grid(currentBillaIndex, 3).CellValue = CDate(row("DocDate")).ToShortDateString
-                    m_grid(currentBillaIndex, 4).CellValue = row("CustomerName")
-                    'm_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-                    m_grid(currentBillaIndex, 7).CellValue = row("Note")
                     m_grid(currentBillaIndex, 1).Tag = "Font.Bold"
+                    m_grid(currentBillaIndex, 2).CellValue = row("DocCode")
+                    m_grid(currentBillaIndex, 4).CellValue = row("CustomerName")
+                    m_grid(currentBillaIndex, 7).CellValue = row("Note")
 
                     currentDocCode = row("DocCode").ToString
                     currentBillCode = ""
@@ -201,39 +185,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     currentBilliIndex = m_grid.RowCount
                     m_grid.RowStyles(currentBilliIndex).ReadOnly = True
 
-                    If IsDate(row("DueDate")) Then
-                        m_grid(currentBilliIndex, 1).CellValue = CDate(row("DueDate")).ToShortDateString
+                    If IsDate(row("SaleBillDocDate")) Then
+                        m_grid(currentBilliIndex, 1).CellValue = indent & CDate(row("SaleBillDocDate")).ToShortDateString
                     End If
                     If Not row.IsNull("SaleBillCode") Then
                         m_grid(currentBilliIndex, 2).CellValue = indent & row("SaleBillCode").ToString
                     End If
-                    If IsDate(row("SaleBillDocDate")) Then
-                        m_grid(currentBilliIndex, 3).CellValue = indent & CDate(row("SaleBillDocDate")).ToShortDateString
+                    If IsDate(row("DueDate")) Then
+                        m_grid(currentBilliIndex, 3).CellValue = indent & CDate(row("DueDate")).ToShortDateString
                     End If
                     If Not row.IsNull("CCName") Then
                         m_grid(currentBilliIndex, 4).CellValue = indent & (row("CCName")).ToString
                     End If
                     If IsNumeric(row("SaleBillAmount")) Then
-                        'If CInt(row("stock_type")) <> 79 Then
                         m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")), DigitConfig.Price)
                         tmpTotalBilledAmount += CDec(row("SaleBillAmount"))
                         SummaryBaseBilledAmt += CDec(row("SaleBillAmount"))
-                        'Else
-                        '    m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(CDec(row("SaleBillAmount")) * -1, DigitConfig.Price)
-                        '    tmpTotalBilledAmount -= CDec(row("SaleBillAmount"))
-                        '    SummaryBaseBilledAmt -= CDec(row("SaleBillAmount"))
-                        'End If
                     End If
-                    If IsNumeric(row("receivesi_amt")) Then
-                        'If CInt(row("stock_type")) <> 79 Then
-                        m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("receivesi_amt")), DigitConfig.Price)
-                        tmpTotalReceiveAmount += CDec(row("receivesi_amt"))
-                        SummaryBaseReceiveAmt += CDec(row("receivesi_amt"))
-                        'Else
-                        '    m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("receive_amt")) * -1, DigitConfig.Price)
-                        '    tmpTotalReceiveAmount -= CDec(row("receive_amt"))
-                        '    SummaryBaseReceiveAmt -= CDec(row("receive_amt"))
-                        'End If
+                    If IsNumeric(row("receivei_amt")) Then
+                        m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(CDec(row("receivei_amt")), DigitConfig.Price)
+                        tmpTotalReceiveAmount += CDec(row("receivei_amt"))
+                        SummaryBaseReceiveAmt += CDec(row("receivei_amt"))
                     End If
                     If Not row.IsNull("receives_code") Then
                         m_grid(currentBilliIndex, 7).CellValue = indent & row("receives_code").ToString
@@ -245,48 +217,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         m_grid(currentBilliIndex, 9).CellValue = indent & row("receive_code").ToString
                     End If
                     If IsNumeric(row("SaleBillUnpaid")) Then
-                        'If CInt(row("stock_type")) <> 79 Then
                         m_grid(currentBilliIndex, 10).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")), DigitConfig.Price)
                         tmpTotalUnpaid += CDec(row("SaleBillUnpaid"))
                         SummaryBaseRemainAmt += CDec(row("SaleBillUnpaid"))
-                        'Else
-                        '    m_grid(currentBilliIndex, 10).CellValue = Configuration.FormatToString(CDec(row("SaleBillUnpaid")) * -1, DigitConfig.Price)
-                        '    tmpTotalUnpaid -= CDec(row("SaleBillUnpaid"))
-                        '    SummaryBaseRemainAmt -= CDec(row("SaleBillUnpaid"))
-                        'End If
                     End If
                     m_grid(currentBilliIndex, 11).CellValue = row("Type").ToString
 
                     currentBillCode = indent & row("SaleBillCode").ToString
                 End If
+
+                m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
+                m_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalReceiveAmount, DigitConfig.Price)
+                m_grid(currentBillaIndex, 10).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
             Next
-            m_grid(currentBillaIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
-            'm_grid(currentBillaIndex, 6).CellValue = Configuration.FormatToString(tmpTotalReceiveAmount, DigitConfig.Price)
-            'm_grid(currentBillaIndex, 10).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
-
-            m_grid.RowCount += 1
-            currentBilliIndex = m_grid.RowCount
-            m_grid.RowStyles(currentBilliIndex).ReadOnly = True
-            m_grid(currentBilliIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.Total}") '"รวม"
-            m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(tmpTotalBilledAmount, DigitConfig.Price)
-            m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(tmpTotalReceiveAmount, DigitConfig.Price)
-            m_grid(currentBilliIndex, 10).CellValue = Configuration.FormatToString(tmpTotalUnpaid, DigitConfig.Price)
-            m_grid(currentBilliIndex, 1).Tag = "Font.Bold"
-
-            'SumBilledAmt += tmpTotalBilledAmount
-            'SumReceivedAmt += tmpTotalReceiveAmount
-            'SumRemain += tmpTotalUnpaid
 
             m_grid.RowCount += 1
             currentBilliIndex = m_grid.RowCount
             m_grid.RowStyles(currentBilliIndex).BackColor = Color.FromArgb(255, 255, 128)
             m_grid.RowStyles(currentBilliIndex).Font.Bold = True
             m_grid.RowStyles(currentBilliIndex).ReadOnly = True
+            m_grid(currentBilliIndex, 1).Tag = "Font.Bold"
             m_grid(currentBilliIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate.GrandTotal}") '"รวม"
             m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(SummaryBaseBilledAmt, DigitConfig.Price)
             m_grid(currentBilliIndex, 6).CellValue = Configuration.FormatToString(SummaryBaseReceiveAmt, DigitConfig.Price)
             m_grid(currentBilliIndex, 10).CellValue = Configuration.FormatToString(SummaryBaseRemainAmt, DigitConfig.Price)
-            m_grid(currentBilliIndex, 1).Tag = "Font.Bold"
 
         End Sub
 #End Region#Region "Shared"
