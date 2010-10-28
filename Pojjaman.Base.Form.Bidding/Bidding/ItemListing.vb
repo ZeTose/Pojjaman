@@ -2248,7 +2248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         e.ProposedValue = e.Row(e.Column)
         Return
       End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 OrElse Not IsNumeric(e.ProposedValue) Then
         e.ProposedValue = ""
         Return
       End If
