@@ -788,9 +788,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             txtCode.Text = group.Code
             txtName.Text = group.Name
-            If oldGroup.Id <> group.Id Then
-                oldGroup = group
-                Return True
+            If Not oldGroup Is Nothing Then
+                If oldGroup.Id <> group.Id Then
+                    oldGroup = group
+                    Return True
+                End If
             End If
             Return False
         End Function

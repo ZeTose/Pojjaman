@@ -90,34 +90,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If m_showDetailInGrid = 0 Then
                 ' Level 1
                 Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
-                tr("col0") = "stock_code"
-                tr("col1") = "stock_docdate"
-                tr("col2") = "entity_description"
-                tr("col3") = "Supplier"
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
+                tr("col2") = "Supplier"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VatAmt}") '"จำนวนเงินภาษี"
                 tr("col4") = "stock_taxbase"
                 tr("col5") = "stock_taxAmt"
-                'tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.CustName}")  '"ชื่อลูกหนี้"
-                'tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.CustName}")  '"ชื่อลูกหนี้"
-                'tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.CustName}")  '"ชื่อลูกหนี้"
-                'tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.CustName}")  '"ชื่อลูกหนี้"
             Else
                 ' Level 1
                 Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
-                tr("col0") = "stock_code"
-                tr("col1") = "stock_docdate"
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
                 tr("col2") = "entity_description"
-                tr("col3") = "Supplier"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VatAmt}") '"จำนวนเงินภาษี"
                 tr("col4") = "stock_taxbase"
                 tr("col5") = "stock_taxAmt"
 
                 ' Level 2
                 tr = Me.m_treemanager.Treetable.Childs.Add
-                tr("col0") = indent & "pays_code"
-                tr("col1") = indent & "stock_docdate"
+                tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocCode}") '"เลขที่เอกสารอ้างอิงดึงไปทำกรอกใบกำกับ"
+                tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocDate}") ' "วันที่เอกสารอ้างอิงดึงไปทำกรอกฯ"
                 tr("col2") = indent & "entity_description"
                 tr("col3") = indent & "Supplier"
                 tr("col4") = indent & "vat_taxbase"
-                tr("col5") = indent & "vat_amt"
+                tr("col5") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefVatAmt}") '"จำนวนเงินภาษี"
                 tr("col6") = indent & "dueVat_base"
                 tr("col7") = indent & "dueVat_amt"
             End If
