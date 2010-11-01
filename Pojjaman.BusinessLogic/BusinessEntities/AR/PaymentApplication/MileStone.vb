@@ -939,6 +939,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("stock_type") = tableRow("milestone_type")
         row("stock_beforetax") = tableRow("milestone_beforetax")
         row("stock_aftertax") = tableRow("milestone_aftertax")
+        row("stock_taxbase") = tableRow("milestone_taxbase")
         'hack
         Dim receivable As New SaleBillIssueItem
         receivable.Id = CInt(tableRow("milestone_id"))

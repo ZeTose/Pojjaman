@@ -1206,6 +1206,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.m_amount = CDec(dr(aliasPrefix & "remain"))
         'Me.m_unReceivedAmount = CDec(dr(aliasPrefix & "remain"))
       End If
+
+      If dr.Table.Columns.Contains(aliasPrefix & "stock_retention") AndAlso Not dr.IsNull(aliasPrefix & "stock_retention") Then
+        Select Case m_itemprefix
+          Case "receivesi"
+            If Not m_receives Is Nothing Then
+                Me.ARretention = CInt(dr(aliasPrefix & "stock_retention"))
+            End If
+        End Select
+       
+      End If
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_unreceivedamt") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_unreceivedamt") Then
         Me.m_unReceivedAmount = CDec(dr(aliasPrefix & m_itemprefix & "_unreceivedamt"))
       End If
