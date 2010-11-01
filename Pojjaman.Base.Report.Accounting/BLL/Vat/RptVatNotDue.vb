@@ -92,30 +92,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
                 tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
                 tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
-                tr("col2") = "Supplier"
-                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VatAmt}") '"จำนวนเงินภาษี"
-                tr("col4") = "stock_taxbase"
-                tr("col5") = "stock_taxAmt"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.Supplier}") '"รายชื่อผู้ขาย"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxbase}") '"มูลค่าเอกสาร(ไม่ถึงกำหนด)"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxAmt}") '"ภาษีซื้อยังไม่ถึงกำหนด"
             Else
                 ' Level 1
                 Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
                 tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
                 tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
-                tr("col2") = "entity_description"
-                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VatAmt}") '"จำนวนเงินภาษี"
-                tr("col4") = "stock_taxbase"
-                tr("col5") = "stock_taxAmt"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.Supplier}") '"รายชื่อผู้ขาย"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxbase}") '"มูลค่าเอกสาร(ไม่ถึงกำหนด)"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxAmt}") '"ภาษีซื้อยังไม่ถึงกำหนด"
 
                 ' Level 2
                 tr = Me.m_treemanager.Treetable.Childs.Add
                 tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocCode}") '"เลขที่เอกสารอ้างอิงดึงไปทำกรอกใบกำกับ"
                 tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocDate}") ' "วันที่เอกสารอ้างอิงดึงไปทำกรอกฯ"
-                tr("col2") = indent & "entity_description"
-                tr("col3") = indent & "Supplier"
-                tr("col4") = indent & "vat_taxbase"
-                tr("col5") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefVatAmt}") '"จำนวนเงินภาษี"
-                tr("col6") = indent & "dueVat_base"
-                tr("col7") = indent & "dueVat_amt"
+                tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.Supplier}") '"รายชื่อผู้ขาย"
+                tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
+                tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
+                tr("col7") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าซื้อถึงกำหนด"
+                tr("col8") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"ภาษีซื้อ(ถึงกำหนด)"
+                tr("col9") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"มูลค่าสินค้าและบริการ(คงเหลือ)"
+                tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"คงเหลือยอด vat ไม่ถึงกำหนด"
             End If
         End Sub
         Private Sub PopulateData()
@@ -131,13 +139,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim trPaysDoc As TreeRow
 
             Dim currentStockCode As String = ""
+            Dim currStockId As String = ""
+
+            Dim tmpDeferTaxBase As Decimal
+            Dim tmpDeferTaxAmt As Decimal
+            Dim tmpDueVatBase As Decimal
+            Dim tmpDueVatAmt As Decimal
 
             Dim rowIndex As Integer = 0
             m_hashData = New Hashtable
 
             For Each stockRow As DataRow In dt.Rows
-                'If currentStockCode <> stockRow("stock_code").ToString Then
-                '    currentStockCode = stockRow("stock_code").ToString
+
                 trStockCode = Me.Treemanager.Treetable.Childs.Add
                 trStockCode.Tag = "Font.Bold"
 
@@ -149,24 +162,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not stockRow.IsNull("stock_docdate") Then
                     trStockCode("col1") = CDate(stockRow("stock_docdate")).ToShortDateString
                 End If
+                If Not stockRow.IsNull("gl_code") Then
+                    trStockCode("col2") = stockRow("gl_code").ToString
+                End If
                 If Not stockRow.IsNull("entity_description") Then
-                    trStockCode("col2") = stockRow("entity_description").ToString
+                    trStockCode("col3") = stockRow("entity_description").ToString
                 End If
                 If Not stockRow.IsNull("Supplier") Then
-                    trStockCode("col3") = stockRow("Supplier").ToString
+                    trStockCode("col4") = stockRow("Supplier").ToString
                 End If
                 If Not stockRow.IsNull("stock_taxbase") Then
-                    trStockCode("col4") = Configuration.FormatToString(CDec(stockRow("stock_taxbase")), DigitConfig.Price)
+                    trStockCode("col5") = Configuration.FormatToString(CDec(stockRow("stock_taxbase")), DigitConfig.Price)
                 End If
                 If Not stockRow.IsNull("stock_taxAmt") Then
-                    trStockCode("col5") = Configuration.FormatToString(CDec(stockRow("stock_taxAmt")), DigitConfig.Price)
+                    trStockCode("col6") = Configuration.FormatToString(CDec(stockRow("stock_taxAmt")), DigitConfig.Price)
+                End If
+                If Not stockRow.IsNull("deferTaxBase") Then
+                    trStockCode("col7") = Configuration.FormatToString(CDec(stockRow("deferTaxBase")), DigitConfig.Price)
+                    tmpDeferTaxBase = CDec(stockRow("deferTaxBase"))
+                End If
+                If Not stockRow.IsNull("deferTaxAmt") Then
+                    trStockCode("col8") = Configuration.FormatToString(CDec(stockRow("deferTaxAmt")), DigitConfig.Price)
+                    tmpDeferTaxAmt = CDec(stockRow("deferTaxAmt"))
                 End If
 
                 If m_showDetailInGrid <> 0 Then
+                    Dim tmpDueVatBaseRemain As Decimal
+                    Dim tmpDueVatAmtRemain As Decimal
                     Dim dt1 As DataTable = Me.DataSet.Tables(1)
                     trStockCode.State = RowExpandState.Expanded
                     For Each paysRow As DataRow In dt1.Select("stock_id=" & stockRow("stock_id").ToString)
                         Dim deh As New DataRowHelper(paysRow)
+
                         If Not trStockCode Is Nothing Then
                             trPaysDoc = trStockCode.Childs.Add
                             trPaysDoc.Tag = paysRow
@@ -179,27 +206,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 End If
                             End If
                             If Not paysRow.IsNull("entity_description") Then
-                                trPaysDoc("col2") = indent & paysRow("entity_description").ToString
+                                trPaysDoc("col3") = indent & paysRow("entity_description").ToString
                             End If
                             If Not paysRow.IsNull("Supplier") Then
-                                trPaysDoc("col3") = indent & paysRow("Supplier").ToString
+                                trPaysDoc("col4") = indent & paysRow("Supplier").ToString
                             End If
-                            If Not paysRow.IsNull("vat_taxbase") Then
-                                trPaysDoc("col4") = indent & Configuration.FormatToString(CDec(paysRow("vat_taxbase")), DigitConfig.Price)
-                                'totalBeforeTax += CDec(paysRow("beforetax"))
+                            If Not paysRow.IsNull("stock_taxbase") Then
+                                trPaysDoc("col5") = indent & Configuration.FormatToString(CDec(paysRow("stock_taxbase")), DigitConfig.Price)
                             End If
-                            If Not paysRow.IsNull("vat_amt") Then
-                                trPaysDoc("col5") = indent & Configuration.FormatToString(CDec(paysRow("vat_amt")), DigitConfig.Price)
-                                'totalTaxAmount += CDec(paysRow("taxamt"))
+                            If Not paysRow.IsNull("stock_taxamt") Then
+                                trPaysDoc("col6") = indent & Configuration.FormatToString(CDec(paysRow("stock_taxamt")), DigitConfig.Price)
                             End If
                             If Not paysRow.IsNull("dueVat_base") Then
-                                trPaysDoc("col6") = indent & Configuration.FormatToString(CDec(paysRow("dueVat_base")), DigitConfig.Price)
-                                'totalAfterTax += CDec(paysRow("aftertax"))
+                                trPaysDoc("col7") = indent & Configuration.FormatToString(CDec(paysRow("dueVat_base")), DigitConfig.Price)
+                                tmpDueVatBase = CDec(paysRow("dueVat_base"))
                             End If
                             If Not paysRow.IsNull("dueVat_amt") Then
-                                trPaysDoc("col7") = indent & Configuration.FormatToString(CDec(paysRow("dueVat_amt")), DigitConfig.Price)
-                                'advanceRemain = CDec(paysRow("openningbalanceremain"))
+                                trPaysDoc("col8") = indent & Configuration.FormatToString(CDec(paysRow("dueVat_amt")), DigitConfig.Price)
+                                tmpDueVatAmt = CDec(paysRow("dueVat_amt"))
                             End If
+                            If currStockId <> stockRow("stock_id").ToString Then
+                                tmpDueVatBaseRemain = tmpDeferTaxBase - tmpDueVatBase
+                                trPaysDoc("col9") = indent & Configuration.FormatToString(CDec(tmpDueVatBaseRemain), DigitConfig.Price)
+
+                                tmpDueVatAmtRemain = tmpDeferTaxAmt - tmpDueVatAmt
+                                trPaysDoc("col10") = indent & Configuration.FormatToString(CDec(tmpDueVatAmtRemain), DigitConfig.Price)
+                            Else
+                                tmpDueVatBaseRemain = tmpDueVatBaseRemain - tmpDueVatBase
+                                trPaysDoc("col9") = indent & Configuration.FormatToString(CDec(tmpDueVatBaseRemain), DigitConfig.Price)
+
+                                tmpDueVatAmtRemain = tmpDueVatAmtRemain - tmpDueVatAmt
+                                trPaysDoc("col10") = indent & Configuration.FormatToString(CDec(tmpDueVatAmtRemain), DigitConfig.Price)
+                            End If
+                            currStockId = stockRow("stock_id").ToString
                         End If
                     Next
                 End If
@@ -234,12 +273,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
 
             Return myDatatable
         End Function
@@ -247,7 +283,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim dst As New DataGridTableStyle
             dst.MappingName = "Report"
             Dim widths As New ArrayList
-            Dim iCol As Integer = 7 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+            Dim iCol As Integer = 10 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
             widths.Add(120)
             widths.Add(200)
@@ -257,12 +293,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             widths.Add(150)
             widths.Add(120)
             widths.Add(100)
-            'widths.Add(100)
-            'widths.Add(120)
-            'widths.Add(100)
-            'widths.Add(100)
-            'widths.Add(100)
-            'widths.Add(300)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
 
             For i As Integer = 0 To iCol
                 If i = 1 Then
@@ -286,7 +319,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     cs.Alignment = HorizontalAlignment.Left
                     'If Me.m_showDetailInGrid <> 0 Then
                     Select Case i
-                        Case 0, 1, 2, 3,
+                        Case 0, 1, 2, 3, 4
                             cs.Alignment = HorizontalAlignment.Left
                             cs.DataAlignment = HorizontalAlignment.Left
                             cs.Format = "s"
