@@ -2597,14 +2597,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             If Me.m_entity.ItemCollection.Count > 0 Then
               If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeWRCode}") Then
-                dirtyFlag = WR.GetWR(txtWRCode, Me.m_entity.WR)
+                dirtyFlag = WR.GetWR(txtWRCode, Me.m_entity.WR, Me.Entity)
                 SetWRToNothing(wrCode)
               Else
                 Me.txtWRCode.Text = Me.m_entity.WR.Code
                 SetWRToNothing(wrCode)
               End If
             Else
-              dirtyFlag = WR.GetWR(txtWRCode, Me.m_entity.WR)
+              dirtyFlag = WR.GetWR(txtWRCode, Me.m_entity.WR, Me.Entity)
               SetWRToNothing(wrCode)
             End If
             txtWRCodeChanged = False

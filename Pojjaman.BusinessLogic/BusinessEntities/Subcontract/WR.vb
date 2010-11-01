@@ -511,9 +511,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-    Public Shared Function GetWR(ByVal txtCode As TextBox, ByRef oldwr As WR) As Boolean
+    Public Shared Function GetWR(ByVal txtCode As TextBox, ByRef oldwr As WR, Optional ByVal sc As SC = Nothing) As Boolean
       If txtCode.Text.Length > 0 Then
-        Dim wrNew As New WR(txtCode.Text)
+        Dim wrNew As WR
+        If SC IsNot Nothing AndAlso CBool(Configuration.GetConfig("ApproveWR")) Then
+          Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+          , CommandType.StoredProcedure _
+          , "WRisApprove" _
+             , New SqlParameter("@wr_code", txtCode.Text) _
+          )
+          If ds.Tables(0).Rows.Count = 0 Then
+            MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+            wrNew = oldwr
+            txtCode.Text = oldwr.Code
+            Return False
+          End If
+          Dim isApprove As Boolean = CBool(ds.Tables(0).Rows(0)(0))
+          If Not isApprove Then
+            MessageBox.Show(txtCode.Text & " ยังไม่อนุมัติ")
+            wrNew = oldwr
+            txtCode.Text = oldwr.Code
+            Return False
+          End If
+        End If
+        wrNew = New WR(txtCode.Text)
         If txtCode.Text.Length <> 0 AndAlso Not wrNew.Valid Then
           MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
           wrNew = oldwr
