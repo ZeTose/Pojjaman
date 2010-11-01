@@ -1317,7 +1317,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีซื้อ
-      If Me.RealTaxAmount > 0 Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0)) Then
         ji = New JournalEntryItem
         ji.Mapping = "B6.9"
         ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
@@ -1329,6 +1329,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         jiColl.Add(ji)
       End If
 
+      'ภาษีซื้อยังไม่ถึงกำหนด
+      If Me.TaxAmount > 0 AndAlso (Me.Vat.ItemCollection(0).Code Is Nothing OrElse Me.Vat.ItemCollection(0).Code.Length = 0) Then
+        ji = New JournalEntryItem
+        ji.Mapping = "B6.9.1"
+        ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+        If Me.FromCostCenter.Originated Then
+          ji.CostCenter = Me.FromCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
 
       'ภาษีถูกหัก ณ ที่จ่าย
       If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
