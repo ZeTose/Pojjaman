@@ -100,10 +100,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csPayDate.TextBox.Name = "paydate"
       csPayDate.ReadOnly = True
 
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DescriptionHeaderText}")
+      csAmount.NullText = ""
+      csAmount.Width = 100
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.TextBox.Name = "Amount"
+      csAmount.ReadOnly = True
+
       'dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csDescription)
       dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csDate)
+      dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(cspayDescription)
       dst.GridColumnStyles.Add(cspayCode)
       dst.GridColumnStyles.Add(csPayDate)
@@ -120,6 +130,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("description", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("date", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("paydescription", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("paycode", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("paydate", GetType(String)))
@@ -136,6 +147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("description") = "Description" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.AcctName}") '"ชื่อบัญชี"
       tr("code") = "Code" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.AcctCode}") '"รหัสบัญชี"
       tr("date") = "Date" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Amount}") '"จำนวนเงิน"
+      tr("Amount") = "Amount" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Description}") '"ประเภทเอกสาร"
       tr("paydescription") = "PayDescription" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Description}") '"ประเภทเอกสาร"
       tr("paycode") = "PayCode" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Description}") '"ประเภทเอกสาร"
       tr("paydate") = "PayDate" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Description}") '"ประเภทเอกสาร"
@@ -289,6 +301,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("date") = drh.GetValue(Of Date)(prefix & "_docdate").ToShortDateString
         End If
         row("paydescription") = drh.GetValue(Of String)(prefix & "_description")
+        Dim amt As Decimal = drh.GetValue(Of Decimal)(prefix & "_aftertax")
+        If amt <> 0 Then
+          row("amount") = Configuration.FormatToString(amt, DigitConfig.Price)
+        End If
         row("paycode") = drh.GetValue(Of String)(prefix & "_paycode")
         If Date.MinValue = drh.GetValue(Of Date)(prefix & "_paydate") Then
           row("paydate") = ""

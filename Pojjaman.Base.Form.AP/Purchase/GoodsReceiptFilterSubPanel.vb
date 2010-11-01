@@ -95,6 +95,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtApprovePersonName As System.Windows.Forms.TextBox
     Friend WithEvents lblApprovePerson As System.Windows.Forms.Label
     Friend WithEvents btnFineApprove As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRemark As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lblEquipment As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -170,8 +172,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPVStart = New System.Windows.Forms.Label()
       Me.btnPVStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnPVEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.txtRemark = New System.Windows.Forms.TextBox()
+      Me.Label1 = New System.Windows.Forms.Label()
       Me.grbDetail.SuspendLayout()
       Me.grbApprove.SuspendLayout()
       Me.grbDueDate.SuspendLayout()
@@ -179,6 +183,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItem.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
       Me.grbPV.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'lblCode
@@ -188,7 +193,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.Location = New System.Drawing.Point(16, 16)
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(80, 18)
-      Me.lblCode.TabIndex = 6
+      Me.lblCode.TabIndex = 0
       Me.lblCode.Text = "รหัส:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -205,7 +210,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(278, 21)
-      Me.txtCode.TabIndex = 0
+      Me.txtCode.TabIndex = 1
       '
       'grbDetail
       '
@@ -521,7 +526,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItem.Controls.Add(Me.ibtnShowToolDialog)
       Me.grbItem.Controls.Add(Me.txtTool)
       Me.grbItem.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbItem.Location = New System.Drawing.Point(8, 200)
+      Me.grbItem.Location = New System.Drawing.Point(8, 225)
       Me.grbItem.Name = "grbItem"
       Me.grbItem.Size = New System.Drawing.Size(385, 94)
       Me.grbItem.TabIndex = 1
@@ -686,6 +691,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbMainDetail
       '
+      Me.grbMainDetail.Controls.Add(Me.txtRemark)
+      Me.grbMainDetail.Controls.Add(Me.Label1)
       Me.grbMainDetail.Controls.Add(Me.ibtnShowEquipment)
       Me.grbMainDetail.Controls.Add(Me.txtEquipmentName)
       Me.grbMainDetail.Controls.Add(Me.ibtnShowEquipmentDiaog)
@@ -715,7 +722,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMainDetail.Location = New System.Drawing.Point(8, 10)
       Me.grbMainDetail.Name = "grbMainDetail"
-      Me.grbMainDetail.Size = New System.Drawing.Size(385, 190)
+      Me.grbMainDetail.Size = New System.Drawing.Size(385, 209)
       Me.grbMainDetail.TabIndex = 0
       Me.grbMainDetail.TabStop = False
       Me.grbMainDetail.Text = "รายละเอียดทั่วไป"
@@ -724,10 +731,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowEquipment.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEquipment.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowEquipment.Location = New System.Drawing.Point(349, 160)
+      Me.ibtnShowEquipment.Location = New System.Drawing.Point(349, 182)
       Me.ibtnShowEquipment.Name = "ibtnShowEquipment"
       Me.ibtnShowEquipment.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowEquipment.TabIndex = 284
+      Me.ibtnShowEquipment.TabIndex = 27
       Me.ibtnShowEquipment.TabStop = False
       Me.ibtnShowEquipment.ThemedImage = CType(resources.GetObject("ibtnShowEquipment.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -738,14 +745,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtEquipmentName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtEquipmentName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtEquipmentName, System.Drawing.Color.Empty)
-      Me.txtEquipmentName.Location = New System.Drawing.Point(175, 160)
+      Me.txtEquipmentName.Location = New System.Drawing.Point(175, 182)
       Me.Validator.SetMinValue(Me.txtEquipmentName, "")
       Me.txtEquipmentName.Name = "txtEquipmentName"
       Me.txtEquipmentName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtEquipmentName, "")
       Me.Validator.SetRequired(Me.txtEquipmentName, False)
       Me.txtEquipmentName.Size = New System.Drawing.Size(150, 20)
-      Me.txtEquipmentName.TabIndex = 285
+      Me.txtEquipmentName.TabIndex = 25
       Me.txtEquipmentName.TabStop = False
       '
       'ibtnShowEquipmentDiaog
@@ -753,10 +760,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowEquipmentDiaog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEquipmentDiaog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowEquipmentDiaog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowEquipmentDiaog.Location = New System.Drawing.Point(325, 160)
+      Me.ibtnShowEquipmentDiaog.Location = New System.Drawing.Point(325, 182)
       Me.ibtnShowEquipmentDiaog.Name = "ibtnShowEquipmentDiaog"
       Me.ibtnShowEquipmentDiaog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowEquipmentDiaog.TabIndex = 283
+      Me.ibtnShowEquipmentDiaog.TabIndex = 26
       Me.ibtnShowEquipmentDiaog.TabStop = False
       Me.ibtnShowEquipmentDiaog.ThemedImage = CType(resources.GetObject("ibtnShowEquipmentDiaog.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -767,21 +774,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtEquipmentCode, "")
       Me.Validator.SetGotFocusBackColor(Me.txtEquipmentCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtEquipmentCode, System.Drawing.Color.Empty)
-      Me.txtEquipmentCode.Location = New System.Drawing.Point(95, 160)
+      Me.txtEquipmentCode.Location = New System.Drawing.Point(95, 182)
       Me.Validator.SetMinValue(Me.txtEquipmentCode, "")
       Me.txtEquipmentCode.Name = "txtEquipmentCode"
       Me.Validator.SetRegularExpression(Me.txtEquipmentCode, "")
       Me.Validator.SetRequired(Me.txtEquipmentCode, False)
       Me.txtEquipmentCode.Size = New System.Drawing.Size(80, 20)
-      Me.txtEquipmentCode.TabIndex = 281
+      Me.txtEquipmentCode.TabIndex = 24
       '
       'lblEquipment
       '
       Me.lblEquipment.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblEquipment.Location = New System.Drawing.Point(16, 160)
+      Me.lblEquipment.Location = New System.Drawing.Point(16, 182)
       Me.lblEquipment.Name = "lblEquipment"
       Me.lblEquipment.Size = New System.Drawing.Size(80, 18)
-      Me.lblEquipment.TabIndex = 282
+      Me.lblEquipment.TabIndex = 23
       Me.lblEquipment.Text = "เครื่องจักร:"
       Me.lblEquipment.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -792,7 +799,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnSupplierPanel.Location = New System.Drawing.Point(349, 112)
       Me.btnSupplierPanel.Name = "btnSupplierPanel"
       Me.btnSupplierPanel.Size = New System.Drawing.Size(24, 23)
-      Me.btnSupplierPanel.TabIndex = 206
+      Me.btnSupplierPanel.TabIndex = 18
       Me.btnSupplierPanel.TabStop = False
       Me.btnSupplierPanel.ThemedImage = CType(resources.GetObject("btnSupplierPanel.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -808,7 +815,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
       Me.Validator.SetRequired(Me.txtSupplierCode, False)
       Me.txtSupplierCode.Size = New System.Drawing.Size(80, 20)
-      Me.txtSupplierCode.TabIndex = 6
+      Me.txtSupplierCode.TabIndex = 15
       '
       'txtSupplierName
       '
@@ -823,7 +830,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtSupplierName, "")
       Me.Validator.SetRequired(Me.txtSupplierName, False)
       Me.txtSupplierName.Size = New System.Drawing.Size(150, 20)
-      Me.txtSupplierName.TabIndex = 205
+      Me.txtSupplierName.TabIndex = 16
       Me.txtSupplierName.TabStop = False
       '
       'btnSupplierDialog
@@ -834,7 +841,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnSupplierDialog.Location = New System.Drawing.Point(325, 112)
       Me.btnSupplierDialog.Name = "btnSupplierDialog"
       Me.btnSupplierDialog.Size = New System.Drawing.Size(24, 23)
-      Me.btnSupplierDialog.TabIndex = 7
+      Me.btnSupplierDialog.TabIndex = 17
       Me.btnSupplierDialog.TabStop = False
       Me.btnSupplierDialog.ThemedImage = CType(resources.GetObject("btnSupplierDialog.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -846,7 +853,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSupplier.Location = New System.Drawing.Point(16, 112)
       Me.lblSupplier.Name = "lblSupplier"
       Me.lblSupplier.Size = New System.Drawing.Size(80, 18)
-      Me.lblSupplier.TabIndex = 204
+      Me.lblSupplier.TabIndex = 14
       Me.lblSupplier.Text = "ผู้ขาย:"
       Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -856,7 +863,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbStatus.Location = New System.Drawing.Point(95, 88)
       Me.cmbStatus.Name = "cmbStatus"
       Me.cmbStatus.Size = New System.Drawing.Size(230, 21)
-      Me.cmbStatus.TabIndex = 5
+      Me.cmbStatus.TabIndex = 13
       '
       'lblStatus
       '
@@ -866,7 +873,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Location = New System.Drawing.Point(16, 88)
       Me.lblStatus.Name = "lblStatus"
       Me.lblStatus.Size = New System.Drawing.Size(80, 18)
-      Me.lblStatus.TabIndex = 197
+      Me.lblStatus.TabIndex = 12
       Me.lblStatus.Text = "สถานะ:"
       Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -882,7 +889,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToCCPersonCode, "")
       Me.Validator.SetRequired(Me.txtToCCPersonCode, False)
       Me.txtToCCPersonCode.Size = New System.Drawing.Size(80, 20)
-      Me.txtToCCPersonCode.TabIndex = 1
+      Me.txtToCCPersonCode.TabIndex = 3
       '
       'btnToCostCenterPanel
       '
@@ -891,7 +898,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnToCostCenterPanel.Location = New System.Drawing.Point(349, 64)
       Me.btnToCostCenterPanel.Name = "btnToCostCenterPanel"
       Me.btnToCostCenterPanel.Size = New System.Drawing.Size(24, 23)
-      Me.btnToCostCenterPanel.TabIndex = 199
+      Me.btnToCostCenterPanel.TabIndex = 11
       Me.btnToCostCenterPanel.TabStop = False
       Me.btnToCostCenterPanel.ThemedImage = CType(resources.GetObject("btnToCostCenterPanel.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -907,7 +914,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToCostCenterCode, "")
       Me.Validator.SetRequired(Me.txtToCostCenterCode, False)
       Me.txtToCostCenterCode.Size = New System.Drawing.Size(80, 20)
-      Me.txtToCostCenterCode.TabIndex = 3
+      Me.txtToCostCenterCode.TabIndex = 8
       '
       'txtToCCPersonName
       '
@@ -922,7 +929,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToCCPersonName, "")
       Me.Validator.SetRequired(Me.txtToCCPersonName, False)
       Me.txtToCCPersonName.Size = New System.Drawing.Size(150, 20)
-      Me.txtToCCPersonName.TabIndex = 196
+      Me.txtToCCPersonName.TabIndex = 4
       Me.txtToCCPersonName.TabStop = False
       '
       'lblToCCPerson
@@ -933,7 +940,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblToCCPerson.Location = New System.Drawing.Point(16, 40)
       Me.lblToCCPerson.Name = "lblToCCPerson"
       Me.lblToCCPerson.Size = New System.Drawing.Size(80, 24)
-      Me.lblToCCPerson.TabIndex = 191
+      Me.lblToCCPerson.TabIndex = 2
       Me.lblToCCPerson.Text = "ผู้รับ:"
       Me.lblToCCPerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -950,7 +957,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtToCostCenterName, "")
       Me.Validator.SetRequired(Me.txtToCostCenterName, False)
       Me.txtToCostCenterName.Size = New System.Drawing.Size(150, 20)
-      Me.txtToCostCenterName.TabIndex = 196
+      Me.txtToCostCenterName.TabIndex = 9
       Me.txtToCostCenterName.TabStop = False
       '
       'btnToCostCenterDialog
@@ -961,7 +968,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnToCostCenterDialog.Location = New System.Drawing.Point(325, 64)
       Me.btnToCostCenterDialog.Name = "btnToCostCenterDialog"
       Me.btnToCostCenterDialog.Size = New System.Drawing.Size(24, 23)
-      Me.btnToCostCenterDialog.TabIndex = 4
+      Me.btnToCostCenterDialog.TabIndex = 10
       Me.btnToCostCenterDialog.TabStop = False
       Me.btnToCostCenterDialog.ThemedImage = CType(resources.GetObject("btnToCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -972,7 +979,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnToCCPersonPanel.Location = New System.Drawing.Point(349, 40)
       Me.btnToCCPersonPanel.Name = "btnToCCPersonPanel"
       Me.btnToCCPersonPanel.Size = New System.Drawing.Size(24, 23)
-      Me.btnToCCPersonPanel.TabIndex = 200
+      Me.btnToCCPersonPanel.TabIndex = 6
       Me.btnToCCPersonPanel.TabStop = False
       Me.btnToCCPersonPanel.ThemedImage = CType(resources.GetObject("btnToCCPersonPanel.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -984,7 +991,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblToCC.Location = New System.Drawing.Point(-2, 56)
       Me.lblToCC.Name = "lblToCC"
       Me.lblToCC.Size = New System.Drawing.Size(98, 32)
-      Me.lblToCC.TabIndex = 192
+      Me.lblToCC.TabIndex = 7
       Me.lblToCC.Text = "CostCenter รับ:"
       Me.lblToCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -996,7 +1003,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnToCCPersonDialog.Location = New System.Drawing.Point(325, 40)
       Me.btnToCCPersonDialog.Name = "btnToCCPersonDialog"
       Me.btnToCCPersonDialog.Size = New System.Drawing.Size(24, 23)
-      Me.btnToCCPersonDialog.TabIndex = 202
+      Me.btnToCCPersonDialog.TabIndex = 5
       Me.btnToCCPersonDialog.TabStop = False
       Me.btnToCCPersonDialog.ThemedImage = CType(resources.GetObject("btnToCCPersonDialog.ThemedImage"), System.Drawing.Bitmap)
       '
@@ -1012,8 +1019,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtOtherDocCode.Name = "txtOtherDocCode"
       Me.Validator.SetRegularExpression(Me.txtOtherDocCode, "")
       Me.Validator.SetRequired(Me.txtOtherDocCode, False)
-      Me.txtOtherDocCode.Size = New System.Drawing.Size(230, 21)
-      Me.txtOtherDocCode.TabIndex = 8
+      Me.txtOtherDocCode.Size = New System.Drawing.Size(278, 21)
+      Me.txtOtherDocCode.TabIndex = 20
       '
       'lblOtherDocCode
       '
@@ -1022,7 +1029,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblOtherDocCode.Location = New System.Drawing.Point(16, 136)
       Me.lblOtherDocCode.Name = "lblOtherDocCode"
       Me.lblOtherDocCode.Size = New System.Drawing.Size(80, 18)
-      Me.lblOtherDocCode.TabIndex = 6
+      Me.lblOtherDocCode.TabIndex = 19
       Me.lblOtherDocCode.Text = "เลขที่ใบส่งของ:"
       Me.lblOtherDocCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -1133,6 +1140,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
+      'txtRemark
+      '
+      Me.Validator.SetDataType(Me.txtRemark, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRemark, "")
+      Me.txtRemark.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtRemark, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRemark, System.Drawing.Color.Empty)
+      Me.txtRemark.Location = New System.Drawing.Point(95, 160)
+      Me.Validator.SetMinValue(Me.txtRemark, "")
+      Me.txtRemark.Name = "txtRemark"
+      Me.Validator.SetRegularExpression(Me.txtRemark, "")
+      Me.Validator.SetRequired(Me.txtRemark, False)
+      Me.txtRemark.Size = New System.Drawing.Size(278, 21)
+      Me.txtRemark.TabIndex = 22
+      '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.ForeColor = System.Drawing.Color.Black
+      Me.Label1.Location = New System.Drawing.Point(16, 160)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(80, 18)
+      Me.Label1.TabIndex = 21
+      Me.Label1.Text = "Remark:"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'GoodsReceiptFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
@@ -1151,6 +1184,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.PerformLayout()
       Me.grbPV.ResumeLayout(False)
       Me.grbPV.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1443,7 +1477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptFilterSubPanel.lblApproveLevel}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(18) As Filter
+      Dim arr(19) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("toccperson_id", IIf(Me.m_toccperson.Originated, Me.m_toccperson.Id, DBNull.Value))
       arr(2) = New Filter("tocc_id", IIf(Me.m_tocc.Originated, Me.m_tocc.Id, DBNull.Value))
@@ -1463,6 +1497,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(16) = New Filter("stock_asset", ValidIdOrDBNull(Me.m_asset))
       arr(17) = New Filter("ApprovePerson", ValidIdOrDBNull(m_user))
       arr(18) = New Filter("ApproveLevel", IIf(cmbApproveLevel.SelectedItem Is Nothing, DBNull.Value, CType(cmbApproveLevel.SelectedItem, IdValuePair).Id))
+      arr(19) = New Filter("Note", IIf(txtRemark.TextLength > 0, txtRemark.Text, DBNull.Value))
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
