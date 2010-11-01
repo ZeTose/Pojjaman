@@ -2181,7 +2181,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
-          Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, 0, 0, conn, trans)  'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
+          Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.EntityId, conn, trans)  'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
