@@ -132,7 +132,7 @@ Namespace Longkong.Pojjaman.Gui
     Private Sub CreateMainMenu()
       Me.TopMenu = New MenuStrip
       Dim items As ToolStripItem() = CType(AddInTreeSingleton.AddInTree.GetTreeNode(PojjamanWorkbench.m_mainMenuPath).BuildChildItems(Me).ToArray(GetType(ToolStripItem)), ToolStripItem())
-      Me.TopMenu.Items.Clear()
+      Me.TopMenu.LayoutStyle = ToolStripLayoutStyle.Flow
       Me.TopMenu.Items.AddRange(items)
     End Sub
     Private Sub CreateToolBars()
