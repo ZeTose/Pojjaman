@@ -430,13 +430,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 				Me.RefreshTaxBase()
-				Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
-				Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
-				If tmpTaxBase <> tmpVatTaxBase Then
-					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-					New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
-					, Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
-				End If
+        'Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
+        'Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
+        'If tmpTaxBase <> tmpVatTaxBase Then
+        '	Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '	New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
+        '	, Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
+        'End If
 				'If Me.MaxRowIndex < 0 Then
 				'    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
 				'End If

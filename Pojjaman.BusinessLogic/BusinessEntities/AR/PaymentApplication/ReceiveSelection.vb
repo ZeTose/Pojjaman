@@ -1284,6 +1284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '--- Pui 20080418 ASCON ต้องการปรับยอดใบกำกับภาษีได้ ตามการแบ่งรับชำระ ---
       RefreshTaxBase()
       Me.Vat.ItemCollection.Clear()
+      Vat.AutoGen = True
       'If Me.TaxType.Value = 0 Then
       '    Return
       'End If
@@ -1465,6 +1466,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub GenSingleVatItem()
       Me.Vat.ItemCollection.Clear()
+      Vat.AutoGen = True
       Dim vitem As New VatItem
       vitem.LineNumber = 1
       Dim vi As New VatItem
