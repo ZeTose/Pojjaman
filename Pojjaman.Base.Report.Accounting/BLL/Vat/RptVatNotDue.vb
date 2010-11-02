@@ -95,10 +95,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
                 tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
                 tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.Supplier}") '"รายชื่อผู้ขาย"
-                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
-                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
-                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxbase}") '"มูลค่าเอกสาร(ไม่ถึงกำหนด)"
-                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxAmt}") '"ภาษีซื้อยังไม่ถึงกำหนด"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้าและบริการ"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"จำนวนเงินภาษี"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxbase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
             Else
                 ' Level 1
                 Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
@@ -118,12 +118,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocDate}") ' "วันที่เอกสารอ้างอิงดึงไปทำกรอกฯ"
                 tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
                 tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.Supplier}") '"รายชื่อผู้ขาย"
-                tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
-                tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
-                tr("col7") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าซื้อถึงกำหนด"
-                tr("col8") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"ภาษีซื้อ(ถึงกำหนด)"
+                'tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
+                ' tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
+                'tr("col7") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าซื้อถึงกำหนด"
+                'tr("col8") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"ภาษีซื้อ(ถึงกำหนด)"
                 tr("col9") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"มูลค่าสินค้าและบริการ(คงเหลือ)"
-                tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"คงเหลือยอด vat ไม่ถึงกำหนด"
+                tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"จำนวนเงินภาษีคงเหลือ"
             End If
         End Sub
         Private Sub PopulateData()
@@ -191,7 +191,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Dim tmpDueVatAmtRemain As Decimal
                     Dim dt1 As DataTable = Me.DataSet.Tables(1)
                     trStockCode.State = RowExpandState.Expanded
-                    For Each paysRow As DataRow In dt1.Select("stock_id=" & stockRow("stock_id").ToString)
+                    For Each paysRow As DataRow In dt1.Select("stock_id=" & stockRow("stock_id").ToString & " and stock_type=" & stockRow("stock_type").ToString)
                         Dim deh As New DataRowHelper(paysRow)
 
                         If Not trStockCode Is Nothing Then
