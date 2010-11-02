@@ -1226,9 +1226,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Case "btnlcicodenamefind"
                     myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetLciDialog)
 
-                    'Case "btnlciendfind"
-                    '    myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetLciEndDialog)
-
             End Select
         End Sub
         ' Costcenter
@@ -1239,26 +1236,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     myEntityPanelService.OpenTreeDialog(New Costcenter, AddressOf SetCCCodeStartDialog)
             End Select
         End Sub
-        'Private Sub SetLciStartDialog(ByVal e As ISimpleEntity)
-        '    Me.txtLciCodeStart.Text = e.Code
-        '    LCIItem.GetLCIItem(txtLciCodeStart, txtTemp, Me.LciStart)
-        'End Sub
-        'Private Sub SetLciEndDialog(ByVal e As ISimpleEntity)
-        '    Me.txtLciCodeEnd.Text = e.Code
-        '    LCIItem.GetLCIItem(txtLciCodeEnd, txtTemp, Me.LciEnd)
-        'End Sub
         Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
             Me.txtCCCodeStart.Text = e.Code
             Costcenter.GetCostCenter(txtCCCodeStart, txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
         End Sub
-        'Lci
-        'Private Sub btnLciFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLciCodeNameFind.Click
-        '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-        '    Select Case CType(sender, Control).Name.ToLower
-        '        Case "btnlcicodenamefind"
-        '            myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetLciDialog)
-        '    End Select
-        'End Sub
         Private Sub SetLciDialog(ByVal e As ISimpleEntity)
             Me.txtItemCode.Text = e.Code
         End Sub
