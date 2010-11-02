@@ -76,7 +76,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
             Me.m_treemanager = tm
             Me.m_treemanager.Treetable.Clear()
-            m_showDetailInGrid = CInt(Me.Filters(8).Value)
+            m_showDetailInGrid = CInt(Me.Filters(3).Value)
             CreateHeader()
             PopulateData()
         End Sub

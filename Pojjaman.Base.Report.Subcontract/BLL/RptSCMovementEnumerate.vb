@@ -343,6 +343,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                     trItem("col7") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
                                     trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
                                     trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
+                                    trItem("col22") = newItem.GetValue(Of String)("Note")
                                 End If
 
                                 'trItem.State = RowExpandState.Expanded
@@ -370,7 +371,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 trChild("col0") = newChild.GetValue(Of Date)("sc_Date").ToShortDateString
                                 trChild("col1") = newChild.GetValue(Of String)("Code").ToString
                                 trChild("col2") = newChild.GetValue(Of String)("sc_Type").ToString
-                                'trChild("col3") = newChild.GetValue(Of String)("ccinfo").ToString
                                 trChild("col9") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
                                 trChild("col10") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("sc"), DigitConfig.Price)
                                 trChild("col13") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("advance"), DigitConfig.Price)
@@ -380,6 +380,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 trChild("col15") = Configuration.FormatToString(advRemain, DigitConfig.Price)
                                 trChild("col18") = Configuration.FormatToString(retRemain, DigitConfig.Price)
                                 trChild("col21") = Configuration.FormatToString(drRemain, DigitConfig.Price)
+                                trChild("col22") = newChild.GetValue(Of String)("sc_note")
                                 If newChild.GetValue(Of Integer)("entityId") = 292 Then
                                     DocAmount = newChild.GetValue(Of Decimal)("sc_debit") - newChild.GetValue(Of Decimal)("advance_debit") - newChild.GetValue(Of Decimal)("retention_debit") + newChild.GetValue(Of Decimal)("dr_debit")
                                     trChild("col10") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
@@ -387,6 +388,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                     trChild("col14") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
                                     trChild("col17") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
                                     trChild("col20") = Configuration.FormatToString(newChild.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+                                    trChild("col22") = newChild.GetValue(Of String)("sc_note")
                                 End If
 
                                 trChild.State = RowExpandState.Expanded
@@ -421,6 +423,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                         trItem("col7") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("LAB"), DigitConfig.Price)
                                         trItem("col8") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("EQ"), DigitConfig.Price)
                                         trItem("col9") = Configuration.FormatToString(newItem.GetValue(Of Decimal)("Amount"), DigitConfig.Price)
+
+                                        'Trace.WriteLine("sci_sc=" & ScRow("sc_id").ToString & " and EntityID=" & ScRow("entityID").ToString & " and Id=" & ScRow("Id").ToString)
                                         trItem("col22") = newItem.GetValue(Of String)("Note")
                                     End If
 
@@ -513,9 +517,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             myDatatable.Columns.Add(New DataColumn("col20", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("col21", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("col22", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col23", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col24", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("col25", GetType(String)))
 
             Return myDatatable
         End Function
@@ -571,7 +572,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     cs.Width = CInt(widths(i))
                     cs.NullText = ""
                     cs.Alignment = HorizontalAlignment.Left
-                    If i >= 5 AndAlso i <= 25 Then
+                    If i >= 5 AndAlso i <= 21 Then
                         cs.DataAlignment = HorizontalAlignment.Right
                     Else
                         cs.DataAlignment = HorizontalAlignment.Left
