@@ -484,6 +484,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return entity.Id
     End Function
+    Public Shared Function ValidIdOrZero(ByVal entity As SimpleBusinessEntityBase) As Object
+      If entity Is Nothing OrElse Not entity.Valid Then
+        Return 0
+      End If
+      Return entity.Id
+    End Function
     Public Shared Function ValidDateOrDBNull(ByVal myDate As Date) As Object
       If myDate.Equals(Date.MinValue) Then
         Return DBNull.Value

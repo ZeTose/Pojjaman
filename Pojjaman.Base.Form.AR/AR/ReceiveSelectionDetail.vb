@@ -927,12 +927,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       doc.Amount = value
       If doc.ParentType = 81 Then
         If doc.BilledAmount <> 0 Then
-          e.ProposedValue = value / doc.BilledAmount * doc.GetMilestoneRetention
+          Dim docRet As Decimal = doc.GetMilestoneRetention
+          e.ProposedValue = value / (doc.BilledAmount - docRet) * docRet
         Else
           e.ProposedValue = 0
         End If
         m_updating = False
         SetRetentionAmount(e)
+      Else
+        UpdateVat(True)
       End If
       m_updating = False
     End Sub
@@ -976,6 +979,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
       doc.ARretention = value
+      UpdateVat(True)
       m_updating = False
     End Sub
     Public Sub SetRealAmount(ByVal e As DataColumnChangeEventArgs)

@@ -1211,7 +1211,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Select Case m_itemprefix
           Case "receivesi"
             If Not m_receives Is Nothing Then
-                Me.ARretention = CInt(dr(aliasPrefix & "stock_retention"))
+              Me.ARretention = CDec(dr(aliasPrefix & "stock_retention"))
             End If
         End Select
        
@@ -1614,7 +1614,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetMilestoneRetention" _
       , New SqlParameter("@milestone_id", Me.Id) _
-      , New SqlParameter("@receives_id", ValidIdOrDBNull(Me.ReceiveSelection)) _
+      , New SqlParameter("@receives_id", ValidIdOrZero(Me.ReceiveSelection)) _
       )
       If ds.Tables(0).Rows.Count > 0 Then
         Return CDec(ds.Tables(0).Rows(0)(0))

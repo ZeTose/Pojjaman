@@ -1320,6 +1320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim tb As Decimal = (amt / uamt) * mtb
               'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
               '---------------------------------------------
+              tb = Vat.GetExcludedVatAmount(item.Amount + item.Retention)
               If item.EntityId = 79 Then
                 vitem.TaxBase = -Math.Abs(tb)
               Else
