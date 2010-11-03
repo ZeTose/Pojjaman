@@ -662,8 +662,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         years(i) = DateAdd(DateInterval.Year, i, baseDate)
       Next
       Dim myDateTimeService As DateTimeService = CType(ServiceManager.Services.GetService(GetType(DateTimeService)), DateTimeService)
-      myDateTimeService.ListYearsInComboBox(Me.cmbYear, years)
-      myDateTimeService.ListMonthsInComboBox(Me.cmbMonth, False, , False)
+            DateTimeService.ListYearsInComboBox(Me.cmbYear, years)
+            DateTimeService.ListMonthsInComboBox(Me.cmbMonth, False, , False)
     End Sub
     Private Sub Initialize()
       PopulateStatus()
