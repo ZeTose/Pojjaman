@@ -1561,9 +1561,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					Me.m_entity.GenVatItems()
 				End If
 			ElseIf force Then
-				If Me.m_entity.ItemCollection.Count = 1 AndAlso Me.m_entity.ItemCollection.Amount = 0 Then
-					Me.m_entity.GenVatItems()
-				End If
+        If Me.m_entity.ItemCollection.Count = 1 AndAlso Me.m_entity.ItemCollection.Amount <> 0 Then
+          Me.m_entity.GenVatItems()
+        End If
 			End If
 			Dim flag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
 			Me.WorkbenchWindow.ViewContent.IsDirty = False
