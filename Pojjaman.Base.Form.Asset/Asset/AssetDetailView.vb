@@ -1756,7 +1756,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' cmbCalcType.SelectedIndex = Me.m_entity.CalcType.Value
       For Each item As IdValuePair In Me.cmbCalcType.Items
-        If Me.m_entity.CalcType Is item Then
+        If Me.m_entity.CalcType.Value = item.Id Then
           Me.cmbCalcType.SelectedItem = item
           Exit For
         End If
