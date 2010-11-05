@@ -517,6 +517,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemTable As TreeTable
 
     Private m_Deprebase As Decimal
+    Private m_writeoffamt As Decimal
     Private m_eqt As EquipmentTool
 
 #End Region
@@ -700,462 +701,466 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Construct(dr, aliasPrefix)
     End Sub
     Protected Overloads Overrides Sub Construct()
-			MyBase.Construct()
-			If m_constructing Then
-				Return
-			End If
-			With Me
-				.m_type = New AssetType
+      MyBase.Construct()
+      If m_constructing Then
+        Return
+      End If
+      With Me
+        .m_type = New AssetType
 
-				.m_account = New Account
-				.m_depreopeningacct = New Account
+        .m_account = New Account
+        .m_depreopeningacct = New Account
         .m_depreaccount = New Account
         .PLAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.AssetProfitLoss).Account
 
-				.m_unit = New Unit
-				.m_lci = New LCIItem
-				.m_status = New AssetStatus(-1)
-				.m_calcType = New AssetCalcType(0)
-				.m_dateintervalunit = New DateinterValUnit(0)
-				.m_cc = New Costcenter
-				.m_project = New Project
+        .m_unit = New Unit
+        .m_lci = New LCIItem
+        .m_status = New AssetStatus(-1)
+        .m_calcType = New AssetCalcType(0)
+        .m_dateintervalunit = New DateinterValUnit(0)
+        .m_cc = New Costcenter
+        .m_project = New Project
 
         .m_salvage = 1
         .m_eqt = New EquipmentTool
-			End With
-		End Sub
-		Private m_constructing As Boolean = False
-		Private Shared CCHash As New Hashtable
-		Private Shared AccountHash As New Hashtable
-		Private Shared AssetTypeHash As New Hashtable
-		Private Shared ProjectHash As New Hashtable
-		Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-			m_constructing = True
-			MyBase.Construct(dr, aliasPrefix)
-			With Me
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
-					.m_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_detail") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_detail") Then
-					.m_detail = CStr(dr(aliasPrefix & Me.Prefix & "_detail"))
-				End If
-				If dr.Table.Columns.Contains(aliasPrefix & "unit_id") Then
-					If Not dr.IsNull(aliasPrefix & "unit_id") Then
-						.m_unit = New Unit(dr, aliasPrefix)
-					Else
-						.m_unit = New Unit
-					End If
+      End With
+    End Sub
+    Private m_constructing As Boolean = False
+    Private Shared CCHash As New Hashtable
+    Private Shared AccountHash As New Hashtable
+    Private Shared AssetTypeHash As New Hashtable
+    Private Shared ProjectHash As New Hashtable
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      m_constructing = True
+      MyBase.Construct(dr, aliasPrefix)
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
+          .m_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_detail") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_detail") Then
+          .m_detail = CStr(dr(aliasPrefix & Me.Prefix & "_detail"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "unit_id") Then
+          If Not dr.IsNull(aliasPrefix & "unit_id") Then
+            .m_unit = New Unit(dr, aliasPrefix)
+          Else
+            .m_unit = New Unit
+          End If
 
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_unit") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_unit") Then
-						.m_unit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_unit")))
-					Else
-						.m_unit = New Unit
-					End If
-				End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_unit") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_unit") Then
+            .m_unit = New Unit(CInt(dr(aliasPrefix & Me.Prefix & "_unit")))
+          Else
+            .m_unit = New Unit
+          End If
+        End If
 
-				' Asset Account.
-				If dr.Table.Columns.Contains(aliasPrefix & "acct_id") Then
-					If Not dr.IsNull(aliasPrefix & "acct_id") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & "acct_id"))) Then
-							.m_account = CType(Asset.AccountHash(CInt(dr(aliasPrefix & "acct_id"))), Account)
-						Else
-							.m_account = New Account(dr, aliasPrefix)
-							Asset.AccountHash(CInt(dr(aliasPrefix & "acct_id"))) = .m_account
-						End If
-					Else
-						.m_account = New Account
-					End If
-				ElseIf dr.Table.Columns.Contains("AssetAccount.acct_id") Then				' Hack :
-					If Not dr.IsNull("AssetAccount.acct_id") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr("AssetAccount.acct_id"))) Then
-							.m_account = CType(Asset.AccountHash(CInt(dr("AssetAccount.acct_id"))), Account)
-						Else
-							.m_account = New Account(dr, "AssetAccount.")
-							Asset.AccountHash(CInt(dr("AssetAccount.acct_id"))) = .m_account
-						End If
-					Else
-						.m_account = New Account
-					End If
-				Else
-					If Not dr.IsNull(aliasPrefix & Me.Prefix & "_acct") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_acct"))) Then
-							.m_account = CType(Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_acct"))), Account)
-						Else
-							.m_account = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_acct")))
-							Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_acct"))) = .m_account
-						End If
-					Else
-						.m_account = New Account
-					End If
-				End If
-				' DepreopeningAccount
-				If dr.Table.Columns.Contains("DepreopeningAccount.acct_id") Then				' Hack
-					If Not dr.IsNull("DepreopeningAccount.acct_id") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr("DepreopeningAccount.acct_id"))) Then
-							.m_depreopeningacct = CType(Asset.AccountHash(CInt(dr("DepreopeningAccount.acct_id"))), Account)
-						Else
-							.m_depreopeningacct = New Account(dr, "DepreopeningAccount.")
-							Asset.AccountHash(CInt(dr("DepreopeningAccount.acct_id"))) = .m_depreopeningacct
-						End If
-					Else
-						.m_depreopeningacct = New Account
-					End If
-				Else
-					If Not dr.IsNull(aliasPrefix & Me.Prefix & "_depreopeningacct") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct"))) Then
-							.m_depreopeningacct = CType(Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct"))), Account)
-						Else
-							.m_depreopeningacct = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct")))
-							Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct"))) = .m_depreopeningacct
-						End If
-					Else
-						.m_depreopeningacct = New Account
-					End If
-				End If
-				' DepreAccount
-				If dr.Table.Columns.Contains("DepreAccount.acct_id") Then				' Hack
-					If Not dr.IsNull("DepreAccount.acct_id") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr("DepreAccount.acct_id"))) Then
-							.m_depreaccount = CType(Asset.AccountHash(CInt(dr("DepreAccount.acct_id"))), Account)
-						Else
-							.m_depreaccount = New Account(dr, "DepreAccount.")
-							Asset.AccountHash(CInt(dr("DepreAccount.acct_id"))) = .m_depreaccount
-						End If
-					Else
-						.m_depreaccount = New Account
-					End If
-				Else
-					If Not dr.IsNull(aliasPrefix & Me.Prefix & "_depreacct") Then
-						If Asset.AccountHash.Count > 20 Then
-							Asset.AccountHash = New Hashtable
-						End If
-						If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct"))) Then
-							.m_depreaccount = CType(Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct"))), Account)
-						Else
-							.m_depreaccount = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct")))
-							Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct"))) = .m_depreaccount
-						End If
-					Else
-						.m_depreaccount = New Account
-					End If
-				End If
+        ' Asset Account.
+        If dr.Table.Columns.Contains(aliasPrefix & "acct_id") Then
+          If Not dr.IsNull(aliasPrefix & "acct_id") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & "acct_id"))) Then
+              .m_account = CType(Asset.AccountHash(CInt(dr(aliasPrefix & "acct_id"))), Account)
+            Else
+              .m_account = New Account(dr, aliasPrefix)
+              Asset.AccountHash(CInt(dr(aliasPrefix & "acct_id"))) = .m_account
+            End If
+          Else
+            .m_account = New Account
+          End If
+        ElseIf dr.Table.Columns.Contains("AssetAccount.acct_id") Then       ' Hack :
+          If Not dr.IsNull("AssetAccount.acct_id") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr("AssetAccount.acct_id"))) Then
+              .m_account = CType(Asset.AccountHash(CInt(dr("AssetAccount.acct_id"))), Account)
+            Else
+              .m_account = New Account(dr, "AssetAccount.")
+              Asset.AccountHash(CInt(dr("AssetAccount.acct_id"))) = .m_account
+            End If
+          Else
+            .m_account = New Account
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_acct") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_acct"))) Then
+              .m_account = CType(Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_acct"))), Account)
+            Else
+              .m_account = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_acct")))
+              Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_acct"))) = .m_account
+            End If
+          Else
+            .m_account = New Account
+          End If
+        End If
+        ' DepreopeningAccount
+        If dr.Table.Columns.Contains("DepreopeningAccount.acct_id") Then        ' Hack
+          If Not dr.IsNull("DepreopeningAccount.acct_id") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr("DepreopeningAccount.acct_id"))) Then
+              .m_depreopeningacct = CType(Asset.AccountHash(CInt(dr("DepreopeningAccount.acct_id"))), Account)
+            Else
+              .m_depreopeningacct = New Account(dr, "DepreopeningAccount.")
+              Asset.AccountHash(CInt(dr("DepreopeningAccount.acct_id"))) = .m_depreopeningacct
+            End If
+          Else
+            .m_depreopeningacct = New Account
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_depreopeningacct") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct"))) Then
+              .m_depreopeningacct = CType(Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct"))), Account)
+            Else
+              .m_depreopeningacct = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct")))
+              Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreopeningacct"))) = .m_depreopeningacct
+            End If
+          Else
+            .m_depreopeningacct = New Account
+          End If
+        End If
+        ' DepreAccount
+        If dr.Table.Columns.Contains("DepreAccount.acct_id") Then       ' Hack
+          If Not dr.IsNull("DepreAccount.acct_id") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr("DepreAccount.acct_id"))) Then
+              .m_depreaccount = CType(Asset.AccountHash(CInt(dr("DepreAccount.acct_id"))), Account)
+            Else
+              .m_depreaccount = New Account(dr, "DepreAccount.")
+              Asset.AccountHash(CInt(dr("DepreAccount.acct_id"))) = .m_depreaccount
+            End If
+          Else
+            .m_depreaccount = New Account
+          End If
+        Else
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_depreacct") Then
+            If Asset.AccountHash.Count > 20 Then
+              Asset.AccountHash = New Hashtable
+            End If
+            If Asset.AccountHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct"))) Then
+              .m_depreaccount = CType(Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct"))), Account)
+            Else
+              .m_depreaccount = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct")))
+              Asset.AccountHash(CInt(dr(aliasPrefix & Me.Prefix & "_depreacct"))) = .m_depreaccount
+            End If
+          Else
+            .m_depreaccount = New Account
+          End If
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "type_id") Then
-					If Not dr.IsNull(aliasPrefix & "type_id") Then
-						If Asset.AssetTypeHash.Count > 20 Then
-							Asset.AssetTypeHash = New Hashtable
-						End If
-						If Asset.AssetTypeHash.Contains(CInt(dr(aliasPrefix & "type_id"))) Then
-							.m_type = CType(Asset.AssetTypeHash(CInt(dr(aliasPrefix & "type_id"))), AssetType)
-						Else
-							.m_type = New AssetType(dr, aliasPrefix)
-							Asset.AssetTypeHash(CInt(dr(aliasPrefix & "type_id"))) = .m_type
-						End If
-					Else
-						.m_type = New AssetType
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_type") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_type") Then
-						If Asset.AssetTypeHash.Count > 20 Then
-							Asset.AssetTypeHash = New Hashtable
-						End If
-						If Asset.AssetTypeHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_type"))) Then
-							.m_type = CType(Asset.AssetTypeHash(CInt(dr(aliasPrefix & Me.Prefix & "_type"))), AssetType)
-						Else
-							.m_type = New AssetType(CInt(dr(aliasPrefix & Me.Prefix & "_type")))
-							Asset.AssetTypeHash(CInt(dr(aliasPrefix & Me.Prefix & "_type"))) = .m_type
-						End If
-					Else
-						.m_type = New AssetType
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "type_id") Then
+          If Not dr.IsNull(aliasPrefix & "type_id") Then
+            If Asset.AssetTypeHash.Count > 20 Then
+              Asset.AssetTypeHash = New Hashtable
+            End If
+            If Asset.AssetTypeHash.Contains(CInt(dr(aliasPrefix & "type_id"))) Then
+              .m_type = CType(Asset.AssetTypeHash(CInt(dr(aliasPrefix & "type_id"))), AssetType)
+            Else
+              .m_type = New AssetType(dr, aliasPrefix)
+              Asset.AssetTypeHash(CInt(dr(aliasPrefix & "type_id"))) = .m_type
+            End If
+          Else
+            .m_type = New AssetType
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_type") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_type") Then
+            If Asset.AssetTypeHash.Count > 20 Then
+              Asset.AssetTypeHash = New Hashtable
+            End If
+            If Asset.AssetTypeHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_type"))) Then
+              .m_type = CType(Asset.AssetTypeHash(CInt(dr(aliasPrefix & Me.Prefix & "_type"))), AssetType)
+            Else
+              .m_type = New AssetType(CInt(dr(aliasPrefix & Me.Prefix & "_type")))
+              Asset.AssetTypeHash(CInt(dr(aliasPrefix & Me.Prefix & "_type"))) = .m_type
+            End If
+          Else
+            .m_type = New AssetType
+          End If
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_location") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_location") Then
-					.m_location = CStr(dr(aliasPrefix & Me.Prefix & "_location"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_location") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_location") Then
+          .m_location = CStr(dr(aliasPrefix & Me.Prefix & "_location"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buydate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyDate") Then
-					.m_buyDate = CDate(dr(aliasPrefix & Me.Prefix & "_buyDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buydate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyDate") Then
+          .m_buyDate = CDate(dr(aliasPrefix & Me.Prefix & "_buyDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyprice") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyPrice") Then
-					.m_buyPrice = CDec(dr(aliasPrefix & Me.Prefix & "_buyPrice"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyprice") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyPrice") Then
+          .m_buyPrice = CDec(dr(aliasPrefix & Me.Prefix & "_buyPrice"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyDocCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyDocCode") Then
-					.m_buyDocCode = CStr(dr(aliasPrefix & Me.Prefix & "_buyDocCode"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyDocCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyDocCode") Then
+          .m_buyDocCode = CStr(dr(aliasPrefix & Me.Prefix & "_buyDocCode"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyDocDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyDocDate") Then
-					.m_buyDocDate = CDate(dr(aliasPrefix & Me.Prefix & "_buyDocDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyDocDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyDocDate") Then
+          .m_buyDocDate = CDate(dr(aliasPrefix & Me.Prefix & "_buyDocDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyFrom") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyFrom") Then
-					.m_buyFrom = CStr(dr(aliasPrefix & Me.Prefix & "_buyFrom"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyFrom") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyFrom") Then
+          .m_buyFrom = CStr(dr(aliasPrefix & Me.Prefix & "_buyFrom"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_transferDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_transferDate") Then
-					.m_transferDate = CDate(dr(aliasPrefix & Me.Prefix & "_transferDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_transferDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_transferDate") Then
+          .m_transferDate = CDate(dr(aliasPrefix & Me.Prefix & "_transferDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startCalcDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startCalcDate") Then
-					.m_startCalcDate = CDate(dr(aliasPrefix & Me.Prefix & "_startCalcDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startCalcDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startCalcDate") Then
+          .m_startCalcDate = CDate(dr(aliasPrefix & Me.Prefix & "_startCalcDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastdepredate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastdepredate") Then
-					.m_lastDepreDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastdepredate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastdepredate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastdepredate") Then
+          .m_lastDepreDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastdepredate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_salvage") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_salvage") Then
-					.m_salvage = CDec(dr(aliasPrefix & Me.Prefix & "_salvage"))
-				Else
-					.m_salvage = 1
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_salvage") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_salvage") Then
+          .m_salvage = CDec(dr(aliasPrefix & Me.Prefix & "_salvage"))
+        Else
+          .m_salvage = 1
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_rentalrate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_rentalrate") Then
-					.m_rentalrate = CDec(dr(aliasPrefix & Me.Prefix & "_rentalrate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_rentalrate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_rentalrate") Then
+          .m_rentalrate = CDec(dr(aliasPrefix & Me.Prefix & "_rentalrate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startCalcAmt") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startCalcAmt") Then
-					.m_startCalcAmt = CDec(dr(aliasPrefix & Me.Prefix & "_startCalcAmt"))
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startCalcAmt") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startCalcAmt") Then
+          .m_startCalcAmt = CDec(dr(aliasPrefix & Me.Prefix & "_startCalcAmt"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_deprebase") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_deprebase") Then
           .m_Deprebase = CDec(dr(aliasPrefix & Me.Prefix & "_deprebase"))
         End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_calcType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_calcType") Then
-					.m_calcType = New AssetCalcType(CInt(dr(aliasPrefix & Me.Prefix & "_calcType")))
-				Else
-					.m_calcType = New AssetCalcType(0)
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_writeoffamt") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_writeoffamt") Then
+          .m_writeoffamt = CDec(dr(aliasPrefix & Me.Prefix & "_writeoffamt"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_calcType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_calcType") Then
+          .m_calcType = New AssetCalcType(CInt(dr(aliasPrefix & Me.Prefix & "_calcType")))
+        Else
+          .m_calcType = New AssetCalcType(0)
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_eqtid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_eqtid") Then
           .m_eqt = New EquipmentTool(CInt(dr(aliasPrefix & Me.Prefix & "_eqtid")), CInt(dr(aliasPrefix & Me.Prefix & "_eqttype")))
         End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_age") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_age") Then
-					.m_age = CInt(dr(aliasPrefix & Me.Prefix & "_age"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_age") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_age") Then
+          .m_age = CInt(dr(aliasPrefix & Me.Prefix & "_age"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_balance") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_balance") Then
-					.m_balance = CDec(dr(aliasPrefix & Me.Prefix & "_balance"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_balance") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_balance") Then
+          .m_balance = CDec(dr(aliasPrefix & Me.Prefix & "_balance"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startBalance") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startBalance") Then
-					.m_startBalance = CDec(dr(aliasPrefix & Me.Prefix & "_startBalance"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_startBalance") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_startBalance") Then
+          .m_startBalance = CDec(dr(aliasPrefix & Me.Prefix & "_startBalance"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saleDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saleDate") Then
-					.m_saleDate = CDate(dr(aliasPrefix & Me.Prefix & "_saleDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saleDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saleDate") Then
+          .m_saleDate = CDate(dr(aliasPrefix & Me.Prefix & "_saleDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_salePrice") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_salePrice") Then
-					.m_salePrice = CDec(dr(aliasPrefix & Me.Prefix & "_salePrice"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_salePrice") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_salePrice") Then
+          .m_salePrice = CDec(dr(aliasPrefix & Me.Prefix & "_salePrice"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_balanceAtSaleDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_balanceAtSaleDate") Then
-					.m_balanceAtSaleDate = CDec(dr(aliasPrefix & Me.Prefix & "_balanceAtSaleDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_balanceAtSaleDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_balanceAtSaleDate") Then
+          .m_balanceAtSaleDate = CDec(dr(aliasPrefix & Me.Prefix & "_balanceAtSaleDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saleDocDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saleDocDate") Then
-					.m_saleDocDate = CDate(dr(aliasPrefix & Me.Prefix & "_saleDocDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saleDocDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saleDocDate") Then
+          .m_saleDocDate = CDate(dr(aliasPrefix & Me.Prefix & "_saleDocDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "saleDocCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saleDocCode") Then
-					.m_saleDocCode = CStr(dr(aliasPrefix & Me.Prefix & "_saleDocCode"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "saleDocCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saleDocCode") Then
+          .m_saleDocCode = CStr(dr(aliasPrefix & Me.Prefix & "_saleDocCode"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyer") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyer") Then
-					.m_buyer = CStr(dr(aliasPrefix & Me.Prefix & "_buyer"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_buyer") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_buyer") Then
+          .m_buyer = CStr(dr(aliasPrefix & Me.Prefix & "_buyer"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_InsuranceCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_InsuranceCode") Then
-					.m_InsuranceCode = CStr(dr(aliasPrefix & Me.Prefix & "_InsuranceCode"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_InsuranceCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_InsuranceCode") Then
+          .m_InsuranceCode = CStr(dr(aliasPrefix & Me.Prefix & "_InsuranceCode"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saftyCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saftyCode") Then
-					.m_saftyCode = CStr(dr(aliasPrefix & Me.Prefix & "_saftyCode"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saftyCode") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saftyCode") Then
+          .m_saftyCode = CStr(dr(aliasPrefix & Me.Prefix & "_saftyCode"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saftyCompany") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saftyCompany") Then
-					.m_saftyCompany = CStr(dr(aliasPrefix & Me.Prefix & "_saftyCompany"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_saftyCompany") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_saftyCompany") Then
+          .m_saftyCompany = CStr(dr(aliasPrefix & Me.Prefix & "_saftyCompany"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insurancePremium") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_insurancePremium") Then
-					.m_insurancePremium = CDec(dr(aliasPrefix & Me.Prefix & "_insurancePremium"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insurancePremium") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_insurancePremium") Then
+          .m_insurancePremium = CDec(dr(aliasPrefix & Me.Prefix & "_insurancePremium"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insuranceAge") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_insuranceAge") Then
-					.m_insuranceAge = CInt(dr(aliasPrefix & Me.Prefix & "_insuranceAge"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insuranceAge") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_insuranceAge") Then
+          .m_insuranceAge = CInt(dr(aliasPrefix & Me.Prefix & "_insuranceAge"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insuranceStartDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_insuranceStartDate") Then
-					.m_insuranceStartDate = CDate(dr(aliasPrefix & Me.Prefix & "_insuranceStartDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insuranceStartDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_insuranceStartDate") Then
+          .m_insuranceStartDate = CDate(dr(aliasPrefix & Me.Prefix & "_insuranceStartDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insuranceEndDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_InsuranceEndDate") Then
-					.m_InsuranceEndDate = CDate(dr(aliasPrefix & Me.Prefix & "_InsuranceEndDate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_insuranceEndDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_InsuranceEndDate") Then
+          .m_InsuranceEndDate = CDate(dr(aliasPrefix & Me.Prefix & "_InsuranceEndDate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
-					.m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
+          .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_depreopening") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_depreopening") Then
-					.m_depreopening = CDec(dr(aliasPrefix & Me.Prefix & "_depreopening"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_depreopening") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_depreopening") Then
+          .m_depreopening = CDec(dr(aliasPrefix & Me.Prefix & "_depreopening"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_firstYearRate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_firstYearRate") Then
-					.m_firstYearRate = CDec(dr(aliasPrefix & Me.Prefix & "_firstYearRate"))
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_firstYearRate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_firstYearRate") Then
+          .m_firstYearRate = CDec(dr(aliasPrefix & Me.Prefix & "_firstYearRate"))
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "project_id") Then
-					If Not dr.IsNull(aliasPrefix & "project_id") Then
-						If Asset.ProjectHash.Count > 20 Then
-							Asset.ProjectHash = New Hashtable
-						End If
-						If Asset.ProjectHash.Contains(CInt(dr(aliasPrefix & "project_id"))) Then
-							.m_project = CType(Asset.ProjectHash(CInt(dr(aliasPrefix & "project_id"))), Project)
-						Else
-							.m_project = New Project(dr, aliasPrefix)
-							Asset.ProjectHash(CInt(dr(aliasPrefix & "project_id"))) = .m_project
-						End If
-					Else
-						.m_project = New Project
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_project") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_project") Then
-						If Asset.ProjectHash.Count > 20 Then
-							Asset.ProjectHash = New Hashtable
-						End If
-						If Asset.ProjectHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_project"))) Then
-							.m_project = CType(Asset.ProjectHash(CInt(dr(aliasPrefix & Me.Prefix & "_project"))), Project)
-						Else
-							.m_project = New Project(CInt(dr(aliasPrefix & Me.Prefix & "_project")))
-							Asset.ProjectHash(CInt(dr(aliasPrefix & Me.Prefix & "_project"))) = .m_project
-						End If
-					Else
-						.m_project = New Project
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "project_id") Then
+          If Not dr.IsNull(aliasPrefix & "project_id") Then
+            If Asset.ProjectHash.Count > 20 Then
+              Asset.ProjectHash = New Hashtable
+            End If
+            If Asset.ProjectHash.Contains(CInt(dr(aliasPrefix & "project_id"))) Then
+              .m_project = CType(Asset.ProjectHash(CInt(dr(aliasPrefix & "project_id"))), Project)
+            Else
+              .m_project = New Project(dr, aliasPrefix)
+              Asset.ProjectHash(CInt(dr(aliasPrefix & "project_id"))) = .m_project
+            End If
+          Else
+            .m_project = New Project
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_project") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_project") Then
+            If Asset.ProjectHash.Count > 20 Then
+              Asset.ProjectHash = New Hashtable
+            End If
+            If Asset.ProjectHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_project"))) Then
+              .m_project = CType(Asset.ProjectHash(CInt(dr(aliasPrefix & Me.Prefix & "_project"))), Project)
+            Else
+              .m_project = New Project(CInt(dr(aliasPrefix & Me.Prefix & "_project")))
+              Asset.ProjectHash(CInt(dr(aliasPrefix & Me.Prefix & "_project"))) = .m_project
+            End If
+          Else
+            .m_project = New Project
+          End If
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & "cc_id") Then
-					If Not dr.IsNull(aliasPrefix & "cc_id") Then
-						If Asset.CCHash.Count > 20 Then
-							Asset.CCHash = New Hashtable
-						End If
-						If Asset.CCHash.Contains(CInt(dr(aliasPrefix & "cc_id"))) Then
-							.m_cc = CType(Asset.CCHash(CInt(dr(aliasPrefix & "cc_id"))), Costcenter)
-						Else
-							.m_cc = New Costcenter(dr, aliasPrefix)
-							Asset.CCHash(CInt(dr(aliasPrefix & "cc_id"))) = .m_cc
-						End If
-					Else
-						.m_cc = New Costcenter
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cc") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cc") Then
-						If Asset.CCHash.Count > 20 Then
-							Asset.CCHash = New Hashtable
-						End If
-						If Asset.CCHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_cc"))) Then
-							.m_cc = CType(Asset.CCHash(CInt(dr(aliasPrefix & Me.Prefix & "_cc"))), Costcenter)
-						Else
-							.m_cc = New Costcenter(CInt(dr(aliasPrefix & Me.Prefix & "_cc")))
-							Asset.CCHash(CInt(dr(aliasPrefix & Me.Prefix & "_cc"))) = .m_cc
-						End If
-					Else
-						.m_cc = New Costcenter
-					End If
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & "cc_id") Then
+          If Not dr.IsNull(aliasPrefix & "cc_id") Then
+            If Asset.CCHash.Count > 20 Then
+              Asset.CCHash = New Hashtable
+            End If
+            If Asset.CCHash.Contains(CInt(dr(aliasPrefix & "cc_id"))) Then
+              .m_cc = CType(Asset.CCHash(CInt(dr(aliasPrefix & "cc_id"))), Costcenter)
+            Else
+              .m_cc = New Costcenter(dr, aliasPrefix)
+              Asset.CCHash(CInt(dr(aliasPrefix & "cc_id"))) = .m_cc
+            End If
+          Else
+            .m_cc = New Costcenter
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cc") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cc") Then
+            If Asset.CCHash.Count > 20 Then
+              Asset.CCHash = New Hashtable
+            End If
+            If Asset.CCHash.Contains(CInt(dr(aliasPrefix & Me.Prefix & "_cc"))) Then
+              .m_cc = CType(Asset.CCHash(CInt(dr(aliasPrefix & Me.Prefix & "_cc"))), Costcenter)
+            Else
+              .m_cc = New Costcenter(CInt(dr(aliasPrefix & Me.Prefix & "_cc")))
+              Asset.CCHash(CInt(dr(aliasPrefix & Me.Prefix & "_cc"))) = .m_cc
+            End If
+          Else
+            .m_cc = New Costcenter
+          End If
+        End If
 
-				If dr.Table.Columns.Contains("lci_id") Then
-					If Not dr.IsNull("lci_id") Then
-						.m_lci = New LCIItem(dr, "")
-					End If
-				Else
-					If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lci") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lci") Then
-						.m_lci = New LCIItem(CInt(dr(aliasPrefix & Me.Prefix & "_lci")))
-					End If
-				End If
+        If dr.Table.Columns.Contains("lci_id") Then
+          If Not dr.IsNull("lci_id") Then
+            .m_lci = New LCIItem(dr, "")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lci") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lci") Then
+            .m_lci = New LCIItem(CInt(dr(aliasPrefix & Me.Prefix & "_lci")))
+          End If
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") Then
-					If Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
-						.m_status = New AssetStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
-					Else
-						.m_status = New AssetStatus(-1)
-					End If
-				Else
-					.m_status = New AssetStatus(-1)
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") Then
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
+            .m_status = New AssetStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
+          Else
+            .m_status = New AssetStatus(-1)
+          End If
+        Else
+          .m_status = New AssetStatus(-1)
+        End If
 
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_DateIntervalUnit") Then
-					If Not dr.IsNull(aliasPrefix & Me.Prefix & "_DateIntervalUnit") Then
-						.m_dateintervalunit = New DateinterValUnit(CInt(dr(aliasPrefix & Me.Prefix & "_DateIntervalUnit")))
-					Else
-						.m_dateintervalunit = New DateinterValUnit(0)
-					End If
-				Else
-					.m_dateintervalunit = New DateinterValUnit(0)
-				End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_DateIntervalUnit") Then
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_DateIntervalUnit") Then
+            .m_dateintervalunit = New DateinterValUnit(CInt(dr(aliasPrefix & Me.Prefix & "_DateIntervalUnit")))
+          Else
+            .m_dateintervalunit = New DateinterValUnit(0)
+          End If
+        Else
+          .m_dateintervalunit = New DateinterValUnit(0)
+        End If
 
-				' ถ้าไม่ดึงจาก Datarow ของ Asset เวลา Edit จะหายไป
-				If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_refsequence") Then
-					If Not dr.IsNull(aliasPrefix & Me.Prefix & "_refsequence") Then
-						.m_refsequence = CInt(dr(aliasPrefix & Me.Prefix & "_refsequence"))
-					End If
-				End If
+        ' ถ้าไม่ดึงจาก Datarow ของ Asset เวลา Edit จะหายไป
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_refsequence") Then
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_refsequence") Then
+            .m_refsequence = CInt(dr(aliasPrefix & Me.Prefix & "_refsequence"))
+          End If
+        End If
 
-			End With
+      End With
 
-			'LoadImage()    ' Load เฉพาะเวลาใช้แทนครับเพราะจะทำให้ช้า
-			m_constructing = False
-		End Sub
-		Public Overloads Sub LoadImage(ByVal reader As IDataReader)
-			Me.Image = Field.GetImage(reader, Me.Prefix & "_image")
-		End Sub
-		Public Overloads Sub LoadImage()
-			If Not Me.Originated Then
-				Return
-			End If
+      'LoadImage()    ' Load เฉพาะเวลาใช้แทนครับเพราะจะทำให้ช้า
+      m_constructing = False
+    End Sub
+    Public Overloads Sub LoadImage(ByVal reader As IDataReader)
+      Me.Image = Field.GetImage(reader, Me.Prefix & "_image")
+    End Sub
+    Public Overloads Sub LoadImage()
+      If Not Me.Originated Then
+        Return
+      End If
 
-			Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-			Dim conn As New SqlConnection(sqlConString)
-			Dim sql As String = "select asset_image  from AssetImage where asset_id = " & Me.Id
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select asset_image  from AssetImage where asset_id = " & Me.Id
 
-			conn.Open()
+      conn.Open()
 
-			Dim cmd As SqlCommand = conn.CreateCommand
-			cmd.CommandText = sql
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
 
-			Dim reader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
-			If reader.Read Then
-				LoadImage(reader)
-			End If
-			conn.Close()
-			reader = Nothing
-			conn = Nothing
-		End Sub
+      Dim reader As SqlDataReader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+      If reader.Read Then
+        LoadImage(reader)
+      End If
+      conn.Close()
+      reader = Nothing
+      conn = Nothing
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -1356,6 +1361,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_buyPrice = Value
+        m_Deprebase = m_buyPrice
       End Set
     End Property
     Public Property Salvage() As Decimal 'ราคาซาก
@@ -1364,101 +1370,102 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         'ราคาซาก >=1
-        If Value >= 1 Then
+        'เปลี่ยนตามข้อกำหนดสรรพากรใหม่ ให้เป็น 0 ได้
+        If Value >= 0 Then
           m_salvage = Value
         End If
       End Set
-        End Property
-        Public Property StartCalcAmt() As Decimal 'ค่าเสื่อมเบื้องต้น
-            Get
-                Return m_startCalcAmt
-            End Get
-            Set(ByVal Value As Decimal)
-                m_startCalcAmt = Value
-            End Set
-        End Property
-        Public ReadOnly Property RemainValue() As Decimal 'มูลค่าคงเหลือยกมา
-            Get
-                'มูลค่าคงเหลือยกมา = ราคาซื้อ - ค่าเสื่อมเบื้องต้น - ค่าซาก - ค่าเสื่อมยกมา
-                Return Math.Max(Me.BuyPrice - Me.StartCalcAmt - Me.Salvage - Me.DepreOpening, 0)
-            End Get
-        End Property
-        Public ReadOnly Property CalculatingValue() As Decimal 'มูลค่าคำนวณค่าเสื่อม
-            Get
-                Return Math.Max(Me.BuyPrice - Me.StartCalcAmt - Me.Salvage, 0)
-            End Get
-        End Property
-        Public ReadOnly Property CalculatingValueIgnoreStartCalcAmt() As Decimal 'มูลค่าคำนวณค่าเสื่อมแบบไม่สนใจค่าเสื่อมเบื้องต้น
-            Get
-        Return Math.Max(Me.BuyPrice - Me.Salvage, 0)
-            End Get
-        End Property
-        Public Property Age() As Integer 'อายุสินทรัพย์ (ปี)
-            Get
-                Return m_age
-            End Get
-            Set(ByVal Value As Integer)
-                m_age = Value
-            End Set
-        End Property
+    End Property
+    Public Property StartCalcAmt() As Decimal 'ค่าเสื่อมเบื้องต้น
+      Get
+        Return m_startCalcAmt
+      End Get
+      Set(ByVal Value As Decimal)
+        m_startCalcAmt = Value
+      End Set
+    End Property
+    Public ReadOnly Property RemainValue() As Decimal 'มูลค่าคงเหลือยกมา
+      Get
+        'มูลค่าคงเหลือยกมา = ราคาซื้อ - ค่าเสื่อมเบื้องต้น - ค่าซาก - ค่าเสื่อมยกมา
+        Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.Salvage - Me.DepreOpening, 0)
+      End Get
+    End Property
+    Public ReadOnly Property CalculatingValue() As Decimal 'มูลค่าคำนวณค่าเสื่อม
+      Get
+        Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.Salvage, 0)
+      End Get
+    End Property
+    Public ReadOnly Property CalculatingValueIgnoreStartCalcAmt() As Decimal 'มูลค่าคำนวณค่าเสื่อมแบบไม่สนใจค่าเสื่อมเบื้องต้น
+      Get
+        Return Math.Max(Me.DepreBase - Me.Salvage, 0)
+      End Get
+    End Property
+    Public Property Age() As Integer 'อายุสินทรัพย์ (ปี)
+      Get
+        Return m_age
+      End Get
+      Set(ByVal Value As Integer)
+        m_age = Value
+      End Set
+    End Property
 
     Public ReadOnly Property EntityId As Integer Implements IEqtItem.EntityId
       Get
         Return MyBase.EntityId
       End Get
     End Property
-        Public Property RentalRate() As Decimal Implements IHasRentalRate.RentalRate
-            Get
-                Return m_rentalrate
-            End Get
-            Set(ByVal Value As Decimal)
-                m_rentalrate = Value
-            End Set
-        End Property
-        Public Property CalcType() As AssetCalcType
-            Get
-                Return m_calcType
-            End Get
-            Set(ByVal Value As AssetCalcType)
-                m_calcType = Value
-            End Set
-        End Property
-        Public ReadOnly Property CalcRate() As Decimal
-            Get
-                If Me.Age > 0 Then
-                    Select Case Me.CalcType.Value
-                        Case 0
-                            Return Math.Round((100D / Me.Age), 4)
-                        Case 1
-                            Return 0
-                        Case 2
-                            Return Math.Round((2 * (100D / Me.Age)), 4)
-                    End Select
-                End If
-                Return 0
-            End Get
-        End Property
-        Public ReadOnly Property EndCalcDate() As Date
-            Get
-                If Me.Age > 0 Then
-                    If Date.Equals(Date.MinValue, Me.StartCalcDate) Then
-                        Return Date.MinValue
-                    Else
-                        Dim enddate As Date = DateAdd(DateInterval.DayOfYear, -1, DateAdd(DateInterval.Year, Me.Age, Me.StartCalcDate))
-                        Return enddate
-                    End If
-                Else
-                    Return Me.StartCalcDate
-                End If
-            End Get
-        End Property
-        Public Property Balance() As Decimal
-            Get
-                Return m_balance
-            End Get
-            Set(ByVal Value As Decimal)
-                m_balance = Value
-            End Set
+    Public Property RentalRate() As Decimal Implements IHasRentalRate.RentalRate
+      Get
+        Return m_rentalrate
+      End Get
+      Set(ByVal Value As Decimal)
+        m_rentalrate = Value
+      End Set
+    End Property
+    Public Property CalcType() As AssetCalcType
+      Get
+        Return m_calcType
+      End Get
+      Set(ByVal Value As AssetCalcType)
+        m_calcType = Value
+      End Set
+    End Property
+    Public ReadOnly Property CalcRate() As Decimal
+      Get
+        If Me.Age > 0 Then
+          Select Case Me.CalcType.Value
+            Case 0
+              Return Math.Round((100D / Me.Age), 4)
+            Case 1
+              Return 0
+            Case 2
+              Return Math.Round((2 * (100D / Me.Age)), 4)
+          End Select
+        End If
+        Return 0
+      End Get
+    End Property
+    Public ReadOnly Property EndCalcDate() As Date
+      Get
+        If Me.Age > 0 Then
+          If Date.Equals(Date.MinValue, Me.StartCalcDate) Then
+            Return Date.MinValue
+          Else
+            Dim enddate As Date = DateAdd(DateInterval.DayOfYear, -1, DateAdd(DateInterval.Year, Me.Age, Me.StartCalcDate))
+            Return enddate
+          End If
+        Else
+          Return Me.StartCalcDate
+        End If
+      End Get
+    End Property
+    Public Property Balance() As Decimal
+      Get
+        Return m_balance
+      End Get
+      Set(ByVal Value As Decimal)
+        m_balance = Value
+      End Set
     End Property
 
     Public Property DepreBase As Decimal
@@ -1466,13 +1473,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_Deprebase
       End Get
       Set(ByVal value As Decimal)
-        m_Deprebase = value
+        If value >= m_buyPrice Then
+          m_Deprebase = m_buyPrice
+        Else
+          m_Deprebase = value
+        End If
       End Set
     End Property
 
-    Public ReadOnly Property DepreAmount As Decimal
+    Public ReadOnly Property DeprebaseBal As Decimal
       Get
-        Return m_Deprebase * CalcRate
+        'มูลค่าคงเหลือยกมา = ราคาซื้อ - ค่าเสื่อมเบื้องต้น - ค่าซาก - ค่าเสื่อมยกมา -  ค่าwriteoff (บางส่วน)
+        Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.Salvage - Me.DepreOpening - m_writeoffamt, 0)
       End Get
     End Property
 
@@ -2373,6 +2385,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_startCalcDate", IIf(Me.StartCalcDate.Equals(Date.MinValue), DBNull.Value, Me.StartCalcDate)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_salvage", Me.Salvage))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_startCalcAmt", Me.StartCalcAmt))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_deprebase", Me.DepreBase))
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_calcType", Me.CalcType.Value))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_calcRate", Me.CalcRate))
@@ -3054,7 +3067,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_tocc = New CostCenter
         .m_toperson = New Employee
 
-                .m_je = New JournalEntry(Me)
+        .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docdate
       End With
       m_itemCollection = New DepreItemCollection(Me)
@@ -4610,7 +4623,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class DepreItemCollection
+  Public Class DepreItemCollection
     Inherits CollectionBase
 
 #Region "Members"

@@ -118,9 +118,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtDeprebase As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lblDeprebase As System.Windows.Forms.Label
-    Friend WithEvents txtDepreAmount As System.Windows.Forms.TextBox
+    Friend WithEvents txtDepreBaseBal As System.Windows.Forms.TextBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents lblDepreAmt As System.Windows.Forms.Label
+    Friend WithEvents lblDepreBaseBal As System.Windows.Forms.Label
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -148,7 +148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBuyDocDate = New System.Windows.Forms.Label()
       Me.lblCurrency1 = New System.Windows.Forms.Label()
       Me.grbCalcDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.txtDepreAmount = New System.Windows.Forms.TextBox()
+      Me.txtDepreBaseBal = New System.Windows.Forms.TextBox()
       Me.Label3 = New System.Windows.Forms.Label()
       Me.txtDeprebase = New System.Windows.Forms.TextBox()
       Me.Label1 = New System.Windows.Forms.Label()
@@ -180,7 +180,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTransferDate = New System.Windows.Forms.TextBox()
       Me.lblTransferDate = New System.Windows.Forms.Label()
       Me.dtpTransferDate = New System.Windows.Forms.DateTimePicker()
-      Me.lblDepreAmt = New System.Windows.Forms.Label()
+      Me.lblDepreBaseBal = New System.Windows.Forms.Label()
       Me.lblDeprebase = New System.Windows.Forms.Label()
       Me.btnAssetAuxDetail = New System.Windows.Forms.Button()
       Me.picImage = New System.Windows.Forms.PictureBox()
@@ -554,7 +554,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbCalcDetail
       '
-      Me.grbCalcDetail.Controls.Add(Me.txtDepreAmount)
+      Me.grbCalcDetail.Controls.Add(Me.txtDepreBaseBal)
       Me.grbCalcDetail.Controls.Add(Me.Label3)
       Me.grbCalcDetail.Controls.Add(Me.txtDeprebase)
       Me.grbCalcDetail.Controls.Add(Me.Label1)
@@ -586,7 +586,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbCalcDetail.Controls.Add(Me.txtTransferDate)
       Me.grbCalcDetail.Controls.Add(Me.lblTransferDate)
       Me.grbCalcDetail.Controls.Add(Me.dtpTransferDate)
-      Me.grbCalcDetail.Controls.Add(Me.lblDepreAmt)
+      Me.grbCalcDetail.Controls.Add(Me.lblDepreBaseBal)
       Me.grbCalcDetail.Controls.Add(Me.lblDeprebase)
       Me.grbCalcDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbCalcDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -597,31 +597,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbCalcDetail.TabStop = False
       Me.grbCalcDetail.Text = "ข้อมูลการคิดค่าเสื่อมราคา : "
       '
-      'txtDepreAmount
+      'txtDepreBaseBal
       '
-      Me.Validator.SetDataType(Me.txtDepreAmount, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
-      Me.Validator.SetDisplayName(Me.txtDepreAmount, "")
-      Me.txtDepreAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtDepreAmount, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtDepreAmount, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtDepreAmount, System.Drawing.Color.Empty)
-      Me.txtDepreAmount.Location = New System.Drawing.Point(350, 97)
-      Me.Validator.SetMinValue(Me.txtDepreAmount, "")
-      Me.txtDepreAmount.Name = "txtDepreAmount"
-      Me.txtDepreAmount.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtDepreAmount, "")
-      Me.Validator.SetRequired(Me.txtDepreAmount, False)
-      Me.txtDepreAmount.Size = New System.Drawing.Size(96, 21)
-      Me.txtDepreAmount.TabIndex = 33
-      Me.txtDepreAmount.TabStop = False
-      Me.txtDepreAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      Me.Validator.SetDataType(Me.txtDepreBaseBal, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
+      Me.Validator.SetDisplayName(Me.txtDepreBaseBal, "")
+      Me.txtDepreBaseBal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtDepreBaseBal, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDepreBaseBal, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDepreBaseBal, System.Drawing.Color.Empty)
+      Me.txtDepreBaseBal.Location = New System.Drawing.Point(350, 142)
+      Me.Validator.SetMinValue(Me.txtDepreBaseBal, "")
+      Me.txtDepreBaseBal.Name = "txtDepreBaseBal"
+      Me.txtDepreBaseBal.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtDepreBaseBal, "")
+      Me.Validator.SetRequired(Me.txtDepreBaseBal, False)
+      Me.txtDepreBaseBal.Size = New System.Drawing.Size(96, 21)
+      Me.txtDepreBaseBal.TabIndex = 33
+      Me.txtDepreBaseBal.TabStop = False
+      Me.txtDepreBaseBal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'Label3
       '
       Me.Label3.AutoSize = True
       Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label3.ForeColor = System.Drawing.Color.Black
-      Me.Label3.Location = New System.Drawing.Point(449, 102)
+      Me.Label3.Location = New System.Drawing.Point(449, 147)
       Me.Label3.Name = "Label3"
       Me.Label3.Size = New System.Drawing.Size(27, 13)
       Me.Label3.TabIndex = 32
@@ -636,10 +636,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDeprebase, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDeprebase, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDeprebase, System.Drawing.Color.Empty)
-      Me.txtDeprebase.Location = New System.Drawing.Point(350, 72)
+      Me.txtDeprebase.Location = New System.Drawing.Point(350, 25)
       Me.Validator.SetMinValue(Me.txtDeprebase, "")
       Me.txtDeprebase.Name = "txtDeprebase"
-      Me.txtDeprebase.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtDeprebase, "")
       Me.Validator.SetRequired(Me.txtDeprebase, False)
       Me.txtDeprebase.Size = New System.Drawing.Size(96, 21)
@@ -652,7 +651,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label1.AutoSize = True
       Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label1.ForeColor = System.Drawing.Color.Black
-      Me.Label1.Location = New System.Drawing.Point(449, 74)
+      Me.Label1.Location = New System.Drawing.Point(449, 27)
       Me.Label1.Name = "Label1"
       Me.Label1.Size = New System.Drawing.Size(27, 13)
       Me.Label1.TabIndex = 29
@@ -751,7 +750,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtStartCalcAmt, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtStartCalcAmt, -15)
       Me.Validator.SetInvalidBackColor(Me.txtStartCalcAmt, System.Drawing.Color.Empty)
-      Me.txtStartCalcAmt.Location = New System.Drawing.Point(350, 121)
+      Me.txtStartCalcAmt.Location = New System.Drawing.Point(350, 48)
       Me.Validator.SetMinValue(Me.txtStartCalcAmt, "0")
       Me.txtStartCalcAmt.Name = "txtStartCalcAmt"
       Me.Validator.SetRegularExpression(Me.txtStartCalcAmt, "")
@@ -820,7 +819,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency2.AutoSize = True
       Me.lblCurrency2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency2.ForeColor = System.Drawing.Color.Black
-      Me.lblCurrency2.Location = New System.Drawing.Point(449, 124)
+      Me.lblCurrency2.Location = New System.Drawing.Point(449, 51)
       Me.lblCurrency2.Name = "lblCurrency2"
       Me.lblCurrency2.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrency2.TabIndex = 23
@@ -832,7 +831,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency3.AutoSize = True
       Me.lblCurrency3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency3.ForeColor = System.Drawing.Color.Black
-      Me.lblCurrency3.Location = New System.Drawing.Point(449, 148)
+      Me.lblCurrency3.Location = New System.Drawing.Point(449, 73)
       Me.lblCurrency3.Name = "lblCurrency3"
       Me.lblCurrency3.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrency3.TabIndex = 24
@@ -847,8 +846,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSalvage, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtSalvage, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSalvage, System.Drawing.Color.Empty)
-      Me.txtSalvage.Location = New System.Drawing.Point(350, 147)
-      Me.Validator.SetMinValue(Me.txtSalvage, "1")
+      Me.txtSalvage.Location = New System.Drawing.Point(350, 72)
+      Me.Validator.SetMinValue(Me.txtSalvage, "0")
       Me.txtSalvage.Name = "txtSalvage"
       Me.Validator.SetRegularExpression(Me.txtSalvage, "")
       Me.Validator.SetRequired(Me.txtSalvage, False)
@@ -864,7 +863,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtRemainingValue, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtRemainingValue, -15)
       Me.Validator.SetInvalidBackColor(Me.txtRemainingValue, System.Drawing.Color.Empty)
-      Me.txtRemainingValue.Location = New System.Drawing.Point(350, 23)
+      Me.txtRemainingValue.Location = New System.Drawing.Point(350, 120)
       Me.Validator.SetMinValue(Me.txtRemainingValue, "")
       Me.txtRemainingValue.Name = "txtRemainingValue"
       Me.txtRemainingValue.ReadOnly = True
@@ -880,7 +879,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency4.AutoSize = True
       Me.lblCurrency4.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency4.ForeColor = System.Drawing.Color.Black
-      Me.lblCurrency4.Location = New System.Drawing.Point(449, 27)
+      Me.lblCurrency4.Location = New System.Drawing.Point(449, 124)
       Me.lblCurrency4.Name = "lblCurrency4"
       Me.lblCurrency4.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrency4.TabIndex = 26
@@ -892,7 +891,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency5.AutoSize = True
       Me.lblCurrency5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency5.ForeColor = System.Drawing.Color.Black
-      Me.lblCurrency5.Location = New System.Drawing.Point(448, 51)
+      Me.lblCurrency5.Location = New System.Drawing.Point(448, 99)
       Me.lblCurrency5.Name = "lblCurrency5"
       Me.lblCurrency5.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrency5.TabIndex = 25
@@ -907,7 +906,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDepreOpenning, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtDepreOpenning, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDepreOpenning, System.Drawing.Color.Empty)
-      Me.txtDepreOpenning.Location = New System.Drawing.Point(350, 48)
+      Me.txtDepreOpenning.Location = New System.Drawing.Point(350, 96)
       Me.Validator.SetMinValue(Me.txtDepreOpenning, "")
       Me.txtDepreOpenning.Name = "txtDepreOpenning"
       Me.Validator.SetRegularExpression(Me.txtDepreOpenning, "")
@@ -949,7 +948,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblStartCalcAmnt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblStartCalcAmnt.ForeColor = System.Drawing.Color.Black
-      Me.lblStartCalcAmnt.Location = New System.Drawing.Point(238, 121)
+      Me.lblStartCalcAmnt.Location = New System.Drawing.Point(238, 48)
       Me.lblStartCalcAmnt.Name = "lblStartCalcAmnt"
       Me.lblStartCalcAmnt.Size = New System.Drawing.Size(112, 18)
       Me.lblStartCalcAmnt.TabIndex = 16
@@ -960,7 +959,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblSavage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSavage.ForeColor = System.Drawing.Color.Black
-      Me.lblSavage.Location = New System.Drawing.Point(262, 147)
+      Me.lblSavage.Location = New System.Drawing.Point(262, 72)
       Me.lblSavage.Name = "lblSavage"
       Me.lblSavage.Size = New System.Drawing.Size(88, 18)
       Me.lblSavage.TabIndex = 17
@@ -971,7 +970,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblRemainingValue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblRemainingValue.ForeColor = System.Drawing.Color.Black
-      Me.lblRemainingValue.Location = New System.Drawing.Point(230, 24)
+      Me.lblRemainingValue.Location = New System.Drawing.Point(230, 121)
       Me.lblRemainingValue.Name = "lblRemainingValue"
       Me.lblRemainingValue.Size = New System.Drawing.Size(120, 18)
       Me.lblRemainingValue.TabIndex = 20
@@ -982,7 +981,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDepreOpenning.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDepreOpenning.ForeColor = System.Drawing.Color.Black
-      Me.lblDepreOpenning.Location = New System.Drawing.Point(230, 49)
+      Me.lblDepreOpenning.Location = New System.Drawing.Point(230, 97)
       Me.lblDepreOpenning.Name = "lblDepreOpenning"
       Me.lblDepreOpenning.Size = New System.Drawing.Size(120, 18)
       Me.lblDepreOpenning.TabIndex = 18
@@ -1026,23 +1025,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpTransferDate.TabIndex = 14
       Me.dtpTransferDate.TabStop = False
       '
-      'lblDepreAmt
+      'lblDepreBaseBal
       '
-      Me.lblDepreAmt.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDepreAmt.ForeColor = System.Drawing.Color.Black
-      Me.lblDepreAmt.Location = New System.Drawing.Point(262, 97)
-      Me.lblDepreAmt.Name = "lblDepreAmt"
-      Me.lblDepreAmt.Size = New System.Drawing.Size(82, 18)
-      Me.lblDepreAmt.TabIndex = 34
-      Me.lblDepreAmt.Text = "ค่าเสื่อมต่อปี:"
-      Me.lblDepreAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.lblDepreAmt.UseMnemonic = False
+      Me.lblDepreBaseBal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDepreBaseBal.ForeColor = System.Drawing.Color.Black
+      Me.lblDepreBaseBal.Location = New System.Drawing.Point(254, 142)
+      Me.lblDepreBaseBal.Name = "lblDepreBaseBal"
+      Me.lblDepreBaseBal.Size = New System.Drawing.Size(90, 26)
+      Me.lblDepreBaseBal.TabIndex = 34
+      Me.lblDepreBaseBal.Text = "ฐานค่าเสื่อมคงเหลือ:"
+      Me.lblDepreBaseBal.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblDepreBaseBal.UseMnemonic = False
       '
       'lblDeprebase
       '
       Me.lblDeprebase.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDeprebase.ForeColor = System.Drawing.Color.Black
-      Me.lblDeprebase.Location = New System.Drawing.Point(230, 72)
+      Me.lblDeprebase.Location = New System.Drawing.Point(230, 25)
       Me.lblDeprebase.Name = "lblDeprebase"
       Me.lblDeprebase.Size = New System.Drawing.Size(120, 18)
       Me.lblDeprebase.TabIndex = 28
@@ -1778,6 +1777,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ' ค่าอัตโนมัติ
       txtDepreOpenning.Text = Configuration.FormatToString(Me.m_entity.DepreOpening, DigitConfig.Price)
       txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
+      txtDepreBaseBal.Text = Configuration.FormatToString(Me.m_entity.DeprebaseBal, DigitConfig.Price)
       ' วันที่ซื้อ
       txtBuyDate.Text = MinDateToNull(Me.m_entity.BuyDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpBuyDate.Value = MinDateToNow(Me.m_entity.BuyDate)
@@ -1786,6 +1786,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dtpTransferDate.Value = MinDateToNow(Me.m_entity.TransferDate)
 
       txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
+      txtDeprebase.Text = Configuration.FormatToString(Me.m_entity.DepreBase, DigitConfig.Price)
+      txtDepreBaseBal.Text = Configuration.FormatToString(Me.m_entity.DeprebaseBal, DigitConfig.Price)
       txtBuyDocCode.Text = Me.m_entity.BuyDocCode
       ' วันที่ซื้อในเอกสาร
       txtBuyDocDate.Text = MinDateToNull(Me.m_entity.BuyDocDate, "")
@@ -1847,6 +1849,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpBuyDate.ValueChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtBuyPrice.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDeprebase.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtBuyDocCode.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtBuyDocDate.Validated, AddressOf Me.ChangeProperty
@@ -1866,6 +1869,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtSalvage.Validated, AddressOf Me.NumerberTextBoxChange
       AddHandler txtBuyPrice.Validated, AddressOf Me.NumerberTextBoxChange
+      AddHandler txtDeprebase.Validated, AddressOf Me.NumerberTextBoxChange
 
       ' SetDefault value  
       AddHandler cmbCalcType.SelectedIndexChanged, AddressOf Me.SetValue
@@ -1878,6 +1882,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtSalvage.Validated, AddressOf Me.SetValue
       AddHandler txtBuyPrice.Validated, AddressOf Me.SetValue
+      AddHandler txtDeprebase.Validated, AddressOf Me.SetValue
 
     End Sub
     'Public Sub ChangeStatus(ByVal sender As Object, ByVal e As EventArgs)
@@ -1955,6 +1960,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txtbuyprice"
           txtBuyPrice.Text = Configuration.FormatToString(Me.m_entity.BuyPrice, DigitConfig.Price)
+        Case "txtdeprebase"
+          txtDeprebase.Text = Configuration.FormatToString(Me.m_entity.DepreBase, DigitConfig.Price)
       End Select
     End Sub
     Private m_dateSetting As Boolean = False
@@ -2113,7 +2120,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             Me.m_entity.BuyPrice = Nothing
           End If
-
+        Case "txtdeprebase"
+          dirtyFlag = True
+          If txtDeprebase.TextLength > 0 Then
+            Me.m_entity.DepreBase = CDec(Replace(txtDeprebase.Text, ",", ""))
+          Else
+            Me.m_entity.DepreBase = Nothing
+          End If
         Case "txtbuydoccode"
           Me.m_entity.BuyDocCode = txtBuyDocCode.Text
           dirtyFlag = True
@@ -2171,9 +2184,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "dtpstartcalcdate"
           CalcDepreEndCalcDate()
-
-        Case "txtsalvage", "txtbuyprice", "txtdepreopenning", "txtstartcalcamt"
+        Case "txtsalvage", "txtdeprebase", "txtdepreopenning", "txtstartcalcamt"
           txtRemainingValue.Text = Configuration.FormatToString(Me.m_entity.RemainValue, DigitConfig.Price)
+          txtDepreBaseBal.Text = Configuration.FormatToString(Me.m_entity.DeprebaseBal, DigitConfig.Price)
+        Case "txtbuyprice"
+          txtDeprebase.Text = Configuration.FormatToString(Me.m_entity.DepreBase, DigitConfig.Price)
       End Select
     End Sub
 #End Region
