@@ -2019,8 +2019,11 @@ Namespace Longkong.AdobeForm
       End If
       Return New PaperSize(name, w, h)
     End Function
+    Private Shared re As New Regex("(?<Num>[0-9][0-9]*(?:\.[0-9]*)?)(?<Unit>[a-zA-Z]*)")
     Public Shared Function AnyThingToPixel(ByVal valueString As String) As Integer
-      Dim re As New Regex("(?<Num>[0-9][0-9]*(?:\.[0-9]*)?)(?<Unit>[a-zA-Z]*)")
+      If re Is Nothing Then
+        re = New Regex("(?<Num>[0-9][0-9]*(?:\.[0-9]*)?)(?<Unit>[a-zA-Z]*)")
+      End If
       Dim value As Decimal
       Dim unit As String
       Dim m As Match = re.Match(valueString)
