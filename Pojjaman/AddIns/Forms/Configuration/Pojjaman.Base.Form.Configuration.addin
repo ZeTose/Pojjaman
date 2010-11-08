@@ -24,9 +24,11 @@
 		</EntityTab>
 		<EntityTab id="right">
 			<EntityTab id="RightDetailView" view="Longkong.Pojjaman.Gui.Panels.RightDetailView"/>
-		</EntityTab>
-				
+		</EntityTab>				
 	</Extension>
+  <!--<Extension path="/Workspace/StartupPage/EntityListViews">
+    <EntityListView id="multiapprove" entity="multiapprove" view="Longkong.Pojjaman.Gui.Panels.MultiApproveDetail"/>
+  </Extension>-->
 	<Extension path="/Pojjaman/Dialogs/OptionsDialog">
 		<DialogPanel id="CompanyOptions" label="${res:Dialog.Options.TreeViewOptions.CompanyOptionsText}">
 			<!--<Conditional accessid="14" acesslevel="8" action="Exclude">-->
@@ -53,10 +55,13 @@
 		</DialogPanel>
 		<!--<DialogPanel id="BiddingAttributeOptions" label="${res:Dialog.Options.TreeViewOptions.BiddingAttributeOptionsText}">
 			<DialogPanel id="TestOption" label="${res:Dialog.Options.PojjamanOptions.ColorListOptions.PanelName}" class="Longkong.Pojjaman.Gui.Dialogs.OptionPanels.ColorListOptions"/>
-		</DialogPanel>-->]
+		</DialogPanel>-->
     <DialogPanel id="AccountConfig" label="${res:Dialog.Options.TreeViewOptions.AccountConfigText}">
       <DialogPanel id="WHTConfigurationView" label="${res:Dialog.Options.PojjamanOptions.WHTConfigurationView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.WHTConfigurationView"/>
       <DialogPanel id="RetentionPointView" label="${res:Dialog.Options.PojjamanOptions.RetentionPointView.PanelName}" class="Longkong.Pojjaman.Gui.Panels.RetentionPointView"/>
     </DialogPanel>
-  </Extension>	
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityListViews">
+    <EntityListView id="multiapproval" entity="multiapproval" view="Longkong.Pojjaman.Gui.Panels.MultiApproveDetail"/>
+  </Extension>
 </AddIn>

@@ -22,6 +22,26 @@ Namespace Longkong.Pojjaman.Services
 #End Region
 
 #Region "Methods"
+    Public Sub OpenStartUpPage(Optional ByVal FullClassName As String = "Longkong.Pojjaman.BusinessLogic.MultiApproval")
+      Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(FullClassName)
+
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim accessId As Integer = Entity.GetAccessIdFromFullClassName(simpleentity.FullClassName)
+
+      Dim level As Integer = secSrv.GetAccess(accessId)
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+      checkString = BinaryHelper.RevertString(checkString)
+
+      Dim config As Boolean = CBool(ConfigurationUser.GetConfig(secSrv.CurrentUser.Id, "AlwaysShowMultiApprovePage"))
+      If CBool(checkString.Substring(0, 1)) Then
+        If config Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          'myEntityPanelService.OpenPanel(Me.Entity, Me.Args, Me.Label)
+          myEntityPanelService.OpenPanel(simpleentity.FullClassName, "", "")
+        End If
+      End If
+
+    End Sub
     Public Sub LogOff()
       Me.m_curentUser = New User
       WorkbenchSingleton.Workbench.RedrawAllComponents()
@@ -36,39 +56,39 @@ Namespace Longkong.Pojjaman.Services
         Return
       End If
     End Sub
-        Public Function Login(ByVal name As String) As Boolean
-            Dim value As Boolean = False
+    Public Function Login(ByVal name As String) As Boolean
+      Dim value As Boolean = False
+      Try
+        Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
+        Dim dialog As New CredentialsDialog(myResourceService.GetString("MainWindow.DialogName"))
+        If Not (name Is Nothing) Then
+          dialog.AlwaysDisplay = True ' prevent an infinite loop
+        End If
+        dialog.Banner = myResourceService.GetBitmap("Login.Banner")
+        dialog.Persist = False
+        Dim loginUser As New User(dialog.Name, dialog.Password)
+        MessageBox.Show(dialog.Name & ":" & dialog.Password)
+        If dialog.Show(name) = System.Windows.Forms.DialogResult.OK Then
+          If loginUser.Originated Then
+            Me.SetCurrentUser(loginUser)
+            value = True
+            If dialog.SaveChecked Then
+              dialog.Confirm(True)
+            End If
+          Else
             Try
-                Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
-                Dim dialog As New CredentialsDialog(myResourceService.GetString("MainWindow.DialogName"))
-                If Not (name Is Nothing) Then
-                    dialog.AlwaysDisplay = True ' prevent an infinite loop
-                End If
-                dialog.Banner = myResourceService.GetBitmap("Login.Banner")
-                dialog.Persist = False
-                Dim loginUser As New User(dialog.Name, dialog.Password)
-                MessageBox.Show(dialog.Name & ":" & dialog.Password)
-                If dialog.Show(name) = System.Windows.Forms.DialogResult.OK Then
-                    If loginUser.Originated Then
-                        Me.SetCurrentUser(loginUser)
-                        value = True
-                        If dialog.SaveChecked Then
-                            dialog.Confirm(True)
-                        End If
-                    Else
-                        Try
-                            dialog.Confirm(False)
-                        Catch applicationException As ApplicationException
-                        End Try
-                        ' exception handling ...
-                        value = Login(dialog.Name) ' need to find a way to display 'Logon unsuccessful'
-                    End If
-                End If
+              dialog.Confirm(False)
             Catch applicationException As ApplicationException
             End Try
             ' exception handling ...
-            Return value
-        End Function 'Login
+            value = Login(dialog.Name) ' need to find a way to display 'Logon unsuccessful'
+          End If
+        End If
+      Catch applicationException As ApplicationException
+      End Try
+      ' exception handling ...
+      Return value
+    End Function 'Login
     Public Shared NoPassword As Boolean = False
     Public Function Login() As DialogResult
       Dim dlg As New LoginDialog

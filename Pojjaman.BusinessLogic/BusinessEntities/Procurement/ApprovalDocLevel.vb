@@ -423,14 +423,14 @@ Public Class ApproveDocCollection
     End Function
     Public Function MaxLevel() As Integer
       Dim ret As Integer = 0
-			For Each temp As ApproveDoc In Me
-				If temp.Reject Then
-					ret = 0
-				Else
-					ret = CInt(IIf(temp.Level > ret, temp.Level, ret))
-				End If
-			Next
-			Return ret
+      For Each temp As ApproveDoc In Me
+        If temp.Reject Then
+          ret = 0
+        Else
+          ret = CInt(IIf(temp.Level > ret, temp.Level, ret))
+        End If
+      Next
+      Return ret
     End Function
     Public Function MaxLevelPersonId() As Integer
       Dim ret As Integer = 0
@@ -553,4 +553,29 @@ Public Class ApproveDocCollection
       End Sub
     End Class
   End Class
+
+
+  Public Class ApprovalMultiDoc
+    Inherits ApproveDoc
+
+    Public Function Save() As SaveErrorException
+      Try
+        SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, _
+                                  CommandType.StoredProcedure, _
+                                  "InsertMultiApproval", _
+                                  New SqlParameter("@apvdoc_entityId", Me.EntityId), _
+                                  New SqlParameter("@apvdoc_entityType", Me.EntityType), _
+                                  New SqlParameter("@apvdoc_linenumber", Me.LineNumber + 1), _
+                                  New SqlParameter("@apvdoc_comment", Me.Comment), _
+                                  New SqlParameter("@apvdoc_level", Me.Level), _
+                                  New SqlParameter("@apvdoc_originator", Me.Originator), _
+                                  New SqlParameter("@apvdoc_reject", Me.Reject)
+                                  )
+        Return New SaveErrorException("0")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
+      End Try
+    End Function
+  End Class
+
 End Namespace

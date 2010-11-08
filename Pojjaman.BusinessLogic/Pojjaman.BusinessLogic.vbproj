@@ -437,6 +437,7 @@
     <Compile Include="BusinessEntities\Configurations\Employee.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Configurations\MultiApproval.vb" />
     <Compile Include="BusinessEntities\Configurations\Person.vb">
       <SubType>Code</SubType>
     </Compile>

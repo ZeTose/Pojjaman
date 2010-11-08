@@ -611,4 +611,88 @@ Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As D
       Return output
     End Function
   End Class
+  Public Class ConfigurationUser
+
+#Region "Member"
+    Private Shared m_hashData As Hashtable
+#End Region
+
+#Region "Constructor"
+    Sub New(ByVal UserId As Integer)
+      RefreshConfigurationList(UserId)
+    End Sub
+#End Region
+
+#Region "Method"
+    Public Shared Function Save(ByVal UserId As Integer, ByVal name As String, ByVal value As Object) As SaveErrorException
+      Try
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+        Dim conn As New SqlClient.SqlConnection(sqlConString)
+        SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, _
+                                  "UpdateConfigurationUserByName", _
+                                  New SqlParameter("@UserId", UserId), _
+                                  New SqlParameter("@name", name), _
+                                  New SqlParameter("@value", value))
+
+        ConfigurationUser.SetConfig(name, value)
+        Return New SaveErrorException("0")
+      Catch ex As SaveErrorException
+        Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
+      End Try
+    End Function
+    Public Shared Function GetConfig(ByVal UserId As Integer, ByVal name As String) As Object
+      If name.Length <> 0 Then
+        If m_hashData Is Nothing Then
+          RefreshConfigurationList(UserId)
+        End If
+        Dim row As DataRow = CType(m_hashData(name.ToLower), DataRow)
+        If Not row Is Nothing Then
+          Return row("config_value")
+        End If
+      End If
+    End Function
+    Public Shared Sub SetConfig(ByVal name As String, ByVal value As Object)
+      If m_hashData.Contains(name.ToLower) Then
+        Dim row As DataRow = CType(m_hashData(name.ToLower), DataRow)
+        row("config_value") = value
+      End If
+    End Sub
+    'Public Shared Function GetConfigDesc(ByVal UserId As Integer, ByVal name As String) As Object
+    '  If name.Length <> 0 Then
+    '    If m_hashData Is Nothing Then
+    '      RefreshConfigurationList(UserId)
+    '    End If
+    '    Dim row As DataRow = CType(m_hashData(name.ToLower), DataRow)
+    '    If Not row Is Nothing Then
+    '      Return row("config_description")
+    '    End If
+    '  End If
+    'End Function
+    Public Shared Sub RefreshConfigurationList(ByVal UserId As Integer)
+      m_hashData = New Hashtable
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, _
+                                                   CommandType.StoredProcedure, _
+                                                   "GetConfigurationUserList", _
+                                                   New SqlParameter("@UserId", UserId) _
+                                                   )
+      Dim myTable As DataTable = ds.Tables(0)
+      For Each row As DataRow In myTable.Rows
+        m_hashData(row("config_name").ToString.ToLower) = row
+      Next
+    End Sub
+    'Public Shared Function GetConfigId(ByVal UserId As Integer, ByVal name As String) As Integer
+    '  If name.Length <> 0 Then
+    '    If m_hashData Is Nothing Then
+    '      RefreshConfigurationList(UserId)
+    '    End If
+    '    Dim row As DataRow = CType(m_hashData(name.ToLower), DataRow)
+    '    If Not row Is Nothing Then
+    '      Return CInt(row("config_id"))
+    '    End If
+    '  End If
+    'End Function
+#End Region
+
+  End Class
 End Namespace

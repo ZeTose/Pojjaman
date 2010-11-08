@@ -84,23 +84,26 @@ Namespace Longkong.Pojjaman.Commands
       End If
 
       Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        workBenchForm.Show()
-        Me.idleEventHandler = New EventHandler(AddressOf Me.ShowTipOfTheDay)
-        AddHandler Application.Idle, Me.idleEventHandler
-        Dim noLoadPrev As Boolean = False
-        Dim textArray1 As String() = SplashScreenForm.GetRequestedFileList
-        If (Not noLoadPrev AndAlso myPropertyService.GetProperty("Pojjaman.LoadPrevProjectOnStartup", False)) Then
-          Dim obj1 As Object = myPropertyService.GetProperty("Longkong.Pojjaman.Gui.MainWindow.RecentOpen")
-          If TypeOf obj1 Is RecentOpen Then
-            Dim open1 As RecentOpen = CType(obj1, RecentOpen)
-            If (open1.RecentProject.Count > 0) Then
-              'service3.OpenCombine(open1.RecentProject.Item(0).ToString)
-            End If
+      workBenchForm.Show()
+      Me.idleEventHandler = New EventHandler(AddressOf Me.ShowTipOfTheDay)
+      AddHandler Application.Idle, Me.idleEventHandler
+      Dim noLoadPrev As Boolean = False
+      Dim textArray1 As String() = SplashScreenForm.GetRequestedFileList
+      If (Not noLoadPrev AndAlso myPropertyService.GetProperty("Pojjaman.LoadPrevProjectOnStartup", False)) Then
+        Dim obj1 As Object = myPropertyService.GetProperty("Longkong.Pojjaman.Gui.MainWindow.RecentOpen")
+        If TypeOf obj1 Is RecentOpen Then
+          Dim open1 As RecentOpen = CType(obj1, RecentOpen)
+          If (open1.RecentProject.Count > 0) Then
+            'service3.OpenCombine(open1.RecentProject.Item(0).ToString)
           End If
         End If
-        workBenchForm.Focus()
-        Application.AddMessageFilter(New FormKeyHandler)
-        Application.Run(workBenchForm)
+      End If
+
+      mySecurityService.OpenStartUpPage()
+
+      workBenchForm.Focus()
+      Application.AddMessageFilter(New FormKeyHandler)
+      Application.Run(workBenchForm)
       Try
         myPropertyService.SetProperty("Pojjaman.Workbench.WorkbenchMemento", WorkbenchSingleton.Workbench.CreateMemento)
       Catch ex As Exception
