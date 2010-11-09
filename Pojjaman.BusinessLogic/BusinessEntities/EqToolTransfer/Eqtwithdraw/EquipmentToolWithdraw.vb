@@ -614,10 +614,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_unitprice") = item.RentalPerDay
             dr("eqtstocki_Amount") = 0
             dr("eqtstocki_remainbuyqty") = 0
-            dr("eqtstocki_unitAssetAmount") = 0
+            'dr("eqtstocki_unitAssetAmount") = 0
             dr("eqtstocki_AssetAmount") = 0
             dr("eqtstocki_writeoffAmt") = 0
-            dr("eqtstocki_unitaccdepre") = 0
+            'dr("eqtstocki_unitaccdepre") = 0
             dr("eqtstocki_accdepre") = 0
             dr("eqtstocki_note") = item.Note
             dr("eqtstocki_type") = Me.EntityId
