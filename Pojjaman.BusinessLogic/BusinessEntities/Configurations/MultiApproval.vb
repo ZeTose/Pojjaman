@@ -485,7 +485,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If isComment Then
             AppMultiDoc.Level = 0
           Else
-            AppMultiDoc.Level = CInt(gv.Cells("applevel").Value)
+            AppMultiDoc.Level = CInt(gv.Cells("right_app_level").Value)
           End If
           AppMultiDoc.Originator = Me.CurrentUserId
           AppMultiDoc.Reject = isReject

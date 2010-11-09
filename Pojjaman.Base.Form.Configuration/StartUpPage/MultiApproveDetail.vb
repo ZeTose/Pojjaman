@@ -58,6 +58,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkShowDetail As System.Windows.Forms.CheckBox
     Friend WithEvents cmbApprovalType As System.Windows.Forms.ComboBox
     Friend WithEvents cmbDateRank As System.Windows.Forms.ComboBox
+    Friend WithEvents BreezeTheme As Telerik.WinControls.Themes.BreezeTheme
+    Friend WithEvents VistaTheme As Telerik.WinControls.Themes.VistaTheme
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -71,7 +73,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbApprovalType = New System.Windows.Forms.ComboBox()
       Me.cmbDateRank = New System.Windows.Forms.ComboBox()
       Me.btnRefresh = New System.Windows.Forms.Button()
-      Me.chkAlwaysShowData = New System.Windows.Forms.CheckBox()
       Me.GroupBox2 = New System.Windows.Forms.GroupBox()
       Me.chkShowDetail = New System.Windows.Forms.CheckBox()
       Me.chkSelectAll = New System.Windows.Forms.CheckBox()
@@ -84,6 +85,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPO = New System.Windows.Forms.CheckBox()
       Me.chkWR = New System.Windows.Forms.CheckBox()
       Me.chkPR = New System.Windows.Forms.CheckBox()
+      Me.chkAlwaysShowData = New System.Windows.Forms.CheckBox()
+      Me.BreezeTheme = New Telerik.WinControls.Themes.BreezeTheme()
+      Me.VistaTheme = New Telerik.WinControls.Themes.VistaTheme()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.GroupBox2.SuspendLayout()
@@ -179,18 +183,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnRefresh.Text = "Refresh"
       Me.btnRefresh.UseVisualStyleBackColor = True
       '
-      'chkAlwaysShowData
-      '
-      Me.chkAlwaysShowData.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.chkAlwaysShowData.Checked = True
-      Me.chkAlwaysShowData.CheckState = System.Windows.Forms.CheckState.Checked
-      Me.chkAlwaysShowData.Location = New System.Drawing.Point(204, 515)
-      Me.chkAlwaysShowData.Name = "chkAlwaysShowData"
-      Me.chkAlwaysShowData.Size = New System.Drawing.Size(236, 19)
-      Me.chkAlwaysShowData.TabIndex = 0
-      Me.chkAlwaysShowData.Text = "แสดงรายการเสมอตอนเปิดโปรแกรม"
-      Me.chkAlwaysShowData.UseVisualStyleBackColor = True
-      '
       'GroupBox2
       '
       Me.GroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -240,6 +232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rGrid.ShowGroupPanel = False
       Me.rGrid.Size = New System.Drawing.Size(465, 306)
       Me.rGrid.TabIndex = 335
+      Me.rGrid.ThemeName = "Vista"
       '
       'rgbDocumentType
       '
@@ -351,6 +344,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPR.TabIndex = 0
       Me.chkPR.Text = "ขอซื้อ"
       Me.chkPR.UseVisualStyleBackColor = True
+      '
+      'chkAlwaysShowData
+      '
+      Me.chkAlwaysShowData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.chkAlwaysShowData.Checked = True
+      Me.chkAlwaysShowData.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkAlwaysShowData.Location = New System.Drawing.Point(204, 515)
+      Me.chkAlwaysShowData.Name = "chkAlwaysShowData"
+      Me.chkAlwaysShowData.Size = New System.Drawing.Size(236, 19)
+      Me.chkAlwaysShowData.TabIndex = 0
+      Me.chkAlwaysShowData.Text = "แสดงรายการเสมอตอนเปิดโปรแกรม"
+      Me.chkAlwaysShowData.UseVisualStyleBackColor = True
       '
       'MultiApproveDetail
       '
@@ -482,6 +487,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Me.m_entity.RefreshDataSource(User.CurrentUser.Id, rGrid, Me.GetListOfDocument, Me.GetListOfApproveType, Me.GetListOfDateRank, ForceRefresh)
         'm_entity.RefreshDocumentList(chkDocumenList)
+        'For Each rowinf As GridViewRowInfo In Me.rGrid.Rows
+        '  'rowinf.EnsureVisible()
+        '  rowinf.Height = 35
+        'Next
       End If
     End Sub
     Public Sub ChangeTitle(ByVal sender As Object, ByVal e As System.EventArgs) Implements ISimpleListPanel.ChangeTitle
@@ -767,11 +776,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'CreateHeaderTemplateStyle()
 
       rGrid.GridElement.BeginUpdate()
+
+      'rGrid.EnableAlternatingRowColor = True
+      'CType(rGrid.GridElement, GridTableElement).AlternatingRowColor = Color.LightGray
+
+      'CType(rGrid.GridElement, GridTableElement).BackColor = Color.Gainsboro
+
+
+      'CType(rGrid.GridElement, GridTableElement).RowHeight = 200
+
+      'rGrid.ThemeName = "BusinessGrid"
+
       rGrid.MasterGridViewTemplate.ChildGridViewTemplates.Clear()
       rGrid.MasterGridViewTemplate.AllowAddNewRow = False
       rGrid.MasterGridViewTemplate.AllowDeleteRow = False
       rGrid.MasterGridViewTemplate.AllowCellContextMenu = False
       rGrid.MasterGridViewTemplate.AllowColumnResize = True
+      rGrid.MasterGridViewTemplate.AllowRowResize = False
+
       'rGrid.MasterGridViewTemplate.AutoExpandGroups = True
 
       CreateHeaderTemplateStyle()
@@ -1194,6 +1216,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       relation1.ChildTemplate = gTemplate
       rGrid.Relations.Add(relation1)
 
+      'Dim viewMsDef As New HtmlViewDefinition
+      'viewMsDef.RowTemplate.ReadXml("")
+
       Dim viewDef As New HtmlViewDefinition()
       viewDef.RowTemplate.Rows.Add(New RowDefinition())
       viewDef.RowTemplate.Rows.Add(New RowDefinition())
@@ -1266,11 +1291,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim row As GridDetailViewRowElement = TryCast(e.RowElement, GridDetailViewRowElement)
       If row IsNot Nothing Then
         row.ContentCell.ChildTableElement.Padding = New Padding(0, 8, 0, 8)
+        'If e.RowElement.ViewTemplate.Caption = Me.MasterCaptionName Then
+        '  e.RowElement.BackColor = Color.AntiqueWhite
+        'End If
       End If
     End Sub
     Private Sub radGridView1_ChildViewExpanded(ByVal sender As Object, ByVal e As ChildViewExpandedEventArgs) Handles rGrid.ChildViewExpanded
       'e.ChildRow.ChildViewInfos(0).Rows(0).Height = 45
       e.ChildRow.ChildViewInfos(1).Rows(0).Height = 120
+      e.ChildRow.ChildViewInfos(1).Rows(0).IsSelected = False
       'e.ChildRow.ChildViewInfos(1).Rows(1).Height = 50
     End Sub
     'Private Function GetLockingComboTable() As DataTable
