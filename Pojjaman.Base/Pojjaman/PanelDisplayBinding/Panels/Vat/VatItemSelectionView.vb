@@ -447,7 +447,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Dim textInBasket As String = entityName & ":" & qty.ToString
                 Dim bi As New StockBasketItem(id, stockCode, fullClassName, textInBasket, lineNumber, qty, entityName)
 
-                Dim rows As DataRow() = m_datatable.Select("Vat=" & id.ToString & " and LineNumber=" & lineNumber.ToString)
+                Dim rows As DataRow() = m_datatable.Select("Vat=" & id.ToString & " and LineNumber='" & lineNumber.ToString.Trim & "'")
                 If rows.Length = 1 Then
                   bi.Tag = CType(rows(0), TreeRow).Tag
                 End If
