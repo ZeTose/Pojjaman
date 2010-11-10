@@ -995,7 +995,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
                 dr("paymenti_entity") = item.Entity.Id
               End If
-              dr("paymenti_entitycode") = item.Entity.Code
+                            dr("paymenti_entitycode") = item.Entity.Code
               If TypeOf item.Entity Is IHasBankAccount Then
                 dr("paymenti_bankacct") = Me.ValidIdOrDBNull(CType(item.Entity, IHasBankAccount).BankAccount)
               End If

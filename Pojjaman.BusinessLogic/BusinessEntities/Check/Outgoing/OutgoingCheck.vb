@@ -200,14 +200,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemTable = Value
       End Set
     End Property
-    Public Property CqCode() As String
-      Get
-        Return m_cqcode
-      End Get
-      Set(ByVal Value As String)
-        m_cqcode = Value
-      End Set
-    End Property
+        Public Property CqCode() As String Implements IPaymentItem.Code
+            Get
+                Return m_cqcode
+            End Get
+            Set(ByVal Value As String)
+                m_cqcode = Value
+            End Set
+        End Property
     Public ReadOnly Property DocDate As Date
       Get
         Return Me.IssueDate
