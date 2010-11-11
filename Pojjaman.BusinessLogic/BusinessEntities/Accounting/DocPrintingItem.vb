@@ -17,7 +17,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Interface
     Public Interface IHasCustomNote
         Function GetCustomNoteCollection() As CustomNoteCollection
-	End Interface
+    End Interface
+    Public Interface IHasPrintItem
+        Function GetDocPrintingEntries() As DocPrintingItemCollection
+    End Interface
+
 	Public Interface IHasMainDoc
 		ReadOnly Property MainDoc() As ISimpleEntity
 	End Interface

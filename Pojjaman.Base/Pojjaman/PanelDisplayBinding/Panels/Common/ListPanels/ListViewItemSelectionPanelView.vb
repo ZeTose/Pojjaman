@@ -17,7 +17,7 @@ Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ListViewItemSelectionPanelView
     Inherits AbstractEntityPanelViewContent
-    Implements ISimpleListPanel, ICanMove
+        Implements ISimpleListPanel, ICanMove, IPrintableEntity
 
 #Region " Windows Form Designer generated code "
 
@@ -1043,7 +1043,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
 #End Region
-    
+
+        Public Function GetDPICollFromListview() As DocPrintingItemCollection
+            Dim dpiColl As New DocPrintingItemCollection
+            Dim i As Integer = 0
+            For Each item As ListViewItem In lvItem.Items
+                i += 1
+                For Each col As ColumnHeader In lvItem.Columns
+                    Dim data As String = item.SubItems(col.Index).Text
+                    Dim dpi As New DocPrintingItem
+                    dpi.Mapping = "Item." & col.Text
+                    dpi.Value = data
+                    dpi.Row = i
+                    dpi.Table = "Item"
+                    dpi.DataType = "System.String"
+                    dpiColl.Add(dpi)
+                Next
+            Next
+
+            Return dpiColl
+        End Function
+
+#Region "IPrintableEntity"
+        Public Property Code() As String Implements BusinessLogic.IIdentifiable.Code
+            Get
+
+            End Get
+            Set(ByVal Value As String)
+
+            End Set
+        End Property
+
+        Public Property Id() As Integer Implements BusinessLogic.IIdentifiable.Id
+            Get
+
+            End Get
+            Set(ByVal Value As Integer)
+
+            End Set
+        End Property
+
+        Public Function GetDefaultForm() As String Implements BusinessLogic.IPrintableEntity.GetDefaultForm
+
+        End Function
+
+        Public Function GetDefaultFormPath() As String Implements BusinessLogic.IPrintableEntity.GetDefaultFormPath
+
+        End Function
+
+        Public Function GetDocPrintingEntries() As BusinessLogic.DocPrintingItemCollection Implements BusinessLogic.IPrintableEntity.GetDocPrintingEntries
+            Dim dpiColl As New DocPrintingItemCollection
+            Dim dpi As DocPrintingItem
+
+            If TypeOf m_filterSubPanel Is IHasPrintItem Then
+                dpiColl.AddRange(CType(m_filterSubPanel, IHasPrintItem).GetDocPrintingEntries)
+            End If
+
+            dpiColl.AddRange(GetDPICollFromListview())
+
+            Return dpiColl
+        End Function
+#End Region
+
   End Class
 End Namespace
 
