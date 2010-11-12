@@ -779,7 +779,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property StockQty() As Decimal
       Get
-        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)
+        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Price)
       End Get
     End Property
     Public Property Discount() As Discount
