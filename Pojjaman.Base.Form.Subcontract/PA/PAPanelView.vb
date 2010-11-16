@@ -3570,9 +3570,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Dim scNeedsApproval As Boolean = False
         scNeedsApproval = CBool(Configuration.GetConfig("ApproveSC"))
-        Dim filters(1) As Filter
+        Dim filters(2) As Filter
         filters(0) = New Filter("scNeedsApproval", scNeedsApproval)
         filters(1) = New Filter("excludedepleted", True)
+        filters(2) = New Filter("NotIncludeRemainAmountZero", True)
         myEntityPanelService.OpenListDialog(New SCForPA, AddressOf SetSC, filters)
         'myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, filters)
       End If
