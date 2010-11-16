@@ -826,13 +826,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If TypeOf cmbStatus.SelectedItem Is IdValuePair Then
         checkValue = CType(cmbStatus.SelectedItem, IdValuePair).Id
       End If
-      Dim index As Integer = FindFilterforDialog(checkValue)
-      obj.DocStatus = New OutgoingCheckDocStatus(index)
+      'Dim index As Integer = FindFilterforDialog(checkValue)
+      'obj.DocStatus = New OutgoingCheckDocStatus(index)
+      obj.DocStatus = New OutgoingCheckDocStatus(-1)
       entities.Add(obj)
 
-      Dim filters(1) As Filter
+      Dim filters(2) As Filter
       filters(0) = New Filter("IDList", GenIDListFromDataTable()) 'ID ที่ต้องไม่เรียกมา
       filters(1) = New Filter("cqupdate_id", Me.m_entity.Id)
+      filters(2) = New Filter("docstatus", checkValue)
 
       myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetCheckItems, filters, entities)
     End Sub

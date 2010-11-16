@@ -325,6 +325,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'cmbStatus
       '
+      Me.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbStatus.Location = New System.Drawing.Point(120, 96)
       Me.cmbStatus.Name = "cmbStatus"
       Me.cmbStatus.Size = New System.Drawing.Size(176, 21)
@@ -639,7 +640,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Methods"
     Private Sub Initialize()
       ' list in combobox
-      OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(cmbStatus, "outgoingcheck_docstatus")
+      OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(cmbStatus, "outgoingcheck_docstatus", True)
+      If cmbStatus.Items.Count > 0 Then
+        cmbStatus.SelectedIndex = 0
+      End If
       ' clear item
       AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
@@ -762,7 +766,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.BankAccount = New BankAccount
 
       Me.cmbStatus.SelectedIndex = -1
-      Me.cmbStatus.SelectedIndex = -1
+      If cmbStatus.Items.Count > 0 Then
+        Me.cmbStatus.SelectedIndex = 0
+      End If
 
       Dim generalDocDateStartBeforeToday As Long = Configuration.GetConfig("GeneralDocDateStartBeforeToday")
       Dim generalDocDateEndAfterToday As Long = Configuration.GetConfig("GeneralDocDateEndAfterToday")
