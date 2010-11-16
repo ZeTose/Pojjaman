@@ -346,10 +346,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property Sc() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        If Value.Status.Value = 0 OrElse Value.Closed Then          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    Public Property Sc() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)        If Value.Status.Value = 0 OrElse Value.Closed Then
           msgServ.ShowWarningFormatted("${res:Global.Error.CanceledSC}", New String() {Value.Code})
           Return
-        End If        OnGlChanged()
+        End If        If Value.Id > 0 AndAlso Not Me.IsValidateReceiptAmoutFist(Value.Id) Then          msgServ.ShowWarningFormatted("${res:Global.Error.SCRemainEqualOrLessThenZero}", New String() {Value.Code})
+          Return
+        End If        OnGlChanged()
         m_sc = Value        Me.TaxRate = m_sc.TaxRate
         Me.TaxType = New TaxType(m_sc.TaxType.Value)        ChangeSC()      End Set    End Property
     Public Property SubContractor() As Supplier Implements IAdvancePayItemAble.Supplier, IWBSAllocatable.Supplier
@@ -2073,6 +2075,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return Rows
+    End Function
+    Private Function IsValidateReceiptAmoutFist(ByVal id As Integer) As Boolean
+      Dim obj As Object = Configuration.GetConfig("CheckRemainingReceiptAmount")
+      If Not CBool(obj) Then
+        Return True
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, _
+                                                   CommandType.StoredProcedure, _
+                                                   "CheckRemainingAmountForReceiptProgress", _
+                                                   New SqlParameter("@sc_id", id) _
+                                                   )
+      If CDec(ds.Tables(0).Rows(0)(0)) > 0 Then
+        Return True
+      End If
+
+      Return False
     End Function
     Private Sub ChangeSC()      If Me.Sc Is Nothing OrElse Me.Sc.Code.Length = 0 Then
         ClearSC()
