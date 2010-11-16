@@ -1426,7 +1426,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-10}", item.PayeeTaxID) 'Tax Id
         creditText &= Space(50) 'Attachment Sub-file
         creditText &= "F" 'Advice Mode (F = fax)
-        creditText &= String.Format("{0,-50}", item.PayeeFax) 'Fax No.
+        creditText &= String.Format("{0,-50}", SetDigitOnly(item.PayeeFax)) 'Fax No.
         creditText &= Space(50) 'Email ID
         creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemBfVatString, ",", ""))) 'Total Inv Amt bef VAT (10.2)
         creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemWHtString, ",", ""))) 'Total Tax deducted Amt (10.2)
@@ -1539,7 +1539,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-16}", item.RefCode).Substring(0, 16) 'Bene. Ref #
         creditText &= Space(50) 'Attachment Sub-file
         creditText &= "F" 'Advice Mode (F = fax)
-        creditText &= String.Format("{0,-50}", item.PayeeFax) 'Fax No.
+        creditText &= String.Format("{0,-50}", SetDigitOnly(item.PayeeFax)) 'Fax No.
         creditText &= Space(50) 'Email ID
         creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemBfVatString, ",", ""))) 'Total Inv Amt bef VAT (10.2)
         creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemWHtString, ",", ""))) 'Total Tax deducted Amt (10.2)
@@ -1639,7 +1639,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-24}", item.PickupDocument).Substring(0, 24) 'Document for Pickup
         creditText &= Space(50) 'Attachment Sub-file
         creditText &= "F" 'Advice Mode (F = fax)
-        creditText &= String.Format("{0,-50}", item.PayeeFax) 'Fax No.
+        creditText &= String.Format("{0,-50}", SetDigitOnly(item.PayeeFax)) 'Fax No.
         creditText &= Space(50) 'Email ID
         creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemBfVatString, ",", ""))) 'Total Inv Amt bef VAT (10.2)
         creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemWHtString, ",", ""))) 'Total Tax deducted Amt (10.2)
