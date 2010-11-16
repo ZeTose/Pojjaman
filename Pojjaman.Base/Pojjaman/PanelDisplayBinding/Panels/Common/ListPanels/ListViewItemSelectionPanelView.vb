@@ -222,7 +222,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.pnlFilter)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "ListViewItemSelectionPanelView"
-      Me.Size = New System.Drawing.Size(800, 600)
+      Me.Size = New System.Drawing.Size(900, 600)
       Me.pnlFilter.ResumeLayout(False)
       Me.pnlFilter2.ResumeLayout(False)
       Me.pnlFilter3.ResumeLayout(False)
