@@ -656,21 +656,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
-          Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveVatError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldvat, oldje)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveVatError
-          Else
-            Select Case CInt(saveVatError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldvat, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveVatError
-              Case Else
-            End Select
+          If Not (Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen)) Then
+            Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveVatError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveVatError
+            Else
+              Select Case CInt(saveVatError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveVatError
+                Case Else
+              End Select
+            End If
           End If
 
           If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
@@ -747,18 +749,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
-					trans.Rollback()
-					Me.ResetID(oldid, oldpay, oldvat, oldje)
+          trans.Rollback()
+          Me.ResetID(oldid, oldpay, oldvat, oldje)
           ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
-				Catch ex As Exception
-					trans.Rollback()
-					Me.ResetID(oldid, oldpay, oldvat, oldje)
+        Catch ex As Exception
+          trans.Rollback()
+          Me.ResetID(oldid, oldpay, oldvat, oldje)
           ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
-				Finally
-					conn.Close()
-				End Try
+        Finally
+          conn.Close()
+        End Try
 			End With
         End Function
         Private Function SaveDoc(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
