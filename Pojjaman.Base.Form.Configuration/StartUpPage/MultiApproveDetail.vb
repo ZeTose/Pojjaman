@@ -405,31 +405,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Initialize()
 
 
-
-
       m_entity = New MultiApproval(User.CurrentUser.Id, Me.GetListOfApproveType, Me.GetListOfDateRank)
       m_entity.CurrentUserId = User.CurrentUser.Id
 
-
-      'm_entity = New StockSequence("***") 'Hack by julawut
-      'Me.m_entity.IsRecalUnitCost = True 'Hack by julawut
-
-      '' Me.WorkbenchWindow.ViewContent.IsDirty = False 'Hack by julawut
-      ''m_otherFilters = filters
-
-      'Dim dt As TreeTable = Me.GetSchemaTable()
-      'Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-      'm_treeManager = New TreeManager(dt, tgItem)
-      'm_treeManager.SetTableStyle(dst)
-      'm_treeManager.AllowSorting = False
-      'm_treeManager.AllowDelete = False
-      'tgItem.AllowNew = False
-
-      'CreateHeader()
-      ''WrapperArrayList.AddItemAddedHandler(dt, AddressOf ItemAdded)
-      ''AddHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
-      ''AddHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
-      ''AddHandler dt.RowDeleted, AddressOf ItemDelete
 
       EventWiring()
 
@@ -439,9 +417,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Me.TitleName = m_entity.TabPageText
 
-      'CheckFormEnable()
-
-      'LoopControl(Me)
     End Sub
 #End Region
 
@@ -497,54 +472,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Public Sub CheckFormEnable() Implements ISimplePanel.CheckFormEnable
-      'If Me.m_entity.IsReSequenced Then
-      '  Me.txtDocDateStart.Enabled = False
-      '  Me.dtpDocDateStart.Enabled = False
-      'Else
-      'Me.txtDocDateStart.Enabled = True
-      'Me.dtpDocDateStart.Enabled = True
-      ''End If
-      'Me.txtDocDateEnd.Enabled = True
-      'Me.dtpDocDateEnd.Enabled = True
-      'Me.btnOK.Enabled = True
-      'Me.chkRecalUnitCost.Enabled = True
-      'Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
-      'Dim currentUserName As String = Me.SecurityService.CurrentUser.Name
-      'btnReSave.Visible = False
-      'If currentUserId = 1 OrElse currentUserName = "Pojjaman" Then
-      '  btnReSave.Visible = True
-      'End If
+
     End Sub
     Public Sub EnableTextBox()
-      'Me.txtDocDateStart.Enabled = False
-      'Me.dtpDocDateStart.Enabled = False
-      'Me.txtDocDateEnd.Enabled = False
-      'Me.dtpDocDateEnd.Enabled = False
-      'Me.btnOK.Enabled = False
-      'Me.chkRecalUnitCost.Enabled = False
+
     End Sub
     Public Sub ClearDetail() Implements ISimplePanel.ClearDetail
 
     End Sub
     Public Sub SetLabelText() Implements ISimplePanel.SetLabelText
-      'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      'Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.grbDetail}")
-      ''Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.grbGeneral}")
-      ''Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.lblItem}")
-      'Me.lblDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.lblDateStart}")
-      'Me.lblDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.lblDateEnd}")
-      'Me.chkRecalUnitCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.chkRecalUnitCost}")
-      'Me.btnOK.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.btnOK}")
-      'Me.Validator.SetDisplayName(Me.txtDocDateStart, lblDateStart.Text)
-      'Me.Validator.SetDisplayName(Me.txtDocDateEnd, lblDateEnd.Text)
+
     End Sub
     Protected Sub EventWiring()
-      'AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
-      'AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
-      'AddHandler chkRecalUnitCost.CheckedChanged, AddressOf Me.ChangeProperty
-
       AddHandler chkSelectAll.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkAlwaysShow.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkAlwaysShowData.CheckedChanged, AddressOf Me.ChangeProperty
@@ -560,44 +499,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler chkGR.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkPA.CheckedChanged, AddressOf Me.ChangeProperty
 
-      'AddHandler rdbWaitforApprove.CheckedChanged, AddressOf Me.ChangeProperty
-      'AddHandler rdbApproved.CheckedChanged, AddressOf Me.ChangeProperty
-      'AddHandler rdbReject.CheckedChanged, AddressOf Me.ChangeProperty
-      'AddHandler rdbNotApprove.CheckedChanged, AddressOf Me.ChangeProperty
-
       AddHandler ibtnApprove.Click, AddressOf Me.ButtonApproveClick
       AddHandler rGrid.ValueChanged, AddressOf Me.rGridValueChanged
-      'AddHandler btnRefresh.CheckedChanged, AddressOf Me.ChangeProperty
     End Sub
-    'Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-    '  If Me.m_entity Is Nothing Or Not m_isInitialized Then
-    '    Return
-    '  End If
-    '  Select Case CType(sender, Control).Name.ToLower
-    '    Case "txttoccpersoncode"
-    '      toCCPersonCodeChanged = True
-    '    Case "txttocostcentercode"
-    '      toCCCodeChanged = True
-    '    Case "txtfromccpersoncode"
-    '      fromCCPersonCodeChanged = True
-    '    Case "txtfromcostcentercode"
-    '      fromCCCodeChanged = True
-    '  End Select
-    'End Sub
     Public Sub UpdateEntityProperties() Implements ISimplePanel.UpdateEntityProperties
       m_isInitialized = False
       ClearDetail()
       If m_entity Is Nothing Then
         Return
       End If
-
-      'txtDocDateStart.Text = MinDateToNull(Me.m_entity.DateStart, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'dtpDocDateStart.Value = MinDateToNow(Me.m_entity.DateStart)
-      'txtDocDateEnd.Text = MinDateToNull(Me.m_entity.DateEnd, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      'dtpDocDateEnd.Value = MinDateToNow(Me.m_entity.DateEnd)
-
-      'Hack
-      'Me.IsDirty = False
 
       Me.chkAlwaysShow.Checked = Me.m_entity.AlwaysShowPage
       Me.chkAlwaysShowData.Checked = Me.m_entity.AlwaysShowData
@@ -674,7 +584,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If checkCal = 0 Then 'ไม่เลือกเลยสักตัว
         newDocList.Add("doctype = -1")
       ElseIf checkCal = 7 Then 'เลือกทุกตัว
-        'newDocList.Add("doctype = 0")
+
       End If
 
       Return newDocList
@@ -692,28 +602,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return key.Id
     End Function
     Private Sub ToggleSelection(ByVal sender As Object)
-      'Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
-      'currentGridRow.Cells(0).Value = deh.GetValue(Of Integer)("")
-      'currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eq_code")
-      'currentGridRow.Cells(2).Value = deh.GetValue(Of String)("eq_name")
+
       Dim checked As Boolean = CType(sender, CheckBox).Checked
-      'Dim rowIndex As Integer = 0
+
       For Each grd As GridViewDataRowInfo In rGrid.Rows
         If checked Then
           grd.Cells("selected").Value = True
-          'Me.m_entity.ListData.Tables(0).Rows(rowIndex)("selected") = True
-          'CType(grd.GridViewInfo.ViewTemplate.DataSource, DataTable).Rows(grd.GridViewInfo.CurrentIndex)("selected") = 1
-          'CType(grd.ViewTemplate.DataSource, DataTable).Rows(rowIndex)("selected") = True
-          'rowIndex += 1
         Else
           grd.Cells("selected").Value = False
-          'CType(grd.ViewTemplate.DataSource, DataTable).Rows(rowIndex)("selected") = False
-          'Me.m_entity.ListData.Tables(0).Rows(rowIndex)("selected") = False
-          'rowIndex += 1
         End If
       Next
-
-      'Me.m_entity.SetToggleSelection(checked)
 
     End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
@@ -777,16 +675,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       rGrid.GridElement.BeginUpdate()
 
-      'rGrid.EnableAlternatingRowColor = True
-      'CType(rGrid.GridElement, GridTableElement).AlternatingRowColor = Color.LightGray
-
-      'CType(rGrid.GridElement, GridTableElement).BackColor = Color.Gainsboro
-
-
-      'CType(rGrid.GridElement, GridTableElement).RowHeight = 200
-
-      'rGrid.ThemeName = "BusinessGrid"
-
       rGrid.MasterGridViewTemplate.ChildGridViewTemplates.Clear()
       rGrid.MasterGridViewTemplate.AllowAddNewRow = False
       rGrid.MasterGridViewTemplate.AllowDeleteRow = False
@@ -837,12 +725,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cmbApprovalType.SelectedIndex = 0
 
       cmbDateRank.Items.Add(New IdValuePair(-1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotSpecific}"))) ' "ไม่ระบุวัน"
-      cmbDateRank.Items.Add(New IdValuePair(0, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Todays}"))) ' "ไม่เกินวันนี้"
-      cmbDateRank.Items.Add(New IdValuePair(1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver24Hours}"))) ' "ไม่เกิน 24 ชั่วโมง"
-      cmbDateRank.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver15Days}"))) ' "ไม่เกิน 15 วัน"
-      cmbDateRank.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver4Weeks}"))) ' "ไม่เกิน 4 สัปดาห์"
-      cmbDateRank.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver12Months}"))) ' "ไม่เกิน 12 เดือน"
-      cmbDateRank.Items.Add(New IdValuePair(5, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Over1Year}"))) ' "เกิน 1 ปี"
+      cmbDateRank.Items.Add(New IdValuePair(1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Todays}"))) ' "ไม่เกินวันนี้"
+      cmbDateRank.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver24Hours}"))) ' "ไม่เกิน 24 ชั่วโมง"
+      cmbDateRank.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver15Days}"))) ' "ไม่เกิน 15 วัน"
+      cmbDateRank.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver4Weeks}"))) ' "ไม่เกิน 4 สัปดาห์"
+      cmbDateRank.Items.Add(New IdValuePair(5, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver12Months}"))) ' "ไม่เกิน 12 เดือน"
+      'cmbDateRank.Items.Add(New IdValuePair(5, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Over1Year}"))) ' "เกิน 1 ปี"
 
       cmbDateRank.SelectedIndex = 4
     End Sub
@@ -1020,8 +908,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.TextAlignment = ContentAlignment.MiddleCenter
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleCenter
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocDate}") '"วันที่"
-      gridColumn.DataType = GetType(DateTime)
-      gridColumn.FormatString = "{0:d}"
+      'gridColumn.DataType = GetType(DateTime)
+      'gridColumn.FormatString = "{0:d}"
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
@@ -1030,8 +918,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.TextAlignment = ContentAlignment.MiddleRight
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleRight
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Amount}") '"ยอดเงินรวม" 
-      gridColumn.DataType = GetType(Decimal)
-      gridColumn.FormatString = "{0:N}"
+      'gridColumn.DataType = GetType(Decimal)
+      'gridColumn.FormatString = "{0:N}"
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
@@ -1107,17 +995,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gTemplate.Columns.Add(gridColumn)
 
       gridColumn = New GridViewTextBoxColumn("docdate")
-      gridColumn.Width = 75
+      gridColumn.Width = 150
       gridColumn.TextAlignment = ContentAlignment.MiddleCenter
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleCenter
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocDate}") '"วันที่"
-      gridColumn.DataType = GetType(DateTime)
-      gridColumn.FormatString = "{0:d}"
+      'gridColumn.DataType = GetType(DateTime)
+      'gridColumn.FormatString = "{0:d}"
       gridColumn.ReadOnly = True
       gTemplate.Columns.Add(gridColumn)
 
       gridColumn = New GridViewTextBoxColumn("lasteditorName")
-      gridColumn.Width = 200
+      gridColumn.Width = 150
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Commentator}") '"ผู้แสดงความคิดเห็น"
