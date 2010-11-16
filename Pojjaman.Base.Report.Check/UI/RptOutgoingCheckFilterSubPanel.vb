@@ -886,7 +886,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(12) As Filter
+      Dim arr(13) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart)) '("DocDateStart", ValidDateOrDBNull(DocDateStart)) '
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd)) '("DocDateEnd", ValidDateOrDBNull(DocDateEnd)) '
       arr(2) = New Filter("SuppliCodeStart", IIf(txtSupplierCodeStart.TextLength > 0, txtSupplierCodeStart.Text, DBNull.Value))
@@ -899,8 +899,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(9) = New Filter("UpdateDateEnd", IIf(Me.UpdateDateEnd.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateEnd))
       arr(10) = New Filter("SortBy", cmbSort.SelectedIndex)
       arr(11) = New Filter("IncludeCheckDocDate", IIf(Me.chkIncludeCheckDocDate.Checked, 1, 0))
-      arr(11) = New Filter("IncludeCheckCode", IIf(Me.chkIncludeCheckCode.Checked, 1, 0))
-      arr(12) = New Filter("RemainCheckShow", IIf(Me.chkRemainChecksShow.Checked, 1, 0))
+      arr(12) = New Filter("IncludeCheckCode", IIf(Me.chkIncludeCheckCode.Checked, 1, 0))
+      arr(13) = New Filter("RemainCheckShow", IIf(Me.chkRemainChecksShow.Checked, 1, 0))
       'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
 
       Return arr
