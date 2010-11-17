@@ -3790,7 +3790,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private m_targetType As Integer
     Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
-      'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim doc As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
+      If doc Is Nothing Then
+        Return
+      Else
+        Select Case doc.ItemType.Value
+          Case 0, 28 'Blank
+            Return
+          Case 19 'Tool
+            m_targetType = doc.ItemType.Value
+            myEntityPanelService.OpenListDialog(New Tool, AddressOf SetItems)
+          Case 42 'LCI
+            m_targetType = doc.ItemType.Value
+            'myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
+            If Me.m_entity Is Nothing Then
+              Return
+            End If
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+              msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.Message.InputFromCC}")
+              Return
+            End If
+            Dim entity As New LCIForSelection
+            entity.CC = Me.m_entity.FromCostCenter
+            entity.FromWip = False
+            myEntityPanelService.OpenListDialog(entity, AddressOf SetItems)
+          Case Else
+
+        End Select
+      End If
       'If Me.m_entity.ItemTable.Rows(e.Row).IsNull("stocki_entityType") Then
       '  Dim entities(1) As ISimpleEntity
 
@@ -3832,33 +3861,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       '  End Select
       'End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim doc As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
-      m_targetType = -1
-      If doc Is Nothing Then
-        Return
-        'doc = New PurchaseCNItem
-        'doc.ItemType = New ItemType(42)
-        'Me.m_entity.ItemCollection.Add(doc)
-        'Me.m_treeManager.SelectedRow.Tag = doc
-      End If
-      If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
-        m_targetType = doc.ItemType.Value
-        Dim entities(2) As ISimpleEntity
-        entities(0) = New LCIItem
-        entities(1) = New LCIForList
-        'entities(0) = New Material
-        entities(2) = New Tool
-        Dim activeIndex As Integer = -1
-        If Not doc.ItemType Is Nothing Then
-          If doc.ItemType.Value = 19 Then
-            activeIndex = 2
-          ElseIf doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
-            activeIndex = 0
-          End If
-        End If
-        myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
-      End If
+      'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      'Dim doc As PurchaseCNItem = Me.m_entity.ItemCollection.CurrentItem
+      'm_targetType = -1
+      'If doc Is Nothing Then
+      '  Return
+      '  'doc = New PurchaseCNItem
+      '  'doc.ItemType = New ItemType(42)
+      '  'Me.m_entity.ItemCollection.Add(doc)
+      '  'Me.m_treeManager.SelectedRow.Tag = doc
+      'End If
+      'If doc.ItemType.Value = 19 Or doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
+      '  m_targetType = doc.ItemType.Value
+      '  Dim entities(2) As ISimpleEntity
+      '  entities(0) = New LCIItem
+      '  entities(1) = New LCIForList
+      '  'entities(0) = New Material
+      '  entities(2) = New Tool
+      '  Dim activeIndex As Integer = -1
+      '  If Not doc.ItemType Is Nothing Then
+      '    If doc.ItemType.Value = 19 Then
+      '      activeIndex = 2
+      '    ElseIf doc.ItemType.Value = 42 Or doc.ItemType.Value = 88 Or doc.ItemType.Value = 89 Then
+      '      activeIndex = 0
+      '    End If
+      '  End If
+      '  myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
+      'End If
     End Sub
     Private Function GetExcludeList() As String
       Dim ret As String = ""
