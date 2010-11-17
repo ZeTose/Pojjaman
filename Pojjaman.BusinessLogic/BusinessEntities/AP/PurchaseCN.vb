@@ -1075,6 +1075,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stocki_note") = item.Note
           dr("stocki_type") = Me.EntityId
           dr("stocki_tocc") = DBNull.Value
+          dr("stocki_fromcc") = Me.ValidIdOrDBNull(Me.FromCostCenter)
           dr("stocki_status") = Me.Status.Value
           If Not item.Discount Is Nothing Then
             dr("stocki_discrate") = item.Discount.Rate
