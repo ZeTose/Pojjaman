@@ -3445,7 +3445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim stock_id As Integer = dh.GetValue(Of Integer)("paysi_entity")
               Dim stock_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
               Dim retention_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
-              Trace.WriteLine(retention_type.ToString)
+              'Trace.WriteLine(retention_type.ToString)
               Dim s As Stock = ps.FindStock(stock_id, stock_type)
               If s IsNot Nothing Then
                 'RefDocItem.Glnote
@@ -3702,6 +3702,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Mapping = "RefDocAfterTax"
         dpi.Value = Configuration.FormatToString(sumAfterTax, DigitConfig.UnitPrice)
         dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'RefBillCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefBillCode"
+        dpi.Value = ps.ItemCollection.GetRefBillCodeList
+        dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'WHTAmount

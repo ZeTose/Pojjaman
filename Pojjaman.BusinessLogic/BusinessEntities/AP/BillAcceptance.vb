@@ -2472,6 +2472,15 @@ Public Class BillAcceptanceItemCollection
         m_apvi.OnGlChanged()
       End If
     End Sub
+    Public Function GetRefBillCodeList() As String
+      Dim refBillCodeList As New ArrayList
+      For Each bi As BillAcceptanceItem In Me
+        If Not refBillCodeList.Contains(bi.ParentCode) Then
+          refBillCodeList.Add(bi.ParentCode)
+        End If
+      Next
+      Return String.Join(",", refBillCodeList.ToArray)
+    End Function
     Public Function GetRemainFromOtherDocs(ByVal doc As BillAcceptanceItem) As Decimal
       Dim ret As Decimal = 0
       For Each myDoc As BillAcceptanceItem In Me
