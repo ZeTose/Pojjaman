@@ -64,6 +64,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnEqtw As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Private Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EqtReturnDetail))
       Me.txtItemCount = New System.Windows.Forms.TextBox()
       Me.lblItemCount = New System.Windows.Forms.Label()
@@ -97,10 +98,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReceivePerson = New System.Windows.Forms.Label()
       Me.lblReturnCC = New System.Windows.Forms.Label()
       Me.txtReturnCCCode = New System.Windows.Forms.TextBox()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.txtCode = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -183,7 +184,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.Controls.Add(Me.lblItemCount)
       Me.grbSummary.Controls.Add(Me.lblItemCountUnit)
       Me.grbSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSummary.Location = New System.Drawing.Point(313, 352)
+      Me.grbSummary.Location = New System.Drawing.Point(324, 352)
       Me.grbSummary.Name = "grbSummary"
       Me.grbSummary.Size = New System.Drawing.Size(431, 48)
       Me.grbSummary.TabIndex = 8
@@ -224,7 +225,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency.Location = New System.Drawing.Point(396, 17)
       Me.lblCurrency.Name = "lblCurrency"
-      Me.lblCurrency.Size = New System.Drawing.Size(37, 18)
+      Me.lblCurrency.Size = New System.Drawing.Size(31, 18)
       Me.lblCurrency.TabIndex = 5
       Me.lblCurrency.Text = "บาท"
       Me.lblCurrency.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -400,7 +401,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbRequest.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbRequest.Location = New System.Drawing.Point(385, 75)
       Me.grbRequest.Name = "grbRequest"
-      Me.grbRequest.Size = New System.Drawing.Size(359, 72)
+      Me.grbRequest.Size = New System.Drawing.Size(370, 72)
       Me.grbRequest.TabIndex = 2
       Me.grbRequest.TabStop = False
       Me.grbRequest.Text = "ผู้คืนจาก"
@@ -410,7 +411,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReturnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnReturnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnReturnCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnReturnCCFind.Location = New System.Drawing.Point(307, 16)
+      Me.btnReturnCCFind.Location = New System.Drawing.Point(317, 16)
       Me.btnReturnCCFind.Name = "btnReturnCCFind"
       Me.btnReturnCCFind.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnCCFind.TabIndex = 3
@@ -434,7 +435,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReturnPersonFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnReturnPersonFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnReturnPersonFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnReturnPersonFind.Location = New System.Drawing.Point(307, 40)
+      Me.btnReturnPersonFind.Location = New System.Drawing.Point(317, 40)
       Me.btnReturnPersonFind.Name = "btnReturnPersonFind"
       Me.btnReturnPersonFind.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnPersonFind.TabIndex = 8
@@ -457,7 +458,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReturnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnReturnCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnReturnCCEdit.Location = New System.Drawing.Point(331, 16)
+      Me.btnReturnCCEdit.Location = New System.Drawing.Point(341, 16)
       Me.btnReturnCCEdit.Name = "btnReturnCCEdit"
       Me.btnReturnCCEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnCCEdit.TabIndex = 4
@@ -468,7 +469,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReturnPersonEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnReturnPersonEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnReturnPersonEdit.Location = New System.Drawing.Point(331, 40)
+      Me.btnReturnPersonEdit.Location = New System.Drawing.Point(341, 40)
       Me.btnReturnPersonEdit.Name = "btnReturnPersonEdit"
       Me.btnReturnPersonEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnReturnPersonEdit.TabIndex = 9
@@ -482,7 +483,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtReturnCCName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtReturnCCName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtReturnCCName, System.Drawing.Color.Empty)
-      Me.txtReturnCCName.Location = New System.Drawing.Point(185, 16)
+      Me.txtReturnCCName.Location = New System.Drawing.Point(195, 16)
       Me.Validator.SetMinValue(Me.txtReturnCCName, "")
       Me.txtReturnCCName.Name = "txtReturnCCName"
       Me.txtReturnCCName.ReadOnly = True
@@ -499,7 +500,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtReturnPersonName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtReturnPersonName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtReturnPersonName, System.Drawing.Color.Empty)
-      Me.txtReturnPersonName.Location = New System.Drawing.Point(185, 40)
+      Me.txtReturnPersonName.Location = New System.Drawing.Point(195, 40)
       Me.Validator.SetMinValue(Me.txtReturnPersonName, "")
       Me.txtReturnPersonName.Name = "txtReturnPersonName"
       Me.txtReturnPersonName.ReadOnly = True
@@ -517,7 +518,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtReturnPersonCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtReturnPersonCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtReturnPersonCode, System.Drawing.Color.Empty)
-      Me.txtReturnPersonCode.Location = New System.Drawing.Point(97, 40)
+      Me.txtReturnPersonCode.Location = New System.Drawing.Point(107, 40)
       Me.txtReturnPersonCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtReturnPersonCode, "")
       Me.txtReturnPersonCode.Name = "txtReturnPersonCode"
@@ -529,9 +530,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblReceivePerson
       '
       Me.lblReceivePerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblReceivePerson.Location = New System.Drawing.Point(4, 40)
+      Me.lblReceivePerson.Location = New System.Drawing.Point(1, 40)
       Me.lblReceivePerson.Name = "lblReceivePerson"
-      Me.lblReceivePerson.Size = New System.Drawing.Size(92, 18)
+      Me.lblReceivePerson.Size = New System.Drawing.Size(105, 18)
       Me.lblReceivePerson.TabIndex = 5
       Me.lblReceivePerson.Text = "ผู้รับคืน:"
       Me.lblReceivePerson.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -539,9 +540,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblReturnCC
       '
       Me.lblReturnCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblReturnCC.Location = New System.Drawing.Point(4, 16)
+      Me.lblReturnCC.Location = New System.Drawing.Point(1, 16)
       Me.lblReturnCC.Name = "lblReturnCC"
-      Me.lblReturnCC.Size = New System.Drawing.Size(92, 18)
+      Me.lblReturnCC.Size = New System.Drawing.Size(105, 18)
       Me.lblReturnCC.TabIndex = 0
       Me.lblReturnCC.Text = "Return Cost Center:"
       Me.lblReturnCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -554,7 +555,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtReturnCCCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtReturnCCCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtReturnCCCode, System.Drawing.Color.Empty)
-      Me.txtReturnCCCode.Location = New System.Drawing.Point(97, 16)
+      Me.txtReturnCCCode.Location = New System.Drawing.Point(107, 16)
       Me.txtReturnCCCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtReturnCCCode, "")
       Me.txtReturnCCCode.Name = "txtReturnCCCode"
@@ -734,7 +735,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.Name = "tgItem"
       Me.tgItem.ParentRowsBackColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.SelectionBackColor = System.Drawing.Color.Sienna
-      Me.tgItem.Size = New System.Drawing.Size(736, 174)
+      Me.tgItem.Size = New System.Drawing.Size(747, 174)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
@@ -765,7 +766,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblItem)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "EqtReturnDetail"
-      Me.Size = New System.Drawing.Size(752, 408)
+      Me.Size = New System.Drawing.Size(763, 408)
       Me.grbSummary.ResumeLayout(False)
       Me.grbSummary.PerformLayout()
       Me.grbReceive.ResumeLayout(False)

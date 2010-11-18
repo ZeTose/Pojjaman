@@ -434,7 +434,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblFromCostCenter.Name = "lblFromCostCenter"
       Me.lblFromCostCenter.Size = New System.Drawing.Size(101, 18)
       Me.lblFromCostCenter.TabIndex = 6
-      Me.lblFromCostCenter.Text = "CostCenter คลัง:"
+      Me.lblFromCostCenter.Text = "CostCenter ส่งคืน:"
       Me.lblFromCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblCC
@@ -446,7 +446,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCC.Name = "lblCC"
       Me.lblCC.Size = New System.Drawing.Size(101, 18)
       Me.lblCC.TabIndex = 6
-      Me.lblCC.Text = "CostCenter ผู้เบิก"
+      Me.lblCC.Text = "CostCenter รับคืน"
       Me.lblCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnRequestorDialog
@@ -507,7 +507,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Members"
     Private m_requestor As Employee
     Private m_cc As CostCenter
-    Private m_ccFrom As StoreCostCenter
+    Private m_ccFrom As CostCenter
     Private dummyCC As New CostCenter
     Private docDateStart As Date
     Private docDateEnd As Date
@@ -610,11 +610,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblDocDateStart}")
       Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblDocDateEnd}")
       Me.lblRequestor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblRequestor}")
-      Me.lblCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblCC}")
+      Me.lblCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EWFilterSubPanel.lblCC}")
       Me.grbItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.grbItem}")
       Me.lblBlank.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblBlank}")
       Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.grbMainDetail}")
-      Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.CostCenterFrom}")
+      Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EWFilterSubPanel.CostCenterFrom}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
       Dim arr(7) As Filter
@@ -759,8 +759,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '  Me.cmbStatus.Enabled = False
           'End If
         End If
-        If TypeOf entity Is fromCostcenter Then  '' From costcenter จากหน้าคืน คือ  to Costcenter ของหน้าเบิก
-          Me.SetCostCenter(CType(entity, fromCostcenter))
+        If TypeOf entity Is StoreCostCenter Then  '' From costcenter จากหน้าคืน คือ  to Costcenter ของหน้าเบิก
+          Me.SetCostCenter(CType(entity, StoreCostCenter))
           Me.txtToCostCenterCode.Enabled = False
           Me.txtToCostCenterName.Enabled = False
           Me.btnToCostCenterDialog.Enabled = False
@@ -776,14 +776,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.btnToCostCenterDialog.Enabled = False
           Me.btnToCostCenterPanel.Enabled = False
         End If
-        If TypeOf entity Is StoreCostCenter Then
-          Me.m_ccFrom = CType(entity, StoreCostCenter) '' to costcenter จากหน้าคืน คือ  from Costcenter ของหน้าเบิก
+        If TypeOf entity Is fromCostcenter Then
+          Me.m_ccFrom = CType(entity, CostCenter) '' to costcenter จากหน้าคืน คือ  from Costcenter ของหน้าเบิก
           Me.txtFromCostCenter.Text = Me.m_ccFrom.Code & " : " & Me.m_ccFrom.Name
         End If
       Next
     End Sub
 #End Region
 
+  
   End Class
 End Namespace
 

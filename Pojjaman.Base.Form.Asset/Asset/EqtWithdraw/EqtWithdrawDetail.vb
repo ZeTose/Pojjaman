@@ -812,7 +812,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim csType As DataGridComboColumn
       csType = New DataGridComboColumn("Type" _
         , CodeDescription.GetCodeList("eqtstocki_entityType" _
-                                      , "code_value not in (28)") _
+                                      , "code_value not in (28,348)") _
         , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentDetail.TypeHeaderText}")
       csType.Width = 40

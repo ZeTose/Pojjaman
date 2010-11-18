@@ -341,6 +341,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetId(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+    End Sub
     Private Function ValidateItem() As SaveErrorException
       Dim key As String = ""
 
@@ -393,6 +397,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
 
         If Me.AutoGen And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
@@ -493,10 +501,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           ResetId(oldid)
+          ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           ResetId(oldid)
+          ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
@@ -530,7 +540,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         da.InsertCommand.Transaction = trans
         da.UpdateCommand = cmdBuilder.GetUpdateCommand
         da.UpdateCommand.Transaction = trans
-        da.InsertCommand.CommandText &= "; Select * From stockitem Where stocki_sequence = @@IDENTITY"
+        da.InsertCommand.CommandText &= "; Select * From eqtstockitem Where eqtstocki_sequence = @@IDENTITY"
         da.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
         cmdBuilder = Nothing
         da.FillSchema(ds, SchemaType.Mapped, "Eqtstockitem")
@@ -635,10 +645,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_unitprice") = item.RentalPerDay
             dr("eqtstocki_Amount") = item.Amount
             dr("eqtstocki_remainbuyqty") = 0
-            dr("eqtstocki_unitAssetAmount") = 0
             dr("eqtstocki_AssetAmount") = 0
             dr("eqtstocki_writeoffAmt") = 0
-            dr("eqtstocki_unitaccdepre") = 0
+            dr("eqtstocki_writeoffaccdepre") = 0
             dr("eqtstocki_accdepre") = 0
             dr("eqtstocki_note") = item.Note
             dr("eqtstocki_type") = Me.EntityId
