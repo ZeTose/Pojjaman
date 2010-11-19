@@ -174,7 +174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_cc
       End Get
       Set(ByVal Value As CostCenter)
-        m_cc = value
+        m_cc = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
@@ -512,24 +512,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockByToolLot", New SqlParameter("@toolId", Me.Id))
-        For Each lot As ToolLot In Me.ItemCollection
-          If lot.IsDirty Then
-            Dim saveDetailError As SaveErrorException = lot.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveDetailError.Message) Then
-              trans.Rollback()
-              ResetID(oldid)
-              Return saveDetailError
-            Else
-              Select Case CInt(saveDetailError.Message)
-                Case -1, -2, -5
-                  trans.Rollback()
-                  ResetID(oldid)
-                  Return saveDetailError
-                Case Else
-              End Select
-            End If
-          End If
-        Next
+        'For Each lot As ToolLot In Me.ItemCollection
+        '  If lot.IsDirty Then
+        '    Dim saveDetailError As SaveErrorException = lot.Save(currentUserId, conn, trans)
+        '    If Not IsNumeric(saveDetailError.Message) Then
+        '      trans.Rollback()
+        '      ResetID(oldid)
+        '      Return saveDetailError
+        '    Else
+        '      Select Case CInt(saveDetailError.Message)
+        '        Case -1, -2, -5
+        '          trans.Rollback()
+        '          ResetID(oldid)
+        '          Return saveDetailError
+        '        Case Else
+        '      End Select
+        '    End If
+        '  End If
+        'Next
 
         'Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
         'If Not IsNumeric(saveDetailError.Message) Then
@@ -584,6 +584,96 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Close()
       End Try
     End Function
+    Public Function DeleteLot() As Boolean
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      Dim lot As ToolLot = Me.ToolLot
+      If lot Is Nothing Then
+        'Return New SaveErrorException("-1")
+        Return False
+      End If
+
+      Dim valReturn As Boolean = True
+
+      If Me.m_toollot.Originated Then
+
+        Dim trans As SqlTransaction
+        Dim conn As New SqlConnection(Me.ConnectionString)
+
+        If conn.State = ConnectionState.Open Then conn.Close()
+        conn.Open()
+        trans = conn.BeginTransaction
+
+        Try
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteToolLot", New SqlParameter("@toollot_id", lot.Id))
+
+          trans.Commit()
+          myMessage.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.DeleteSuccess}")
+          RefreshToolLotCollection()
+          valReturn = True
+        Catch ex As Exception
+          trans.Rollback()
+          myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.DeleteFaild}")
+          valReturn = False
+        Finally
+          conn.Close()
+        End Try
+
+      End If
+
+      Return valReturn
+    End Function
+    Public Function SaveLot(ByVal currentUserId As Integer) As Boolean
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      Dim saveResult As Boolean = False
+
+      Dim lot As ToolLot = Me.ToolLot
+      If lot Is Nothing Then
+        'Return New SaveErrorException("-1")
+        Return saveResult
+      End If
+
+
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+
+      If conn.State = ConnectionState.Open Then conn.Close()
+      conn.Open()
+      trans = conn.BeginTransaction
+      Try
+        Dim saveDetailError As SaveErrorException = lot.Save(currentUserId, conn, trans)
+        If Not IsNumeric(saveDetailError.Message) Then
+          trans.Rollback()
+          myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+          saveResult = False
+        Else
+          Select Case CInt(saveDetailError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+              saveResult = False
+            Case Else
+          End Select
+        End If
+
+        trans.Commit()
+        myMessage.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveSuccess}")
+        RefreshToolLotCollection()
+        saveResult = True
+      Catch ex As Exception
+        trans.Rollback()
+        myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+        saveResult = False
+      Finally
+        conn.Close()
+      End Try
+
+      Return saveResult
+    End Function
+    Public Sub RefreshToolLotCollection()
+      Me.m_Toollotcollection = New ToolLotCollection(Me)
+    End Sub
 
 #End Region
 

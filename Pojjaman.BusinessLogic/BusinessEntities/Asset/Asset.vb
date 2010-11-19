@@ -3002,6 +3002,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class AssetForToollotSelection
+    Inherits Asset
+
+    Public Sub New()
+      MyBase.New()
+    End Sub
+
+    Public Sub New(ByVal assetId As Integer)
+      MyBase.New(assetId)
+    End Sub
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AssetForToollotSelection"
+      End Get
+    End Property
+  End Class
+
   Public Class AssetOPB
     Inherits Asset
     Public Overrides ReadOnly Property DetailPanelTitle() As String

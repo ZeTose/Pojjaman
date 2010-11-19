@@ -5,55 +5,55 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class ToolDetailView
-        ' Inherits UserControl
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class ToolDetailView
+    'Inherits UserControl
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     'Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
     Friend WithEvents lblGroup As System.Windows.Forms.Label
-        Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
+    Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
     Friend WithEvents picImage As System.Windows.Forms.PictureBox
-        Friend WithEvents lblUnit As System.Windows.Forms.Label
-        Friend WithEvents ibtnShowDefaultUnitDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtUnitName As System.Windows.Forms.TextBox
-        Friend WithEvents txtfairprice As System.Windows.Forms.TextBox
-        Friend WithEvents lblfairprice As System.Windows.Forms.Label
-        Friend WithEvents lblbath As System.Windows.Forms.Label
+    Friend WithEvents lblUnit As System.Windows.Forms.Label
+    Friend WithEvents ibtnShowDefaultUnitDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtUnitName As System.Windows.Forms.TextBox
+    Friend WithEvents txtfairprice As System.Windows.Forms.TextBox
+    Friend WithEvents lblfairprice As System.Windows.Forms.Label
+    Friend WithEvents lblbath As System.Windows.Forms.Label
     Friend WithEvents txtGroupCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtUnitCode As System.Windows.Forms.TextBox
-        Friend WithEvents btnUnitEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnGroupEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnGroupFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-        Friend WithEvents lblRent As System.Windows.Forms.Label
-        Friend WithEvents txtRent As System.Windows.Forms.TextBox
-        Friend WithEvents lblDateInval As System.Windows.Forms.Label
-        Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtUnitCode As System.Windows.Forms.TextBox
+    Friend WithEvents btnUnitEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnGroupEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnGroupFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    Friend WithEvents lblRent As System.Windows.Forms.Label
+    Friend WithEvents txtRent As System.Windows.Forms.TextBox
+    Friend WithEvents lblDateInval As System.Windows.Forms.Label
+    Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblCostCentername As System.Windows.Forms.Label
     Friend WithEvents txtCostcenterCode As System.Windows.Forms.TextBox
@@ -61,22 +61,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnShowcostcenter As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnCostcenterDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Public WithEvents lv As Longkong.Pojjaman.Gui.Components.PJMListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
+    Friend WithEvents IbtnAddRow As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnDel As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.IbtnAddRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnDel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.lv = New Longkong.Pojjaman.Gui.Components.PJMListView()
-      Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-      Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-      Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-      Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+      Me.Label5 = New System.Windows.Forms.Label()
       Me.lblCostCentername = New System.Windows.Forms.Label()
       Me.txtCostcenterCode = New System.Windows.Forms.TextBox()
       Me.lblPicSize = New System.Windows.Forms.Label()
@@ -118,8 +116,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.IbtnAddRow)
+      Me.grbDetail.Controls.Add(Me.btnDel)
       Me.grbDetail.Controls.Add(Me.cmbCode)
       Me.grbDetail.Controls.Add(Me.lv)
+      Me.grbDetail.Controls.Add(Me.Label5)
       Me.grbDetail.Controls.Add(Me.lblCostCentername)
       Me.grbDetail.Controls.Add(Me.txtCostcenterCode)
       Me.grbDetail.Controls.Add(Me.lblPicSize)
@@ -154,16 +155,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(563, 454)
+      Me.grbDetail.Size = New System.Drawing.Size(774, 454)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูล Tool : "
       '
+      'IbtnAddRow
+      '
+      Me.IbtnAddRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.IbtnAddRow.Location = New System.Drawing.Point(96, 216)
+      Me.IbtnAddRow.Name = "IbtnAddRow"
+      Me.IbtnAddRow.Size = New System.Drawing.Size(24, 24)
+      Me.IbtnAddRow.TabIndex = 347
+      Me.IbtnAddRow.TabStop = False
+      Me.IbtnAddRow.ThemedImage = CType(resources.GetObject("IbtnAddRow.ThemedImage"), System.Drawing.Bitmap)
+      Me.IbtnAddRow.Visible = False
+      '
+      'btnDel
+      '
+      Me.btnDel.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnDel.Location = New System.Drawing.Point(120, 216)
+      Me.btnDel.Name = "btnDel"
+      Me.btnDel.Size = New System.Drawing.Size(24, 24)
+      Me.btnDel.TabIndex = 346
+      Me.btnDel.TabStop = False
+      Me.btnDel.ThemedImage = CType(resources.GetObject("btnDel.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnDel.Visible = False
+      '
       'cmbCode
       '
-      Me.cmbCode.Location = New System.Drawing.Point(96, 24)
+      Me.cmbCode.Location = New System.Drawing.Point(130, 28)
       Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(112, 21)
+      Me.cmbCode.Size = New System.Drawing.Size(139, 21)
       Me.cmbCode.TabIndex = 325
       '
       'lv
@@ -173,14 +196,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lv.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader3, Me.ColumnHeader4, Me.ColumnHeader5})
       Me.lv.FullRowSelect = True
       Me.lv.GridLines = True
       Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
       Me.lv.HideSelection = False
-      Me.lv.Location = New System.Drawing.Point(11, 195)
+      Me.lv.Location = New System.Drawing.Point(11, 246)
       Me.lv.Name = "lv"
-      Me.lv.Size = New System.Drawing.Size(546, 247)
+      Me.lv.Size = New System.Drawing.Size(754, 196)
       Me.lv.SortIndex = -1
       Me.lv.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lv.TabIndex = 324
@@ -188,34 +210,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lv.View = System.Windows.Forms.View.Details
       Me.lv.Visible = False
       '
-      'ColumnHeader1
+      'Label5
       '
-      Me.ColumnHeader1.Text = "Code"
-      Me.ColumnHeader1.Width = 105
-      '
-      'ColumnHeader3
-      '
-      Me.ColumnHeader3.Text = "จำนวนซื้อ"
-      Me.ColumnHeader3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      Me.ColumnHeader3.Width = 73
-      '
-      'ColumnHeader4
-      '
-      Me.ColumnHeader4.Text = "จำนวนWrite Off"
-      Me.ColumnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      Me.ColumnHeader4.Width = 91
-      '
-      'ColumnHeader5
-      '
-      Me.ColumnHeader5.Text = "จำนวนคงเหลือ"
-      Me.ColumnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      Me.ColumnHeader5.Width = 102
+      Me.Label5.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label5.ForeColor = System.Drawing.Color.Black
+      Me.Label5.Location = New System.Drawing.Point(6, 221)
+      Me.Label5.Name = "Label5"
+      Me.Label5.Size = New System.Drawing.Size(89, 18)
+      Me.Label5.TabIndex = 27
+      Me.Label5.Text = "รายการ Lot :"
+      Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.Label5.Visible = False
       '
       'lblCostCentername
       '
       Me.lblCostCentername.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCostCentername.ForeColor = System.Drawing.Color.Black
-      Me.lblCostCentername.Location = New System.Drawing.Point(6, 168)
+      Me.lblCostCentername.Location = New System.Drawing.Point(35, 171)
       Me.lblCostCentername.Name = "lblCostCentername"
       Me.lblCostCentername.Size = New System.Drawing.Size(89, 18)
       Me.lblCostCentername.TabIndex = 27
@@ -229,7 +240,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostcenterCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtCostcenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostcenterCode, System.Drawing.Color.Empty)
-      Me.txtCostcenterCode.Location = New System.Drawing.Point(96, 168)
+      Me.txtCostcenterCode.Location = New System.Drawing.Point(130, 171)
       Me.txtCostcenterCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtCostcenterCode, "")
       Me.txtCostcenterCode.Name = "txtCostcenterCode"
@@ -241,7 +252,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblPicSize
       '
       Me.lblPicSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.lblPicSize.Location = New System.Drawing.Point(434, 72)
+      Me.lblPicSize.Location = New System.Drawing.Point(470, 78)
       Me.lblPicSize.Name = "lblPicSize"
       Me.lblPicSize.Size = New System.Drawing.Size(100, 23)
       Me.lblPicSize.TabIndex = 199
@@ -255,7 +266,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-      Me.txtCostCenterName.Location = New System.Drawing.Point(208, 168)
+      Me.txtCostCenterName.Location = New System.Drawing.Point(242, 171)
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -270,7 +281,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnLoadImage.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnLoadImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnLoadImage.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnLoadImage.Location = New System.Drawing.Point(496, 152)
+      Me.btnLoadImage.Location = New System.Drawing.Point(532, 158)
       Me.btnLoadImage.Name = "btnLoadImage"
       Me.btnLoadImage.Size = New System.Drawing.Size(24, 23)
       Me.btnLoadImage.TabIndex = 197
@@ -281,7 +292,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowcostcenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowcostcenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowcostcenter.Location = New System.Drawing.Point(383, 166)
+      Me.ibtnShowcostcenter.Location = New System.Drawing.Point(417, 170)
       Me.ibtnShowcostcenter.Name = "ibtnShowcostcenter"
       Me.ibtnShowcostcenter.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowcostcenter.TabIndex = 26
@@ -292,7 +303,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnClearImage.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnClearImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnClearImage.Location = New System.Drawing.Point(520, 152)
+      Me.btnClearImage.Location = New System.Drawing.Point(556, 158)
       Me.btnClearImage.Name = "btnClearImage"
       Me.btnClearImage.Size = New System.Drawing.Size(24, 23)
       Me.btnClearImage.TabIndex = 198
@@ -304,7 +315,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCostcenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnCostcenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnCostcenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnCostcenterDialog.Location = New System.Drawing.Point(360, 166)
+      Me.ibtnCostcenterDialog.Location = New System.Drawing.Point(394, 170)
       Me.ibtnCostcenterDialog.Name = "ibtnCostcenterDialog"
       Me.ibtnCostcenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnCostcenterDialog.TabIndex = 25
@@ -315,7 +326,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblRent.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblRent.ForeColor = System.Drawing.Color.Black
-      Me.lblRent.Location = New System.Drawing.Point(8, 144)
+      Me.lblRent.Location = New System.Drawing.Point(37, 147)
       Me.lblRent.Name = "lblRent"
       Me.lblRent.Size = New System.Drawing.Size(87, 18)
       Me.lblRent.TabIndex = 11
@@ -330,7 +341,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtRent, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtRent, -15)
       Me.Validator.SetInvalidBackColor(Me.txtRent, System.Drawing.Color.Empty)
-      Me.txtRent.Location = New System.Drawing.Point(96, 144)
+      Me.txtRent.Location = New System.Drawing.Point(130, 147)
       Me.Validator.SetMinValue(Me.txtRent, "")
       Me.txtRent.Name = "txtRent"
       Me.Validator.SetRegularExpression(Me.txtRent, "")
@@ -343,7 +354,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDateInval.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDateInval.ForeColor = System.Drawing.Color.Black
-      Me.lblDateInval.Location = New System.Drawing.Point(216, 144)
+      Me.lblDateInval.Location = New System.Drawing.Point(250, 147)
       Me.lblDateInval.Name = "lblDateInval"
       Me.lblDateInval.Size = New System.Drawing.Size(96, 18)
       Me.lblDateInval.TabIndex = 21
@@ -354,7 +365,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(208, 24)
+      Me.chkAutorun.Location = New System.Drawing.Point(270, 27)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 13
@@ -363,7 +374,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnUnitEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnUnitEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnUnitEdit.Location = New System.Drawing.Point(384, 72)
+      Me.btnUnitEdit.Location = New System.Drawing.Point(418, 75)
       Me.btnUnitEdit.Name = "btnUnitEdit"
       Me.btnUnitEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnUnitEdit.TabIndex = 16
@@ -375,7 +386,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowDefaultUnitDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowDefaultUnitDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowDefaultUnitDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowDefaultUnitDialog.Location = New System.Drawing.Point(360, 72)
+      Me.ibtnShowDefaultUnitDialog.Location = New System.Drawing.Point(394, 75)
       Me.ibtnShowDefaultUnitDialog.Name = "ibtnShowDefaultUnitDialog"
       Me.ibtnShowDefaultUnitDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowDefaultUnitDialog.TabIndex = 15
@@ -385,7 +396,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'picImage
       '
       Me.picImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.picImage.Location = New System.Drawing.Point(424, 24)
+      Me.picImage.Location = New System.Drawing.Point(460, 30)
       Me.picImage.Name = "picImage"
       Me.picImage.Size = New System.Drawing.Size(120, 120)
       Me.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -400,7 +411,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGroupCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtGroupCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtGroupCode, System.Drawing.Color.Empty)
-      Me.txtGroupCode.Location = New System.Drawing.Point(96, 96)
+      Me.txtGroupCode.Location = New System.Drawing.Point(130, 99)
       Me.txtGroupCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtGroupCode, "")
       Me.txtGroupCode.Name = "txtGroupCode"
@@ -413,7 +424,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblGroup.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblGroup.ForeColor = System.Drawing.Color.Black
-      Me.lblGroup.Location = New System.Drawing.Point(8, 96)
+      Me.lblGroup.Location = New System.Drawing.Point(37, 99)
       Me.lblGroup.Name = "lblGroup"
       Me.lblGroup.Size = New System.Drawing.Size(87, 18)
       Me.lblGroup.TabIndex = 9
@@ -428,7 +439,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
-      Me.txtName.Location = New System.Drawing.Point(96, 48)
+      Me.txtName.Location = New System.Drawing.Point(130, 51)
       Me.txtName.MaxLength = 255
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
@@ -441,7 +452,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblName.ForeColor = System.Drawing.Color.Black
-      Me.lblName.Location = New System.Drawing.Point(8, 48)
+      Me.lblName.Location = New System.Drawing.Point(37, 51)
       Me.lblName.Name = "lblName"
       Me.lblName.Size = New System.Drawing.Size(87, 18)
       Me.lblName.TabIndex = 7
@@ -452,7 +463,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCode.ForeColor = System.Drawing.Color.Black
-      Me.lblCode.Location = New System.Drawing.Point(8, 24)
+      Me.lblCode.Location = New System.Drawing.Point(37, 30)
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(87, 18)
       Me.lblCode.TabIndex = 0
@@ -466,7 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtGroupName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
-      Me.txtGroupName.Location = New System.Drawing.Point(208, 96)
+      Me.txtGroupName.Location = New System.Drawing.Point(242, 99)
       Me.Validator.SetMinValue(Me.txtGroupName, "")
       Me.txtGroupName.Name = "txtGroupName"
       Me.txtGroupName.ReadOnly = True
@@ -484,7 +495,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtUnitCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtUnitCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtUnitCode, System.Drawing.Color.Empty)
-      Me.txtUnitCode.Location = New System.Drawing.Point(96, 72)
+      Me.txtUnitCode.Location = New System.Drawing.Point(130, 75)
       Me.txtUnitCode.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtUnitCode, "")
       Me.txtUnitCode.Name = "txtUnitCode"
@@ -497,7 +508,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblUnit.ForeColor = System.Drawing.Color.Black
-      Me.lblUnit.Location = New System.Drawing.Point(8, 72)
+      Me.lblUnit.Location = New System.Drawing.Point(37, 75)
       Me.lblUnit.Name = "lblUnit"
       Me.lblUnit.Size = New System.Drawing.Size(87, 18)
       Me.lblUnit.TabIndex = 8
@@ -512,7 +523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtfairprice, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtfairprice, -15)
       Me.Validator.SetInvalidBackColor(Me.txtfairprice, System.Drawing.Color.Empty)
-      Me.txtfairprice.Location = New System.Drawing.Point(96, 120)
+      Me.txtfairprice.Location = New System.Drawing.Point(130, 123)
       Me.Validator.SetMinValue(Me.txtfairprice, "")
       Me.txtfairprice.Name = "txtfairprice"
       Me.Validator.SetRegularExpression(Me.txtfairprice, "")
@@ -525,7 +536,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblfairprice.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblfairprice.ForeColor = System.Drawing.Color.Black
-      Me.lblfairprice.Location = New System.Drawing.Point(8, 120)
+      Me.lblfairprice.Location = New System.Drawing.Point(37, 123)
       Me.lblfairprice.Name = "lblfairprice"
       Me.lblfairprice.Size = New System.Drawing.Size(87, 18)
       Me.lblfairprice.TabIndex = 10
@@ -537,7 +548,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblbath.AutoSize = True
       Me.lblbath.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblbath.ForeColor = System.Drawing.Color.Black
-      Me.lblbath.Location = New System.Drawing.Point(216, 122)
+      Me.lblbath.Location = New System.Drawing.Point(248, 126)
       Me.lblbath.Name = "lblbath"
       Me.lblbath.Size = New System.Drawing.Size(27, 13)
       Me.lblbath.TabIndex = 20
@@ -551,7 +562,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtUnitName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtUnitName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtUnitName, System.Drawing.Color.Empty)
-      Me.txtUnitName.Location = New System.Drawing.Point(208, 72)
+      Me.txtUnitName.Location = New System.Drawing.Point(242, 75)
       Me.Validator.SetMinValue(Me.txtUnitName, "")
       Me.txtUnitName.Name = "txtUnitName"
       Me.txtUnitName.ReadOnly = True
@@ -565,7 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnGroupEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnGroupEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnGroupEdit.Location = New System.Drawing.Point(384, 96)
+      Me.btnGroupEdit.Location = New System.Drawing.Point(418, 99)
       Me.btnGroupEdit.Name = "btnGroupEdit"
       Me.btnGroupEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnGroupEdit.TabIndex = 19
@@ -577,7 +588,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnGroupFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnGroupFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnGroupFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnGroupFind.Location = New System.Drawing.Point(360, 96)
+      Me.btnGroupFind.Location = New System.Drawing.Point(394, 99)
       Me.btnGroupFind.Name = "btnGroupFind"
       Me.btnGroupFind.Size = New System.Drawing.Size(24, 23)
       Me.btnGroupFind.TabIndex = 18
@@ -601,7 +612,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "ToolDetailView"
-      Me.Size = New System.Drawing.Size(579, 471)
+      Me.Size = New System.Drawing.Size(794, 471)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).EndInit()
@@ -681,13 +692,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Method"
-
+    Private Sub RefreshData()
+      Me.m_entity.ItemCollection.Populate(lv)
+    End Sub
 #End Region
 
 #Region "IListDetail"
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-      If Me.m_entity.Canceled OrElse Me.m_entity.GetIsReferenced Then
+      If Me.m_entity.Canceled OrElse Me.m_entity.GetIsReferenced OrElse Me.m_entity.ItemCollection.Count > 0 Then
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = False
         Next
@@ -788,6 +801,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End With
 
+      RefreshData()
+
       SetStatus()
       SetLabelText()
       CheckFormEnable()
@@ -808,6 +823,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 
     Public Overrides Sub Initialize()
+      SetLVHeader()
       PopulateToolUnit()
       PopulateToolGroup()
     End Sub
@@ -848,6 +864,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtunitcode"
           dirtyFlag = Unit.GetUnit(txtUnitCode, txtUnitName, Me.m_entity.Unit)
         Case "txtcostcentercode"
+          If Me.m_entity.Costcenter Is Nothing Then
+            Me.m_entity.Costcenter = New CostCenter
+          End If
           dirtyFlag = CostCenter.GetCostCenter(Me.txtCostcenterCode, Me.txtCostCenterName, Me.m_entity.Costcenter)
           'doc.Costcenter
       End Select
@@ -857,7 +876,69 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Public Sub SetStatus()
-    MyBase.SetStatusBarMessage()
+      MyBase.SetStatusBarMessage()
+    End Sub
+
+    Private Sub SetLVHeader()
+      lv.MultiSelect = False
+
+      Dim lvColumn As ColumnHeader
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "linenumber"
+      lvColumn.Text = ""
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "lotno"
+      lvColumn.Text = "Lot No."
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "lotdate"
+      lvColumn.Text = "วันที่ Lot No."
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "assetcode"
+      lvColumn.Text = "รหัสสินทรัพย์"
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "buyqty"
+      lvColumn.Text = "จำนวนซื้อ"
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "writeoffqty"
+      lvColumn.Text = "จำนวน Write off"
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "remainqty"
+      lvColumn.Text = "จำนวนคงเหลือ"
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
+      lvColumn = New ColumnHeader
+      lvColumn.Name = "refstatus"
+      lvColumn.Text = "สถานะการอ้างอิง"
+      lvColumn.TextAlign = HorizontalAlignment.Left
+      lvColumn.Width = 80
+      lv.Columns.Add(lvColumn)
+
     End Sub
 
     Private Sub PopulateToolUnit()
@@ -1089,6 +1170,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myContent.IsDirty = True
       CheckLabelImgSize()
     End Sub
+
     Private Sub CheckLabelImgSize()
       Me.lblPicSize.Text = "120 X 120 pixel"
       If Me.m_entity.Image Is Nothing Then
@@ -1098,7 +1180,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
 
-    
+    Private Sub lv_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lv.DoubleClick
+      If Not Me.m_entity Is Nothing OrElse Not lv.SelectedItems Is Nothing Then
+        For Each lvi As ListViewItem In lv.SelectedItems
+          Me.m_entity.ToolLot = CType(lvi.Tag, ToolLot)
+        Next
+        If Me.m_entity.ToolLot Is Nothing Then
+          Return
+        End If
+
+        Me.m_entity.ToolLot.IsAddNewToolLot = False
+
+        Dim lotDialog As New ToollotBoxForm(Me.m_entity)
+        lotDialog.StartPosition = FormStartPosition.CenterParent
+        Dim dlgResult As DialogResult = lotDialog.ShowDialog()
+        If dlgResult <> DialogResult.Cancel Then
+          'RefresDoc
+        End If
+      End If
+    End Sub
+
+    Private Sub IbtnAddRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IbtnAddRow.Click
+      If Not Me.m_entity Is Nothing Then
+
+        Me.m_entity.ToolLot = New ToolLot
+        Me.m_entity.ToolLot.IsAddNewToolLot = True
+
+        Dim lotDialog As New ToollotBoxForm(Me.m_entity)
+        lotDialog.StartPosition = FormStartPosition.CenterParent
+        Dim dlgResult As DialogResult = lotDialog.ShowDialog()
+        If dlgResult <> DialogResult.Cancel Then
+          'RefresDoc
+        End If
+      End If
+    End Sub
+
+    Private Sub btnDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDel.Click
+
+    End Sub
+
   End Class
 
 End Namespace

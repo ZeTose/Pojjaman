@@ -103,6 +103,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Me.m_currentcc = New CostCenter
       'Me.m_currentstatus = New EqtStatus(2)
     End Sub
+    Public Sub New(ByVal entity As Tool)
+      Me.New()
+      m_tool = entity
+    End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
     End Sub
@@ -332,9 +336,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+
     Public Property IsDirty As Boolean
     Public Property IsReferenced As Boolean
+    Private m_isAddNewToolLot As Boolean
+    Public Property IsAddNewToolLot As Boolean
+      Get
+        Return m_isAddNewToolLot
+      End Get
+      Set(ByVal value As Boolean)
+        m_isAddNewToolLot = value
 
+        If m_isAddNewToolLot Then
+
+          Me.Autogen = True
+        Else
+          Me.Autogen = False
+        End If
+
+      End Set
+    End Property
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "ToolLot"
@@ -539,7 +560,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_unicost = value
 
         m_buycost = m_buyqty * m_unicost
-        m_RemainCost = m_remainqty * m_unicost
+        'm_RemainCost = RemainQTY * m_unicost
       End Set
     End Property
     Public Property Buyqty As Decimal
@@ -548,21 +569,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_buyqty = value
-
-        m_buycost = m_buyqty * m_unicost
+        'm_buycost = m_buyqty * m_unicost
         'm_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
-    Public Property RemainQTY As Decimal
+    Public ReadOnly Property RemainQTY As Decimal
       Get
-        Return m_remainqty
+        Return m_buyqty - m_writeoff
       End Get
-      Set(ByVal value As Decimal)
-        m_remainqty = value
-
-        'm_writeoff = m_buyqty - m_remainqty
-        m_RemainCost = m_remainqty * m_unicost
-      End Set
     End Property
     Public Property WriteOff As Decimal
       Get
@@ -573,15 +587,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_writeoff = m_buyqty - m_remainqty
       End Set
     End Property
-    Public Property RemainCost As Decimal
+    Public ReadOnly Property RemainCost As Decimal
       Get
-        Return m_RemainCost
+        Return Me.RemainQTY * m_unicost 'm_RemainCost
       End Get
-      Set(ByVal value As Decimal)
-        m_RemainCost = value
-
-        'm_RemainCost = m_buyqty - m_remainqty
-      End Set
     End Property
     'Public Property CurrentStatus As EqtStatus
     '  Get
@@ -601,7 +610,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Property
 
 #End Region
+    Public Sub SetDocCode(ByVal items As BasketItemCollection)
+      For i As Integer = 0 To items.Count - 1
+        If Not items(i).Tag Is Nothing AndAlso TypeOf items(i).Tag Is TreeRow Then
+          '      '-----------------LCI Items--------------------
 
+          Dim item As StockBasketItem = CType(items(i), StockBasketItem)
+          Dim drh As New DataRowHelper(CType(item.Tag, TreeRow))
+          'Dim childrow As TreeRow = CType(item.Tag, TreeRow)
+
+          Me.Buydoc = New SimpleRefdocItem
+          Me.Buydoc.Id = drh.GetValue(Of Integer)("Id")
+          Me.Buydoc.Code = drh.GetValue(Of String)("Code")
+          Me.Buydoc.Sequence = drh.GetValue(Of Integer)("Sequence")
+          Me.Buydoc.Supplier = New Supplier(drh.GetValue(Of Integer)("stock_entity"))
+          Me.Buyqty = drh.GetValue(Of Decimal)("qtyremaining")
+          Me.Buydate = drh.GetValue(Of DateTime)("DocDate")
+          Me.UnitCost = drh.GetValue(Of Decimal)("UnitCost")
+        End If
+      Next
+    End Sub
     Public Sub SetCurrentBuydoc(ByVal bd As SimpleRefdocItem)
       m_buydoc = bd
     End Sub
@@ -890,7 +918,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
-
     Public Sub SetItems(ByVal items As BasketItemCollection, ByVal newCode As String, ByVal userId As Integer, Optional ByVal targetType As Integer = -1)
       For i As Integer = 0 To items.Count - 1
         If Not items(i).Tag Is Nothing AndAlso TypeOf items(i).Tag Is TreeRow Then
@@ -925,9 +952,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           'newToolLot.CurrentStatus = New EqtStatus(10)
 
-          Trace.WriteLine(drh.GetValue(Of String)("Code").ToString)
-          Trace.WriteLine(drh.GetValue(Of String)("DocDate").ToString)
-          Trace.WriteLine(drh.GetValue(Of Integer)("Sequence").ToString)
+          'Trace.WriteLine(drh.GetValue(Of String)("Code").ToString)
+          'Trace.WriteLine(drh.GetValue(Of String)("DocDate").ToString)
+          'Trace.WriteLine(drh.GetValue(Of Integer)("Sequence").ToString)
 
           Me.Add(newToolLot)
 
@@ -935,16 +962,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       '  RefreshBudget()
     End Sub
-    Public Sub Populate(ByVal dt As TreeTable)
-      dt.Clear()
-      Dim i As Integer = 0
-      For Each tl As ToolLot In Me
-        i += 1
-        Dim newRow As TreeRow = dt.Childs.Add()
-        tl.CopyToDataRow(newRow)
-        'eqi.ItemValidateRow(newRow)
-        newRow.Tag = tl
+    Public Sub Populate(ByVal lv As ListView)
+
+      lv.Items.Clear()
+
+      Dim rowNumber As Integer = 0
+
+      For Each lot As ToolLot In Me
+        rowNumber += 1
+        Dim lvitem As New ListViewItem(rowNumber.ToString)
+        lvitem.SubItems.Add(lot.Code) 'Lot No.
+        lvitem.SubItems.Add(lot.OriginDate.ToShortDateString) 'Lot Date
+        If Not lot.Asset Is Nothing Then
+          lvitem.SubItems.Add(lot.Asset.Code) 'Asset Code
+        Else
+          lvitem.SubItems.Add("")
+        End If
+        lvitem.SubItems.Add(Configuration.FormatToString(lot.Buyqty, DigitConfig.Price)) 'Qty
+        lvitem.SubItems.Add(Configuration.FormatToString(lot.WriteOff, DigitConfig.Price)) 'Write Off
+        lvitem.SubItems.Add(Configuration.FormatToString(lot.RemainQTY, DigitConfig.Price)) 'Remain
+
+        lvitem.Tag = lot
+
+        lv.Items.Add(lvitem)
+
       Next
+
+      '  rowNumber += 1
+      '  Dim lvitem As New ListViewItem(rowNumber.ToString)
+      'lvitem.SubItems.Add("lot.Code") 'Lot No.
+      'lvitem.SubItems.Add(Now.ToShortDateString) 'Lot Date
+      'lvitem.SubItems.Add("lot.Asset.Code") 'Asset Code
+      'lvitem.SubItems.Add(Configuration.FormatToString(15, DigitConfig.Price)) 'Qty
+      'lvitem.SubItems.Add(Configuration.FormatToString(10, DigitConfig.Price)) 'Write Off
+      'lvitem.SubItems.Add(Configuration.FormatToString(5, DigitConfig.Price)) 'Remain
+
+      'lvitem.Tag = New ToolLot
+
+      '  lv.Items.Add(lvitem)
+
     End Sub
     Public Function CreateTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
