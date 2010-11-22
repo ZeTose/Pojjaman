@@ -219,8 +219,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_currentcc = New CostCenter(currCCId)
 
         Me.IsReferenced = drh.GetValue(Of Boolean)("isreferenced")
-        LoadImage()
+        'LoadImage()
       End With
+    End Sub
+    Public Sub New(ByVal entity As Equipment)
+      Me.New()
+      Me.m_equipment = entity
     End Sub
     Protected Overloads Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
@@ -687,6 +691,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
 
+    End Sub
+
+    Public Sub SetDocCode(ByVal items As BasketItemCollection)
+      For i As Integer = 0 To items.Count - 1
+        If Not items(i).Tag Is Nothing AndAlso TypeOf items(i).Tag Is TreeRow Then
+          '      '-----------------LCI Items--------------------
+
+          Dim item As StockBasketItem = CType(items(i), StockBasketItem)
+          Dim drh As New DataRowHelper(CType(item.Tag, TreeRow))
+          'Dim childrow As TreeRow = CType(item.Tag, TreeRow)
+
+          Me.Buydoc = New SimpleRefdocItem
+          Me.Buydoc.Id = drh.GetValue(Of Integer)("Id")
+          Me.Buydoc.Code = drh.GetValue(Of String)("Code")
+          Me.Buydoc.Sequence = drh.GetValue(Of Integer)("Sequence")
+          Me.Buydoc.Supplier = New Supplier(drh.GetValue(Of Integer)("stock_entity"))
+          Me.Buydate = drh.GetValue(Of DateTime)("DocDate")
+          Me.Buycost = drh.GetValue(Of Decimal)("UnitCost")
+        End If
+      Next
     End Sub
 
     Public Overrides Function GetNextCode() As String

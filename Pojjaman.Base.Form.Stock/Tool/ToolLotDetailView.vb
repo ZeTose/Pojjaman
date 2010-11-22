@@ -429,7 +429,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtDescription.Size = New System.Drawing.Size(254, 47)
       Me.txtDescription.TabIndex = 9
-      Me.txtDescription.TabStop = False
+      Me.txtDescription.TabStop = True
       '
       'lblBrand
       '
@@ -1104,6 +1104,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Me.m_entity.ToolLot.IsReferenced Then
           Me.txtReference.Text = Me.StringParserService.Parse("${res:Global.Referenced}")
+        Else
+          Me.txtReference.Text = ""
         End If
 
       End If

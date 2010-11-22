@@ -4,6 +4,8 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Configuration
 Imports Longkong.Pojjaman.Gui.Components
+Imports Longkong.Core.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class EquipmentGroup
@@ -245,7 +247,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-  #End Region
+#End Region
 
 #Region "Methods"
     Public Overloads Overrides Function GetDataset(ByVal query As String, ByVal order As String) As System.Data.DataSet
@@ -374,24 +376,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-          For Each eqi As EquipmentItem In Me.ItemCollection
-            If eqi.IsDirty Then
-              Dim saveDetailError As SaveErrorException = eqi.Save(currentUserId, conn, trans)
-              If Not IsNumeric(saveDetailError.Message) Then
-                trans.Rollback()
-                ResetID(oldid)
-                Return saveDetailError
-              Else
-                Select Case CInt(saveDetailError.Message)
-                  Case -1, -2, -5
-                    trans.Rollback()
-                    ResetID(oldid)
-                    Return saveDetailError
-                  Case Else
-                End Select
-              End If
-            End If
-          Next
+          'For Each eqi As EquipmentItem In Me.ItemCollection
+          '  If eqi.IsDirty Then
+          '    Dim saveDetailError As SaveErrorException = eqi.Save(currentUserId, conn, trans)
+          '    If Not IsNumeric(saveDetailError.Message) Then
+          '      trans.Rollback()
+          '      ResetID(oldid)
+          '      Return saveDetailError
+          '    Else
+          '      Select Case CInt(saveDetailError.Message)
+          '        Case -1, -2, -5
+          '          trans.Rollback()
+          '          ResetID(oldid)
+          '          Return saveDetailError
+          '        Case Else
+          '      End Select
+          '    End If
+          '  End If
+          'Next
 
 
           'Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
@@ -495,6 +497,116 @@ Namespace Longkong.Pojjaman.BusinessLogic
           conn.Close()
         End Try
       End With
+    End Function
+    Public Function SaveEquipmentItem(ByVal currentUserId As Integer) As Boolean
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      Dim saveResult As Boolean = False
+
+      Dim eqi As EquipmentItem = Me.EquipmentItem
+      If eqi Is Nothing Then
+        'Return New SaveErrorException("-1")
+        Return saveResult
+      End If
+
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+
+      If conn.State = ConnectionState.Open Then conn.Close()
+      conn.Open()
+      trans = conn.BeginTransaction
+      Try
+        Dim saveDetailError As SaveErrorException = eqi.Save(currentUserId, conn, trans)
+        If Not IsNumeric(saveDetailError.Message) Then
+          trans.Rollback()
+          myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+          saveResult = False
+        Else
+          Select Case CInt(saveDetailError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+              saveResult = False
+            Case Else
+          End Select
+        End If
+
+        trans.Commit()
+        myMessage.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveSuccess}")
+        RefreshToolLotCollection()
+
+        saveResult = True
+
+      Catch ex As Exception
+        trans.Rollback()
+        myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+        saveResult = False
+      Finally
+        conn.Close()
+      End Try
+
+
+      If conn.State = ConnectionState.Open Then conn.Close()
+      conn.Open()
+      trans = conn.BeginTransaction
+
+      Try
+        'If Me.IsImageDirty Then
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEquipmentItemimage" _
+                 , New SqlParameter("@eqi_id", eqi.Id) _
+                 , New SqlParameter("@eqi_image", Pojjaman.Graphix.Imaging.ConvertImageToByteArray(eqi.Image)))
+        'End If
+
+        trans.Commit()
+      Catch ex As Exception
+        trans.Rollback()
+        myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.SaveFailed}")
+        saveResult = True
+      End Try
+
+      Return saveResult
+    End Function
+    Public Sub RefreshToolLotCollection()
+      Me.m_itemCollection = New EquipmentItemCollection(Me)
+    End Sub
+    Public Function DeleteLot() As Boolean
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      Dim lot As EquipmentItem = Me.EquipmentItem
+      If lot Is Nothing Then
+        'Return New SaveErrorException("-1")
+        Return False
+      End If
+
+      Dim valReturn As Boolean = True
+
+      If Me.EquipmentItem.Originated Then
+
+        Dim trans As SqlTransaction
+        Dim conn As New SqlConnection(Me.ConnectionString)
+
+        If conn.State = ConnectionState.Open Then conn.Close()
+        conn.Open()
+        trans = conn.BeginTransaction
+
+        Try
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEquipmentItemLot", New SqlParameter("@eqi_id", lot.Id))
+
+          trans.Commit()
+          myMessage.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.DeleteSuccess}")
+          RefreshToolLotCollection()
+          valReturn = True
+        Catch ex As Exception
+          trans.Rollback()
+          myMessage.ShowError("${res:Longkong.Pojjaman.Gui.Panels.ToolLot.DeleteFaild}")
+          valReturn = False
+        Finally
+          conn.Close()
+        End Try
+
+      End If
+
+      Return valReturn
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code
