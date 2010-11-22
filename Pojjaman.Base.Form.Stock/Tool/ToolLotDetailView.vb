@@ -1421,6 +1421,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtassetcode"
           If m_txtAssetCodeChanged Then
             dirtyFlag = Asset.GetAsset(Me.txtAssetCode, Me.txtAssetName, doc.Asset) 'doc.Costcenter
+            Me.SetTextFromAsset()
             doc.IsDirty = dirtyFlag
             m_txtAssetCodeChanged = False
             Me.RefreshTextData()
@@ -2139,7 +2140,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'doc.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
 
       doc.IsDirty = Asset.GetAsset(txtAssetCode, txtAssetName, doc.Asset)
+      Me.SetTextFromAsset()
       'Me.RefreshListViewData()
+    End Sub
+    Private Sub SetTextFromAsset()
+      Dim doc As ToolLot = Me.m_entity.ToolLot
+      Me.txtAssetCode.Text = doc.Asset.Code
+      Me.txtAssetName.Text = doc.Asset.Name
+      Me.TxtToollotBuycost.Text = Configuration.FormatToString(doc.Buycost, DigitConfig.Price)
+      Me.txtToollotbuydoccode.Text = doc.Buydoc.Code
+      Me.txtToollotBuyDate.Text = doc.Buydate.ToShortDateString
     End Sub
     ' More detail
     'Private Sub btnAssetAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)

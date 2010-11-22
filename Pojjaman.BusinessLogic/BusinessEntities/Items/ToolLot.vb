@@ -467,7 +467,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_asset
       End Get
       Set(ByVal value As Asset)
-        m_asset = value
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If Me.Buycost = 0 OrElse Me.Buycost = value.BuyPrice Then
+          Me.Buycost = value.BuyPrice
+          Me.Buydoc.Code = value.BuyDocCode
+          Me.Buydate = value.BuyDate
+
+          m_asset = value
+        ElseIf Me.Buycost <> value.BuyPrice Then
+          'ให้ขึ้น message บอกว่าต้องปรับให้เป็นอันเดียวกัน ไม่งั้นไม่ให้ save
+          msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.EquipmentDetailView.CostMustEqualBuyDocPrice}", _
+                                       New String() {value.Code, Configuration.FormatToString(value.BuyPrice, DigitConfig.Price), _
+                                                     Configuration.FormatToString(Me.Buycost, DigitConfig.Price)})
+        End If
+        'm_asset = value
       End Set
     End Property
 
