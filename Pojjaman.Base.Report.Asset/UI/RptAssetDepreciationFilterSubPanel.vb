@@ -69,9 +69,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents cmbPeriodEnd As System.Windows.Forms.ComboBox
         Friend WithEvents cmbYearAcct As System.Windows.Forms.ComboBox
         Friend WithEvents KeepKeyCombo1 As Longkong.Pojjaman.Gui.Components.KeepKeyCombo
-        Friend WithEvents chkDoubleDeclining As System.Windows.Forms.CheckBox
-        Friend WithEvents chkStraightLine As System.Windows.Forms.CheckBox
         Friend WithEvents chkAssetShowAll As System.Windows.Forms.CheckBox
+        Friend WithEvents KeepKeyCombo2 As Longkong.Pojjaman.Gui.Components.KeepKeyCombo
         Friend WithEvents cmbPeriodStart As System.Windows.Forms.ComboBox
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
@@ -80,8 +79,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.KeepKeyCombo1 = New Longkong.Pojjaman.Gui.Components.KeepKeyCombo()
             Me.txtTemp = New System.Windows.Forms.TextBox()
             Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-            Me.chkDoubleDeclining = New System.Windows.Forms.CheckBox()
-            Me.chkStraightLine = New System.Windows.Forms.CheckBox()
+            Me.chkAssetShowAll = New System.Windows.Forms.CheckBox()
             Me.cmbPeriodEnd = New System.Windows.Forms.ComboBox()
             Me.lblPeriodEnd = New System.Windows.Forms.Label()
             Me.cmbYearAcct = New System.Windows.Forms.ComboBox()
@@ -123,7 +121,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnReset = New System.Windows.Forms.Button()
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
             Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-            Me.chkAssetShowAll = New System.Windows.Forms.CheckBox()
+            Me.KeepKeyCombo2 = New Longkong.Pojjaman.Gui.Components.KeepKeyCombo()
             Me.grbMaster.SuspendLayout()
             Me.grbDetail.SuspendLayout()
             CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -143,7 +141,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.grbMaster.Location = New System.Drawing.Point(8, 8)
             Me.grbMaster.Name = "grbMaster"
-            Me.grbMaster.Size = New System.Drawing.Size(472, 290)
+            Me.grbMaster.Size = New System.Drawing.Size(472, 268)
             Me.grbMaster.TabIndex = 0
             Me.grbMaster.TabStop = False
             Me.grbMaster.Text = "ค้นหา"
@@ -175,9 +173,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'grbDetail
             '
+            Me.grbDetail.Controls.Add(Me.KeepKeyCombo2)
             Me.grbDetail.Controls.Add(Me.chkAssetShowAll)
-            Me.grbDetail.Controls.Add(Me.chkDoubleDeclining)
-            Me.grbDetail.Controls.Add(Me.chkStraightLine)
             Me.grbDetail.Controls.Add(Me.cmbPeriodEnd)
             Me.grbDetail.Controls.Add(Me.lblPeriodEnd)
             Me.grbDetail.Controls.Add(Me.cmbYearAcct)
@@ -218,28 +215,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDetail.Location = New System.Drawing.Point(16, 16)
             Me.grbDetail.Name = "grbDetail"
-            Me.grbDetail.Size = New System.Drawing.Size(440, 236)
+            Me.grbDetail.Size = New System.Drawing.Size(440, 214)
             Me.grbDetail.TabIndex = 0
             Me.grbDetail.TabStop = False
             Me.grbDetail.Text = "ข้อมูลทั่วไป"
             '
-            'chkDoubleDeclining
+            'chkAssetShowAll
             '
-            Me.chkDoubleDeclining.Location = New System.Drawing.Point(296, 208)
-            Me.chkDoubleDeclining.Name = "chkDoubleDeclining"
-            Me.chkDoubleDeclining.Size = New System.Drawing.Size(128, 24)
-            Me.chkDoubleDeclining.TabIndex = 39
-            Me.chkDoubleDeclining.Text = "วิธียอดลดลงทวีคูณ"
-            '
-            'chkStraightLine
-            '
-            Me.chkStraightLine.Checked = True
-            Me.chkStraightLine.CheckState = System.Windows.Forms.CheckState.Checked
-            Me.chkStraightLine.Location = New System.Drawing.Point(296, 188)
-            Me.chkStraightLine.Name = "chkStraightLine"
-            Me.chkStraightLine.Size = New System.Drawing.Size(128, 24)
-            Me.chkStraightLine.TabIndex = 38
-            Me.chkStraightLine.Text = "วิธีเส้นตรง"
+            Me.chkAssetShowAll.Location = New System.Drawing.Point(296, 187)
+            Me.chkAssetShowAll.Name = "chkAssetShowAll"
+            Me.chkAssetShowAll.Size = New System.Drawing.Size(128, 24)
+            Me.chkAssetShowAll.TabIndex = 40
+            Me.chkAssetShowAll.Text = "แสดงสินทรัพย์ทั้งหมด"
             '
             'cmbPeriodEnd
             '
@@ -700,7 +687,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(384, 258)
+            Me.btnSearch.Location = New System.Drawing.Point(384, 236)
             Me.btnSearch.Name = "btnSearch"
             Me.btnSearch.Size = New System.Drawing.Size(75, 23)
             Me.btnSearch.TabIndex = 2
@@ -710,7 +697,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnReset.Location = New System.Drawing.Point(304, 258)
+            Me.btnReset.Location = New System.Drawing.Point(304, 236)
             Me.btnReset.Name = "btnReset"
             Me.btnReset.Size = New System.Drawing.Size(75, 23)
             Me.btnReset.TabIndex = 1
@@ -730,20 +717,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.ErrorProvider1.ContainerControl = Me
             '
-            'chkAssetShowAll
+            'KeepKeyCombo2
             '
-            Me.chkAssetShowAll.Location = New System.Drawing.Point(136, 188)
-            Me.chkAssetShowAll.Name = "chkAssetShowAll"
-            Me.chkAssetShowAll.Size = New System.Drawing.Size(128, 24)
-            Me.chkAssetShowAll.TabIndex = 40
-            Me.chkAssetShowAll.Text = "แสดงสินทรัพย์ทั้งหมด"
+            Me.KeepKeyCombo2.FormattingEnabled = True
+            Me.KeepKeyCombo2.Location = New System.Drawing.Point(332, 247)
+            Me.KeepKeyCombo2.Name = "KeepKeyCombo2"
+            Me.KeepKeyCombo2.Size = New System.Drawing.Size(121, 21)
+            Me.KeepKeyCombo2.TabIndex = 41
             '
             'RptAssetDepreciationFilterSubPanel
             '
             Me.Controls.Add(Me.grbMaster)
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Name = "RptAssetDepreciationFilterSubPanel"
-            Me.Size = New System.Drawing.Size(488, 316)
+            Me.Size = New System.Drawing.Size(488, 294)
             Me.grbMaster.ResumeLayout(False)
             Me.grbMaster.PerformLayout()
             Me.grbDetail.ResumeLayout(False)
@@ -963,7 +950,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(18) As Filter
+            Dim arr(16) As Filter
             arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
             arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
             arr(2) = New Filter("AssetCodeStart", IIf(txtAssetCodeStart.TextLength > 0, txtAssetCodeStart.Text, DBNull.Value))
@@ -980,9 +967,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(13) = New Filter("isByPeriod", IIf(chkOption.Checked, 1, 0))
             arr(14) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             arr(15) = New Filter("assetId", Me.ValidIdOrDBNull(m_asset))
-            arr(16) = New Filter("isStraightLine", IIf(chkStraightLine.Checked, 1, 0))
-            arr(17) = New Filter("isDoubleDeclining", IIf(chkDoubleDeclining.Checked, 1, 0))
-            arr(18) = New Filter("AssetShowAll", IIf(chkAssetShowAll.Checked, 1, 0))
+            'arr(16) = New Filter("isStraightLine", IIf(chkStraightLine.Checked, 1, 0))
+            'arr(17) = New Filter("isDoubleDeclining", IIf(chkDoubleDeclining.Checked, 1, 0))
+            arr(16) = New Filter("AssetShowAll", IIf(chkAssetShowAll.Checked, 1, 0))
             Return arr
         End Function
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
