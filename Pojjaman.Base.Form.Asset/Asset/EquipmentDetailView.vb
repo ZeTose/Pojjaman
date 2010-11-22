@@ -2495,7 +2495,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnAssetFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAssetFind.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Asset, AddressOf SetAssetDialog)
+      Dim filters(0) As Filter
+      filters(0) = New Filter("formEntity", Me.m_entity.EntityId)
+      myEntityPanelService.OpenListDialog(New Asset, AddressOf SetAssetDialog, filters)
     End Sub
     Private Sub SetAssetDialog(ByVal e As ISimpleEntity)
       Dim eqi As EquipmentItem = Me.CurrentTagItem
@@ -2507,10 +2509,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or Asset.GetAsset(txtAssetCode, txtAssetName, eqi.Asset)
 
+      If eqi.Buycost = 0 OrElse eqi.Buycost = eqi.Asset.BuyPrice Then
+        eqi.Buycost = eqi.Asset.BuyPrice
+        eqi.Buydoc.Code = eqi.Asset.BuyDocCode
+        eqi.Buydate = eqi.Asset.BuyDate
+      ElseIf eqi.Buycost <> eqi.Asset.BuyPrice Then
+        'ให้ขึ้น message บอกว่าต้องปรับให้เป็นอันเดียวกัน ไม่งั้นไม่ให้ save
+
+      End If
+
       eqi.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty
 
       RefreshDocs()
-
+      RefreshData()
 
     End Sub
     ' More detail
