@@ -396,7 +396,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
     Public Function Save(ByVal cc As CostCenter, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-      Dim hashParentUser As Hashtable = Me.getParrentUserHash(cc)
+      Dim hashParentUser As Hashtable = Me.getParrentUserHash(cc, conn, trans)
 
       'Dim userList As String
       For Each item As CostCenterUserAccess In Me
@@ -572,10 +572,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return Nothing
     End Function
-    Private Function getParrentUserHash(ByVal cc As CostCenter) As Hashtable
+    Private Function getParrentUserHash(ByVal cc As CostCenter, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Hashtable
       Dim myHashUser As New Hashtable
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(RecentCompanies.CurrentCompany.ConnectionString _
-      , CommandType.StoredProcedure, "getParrentUserforCC", New SqlParameter("@cc_id", cc.Id))
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans, _
+       CommandType.StoredProcedure, "getParrentUserforCC", New SqlParameter("@cc_id", cc.Id))
       For Each row As DataRow In ds.Tables(0).Rows
         If Not row.IsNull("user_id") AndAlso IsNumeric(row("user_Id")) Then
           myHashUser(CInt(row("user_Id"))) = CInt(row("user_id"))
