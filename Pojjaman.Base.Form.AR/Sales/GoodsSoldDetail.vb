@@ -1477,6 +1477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAccountButton.MappingName = "AccountButton"
       csAccountButton.HeaderText = ""
       csAccountButton.NullText = ""
+      AddHandler csAccountButton.Click, AddressOf ButtonClick
 
       Dim csVatable As New DataGridCheckBoxColumn
       csVatable.MappingName = "stocki_unvatable"
@@ -1658,7 +1659,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
         tgItem.Enabled = True
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
+          'Bug #1332 เอกสารถึงแม้จะถูกอ้างอิงแล้ว ผังบัญชีให้สามารถแก้ไขผังบัญชีได้ เหมือนหน้าซื้อสินค้า/บริการ ไม่ให้ log ผังบัญชีค่ะ
+          If colStyle.MappingName.ToLower = "accountcode" _
+          Or colStyle.MappingName.ToLower = "accountbutton" Then
+            colStyle.ReadOnly = False
+          Else
+            colStyle.ReadOnly = True
+          End If
         Next
         ibtnShowAdvanceReceive.Enabled = True
       Else
