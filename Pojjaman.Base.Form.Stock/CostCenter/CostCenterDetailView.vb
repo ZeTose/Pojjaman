@@ -1159,6 +1159,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.InitializeComponent()
       Me.SetLabelText()
       Initialize()
+      Me.CheckFormVisible()
 
       Dim dt As TreeTable = CostCenterDetailView.GetSchemaTable
       Dim dst As DataGridTableStyle = Me.CreateTableStyle
@@ -1741,7 +1742,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Function"
-
+    Private Sub CheckFormVisible()
+      Dim UserId As Integer = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id
+      btnCashFlow.Visible = ConfigurationUserControl.GetConfig(UserId, ConfigType.Configuration, btnCashFlow.Name)
+      Button1.Visible = ConfigurationUserControl.GetConfig(UserId, ConfigType.Configuration, btnCashFlow.Name)
+    End Sub
 #End Region
 
 #Region "Getting Properties from dialog"

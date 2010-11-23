@@ -596,7 +596,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AllDocType1 = False
         AllDocType2 = False
         AllDocType0 = True
-        If Customizations.ValidCustomize("Pojjaman.Base.Form.VArch") Then
+
+        Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "Pojjaman.Base.Form.VArch")
+        If isCustomize Then
           AllDocType1 = Me.CanSeeAllDocType1
           AllDocType2 = Me.CanSeeAllDocType2
           AllDocType0 = Me.CanSeeAllDocType0
@@ -1040,19 +1042,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
-  Public Class Customizations
-    Public Shared Function ValidCustomize(ByVal CompanyAddInsName As String) As Boolean
-      '==Checking for addin วิศวพัฒน์
-      Dim hasAddIns As Boolean = False
-      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-        If a.FileName.ToLower.Contains(CompanyAddInsName.ToLower) Then
-          hasAddIns = True
-        End If
-        'Trace.WriteLine(a.FileName)
-      Next
-      Return hasAddIns
-    End Function
-  End Class
+  'Public Class Customizations
+  '  Public Shared Function ValidCustomize(ByVal CompanyAddInsName As String) As Boolean
+  '    '==Checking for addin วิศวพัฒน์
+  '    Dim hasAddIns As Boolean = False
+  '    For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+  '      If a.FileName.ToLower.Contains(CompanyAddInsName.ToLower) Then
+  '        hasAddIns = True
+  '      End If
+  '      'Trace.WriteLine(a.FileName)
+  '    Next
+  '    Return hasAddIns
+  '  End Function
+  'End Class
 
   Public Class UserAccount
     Public Shared Function GetCurrentAccountName() As String
