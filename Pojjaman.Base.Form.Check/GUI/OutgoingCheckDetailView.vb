@@ -8,6 +8,7 @@ Imports Telerik.WinControls.UI
 Imports System.Linq
 Imports System.IO
 Imports Longkong.Core.AddIns
+Imports System.Text
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class OutgoingCheckDetailView
@@ -1042,6 +1043,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(cmbStatus, "outgoingcheck_docstatus")
       Me.RadGridView2.MasterGridViewTemplate.AllowAddNewRow = False
       Me.RadGridView2.MasterGridViewTemplate.AllowDragToGroup = False
+      Me.RadGridView2.MultiSelect = True
       Me.RadGridView2.ShowGroupPanel = False
       GetColumns(RadGridView2, False)
     End Sub
@@ -1649,6 +1651,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Try
       End If
     End Sub
+
+    Private Sub RadGridView2_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles RadGridView2.KeyDown
+      If e.KeyCode = Keys.C And Keys.Control Then
+        Dim copyString As String = ConvertSelectedDataToString(RadGridView2)
+        Clipboard.SetDataObject(copyString)
+      End If
+    End Sub
+
+    Private Function ConvertSelectedDataToString(ByVal gr As RadGridView) As String
+      Dim strBuild As New StringBuilder
+
+      For Each col As GridViewDataColumn In gr.Columns
+        strBuild.Append(col.HeaderText)
+        strBuild.Append(ChrW(Keys.Tab))
+      Next
+      strBuild.AppendLine(ChrW(13))
+
+      For rowIndex As Integer = 0 To gr.Rows.Count - 1
+        For colIndex As Integer = 0 To gr.Columns.Count - 1
+          strBuild.Append(gr.SelectedRows(rowIndex).Cells(colIndex).Value.ToString)
+          strBuild.Append(ChrW(Keys.Tab))
+        Next
+        strBuild.AppendLine(ChrW(13))
+      Next
+
+      Return strBuild.ToString()
+    End Function
+
   End Class
 
 End Namespace
