@@ -562,7 +562,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
           If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
-            If CInt(row("check_docstatus")) = 2 Or CInt(row("check_docstatus")) = 0 Then
+            If CInt(row("check_docstatus")) = 2 Or CInt(row("check_docstatus")) = 0 Or CInt(row("check_docstatus")) = 3 Then
               row("check_docstatus") = 1
             End If
           End If
