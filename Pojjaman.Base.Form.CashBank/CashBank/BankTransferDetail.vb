@@ -1027,7 +1027,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
           If txtBankcharge.TextLength > 0 Then
             Me.m_entity.BankCharge = CDec(txtBankcharge.Text)
-            If txtSum.TextLength > 0 Then
+            If txtSum.TextLength > 0 AndAlso txtCqCode.TextLength > 0 Then
               Me.m_entity.Amount = CDec(txtSum.Text) - Me.m_entity.BankCharge
               txtAmount.Text = Me.m_entity.Amount
             End If
