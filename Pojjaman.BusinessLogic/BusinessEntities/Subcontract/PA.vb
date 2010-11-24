@@ -1227,6 +1227,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                , "GethaveAdvancepayFromSupandEntity" _
                , New SqlParameter("@supplier_id", Me.SubContractor.Id) _
                , New SqlParameter("@entity_type", Me.EntityId) _
+               , New SqlParameter("@taxtype", Me.TaxType.Value) _
                )
       If ds.Tables(0).Rows.Count > 0 Then
         Return True
