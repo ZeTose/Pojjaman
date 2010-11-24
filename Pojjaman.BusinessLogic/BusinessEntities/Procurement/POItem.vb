@@ -1233,15 +1233,18 @@ Public Class POItemCollection
               Select Case item.ItemType.Value
                 Case 88, 289, 291
                   wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
-                  wbsd.OwnerBudgetAmount = wbsd.WBS.GetTotalLabFromDB
+                  wbsd.WBS.GetTotalLabFromDB()
+                  wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerLabBudgetAmount
                 Case 89
                   wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
-                  wbsd.OwnerBudgetAmount = wbsd.WBS.GetTotalEQFromDB
+                  wbsd.WBS.GetTotalEQFromDB()
+                  wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerEqBudgetAmount
                 Case Else
                   wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
-                  wbsd.OwnerBudgetAmount = wbsd.WBS.GetTotalMatFromDB
+                  wbsd.WBS.GetTotalMatFromDB()
+                  wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerMatBudgetAmount
               End Select
-                'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
+              'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
             End If
           End If
 
