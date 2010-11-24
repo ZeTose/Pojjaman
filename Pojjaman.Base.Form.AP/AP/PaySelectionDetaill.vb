@@ -1989,7 +1989,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim filterEntities(7) As ArrayList
-      For i As Integer = 0 To 6
+      For i As Integer = 0 To 7
         filterEntities(i) = New ArrayList
         filterEntities(i).Add(Me.m_entity.Supplier)
       Next
