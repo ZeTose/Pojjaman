@@ -33,8 +33,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnReset As System.Windows.Forms.Button
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents dtpDocDateEnd As Telerik.WinControls.UI.RadDateTimePicker
-    Friend WithEvents dtpDocDateStart As Telerik.WinControls.UI.RadDateTimePicker
     Friend WithEvents lblDocDateStart As System.Windows.Forms.Label
     Friend WithEvents cmbAccountBookCodeEnd As Telerik.WinControls.UI.RadMultiColumnComboBox
     Friend WithEvents cmbAccountBookCodeStart As Telerik.WinControls.UI.RadMultiColumnComboBox
@@ -58,11 +56,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkShowTree As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkShowAll As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkShowDoc As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptJournalEntryByCCListFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.chkShowDoc = New Telerik.WinControls.UI.RadCheckBox()
+      Me.chkShowAll = New Telerik.WinControls.UI.RadCheckBox()
       Me.chkShowTree = New Telerik.WinControls.UI.RadCheckBox()
       Me.cmbCostCenterCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
       Me.cmbCostCenterCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
@@ -80,8 +88,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAcctStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblAccountStart = New System.Windows.Forms.Label()
       Me.btnCCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.dtpDocDateEnd = New Telerik.WinControls.UI.RadDateTimePicker()
-      Me.dtpDocDateStart = New Telerik.WinControls.UI.RadDateTimePicker()
       Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblCCStart = New System.Windows.Forms.Label()
       Me.lblDocDateStart = New System.Windows.Forms.Label()
@@ -91,9 +97,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-      Me.chkShowAll = New Telerik.WinControls.UI.RadCheckBox()
-      Me.chkShowDoc = New Telerik.WinControls.UI.RadCheckBox()
       Me.grbMaster.SuspendLayout()
+      CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.chkShowTree, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,11 +107,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.cmbAccountBookCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.cmbAccountCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.cmbAccountCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.dtpDocDateEnd, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.dtpDocDateStart, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -113,6 +115,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.txtDocDateEnd)
+      Me.grbMaster.Controls.Add(Me.txtDocDateStart)
+      Me.grbMaster.Controls.Add(Me.dtpDocDateStart)
+      Me.grbMaster.Controls.Add(Me.dtpDocDateEnd)
       Me.grbMaster.Controls.Add(Me.chkShowDoc)
       Me.grbMaster.Controls.Add(Me.chkShowAll)
       Me.grbMaster.Controls.Add(Me.chkShowTree)
@@ -132,8 +138,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Controls.Add(Me.btnAcctStartFind)
       Me.grbMaster.Controls.Add(Me.lblAccountStart)
       Me.grbMaster.Controls.Add(Me.btnCCEndFind)
-      Me.grbMaster.Controls.Add(Me.dtpDocDateEnd)
-      Me.grbMaster.Controls.Add(Me.dtpDocDateStart)
       Me.grbMaster.Controls.Add(Me.btnCCStartFind)
       Me.grbMaster.Controls.Add(Me.lblCCStart)
       Me.grbMaster.Controls.Add(Me.lblDocDateStart)
@@ -149,12 +153,78 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "ค้นหา"
       '
+      'txtDocDateEnd
+      '
+      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(300, 15)
+      Me.txtDocDateEnd.MaxLength = 10
+      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(93, 21)
+      Me.txtDocDateEnd.TabIndex = 73
+      '
+      'txtDocDateStart
+      '
+      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(98, 15)
+      Me.txtDocDateStart.MaxLength = 10
+      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
+      Me.Validator.SetRequired(Me.txtDocDateStart, False)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(92, 21)
+      Me.txtDocDateStart.TabIndex = 71
+      '
+      'dtpDocDateStart
+      '
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateStart.Location = New System.Drawing.Point(98, 15)
+      Me.dtpDocDateStart.Name = "dtpDocDateStart"
+      Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateStart.TabIndex = 72
+      Me.dtpDocDateStart.TabStop = False
+      '
+      'dtpDocDateEnd
+      '
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateEnd.Location = New System.Drawing.Point(300, 15)
+      Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
+      Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateEnd.TabIndex = 74
+      Me.dtpDocDateEnd.TabStop = False
+      '
+      'chkShowDoc
+      '
+      Me.chkShowDoc.Location = New System.Drawing.Point(98, 149)
+      Me.chkShowDoc.Name = "chkShowDoc"
+      Me.chkShowDoc.Size = New System.Drawing.Size(165, 18)
+      Me.chkShowDoc.TabIndex = 13
+      Me.chkShowDoc.Text = "แสดงเอกสาร"
+      '
+      'chkShowAll
+      '
+      Me.chkShowAll.Location = New System.Drawing.Point(98, 130)
+      Me.chkShowAll.Name = "chkShowAll"
+      Me.chkShowAll.Size = New System.Drawing.Size(165, 18)
+      Me.chkShowAll.TabIndex = 12
+      Me.chkShowAll.Text = "แสดงทุกผังบัญชี"
+      '
       'chkShowTree
       '
       Me.chkShowTree.Location = New System.Drawing.Point(98, 111)
       Me.chkShowTree.Name = "chkShowTree"
       Me.chkShowTree.Size = New System.Drawing.Size(165, 18)
-      Me.chkShowTree.TabIndex = 77
+      Me.chkShowTree.TabIndex = 11
       Me.chkShowTree.Text = "แสดงผังบัญชีแม่"
       '
       'cmbCostCenterCodeEnd
@@ -186,7 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbCostCenterCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
       Me.cmbCostCenterCodeEnd.Size = New System.Drawing.Size(140, 21)
-      Me.cmbCostCenterCodeEnd.TabIndex = 76
+      Me.cmbCostCenterCodeEnd.TabIndex = 10
       Me.cmbCostCenterCodeEnd.TabStop = False
       Me.cmbCostCenterCodeEnd.Text = "RadMultiColumnComboBox6"
       '
@@ -219,7 +289,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbCostCenterCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
       Me.cmbCostCenterCodeStart.Size = New System.Drawing.Size(140, 21)
-      Me.cmbCostCenterCodeStart.TabIndex = 75
+      Me.cmbCostCenterCodeStart.TabIndex = 9
       Me.cmbCostCenterCodeStart.TabStop = False
       Me.cmbCostCenterCodeStart.Text = "RadMultiColumnComboBox5"
       '
@@ -252,7 +322,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbAccountBookCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
       Me.cmbAccountBookCodeEnd.Size = New System.Drawing.Size(140, 21)
-      Me.cmbAccountBookCodeEnd.TabIndex = 74
+      Me.cmbAccountBookCodeEnd.TabIndex = 8
       Me.cmbAccountBookCodeEnd.TabStop = False
       Me.cmbAccountBookCodeEnd.Text = "RadMultiColumnComboBox4"
       '
@@ -285,7 +355,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbAccountBookCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
       Me.cmbAccountBookCodeStart.Size = New System.Drawing.Size(140, 21)
-      Me.cmbAccountBookCodeStart.TabIndex = 73
+      Me.cmbAccountBookCodeStart.TabIndex = 7
       Me.cmbAccountBookCodeStart.TabStop = False
       Me.cmbAccountBookCodeStart.Text = "RadMultiColumnComboBox3"
       '
@@ -318,7 +388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbAccountCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
       Me.cmbAccountCodeEnd.Size = New System.Drawing.Size(140, 21)
-      Me.cmbAccountCodeEnd.TabIndex = 72
+      Me.cmbAccountCodeEnd.TabIndex = 6
       Me.cmbAccountCodeEnd.TabStop = False
       Me.cmbAccountCodeEnd.Text = "RadMultiColumnComboBox2"
       '
@@ -351,7 +421,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbAccountCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
       Me.cmbAccountCodeStart.Size = New System.Drawing.Size(140, 21)
-      Me.cmbAccountCodeStart.TabIndex = 71
+      Me.cmbAccountCodeStart.TabIndex = 5
       Me.cmbAccountCodeStart.TabStop = False
       Me.cmbAccountCodeStart.Text = "RadMultiColumnComboBox1"
       '
@@ -470,40 +540,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCEndFind.TabStop = False
       Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
       '
-      'dtpDocDateEnd
-      '
-      Me.dtpDocDateEnd.AutoSize = True
-      Me.dtpDocDateEnd.Culture = New System.Globalization.CultureInfo("th-TH")
-      Me.dtpDocDateEnd.CustomFormat = "dd/MM/yyyy"
-      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDateEnd.Location = New System.Drawing.Point(300, 13)
-      Me.dtpDocDateEnd.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
-      Me.dtpDocDateEnd.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
-      Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-      Me.dtpDocDateEnd.NullDate = New Date(CType(0, Long))
-      Me.dtpDocDateEnd.Size = New System.Drawing.Size(109, 23)
-      Me.dtpDocDateEnd.TabIndex = 55
-      Me.dtpDocDateEnd.TabStop = False
-      Me.dtpDocDateEnd.Text = "RadDateTimePicker2"
-      Me.dtpDocDateEnd.Value = New Date(2010, 9, 10, 11, 35, 6, 955)
-      '
-      'dtpDocDateStart
-      '
-      Me.dtpDocDateStart.AutoSize = True
-      Me.dtpDocDateStart.Culture = New System.Globalization.CultureInfo("th-TH")
-      Me.dtpDocDateStart.CustomFormat = "dd/MM/yyyy"
-      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDateStart.Location = New System.Drawing.Point(98, 13)
-      Me.dtpDocDateStart.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
-      Me.dtpDocDateStart.MinDate = New Date(1900, 1, 1, 0, 0, 0, 0)
-      Me.dtpDocDateStart.Name = "dtpDocDateStart"
-      Me.dtpDocDateStart.NullDate = New Date(CType(0, Long))
-      Me.dtpDocDateStart.Size = New System.Drawing.Size(109, 23)
-      Me.dtpDocDateStart.TabIndex = 54
-      Me.dtpDocDateStart.TabStop = False
-      Me.dtpDocDateStart.Text = "RadDateTimePicker1"
-      Me.dtpDocDateStart.Value = New Date(2010, 9, 10, 11, 35, 6, 955)
-      '
       'btnCCStartFind
       '
       Me.btnCCStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -556,7 +592,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnSearch.Location = New System.Drawing.Point(393, 151)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
-      Me.btnSearch.TabIndex = 2
+      Me.btnSearch.TabIndex = 15
       Me.btnSearch.Text = "ค้นหา"
       '
       'btnReset
@@ -566,7 +602,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset.Location = New System.Drawing.Point(312, 151)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
-      Me.btnReset.TabIndex = 1
+      Me.btnReset.TabIndex = 14
       Me.btnReset.TabStop = False
       Me.btnReset.Text = "เคลียร์"
       '
@@ -583,22 +619,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'chkShowAll
-      '
-      Me.chkShowAll.Location = New System.Drawing.Point(98, 130)
-      Me.chkShowAll.Name = "chkShowAll"
-      Me.chkShowAll.Size = New System.Drawing.Size(165, 18)
-      Me.chkShowAll.TabIndex = 77
-      Me.chkShowAll.Text = "แสดงทุกผังบัญชี"
-      '
-      'chkShowDoc
-      '
-      Me.chkShowDoc.Location = New System.Drawing.Point(98, 149)
-      Me.chkShowDoc.Name = "chkShowDoc"
-      Me.chkShowDoc.Size = New System.Drawing.Size(165, 18)
-      Me.chkShowDoc.TabIndex = 77
-      Me.chkShowDoc.Text = "แสดงเอกสาร"
-      '
       'RptJournalEntryByCCListFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
@@ -607,6 +627,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(489, 192)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
+      CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.chkShowTree, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
@@ -614,11 +636,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.cmbAccountBookCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.cmbAccountCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.cmbAccountCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.dtpDocDateEnd, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.dtpDocDateStart, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -665,8 +683,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Member"
     'Private m_equipmentstart As EquipmentItem
     'Private m_equipmentend As EquipmentItem
-    'Private m_DocDateEnd As Date
-    'Private m_DocDateStart As Date
+    Private m_DocDateEnd As Date
+    Private m_DocDateStart As Date
     'Private m_cc As CostCenter
     'Private m_acctDataSourceStart As DataTable
     'Private m_acctBookDataSourceStart As DataTable
@@ -728,7 +746,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '    m_equipmentend = Value
     '  End Set
     'End Property
-    'Public Property DocDateEnd() As Date    '  Get    '    Return m_DocDateEnd    '  End Get    '  Set(ByVal Value As Date)    '    m_DocDateEnd = Value    '  End Set    'End Property    'Public Property DocDateStart() As Date    '  Get    '    Return m_DocDateStart    '  End Get    '  Set(ByVal Value As Date)    '    m_DocDateStart = Value    '  End Set    'End Property
+    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
 
     'Public Property CostCenter() As CostCenter
     '  Get
@@ -977,14 +995,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.Equipmentstart = New EquipmentItem
       'Me.EquipmentEnd = New EquipmentItem
 
-      'Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
-      'Me.DocDateStart = dtStart
-      'Me.dtpDocDateStart.Text = MinDateToNull(Me.DocDateStart, "")
-      'Me.dtpDocDateStart.Value = Me.DocDateStart
+      Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
+      Me.DocDateStart = dtStart
+      Me.dtpDocDateStart.Text = MinDateToNull(Me.DocDateStart, "")
+      Me.dtpDocDateStart.Value = Me.DocDateStart
 
-      'Me.DocDateEnd = Date.Now
-      'Me.dtpDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
-      'Me.dtpDocDateEnd.Value = Me.DocDateEnd
+      Me.DocDateEnd = Date.Now
+      Me.dtpDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
+      Me.dtpDocDateEnd.Value = Me.DocDateEnd
 
     End Sub
     Public Overrides Function GetFilterString() As String
@@ -1007,8 +1025,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides Function GetFilterArray() As Longkong.Pojjaman.BusinessLogic.Filter()
       Dim arr(10) As Pojjaman.BusinessLogic.Filter
 
-      arr(0) = New Longkong.Pojjaman.BusinessLogic.Filter("DocDateStart", ValidCodeOrDBNullText(Me.dtpDocDateStart))
-      arr(1) = New Longkong.Pojjaman.BusinessLogic.Filter("DocDateEnd", ValidCodeOrDBNullText(Me.dtpDocDateEnd))
+      arr(0) = New Longkong.Pojjaman.BusinessLogic.Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
+      arr(1) = New Longkong.Pojjaman.BusinessLogic.Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Longkong.Pojjaman.BusinessLogic.Filter("AcctCodeStart", ValidCodeOrDBNullText(Me.cmbAccountCodeStart))
       arr(3) = New Longkong.Pojjaman.BusinessLogic.Filter("AcctCodeEnd", ValidCodeOrDBNullText(Me.cmbAccountCodeEnd))
       arr(4) = New Longkong.Pojjaman.BusinessLogic.Filter("AcctBookCodeStart", ValidCodeOrDBNullText(Me.cmbAccountBookCodeStart))
@@ -1159,20 +1177,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'AddHandler cmbCostCenterCodeEnd.DropDownOpening, AddressOf Me.radMultiComboBox_DropDownOpening
       'AddHandler cmbCostCenterCodeEnd.TextChanged, AddressOf Me.radMultiComboBox_TextChanged
 
-      AddHandler dtpDocDateStart.KeyDown, AddressOf Me.RadDateTimePicker_KeyDown
-      AddHandler dtpDocDateEnd.KeyDown, AddressOf Me.RadDateTimePicker_KeyDown
+      'AddHandler dtpDocDateStart.KeyDown, AddressOf Me.RadDateTimePicker_KeyDown
+      'AddHandler dtpDocDateEnd.KeyDown, AddressOf Me.RadDateTimePicker_KeyDown
 
       'AddHandler cmbCostCenterCodeStart.Validated, AddressOf Me.ChangeProperty
       'AddHandler cmbCostCenterCodeEnd.Validated, AddressOf Me.ChangeProperty
 
-      'AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDateStart.Validated, AddressOf Me.ChangeProperty
-      'AddHandler dtpDocDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
 
-      For Each ctrl As Control In Me.Controls
+      AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
-      Next
     End Sub
 
     Private m_dateSetting As Boolean
@@ -1182,47 +1198,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtcccodestart"
           'CostCenter.GetCostCenter(txtCCCodeStart, txtTemp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
 
-          'Case "dtpdocdatestart"
-          '  If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
-          '    If Not m_dateSetting Then
-          '      Me.dtpDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-          '      Me.DocDateStart = dtpDocDateStart.Value
-          '    End If
-          '  End If
-          'Case "txtdocdatestart"
-          '  m_dateSetting = True
-          '  If Not Me.dtpDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.dtpDocDateStart) = "" Then
-          '    Dim theDate As Date = CDate(Me.dtpDocDateStart.Text)
-          '    If Not Me.DocDateStart.Equals(theDate) Then
-          '      dtpDocDateStart.Value = theDate
-          '      Me.DocDateStart = dtpDocDateStart.Value
-          '    End If
-          '  Else
-          '    Me.dtpDocDateStart.Value = Date.Now
-          '    Me.DocDateStart = Date.MinValue
-          '  End If
-          '  m_dateSetting = False
+        Case "dtpdocdatestart"
+          If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          End If
+        Case "txtdocdatestart"
+          m_dateSetting = True
+          If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
+            If Not Me.DocDateStart.Equals(theDate) Then
+              dtpDocDateStart.Value = theDate
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          Else
+            Me.dtpDocDateStart.Value = Date.Now
+            Me.DocDateStart = Date.MinValue
+          End If
+          m_dateSetting = False
 
-          'Case "dtpdocdateend"
-          '  If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
-          '    If Not m_dateSetting Then
-          '      Me.dtpDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-          '      Me.DocDateEnd = dtpDocDateEnd.Value
-          '    End If
-          '  End If
-          'Case "txtdocdateend"
-          '  m_dateSetting = True
-          '  If Not Me.dtpDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.dtpDocDateEnd) = "" Then
-          '    Dim theDate As Date = CDate(Me.dtpDocDateEnd.Text)
-          '    If Not Me.DocDateEnd.Equals(theDate) Then
-          '      dtpDocDateEnd.Value = theDate
-          '      Me.DocDateEnd = dtpDocDateEnd.Value
-          '    End If
-          '  Else
-          '    Me.dtpDocDateEnd.Value = Date.Now
-          '    Me.DocDateEnd = Date.MinValue
-          '  End If
-          '  m_dateSetting = False
+        Case "dtpdocdateend"
+          If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateEnd = dtpDocDateEnd.Value
+            End If
+          End If
+        Case "txtdocdateend"
+          m_dateSetting = True
+          If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
+            If Not Me.DocDateEnd.Equals(theDate) Then
+              dtpDocDateEnd.Value = theDate
+              Me.DocDateEnd = dtpDocDateEnd.Value
+            End If
+          Else
+            Me.dtpDocDateEnd.Value = Date.Now
+            Me.DocDateEnd = Date.MinValue
+          End If
+          m_dateSetting = False
 
         Case Else
 
@@ -1346,13 +1362,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  Me.SetAutoCompleteAble(sender, True)
     '  'End If
     'End Sub
-    Private Sub RadDateTimePicker_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
-      If e.KeyCode = Keys.Back Then
-        CType(sender, RadDateTimePicker).SetToNullValue()
-      ElseIf e.KeyCode = Keys.Insert Then
-        CType(sender, RadDateTimePicker).Value = Now
-      End If
-    End Sub
+    'Private Sub RadDateTimePicker_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+    '  If e.KeyCode = Keys.Back Then
+    '    CType(sender, RadDateTimePicker).SetToNullValue()
+    '  ElseIf e.KeyCode = Keys.Insert Then
+    '    CType(sender, RadDateTimePicker).Value = Now
+    '  End If
+    'End Sub
     'Enum RadMultiComboBox
     '  DropDownOpening
     '  DropDownClosed
@@ -1369,12 +1385,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
 
 
-    Private Sub dtpDocDateStart_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles dtpDocDateStart.Opening
-      Dim rdtpk As RadDateTimePicker = CType(sender, RadDateTimePicker)
-      If rdtpk.Value.Equals(Date.MinValue) Then
+    'Private Sub dtpDocDateStart_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles dtpDocDateStart.Opening
+    '  Dim rdtpk As RadDateTimePicker = CType(sender, RadDateTimePicker)
+    '  If rdtpk.Value.Equals(Date.MinValue) Then
 
-      End If
-    End Sub
+    '  End If
+    'End Sub
   End Class
 End Namespace
 
