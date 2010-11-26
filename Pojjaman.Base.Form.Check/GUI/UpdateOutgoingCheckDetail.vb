@@ -648,6 +648,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ctrl.Enabled = True
         Next
       End If
+
+      Dim valid As SaveErrorException = Me.m_entity.ValidateItem 
+      If Not IsNumeric(valid.Message) Then
+        Me.cmbCode.Enabled = False
+        Me.chkAutorun.Enabled = False
+        Me.txtIssueDate.Enabled = False
+        Me.dtpIssueDate.Enabled = False
+        Me.cmbStatus.Enabled = False
+      End If
+
     End Sub
     Public Overrides Sub ClearDetail()
       lblStatus.Text = ""

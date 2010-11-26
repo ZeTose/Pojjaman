@@ -105,11 +105,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je = New JournalEntry(Me)
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      Me.LoadNextCheckUpdateStatus()
     End Sub
 
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property NextCheckUpdateStatus As Hashtable
+      Get
+        Return m_hashCheckUpdateStatus
+      End Get
+    End Property
     Public Property DocDate() As Date
       Get
         Return m_docdate
@@ -242,6 +249,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Private m_hashCheckUpdateStatus As Hashtable
+    Private Sub LoadNextCheckUpdateStatus()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, _
+                                                  CommandType.StoredProcedure, _
+                                                  "GetNextUpdateCheckStatus", _
+                                                  New SqlParameter("@cqupdate_id", Me.Id))
+      m_hashCheckUpdateStatus = New Hashtable
+      For Each row As DataRow In ds.Tables(0).Rows
+        m_hashCheckUpdateStatus(CInt(row("cqupdatei_entity"))) = row
+      Next
+    End Sub
     Private Sub ResetID(ByVal oldid As Integer, ByVal oldje As Integer)
       Me.Id = oldid
       Me.m_je.Id = oldje
@@ -693,6 +711,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return -1 'ไม่มีข้อมูลเลย
     End Function
     Public Sub Remove(ByVal index As Integer)
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim row As TreeRow = Me.ItemTable.Childs(index)
+      If Not row.IsNull("cqupdatei_entity") Then
+        Dim entityId As Integer = CInt(row("cqupdatei_entity"))
+        If Me.ValidateItemByEntityId(entityId) Then
+          Dim cqCode As String = ""
+          If Not row.IsNull("code") Then
+            cqCode = CStr(row("code"))
+          End If
+          myMessage.ShowWarningFormatted("${res:Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment.CheckItemReferenced}", New String() {cqCode})
+          Return
+        End If
+      End If
+
       Me.ItemTable.Childs.Remove(Me.ItemTable.Childs(index))
       ReIndex()
     End Sub
@@ -1213,6 +1245,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Get
     End Property
+    Public Function ValidateItem() As SaveErrorException
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If Not row.IsNull("cqupdatei_entity") Then
+          If Me.NextCheckUpdateStatus.ContainsKey(CInt(row("cqupdatei_entity"))) Then
+            Dim cqCode As String = ""
+            If Not row.IsNull("code") Then
+              cqCode = CStr(row("code"))
+            End If
+            Dim messageStr As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment.CheckReferenced}")
+            messageStr = String.Format(messageStr, Me.Code, cqCode)
+            Return New SaveErrorException(messageStr)
+            'Return New SaveErrorException("${res:Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment.CheckReferenced}", New String() {Me.Code, cqCode})
+          End If
+        End If
+      Next
+      Return New SaveErrorException("0")
+    End Function
+    Public Function ValidateItemByEntityId(ByVal entityId As Integer) As Boolean
+      If Me.NextCheckUpdateStatus.ContainsKey(entityId) Then
+        Return True
+      End If
+      Return False
+    End Function
     Public Overrides Function Delete() As SaveErrorException
       If Not Me.Originated Then
         Return New SaveErrorException("${res:Global.Error.NoIdError}")
@@ -1223,6 +1278,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteUpdateCheckPayment}", format) Then
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
+
+      Dim validate As SaveErrorException = Me.ValidateItem
+      If Not IsNumeric(validate.Message) Then
+        Return New SaveErrorException(validate.Message)
+      End If
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
