@@ -2475,8 +2475,12 @@ Public Class BillAcceptanceItemCollection
     Public Function GetRefBillCodeList() As String
       Dim refBillCodeList As New ArrayList
       For Each bi As BillAcceptanceItem In Me
-        If Not refBillCodeList.Contains(bi.ParentCode) Then
-          refBillCodeList.Add(bi.ParentCode)
+        If Not bi.ParentCode Is Nothing Then
+          If bi.ParentCode.Length > 0 Then
+            If Not refBillCodeList.Contains(bi.ParentCode) Then
+              refBillCodeList.Add(bi.ParentCode)
+            End If
+          End If
         End If
       Next
       Return String.Join(",", refBillCodeList.ToArray)
