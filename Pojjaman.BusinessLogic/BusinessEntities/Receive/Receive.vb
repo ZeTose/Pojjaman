@@ -335,6 +335,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("receivei_bankacct", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("receivei_oldbankacct", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("BACode", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("BAButton", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("BAName", GetType(String)))
@@ -552,6 +553,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
                     check.beforeCode = CurrentCheckCode
                     check.DocDate = Me.DocDate
+                    If Not itemRow.IsNull("receivei_amt") Then
+                      check.Amount = CDec(itemRow("receivei_amt"))
+                    End If
+                    If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                      check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                      check.Bank = check.BankAccount.BankBranch.Bank
+                      check.CustBankBranch = check.BankAccount.BankBranch.Name
+                    End If
+
                     Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
                     If Not IsNumeric(checkSaveError.Message) Then
                       Return checkSaveError
@@ -564,14 +574,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         Case Else
                       End Select
                     End If
+
+                    Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
+                    If Not IsNumeric(errCheck.Message) Then
+                      Return New SaveErrorException(errCheck.Message)
+                    End If
+
                     CurrentCheckCode = check.Code
                   Else
+
                     check.Id = CInt(itemRow("receivei_entity"))
+                    check.DocDate = Me.DocDate
+                    If Not itemRow.IsNull("receivei_amt") Then
+                      check.Amount = CDec(itemRow("receivei_amt"))
+                    End If
+                    If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                      check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                      check.Bank = check.BankAccount.BankBranch.Bank
+                      check.CustBankBranch = check.BankAccount.BankBranch.Name
+                    End If
+                    If Not itemRow.IsNull("receivei_oldbankacct") AndAlso IsNumeric(itemRow("receivei_oldbankacct")) Then
+                      check.OldBankAccount = New BankAccount(CInt(itemRow("receivei_oldbankacct")))
+                    End If
+                    Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
+                    If Not IsNumeric(errCheck.Message) Then
+                      Return New SaveErrorException(errCheck.Message)
+                    End If
+
                   End If
                   If Not check.Originated Then
                     Return New SaveErrorException("Cannot Save Check 2")
                   End If
                   dr("receivei_entity") = check.Id
+                  'dr("receivei_bankacct") = itemRow("receivei_bankacct")
                 Case 71        'มัดจำ
                   dr("receivei_entity") = itemRow("receivei_entity")
                 Case 72        'โอน
@@ -1108,32 +1143,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_updating = False
           Return
         Case 27    'เช็ครับ
-          msgServ.ShowMessage("${res:Global.Error.CashCannotHaveBankAccount}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-        Case 71    'มัดจำ
-          msgServ.ShowMessage("${res:Global.Error.AdvanceReceiveCannotHaveBankAccount}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-        Case 72    'โอน
+          'msgServ.ShowMessage("${res:Global.Error.CashCannotHaveBankAccount}")
+          'e.ProposedValue = e.Row(e.Column)
+          'm_updating = False
+          'Return
           Dim ba As New BankAccount(e.ProposedValue.ToString)
-          If ba.Originated Then
-            e.ProposedValue = ba.Code
-            e.Row("BAName") = ba.Name
-            e.Row("receivei_bankacct") = ba.Id
-          Else
-            msgServ.ShowMessageFormatted("${res:Global.Error.BankAccountNotFound}", New String() {e.ProposedValue.ToString})
+          e.ProposedValue = ba.Code
+          e.Row("BAName") = ba.Name
+          e.Row("receivei_bankacct") = ba.Id
+        Case 71    'มัดจำ
+            msgServ.ShowMessage("${res:Global.Error.AdvanceReceiveCannotHaveBankAccount}")
             e.ProposedValue = e.Row(e.Column)
             m_updating = False
             Return
-          End If
+        Case 72    'โอน
+            Dim ba As New BankAccount(e.ProposedValue.ToString)
+            If ba.Originated Then
+              e.ProposedValue = ba.Code
+              e.Row("BAName") = ba.Name
+              e.Row("receivei_bankacct") = ba.Id
+            Else
+              msgServ.ShowMessageFormatted("${res:Global.Error.BankAccountNotFound}", New String() {e.ProposedValue.ToString})
+              e.ProposedValue = e.Row(e.Column)
+              m_updating = False
+              Return
+            End If
         Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoReceiveType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
+            msgServ.ShowMessage("${res:Global.Error.NoReceiveType}")
+            e.ProposedValue = e.Row(e.Column)
+            m_updating = False
+            Return
       End Select
       m_updating = False
     End Sub
@@ -1184,7 +1223,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           e.Row("RealAmount") = DBNull.Value
           e.Row("DueDate") = Date.MinValue
           e.Row("Button") = ""
-          If CInt(e.ProposedValue) = 71 Or CInt(e.ProposedValue) = 27 Then
+          If CInt(e.ProposedValue) = 71 Then 'Or CInt(e.ProposedValue) = 27 Then
             e.Row("BAButton") = "invisible"
           Else
             e.Row("BAButton") = ""
@@ -1201,7 +1240,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If msgServ.AskQuestion("${res:Global.Question.ChangeReceiveEntityType}") Then
 
-        e.Row("receivei_entity") = DBNull.Value
+        e.Row("receivei_entity") = CInt(e.ProposedValue) 'DBNull.Value
         e.Row("receivei_bankacct") = DBNull.Value
         If IsNumeric(e.ProposedValue) AndAlso (CInt(e.ProposedValue) = 0 Or CInt(e.ProposedValue) = 72) Then
           '****** + oldAmount
@@ -1219,7 +1258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           e.Row("RealAmount") = DBNull.Value
           e.Row("DueDate") = Date.MinValue
           e.Row("Button") = ""
-          If CInt(e.ProposedValue) = 71 Or CInt(e.ProposedValue) = 27 Then
+          If CInt(e.ProposedValue) = 71 Then 'Or CInt(e.ProposedValue) = 27 Then
             e.Row("BAButton") = "invisible"
           Else
             e.Row("BAButton") = ""
@@ -3301,6 +3340,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_receive As Receive
     Private m_lineNumber As Integer
     Private m_entity As IReceiveItem
+    Private m_OldEntity As IHasAmount
     Private m_entityType As ReceiveEntityType
 
     Private m_amount As Decimal
@@ -3350,6 +3390,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(.m_entityType.Value), itemId)
             If TypeOf myEntity Is IReceiveItem Then
               .m_entity = CType(myEntity, IReceiveItem)
+              .m_OldEntity = CType(myEntity, IHasAmount)
             End If
         End Select
 
@@ -3373,7 +3414,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property Receive() As Receive      Get        Return m_receive      End Get      Set(ByVal Value As Receive)        m_receive = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IReceiveItem      Get        Return m_entity      End Get      Set(ByVal Value As IReceiveItem)        m_entity = Value      End Set    End Property    Public Property EntityType() As ReceiveEntityType      Get        Return m_entityType      End Get      Set(ByVal Value As ReceiveEntityType)        m_entityType = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
+    Public Property Receive() As Receive      Get        Return m_receive      End Get      Set(ByVal Value As Receive)        m_receive = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IReceiveItem      Get        Return m_entity      End Get      Set(ByVal Value As IReceiveItem)        m_entity = Value      End Set    End Property    Public Property OldEntity() As IHasAmount      Get        Return m_OldEntity      End Get      Set(ByVal Value As IHasAmount)        m_OldEntity = Value      End Set    End Property    Public Property EntityType() As ReceiveEntityType      Get        Return m_entityType      End Get      Set(ByVal Value As ReceiveEntityType)        m_entityType = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
 
 #Region "Shared"
     Public Shared Function GetNewCheckFromitemRow(ByVal itemRow As TreeRow, ByVal itemReceive As Receive) As IncomingCheck
@@ -3385,9 +3426,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not itemRow.IsNull("code") AndAlso itemRow("code").ToString.Length > 0 Then
         check.CqCode = itemRow("code").ToString
       End If
-      'If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
-      '    check.Bankacct = New BankAccount(CInt(itemRow("receivei_bankacct")))
-      'End If
+      If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+        check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+      End If
       If Not itemRow.IsNull("duedate") Then
         check.DueDate = CDate(itemRow("duedate"))
       End If
@@ -3432,13 +3473,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               row("BAButton") = "invisible"
             Case 27 'เช็ครับ
               Dim check As IncomingCheck = CType(Me.Entity, IncomingCheck)
+              Dim Oldcheck As IncomingCheck = CType(Me.OldEntity, IncomingCheck)
               row("code") = check.CqCode
               row("DueDate") = check.DueDate
               row("receivei_bankacct") = check.BankAccount.Id
               row("BACode") = check.BankAccount.Code
               row("BAName") = check.BankAccount.Name
               row("Button") = ""
-              row("BAButton") = "invisible"
+              row("receivei_oldbankacct") = Oldcheck.BankAccount.Id
+              'row("BAButton") = "invisible"
             Case 71 'มัดจำ
               Dim avr As AdvanceReceive = CType(Me.Entity, AdvanceReceive)
               row("code") = avr.Code

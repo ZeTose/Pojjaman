@@ -1302,6 +1302,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub PaymentItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
     End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As PaymentItem = Me.CurrentItem
+
+      If doc Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer
+      Dim docType As Integer
+
+      docId = doc.Entity.Id
+      docType = doc.EntityType.Value
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
 #End Region
 
 #Region "IListDetail"
@@ -1413,7 +1434,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtOtherExpense.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler chkOnHold.CheckedChanged, AddressOf Me.ChangeProperty
-
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     ' �ʴ���Ң����Ţͧ�١���ŧ� control ������躹�����
     Public Overrides Sub UpdateEntityProperties()

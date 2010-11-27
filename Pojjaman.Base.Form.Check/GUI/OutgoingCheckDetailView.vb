@@ -920,6 +920,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       viewDef.ColumnGroups(colNum).IsPinned = True
       colNum += 1
 
+      Dim gcRefId As New GridViewTextBoxColumn("RefId")
+      gcRefId.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+      gcRefId.Width = 100
+      gcRefId.ReadOnly = True
+      gcRefId.IsVisible = False
+      grid.Columns.Add(gcRefId)
+      'viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+      'viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+      'viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefId)
+      'viewDef.ColumnGroups(colNum).IsPinned = True
+
+      Dim gcRefTypeId As New GridViewTextBoxColumn("RefTypeId")
+      gcRefTypeId.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+      gcRefTypeId.Width = 100
+      gcRefTypeId.ReadOnly = True
+      gcRefTypeId.IsVisible = False
+      grid.Columns.Add(gcRefTypeId)
+
       Dim gcRefType As New GridViewTextBoxColumn("RefType")
       gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
       gcRefType.Width = 100
@@ -1022,6 +1040,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       tr.Cells("PaymentCode").Value = p.Code
       tr.Cells("RefCode").Value = p.RefCode
+      tr.Cells("RefId").Value = p.RefId
+      tr.Cells("RefTypeId").Value = p.RefTypeId
       tr.Cells("RefType").Value = p.RefType
       tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
       tr.Cells("RefAmount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
@@ -1075,6 +1095,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler chkACPayeeOnly.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkCheckHandler.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkExportCheck.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler RadGridView2.CellDoubleClick, AddressOf CellDoubleClick
+    End Sub
+    Private Sub CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs)
+      If Me.m_entity Is Nothing OrElse e.ColumnIndex = -1 Then
+        Return
+      End If
+
+      Dim docId As Integer
+      Dim docType As Integer
+
+      docId = RadGridView2.Rows(e.RowIndex).Cells("RefId").Value
+      docType = RadGridView2.Rows(e.RowIndex).Cells("RefTypeId").Value
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
     End Sub
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
@@ -1282,21 +1320,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_isInitialized = True
     End Sub
     Private Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
     End Sub
 
     Public Sub NumberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)

@@ -555,6 +555,189 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      With Me
+        If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
+          Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
+
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
+
+        paramArrayList.Add(returnVal)
+        If .Originated Then
+          paramArrayList.Add(New SqlParameter("@" & .Prefix & "_id", .Id))
+        End If
+
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
+
+        'If Me.AutoGen And Me.Code.Length = 0 Then
+        'Me.Code = Me.GetNextCode
+        'End If
+        '---- AutoCode Format --------
+        Me.m_je.RefreshGLFormat()
+        If Not AutoCodeFormat Is Nothing Then
+
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.Code = m_je.GetNextCode
+          End If
+        End If
+        Me.m_je.DocDate = Me.DocDate
+        Me.AutoGen = False
+        Me.m_je.AutoGen = False
+
+        If Me.m_je.Status.Value = 4 Then
+          Me.Status.Value = 4
+        End If
+        If Me.Status.Value = -1 Then
+          Me.Status.Value = 2
+        End If
+
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", ValidDateOrDBNull(.DocDate)))
+
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_checktype", (New IncomingCheck).EntityId))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalamount", .TotalAmount))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", .Note))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_bankacct", ValidIdOrDBNull(Me.BankAccount)))
+
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_updatedstatus", .UpdatedStatus.Value))
+
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+        'Dim trans As SqlTransaction
+        'Dim conn As New SqlConnection(.ConnectionString)
+
+        'If conn.State = ConnectionState.Open Then conn.Close()
+        'conn.Open()
+        'trans = conn.BeginTransaction()
+
+        Dim oldid As Integer = Me.Id
+        Dim oldje As Integer = m_je.Id
+
+        Try
+          .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1, -2, -5
+                'trans.Rollback()
+                Me.ResetID(oldid, oldje)
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            'trans.Rollback()
+            Me.ResetID(oldid, oldje)
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
+
+          Dim saveDetailError As SaveErrorException = SaveDetail(.Id, conn, trans)
+          If Not IsNumeric(saveDetailError.Message) OrElse CInt(saveDetailError.Message) < 0 Then
+            'trans.Rollback()
+            Return saveDetailError
+          End If
+
+          ' Save GL
+
+          If Me.m_je.Status.Value = -1 Then
+            m_je.Status.Value = 3
+          End If
+          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveJeError.Message) Then
+            'trans.Rollback()
+            ResetID(oldid, oldje)
+            Return saveJeError
+          Else
+            Select Case CInt(saveJeError.Message)
+              Case -1, -5
+                'trans.Rollback()
+                ResetID(oldid, oldje)
+                Return saveJeError
+              Case -2
+                'Post ไปแล้ว
+                Return saveJeError
+              Case Else
+            End Select
+          End If
+
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            'trans.Rollback()
+            ResetID(oldid, oldje)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                'trans.Rollback()
+                ResetID(oldid, oldje)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
+
+          'trans.Commit()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          'trans.Rollback()
+          Me.ResetID(oldid, oldje)
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          'trans.Rollback()
+          Me.ResetID(oldid, oldje)
+          Return New SaveErrorException(ex.ToString)
+        Finally
+          'conn.Close()
+        End Try
+      End With
+    End Function
     Private Function UpdateOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, Optional ByVal changeAll As Boolean = False) As SaveErrorException
       Dim daOldRef As New SqlDataAdapter("select * from incomingcheck " & _
       "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _

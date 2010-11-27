@@ -1078,7 +1078,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-
+    Private ReadOnly Property CurrentItem() As ReceiveItem
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return Nothing
+        End If
+        Dim doc As New ReceiveItem
+        doc.CopyFromDataRow(row)
+        If doc Is Nothing Then
+          Return Nothing
+        End If
+        Return doc
+      End Get
+    End Property
 #End Region
 
 #Region "Style"
@@ -1124,7 +1137,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csButton.MappingName = "Button"
       csButton.HeaderText = ""
       csButton.NullText = ""
-      AddHandler csButton.Click, AddressOf ButtonClicked
+      'AddHandler csButton.Click, AddressOf ButtonClicked
 
       Dim csBACode As New TreeTextColumn
       csBACode.MappingName = "BACode"
@@ -1211,6 +1224,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.BAButtonClick(e)
       End If
     End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As ReceiveItem = Me.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer
+      Dim docType As Integer
+
+      docId = doc.Entity.Id
+      docType = doc.EntityType.Value
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
 #End Region
 
 #Region "IListDetail"
@@ -1265,6 +1298,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtInterest.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtBankCharge.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtOtherExpense.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
     Public Overrides Sub UpdateEntityProperties()

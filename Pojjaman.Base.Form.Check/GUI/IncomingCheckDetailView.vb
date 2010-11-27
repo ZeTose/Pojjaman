@@ -817,17 +817,44 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
+      'For Each ctl As Control In Me.grbIncomingCheck.Controls
+      '  Trace.WriteLine(ctl.Name & ":" & ctl.Text)
+      'Next
       If Me.m_entity.Canceled _
           OrElse Me.m_entity.Status.Value = 0 _
-          OrElse Me.m_entity.Status.Value >= 3 _
-          OrElse (Me.m_entity.DocStatus.Value <> 1 And Me.m_entity.DocStatus.Value <> -1) Then
+          OrElse Me.m_entity.Status.Value = 2 _
+          OrElse Me.m_entity.Status.Value > 3 Then
+        'OrElse (Me.m_entity.DocStatus.Value <> 1 And Me.m_entity.DocStatus.Value <> -1) Then
         For Each crlt As Control In grbIncomingCheck.Controls
           crlt.Enabled = False
         Next
+        'If Me.m_entity.DocStatus.Value = 3 Then
+        '  txtReceivePersonCode.Enabled = True
+        '  btntxtReceivePersonFind.Enabled = True
+        '  btntxtReceivePersonEdit.Enabled = True
+        '  txtBankCode.Enabled = True
+        '  btnBankFind.Enabled = True
+        '  btnBankEdit.Enabled = True
+        '  txtCustBankBranch.Enabled = True
+        '  txtNote.Enabled = True
+        'End If
       Else
-        For Each crlt As Control In grbIncomingCheck.Controls
-          crlt.Enabled = True
-        Next
+        If Me.m_entity.DocStatus.Value = 3 Then
+          txtCode.Enabled = False
+          chkAutorun.Enabled = False
+          txtReceiveDate.Enabled = False
+          dtpReceiveDate.Enabled = False
+          txtDueDate.Enabled = False
+          dtpDueDate.Enabled = False
+          txtCustomerCode.Enabled = False
+          btnCustomerFind.Enabled = False
+          btnCustomerEdit.Enabled = False
+          txtAmount.Enabled = False
+        Else
+          For Each crlt As Control In grbIncomingCheck.Controls
+            crlt.Enabled = True
+          Next
+        End If
       End If
       cmbCheckStatus.Enabled = False
       Me.RadGridView2.Enabled = True
@@ -991,26 +1018,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-      SetStatus()
+      'SetStatus()
       CheckFormEnable()
     End Sub
 
     Public Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่บันทึก"
+      'End If
     End Sub
 
     Public Overrides Property Entity() As ISimpleEntity

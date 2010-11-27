@@ -27,6 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_docDate As Date
 
     Private m_bankacct As BankAccount
+    Private m_OldBankacct As BankAccount
     Private m_depositBankAcct As BankAccount
     Private m_bank As Bank
     Private m_custbankbranch As String
@@ -58,7 +59,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Me.m_bank = New Bank
       Me.m_bankacct = New BankAccount
-
+      Me.m_OldBankacct = New BankAccount
       Me.m_docStatus = New IncomingCheckDocStatus(-1)
       Me.Status = New CheckStatus(-1)
 
@@ -103,10 +104,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "bankacct_id") Then
           If Not dr.IsNull(aliasPrefix & "bankacct_id") Then
             .m_bankacct = New BankAccount(dr, aliasPrefix)
+            '.m_OldBankacct = m_bankacct
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "check_bankacct") AndAlso Not dr.IsNull(aliasPrefix & "check_bankacct") Then
             .m_bankacct = New BankAccount(CInt(dr(aliasPrefix & "check_bankacct")))
+            '.m_OldBankacct = m_bankacct
           End If
         End If
 
@@ -204,6 +207,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As BankAccount)
         m_bankacct = Value
+      End Set
+    End Property    Public Property OldBankAccount As BankAccount      Get
+        If m_OldBankacct Is Nothing Then
+          m_OldBankacct = New BankAccount
+        End If
+        Return m_OldBankacct
+      End Get
+      Set(ByVal value As BankAccount)
+        m_OldBankacct = value
       End Set
     End Property    Public ReadOnly Property DepositBankAccount() As BankAccount      Get
         If m_depositBankAcct Is Nothing Then
@@ -462,6 +474,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankacct", ValidIdOrDBNull(Me.BankAccount)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bank", ValidIdOrDBNull(Me.Bank)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_custbankbranch", Me.CustBankBranch))
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amt", Me.Amount))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bankcharge", Me.BankCharge))
@@ -508,6 +521,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
       End Try
 
+    End Function
+    Public Function CheckUpdateBackAccountAndCheckDeposit(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction, ByVal receiveDate As DateTime) As SaveErrorException
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                           "CheckUpdateBackAccountAndCheckDeposit", _
+                           New SqlParameter() {New SqlParameter("@check_id", Me.Id), _
+                                               New SqlParameter("@check_bankacct", Me.BankAccount.Id), _
+                                               New SqlParameter("@check_bank", Me.Bank), _
+                                               New SqlParameter("@check_custbankbranch", Me.CustBankBranch), _
+                                               New SqlParameter("@check_receivedate", receiveDate), _
+                                               New SqlParameter("@check_amt", Me.Amount), _
+                                               New SqlParameter("@check_note", Me.Note), _
+                                               New SqlParameter("@check_lasteditor", currentUserId)})
+
+        If Not Me.BankAccount Is Nothing AndAlso Me.BankAccount.Originated Then
+          If Me.BankAccount.Id <> Me.OldBankAccount.Id Then
+            Dim upd As New UpdateCheckDeposit
+            upd.AutoGen = True
+
+            Dim cmbCode As New ComboBox
+            BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
+            If cmbCode.Items.Count > 0 Then
+              upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
+              cmbCode.SelectedIndex = 0
+              upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
+            End If
+
+            upd.DocDate = Me.DocDate
+            upd.BankAccount = Me.BankAccount
+            upd.TotalAmount = Me.Amount
+
+            Dim upditem As New UpdateCheckDepositItem
+            upditem.BeforeStatus = New IncomingCheckDocStatus(1)
+            upditem.Entity = Me
+            upditem.LineNumber = 1
+            upd.Add(upditem)
+
+            Dim saveerr As SaveErrorException = upd.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveerr.Message) Then
+              Return New SaveErrorException(saveerr.Message)
+            End If
+          End If
+
+        End If
+
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
     End Function
 #End Region
 
