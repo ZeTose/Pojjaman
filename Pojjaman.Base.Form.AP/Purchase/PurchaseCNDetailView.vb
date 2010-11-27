@@ -3171,6 +3171,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         VatInputEnabled(True)
         myVatitem = myVat.ItemCollection(0)
+        myVat.AutoGen = False
         If myVat.AutoGen Then
           Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
         Else
@@ -3249,7 +3250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpInvoiceDate.Enabled = enable
       If enable Then
         Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
-        Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
         If Me.m_isInitialized Then
           SetVatToOneDoc()
         End If
@@ -3747,7 +3748,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         vi.Code = ""
         Me.m_entity.Vat.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
         Me.txtInvoiceCode.Text = m_oldInvoiceCode
         Me.txtInvoiceCode.ReadOnly = False
         Me.m_entity.Vat.AutoGen = False

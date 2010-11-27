@@ -976,6 +976,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
   End Class
+  Public Class PurchaseCNForVat
+    Inherits PurchaseCN
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PurchaseCNForVat"
+      End Get
+    End Property
+  End Class
   Public Class APOpeningBalanceForVat
     Inherits APOpeningBalance
 

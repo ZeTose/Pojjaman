@@ -213,7 +213,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.IssueDate
       End Get
     End Property
-    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
+    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+      Get
+        Return DocDate
+      End Get
+    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If
       End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Bankacct() As BankAccount Implements IHasBankAccount.BankAccount      Get        If m_bankacct Is Nothing Then
           m_bankacct = New BankAccount

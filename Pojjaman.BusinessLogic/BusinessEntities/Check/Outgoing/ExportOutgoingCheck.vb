@@ -142,6 +142,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_bankacct = Value
       End Set
     End Property
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+      Get
+        Return Nothing
+      End Get
+    End Property
     Public Property Chargee() As String Implements ICOCExportable.Chargee
       Get
         Return m_feeChargee

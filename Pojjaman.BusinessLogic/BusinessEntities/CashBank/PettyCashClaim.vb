@@ -1451,6 +1451,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
       End Set
     End Property
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+      Get
+        Return Nothing
+      End Get
+    End Property
 #End Region
 
 #Region "IHasAmount"

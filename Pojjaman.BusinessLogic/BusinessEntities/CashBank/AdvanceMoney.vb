@@ -207,6 +207,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+      Get
+        Return DocDate
+      End Get
+    End Property
+
     Public Property Account() As Account
       Get
         Return m_account

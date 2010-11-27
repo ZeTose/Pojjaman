@@ -411,7 +411,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "paysi_linenumber"
 
       Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("paysi_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47,46,199,60)"), "code_description", "code_value")
+      csType = New DataGridComboColumn("paysi_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47,199,60)"), "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.TypeHeaderText}")
       csType.Width = 70
       csType.NullText = String.Empty
@@ -1254,12 +1254,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(4) As ArrayList
-      For i As Integer = 0 To 4
+      Dim filterEntities(5) As ArrayList
+      For i As Integer = 0 To 5
         filterEntities(i) = New ArrayList
         filterEntities(i).Add(Me.m_entity.Supplier)
       Next
-      Dim filters(4)() As Filter
+      Dim filters(5)() As Filter
       'Dim grNeedsApproval As Boolean = False
       'grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45))} _
@@ -1277,13 +1277,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       filters(4) = New Filter() {New Filter("IDList", GetItemIDList(292))}
 
+      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(46))}
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
       'New Filter("nocancel", True) _
       ', New Filter("grNeedsApproval", grNeedsApproval)}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
 
-      Dim entities(4) As ISimpleEntity
+      Dim entities(5) As ISimpleEntity
       'entities(0) = New GoodsReceipt
       'entities(1) = New APOpeningBalance
       'entities(2) = New EqMaintenance
@@ -1293,6 +1294,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       entities(2) = New EqMaintenanceForVat
       entities(3) = New AdvancePayForVat
       entities(4) = New PAForVat
+      entities(5) = New PurchaseCNForVat
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String

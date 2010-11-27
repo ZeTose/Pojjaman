@@ -9,7 +9,7 @@ Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class IncomingCheck
     Inherits SimpleBusinessEntityBase
-    Implements IHasAmount, IHasIBillablePerson, ICheckPeriod
+    Implements IHasAmount, IHasIBillablePerson, ICheckPeriod, IReceiveItem
 
 
 #Region "Members"
@@ -195,7 +195,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_wht = Value
       End Set
-    End Property    Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        m_customer = Value      End Set    End Property    Public Property DocStatus() As IncomingCheckDocStatus      Get        Return m_docStatus      End Get      Set(ByVal Value As IncomingCheckDocStatus)        m_docStatus = Value      End Set    End Property    Public Property ReceivePerson() As Employee      Get        Return m_receivePerson      End Get      Set(ByVal Value As Employee)        m_receivePerson = Value      End Set    End Property    Public Property DueDate() As Date      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property DocDate() As Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        m_ReceiveDate = m_docDate      End Set    End Property    Public Property BankAccount() As BankAccount      Get
+    End Property    Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        m_customer = Value      End Set    End Property    Public Property DocStatus() As IncomingCheckDocStatus      Get        Return m_docStatus      End Get      Set(ByVal Value As IncomingCheckDocStatus)        m_docStatus = Value      End Set    End Property    Public Property ReceivePerson() As Employee      Get        Return m_receivePerson      End Get      Set(ByVal Value As Employee)        m_receivePerson = Value      End Set    End Property    Public Property DueDate() As Date      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property DocDate() As Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        m_ReceiveDate = m_docDate      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IReceiveItem.CreateDate
+      Get
+        Return DocDate
+      End Get
+    End Property	    Public Property BankAccount() As BankAccount      Get
         Return m_bankacct
       End Get
       Set(ByVal Value As BankAccount)

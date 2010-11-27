@@ -350,9 +350,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Private Sub ResetID(ByVal oldid As Integer)
-      Me.Id = oldid
-    End Sub
+		Private Sub ResetID(ByVal oldid As Integer)
+			Me.Id = oldid
+		End Sub
+
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       With Me
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -3299,7 +3300,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_receive As Receive
     Private m_lineNumber As Integer
-    Private m_entity As IHasAmount
+    Private m_entity As IReceiveItem
     Private m_entityType As ReceiveEntityType
 
     Private m_amount As Decimal
@@ -3347,8 +3348,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Case Else
             Dim myEntity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(.m_entityType.Value), itemId)
-            If TypeOf myEntity Is IHasAmount Then
-              .m_entity = CType(myEntity, IHasAmount)
+            If TypeOf myEntity Is IReceiveItem Then
+              .m_entity = CType(myEntity, IReceiveItem)
             End If
         End Select
 
@@ -3372,7 +3373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property Receive() As Receive      Get        Return m_receive      End Get      Set(ByVal Value As Receive)        m_receive = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IHasAmount      Get        Return m_entity      End Get      Set(ByVal Value As IHasAmount)        m_entity = Value      End Set    End Property    Public Property EntityType() As ReceiveEntityType      Get        Return m_entityType      End Get      Set(ByVal Value As ReceiveEntityType)        m_entityType = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
+    Public Property Receive() As Receive      Get        Return m_receive      End Get      Set(ByVal Value As Receive)        m_receive = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IReceiveItem      Get        Return m_entity      End Get      Set(ByVal Value As IReceiveItem)        m_entity = Value      End Set    End Property    Public Property EntityType() As ReceiveEntityType      Get        Return m_entityType      End Get      Set(ByVal Value As ReceiveEntityType)        m_entityType = Value      End Set    End Property    Public Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
 
 #Region "Shared"
     Public Shared Function GetNewCheckFromitemRow(ByVal itemRow As TreeRow, ByVal itemReceive As Receive) As IncomingCheck
@@ -3553,7 +3554,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class BankTransferIn
     Inherits SimpleBusinessEntityBase
-    Implements IHasAmount, IHasBankAccount
+    Implements IHasAmount, IHasBankAccount, IReceiveItem
 
 
 
@@ -3582,6 +3583,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Date)
         m_docDate = Value
       End Set
+    End Property
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IReceiveItem.CreateDate
+      Get
+        Return DocDate
+      End Get
     End Property
 #End Region
 

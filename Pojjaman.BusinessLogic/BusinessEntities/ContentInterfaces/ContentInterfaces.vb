@@ -95,9 +95,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits IIdentifiable
     Property Amount() As Decimal
   End Interface
+  Public Interface IReceiveItem
+    Inherits IHasAmount
+    ReadOnly Property CreateDate As Nullable(Of Date)
+  End Interface
   Public Interface IPaymentItem
     Inherits IHasAmount
     Property DueDate() As Date
+    ReadOnly Property CreateDate As Nullable(Of Date)
   End Interface
   Public Interface IDatabaseEntity
     Inherits IDeletable

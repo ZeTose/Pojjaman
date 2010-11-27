@@ -652,6 +652,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException("${res:Global.Error.AmountMissing}")
             End If
           End If
+          If item.Entity.CreateDate.HasValue AndAlso Me.RefDoc.Date < item.Entity.CreateDate.Value Then
+            Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
+          End If
         Next
 
         If CBool(Configuration.GetConfig("OneCheckPerPV")) AndAlso MultipleCheck() Then
@@ -5287,7 +5290,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   Public Class CashItem
-    Implements IPaymentItem
+    Implements IPaymentItem, IReceiveItem
 
 #Region "Members"
     Private m_amount As Decimal
@@ -5310,6 +5313,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Date)
         m_docDate = Value
       End Set
+    End Property
+
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate, IReceiveItem.CreateDate
+      Get
+        Return Nothing
+      End Get
     End Property
 #End Region
 
@@ -5458,6 +5467,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
       End Set
     End Property
+
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+      Get
+        Return Nothing
+      End Get
+    End Property
+
     Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If
       End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property

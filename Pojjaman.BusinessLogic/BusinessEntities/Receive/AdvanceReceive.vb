@@ -30,7 +30,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class AdvanceReceive
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IVatable, IWitholdingTaxable, IHasAmount, ISaleBillIssuable, IHasIBillablePerson, IHasFromCostCenter, IHasToCostCenter, ICheckPeriod
+    Implements IGLAble, IVatable, IWitholdingTaxable, IHasAmount, ISaleBillIssuable, IHasIBillablePerson, IHasFromCostCenter, IHasToCostCenter, ICheckPeriod, IReceiveItem
 
 
 #Region "Members"
@@ -221,7 +221,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IReceivable.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IReceivable.DueDate
+        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IReceivable.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IReceiveItem.CreateDate
+      Get
+        Return DocDate
+      End Get
+    End Property    Public Property DueDate() As Date Implements IReceivable.DueDate
       Get
         Return Me.DocDate.AddDays(Me.CreditPeriod)
       End Get
