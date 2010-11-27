@@ -640,11 +640,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans = conn.BeginTransaction()
       Try
         Dim excludeList As String = Me.ItemCollection.GetIdList()
-        Dim cmd As New SqlCommand("delete milestone where charindex('|'+convert(nvarchar,milestone_id)+'|','" & excludeList & "') = 0 " & _
-        " and milestone_status < 3 and milestone_pma=" & Me.Id)
-        cmd.Connection = conn
-        cmd.Transaction = trans
-        cmd.ExecuteNonQuery()
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteMilestoneForPMA", _
+                                  New SqlParameter("@pma_id", Me.Id), _
+                                  New SqlParameter("@excludeList", excludeList) _
+                                  )
+       
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException

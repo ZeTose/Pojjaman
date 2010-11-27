@@ -600,6 +600,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+        If Me.AfterTax = 0 Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.AdvancePayNoAmt}"))
+        End If
+
         Dim tmpTaxBase As Decimal = Configuration.Format(Me.RealTaxBase, DigitConfig.Price)
         Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
         'If tmpTaxBase <> tmpVatTaxBase Then
