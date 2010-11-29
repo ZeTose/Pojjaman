@@ -819,12 +819,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides Sub CheckFormEnable()
       'For Each ctl As Control In Me.grbIncomingCheck.Controls
       '  Trace.WriteLine(ctl.Name & ":" & ctl.Text)
-      'Next
+      'Next    
       If Me.m_entity.Canceled _
           OrElse Me.m_entity.Status.Value = 0 _
-          OrElse Me.m_entity.Status.Value = 2 _
-          OrElse Me.m_entity.Status.Value > 3 Then
-        'OrElse (Me.m_entity.DocStatus.Value <> 1 And Me.m_entity.DocStatus.Value <> -1) Then
+          OrElse Me.m_entity.Status.Value > 3 _
+          OrElse Me.m_entity.DocStatus.Value = 0 _
+          OrElse Me.m_entity.DocStatus.Value = 2 _
+          OrElse Me.m_entity.DocStatus.Value > 3 Then
         For Each crlt As Control In grbIncomingCheck.Controls
           crlt.Enabled = False
         Next
@@ -850,6 +851,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           btnCustomerFind.Enabled = False
           btnCustomerEdit.Enabled = False
           txtAmount.Enabled = False
+
+          txtReceivePersonCode.Enabled = True
+          btntxtReceivePersonFind.Enabled = True
+          btntxtReceivePersonEdit.Enabled = True
+          txtBankCode.Enabled = True
+          btnBankFind.Enabled = True
+          btnBankEdit.Enabled = True
+          txtCustBankBranch.Enabled = True
+          txtNote.Enabled = True
         Else
           For Each crlt As Control In grbIncomingCheck.Controls
             crlt.Enabled = True
