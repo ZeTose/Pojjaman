@@ -2549,7 +2549,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         For Each wht As WitholdingTax In Me
           If wht.SequenceNo.AutoGen Then
-            wht.SequenceNo.Code = wht.SequenceNo.GetNextCode
+            Dim obj As Object = Entity.GetAutoCodeFormat(wht.EntityId)
+            If obj Is Nothing OrElse CStr(obj).Length = 0 Then
+              wht.SequenceNo.Code = ""
+            Else
+              wht.SequenceNo.Code = wht.SequenceNo.GetNextCode
+            End If
           End If
 
           Dim drWHT As DataRow
