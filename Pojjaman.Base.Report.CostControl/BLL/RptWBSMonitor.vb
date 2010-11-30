@@ -253,6 +253,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csTotalPercentDiff.TextBox.Name = "TotalPercentDiff"
       csTotalPercentDiff.ReadOnly = True
 
+
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "Note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.Note}")
+      csNote.NullText = ""
+      csNote.Width = 200
+      csNote.TextBox.Name = "Note"
+      csNote.ReadOnly = True
+
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csName)
 
@@ -290,6 +299,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csTotal)
       dst.GridColumnStyles.Add(csActualTotal)
       dst.GridColumnStyles.Add(csTotalDiff)
+      dst.GridColumnStyles.Add(csNote)
       dst.GridColumnStyles.Add(csTotalPercentDiff)
 
       Return dst
@@ -337,6 +347,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Actual", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("TotalDiff", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("TotalPercentDiff", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Note", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("DocID", GetType(Integer)))
 
       Return myDatatable
@@ -534,6 +545,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Doctr.State = RowExpandState.None
                 myDocId = CStr(wbsDoc("DocId"))
                 Doctr("DocId") = myDocId
+                Doctr("note") = CStr(wbsDoc("Docnote"))
               End If
 
               If CInt(Me.Filters(4).Value) > 1 Then
@@ -550,6 +562,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   DocItemTr("ActualEquipmentCost") = Configuration.FormatToString(CDec(wbsDoc("EqActual")), dgt)
                   DocItemTr("Actual") = Configuration.FormatToString(CDec(wbsDoc("Amount")), dgt)
                   DocItemTr.State = RowExpandState.None
+                  DocItemTr("note") = CStr(wbsDoc("itemnote"))
                 End If
               End If
 

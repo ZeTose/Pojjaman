@@ -3959,7 +3959,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IVatable"
     Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
       'Todo: ต้อง refresh หรือเปล่า?
-      Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, 0, 0)
+      Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id)
     End Function
     Public Property Person() As IBillablePerson Implements IVatable.Person, IWitholdingTaxable.Person
       Get
