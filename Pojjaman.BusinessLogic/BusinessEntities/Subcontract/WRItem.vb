@@ -913,6 +913,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ElseIf lci.Canceled Then
             msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {theCode})
             Return
+          ElseIf lci.Level <> 5 Then
+            msgServ.ShowMessageFormatted("${res:Global.LCI.Level5Only}", New String() {theCode})
+            Return
           Else
             Select Case pricing
               Case 0
