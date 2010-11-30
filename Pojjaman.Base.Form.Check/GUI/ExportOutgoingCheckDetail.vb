@@ -1148,6 +1148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtBankAccountCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbChargee.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
     Public Overrides Sub UpdateEntityProperties()
@@ -1417,6 +1418,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       For j = 0 To item.WHTCollection.Count - 1
         item.WHTCollection(j).ReLoadItems2(dt)
       Next
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As ExportOutgoingCheckItem = Me.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer
+      Dim docType As Integer
+
+      docId = doc.Entity.Id
+      docType = 22 'doc.EntityType.Value
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
     End Sub
 #End Region
 

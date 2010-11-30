@@ -482,6 +482,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+#Region "Properties"
+    Private ReadOnly Property CurrentItem() As UpdateCheckPaymentItem
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return Nothing
+        End If
+        Dim doc As New UpdateCheckPaymentItem
+        doc.CopyFromDataRow(row)
+        If doc Is Nothing Then
+          Return Nothing
+        End If
+        Return doc
+      End Get
+    End Property
+#End Region
+
 #Region " Style "
     Public Function CreateTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
@@ -687,7 +704,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpIssueDate.ValueChanged, AddressOf Me.ChangeProperty
 
       AddHandler cmbStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
-
+      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
     Public Overrides Sub UpdateEntityProperties()
@@ -786,21 +803,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetStatus()
     End Sub
     Public Sub SetStatus()
-      If m_entity.Canceled Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf m_entity.Edited Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf m_entity.Originated Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If m_entity.Canceled Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf m_entity.Edited Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf m_entity.Originated Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
     End Sub
     Public Overrides Property Entity() As ISimpleEntity
       Get
@@ -910,6 +928,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Return filter
     End Function
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+
+      Dim doc As UpdateCheckPaymentItem = Me.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+
+      Dim docId As Integer
+      Dim docType As Integer
+
+      docId = doc.Entity.Id
+      docType = 22 'doc.EntityType.Value
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+
+    End Sub
 #End Region
 
 #Region "IValidatable"
