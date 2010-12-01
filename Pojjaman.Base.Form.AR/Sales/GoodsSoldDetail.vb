@@ -1974,6 +1974,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'ไม่ต้อง dirty
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
+          Me.m_entity.Receive.Note = txtNote.Text
+          Me.m_entity.JournalEntry.Note = txtNote.Text
           dirtyFlag = True
         Case "txtcustomercode"
           dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)

@@ -1619,6 +1619,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
+          Me.m_entity.Receive.Note = txtNote.Text
+          Me.m_entity.JournalEntry.Note = txtNote.Text
           dirtyFlag = True
         Case "txtcustomercode"
           If customerCodeChanged Then
