@@ -83,6 +83,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             m_grid(2, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.ItemCode}") '"รหัสสินค้า"
             m_grid(2, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.ItemName}") '"รายละเอียด"
+            'm_grid(2, 8).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.ItemAmt}") '"รายละเอียด"
 
             m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -101,6 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             m_grid(2, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(2, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            'm_grid(2, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
         End Sub
         Private Sub PopulateData()
             Dim AdvmDt As DataTable = Me.DataSet.Tables(0)
@@ -204,9 +206,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             End If
                             m_grid(currRefDocIndex, 4).CellValue = indent & RefDocRow("PV").ToString
 
-                            'Dim myItemRow As DataRow() = Me.DataSet.Tables(3).Select("StockId=" & CStr(RefDocRow("RefDocId")))
-                            For Each ItemRow As DataRow In Me.DataSet.Tables(3).Select("StockId=" & CStr(RefDocRow("RefDocId")))
-                                If Not ItemRow.IsNull("ItemCode") Then
+                            Dim myItemRow As DataRow() = Me.DataSet.Tables(3).Select("StockId=" & CStr(RefDocRow("RefDocId")))
+                            For Each ItemRow As DataRow In myItemRow
+                                If Not ItemRow.IsNull("StockCode") Then
                                     m_grid.RowCount += 1
                                     currItemIndex = m_grid.RowCount
                                     m_grid.RowStyles(currItemIndex).ReadOnly = True
