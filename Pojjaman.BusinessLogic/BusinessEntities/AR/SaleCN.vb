@@ -186,7 +186,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     .m_status = New SaleCNStatus(CInt(dr(aliasPrefix & "stock_status")))
                 End If
 
-                .m_vat = New Vat(Me)
+        .m_vat = New Vat(Me)
+        .m_vat.AutoGen = False
                 m_vat.Direction.Value = 0
 
                 .m_whtcol = New WitholdingTaxCollection(Me)
