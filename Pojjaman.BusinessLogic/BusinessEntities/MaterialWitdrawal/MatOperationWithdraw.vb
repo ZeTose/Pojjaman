@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatOperationWithdrawType
     Inherits CodeDescription
@@ -1800,7 +1802,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               jiColl.Add(ji)
             Next
           End If
-          
+
         End If
         If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
           If Not lciMatched Then
@@ -1810,7 +1812,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Account = newRealAccount
             ji.CostCenter = Me.CostCenter
             jiColl.Add(ji)
-          
+
             ji = New JournalEntryItem
             ji.Mapping = map & "D"
             ji.Amount += item.Amount
@@ -1845,7 +1847,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 jiColl.Add(ji)
               Next
             End If
-            
+
           End If
         ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
           If Not lciNoAcctMatched Then
@@ -1887,7 +1889,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Next
             End If
           End If
-          End If
+        End If
       Next
 
       'Dim diffConversion As Decimal = 0
@@ -2201,100 +2203,100 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
 
         Dim qtyText As String = ""
-          line += 1
-          'Item.LineNumber
-          '************** เอามาไว้เป็นอันที่ 2
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.LineNumber"
-          dpi.Value = line
-          dpi.DataType = "System.Int32"
-          dpi.Row = i + 1
-          dpi.Table = "Allocate"
-          dpiColl.Add(dpi)
+        line += 1
+        'Item.LineNumber
+        '************** เอามาไว้เป็นอันที่ 2
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.LineNumber"
+        dpi.Value = line
+        dpi.DataType = "System.Int32"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
 
-          'Item.Unit
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Unit"
-          dpi.Value = item.Unit.Name
-          dpi.DataType = "System.String"
-          dpi.Row = i + 1
-          dpi.Table = "Allocate"
-          dpiColl.Add(dpi)
+        'Item.Unit
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Unit"
+        dpi.Value = item.Unit.Name
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
 
-          'Item.UnitPrice
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.UnitPrice"
+        'Item.UnitPrice
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.UnitPrice"
         If item.UnitCost = 0 Then
           dpi.Value = ""
         Else
           dpi.Value = Configuration.FormatToString(item.UnitCost, DigitConfig.UnitPrice)
         End If
-          dpi.DataType = "System.String"
-          dpi.Row = i + 1
-          dpi.Table = "Allocate"
-          dpiColl.Add(dpi)
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
 
-          '
-          'Item.UnitPriceN
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.UnitPrice" & (i + 1).ToString
+        '
+        'Item.UnitPriceN
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.UnitPrice" & (i + 1).ToString
         If item.UnitCost = 0 Then
           dpi.Value = ""
         Else
           dpi.Value = Configuration.FormatToString(item.UnitCost, DigitConfig.UnitPrice)
         End If
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-          'Item.Amount
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Amount"
-          If item.Amount = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-          End If
-          dpi.DataType = "System.String"
-          dpi.Row = i + 1
-          dpi.Table = "Allocate"
-          dpiColl.Add(dpi)
+        'Item.Amount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Amount"
+        If item.Amount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+        End If
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
 
-          'Item.UnitN
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Unit" & (i + 1).ToString
-          dpi.Value = item.Unit.Name
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+        'Item.UnitN
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Unit" & (i + 1).ToString
+        dpi.Value = item.Unit.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-          'Item.Qty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Qty"
-          If item.Qty = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
-          End If
-          dpi.DataType = "System.String"
-          dpi.Row = i + 1
-          dpi.Table = "Allocate"
-          dpiColl.Add(dpi)
-
-          'Item.QtyN
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Qty" & (i + 1).ToString
+        'Item.Qty
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Qty"
+        If item.Qty = 0 Then
+          dpi.Value = ""
+        Else
           dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+        End If
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
 
-          qtyText = Configuration.FormatToString(item.Qty, DigitConfig.Qty) & " " & item.Unit.Name
+        'Item.QtyN
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Qty" & (i + 1).ToString
+        dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        qtyText = Configuration.FormatToString(item.Qty, DigitConfig.Qty) & " " & item.Unit.Name
 
 
 
         'Item.Name
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Name"
-        
-          dpi.Value = item.Entity.Name
+
+        dpi.Value = item.Entity.Name
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Allocate"
@@ -2307,6 +2309,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
+        Dim grpAllocate As New List(Of String)
+        Dim i2 As Integer = 1
 
         For Each dis As WBSDistribute In item.WBSDistributeCollection
           line += 1
@@ -2315,7 +2319,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSCostCenter"
           dpi.Value = dis.CostCenter.Code & ":" & dis.CostCenter.Name
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2324,7 +2328,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSCode"
           dpi.Value = dis.WBS.Code
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2333,7 +2337,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSName"
           dpi.Value = dis.WBS.Name
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2342,7 +2346,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSInfo"
           dpi.Value = dis.WBS.Code & ":" & dis.WBS.Name
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2351,7 +2355,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.CBSCode"
           dpi.Value = dis.CBS.Code
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2360,7 +2364,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.CBSName"
           dpi.Value = dis.CBS.Name
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2369,7 +2373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.CBSInfo"
           dpi.Value = dis.CBS.Code & ":" & dis.CBS.Name
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2377,8 +2381,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.WBSCodePercent"
           dpi.Value = dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%"
+          grpAllocate.Add(dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%")
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2387,7 +2392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.Percent"
           dpi.Value = Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%"
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2396,7 +2401,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSCodeAmount"
           dpi.Value = dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Amount, DigitConfig.Price)
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2405,7 +2410,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.Amount"
           dpi.Value = Configuration.FormatToString(dis.Amount, DigitConfig.Price)
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2414,7 +2419,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.BudgetAmount"
           dpi.Value = dis.BudgetAmount
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2423,7 +2428,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSRemainAmount"
           dpi.Value = dis.BudgetRemain
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2441,7 +2446,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSBudgetQty"
           dpi.Value = dis.BudgetQty
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2450,7 +2455,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "Item.WBSRemainQty"
           dpi.Value = dis.QtyRemain
           dpi.DataType = "System.String"
-          dpi.Row = i + 1
+          dpi.Row = i + i2 + 1
           dpi.Table = "Allocate"
           dpiColl.Add(dpi)
 
@@ -2463,8 +2468,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'dpi.Table = "Allocate"
           'dpiColl.Add(dpi)
           '--------------------- WBS Section ------------------
+          i2 += 1
         Next
 
+        'Item.WBSCodePercent
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.groupWBSCodePercent"
+        dpi.Value = String.Join(",", grpAllocate)
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
 
         ''Item.Note
         'dpi = New DocPrintingItem
@@ -2507,9 +2521,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'dpi.Table = "Allocate"
         'dpiColl.Add(dpi)
 
-        i += 1
+        i += 1 + i2
 
       Next
+
+      
 
       Return dpiColl
     End Function
