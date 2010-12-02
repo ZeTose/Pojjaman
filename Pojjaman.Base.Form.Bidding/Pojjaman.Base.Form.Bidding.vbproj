@@ -188,10 +188,19 @@
     <Compile Include="commands\CreateFromBOQ.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CostControl\WBSAdjustFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CostControl\PRItemsSelectionView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CostControl\WBSAdjustPanelView.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <EmbeddedResource Include="Bidding\BiddingInfoView.resx">
       <DependentUpon>BiddingInfoView.vb</DependentUpon>
@@ -245,10 +254,19 @@
     <EmbeddedResource Include="Bidding\WBSSelectionView.resx">
       <DependentUpon>WBSSelectionView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\WBSAdjustFilterSubPanel.resx">
+      <DependentUpon>WBSAdjustFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\PRItemsSelectionView.resx">
+      <DependentUpon>PRItemsSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\WBSAdjustPanelView.resx">
+      <DependentUpon>WBSAdjustPanelView.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
