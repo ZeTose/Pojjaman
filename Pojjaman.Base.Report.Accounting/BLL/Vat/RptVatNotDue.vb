@@ -159,16 +159,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim tmpbfdeferTaxBase As Decimal
             Dim tmpbfdeferTaxAmt As Decimal
 
-            Dim tmpStockTaxBase As Integer = 0
-            Dim tmpStockTaxAmt As Integer = 0
-            Dim sumStockTaxBase As Integer = 0
-            Dim sumStockTaxAmt As Integer = 0
-            Dim sumDeferTaxBase As Integer = 0
-            Dim sumDeferTaxAmt As Integer = 0
-            Dim sumDueVatBase As Integer = 0
-            Dim sumDueVatAmt As Integer = 0
-            Dim sumbfdeferTaxBase As Integer = 0
-            Dim sumbfdeferTaxAmt As Integer = 0
+      Dim tmpStockTaxBase As Decimal = 0
+      Dim tmpStockTaxAmt As Decimal = 0
+      Dim sumStockTaxBase As Decimal = 0
+      Dim sumStockTaxAmt As Decimal = 0
+      Dim sumDeferTaxBase As Decimal = 0
+      Dim sumDeferTaxAmt As Decimal = 0
+      Dim sumDueVatBase As Decimal = 0
+      Dim sumDueVatAmt As Decimal = 0
+      Dim sumbfdeferTaxBase As Decimal = 0
+      Dim sumbfdeferTaxAmt As Decimal = 0
 
             Dim rowIndex As Integer = 0
             m_hashData = New Hashtable
