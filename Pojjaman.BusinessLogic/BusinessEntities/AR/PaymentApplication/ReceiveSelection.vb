@@ -1577,10 +1577,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             item.TaxBase = SaleCN.GetTaxbase(item.Id)
           End If
           d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          Dim amt As Decimal = item.Amount
+          Dim uamt As Decimal = item.UnreceivedAmount
+          '---------------------------------------------
+          Dim tb As Decimal = (amt / uamt) * item.TaxBase
           If item.EntityId <> 48 Then
-            ret += item.TaxBase - d
+            ret += tb - d
           Else
-            ret -= (item.TaxBase - d)
+            ret -= (tb - d)
           End If
         End If
       Next
