@@ -238,14 +238,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Set(ByVal Value As BankAccount)
       '	m_depositBankAcct = Value
       'End Set
-    End Property    Public Property Bank() As Bank      Get        Return m_bank      End Get      Set(ByVal Value As Bank)        m_bank = Value      End Set    End Property    Public Property CustBankBranch() As String      Get        Return m_custbankbranch      End Get      Set(ByVal Value As String)        m_custbankbranch = Value      End Set    End Property    Public Property ReceiveDate() As Date Implements ICheckPeriod.DocDate      Get
+    End Property    Public Property Bank() As Bank      Get        Return m_bank      End Get      Set(ByVal Value As Bank)        m_bank = Value      End Set    End Property    Public Property CustBankBranch() As String      Get        If m_custbankbranch Is Nothing Then          m_custbankbranch = ""
+        End If        Return m_custbankbranch      End Get      Set(ByVal Value As String)        m_custbankbranch = Value      End Set    End Property    Public Property ReceiveDate() As Date Implements ICheckPeriod.DocDate      Get
         Return m_ReceiveDate
       End Get
       Set(ByVal Value As DateTime)
         m_ReceiveDate = Value
         m_docDate = m_ReceiveDate
       End Set
-    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
+    End Property    Public Property Note() As String      Get        If m_note Is Nothing Then          m_note = ""
+        End If        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
 
 #Region "Overrides"
     Public Overrides ReadOnly Property Prefix() As String
@@ -527,8 +529,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
                            "CheckUpdateBackAccountAndCheckDeposit", _
                            New SqlParameter() {New SqlParameter("@check_id", Me.Id), _
-                                               New SqlParameter("@check_bankacct", Me.BankAccount.Id), _
-                                               New SqlParameter("@check_bank", Me.Bank), _
+                                               New SqlParameter("@check_bankacct", SimpleBusinessEntityBase.ValidIdOrDBNull(Me.BankAccount)), _
+                                               New SqlParameter("@check_bank", SimpleBusinessEntityBase.ValidIdOrDBNull(Me.Bank)), _
                                                New SqlParameter("@check_custbankbranch", Me.CustBankBranch), _
                                                New SqlParameter("@check_receivedate", receiveDate), _
                                                New SqlParameter("@check_amt", Me.Amount), _

@@ -557,9 +557,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       With Me
-        If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
-          Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        End If
+        'If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
+        '  Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        'End If
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
