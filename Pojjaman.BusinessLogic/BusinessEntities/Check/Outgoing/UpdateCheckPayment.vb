@@ -481,7 +481,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If Not item.IsNull("check_wht") Then
                 wht = CDec(item("check_wht"))
               End If
-              UpdateCheckStatus(checkid, bankcharge, wht, conn, trans)
+
+              If Not Me.ValidateItemByEntityId(CInt(item("cqupdatei_entity"))) Then
+                UpdateCheckStatus(checkid, bankcharge, wht, conn, trans)
+              End If
 
             End If
 
