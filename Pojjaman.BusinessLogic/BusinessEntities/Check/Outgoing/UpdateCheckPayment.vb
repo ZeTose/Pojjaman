@@ -264,10 +264,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Id = oldid
       Me.m_je.Id = oldje
     End Sub
+    Private Function ValidateBank() As SaveErrorException
+
+      For Each row As TreeRow In Me.ItemTable.Childs
+        If row.IsNull("bankacct_code") OrElse CStr(row("bankacct_code")).Length = 0 Then
+          Dim str As String = ""
+          If Not row.IsNull("cqcode") Then
+            str = CStr(row("cqcode"))
+          End If
+
+          str = String.Format(StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment.BankIsNotSpecification}"), str)
+
+          Return New SaveErrorException(str)
+        End If
+      Next
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
           Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
+
+        If Me.UpdatedStatus.Value = 2 Then
+          Dim isBankValid As SaveErrorException = Me.ValidateBank
+          If Not IsNumeric(isBankValid.Message) Then
+            Return New SaveErrorException(isBankValid.Message)
+          End If
         End If
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
@@ -645,6 +670,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.IsInitialized = False
       m_itemTable = GetSchemaTable()
       LoadItems()
+      Me.LoadNextCheckUpdateStatus()
       Me.IsInitialized = True
     End Sub
     Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
