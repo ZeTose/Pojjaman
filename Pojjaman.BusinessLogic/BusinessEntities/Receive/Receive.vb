@@ -362,12 +362,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoReceiveItem}"))
         'End If
 
-        For Each row As DataRow In Me.m_itemTable.Rows
-          Dim drh As New DataRowHelper(row)
-          If drh.GetValue(Of Date)("DueDate") <> Date.MinValue AndAlso Me.RefDoc.Date < drh.GetValue(Of Date)("DueDate") Then
-            Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
-          End If
-        Next
+                'For Each row As DataRow In Me.m_itemTable.Rows
+                '  Dim drh As New DataRowHelper(row)
+                '  If drh.GetValue(Of Date)("DueDate") <> Date.MinValue AndAlso Me.RefDoc.Date < drh.GetValue(Of Date)("DueDate") Then
+                '    Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
+                '  End If
+                'Next
 
         Me.UpdateGross()
         If TypeOf Me.RefDoc Is VariationOrderDe Then
