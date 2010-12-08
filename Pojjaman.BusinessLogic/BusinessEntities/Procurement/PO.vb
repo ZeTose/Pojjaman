@@ -547,7 +547,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property DueDate() As Date
       Get
-        Return Me.DocDate.AddDays(Me.CreditPeriod)
+        Return Me.ReceivingDate.AddDays(Me.CreditPeriod) ' Me.DocDate.AddDays(Me.CreditPeriod)
       End Get
     End Property
     Private m_gross As Decimal
