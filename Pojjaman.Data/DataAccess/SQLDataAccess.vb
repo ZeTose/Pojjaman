@@ -582,7 +582,8 @@ Namespace Longkong.Pojjaman.DataAccessLayer
 
       Dim t As Date = Now
       Try
-        da.Fill(ds)
+
+                da.Fill(ds)
 
         'detach the SqlParameters from the command object, so they can be used again
         cmd.Parameters.Clear()

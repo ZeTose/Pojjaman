@@ -5,6 +5,7 @@ Imports System.IO
 Imports System.Configuration
 Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
+Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports System.Windows.Forms.Design
 Imports System.ComponentModel.Design
@@ -18,190 +19,444 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Amount As Decimal
   End Class
   Public Class CBS
+        Inherits TreeBaseEntity
+        Implements IControlItem
 
+#Region "Member"
+        Private m_note As String
+        Private m_acct As Account
+        Private Shared m_idHash As Hashtable
+        Private Shared m_codeHash As Hashtable
+        Private Shared m_cbsSet As DataTable
+#End Region
 #Region "Shared"
 
-    Public Shared ReadOnly Property Count As Integer
-      Get
-        Return 0
-      End Get
-    End Property
-    Private Shared CBSIdList As Dictionary(Of Integer, CBS)
-    Private Shared CBSCodeList As Dictionary(Of String, CBS)
+        Public Shared ReadOnly Property Count As Integer
+            Get
+                Return 0
+            End Get
+        End Property
+        Private Shared CBSIdList As Dictionary(Of Integer, CBS)
+        Private Shared CBSCodeList As Dictionary(Of String, CBS)
 
-    Private Shared m_tree As List(Of CBS)
-    Public Shared ReadOnly Property CBSTree As List(Of CBS)
-      Get
-        If m_tree Is Nothing Then
-          RefreshTree()
-        End If
-        Return m_tree
-      End Get
-    End Property
-    Public Shared Sub RefreshTree()
-      m_tree = New List(Of CBS)
-      CBSIdList = New Dictionary(Of Integer, CBS)
-      CBSCodeList = New Dictionary(Of String, CBS)
-      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-      , CommandType.StoredProcedure _
-      , "GetCBSTree" _
-      )
-      Dim parentList As New Dictionary(Of Integer, CBS)
-      Dim orphans As New List(Of CBS) 'ลูกกำพร้า
-      For Each row As DataRow In ds.Tables(0).Rows
-        Dim c As New CBS(row)
-        parentList.Add(c.Id, c)
-        If Not c.ParentId.HasValue OrElse c.ParentId.Value = c.Id Then
-          m_tree.Add(c)
-        Else
-          Dim tryParent As CBS = Nothing
-          If parentList.TryGetValue(c.ParentId.Value, tryParent) _
-          AndAlso tryParent IsNot Nothing Then
-            'TODO: จริงๆไม่น่าจะต้องเช็ค nothing อีกนะ ว่างๆลองดูหน่อย
-            tryParent.Childs.Add(c)
-            c.Parent = tryParent
-          Else
-            orphans.Add(c)
-          End If
-        End If
-        CBSIdList.Add(c.Id, c)
-        CBSCodeList.Add(c.Code, c)
-      Next
-      m_tree.AddRange(orphans)
-    End Sub
-    Public Shared Function GetById(ByVal idToFind As Integer) As CBS
-      Dim c As CBS = Nothing
-      If CBSIdList Is Nothing Then
-        RefreshTree()
-      End If
-      If CBSIdList.TryGetValue(idToFind, c) Then
-        Return c
-      End If
-      Return New CBS
-    End Function
-    Public Shared Function GetByCode(ByVal codeToFind As String) As CBS
-      Dim c As CBS = Nothing
-      If CBSCodeList Is Nothing Then
-        RefreshTree()
-      End If
-      For Each kv As KeyValuePair(Of String, CBS) In CBSCodeList
-        If kv.Key.ToLower = codeToFind.ToLower Then
-          Return kv.Value
-        End If
-      Next
-      Return New CBS
-    End Function
+        Private Shared m_tree As List(Of CBS)
+        Public Shared ReadOnly Property CBSTree As List(Of CBS)
+            Get
+                If m_tree Is Nothing Then
+                    RefreshTree()
+                End If
+                Return m_tree
+            End Get
+        End Property
+        Public Shared Sub RefreshTree()
+            m_tree = New List(Of CBS)
+            CBSIdList = New Dictionary(Of Integer, CBS)
+            CBSCodeList = New Dictionary(Of String, CBS)
+            Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+            , CommandType.StoredProcedure _
+            , "GetCBSTree" _
+            )
+            m_idHash = New Hashtable
+            m_codeHash = New Hashtable
+            Dim parentList As New Dictionary(Of Integer, CBS)
+            Dim orphans As New List(Of CBS) 'ลูกกำพร้า
+            For Each row As DataRow In ds.Tables(0).Rows
+                Dim c As New CBS(row, "")
+                parentList.Add(c.Id, c)
+                If Not c.ParentId.HasValue OrElse c.ParentId.Value = c.Id Then
+                    m_tree.Add(c)
+                Else
+                    Dim tryParent As CBS = Nothing
+                    If parentList.TryGetValue(c.ParentId.Value, tryParent) _
+                    AndAlso tryParent IsNot Nothing Then
+                        'TODO: จริงๆไม่น่าจะต้องเช็ค nothing อีกนะ ว่างๆลองดูหน่อย
+                        tryParent.Childs.Add(c)
+                        c.Parent = tryParent
+                    Else
+                        orphans.Add(c)
+                    End If
+                End If
+                CBSIdList.Add(c.Id, c)
+                CBSCodeList.Add(c.Code, c)
+
+                m_idHash(c.Id) = c
+                m_codeHash(c.Code) = c
+            Next
+            m_tree.AddRange(orphans)
+        End Sub
+        Public Shared Function GetById(ByVal idToFind As Integer) As CBS
+            Dim c As CBS = Nothing
+            If CBSIdList Is Nothing Then
+                RefreshTree()
+            End If
+            If CBSIdList.TryGetValue(idToFind, c) Then
+                Return c
+            End If
+            Return New CBS
+        End Function
+        Public Shared Function GetByCode(ByVal codeToFind As String) As CBS
+            Dim c As CBS = Nothing
+            If CBSCodeList Is Nothing Then
+                RefreshTree()
+            End If
+            For Each kv As KeyValuePair(Of String, CBS) In CBSCodeList
+                If kv.Key.ToLower = codeToFind.ToLower Then
+                    Return kv.Value
+                End If
+            Next
+            Return New CBS
+        End Function
 #End Region
 
 #Region "Constructors"
-    Public Sub New()
+        Public Sub New()
+            MyBase.New()
+        End Sub
+        Shared Sub New()
+            RefreshEntityTable()
+        End Sub
+        Public Shared Sub RefreshEntityTable()
+            Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+            , CommandType.StoredProcedure _
+            , "GetCBS" _
+            )
+            m_idHash = New Hashtable
+            m_codeHash = New Hashtable
+            m_cbsSet = New DataTable
+            Dim myTable As DataTable = ds.Tables(0)
+            m_cbsSet = SetCBSSet(ds.Tables(0))
+            For Each row As DataRow In myTable.Rows
+                Dim cb As New CBS
+                cb.Construct(row, "")
+                m_idHash(cb.Id) = cb
+                m_codeHash(cb.Code) = cb
+            Next
+        End Sub
+        Public Sub New(ByVal myParent As CBS)
+            MyBase.New(myParent)
+        End Sub
+        Public Sub New(ByVal id As Integer)
+            'MyBase.New(id)
+            If id = 0 Then
+                Return
+            End If
+            Dim cb As CBS = CType(m_idHash(id), CBS)
+            If Not cb Is Nothing Then
+                Me.Clone(cb)
+            End If
+        End Sub
+        Public Sub New(ByVal code As String)
+            'MyBase.New(code)
+            If code = "" Then
+                Return
+            End If
+            Dim cb As CBS = CType(m_codeHash(code), CBS)
+            If Not cb Is Nothing Then
+                Me.Clone(cb)
+            End If
+        End Sub
+        Private Sub Clone(ByVal cb As CBS)
+            Me.AlternateName = cb.AlternateName
+            Me.AutoGen = cb.AutoGen
+            Me.CancelDate = cb.CancelDate
+            Me.Canceled = cb.Canceled
+            Me.CancelPerson = cb.CancelPerson
+            Me.Code = cb.Code
+            Me.Edited = cb.Edited
+            Me.Id = cb.Id
+            Me.IsControlGroup = cb.IsControlGroup
+            Me.IsDirty = cb.IsDirty
+            Me.IsInitialized = cb.IsInitialized
+            Me.LastEditDate = cb.LastEditDate
+            Me.LastEditor = cb.LastEditor
+            Me.Level = cb.Level
+            Me.Name = cb.Name
+            Me.NoSaveMessage = cb.NoSaveMessage
+            Me.Originator = cb.Originator
+            Me.OriginDate = cb.OriginDate
+            Me.Parent = cb.Parent
+            Me.Path = cb.Path
+            Me.Note = cb.Note
+            Me.Acct = cb.Acct
+            Me.Status = cb.Status
+            ' Me.Type = cb.Type
+        End Sub
 
-    End Sub
+        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+            MyBase.New(dr, aliasPrefix)
+        End Sub
+        Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+            MyBase.Construct(dr, aliasPrefix)
 
-    Public Sub New(ByVal dr As DataRow)
-      Dim dh As New DataRowHelper(dr)
-      Id = dh.GetValue(Of Integer)("cbs_id")
-      Code = dh.GetValue(Of String)("cbs_code")
-      Name = dh.GetValue(Of String)("cbs_name")
-      AlternateName = dh.GetValue(Of String)("cbs_altname")
-      Note = dh.GetValue(Of String)("cbs_note")
-
-      ParentId = dh.GetValue(Of Integer)("cbs_parid")
-    End Sub
+            Dim drh As New DataRowHelper(dr)
+            Note = drh.GetValue(Of String)("cbs_note")
+            m_acct = New Account(drh.GetValue(Of String)("cbs_acct"))
+        End Sub
 #End Region
 
 #Region "Properties"
-    Public ReadOnly Property IdOrNull As Nullable(Of Integer)
-      Get
-        Dim ret As Nullable(Of Integer) = Nothing
-        If Id <> 0 Then
-          ret = Id
-        End If
-        Return ret
-      End Get
-    End Property
-    Public Property Id As Integer
-    Public Property Code As String
-    Public Property Name As String
-    Public Property AlternateName As String
-    Public Property Note As String
-    Public Property ParentId As Nullable(Of Integer)
-    Public Property Parent As CBS
-    Public ReadOnly Property Level As Integer
-      Get
-        If Parent Is Nothing Then
-          Return 0
-        End If
-        Return Me.Parent.Level + 1
-      End Get
-    End Property
-    Private m_childs As List(Of CBS)
-    Public ReadOnly Property Childs As List(Of CBS)
-      Get
-        If m_childs Is Nothing Then
-          m_childs = New List(Of CBS)
-        End If
-        Return m_childs
-      End Get
-    End Property
+        Public Overrides ReadOnly Property Prefix() As String
+            Get
+                Return "cbs"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ClassName() As String
+            Get
+                Return "CBS"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property CodonName() As String
+            Get
+                Return "CBS"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property [NameSpace]() As String
+            Get
+                Return "Longkong.Pojjaman.BusinessLogic"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property DetailPanelTitle() As String
+            Get
+                Return "${res:Longkong.Pojjaman.BusinessLogic.CBS.DetailLabel}"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property DetailPanelIcon() As String
+            Get
+                Return "Icons.16x16.CBS"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ListPanelIcon() As String
+            Get
+                Return "Icons.16x16.CBS"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ListPanelTitle() As String
+            Get
+                Return "${res:Longkong.Pojjaman.BusinessLogic.CBS.ListLabel}"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property UseSiteConnString() As Boolean
+            Get
+                Return True
+            End Get
+        End Property
+#Region "Methods"
+        Private Shared Function SetCBSSet(ByVal dsSource As DataTable) As DataTable
+            Dim dt As New DataTable
+            dt.Columns.Add("cbs_id")
+            dt.Columns.Add("cbs_code")
+            dt.Columns.Add("cbs_name")
+
+            For Each row As DataRow In dsSource.Rows
+                Dim drh As New DataRowHelper(row)
+                If drh.GetValue(Of Integer)("cbs_id") > 0 Then
+                    Dim dr As DataRow = dt.NewRow()
+                    dr("cbs_id") = drh.GetValue(Of String)("cbs_id")
+                    dr("cbs_code") = drh.GetValue(Of String)("cbs_code")
+                    dr("cbs_name") = drh.GetValue(Of String)("cbs_name")
+                    dt.Rows.Add(dr)
+                End If
+            Next
+            Return dt
+        End Function
+        Public Overloads Overrides Sub SetParent(ByVal parId As Integer)
+            If parId <> Id Then
+                Me.Parent = New CBS(parId)
+            Else
+                Me.Parent = Nothing
+            End If
+        End Sub
+        Public Overloads Overrides Sub SetParent(ByVal id As Integer, ByVal code As String, ByVal name As String)
+            Dim parCBS As New CBS
+            parCBS.Id = id
+            parCBS.Code = code
+            parCBS.Name = name
+            Me.Parent = parCBS
+        End Sub
+        Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+            With Me
+                'If Me.Type Is Nothing OrElse Me.Type.Value < 0 Then
+                '    Account.RefreshEntityTable()
+                '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoAccountType}"))
+                'End If
+                Dim parID As Object = 0
+                If Not Me.Parent Is Nothing AndAlso Me.Parent.Originated Then
+                    parID = Me.Parent.Id
+                End If
+
+                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+                returnVal.ParameterName = "RETURN_VALUE"
+                returnVal.DbType = DbType.Int32
+                returnVal.Direction = ParameterDirection.ReturnValue
+                returnVal.SourceVersion = DataRowVersion.Current
+                ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+                Dim paramArrayList As New ArrayList
+
+                paramArrayList.Add(returnVal)
+                If Me.Originated Then
+                    paramArrayList.Add(New SqlParameter("@cbs_id", Me.Id))
+                End If
+
+                Dim theTime As Date = Now
+                Dim theUser As New User(currentUserId)
+
+                paramArrayList.Add(New SqlParameter("@cbs_code", Me.Code))
+                paramArrayList.Add(New SqlParameter("@cbs_name", Me.Name))
+                paramArrayList.Add(New SqlParameter("@cbs_altname", Me.AlternateName))
+                paramArrayList.Add(New SqlParameter("@cbs_parid", parID))
+                paramArrayList.Add(New SqlParameter("@cbs_level", Me.Level))
+                paramArrayList.Add(New SqlParameter("@cbs_path", Me.Path))
+                paramArrayList.Add(New SqlParameter("@cbs_control", Me.IsControlGroup))
+                paramArrayList.Add(New SqlParameter("@cbs_note", Me.Note))
+                paramArrayList.Add(New SqlParameter("@cbs_acct", Me.Acct))
+
+                SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+                ' สร้าง SqlParameter จาก ArrayList ...
+                Dim sqlparams() As SqlParameter
+                sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+                Dim trans As SqlTransaction
+                Dim conn As New SqlConnection(Me.ConnectionString)
+
+                If conn.State = ConnectionState.Open Then conn.Close()
+                conn.Open()
+                trans = conn.BeginTransaction()
+                Dim oldid As Integer = Me.Id
+                Try
+                    'Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
+                    Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+
+                    '--------------------------SAVING EXTENDERS---------------------
+                    For Each extender As Object In Me.Extenders
+                        If TypeOf extender Is IExtender Then
+                            Dim saveDetailError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+                            If Not IsNumeric(saveDetailError.Message) Then
+                                trans.Rollback()
+                                ResetID(oldid)
+                                CBS.RefreshEntityTable()
+                                Return saveDetailError
+                            Else
+                                Select Case CInt(saveDetailError.Message)
+                                    Case -1, -2, -5
+                                        trans.Rollback()
+                                        ResetID(oldid)
+                                        CBS.RefreshEntityTable()
+                                        Return saveDetailError
+                                    Case Else
+                                End Select
+                            End If
+                        End If
+                    Next
+                    '--------------------------END SAVING EXTENDERS---------------------
+                    trans.Commit()
+
+                    ' ตรวจจับ Error ของการ Save ...
+                    CBS.RefreshEntityTable()
+                    Return New SaveErrorException(returnVal.Value.ToString)
+                Catch ex As Exception
+                    trans.Rollback()
+                    Me.ResetID(oldid)
+                    CBS.RefreshEntityTable()
+                    Return New SaveErrorException(ex.ToString)
+                End Try
+            End With
+        End Function
+        Private Sub ResetID(ByVal oldid As Integer)
+            Me.Id = oldid
+        End Sub
+#End Region
+        Public ReadOnly Property IdOrNull As Nullable(Of Integer)
+            Get
+                Dim ret As Nullable(Of Integer) = Nothing
+                If Id <> 0 Then
+                    ret = Id
+                End If
+                Return ret
+            End Get
+        End Property
+        Public Property Note As String
+        Public Property ParentId As Nullable(Of Integer)
+        Public Property Acct As Account
+
+        Private m_childs As List(Of CBS)
+
+        Public ReadOnly Property Childs As List(Of CBS)
+            Get
+                If m_childs Is Nothing Then
+                    m_childs = New List(Of CBS)
+                End If
+                Return m_childs
+            End Get
+        End Property
 #End Region
 
-    Private m_plan As List(Of CBSValue)
-    Public Function GetPlannedValue(ByVal boqId As Integer) As Decimal
-      Dim ret As Decimal = 0
-      For Each p As CBSValue In Plan(boqId)
-        ret += p.Amount
-      Next
-      Return ret
-    End Function
-    Public Function Plan(ByVal boqId As Integer) As List(Of CBSValue)
-      RefreshPlan(boqId)
-      Return m_plan
-    End Function
-    Private m_CachedPlanDataTables As Dictionary(Of Integer, DataTable)
-    Private ReadOnly Property CachedPlanDataTables As Dictionary(Of Integer, DataTable)
-      Get
-        If m_CachedPlanDataTables Is Nothing Then
-          m_CachedPlanDataTables = New Dictionary(Of Integer, DataTable)
-        End If
-        Return m_CachedPlanDataTables
-      End Get
-    End Property
-    Private Sub RefreshPlan(ByVal boqId As Integer)
-      m_plan = New List(Of CBSValue)
-      If boqId <> 0 Then
+        Private m_plan As List(Of CBSValue)
+        Public Function GetPlannedValue(ByVal boqId As Integer) As Decimal
+            Dim ret As Decimal = 0
+            For Each p As CBSValue In Plan(boqId)
+                ret += p.Amount
+            Next
+            Return ret
+        End Function
+        Public Function Plan(ByVal boqId As Integer) As List(Of CBSValue)
+            RefreshPlan(boqId)
+            Return m_plan
+        End Function
+        Private m_CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+        Private ReadOnly Property CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+            Get
+                If m_CachedPlanDataTables Is Nothing Then
+                    m_CachedPlanDataTables = New Dictionary(Of Integer, DataTable)
+                End If
+                Return m_CachedPlanDataTables
+            End Get
+        End Property
+        Private Sub RefreshPlan(ByVal boqId As Integer)
+            m_plan = New List(Of CBSValue)
+            If boqId <> 0 Then
 
-        If Not CachedPlanDataTables.ContainsKey(boqId) Then
-          Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-          Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-          , CommandType.Text _
-          , "SELECT cbs_id,year,month,number,sum(wbs_amount) [Budget],SUM(amount) [amount] " & _
-" FROM wbs " & _
-" INNER JOIN cbs ON cbs_id = wbs_cbs" & _
-" INNER JOIN plans ON plan_wbs = wbs_id" & _
-" WHERE wbs_boq = 11" & _
-" GROUP BY cbs_id,year,month,number" _
-          )
-          Dim dt As DataTable = ds.Tables(0)
-          CachedPlanDataTables(boqId) = dt
-        End If
-        For Each dr As DataRow In CachedPlanDataTables(boqId).Select("cbs_id = " & Me.Id.ToString)
-          Dim deh As New DataRowHelper(dr)
-          Dim y As Integer = deh.GetValue(Of Integer)("year")
-          Dim m As Integer = deh.GetValue(Of Integer)("month")
-          Dim n As Integer = deh.GetValue(Of Integer)("number")
-          Dim amount As Decimal = deh.GetValue(Of Decimal)("amount")
-          Dim budget As Decimal = deh.GetValue(Of Decimal)("budget")
-          Dim cbv As New CBSValue
-          cbv.Amount = amount
-          cbv.Budget = budget
-          cbv.Week = New Week(n, m, y)
-          m_plan.Add(cbv)
-        Next
-      End If
-    End Sub
-  End Class
+                If Not CachedPlanDataTables.ContainsKey(boqId) Then
+                    Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+                    Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+                    , CommandType.Text _
+                    , "SELECT cbs_id,year,month,number,sum(wbs_amount) [Budget],SUM(amount) [amount] " & _
+          " FROM wbs " & _
+          " INNER JOIN cbs ON cbs_id = wbs_cbs" & _
+          " INNER JOIN plans ON plan_wbs = wbs_id" & _
+          " WHERE wbs_boq = 11" & _
+          " GROUP BY cbs_id,year,month,number" _
+                    )
+                    Dim dt As DataTable = ds.Tables(0)
+                    CachedPlanDataTables(boqId) = dt
+                End If
+                For Each dr As DataRow In CachedPlanDataTables(boqId).Select("cbs_id = " & Me.Id.ToString)
+                    Dim deh As New DataRowHelper(dr)
+                    Dim y As Integer = deh.GetValue(Of Integer)("year")
+                    Dim m As Integer = deh.GetValue(Of Integer)("month")
+                    Dim n As Integer = deh.GetValue(Of Integer)("number")
+                    Dim amount As Decimal = deh.GetValue(Of Decimal)("amount")
+                    Dim budget As Decimal = deh.GetValue(Of Decimal)("budget")
+                    Dim cbv As New CBSValue
+                    cbv.Amount = amount
+                    cbv.Budget = budget
+                    cbv.Week = New Week(n, m, y)
+                    m_plan.Add(cbv)
+                Next
+            End If
+        End Sub
+
+        Public ReadOnly Property ControlMessage As String Implements IControlItem.ControlMessage
+            Get
+                Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+                Dim myString As String = myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.CBS.ControlMessage}")   '"ไม่สามารถเลือก CBS " + Me.Code + " - " + Me.Name + " เนื่องจากเป็น CBS คุม"
+                myString = String.Format(myString, Me.Code + " - " + Me.Name)
+                Return myString
+            End Get
+        End Property
+    End Class
 
   Public Class WorkBreakdownStructure
 

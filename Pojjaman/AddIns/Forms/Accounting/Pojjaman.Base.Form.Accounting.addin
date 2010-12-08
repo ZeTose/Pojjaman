@@ -13,7 +13,7 @@
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="country">
 			<EntityTab id="CountryDetail" view="Longkong.Pojjaman.Gui.Panels.CountryDetail"/>
-		</EntityTab>	
+		</EntityTab>
 		<EntityTab id="account">
 			<EntityTab id="AccountDetailView" view="Longkong.Pojjaman.Gui.Panels.AccountDetailView"/>
 		</EntityTab>

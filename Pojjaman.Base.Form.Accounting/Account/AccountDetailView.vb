@@ -519,26 +519,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CheckFormEnable()
       m_isInitialized = True
     End Sub
-    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
-        Return
-      End If
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txtcode"
-          Me.m_entity.Code = txtCode.Text
-        Case "txtname"
-          Me.m_entity.Name = txtName.Text
-        Case "txtaltname"
-          Me.m_entity.AlternateName = txtAltName.Text
-        Case "chkcontrol"
-          Me.m_entity.IsControlGroup = chkControl.Checked
-        Case "cmbtype"
-          Dim item As IdValuePair = CType(Me.cmbType.SelectedItem, IdValuePair)
-          Me.m_entity.Type = New AccountType(item.Id)
-      End Select
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      CheckFormEnable()
-    End Sub
+        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+            If Me.m_entity Is Nothing Or Not m_isInitialized Then
+                Return
+            End If
+
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txtcode"
+                    Me.m_entity.Code = txtCode.Text
+                Case "txtname"
+                    Me.m_entity.Name = txtName.Text
+                Case "txtaltname"
+                    Me.m_entity.AlternateName = txtAltName.Text
+                Case "chkcontrol"
+                    Me.m_entity.IsControlGroup = chkControl.Checked
+                Case "cmbtype"
+                    Dim item As IdValuePair = CType(Me.cmbType.SelectedItem, IdValuePair)
+                    Me.m_entity.Type = New AccountType(item.Id)
+            End Select
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+            CheckFormEnable()
+        End Sub
 #End Region
 
 #Region "Event"
@@ -546,195 +547,195 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-      Get
-        Return Me.Validator
-      End Get
-    End Property
+        Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+            Get
+                Return Me.Validator
+            End Get
+        End Property
 #End Region
 
 #Region "Overides"
-    Public Overrides ReadOnly Property TabPageIcon() As String
-      Get
-        Return (New Account).DetailPanelIcon
-      End Get
-    End Property
+        Public Overrides ReadOnly Property TabPageIcon() As String
+            Get
+                Return (New Account).DetailPanelIcon
+            End Get
+        End Property
 #End Region
 
 #Region "TreeTable Handlers"
-    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_isInitialized Then
-        Return
-      End If
-
-      Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If ValidateRow(CType(e.Row, TreeRow)) Then
-        Me.m_treeManager.Treetable.AcceptChanges()
-      End If
-      Dim currIndex As Integer = Me.tgBudget.CurrentRowIndex
-      RefreshACCBudget()
-      tgBudget.CurrentRowIndex = currIndex
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_isInitialized Then
-        Return
-      End If
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "name"
-            SetName(e)
-          Case "startdate"
-            If Not IsDBNull(e.ProposedValue) Then
-              SetStartDate(e)
+        Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+            If Not m_isInitialized Then
+                Return
             End If
-          Case "enddate"
-            If Not IsDBNull(e.ProposedValue) Then
-              SetEndDate(e)
+
+            Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+            If ValidateRow(CType(e.Row, TreeRow)) Then
+                Me.m_treeManager.Treetable.AcceptChanges()
             End If
-          Case "budget"
-            SetBudget(e)
-        End Select
-        ValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
-    End Sub
-    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+            Dim currIndex As Integer = Me.tgBudget.CurrentRowIndex
+            RefreshACCBudget()
+            tgBudget.CurrentRowIndex = currIndex
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+            If Not m_isInitialized Then
+                Return
+            End If
+            Try
+                Select Case e.Column.ColumnName.ToLower
+                    Case "name"
+                        SetName(e)
+                    Case "startdate"
+                        If Not IsDBNull(e.ProposedValue) Then
+                            SetStartDate(e)
+                        End If
+                    Case "enddate"
+                        If Not IsDBNull(e.ProposedValue) Then
+                            SetEndDate(e)
+                        End If
+                    Case "budget"
+                        SetBudget(e)
+                End Select
+                ValidateRow(e)
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+            End Try
+        End Sub
+        Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
 
-      Dim name As Object = e.Row("Name")
-      Dim stdate As Object = e.Row("StartDate")
-      Dim eddate As Object = e.Row("EndDate")
-      Dim budget As Object = e.Row("Budget")
+            Dim name As Object = e.Row("Name")
+            Dim stdate As Object = e.Row("StartDate")
+            Dim eddate As Object = e.Row("EndDate")
+            Dim budget As Object = e.Row("Budget")
 
-      Select Case e.Column.ColumnName.ToLower
-        Case "name"
-          name = e.ProposedValue
-        Case "startdate"
-          stdate = e.ProposedValue
-        Case "enddate"
-          eddate = e.ProposedValue
-        Case "budget"
-          budget = e.ProposedValue
-        Case Else
-          Return
-      End Select
+            Select Case e.Column.ColumnName.ToLower
+                Case "name"
+                    name = e.ProposedValue
+                Case "startdate"
+                    stdate = e.ProposedValue
+                Case "enddate"
+                    eddate = e.ProposedValue
+                Case "budget"
+                    budget = e.ProposedValue
+                Case Else
+                    Return
+            End Select
 
-      'Dim isBlankRow As Boolean = False
-      'If IsDBNull(name) Then
-      '    isBlankRow = True
-      'End If
+            'Dim isBlankRow As Boolean = False
+            'If IsDBNull(name) Then
+            '    isBlankRow = True
+            'End If
 
-      'If Not isBlankRow Then
-      If IsDBNull(name) Then
-        e.Row.SetColumnError("Name", "")
-      End If
-      If IsDBNull(stdate) Then
-        e.Row.SetColumnError("StartDate", "")
-      End If
-      If IsDBNull(eddate) Then
-        e.Row.SetColumnError("Enddate", "")
-      End If
-      'If IsDBNull(budget) OrElse CDec(budget) <= 0 Then
-      '    e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
-      'Else
-      e.Row.SetColumnError("Budget", "")
-      'End If
+            'If Not isBlankRow Then
+            If IsDBNull(name) Then
+                e.Row.SetColumnError("Name", "")
+            End If
+            If IsDBNull(stdate) Then
+                e.Row.SetColumnError("StartDate", "")
+            End If
+            If IsDBNull(eddate) Then
+                e.Row.SetColumnError("Enddate", "")
+            End If
+            'If IsDBNull(budget) OrElse CDec(budget) <= 0 Then
+            '    e.Row.SetColumnError("percent", Me.StringParserService.Parse("${res:Global.Error.PercentMissing}"))
+            'Else
+            e.Row.SetColumnError("Budget", "")
+            'End If
 
-      'End If
+            'End If
 
-    End Sub
-    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      If row.IsNull("Budget") Then
-        Return False
-      End If
-      Return True
-    End Function
-    Private m_updating As Boolean = False
-    Public Sub SetName(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
-      If item Is Nothing Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      item.Name = e.ProposedValue.ToString
-      m_updating = False
-    End Sub
-    Public Sub SetStartDate(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
-      If item Is Nothing Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      item.StartDate = CDate(e.ProposedValue).ToShortDateString
-      m_updating = False
-    End Sub
-    Public Sub SetEndDate(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
-      If item Is Nothing Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      item.EndDate = CDate(e.ProposedValue).ToShortDateString
-      m_updating = False
-    End Sub
-    Public Sub SetBudget(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
-      If item Is Nothing Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      item.Budget = Configuration.FormatToString(e.ProposedValue, DigitConfig.Price)
-      m_updating = False
-    End Sub
-    Private ReadOnly Property CurrentCCBudget() As Longkong.Pojjaman.BusinessLogic.ACCBudget
-      Get
-        Dim row As TreeRow = Me.m_treeManager.SelectedRow
-        If row Is Nothing Then
-          Return Nothing
-        End If
-        Return CType(row.Tag, Longkong.Pojjaman.BusinessLogic.ACCBudget)
-      End Get
-    End Property
+        End Sub
+        Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+            If row.IsNull("Budget") Then
+                Return False
+            End If
+            Return True
+        End Function
+        Private m_updating As Boolean = False
+        Public Sub SetName(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
+            If item Is Nothing Then
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            item.Name = e.ProposedValue.ToString
+            m_updating = False
+        End Sub
+        Public Sub SetStartDate(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
+            If item Is Nothing Then
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            item.StartDate = CDate(e.ProposedValue).ToShortDateString
+            m_updating = False
+        End Sub
+        Public Sub SetEndDate(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
+            If item Is Nothing Then
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            item.EndDate = CDate(e.ProposedValue).ToShortDateString
+            m_updating = False
+        End Sub
+        Public Sub SetBudget(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim item As Longkong.Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
+            If item Is Nothing Then
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            item.Budget = Configuration.FormatToString(e.ProposedValue, DigitConfig.Price)
+            m_updating = False
+        End Sub
+        Private ReadOnly Property CurrentCCBudget() As Longkong.Pojjaman.BusinessLogic.ACCBudget
+            Get
+                Dim row As TreeRow = Me.m_treeManager.SelectedRow
+                If row Is Nothing Then
+                    Return Nothing
+                End If
+                Return CType(row.Tag, Longkong.Pojjaman.BusinessLogic.ACCBudget)
+            End Get
+        End Property
 #End Region
 
-    Private Sub ibtnBlankBudget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlankBudget.Click
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim dpm As New Pojjaman.BusinessLogic.ACCBudget
-      dpm.StartDate = Now
-      dpm.EndDate = Now
-      Me.ACCBColl.Add(dpm)
-      RefreshACCBudget()
-      tgBudget.CurrentRowIndex = Me.ACCBColl.Count - 1
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub ibtnDelBudget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelBudget.Click
-      Dim item As Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
-      If item Is Nothing Then
-        Return
-      End If
-      Me.ACCBColl.Remove(item)
-      RefreshACCBudget()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-  End Class
+        Private Sub ibtnBlankBudget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlankBudget.Click
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Me.m_entity Is Nothing Then
+                Return
+            End If
+            Dim dpm As New Pojjaman.BusinessLogic.ACCBudget
+            dpm.StartDate = Now
+            dpm.EndDate = Now
+            Me.ACCBColl.Add(dpm)
+            RefreshACCBudget()
+            tgBudget.CurrentRowIndex = Me.ACCBColl.Count - 1
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Sub ibtnDelBudget_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelBudget.Click
+            Dim item As Pojjaman.BusinessLogic.ACCBudget = Me.CurrentCCBudget
+            If item Is Nothing Then
+                Return
+            End If
+            Me.ACCBColl.Remove(item)
+            RefreshACCBudget()
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+    End Class
 End Namespace

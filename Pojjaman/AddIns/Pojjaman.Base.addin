@@ -224,7 +224,7 @@
 		<EntityListView id="prforapprove" entity="prforapprove" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>
 		<EntityListView id="treebaseentity" entity="treebaseentity" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
 		<EntityListView id="icaneditlist" entity="icaneditlist" view="Longkong.Pojjaman.Gui.Panels.EditableListPanelView"/>
-		<EntityListView id="journalentryupdate" entity="journalentryupdate" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>		
+		<EntityListView id="journalentryupdate" entity="journalentryupdate" view="Longkong.Pojjaman.Gui.Panels.ListViewApproveItemPanelView"/>
 
 		<EntityListView id="account" entity="account" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
 		<EntityListView id="suppliergroup" entity="suppliergroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
@@ -235,6 +235,7 @@
 		<EntityListView id="eqcostgroup" entity="eqcostgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
 		<EntityListView id="laborgroup" entity="laborgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
 		<EntityListView id="toolgroup" entity="toolgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
-		<EntityListView id="vatgroup" entity="vatgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>		
+		<EntityListView id="vatgroup" entity="vatgroup" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
+    <EntityListView id="cbs" entity="cbs" view="Longkong.Pojjaman.Gui.Panels.GroupPanelView"/>
 	</Extension>	
 </AddIn>

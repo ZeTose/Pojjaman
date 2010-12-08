@@ -188,6 +188,12 @@
     <Compile Include="commands\CreateFromBOQ.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CostControl\CBSDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CostControl\CBSFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -247,6 +253,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bidding\WBSSelectionView.resx">
       <DependentUpon>WBSSelectionView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\CBSDetailView.resx">
+      <DependentUpon>CBSDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\CBSFilterSubPanel.resx">
+      <DependentUpon>CBSFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>

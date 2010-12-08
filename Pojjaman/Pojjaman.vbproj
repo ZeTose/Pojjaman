@@ -503,7 +503,9 @@
     </None>
     <None Include="AddIns\Reports\CashBank\Pojjaman.Base.Report.CashBank.addin" />
     <None Include="AddIns\Reports\Check\Pojjaman.Base.Report.Check.addin" />
-    <None Include="AddIns\Reports\CostControl\Pojjaman.Base.Report.CostControl.addin" />
+    <None Include="AddIns\Reports\CostControl\Pojjaman.Base.Report.CostControl.addin">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="AddIns\Reports\GL\Pojjaman.Base.Report.GL.addin">
       <SubType>Designer</SubType>
     </None>
