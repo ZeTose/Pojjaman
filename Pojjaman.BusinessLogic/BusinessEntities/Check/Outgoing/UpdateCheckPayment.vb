@@ -267,16 +267,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function ValidateBank() As SaveErrorException
 
       For Each row As TreeRow In Me.ItemTable.Childs
-        If row.IsNull("bankacct_code") OrElse CStr(row("bankacct_code")).Length = 0 Then
-          Dim str As String = ""
-          If Not row.IsNull("cqcode") Then
-            str = CStr(row("cqcode"))
+        If ValidateRow(row) Then
+          If row.IsNull("bankacct_code") OrElse CStr(row("bankacct_code")).Length = 0 Then
+            Dim str As String = ""
+            If Not row.IsNull("cqcode") Then
+              str = CStr(row("cqcode"))
+            End If
+
+            str = String.Format(StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment.BankIsNotSpecification}"), str)
+
+            Return New SaveErrorException(str)
           End If
-
-          str = String.Format(StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment.BankIsNotSpecification}"), str)
-
-          Return New SaveErrorException(str)
         End If
+
       Next
 
       Return New SaveErrorException("0")
