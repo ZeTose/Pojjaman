@@ -194,6 +194,12 @@
     <Compile Include="CostControl\CBSFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="CostControl\WBSAdjustPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CostControl\WBSAdjustFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -259,6 +265,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CostControl\CBSFilterSubPanel.resx">
       <DependentUpon>CBSFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\WBSAdjustPanelView.resx">
+      <DependentUpon>WBSAdjustPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CostControl\WBSAdjustFilterSubPanel.resx">
+      <DependentUpon>WBSAdjustFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>

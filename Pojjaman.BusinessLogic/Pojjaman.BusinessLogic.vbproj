@@ -458,6 +458,8 @@
     <Compile Include="BusinessEntities\Construction\WBS.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Construction\WBSAdjust.vb" />
+    <Compile Include="BusinessEntities\Construction\WBSAdjustItem.vb" />
     <Compile Include="BusinessEntities\Construction\WBSDistribute.vb">
       <SubType>Code</SubType>
     </Compile>

@@ -1,6 +1,6 @@
 <AddIn name="Pojjaman Loan" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
   <Runtime>
-    <Import assembly="Pojjaman.Base.Loan.dll"/>
+    <!--<Import assembly="Pojjaman.Base.Loan.dll"/>-->
     <Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>
     <Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>
     <Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
