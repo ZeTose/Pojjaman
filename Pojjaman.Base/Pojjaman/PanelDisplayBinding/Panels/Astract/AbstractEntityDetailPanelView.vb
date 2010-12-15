@@ -930,8 +930,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             myDpiColl.Add(myDpi)
           End If
 
-          'ผู้ที่ Print
+          'ผู้ที่ทำเอกสาร
           Dim mySecurity As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+          myDpi = New DocPrintingItem
+          myDpi.Mapping = "userid"
+          myDpi.Value = mySecurity.CurrentUser.Id
+          myDpi.DataType = "System.String"
+          myDpiColl.Add(myDpi)
+
+          'ผู้ที่ Print
+          'Dim mySecurity As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
           myDpi = New DocPrintingItem
           myDpi.Mapping = "PrintBy"
           myDpi.Value = mySecurity.CurrentUser.Name

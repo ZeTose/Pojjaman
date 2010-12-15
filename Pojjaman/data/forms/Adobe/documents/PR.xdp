@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xfa generator="AdobeLiveCycleDesigner_V8.0" APIVersion="2.5.6290.0"?>
-<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2009-05-28T07:44:54Z" uuid="06355ae7-5ff3-48d9-a1b5-296634b52011">
+<?xfa generator="AdobeLiveCycleDesignerES_V8.2.1.3158.1.475346" APIVersion="2.8.8118.0"?>
+<xdp:xdp xmlns:xdp="http://ns.adobe.com/xdp/" timeStamp="2010-12-14T15:47:00Z" uuid="06355ae7-5ff3-48d9-a1b5-296634b52011">
 <template xmlns="http://www.xfa.org/schema/xfa-template/2.5/">
+   <?formServer defaultPDFRenderFormat acrobat8.0static?>
    <subform name="form1" layout="tb" locale="th_TH">
       <pageSet>
          <pageArea name="Page1" id="Page1">
@@ -22,8 +23,7 @@
             <font size="12pt" typeface="CordiaUPC" baselineShift="0pt"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
             <para spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 116221 19843 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 24 00A600B500A5008400B500A6 1 1417 12134 0 0 0 "CordiaUPC" 0 0 12000 UTF-16?></draw>
+         </draw>
          <draw name="StaticImage1" w="24.3mm" h="25.4mm" x="7.65mm" y="3.6498mm">
             <value>
                <image href="=Logo" aspect="none"/>
@@ -47,18 +47,13 @@
                <edge/>
                <corner thickness="0.006in"/>
             </border>
-            <?renderCache.bounds 62362 36000 0 0 0 0 0 0?>
-            <?renderCache.textRun 8 008B00CE 1 17473 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?>
-            <?renderCache.textRun 4 00B5 1 22920 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?>
-            <?renderCache.textRun 12 009C00AA009C 1 27483 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?></draw>
+         </draw>
          <field name="txtDeliverToCompanyName" y="39.2249mm" x="143.6498mm" w="50.8mm" h="6.35mm">
             <ui>
                <textEdit>
                   <border>
-                     <edge presence="hidden">
-                     </edge>
-                     <edge presence="hidden">
-                     </edge>
+                     <edge presence="hidden"/>
+                     <edge presence="hidden"/>
                      <edge/>
                      <edge presence="hidden"/>
                   </border>
@@ -94,10 +89,7 @@
                <edge/>
                <corner thickness="0.006in"/>
             </border>
-            <?renderCache.bounds 36000 36000 0 0 0 0 0 0?>
-            <?renderCache.textRun 8 00A800CE 1 6688 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?>
-            <?renderCache.textRun 4 00B5 1 12462 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?>
-            <?renderCache.textRun 12 009700B4009D 1 17026 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?></draw>
+         </draw>
          <draw name="StaticText18" y="79.2999mm" x="49.85mm" h="0.5in" w="4.007875in">
             <ui>
                <textEdit>
@@ -113,8 +105,7 @@
                <edge/>
                <corner thickness="0.006in"/>
             </border>
-            <?renderCache.bounds 288567 36000 0 0 0 0 0 0?>
-            <?renderCache.textRun 24 00A600B500A5008400B500A6 1 129340 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?></draw>
+         </draw>
          <field name="txtDeliverToCity" y="64.2999mm" x="9.5333mm" w="105.9134mm" h="5.8766mm">
             <ui>
                <textEdit>
@@ -163,10 +154,8 @@
             <ui>
                <textEdit>
                   <border>
-                     <edge presence="hidden">
-                     </edge>
-                     <edge presence="hidden">
-                     </edge>
+                     <edge presence="hidden"/>
+                     <edge presence="hidden"/>
                      <edge/>
                      <edge presence="hidden"/>
                   </border>
@@ -192,10 +181,8 @@
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -231,10 +218,8 @@
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -257,10 +242,8 @@
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -283,10 +266,8 @@
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -312,10 +293,8 @@
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -373,8 +352,7 @@
                <edge/>
                <corner thickness="0.006in"/>
             </border>
-            <?renderCache.bounds 62362 36000 0 0 0 0 0 0?>
-            <?renderCache.textRun 20 00AE009C006E00AA00A5 1 19684 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?></draw>
+         </draw>
          <draw name="StaticText18" y="79.3mm" x="21.35mm" h="0.5in" w="1.125in">
             <ui>
                <textEdit>
@@ -390,17 +368,14 @@
                <edge/>
                <corner thickness="0.006in"/>
             </border>
-            <?renderCache.bounds 81000 36000 0 0 0 0 0 0?>
-            <?renderCache.textRun 16 00A600AE00B400AD 1 32115 21716 0 0 0 "CordiaUPC" 1 0 13000 UTF-16?></draw>
+         </draw>
          <field name="txtDeliverToCity" y="240.6501mm" x="8.6501mm" h="8mm" w="187.2mm">
             <ui>
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -1600,8 +1575,7 @@
             <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 51765 13553 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 36 009F00BC006F008500B0008E00BA00CA00B0 1 14875 11501 0 0 0 "BrowalliaUPC" 0 0 12000 UTF-16?></draw>
+         </draw>
          <draw name="Line1" y="269.7887mm" x="69.4337mm" w="51.0032mm" h="0in">
             <value>
                <line slope="/">
@@ -1624,8 +1598,7 @@
             <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 40953 13553 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 40 009F00BC006F009800A600AA008B00AD00B0009D 1 2933 11501 0 0 0 "BrowalliaUPC" 0 0 12000 UTF-16?></draw>
+         </draw>
          <draw name="Line1" y="269.8639mm" x="133.2089mm" w="51.0032mm" h="0in">
             <value>
                <line slope="/">
@@ -1648,8 +1621,7 @@
             <font typeface="BrowalliaUPC" baselineShift="0pt" size="12pt"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 38793 13553 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 40 009F00BC006F00B0009C00BB00A400B4009800B7 1 8058 11501 0 0 0 "BrowalliaUPC" 0 0 12000 UTF-16?></draw>
+         </draw>
          <draw name="Line2" y="30.6501mm" x="38.1mm" w="159.2002mm" h="0in">
             <value>
                <line slope="/">
@@ -1672,8 +1644,7 @@
             <font size="18pt" typeface="CordiaUPC" baselineShift="0pt" weight="bold"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 232194 22678 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 64 0033005800550046004B00440056004800030035004800540058004800560057 1 68612 16411 0 0 0 "CordiaUPC" 1 0 18000 UTF-16?></draw>
+         </draw>
          <draw name="StaticText20" y="31.6501mm" x="56.65mm" w="3.264278in" h="0.375in">
             <ui>
                <textEdit>
@@ -1686,8 +1657,7 @@
             <font size="20pt" typeface="CordiaUPC" baselineShift="0pt" weight="bold"/>
             <margin topInset="0.5mm" bottomInset="0.5mm" leftInset="0.5mm" rightInset="0.5mm"/>
             <para hAlign="center" spaceAbove="0pt" spaceBelow="0pt" textIndent="0pt" marginLeft="0pt" marginRight="0pt"/>
-            <?renderCache.bounds 232194 24166 0 0 1417 1417 0 0?>
-            <?renderCache.textRun 32 00C4009D008500B0008E00BA00CA00B0 1 91752 18077 0 0 0 "CordiaUPC" 1 0 20000 UTF-16?></draw>
+         </draw>
          <draw name="Rectangle1" y="55.2997mm" x="8.6488mm" w="187.01mm" h="24.0002mm">
             <value>
                <rectangle>
@@ -1697,8 +1667,7 @@
          </draw>
          <draw name="Line3" y="63.3mm" x="8.6488mm" w="187.01mm" h="0in">
             <value>
-               <line slope="/">
-               </line>
+               <line slope="/"/>
             </value>
          </draw>
          <draw name="Line3" y="71.2999mm" x="8.6491mm" w="187.01mm" h="0in">
@@ -1713,8 +1682,7 @@
          </draw>
          <draw name="Line4" y="55.2997mm" x="28.8661mm" w="0in" h="23.9998mm">
             <value>
-               <line slope="/">
-               </line>
+               <line slope="/"/>
             </value>
          </draw>
          <field name="txtDeliverToCity" x="41.275mm" w="101.0042mm" h="6mm" y="23.2999mm">
@@ -1722,10 +1690,8 @@
                <textEdit>
                   <border>
                      <edge presence="hidden"/>
-                     <corner>
-                     </corner>
-                     <corner>
-                     </corner>
+                     <corner/>
+                     <corner/>
                      <corner presence="hidden"/>
                      <corner/>
                   </border>
@@ -1746,11 +1712,9 @@
                <text>CompanyTaxId</text>
             </value>
          </field>
-         <?templateDesigner expand 1?>
          <draw name="Line5" y="229.6499mm" x="195.65mm" w="0.0004mm" h="11mm">
             <value>
-               <line slope="/">
-               </line>
+               <line slope="/"/>
             </value>
          </draw>
          <draw name="Line5" y="229.6499mm" x="21.1499mm" w="0.0004mm" h="11mm">
@@ -1783,21 +1747,45 @@
                <defaultUi/>
             </ui>
          </draw>
+         <draw name="StaticImage1" w="24.3mm" h="17.4mm" x="21.65mm" y="250.65mm">
+            <value>
+               <image href="=signature(employeeid)" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
+         <draw name="StaticImage1" w="24.3mm" h="17.4mm" x="82.65mm" y="250.65mm">
+            <value>
+               <image href="=signature(userid)" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
+         <?templateDesigner expand 1?>
+         <draw name="StaticImage1" w="24.3mm" h="17.4mm" x="145.65mm" y="250.65mm">
+            <value>
+               <image href="=signature(authorizeid)" aspect="none"/>
+            </value>
+            <ui>
+               <imageEdit/>
+            </ui>
+         </draw>
       </subform>
       <proto/>
       <?templateDesigner expand 1?>
-      <?renderCache.subset "Adobe Arabic" 0 0 UTF-16 2 20 038C03CA03CB03D5044F?>
-      <?renderCache.subset "Adobe Thai" 0 0 UTF-16 2 48 0003000C001A001D002800300038003A003E0041005E005F?>
-      <?renderCache.subset "BrowalliaUPC" 0 0 UTF-16 2 136 0020002C00310034003600480050005200570058005C006F00840085008B008E0098009C009D009F00A400A500A600AA00AD00B000B400B500B700BA00BB00BC00CA00CE?>
-      <?renderCache.subset "BrowalliaUPC" 1 0 UTF-16 2 28 009800A400A500AE00B500BB00C1?>
+      <?renderCache.subset "BrowalliaUPC" 0 0 UTF-16 2 76 006F0085008B008E0098009C009D009F00A400A600AA00AD00B000B400B700BA00BB00BC00CA?>
       <?renderCache.subset "CordiaUPC" 0 0 UTF-16 2 272 0003001100200024002600270029002C002F00310033003400350036003800440045004600470048004A004B004C0050005100520053005400550056005700580059005B005C006E006F007200840085008A008B008E009A009C009D009F00A100A200A500A600A800AA00AB00AD00B000B400B500B800BA00BC00C100C200C300C400C900CA00CE?>
-      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 224 00030026002C00310033003500370044004600470048004B005000510052005300540055005600570058005B005C006E006F00840085008B008E00970098009C009D009E009F00A300A400A500A600A800AA00AC00AD00AE00B000B300B400B500B800BA00BB00BC00C100C400CA00CE?></subform>
+      <?renderCache.subset "CordiaUPC" 1 0 UTF-16 2 224 00030026002C00310033003500370044004600470048004B005000510052005300540055005600570058005B005C006E006F00840085008B008E00970098009C009D009E009F00A300A400A500A600A800AA00AC00AD00AE00B000B300B400B500B800BA00BB00BC00C100C400CA00CE?>
+   </subform>
    <?templateDesigner DefaultLanguage FormCalc?>
    <?templateDesigner DefaultRunAt client?>
    <?templateDesigner DefaultPreviewType print?>
    <?templateDesigner Grid show:1, snap:1, units:17, color:ff8080, origin:(0,0), interval:(25000,25000)?>
    <?originalXFAVersion http://www.xfa.org/schema/xfa-template/2.4/?>
-   <?templateDesigner Zoom 117?>
+   <?templateDesigner FormTargetVersion 25?>
+   <?templateDesigner Zoom 92?>
    <?templateDesigner Rulers horizontal:1, vertical:1, guidelines:1, crosshairs:0?></template>
 <config xmlns="http://www.xfa.org/schema/xci/1.0/">
    <agent name="designer">
@@ -1807,21 +1795,21 @@
          <fontInfo/>
       </pdf>
    </agent>
-   <trace>
-      <area name="font" level="1"/>
-   </trace>
    <present>
       <!--  [0..n]  -->
       <destination>pdf</destination>
       <pdf>
          <!--  [0..n]  -->
-         <fontInfo>
-         </fontInfo>
+         <fontInfo/>
+         <version>1.7</version>
       </pdf>
       <xdp>
          <packets>*</packets>
       </xdp>
    </present>
+   <trace>
+      <area name="font" level="1"/>
+   </trace>
    <psMap>
       <font typeface="Kozuka Mincho Pro-VI R" psName="KozMinProVI-Regular" weight="normal" posture="normal"/>
       <font typeface="Adobe Arabic" psName="AdobeArabic-Regular" weight="normal" posture="normal"/>
@@ -1835,7 +1823,7 @@
       <font typeface="CordiaUPC" psName="CordiaUPC" weight="normal" posture="normal"/>
       <font typeface="CordiaUPC" psName="CordiaUPC-Bold" weight="bold" posture="normal"/>
    </psMap>
-</config>
+   <?originalXFAVersion http://www.xfa.org/schema/xci/2.8/?></config>
 <localeSet xmlns="http://www.xfa.org/schema/xfa-locale-set/2.1/">
    <locale name="th_TH" desc="Thai">
       <calendarSymbols name="gregorian">
@@ -1925,4 +1913,18 @@
          <currencySymbol name="decimal">.</currencySymbol>
       </currencySymbols>
    </locale>
-</localeSet></xdp:xdp>
+</localeSet>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 4.2.1-c041 52.337767, 2008/04/13-15:41:00        ">
+   <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description xmlns:xmp="http://ns.adobe.com/xap/1.0/" rdf:about="">
+         <xmp:MetadataDate>2010-12-14T15:47Z</xmp:MetadataDate>
+         <xmp:CreatorTool>Adobe LiveCycle Designer ES 8.2</xmp:CreatorTool>
+      </rdf:Description>
+      <rdf:Description xmlns:pdf="http://ns.adobe.com/pdf/1.3/" rdf:about="">
+         <pdf:Producer>Adobe LiveCycle Designer ES 8.2</pdf:Producer>
+      </rdf:Description>
+      <rdf:Description xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" rdf:about="">
+         <xmpMM:DocumentID>uuid:06355ae7-5ff3-48d9-a1b5-296634b52011</xmpMM:DocumentID>
+      </rdf:Description>
+   </rdf:RDF>
+</x:xmpmeta></xdp:xdp>

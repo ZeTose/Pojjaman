@@ -1507,6 +1507,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Authorizeid"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -1617,6 +1628,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       If Not Me.Requestor Is Nothing AndAlso Me.Requestor.Originated Then
+        'Requestor
+        dpi = New DocPrintingItem
+        dpi.Mapping = "EmployeeId"
+        dpi.Value = Me.Requestor.Id
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
         'Requestor
         dpi = New DocPrintingItem
         dpi.Mapping = "Requestor"

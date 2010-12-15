@@ -92,6 +92,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblLevelWR As System.Windows.Forms.Label
     Friend WithEvents lblMaxAmtWR As System.Windows.Forms.Label
     Friend WithEvents lblBaht4 As System.Windows.Forms.Label
+    Friend WithEvents lblSignatureImage As System.Windows.Forms.Label
     Friend WithEvents txtMaxAmtDO As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -161,6 +162,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.lblSignatureImage = New System.Windows.Forms.Label()
       Me.grbDetail.SuspendLayout()
       Me.grbApproveLevel.SuspendLayout()
       CType(Me.nudLevelApprovePA, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -180,6 +182,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.lblSignatureImage)
       Me.grbDetail.Controls.Add(Me.grbApproveLevel)
       Me.grbDetail.Controls.Add(Me.lblPicSize)
       Me.grbDetail.Controls.Add(Me.btnLoadImage)
@@ -704,7 +707,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPicSize.Name = "lblPicSize"
       Me.lblPicSize.Size = New System.Drawing.Size(100, 23)
       Me.lblPicSize.TabIndex = 220
-      Me.lblPicSize.Text = "120 X 120 pixel"
+      Me.lblPicSize.Text = "160 X 88 pixel"
       Me.lblPicSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
       'btnLoadImage
@@ -949,6 +952,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
+      'lblSignatureImage
+      '
+      Me.lblSignatureImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblSignatureImage.ForeColor = System.Drawing.Color.Black
+      Me.lblSignatureImage.Location = New System.Drawing.Point(397, 107)
+      Me.lblSignatureImage.Name = "lblSignatureImage"
+      Me.lblSignatureImage.Size = New System.Drawing.Size(87, 18)
+      Me.lblSignatureImage.TabIndex = 227
+      Me.lblSignatureImage.Text = "ÅÒÂà«¹µì:"
+      Me.lblSignatureImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
       'UserDetailView
       '
       Me.Controls.Add(Me.grbDetail)
@@ -1074,6 +1088,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.grbDetail}")
       Me.lblGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblGroup}")
       Me.lblPassword.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPassword}")
+      Me.lblSignatureImage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblSignatureImage}")
 
       Me.lblPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPR}")
       Me.lblWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblWR}")

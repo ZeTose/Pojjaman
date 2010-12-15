@@ -285,6 +285,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Shared Function GetAuthorizeSignator(ByVal id As String) As Object
+      If id.Length <> 0 Then
+        If IsNumeric(id) AndAlso CInt(id) > 0 Then
+          Return LoadSignator(id)
+        End If
+      End If
+    End Function
+    Public Shared Function GetSignator(ByVal id As String) As Object
+      If id.Length <> 0 Then
+        Return LoadSignator(id)
+      End If
+    End Function
+    Public Shared Function LoadSignator(ByVal reader As IDataReader) As System.Drawing.Image
+      Return Field.GetImage(reader, "user_signature")
+    End Function
+    Public Shared Function LoadSignator(ByVal id As String) As System.Drawing.Image
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select * from UserImage where user_id = " + id
+      Dim reader As SqlDataReader
+      Try
+        conn.Open()
+        Dim cmd As SqlCommand = conn.CreateCommand
+        cmd.CommandText = sql
+        reader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+        If reader.Read Then
+          Return LoadSignator(reader)
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      Finally
+        conn.Close()
+        reader = Nothing
+        conn = Nothing
+      End Try
+      Return Nothing
+    End Function
     Public Shared Function GetUserConnecting() As DataSet
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _

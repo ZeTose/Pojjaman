@@ -17,6 +17,8 @@ Imports System.Windows.Xps
 Imports System.Windows.Documents.Serialization
 Imports System.Data.SqlClient
 
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.AdobeForm
   Public Class PJMPaper
     Public Shared A3 As New PaperSize("A3", 1169, 1653)
@@ -1936,7 +1938,12 @@ Namespace Longkong.AdobeForm
       If TypeOf ctrl Is ImageControl Then
         Dim imgc As ImageControl = CType(ctrl, ImageControl)
         If Not imgc.Path Is Nothing AndAlso imgc.Path.StartsWith("=") Then
-          imgc.Image = CType(GetObject(imgc.Path), Image)
+          Dim img As Image = CType(GetObject(imgc.Path), Image)
+          If Not img Is Nothing Then
+            imgc.Image = img 'CType(GetObject(imgc.Path), Image)
+          Else
+            Return False
+          End If
         End If
       End If
 
@@ -1989,6 +1996,28 @@ Namespace Longkong.AdobeForm
           Dim item As DocPrintingItem = m_tableColl.GetMappingItem(map)
           If Not item Is Nothing AndAlso Not item.Value Is Nothing Then
             Return item.Value
+          End If
+        ElseIf data.ToLower.StartsWith("=signature") Then
+          Dim map As String ' = data.Substring(1, Len(data) - 1)
+          map = Replace(Replace(Replace(data, "=signature", ""), "(", ""), ")", "")
+          Dim item As DocPrintingItem = m_tableColl.GetMappingItem(map)
+          If Not item.Value Is Nothing Then
+            If map.ToLower.StartsWith("employeeid") Then
+              Dim img As Object = Employee.GetSignator(CStr(item.Value))
+              If Not img Is Nothing Then '
+                Return img
+              End If
+            ElseIf map.ToLower.StartsWith("userid") Then
+              Dim img As Object = User.GetSignator(CStr(item.Value))
+              If Not img Is Nothing Then '
+                Return img
+              End If
+            ElseIf map.ToLower.StartsWith("authorizeid") Then
+              Dim img As Object = User.GetAuthorizeSignator(CStr(item.Value))
+              If Not img Is Nothing Then '
+                Return img
+              End If
+            End If
           End If
         ElseIf data.StartsWith("=") Then
           Dim map As String = data.Substring(1, Len(data) - 1)
