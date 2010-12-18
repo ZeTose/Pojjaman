@@ -795,6 +795,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub UpdateNoteFromPR()
+      Dim obj As Object = Configuration.GetConfig("UpdateNoteFromPR")
+
+      If Not CBool(obj) Then
+        Return
+      End If
+
+      Dim txtArray As New ArrayList
+      Dim NoteSplit() As String
+      If Me.Note.Length > 0 Then
+        NoteSplit = Me.Note.Split(","c)
+        For Each Str As String In NoteSplit
+          txtArray.Add(Trim(Str))
+        Next
+      End If
+
+      Dim hashpr As New Hashtable
+      For Each itm As POItem In Me.ItemCollection
+        Dim newpr As PR = itm.Pritem.Pr
+
+        If Not newpr Is Nothing AndAlso Not newpr.Note Is Nothing Then
+          If Not hashpr.Contains(newpr.Id) Then
+            hashpr(newpr.Id) = newpr
+            If newpr.Note.Trim.Length > 0 Then
+              If Not txtArray.Contains(newpr.Note.Trim) Then
+                txtArray.Add(newpr.Note.Trim)
+              End If
+            End If
+          End If
+        End If
+
+      Next
+
+      If txtArray.Count > 0 Then
+        Me.Note = String.Join(", ", txtArray.ToArray)
+      End If
+    End Sub
     Public Function GetRetentionDeductedWithoutThisStock(ByVal stockId As Integer) As Decimal
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _

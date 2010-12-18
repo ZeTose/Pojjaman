@@ -2607,6 +2607,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity.RealTaxAmount = Me.m_entity.TaxAmount
       UpdateAmount(True)
     End Sub
+    Private Sub UpdateNoteFromPR()
+      Try
+        Me.m_entity.UpdateNoteFromPR()
+      Catch ex As Exception
+        'ใส่ไว้ถ้า error แล้วไม่อยากให้ต้องกระทบงาน
+      End Try
+
+      Me.txtNote.Text = Me.m_entity.Note
+    End Sub
     Private forceUpdateTaxBase As Boolean = False
     Private forceUpdateGross As Boolean = False
     Private forceUpdateTaxAmount As Boolean = False
@@ -2913,6 +2922,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxAmount = True
       forceUpdateGross = True
       RefreshDocs()
+      UpdateNoteFromPR()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
       dirtyFlag = True
     End Sub
