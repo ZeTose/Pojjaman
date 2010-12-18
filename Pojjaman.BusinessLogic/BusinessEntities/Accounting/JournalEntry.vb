@@ -763,7 +763,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
             Select Case CInt(returnVal.Value)
-              Case -1, -5
+              Case -1
+                Return New SaveErrorException("GL " & Me.StringParserService.Parse("${res:Global.Error.AlreadyHasThisCode}"), New String() {Me.Code})
+              Case -5
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case -2
                 Return New SaveErrorException(returnVal.Value.ToString)
