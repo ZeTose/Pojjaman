@@ -652,7 +652,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException("${res:Global.Error.AmountMissing}")
             End If
           End If
-          If item.Entity.CreateDate.HasValue AndAlso Me.RefDoc.Date < item.Entity.CreateDate.Value Then
+          'If item.Entity.CreateDate.HasValue AndAlso Me.RefDoc.Date < item.Entity.CreateDate.Value Then
+          '  Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
+          'End If
+
+          ''ต้องทำยังงี้เพราะว่ามันเอาเวลามาเทียบกันด้วยซึ่งถ้าเป็นวันเดียวกันบาง case ก็ไม่ผ่าน validate เอาได้ ??? งงมาพักนึงเหมือนกัน ต้องระวังเรื่องเทียบวันที่
+          If Not Date.MinValue.Equals(item.Entity.DueDate) AndAlso CDate(Me.RefDoc.Date.ToShortDateString) < CDate(item.Entity.DueDate.ToShortDateString) Then
             Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
           End If
         Next
