@@ -29,6 +29,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_receivedQty As Decimal
     Private m_unvatable As Boolean = False
     Private m_discount As New Discount("")
+    Private m_remainDiscAmt As Discount
     Private m_conversion As Decimal = 1
     Private m_unitCost As Decimal
 
@@ -168,6 +169,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "poi_discrate") AndAlso Not dr.IsNull(aliasPrefix & "poi_discrate") Then
           .m_discount = New Discount(CStr(dr(aliasPrefix & "poi_discrate")))
+        End If
+        
+        If dr.Table.Columns.Contains(aliasPrefix & "poiRemain_discAmt") _
+        AndAlso Not dr.IsNull(aliasPrefix & "poiRemain_discAmt") Then
+          Dim remaindisc As Decimal = 0
+          If IsNumeric(dr.IsNull(aliasPrefix & "poiRemain_discAmt")) Then
+            remaindisc = CDec(dr(aliasPrefix & "poiRemain_discAmt"))
+          End If
+          If remaindisc = 0 Then
+            .m_remainDiscAmt = New Discount("")
+          Else
+            '.m_remainDiscAmt = New Discount(Configuration.FormatToString(remaindisc, DigitConfig.Price))
+            .m_remainDiscAmt = New Discount(remaindisc.ToString)
+          End If
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "poi_unvatable") AndAlso Not dr.IsNull(aliasPrefix & "poi_unvatable") Then
@@ -587,6 +602,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get
+    End Property
+    Public Property RemainningDiscount() As Discount
+      Get
+        Return m_remainDiscAmt
+      End Get
+      Set(ByVal Value As Discount)
+        m_remainDiscAmt = Value
+      End Set
     End Property
     Private Function CalcTaxAmount(ByVal amt As Decimal) As Decimal
       If Me.Po Is Nothing Then

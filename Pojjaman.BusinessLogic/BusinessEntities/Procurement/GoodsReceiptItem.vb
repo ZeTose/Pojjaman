@@ -29,6 +29,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_stockQty As Decimal
     Private m_unvatable As Boolean = False
     Private m_discount As New Discount("")
+    Private m_remainpodiscount As New Discount("")
     Private m_account As Account
     Private m_conversion As Decimal = 1
 
@@ -1161,7 +1162,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_discount = New Discount("")
       Else
         Me.m_unit = poitem.Unit
-        Me.m_discount = poitem.Discount
+        Me.m_discount = poitem.RemainningDiscount
+        Me.m_remainpodiscount = poitem.RemainningDiscount
         Me.m_unitPrice = poitem.UnitPrice
         Me.m_unvatable = poitem.UnVatable
         If poitem.ReceivedQty <> Decimal.MinValue Then

@@ -2715,6 +2715,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           sumAmountWithVat += item.Amount
         End If
       Next
+      'If Me.Po IsNot Nothing Then
+      '  Dim dis As Decimal = Discount.GetFixDiscount(Me.Discount.Rate, Me.Discount.Amount)
+      '  dis = m_gross / m_po.Gross * dis
+      '  Me.Discount.Rate = CStr(dis)
+      'End If
       Select Case Me.TaxType.Value
         Case 0 '"ไม่มี"
           m_taxbase = 0

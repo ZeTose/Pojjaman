@@ -51,7 +51,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
             Next
             Return oldAmt - amountB4
-        End Function
+    End Function
+    Public Shared Function GetFixDiscount(ByVal rate As String, ByVal amountB4 As Decimal) As Decimal
+      Dim re As New Regex(RULE)
+      Dim ar As New ArrayList
+      If Not re.IsMatch(rate) And rate <> "" Then
+        Return 0
+        'Hack
+        'Throw New Exception("Incorrect Discount Format")
+      End If
+      Dim oldAmt As Decimal = amountB4
+      For Each m As Match In re.Matches(rate)
+        Dim partialRateString As String = m.Groups("discount").Value
+        Dim partialRate As Decimal
+        If Not partialRateString.EndsWith("%") Then
+          partialRate = CDec(partialRateString)
+          amountB4 -= partialRate
+        End If
+      Next
+      Return oldAmt - amountB4
+    End Function
 #End Region
 
 #Region "IPropertyChangeable"
