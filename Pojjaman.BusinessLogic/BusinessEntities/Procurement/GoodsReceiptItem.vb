@@ -557,7 +557,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case 88
                 gaType = GeneralAccount.DefaultGAType.SalaryWage
               Case 89
-                gaType = GeneralAccount.DefaultGAType.OtherExpense
+                gaType = GeneralAccount.DefaultGAType.RentEquipment
             End Select
             If gaType <> GeneralAccount.DefaultGAType.None Then
               ga = GeneralAccount.GetDefaultGA(gaType)
@@ -1149,8 +1149,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Case 88 'ค่าแรง
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SalaryWage)
           Me.m_account = ga.Account
-        Case 0, 89
+        Case 0
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
+          Me.m_account = ga.Account
+        Case 89
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.RentEquipment)
           Me.m_account = ga.Account
         Case 160, 162
           m_isCommentType = True

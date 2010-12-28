@@ -518,6 +518,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SCPenalty = 60 'ค่าปรับผู้รับเหมาจากหน้า หัก DR
       AssetProfitLoss = 61 'กำไร/ขาดทุน จากการจำหน่ายสินทรัพย์
       CurrencyProfitLoss = 62 'กำไร/ขาดทุนจากอัตราแลกเปลี่ยน
+      RentEquipment = 63 'กำไร/ขาดทุนจากอัตราแลกเปลี่ยน
     End Enum
 #End Region
 

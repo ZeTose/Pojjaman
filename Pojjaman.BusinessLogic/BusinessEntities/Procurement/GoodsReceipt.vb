@@ -3200,6 +3200,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim e32 As Integer = 0
       Dim e33 As Integer = 0
       Dim e34 As Integer = 0
+      Dim e36 As Integer = 0
 
       Select Case Me.ToAccountType.Value
         Case 1 'WIP
@@ -3257,7 +3258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each addedJi As JournalEntryItem In jiColl
           If Not item.ItemType Is Nothing Then
             Select Case item.ItemType.Value
-              Case 0, 88, 89 'Blank  
+              Case 0, 88 'Blank  
                 Dim realAccount As Account
                 If Not item.Account Is Nothing AndAlso item.Account.Originated Then
                   'ใช้ acct ในรายการ
@@ -3282,6 +3283,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
                     blankNoAcctMatched = True
                     e34 += 1
+                  End If
+                End If
+              Case 89 'Blank  
+                Dim realAccount As Account
+                If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                  'ใช้ acct ในรายการ
+                  realAccount = item.Account
+                End If
+                If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                  If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = realAccount.Id) And addedJi.Mapping = "E3.6" Then
+                    If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                      addedJi.Amount += itemAmount
+                    Else
+                      addedJi.Amount += itemRemainAmount
+                    End If
+                    blankMatched = True
+                    e36 += 1
+                  End If
+                ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                  If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "E3.6" Then
+                    If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                      addedJi.Amount += itemAmount
+                    Else
+                      addedJi.Amount += itemRemainAmount
+                    End If
+                    blankNoAcctMatched = True
+                    e36 += 1
                   End If
                 End If
               Case 28  'Asset
@@ -3431,7 +3459,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         If Not item.ItemType Is Nothing Then
           Select Case item.ItemType.Value
-            Case 0, 88, 89 'Blank  
+            Case 0, 88 'Blank  
               Dim realAccount As Account
               If Not item.Account Is Nothing AndAlso item.Account.Originated Then
                 'ใช้ acct ในรายการ
@@ -3471,6 +3499,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   End If
                   jiColl.Add(ji)
                   e34 += 1
+                End If
+              End If
+            Case 89 'Rent Equipment  
+              Dim realAccount As Account
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not blankMatched Then
+                  ji = New JournalEntryItem
+                  ji.Mapping = "E3.6"
+                  If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                    ji.Amount += itemAmount
+                  Else
+                    ji.Amount += itemRemainAmount
+                  End If
+                  ji.Account = realAccount
+                  If Me.ToCostCenter.Originated Then
+                    ji.CostCenter = Me.ToCostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
+                  jiColl.Add(ji)
+                  e36 += 1
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not blankNoAcctMatched Then
+                  ji = New JournalEntryItem
+                  ji.Mapping = "E3.6"
+                  If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
+                    ji.Amount += itemAmount
+                  Else
+                    ji.Amount += itemRemainAmount
+                  End If
+                  If Me.ToCostCenter.Originated Then
+                    ji.CostCenter = Me.ToCostCenter
+                  Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                  End If
+                  jiColl.Add(ji)
+                  e36 += 1
                 End If
               End If
             Case 28 'Asset
@@ -3676,6 +3746,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tmpJi.Note = "ค่าใช้จ่ายอื่นๆ " & e34 & " รายการ"
           Case "E3.5"
             tmpJi.Note = Me.Recipient.Name
+          Case "E3.6"
+            tmpJi.Note = "ค่าเช่าเครื่องจักร" & e34 & " รายการ"
         End Select
         tmpJi.Amount = Configuration.Format(tmpJi.Amount, DigitConfig.Price)
       Next
@@ -3767,7 +3839,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '------------------------------------------------------------
         If Not item.ItemType Is Nothing Then
           Select Case item.ItemType.Value
-            Case 0, 88, 89      'Blank  
+            Case 0, 88      'Blank  
               Dim realAccount As Account
               If Not item.Account Is Nothing AndAlso item.Account.Originated Then
                 'ใช้ acct ในรายการ
@@ -3780,6 +3852,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
                 If Not blankNoAcctMatched Then
                   SetJournalEntryItem(item, jiColl, "E3.4", itemAmount, ToCostCenter)
+                End If
+              End If
+            Case 89      'Blank  
+              Dim realAccount As Account
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not blankMatched Then
+                  SetJournalEntryItem(item, jiColl, "E3.6", realAccount, itemAmount, ToCostCenter)
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not blankNoAcctMatched Then
+                  SetJournalEntryItem(item, jiColl, "E3.6", itemAmount, ToCostCenter)
                 End If
               End If
             Case 28      'Asset
