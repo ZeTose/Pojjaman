@@ -621,10 +621,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
         End If
       Next
+      m_dateSetting = True
 
       Me.DocDateStart = Date.MinValue
       Me.txtDocStartDate.Text = MinDateToNull(Me.DocDateStart, "")
-      Me.dtpDocStartDate.Value = Me.DocDateStart
+      Me.dtpDocStartDate.Value = Date.Now
 
       Me.DocDateEnd = Date.Now
       Me.txtDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
