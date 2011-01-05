@@ -8,6 +8,7 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class GoodsReceiptItem
     Implements IWBSAllocatableItem
@@ -639,6 +640,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
     End Sub
+    Private Sub UpdateDiscount(ByVal decitemamt As Decimal, ByVal oldGRamt As Decimal)
+      Dim rat As Decimal = 1
+      If oldGRamt > 0 Then
+        rat = (oldGRamt - decitemamt) / oldGRamt
+      End If
+      Dim PercentRate As String = Discount.GetRateDiscount(Me.GoodsReceipt.Discount.Rate)
+      Dim FixRate As Decimal = Configuration.Format(Discount.GetFixDiscount(Me.GoodsReceipt.Discount.Rate) * rat, DigitConfig.Price)
+      Dim rate As New List(Of String)
+      If PercentRate.Length > 0 Then
+        rate.Add(PercentRate)
+      End If
+      If FixRate <> 0 Then
+        rate.Add(CStr(FixRate))
+      End If
+      Me.GoodsReceipt.Discount.Rate = String.Join(",", rate)
+    End Sub
+    
     Public Property Qty() As Decimal
       Get
         Return m_qty
@@ -655,8 +673,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
           Return
         End If
+        Dim oldGRamt As Decimal = 0
+        If Me.GoodsReceipt IsNot Nothing Then
+        oldGRamt = Me.GoodsReceipt.Gross
+        End If
+        Dim oldQty As Decimal = m_qty
+        Dim olditemamt As Decimal = Amount
         m_qty = Configuration.Format(Value, DigitConfig.Qty)
-
+        Dim dis_rat As Decimal = 1
+        If oldQty > 0 Then
+          dis_rat = (m_qty) / oldQty
+        End If
+        Dim PercentRate As String = Discount.GetRateDiscount(Me.Discount.Rate)
+        Dim FixRate As Decimal = Configuration.Format(Discount.GetFixDiscount(Me.Discount.Rate) * dis_rat, DigitConfig.Price)
+        Dim rate As New List(Of String)
+        If PercentRate.Length > 0 Then
+          rate.Add(PercentRate)
+        End If
+        If FixRate <> 0 Then
+          rate.Add(CStr(FixRate))
+        End If
+        Me.Discount.Rate = String.Join(",", rate)
+        Dim decitemamt As Decimal = olditemamt - Amount
+        If Me.GoodsReceipt IsNot Nothing Then
+          UpdateDiscount(decitemamt, oldGRamt)
+        End If
         UpdateWBS()
       End Set
     End Property
@@ -1616,21 +1657,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If wbsd.IsMarkup Then
               wbsd.BudgetRemain = drh.GetValue(Of Decimal)("totalactual")
             Else
-                Select Case item.ItemType.Value
-                  Case 88, 289, 291
-                    wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
-                    wbsd.WBS.GetTotalLabFromDB()
-                    wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerLabBudgetAmount
-                  Case 89
-                    wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
-                    wbsd.WBS.GetTotalEQFromDB()
-                    wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerEqBudgetAmount
-                  Case Else
-                    wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
-                    wbsd.WBS.GetTotalMatFromDB()
-                    wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerMatBudgetAmount
-                End Select
-                'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
+              Select Case item.ItemType.Value
+                Case 88, 289, 291
+                  wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
+                  wbsd.WBS.GetTotalLabFromDB()
+                  wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerLabBudgetAmount
+                Case 89
+                  wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
+                  wbsd.WBS.GetTotalEQFromDB()
+                  wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerEqBudgetAmount
+                Case Else
+                  wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
+                  wbsd.WBS.GetTotalMatFromDB()
+                  wbsd.OwnerBudgetAmount = wbsd.WBS.OwnerMatBudgetAmount
+              End Select
+              'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
             End If
           End If
 

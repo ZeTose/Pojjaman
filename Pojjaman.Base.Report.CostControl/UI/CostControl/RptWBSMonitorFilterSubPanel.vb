@@ -719,6 +719,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.DocDateEnd = dtpDocDateEnd.Value
             End If
           End If
+          m_dateSetting = False
         Case "txtdocdateend"
           m_dateSetting = True
           If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
@@ -739,6 +740,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.DocDateEnd = dtpDocEndDate.Value
             End If
           End If
+          m_dateSetting = False
         Case "txtdocenddate"
           m_dateSetting = True
           If Not Me.txtDocEndDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocEndDate) = "" Then
@@ -759,6 +761,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.DocDateStart = dtpDocStartDate.Value
             End If
           End If
+          m_dateSetting = False
         Case "txtdocstartdate"
           m_dateSetting = True
           If Not Me.txtDocStartDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocStartDate) = "" Then

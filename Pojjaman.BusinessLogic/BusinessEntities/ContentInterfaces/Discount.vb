@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Configuration
 Imports System.Text.RegularExpressions
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class Discount
@@ -52,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
             Return oldAmt - amountB4
     End Function
-    Public Shared Function GetFixDiscount(ByVal rate As String, ByVal amountB4 As Decimal) As Decimal
+    Public Shared Function GetFixDiscount(ByVal rate As String) As Decimal
       Dim re As New Regex(RULE)
       Dim ar As New ArrayList
       If Not re.IsMatch(rate) And rate <> "" Then
@@ -60,16 +61,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Hack
         'Throw New Exception("Incorrect Discount Format")
       End If
-      Dim oldAmt As Decimal = amountB4
+      Dim disamt As Decimal = 0
       For Each m As Match In re.Matches(rate)
         Dim partialRateString As String = m.Groups("discount").Value
         Dim partialRate As Decimal
         If Not partialRateString.EndsWith("%") Then
           partialRate = CDec(partialRateString)
-          amountB4 -= partialRate
+          disamt += partialRate
         End If
       Next
-      Return oldAmt - amountB4
+      Return disamt
+    End Function
+    Public Shared Function GetRateDiscount(ByVal rate As String) As String
+      Dim re As New Regex(RULE)
+      Dim ar As New ArrayList
+      If Not re.IsMatch(rate) And rate <> "" Then
+        Return ""
+        'Hack
+        'Throw New Exception("Incorrect Discount Format")
+      End If
+      Dim partialRate As New list(Of String)
+      For Each m As Match In re.Matches(rate)
+        Dim partialRateString As String = m.Groups("discount").Value
+        If partialRateString.EndsWith("%") Then
+          partialRate.Add(partialRateString & "%")
+        End If
+      Next
+      Return String.Join(",", partialRate)
     End Function
 #End Region
 
