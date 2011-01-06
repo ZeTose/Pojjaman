@@ -1398,7 +1398,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txtissuedate"
           Dim dt As DateTime = StringToDate(txtIssueDate, dtpIssueDate)
-          Me.m_entity.DueDate = dt
+          Me.m_entity.IssueDate = dt
           dirtyFlag = True
 
         Case "txtrecipient"
