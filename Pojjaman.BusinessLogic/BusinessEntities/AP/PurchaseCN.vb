@@ -2732,7 +2732,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-  End Class
+    End Class
+
+    Public Interface IPurchaseCNItemAble
+        Inherits IIdentifiable
+        Property Docdate() As Date
+        Property Supplier() As Supplier
+        Property Note() As String
+        Property PurchaseCNItemCollection() As PurchaseCNItemCollection
+        Property TaxType() As TaxType
+        Property Discount() As Discount
+    End Interface
 
   Public Class PurchaseCNRefDoc
 
