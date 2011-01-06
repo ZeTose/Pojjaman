@@ -802,6 +802,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       pattern = CodeGenerator.GetPattern(pattern)
       Dim lastCode As String = vi.GetLastCode(pattern)
 
+      Dim refDocType As Integer
+      If TypeOf Me.RefDoc Is ISimpleEntity Then
+        refDocType = CType(Me.RefDoc, ISimpleEntity).EntityId
+      End If
       With ds.Tables("Vatitem")
         For Each row As DataRow In .Rows
           row.Delete()
@@ -838,6 +842,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("vati_cc") = item.CcId
           dr("vati_submitaldate") = ValidDateOrDBNull(item.SubmitalDate)
           dr("vati_group") = ValidIdOrDBNull(item.VatGroup)
+          If item.Refdoc = 0 Then
+            item.Refdoc = item.Vat.RefDoc.Id
+          End If
+          If item.RefdocType = 0 Then
+            item.RefdocType = RefdocType
+          End If
           dr("vati_refdoc") = item.Refdoc
           dr("vati_refdoctype") = item.RefdocType
           dr("vati_customTaxAmount") = item.UseCustomTaxAmount

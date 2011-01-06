@@ -1351,7 +1351,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.DocDate = Me.DocDate
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
-            Dim mtb As Decimal = item.TaxBase
+            Dim mtb As Decimal = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
             'If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
             '  mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
@@ -1372,7 +1372,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.CcId = GetAllCC.Id
             vitem.Refdoc = Me.Id
             vitem.RefdocType = Me.EntityId
-            Me.Vat.ItemCollection.Add(vitem)
+            If tb <> 0 Then
+              Me.Vat.ItemCollection.Add(vitem)
+            End If
           End If
         ElseIf item.EntityId = 48 Then
           If Not item.TaxType.Value = 0 Then
@@ -1386,7 +1388,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.DocDate = Me.DocDate
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
-            Dim mtb As Decimal = -item.TaxBase
+            Dim mtb As Decimal = -item.TaxBase + Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
             'If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
             '  mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
@@ -1407,7 +1409,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.CcId = GetAllCC.Id
             vitem.Refdoc = Me.Id
             vitem.RefdocType = Me.EntityId
-            Me.Vat.ItemCollection.Add(vitem)
+            If tb <> 0 Then
+              Me.Vat.ItemCollection.Add(vitem)
+            End If
           End If
         End If
       Next
