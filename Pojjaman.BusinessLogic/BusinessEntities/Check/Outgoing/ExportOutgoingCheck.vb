@@ -142,11 +142,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_bankacct = Value
       End Set
     End Property
-    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
-      Get
-        Return Nothing
-      End Get
-    End Property
     Public Property Chargee() As String Implements ICOCExportable.Chargee
       Get
         Return m_feeChargee
@@ -507,7 +502,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+    Private Function GetSplitAddress(ByVal splitString As String) As ArrayList
+      Dim repVar As String = Replace(splitString, "  ", " ")
+      Dim splitVar() As String = repVar.Split(" "c)
+      Dim listVar As New ArrayList
+      Dim currStringVar As String = ""
+      Dim nextStringVar As String = ""
+      For Each var As String In splitVar
+        nextStringVar &= " " & var
+        If nextStringVar.Length >= 30 Then
+          listVar.Add(currStringVar)
+          nextStringVar = ""
+          currStringVar = var
+        Else
+          currStringVar &= " " & var
+        End If
+      Next
 
+      Return listVar
+
+      'Dim list(3) As String
+      'list(0) = Mid(splitVar, 1, 30)
+      'list(1) = Mid(splitVar, 31, 30)
+      'list(2) = Mid(splitVar, 62, 30)
+      'list(3) = Mid(splitVar, 93, 30)
+
+      'If Len(list(1)) > 0 AndAlso Mid(list(1), 1, 1) <> " " Then
+
+      'End If
+    End Function
     Public Function ChequeReceiverList() As System.Collections.Generic.List(Of ChequeReceiver) Implements ICOCExportable.ChequeReceiverList
       'If m_receiveList Is Nothing Then
       m_receiveList = New List(Of ChequeReceiver)
@@ -519,14 +542,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_receive.TnxReferenceNo = item.Entity.Code
           m_receive.Amount = item.Entity.Amount
           m_receive.Payee = item.Entity.Recipient
-          m_receive.PayeeAddress1 = ""
-          m_receive.PayeeAddress2 = ""
-          m_receive.PayeeAddress3 = ""
-          m_receive.PayeeAddress4 = ""
-          m_receive.TaxID = ""
-          m_receive.PersonalID = ""
+
           If Not item.Entity Is Nothing AndAlso Not item.Entity.Supplier Is Nothing Then
+            Dim strAddress As String = item.Entity.Supplier.BillingAddress.Trim '& " " & item.Entity.Supplier.Province.Trim
+            strAddress = Replace(strAddress, vbCrLf, " ")
+            strAddress = Replace(strAddress, vbLf, " ")
+            strAddress = Replace(strAddress, "  ", " ")
+
+            'Dim ar As New ArrayList
+            'For Each Str As Char In strAddress.ToCharArray
+            '  Dim asci As Integer = Asc(Str)
+            '  Trace.WriteLine(Str.ToString & ":" & asci.ToString)
+            'Next
+
+            m_receive.PayeeAddress1 = Mid(strAddress, 1, 30)
+            m_receive.PayeeAddress2 = Mid(strAddress, 31, 30)
+            m_receive.PayeeAddress3 = Mid(strAddress, 61, 30)
+            m_receive.PayeeAddress4 = Mid(strAddress, 91, 30)
+            'Dim arr As ArrayList = Me.GetSplitAddress(item.Entity.Supplier.BillingAddress & " " & item.Entity.Supplier.Province)
+            'Select Case arr.Count
+            '  Case 1
+            '    m_receive.PayeeAddress1 = arr(0).ToString
+            '  Case 2
+            '    m_receive.PayeeAddress1 = arr(0).ToString
+            '    m_receive.PayeeAddress2 = arr(1).ToString
+            '  Case 3
+            '    m_receive.PayeeAddress1 = arr(0).ToString
+            '    m_receive.PayeeAddress2 = arr(1).ToString
+            '    m_receive.PayeeAddress3 = arr(2).ToString
+            '  Case 4
+            '    m_receive.PayeeAddress1 = arr(0).ToString
+            '    m_receive.PayeeAddress2 = arr(1).ToString
+            '    m_receive.PayeeAddress3 = arr(2).ToString
+            '    m_receive.PayeeAddress4 = arr(3).ToString
+            'End Select
             m_receive.BeneRef = item.Entity.Supplier.Code
+            If item.Entity.Supplier.PersonType.Value = 0 Then
+              m_receive.TaxID = item.Entity.Supplier.IdNo
+              m_receive.PersonalID = item.Entity.Supplier.IdNo
+            Else
+              m_receive.TaxID = item.Entity.Supplier.TaxId
+              m_receive.PersonalID = ""
+            End If
           End If
           If item.WHTCollection.Count > 0 Then
             m_receive.BeneRef = item.WHTCollection(0).Code  'item.GetWHTCodeList
