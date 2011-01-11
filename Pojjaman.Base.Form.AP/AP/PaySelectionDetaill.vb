@@ -1900,6 +1900,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
                 End If
                 'PurchaseCN เมื่อ save
+                RemoveHandler m_entity.PurchaseCNClick, AddressOf ItemButtonClick
                 AddHandler m_entity.PurchaseCNClick, AddressOf ItemButtonClick
                 UpdateEntityProperties()
             End Set

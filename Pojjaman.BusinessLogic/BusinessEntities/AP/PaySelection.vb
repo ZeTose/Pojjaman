@@ -1023,7 +1023,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Return 0
         End Function
-
+        Private Function PurchaseCNIDList() As String
+            Dim Arr As New ArrayList
+            For Each item As BillAcceptanceItem In Me.ItemCollection
+                If item.EntityId = 46 Then
+                    Arr.Add(item.Id)
+                End If
+            Next
+            Return String.Join(","c, Arr.ToArray)
+        End Function
         Private Function havePurchaseCN() As Boolean
             Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                      Me.ConnectionString _
@@ -1031,6 +1039,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                      , "GethavePurchaseCNFromSupandEntity" _
                      , New SqlParameter("@supplier_id", Me.Supplier.Id) _
                      , New SqlParameter("@entity_type", Me.EntityId) _
+                     , New SqlParameter("@PurchaseCNIDList", Me.PurchaseCNIDList) _
                      )
             If ds.Tables(0).Rows.Count > 0 Then
                 Return True
