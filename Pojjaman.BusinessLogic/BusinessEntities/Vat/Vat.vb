@@ -165,6 +165,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Private Property RefDocMaximumTaxBase As Decimal
 		Public ReadOnly Property Maindoc() As ISimpleEntity Implements IHasMainDoc.MainDoc
 			Get
 				Return CType(vat_refDoc, ISimpleEntity)
@@ -474,6 +475,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub SetRefDocMaximumTaxBase(ByVal maxtaxbase As Decimal)
+      Me.RefDocMaximumTaxBase = maxtaxbase 'Me.RefDoc.GetMaximumTaxBase
+    End Sub
     Public Sub SetCCId(ByVal ccId As Integer)
       For Each item As VatItem In Me.ItemCollection
         item.CcId = ccId
@@ -611,7 +615,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If TypeOf Me.RefDoc Is GoodsReceipt Then
             tmpRefTaxBase = CType(Me.RefDoc, GoodsReceipt).TaxBaseDeductedWithoutThisRefDoc
           Else
-            tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
+            'tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
+            tmpRefTaxBase = Configuration.Format(Me.RefDocMaximumTaxBase, DigitConfig.Price)
           End If
         End If
 

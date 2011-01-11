@@ -464,6 +464,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          ' ป้องกัน dead lock =============
+          Me.m_vat.SetRefDocMaximumTaxBase(Me.GetMaximumTaxBase)
+          ' ป้องกัน dead lock =============
+
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
