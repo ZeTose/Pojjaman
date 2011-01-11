@@ -793,7 +793,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtADVMNote.Text = Me.m_entity.AdvanceMoney.Note
 
         ' วงเงินคงเหลือ
-        Dim remainamt As Decimal = Me.m_entity.AdvanceMoney.GetRemainingAmount
+        Dim remainamt As Decimal = Me.m_entity.AdvanceMoney.GetRemainingAmount(True)
         Me.m_entity.AdvanceMoney.RemainingAmount = remainamt
         Me.m_entity.Amount = Me.m_entity.AdvanceMoney.Amount
         Me.m_entity.RemainAmount = remainamt

@@ -299,22 +299,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-        Public Function GetRemainingAmount() As Decimal
-            Try
-                Dim ds As DataSet = SqlHelper.ExecuteDataset( _
-                        Me.ConnectionString _
-                        , CommandType.StoredProcedure _
-                        , "GetAdvanceMoneyAmount" _
-                        , New SqlParameter("@advm_id", Me.Id) _
-                        )
-                If ds.Tables(0).Rows.Count > 0 Then
-                    Return CDec(ds.Tables(0).Rows(0)(0))
-                End If
-            Catch ex As Exception
-                MessageBox.Show(ex.Message)
-            End Try
+    Public Function GetRemainingAmount(Optional ByVal notIncludedMe As Boolean = False) As Decimal
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetAdvanceMoneyAmount" _
+                , New SqlParameter("@advm_id", Me.Id) _
+                , New SqlParameter("@notIncludedMe", notIncludedMe) _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.Message)
+      End Try
 
-        End Function
+    End Function
         Public Function GetRemainingAmount(ByVal paymentId As Integer) As Decimal
             Try
                 Dim ds As DataSet = SqlHelper.ExecuteDataset( _

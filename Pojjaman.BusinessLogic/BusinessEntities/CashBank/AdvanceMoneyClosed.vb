@@ -503,7 +503,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
       ' Cr. à§Ô¹·´ÃÍ§¨èÒÂ
-      If Me.Amount > 0 Then
+      If Me.RemainAmount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "G9.1"
         ji.Account = Me.AdvanceMoney.Account
