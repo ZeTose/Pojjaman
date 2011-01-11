@@ -110,6 +110,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
+    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements ICOCExportable.CreateDate
+      Get
+        Return Me.IssueDate
+      End Get
+    End Property
     Public Property IssueDate() As Date Implements ICheckPeriod.DocDate
       Get
         Return m_issueDate
