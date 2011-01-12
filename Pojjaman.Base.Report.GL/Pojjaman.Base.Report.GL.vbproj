@@ -150,6 +150,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptTrialBalanceByCC.vb" />
     <Compile Include="BLL\RptJournalEntryByCC.vb" />
     <Compile Include="BLL\RptGLPayReceivebyAcct.vb" />
     <Compile Include="BLL\RptGLfromPayReceivebyEntity.vb" />
@@ -166,6 +167,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BLL\RptJournalEntryByCCList.vb" />
+    <Compile Include="GL\RptTrialBalanceByCCFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GL\RptJournalEntryByCCListFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -208,6 +212,9 @@
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="GL\RptTrialBalanceByCCFilterSubPanel.resx">
+      <DependentUpon>RptTrialBalanceByCCFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\RptJournalEntryByCCListFilterSubPanel.resx">
       <DependentUpon>RptJournalEntryByCCListFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
