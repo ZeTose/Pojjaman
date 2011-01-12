@@ -170,6 +170,14 @@ Namespace Longkong.Pojjaman.DataAccessLayer
       End If
       Return ""
     End Function
+    Public Shared Function GetUserID(ByVal connString As String) As String
+      Dim re As New Regex("user\sid\s*=\s*(?<userName>[^;]*)(;|$)")
+      If re.IsMatch(connString.ToLower) Then
+        Dim g As Group = re.Match(connString.ToLower).Groups("userName")
+        Return g.Value
+      End If
+      Return ""
+    End Function
     Public Shared Function GetPassword(ByVal connString As String) As String
       Dim re As New Regex("Password\s*=\s*(?<password>[^;]*)(;|$)")
       If re.IsMatch(connString) Then

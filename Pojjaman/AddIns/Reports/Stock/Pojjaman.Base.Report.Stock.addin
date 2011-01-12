@@ -13,6 +13,7 @@
 				<MenuItem id="rptmatcount" icon="Icons.16x16.RptMatCount" label="${res:MainMenu.PurchaseMenu.RptMatCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCount"/>
 				<!--<MenuItem id="rptmatcountresult" icon="Icons.16x16.RptMatCountResult" label="${res:MainMenu.PurchaseMenu.RptMatCountResult.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountResult"/>-->			
 				<MenuItem id="rptmatcountdetail" icon="Icons.16x16.RptMatCountDetail" label="${res:MainMenu.PurchaseMenu.RptMatCountDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountDetail"/>							
+        <MenuItem id="crptmatcountexpandedlciitem" icon="Icons.16x16.CRptMatCountExpandedLciitem" label="${res:MainMenu.PurchaseMenu.CRptMatCountExpandedLciitem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CRptMatCountExpandedLciitem"/>							
 				<MenuItem id="rptstockcardmat" icon="Icons.16x16.RptStockCardMat" label="${res:MainMenu.PurchaseMenu.RptStockCardMat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardMat"/>
                                 <!--<MenuItem id="rptstockcardtool" icon="Icons.16x16.RptStockCardTool" label="${res:MainMenu.PurchaseMenu.RptStockCardTool.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardTool"/>
 				<MenuItem id="rptstockcard" icon="Icons.16x16.RptStockCard" label="${res:MainMenu.PurchaseMenu.RptStockCard.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCard"/>
@@ -34,6 +35,7 @@
 		<!--<EntityFilter id="rptstockcard" entity="rptstockcard" filter="Longkong.Pojjaman.Gui.Panels.RptStockCardFilterSubPanel"/>
 		<EntityFilter id="rptstockoutcard" entity="rptstockoutcard" filter="Longkong.Pojjaman.Gui.Panels.RptStockOutCardFilterSubPanel"/>-->
 		<EntityFilter id="rptmatwithdrawbycc" entity="rptmatwithdrawbycc" filter="Longkong.Pojjaman.Gui.Panels.RptMatWithdrawByCCFilterSubPanel"/>
+    <EntityFilter id="crptmatcountexpandedlciitem" entity="crptmatcountexpandedlciitem" filter="Longkong.Pojjaman.Gui.Panels.CRptMatCountExpandedLciItemFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="rptstockcardmat">

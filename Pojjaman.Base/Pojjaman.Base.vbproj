@@ -175,6 +175,22 @@
       <Name>AxSHDocVw</Name>
       <HintPath>External\AxSHDocVw.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
       <HintPath>External\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -194,8 +210,7 @@
       <Name>Interop.SHDocVw</Name>
       <HintPath>External\Interop.SHDocVw.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.core, Version=5.102.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="syncfusion.core">
       <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
     </Reference>
     <Reference Include="syncfusion.grid.base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
@@ -1361,6 +1376,9 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\CrystalReportPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\TelerikReportExportStylePanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1747,6 +1765,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.resx">
       <DependentUpon>WBSSetup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\CrystalReportPanelView.resx">
+      <DependentUpon>CrystalReportPanelView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\TelerikReportExportStylePanelView.resx">
       <DependentUpon>TelerikReportExportStylePanelView.vb</DependentUpon>

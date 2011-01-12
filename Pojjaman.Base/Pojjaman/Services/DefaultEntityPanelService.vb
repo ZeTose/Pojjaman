@@ -114,6 +114,8 @@ Namespace Longkong.Pojjaman.Services
         Return New TelerikReportPanelView(entity, handler, New BasketDialog, filters, entities)
       ElseIf TypeOf entity Is IUseTelerikGridReportStyle Then
         Return New TelerikReportExportStylePanelView(entity, handler, New BasketDialog, filters, entities)
+      ElseIf TypeOf entity Is IUseCrystalReport Then
+        Return New CrystalReportPanelView(entity, handler, New BasketDialog, filters, entities)
       ElseIf TypeOf entity Is Report Then
         Return New ReportPanelView(entity, handler, New BasketDialog, filters, entities)
       End If

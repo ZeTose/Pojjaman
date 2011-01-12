@@ -82,6 +82,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="syncfusion.core, Version=5.102.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
@@ -117,6 +120,22 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\TelerikCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -131,6 +150,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\Material\CRptMatCountExpandedLciItem.vb" />
     <Compile Include="BLL\Material\RptMatTransfer.vb" />
     <Compile Include="BLL\Material\RptMatCount.vb">
       <SubType>Code</SubType>
@@ -165,6 +185,15 @@
     <Compile Include="BLL\Tool\RptStockCardTool.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Rpt\CRptMatCountExpandedLciItem1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRptMatCountExpandedLciItem.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Material\CRptMatCountExpendedLciItemFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\Material\RptMatTransferFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,6 +227,13 @@
     <Compile Include="UI\Tool\RptStockCardToolFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="Rpt\CRptMatCountExpandedLciItem.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRptMatCountExpandedLciItem1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Material\CRptMatCountExpendedLciItemFilterSubPanel.resx">
+      <DependentUpon>CRptMatCountExpendedLciItemFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Material\RptMatTransferFilterSubPanel.resx">
       <DependentUpon>RptMatTransferFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -283,9 +319,13 @@
       <Name>Pojjaman.CustomControls</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\Stock</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\Stock
+copy $(ProjectDir)Rpt\*.rpt $(SolutionDir)Pojjaman\data\forms\Crystal</PostBuildEvent>
   </PropertyGroup>
 </Project>

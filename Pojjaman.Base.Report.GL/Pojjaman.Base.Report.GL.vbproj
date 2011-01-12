@@ -82,6 +82,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="syncfusion.core, Version=5.102.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
@@ -147,6 +150,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\CRptJournalEntry.vb" />
     <Compile Include="BLL\RptJournalEntryByCC.vb" />
     <Compile Include="BLL\RptGLPayReceivebyAcct.vb" />
     <Compile Include="BLL\RptGLfromPayReceivebyEntity.vb" />
@@ -163,6 +167,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BLL\RptJournalEntryByCCList.vb" />
+    <Compile Include="GL\CRptJournalEntryFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GL\RptJournalEntryByCCListFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -205,6 +212,12 @@
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Rpt\CRptJournalEntry.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="GL\CRptJournalEntryFilterSubPanel.resx">
+      <DependentUpon>CRptJournalEntryFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\RptJournalEntryByCCListFilterSubPanel.resx">
       <DependentUpon>RptJournalEntryByCCListFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -243,6 +256,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GL\RptSpecialJournalEntryFilterSubPanel.resx">
       <DependentUpon>RptSpecialJournalEntryFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rpt\CRptJournalEntry.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRptJournalEntry1.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -308,9 +325,13 @@
       <Name>Pojjaman.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
-    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\GL</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\GL
+copy $(ProjectDir)Rpt\*.rpt $(SolutionDir)Pojjaman\data\forms\Crystal</PostBuildEvent>
   </PropertyGroup>
 </Project>
