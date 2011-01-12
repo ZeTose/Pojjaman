@@ -55,6 +55,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csCode.TextBox.Name = "acct_code"
       csCode.ReadOnly = True
 
+      Dim csbook As New TreeTextColumn
+      csbook.MappingName = "acct_book"
+      csbook.HeaderText = "รว" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DescriptionHeaderText}")
+      csbook.NullText = ""
+      csbook.Width = 60
+      csbook.DataAlignment = HorizontalAlignment.Left
+      csbook.Alignment = HorizontalAlignment.Left
+      csbook.TextBox.Name = "acct_book"
+      csbook.ReadOnly = True
+
+
       Dim csName As New PlusMinusTreeTextColumn
       csName.MappingName = "acct_name"
       csName.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitHeaderText}")
@@ -65,15 +76,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csName.TextBox.Name = "acct_name"
       csName.ReadOnly = True
 
-      Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "amount"
-      csAmount.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitPriceHeaderText}")
-      csAmount.NullText = ""
-      csAmount.Width = 100
-      csAmount.DataAlignment = HorizontalAlignment.Right
-      csAmount.Format = "#,###.##"
-      csAmount.TextBox.Name = "amount"
-      csAmount.ReadOnly = True
+      Dim csDr As New TreeTextColumn
+      csDr.MappingName = "dr"
+      csDr.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitPriceHeaderText}")
+      csDr.NullText = ""
+      csDr.Width = 100
+      csDr.DataAlignment = HorizontalAlignment.Right
+      csDr.Format = "#,###.##"
+      csDr.TextBox.Name = "Dr"
+      csDr.ReadOnly = True
+
+      Dim csCr As New TreeTextColumn
+      csCr.MappingName = "cr"
+      csCr.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitPriceHeaderText}")
+      csCr.NullText = ""
+      csCr.Width = 100
+      csCr.DataAlignment = HorizontalAlignment.Right
+      csCr.Format = "#,###.##"
+      csCr.TextBox.Name = "Cr"
+      csCr.ReadOnly = True
+
+      Dim csBal As New TreeTextColumn
+      csBal.MappingName = "bal"
+      csBal.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitPriceHeaderText}")
+      csBal.NullText = ""
+      csBal.Width = 100
+      csBal.DataAlignment = HorizontalAlignment.Right
+      csBal.Format = "#,###.##"
+      csBal.TextBox.Name = "bal"
+      csBal.ReadOnly = True
 
       Dim csDescription As New TreeTextColumn
       csDescription.MappingName = "description"
@@ -94,9 +125,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csbook)
       dst.GridColumnStyles.Add(csName)
-      dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csDescription)
+      dst.GridColumnStyles.Add(csDr)
+      dst.GridColumnStyles.Add(csCr)
+      dst.GridColumnStyles.Add(csBal)
       dst.GridColumnStyles.Add(csRowType)
 
       Return dst
@@ -108,9 +142,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(selectedCol)
       'myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("acct_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("acct_book", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("acct_name", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("description", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("dr", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("cr", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bal", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("rowType", GetType(String)))
 
       Return myDatatable
@@ -123,9 +160,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' Level 1.
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
       tr("acct_code") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.AcctCode}") '"รหัสบัญชี"
+      tr("acct_book") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.BookCode}") '"รหัสบัญชี"
       tr("acct_name") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.AcctName}") '"ชื่อบัญชี"
-      tr("amount") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Amount}") '"จำนวนเงิน"
       tr("description") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList.Description}") '"ประเภทเอกสาร"
+      tr("Dr") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Debit}") '"จำนวนเงิน"
+      tr("Cr") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Credit}") '"จำนวนเงิน"
+      tr("bal") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPGL.Remain}") '"จำนวนเงิน"
       ' Level 2.
       'tr = Me.m_treemanager.Treetable.Childs.Add
       'tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.DocDate}") '"วันที่เอกสาร"
@@ -232,8 +272,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim showTreeParent As Boolean = False
       Dim showAllAccount As Boolean = False
       Dim showDocument As Boolean = False
-      Dim accountCodeStartFilter As String = ""
-      Dim accountCodeEndFilter As String = ""
+      Dim ccCodeStartFilter As String = ""
+      Dim ccCodeEndFilter As String = ""
 
       If Not Me.Filters(8).Value.Equals(DBNull.Value) Then
         showTreeParent = CType(Me.Filters(8).Value, Boolean)
@@ -241,18 +281,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Filters(10).Value.Equals(DBNull.Value) Then
         showDocument = CType(Me.Filters(10).Value, Boolean)
       End If
-      If Not Me.Filters(2).Value.Equals(DBNull.Value) Then
-        accountCodeStartFilter = CType(Me.Filters(6).Value, String)
+      If Not Me.Filters(6).Value.Equals(DBNull.Value) Then
+        ccCodeStartFilter = CType(Me.Filters(6).Value, String)
       End If
 
-      If Not Me.Filters(3).Value.Equals(DBNull.Value) Then
-        accountCodeEndFilter = CType(Me.Filters(7).Value, String)
+      If Not Me.Filters(7).Value.Equals(DBNull.Value) Then
+        ccCodeEndFilter = CType(Me.Filters(7).Value, String)
       End If
 
       Dim dt2 As DataTable = Me.DataSet.Tables(0)
-      Dim dt3 As DataTable = Me.DataSet.Tables(2)
-      Dim dt4 As DataTable = CostCenter.GetCostCenterSet
-      Dim ccDataSource As DataTable = SetDataSourceFiltered(dt4, "cc_code", accountCodeStartFilter, accountCodeEndFilter)
+      Dim dtacctcc As DataTable = Me.DataSet.Tables(2)
+      Dim dtdoc As DataTable = Me.DataSet.Tables(3)
+      
+      Dim dt5 As DataTable = CostCenter.GetCostCenterSet
+      Dim ccDataSource As DataTable = SetDataSourceFiltered(dt5, "cc_code", ccCodeStartFilter, ccCodeEndFilter)
       Dim newCChash As New Hashtable
 
       For Each ccRow As DataRow In ccDataSource.Rows
@@ -279,6 +321,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ccHash As New Hashtable
       Dim key As String = ""
 
+      Dim Bal As Decimal = 0
+      Dim coeff As Decimal = 1
+
       m_hashData = New Hashtable
       Dim trIndex As Integer = 0
 
@@ -297,48 +342,70 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tr.State = RowExpandState.Expanded
 
             If showDocument Then
-              For Each docrow As DataRow In dt3.Select("gli_acct=" & acctId.ToString)
-                Dim drh As New DataRowHelper(docrow)
+              For Each acctccrow As DataRow In dtacctcc.Select("gli_acct=" & acctId.ToString)
+                Dim drh As New DataRowHelper(acctccrow)
                 ccId = drh.GetValue(Of Integer)("gli_cc")
                 key = drh.GetValue(Of String)("key")
 
-                If Not ccHash.ContainsKey(key) Then
-                  childNode = tr.Childs.Add
-                  childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
-                  childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
-                  childNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("amount"), DigitConfig.Price)
-                  childNode("rowType") = "costcenter"
-                  ccHash(key) = childNode
-                  childNode.State = RowExpandState.Expanded
+                childNode = tr.Childs.Add
+                childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
+                childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
+               
+                childNode("rowType") = "costcenter"
+                ccHash(key) = childNode
+                childNode.State = RowExpandState.Expanded
+                'แสดงตามเครื่องหมายตามหมวดบัญชี
+                coeff = drh.GetValue(Of Decimal)("coeff", 1)
+                Bal = drh.GetValue(Of Decimal)("BfDR") - drh.GetValue(Of Decimal)("BfCr")
 
+                'บรรทัดยกมา
+                If Bal <> 0 Then
                   docNode = childNode.Childs.Add
                   trIndex = Me.m_treemanager.Treetable.Rows.IndexOf(docNode) + 1
                   m_hashData(trIndex) = drh
-                  docNode("acct_code") = indent & indent & drh.GetValue(Of Date)("gl_refdate").ToShortDateString
-                  docNode("acct_name") = drh.GetValue(Of String)("gl_refcode")
-                  docNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gli_amt"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
-                  docNode("description") = drh.GetValue(Of String)("entity_description")
-                  docNode("rowType") = "document"
-                Else
-                  docNode = CType(ccHash(key), TreeRow).Childs.Add
-                  trIndex = Me.m_treemanager.Treetable.Rows.IndexOf(docNode) + 1
-                  m_hashData(trIndex) = drh
-                  docNode("acct_code") = indent & indent & drh.GetValue(Of Date)("gl_refdate").ToShortDateString
-                  docNode("acct_name") = drh.GetValue(Of String)("gl_refcode")
-                  docNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gli_amt"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
-                  docNode("description") = drh.GetValue(Of String)("entity_description")
+                  docNode("acct_name") = "ยกมา"
+                  If Bal > 0 Then
+                    docNode("Dr") = Configuration.FormatToString(coeff * Bal, DigitConfig.Price)
+                  Else
+                    docNode("Cr") = Configuration.FormatToString(coeff * Bal, DigitConfig.Price)
+                  End If
                   docNode("rowType") = "document"
                 End If
+
+                Bal = coeff * Bal
+                docNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
+
+                For Each docrow As DataRow In dtdoc.Select("key= '" & key & "'")
+                  Dim docrh As New DataRowHelper(docrow)
+                  docNode = childNode.Childs.Add
+                  trIndex = Me.m_treemanager.Treetable.Rows.IndexOf(docNode) + 1
+                  m_hashData(trIndex) = docrh
+                  docNode("acct_code") = indent & indent & docrh.GetValue(Of Date)("gl_refdate").ToShortDateString
+                  docNode("acct_book") = docrh.GetValue(Of String)("accountbook_prefix")
+                  docNode("acct_name") = docrh.GetValue(Of String)("gl_refcode")
+                  docNode("description") = docrh.GetValue(Of String)("gli_note")
+                  docNode("Dr") = Configuration.FormatToString(docrh.GetValue(Of Decimal)("DocDR"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
+                  docNode("Cr") = Configuration.FormatToString(docrh.GetValue(Of Decimal)("DocCr"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
+                  Bal = docrh.GetValue(Of Decimal)("Period") + Bal
+                  docNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
+                  docNode("rowType") = "document"
+                Next
+
+                childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
+
               Next
             Else
-              For Each glirow As DataRow In dt3.Select("gli_acct = " & acctId.ToString)
+              For Each glirow As DataRow In dtacctcc.Select("gli_acct = " & acctId.ToString)
                 Dim drh As New DataRowHelper(glirow)
                 ccId = drh.GetValue(Of Integer)("gli_cc")
                 If ccId > 0 Then
                   childNode = tr.Childs.Add
                   childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
                   childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
-                  childNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("amount"), DigitConfig.Price)
+                  coeff = drh.GetValue(Of Decimal)("coeff", 1)
+                  Bal = drh.GetValue(Of Decimal)("BfDR") - drh.GetValue(Of Decimal)("BfCr")
+                  Bal = coeff * Bal
+                  childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
                   childNode("rowType") = "costcenter"
                 End If
               Next
@@ -372,51 +439,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               If Not tr Is Nothing Then
                 If showDocument Then
-                  For Each docrow As DataRow In dt3.Select("gli_acct=" & acctId.ToString)
-                    Dim drh As New DataRowHelper(docrow)
+                  For Each acctccrow As DataRow In dtacctcc.Select("gli_acct=" & acctId.ToString)
+                    Dim drh As New DataRowHelper(acctccrow)
                     ccId = drh.GetValue(Of Integer)("gli_cc")
                     key = drh.GetValue(Of String)("key")
 
-                    If Not ccHash.ContainsKey(key) Then
-                      childNode = tr.Childs.Add
-                      childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
-                      childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
-                      childNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("amount"), DigitConfig.Price)
-                      childNode("rowType") = "costcenter"
-                      ccHash(key) = childNode
-                      childNode.State = RowExpandState.Expanded
+                    childNode = tr.Childs.Add
+                    childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
+                    childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
 
+                    childNode("rowType") = "costcenter"
+                    ccHash(key) = childNode
+                    childNode.State = RowExpandState.Expanded
+                    'แสดงตามเครื่องหมายตามหมวดบัญชี
+                    coeff = drh.GetValue(Of Decimal)("coeff", 1)
+                    Bal = drh.GetValue(Of Decimal)("BfDR") - drh.GetValue(Of Decimal)("BfCr")
+
+                    'บรรทัดยกมา
+                    If Bal <> 0 Then
                       docNode = childNode.Childs.Add
                       trIndex = Me.m_treemanager.Treetable.Rows.IndexOf(docNode) + 1
-                      Trace.WriteLine(trIndex.ToString)
                       m_hashData(trIndex) = drh
-                      docNode("acct_code") = indent & indent & drh.GetValue(Of Date)("gl_refdate").ToShortDateString
-                      docNode("acct_name") = drh.GetValue(Of String)("gl_refcode")
-                      docNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gli_amt"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
-                      docNode("description") = drh.GetValue(Of String)("entity_description")
-                      docNode("rowType") = "document"
-                    Else
-                      docNode = CType(ccHash(key), TreeRow).Childs.Add
-                      trIndex = Me.m_treemanager.Treetable.Rows.IndexOf(docNode) + 1
-                      m_hashData(trIndex) = drh
-                      docNode("acct_code") = indent & indent & drh.GetValue(Of Date)("gl_refdate").ToShortDateString
-                      docNode("acct_name") = drh.GetValue(Of String)("gl_refcode")
-                      docNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gli_amt"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
-                      docNode("description") = drh.GetValue(Of String)("entity_description")
+                      docNode("acct_name") = "ยกมา"
+                      If Bal > 0 Then
+                        docNode("Dr") = Configuration.FormatToString(coeff * Bal, DigitConfig.Price)
+                      Else
+                        docNode("Cr") = Configuration.FormatToString(coeff * Bal, DigitConfig.Price)
+                      End If
                       docNode("rowType") = "document"
                     End If
+
+                    Bal = coeff * Bal
+                    docNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
+
+                    For Each docrow As DataRow In dtdoc.Select("key= '" & key & "'")
+                      Dim docrh As New DataRowHelper(docrow)
+                      docNode = childNode.Childs.Add
+                      trIndex = Me.m_treemanager.Treetable.Rows.IndexOf(docNode) + 1
+                      m_hashData(trIndex) = docrh
+                      docNode("acct_code") = indent & indent & docrh.GetValue(Of Date)("gl_refdate").ToShortDateString
+                      docNode("acct_book") = docrh.GetValue(Of String)("accountbook_prefix")
+                      docNode("acct_name") = docrh.GetValue(Of String)("gl_refcode")
+                      docNode("description") = docrh.GetValue(Of String)("gli_note")
+                      docNode("Dr") = Configuration.FormatToString(docrh.GetValue(Of Decimal)("DocDR"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
+                      docNode("Cr") = Configuration.FormatToString(docrh.GetValue(Of Decimal)("DocCr"), DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
+                      Bal = docrh.GetValue(Of Decimal)("Period") + Bal
+                      docNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price) 'indent & indent & docdrh.GetValue(Of String)("entity_description")
+                      docNode("rowType") = "document"
+                    Next
+
+                    childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
+
                   Next
 
                 Else
-                  For Each glirow As DataRow In dt3.Select("gli_acct = " & acctId.ToString)
+                  For Each glirow As DataRow In dtacctcc.Select("gli_acct = " & acctId.ToString)
                     Dim drh As New DataRowHelper(glirow)
                     ccId = drh.GetValue(Of Integer)("gli_cc")
-
                     If ccId > 0 Then
                       childNode = tr.Childs.Add
                       childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
                       childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
-                      childNode("amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("amount"), DigitConfig.Price)
+                      coeff = drh.GetValue(Of Decimal)("coeff", 1)
+                      Bal = drh.GetValue(Of Decimal)("BfDR") - drh.GetValue(Of Decimal)("BfCr")
+                      Bal = coeff * Bal
+                      childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
                       childNode("rowType") = "costcenter"
                     End If
                   Next
