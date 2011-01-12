@@ -150,7 +150,6 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\CRptJournalEntry.vb" />
     <Compile Include="BLL\RptJournalEntryByCC.vb" />
     <Compile Include="BLL\RptGLPayReceivebyAcct.vb" />
     <Compile Include="BLL\RptGLfromPayReceivebyEntity.vb" />
@@ -167,9 +166,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BLL\RptJournalEntryByCCList.vb" />
-    <Compile Include="GL\CRptJournalEntryFilterSubPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="GL\RptJournalEntryByCCListFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -212,12 +208,6 @@
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Rpt\CRptJournalEntry.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <EmbeddedResource Include="GL\CRptJournalEntryFilterSubPanel.resx">
-      <DependentUpon>CRptJournalEntryFilterSubPanel.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GL\RptJournalEntryByCCListFilterSubPanel.resx">
       <DependentUpon>RptJournalEntryByCCListFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -257,13 +247,10 @@
     <EmbeddedResource Include="GL\RptSpecialJournalEntryFilterSubPanel.resx">
       <DependentUpon>RptSpecialJournalEntryFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Rpt\CRptJournalEntry.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRptJournalEntry1.vb</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
+    <Folder Include="Rpt\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
