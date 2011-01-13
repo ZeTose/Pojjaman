@@ -1008,7 +1008,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim key As String = ""
       Dim itemKey As String = ""
       Dim transferAmt As Decimal = 0
-
+      Dim selectIndex As Integer = 0
+      If m_wbsTreeManager.SelectedRow IsNot Nothing Then
+      selectIndex = m_wbsTreeManager.SelectedRow.Index
+      End If
       Me.m_isInitialized = False
       If TypeOf m_entity Is IWBSAllocatable Then
         Dim al As IWBSAllocatable = CType(m_entity, IWBSAllocatable)
@@ -1105,6 +1108,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
       RefreshBlankGrid()
+      If m_wbsTreeManager.Treetable.Rows.Count <= selectIndex Then
+        selectIndex = m_wbsTreeManager.Treetable.Rows.Count - 1
+      End If
+      tgToCC.CurrentRowIndex = selectIndex
       Me.UpdateAmount()
       Me.m_isInitialized = flag
     End Sub
