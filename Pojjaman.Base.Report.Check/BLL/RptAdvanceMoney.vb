@@ -39,7 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 2
-            m_grid.ColCount = 9
+            m_grid.ColCount = 10
 
             m_grid.ColWidths(1) = 150
             m_grid.ColWidths(2) = 200
@@ -50,6 +50,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColWidths(7) = 120
             m_grid.ColWidths(8) = 120
             m_grid.ColWidths(9) = 120
+            m_grid.ColWidths(10) = 120
 
             m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -60,6 +61,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
             m_grid.Rows.HeaderCount = 2
             m_grid.Rows.FrozenCount = 2
@@ -70,6 +72,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.AdvmAmt}") '"วงเงินทดรองจ่าย"
             m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.AdvmAmt}") '"วงเงินทดรองจ่าย"
             m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.PVcode}") '"ใบสำคัญจ่าย"
+            m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.Note}") '"หมายเหตุ"
 
             m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.DocDate}")  '"เลขที่เอกสาร"
             m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.DocCode}") '"รหัสเอกสารอ้างอิง"
@@ -80,10 +83,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.PayAmt}") '"ยอดตัดจ่าย"
             m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.Remain}") '"ยอดคงเหลือ"
             m_grid(1, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.PVcode}") '"ใบสำคัญจ่าย"
+            m_grid(1, 10).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.Note}") '"หมายเหตุ"
 
             m_grid(2, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.ItemCode}") '"รหัสสินค้า"
             m_grid(2, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.ItemName}") '"รายละเอียด"
-            'm_grid(2, 8).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.ItemAmt}") '"รายละเอียด"
+            m_grid(2, 10).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney.Note}") '"หมายเหตุ"
 
             m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -98,7 +102,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid(1, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-
 
             m_grid(2, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(2, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -138,6 +141,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     m_grid(currAdvmIndex, 1).CellValue = ADVMrow("DocCode")
                     m_grid(currAdvmIndex, 2).CellValue = ADVMrow("DocName")
                     m_grid(currAdvmIndex, 4).CellValue = ADVMrow("PVcode")
+                    m_grid(currAdvmIndex, 10).CellValue = ADVMrow("advm_note")
 
                     If IsNumeric(ADVMrow("AdvmAmt")) Then
                         m_grid(currAdvmIndex, 7).CellValue = Configuration.FormatToString(CDec(ADVMrow("AdvmAmt")), DigitConfig.Price)
@@ -193,6 +197,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             If Not RefDocRow.IsNull("CCName") Then
                                 m_grid(currRefDocIndex, 6).CellValue = indent & RefDocRow("CCName").ToString
                             End If
+                            If Not RefDocRow.IsNull("Note") Then
+                                m_grid(currRefDocIndex, 10).CellValue = indent & RefDocRow("Note").ToString
+                            End If
                             If IsNumeric(RefDocRow("PayAmt")) Then
                                 m_grid(currRefDocIndex, 8).CellValue = indent & Configuration.FormatToString(CDec(RefDocRow("PayAmt")), DigitConfig.Price)
                                 tmpAdvmRemainAmt -= CDec(RefDocRow("PayAmt"))
@@ -220,6 +227,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                     End If
                                     If Not ItemRow.IsNull("Amount") Then
                                         m_grid(currItemIndex, 8).CellValue = indent & indent & Configuration.FormatToString(CDec(ItemRow("Amount")), DigitConfig.Price)
+                                    End If
+                                    If Not ItemRow.IsNull("Note") Then
+                                        m_grid(currItemIndex, 10).CellValue = indent & indent & ItemRow("Note").ToString
                                     End If
                                 End If
                             Next
