@@ -434,6 +434,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Get
             Set(ByVal Value As String)
                 m_note = Value
+                Me.Payment.Note = m_note
+                Me.JournalEntry.Note = m_note
             End Set
         End Property
         Public Property CreditPeriod() As Long            Get                Return m_creditPeriod            End Get            Set(ByVal Value As Long)                m_creditPeriod = Value            End Set        End Property
