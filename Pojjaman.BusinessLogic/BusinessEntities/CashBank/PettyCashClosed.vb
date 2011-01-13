@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PettyCashClosed
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IReceivable, ICheckPeriod
+    Implements IGLAble, IReceivable, ICheckPeriod, ICancelable
 
 
 
@@ -693,6 +693,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region ""
+    Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
+      Get
+        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+      End Get
+    End Property
+    Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
+      Me.Status.Value = 0
+      Me.Receive.Status.Value = 0
+      Me.JournalEntry.Status.Value = 0
+      Return Me.Save(currentUserId)
+    End Function
+#End Region
 
   End Class
 End Namespace
