@@ -298,6 +298,10 @@
       <Project>{9468AB53-2E76-4F76-9CCA-850841803055}</Project>
       <Name>Longkong.XmlForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base.Report.Stock\Pojjaman.Base.Report.Stock.vbproj">
+      <Project>{35385225-C690-4AD8-A520-F49C8B984713}</Project>
+      <Name>Pojjaman.Base.Report.Stock</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
       <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>
       <Name>Pojjaman.Base</Name>
