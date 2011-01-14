@@ -560,7 +560,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
-          'ChangeNewItemStatus(conn, trans)
+          UpdateAssetWriteOffAmt(Me.Id, conn, trans)
           If Not Me.FromCostCenter Is Nothing Then
             Me.m_receive.CcId = Me.FromCostCenter.Id
             Me.m_whtcol.SetCCId(Me.FromCostCenter.Id)
@@ -616,16 +616,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
-          'trans.Commit()
-          'Try
-          'trans = conn.BeginTransaction()
-
+          
 
           If Me.m_je.Status.Value = -1 Then
             m_je.Status.Value = 3
           End If
-          'Me.m_grouping = False
-          'Me.ReLoadItems()
+          
           '********************************************
           If Not Me.JournalEntry.ManualFormat Then
             If Not (Me.m_je.GLFormat.Originated) Then
@@ -681,6 +677,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldStockItemStatus", New SqlParameter("@stock_id", Me.Id))
+    End Sub
+    Private Sub UpdateAssetWriteOffAmt(ByVal Id As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      If Not Me.Originated Then
+        Return
+      End If
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteOffAmt", New SqlParameter("@eqtstock_id", Me.Id))
     End Sub
     'Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
     '  If Not Me.Originated Then
