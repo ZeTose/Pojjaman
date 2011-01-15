@@ -39,31 +39,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 2
-      m_grid.ColCount = 11
+            m_grid.ColCount = 12
 
       m_grid.ColWidths(1) = 150
       m_grid.ColWidths(2) = 200
-      m_grid.ColWidths(3) = 100
-      m_grid.ColWidths(4) = 120 'ยอดเอกสาร
-      m_grid.ColWidths(5) = 100 ' ยอดหัก retention
-      m_grid.ColWidths(6) = 100 ' retention ยกมา
-      m_grid.ColWidths(7) = 100 ' ยอดชำระ retention
-      m_grid.ColWidths(8) = 100 ' retentionคงเหลือ
-      m_grid.ColWidths(9) = 150
-      m_grid.ColWidths(10) = 150
-      m_grid.ColWidths(11) = 150
+            m_grid.ColWidths(3) = 100
+            m_grid.ColWidths(4) = 100
+            m_grid.ColWidths(5) = 120 'ยอดเอกสาร
+            m_grid.ColWidths(6) = 100 ' ยอดหัก retention
+            m_grid.ColWidths(7) = 100 ' retention ยกมา
+            m_grid.ColWidths(8) = 100 ' ยอดชำระ retention
+            m_grid.ColWidths(9) = 100 ' retentionคงเหลือ
+            m_grid.ColWidths(10) = 150
+            m_grid.ColWidths(11) = 150
+            m_grid.ColWidths(12) = 150
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 2
       m_grid.Rows.FrozenCount = 2
@@ -73,61 +75,63 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim indent As String = Space(3)
       m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SupplierCode}")  '"รหัสผู้รับเหมา"
       m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SupplierName}") '"ชื่อผู้รับเหมา"
-      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGrossAmount}") '"มูลค่าตามเอกสาร"
-      m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGRRetention}") '"รวม Retention"
-      m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.Opbretention}") '"Retentionยกมา"
-      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysAmount}") '"รวมมูลค่าชำระ"
-      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysBalance}") '"รวมมูลค่าค้างชำระ"
+            m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGrossAmount}") '"มูลค่าตามเอกสาร"
+            m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGRRetention}") '"รวม Retention"
+            m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.Opbretention}") '"Retentionยกมา"
+            m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysAmount}") '"รวมมูลค่าชำระ"
+            m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysBalance}") '"รวมมูลค่าค้างชำระ"
 
       m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.CCCode}")  '"รหัสโครงการ"
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.CCName}")  '"ชื่อโครงการ"
-      m_grid(1, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGrossAmount}")   '"รวมมูลค่าตามเอกสาร"
-      m_grid(1, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGRRetention}")  '"รวม Retention"
-      m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.Opbretention}")  '"Retentionยกมา"           
-      m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysAmount}")  '"รวมมูลค่าชำระ"           
-      m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysBalance}")  '"รวมมูลค่าค้างชำระ"
+            m_grid(1, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGrossAmount}")   '"รวมมูลค่าตามเอกสาร"
+            m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumGRRetention}")  '"รวม Retention"
+            m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.Opbretention}")  '"Retentionยกมา"           
+            m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysAmount}")  '"รวมมูลค่าชำระ"           
+            m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.SumPaysBalance}")  '"รวมมูลค่าค้างชำระ"
 
       m_grid(2, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.DocDate}")  '"วันที่ซื้อสินค้า/บริการ"
       m_grid(2, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.DocCode}")  '"เลขที่เอกสาร"
-      m_grid(2, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaymentDocCode}")  '"เลขที่ PV"
-      m_grid(2, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.GrossAmount}")   '"มูลค่าตามเอกสาร"
-      m_grid(2, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.GRRetention}")  '"มูลค่า Retention"
-      m_grid(2, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.Opbretention}")  '"Retentionยกมา"
-      m_grid(2, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysAmount}")  '"มูลค่าชำระ"
-      m_grid(2, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysBalance}")  '"มูลค่าค้างชำระ"
-      m_grid(2, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysDate}")  '"วันที่จ่ายคืน Retention"
-      m_grid(2, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysDocCode}")  '"เลขที่เอกสารจ่าย"
-      m_grid(2, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaymentDocCode}")  '"เลขที่ PV"
+            m_grid(2, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.DueDate}")  '"วันที่ครบกำหนด"
+            m_grid(2, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaymentDocCode}")  '"เลขที่ PV"
+            m_grid(2, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.GrossAmount}")   '"มูลค่าตามเอกสาร"
+            m_grid(2, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.GRRetention}")  '"มูลค่า Retention"
+            m_grid(2, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.Opbretention}")  '"Retentionยกมา"
+            m_grid(2, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysAmount}")  '"มูลค่าชำระ"
+            m_grid(2, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysBalance}")  '"มูลค่าค้างชำระ"
+            m_grid(2, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysDate}")  '"วันที่จ่ายคืน Retention"
+            m_grid(2, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaysDocCode}")  '"เลขที่เอกสารจ่าย"
+            m_grid(2, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptRetention.PaymentDocCode}")  '"เลขที่ PV"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
       m_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(1, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
       m_grid(2, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(2, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(2, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(2, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(2, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(2, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(2, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(2, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(2, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(2, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(2, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(2, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(2, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(2, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(2, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(2, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(2, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(2, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid(2, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(2, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(2, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub PopulateData()
       Dim dtOnRet As DataTable = Me.DataSet.Tables(0)  'Table ที่หัก Retention ไว้
@@ -229,12 +233,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If Not drowOnRet.IsNull("Retention_Code") Then
             m_grid(currItemIndex, 2).CellValue = indent & indent & drowOnRet("Retention_Code").ToString
-          End If
+                    End If
+                    If Not drowOnRet.IsNull("DueDate") Then
+                        m_grid(currItemIndex, 3).CellValue = indent & indent & CDate(drowOnRet("DueDate")).ToShortDateString
+                    End If
           If Not drowOnRet.IsNull("Stock_pvrv") Then
-            m_grid(currItemIndex, 3).CellValue = indent & indent & drowOnRet("Stock_pvrv").ToString
+                        m_grid(currItemIndex, 4).CellValue = indent & indent & drowOnRet("Stock_pvrv").ToString
           End If
           If IsNumeric(drowOnRet("Stock_Aftertax")) Then
-            m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(drowOnRet("Stock_Aftertax")), DigitConfig.Price)
+                        m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(drowOnRet("Stock_Aftertax")), DigitConfig.Price)
             sumGrossAmt_Supplier += CDec(drowOnRet("Stock_Aftertax"))
             sumGrossAmt_Costcenter += CDec(drowOnRet("Stock_Aftertax"))
           End If
@@ -245,7 +252,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sumRetention += tmpRetention
           End If
           If tmpRetention <> 0 Then
-            m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(tmpRetention, DigitConfig.Price)
+                        m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpRetention, DigitConfig.Price)
           End If
           If IsNumeric(drowOnRet("opbRet")) Then
             tmpOpbRetention = CDec(drowOnRet("opbRet"))
@@ -278,63 +285,63 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
 
           If tmpSumPaysItem > 0 Then
-            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
+                        m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
             sumRetentionPays_Supplier += tmpSumPaysItem
             sumRetentionPays_Costcenter += tmpSumPaysItem
             sumRetentionPays += tmpSumPaysItem
           End If
 
           If tmpPaysDate.Length > 1 Then
-            m_grid(currItemIndex, 9).CellValue = tmpPaysDate.Substring(1)
+                        m_grid(currItemIndex, 10).CellValue = tmpPaysDate.Substring(1)
           End If
           If tmpPaysCode.Length > 1 Then
-            m_grid(currItemIndex, 10).CellValue = tmpPaysCode.Substring(1)
+                        m_grid(currItemIndex, 11).CellValue = tmpPaysCode.Substring(1)
           End If
           If tmpPaymentCode.Length > 1 Then
-            m_grid(currItemIndex, 11).CellValue = tmpPaymentCode.Substring(1)
+                        m_grid(currItemIndex, 12).CellValue = tmpPaymentCode.Substring(1)
           End If
 
           tmpPaysBalance = tmpOpbRetention - tmpSumPaysItem
           If tmpPaysBalance <> 0 Then
-            m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpPaysBalance, DigitConfig.Price)
+                        m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpPaysBalance, DigitConfig.Price)
             sumPaysBalance_Supplier += tmpPaysBalance
             sumPaysBalance_Costcenter += tmpPaysBalance
             sumPaysBalance += tmpPaysBalance
           End If
 
           If sumGrossAmt_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 4).CellValue = Configuration.FormatToString(sumGrossAmt_Supplier, DigitConfig.Price)
+                        m_grid(currSupplierIndex, 5).CellValue = Configuration.FormatToString(sumGrossAmt_Supplier, DigitConfig.Price)
           End If
           If sumGrossAmt_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 4).CellValue = Configuration.FormatToString(sumGrossAmt_Costcenter, DigitConfig.Price)
+                        m_grid(currCostCenterIndex, 5).CellValue = Configuration.FormatToString(sumGrossAmt_Costcenter, DigitConfig.Price)
           End If
 
           If sumRetention_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 5).CellValue = Configuration.FormatToString(sumRetention_Supplier, DigitConfig.Price)
+                        m_grid(currSupplierIndex, 6).CellValue = Configuration.FormatToString(sumRetention_Supplier, DigitConfig.Price)
           End If
           If sumRetention_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 5).CellValue = Configuration.FormatToString(sumRetention_Costcenter, DigitConfig.Price)
+                        m_grid(currCostCenterIndex, 6).CellValue = Configuration.FormatToString(sumRetention_Costcenter, DigitConfig.Price)
           End If
 
           If sumOpbRetention_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 6).CellValue = Configuration.FormatToString(sumOpbRetention_Supplier, DigitConfig.Price)
+                        m_grid(currSupplierIndex, 7).CellValue = Configuration.FormatToString(sumOpbRetention_Supplier, DigitConfig.Price)
           End If
           If sumOpbRetention_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 6).CellValue = Configuration.FormatToString(sumOpbRetention_Costcenter, DigitConfig.Price)
+                        m_grid(currCostCenterIndex, 7).CellValue = Configuration.FormatToString(sumOpbRetention_Costcenter, DigitConfig.Price)
           End If
 
           If sumRetentionPays_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays_Supplier, DigitConfig.Price)
+                        m_grid(currSupplierIndex, 8).CellValue = Configuration.FormatToString(sumRetentionPays_Supplier, DigitConfig.Price)
           End If
           If sumRetentionPays_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays_Costcenter, DigitConfig.Price)
+                        m_grid(currCostCenterIndex, 8).CellValue = Configuration.FormatToString(sumRetentionPays_Costcenter, DigitConfig.Price)
           End If
 
           If sumPaysBalance_Supplier <> 0 Then
-            m_grid(currSupplierIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance_Supplier, DigitConfig.Price)
+                        m_grid(currSupplierIndex, 9).CellValue = Configuration.FormatToString(sumPaysBalance_Supplier, DigitConfig.Price)
           End If
           If sumPaysBalance_Costcenter <> 0 Then
-            m_grid(currCostCenterIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance_Costcenter, DigitConfig.Price)
+                        m_grid(currCostCenterIndex, 9).CellValue = Configuration.FormatToString(sumPaysBalance_Costcenter, DigitConfig.Price)
           End If
         Catch ex As Exception
           MessageBox.Show(ex.ToString & vbCrLf & ex.StackTrace)
@@ -346,11 +353,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(143, 197, 185)
       m_grid.RowStyles(currItemIndex).Font.Bold = True
       m_grid.RowStyles(currItemIndex).ReadOnly = True
-      m_grid(currItemIndex, 3).CellValue = "รวม"
-      m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(sumRetention, DigitConfig.Price)
-      m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(sumOpbRetention, DigitConfig.Price)
-      m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(sumRetentionPays, DigitConfig.Price)
-      m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(sumPaysBalance, DigitConfig.Price)
+            m_grid(currItemIndex, 4).CellValue = "รวม"
+            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(sumRetention, DigitConfig.Price)
+            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(sumOpbRetention, DigitConfig.Price)
+            m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(sumRetentionPays, DigitConfig.Price)
+            m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(sumPaysBalance, DigitConfig.Price)
 
     End Sub
 

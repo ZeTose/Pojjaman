@@ -82,6 +82,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="syncfusion.core, Version=5.102.1.47, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
@@ -123,6 +126,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -399,6 +405,10 @@
     <ProjectReference Include="..\Longkong.CustomControls\Longkong.CustomControls.vbproj">
       <Project>{CAB0F2DC-B5F0-4F4C-A8BB-83EFE7990609}</Project>
       <Name>Longkong.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Base.Report.Stock\Pojjaman.Base.Report.Stock.vbproj">
+      <Project>{35385225-C690-4AD8-A520-F49C8B984713}</Project>
+      <Name>Pojjaman.Base.Report.Stock</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pojjaman.Base\Pojjaman.Base.vbproj">
       <Project>{1A62D3B7-C01D-4FAC-8722-13673EC16E48}</Project>

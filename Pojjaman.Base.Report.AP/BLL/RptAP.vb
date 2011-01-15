@@ -263,9 +263,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("DocCode") Then
             m_grid(currDocIndex, 2).CellValue = indent & row("DocCode").ToString
           End If
-          If Not row.IsNull("RefCode") Then
-            m_grid(currDocIndex, 3).CellValue = indent & row("RefCode").ToString
-          End If
+                    If Not row.IsNull("RefCode") OrElse Not row.IsNull("APVatCode") Then
+                        m_grid(currDocIndex, 3).CellValue = indent & row("RefCode").ToString & indent & row("APVatCode").ToString
+                    End If
           If Not row.IsNull("Type") Then
             m_grid(currDocIndex, 4).CellValue = indent & row("Type").ToString
           End If
