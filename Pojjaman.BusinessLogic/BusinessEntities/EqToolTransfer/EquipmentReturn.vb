@@ -533,13 +533,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             End If
                             row("stockiw_baseCost") = baseCost - amt
 
-                            Dim transferbaseCost As Decimal
-                            If IsNumeric(row("stockiw_transferbaseCost")) Then
-                                transferbaseCost = CDec(row("stockiw_transferbaseCost"))
-                            End If
-                            row("stockiw_transferbaseCost") = transferbaseCost - amt
+              'Dim transferbaseCost As Decimal
+              'If IsNumeric(row("stockiw_transferbaseCost")) Then
+              '    transferbaseCost = CDec(row("stockiw_transferbaseCost"))
+              'End If
+              'row("stockiw_transferbaseCost") = transferbaseCost - amt
 
-                            row("stockiw_transferamt") = (transferbaseCost - amt) * percent / 100
+              'row("stockiw_transferamt") = (transferbaseCost - amt) * percent / 100
                             row("stockiw_amt") = (baseCost - amt) * percent / 100
                         End If
                     Next
@@ -585,13 +585,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 End If
                                 row("stockiw_baseCost") = baseCost + item.Amount
 
-                                Dim transferbaseCost As Decimal
-                                If IsNumeric(row("stockiw_transferbaseCost")) Then
-                                    transferbaseCost = CDec(row("stockiw_transferbaseCost"))
-                                End If
-                                row("stockiw_transferbaseCost") = transferbaseCost + item.Amount
+                'Dim transferbaseCost As Decimal
+                'If IsNumeric(row("stockiw_transferbaseCost")) Then
+                '    transferbaseCost = CDec(row("stockiw_transferbaseCost"))
+                'End If
+                'row("stockiw_transferbaseCost") = transferbaseCost + item.Amount
 
-                                row("stockiw_transferamt") = (transferbaseCost + item.Amount) * percent / 100
+                'row("stockiw_transferamt") = (transferbaseCost + item.Amount) * percent / 100
                                 row("stockiw_amt") = (baseCost + item.Amount) * percent / 100
                             End If
                         Next
@@ -620,13 +620,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                                 row("stockiw_baseCost") = baseCost + item.Amount - amt
 
-                                Dim transferbaseCost As Decimal
-                                If IsNumeric(row("stockiw_transferbaseCost")) Then
-                                    transferbaseCost = CDec(row("stockiw_transferbaseCost"))
-                                End If
-                                row("stockiw_transferbaseCost") = transferbaseCost + item.Amount - amt
+                'Dim transferbaseCost As Decimal
+                'If IsNumeric(row("stockiw_transferbaseCost")) Then
+                '    transferbaseCost = CDec(row("stockiw_transferbaseCost"))
+                'End If
+                'row("stockiw_transferbaseCost") = transferbaseCost + item.Amount - amt
 
-                                row("stockiw_transferamt") = (transferbaseCost + item.Amount - amt) * percent / 100
+                'row("stockiw_transferamt") = (transferbaseCost + item.Amount - amt) * percent / 100
                                 row("stockiw_amt") = (baseCost + item.Amount - amt) * percent / 100
                             End If
                         Next
