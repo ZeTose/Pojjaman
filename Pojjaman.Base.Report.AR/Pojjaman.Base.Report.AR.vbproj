@@ -131,6 +131,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptAdvanceMilestone.vb" />
     <Compile Include="BLL\RptRefARBillIssueByDueDate.vb" />
     <Compile Include="BLL\RptARGoodsSoldByBillisue.vb" />
     <Compile Include="BLL\RptAR.vb">
@@ -165,6 +166,9 @@
     </Compile>
     <Compile Include="BLL\RptReceiveDue.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\RptAdvanceMilestoneFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptRefARBillIssueByDueDate.vb">
       <SubType>UserControl</SubType>
@@ -205,6 +209,9 @@
     <Compile Include="UI\RptReceiveDueFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\RptAdvanceMilestoneFilterSubPanel.resx">
+      <DependentUpon>RptAdvanceMilestoneFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptRefARBillIssueByDueDate.resx">
       <DependentUpon>RptRefARBillIssueByDueDate.vb</DependentUpon>
     </EmbeddedResource>

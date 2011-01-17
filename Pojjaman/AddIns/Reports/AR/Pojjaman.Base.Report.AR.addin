@@ -17,6 +17,7 @@
 				<MenuItem id="RptARReceive" icon="Icons.16x16.RptARReceive" label="${res:MainMenu.PurchaseMenu.RptARReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARReceive"/>			
 				<MenuItem id="RptARAging" icon="Icons.16x16.RptARAging" label="${res:MainMenu.PurchaseMenu.RptARAging.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAging"/>
 				<MenuItem id="RptARAdvanceReceive" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptARAdvanceReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive"/>
+				<MenuItem id="RptAdvanceMilestone" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptAdvanceMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone"/>
 				<MenuItem id="RptCustomer" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptCustomer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCustomer"/>
 			</MenuItem>
 		</Conditional>
@@ -28,6 +29,7 @@
     <EntityFilter id="rptrefarbillissuebyduedate" entity="rptrefarbillissuebyduedate" filter="Longkong.Pojjaman.Gui.Panels.RptRefARBillIssueByDueDateFilterSubPanel"/>
 		<EntityFilter id="rptarremain" entity="rptarremain" filter="Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel"/>
 		<EntityFilter id="rptaradvancereceive" entity="rptaradvancereceive" filter="Longkong.Pojjaman.Gui.Panels.RptARAdvanceReceiveFilterSubPanel"/>
+		<EntityFilter id="rptadvancemilestone" entity="rptadvancemilestone" filter="Longkong.Pojjaman.Gui.Panels.RptAdvanceMilestoneFilterSubPanel"/>
 		<EntityFilter id="rptarreceive" entity="rptarreceive" filter="Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel"/>
 		<EntityFilter id="rptar" entity="rptar" filter="Longkong.Pojjaman.Gui.Panels.RptARFilterSubPanel"/>
 		<EntityFilter id="rptarenumerate" entity="rptarenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptAREnumerateFilterSubPanel"/>
@@ -52,6 +54,9 @@
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
 		<EntityTab id="rptaradvancereceive">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptadvancemilestone">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
 		<EntityTab id="rptarreceive">
