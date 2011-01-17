@@ -141,7 +141,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtLanguage As System.Windows.Forms.TextBox
     Friend WithEvents lblRate As System.Windows.Forms.Label
         Friend WithEvents lblUnit2 As System.Windows.Forms.Label
-        Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
     Friend WithEvents ibtUnlocker As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
@@ -253,7 +253,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblUnit1 = New System.Windows.Forms.Label()
             Me.lblRate = New System.Windows.Forms.Label()
             Me.lblUnit2 = New System.Windows.Forms.Label()
-            Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
             CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.grbReceive.SuspendLayout()
             Me.grbDelivery.SuspendLayout()
