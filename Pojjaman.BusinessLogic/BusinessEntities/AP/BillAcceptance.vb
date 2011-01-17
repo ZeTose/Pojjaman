@@ -3021,7 +3021,41 @@ Public Class BillAcceptanceItemCollection
         Return New ColumnCollection(Me.ClassName, 0)
       End Get
     End Property
-  End Class
+    End Class
+    Public Class PARetentionForBillAcceptance
+        Inherits PurchaseRetention
+
+        Public Overrides ReadOnly Property ClassName As String
+            Get
+                Return "PARetentionForBillAcceptance"
+            End Get
+        End Property
+        'Public Overrides ReadOnly Property Columns() As ColumnCollection
+        '    Get
+        '        Return New ColumnCollection(Me.ClassName, 0)
+        '    End Get
+        'End Property
+        Public Overrides ReadOnly Property DetailPanelTitle() As String
+            Get
+                Return "${res:Longkong.Pojjaman.BusinessLogic.PARetention.DetailLabel}"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property DetailPanelIcon() As String
+            Get
+                Return "Icons.16x16.PARetention"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ListPanelIcon() As String
+            Get
+                Return "Icons.16x16.PARetention"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ListPanelTitle() As String
+            Get
+                Return "${res:Longkong.Pojjaman.BusinessLogic.PARetention.ListLabel}"
+            End Get
+        End Property
+    End Class
   Public Class PAForBillAcceptance
     Inherits PA
 

@@ -10,75 +10,75 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class BillAcceptanceDetail
-    Inherits AbstractEntityDetailPanelView
-    Implements IValidatable
+    Public Class BillAcceptanceDetail
+        Inherits AbstractEntityDetailPanelView
+        Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-    'UserControl overrides dispose to clean up the component list.
-    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-      If disposing Then
-        If Not (components Is Nothing) Then
-          components.Dispose()
-        End If
-      End If
-      MyBase.Dispose(disposing)
-    End Sub
+        'UserControl overrides dispose to clean up the component list.
+        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+            If disposing Then
+                If Not (components Is Nothing) Then
+                    components.Dispose()
+                End If
+            End If
+            MyBase.Dispose(disposing)
+        End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+        'Required by the Windows Form Designer
+        Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    Friend WithEvents lblItem As System.Windows.Forms.Label
-    Friend WithEvents grbSummary As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents txtItemCount As System.Windows.Forms.TextBox
-    Friend WithEvents lblItemCount As System.Windows.Forms.Label
-    Friend WithEvents lblItemCountUnit As System.Windows.Forms.Label
-    Friend WithEvents txtNote As System.Windows.Forms.TextBox
-    Friend WithEvents lblNote As System.Windows.Forms.Label
-    Friend WithEvents txtCreditPeriod As System.Windows.Forms.TextBox
-    Friend WithEvents lblCredit As System.Windows.Forms.Label
-    Friend WithEvents lblDueDate As System.Windows.Forms.Label
-    Friend WithEvents lblDay As System.Windows.Forms.Label
-    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-    Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
-    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents lblCode As System.Windows.Forms.Label
-    Friend WithEvents txtCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblDocDate As System.Windows.Forms.Label
-    Friend WithEvents grbSupplier As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents lblSupplier As System.Windows.Forms.Label
-    Friend WithEvents txtSupplierCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblRemaining As System.Windows.Forms.Label
-    Friend WithEvents txtRemaining As System.Windows.Forms.TextBox
-    Friend WithEvents lblRemainingUnit As System.Windows.Forms.Label
-    Friend WithEvents lblGrossUnit As System.Windows.Forms.Label
-    Friend WithEvents txtGross As System.Windows.Forms.TextBox
-    Friend WithEvents lblGross As System.Windows.Forms.Label
-    Friend WithEvents ibtnShowSupplier As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
-    Friend WithEvents ibtnShowSupplierDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents txtBillIssueDocDate As System.Windows.Forms.TextBox
-    Friend WithEvents txtBillIssueCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblBillIssue As System.Windows.Forms.Label
-    Friend WithEvents lblBillIssueDocDate As System.Windows.Forms.Label
-    Friend WithEvents dtpBillIssueDocDate As System.Windows.Forms.DateTimePicker
-    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents lblRetention As System.Windows.Forms.Label
-    Friend WithEvents txtRetention As System.Windows.Forms.TextBox
-    Friend WithEvents lblRetentionUnit As System.Windows.Forms.Label
-    Friend WithEvents lblPlusRetentionUnit As System.Windows.Forms.Label
-    Friend WithEvents txtPlusRetention As System.Windows.Forms.TextBox
-    Friend WithEvents lblPlusRetention As System.Windows.Forms.Label
-    Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
-    <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+        'NOTE: The following procedure is required by the Windows Form Designer
+        'It can be modified using the Windows Form Designer.  
+        'Do not modify it using the code editor.
+        Friend WithEvents lblItem As System.Windows.Forms.Label
+        Friend WithEvents grbSummary As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents txtItemCount As System.Windows.Forms.TextBox
+        Friend WithEvents lblItemCount As System.Windows.Forms.Label
+        Friend WithEvents lblItemCountUnit As System.Windows.Forms.Label
+        Friend WithEvents txtNote As System.Windows.Forms.TextBox
+        Friend WithEvents lblNote As System.Windows.Forms.Label
+        Friend WithEvents txtCreditPeriod As System.Windows.Forms.TextBox
+        Friend WithEvents lblCredit As System.Windows.Forms.Label
+        Friend WithEvents lblDueDate As System.Windows.Forms.Label
+        Friend WithEvents lblDay As System.Windows.Forms.Label
+        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+        Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
+        Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
+        Friend WithEvents lblCode As System.Windows.Forms.Label
+        Friend WithEvents txtCode As System.Windows.Forms.TextBox
+        Friend WithEvents lblDocDate As System.Windows.Forms.Label
+        Friend WithEvents grbSupplier As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents lblSupplier As System.Windows.Forms.Label
+        Friend WithEvents txtSupplierCode As System.Windows.Forms.TextBox
+        Friend WithEvents lblRemaining As System.Windows.Forms.Label
+        Friend WithEvents txtRemaining As System.Windows.Forms.TextBox
+        Friend WithEvents lblRemainingUnit As System.Windows.Forms.Label
+        Friend WithEvents lblGrossUnit As System.Windows.Forms.Label
+        Friend WithEvents txtGross As System.Windows.Forms.TextBox
+        Friend WithEvents lblGross As System.Windows.Forms.Label
+        Friend WithEvents ibtnShowSupplier As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
+        Friend WithEvents ibtnShowSupplierDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
+        Friend WithEvents txtBillIssueDocDate As System.Windows.Forms.TextBox
+        Friend WithEvents txtBillIssueCode As System.Windows.Forms.TextBox
+        Friend WithEvents lblBillIssue As System.Windows.Forms.Label
+        Friend WithEvents lblBillIssueDocDate As System.Windows.Forms.Label
+        Friend WithEvents dtpBillIssueDocDate As System.Windows.Forms.DateTimePicker
+        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+        Friend WithEvents lblRetention As System.Windows.Forms.Label
+        Friend WithEvents txtRetention As System.Windows.Forms.TextBox
+        Friend WithEvents lblRetentionUnit As System.Windows.Forms.Label
+        Friend WithEvents lblPlusRetentionUnit As System.Windows.Forms.Label
+        Friend WithEvents txtPlusRetention As System.Windows.Forms.TextBox
+        Friend WithEvents lblPlusRetention As System.Windows.Forms.Label
+        Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
+        <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BillAcceptanceDetail))
             Me.txtCreditPeriod = New System.Windows.Forms.TextBox()
             Me.lblCredit = New System.Windows.Forms.Label()
@@ -769,1549 +769,1559 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-    Private m_entity As BillAcceptance
-    Private m_isInitialized As Boolean = False
-    Private m_treeManager As TreeManager
+        Private m_entity As BillAcceptance
+        Private m_isInitialized As Boolean = False
+        Private m_treeManager As TreeManager
 
-    Private m_tableStyleEnable As Hashtable
+        Private m_tableStyleEnable As Hashtable
 
-    Private m_enableState As Hashtable
+        Private m_enableState As Hashtable
 #End Region
 
 #Region "Constructors"
-    Public Sub New()
-      MyBase.New()
-      Me.InitializeComponent()
-      Me.SetLabelText()
-      Initialize()
+        Public Sub New()
+            MyBase.New()
+            Me.InitializeComponent()
+            Me.SetLabelText()
+            Initialize()
 
-      SaveEnableState()
-      Dim dt As TreeTable = BillAcceptance.GetSchemaTable()
-      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-      m_treeManager = New TreeManager(dt, tgItem)
-      m_treeManager.SetTableStyle(dst)
-      m_treeManager.AllowSorting = False
-      m_treeManager.AllowDelete = False
-      tgItem.AllowNew = False
+            SaveEnableState()
+            Dim dt As TreeTable = BillAcceptance.GetSchemaTable()
+            Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+            m_treeManager = New TreeManager(dt, tgItem)
+            m_treeManager.SetTableStyle(dst)
+            m_treeManager.AllowSorting = False
+            m_treeManager.AllowDelete = False
+            tgItem.AllowNew = False
 
-      AddHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler dt.RowDeleted, AddressOf ItemDelete
+            AddHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
+            AddHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
+            AddHandler dt.RowDeleted, AddressOf ItemDelete
 
-      EventWiring()
-    End Sub
-    Private Sub SaveEnableState()
-      m_enableState = New Hashtable
-      For Each ctrl As Control In Me.grbSupplier.Controls
-        m_enableState.Add(ctrl, ctrl.Enabled)
-      Next
-      For Each ctrl As Control In Me.grbSummary.Controls
-        m_enableState.Add(ctrl, ctrl.Enabled)
-      Next
-      For Each ctrl As Control In Me.Controls
-        m_enableState.Add(ctrl, ctrl.Enabled)
-      Next
-    End Sub
+            EventWiring()
+        End Sub
+        Private Sub SaveEnableState()
+            m_enableState = New Hashtable
+            For Each ctrl As Control In Me.grbSupplier.Controls
+                m_enableState.Add(ctrl, ctrl.Enabled)
+            Next
+            For Each ctrl As Control In Me.grbSummary.Controls
+                m_enableState.Add(ctrl, ctrl.Enabled)
+            Next
+            For Each ctrl As Control In Me.Controls
+                m_enableState.Add(ctrl, ctrl.Enabled)
+            Next
+        End Sub
 #End Region
 
 #Region "Style"
-    Public Function CreateTableStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "BillAcceptance"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        Public Function CreateTableStyle() As DataGridTableStyle
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "BillAcceptance"
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "billai_linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.LineNumberHeaderText}")
-      csLineNumber.NullText = ""
-      csLineNumber.Width = 30
-      csLineNumber.DataAlignment = HorizontalAlignment.Center
-      csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "billai_linenumber"
+            Dim csLineNumber As New TreeTextColumn
+            csLineNumber.MappingName = "billai_linenumber"
+            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.LineNumberHeaderText}")
+            csLineNumber.NullText = ""
+            csLineNumber.Width = 30
+            csLineNumber.DataAlignment = HorizontalAlignment.Center
+            csLineNumber.ReadOnly = True
+            csLineNumber.TextBox.Name = "billai_linenumber"
 
-      Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("billai_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47)"), "code_description", "code_value")
-      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.TypeHeaderText}")
-      csType.Width = 70
-      csType.NullText = String.Empty
+            Dim csType As DataGridComboColumn
+            csType = New DataGridComboColumn("billai_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47)"), "code_description", "code_value")
+            csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.TypeHeaderText}")
+            csType.Width = 70
+            csType.NullText = String.Empty
 
-      Dim csCode As New TreeTextColumn
-      csCode.MappingName = "Code"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.CodeHeaderText}")
-      csCode.NullText = ""
-      csCode.TextBox.Name = "Code"
+            Dim csCode As New TreeTextColumn
+            csCode.MappingName = "Code"
+            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.CodeHeaderText}")
+            csCode.NullText = ""
+            csCode.TextBox.Name = "Code"
 
-      Dim csButton As New DataGridButtonColumn
-      csButton.MappingName = "Button"
-      csButton.HeaderText = ""
-      csButton.NullText = ""
-      AddHandler csButton.Click, AddressOf ItemButtonClick
+            Dim csButton As New DataGridButtonColumn
+            csButton.MappingName = "Button"
+            csButton.HeaderText = ""
+            csButton.NullText = ""
+            AddHandler csButton.Click, AddressOf ItemButtonClick
 
-      Dim csDocDate As New DataGridTimePickerColumn
-      csDocDate.MappingName = "DocDate"
-      csDocDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.DocDateHeaderText}")
-      csDocDate.NullText = ""
-      'csDocDate.ReadOnly = True
+            Dim csDocDate As New DataGridTimePickerColumn
+            csDocDate.MappingName = "DocDate"
+            csDocDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.DocDateHeaderText}")
+            csDocDate.NullText = ""
+            'csDocDate.ReadOnly = True
 
-      'Dim csDueDate As New DataGridTimePickerColumn
-      'csDueDate.MappingName = "DueDate"
-      'csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.DueDateHeaderText}")
-      'csDueDate.NullText = ""
-      ''csDueDate.ReadOnly = True
+            'Dim csDueDate As New DataGridTimePickerColumn
+            'csDueDate.MappingName = "DueDate"
+            'csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.DueDateHeaderText}")
+            'csDueDate.NullText = ""
+            ''csDueDate.ReadOnly = True
 
-      Dim csRetention As New TreeTextColumn
-      csRetention.MappingName = "Retention"
-      csRetention.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.RetentionHeaderText}")
-      csRetention.NullText = ""
-      csRetention.DataAlignment = HorizontalAlignment.Right
-      csRetention.Format = "#,###.##"
-      csRetention.ReadOnly = True
-      csRetention.TextBox.Name = "Retention"
+            Dim csRetention As New TreeTextColumn
+            csRetention.MappingName = "Retention"
+            csRetention.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.RetentionHeaderText}")
+            csRetention.NullText = ""
+            csRetention.DataAlignment = HorizontalAlignment.Right
+            csRetention.Format = "#,###.##"
+            csRetention.ReadOnly = True
+            csRetention.TextBox.Name = "Retention"
 
-      Dim csPlusRetention As New TreeTextColumn
-      csPlusRetention.MappingName = "PlusRetention"
-      csPlusRetention.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.PlusRetentionHeaderText}")
-      csPlusRetention.NullText = ""
-      csPlusRetention.DataAlignment = HorizontalAlignment.Right
-      csPlusRetention.Format = "#,###.##"
-      csPlusRetention.ReadOnly = True
-      csPlusRetention.TextBox.Name = "PlusRetention"
+            Dim csPlusRetention As New TreeTextColumn
+            csPlusRetention.MappingName = "PlusRetention"
+            csPlusRetention.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.PlusRetentionHeaderText}")
+            csPlusRetention.NullText = ""
+            csPlusRetention.DataAlignment = HorizontalAlignment.Right
+            csPlusRetention.Format = "#,###.##"
+            csPlusRetention.ReadOnly = True
+            csPlusRetention.TextBox.Name = "PlusRetention"
 
-      Dim csRealAmount As New TreeTextColumn
-      csRealAmount.MappingName = "RealAmount"
-      csRealAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.RealAmountHeaderText}")
-      csRealAmount.NullText = ""
-      csRealAmount.DataAlignment = HorizontalAlignment.Right
-      csRealAmount.Format = "#,###.##"
-      csRealAmount.ReadOnly = True
-      csRealAmount.TextBox.Name = "RealAmount"
+            Dim csRealAmount As New TreeTextColumn
+            csRealAmount.MappingName = "RealAmount"
+            csRealAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.RealAmountHeaderText}")
+            csRealAmount.NullText = ""
+            csRealAmount.DataAlignment = HorizontalAlignment.Right
+            csRealAmount.Format = "#,###.##"
+            csRealAmount.ReadOnly = True
+            csRealAmount.TextBox.Name = "RealAmount"
 
-      Dim csUnpaidAmount As New TreeTextColumn
-      csUnpaidAmount.MappingName = "UnpaidAmount"
-      csUnpaidAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.UnpaidAmountHeaderText}")
-      csUnpaidAmount.NullText = ""
-      csUnpaidAmount.DataAlignment = HorizontalAlignment.Right
-      csUnpaidAmount.Format = "#,###.##"
-      csUnpaidAmount.ReadOnly = True
-      csUnpaidAmount.TextBox.Name = "UnpaidAmount"
+            Dim csUnpaidAmount As New TreeTextColumn
+            csUnpaidAmount.MappingName = "UnpaidAmount"
+            csUnpaidAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.UnpaidAmountHeaderText}")
+            csUnpaidAmount.NullText = ""
+            csUnpaidAmount.DataAlignment = HorizontalAlignment.Right
+            csUnpaidAmount.Format = "#,###.##"
+            csUnpaidAmount.ReadOnly = True
+            csUnpaidAmount.TextBox.Name = "UnpaidAmount"
 
-      Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "billai_amt"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.AmountHeaderText}")
-      csAmount.NullText = ""
-      csAmount.DataAlignment = HorizontalAlignment.Right
-      csAmount.Format = "#,###.##"
-      csAmount.TextBox.Name = "billai_amt"
+            Dim csAmount As New TreeTextColumn
+            csAmount.MappingName = "billai_amt"
+            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.AmountHeaderText}")
+            csAmount.NullText = ""
+            csAmount.DataAlignment = HorizontalAlignment.Right
+            csAmount.Format = "#,###.##"
+            csAmount.TextBox.Name = "billai_amt"
 
-      Dim csNote As New TreeTextColumn
-      csNote.MappingName = "billai_note"
-      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.NoteHeaderText}")
-      csNote.NullText = ""
-      csNote.Width = 180
-      csNote.TextBox.Name = "billai_note"
+            Dim csNote As New TreeTextColumn
+            csNote.MappingName = "billai_note"
+            csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.NoteHeaderText}")
+            csNote.NullText = ""
+            csNote.Width = 180
+            csNote.TextBox.Name = "billai_note"
 
-      dst.GridColumnStyles.Add(csLineNumber)
-      dst.GridColumnStyles.Add(csType)
-      dst.GridColumnStyles.Add(csCode)
-      dst.GridColumnStyles.Add(csButton)
-      dst.GridColumnStyles.Add(csDocDate)
-      'dst.GridColumnStyles.Add(csDueDate)
-      dst.GridColumnStyles.Add(csRetention)
-      dst.GridColumnStyles.Add(csPlusRetention)
-      dst.GridColumnStyles.Add(csRealAmount)
-      dst.GridColumnStyles.Add(csUnpaidAmount)
-      dst.GridColumnStyles.Add(csAmount)
-      dst.GridColumnStyles.Add(csNote)
+            dst.GridColumnStyles.Add(csLineNumber)
+            dst.GridColumnStyles.Add(csType)
+            dst.GridColumnStyles.Add(csCode)
+            dst.GridColumnStyles.Add(csButton)
+            dst.GridColumnStyles.Add(csDocDate)
+            'dst.GridColumnStyles.Add(csDueDate)
+            dst.GridColumnStyles.Add(csRetention)
+            dst.GridColumnStyles.Add(csPlusRetention)
+            dst.GridColumnStyles.Add(csRealAmount)
+            dst.GridColumnStyles.Add(csUnpaidAmount)
+            dst.GridColumnStyles.Add(csAmount)
+            dst.GridColumnStyles.Add(csNote)
 
-      m_tableStyleEnable = New Hashtable
-      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-      Next
-      Return dst
-    End Function
+            m_tableStyleEnable = New Hashtable
+            For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
+                m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
+            Next
+            Return dst
+        End Function
 #End Region
 
 #Region "Properties"
-    Private ReadOnly Property CurrentItem() As BillAcceptanceItem
-      Get
-        Dim row As TreeRow = Me.m_treeManager.SelectedRow
-        If row Is Nothing Then
-          Return Nothing
-        End If
-        If Not TypeOf row.Tag Is BillAcceptanceItem Then
-          Return Nothing
-        End If
-        Return CType(row.Tag, BillAcceptanceItem)
-      End Get
-    End Property
+        Private ReadOnly Property CurrentItem() As BillAcceptanceItem
+            Get
+                Dim row As TreeRow = Me.m_treeManager.SelectedRow
+                If row Is Nothing Then
+                    Return Nothing
+                End If
+                If Not TypeOf row.Tag Is BillAcceptanceItem Then
+                    Return Nothing
+                End If
+                Return CType(row.Tag, BillAcceptanceItem)
+            End Get
+        End Property
 #End Region
 
 #Region "TreeTable Handlers"
-    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_isInitialized Then
-        Return
-      End If
-      Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If ValidateRow(CType(e.Row, TreeRow)) Then
-        Me.UpdateAmount()
-        Me.m_treeManager.Treetable.AcceptChanges()
-      End If
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not m_isInitialized Then
-        Return
-      End If
-      If Me.m_treeManager.SelectedRow Is Nothing Then
-        Return
-      End If
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      If Me.m_entity.Supplier Is Nothing OrElse Not Me.m_entity.Supplier.Originated Then
-        msgServ.ShowMessage("${res:Global.Error.SpecifySupplier}")
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If Me.CurrentItem Is Nothing Then
-        Dim doc As New BillAcceptanceItem
-        Me.m_entity.ItemCollection.Add(doc)
-        Me.m_treeManager.SelectedRow.Tag = doc
-      End If
-      Try
-
-        Select Case e.Column.ColumnName.ToLower
-          Case "code"
-            SetCode(e)
-          Case "billai_entitytype"
-            SetEntityType(e)
-          Case "duedate"
-            SetDueDate(e)
-          Case "docdate"
-            SetDate(e)
-          Case "realamount"
-            SetRealAmount(e)
-          Case "billai_amt"
-            If Not IsNumeric(e.ProposedValue.ToString) Then
-              e.ProposedValue = ""
-            Else
-              SetAmount(e)
+        Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+            If Not m_isInitialized Then
+                Return
             End If
-
-          Case "billai_note"
-            SetNote(e)
-        End Select
-
-        ValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
-    End Sub
-    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-      Dim code As Object = e.Row("code")
-      Dim billai_entitytype As Object = e.Row("billai_entitytype")
-      Dim billai_amt As Object = e.Row("billai_amt")
-
-      Select Case e.Column.ColumnName.ToLower
-        Case "code"
-          code = e.ProposedValue
-        Case "billai_entitytype"
-          billai_entitytype = e.ProposedValue
-        Case "billai_amt"
-          billai_amt = e.ProposedValue
-        Case Else
-          Return
-      End Select
-
-      Dim isBlankRow As Boolean = False
-      If IsDBNull(billai_entitytype) Then
-        isBlankRow = True
-      End If
-      If Not isBlankRow Then
-        Select Case CInt(billai_entitytype)
-          Case 45, 292 'รับของ
-            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-              e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.GoodsReceiptCodeMissing}"))
-            Else
-              e.Row.SetColumnError("code", "")
+            Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+            If ValidateRow(CType(e.Row, TreeRow)) Then
+                Me.UpdateAmount()
+                Me.m_treeManager.Treetable.AcceptChanges()
             End If
-          Case 50 'รับของ
-            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-              e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.EqMaintenanceCodeMissing}"))
-            Else
-              e.Row.SetColumnError("code", "")
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+            If Not m_isInitialized Then
+                Return
             End If
-          Case 46 'ลดหนี้
-            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-              e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.PurchaseCNCodeMissing}"))
-            Else
-              e.Row.SetColumnError("code", "")
+            If Me.m_treeManager.SelectedRow Is Nothing Then
+                Return
             End If
-          Case 47 'เพิ่มหนี้
-            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-              e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.BillAcceptanceCodeMissing}"))
-            Else
-              e.Row.SetColumnError("code", "")
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Me.m_entity Is Nothing Then
+                Return
             End If
-          Case 15 'เจ้าหนี้ยกมา
-            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-              e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.APOpeningBalanceCodeMissing}"))
-            Else
-              e.Row.SetColumnError("code", "")
-            End If
-          Case 292 'รับงาน
-            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-              e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.PACodeMissing}"))
-            Else
-              e.Row.SetColumnError("code", "")
-            End If
-          Case Else
-            Return
-        End Select
-        If IsDBNull(billai_amt) OrElse Not IsNumeric(billai_amt) OrElse CDec(billai_amt) <= 0 Then
-          e.Row.SetColumnError("billai_amt", Me.StringParserService.Parse("${res:Global.Error.BillAcceptanceAmountMissing}"))
-        Else
-          e.Row.SetColumnError("billai_amt", "")
-        End If
-      End If
-    End Sub
-    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      If row.Tag Is Nothing Then
-        Return False
-      End If
-      Return True
-    End Function
-    Private m_updating As Boolean = False
-    Public Sub SetNote(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
-      m_updating = True
-      doc.Note = e.ProposedValue.ToString
-      m_updating = False
-    End Sub
-    Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      'Dim remain As Decimal = doc.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-      Dim remain As Decimal = doc.UnpaidAmount
-      m_updating = True
-      'If doc.UnpaidAmount <> remain Then
-      'doc.UnpaidAmount = remain
-      e.Row("UnpaidAmount") = Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)
-      'End If
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("billai_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      If remain < value Then
-        msgServ.ShowMessageFormatted("${res:Global.Error.BillaRemainingAmountLessThanAmount}", _
-        New String() { _
-        Configuration.FormatToString(remain, DigitConfig.Price) _
-        , Configuration.FormatToString(value, DigitConfig.Price) _
-        })
-
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      doc.Amount = value
-      m_updating = False
-    End Sub
-    Public Sub SetRealAmount(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      msgServ.ShowMessage("${res:Global.Error.CannotChangeRealAmount}")
-      e.ProposedValue = e.Row(e.Column)
-      m_updating = False
-    End Sub
-    Public Sub SetDate(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      msgServ.ShowMessage("${res:Global.Error.CannotChangeDate}")
-      e.ProposedValue = e.Row(e.Column)
-      m_updating = False
-    End Sub
-    Public Sub SetDueDate(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      msgServ.ShowMessage("${res:Global.Error.CannotChangeDueDate}")
-      e.ProposedValue = e.Row(e.Column)
-      m_updating = False
-    End Sub
-    Public Sub SetEntityType(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull(e.Column) Then
-        m_updating = False
-        Return
-      End If
-
-      If CInt(e.ProposedValue) = CInt(e.Row(e.Column)) Then
-        'ผ่านโลด
-        m_updating = False
-        Return
-      End If
-      If msgServ.AskQuestion("${res:Global.Question.ChangeBillAcceptanceEntityType}") Then
-        e.Row("billai_entity") = DBNull.Value
-        e.Row("code") = DBNull.Value
-        e.Row("RealAmount") = DBNull.Value
-        e.Row("billai_amt") = DBNull.Value
-        e.Row("UnpaidAmount") = DBNull.Value
-        e.Row("DueDate") = Date.MinValue
-        e.Row("DocDate") = Date.MinValue
-        doc.Clear()
-        'doc.SetType(CInt(e.ProposedValue)) Undone:
-      Else
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      m_updating = False
-    End Sub
-    Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
-      If e.Row.IsNull("billai_entityType") Then
-        Return False
-      End If
-      If IsDBNull(e.ProposedValue) Then
-        Return False
-      End If
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
-      If doc Is Nothing Then
-        Return False
-      End If
-      For Each item As BillAcceptanceItem In Me.m_entity.ItemCollection
-        If Not doc Is item Then
-          If item.EntityId = CInt(e.Row("billai_entityType")) Then
-            If e.ProposedValue.ToString.ToLower = item.Code.ToLower Then
-              Return True
-            End If
-          End If
-        End If
-      Next
-      Return False
-    End Function
-    Public Sub SetCode(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
-      If doc Is Nothing Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("billai_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      If DupCode(e) Then
-        msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {BusinessLogic.Entity.GetFullClassName(doc.EntityId), e.ProposedValue.ToString})
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Select Case CInt(e.Row("billai_entityType"))
-        Case 45 'รับของ
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteGoodsReceiptDetail}", New String() {e.Row(e.Column).ToString}) Then
-                e.Row("billai_entity") = DBNull.Value
-                e.Row("RealAmount") = DBNull.Value
-                e.Row("UnpaidAmount") = DBNull.Value
-                e.Row("billai_amt") = DBNull.Value
-                e.Row("DueDate") = Date.MinValue
-                e.Row("DocDate") = Date.MinValue
-                doc.Clear()
-              Else
+            If Me.m_entity.Supplier Is Nothing OrElse Not Me.m_entity.Supplier.Originated Then
+                msgServ.ShowMessage("${res:Global.Error.SpecifySupplier}")
                 e.ProposedValue = e.Row(e.Column)
-              End If
+                Return
             End If
+            If Me.CurrentItem Is Nothing Then
+                Dim doc As New BillAcceptanceItem
+                Me.m_entity.ItemCollection.Add(doc)
+                Me.m_treeManager.SelectedRow.Tag = doc
+            End If
+            Try
+
+                Select Case e.Column.ColumnName.ToLower
+                    Case "code"
+                        SetCode(e)
+                    Case "billai_entitytype"
+                        SetEntityType(e)
+                    Case "duedate"
+                        SetDueDate(e)
+                    Case "docdate"
+                        SetDate(e)
+                    Case "realamount"
+                        SetRealAmount(e)
+                    Case "billai_amt"
+                        If Not IsNumeric(e.ProposedValue.ToString) Then
+                            e.ProposedValue = ""
+                        Else
+                            SetAmount(e)
+                        End If
+
+                    Case "billai_note"
+                        SetNote(e)
+                End Select
+
+                ValidateRow(e)
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+            End Try
+        End Sub
+        Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+            Dim code As Object = e.Row("code")
+            Dim billai_entitytype As Object = e.Row("billai_entitytype")
+            Dim billai_amt As Object = e.Row("billai_amt")
+
+            Select Case e.Column.ColumnName.ToLower
+                Case "code"
+                    code = e.ProposedValue
+                Case "billai_entitytype"
+                    billai_entitytype = e.ProposedValue
+                Case "billai_amt"
+                    billai_amt = e.ProposedValue
+                Case Else
+                    Return
+            End Select
+
+            Dim isBlankRow As Boolean = False
+            If IsDBNull(billai_entitytype) Then
+                isBlankRow = True
+            End If
+            If Not isBlankRow Then
+                Select Case CInt(billai_entitytype)
+                    Case 45, 292 'รับของ
+                        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                            e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.GoodsReceiptCodeMissing}"))
+                        Else
+                            e.Row.SetColumnError("code", "")
+                        End If
+                    Case 50 'รับของ
+                        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                            e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.EqMaintenanceCodeMissing}"))
+                        Else
+                            e.Row.SetColumnError("code", "")
+                        End If
+                    Case 46 'ลดหนี้
+                        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                            e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.PurchaseCNCodeMissing}"))
+                        Else
+                            e.Row.SetColumnError("code", "")
+                        End If
+                    Case 47 'เพิ่มหนี้
+                        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                            e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.BillAcceptanceCodeMissing}"))
+                        Else
+                            e.Row.SetColumnError("code", "")
+                        End If
+                    Case 15 'เจ้าหนี้ยกมา
+                        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                            e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.APOpeningBalanceCodeMissing}"))
+                        Else
+                            e.Row.SetColumnError("code", "")
+                        End If
+                    Case 292 'รับงาน
+                        If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+                            e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.PACodeMissing}"))
+                        Else
+                            e.Row.SetColumnError("code", "")
+                        End If
+                    Case Else
+                        Return
+                End Select
+                If IsDBNull(billai_amt) OrElse Not IsNumeric(billai_amt) OrElse CDec(billai_amt) <= 0 Then
+                    e.Row.SetColumnError("billai_amt", Me.StringParserService.Parse("${res:Global.Error.BillAcceptanceAmountMissing}"))
+                Else
+                    e.Row.SetColumnError("billai_amt", "")
+                End If
+            End If
+        End Sub
+        Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+            If row.Tag Is Nothing Then
+                Return False
+            End If
+            Return True
+        End Function
+        Private m_updating As Boolean = False
+        Public Sub SetNote(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
+            m_updating = True
+            doc.Note = e.ProposedValue.ToString
             m_updating = False
-            Return
-          End If
-          Dim gr As New GoodsReceipt(e.ProposedValue.ToString)
-          If Not gr.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoGoodsReceipt}", New String() {e.ProposedValue.ToString})
+        End Sub
+        Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+                e.ProposedValue = ""
+                Return
+            End If
+            e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Price)
+            Dim value As Decimal = CDec(e.ProposedValue)
+            'Dim remain As Decimal = doc.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+            Dim remain As Decimal = doc.UnpaidAmount
+            m_updating = True
+            'If doc.UnpaidAmount <> remain Then
+            'doc.UnpaidAmount = remain
+            e.Row("UnpaidAmount") = Configuration.FormatToString(doc.UnpaidAmount, DigitConfig.Price)
+            'End If
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("billai_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            If remain < value Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.BillaRemainingAmountLessThanAmount}", _
+                New String() { _
+                Configuration.FormatToString(remain, DigitConfig.Price) _
+                , Configuration.FormatToString(value, DigitConfig.Price) _
+                })
+
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            doc.Amount = value
+            m_updating = False
+        End Sub
+        Public Sub SetRealAmount(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeRealAmount}")
             e.ProposedValue = e.Row(e.Column)
             m_updating = False
-            Return
-          Else
-            If gr.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.GoodsReceiptIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
+        End Sub
+        Public Sub SetDate(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
             End If
-            Dim remain As Decimal = gr.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessGoodsReceiptAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            e.Row("billai_entity") = gr.Id
-            e.ProposedValue = gr.Code
-            e.Row("RealAmount") = Configuration.FormatToString(gr.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = gr.DueDate
-            e.Row("DocDate") = gr.DocDate
-            doc.Id = gr.Id
-            doc.RealAmount = gr.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = gr.Code
-            doc.Date = gr.DocDate
-            doc.CreditPeriod = gr.CreditPeriod
-            doc.SetType(45)
-          End If
-        Case 292 'รับงาน
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteGoodsReceiptDetail}", New String() {e.Row(e.Column).ToString}) Then
-                e.Row("billai_entity") = DBNull.Value
-                e.Row("RealAmount") = DBNull.Value
-                e.Row("UnpaidAmount") = DBNull.Value
-                e.Row("billai_amt") = DBNull.Value
-                e.Row("DueDate") = Date.MinValue
-                e.Row("DocDate") = Date.MinValue
-                doc.Clear()
-              Else
-                e.ProposedValue = e.Row(e.Column)
-              End If
-            End If
-            m_updating = False
-            Return
-          End If
-          Dim p As New PA(e.ProposedValue.ToString)
-          If Not p.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoGoodsReceipt}", New String() {e.ProposedValue.ToString})
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeDate}")
             e.ProposedValue = e.Row(e.Column)
             m_updating = False
-            Return
-          Else
-            If p.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.GoodsReceiptIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
+        End Sub
+        Public Sub SetDueDate(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
             End If
-            Dim remain As Decimal = p.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessGoodsReceiptAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            e.Row("billai_entity") = p.Id
-            e.ProposedValue = p.Code
-            e.Row("RealAmount") = Configuration.FormatToString(p.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = p.DueDate
-            e.Row("DocDate") = p.DocDate
-            doc.Id = p.Id
-            doc.RealAmount = p.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = p.Code
-            doc.Date = p.DocDate
-            doc.CreditPeriod = p.CreditPeriod
-            doc.SetType(292)
-          End If
-        Case 50 'ซ่อมบำรุง
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteEqMaintenanceDetail}", New String() {e.Row(e.Column).ToString}) Then
-                e.Row("billai_entity") = DBNull.Value
-                e.Row("RealAmount") = DBNull.Value
-                e.Row("UnpaidAmount") = DBNull.Value
-                e.Row("billai_amt") = DBNull.Value
-                e.Row("DueDate") = Date.MinValue
-                e.Row("DocDate") = Date.MinValue
-                doc.Clear()
-              Else
-                e.ProposedValue = e.Row(e.Column)
-              End If
-            End If
-            m_updating = False
-            Return
-          End If
-          Dim eqm As New EqMaintenance(e.ProposedValue.ToString)
-          If Not eqm.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoEqMaintenance}", New String() {e.ProposedValue.ToString})
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            msgServ.ShowMessage("${res:Global.Error.CannotChangeDueDate}")
             e.ProposedValue = e.Row(e.Column)
             m_updating = False
-            Return
-          Else
-            If eqm.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.EqMaintenanceIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
+        End Sub
+        Public Sub SetEntityType(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
             End If
-            Dim remain As Decimal = eqm.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessEqMaintenanceAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull(e.Column) Then
+                m_updating = False
+                Return
             End If
-            e.Row("billai_entity") = eqm.Id
-            e.ProposedValue = eqm.Code
-            e.Row("RealAmount") = Configuration.FormatToString(eqm.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = eqm.DueDate
-            e.Row("DocDate") = eqm.DocDate
-            doc.Id = eqm.Id
-            doc.RealAmount = eqm.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = eqm.Code
-            doc.Date = eqm.DocDate
-            doc.CreditPeriod = eqm.CreditPeriod
-            doc.SetType(50)
-          End If
-        Case 46 'ลดหนี้
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeletePurchaseCNDetail}", New String() {e.Row(e.Column).ToString}) Then
+
+            If CInt(e.ProposedValue) = CInt(e.Row(e.Column)) Then
+                'ผ่านโลด
+                m_updating = False
+                Return
+            End If
+            If msgServ.AskQuestion("${res:Global.Question.ChangeBillAcceptanceEntityType}") Then
                 e.Row("billai_entity") = DBNull.Value
-                e.Row("RealAmount") = DBNull.Value
-                e.Row("UnpaidAmount") = DBNull.Value
-                e.Row("billai_amt") = DBNull.Value
-                e.Row("DueDate") = Date.MinValue
-                e.Row("DocDate") = Date.MinValue
-                doc.Clear()
-              Else
-                e.ProposedValue = e.Row(e.Column)
-              End If
-            End If
-            m_updating = False
-            Return
-          End If
-          Dim pcn As New PurchaseCN(e.ProposedValue.ToString)
-          If Not pcn.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoPurchaseCN}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            If pcn.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.PurchaseCNIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            Dim remain As Decimal = pcn.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPurchaseCNAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            e.Row("billai_entity") = pcn.Id
-            e.ProposedValue = pcn.Code
-            e.Row("RealAmount") = Configuration.FormatToString(pcn.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = pcn.DueDate
-            e.Row("DocDate") = pcn.DocDate
-            doc.Id = pcn.Id
-            doc.RealAmount = pcn.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = pcn.Code
-            doc.Date = pcn.DocDate
-            doc.CreditPeriod = pcn.CreditPeriod
-            doc.SetType(46)
-          End If
-        Case 47 'เพิ่มหนี้
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteBillAcceptanceDetail}", New String() {e.Row(e.Column).ToString}) Then
-                e.Row("billai_entity") = DBNull.Value
-                e.Row("RealAmount") = DBNull.Value
-                e.Row("UnpaidAmount") = DBNull.Value
-                e.Row("billai_amt") = DBNull.Value
-                e.Row("DueDate") = Date.MinValue
-                e.Row("DocDate") = Date.MinValue
-                doc.Clear()
-              Else
-                e.ProposedValue = e.Row(e.Column)
-              End If
-            End If
-            m_updating = False
-            Return
-          End If
-          Dim pdn As New PurchaseDN(e.ProposedValue.ToString)
-          If Not pdn.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoPurchaseDN}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            If pdn.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.PurchaseDNIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            Dim remain As Decimal = pdn.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPurchaseDNAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            e.Row("billai_entity") = pdn.Id
-            e.ProposedValue = pdn.Code
-            e.Row("RealAmount") = Configuration.FormatToString(pdn.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = pdn.DueDate
-            e.Row("DocDate") = pdn.DocDate
-            doc.Id = pdn.Id
-            doc.RealAmount = pdn.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = pdn.Code
-            doc.Date = pdn.DocDate
-            doc.CreditPeriod = pdn.CreditPeriod
-            doc.SetType(46)
-          End If
-        Case 15 'เจ้าหนี้ยกมา
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAPOpeningBalanceDetail}", New String() {e.Row(e.Column).ToString}) Then
-                e.Row("billai_entity") = DBNull.Value
+                e.Row("code") = DBNull.Value
                 e.Row("RealAmount") = DBNull.Value
                 e.Row("billai_amt") = DBNull.Value
                 e.Row("UnpaidAmount") = DBNull.Value
                 e.Row("DueDate") = Date.MinValue
                 e.Row("DocDate") = Date.MinValue
                 doc.Clear()
-              Else
+                'doc.SetType(CInt(e.ProposedValue)) Undone:
+            Else
                 e.ProposedValue = e.Row(e.Column)
-              End If
+                m_updating = False
+                Return
             End If
             m_updating = False
-            Return
-          End If
-          Dim apo As New APOpeningBalance(e.ProposedValue.ToString)
-          If Not apo.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoAPOpeningBalance}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            If apo.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.APOpeningBalanceIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
+        End Sub
+        Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
+            If e.Row.IsNull("billai_entityType") Then
+                Return False
             End If
-            Dim remain As Decimal = apo.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessAPOpeningBalanceAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
+            If IsDBNull(e.ProposedValue) Then
+                Return False
             End If
-            e.Row("billai_entity") = apo.Id
-            e.ProposedValue = apo.Code
-            e.Row("RealAmount") = Configuration.FormatToString(apo.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = apo.DueDate
-            e.Row("DocDate") = apo.DocDate
-            doc.Id = apo.Id
-            doc.RealAmount = apo.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = apo.Code
-            doc.Date = apo.DocDate
-            doc.CreditPeriod = apo.CreditPeriod
-            doc.SetType(46)
-          End If
-          '----------------------
-        Case 292 'ใบรับงาน
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeletePADetail}", New String() {e.Row(e.Column).ToString}) Then
-                e.Row("billai_entity") = DBNull.Value
-                e.Row("RealAmount") = DBNull.Value
-                e.Row("billai_amt") = DBNull.Value
-                e.Row("UnpaidAmount") = DBNull.Value
-                e.Row("DueDate") = Date.MinValue
-                e.Row("DocDate") = Date.MinValue
-                doc.Clear()
-              Else
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
+            If doc Is Nothing Then
+                Return False
+            End If
+            For Each item As BillAcceptanceItem In Me.m_entity.ItemCollection
+                If Not doc Is item Then
+                    If item.EntityId = CInt(e.Row("billai_entityType")) Then
+                        If e.ProposedValue.ToString.ToLower = item.Code.ToLower Then
+                            Return True
+                        End If
+                    End If
+                End If
+            Next
+            Return False
+        End Function
+        Public Sub SetCode(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
+            If doc Is Nothing Then
                 e.ProposedValue = e.Row(e.Column)
-              End If
+                Return
             End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("billai_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            If DupCode(e) Then
+                msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {BusinessLogic.Entity.GetFullClassName(doc.EntityId), e.ProposedValue.ToString})
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            Select Case CInt(e.Row("billai_entityType"))
+                Case 45 'รับของ
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteGoodsReceiptDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim gr As New GoodsReceipt(e.ProposedValue.ToString)
+                    If Not gr.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoGoodsReceipt}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If gr.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.GoodsReceiptIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = gr.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessGoodsReceiptAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = gr.Id
+                        e.ProposedValue = gr.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(gr.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = gr.DueDate
+                        e.Row("DocDate") = gr.DocDate
+                        doc.Id = gr.Id
+                        doc.RealAmount = gr.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = gr.Code
+                        doc.Date = gr.DocDate
+                        doc.CreditPeriod = gr.CreditPeriod
+                        doc.SetType(45)
+                    End If
+                Case 292 'รับงาน
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteGoodsReceiptDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim p As New PA(e.ProposedValue.ToString)
+                    If Not p.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoGoodsReceipt}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If p.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.GoodsReceiptIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = p.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessGoodsReceiptAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = p.Id
+                        e.ProposedValue = p.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(p.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = p.DueDate
+                        e.Row("DocDate") = p.DocDate
+                        doc.Id = p.Id
+                        doc.RealAmount = p.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = p.Code
+                        doc.Date = p.DocDate
+                        doc.CreditPeriod = p.CreditPeriod
+                        doc.SetType(292)
+                    End If
+                Case 50 'ซ่อมบำรุง
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteEqMaintenanceDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim eqm As New EqMaintenance(e.ProposedValue.ToString)
+                    If Not eqm.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoEqMaintenance}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If eqm.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.EqMaintenanceIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = eqm.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessEqMaintenanceAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = eqm.Id
+                        e.ProposedValue = eqm.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(eqm.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = eqm.DueDate
+                        e.Row("DocDate") = eqm.DocDate
+                        doc.Id = eqm.Id
+                        doc.RealAmount = eqm.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = eqm.Code
+                        doc.Date = eqm.DocDate
+                        doc.CreditPeriod = eqm.CreditPeriod
+                        doc.SetType(50)
+                    End If
+                Case 46 'ลดหนี้
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeletePurchaseCNDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim pcn As New PurchaseCN(e.ProposedValue.ToString)
+                    If Not pcn.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoPurchaseCN}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If pcn.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.PurchaseCNIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = pcn.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPurchaseCNAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = pcn.Id
+                        e.ProposedValue = pcn.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(pcn.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = pcn.DueDate
+                        e.Row("DocDate") = pcn.DocDate
+                        doc.Id = pcn.Id
+                        doc.RealAmount = pcn.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = pcn.Code
+                        doc.Date = pcn.DocDate
+                        doc.CreditPeriod = pcn.CreditPeriod
+                        doc.SetType(46)
+                    End If
+                Case 47 'เพิ่มหนี้
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteBillAcceptanceDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim pdn As New PurchaseDN(e.ProposedValue.ToString)
+                    If Not pdn.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoPurchaseDN}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If pdn.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.PurchaseDNIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = pdn.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPurchaseDNAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = pdn.Id
+                        e.ProposedValue = pdn.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(pdn.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = pdn.DueDate
+                        e.Row("DocDate") = pdn.DocDate
+                        doc.Id = pdn.Id
+                        doc.RealAmount = pdn.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = pdn.Code
+                        doc.Date = pdn.DocDate
+                        doc.CreditPeriod = pdn.CreditPeriod
+                        doc.SetType(46)
+                    End If
+                Case 15 'เจ้าหนี้ยกมา
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAPOpeningBalanceDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim apo As New APOpeningBalance(e.ProposedValue.ToString)
+                    If Not apo.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoAPOpeningBalance}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If apo.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.APOpeningBalanceIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = apo.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessAPOpeningBalanceAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = apo.Id
+                        e.ProposedValue = apo.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(apo.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = apo.DueDate
+                        e.Row("DocDate") = apo.DocDate
+                        doc.Id = apo.Id
+                        doc.RealAmount = apo.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = apo.Code
+                        doc.Date = apo.DocDate
+                        doc.CreditPeriod = apo.CreditPeriod
+                        doc.SetType(46)
+                    End If
+                    '----------------------
+                Case 292 'ใบรับงาน
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeletePADetail}", New String() {e.Row(e.Column).ToString}) Then
+                                e.Row("billai_entity") = DBNull.Value
+                                e.Row("RealAmount") = DBNull.Value
+                                e.Row("billai_amt") = DBNull.Value
+                                e.Row("UnpaidAmount") = DBNull.Value
+                                e.Row("DueDate") = Date.MinValue
+                                e.Row("DocDate") = Date.MinValue
+                                doc.Clear()
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim apo As New PA(e.ProposedValue.ToString)
+                    If Not apo.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoPA}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        If apo.Status.Value = 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.PAIsCanceled}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        Dim remain As Decimal = apo.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
+                        If remain <= 0 Then
+                            msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPAAmount}", New String() {e.ProposedValue.ToString})
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        End If
+                        e.Row("billai_entity") = apo.Id
+                        e.ProposedValue = apo.Code
+                        e.Row("RealAmount") = Configuration.FormatToString(apo.Payment.Amount, DigitConfig.Price)
+                        e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
+                        e.Row("DueDate") = apo.DueDate
+                        e.Row("DocDate") = apo.DocDate
+                        doc.Id = apo.Id
+                        doc.RealAmount = apo.Payment.Amount
+                        doc.UnpaidAmount = remain
+                        doc.Amount = remain
+                        doc.Code = apo.Code
+                        doc.Date = apo.DocDate
+                        doc.CreditPeriod = apo.CreditPeriod
+                        doc.SetType(292)
+                    End If
+                    '----------------------
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
             m_updating = False
-            Return
-          End If
-          Dim apo As New PA(e.ProposedValue.ToString)
-          If Not apo.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoPA}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            If apo.Status.Value = 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.PAIsCanceled}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            Dim remain As Decimal = apo.GetRemainingAmountWithBillAcceptance(Me.m_entity.Id)
-            If remain <= 0 Then
-              msgServ.ShowMessageFormatted("${res:Global.Error.ZeroOrLessPAAmount}", New String() {e.ProposedValue.ToString})
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            End If
-            e.Row("billai_entity") = apo.Id
-            e.ProposedValue = apo.Code
-            e.Row("RealAmount") = Configuration.FormatToString(apo.Payment.Amount, DigitConfig.Price)
-            e.Row("billai_amt") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("UnpaidAmount") = Configuration.FormatToString(remain, DigitConfig.Price)
-            e.Row("DueDate") = apo.DueDate
-            e.Row("DocDate") = apo.DocDate
-            doc.Id = apo.Id
-            doc.RealAmount = apo.Payment.Amount
-            doc.UnpaidAmount = remain
-            doc.Amount = remain
-            doc.Code = apo.Code
-            doc.Date = apo.DocDate
-            doc.CreditPeriod = apo.CreditPeriod
-            doc.SetType(292)
-          End If
-          '----------------------
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoBillAcceptanceEntityType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-      m_updating = False
-    End Sub
-    Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-    End Sub
+        End Sub
+        Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+        End Sub
 #End Region
 
 #Region "IListDetail"
-    Public Overrides Sub CheckFormEnable()
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      If Me.m_entity.Status.Value = 0 _
-      OrElse Me.m_entity.IsReferenced _
-      Then
-        'Me.Enabled = False
-        For Each ctrl As Control In Me.Controls
-          Trace.WriteLine(ctrl.Name & ":" & ctrl.GetType.ToString)
-          ctrl.Enabled = False
-        Next
-        tgItem.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
-        Next
-      Else
-        'Me.Enabled = True
-        For Each ctrl As Control In Me.Controls
-          ctrl.Enabled = True
-        Next
-        tgItem.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = False
-        Next
-      End If
-    End Sub
-    Public Overrides Sub ClearDetail()
-      For Each crlt As Control In Me.Controls
-        If crlt.Name.StartsWith("txt") Then
-          crlt.Text = ""
-        End If
-      Next
-      For Each crlt As Control In grbSupplier.Controls
-        If crlt.Name.StartsWith("txt") Then
-          crlt.Text = ""
-        End If
-      Next
-      For Each crlt As Control In grbSummary.Controls
-        If crlt.Name.StartsWith("txt") Then
-          crlt.Text = ""
-        End If
-      Next
-      Me.dtpDocDate.Value = Now
-    End Sub
-    Public Overrides Sub SetLabelText()
-      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblDocDate}")
-      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblCode}")
-      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblItem}")
-      Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.grbSummary}")
-      Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblItemCount}")
-      Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblItemCountUnit}")
-      Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
-      Me.lblCredit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblCredit}")
-      Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
-      Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblDueDate}")
-      Me.lblBillIssue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblBillIssue}")
-
-      Me.lblBillIssueDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblBillIssueDocDate}")
-      Me.Validator.SetDisplayName(Me.txtBillIssueDocDate, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.txtBillIssueDocDateAlert}"))
-
-      Me.grbSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.grbSupplier}")
-
-      Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblSupplier}")
-      Me.Validator.SetDisplayName(Me.txtSupplierCode, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.txtSupplierCodeAlert}"))
-
-
-      Me.lblRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemaining}")
-      Me.lblRemainingUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemainingUnit}")
-      Me.lblGrossUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblGrossUnit}")
-      Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblGross}")
-
-      Me.lblRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRetention}")
-      Me.lblPlusRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblPlusRetention}")
-      Me.lblRetentionUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemainingUnit}")
-      Me.lblPlusRetentionUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemainingUnit}")
-    End Sub
-    Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler txtBillIssueCode.TextChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
-      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
-      AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtBillIssueDocDate.Validated, AddressOf Me.ChangeProperty
-      AddHandler dtpBillIssueDocDate.ValueChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtCreditPeriod.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtCreditPeriod.TextChanged, AddressOf Me.TextHandler
-
-      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-
-      AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
-
-      RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
-      AddHandler tgItem.DoubleClick, AddressOf CellDblClick
-    End Sub
-    Private supplierCodeChanged As Boolean = False
-    Private txtCreditPeriodChanged As Boolean = False
-    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
-        Return
-      End If
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txtsuppliercode"
-          supplierCodeChanged = True
-        Case "txtcreditperiod"
-          txtCreditPeriodChanged = True
-      End Select
-    End Sub
-    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-    Public Overrides Sub UpdateEntityProperties()
-      m_isInitialized = False
-      ClearDetail()
-      If m_entity Is Nothing Then
-        Return
-      End If
-      oldSupId = Me.m_entity.Supplier.Id
-      txtCode.Text = m_entity.Code
-      txtNote.Text = m_entity.Note
-      Me.m_oldCode = Me.m_entity.Code
-      Me.chkAutorun.Checked = Me.m_entity.AutoGen
-      Me.UpdateAutogenStatus()
-
-      txtSupplierCode.Text = m_entity.Supplier.Code
-      txtSupplierName.Text = m_entity.Supplier.Name
-
-      Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-      Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-      txtCreditPeriod.Text = Configuration.FormatToString(m_entity.CreditPeriod, DigitConfig.Int)
-
-      txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
-
-      txtBillIssueDocDate.Text = MinDateToNull(Me.m_entity.BillIssueDocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-      dtpBillIssueDocDate.Value = MinDateToNow(Me.m_entity.BillIssueDocDate)
-
-      Me.txtBillIssueCode.Text = Me.m_entity.BillIssueCode
-
-      RefreshDocs()
-
-      UpdateAmount()
-
-      SetStatus()
-      SetLabelText()
-      CheckFormEnable()
-      m_isInitialized = True
-    End Sub
-    Private Sub RefreshDocs()
-      Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-      RefreshBlankGrid()
-      ReIndex()
-      Me.m_isInitialized = True
-    End Sub
-    Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-      If e.Name = "ItemChanged" Then
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
-    End Sub
-    Private m_dateSetting As Boolean = False
-    Private oldSupId As Integer
-    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = False
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txtcode"
-          Me.m_entity.Code = txtCode.Text
-          dirtyFlag = True
-        Case "txtnote"
-          Me.m_entity.Note = txtNote.Text
-          dirtyFlag = True
-        Case "txtbillissuecode"
-          Me.m_entity.BillIssueCode = txtBillIssueCode.Text
-          dirtyFlag = True
-        Case "txtsuppliercode"
-          If supplierCodeChanged Then
-            supplierCodeChanged = False
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If Me.txtSupplierCode.TextLength <> 0 Then
-              Dim oldSupplier As Supplier = Me.m_entity.Supplier
-              Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, False)
-              Try
-                If oldSupId <> Me.m_entity.Supplier.Id Then
-                  If oldSupId = 0 OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.Caption.ChangeSupplier}") Then
-                    oldSupId = Me.m_entity.Supplier.Id
-                    dirtyFlag = True
-                    ChangeSupplier()
-                  Else
-                    dirtyFlag = False
-                    Me.m_entity.Supplier = oldSupplier
-                    Me.txtSupplierCode.Text = oldSupplier.Code
-                    Me.txtSupplierName.Text = oldSupplier.Name
-                    supplierCodeChanged = False
-                  End If
-                End If
-              Catch ex As Exception
-
-              End Try
+        Public Overrides Sub CheckFormEnable()
+            If Me.m_entity Is Nothing Then
+                Return
             End If
-          End If
-        Case "dtpdocdate"
-          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-            If Not m_dateSetting Then
-              Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              Me.m_entity.DocDate = dtpDocDate.Value
-            End If
-            dirtyFlag = True
-            Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-            Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-          End If
-        Case "txtdocdate"
-          m_dateSetting = True
-          If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
-            Dim theDate As Date = CDate(Me.txtDocDate.Text)
-            If Not Me.m_entity.DocDate.Equals(theDate) Then
-              dtpDocDate.Value = theDate
-              Me.m_entity.DocDate = dtpDocDate.Value
-              dirtyFlag = True
-            End If
-          Else
-            dtpDocDate.Value = Date.Now
-            Me.m_entity.DocDate = Date.MinValue
-            dirtyFlag = True
-          End If
-          Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-          Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-          m_dateSetting = False
-
-        Case "dtpduedate"
-          If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
-            If Not m_dateSetting Then
-              Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              Me.m_entity.DueDate = dtpDueDate.Value
-            End If
-            dirtyFlag = True
-            'Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-            Me.txtCreditPeriod.Text = Me.m_entity.CreditPeriod
-          End If
-        Case "txtduedate"
-          m_dateSetting = True
-          If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
-            Dim theDate As Date = CDate(Me.txtDueDate.Text)
-            If Not Me.m_entity.DueDate.Equals(theDate) Then
-              dtpDueDate.Value = theDate
-              Me.m_entity.DueDate = dtpDueDate.Value
-              dirtyFlag = True
-            End If
-          Else
-            dtpDueDate.Value = Me.m_entity.DueDate 'Date.Now
-            'Me.m_entity.DocDate = Date.MinValue
-            dirtyFlag = True
-          End If
-          'Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-          Me.txtCreditPeriod.Text = Me.m_entity.CreditPeriod
-          m_dateSetting = False
-
-        Case "txtbillissuedocdate"
-          m_dateSetting = True
-          If Not Me.txtBillIssueDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBillIssueDocDate) = "" Then
-            Dim theDate As Date = CDate(Me.txtBillIssueDocDate.Text)
-            If Not Me.m_entity.BillIssueDocDate.Equals(theDate) Then
-              dtpBillIssueDocDate.Value = theDate
-              Me.m_entity.BillIssueDocDate = dtpBillIssueDocDate.Value
-              dirtyFlag = True
-            End If
-          Else
-            dtpBillIssueDocDate.Value = Date.Now
-            Me.m_entity.BillIssueDocDate = Date.MinValue
-            dirtyFlag = True
-          End If
-          m_dateSetting = False
-        Case "dtpbillissuedocdate"
-          If Not Me.m_entity.BillIssueDocDate.Equals(dtpBillIssueDocDate.Value) Then
-            If Not m_dateSetting Then
-              Me.txtBillIssueDocDate.Text = MinDateToNull(dtpBillIssueDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-              Me.m_entity.BillIssueDocDate = dtpBillIssueDocDate.Value
-            End If
-            dirtyFlag = True
-          End If
-        Case "txtcreditperiod"
-          If txtCreditPeriodChanged Then
-            txtCreditPeriodChanged = False
-            Dim txt As String = Me.txtCreditPeriod.Text
-            If txt.Length > 0 AndAlso IsNumeric(txt) Then
-              Me.m_entity.CreditPeriod = CInt(txt)
+            If Me.m_entity.Status.Value = 0 _
+            OrElse Me.m_entity.IsReferenced _
+            Then
+                'Me.Enabled = False
+                For Each ctrl As Control In Me.Controls
+                    Trace.WriteLine(ctrl.Name & ":" & ctrl.GetType.ToString)
+                    ctrl.Enabled = False
+                Next
+                tgItem.Enabled = True
+                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                    colStyle.ReadOnly = True
+                Next
             Else
-              Me.m_entity.CreditPeriod = 0
+                'Me.Enabled = True
+                For Each ctrl As Control In Me.Controls
+                    ctrl.Enabled = True
+                Next
+                tgItem.Enabled = True
+                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                    colStyle.ReadOnly = False
+                Next
             End If
-            txtCreditPeriod.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+        End Sub
+        Public Overrides Sub ClearDetail()
+            For Each crlt As Control In Me.Controls
+                If crlt.Name.StartsWith("txt") Then
+                    crlt.Text = ""
+                End If
+            Next
+            For Each crlt As Control In grbSupplier.Controls
+                If crlt.Name.StartsWith("txt") Then
+                    crlt.Text = ""
+                End If
+            Next
+            For Each crlt As Control In grbSummary.Controls
+                If crlt.Name.StartsWith("txt") Then
+                    crlt.Text = ""
+                End If
+            Next
+            Me.dtpDocDate.Value = Now
+        End Sub
+        Public Overrides Sub SetLabelText()
+            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblDocDate}")
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblCode}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblItem}")
+            Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.grbSummary}")
+            Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblItemCount}")
+            Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblItemCountUnit}")
+            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+            Me.lblCredit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblCredit}")
+            Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
+            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblDueDate}")
+            Me.lblBillIssue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblBillIssue}")
+
+            Me.lblBillIssueDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblBillIssueDocDate}")
+            Me.Validator.SetDisplayName(Me.txtBillIssueDocDate, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.txtBillIssueDocDateAlert}"))
+
+            Me.grbSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.grbSupplier}")
+
+            Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblSupplier}")
+            Me.Validator.SetDisplayName(Me.txtSupplierCode, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.txtSupplierCodeAlert}"))
+
+
+            Me.lblRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemaining}")
+            Me.lblRemainingUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemainingUnit}")
+            Me.lblGrossUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblGrossUnit}")
+            Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblGross}")
+
+            Me.lblRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRetention}")
+            Me.lblPlusRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblPlusRetention}")
+            Me.lblRetentionUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemainingUnit}")
+            Me.lblPlusRetentionUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.lblRemainingUnit}")
+        End Sub
+        Protected Overrides Sub EventWiring()
+            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+            AddHandler txtBillIssueCode.TextChanged, AddressOf Me.ChangeProperty
+
+            AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
+            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+
+            AddHandler txtDueDate.Validated, AddressOf Me.ChangeProperty
+            AddHandler dtpDueDate.ValueChanged, AddressOf Me.ChangeProperty
+
+            AddHandler txtBillIssueDocDate.Validated, AddressOf Me.ChangeProperty
+            AddHandler dtpBillIssueDocDate.ValueChanged, AddressOf Me.ChangeProperty
+
+            AddHandler txtCreditPeriod.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtCreditPeriod.TextChanged, AddressOf Me.TextHandler
+
+            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+
+            AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
+
+            RemoveHandler tgItem.DoubleClick, AddressOf CellDblClick
+            AddHandler tgItem.DoubleClick, AddressOf CellDblClick
+        End Sub
+        Private supplierCodeChanged As Boolean = False
+        Private txtCreditPeriodChanged As Boolean = False
+        Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+            If Me.m_entity Is Nothing Or Not m_isInitialized Then
+                Return
+            End If
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txtsuppliercode"
+                    supplierCodeChanged = True
+                Case "txtcreditperiod"
+                    txtCreditPeriodChanged = True
+            End Select
+        End Sub
+        ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+        Public Overrides Sub UpdateEntityProperties()
+            m_isInitialized = False
+            ClearDetail()
+            If m_entity Is Nothing Then
+                Return
+            End If
+            oldSupId = Me.m_entity.Supplier.Id
+            txtCode.Text = m_entity.Code
+            txtNote.Text = m_entity.Note
+            Me.m_oldCode = Me.m_entity.Code
+            Me.chkAutorun.Checked = Me.m_entity.AutoGen
+            Me.UpdateAutogenStatus()
+
+            txtSupplierCode.Text = m_entity.Supplier.Code
+            txtSupplierName.Text = m_entity.Supplier.Name
+
             Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
             Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-            dirtyFlag = True
-          End If
-      End Select
-      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-      CheckFormEnable()
-    End Sub
-    Private Sub ChangeSupplier()
-      oldSupId = Me.m_entity.Supplier.Id
-      Me.m_entity.ItemCollection.Clear()
-      RefreshDocs()
-      UpdateAmount()
-      supplierCodeChanged = False
-      Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
-      Me.txtCreditPeriod.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
-      Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
-      Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
-      txtCreditPeriodChanged = False
-    End Sub
-    Private Sub UpdateAmount()
-      m_isInitialized = False
-      txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
-      Me.txtItemCount.Text = Configuration.FormatToString(m_entity.ItemCount, DigitConfig.Int)
-      Me.txtRemaining.Text = Configuration.FormatToString(m_entity.RemainingAmount, DigitConfig.Price)
-      Me.txtRetention.Text = Configuration.FormatToString(m_entity.ItemCollection.GetRetentionDeducted, DigitConfig.Price)
-      Me.txtPlusRetention.Text = Configuration.FormatToString(m_entity.ItemCollection.GetPlusRetention, DigitConfig.Price)
-      m_isInitialized = True
-    End Sub
-    Public Sub SetStatus()
-       MyBase.SetStatusBarMessage()
-    End Sub
-    Public Overrides Property Entity() As ISimpleEntity
-      Get
-        Return Me.m_entity
-      End Get
-      Set(ByVal Value As ISimpleEntity)
-        If Not m_entity Is Nothing Then
-          RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-          Me.m_entity = Nothing
-        End If
-        Me.m_entity = CType(Value, BillAcceptance)
-        'Hack:
-        If Not m_entity Is Nothing Then
-          Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-        End If
-        UpdateEntityProperties()
-      End Set
-    End Property
+            txtCreditPeriod.Text = Configuration.FormatToString(m_entity.CreditPeriod, DigitConfig.Int)
 
-    Public Overrides Sub Initialize()
-      'PopulateRequestor()
-      'PopulateCostCenter()
-    End Sub
+            txtDocDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+            dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+
+            txtBillIssueDocDate.Text = MinDateToNull(Me.m_entity.BillIssueDocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+            dtpBillIssueDocDate.Value = MinDateToNow(Me.m_entity.BillIssueDocDate)
+
+            Me.txtBillIssueCode.Text = Me.m_entity.BillIssueCode
+
+            RefreshDocs()
+
+            UpdateAmount()
+
+            SetStatus()
+            SetLabelText()
+            CheckFormEnable()
+            m_isInitialized = True
+        End Sub
+        Private Sub RefreshDocs()
+            Me.m_isInitialized = False
+            Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+            RefreshBlankGrid()
+            ReIndex()
+            Me.m_isInitialized = True
+        End Sub
+        Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+            If e.Name = "ItemChanged" Then
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+        End Sub
+        Private m_dateSetting As Boolean = False
+        Private oldSupId As Integer
+        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+            If Me.m_entity Is Nothing Or Not m_isInitialized Then
+                Return
+            End If
+            Dim dirtyFlag As Boolean = False
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txtcode"
+                    Me.m_entity.Code = txtCode.Text
+                    dirtyFlag = True
+                Case "txtnote"
+                    Me.m_entity.Note = txtNote.Text
+                    dirtyFlag = True
+                Case "txtbillissuecode"
+                    Me.m_entity.BillIssueCode = txtBillIssueCode.Text
+                    dirtyFlag = True
+                Case "txtsuppliercode"
+                    If supplierCodeChanged Then
+                        supplierCodeChanged = False
+                        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+                        If Me.txtSupplierCode.TextLength <> 0 Then
+                            Dim oldSupplier As Supplier = Me.m_entity.Supplier
+                            Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, False)
+                            Try
+                                If oldSupId <> Me.m_entity.Supplier.Id Then
+                                    If oldSupId = 0 OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.Message.ChangeSupplier}", "${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.Caption.ChangeSupplier}") Then
+                                        oldSupId = Me.m_entity.Supplier.Id
+                                        dirtyFlag = True
+                                        ChangeSupplier()
+                                    Else
+                                        dirtyFlag = False
+                                        Me.m_entity.Supplier = oldSupplier
+                                        Me.txtSupplierCode.Text = oldSupplier.Code
+                                        Me.txtSupplierName.Text = oldSupplier.Name
+                                        supplierCodeChanged = False
+                                    End If
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+                        End If
+                    End If
+                Case "dtpdocdate"
+                    If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+                        If Not m_dateSetting Then
+                            Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                            Me.m_entity.DocDate = dtpDocDate.Value
+                        End If
+                        dirtyFlag = True
+                        Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+                        Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+                    End If
+                Case "txtdocdate"
+                    m_dateSetting = True
+                    If Not Me.txtDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDate) = "" Then
+                        Dim theDate As Date = CDate(Me.txtDocDate.Text)
+                        If Not Me.m_entity.DocDate.Equals(theDate) Then
+                            dtpDocDate.Value = theDate
+                            Me.m_entity.DocDate = dtpDocDate.Value
+                            dirtyFlag = True
+                        End If
+                    Else
+                        dtpDocDate.Value = Date.Now
+                        Me.m_entity.DocDate = Date.MinValue
+                        dirtyFlag = True
+                    End If
+                    Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+                    Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+                    m_dateSetting = False
+
+                Case "dtpduedate"
+                    If Not Me.m_entity.DueDate.Equals(dtpDueDate.Value) Then
+                        If Not m_dateSetting Then
+                            Me.txtDueDate.Text = MinDateToNull(dtpDueDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                            Me.m_entity.DueDate = dtpDueDate.Value
+                        End If
+                        dirtyFlag = True
+                        'Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+                        Me.txtCreditPeriod.Text = Me.m_entity.CreditPeriod
+                    End If
+                Case "txtduedate"
+                    m_dateSetting = True
+                    If Not Me.txtDueDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDueDate) = "" Then
+                        Dim theDate As Date = CDate(Me.txtDueDate.Text)
+                        If Not Me.m_entity.DueDate.Equals(theDate) Then
+                            dtpDueDate.Value = theDate
+                            Me.m_entity.DueDate = dtpDueDate.Value
+                            dirtyFlag = True
+                        End If
+                    Else
+                        dtpDueDate.Value = Me.m_entity.DueDate 'Date.Now
+                        'Me.m_entity.DocDate = Date.MinValue
+                        dirtyFlag = True
+                    End If
+                    'Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+                    Me.txtCreditPeriod.Text = Me.m_entity.CreditPeriod
+                    m_dateSetting = False
+
+                Case "txtbillissuedocdate"
+                    m_dateSetting = True
+                    If Not Me.txtBillIssueDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBillIssueDocDate) = "" Then
+                        Dim theDate As Date = CDate(Me.txtBillIssueDocDate.Text)
+                        If Not Me.m_entity.BillIssueDocDate.Equals(theDate) Then
+                            dtpBillIssueDocDate.Value = theDate
+                            Me.m_entity.BillIssueDocDate = dtpBillIssueDocDate.Value
+                            dirtyFlag = True
+                        End If
+                    Else
+                        dtpBillIssueDocDate.Value = Date.Now
+                        Me.m_entity.BillIssueDocDate = Date.MinValue
+                        dirtyFlag = True
+                    End If
+                    m_dateSetting = False
+                Case "dtpbillissuedocdate"
+                    If Not Me.m_entity.BillIssueDocDate.Equals(dtpBillIssueDocDate.Value) Then
+                        If Not m_dateSetting Then
+                            Me.txtBillIssueDocDate.Text = MinDateToNull(dtpBillIssueDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                            Me.m_entity.BillIssueDocDate = dtpBillIssueDocDate.Value
+                        End If
+                        dirtyFlag = True
+                    End If
+                Case "txtcreditperiod"
+                    If txtCreditPeriodChanged Then
+                        txtCreditPeriodChanged = False
+                        Dim txt As String = Me.txtCreditPeriod.Text
+                        If txt.Length > 0 AndAlso IsNumeric(txt) Then
+                            Me.m_entity.CreditPeriod = CInt(txt)
+                        Else
+                            Me.m_entity.CreditPeriod = 0
+                        End If
+                        txtCreditPeriod.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+                        Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+                        Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+                        dirtyFlag = True
+                    End If
+            End Select
+            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+            CheckFormEnable()
+        End Sub
+        Private Sub ChangeSupplier()
+            oldSupId = Me.m_entity.Supplier.Id
+            Me.m_entity.ItemCollection.Clear()
+            RefreshDocs()
+            UpdateAmount()
+            supplierCodeChanged = False
+            Me.m_entity.CreditPeriod = Me.m_entity.Supplier.CreditPeriod
+            Me.txtCreditPeriod.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
+            Me.txtDueDate.Text = MinDateToNull(Me.m_entity.DueDate, "")
+            Me.dtpDueDate.Value = MinDateToNow(Me.m_entity.DueDate)
+            txtCreditPeriodChanged = False
+        End Sub
+        Private Sub UpdateAmount()
+            m_isInitialized = False
+            txtGross.Text = Configuration.FormatToString(m_entity.Gross, DigitConfig.Price)
+            Me.txtItemCount.Text = Configuration.FormatToString(m_entity.ItemCount, DigitConfig.Int)
+            Me.txtRemaining.Text = Configuration.FormatToString(m_entity.RemainingAmount, DigitConfig.Price)
+            Me.txtRetention.Text = Configuration.FormatToString(m_entity.ItemCollection.GetRetentionDeducted, DigitConfig.Price)
+            Me.txtPlusRetention.Text = Configuration.FormatToString(m_entity.ItemCollection.GetPlusRetention, DigitConfig.Price)
+            m_isInitialized = True
+        End Sub
+        Public Sub SetStatus()
+            MyBase.SetStatusBarMessage()
+        End Sub
+        Public Overrides Property Entity() As ISimpleEntity
+            Get
+                Return Me.m_entity
+            End Get
+            Set(ByVal Value As ISimpleEntity)
+                If Not m_entity Is Nothing Then
+                    RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+                    Me.m_entity = Nothing
+                End If
+                Me.m_entity = CType(Value, BillAcceptance)
+                'Hack:
+                If Not m_entity Is Nothing Then
+                    Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+                End If
+                UpdateEntityProperties()
+            End Set
+        End Property
+
+        Public Overrides Sub Initialize()
+            'PopulateRequestor()
+            'PopulateCostCenter()
+        End Sub
 
 
 #End Region
 
 #Region "Event Handlers"
-    Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
+        Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
 
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
 
-      If doc Is Nothing Then
-        Return
-      End If
-
-      Dim docId As Integer = doc.Id 'drh.GetValue(Of Integer)("DocId")
-      Dim docType As Integer = doc.EntityId 'doc.drh.GetValue(Of Integer)("DocType")
-
-      If docType = 199 Then 'รับวางบิล Retention
-        docType = doc.RetentionType
-      End If
-
-      If docId > 0 AndAlso docType > 0 Then
-        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
-        myEntityPanelService.OpenDetailPanel(en)
-      End If
-
-    End Sub
-    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-      UpdateAutogenStatus()
-    End Sub
-    Private m_oldCode As String = ""
-    Private Sub UpdateAutogenStatus()
-      If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-        'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
-        Me.m_entity.AutoGen = True
-      Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
-        Me.m_entity.AutoGen = False
-      End If
-    End Sub
-    Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      If Me.m_entity.Supplier Is Nothing OrElse Not Me.m_entity.Supplier.Originated Then
-        msgServ.ShowMessage("${res:Global.Error.SpecifySupplier}")
-        Return
-      End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(5) As ArrayList
-      For i As Integer = 0 To 5
-        filterEntities(i) = New ArrayList
-        filterEntities(i).Add(Me.m_entity.Supplier)
-      Next
-      Dim filters(5)() As Filter
-      Dim grNeedsApproval As Boolean = False
-      grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
-
-      Dim notRefedByBilla As Boolean = False
-      notRefedByBilla = CBool(Configuration.GetConfig("GRCannotBeRefedByBillaTwice"))
-
-      filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)) _
-      , New Filter("grNeedsApproval", grNeedsApproval) _
-      , New Filter("notRefedByBilla", notRefedByBilla)}
-      filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15))}
-      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
-      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(46))}
-      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(199)) _
-      , New Filter("grNeedsApproval", grNeedsApproval)}
-
-      'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(292)), _
-      'New Filter("remainMustValid", True), New Filter("nocancel", True) _
-      ', New Filter("grNeedsApproval", grNeedsApproval)}
-
-      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
-                               , New Filter("notRefedByBilla", notRefedByBilla)}
-      'New Filter("remainMustValid", True)}
-
-      Dim entities(5) As ISimpleEntity
-      entities(0) = New GoodsReceiptForBillAcceptance
-      entities(1) = New APOpeningBalanceForBillAcceptance
-      entities(2) = New EqMaintenanceForBillAcceptance
-      entities(3) = New PurchaseCNForBillAcceptance
-      entities(4) = New PurchaseRetentionForBillAcceptance
-      entities(5) = New PAForBillAcceptance
-      myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
-    End Sub
-    Private Function GetItemIDList(ByVal type As Integer) As String
-      Dim ret As String = ""
-      For Each item As BillAcceptanceItem In Me.m_entity.ItemCollection
-        If item.Originated AndAlso item.EntityId = type Then
-          ret &= item.Id.ToString & ","
-        End If
-      Next
-      If ret.EndsWith(",") Then
-        ret = ret.Substring(0, ret.Length - 1)
-      End If
-      Return ret
-    End Function
-    Private Sub SetItems(ByVal items As BasketItemCollection)
-      If items.Count = 0 Then
-        Return
-      End If
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      Dim index As Integer = tgItem.CurrentRowIndex
-      Dim insertIndex As Integer
-      Dim j As Integer = items.Count
-      For i As Integer = items.Count - 1 To 0 Step -1
-
-        Dim item As BasketItem = CType(items(i), BasketItem)
-        Dim newItem As BillAcceptanceItem
-        If TypeOf item.Tag Is DataRow Then
-          'If item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.pa" Then
-          '  newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
-          '  'newItem = New BillAcceptanceItem(New PA(item.Id), Me.m_entity)
-          'Else
-          newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
-          'End If
-        Else
-          Select Case item.FullClassName.ToLower
-            Case "longkong.pojjaman.businesslogic.goodsreceipt"
-              newItem = New BillAcceptanceItem(New GoodsReceipt(item.Id), Me.m_entity)
-              'Case "longkong.pojjaman.businesslogic.goodsreceipt"
-              '  newItem = New BillAcceptanceItem(New GoodsReceipt(item.Id), Me.m_entity)
-          End Select
-        End If
-        newItem.Amount = newItem.UnpaidAmount
-        If i = items.Count - 1 Then
-          'ตัวแรก -- update old item
-          If Me.m_entity.ItemCollection.Count = 0 Then
-            Me.m_entity.ItemCollection.Add(newItem)
-          Else
-            Dim theDoc As BillAcceptanceItem = Me.CurrentItem
-            If Me.CurrentItem Is Nothing Then
-              If index > Me.m_entity.ItemCollection.Count - 1 Then
-                Me.m_entity.ItemCollection.Add(newItem)
-                theDoc = newItem
-                insertIndex = Me.m_entity.ItemCollection.IndexOf(newItem)
-              Else
-                Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
-                theDoc = Me.m_entity.ItemCollection(insertIndex)
-              End If
+            If doc Is Nothing Then
+                Return
             End If
 
-            theDoc.Id = newItem.Id
-            theDoc.Code = newItem.Code
-            '------------------------------------------------------------>>>>>>>>>>>>
+            Dim docId As Integer = doc.Id 'drh.GetValue(Of Integer)("DocId")
+            Dim docType As Integer = doc.EntityId 'doc.drh.GetValue(Of Integer)("DocType")
+
+            If docType = 199 Then 'รับวางบิล Retention
+                docType = doc.RetentionType
+            End If
+
+            If docId > 0 AndAlso docType > 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(docType), docId)
+                myEntityPanelService.OpenDetailPanel(en)
+            End If
+
+        End Sub
+        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+            UpdateAutogenStatus()
+        End Sub
+        Private m_oldCode As String = ""
+        Private Sub UpdateAutogenStatus()
+            If Me.chkAutorun.Checked Then
+                Me.Validator.SetRequired(Me.txtCode, False)
+                Me.ErrorProvider1.SetError(Me.txtCode, "")
+                Me.txtCode.ReadOnly = True
+                m_oldCode = Me.txtCode.Text
+                Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+                'Hack: set Code เป็น "" เอง
+                Me.m_entity.Code = ""
+                Me.m_entity.AutoGen = True
+            Else
+                Me.Validator.SetRequired(Me.txtCode, True)
+                Me.txtCode.Text = m_oldCode
+                Me.txtCode.ReadOnly = False
+                Me.m_entity.AutoGen = False
+            End If
+        End Sub
+        Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If Me.m_entity Is Nothing Then
+                Return
+            End If
+            If Me.m_entity.Supplier Is Nothing OrElse Not Me.m_entity.Supplier.Originated Then
+                msgServ.ShowMessage("${res:Global.Error.SpecifySupplier}")
+                Return
+            End If
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            Dim filterEntities(6) As ArrayList
+            For i As Integer = 0 To 6
+                filterEntities(i) = New ArrayList
+                filterEntities(i).Add(Me.m_entity.Supplier)
+            Next
+            Dim filters(6)() As Filter
+            Dim grNeedsApproval As Boolean = False
+            grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
+
+            Dim notRefedByBilla As Boolean = False
+            notRefedByBilla = CBool(Configuration.GetConfig("GRCannotBeRefedByBillaTwice"))
+
+            filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)) _
+            , New Filter("grNeedsApproval", grNeedsApproval) _
+            , New Filter("notRefedByBilla", notRefedByBilla)}
+            filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15))}
+            filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
+            filters(3) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+            filters(4) = New Filter() {New Filter("IDList", GetRetItemIDList(45)) _
+            , New Filter("grNeedsApproval", grNeedsApproval)}
+            filters(5) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
+            , New Filter("grNeedsApproval", grNeedsApproval)}
+            filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
+                                     , New Filter("notRefedByBilla", notRefedByBilla)}
+
+            Dim entities(6) As ISimpleEntity
+            entities(0) = New GoodsReceiptForBillAcceptance
+            entities(1) = New APOpeningBalanceForBillAcceptance
+            entities(2) = New EqMaintenanceForBillAcceptance
+            entities(3) = New PurchaseCNForBillAcceptance
+            entities(4) = New PurchaseRetentionForBillAcceptance
+            entities(5) = New PARetentionForBillAcceptance
+            entities(6) = New PAForBillAcceptance
+            myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
+        End Sub
+        Private Function GetItemIDList(ByVal type As Integer) As String
+            Dim ret As String = ""
+            For Each item As BillAcceptanceItem In Me.m_entity.ItemCollection
+                If item.Originated AndAlso item.EntityId = type Then
+                    ret &= item.Id.ToString & ","
+                End If
+            Next
+            If ret.EndsWith(",") Then
+                ret = ret.Substring(0, ret.Length - 1)
+            End If
+            Return ret
+        End Function
+        Private Function GetRetItemIDList(ByVal Retentiontype As Integer) As String
+            Dim ret As String = ""
+            For Each item As BillAcceptanceItem In Me.m_entity.ItemCollection
+
+                If item.Originated AndAlso item.EntityId = 199 AndAlso Retentiontype = item.RetentionType Then
+                    ret &= item.Id.ToString & ","
+                End If
+            Next
+            If ret.EndsWith(",") Then
+                ret = ret.Substring(0, ret.Length - 1)
+            End If
+            Return ret
+        End Function
+        Private Sub SetItems(ByVal items As BasketItemCollection)
+            If items.Count = 0 Then
+                Return
+            End If
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+            Dim index As Integer = tgItem.CurrentRowIndex
+            Dim insertIndex As Integer
+            Dim j As Integer = items.Count
+            For i As Integer = items.Count - 1 To 0 Step -1
+
+                Dim item As BasketItem = CType(items(i), BasketItem)
+                Dim newItem As BillAcceptanceItem
+                If TypeOf item.Tag Is DataRow Then
+                    'If item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.pa" Then
+                    '  newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
+                    '  'newItem = New BillAcceptanceItem(New PA(item.Id), Me.m_entity)
+                    'Else
+                    newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
+                    'End If
+                Else
+                    Select Case item.FullClassName.ToLower
+                        Case "longkong.pojjaman.businesslogic.goodsreceipt"
+                            newItem = New BillAcceptanceItem(New GoodsReceipt(item.Id), Me.m_entity)
+                            'Case "longkong.pojjaman.businesslogic.pa"
+                            '    newItem = New BillAcceptanceItem(New PA(item.Id), Me.m_entity)
+                    End Select
+                End If
+                newItem.Amount = newItem.UnpaidAmount
+                If i = items.Count - 1 Then
+                    'ตัวแรก -- update old item
+                    If Me.m_entity.ItemCollection.Count = 0 Then
+                        Me.m_entity.ItemCollection.Add(newItem)
+                    Else
+                        Dim theDoc As BillAcceptanceItem = Me.CurrentItem
+                        If Me.CurrentItem Is Nothing Then
+                            If index > Me.m_entity.ItemCollection.Count - 1 Then
+                                Me.m_entity.ItemCollection.Add(newItem)
+                                theDoc = newItem
+                                insertIndex = Me.m_entity.ItemCollection.IndexOf(newItem)
+                            Else
+                                Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
+                                theDoc = Me.m_entity.ItemCollection(insertIndex)
+                            End If
+                        End If
+
+                        theDoc.Id = newItem.Id
+                        theDoc.Code = newItem.Code
+                        '------------------------------------------------------------>>>>>>>>>>>>
 
 
-            theDoc.AfterTax = newItem.RealAmount
+                        theDoc.AfterTax = newItem.RealAmount
 
 
-            theDoc.Amount = newItem.Amount
+                        theDoc.Amount = newItem.Amount
 
-            theDoc.UnpaidAmount = newItem.UnpaidAmount
-            theDoc.SetType(newItem.EntityId)
-            theDoc.CreditPeriod = newItem.CreditPeriod
-            theDoc.Date = newItem.Date
-            'MessageBox.Show(newItem.Date)
-            theDoc.BeforeTax = newItem.BeforeTax
+                        theDoc.UnpaidAmount = newItem.UnpaidAmount
+                        theDoc.SetType(newItem.EntityId)
+                        theDoc.CreditPeriod = newItem.CreditPeriod
+                        theDoc.Date = newItem.Date
+                        'MessageBox.Show(newItem.Date)
+                        theDoc.BeforeTax = newItem.BeforeTax
 
-            theDoc.TaxBase = newItem.TaxBase
-            theDoc.RetentionType = newItem.RetentionType
-          End If
-        Else
-          Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
-        End If
-      Next
-      RefreshDocs()
-      tgItem.CurrentRowIndex = index
-      UpdateAmount()
-    End Sub
-    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      Dim index As Integer = tgItem.CurrentRowIndex
-      If index > Me.m_entity.ItemCollection.Count - 1 Then
-        Return
-      End If
-      Me.m_entity.ItemCollection.Insert(index, New BillAcceptanceItem)
-      RefreshDocs()
-      tgItem.CurrentRowIndex = index
-      Dim re As New DataColumnChangeEventArgs(Me.m_treeManager.Treetable.Rows(index) _
-  , Me.m_treeManager.Treetable.Columns("billai_amt") _
-  , Me.CurrentItem.Amount)
-      Me.ValidateRow(re)
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      Dim row As TreeRow = Me.m_treeManager.SelectedRow
-      If row Is Nothing Then
-        Return
-      End If
-      Dim doc As BillAcceptanceItem = Me.CurrentItem
-      If doc Is Nothing Then
-        Return
-      End If
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      Me.m_entity.ItemCollection.Remove(doc)
-      RefreshDocs()
-      Me.tgItem.CurrentRowIndex = index
-    End Sub
-    Private Sub ReIndex()
-      Dim i As Integer = 0
-      For Each row As DataRow In Me.m_treeManager.Treetable.Rows
-        row("billai_linenumber") = i + 1
-        i += 1
-      Next
-    End Sub
+                        theDoc.TaxBase = newItem.TaxBase
+                        theDoc.RetentionType = newItem.RetentionType
+                    End If
+                Else
+                    Me.m_entity.ItemCollection.Insert(insertIndex, newItem)
+                End If
+            Next
+            RefreshDocs()
+            tgItem.CurrentRowIndex = index
+            UpdateAmount()
+        End Sub
+        Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+            Dim index As Integer = tgItem.CurrentRowIndex
+            If index > Me.m_entity.ItemCollection.Count - 1 Then
+                Return
+            End If
+            Me.m_entity.ItemCollection.Insert(index, New BillAcceptanceItem)
+            RefreshDocs()
+            tgItem.CurrentRowIndex = index
+            Dim re As New DataColumnChangeEventArgs(Me.m_treeManager.Treetable.Rows(index) _
+        , Me.m_treeManager.Treetable.Columns("billai_amt") _
+        , Me.CurrentItem.Amount)
+            Me.ValidateRow(re)
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+            Dim index As Integer = Me.tgItem.CurrentRowIndex
+            Dim row As TreeRow = Me.m_treeManager.SelectedRow
+            If row Is Nothing Then
+                Return
+            End If
+            Dim doc As BillAcceptanceItem = Me.CurrentItem
+            If doc Is Nothing Then
+                Return
+            End If
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+            Me.m_entity.ItemCollection.Remove(doc)
+            RefreshDocs()
+            Me.tgItem.CurrentRowIndex = index
+        End Sub
+        Private Sub ReIndex()
+            Dim i As Integer = 0
+            For Each row As DataRow In Me.m_treeManager.Treetable.Rows
+                row("billai_linenumber") = i + 1
+                i += 1
+            Next
+        End Sub
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-      Get
-        Return Me.Validator
-      End Get
-    End Property
+        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+            Get
+                Return Me.Validator
+            End Get
+        End Property
 #End Region
 
 #Region "Overrides"
-    Public Overrides Sub NotifyBeforeSave()
+        Public Overrides Sub NotifyBeforeSave()
 
-    End Sub
-    'Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
-    '    If Not successful Then
-    '        Return
-    '    End If
-    '    Me.Entity = New PR(Me.Entity.Id)
-    '    Dim listPanel As ISimpleListPanel = CType(Me.WorkbenchWindow.ViewContent, ISimpleListPanel)
-    '    listPanel.SelectedEntity = Me.Entity
-    'End Sub
-    Public Overrides ReadOnly Property TabPageIcon() As String
-      Get
-        Return (New PR).DetailPanelIcon
-      End Get
-    End Property
+        End Sub
+        'Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+        '    If Not successful Then
+        '        Return
+        '    End If
+        '    Me.Entity = New PR(Me.Entity.Id)
+        '    Dim listPanel As ISimpleListPanel = CType(Me.WorkbenchWindow.ViewContent, ISimpleListPanel)
+        '    listPanel.SelectedEntity = Me.Entity
+        'End Sub
+        Public Overrides ReadOnly Property TabPageIcon() As String
+            Get
+                Return (New PR).DetailPanelIcon
+            End Get
+        End Property
 #End Region
 
 #Region "Event of Button controls"
-    Private Sub btnSupplier_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowSupplier.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New Supplier)
-    End Sub
-    Private Sub btnSupplierDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowSupplierDialog.Click
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplier)
-    End Sub
-    Private Sub SetSupplier(ByVal e As ISimpleEntity)
-      Me.txtSupplierCode.Text = e.Code
-      Me.ChangeProperty(txtSupplierCode, Nothing)
-    End Sub
+        Private Sub btnSupplier_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowSupplier.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenPanel(New Supplier)
+        End Sub
+        Private Sub btnSupplierDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowSupplierDialog.Click
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplier)
+        End Sub
+        Private Sub SetSupplier(ByVal e As ISimpleEntity)
+            Me.txtSupplierCode.Text = e.Code
+            Me.ChangeProperty(txtSupplierCode, Nothing)
+        End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-    Public Overrides ReadOnly Property EnablePaste() As Boolean
-      Get
-        Dim data As IDataObject = Clipboard.GetDataObject
-        If data.GetDataPresent((New Supplier).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtsuppliercode", "txtsuppliername"
-                Return True
-            End Select
-          End If
-        End If
-        Return False
-      End Get
-    End Property
-    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim data As IDataObject = Clipboard.GetDataObject
-      If data.GetDataPresent((New Supplier).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
-        Dim entity As New Supplier(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtsuppliercode", "txtsuppliername"
-              Me.SetSupplier(entity)
-          End Select
-        End If
-      End If
-    End Sub
+        Public Overrides ReadOnly Property EnablePaste() As Boolean
+            Get
+                Dim data As IDataObject = Clipboard.GetDataObject
+                If data.GetDataPresent((New Supplier).FullClassName) Then
+                    If Not Me.ActiveControl Is Nothing Then
+                        Select Case Me.ActiveControl.Name.ToLower
+                            Case "txtsuppliercode", "txtsuppliername"
+                                Return True
+                        End Select
+                    End If
+                End If
+                Return False
+            End Get
+        End Property
+        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+            Dim data As IDataObject = Clipboard.GetDataObject
+            If data.GetDataPresent((New Supplier).FullClassName) Then
+                Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
+                Dim entity As New Supplier(id)
+                If Not Me.ActiveControl Is Nothing Then
+                    Select Case Me.ActiveControl.Name.ToLower
+                        Case "txtsuppliercode", "txtsuppliername"
+                            Me.SetSupplier(entity)
+                    End Select
+                End If
+            End If
+        End Sub
 #End Region
 
 #Region "Grid Resizing"
-    Private Sub tgItem_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs)
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      RefreshBlankGrid()
-    End Sub
-    Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Dim index As Integer = tgItem.CurrentRowIndex
-      Dim maxVisibleCount As Integer
-      Dim tgRowHeight As Integer = 17
-      maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1
-        'เพิ่มแถวจนเต็ม
-        Me.m_treeManager.Treetable.Childs.Add()
-      Loop
-      'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-      '    If Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1 Then
-      '        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-      '        Me.m_treeManager.Treetable.Childs.Add()
-      '    End If
-      'End If
-      Me.m_treeManager.Treetable.AcceptChanges()
-      tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
-    End Sub
+        Private Sub tgItem_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            If Me.m_entity Is Nothing Then
+                Return
+            End If
+            RefreshBlankGrid()
+        End Sub
+        Private Sub RefreshBlankGrid()
+            If Me.tgItem.Height = 0 Then
+                Return
+            End If
+            Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+            Dim index As Integer = tgItem.CurrentRowIndex
+            Dim maxVisibleCount As Integer
+            Dim tgRowHeight As Integer = 17
+            maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
+            Do While Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1
+                'เพิ่มแถวจนเต็ม
+                Me.m_treeManager.Treetable.Childs.Add()
+            Loop
+            'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
+            '    If Me.m_treeManager.Treetable.Rows.Count < maxVisibleCount - 1 Then
+            '        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+            '        Me.m_treeManager.Treetable.Childs.Add()
+            '    End If
+            'End If
+            Me.m_treeManager.Treetable.AcceptChanges()
+            tgItem.CurrentRowIndex = Math.Max(0, index)
+            Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+        End Sub
 #End Region
 
-    Private Sub lblRetention_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblRetention.Click
+        Private Sub lblRetention_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblRetention.Click
 
-    End Sub
-  End Class
+        End Sub
+    End Class
 End Namespace
