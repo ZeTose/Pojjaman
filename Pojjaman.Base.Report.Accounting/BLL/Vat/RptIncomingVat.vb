@@ -128,23 +128,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim SumTaxAmount As Decimal = 0
       Dim SumAfterTax As Decimal = 0
 
-      '===ทำ relate doc ของ 226 ใน code
-      Dim paysId As Integer = -1
-      Dim relatedoc As New Dictionary(Of Integer, String)
-      Dim docs As New List(Of String)
-      For Each relaterow As DataRow In dt2.Rows
-        Dim drh As New DataRowHelper(relaterow)
-        If paysId = drh.GetValue(Of Integer)("paysi_pays") Then
-          docs.Add(drh.GetValue(Of String)("stock_code"))
-        ElseIf paysId > 0 Then
-          relatedoc.Add(paysId, String.Join(",", docs))
-          paysId = drh.GetValue(Of Integer)("paysi_pays")
-          docs.Add(drh.GetValue(Of String)("stock_code"))
-        ElseIf paysId = -1 Then
-          paysId = drh.GetValue(Of Integer)("paysi_pays")
-          docs.Add(drh.GetValue(Of String)("stock_code"))
-        End If
-      Next
+      ''===ทำ relate doc ของ 226 ใน code
+      'Dim paysId As Integer = -1
+      'Dim relatedoc As New Dictionary(Of Integer, String)
+      'Dim docs As New List(Of String)
+      'For Each relaterow As DataRow In dt2.Rows
+      '  Dim drh As New DataRowHelper(relaterow)
+      '  If paysId = drh.GetValue(Of Integer)("paysi_pays") Then
+      '    docs.Add(drh.GetValue(Of String)("stock_code"))
+      '  ElseIf paysId > 0 Then
+      '    relatedoc.Add(paysId, String.Join(",", docs))
+      '    paysId = drh.GetValue(Of Integer)("paysi_pays")
+      '    docs.Add(drh.GetValue(Of String)("stock_code"))
+      '  ElseIf paysId = -1 Then
+      '    paysId = drh.GetValue(Of Integer)("paysi_pays")
+      '    docs.Add(drh.GetValue(Of String)("stock_code"))
+      '  End If
+      'Next
+
+      '' แทนการต่อสตริง
+      Dim RelateDic As New DictionaryOfJoinStringbyInteger(dt2, "paysi_pays", "stock_code", ",")
 
       Dim DocId As Integer
       Dim DocType As Integer
@@ -179,8 +182,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("VatRunNumber") Then
             m_grid(currDocIndex, 6).CellValue = row("VatRunNumber").ToString
           End If
-          If DocType = 226 AndAlso relatedoc.ContainsKey(DocId) Then
-            m_grid(currDocIndex, 7).CellValue = relatedoc.Item(DocId)
+          If DocType = 226 AndAlso RelateDic.ContainsKey(DocId) Then
+            m_grid(currDocIndex, 7).CellValue = RelateDic.GetValue(DocId)
           ElseIf Not row.IsNull("RelatedDoc") Then
             m_grid(currDocIndex, 7).CellValue = row("RelatedDoc").ToString
           End If
