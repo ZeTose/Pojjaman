@@ -55,7 +55,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class JournalEntry
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IApprovAble, IHasAccountBook, ICancelable, ICheckPeriod, IHasMainDoc
+    Implements IPrintableEntity, IApprovAble, IHasAccountBook, ICancelable, ICheckPeriod, IHasMainDoc, IDuplicable
 
 #Region "Members"
     Private gl_accountBook As AccountBook
@@ -1882,6 +1882,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
       Me.Status.Value = 0
       Return Me.Save(currentUserId)
+    End Function
+#End Region
+
+#Region "IDuplicable"
+    Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
+      'เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
+
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
+      End If
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.Canceled = False
+      Me.CancelPerson = New User
+      'Me.Closing = False
+      Me.ClearReference()
+     
+      Return Me
     End Function
 #End Region
 
