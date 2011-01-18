@@ -26,13 +26,6 @@ Partial Class PaymentList
     Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
     Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
     Me.btnSearch = New System.Windows.Forms.Button()
-    Me.txtSupplierCode = New System.Windows.Forms.TextBox()
-    Me.lblSupplier = New System.Windows.Forms.Label()
-    Me.txtSupplierName = New System.Windows.Forms.TextBox()
-    Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
-    Me.RadGridView1 = New Telerik.WinControls.UI.RadGridView()
-    Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
-    Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
     Me.grbDocDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
     Me.txtDocDateStart = New System.Windows.Forms.TextBox()
     Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
@@ -41,20 +34,33 @@ Partial Class PaymentList
     Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
     Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
     Me.btnSupplierFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+    Me.txtSupplierCode = New System.Windows.Forms.TextBox()
+    Me.lblSupplier = New System.Windows.Forms.Label()
+    Me.txtSupplierName = New System.Windows.Forms.TextBox()
+    Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
+    Me.RadGridView1 = New Telerik.WinControls.UI.RadGridView()
+    Me.SplitPanel3 = New Telerik.WinControls.UI.SplitPanel()
     Me.ibtnDelete = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.ibtnAdd = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.ibtnClear = New Longkong.Pojjaman.Gui.Components.ImageButton()
+    Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
+    Me.btnBankAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+    Me.txtBankAccountCode = New System.Windows.Forms.TextBox()
+    Me.lblBankAcct = New System.Windows.Forms.Label()
+    Me.txtBankAccountName = New System.Windows.Forms.TextBox()
+    Me.txtPVCode = New System.Windows.Forms.TextBox()
+    Me.lblPVcode = New System.Windows.Forms.Label()
     CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.RadSplitContainer1.SuspendLayout()
     CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel1.SuspendLayout()
+    Me.grbDocDate.SuspendLayout()
     CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel2.SuspendLayout()
     CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
     CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitPanel3.SuspendLayout()
     CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
-    Me.grbDocDate.SuspendLayout()
     Me.SuspendLayout()
     '
     'RadSplitContainer1
@@ -77,6 +83,12 @@ Partial Class PaymentList
     '
     'SplitPanel1
     '
+    Me.SplitPanel1.Controls.Add(Me.txtPVCode)
+    Me.SplitPanel1.Controls.Add(Me.lblPVcode)
+    Me.SplitPanel1.Controls.Add(Me.btnBankAccountFind)
+    Me.SplitPanel1.Controls.Add(Me.txtBankAccountCode)
+    Me.SplitPanel1.Controls.Add(Me.lblBankAcct)
+    Me.SplitPanel1.Controls.Add(Me.txtBankAccountName)
     Me.SplitPanel1.Controls.Add(Me.btnSearch)
     Me.SplitPanel1.Controls.Add(Me.grbDocDate)
     Me.SplitPanel1.Controls.Add(Me.btnSupplierFind)
@@ -104,88 +116,6 @@ Partial Class PaymentList
     Me.btnSearch.Size = New System.Drawing.Size(75, 23)
     Me.btnSearch.TabIndex = 21
     Me.btnSearch.Text = "ค้นหา"
-    '
-    'txtSupplierCode
-    '
-    Me.txtSupplierCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.txtSupplierCode.Location = New System.Drawing.Point(118, 12)
-    Me.txtSupplierCode.Name = "txtSupplierCode"
-    Me.txtSupplierCode.Size = New System.Drawing.Size(88, 21)
-    Me.txtSupplierCode.TabIndex = 13
-    '
-    'lblSupplier
-    '
-    Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.lblSupplier.ForeColor = System.Drawing.Color.Black
-    Me.lblSupplier.Location = New System.Drawing.Point(14, 12)
-    Me.lblSupplier.Name = "lblSupplier"
-    Me.lblSupplier.Size = New System.Drawing.Size(96, 18)
-    Me.lblSupplier.TabIndex = 12
-    Me.lblSupplier.Text = "Supplier:"
-    Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-    '
-    'txtSupplierName
-    '
-    Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
-    Me.txtSupplierName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.txtSupplierName.Location = New System.Drawing.Point(206, 12)
-    Me.txtSupplierName.Name = "txtSupplierName"
-    Me.txtSupplierName.ReadOnly = True
-    Me.txtSupplierName.Size = New System.Drawing.Size(168, 21)
-    Me.txtSupplierName.TabIndex = 14
-    '
-    'SplitPanel2
-    '
-    Me.SplitPanel2.Controls.Add(Me.RadGridView1)
-    Me.SplitPanel2.Location = New System.Drawing.Point(0, 133)
-    Me.SplitPanel2.Name = "SplitPanel2"
-    '
-    '
-    '
-    Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(25, 25)
-    Me.SplitPanel2.Size = New System.Drawing.Size(926, 166)
-    Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.02247192!)
-    Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -11)
-    Me.SplitPanel2.TabIndex = 1
-    Me.SplitPanel2.TabStop = False
-    Me.SplitPanel2.Text = "SplitPanel2"
-    '
-    'RadGridView1
-    '
-    Me.RadGridView1.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.RadGridView1.Location = New System.Drawing.Point(0, 0)
-    Me.RadGridView1.Name = "RadGridView1"
-    Me.RadGridView1.Size = New System.Drawing.Size(926, 166)
-    Me.RadGridView1.TabIndex = 0
-    '
-    'SplitPanel3
-    '
-    Me.SplitPanel3.Controls.Add(Me.ibtnDelete)
-    Me.SplitPanel3.Controls.Add(Me.ibtnAdd)
-    Me.SplitPanel3.Controls.Add(Me.ibtnClear)
-    Me.SplitPanel3.Controls.Add(Me.RadGridView2)
-    Me.SplitPanel3.Location = New System.Drawing.Point(0, 302)
-    Me.SplitPanel3.Name = "SplitPanel3"
-    '
-    '
-    '
-    Me.SplitPanel3.RootElement.MinSize = New System.Drawing.Size(25, 25)
-    Me.SplitPanel3.Size = New System.Drawing.Size(926, 238)
-    Me.SplitPanel3.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.1123595!)
-    Me.SplitPanel3.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 52)
-    Me.SplitPanel3.TabIndex = 2
-    Me.SplitPanel3.TabStop = False
-    Me.SplitPanel3.Text = "SplitPanel3"
-    '
-    'RadGridView2
-    '
-    Me.RadGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.RadGridView2.Location = New System.Drawing.Point(0, 39)
-    Me.RadGridView2.Name = "RadGridView2"
-    Me.RadGridView2.Size = New System.Drawing.Size(926, 199)
-    Me.RadGridView2.TabIndex = 1
     '
     'grbDocDate
     '
@@ -269,6 +199,78 @@ Partial Class PaymentList
     Me.btnSupplierFind.TabStop = False
     Me.btnSupplierFind.ThemedImage = CType(resources.GetObject("btnSupplierFind.ThemedImage"), System.Drawing.Bitmap)
     '
+    'txtSupplierCode
+    '
+    Me.txtSupplierCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtSupplierCode.Location = New System.Drawing.Point(118, 12)
+    Me.txtSupplierCode.Name = "txtSupplierCode"
+    Me.txtSupplierCode.Size = New System.Drawing.Size(88, 21)
+    Me.txtSupplierCode.TabIndex = 13
+    '
+    'lblSupplier
+    '
+    Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.lblSupplier.ForeColor = System.Drawing.Color.Black
+    Me.lblSupplier.Location = New System.Drawing.Point(14, 12)
+    Me.lblSupplier.Name = "lblSupplier"
+    Me.lblSupplier.Size = New System.Drawing.Size(96, 18)
+    Me.lblSupplier.TabIndex = 12
+    Me.lblSupplier.Text = "Supplier:"
+    Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'txtSupplierName
+    '
+    Me.txtSupplierName.BackColor = System.Drawing.SystemColors.Control
+    Me.txtSupplierName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtSupplierName.Location = New System.Drawing.Point(206, 12)
+    Me.txtSupplierName.Name = "txtSupplierName"
+    Me.txtSupplierName.ReadOnly = True
+    Me.txtSupplierName.Size = New System.Drawing.Size(168, 21)
+    Me.txtSupplierName.TabIndex = 14
+    '
+    'SplitPanel2
+    '
+    Me.SplitPanel2.Controls.Add(Me.RadGridView1)
+    Me.SplitPanel2.Location = New System.Drawing.Point(0, 133)
+    Me.SplitPanel2.Name = "SplitPanel2"
+    '
+    '
+    '
+    Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(25, 25)
+    Me.SplitPanel2.Size = New System.Drawing.Size(926, 166)
+    Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.02247192!)
+    Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -11)
+    Me.SplitPanel2.TabIndex = 1
+    Me.SplitPanel2.TabStop = False
+    Me.SplitPanel2.Text = "SplitPanel2"
+    '
+    'RadGridView1
+    '
+    Me.RadGridView1.Dock = System.Windows.Forms.DockStyle.Fill
+    Me.RadGridView1.Location = New System.Drawing.Point(0, 0)
+    Me.RadGridView1.Name = "RadGridView1"
+    Me.RadGridView1.Size = New System.Drawing.Size(926, 166)
+    Me.RadGridView1.TabIndex = 0
+    '
+    'SplitPanel3
+    '
+    Me.SplitPanel3.Controls.Add(Me.ibtnDelete)
+    Me.SplitPanel3.Controls.Add(Me.ibtnAdd)
+    Me.SplitPanel3.Controls.Add(Me.ibtnClear)
+    Me.SplitPanel3.Controls.Add(Me.RadGridView2)
+    Me.SplitPanel3.Location = New System.Drawing.Point(0, 302)
+    Me.SplitPanel3.Name = "SplitPanel3"
+    '
+    '
+    '
+    Me.SplitPanel3.RootElement.MinSize = New System.Drawing.Size(25, 25)
+    Me.SplitPanel3.Size = New System.Drawing.Size(926, 238)
+    Me.SplitPanel3.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.1123595!)
+    Me.SplitPanel3.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 52)
+    Me.SplitPanel3.TabIndex = 2
+    Me.SplitPanel3.TabStop = False
+    Me.SplitPanel3.Text = "SplitPanel3"
+    '
     'ibtnDelete
     '
     Me.ibtnDelete.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -303,6 +305,76 @@ Partial Class PaymentList
     Me.ibtnClear.TabStop = False
     Me.ibtnClear.ThemedImage = CType(resources.GetObject("ibtnClear.ThemedImage"), System.Drawing.Bitmap)
     '
+    'RadGridView2
+    '
+    Me.RadGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+    Me.RadGridView2.Location = New System.Drawing.Point(0, 39)
+    Me.RadGridView2.Name = "RadGridView2"
+    Me.RadGridView2.Size = New System.Drawing.Size(926, 199)
+    Me.RadGridView2.TabIndex = 1
+    '
+    'btnBankAccountFind
+    '
+    Me.btnBankAccountFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+    Me.btnBankAccountFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.btnBankAccountFind.ForeColor = System.Drawing.SystemColors.Control
+    Me.btnBankAccountFind.Location = New System.Drawing.Point(766, 14)
+    Me.btnBankAccountFind.Name = "btnBankAccountFind"
+    Me.btnBankAccountFind.Size = New System.Drawing.Size(24, 23)
+    Me.btnBankAccountFind.TabIndex = 25
+    Me.btnBankAccountFind.TabStop = False
+    Me.btnBankAccountFind.ThemedImage = CType(resources.GetObject("btnBankAccountFind.ThemedImage"), System.Drawing.Bitmap)
+    '
+    'txtBankAccountCode
+    '
+    Me.txtBankAccountCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtBankAccountCode.Location = New System.Drawing.Point(510, 14)
+    Me.txtBankAccountCode.Name = "txtBankAccountCode"
+    Me.txtBankAccountCode.Size = New System.Drawing.Size(88, 21)
+    Me.txtBankAccountCode.TabIndex = 23
+    '
+    'lblBankAcct
+    '
+    Me.lblBankAcct.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.lblBankAcct.ForeColor = System.Drawing.Color.Black
+    Me.lblBankAcct.Location = New System.Drawing.Point(406, 14)
+    Me.lblBankAcct.Name = "lblBankAcct"
+    Me.lblBankAcct.Size = New System.Drawing.Size(96, 18)
+    Me.lblBankAcct.TabIndex = 22
+    Me.lblBankAcct.Text = "Bank Account:"
+    Me.lblBankAcct.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'txtBankAccountName
+    '
+    Me.txtBankAccountName.BackColor = System.Drawing.SystemColors.Control
+    Me.txtBankAccountName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtBankAccountName.Location = New System.Drawing.Point(598, 14)
+    Me.txtBankAccountName.Name = "txtBankAccountName"
+    Me.txtBankAccountName.ReadOnly = True
+    Me.txtBankAccountName.Size = New System.Drawing.Size(168, 21)
+    Me.txtBankAccountName.TabIndex = 24
+    '
+    'txtPVCode
+    '
+    Me.txtPVCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.txtPVCode.Location = New System.Drawing.Point(510, 55)
+    Me.txtPVCode.Name = "txtPVCode"
+    Me.txtPVCode.Size = New System.Drawing.Size(210, 21)
+    Me.txtPVCode.TabIndex = 27
+    '
+    'lblPVcode
+    '
+    Me.lblPVcode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.lblPVcode.ForeColor = System.Drawing.Color.Black
+    Me.lblPVcode.Location = New System.Drawing.Point(406, 55)
+    Me.lblPVcode.Name = "lblPVcode"
+    Me.lblPVcode.Size = New System.Drawing.Size(96, 18)
+    Me.lblPVcode.TabIndex = 26
+    Me.lblPVcode.Text = "PV Code:"
+    Me.lblPVcode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
     'PaymentList
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -316,14 +388,14 @@ Partial Class PaymentList
     CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel1.ResumeLayout(False)
     Me.SplitPanel1.PerformLayout()
+    Me.grbDocDate.ResumeLayout(False)
+    Me.grbDocDate.PerformLayout()
     CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel2.ResumeLayout(False)
     CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
     CType(Me.SplitPanel3, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitPanel3.ResumeLayout(False)
     CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).EndInit()
-    Me.grbDocDate.ResumeLayout(False)
-    Me.grbDocDate.PerformLayout()
     Me.ResumeLayout(False)
 
   End Sub
@@ -348,4 +420,10 @@ Partial Class PaymentList
   Friend WithEvents ibtnDelete As Longkong.Pojjaman.Gui.Components.ImageButton
   Friend WithEvents ibtnAdd As Longkong.Pojjaman.Gui.Components.ImageButton
   Friend WithEvents ibtnClear As Longkong.Pojjaman.Gui.Components.ImageButton
+  Friend WithEvents txtPVCode As System.Windows.Forms.TextBox
+  Friend WithEvents lblPVcode As System.Windows.Forms.Label
+  Friend WithEvents btnBankAccountFind As Longkong.Pojjaman.Gui.Components.ImageButton
+  Friend WithEvents txtBankAccountCode As System.Windows.Forms.TextBox
+  Friend WithEvents lblBankAcct As System.Windows.Forms.Label
+  Friend WithEvents txtBankAccountName As System.Windows.Forms.TextBox
 End Class

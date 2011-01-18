@@ -1150,7 +1150,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim f As New PaymentList
       f.SetSupplier(Me.m_entity.Supplier)
-      f.SetType(22)
+      f.SetBankAccount(Me.m_entity.BankAccount)
+      f.SetType(65)
       If f.ShowDialog() = DialogResult.OK Then
         Me.WorkbenchWindow.ViewContent.IsDirty = True
         Dim list As List(Of PaymentForList) = f.Selected

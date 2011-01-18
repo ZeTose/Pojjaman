@@ -6,9 +6,14 @@ Imports Longkong.Pojjaman.Services
 
 Public Class PaymentList
 
+#Region "Properties"
   Private Property docDateStart As Date
   Private Property docDateEnd As Date
+  Property Supplier As Supplier
+  Property BankAcct As BankAccount
+#End Region
 
+#Region "Methods"
   Public Sub SetSupplier(ByVal s As Supplier)
     If Not s Is Nothing AndAlso s.Originated Then
       Me.Supplier = s
@@ -17,6 +22,15 @@ Public Class PaymentList
     End If
     Me.txtSupplierCode.Text = Me.Supplier.Code
     Me.txtSupplierName.Text = Me.Supplier.Name
+  End Sub
+  Public Sub SetBankAccount(ByVal b As BankAccount)
+    If Not b Is Nothing AndAlso b.Originated Then
+      Me.BankAcct = b
+    Else
+      Me.BankAcct = New BankAccount
+    End If
+    Me.txtBankAccountCode.Text = Me.BankAcct.Code
+    Me.txtBankAccountName.Text = Me.BankAcct.Name
   End Sub
   Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
     RefreshItems()
@@ -31,6 +45,20 @@ Public Class PaymentList
   Private Sub SetSupplier(ByVal e As ISimpleEntity)
     Me.txtSupplierCode.Text = e.Code
     Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.Supplier)
+  End Sub
+
+  Private Sub txtBankAccountCode_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtBankAccountCode.Validated
+    BankAccount.GetBankAccount(txtBankAccountCode, txtBankAccountName, Me.BankAcct)
+  End Sub
+
+  Private Sub btnBankAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBankAccountFind.Click
+    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountDialog)
+  End Sub
+
+  Private Sub SetBankAccountDialog(ByVal e As ISimpleEntity)
+    Me.txtBankAccountCode.Text = e.Code
+    BankAccount.GetBankAccount(txtBankAccountCode, txtBankAccountName, Me.BankAcct)
   End Sub
 
   Private Sub PaymentList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -49,6 +77,60 @@ Public Class PaymentList
     AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
   End Sub
+
+  Private Sub ClearCriterias()
+    If Me.Supplier Is Nothing Then
+      Me.Supplier = New Supplier
+    End If
+
+    If Me.BankAcct Is Nothing Then
+      Me.BankAcct = New BankAccount
+    End If
+
+    Me.txtPVCode.Text = ""
+
+    Me.dtpDocDateStart.Value = DateAdd(DateInterval.Day, -7, Now.Date)
+    Me.dtpDocDateEnd.Value = DateAdd(DateInterval.Day, 0, Now.Date)
+
+    Me.txtDocDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, -7, Now.Date), "")
+    Me.txtDocDateEnd.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, 0, Now.Date), "")
+
+    Me.docDateStart = DateAdd(DateInterval.Day, -7, Now.Date)
+    Me.docDateEnd = DateAdd(DateInterval.Day, 0, Now.Date)
+
+  End Sub
+
+  Public Sub PopulateRow(ByVal p As PaymentForList, ByVal tr As GridViewDataRowInfo)
+    If tr Is Nothing Then
+      Return
+    End If
+
+    If tr.ViewTemplate.Columns.Contains("SelectedForDeleted") Then
+      tr.Cells("SelectedForDeleted").Value = p.SelectedForDeleted
+    End If
+    If tr.ViewTemplate.Columns.Contains("Selected") Then
+      tr.Cells("Selected").Value = p.Selected
+    End If
+    tr.Cells("PaymentCode").Value = p.Code
+    tr.Cells("RefCode").Value = p.RefCode
+    tr.Cells("RefType").Value = p.RefType
+    tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
+    tr.Cells("BankAccount").Value = p.bankacct
+    tr.Cells("Amount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
+    tr.Cells("Remain").Value = Configuration.FormatToString(p.RefRemain, DigitConfig.Price)
+
+    tr.Tag = p
+
+  End Sub
+  Private m_type As Integer = -1
+  Public Sub SetType(ByVal t As Integer)
+    m_type = t
+  End Sub
+
+#End Region
+ 
+
+  
   Private m_dateSetting As Boolean
   Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
     Dim dirtyFlag As Boolean = False
@@ -101,42 +183,7 @@ Public Class PaymentList
         m_dateSetting = False
     End Select
   End Sub
-  Private Sub ClearCriterias()
-    If Me.Supplier Is Nothing Then
-      Me.Supplier = New Supplier
-    End If
-    Me.dtpDocDateStart.Value = DateAdd(DateInterval.Day, -7, Now.Date)
-    Me.dtpDocDateEnd.Value = DateAdd(DateInterval.Day, 0, Now.Date)
-
-    Me.txtDocDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, -7, Now.Date), "")
-    Me.txtDocDateEnd.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, 0, Now.Date), "")
-
-    Me.docDateStart = DateAdd(DateInterval.Day, -7, Now.Date)
-    Me.docDateEnd = DateAdd(DateInterval.Day, 0, Now.Date)
-
-  End Sub
-
-  Public Sub PopulateRow(ByVal p As PaymentForList, ByVal tr As GridViewDataRowInfo)
-    If tr Is Nothing Then
-      Return
-    End If
-
-    If tr.ViewTemplate.Columns.Contains("SelectedForDeleted") Then
-      tr.Cells("SelectedForDeleted").Value = p.SelectedForDeleted
-    End If
-    If tr.ViewTemplate.Columns.Contains("Selected") Then
-      tr.Cells("Selected").Value = p.Selected
-    End If
-    tr.Cells("PaymentCode").Value = p.Code
-    tr.Cells("RefCode").Value = p.RefCode
-    tr.Cells("RefType").Value = p.RefType
-    tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
-    tr.Cells("Amount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
-    tr.Cells("Remain").Value = Configuration.FormatToString(p.RefRemain, DigitConfig.Price)
-
-    tr.Tag = p
-
-  End Sub
+  
   Private m_tableInitialized As Boolean = False
   Private m_updating As Boolean = False
 
@@ -213,13 +260,14 @@ Public Class PaymentList
     End If
     m_updating2 = False
   End Sub
-  Property Supplier As Supplier
   Private Function GetFilterArray() As Filter()
-    Dim arr(3) As Filter
+    Dim arr(5) As Filter
     arr(0) = New Filter("supplier_id", Supplier.ValidIdOrDBNull(Supplier))
     arr(1) = New Filter("startdate", ValidDateOrDBNull(docDateStart))
     arr(2) = New Filter("enddate", ValidDateOrDBNull(docDateEnd))
     arr(3) = New Filter("type", m_type)
+    arr(4) = New Filter("bankacct_id", BankAccount.ValidIdOrDBNull(BankAcct))
+    arr(5) = New Filter("pvcode", txtPVCode.Text)
     Return arr
   End Function
   Private Function ValidDateOrDBNull(ByVal myDate As Date) As Object
@@ -333,6 +381,17 @@ Public Class PaymentList
     viewDef.ColumnGroups(colNum).IsPinned = True
     colNum += 1
 
+    Dim gcBankAccount As New GridViewTextBoxColumn("BankAccount")
+    gcBankAccount.HeaderText = "บัญชีธนาคาร" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+    gcBankAccount.Width = 150
+    gcBankAccount.ReadOnly = True
+    grid.Columns.Add(gcBankAccount)
+    viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+    viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+    viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcBankAccount)
+    viewDef.ColumnGroups(colNum).IsPinned = True
+    colNum += 1
+
     Dim csAmount As New GridViewTextBoxColumn("Amount")
     csAmount.HeaderText = "จำนวนเงินที่ต้องจ่าย" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
     csAmount.Width = 150
@@ -406,9 +465,7 @@ Public Class PaymentList
     Me.DialogResult = Windows.Forms.DialogResult.OK
     Me.Close()
   End Sub
-  Private m_type As Integer = -1
-  Public Sub SetType(ByVal t As Integer)
-    m_type = t
-  End Sub
+ 
 
+ 
 End Class

@@ -3937,6 +3937,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property RefTypeId As Integer
     Public Property RefDocDate As Date
     Public Property RefDueDate As Date
+    Public Property bankacct As String
     Public Property RefCreditPeriod As Integer
     Public Property RefAmount As Decimal
     Public Property RefPaid As Decimal
@@ -3979,6 +3980,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         p.RefTypeId = deh.GetValue(Of Integer)("RefTypeId")
         p.RefDocDate = deh.GetValue(Of Date)("RefDocDate")
         p.RefDueDate = deh.GetValue(Of Date)("RefDueDate")
+        p.bankacct = deh.GetValue(Of String)("bankaccount")
         p.RefAmount = deh.GetValue(Of Decimal)("RefAmount")
         p.RefPaid = deh.GetValue(Of Decimal)("RefPaid")
         p.Note = ""
