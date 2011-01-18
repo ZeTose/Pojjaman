@@ -1246,7 +1246,7 @@ FinalLine:
         End Sub
         Private Sub CheckClosed()
             Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-            Dim level As Integer = secSrv.GetAccess(363)            'ตรวจสอบ สิทธิการปิดPR
+            Dim level As Integer = secSrv.GetAccess(371)            'ตรวจสอบ สิทธิการปิดPR
             Dim checkString As String = BinaryHelper.DecToBin(level, 5)           'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
             checkString = BinaryHelper.RevertString(checkString)
             If CBool(checkString.Substring(0, 1)) Then
