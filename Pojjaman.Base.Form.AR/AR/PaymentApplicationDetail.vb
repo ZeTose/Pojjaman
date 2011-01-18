@@ -3848,7 +3848,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       temp = Me.m_entity.ContractAmount
       'End If
       temp += Me.m_entity.Advance + Me.m_entity.Retention
-      temp -= Me.m_entity.ItemCollection.GetCanGetMilestoneAmount
+      If TypeOf myItem Is Milestone AndAlso myItem.Type.Value = 75 Then
+        temp -= Me.m_entity.ItemCollection.GetCanGetOnlyMilestoneAmount
+      Else
+        temp -= Me.m_entity.ItemCollection.GetCanGetMilestoneAmount
+      End If
       temp -= (Me.m_entity.Advance - m_entity.ItemCollection.GetMilestoneAdvrAmount)
       temp -= (Me.m_entity.Retention - m_entity.ItemCollection.GetMilestoneRetention)
       temp += myItem.MileStoneAmount

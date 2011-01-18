@@ -2782,6 +2782,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    Public Function GetCanGetOnlyMilestoneAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal = item.MileStoneAmount
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If TypeOf item Is Milestone AndAlso (item.Type.Value = 75 OrElse item.Type.Value = 77 OrElse item.Type.Value = 86) Then
+            amt += itemAmount
+          End If
+        End If
+      Next
+      Return amt
+    End Function
     Public Function GetCanGetMilestoneAmountWithTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
