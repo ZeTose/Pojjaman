@@ -140,26 +140,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dtRecs As DataTable = Me.DataSet.Tables(3)
 
 
-      'ทำ list ของใบรับชำระ
-      Dim dicRecs As New Dictionary(Of Integer, String)
-      Dim recsList As New List(Of String)
+      ''ทำ list ของใบรับชำระ
+      'Dim dicRecs As New Dictionary(Of Integer, String)
+      'Dim recsList As New List(Of String)
 
-      Dim billId As Integer = -1
-      For Each billRow As DataRow In dtRecs.Rows
-        Dim brh As New DataRowHelper(billRow)
-        If billId = brh.GetValue(Of Integer)("receivesi_parentEntity") Then
-          recsList.Add(brh.GetValue(Of String)("receives_code"))
-        ElseIf billId = -1 Then
-          billId = brh.GetValue(Of Integer)("receivesi_parentEntity")
-          recsList.Add(brh.GetValue(Of String)("receives_code"))
-        Else
-          dicRecs.Add(billId, String.Join(",", recsList))
-          recsList.Clear()
-          billId = brh.GetValue(Of Integer)("receivesi_parentEntity")
-          recsList.Add(brh.GetValue(Of String)("receives_code"))
-        End If
-      Next
-      'ทำ list ของใบรับชำระ
+      'Dim billId As Integer = -1
+      'For Each billRow As DataRow In dtRecs.Rows
+      '  Dim brh As New DataRowHelper(billRow)
+      '  If billId = brh.GetValue(Of Integer)("receivesi_parentEntity") Then
+      '    recsList.Add(brh.GetValue(Of String)("receives_code"))
+      '  ElseIf billId = -1 Then
+      '    billId = brh.GetValue(Of Integer)("receivesi_parentEntity")
+      '    recsList.Add(brh.GetValue(Of String)("receives_code"))
+      '  Else
+      '    dicRecs.Add(billId, String.Join(",", recsList))
+      '    recsList.Clear()
+      '    billId = brh.GetValue(Of Integer)("receivesi_parentEntity")
+      '    recsList.Add(brh.GetValue(Of String)("receives_code"))
+      '  End If
+      'Next
+      ''ทำ list ของใบรับชำระ
+      ''ทำแทนแล้ว
+      Dim dicClass As New DictionaryOfJoinStringbyInteger(dtRecs, "receivesi_parentEntity", "receives_code", ",")
 
 
 
@@ -255,8 +257,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               advanceRemain = advanceRemain + drh.GetValue(Of Decimal)("Bal")
               trDoc("col8") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
               trDoc("col9") = drh.GetValue(Of String)("recsStatus")
-              If dicRecs.ContainsKey(curBillId) Then
-                trDoc("col10") = dicRecs.Item(curBillId)
+              'If dicRecs.ContainsKey(curBillId) Then
+              '  trDoc("col10") = dicRecs.Item(curBillId)
+              'Else
+
+              'End If
+              If dicClass.ContainsKey(curBillId) Then
+                trDoc("col10") = dicClass.GetValue(curBillId)
               Else
 
               End If

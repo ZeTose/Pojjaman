@@ -620,5 +620,55 @@ Namespace Longkong.Pojjaman.DataAccessLayer
       Return defaultValue
     End Function
   End Class
+
+  Public Class DictionaryOfJoinStringbyInteger
+    Dim m_dt As DataTable
+    Dim dicInt As Generic.Dictionary(Of Integer, String)
+
+    ''' <summary>
+    ''' ไว้ต่อ string จาก table ที่มี key เป็น Integer
+    ''' </summary>
+    ''' <param name="dt">ตารางข้อมูล ที่จะไว้ต่อ</param>
+    ''' <param name="keyCol"> ชื่อ Col ของ key ต้องเป็น integer</param>
+    ''' <param name="joinCol">ชื่อ Col ของ string ที่จะต่อกัน  </param>
+    ''' <param name="seperator">ตัวอักษรที่ใช้แบ่ง</param>
+    ''' <remarks></remarks>
+    Public Sub New(ByVal dt As DataTable, ByVal keyCol As String, ByVal joinCol As String, ByVal seperator As String)
+      m_dt = dt
+      dicInt = New Generic.Dictionary(Of Integer, String)
+      Dim joinList As New Generic.List(Of String)
+
+      Dim billId As Integer = -1
+      For Each Row As DataRow In m_dt.Rows
+        Dim drh As New DataRowHelper(Row)
+        If billId = drh.GetValue(Of Integer)(keyCol) Then
+          joinList.Add(drh.GetValue(Of String)(joinCol))
+        ElseIf billId = -1 Then
+          billId = drh.GetValue(Of Integer)(keyCol)
+          joinList.Add(drh.GetValue(Of String)(joinCol))
+        Else
+          dicInt.Add(billId, String.Join(seperator, joinList))
+          joinList.Clear()
+          billId = drh.GetValue(Of Integer)(keyCol)
+          joinList.Add(drh.GetValue(Of String)(joinCol))
+        End If
+      Next
+
+    End Sub
+
+    Public Function GetValue(ByVal key As Integer) As String
+      Return dicInt.Item(key)
+    End Function
+
+    Public Function ContainsKey(ByVal key As Integer) As Boolean
+      Return dicInt.ContainsKey(key)
+    End Function
+
+    Public Function ContainsValue(ByRef value As String) As Boolean
+      Return dicInt.ContainsValue(value)
+    End Function
+
+
+  End Class
 End Namespace
 
