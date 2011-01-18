@@ -717,6 +717,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not m_dateSetting Then
               Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.DocDateEnd = dtpDocDateEnd.Value
+              Me.txtDocEndDate.Text = MinDateToNull(Me.DocDateEnd, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
             End If
           End If
           m_dateSetting = False
@@ -727,6 +728,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not Me.DocDateEnd.Equals(theDate) Then
               dtpDocDateEnd.Value = theDate
               Me.DocDateEnd = dtpDocDateEnd.Value
+              Me.txtDocEndDate.Text = MinDateToNull(Me.DocDateEnd, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
             End If
           Else
             Me.dtpDocDateEnd.Value = Date.Now
@@ -736,6 +738,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "dtpdocenddate"
           If Not Me.DocDateEnd.Equals(dtpDocEndDate.Value) Then
             If Not m_dateSetting Then
+              Me.txtDocEndDate.Text = MinDateToNull(dtpDocEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.txtDocDateEnd.Text = MinDateToNull(dtpDocEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.DocDateEnd = dtpDocEndDate.Value
             End If
@@ -744,10 +747,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtdocenddate"
           m_dateSetting = True
           If Not Me.txtDocEndDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocEndDate) = "" Then
-            Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
+            Dim theDate As Date = CDate(Me.txtDocEndDate.Text)
             If Not Me.DocDateEnd.Equals(theDate) Then
               dtpDocEndDate.Value = theDate
+              Me.txtDocDateEnd.Text = MinDateToNull(dtpDocEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.DocDateEnd = dtpDocEndDate.Value
+              Me.txtDocEndDate.Text = MinDateToNull(Me.DocDateEnd, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
             End If
           Else
             Me.dtpDocDateEnd.Value = Date.Now
