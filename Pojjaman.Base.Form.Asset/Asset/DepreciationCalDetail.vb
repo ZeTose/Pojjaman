@@ -1200,6 +1200,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ' Comment : สามารถเก็บ Material Level อื่นได้
       Dim index As Integer = tgItem.CurrentRowIndex
       Me.m_entity.ItemCollection.SetItems(items)
+      Me.m_entity.ReCalculationAll()
       RefreshDocs()
       tgItem.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = True

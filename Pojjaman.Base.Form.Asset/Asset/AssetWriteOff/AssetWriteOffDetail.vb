@@ -482,7 +482,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtCustomerCode, "")
       Me.txtCustomerCode.Name = "txtCustomerCode"
       Me.Validator.SetRegularExpression(Me.txtCustomerCode, "")
-      Me.Validator.SetRequired(Me.txtCustomerCode, True)
+      'Me.Validator.SetRequired(Me.txtCustomerCode, True)
       Me.txtCustomerCode.Size = New System.Drawing.Size(91, 20)
       Me.txtCustomerCode.TabIndex = 0
       '
@@ -1491,7 +1491,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cswriteoffamount.NullText = ""
       cswriteoffamount.TextBox.Name = "WriteOffAmount"
       cswriteoffamount.Format = "#,###.##"
-      cswriteoffamount.ReadOnly = True
+      'cswriteoffamount.ReadOnly = True
       cswriteoffamount.Width = 90
       cswriteoffamount.DataAlignment = HorizontalAlignment.Right
 
@@ -1660,8 +1660,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '    e.ProposedValue = ""
           '  End If
           '  doc.SetItemCode(CStr(e.ProposedValue))
-          'Case "type"
-          '  doc.ItemType = New EqtItemType(CInt(e.ProposedValue))
+          Case "writeoffamount"
+            If Not doc.HasChild AndAlso doc.ItemType.Value = 28 Then
+              Dim value As Decimal = CDec(e.ProposedValue)
+              If doc.CalcWriteOffAmt >= value Then
+                doc.WriteOffAmount = CDec(e.ProposedValue)
+              Else
+                e.ProposedValue = doc.CalcWriteOffAmt
+              End If
+            Else
+              e.ProposedValue = doc.WriteOffAmount
+            End If
           Case "qty"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -2002,6 +2011,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
       Me.m_entity.Itemcollection.Populate(m_treeManager.Treetable, tgItem)
+
       'RefreshBlankGrid()
       'ReIndex()
       Me.m_treeManager.Treetable.AcceptChanges()

@@ -904,8 +904,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_salvage = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_salvage", 1)
         .m_rentalrate = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_rentalrate")
         .m_startCalcAmt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_startCalcAmt")
-        .m_Deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
         .m_writeoffamt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_writeoffamt")
+          .m_Deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
         .m_age = drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_age")
 
 
@@ -919,7 +919,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_eqt = New EquipmentTool(CInt(dr(aliasPrefix & Me.Prefix & "_eqtid")), CInt(dr(aliasPrefix & Me.Prefix & "_eqttype")))
         End If
 
-     
+
         .m_balance = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_balance")
         .m_startBalance = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_startBalance")
         .m_saleDate = drh.GetValue(Of Date)(aliasPrefix & Me.Prefix & "_saleDate")
@@ -928,7 +928,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_depreopening = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
         .m_firstYearRate = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_firstYearRate")
 
-        
+
         .m_saleDocDate = drh.GetValue(Of Date)(aliasPrefix & Me.Prefix & "_saleDocDate")
         .m_saleDocCode = drh.GetValue(Of String)(aliasPrefix & Me.Prefix & "_saleDocCode")
         .m_buyer = drh.GetValue(Of String)(aliasPrefix & Me.Prefix & "_buyer")
@@ -1399,8 +1399,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Public ReadOnly Property DepreAmnt As Decimal
             Get
-                m_depreamnt = m_depreopening + Me.GetDepreAmntfromDB
-                Return m_depreamnt
+        Return Me.GetDepreAmntfromDB
             End Get
         End Property
 
@@ -1418,7 +1417,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public ReadOnly Property DeprebaseBal As Decimal
             Get
         'มูลค่าคงเหลือยกมา = ราคาซื้อ -  ค่าwriteoff (บางส่วน)
-        Return Math.Max(Me.DepreBase - m_writeoffamt, 0)
+        If m_buyPrice > 0 Then
+          Return Math.Max(Me.DepreBase * (1 - (m_writeoffamt / m_buyPrice)), 0)
+        Else
+          Return 0
+        End If
             End Get
         End Property
 

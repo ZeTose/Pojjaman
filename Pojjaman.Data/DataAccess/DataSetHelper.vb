@@ -641,29 +641,44 @@ Namespace Longkong.Pojjaman.DataAccessLayer
       Dim billId As Integer = -1
       For Each Row As DataRow In m_dt.Rows
         Dim drh As New DataRowHelper(Row)
-        If billId = drh.GetValue(Of Integer)(keyCol) Then
-          joinList.Add(drh.GetValue(Of String)(joinCol))
-        ElseIf billId = -1 Then
-          billId = drh.GetValue(Of Integer)(keyCol)
-          joinList.Add(drh.GetValue(Of String)(joinCol))
-        Else
-          dicInt.Add(billId, String.Join(seperator, joinList))
-          joinList.Clear()
-          billId = drh.GetValue(Of Integer)(keyCol)
-          joinList.Add(drh.GetValue(Of String)(joinCol))
-        End If
-      Next
+        If drh.GetValue(Of String)(joinCol).Length > 0 Then
+          If billId = drh.GetValue(Of Integer)(keyCol) Then
+            joinList.Add(drh.GetValue(Of String)(joinCol))
+          ElseIf billId = -1 Then
+            billId = drh.GetValue(Of Integer)(keyCol)
+            joinList.Add(drh.GetValue(Of String)(joinCol))
+          Else
             dicInt.Add(billId, String.Join(seperator, joinList))
+            joinList.Clear()
+            billId = drh.GetValue(Of Integer)(keyCol)
+            joinList.Add(drh.GetValue(Of String)(joinCol))
+          End If
+        End If
+        
+      Next
+      If billId > -1 Then
+        dicInt.Add(billId, String.Join(seperator, joinList))
+      End If
 
     End Sub
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="key">Key ที่ใช้</param>
+    ''' <returns>String ที่ Join แล้ว ด้วย เครื่องหมายที่ให้ไว้</returns>
+    ''' <remarks></remarks>
         Public Function GetValue(ByVal key As Integer) As String
             If Not dicInt.ContainsKey(key) Then
-                Return ""
+        Return "Not Found"
             End If
             Return dicInt.Item(key)
         End Function
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="key">Key ที่ใช้</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public Function ContainsKey(ByVal key As Integer) As Boolean
       Return dicInt.ContainsKey(key)
     End Function

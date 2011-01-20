@@ -206,7 +206,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim ret As Decimal = 0
                 For Each item As DepreciationCalItem In Me.ItemCollection
                     If Not item.Entity Is Nothing Then
-                        ret += item.Entity.BuyPrice
+            ret += item.DepreBase
                     End If
                 Next
                 Return ret
@@ -431,7 +431,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             Return saveJeError
                         Case Else
                     End Select
-                End If
+        End If
+
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateDepre_AWRef" _
+       , New SqlParameter("@depre_id", Me.Id))
+
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+
                 trans.Commit()
                 Return New SaveErrorException(returnVal.Value.ToString)
             Catch ex As SqlException
@@ -539,7 +548,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Public Sub ReCalculationAll()
             For Each item As DepreciationCalItem In Me.ItemCollection
-                item.DepreciationCalculation(item.Entity)
+        item.GetDepreciationFromDB(Me, item.Entity)
             Next
         End Sub
 
@@ -1326,7 +1335,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastestcalcdate") _
                 AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastestcalcdate") Then
                     .m_lastestCalcDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastestcalcdate"))
-                End If
+        End If
+        Dim drh As New DataRowHelper(dr)
+        m_depreamnt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreamnt")
+        m_depreopeningamnt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
+        m_writeoffamt = drh.GetValue(Of Decimal)("asset_writeoffamt")
+        m_deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
+        m_buyprice = drh.GetValue(Of Decimal)("asset_buyprice")
             End With
         End Sub
         Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -1394,13 +1409,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 ' คำนวณค่า
                 'Me.DepreciationCalculation(Me.Entity)
-                Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
+        'Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
                 'm_deprebase = Entity.BuyPrice - m_writeoffamt
                 row("deprei_note") = Me.Note
                 row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
                 row("deprei_depreamnt") = Configuration.FormatToString(Me.Depreamnt, DigitConfig.Price)
                 'row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
-                row("deprei_price") = Configuration.FormatToString(Me.BuyPrice, DigitConfig.Price)
+        row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
                 row("deprei_salvage") = Configuration.FormatToString(Me.Entity.Salvage, DigitConfig.Price)
                 row("deprei_age") = Configuration.FormatToString(Me.Entity.Age, DigitConfig.Int)
             End If

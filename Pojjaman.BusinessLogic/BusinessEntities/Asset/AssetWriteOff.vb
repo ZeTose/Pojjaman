@@ -7,6 +7,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class AssetWriteOff
@@ -560,7 +562,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
-          UpdateAssetWriteOffAmt(Me.Id, conn, trans)
           If Not Me.FromCostCenter Is Nothing Then
             Me.m_receive.CcId = Me.FromCostCenter.Id
             Me.m_whtcol.SetCCId(Me.FromCostCenter.Id)
@@ -579,7 +580,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return savePaymentError
               Case Else
             End Select
+
           End If
+          Me.m_vat.SetRefDocMaximumTaxBase(Me.GetMaximumTaxBase)
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
@@ -613,15 +616,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           Me.DeleteRef(conn, trans)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAW_DepreRef" _
+         , New SqlParameter("@stock_id", Me.Id))
+
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
-          
+
 
           If Me.m_je.Status.Value = -1 Then
             m_je.Status.Value = 3
           End If
-          
+
           '********************************************
           If Not Me.JournalEntry.ManualFormat Then
             If Not (Me.m_je.GLFormat.Originated) Then
@@ -678,11 +684,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldStockItemStatus", New SqlParameter("@stock_id", Me.Id))
     End Sub
-    Private Sub UpdateAssetWriteOffAmt(ByVal Id As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+    Private Sub UpdateAssetWriteOffAmt(ByVal Id As Integer, ByVal assetlist As List(Of String), ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
         Return
       End If
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteOffAmt", New SqlParameter("@eqtstock_id", Me.Id))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteOffAmt", New SqlParameter("@eqtstock_id", Me.Id) _
+                                    , New SqlParameter("@AssetList", String.Join(",", assetlist)))
     End Sub
     'Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
     '  If Not Me.Originated Then
@@ -737,6 +744,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         '------------Checking if we have to delete some rows--------------------
         Dim rowsToDelete As New ArrayList
+        Dim Assetlist As New List(Of String)
         For Each dr As DataRow In dt.Rows
           Dim found As Boolean = False
           For Each testItem As AssetWriteOffItem In Me.Itemcollection
@@ -749,11 +757,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not rowsToDelete.Contains(dr) Then
               rowsToDelete.Add(dr)
             End If
+
+          End If
+          Dim drh As New DataRowHelper(dr)
+          If drh.GetValue(Of Integer)("eqtstocki_entitytype") = 28 Then
+            Assetlist.Add(drh.GetValue(Of Integer)("eqtstocki_entity").ToString)
           End If
         Next
         For Each dr As DataRow In rowsToDelete
           dr.Delete()
         Next
+
+
         '------------End Checking--------------------
 
         Dim i As Integer = 0 'Line Running
@@ -916,6 +931,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'ds.EnforceConstraints = False
         'daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
         'ds.EnforceConstraints = True
+
+        '----Update Write off amt Asset List ----'
+        UpdateAssetWriteOffAmt(Me.Id, Assetlist, conn, trans)
+
 
         Return New SaveErrorException("0")
       Catch ex As Exception

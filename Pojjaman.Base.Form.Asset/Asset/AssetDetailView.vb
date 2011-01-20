@@ -1964,6 +1964,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler txtAge.Validated, AddressOf Me.SetValue
             AddHandler txtStartCalcAmt.Validated, AddressOf Me.SetValue
             AddHandler dtpStartCalcDate.Validated, AddressOf Me.SetValue
+      AddHandler txtStartCalcDate.Validated, AddressOf Me.SetValue
 
             AddHandler txtStartCalcAmt.Validated, AddressOf Me.SetValue
             AddHandler txtDepreOpenning.Validated, AddressOf Me.SetValue

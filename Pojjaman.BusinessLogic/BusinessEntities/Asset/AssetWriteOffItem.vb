@@ -34,9 +34,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_amount As Decimal
     Private m_writeoffamount As Decimal
+    Private m_calcwriteoffamount As Decimal
 
     Private m_accdepre As Decimal
     Private m_writeOffDepreAmount As Decimal
+    Private m_calcwriteOffDepreAmount As Decimal
 
     Private m_hasChild As Boolean
     Private m_parent As Integer
@@ -99,7 +101,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_unitPrice = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitprice") 'ราคาขาย/หน่วย 7
         .m_amount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_Amount") 'มูลค่าขาย 8
         .m_writeoffamount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffAmt") 'มูลค่า Write Off 9
+        .m_calcwriteoffamount = drh.GetValue(Of Decimal)("calcAssetwriteoff") 'มูลค่า Write Off คำนวนไว้ใช้แก้
         .m_writeOffDepreAmount = drh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_writeoffaccdepre") 'ค่าเสื่อมสะสม Write Off 10
+        .m_calcwriteOffDepreAmount = drh.GetValue(Of Decimal)("calcAssetdeprewriteoff") 'ค่าเสื่อมสะสม Write Off คำนวนไว้ใช้แก้
 
         .RemainingQty = drh.GetValue(Of Decimal)("RemainingQty")
         .RemainingQty = Math.Min(.m_RealRemainQty, RemainingQty)
@@ -191,7 +195,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_writeoffamount = value
+        m_writeOffDepreAmount = value / m_calcwriteoffamount * m_calcwriteOffDepreAmount
       End Set
+    End Property    Public ReadOnly Property CalcWriteOffAmt As Decimal
+      Get
+        Return m_calcwriteoffamount
+      End Get
+    End Property    Public ReadOnly Property CalcWriteOffDepreAmt As Decimal
+      Get
+        Return m_calcwriteOffDepreAmount
+      End Get
     End Property    Public Property Parent() As Integer      Get
         Return m_parent
       End Get
@@ -538,9 +551,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .RealRemainQty = 1
               .BuyUnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
               .UnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
+              .m_calcwriteoffamount = Me.WriteOffAmount
             End If
             .m_accdepre = drh.GetValue(Of Decimal)("accdepre")
             .WriteOffDepreAmount = drh.GetValue(Of Decimal)("accdepre")
+            .m_calcwriteOffDepreAmount = drh.GetValue(Of Decimal)("accdepre")
           Case 19
             .RemainingQty = item.Qty
             .Qty = item.Qty
@@ -733,6 +748,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           parrow.State = RowExpandState.Expanded
           gri.CopyToDataRow(parrow)
           parrow.Tag = gri
+          
           'End If
         Else
           gri.LineNumber = 0
