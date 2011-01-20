@@ -19,7 +19,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private suppliercontact_name As String
     Private suppliercontact_title As String
     Private suppliercontact_phone As String
-    Private suppliercontact_email As String
+        Private suppliercontact_email As String
+        Private suppliercontact_fax As String
     Private suppliercontact_supplier As Supplier
 #End Region
 
@@ -93,7 +94,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property Supplier() As Supplier      Get        Return suppliercontact_supplier      End Get      Set(ByVal Value As Supplier)        suppliercontact_supplier = Value      End Set    End Property
-    Public Property IsPrimary() As Boolean      Get        Return suppliercontact_isPrimary      End Get      Set(ByVal Value As Boolean)        suppliercontact_isPrimary = Value      End Set    End Property    Public Property Name() As String Implements IHasName.Name      Get        Return suppliercontact_name      End Get      Set(ByVal Value As String)        suppliercontact_name = Value      End Set    End Property    Public Property Title() As String      Get        Return suppliercontact_title      End Get      Set(ByVal Value As String)        suppliercontact_title = Value      End Set    End Property    Public Property Phone() As String      Get        Return suppliercontact_phone      End Get      Set(ByVal Value As String)        suppliercontact_phone = Value      End Set    End Property    Public Property Email() As String      Get        Return suppliercontact_email      End Get      Set(ByVal Value As String)        suppliercontact_email = Value      End Set    End Property
+    Public Property IsPrimary() As Boolean      Get        Return suppliercontact_isPrimary      End Get      Set(ByVal Value As Boolean)        suppliercontact_isPrimary = Value      End Set    End Property    Public Property Name() As String Implements IHasName.Name      Get        Return suppliercontact_name      End Get      Set(ByVal Value As String)        suppliercontact_name = Value      End Set    End Property    Public Property Title() As String      Get        Return suppliercontact_title      End Get      Set(ByVal Value As String)        suppliercontact_title = Value      End Set    End Property    Public Property Phone() As String      Get        Return suppliercontact_phone      End Get      Set(ByVal Value As String)        suppliercontact_phone = Value      End Set        End Property        Public Property Fax() As String            Get                Return suppliercontact_fax            End Get            Set(ByVal Value As String)                suppliercontact_fax = Value            End Set        End Property    Public Property Email() As String      Get        Return suppliercontact_email      End Get      Set(ByVal Value As String)        suppliercontact_email = Value      End Set    End Property
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "SupplierContact"

@@ -516,7 +516,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@supplier_kbankdcaccount", Me.DCAccount))
       paramArrayList.Add(New SqlParameter("@supplier_kbankdcbank", Me.DCBank))
       paramArrayList.Add(New SqlParameter("@supplier_kbankmcaccount", Me.MCAccount))
-      paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
+            paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
+            paramArrayList.Add(New SqlParameter("@supplier_faxforexport", Me.FaxforExport))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 

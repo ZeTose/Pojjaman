@@ -376,7 +376,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As String)
 
       End Set
-    End Property
+        End Property
+        Public Property FaxforExport() As String Implements IBillablePerson.FaxforExport
+            Get
+                Return CStr(Configuration.GetConfig("CompanyFax"))
+            End Get
+            Set(ByVal Value As String)
+
+            End Set
+        End Property
 
     Public Property HomePage() As String Implements IBillablePerson.HomePage
       Get

@@ -185,7 +185,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property BillingAddress() As String
     Property Phone() As String
     Property Mobile() As String
-    Property Fax() As String
+        Property Fax() As String
+        Property FaxforExport() As String
     Property EmailAddress() As String
     Property HomePage() As String
     Property TaxId() As String

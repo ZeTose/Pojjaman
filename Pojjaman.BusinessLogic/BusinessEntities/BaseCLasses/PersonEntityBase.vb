@@ -18,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_billingAddress As String
         Private m_phone As String
         Private m_fax As String
+        Private m_faxforexport As String
         Private m_detailDiscount As Discount
         Private m_summaryDiscount As Discount
         Private m_taxRate As Decimal
@@ -64,6 +65,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_mobile = ""
             m_contact = ""
             m_fax = ""
+            m_faxforexport = ""
             m_detailDiscount = New Discount("")
             m_summaryDiscount = New Discount("")
             m_taxRate = 0
@@ -112,14 +114,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fax") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_fax") Then
                     .m_fax = CStr(dr(aliasPrefix & Me.Prefix & "_fax"))
                 End If
+                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_faxforexport") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_faxforexport") Then
+                    .m_faxforexport = CStr(dr(aliasPrefix & Me.Prefix & "_faxforexport"))
+                End If
                 If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_mobile") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_mobile") Then
                     .m_mobile = CStr(dr(aliasPrefix & Me.Prefix & "_mobile"))
                 End If
                 If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_contact") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_contact") Then
                     .m_contact = CStr(dr(aliasPrefix & Me.Prefix & "_contact"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fax") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_fax") Then
-                    .m_fax = CStr(dr(aliasPrefix & Me.Prefix & "_fax"))
                 End If
                 If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_billingAddress") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_billingAddress") Then
                     .m_billingAddress = CStr(dr(aliasPrefix & Me.Prefix & "_billingAddress"))
@@ -235,6 +237,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Get
             Set(ByVal Value As String)
                 m_fax = Value
+            End Set
+        End Property
+        Public Property FaxforExport() As String Implements IBillablePerson.FaxforExport
+            Get
+                Return m_faxforexport
+            End Get
+            Set(ByVal Value As String)
+                m_faxforexport = Value
             End Set
         End Property
         Public Property HomePage() As String Implements IBillablePerson.HomePage

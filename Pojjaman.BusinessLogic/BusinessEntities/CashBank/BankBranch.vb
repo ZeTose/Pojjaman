@@ -22,6 +22,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_ibilldetaildiscount As Discount
         Private m_ibillemailaddress As String
         Private m_ibillfax As String
+        Private m_ibillfaxforexport As String
         Private m_ibillhomepage As String
         Private m_ibillidno As String
         Private m_ibillpersontype As BusinessPersonType
@@ -253,6 +254,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Get
             Set(ByVal Value As String)
                 m_ibillfax = Value
+            End Set
+        End Property
+        Public Property FaxforExport() As String Implements IBillablePerson.FaxforExport
+            Get
+                Return m_ibillfaxforexport
+            End Get
+            Set(ByVal Value As String)
+                m_ibillfaxforexport = Value
             End Set
         End Property
 
