@@ -653,12 +653,16 @@ Namespace Longkong.Pojjaman.DataAccessLayer
           joinList.Add(drh.GetValue(Of String)(joinCol))
         End If
       Next
+            dicInt.Add(billId, String.Join(seperator, joinList))
 
     End Sub
 
-    Public Function GetValue(ByVal key As Integer) As String
-      Return dicInt.Item(key)
-    End Function
+        Public Function GetValue(ByVal key As Integer) As String
+            If Not dicInt.ContainsKey(key) Then
+                Return ""
+            End If
+            Return dicInt.Item(key)
+        End Function
 
     Public Function ContainsKey(ByVal key As Integer) As Boolean
       Return dicInt.ContainsKey(key)
