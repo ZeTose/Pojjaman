@@ -1113,7 +1113,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
 
             'จากการอนุมัติเอกสาร
-            CheckClosed()
+
+            '------------------ เช็คสิทธิการมองเห็นปุ่มปิดเอกสาร ---------------------
+            CType(Me.Entity, PR).Closed = Me.chkClosed.Checked
+            If CType(Me.Entity, PR).Closed Then
+                CheckCancelClosed()
+            Else
+                CheckClosed()
+            End If
+
             If CBool(Configuration.GetConfig("ApprovePR")) Then
                 Me.btnApprove.Visible = True
                 '------------------Store Approve----------------------------
@@ -1247,6 +1255,17 @@ FinalLine:
         Private Sub CheckClosed()
             Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
             Dim level As Integer = secSrv.GetAccess(371)            'ตรวจสอบ สิทธิการปิดPR
+            Dim checkString As String = BinaryHelper.DecToBin(level, 5)           'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+            checkString = BinaryHelper.RevertString(checkString)
+            If CBool(checkString.Substring(0, 1)) Then
+                Me.chkClosed.Visible = True
+            Else
+                Me.chkClosed.Visible = False
+            End If
+        End Sub
+        Private Sub CheckCancelClosed()
+            Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+            Dim level As Integer = secSrv.GetAccess(372)            'ตรวจสอบ สิทธิการปิดPR
             Dim checkString As String = BinaryHelper.DecToBin(level, 5)           'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
             checkString = BinaryHelper.RevertString(checkString)
             If CBool(checkString.Substring(0, 1)) Then
