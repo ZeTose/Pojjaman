@@ -1727,6 +1727,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
       End If
+      If Me.m_entity.Itemcollection.Count > 0 Then
+        Me.dtpDocDate.Enabled = False
+        Me.txtDocDate.ReadOnly = True
+      Else
+        Me.dtpDocDate.Enabled = True
+        Me.txtDocDate.ReadOnly = False
+      End If
     End Sub
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")
@@ -2288,6 +2295,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Next
       tgItem.CurrentRowIndex = index
       RefreshDocs()
+      CheckFormEnable()
       'RefreshBlankGrid()
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click

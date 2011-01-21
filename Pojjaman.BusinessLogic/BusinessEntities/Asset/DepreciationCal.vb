@@ -456,94 +456,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Try
         End Function
         'private function
-        Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As Integer
-            Dim sqlSelect As String = "Select * From DepreciationCalItem Where deprei_depre = " & Me.Id
-            Dim da As New SqlDataAdapter(sqlSelect, conn)
-            Dim cmdBuilder As New SqlCommandBuilder(da)
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As Integer
+      Dim sqlSelect As String = "Select * From DepreciationCalItem Where deprei_depre = " & Me.Id
+      Dim da As New SqlDataAdapter(sqlSelect, conn)
+      Dim cmdBuilder As New SqlCommandBuilder(da)
 
-            Dim ds As New DataSet
+      Dim ds As New DataSet
 
-            da.SelectCommand.Transaction = trans
+      da.SelectCommand.Transaction = trans
 
-            'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-            cmdBuilder.GetDeleteCommand.Transaction = trans
-            cmdBuilder.GetInsertCommand.Transaction = trans
-            cmdBuilder.GetUpdateCommand.Transaction = trans
+      'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+      cmdBuilder.GetDeleteCommand.Transaction = trans
+      cmdBuilder.GetInsertCommand.Transaction = trans
+      cmdBuilder.GetUpdateCommand.Transaction = trans
 
-            da.Fill(ds, "DepreciationCalItem")
+      da.Fill(ds, "DepreciationCalItem")
 
-            Dim oldItems As New ArrayList
-            With ds.Tables("DepreciationCalItem")
-                For Each row As DataRow In .Rows
-                    oldItems.Add(row("deprei_entity"))
-                    row.Delete()
-                Next
-                'For Each item As DepreciationCalItem In Me.ItemCollection
-                '  item.DepreciationCalculation(item.Entity)
-                'Next
-                For Each oldId As Integer In oldItems
-                    Dim found As Boolean = False
-                    For Each item As DepreciationCalItem In Me.ItemCollection
-                        If oldId = item.Entity.Id Then
-                            found = True
-                            Exit For
-                        End If
-                    Next
-                    If Not found Then
-                        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UnlockLastDeprecalOfAsset" _
-                        , New SqlParameter("@asset_id", oldId) _
-                        , New SqlParameter("@depre_id", Me.Id))
+      Dim oldItems As New ArrayList
+      With ds.Tables("DepreciationCalItem")
+        For Each row As DataRow In .Rows
+          oldItems.Add(row("deprei_entity"))
+          row.Delete()
+        Next
+        'For Each item As DepreciationCalItem In Me.ItemCollection
+        '  item.DepreciationCalculation(item.Entity)
+        'Next
+        For Each oldId As Integer In oldItems
+          Dim found As Boolean = False
+          For Each item As DepreciationCalItem In Me.ItemCollection
+            If oldId = item.Entity.Id Then
+              found = True
+              Exit For
+            End If
+          Next
+          If Not found Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UnlockLastDeprecalOfAsset" _
+            , New SqlParameter("@asset_id", oldId) _
+            , New SqlParameter("@depre_id", Me.Id))
 
-                        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "RollBackAssetCostCenter" _
-                        , New SqlParameter("@asset_id", oldId) _
-                        , New SqlParameter("@deprei_depre", Me.Id))
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "RollBackAssetCostCenter" _
+            , New SqlParameter("@asset_id", oldId) _
+            , New SqlParameter("@deprei_depre", Me.Id))
 
-                        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "RollBackAssetLastDepreDate" _
-                        , New SqlParameter("@asset_id", oldId) _
-                        , New SqlParameter("@deprei_depre", Me.Id))
-                    End If
-                Next
-                Dim i As Integer = 0
-                For Each item As DepreciationCalItem In Me.ItemCollection
-                    i += 1
-                    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "LockLastDeprecalOfAsset" _
-                    , New SqlParameter("@asset_id", item.Entity.Id) _
-                    , New SqlParameter("@depre_id", Me.Id))
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "RollBackAssetLastDepreDate" _
+            , New SqlParameter("@asset_id", oldId) _
+            , New SqlParameter("@deprei_depre", Me.Id))
+          End If
+        Next
+        Dim i As Integer = 0
+        For Each item As DepreciationCalItem In Me.ItemCollection
+          i += 1
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "LockLastDeprecalOfAsset" _
+          , New SqlParameter("@asset_id", item.Entity.Id) _
+          , New SqlParameter("@depre_id", Me.Id))
 
-                    If Me.IsTransfer Then
-                        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetCostCenter" _
-                      , New SqlParameter("@asset_id", item.Entity.Id) _
-                      , New SqlParameter("@cc_id", ValidIdOrDBNull(Me.ToCostcenter)))
-                    End If
+          If Me.IsTransfer Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetCostCenter" _
+          , New SqlParameter("@asset_id", item.Entity.Id) _
+          , New SqlParameter("@cc_id", ValidIdOrDBNull(Me.ToCostcenter)))
+          End If
 
-                    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetLastDepreDate" _
-                    , New SqlParameter("@asset_id", item.Entity.Id) _
-                    , New SqlParameter("@asset_lastdepredate", ValidDateOrDBNull(Me.DepreDate.Date)))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetLastDepreDate" _
+          , New SqlParameter("@asset_id", item.Entity.Id) _
+          , New SqlParameter("@asset_lastdepredate", ValidDateOrDBNull(Me.DepreDate.Date)))
 
-                    Dim dr As DataRow = .NewRow
-                    dr("deprei_depre") = Me.Id
-                    dr("deprei_linenumber") = i
-                    dr("deprei_entity") = Me.ValidIdOrDBNull(item.Entity)
-                    dr("deprei_lastestcalcdate") = Me.ValidDateOrDBNull(item.LastestCalcDate.Date)
-                    dr("deprei_depredate") = Me.ValidDateOrDBNull(Me.DepreDate.Date)
-                    dr("deprei_depreamnt") = item.Depreamnt
-                    dr("deprei_note") = item.Note
-                    dr("deprei_status") = Me.Status.Value
-                    dr("deprei_depreopening") = item.DepreOpeningBalanceamnt
-                    dr("deprei_deprebase") = item.DepreBase
-                    .Rows.Add(dr)
-                Next
-            End With
-            Dim saveRtn As Integer
-            Dim dt As DataTable = ds.Tables("DepreciationCalItem")
-            ' First process deletes.
-            saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-            ' Next process updates.
-            saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-            ' Finally process inserts.
-            saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-            Return saveRtn
-        End Function
+          Dim dr As DataRow = .NewRow
+          dr("deprei_depre") = Me.Id
+          dr("deprei_linenumber") = i
+          dr("deprei_entity") = Me.ValidIdOrDBNull(item.Entity)
+          dr("deprei_lastestcalcdate") = Me.ValidDateOrDBNull(item.LastestCalcDate.Date)
+          dr("deprei_depredate") = Me.ValidDateOrDBNull(Me.DepreDate.Date)
+          dr("deprei_depreamnt") = Configuration.Format(item.Depreamnt, DigitConfig.Price)
+          dr("deprei_note") = item.Note
+          dr("deprei_status") = Me.Status.Value
+          dr("deprei_depreopening") = Configuration.Format(item.DepreOpeningBalanceamnt, DigitConfig.Price)
+          dr("deprei_deprebase") = Configuration.Format(item.DepreBase, DigitConfig.Price)
+          .Rows.Add(dr)
+        Next
+      End With
+      Dim saveRtn As Integer
+      Dim dt As DataTable = ds.Tables("DepreciationCalItem")
+      ' First process deletes.
+      saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+      ' Next process updates.
+      saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+      ' Finally process inserts.
+      saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+      Return saveRtn
+    End Function
 #End Region
 
         Public Sub ReCalculationAll()

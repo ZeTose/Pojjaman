@@ -445,16 +445,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.m_je.Id = oldje
     End Sub
+    Private Sub ResetCode(ByVal oldCode As String, ByVal oldautogen As Boolean, ByVal oldJecode As String, ByVal oldjeautogen As Boolean)
+      Me.Code = oldCode
+      Me.AutoGen = oldautogen
+      Me.m_je.Code = oldJecode
+      Me.m_je.AutoGen = oldjeautogen
+    End Sub
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Me.RefreshTaxBase()
-        'Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
-        'Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
-        'If tmpTaxBase <> tmpVatTaxBase Then
-        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-        '  New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
-        '  , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
-        'End If
+        If Me.Gross > 0 AndAlso (Me.Customer Is Nothing OrElse Not Me.Customer.Originated) Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoCustomer}"))
+        End If
+
         If Me.Itemcollection.Count <= 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
@@ -484,6 +487,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status = New CheckStatus(2)
         End If
+
+        '---- AutoCode Format --------
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+        Dim oldjecode As String
+        Dim oldjeautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+        oldjecode = Me.m_je.Code
+        oldjeautogen = Me.m_je.AutoGen
 
         If Me.AutoGen And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
@@ -537,6 +551,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Select Case CInt(returnVal.Value)
               Case -1, -2
                 trans.Rollback()
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
                 Return New SaveErrorException(returnVal.Value.ToString)
               Case Else
@@ -544,20 +559,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
+          Dim Assetlist As New List(Of String)
+
           'ChangeOldItemStatus(conn, trans)
-          Dim saveItemError As SaveErrorException = Me.SaveDetail(Me.Id, conn, trans)
+          Dim saveItemError As SaveErrorException = Me.SaveDetail(Me.Id, conn, trans, Assetlist)
           If Not IsNumeric(saveItemError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveItemError
           Else
             Select Case CInt(saveItemError.Message)
               Case -1, -2
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveItemError
               Case Else
             End Select
@@ -567,16 +587,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_whtcol.SetCCId(Me.FromCostCenter.Id)
             Me.m_vat.SetCCId(Me.FromCostCenter.Id)
           End If
+
+          '----Update Write off amt Asset List ----'
+          UpdateAssetWriteOffAmt(Me.Id, Assetlist, conn, trans)
+          '----------------------------------------'
+
+
           Dim savePaymentError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)
           If Not IsNumeric(savePaymentError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return savePaymentError
           Else
             Select Case CInt(savePaymentError.Message)
               Case -1, -2
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return savePaymentError
               Case Else
             End Select
@@ -587,12 +615,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveVatError
           Else
             Select Case CInt(saveVatError.Message)
               Case -1, -2
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveVatError
               Case Else
             End Select
@@ -603,12 +633,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveWhtError.Message) Then
               trans.Rollback()
               ResetID(oldid, oldreceive, oldvat, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return saveWhtError
             Else
               Select Case CInt(saveWhtError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
                   ResetID(oldid, oldreceive, oldvat, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                   Return saveWhtError
                 Case Else
               End Select
@@ -642,12 +674,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return saveJeError
           Else
             Select Case CInt(saveJeError.Message)
               Case -1, -5
                 trans.Rollback()
                 Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveJeError
               Case -2
                 'Post ไปแล้ว
@@ -668,10 +702,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldvat, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid, oldreceive, oldvat, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
@@ -702,7 +738,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Next
     '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewStockItemStatus", New SqlParameter("@stock_id", Me.Id))
     'End Sub
-    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal AssetList As List(Of String)) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id, conn)
         'Dim daWbs As New SqlDataAdapter("Select * from EqtStockiWbs Where EqtStockiw_sequence in ( Select eqtstocki_sequence from EqtStockItem Where EqtStocki_eqtstock = " & Me.Id & ")", conn)
@@ -744,7 +780,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         '------------Checking if we have to delete some rows--------------------
         Dim rowsToDelete As New ArrayList
-        Dim Assetlist As New List(Of String)
         For Each dr As DataRow In dt.Rows
           Dim found As Boolean = False
           For Each testItem As AssetWriteOffItem In Me.Itemcollection
@@ -932,8 +967,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'daWbs.Update(dtWbs.Select("", "", DataViewRowState.Added))
         'ds.EnforceConstraints = True
 
-        '----Update Write off amt Asset List ----'
-        UpdateAssetWriteOffAmt(Me.Id, Assetlist, conn, trans)
+
 
 
         Return New SaveErrorException("0")
