@@ -1206,7 +1206,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                          New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
                     End If
                 End If
-                Dim newHash As New Hashtable
+        Dim newHash As New Hashtable
+        If pitem.WBSDistributeCollection.GetSumPercent > 100 Then
+          Return New SaveErrorException("${res:Global.Error.WBSPercentExceed100}")
+        End If
                 For Each wbitem As WBSDistribute In pitem.WBSDistributeCollection
                     key = wbitem.CostCenter.Code & ":" & wbitem.WBS.Id.ToString
                     If Not newHash.Contains(key) Then
