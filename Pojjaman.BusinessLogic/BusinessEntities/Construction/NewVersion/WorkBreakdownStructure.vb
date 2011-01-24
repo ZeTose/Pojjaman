@@ -197,6 +197,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+        'Public Overrides Property Parent As TreeBaseEntity
+        '    Get
+        '        Return MyBase.Parent
+        '    End Get
+        '    Set(ByVal value As TreeBaseEntity)
+        '        MyBase.Parent = value
+        '    End Set
+        'End Property
         Public Overrides ReadOnly Property Prefix() As String
             Get
                 Return "cbs"

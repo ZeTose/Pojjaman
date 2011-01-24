@@ -103,15 +103,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblCCStart = New System.Windows.Forms.Label()
             Me.txtCostCenterName = New System.Windows.Forms.TextBox()
             Me.btnLciEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.txtLciCodeEnd = New System.Windows.Forms.TextBox()
-            Me.lblLciEnd = New System.Windows.Forms.Label()
-            Me.btnLciStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.txtLciCodeStart = New System.Windows.Forms.TextBox()
-            Me.lblLciStart = New System.Windows.Forms.Label()
             Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+            Me.lblLciStart = New System.Windows.Forms.Label()
+            Me.txtLciCodeEnd = New System.Windows.Forms.TextBox()
             Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+            Me.txtLciCodeStart = New System.Windows.Forms.TextBox()
             Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+            Me.lblLciEnd = New System.Windows.Forms.Label()
             Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+            Me.btnLciStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
             Me.lblDocDateStart = New System.Windows.Forms.Label()
             Me.lblDocDateEnd = New System.Windows.Forms.Label()
             Me.btnSearch = New System.Windows.Forms.Button()
@@ -520,78 +520,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnLciEndFind.TabIndex = 11
             Me.btnLciEndFind.TabStop = False
             Me.btnLciEndFind.ThemedImage = CType(resources.GetObject("btnLciEndFind.ThemedImage"), System.Drawing.Bitmap)
-            Me.btnLciEndFind.Visible = False
-            '
-            'txtLciCodeEnd
-            '
-            Me.Validator.SetDataType(Me.txtLciCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtLciCodeEnd, "")
-            Me.txtLciCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtLciCodeEnd, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtLciCodeEnd, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtLciCodeEnd, System.Drawing.Color.Empty)
-            Me.txtLciCodeEnd.Location = New System.Drawing.Point(265, 159)
-            Me.Validator.SetMinValue(Me.txtLciCodeEnd, "")
-            Me.txtLciCodeEnd.Name = "txtLciCodeEnd"
-            Me.Validator.SetRegularExpression(Me.txtLciCodeEnd, "")
-            Me.Validator.SetRequired(Me.txtLciCodeEnd, False)
-            Me.txtLciCodeEnd.Size = New System.Drawing.Size(96, 21)
-            Me.txtLciCodeEnd.TabIndex = 10
-            Me.txtLciCodeEnd.Visible = False
-            '
-            'lblLciEnd
-            '
-            Me.lblLciEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblLciEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblLciEnd.Location = New System.Drawing.Point(233, 159)
-            Me.lblLciEnd.Name = "lblLciEnd"
-            Me.lblLciEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblLciEnd.TabIndex = 9
-            Me.lblLciEnd.Text = "ถึง"
-            Me.lblLciEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            Me.lblLciEnd.Visible = False
-            '
-            'btnLciStartFind
-            '
-            Me.btnLciStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnLciStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnLciStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnLciStartFind.Location = New System.Drawing.Point(201, 159)
-            Me.btnLciStartFind.Name = "btnLciStartFind"
-            Me.btnLciStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnLciStartFind.TabIndex = 8
-            Me.btnLciStartFind.TabStop = False
-            Me.btnLciStartFind.ThemedImage = CType(resources.GetObject("btnLciStartFind.ThemedImage"), System.Drawing.Bitmap)
-            Me.btnLciStartFind.Visible = False
-            '
-            'txtLciCodeStart
-            '
-            Me.Validator.SetDataType(Me.txtLciCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtLciCodeStart, "")
-            Me.txtLciCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtLciCodeStart, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtLciCodeStart, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtLciCodeStart, System.Drawing.Color.Empty)
-            Me.txtLciCodeStart.Location = New System.Drawing.Point(105, 159)
-            Me.Validator.SetMinValue(Me.txtLciCodeStart, "")
-            Me.txtLciCodeStart.Name = "txtLciCodeStart"
-            Me.Validator.SetRegularExpression(Me.txtLciCodeStart, "")
-            Me.Validator.SetRequired(Me.txtLciCodeStart, False)
-            Me.txtLciCodeStart.Size = New System.Drawing.Size(96, 21)
-            Me.txtLciCodeStart.TabIndex = 7
-            Me.txtLciCodeStart.Visible = False
-            '
-            'lblLciStart
-            '
-            Me.lblLciStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblLciStart.ForeColor = System.Drawing.Color.Black
-            Me.lblLciStart.Location = New System.Drawing.Point(9, 159)
-            Me.lblLciStart.Name = "lblLciStart"
-            Me.lblLciStart.Size = New System.Drawing.Size(88, 18)
-            Me.lblLciStart.TabIndex = 6
-            Me.lblLciStart.Text = "ตั้งแต่วัสดุ:"
-            Me.lblLciStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            Me.lblLciStart.Visible = False
             '
             'txtDocDateEnd
             '
@@ -609,6 +537,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtDocDateEnd.Size = New System.Drawing.Size(96, 21)
             Me.txtDocDateEnd.TabIndex = 4
             '
+            'lblLciStart
+            '
+            Me.lblLciStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblLciStart.ForeColor = System.Drawing.Color.Black
+            Me.lblLciStart.Location = New System.Drawing.Point(9, 159)
+            Me.lblLciStart.Name = "lblLciStart"
+            Me.lblLciStart.Size = New System.Drawing.Size(88, 18)
+            Me.lblLciStart.TabIndex = 6
+            Me.lblLciStart.Text = "ตั้งแต่วัสดุ:"
+            Me.lblLciStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtLciCodeEnd
+            '
+            Me.Validator.SetDataType(Me.txtLciCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtLciCodeEnd, "")
+            Me.txtLciCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtLciCodeEnd, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtLciCodeEnd, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtLciCodeEnd, System.Drawing.Color.Empty)
+            Me.txtLciCodeEnd.Location = New System.Drawing.Point(265, 159)
+            Me.Validator.SetMinValue(Me.txtLciCodeEnd, "")
+            Me.txtLciCodeEnd.Name = "txtLciCodeEnd"
+            Me.Validator.SetRegularExpression(Me.txtLciCodeEnd, "")
+            Me.Validator.SetRequired(Me.txtLciCodeEnd, False)
+            Me.txtLciCodeEnd.Size = New System.Drawing.Size(96, 21)
+            Me.txtLciCodeEnd.TabIndex = 10
+            '
             'txtDocDateStart
             '
             Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
@@ -625,6 +580,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtDocDateStart.Size = New System.Drawing.Size(96, 21)
             Me.txtDocDateStart.TabIndex = 1
             '
+            'txtLciCodeStart
+            '
+            Me.Validator.SetDataType(Me.txtLciCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtLciCodeStart, "")
+            Me.txtLciCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtLciCodeStart, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtLciCodeStart, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtLciCodeStart, System.Drawing.Color.Empty)
+            Me.txtLciCodeStart.Location = New System.Drawing.Point(105, 159)
+            Me.Validator.SetMinValue(Me.txtLciCodeStart, "")
+            Me.txtLciCodeStart.Name = "txtLciCodeStart"
+            Me.Validator.SetRegularExpression(Me.txtLciCodeStart, "")
+            Me.Validator.SetRequired(Me.txtLciCodeStart, False)
+            Me.txtLciCodeStart.Size = New System.Drawing.Size(96, 21)
+            Me.txtLciCodeStart.TabIndex = 7
+            '
             'dtpDocDateStart
             '
             Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
@@ -634,6 +605,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpDocDateStart.TabIndex = 2
             Me.dtpDocDateStart.TabStop = False
             '
+            'lblLciEnd
+            '
+            Me.lblLciEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblLciEnd.ForeColor = System.Drawing.Color.Black
+            Me.lblLciEnd.Location = New System.Drawing.Point(233, 159)
+            Me.lblLciEnd.Name = "lblLciEnd"
+            Me.lblLciEnd.Size = New System.Drawing.Size(24, 18)
+            Me.lblLciEnd.TabIndex = 9
+            Me.lblLciEnd.Text = "ถึง"
+            Me.lblLciEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
             'dtpDocDateEnd
             '
             Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
@@ -642,6 +624,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
             Me.dtpDocDateEnd.TabIndex = 5
             Me.dtpDocDateEnd.TabStop = False
+            '
+            'btnLciStartFind
+            '
+            Me.btnLciStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnLciStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnLciStartFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnLciStartFind.Location = New System.Drawing.Point(201, 159)
+            Me.btnLciStartFind.Name = "btnLciStartFind"
+            Me.btnLciStartFind.Size = New System.Drawing.Size(24, 22)
+            Me.btnLciStartFind.TabIndex = 8
+            Me.btnLciStartFind.TabStop = False
+            Me.btnLciStartFind.ThemedImage = CType(resources.GetObject("btnLciStartFind.ThemedImage"), System.Drawing.Bitmap)
             '
             'lblDocDateStart
             '
@@ -851,8 +845,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.Costcenter = New Costcenter
 
-            'Me.LciStart = New LCIItem
-            'Me.LciEnd = New LCIItem
+            Me.LciStart = New LCIItem
+            Me.LciEnd = New LCIItem
 
             Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
             Me.DocDateStart = dtStart
@@ -1067,8 +1061,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " ChangeProperty "
         Private Sub EventWiring()
-            'AddHandler btnLciStartFind.Click, AddressOf Me.btnLciFind_Click
-            'AddHandler btnLciEndFind.Click, AddressOf Me.btnLciFind_Click
+            AddHandler btnLciStartFind.Click, AddressOf Me.btnLciFind_Click
+            AddHandler txtLciCodeStart.Validated, AddressOf Me.ChangeProperty
+
+            AddHandler btnLciEndFind.Click, AddressOf Me.btnLciFind_Click
+            AddHandler txtLciCodeEnd.Validated, AddressOf Me.ChangeProperty
 
             AddHandler btnLciCodeNameFind.Click, AddressOf Me.btnLciFind_Click
             AddHandler txtItemCode.Validated, AddressOf Me.ChangeProperty
@@ -1225,7 +1222,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Select Case CType(sender, Control).Name.ToLower
                 Case "btnlcicodenamefind"
                     myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetLciDialog)
-
+                Case "btnlcistartfind"
+                    myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetLciStartDialog)
+                Case "btnlciendfind"
+                    myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetLciEndDialog)
             End Select
         End Sub
         ' Costcenter
@@ -1242,6 +1242,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
         Private Sub SetLciDialog(ByVal e As ISimpleEntity)
             Me.txtItemCode.Text = e.Code
+        End Sub
+        Private Sub SetLciStartDialog(ByVal e As ISimpleEntity)
+            Me.txtLciCodeStart.Text = e.Code
+        End Sub
+        Private Sub SetLciEndDialog(ByVal e As ISimpleEntity)
+            Me.txtLciCodeEnd.Text = e.Code
         End Sub
 #End Region
 
