@@ -9,7 +9,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Property [Date]() As Date
         Property Person() As IBillablePerson
         ReadOnly Property NoVat() As Boolean
-        Function GetMaximumTaxBase() As Decimal
+    Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
         Property Vat() As Vat
         Function GetAfterTax() As Decimal
         Function GetBeforeTax() As Decimal
@@ -67,9 +67,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_date = Value
             End Set
         End Property
-        Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
-            Return Decimal.MaxValue
-        End Function
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
+      Return Decimal.MaxValue
+    End Function
         Public Property Vat() As Vat Implements IVatable.Vat
             Get
 

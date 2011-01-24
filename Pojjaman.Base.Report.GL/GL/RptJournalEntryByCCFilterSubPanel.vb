@@ -1114,7 +1114,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler btnCCStartFind.Click, AddressOf Me.btnCCFind_Click
       AddHandler btnCCEndFind.Click, AddressOf Me.btnCCFind_Click
 
-
+      'AddHandler 
       'AddHandler cmbAccountCodeStart.DropDownOpening, AddressOf Me.radMultiComboBox_DropDownOpening
       'AddHandler cmbAccountCodeStart.TextChanged, AddressOf Me.radMultiComboBox_TextChanged
 

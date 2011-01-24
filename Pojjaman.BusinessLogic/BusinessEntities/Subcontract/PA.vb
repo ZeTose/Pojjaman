@@ -3490,9 +3490,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Me.Sc.SubContractor = CType(Value, Supplier)
             End Set
         End Property
-        Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
-            Return Me.RealTaxBase
-        End Function
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
+      Return Me.RealTaxBase
+    End Function
 
         Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
             Get

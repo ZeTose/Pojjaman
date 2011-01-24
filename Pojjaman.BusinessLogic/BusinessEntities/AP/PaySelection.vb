@@ -1595,23 +1595,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return ptb
             End Get
         End Property
-        Private Function GetTaxBase() As Decimal
-            Dim amt As Decimal
-            For Each item As BillAcceptanceItem In Me.ItemCollection
-                'Dim d As Decimal '= item.TaxBaseDeducted
-                ''If d = Decimal.MinValue Then
-                'd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
-                ''d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
-                'item.TaxBaseDeducted = d
-                'End If
-                If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
-                    amt += item.TaxBase - item.DeductTaxBase
-                ElseIf item.EntityId = 46 Then
-                    amt -= (item.TaxBase - item.DeductTaxBase)
-                End If
-            Next
-            Return amt
-        End Function
+    Private Function GetTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
+      Dim amt As Decimal
+      For Each item As BillAcceptanceItem In Me.ItemCollection
+        'Dim d As Decimal '= item.TaxBaseDeducted
+        ''If d = Decimal.MinValue Then
+        'd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+        ''d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+        'item.TaxBaseDeducted = d
+        'End If
+        If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
+          amt += item.TaxBase - item.DeductTaxBase(conn, trans)
+        ElseIf item.EntityId = 46 Then
+          amt -= (item.TaxBase - item.DeductTaxBase(conn, trans))
+        End If
+      Next
+      Return amt
+    End Function
         Private Function GetWitholdingTaxBase() As Decimal
             Dim amt As Decimal
             Dim itemamt As Decimal
@@ -1626,9 +1626,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
             Return amt
         End Function
-        Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
-            Return GetTaxBase()
-        End Function
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
+      Return GetTaxBase(conn, trans)
+    End Function
 
         Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
             Get

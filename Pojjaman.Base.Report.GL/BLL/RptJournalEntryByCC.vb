@@ -55,7 +55,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       template = New GridViewTemplate
       CreateHeader()
-
+      'AddHandler m_grid.GridElement.HScrollBar.ValueChanged ,
       Me.SetFrozenColumn(m_grid, 2)
 
       'CreateDocHeader()

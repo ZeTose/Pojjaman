@@ -932,7 +932,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
       'Todo: ต้อง refresh หรือเปล่า?
       Return Me.RealTaxBase
     End Function

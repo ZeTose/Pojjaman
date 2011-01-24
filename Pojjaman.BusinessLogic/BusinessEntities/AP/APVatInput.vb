@@ -937,7 +937,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
       Return GetTaxBase()
     End Function
 

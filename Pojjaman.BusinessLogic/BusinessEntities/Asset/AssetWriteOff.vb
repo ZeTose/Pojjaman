@@ -2086,7 +2086,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IVatable"
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
       'Todo: ต้อง refresh หรือเปล่า?
       Return Me.TaxBase
     End Function

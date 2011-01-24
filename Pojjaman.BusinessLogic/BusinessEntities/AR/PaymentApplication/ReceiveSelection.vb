@@ -466,7 +466,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           ' ป้องกัน dead lock =============
-          Me.m_vat.SetRefDocMaximumTaxBase(Me.GetMaximumTaxBase)
+          Me.m_vat.SetRefDocMaximumTaxBase(Me.GetMaximumTaxBase(conn, trans))
           ' ป้องกัน dead lock =============
 
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
@@ -1546,7 +1546,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return iTaxBase
     End Function
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
       Dim ret As Decimal = 0
       For Each key As Integer In m_billissues.Keys
         If key <> 0 Then
@@ -1583,9 +1583,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If item.ParentType = 125 And item.EntityId = 83 Then
             item.TaxBase = GoodsSold.GetTaxBase(item.Id)
           ElseIf item.EntityId = 48 Then
-            item.TaxBase = SaleCN.GetTaxbase(item.Id)
+            item.TaxBase = SaleCN.GetTaxBase(item.Id)
           End If
-          d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          If conn IsNot Nothing AndAlso trans IsNot Nothing Then
+            d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId, conn, trans)
+          Else
+            d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          End If
           Dim amt As Decimal = item.Amount
           Dim uamt As Decimal = item.UnreceivedAmount
           '---------------------------------------------

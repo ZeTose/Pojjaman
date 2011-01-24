@@ -949,7 +949,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IVatable"
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
       Return Me.RealTaxBase
     End Function
     Public Property Person() As IBillablePerson Implements IVatable.Person, IWitholdingTaxable.Person

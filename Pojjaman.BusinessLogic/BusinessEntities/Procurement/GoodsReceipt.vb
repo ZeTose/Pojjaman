@@ -4049,9 +4049,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IVatable"
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
-      'Todo: ต้อง refresh หรือเปล่า?
-      Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id)
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
+      If conn IsNot Nothing AndAlso trans IsNot Nothing Then
+        'Todo: ต้อง refresh หรือเปล่า?
+        Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id, conn, trans)
+      Else
+        'Todo: ต้อง refresh หรือเปล่า?
+        Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id)
+      End If
+      
     End Function
     Public Property Person() As IBillablePerson Implements IVatable.Person, IWitholdingTaxable.Person
       Get

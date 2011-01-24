@@ -1797,25 +1797,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_currency = value
       End Set
     End Property
-    Public Property DeductTaxBase() As Decimal
+    Public Property DeductTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
       Get
         If m_deducttaxBase.HasValue Then
           Return m_deducttaxBase.Value
         End If
-        'If Me.EntityId = 46 Then
-        '  m_deducttaxBase = 0
-        '  Return 0
-        'End If
-        If Not Me.PaySelection Is Nothing Then
-          m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
-          Return m_deducttaxBase.Value
-        ElseIf Not Me.m_apvi Is Nothing Then
-          m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
-          Return m_deducttaxBase.Value
+        If conn IsNot Nothing AndAlso trans IsNot Nothing Then
+          If Not Me.PaySelection Is Nothing Then
+            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId, conn, trans)
+            Return m_deducttaxBase.Value
+          ElseIf Not Me.m_apvi Is Nothing Then
+            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId, conn, trans)
+            Return m_deducttaxBase.Value
+          Else
+            m_deducttaxBase = 0
+            Return 0
+          End If
         Else
-          m_deducttaxBase = 0
-          Return 0
+          If Not Me.PaySelection Is Nothing Then
+            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
+            Return m_deducttaxBase.Value
+          ElseIf Not Me.m_apvi Is Nothing Then
+            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
+            Return m_deducttaxBase.Value
+          Else
+            m_deducttaxBase = 0
+            Return 0
+          End If
         End If
+        
       End Get
       Set(ByVal Value As Decimal)
         m_deducttaxBase = Value

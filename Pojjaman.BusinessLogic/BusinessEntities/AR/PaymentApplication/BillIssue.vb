@@ -2376,7 +2376,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
-    Public Function GetMaximumTaxBase() As Decimal Implements IVatable.GetMaximumTaxBase
+    Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
       Dim amt As Decimal
       For Each item As Milestone In Me.ItemCollection
         If item.TaxType.Value <> 0 AndAlso item.TaxPoint.Value <> 2 Then
