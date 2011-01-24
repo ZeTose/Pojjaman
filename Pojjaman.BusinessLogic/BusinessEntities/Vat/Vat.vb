@@ -615,8 +615,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If TypeOf Me.RefDoc Is GoodsReceipt Then
             tmpRefTaxBase = CType(Me.RefDoc, GoodsReceipt).TaxBaseDeductedWithoutThisRefDoc
           Else
-            'tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase, DigitConfig.Price)
-            tmpRefTaxBase = Configuration.Format(Me.RefDocMaximumTaxBase, DigitConfig.Price)
+            tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase(conn, trans), DigitConfig.Price)
+            'tmpRefTaxBase = Configuration.Format(Me.RefDocMaximumTaxBase, DigitConfig.Price)
           End If
         End If
 
