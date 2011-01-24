@@ -563,7 +563,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public ReadOnly Property ReceivedBeforeTax() As Decimal      Get
         Return Me.CalcBeforeTax(Me.ReceivedAmount, Me.CalcTaxAmount(Me.ReceivedAmount))
       End Get
-    End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property    Public ReadOnly Property UnitCost() As Decimal
+    End Property    Public ReadOnly Property StockQty() As Decimal      Get        'Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)        Return Me.Conversion * Me.Qty      End Get    End Property    Public ReadOnly Property UnitCost() As Decimal
       Get
         If Me.StockQty <> 0 Then
           Dim tmpCost As Decimal = 0
