@@ -334,11 +334,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'If Not Me.Filters(10).Value.Equals(DBNull.Value) Then
       '  showDocument = CType(Me.Filters(10).Value, Boolean)
       'End If
-      If Not Me.Filters(2).Value.Equals(DBNull.Value) Then
+      If Not Me.Filters(6).Value.Equals(DBNull.Value) Then
         accountCodeStartFilter = CType(Me.Filters(6).Value, String)
       End If
 
-      If Not Me.Filters(3).Value.Equals(DBNull.Value) Then
+      If Not Me.Filters(7).Value.Equals(DBNull.Value) Then
         accountCodeEndFilter = CType(Me.Filters(7).Value, String)
       End If
 
