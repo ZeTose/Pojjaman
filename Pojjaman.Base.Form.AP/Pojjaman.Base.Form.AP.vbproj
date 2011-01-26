@@ -146,6 +146,9 @@
     <Compile Include="ApprovalComment\ApprovalCommentForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AP\AdvancePayClosedDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="AP\AdvancePayDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -261,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApprovalComment\ApprovalCommentForm.resx">
       <DependentUpon>ApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\AdvancePayClosedDetail.resx">
+      <DependentUpon>AdvancePayClosedDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AP\AdvancePayDetail.resx">
       <DependentUpon>AdvancePayDetail.vb</DependentUpon>

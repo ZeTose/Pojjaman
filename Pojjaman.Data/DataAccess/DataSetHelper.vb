@@ -637,30 +637,30 @@ Namespace Longkong.Pojjaman.DataAccessLayer
       m_dt = dt
       dicInt = New Generic.Dictionary(Of Integer, String)
       Dim joinList As New Generic.List(Of String)
+            Dim billId As Integer = -1
+                For Each Row As DataRow In m_dt.Rows
+                    Dim drh As New DataRowHelper(Row)
+                    If Not drh.GetValue(Of String)(joinCol) Is Nothing Then
+                        If drh.GetValue(Of String)(joinCol).Length > 0 Then
+                            If billId = drh.GetValue(Of Integer)(keyCol) Then
+                                joinList.Add(drh.GetValue(Of String)(joinCol))
+                            ElseIf billId = -1 Then
+                                billId = drh.GetValue(Of Integer)(keyCol)
+                                joinList.Add(drh.GetValue(Of String)(joinCol))
+                            Else
+                                dicInt.Add(billId, String.Join(seperator, joinList))
+                                joinList.Clear()
+                                billId = drh.GetValue(Of Integer)(keyCol)
+                                joinList.Add(drh.GetValue(Of String)(joinCol))
+                            End If
+                        End If
+                    End If
+                Next
+            If billId > -1 Then
+                dicInt.Add(billId, String.Join(seperator, joinList))
+            End If
 
-      Dim billId As Integer = -1
-      For Each Row As DataRow In m_dt.Rows
-        Dim drh As New DataRowHelper(Row)
-        If drh.GetValue(Of String)(joinCol).Length > 0 Then
-          If billId = drh.GetValue(Of Integer)(keyCol) Then
-            joinList.Add(drh.GetValue(Of String)(joinCol))
-          ElseIf billId = -1 Then
-            billId = drh.GetValue(Of Integer)(keyCol)
-            joinList.Add(drh.GetValue(Of String)(joinCol))
-          Else
-            dicInt.Add(billId, String.Join(seperator, joinList))
-            joinList.Clear()
-            billId = drh.GetValue(Of Integer)(keyCol)
-            joinList.Add(drh.GetValue(Of String)(joinCol))
-          End If
-        End If
-        
-      Next
-      If billId > -1 Then
-        dicInt.Add(billId, String.Join(seperator, joinList))
-      End If
-
-    End Sub
+        End Sub
     ''' <summary>
     ''' 
     ''' </summary>
