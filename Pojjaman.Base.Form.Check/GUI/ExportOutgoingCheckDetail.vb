@@ -1146,7 +1146,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtPickupDate.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpPickupDate.ValueChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtBankAccountCode.TextChanged, AddressOf Me.ChangeProperty
+            AddHandler txtBankAccountCode.Validated, AddressOf Me.ChangeProperty
       AddHandler cmbChargee.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler tgItem.DoubleClick, AddressOf CellDblClick
     End Sub

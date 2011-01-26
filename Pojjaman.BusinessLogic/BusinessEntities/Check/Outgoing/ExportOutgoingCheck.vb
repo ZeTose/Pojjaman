@@ -600,11 +600,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     m_receive.AttachmentSubfile = ""
                     m_receive.AdviceMode = "F"
                     If Not item.Entity Is Nothing AndAlso Not item.Entity.Supplier Is Nothing Then
-                        If Not item.Entity.Supplier.FaxforExport Is Nothing OrElse item.Entity.Supplier.FaxforExport.Length > 0 Then
-                            'Dim fax As String = CStr(Configuration.GetConfig("FixedFaxNumberToExportCheck"))
+                        If item.Entity.Supplier.FaxforExport Is Nothing OrElse item.Entity.Supplier.FaxforExport.Length = 0 Then
+                            Dim fax As String = CStr(Configuration.GetConfig("FixedFaxNumberToExportCheck"))
 
-                            '  m_receive.FaxNo = fax
-                            'Else
+                            m_receive.FaxNo = fax
+                        Else
                             m_receive.FaxNo = item.Entity.Supplier.FaxforExport
                         End If
                     End If
