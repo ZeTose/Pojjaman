@@ -1327,6 +1327,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetTaxType(ByVal _taxtype As Integer)
       Me.m_taxtype = New TaxType(_taxtype)
     End Sub
+    Public Sub SetTaxRate(ByVal _taxrate As Decimal)
+      Me.m_taxrate = _taxrate
+    End Sub
     Public Sub Clear()
       Me.Id = 0
       Me.RealAmount = 0
@@ -1554,6 +1557,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("salebillii_billedamt", GetType(Decimal)))
       myDatatable.Columns.Add(New DataColumn("salebillii_linenumber", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("stock_taxtype", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("stock_taxrate", GetType(Decimal)))
 
       For Each tableRow As DataRow In dt.Rows
         Dim row As TreeRow = myDatatable.Childs.Add
@@ -1585,7 +1589,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If tableRow.Table.Columns.Contains("stock_taxtype") AndAlso Not tableRow.IsNull("stock_taxtype") Then
           row("stock_taxtype") = tableRow("stock_taxtype")
         End If
-
+        If tableRow.Table.Columns.Contains("stock_taxrate") AndAlso Not tableRow.IsNull("stock_taxrate") Then
+          row("stock_taxrate") = tableRow("stock_taxrate")
+        End If
         row.State = RowExpandState.None
       Next
       Return myDatatable

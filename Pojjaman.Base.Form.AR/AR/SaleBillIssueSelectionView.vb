@@ -431,6 +431,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 If Not childRow.IsNull("stock_taxtype") Then
                   newItem.SetTaxType(CInt(childRow("stock_taxtype")))
                 End If
+                If Not childRow.IsNull("stock_taxrate") Then
+                  newItem.SetTaxRate(CDec(childRow("stock_taxrate")))
+                End If
                 If Not childRow.IsNull("salebillii_linenumber") Then
                   newItem.Linenumber = CInt(childRow("salebillii_linenumber"))
                 End If
