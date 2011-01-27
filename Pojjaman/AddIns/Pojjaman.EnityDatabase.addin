@@ -21,7 +21,8 @@
 				<MenuItem id="SupplierGroup" label="${res:MainMenu.SupplierMenu.SupplierGroup}" icon="Icons.16x16.SupplierGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SupplierGroup"/>
 				<MenuItem id="ReloadSeparator" label="-"/>
 				<MenuItem id="APOpeningBalance" icon="Icons.16x16.APOpeningBalanceIcon" label="${res:MainMenu.ARMenu.APOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.APOpeningBalance"/>
-				<MenuItem id="AdvancePay" label="${res:MainMenu.SupplierMenu.AdvancePay}" icon="Icons.16x16.AdvancePay" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePay"/>
+        <MenuItem id="AdvancePay" label="${res:MainMenu.SupplierMenu.AdvancePay}" icon="Icons.16x16.AdvancePay" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePay"/>
+        <MenuItem id="AdvancePayClosed" label="${res:MainMenu.SupplierMenu.AdvancePayClosed}" icon="Icons.16x16.AdvancePayClosed" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePayClosed"/>
 				<MenuItem id="PurchaseCNDN" icon="Icons.16x16.Approve" label="${res:MainMenu.PurchaseCNDN}">
 				<MenuItem id="PurchaseCN" icon="Icons.16x16.PurchaseCN" label="${res:MainMenu.PurchaseMenu.PurchaseCN}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PurchaseCN"/>
 					<!--<MenuItem id="PurchaseDN" label="${res:MainMenu.SupplierMenu.PurchaseDN}" icon="Icons.16x16.PurchaseDN" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PurchaseDN"/>-->

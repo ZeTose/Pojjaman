@@ -33,9 +33,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Class AdvancePay
         Inherits SimpleBusinessEntityBase
         Implements IGLAble, IVatable, IWitholdingTaxable _
-        , IPayable, IPaymentItem, IPrintableEntity, IHasIBillablePerson, IHasToCostCenter, IHasFromCostCenter, ICancelable
+        , IPayable, IPaymentItem, IPrintableEntity, IHasIBillablePerson, IHasToCostCenter, IHasFromCostCenter, ICancelable _
+        , IHasName
 
 #Region "Members"
+        Private m_name As String
         Private m_supplier As Supplier
         Private m_costCenter As CostCenter
 
@@ -60,6 +62,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_realTaxBase As Decimal
         Private m_realTaxAmount As Decimal
         Private m_type As Integer
+
+        Private m_account As Account
+        Private m_amount As Decimal
+        Private m_closed As Boolean
+        Private m_isforsupplier As Boolean
 
 #End Region
 
@@ -247,7 +254,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             wht.UpdateRefDoc(Value, True)
                         Next
                     End If
-                End If                m_supplier = Value            End Set        End Property        Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IPayable.Date, IPaymentItem.DueDate            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property        Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+                End If                m_supplier = Value            End Set        End Property        Public Property IsForSupplier() As Boolean            Get                Return m_isforsupplier
+            End Get
+            Set(ByVal value As Boolean)
+                m_isforsupplier = value
+            End Set
+        End Property        Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IPayable.Date, IPaymentItem.DueDate            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property        Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
             Get
                 Return DocDate
             End Get
@@ -315,7 +327,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As CostCenter)
                 Me.CostCenter = Value
             End Set
-        End Property        Public Overrides ReadOnly Property ClassName() As String
+        End Property        Public Property Account() As Account
+            Get
+                Return m_account
+            End Get
+            Set(ByVal Value As Account)
+                m_account = Value
+            End Set
+        End Property        Public Property Name() As String Implements IHasName.Name
+            Get
+                Return m_name
+            End Get
+            Set(ByVal Value As String)
+                m_name = Value
+            End Set
+        End Property        Public Property Closed() As Boolean
+            Get
+                Return m_closed
+            End Get
+            Set(ByVal Value As Boolean)
+                m_closed = Value
+            End Set
+        End Property        Public Overrides ReadOnly Property ClassName() As String
             Get
                 Return "AdvancePay"
             End Get
@@ -478,6 +511,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             myDatatable.Columns.Add(New DataColumn("remain", GetType(String)))
             myDatatable.Columns.Add(New DataColumn("amount", GetType(String)))
             Return myDatatable
+        End Function
+        Public Shared Function GetAdvancePay(ByVal txtCode As TextBox, ByRef oldap As AdvancePay) As Boolean
+            Dim ap As New AdvancePay(txtCode.Text)
+            If txtCode.Text.Length <> 0 AndAlso Not ap.Originated Then
+                MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+                ap = oldap
+            End If
+            txtCode.Text = ap.Code
+            'txtName.Text = ap.Name
+            If oldap.Id <> ap.Id Then
+                oldap = ap
+                Return True
+            End If
+            Return False
         End Function
 #End Region
 
