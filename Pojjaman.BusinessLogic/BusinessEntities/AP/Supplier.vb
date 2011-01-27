@@ -334,7 +334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
-#Region "Cach Memo"
+#Region "Cache Memo"
     Public Shared Sub RefreshSupplierCollection(ByVal Key As Object, ByVal includeInvisible As Boolean)
       If IsNumeric(Key) Then
         If CInt(Key) = 0 Then

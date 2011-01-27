@@ -10,18 +10,105 @@ Imports Longkong.Pojjaman.TextHelper
 Imports System.Text.RegularExpressions
 Imports System.Collections.Generic
 Imports Longkong.Pojjaman.Services
+Imports System.Globalization
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Week
     Public Property Number As Integer
+    Public Property WeekofYear As Integer
     Public Property Month As Integer
+    Public Property Quarter As Integer
     Public Property Year As Integer
+    Private m_date As Date
+
 
     Public Sub New(ByVal n As Integer, ByVal m As Integer, ByVal y As Integer)
       Me.Number = n
       Me.Month = m
       Me.Year = y
     End Sub
+    Public Sub New(ByVal d As Date)
+      Me.Month = d.Month
+      Me.Year = d.Year
+      Me.WeekofYear = FindWeekofYear(d)
+      Me.Quarter = FindQuaterofYear(d)
+      m_date = d
+    End Sub
+
+    ''' <summary>
+    ''' วันที่แรกของสัปดาห์นั้น
+    ''' </summary>
+    ''' <value>วันที่เริ่มต้นสัปดาห์ จันทร์ หรืออาทิตย์</value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property StartWeekDate(ByVal f As FirstDayOfWeek) As Date
+      Get
+        Dim dof As DayOfWeek = m_date.DayOfWeek
+        Select Case f
+          Case FirstDayOfWeek.Sunday
+            Return DateAdd(DateInterval.Day, -dof, m_date)
+          Case FirstDayOfWeek.Monday
+            If dof = DayOfWeek.Sunday Then
+              Return DateAdd(DateInterval.Day, -7, m_date)
+            End If
+            Return DateAdd(DateInterval.Day, -dof + 1, m_date)
+        End Select
+        Return m_date
+      End Get
+    End Property
+    ''' <summary>
+    ''' วันที่สุดท้ายของสัปดาห์นั้น
+    ''' </summary>
+    ''' <value>วันที่เริ่มต้นสัปดาห์ จันทร์ หรืออาทิตย์</value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property EndWeekDate(ByVal f As FirstDayOfWeek) As Date
+      Get
+        Dim dof As DayOfWeek = m_date.DayOfWeek
+        Select Case f
+          Case FirstDayOfWeek.Sunday
+            Return DateAdd(DateInterval.Day, 6 - dof, m_date)
+          Case FirstDayOfWeek.Monday
+            If dof = DayOfWeek.Sunday Then
+              Return m_date
+            End If
+            Return DateAdd(DateInterval.Day, 7 - dof, m_date)
+        End Select
+        Return m_date
+      End Get
+    End Property
+
+    ''' <summary>
+    ''' Find Quater of Year
+    ''' </summary>
+    ''' <returns>number 1- 4</returns>
+    ''' <remarks></remarks>
+    Public Shared Function FindQuaterofYear(ByVal dtmToday As Date) As Integer
+      Dim m As Integer = dtmToday.Month
+      Dim i As Integer = CInt(m / 3)
+      Dim f As Integer = m - (i * 3)
+      If f > 0 Then
+        Return i + 1
+      End If
+      Return i
+    End Function
+
+    ''' <summary>
+    ''' Find Week of Year in Integer 
+    ''' </summary>
+    ''' <param name="dtmToday"></param>
+    ''' <returns>1-53 </returns>
+    ''' <remarks></remarks>
+    Public Shared Function FindWeekofYear(ByVal dtmToday As Date) As Integer
+     
+
+      Dim ciCurr As CultureInfo = CultureInfo.CurrentCulture
+      Dim weekNum As Integer = ciCurr.Calendar.GetWeekOfYear(dtmToday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)
+
+      
+      Return weekNum
+    End Function
+
     Public Overrides Function Equals(ByVal obj As Object) As Boolean
       If obj Is Nothing Then
         Return False

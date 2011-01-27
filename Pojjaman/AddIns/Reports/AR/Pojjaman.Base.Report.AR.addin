@@ -19,6 +19,7 @@
 				<MenuItem id="RptARAdvanceReceive" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptARAdvanceReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive"/>
 				<MenuItem id="RptAdvanceMilestone" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptAdvanceMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone"/>
 				<MenuItem id="RptCustomer" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptCustomer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCustomer"/>
+				<MenuItem id="RptEstimateMilestone" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptEstimateMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEstimateMilestone"/>
 			</MenuItem>
 		</Conditional>
 	</Extension>
@@ -35,6 +36,7 @@
 		<EntityFilter id="rptarenumerate" entity="rptarenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptAREnumerateFilterSubPanel"/>
 		<!--<EntityFilter id="rptarremaindetail" entity="rptarremaindetail" filter="Longkong.Pojjaman.Gui.Panels.RptARRemainDetailFilterSubPanel"/>-->
 		<EntityFilter id="rptcustomer" entity="rptcustomer" filter="Longkong.Pojjaman.Gui.Panels.RptCustomerFilterSubPanel"/>
+		<EntityFilter id="rptestimatemilestone" entity="rptestimatemilestone" filter="Longkong.Pojjaman.Gui.Panels.RptEstimateMilestoneFilterSubPanel"/>
 		<EntityFilter id="rptreceivedue" entity="rptreceivedue" filter="Longkong.Pojjaman.Gui.Panels.RptReceiveDueFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -72,6 +74,9 @@
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>-->
 		<EntityTab id="rptcustomer">
+			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+		</EntityTab>
+		<EntityTab id="rptestimatemilestone">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
 		<EntityTab id="rptreceivedue">
