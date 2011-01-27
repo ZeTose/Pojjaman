@@ -66,7 +66,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_account As Account
         Private m_amount As Decimal
         Private m_closed As Boolean
-        Private m_isforsupplier As Boolean
+        Private m_remainingamount As Decimal
+        'Private m_isforsupplier As Boolean
 
 #End Region
 
@@ -115,7 +116,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 .m_je = New JournalEntry(Me)
                 .m_je.DocDate = Me.m_docDate
-
                 .m_payment = New Payment(Me)
                 ''==Checking for addin for วิศวพัฒน์
                 'Dim hasExport As Boolean = False
@@ -254,12 +254,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             wht.UpdateRefDoc(Value, True)
                         Next
                     End If
-                End If                m_supplier = Value            End Set        End Property        Public Property IsForSupplier() As Boolean            Get                Return m_isforsupplier
-            End Get
-            Set(ByVal value As Boolean)
-                m_isforsupplier = value
-            End Set
-        End Property        Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IPayable.Date, IPaymentItem.DueDate            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property        Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+                End If                m_supplier = Value            End Set        End Property        Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IPayable.Date, IPaymentItem.DueDate            Get                Return m_docDate            End Get            Set(ByVal Value As Date)                m_docDate = Value            End Set        End Property        Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
             Get
                 Return DocDate
             End Get
@@ -347,6 +342,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Get
             Set(ByVal Value As Boolean)
                 m_closed = Value
+            End Set
+        End Property        Public Property ADVPRemainingAmount() As Decimal
+            Get
+                Return m_remainingamount
+            End Get
+            Set(ByVal Value As Decimal)
+                m_remainingamount = Value
             End Set
         End Property        Public Overrides ReadOnly Property ClassName() As String
             Get

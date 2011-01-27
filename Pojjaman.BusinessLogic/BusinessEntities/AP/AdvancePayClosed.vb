@@ -41,6 +41,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_je As JournalEntry
 
         Private m_status As AdvancePayClosedStatus
+        Private m_costCenter As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -184,6 +185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_status = CType(Value, AdvancePayClosedStatus)
             End Set
         End Property
+        Public Property CostCenter() As CostCenter            Get                Return m_costCenter            End Get            Set(ByVal Value As CostCenter)                m_costCenter = Value            End Set        End Property
 #End Region
 
 #Region "Methods"
@@ -505,10 +507,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ' Cr. à§Ô¹·´ÃÍ§¨èÒÂ
             If Me.RemainAmount > 0 Then
                 ji = New JournalEntryItem
-                ji.Mapping = "G9.1"
-                ji.Account = Me.AdvancePay.Account
+                ji.Mapping = "B9.1"
+                ji.Account = Me.AdvancePay.ToAccount
                 ji.Amount = Me.RemainingAmount
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                If Not Me.AdvancePay.CostCenter Is Nothing Then
+                    ji.CostCenter = Me.AdvancePay.CostCenter
+                Else
+                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
                 jiColl.Add(ji)
             End If
             ' TODO : Implements GL ...
@@ -528,7 +534,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
 #End Region
 
-#Region " IReceivable "
+#Region " IReceiveable "
         Public Function AmountToReceive() As Decimal Implements IReceivable.AmountToReceive
             Return Me.RemainingAmount
             'Return Me.Amount
@@ -560,7 +566,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Me.m_receive.Note = Value
             End Set
         End Property
-
         Public ReadOnly Property Payer() As IBillablePerson Implements IReceivable.Payer
             Get
 

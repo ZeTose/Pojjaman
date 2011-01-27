@@ -30,10 +30,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents lblStatus As System.Windows.Forms.Label
         Friend WithEvents grbLocation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
         Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
-        Friend WithEvents rdIsSupplier As System.Windows.Forms.RadioButton
         Friend WithEvents txtSupplierCode As System.Windows.Forms.TextBox
         Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
-        Friend WithEvents rdIsCC As System.Windows.Forms.RadioButton
         Friend WithEvents txtCCName As System.Windows.Forms.TextBox
         Friend WithEvents txtAccountCode As System.Windows.Forms.TextBox
         Friend WithEvents lblAccount As System.Windows.Forms.Label
@@ -69,6 +67,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents btnAdvancePayFind As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents CachedCRptMatCountExpandedLciItem2 As CachedCRptMatCountExpandedLciItem
         Friend WithEvents CachedCRptMatCountExpandedLciItem3 As CachedCRptMatCountExpandedLciItem
+        Friend WithEvents lblCC As System.Windows.Forms.Label
+        Friend WithEvents lblSupplier As System.Windows.Forms.Label
+        Friend WithEvents CachedCRptMatCountExpandedLciItem4 As CachedCRptMatCountExpandedLciItem
+        Friend WithEvents CachedCRptMatCountExpandedLciItem5 As CachedCRptMatCountExpandedLciItem
         Friend WithEvents txtADVPNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
@@ -78,11 +80,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpDueDate = New System.Windows.Forms.DateTimePicker()
             Me.lblDueDate = New System.Windows.Forms.Label()
             Me.grbLocation = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.lblCC = New System.Windows.Forms.Label()
+            Me.lblSupplier = New System.Windows.Forms.Label()
             Me.txtCCCode = New System.Windows.Forms.TextBox()
-            Me.rdIsSupplier = New System.Windows.Forms.RadioButton()
             Me.txtSupplierCode = New System.Windows.Forms.TextBox()
             Me.txtSupplierName = New System.Windows.Forms.TextBox()
-            Me.rdIsCC = New System.Windows.Forms.RadioButton()
             Me.txtCCName = New System.Windows.Forms.TextBox()
             Me.txtAccountCode = New System.Windows.Forms.TextBox()
             Me.lblAccount = New System.Windows.Forms.Label()
@@ -116,6 +118,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
             Me.CachedCRptMatCountExpandedLciItem2 = New CachedCRptMatCountExpandedLciItem()
             Me.CachedCRptMatCountExpandedLciItem3 = New CachedCRptMatCountExpandedLciItem()
+            Me.CachedCRptMatCountExpandedLciItem4 = New CachedCRptMatCountExpandedLciItem()
+            Me.CachedCRptMatCountExpandedLciItem5 = New CachedCRptMatCountExpandedLciItem()
             Me.grbAdvancePay.SuspendLayout()
             Me.grbLocation.SuspendLayout()
             Me.grbHeader.SuspendLayout()
@@ -189,11 +193,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'grbLocation
             '
+            Me.grbLocation.Controls.Add(Me.lblCC)
+            Me.grbLocation.Controls.Add(Me.lblSupplier)
             Me.grbLocation.Controls.Add(Me.txtCCCode)
-            Me.grbLocation.Controls.Add(Me.rdIsSupplier)
             Me.grbLocation.Controls.Add(Me.txtSupplierCode)
             Me.grbLocation.Controls.Add(Me.txtSupplierName)
-            Me.grbLocation.Controls.Add(Me.rdIsCC)
             Me.grbLocation.Controls.Add(Me.txtCCName)
             Me.grbLocation.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbLocation.Location = New System.Drawing.Point(16, 48)
@@ -202,6 +206,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbLocation.TabIndex = 3
             Me.grbLocation.TabStop = False
             Me.grbLocation.Text = "สังกัด"
+            '
+            'lblCC
+            '
+            Me.lblCC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblCC.ForeColor = System.Drawing.Color.Black
+            Me.lblCC.Location = New System.Drawing.Point(11, 43)
+            Me.lblCC.Name = "lblCC"
+            Me.lblCC.Size = New System.Drawing.Size(87, 18)
+            Me.lblCC.TabIndex = 12
+            Me.lblCC.Text = "Cost Center:"
+            Me.lblCC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblSupplier
+            '
+            Me.lblSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblSupplier.ForeColor = System.Drawing.Color.Black
+            Me.lblSupplier.Location = New System.Drawing.Point(22, 16)
+            Me.lblSupplier.Name = "lblSupplier"
+            Me.lblSupplier.Size = New System.Drawing.Size(76, 18)
+            Me.lblSupplier.TabIndex = 11
+            Me.lblSupplier.Text = "ผู้ขาย:"
+            Me.lblSupplier.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
             'txtCCCode
             '
@@ -219,16 +245,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtCCCode, False)
             Me.txtCCCode.Size = New System.Drawing.Size(128, 21)
             Me.txtCCCode.TabIndex = 1
-            '
-            'rdIsSupplier
-            '
-            Me.rdIsSupplier.Checked = True
-            Me.rdIsSupplier.Location = New System.Drawing.Point(8, 16)
-            Me.rdIsSupplier.Name = "rdIsSupplier"
-            Me.rdIsSupplier.Size = New System.Drawing.Size(96, 24)
-            Me.rdIsSupplier.TabIndex = 2
-            Me.rdIsSupplier.TabStop = True
-            Me.rdIsSupplier.Text = "ผู้ขาย:"
             '
             'txtSupplierCode
             '
@@ -266,14 +282,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtSupplierName.Size = New System.Drawing.Size(296, 21)
             Me.txtSupplierName.TabIndex = 4
             Me.txtSupplierName.TabStop = False
-            '
-            'rdIsCC
-            '
-            Me.rdIsCC.Location = New System.Drawing.Point(8, 40)
-            Me.rdIsCC.Name = "rdIsCC"
-            Me.rdIsCC.Size = New System.Drawing.Size(96, 24)
-            Me.rdIsCC.TabIndex = 3
-            Me.rdIsCC.Text = "Cost Center:"
             '
             'txtCCName
             '
@@ -749,42 +757,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 txtDueDate.Text = MinDateToNull(Me.m_entity.AdvancePay.DueDate, "")
                 dtpDueDate.Value = MinDateToNow(Me.m_entity.AdvancePay.DueDate)
 
-                rdIsSupplier.Checked = Me.m_entity.AdvancePay.IsForSupplier
-                rdIsCC.Checked = Not Me.m_entity.AdvancePay.IsForSupplier
+                txtSupplierCode.Text = Me.m_entity.AdvancePay.Supplier.Code
+                txtSupplierName.Text = Me.m_entity.AdvancePay.Supplier.Name
 
-                If Me.m_entity.AdvancePay.IsForSupplier Then
-                    txtSupplierCode.Text = Me.m_entity.AdvancePay.Supplier.Code
-                    txtSupplierName.Text = Me.m_entity.AdvancePay.Supplier.Name
-                    txtCCCode.Text = ""
-                    txtCCName.Text = ""
+                txtSupplierCode.Enabled = True
+                txtSupplierName.Enabled = True
 
-                    txtSupplierCode.Enabled = True
-                    txtSupplierName.Enabled = True
-                    txtCCCode.Enabled = False
-                    txtCCName.Enabled = False
-                Else
-                    txtCCCode.Text = Me.m_entity.AdvancePay.CostCenter.Code
-                    txtCCName.Text = Me.m_entity.AdvancePay.CostCenter.Name
-                    txtSupplierCode.Text = ""
-                    txtSupplierName.Text = ""
+                txtCCCode.Text = Me.m_entity.AdvancePay.CostCenter.Code
+                txtCCName.Text = Me.m_entity.AdvancePay.CostCenter.Name
 
-                    txtCCCode.Enabled = True
-                    txtCCName.Enabled = True
-                    txtSupplierCode.Enabled = False
-                    txtSupplierName.Enabled = False
-                End If
+                txtCCCode.Enabled = True
+                txtCCName.Enabled = True
 
                 txtAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.AfterTax, DigitConfig.Price)
-                'txtAccountCode.Text = Me.m_entity.AdvancePay.Account.Code
-                'txtAccountName.Text = Me.m_entity.AdvancePay.Account.Name
+                txtAccountCode.Text = Me.m_entity.AdvancePay.ToAccount.Code
+                txtAccountName.Text = Me.m_entity.AdvancePay.ToAccount.Name
                 txtADVPNote.Text = Me.m_entity.AdvancePay.Note
 
                 ' วงเงินคงเหลือ
                 Dim remainamt As Decimal = Me.m_entity.AdvancePay.GetRemainingAmount(True)
-                'Me.m_entity.AdvancePay.RemainingAmount = remainamt
-                'Me.m_entity.Amount = Me.m_entity.AdvancePay.Amount
+                Me.m_entity.AdvancePay.ADVPRemainingAmount = remainamt
+                Me.m_entity.Amount = Me.m_entity.AdvancePay.AfterTax
                 Me.m_entity.RemainAmount = remainamt
-                txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.RemainingAmount, DigitConfig.Price)
+                txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.ADVPRemainingAmount, DigitConfig.Price)
             End If
         End Sub
         Private Sub ClearAdvancePay()
@@ -798,7 +793,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     grbCrtl.Text = ""
                 End If
             Next
-            rdIsSupplier.Checked = True
             dtpADVPDate.Value = Date.Now
             dtpDueDate.Value = Date.Now
             ' วงเงินคงเหลือ
