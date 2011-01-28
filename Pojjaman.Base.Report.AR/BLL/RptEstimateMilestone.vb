@@ -205,7 +205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         gridColumn.Width = 100
         gridColumn.TextAlignment = ContentAlignment.MiddleRight
         Select Case m_Period
-          Case DateInterval.Weekday
+          Case DateInterval.WeekOfYear
             gridColumn.HeaderText = tweek.StartWeekDate(Microsoft.VisualBasic.FirstDayOfWeek.Sunday).ToString("d/M") & "-" & tweek.EndWeekDate(Microsoft.VisualBasic.FirstDayOfWeek.Sunday).ToString("d/M") & "/" & tdate.ToString("yy")
           Case DateInterval.Month
             gridColumn.HeaderText = tdate.ToString("MMM yy")
