@@ -652,7 +652,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             Return New SaveErrorException("${res:Global.Error.AmountMissing}")
                         End If
                     End If
-          If item.Entity.CreateDate.HasValue AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
+          If (TypeOf item.Entity Is OutgoingCheck OrElse TypeOf item.Entity Is BankTransferOut) _
+                         AndAlso item.Entity.CreateDate.HasValue _
+                         AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month _
+                         AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
             Return New SaveErrorException("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code)
           End If
 
