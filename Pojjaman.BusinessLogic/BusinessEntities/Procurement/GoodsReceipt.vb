@@ -3749,7 +3749,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case "E3.6"
             tmpJi.Note = "ค่าเช่าเครื่องจักร" & e34 & " รายการ"
         End Select
-        tmpJi.Amount = Configuration.Format(tmpJi.Amount, DigitConfig.Price)
+        tmpJi.Amount = Configuration.Format(tmpJi.Amount * Me.Currency.Conversion, DigitConfig.Price)
       Next
       Return jiColl
     End Function
