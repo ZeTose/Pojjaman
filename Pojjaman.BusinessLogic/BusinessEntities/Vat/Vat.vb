@@ -637,6 +637,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ( _
         TypeOf Me.RefDoc Is BillAcceptance _
         OrElse TypeOf Me.RefDoc Is GoodsReceipt _
+        OrElse TypeOf Me.RefDoc Is PurchaseCN _
         OrElse TypeOf Me.RefDoc Is APOpeningBalance _
         OrElse TypeOf Me.RefDoc Is EqMaintenance _
         OrElse TypeOf Me.RefDoc Is GoodsSold _
@@ -667,6 +668,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ElseIf tmpTaxBase <> tmpRefTaxBase _
         AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
         AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _
+        AndAlso Not TypeOf Me.RefDoc Is PurchaseCN _
         AndAlso Not TypeOf Me.RefDoc Is APOpeningBalance _
         AndAlso Not TypeOf Me.RefDoc Is EqMaintenance _
         AndAlso Not TypeOf Me.RefDoc Is GoodsSold _

@@ -3485,10 +3485,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetVatToOneDoc()
       Dim flag As Boolean = Me.m_isInitialized
       Me.m_isInitialized = False
-      Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
+      If txtInvoiceCode.Text.Length > 0 Then
+        Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
       , txtInvoiceDate _
       , dtpInvoiceDate _
       , AddressOf UpdateVatAutogenStatus)
+      Else
+        txtInvoiceDate.Text = txtDocDate.Text
+        dtpInvoiceDate.Value = dtpDocDate.Value
+      End If
+      
       Me.m_isInitialized = flag
     End Sub
     Private Sub UpdateAmount()

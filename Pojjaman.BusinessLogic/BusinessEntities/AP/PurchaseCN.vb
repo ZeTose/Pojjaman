@@ -554,13 +554,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         Me.RefreshTaxBase()
-        Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
-        Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
-        If tmpTaxBase <> tmpVatTaxBase Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-          New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
-          , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
-        End If
+        'Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
+        'Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
+        'If tmpTaxBase <> tmpVatTaxBase Then
+        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '  New String() {Configuration.FormatToString(tmpVatTaxBase, DigitConfig.Price) _
+        '  , Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)})
+        'End If
         'If Me.MaxRowIndex < 0 Then
         '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         'End If
@@ -797,6 +797,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return saveReceiveError
               Case Else
             End Select
+          End If
+          If Vat.TaxBase = 0 Then
+            Vat.ItemCollection.Clear()
           End If
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
@@ -1318,7 +1321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีซื้อ
-      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0)) Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection.Count > 0 AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0)) Then
         ji = New JournalEntryItem
         ji.Mapping = "B6.9"
         ji.Amount = Configuration.Format(Me.RealTaxAmount, DigitConfig.Price)
@@ -1331,7 +1334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีซื้อยังไม่ถึงกำหนด
-      If Me.TaxAmount > 0 AndAlso (Me.Vat.ItemCollection(0).Code Is Nothing OrElse Me.Vat.ItemCollection(0).Code.Length = 0) Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat.ItemCollection.Count = 0 OrElse Me.Vat.ItemCollection(0).Code Is Nothing OrElse Me.Vat.ItemCollection(0).Code.Length = 0) Then
         ji = New JournalEntryItem
         ji.Mapping = "B6.9.1"
         ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
