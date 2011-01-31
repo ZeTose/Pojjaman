@@ -3497,14 +3497,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not row.IsNull(("stocki_entityType")) Then
                     Me.ItemType = New ItemType(CInt(row("stocki_entityType")))
                     Select Case CInt(row("stocki_entityType"))
-                        Case 0, 28, 88, 89, 162 'Blank/Asset
-                            If Not row.IsNull(("stocki_itemName")) Then
-                                Me.Entity = New BlankItem(row("stocki_itemName").ToString)
-                                Me.EntityName = row("stocki_itemName").ToString
-                            Else
-                                Me.Entity = New BlankItem("")
-                                Me.EntityName = ""
-                            End If
+            Case 0, 28, 88, 89, 160, 162 'Blank/Asset
+              If Not row.IsNull(("stocki_itemName")) Then
+                Me.Entity = New BlankItem(row("stocki_itemName").ToString)
+                Me.EntityName = row("stocki_itemName").ToString
+              Else
+                Me.Entity = New BlankItem("")
+                Me.EntityName = ""
+              End If
                         Case Else
                             If Not row.IsNull(("stocki_entity")) Then
                                 Me.Entity = CType(SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(CInt(row("stocki_entityType"))), CInt(row("stocki_entity"))), IHasName)
