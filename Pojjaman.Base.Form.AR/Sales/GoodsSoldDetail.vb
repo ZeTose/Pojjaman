@@ -1417,7 +1417,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitButton.MappingName = "UnitButton"
       csUnitButton.HeaderText = ""
       csUnitButton.NullText = ""
-      AddHandler csUnitButton.Click, AddressOf ButtonClick
+      'AddHandler csUnitButton.Click, AddressOf ButtonClick
 
       Dim csQty As New TreeTextColumn
       csQty.MappingName = "stocki_qty"
