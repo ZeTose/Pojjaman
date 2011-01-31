@@ -1418,6 +1418,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\EntityDebugPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLListForm.Designer.vb">
+      <DependentUpon>GLListForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLListForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\MappingListDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1804,6 +1810,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\EntityDebugPanel.resx">
       <DependentUpon>EntityDebugPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLListForm.resx">
+      <DependentUpon>GLListForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\MappingListDialog.resx">
       <DependentUpon>MappingListDialog.vb</DependentUpon>
