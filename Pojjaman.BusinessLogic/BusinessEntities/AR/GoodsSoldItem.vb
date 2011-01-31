@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_sequence As Integer
 
     Private m_WBSDistributeCollection As WBSDistributeCollection
-    'Private m_itemCollectionPrePareCost As StockCostItemCollection
+    Private m_itemCollectionPrePareCost As StockCostItemCollection
 #End Region
 
 #Region "Constructors"
@@ -180,19 +180,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    'Public Property ItemCollectionPrePareCost As StockCostItemCollection
-    '  Get
-    '    If m_itemCollectionPrePareCost Is Nothing Then
-    '      If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then    '        m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
-    '      End If
-    '    End If
-    '    Return m_itemCollectionPrePareCost
-    '  End Get
-    '  Set(ByVal value As StockCostItemCollection)
-    '    m_itemCollectionPrePareCost = value
-    '    'm_transferAmount = m_itemCollectionPrePareCost.CostAmount
-    '  End Set
-    'End Property
+    Public Property ItemCollectionPrePareCost As StockCostItemCollection
+      Get
+        If m_itemCollectionPrePareCost Is Nothing Then
+          If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then            m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
+          End If
+        End If
+        Return m_itemCollectionPrePareCost
+      End Get
+      Set(ByVal value As StockCostItemCollection)
+        m_itemCollectionPrePareCost = value
+        'm_transferAmount = m_itemCollectionPrePareCost.CostAmount
+      End Set
+    End Property
     Public Property WBSDistributeCollection() As WBSDistributeCollection      Get        Return m_WBSDistributeCollection
       End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value
       End Set    End Property
@@ -262,8 +262,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-        'If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then        '  Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
-        'End If
+        If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then          Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
+        End If
 
       End Set    End Property    Public Function DupCode(ByVal myCode As String) As Boolean
       If Me.GoodsSold Is Nothing Then
@@ -391,6 +391,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myUnit As Unit = lci.DefaultUnit
             Me.m_unit = myUnit
             Me.m_entity = lci
+            If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
+            End If
             gaType = GeneralAccount.DefaultGAType.ToolAndOtherIncome
           End If
         Case Else
@@ -504,10 +506,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
           Return
         End If
-
-        'If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then        '  If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then        '    Me.ItemCollectionPrePareCost.Clear()        '    Dim stockQty As Decimal = Value * Me.Conversion        '    Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
-        '  End If
-        'End If
+        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
+          End If
+        End If
 
         m_qty = Configuration.Format(Value, DigitConfig.Qty)
       End Set    End Property    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -731,19 +732,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property Cost() As Decimal
       Get
-        Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
-        If tmpCost = 0 Then
-          tmpCost = Me.Amount
-        End If
-        Return tmpCost
+        'Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
+        'If tmpCost = 0 Then
+        '  tmpCost = Me.Amount
+        'End If
+        'Return tmpCost
+        Return ItemCollectionPrePareCost.CostAmount
       End Get
     End Property    Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
     Public Property UnitCost() As Decimal
       Get
-        Return m_unitCost
+        'Return m_unitCost
+        If Me.StockQty > 0 Then
+          Return Me.Cost / Me.StockQty
+        End If
+        Return 0
       End Get
       Set(ByVal Value As Decimal)
-        m_unitCost = Value
+        'm_unitCost = Value
       End Set
     End Property
     Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property
@@ -1061,12 +1067,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           wbsdColl.Add(wbsd)
         Next
 
-        'Dim icCol As StockCostItemCollection = New StockCostItemCollection
-        'item.ItemCollectionPrePareCost = icCol
-        'For Each icRow As DataRow In ds.Tables(2).Select("stockic_stockisequence=" & row("stocki_sequence").ToString)
-        '  Dim itmcost As New StockCostItem(icRow, "")
-        '  icCol.Add(itmcost)
-        'Next
+        Dim icCol As StockCostItemCollection = New StockCostItemCollection
+        item.ItemCollectionPrePareCost = icCol
+        For Each icRow As DataRow In ds.Tables(2).Select("stockic_stockisequence=" & row("stocki_sequence").ToString)
+          Dim itmcost As New StockCostItem(icRow, "")
+          icCol.Add(itmcost)
+        Next
       Next
     End Sub
 #End Region
