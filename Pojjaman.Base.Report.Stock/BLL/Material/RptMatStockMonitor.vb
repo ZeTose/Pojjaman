@@ -173,12 +173,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         DocRows = dtRaw.Select("itemid=" & CStr(lciRow("lci_id")))
         For Each ItemRow As DataRow In DocRows
+          Dim drh As New DataRowHelper(ItemRow)
+          Dim rowMistake As Boolean = drh.GetValue(Of Integer)("Mistake") > 0
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
           '-------------การกำหนดสีต้องเอามาไว้ก่อน
           If IsNumeric(ItemRow("hilight")) Then
             If CInt(ItemRow("hilight")) = 1 Then
               m_grid.RowStyles(currItemIndex).BackColor = Color.OrangeRed
+              m_grid.RowStyles(currItemIndex).TextColor = Color.White
+            End If
+          End If
+          '-------------END การกำหนดสีต้องเอามาไว้ก่อน
+          '-------------การกำหนดสีต้องเอามาไว้ก่อน
+          If IsNumeric(ItemRow("Mistake")) Then
+            If rowMistake Then
+              m_grid.RowStyles(currItemIndex).BackColor = Color.Purple
               m_grid.RowStyles(currItemIndex).TextColor = Color.White
             End If
           End If
@@ -210,6 +220,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(ItemRow("receiptAmount")), DigitConfig.Price)
               currentInAmount = CDec(ItemRow("receiptAmount"))
             End If
+            If rowMistake AndAlso drh.GetValue(Of Decimal)("receipt") > 0 Then
+              m_grid(currItemIndex, 5).CellValue = "Qty Mistake"
+              m_grid(currItemIndex, 6).CellValue = "Qty Mistake"
+            End If
           End If
           '----> End Receipt
 
@@ -220,10 +234,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If IsNumeric(ItemRow("UnitPrice")) Then
               m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(ItemRow("UnitPrice")), DigitConfig.UnitPrice)
             End If
+
             If IsNumeric(ItemRow("WithdrawAmount")) Then
               m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(ItemRow("WithdrawAmount")), DigitConfig.Price)
               currentOutAmount = CDec(ItemRow("WithdrawAmount"))
             End If
+
+            If rowMistake AndAlso drh.GetValue(Of Decimal)("Withdraw") > 0 Then
+              m_grid(currItemIndex, 8).CellValue = "Qty Mistake"
+              m_grid(currItemIndex, 9).CellValue = "Qty Mistake"
+            End If
+
           End If
           '----> End Withdraw
 
@@ -240,7 +261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currItemIndex, 11).CellValue = Configuration.FormatToString(0, DigitConfig.UnitPrice)
           End If
           m_grid(currItemIndex, 12).CellValue = Configuration.FormatToString(remainAmount, DigitConfig.Price)
-         
+
           '----> End Balance
         Next
         Sum += CDec(remainAmount)
