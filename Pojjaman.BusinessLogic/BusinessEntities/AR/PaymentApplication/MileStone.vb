@@ -576,9 +576,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Overridable ReadOnly Property RetentionforBillIssue() As Decimal
       Get
         If Me.m_retentionAtReceives Then
-          Return m_retention
-        Else
           Return 0
+        Else
+          Return m_retention
         End If
       End Get
     End Property    Public Overridable ReadOnly Property RetentionforReceiveSelection() As Decimal
@@ -945,7 +945,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         receivable.Id = CInt(tableRow("milestone_id"))
         receivable.ParentId = CInt(tableRow("billii_billi"))
         row("salebillii_unreceivedamt") = Configuration.FormatToString(receivable.GetRemainingAmountReceiveSelection(receives_id), DigitConfig.Price)
-        row("salebillii_billedamt") = row("Amount")
+        row("salebillii_billedamt") = CDec(tableRow("milestone_aftertax")) + CDec(tableRow("milestone_retention"))
         row("salebillii_linenumber") = tableRow("billii_linenumber")
         row.State = RowExpandState.None
       Next

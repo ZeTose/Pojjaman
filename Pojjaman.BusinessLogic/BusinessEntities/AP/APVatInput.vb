@@ -883,8 +883,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           vitem.PrintAddress = Me.Supplier.BillingAddress
           If item.EntityId = 59 Then
             vitem.TaxBase = item.BeforeTax - item.DeductTaxBase
-          Else
+          ElseIf item.EntityId <> 46 Then
             vitem.TaxBase = item.TaxBase - item.DeductTaxBase
+          ElseIf item.EntityId = 46 Then
+            vitem.TaxBase = -(item.TaxBase - item.DeductTaxBase)
           End If
           'vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
           vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
@@ -931,7 +933,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
         If item.TaxType.Value <> 0 Then
-          amt += item.Amount
+          If item.EntityId <> 46 Then
+            amt += item.Amount
+          Else
+            amt -= item.Amount
+          End If
           'amt += item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
         End If
       Next

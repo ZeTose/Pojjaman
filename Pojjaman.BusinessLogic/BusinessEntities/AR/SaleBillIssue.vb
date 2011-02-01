@@ -1092,6 +1092,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxrate As Decimal
     Private m_taxtype As TaxType
 
+    Private m_deducted As Nullable(Of Decimal)
+
 #End Region
 
 #Region "Constructors"
@@ -1238,7 +1240,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property SaleBillIssue() As SaleBillIssue      Get        Return m_saleBillIssue      End Get      Set(ByVal Value As SaleBillIssue)        m_saleBillIssue = Value      End Set    End Property    Public Property ReceiveSelection() As ReceiveSelection      Get        Return m_receives      End Get      Set(ByVal Value As ReceiveSelection)        m_receives = Value      End Set    End Property    Public Property Linenumber() As Integer
+    Public Property SaleBillIssue() As SaleBillIssue      Get        Return m_saleBillIssue      End Get      Set(ByVal Value As SaleBillIssue)        m_saleBillIssue = Value      End Set    End Property    Public Property ReceiveSelection() As ReceiveSelection      Get        Return m_receives      End Get      Set(ByVal Value As ReceiveSelection)        m_receives = Value      End Set    End Property    Public Property DeductedTaxBase As Nullable(Of Decimal)
+      Get
+        If m_deducted.HasValue Then
+          Return m_deducted.Value
+        End If
+        Return Nothing
+      End Get
+      Set(ByVal value As Nullable(Of Decimal))
+        m_deducted = value
+      End Set
+    End Property    Public Property Linenumber() As Integer
       Get
         Return m_linenumber
       End Get
@@ -1270,6 +1282,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)        m_ARretention = Value      End Set
     End Property
+    
     Public ReadOnly Property Retention() As Decimal
       Get
         Return m_ARretention

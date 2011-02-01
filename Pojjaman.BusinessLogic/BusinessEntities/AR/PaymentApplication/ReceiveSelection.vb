@@ -1314,10 +1314,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               vitem.DocDate = Me.DocDate
               vitem.PrintName = Me.Customer.Name
               vitem.PrintAddress = Me.Customer.BillingAddress
-              Dim mtb As Decimal = mi.TaxBase
+              If Not item.DeductedTaxBase.HasValue Then
+                  item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
+              End If
+              Dim mtb As Decimal = mi.TaxBase - item.DeductedTaxBase.Value
               'ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
-              If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
-                mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
+              If item.BilledAmount <> item.UnreceivedAmount + mi.Retention Then
+                mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.Retention)) * mtb
               End If
               Dim amt As Decimal = item.Amount
               Dim uamt As Decimal = item.UnreceivedAmount
@@ -1325,7 +1328,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim tb As Decimal = (amt / uamt) * mtb
               'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
               '---------------------------------------------
-              tb = Vat.GetExcludedVatAmount(item.Amount + item.Retention)
+              tb = Vat.GetExcludedVatAmount(item.Amount + item.ARretention)
               If item.EntityId = 79 Then
                 vitem.TaxBase = -Math.Abs(tb)
               Else
@@ -1356,7 +1359,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.DocDate = Me.DocDate
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
-            Dim mtb As Decimal = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            If Not item.DeductedTaxBase.HasValue Then
+              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            End If
+            Dim mtb As Decimal = item.TaxBase - item.DeductedTaxBase.Value
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
             'If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
             '  mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
@@ -1393,7 +1399,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.DocDate = Me.DocDate
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
-            Dim mtb As Decimal = -item.TaxBase + Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            If Not item.DeductedTaxBase.HasValue Then
+              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            End If
+            Dim mtb As Decimal = -item.TaxBase + item.DeductedTaxBase.Value
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
             'If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
             '  mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
@@ -1558,8 +1567,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Dim mtb As Decimal = mi.TaxBase
                   Dim amt As Decimal = item.Amount
                   Dim uamt As Decimal = item.UnreceivedAmount
+                  If Not item.DeductedTaxBase.HasValue Then
+                    If conn IsNot Nothing AndAlso trans IsNot Nothing Then
+                      item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId, conn, trans)
+                    Else
+                      item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
+                    End If
+                  End If
                   '---------------------------------------------
-                  Dim tb As Decimal = (amt / uamt) * mtb
+                  Dim tb As Decimal = (amt / uamt) * (mtb - item.DeductedTaxBase.Value)
+                  tb = Vat.GetExcludedVatAmount(amt + item.ARretention)
                   If TypeOf mi Is VariationOrderDe Then
                     ret -= tb
                   Else
@@ -1585,19 +1602,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ElseIf item.EntityId = 48 Then
             item.TaxBase = SaleCN.GetTaxBase(item.Id)
           End If
-          If conn IsNot Nothing AndAlso trans IsNot Nothing Then
-            d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId, conn, trans)
-          Else
-            d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+          If Not item.DeductedTaxBase.HasValue Then
+            If conn IsNot Nothing AndAlso trans IsNot Nothing Then
+              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId, conn, trans)
+            Else
+              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            End If
           End If
           Dim amt As Decimal = item.Amount
           Dim uamt As Decimal = item.UnreceivedAmount
           '---------------------------------------------
           Dim tb As Decimal = (amt / uamt) * item.TaxBase
           If item.EntityId <> 48 Then
-            ret += tb - d
+            ret += tb - item.DeductedTaxBase.Value
           Else
-            ret -= (tb - d)
+            ret -= (tb - item.DeductedTaxBase.Value)
           End If
         End If
       Next

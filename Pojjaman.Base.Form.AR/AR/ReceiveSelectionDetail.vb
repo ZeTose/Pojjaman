@@ -1943,6 +1943,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Return
           End If
           newItem.Amount = Math.Min(newItem.UnreceivedAmount, newItem.BilledAmount)
+          newItem.DeductedTaxBase = Nothing
           If newItem.EntityId = 366 OrElse newItem.EntityId = 83 Then
             newItem.ARretention = 0
           Else
@@ -1972,6 +1973,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               theDoc.SetType(newItem.EntityId)
               theDoc.CreditPeriod = newItem.CreditPeriod
               theDoc.Date = newItem.Date
+              theDoc.DeductedTaxBase = Nothing
             End If
           Else
             If Not Me.m_entity.ValidateReferenceDocDate(newItem) Then

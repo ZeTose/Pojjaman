@@ -85,7 +85,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If code.Length = 0 Then
         Return
       End If
-      RefreshCustomerCollection(Id)
+      RefreshCustomerCollection(code.ToLower)
       Dim drow As DataRow = CType(m_CustomerCollection(code.ToLower), DataRow)
       If Not drow Is Nothing Then
         Me.Construct(drow, "")
