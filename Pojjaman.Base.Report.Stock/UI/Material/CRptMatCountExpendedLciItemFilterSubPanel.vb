@@ -245,12 +245,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblToCCstart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblToCCstart.ForeColor = System.Drawing.Color.Black
-      Me.lblToCCstart.Location = New System.Drawing.Point(3, 68)
+      Me.lblToCCstart.Location = New System.Drawing.Point(10, 68)
       Me.lblToCCstart.Name = "lblToCCstart"
       Me.lblToCCstart.Size = New System.Drawing.Size(136, 18)
       Me.lblToCCstart.TabIndex = 3
-      Me.lblToCCstart.Text = "ตั้งแต่ Cost Center ขอเบิก"
-      Me.lblToCCstart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblToCCstart.Text = "ตั้งแต่ Cost Center"
+      Me.lblToCCstart.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'lblToCCend
       '

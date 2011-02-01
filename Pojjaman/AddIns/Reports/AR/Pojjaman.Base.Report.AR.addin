@@ -19,7 +19,7 @@
 				<MenuItem id="RptARAdvanceReceive" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptARAdvanceReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive"/>
 				<MenuItem id="RptAdvanceMilestone" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptAdvanceMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone"/>
 				<MenuItem id="RptCustomer" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptCustomer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCustomer"/>
-				<MenuItem id="RptEstimateMilestone" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptEstimateMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEstimateMilestone"/>
+				<!--<MenuItem id="RptEstimateMilestone" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptEstimateMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEstimateMilestone"/>-->
 			</MenuItem>
 		</Conditional>
 	</Extension>
