@@ -1026,7 +1026,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim advp As New AdvancePay
             advp.Closed = False
             entity.Add(advp)
-            myEntityPanelService.OpenListDialog(New AdvancePay, AddressOf SetAdvancePayDialog, entity)
+            myEntityPanelService.OpenListDialog(New AdvancePayForClosed, AddressOf SetAdvancePayDialog, entity)
         End Sub
         Private Sub SetAdvancePayDialog(ByVal e As ISimpleEntity)
             Me.txtADVPCode.Text = e.Code

@@ -873,50 +873,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      If Me.m_entity.Status.Value = 0 _
-      OrElse Me.m_entity.Status.Value >= 3 _
-      OrElse Me.m_entity.Payment.Status.Value = 0 _
-      OrElse Me.m_entity.Payment.Status.Value >= 3 _
-      OrElse Me.m_entity.IsReferenced _
+            If Me.m_entity.Status.Value = 0 _
+            OrElse Me.m_entity.Status.Value >= 3 _
+            OrElse Me.m_entity.Payment.Status.Value = 0 _
+            OrElse Me.m_entity.Payment.Status.Value >= 3 _
+            OrElse Me.m_entity.IsReferenced _
+            OrElse Me.m_entity.Closed _
       Then
-        For Each ctl As Control In Me.grbDetail.Controls
-          ctl.Enabled = False
-        Next
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
-        Next
-      Else
-        Dim refAmt As Decimal = 0
-        For Each row As DataRow In Me.m_entity.ItemTable.Rows
-          If Not row.IsNull("Amount") Then
-            refAmt += CDec(row("Amount"))
-          End If
-        Next
-        If refAmt > 0 Then
-          For Each ctl As Control In Me.grbDetail.Controls
-            ctl.Enabled = False
-          Next
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            colStyle.ReadOnly = True
-          Next
-        Else
-          For Each ctl As Control In Me.grbDetail.Controls
-            ctl.Enabled = True
-          Next
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            colStyle.ReadOnly = False
-          Next
-        End If
-      End If
+                For Each ctl As Control In Me.grbDetail.Controls
+                    ctl.Enabled = False
+                Next
+                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                    colStyle.ReadOnly = True
+                Next
+            Else
+                Dim refAmt As Decimal = 0
+                For Each row As DataRow In Me.m_entity.ItemTable.Rows
+                    If Not row.IsNull("Amount") Then
+                        refAmt += CDec(row("Amount"))
+                    End If
+                Next
+                If refAmt > 0 Then
+                    For Each ctl As Control In Me.grbDetail.Controls
+                        ctl.Enabled = False
+                    Next
+                    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                        colStyle.ReadOnly = True
+                    Next
+                Else
+                    For Each ctl As Control In Me.grbDetail.Controls
+                        ctl.Enabled = True
+                    Next
+                    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                        colStyle.ReadOnly = False
+                    Next
+                End If
+            End If
 
-      '==Checking for addin
-      Dim hasExport As Boolean = False
-      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-        If a.FileName.ToLower.Contains("textexport") Then
-          hasExport = True
-        End If
-      Next
-      Me.chkOnHold.Visible = hasExport
+            '==Checking for addin
+            Dim hasExport As Boolean = False
+            For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+                If a.FileName.ToLower.Contains("textexport") Then
+                    hasExport = True
+                End If
+            Next
+            Me.chkOnHold.Visible = hasExport
     End Sub
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")

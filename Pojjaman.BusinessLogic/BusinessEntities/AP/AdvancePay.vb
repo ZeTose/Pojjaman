@@ -30,6 +30,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
     End Class
+    Public Class AdvancePayForClosed
+        Inherits AdvancePay
+        Public Overrides ReadOnly Property ClassName As String
+            Get
+                Return "AdvancePayForClosed"
+            End Get
+        End Property
+    End Class
     Public Class AdvancePay
         Inherits SimpleBusinessEntityBase
         Implements IGLAble, IVatable, IWitholdingTaxable _
@@ -194,6 +202,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If dr.Table.Columns.Contains(aliasPrefix & "advp_status") AndAlso Not dr.IsNull(aliasPrefix & "advp_status") Then
                     .m_status = New AdvancePayStatus(CInt(dr(aliasPrefix & "advp_status")))
                 End If
+                If dr.Table.Columns.Contains(aliasPrefix & "advp_closed") AndAlso Not dr.IsNull(aliasPrefix & "advp_closed") Then
+                    .m_closed = CBool(CInt(dr(aliasPrefix & "advp_closed")))
+                End If
 
                 '--------------------REAL-------------------------
                 ' Tax Base
@@ -207,6 +218,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 AndAlso Not dr.IsNull(aliasPrefix & "advp_taxamt") Then
                     .m_realTaxAmount = CDec(dr(aliasPrefix & "advp_taxamt"))
                 End If
+
                 '--------------------END REAL-------------------------
 
                 .m_vat = New Vat(Me)
