@@ -650,6 +650,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not Me.IsReferenced Then
             SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
                                                                                                         New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+            'For Each item As GoodsSoldItem In ItemCollection
+            '  Dim d As Decimal = item.ItemCollectionPrePareCost(conn, trans).CostAmount
+            'Next
+            'OnGlChanged()
           End If
           '==============================STOCKCOSTFIFO=========================================
 

@@ -138,6 +138,58 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
 
+    Public Sub New(ByVal owner As IHasName, ByVal fromCostCenter As CostCenter, ByVal qty As Decimal, ByVal stock_id As Integer, ByVal isReturn As Boolean, ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      Me.m_itemEntity = owner
+      If Me.m_itemEntity Is Nothing Then
+        Return
+      End If
+
+      Me.Clear()
+
+
+
+      Dim ds As DataSet
+      If Not isReturn Then
+        If stock_id = 0 Then
+          ds = SqlHelper.ExecuteDataset(conn, trans, CommandType.StoredProcedure, "GetStockCostFIFO", _
+                                                       New SqlParameter("@stock_cc", fromCostCenter.Id), _
+                                                       New SqlParameter("@stocki_entity", m_itemEntity.Id), _
+                                                       New SqlParameter("@stocki_stockqty", qty))
+        Else
+          ds = SqlHelper.ExecuteDataset(conn, trans, CommandType.StoredProcedure, "GetStockCostFIFO", _
+                                                       New SqlParameter("@stock_cc", fromCostCenter.Id), _
+                                                       New SqlParameter("@stocki_entity", m_itemEntity.Id), _
+                                                       New SqlParameter("@stocki_stockqty", qty), _
+                                                       New SqlParameter("@stock_id", stock_id))
+        End If
+      Else
+        If stock_id = 0 Then
+          ds = SqlHelper.ExecuteDataset(conn, trans, CommandType.StoredProcedure, "GetStockCostReturnFIFO", _
+                                                       New SqlParameter("@stock_cc", fromCostCenter.Id), _
+                                                       New SqlParameter("@stocki_entity", m_itemEntity.Id), _
+                                                       New SqlParameter("@stocki_stockqty", qty))
+        Else
+          ds = SqlHelper.ExecuteDataset(conn, trans, CommandType.StoredProcedure, "GetStockCostReturnFIFO", _
+                                                       New SqlParameter("@stock_cc", fromCostCenter.Id), _
+                                                       New SqlParameter("@stocki_entity", m_itemEntity.Id), _
+                                                       New SqlParameter("@stocki_stockqty", qty), _
+                                                       New SqlParameter("@stock_id", stock_id))
+        End If
+      End If
+
+
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim itmx As New StockCostItem
+        itmx.Sequence = drh.GetValue(Of Long)("stockic_sequence")
+        itmx.UnitCost = drh.GetValue(Of Decimal)("stockic_unitcost")
+        itmx.StockQty = drh.GetValue(Of Decimal)("stockic_stockqty")
+        Me.Add(itmx)
+      Next
+
+    End Sub
+
 #End Region
 
 #Region "Properties"

@@ -180,11 +180,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ItemCollectionPrePareCost As StockCostItemCollection
+    Public Property ItemCollectionPrePareCost(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As StockCostItemCollection
       Get
         If m_itemCollectionPrePareCost Is Nothing Then
-          If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then            m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
+          If conn Is Nothing AndAlso trans Is Nothing Then
+            If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then              m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
+            End If
+          Else
+            If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then              m_itemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, Me.StockQty)
+            End If
           End If
+          
         End If
         Return m_itemCollectionPrePareCost
       End Get
@@ -506,7 +512,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
           Return
         End If
-        If m_qty > 0 AndAlso Value > 0 AndAlso m_qty <> Value Then          If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
+        If Value > 0 AndAlso m_qty <> Value Then          If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then            Me.ItemCollectionPrePareCost.Clear()            Dim stockQty As Decimal = Value * Me.Conversion            Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
           End If
         End If
 
