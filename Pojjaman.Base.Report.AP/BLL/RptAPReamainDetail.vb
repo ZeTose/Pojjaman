@@ -174,8 +174,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("DocType") Then
             m_grid(currDocIndex, 4).CellValue = indent & row("DocType").ToString
           End If
-                    If Not row.IsNull("VatCode") Or Not row.IsNull("APVatCode") Then
-                        m_grid(currDocIndex, 5).CellValue = indent & row("VatCode").ToString & indent & row("APVatCode").ToString
+                    If Not row.IsNull("VatCode") Then
+                        m_grid(currDocIndex, 5).CellValue = indent & row("VatCode").ToString
                     End If
           If IsNumeric(row("Amt")) Then
             m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(CDec(row("DocAmount")), DigitConfig.Price)
