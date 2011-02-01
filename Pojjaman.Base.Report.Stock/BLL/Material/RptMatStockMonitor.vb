@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptMatStockMonitor
     Inherits Report
@@ -14,6 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
+    Private m_listhash As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -30,6 +33,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Sub ListInnewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       Try
         m_grid = grid
+        RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+        AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
         m_grid.BeginUpdate()
         m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
         m_grid.Model.Options.NumberedColHeaders = False
@@ -111,10 +116,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
     End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim docId As Integer
+      Dim docType As Integer
+
+      Dim idValue As KeyValuePair = CType(m_listhash(e.RowIndex), KeyValuePair)
+
+      If idValue Is Nothing Then
+        Return
+      End If
+
+      docId = CInt(idValue.Key)
+      docType = CInt(idValue.Value)
+
+      If docId <= 0 OrElse docType <= 0 Then
+        Return
+      End If
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+      myEntityPanelService.OpenDetailPanel(en)
+    End Sub
     Private Sub PopulateData()
       Dim lciDt As DataTable = Me.DataSet.Tables(0)
       Dim openDt As DataTable = Me.DataSet.Tables(1)
       Dim dtRaw As DataTable = Me.DataSet.Tables(2)
+
+      m_listhash = New Hashtable
 
       Dim myStartDate As Date
       Dim myEndDate As Date
@@ -202,6 +229,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If Not ItemRow.IsNull("Description") Then
             m_grid(currItemIndex, 3).CellValue = indent & ItemRow("Description").ToString
+          End If
+
+          Dim drxh As New DataRowHelper(ItemRow)
+          Dim idkey As Integer = drxh.GetValue(Of Integer)("docid")
+          Dim typekey As Integer = drxh.GetValue(Of Integer)("doctype")
+          If idkey > 0 AndAlso typekey > 0 Then
+            Dim idValue As New KeyValuePair(idkey.ToString, typekey.ToString)
+            m_listhash(m_grid.RowCount) = idValue
           End If
 
           Dim currentIn As Decimal = 0
