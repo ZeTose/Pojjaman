@@ -10,6 +10,7 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptGLBalanceSheet
     Inherits Report
+    Implements INewReport
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
@@ -26,7 +27,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+    Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
+    Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
+      m_grid = grid
+      'RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      'AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
+      lkg.DefaultBehavior = False
+      lkg.HilightWhenMinus = True
+      lkg.Init()
+      lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+      ListInGrid(tm)
+      lkg.TreeTableStyle = CreateSimpleTableStyle()
+      lkg.TreeTable = tm.Treetable
+      'If m_showDetailInGrid = 0 Then
+      'lkg.Rows.HeaderCount = 1
+      'lkg.Rows.FrozenCount = 1
+      'Else
+      lkg.Rows.HeaderCount = 2
+      lkg.Rows.FrozenCount = 2
+      'End If
+
+      lkg.Refresh()
+    End Sub
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
       CreateHeader()
@@ -173,7 +198,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim aftercredit As Decimal = 0
 
           Dim theRow As TreeRow = parnode.Childs.Add
-          therow("col1") = "ÃÇÁÂÍ´:" & Trim(CStr(parnode("col1")))
+          theRow("col1") = "ÃÇÁÂÍ´:" & Trim(CStr(parnode("col1")))
 
           b4debit = SumChilds(b4debit, parnode, "col2")
           b4credit = SumChilds(b4credit, parnode, "col3")
@@ -190,7 +215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           theRow("col6") = Configuration.FormatToString(afterdebit, DigitConfig.Price)
           theRow("col7") = Configuration.FormatToString(aftercredit, DigitConfig.Price)
 
-          therow.Tag = "summary"
+          theRow.Tag = "summary"
         End If
       Next
       Me.m_treemanager.Treetable.AcceptChanges()
