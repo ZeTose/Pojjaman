@@ -93,10 +93,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim SumCost As Decimal = 0
 
       For Each row As DataRow In dt.Rows
+        Dim amt As Decimal = 0
+        Dim qty As Decimal = 0
+
+        If IsNumeric(row("Qty")) Then
+          qty = Configuration.Format(CDec(row("Qty")), DigitConfig.Price)
+        End If
+        If (Configuration.Format(CDec(row("costamt")), DigitConfig.Price) <> 0) Then
+          amt = Configuration.Format(CDec(row("costamt")), DigitConfig.UnitPrice)
+        End If
+        
+
         If row("CostCenterId").ToString <> currentCoscenterCode Then
           m_grid.RowCount += 1
           currCostCenterIndex = m_grid.RowCount
           m_grid.RowStyles(currCostCenterIndex).BackColor = Color.FromArgb(128, 255, 128)
+          m_grid.RowStyles(currItemIndex).TextColor = Color.Black
           m_grid.RowStyles(currCostCenterIndex).Font.Bold = True
           m_grid.RowStyles(currCostCenterIndex).ReadOnly = True
           m_grid(currCostCenterIndex, 1).CellValue = row("CostCenterCode")
@@ -107,10 +119,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If row("LciCode").ToString <> currentItemCode Then
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
+          '-------------การกำหนดสีต้องเอามาไว้ก่อน
+          If qty = 0 AndAlso amt > 0 Then
+            m_grid.RowStyles(currItemIndex).BackColor = Color.Purple
+            m_grid.RowStyles(currItemIndex).TextColor = Color.White
+          Else
+            m_grid.RowStyles(currItemIndex).BackColor = Color.White
+            m_grid.RowStyles(currItemIndex).TextColor = Color.Black
+          End If
+          '-------------END การกำหนดสีต้องเอามาไว้ก่อน
           m_grid.RowStyles(currItemIndex).ReadOnly = True
           m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(a), DigitConfig.Price)
           a = 0
         End If
+        
+
         If Not row.IsNull("LciCode") Then
           m_grid(currItemIndex, 1).CellValue = indent & row("LciCode").ToString
         End If
@@ -126,6 +149,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If IsNumeric(row("Qty")) Then
           m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Price)
+          qty = Configuration.Format(CDec(row("Qty")), DigitConfig.Price)
         End If
         If IsNumeric(row("Qty")) Then
           If CDec(row("Qty")) = 0 Then
@@ -136,21 +160,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           m_grid(currItemIndex, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCount.NoCost}")
         End If
-          currentItemCode = row("LciCode").ToString
-          If (CDec(row("Qty")) <> 0 AndAlso CDec(row("costamt")) <> 0) Then
-            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("costamt")), DigitConfig.UnitPrice)
-          Else
+        currentItemCode = row("LciCode").ToString
+        If (Configuration.Format(CDec(row("costamt")), DigitConfig.Price) <> 0) Then
+          m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("costamt")), DigitConfig.UnitPrice)
+          SumCost += CDec(row("costamt"))
+          amt = Configuration.Format(CDec(row("costamt")), DigitConfig.UnitPrice)
+        Else
           m_grid(currItemIndex, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCount.NoCost}")
-          End If
-          'SumCost += CDec(remainAmount)
+        End If
+        
       Next
-      'm_grid.RowCount += 1
-      'currItemIndex = m_grid.RowCount
-      'm_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(128, 255, 128)
-      'm_grid.RowStyles(currItemIndex).Font.Bold = True
-      'm_grid.RowStyles(currItemIndex).ReadOnly = True
-      'm_grid(currItemIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.SumAmount}")  '"รวมทั้งหมด"
-      'm_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(SumCost, DigitConfig.Price)
+      m_grid.RowCount += 1
+      currItemIndex = m_grid.RowCount
+      m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(128, 255, 128)
+      m_grid.RowStyles(currItemIndex).TextColor = Color.Black
+      m_grid.RowStyles(currItemIndex).Font.Bold = True
+      m_grid.RowStyles(currItemIndex).ReadOnly = True
+      m_grid(currItemIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.SumAmount}")  '"รวมทั้งหมด"
+      m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(SumCost, DigitConfig.Price)
 
     End Sub
 #End Region#Region "Shared"

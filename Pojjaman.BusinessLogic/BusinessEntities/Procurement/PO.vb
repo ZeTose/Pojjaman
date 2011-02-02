@@ -1291,7 +1291,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
 
         Dim docValidate As Boolean = True
-        If Me.Originated AndAlso Me.Status.Value = 0 Then
+        If (Me.Originated AndAlso Me.Status.Value = 0) OrElse Me.Closed Then
           docValidate = False
         End If
 
