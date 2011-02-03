@@ -108,7 +108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowCount += 1
           currCostCenterIndex = m_grid.RowCount
           m_grid.RowStyles(currCostCenterIndex).BackColor = Color.FromArgb(128, 255, 128)
-          m_grid.RowStyles(currItemIndex).TextColor = Color.Black
+          m_grid.RowStyles(currCostCenterIndex).TextColor = Color.Black
           m_grid.RowStyles(currCostCenterIndex).Font.Bold = True
           m_grid.RowStyles(currCostCenterIndex).ReadOnly = True
           m_grid(currCostCenterIndex, 1).CellValue = row("CostCenterCode")

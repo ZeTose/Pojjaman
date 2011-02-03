@@ -49,7 +49,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
-      m_grid.ColCount = 12
+      m_grid.ColCount = 13
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 200
@@ -97,6 +97,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.StatusTotal}")  '"ยอดคงเหลือ"
       m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Price/Unit}")  '"ราคา/หน่วย"
       m_grid(1, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Cost}")  '"มูลค่า"
+      m_grid(1, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Definnition}")  '"Relate CC"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -115,6 +116,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
       Dim docId As Integer
@@ -142,6 +144,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dtRaw As DataTable = Me.DataSet.Tables(2)
 
       m_listhash = New Hashtable
+      Dim ccstartcode As String = ""
+      Dim ccendcode As String = ""
+      If Not IsDBNull(Me.Filters(2).Value) Then
+        ccstartcode = CStr(Me.Filters(2).Value)
+      End If
+      If Not IsDBNull(Me.Filters(3).Value) Then
+        ccendcode = CStr(Me.Filters(3).Value)
+      End If
+
+
+
+      Dim OnlyOneCC As Boolean = False
+
+      If ccstartcode = ccendcode AndAlso ccstartcode.Length > 0 Then
+        OnlyOneCC = True
+      End If
 
       Dim myStartDate As Date
       Dim myEndDate As Date
@@ -157,8 +175,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currItemIndex As Integer = -1
       Dim Sum As Decimal = 0
       Dim DocRows As DataRow()
+      Dim currentCCId As Integer = -1
 
       For Each lciRow As DataRow In lciDt.Rows
+        Dim lrh As New DataRowHelper(lciRow)
         m_grid.RowCount += 1
         currLciIndex = m_grid.RowCount
         m_grid.RowStyles(currLciIndex).BackColor = Color.FromArgb(128, 255, 128)
@@ -204,6 +224,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim rowMistake As Boolean = drh.GetValue(Of Integer)("Mistake") > 0
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
+
+          'If drh.GetValue(Of Integer)("CostCenter") <> currentCCId AndAlso Not OnlyOneCC Then
+          '  m_grid.RowCount += 1
+          '  currItemIndex = m_grid.RowCount
+          '  m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(128, 255, 128)
+          '  m_grid.RowStyles(currItemIndex).TextColor = Color.Black
+          '  m_grid.RowStyles(currItemIndex).Font.Bold = True
+          '  m_grid.RowStyles(currItemIndex).ReadOnly = True
+          '  m_grid(currItemIndex, 1).CellValue = drh.GetValue(Of String)("cc_code")
+          '  m_grid(currItemIndex, 2).CellValue = drh.GetValue(Of String)("cc_name")
+          '  currentCCId = drh.GetValue(Of Integer)("CostCenter")
+          'End If
+
           '-------------การกำหนดสีต้องเอามาไว้ก่อน
           If IsNumeric(ItemRow("hilight")) Then
             If CInt(ItemRow("hilight")) = 1 Then
@@ -230,6 +263,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not ItemRow.IsNull("Description") Then
             m_grid(currItemIndex, 3).CellValue = indent & ItemRow("Description").ToString
           End If
+          m_grid(currItemIndex, 13).CellValue = drh.GetValue(Of String)("RelateCCCode")
 
           Dim drxh As New DataRowHelper(ItemRow)
           Dim idkey As Integer = drxh.GetValue(Of Integer)("docid")
@@ -453,6 +487,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "col11"
         dpi.Value = m_grid(rowIndex, 12).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col12"
+        dpi.Value = m_grid(rowIndex, 13).CellValue
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
