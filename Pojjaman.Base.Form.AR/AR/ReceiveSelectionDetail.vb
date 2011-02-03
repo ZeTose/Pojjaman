@@ -933,11 +933,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
           e.ProposedValue = 0
         End If
         m_updating = False
-        SetRetentionAmount(e)
+        SetRetentionAmount(e.ProposedValue)
       Else
         UpdateVat(True)
       End If
       m_updating = False
+    End Sub
+    Public Sub SetRetentionAmount(ByVal value As Decimal)
+      Dim doc As SaleBillIssueItem = Me.CurrentItem
+      If doc.ParentType <> 81 Then
+        value = 0
+      End If
+      If doc.ParentType = 81 Then
+        Dim remain As Decimal = doc.GetRemainingRetention(Me.m_entity.Id)
+
+        Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+        Dim apRetentionPoint As Integer = 0
+        If IsNumeric(tmp) Then
+          apRetentionPoint = CInt(tmp)
+        End If
+        Dim atBill As Boolean = (apRetentionPoint = 0)
+        If atBill Then
+          If doc.UnreceivedAmount = doc.Amount Then
+            value = remain
+          End If
+        Else
+          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          If Configuration.Compare(remain, value, DigitConfig.Price) < 0 Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.ReceiveSRemainingAmountLessThanAmount}", _
+            New String() { _
+            Configuration.FormatToString(remain, DigitConfig.Price) _
+            , Configuration.FormatToString(value, DigitConfig.Price) _
+            })
+
+            Return
+          End If
+        End If
+      End If
+      doc.ARretention = value
+      UpdateVat(True)
     End Sub
     Public Sub SetRetentionAmount(ByVal e As DataColumnChangeEventArgs)
       If m_updating Then
@@ -966,16 +1000,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_updating = False
           Return
         End If
-        If Configuration.Compare(remain, value, DigitConfig.Price) < 0 Then
-          msgServ.ShowMessageFormatted("${res:Global.Error.ReceiveSRemainingAmountLessThanAmount}", _
-          New String() { _
-          Configuration.FormatToString(remain, DigitConfig.Price) _
-          , Configuration.FormatToString(value, DigitConfig.Price) _
-          })
 
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
+        Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+        Dim apRetentionPoint As Integer = 0
+        If IsNumeric(tmp) Then
+          apRetentionPoint = CInt(tmp)
+        End If
+        Dim atBill As Boolean = (apRetentionPoint = 0)
+        If atBill Then
+          If doc.UnreceivedAmount = doc.Amount Then
+            value = remain
+          End If
+        Else
+          If Configuration.Compare(remain, value, DigitConfig.Price) < 0 Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.ReceiveSRemainingAmountLessThanAmount}", _
+            New String() { _
+            Configuration.FormatToString(remain, DigitConfig.Price) _
+            , Configuration.FormatToString(value, DigitConfig.Price) _
+            })
+            e.ProposedValue = e.Row(e.Column)
+            m_updating = False
+            Return
+          End If
         End If
       End If
       doc.ARretention = value

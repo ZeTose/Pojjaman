@@ -1282,6 +1282,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)        m_ARretention = Value      End Set
     End Property
+    Public Property BillIretention() As Decimal
+      Get
+        Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+        Dim apRetentionPoint As Integer = 0
+        If IsNumeric(tmp) Then
+          apRetentionPoint = CInt(tmp)
+        End If
+        Dim atBill As Boolean = (apRetentionPoint = 0)
+        If atBill Then
+          Return m_ARretention
+        Else
+          Return m_ARretention
+        End If
+      End Get
+      Set(ByVal Value As Decimal)        m_ARretention = Value      End Set
+    End Property
     
     Public ReadOnly Property Retention() As Decimal
       Get

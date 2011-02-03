@@ -1328,7 +1328,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim tb As Decimal = (amt / uamt) * mtb
               'MessageBox.Show(String.Format("({0} / {1}) * {2} = {3}", amt, uamt, mtb, tb))
               '---------------------------------------------
-              tb = Vat.GetExcludedVatAmount(item.Amount + item.ARretention)
+              tb = Vat.GetExcludedVatAmount(item.Amount + item.BillIretention)
               If item.EntityId = 79 Then
                 vitem.TaxBase = -Math.Abs(tb)
               Else
@@ -1576,7 +1576,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   End If
                   '---------------------------------------------
                   Dim tb As Decimal = (amt / uamt) * (mtb - item.DeductedTaxBase.Value)
-                  tb = Vat.GetExcludedVatAmount(amt + item.ARretention)
+                  tb = Vat.GetExcludedVatAmount(amt + item.BillIretention)
                   If TypeOf mi Is VariationOrderDe Then
                     ret -= tb
                   Else
