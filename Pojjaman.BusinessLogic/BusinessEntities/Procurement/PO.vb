@@ -355,6 +355,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Boolean)
         m_closed = Value
+        'ยกเลิกการปิด
+        If m_closedBefor AndAlso Not m_closed Then
+          For Each item As POItem In ItemCollection
+            item.Qty = item.OriginQty
+          Next
+        End If
       End Set
     End Property
     Public Property ClosedBefor() As Boolean

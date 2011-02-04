@@ -3331,7 +3331,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             'Me.SetColumnOriginQty()
             'Me.RefreshDocs()
-            'Me.RefreshWBS()
+      'Me.RefreshWBS()
             Me.WorkbenchWindow.ViewContent.IsDirty = True
         End Sub
 

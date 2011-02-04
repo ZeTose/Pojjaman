@@ -120,7 +120,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
           '-------------การกำหนดสีต้องเอามาไว้ก่อน
-          If qty = 0 AndAlso amt > 0 Then
+          If qty < 0 OrElse amt < 0 OrElse (qty = 0 AndAlso amt <> 0) Then
             m_grid.RowStyles(currItemIndex).BackColor = Color.Purple
             m_grid.RowStyles(currItemIndex).TextColor = Color.White
           Else
