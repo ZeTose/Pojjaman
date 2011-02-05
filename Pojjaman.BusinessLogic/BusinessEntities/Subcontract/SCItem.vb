@@ -276,10 +276,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "sci_wr") AndAlso Not dr.IsNull(aliasPrefix & "sci_wr") Then
             .m_wr = New WR(CInt(dr(aliasPrefix & "sci_wr")))
-          Else
-            If Not .m_sc.WR Is Nothing Then
-              .m_wr = .m_sc.WR
-            End If
+
           End If
         End If
 
@@ -1166,9 +1163,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ItemWRValidateRow(ByVal row As DataRow)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim sci_wriqty As Object = row("sci_wriqty")
+      'Dim sci_wr As Integer = CInt(row("sci_wr"))
       If Me.WR.Originated Then
         If IsDBNull(sci_wriqty) OrElse Not IsNumeric(sci_wriqty) OrElse CDec(sci_wriqty) <= 0 Then
-          If Not Me.WR Is Nothing AndAlso Me.WR.Id <> 0 Then
+          If Not Me.WR Is Nothing AndAlso Me.WR.Id <> 0 AndAlso Me.WRISequence > 0 Then
             row.SetColumnError("sci_wriqty", myStringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
           Else
             row.SetColumnError("sci_wriqty", "")
