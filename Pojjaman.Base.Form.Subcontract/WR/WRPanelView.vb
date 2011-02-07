@@ -2474,15 +2474,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.chkClosedCancel}")
                 If Not Me.m_entity.Closed Then
                     Me.WorkbenchWindow.ViewContent.IsDirty = True
-                Else
-                    Me.WorkbenchWindow.ViewContent.IsDirty = False
+          Me.m_entity.Closed = m_entity.Closing
+        Else
+          Me.WorkbenchWindow.ViewContent.IsDirty = False
                 End If
             Else
                 Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.chkClosed}")
                 If Not Me.m_entity.Closed Then
                     Me.WorkbenchWindow.ViewContent.IsDirty = False
                 Else
-                    Me.WorkbenchWindow.ViewContent.IsDirty = True
+          Me.WorkbenchWindow.ViewContent.IsDirty = True
+          Me.m_entity.Closed = m_entity.Closing
                 End If
             End If
             'Me.SetColumnOriginQty()
