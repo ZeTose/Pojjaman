@@ -656,8 +656,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                          AndAlso item.Entity.CreateDate.HasValue _
                          AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month _
                          AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
-            Return New SaveErrorException("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code)
+            If msgServ.AskQuestion("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code) Then
+              Return New SaveErrorException("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code)
+            End If
           End If
+
 
           '          ''ต้องทำยังงี้เพราะว่ามันเอาเวลามาเทียบกันด้วยซึ่งถ้าเป็นวันเดียวกันบาง case ก็ไม่ผ่าน validate เอาได้ ??? งงมาพักนึงเหมือนกัน ต้องระวังเรื่องเทียบวันที่
           'If Not Date.MinValue.Equals(item.Entity.DueDate) AndAlso CDate(Me.RefDoc.Date.ToShortDateString) < CDate(item.Entity.DueDate.ToShortDateString) Then
