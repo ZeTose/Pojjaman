@@ -268,21 +268,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim tmpPaysDate As String = ""
           Dim tmpPaysCode As String = ""
           Dim tmpPaymentCode As String = ""
-          For Each drowRelRet As DataRow In dtRelRet.Select("Supplier_Code='" & drowOnRet("Supplier_Code").ToString & _
-                                                  "' And Stock_Code='" & drowOnRet("Stock_Code").ToString & "'")
-            If IsNumeric(drowRelRet("Pays_Gross")) Then
-              tmpSumPaysItem += CDec(drowRelRet("Pays_Gross"))
-            End If
-            If Not drowRelRet.IsNull("Pays_DocDate") Then
-              tmpPaysDate &= "," & CDate(drowRelRet("Pays_DocDate")).ToShortDateString
-            End If
-            If Not drowRelRet.IsNull("Pays_Code") Then
-              tmpPaysCode &= "," & drowRelRet("Pays_Code").ToString
-            End If
-            If Not drowRelRet.IsNull("Payment_Code") Then
-              tmpPaymentCode &= "," & drowRelRet("Payment_Code").ToString
-            End If
-          Next
+                    For Each drowRelRet As DataRow In dtRelRet.Select("Supplier_Code='" & drowOnRet("Supplier_Code").ToString & _
+                                                            "' And Stock_id='" & drowOnRet("Stock_id").ToString & "'")
+                        If IsNumeric(drowRelRet("Pays_Gross")) Then
+                            tmpSumPaysItem += CDec(drowRelRet("Pays_Gross"))
+                        End If
+                        If Not drowRelRet.IsNull("Pays_DocDate") Then
+                            tmpPaysDate &= "," & CDate(drowRelRet("Pays_DocDate")).ToShortDateString
+                        End If
+                        If Not drowRelRet.IsNull("Pays_Code") Then
+                            tmpPaysCode &= "," & drowRelRet("Pays_Code").ToString
+                        End If
+                        If Not drowRelRet.IsNull("Payment_Code") Then
+                            tmpPaymentCode &= "," & drowRelRet("Payment_Code").ToString
+                        End If
+                    Next
 
           If tmpSumPaysItem > 0 Then
                         m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)

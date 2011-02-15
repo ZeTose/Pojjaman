@@ -2389,7 +2389,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
           dpi.DataType = "System.DateTime"
-          dpiColl.Add(dpi)
+                    dpiColl.Add(dpi)
+
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
+                    dpi.Value = deh.GetValue(Of String)("apvdoc_comment").ToString
+                    dpi.DataType = "System.String"
+                    dpiColl.Add(dpi)
         Next
 
       End If

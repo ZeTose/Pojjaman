@@ -39,7 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Sub
         Private Sub CreateHeader()
             m_grid.RowCount = 1
-            m_grid.ColCount = 9
+            m_grid.ColCount = 10
 
             m_grid.ColWidths(1) = 150
             m_grid.ColWidths(2) = 150
@@ -50,6 +50,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColWidths(7) = 120
             m_grid.ColWidths(8) = 120
             m_grid.ColWidths(9) = 120
+            m_grid.ColWidths(10) = 120
 
             m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -60,6 +61,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
             m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+            m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
             m_grid.Rows.HeaderCount = 1
             m_grid.Rows.FrozenCount = 1
@@ -77,6 +79,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.Deposit}")  '"ฝาก"
             m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.Withdraw}")  '"ถอน"
             m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.BalanceAmount}")  '"ยอดคงเหลือ"
+            m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.Note}")  '"หมายเหตุ"
 
         End Sub
         Private Sub PopulateData()
@@ -152,6 +155,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
                 If IsNumeric(row("Balanceamt")) Then
                     m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(tmpSum), DigitConfig.Price)
+                End If
+                If Not row.IsNull("Note") Then
+                    m_grid(currItemIndex, 10).CellValue = indent & row("Note").ToString
                 End If
                 currentItemCode = row("DocCode").ToString
             Next
@@ -276,6 +282,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi = New DocPrintingItem
                 dpi.Mapping = "col8"
                 dpi.Value = m_grid(rowIndex, 9).CellValue
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                dpi = New DocPrintingItem
+                dpi.Mapping = "col9"
+                dpi.Value = m_grid(rowIndex, 10).CellValue
                 dpi.DataType = "System.String"
                 dpi.Row = n + 1
                 dpi.Table = "Item"
