@@ -78,6 +78,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
+      'SetNoVat()
     End Sub
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
@@ -223,6 +224,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
       m_itemCollection = New GoodsSoldItemCollection(Me, True)
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      SetNoVat()
     End Sub
 #End Region
 
@@ -1941,13 +1944,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Me.BeforeTax
     End Function
     Private m_novat As Boolean = False
+    Private m_RealNoVat As Nullable(Of Boolean)
+    Public Property RealNoVat As Boolean
+      Get
+        If Not m_RealNoVat.HasValue Then
+          SetNoVat()
+        End If
+        Return m_RealNoVat.Value
+      End Get
+      Set(ByVal value As Boolean)
+
+      End Set
+    End Property
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        Return Me.TaxType.Value = 0 OrElse m_novat
+        Return Me.TaxType.Value = 0 OrElse m_novat OrElse RealNoVat
       End Get
     End Property
     Public Sub SetNoVat(ByVal novat As Boolean)
       m_novat = novat
+    End Sub
+    Public Sub SetNoVat()
+      If Me.TaxType.Value = 0 OrElse Me.RealTaxAmount - Me.Vat.Amount > 0 _
+        OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
+        OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+        m_novat = True
+        m_RealNoVat = True
+      Else
+        m_RealNoVat = False
+      End If
     End Sub
 #End Region
 
