@@ -51,7 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemTable As TreeTable
 
     Private m_debitCollection As ReceiveAccountItemCollection
-    Private m_creditCollection As ReceiveAccountItemCollection
+        Private m_creditCollection As ReceiveAccountItemCollection
 #End Region
 
 #Region "Constructors"
@@ -134,7 +134,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .receive_refDoc.Id = 0
         .receive_refDoc.Date = Date.MinValue
         .receive_refDoc.Code = ""
-        .receive_status = New ReceiveStatus(-1)
+                .receive_status = New ReceiveStatus(-1)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -277,12 +277,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property DocDate() As Date      Get        Return receive_docDate      End Get      Set(ByVal Value As Date)        receive_docDate = Value      End Set    End Property    Public Property Note() As String      Get        Return receive_note      End Get      Set(ByVal Value As String)        receive_note = Value      End Set    End Property    Public Property DiscountAmount() As Decimal      Get        Return receive_discountAmount      End Get      Set(ByVal Value As Decimal)        receive_discountAmount = Value      End Set    End Property    Public Property OtherRevenue() As Decimal      Get        Return receive_otherRevenue      End Get      Set(ByVal Value As Decimal)        receive_otherRevenue = Value      End Set    End Property    Public ReadOnly Property WitholdingTax() As Decimal      Get        If Me.RefDoc Is Nothing Then          Return 0
         End If        If Not TypeOf Me.RefDoc Is IWitholdingTaxable Then
           Return 0
-        End If        Return CType(Me.RefDoc, IWitholdingTaxable).WitholdingTaxCollection.Amount      End Get    End Property    Public Property Interest() As Decimal      Get        Return receive_interest      End Get      Set(ByVal Value As Decimal)        receive_interest = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get        Return receive_bankcharge      End Get      Set(ByVal Value As Decimal)        receive_bankcharge = Value      End Set    End Property    Public Property OtherExpense() As Decimal      Get        Return receive_otherExpense      End Get      Set(ByVal Value As Decimal)        receive_otherExpense = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return receive_status      End Get      Set(ByVal Value As CodeDescription)        receive_status = CType(Value, ReceiveStatus)      End Set    End Property    Public Property RefDoc() As IReceivable      Get        Return receive_refDoc      End Get      Set(ByVal Value As IReceivable)        receive_refDoc = Value      End Set    End Property
-    Public Overrides ReadOnly Property ClassName() As String
-      Get
-        Return "Receive"
-      End Get
-    End Property
+        End If        Return CType(Me.RefDoc, IWitholdingTaxable).WitholdingTaxCollection.Amount      End Get    End Property    Public Property Interest() As Decimal      Get        Return receive_interest      End Get      Set(ByVal Value As Decimal)        receive_interest = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get        Return receive_bankcharge      End Get      Set(ByVal Value As Decimal)        receive_bankcharge = Value      End Set    End Property    Public Property OtherExpense() As Decimal      Get        Return receive_otherExpense      End Get      Set(ByVal Value As Decimal)        receive_otherExpense = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return receive_status      End Get      Set(ByVal Value As CodeDescription)        receive_status = CType(Value, ReceiveStatus)      End Set    End Property    Public Property RefDoc() As IReceivable      Get        Return receive_refDoc      End Get      Set(ByVal Value As IReceivable)        receive_refDoc = Value      End Set        End Property
+        'Public Property RefICheck() As IncomingCheck
+        '    Get        '        Return m_chk        '    End Get
+        '    Set(ByVal Value As IncomingCheck)        '        m_chk = Value        '    End Set
+        'End Property
+        Public Overrides ReadOnly Property ClassName() As String
+            Get
+                Return "Receive"
+            End Get
+        End Property
     Public Overrides ReadOnly Property TableName() As String
       Get
         Return "Receive"
@@ -591,35 +595,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     CurrentCheckCode = check.Code
                   Else
 
-                    check.Id = CInt(itemRow("receivei_entity"))
-                    check.DocDate = Me.DocDate
-                    If Not itemRow.IsNull("receivei_amt") Then
-                      check.Amount = CDec(itemRow("receivei_amt"))
-                    End If
-                    If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
-                      check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
-                      check.Bank = check.BankAccount.BankBranch.Bank
-                      check.CustBankBranch = check.BankAccount.BankBranch.Name
-                    End If
-                    If Not itemRow.IsNull("receivei_oldbankacct") AndAlso IsNumeric(itemRow("receivei_oldbankacct")) Then
-                      check.OldBankAccount = New BankAccount(CInt(itemRow("receivei_oldbankacct")))
-                    End If
-                    Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
-                    If Not IsNumeric(errCheck.Message) Then
-                      Return New SaveErrorException(errCheck.Message)
-                    End If
+                                        check.Id = CInt(itemRow("receivei_entity"))
+                                        check.DocDate = Me.DocDate
+                                        check.Amount = CDec(itemRow("receivei_amt"))
+                                        If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                                            check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                                            check.Bank = check.BankAccount.BankBranch.Bank
+                                            check.CustBankBranch = check.BankAccount.BankBranch.Name
+                                        End If
+                                        If Not itemRow.IsNull("receivei_oldbankacct") AndAlso IsNumeric(itemRow("receivei_oldbankacct")) Then
+                                            check.OldBankAccount = New BankAccount(CInt(itemRow("receivei_oldbankacct")))
+                                        End If
+                                        Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate, True)
+                                        If Not IsNumeric(errCheck.Message) Then
+                                            Return New SaveErrorException(errCheck.Message)
+                                        End If
 
-                  End If
-                  If Not check.Originated Then
-                    Return New SaveErrorException("Cannot Save Check 2")
-                  End If
-                  dr("receivei_entity") = check.Id
-                  'dr("receivei_bankacct") = itemRow("receivei_bankacct")
+                                        End If
+                                        If Not check.Originated Then
+                                            Return New SaveErrorException("Cannot Save Check 2")
+                                        End If
+                                        dr("receivei_entity") = check.Id
+                                        'dr("receivei_bankacct") = itemRow("receivei_bankacct")
                 Case 71        'มัดจำ
-                  dr("receivei_entity") = itemRow("receivei_entity")
+                                        dr("receivei_entity") = itemRow("receivei_entity")
                 Case 72        'โอน
-                  dr("receivei_duedate") = itemRow("DueDate")
-                  dr("receivei_bankacct") = itemRow("receivei_bankacct")
+                                        dr("receivei_duedate") = itemRow("DueDate")
+                                        dr("receivei_bankacct") = itemRow("receivei_bankacct")
                 Case Else
               End Select
               dr("receivei_receive") = Me.Id

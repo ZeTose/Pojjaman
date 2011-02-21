@@ -524,57 +524,59 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
     End Function
-    Public Function CheckUpdateBackAccountAndCheckDeposit(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction, ByVal receiveDate As DateTime) As SaveErrorException
-      Try
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
-                           "CheckUpdateBackAccountAndCheckDeposit", _
-                           New SqlParameter() {New SqlParameter("@check_id", Me.Id), _
-                                               New SqlParameter("@check_bankacct", SimpleBusinessEntityBase.ValidIdOrDBNull(Me.BankAccount)), _
-                                               New SqlParameter("@check_bank", SimpleBusinessEntityBase.ValidIdOrDBNull(Me.Bank)), _
-                                               New SqlParameter("@check_custbankbranch", Me.CustBankBranch), _
-                                               New SqlParameter("@check_receivedate", receiveDate), _
-                                               New SqlParameter("@check_amt", Me.Amount), _
-                                               New SqlParameter("@check_note", Me.Note), _
-                                               New SqlParameter("@check_lasteditor", currentUserId)})
+        Public Function CheckUpdateBackAccountAndCheckDeposit(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction, ByVal receiveDate As DateTime, _
+                                                             Optional ByVal isOldCheck As Boolean = False) As SaveErrorException
+            Try
+                SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                   "CheckUpdateBackAccountAndCheckDeposit", _
+                                   New SqlParameter() {New SqlParameter("@check_id", Me.Id), _
+                                                       New SqlParameter("@check_bankacct", SimpleBusinessEntityBase.ValidIdOrDBNull(Me.BankAccount)), _
+                                                       New SqlParameter("@check_bank", SimpleBusinessEntityBase.ValidIdOrDBNull(Me.Bank)), _
+                                                       New SqlParameter("@check_custbankbranch", Me.CustBankBranch), _
+                                                       New SqlParameter("@check_receivedate", receiveDate), _
+                                                       New SqlParameter("@check_amt", Me.Amount), _
+                                                       New SqlParameter("@check_note", Me.Note), _
+                                                       New SqlParameter("@check_lasteditor", currentUserId), _
+                                                       New SqlParameter("@isOldCheck", isOldCheck)})
 
-        If Not Me.BankAccount Is Nothing AndAlso Me.BankAccount.Originated Then
-          If Me.BankAccount.Id <> Me.OldBankAccount.Id Then
-            Dim upd As New UpdateCheckDeposit
-            upd.AutoGen = True
+                If Not Me.BankAccount Is Nothing AndAlso Me.BankAccount.Originated Then
+                    If Me.BankAccount.Id <> Me.OldBankAccount.Id Then
+                        Dim upd As New UpdateCheckDeposit
+                        upd.AutoGen = True
 
-            Dim cmbCode As New ComboBox
-            BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
-            If cmbCode.Items.Count > 0 Then
-              upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
-              cmbCode.SelectedIndex = 0
-              upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
-            End If
+                        Dim cmbCode As New ComboBox
+                        BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
+                        If cmbCode.Items.Count > 0 Then
+                            upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
+                            cmbCode.SelectedIndex = 0
+                            upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
+                        End If
 
-            upd.DocDate = Me.DocDate
-            upd.BankAccount = Me.BankAccount
-            upd.TotalAmount = Me.Amount
+                        upd.DocDate = Me.DocDate
+                        upd.BankAccount = Me.BankAccount
+                        upd.TotalAmount = Me.Amount
 
-            Dim upditem As New UpdateCheckDepositItem
-            upditem.BeforeStatus = New IncomingCheckDocStatus(1)
-            upditem.Entity = Me
-            upditem.LineNumber = 1
-            upd.Add(upditem)
+                        Dim upditem As New UpdateCheckDepositItem
+                        upditem.BeforeStatus = New IncomingCheckDocStatus(1)
+                        upditem.Entity = Me
+                        upditem.LineNumber = 1
+                        upd.Add(upditem)
 
-            Dim saveerr As SaveErrorException = upd.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveerr.Message) Then
-              Return New SaveErrorException(saveerr.Message)
-            End If
-          End If
+                        Dim saveerr As SaveErrorException = upd.Save(currentUserId, conn, trans)
+                        If Not IsNumeric(saveerr.Message) Then
+                            Return New SaveErrorException(saveerr.Message)
+                        End If
+                    End If
 
-        End If
+                End If
 
-        Return New SaveErrorException("1")
-      Catch ex As SqlException
-        Return New SaveErrorException(ex.Message)
-      Catch ex As Exception
-        Return New SaveErrorException(ex.Message)
-      End Try
-    End Function
+                Return New SaveErrorException("1")
+            Catch ex As SqlException
+                Return New SaveErrorException(ex.Message)
+            Catch ex As Exception
+                Return New SaveErrorException(ex.Message)
+            End Try
+        End Function
 #End Region
 
 #Region "Methods"
