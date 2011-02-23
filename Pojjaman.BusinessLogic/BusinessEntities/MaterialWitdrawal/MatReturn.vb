@@ -1795,6 +1795,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_lineNumber = CInt(dr(aliasPrefix & "stocki_lineNumber"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "stocki_sequence") AndAlso Not dr.IsNull(aliasPrefix & "stocki_sequence") Then
+          .m_sequence = CInt(dr(aliasPrefix & "stocki_sequence"))
+        End If
+
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_qty") AndAlso Not dr.IsNull(aliasPrefix & "stocki_qty") Then
           .m_qty = CDec(dr(aliasPrefix & "stocki_qty"))
         End If
