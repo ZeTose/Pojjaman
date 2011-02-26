@@ -89,7 +89,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
-
         .m_docDate = Now.Date
         .m_supplier = New Supplier
         .m_creditPeriod = 0
@@ -968,7 +967,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("cndn_amt") = item.Amount
           dt.Rows.Add(dr)
         Next
-
 
         da.Update(dt.Select("", "", DataViewRowState.Deleted))
 

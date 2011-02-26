@@ -535,7 +535,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                                        New SqlParameter("@check_custbankbranch", Me.CustBankBranch), _
                                                        New SqlParameter("@check_receivedate", receiveDate), _
                                                        New SqlParameter("@check_amt", Me.Amount), _
-                                                       New SqlParameter("@check_note", Me.Note), _
                                                        New SqlParameter("@check_lasteditor", currentUserId), _
                                                        New SqlParameter("@isOldCheck", isOldCheck)})
 

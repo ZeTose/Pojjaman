@@ -1103,15 +1103,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not Me.m_vat Is Nothing Then
           Me.m_vat.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
-        If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) Then
-          If Not Me.m_vat.ItemCollection Is Nothing Then ' AndAlso Me.m_vat.ItemCollection.Count > 0 Then
-            If Not Me.m_vat.AutoGen AndAlso Me.m_vat.ItemCollection.Count > 1 AndAlso (Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Length <= 0) Then
-              allowBlankInvoice = True
-            Else
-              allowBlankInvoice = False
-            End If
-          End If
-        End If
+                If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) OrElse (TypeOf Me.m_entity Is AdvancePayClosed) Then
+                    If Not Me.m_vat.ItemCollection Is Nothing Then ' AndAlso Me.m_vat.ItemCollection.Count > 0 Then
+                        If Not Me.m_vat.AutoGen AndAlso Me.m_vat.ItemCollection.Count > 1 AndAlso (Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Length <= 0) Then
+                            allowBlankInvoice = True
+                        Else
+                            allowBlankInvoice = False
+                        End If
+                    End If
+                End If
         UpdateEntityProperties()
         If m_vat.RefDoc.NoVat Then
           Me.m_vat.ItemCollection.Clear()

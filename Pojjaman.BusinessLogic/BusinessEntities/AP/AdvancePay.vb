@@ -32,6 +32,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Class
     Public Class AdvancePayForClosed
         Inherits AdvancePay
+        Public Sub New()
+            MyBase.New()
+        End Sub
+        Public Sub New(ByVal code As String)
+            MyBase.New(code)
+        End Sub
+        Public Sub New(ByVal id As Integer)
+            MyBase.New(id)
+        End Sub
         Public Overrides ReadOnly Property ClassName As String
             Get
                 Return "AdvancePayForClosed"
@@ -50,7 +59,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_costCenter As CostCenter
 
         Private m_docDate As Date
-
 
         Private m_vat As Vat
         Private m_whtcol As WitholdingTaxCollection
@@ -566,6 +574,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Catch ex As Exception
             End Try
             Return False
+        End Function
+        Public Function GetRemainingAmountasDataRow() As DataRow
+            Try
+                Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                        Me.ConnectionString _
+                        , CommandType.StoredProcedure _
+                        , "GetAdvancePayAmountForClosed" _
+                        , New SqlParameter("@advp_id", Me.Id) _
+                        )
+                If ds.Tables(0).Rows.Count > 0 Then
+                    Return ds.Tables(0).Rows(0)
+                End If
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
         End Function
         Public Function GetRemainingAmount() As Decimal
             Try

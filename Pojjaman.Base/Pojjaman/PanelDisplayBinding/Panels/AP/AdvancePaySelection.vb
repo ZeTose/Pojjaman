@@ -468,36 +468,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
 		Public Overrides Sub CheckFormEnable()
 			If Me.m_entity Is Nothing Then
 				Return
-			ElseIf TypeOf (Me.m_entity) Is GoodsReceipt Then
-				If Not (CType(Me.m_entity, GoodsReceipt).Unlock) AndAlso (CType(Me.m_entity, GoodsReceipt).Status.Value = 0 _
-				OrElse CType(Me.m_entity, GoodsReceipt).IsReferenced = True _
-				OrElse CType(Me.m_entity, GoodsReceipt).Payment.Status.Value = 0 _
-				OrElse CType(Me.m_entity, GoodsReceipt).Payment.Status.Value >= 3) Then
-					tgItem.Enabled = False : ibtnBlank1.Enabled = False
-					ibtnDelRow1.Enabled = False
-        End If
-        tgItem.Enabled = True
-      ElseIf TypeOf (Me.m_entity) Is PA Then
-        If (Not CType(m_entity, PA).IsMeLastedPADoc OrElse
-            CType(m_entity, PA).Status.Value = 0 OrElse
-            CType(m_entity, PA).IsReferenced OrElse
-            CType(m_entity, PA).Payment.Status.Value = 0 OrElse
-            CType(m_entity, PA).Payment.Status.Value >= 3) Then
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            colStyle.ReadOnly = True
-          Next
-          tgItem.Enabled = False
-          ibtnBlank1.Enabled = False
-          ibtnDelRow1.Enabled = False
-        Else
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            colStyle.ReadOnly = False
-          Next
-        End If
-
-
-      End If
-    End Sub
+            ElseIf TypeOf (Me.m_entity) Is GoodsReceipt Then
+                If CType(m_entity, GoodsReceipt).IshaveAdvancePayClosed Then
+                    tgItem.Enabled = False : ibtnBlank1.Enabled = False
+                    ibtnDelRow1.Enabled = False
+                Else
+                    If Not (CType(Me.m_entity, GoodsReceipt).Unlock) AndAlso (CType(Me.m_entity, GoodsReceipt).Status.Value = 0 _
+                    OrElse CType(Me.m_entity, GoodsReceipt).IsReferenced = True _
+                    OrElse CType(Me.m_entity, GoodsReceipt).Payment.Status.Value = 0 _
+                    OrElse CType(Me.m_entity, GoodsReceipt).Payment.Status.Value >= 3) Then
+                        tgItem.Enabled = False : ibtnBlank1.Enabled = False
+                        ibtnDelRow1.Enabled = False
+                    End If
+                    tgItem.Enabled = True
+                End If
+            ElseIf TypeOf (Me.m_entity) Is PA Then
+                If CType(m_entity, PA).IshaveAdvancePayClosed Then
+                    If (Not CType(m_entity, PA).IsMeLastedPADoc OrElse
+                       CType(m_entity, PA).Status.Value = 0 OrElse
+                       CType(m_entity, PA).IsReferenced OrElse
+                       CType(m_entity, PA).Payment.Status.Value = 0 OrElse
+                       CType(m_entity, PA).Payment.Status.Value >= 3) Then
+                        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                            colStyle.ReadOnly = True
+                        Next
+                        tgItem.Enabled = False
+                        ibtnBlank1.Enabled = False
+                        ibtnDelRow1.Enabled = False
+                    Else
+                        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                            colStyle.ReadOnly = False
+                        Next
+                    End If
+                Else
+                    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                        colStyle.ReadOnly = True
+                    Next
+                    tgItem.Enabled = False
+                    ibtnBlank1.Enabled = False
+                    ibtnDelRow1.Enabled = False
+                End If
+            End If
+        End Sub
 
 		Public Overrides Sub ClearDetail()
 			For Each crlt As Control In grbDetail.Controls

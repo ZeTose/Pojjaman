@@ -1213,7 +1213,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
       Return isMatWidthdraw
     End Function
-
+        Public Function IshaveAdvancePayClosed() As Boolean
+            Dim advpClosed As Decimal
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+            , CommandType.StoredProcedure _
+            , "GetGRChkAdvancePayClosed" _
+            , New SqlParameter("@stock_id", Me.Id) _
+            )
+            If ds.Tables(0).Rows.Count <> 0 Then
+                Dim row As DataRow = ds.Tables(0).Rows(0)
+                Dim deh As New DataRowHelper(row)
+                advpClosed = deh.GetValue(Of Decimal)("chkClosed")
+            End If
+            If advpClosed = 0 Then
+                Return False
+            Else
+                Return True
+            End If
+        End Function
     Private Function ListWbsId() As String
       Dim idList As New ArrayList
       For Each itm As GoodsReceiptItem In Me.ItemCollection
@@ -4469,7 +4486,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
           dpi.DataType = "System.DateTime"
-          dpiColl.Add(dpi)
+                    dpiColl.Add(dpi)
+
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
+                    dpi.Value = deh.GetValue(Of String)("apvdoc_comment").ToString
+                    dpi.DataType = "System.String"
+                    dpiColl.Add(dpi)
         Next
 
       End If

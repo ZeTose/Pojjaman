@@ -278,10 +278,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If        If Not TypeOf Me.RefDoc Is IWitholdingTaxable Then
           Return 0
         End If        Return CType(Me.RefDoc, IWitholdingTaxable).WitholdingTaxCollection.Amount      End Get    End Property    Public Property Interest() As Decimal      Get        Return receive_interest      End Get      Set(ByVal Value As Decimal)        receive_interest = Value      End Set    End Property    Public Property BankCharge() As Decimal      Get        Return receive_bankcharge      End Get      Set(ByVal Value As Decimal)        receive_bankcharge = Value      End Set    End Property    Public Property OtherExpense() As Decimal      Get        Return receive_otherExpense      End Get      Set(ByVal Value As Decimal)        receive_otherExpense = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return receive_status      End Get      Set(ByVal Value As CodeDescription)        receive_status = CType(Value, ReceiveStatus)      End Set    End Property    Public Property RefDoc() As IReceivable      Get        Return receive_refDoc      End Get      Set(ByVal Value As IReceivable)        receive_refDoc = Value      End Set        End Property
-        'Public Property RefICheck() As IncomingCheck
-        '    Get        '        Return m_chk        '    End Get
-        '    Set(ByVal Value As IncomingCheck)        '        m_chk = Value        '    End Set
-        'End Property
         Public Overrides ReadOnly Property ClassName() As String
             Get
                 Return "Receive"

@@ -206,9 +206,7 @@
     <Compile Include="GL\RptJVAutomatic\RptJVAutomaticFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GL\RptJVAutomatic\RptJVAutomaticForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="GL\RptJVAutomatic\RptJVAutomaticForm.vb" />
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>

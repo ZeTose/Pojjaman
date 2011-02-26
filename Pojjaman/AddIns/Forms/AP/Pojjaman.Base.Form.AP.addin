@@ -48,6 +48,7 @@
 		<EntityFilter id="purchasedn" entity="purchasedn" filter="Longkong.Pojjaman.Gui.Panels.PurchaseDNFilterSubPanel"/>
 		<EntityFilter id="paymentapplication" entity="paymentapplication" filter="Longkong.Pojjaman.Gui.Panels.PMAFilterSubPanel"/>
     <EntityFilter id="advancepay" entity="advancepay" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel"/>
+    <EntityFilter id="advancepayforclosed" entity="advancepayforclosed" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel"/>
     <EntityFilter id="advancepayclosed" entity="advancepayclosed" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayClosedFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -107,8 +108,8 @@
 		</EntityTab>
     <EntityTab id="advancepayclosed">
       <EntityTab id="AdvancePayClosedDetail" view="Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail"/>
-      <!--<EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATDetail"/>
-      <EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>-->
+      <EntityTab id="VATDetail" view="Longkong.Pojjaman.Gui.Panels.VATOutDetail"/>
+      <EntityTab id="WHTDetail" view="Longkong.Pojjaman.Gui.Panels.WHTDetail"/>
       <EntityTab id="PaymentIn" view="Longkong.Pojjaman.Gui.Panels.ReceiveDetail"/>
       <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
     </EntityTab>

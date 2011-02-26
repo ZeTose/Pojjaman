@@ -2296,98 +2296,122 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
 
-      'จาก Status ของเอกสารเอง
-      If Not Me.Unlock AndAlso (Me.m_entity.Status.Value = 0 _
-      OrElse m_entityRefed = 1 _
-      OrElse Me.m_entity.Payment.Status.Value = 0 _
-      OrElse Me.m_entity.Payment.Status.Value >= 3 _
-      ) Then
-        For Each ctrl As Control In Me.grbDelivery.Controls
-          ctrl.Enabled = False
-        Next
-        For Each ctrl As Control In Me.grbReceive.Controls
-          ctrl.Enabled = False
-        Next
-        'For Each ctrl As Control In Me.Controls
-        '  If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
-        'ctrl.Enabled = False
-        cmbCode.Enabled = False : chkAutorun.Enabled = False
-        txtDocDate.Enabled = False : dtpDocDate.Enabled = False
-        txtPOCode.Enabled = False : ibtnShowPODialog.Enabled = False
-        txtDeliveryCode.Enabled = False : txtDeliveryDocDate.Enabled = False
-        dtpDeliveryDocDate.Enabled = False : txtInvoiceCode.Enabled = False
-        txtPODate.Enabled = False : ibtnEnableVatInput.Enabled = False
-        dtpInvoiceDate.Enabled = False : txtInvoiceDate.Enabled = False
-        '  End If
-        'Next
-        tgItem.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          If colStyle.MappingName.ToLower = "accountcode" _
-          Or colstyle.MappingName.ToLower = "accountbutton" Then
-            colStyle.ReadOnly = False
-          Else
-            colStyle.ReadOnly = True
-          End If
-        Next
+            'จาก Status ของเอกสารเอง
+            If Me.m_entity.IshaveAdvancePayClosed Then  'เช็คว่าเอกสารมัดจำจ่ายที่ดึงมาถูกปิดรึยัง
+                For Each ctrl As Control In Me.grbDelivery.Controls
+                    ctrl.Enabled = False
+                Next
+                cmbCode.Enabled = False : chkAutorun.Enabled = False
+                txtDocDate.Enabled = False : dtpDocDate.Enabled = False
+                txtPOCode.Enabled = False : ibtnShowPODialog.Enabled = False
+                txtDeliveryCode.Enabled = False : txtDeliveryDocDate.Enabled = False
+                dtpDeliveryDocDate.Enabled = False : txtInvoiceCode.Enabled = False
+                txtPODate.Enabled = False : ibtnEnableVatInput.Enabled = False
+                dtpInvoiceDate.Enabled = False : txtInvoiceDate.Enabled = False
+                txtRealGross.Enabled = False : txtDiscountRate.Enabled = False
+                txtRealTaxBase.Enabled = False : cmbTaxType.Enabled = False
+                txtRealTaxAmount.Enabled = False : txtRetention.Enabled = False
+                ibtnResetGross.Enabled = False : ibtnResetTaxBase.Enabled = False
+                ibtnResetTaxAmount.Enabled = False
 
-        'Unlock ส่วนท้ายถ้าเอกสารไม่ถูกอ้างอิง ยกเว้น การเบิก
-        If Me.m_entity.IsMathwidthdrawReferenced Then
-          txtRealGross.Enabled = True
-          txtDiscountRate.Enabled = True
-          txtRealTaxBase.Enabled = True
-          cmbTaxType.Enabled = True
-          txtRealTaxAmount.Enabled = True
-          txtRetention.Enabled = True
-          ibtnResetGross.Enabled = True
-          ibtnResetTaxBase.Enabled = True
-          ibtnResetTaxAmount.Enabled = True
-          txtCreditPrd.Enabled = True
-          txtDueDate.Enabled = True
-          dtpDueDate.Enabled = True
+                tgItem.Enabled = True
+                For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                    colStyle.ReadOnly = True
+                Next
+            Else
+                If Not Me.Unlock AndAlso (Me.m_entity.Status.Value = 0 _
+                OrElse m_entityRefed = 1 _
+                OrElse Me.m_entity.Payment.Status.Value = 0 _
+                OrElse Me.m_entity.Payment.Status.Value >= 3 _
+                ) Then
+                    For Each ctrl As Control In Me.grbDelivery.Controls
+                        ctrl.Enabled = False
+                    Next
+                    For Each ctrl As Control In Me.grbReceive.Controls
+                        ctrl.Enabled = False
+                    Next
+                    'For Each ctrl As Control In Me.Controls
+                    '  If Not ctrl.Name = "btnApprove" AndAlso Not ctrl.Name = "ibtnCopyMe" Then
+                    'ctrl.Enabled = False
+                    cmbCode.Enabled = False : chkAutorun.Enabled = False
+                    txtDocDate.Enabled = False : dtpDocDate.Enabled = False
+                    txtPOCode.Enabled = False : ibtnShowPODialog.Enabled = False
+                    txtDeliveryCode.Enabled = False : txtDeliveryDocDate.Enabled = False
+                    dtpDeliveryDocDate.Enabled = False : txtInvoiceCode.Enabled = False
+                    txtPODate.Enabled = False : ibtnEnableVatInput.Enabled = False
+                    dtpInvoiceDate.Enabled = False : txtInvoiceDate.Enabled = False
+                    '  End If
+                    'Next
+                    tgItem.Enabled = True
+                    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                        If colStyle.MappingName.ToLower = "accountcode" _
+                        Or colStyle.MappingName.ToLower = "accountbutton" Then
+                            colStyle.ReadOnly = False
+                        Else
+                            colStyle.ReadOnly = True
+                        End If
+                    Next
 
-        Else
-          txtRealGross.Enabled = False
-          txtDiscountRate.Enabled = False
-          txtRealTaxBase.Enabled = False
-          cmbTaxType.Enabled = False
-          txtRealTaxAmount.Enabled = False
-          txtRetention.Enabled = False
-          ibtnResetGross.Enabled = False
-          ibtnResetTaxBase.Enabled = False
-          ibtnResetTaxAmount.Enabled = False
-        End If
-      Else
-        For Each ctrl As Control In Me.grbDelivery.Controls
-          ctrl.Enabled = CBool(m_enableState(ctrl))
-        Next
-        For Each ctrl As Control In Me.grbReceive.Controls
-          ctrl.Enabled = CBool(m_enableState(ctrl))
-        Next
-        For Each ctrl As Control In Me.Controls
-          ctrl.Enabled = CBool(m_enableState(ctrl))
-        Next
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-        Next
-      End If
+                    'Unlock ส่วนท้ายถ้าเอกสารไม่ถูกอ้างอิง ยกเว้น การเบิก
+                    If Me.m_entity.IsMathwidthdrawReferenced Then
+                        txtRealGross.Enabled = True
+                        txtDiscountRate.Enabled = True
+                        txtRealTaxBase.Enabled = True
+                        cmbTaxType.Enabled = True
+                        txtRealTaxAmount.Enabled = True
+                        txtRetention.Enabled = True
+                        ibtnResetGross.Enabled = True
+                        ibtnResetTaxBase.Enabled = True
+                        ibtnResetTaxAmount.Enabled = True
+                        txtCreditPrd.Enabled = True
+                        txtDueDate.Enabled = True
+                        dtpDueDate.Enabled = True
 
-      Me.btnApprove.Enabled = True
+                    Else
+                        txtRealGross.Enabled = False
+                        txtDiscountRate.Enabled = False
+                        txtRealTaxBase.Enabled = False
+                        cmbTaxType.Enabled = False
+                        txtRealTaxAmount.Enabled = False
+                        txtRetention.Enabled = False
+                        ibtnResetGross.Enabled = False
+                        ibtnResetTaxBase.Enabled = False
+                        ibtnResetTaxAmount.Enabled = False
+                    End If
+                Else
+                    For Each ctrl As Control In Me.grbDelivery.Controls
+                        ctrl.Enabled = CBool(m_enableState(ctrl))
+                    Next
+                    For Each ctrl As Control In Me.grbReceive.Controls
+                        ctrl.Enabled = CBool(m_enableState(ctrl))
+                    Next
+                    For Each ctrl As Control In Me.Controls
+                        ctrl.Enabled = CBool(m_enableState(ctrl))
+                    Next
+                    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                        colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+                    Next
+                End If
+            End If
 
-      If Me.Unlock Then
-        ibtUnlocker.Enabled = False
-      Else
-        ibtUnlocker.Enabled = True
-      End If
 
-      CheckWBSRight()
+            Me.btnApprove.Enabled = True
 
-      'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-      '    If colStyle.MappingName.ToLower = "accountcode" _
-      '    Or colstyle.MappingName.ToLower = "accountbutton" Then
-      '        MessageBox.Show(colstyle.MappingName.ToLower.ToString)
-      '    End If
-      'Next
-    End Sub
+            If Me.Unlock Then
+                ibtUnlocker.Enabled = False
+            Else
+                ibtUnlocker.Enabled = True
+            End If
+
+            CheckWBSRight()
+
+            'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            '    If colStyle.MappingName.ToLower = "accountcode" _
+            '    Or colstyle.MappingName.ToLower = "accountbutton" Then
+            '        MessageBox.Show(colstyle.MappingName.ToLower.ToString)
+            '    End If
+            'Next
+        End Sub
     Private Sub CheckWBSRight()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
       Dim level As Integer = secSrv.GetAccess(256)

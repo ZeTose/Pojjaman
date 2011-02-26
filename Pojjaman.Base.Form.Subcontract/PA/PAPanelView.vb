@@ -2335,11 +2335,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
                             End If
                         End If
                     Next
-                    If Me.m_entity.IsMeLastedPADoc Then
+                    If Me.m_entity.IshaveAdvancePayClosed AndAlso Me.m_entity.IsMeLastedPADoc Then
                         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
                             colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
                         Next
                     Else
+                        For Each ctrl As Control In grbDetail.Controls
+                            If TypeOf ctrl Is TextBox Then
+                                CType(ctrl, TextBox).ReadOnly = True
+                            Else
+                                If Not TypeOf ctrl Is GroupBox Then
+                                    ctrl.Enabled = False
+                                End If
+                            End If
+                        Next
                         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
                             colStyle.ReadOnly = True
                         Next
@@ -2415,10 +2424,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         End If
                     End If
                 Next
-                'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-                '  colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-                'Next
-                If Me.m_entity.IsMeLastedPADoc Then
+
+                If Me.m_entity.IshaveAdvancePayClosed AndAlso Me.m_entity.IsMeLastedPADoc Then
                     For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
                         colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
                     Next
@@ -2426,6 +2433,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
                         colStyle.ReadOnly = True
                     Next
+                    For Each ctrl As Control In grbDetail.Controls
+                        If TypeOf ctrl Is TextBox Then
+                            CType(ctrl, TextBox).ReadOnly = True
+                        Else
+                            If Not TypeOf ctrl Is GroupBox Then
+                                ctrl.Enabled = False
+                            End If
+                        End If
+                    Next
+                    Me.ibtnShowAdvancePay.Enabled = True
                     Me.ibtnDelRow.Enabled = False
                     Me.ibtnResetGross.Enabled = False
                     Me.txtRealGross.ReadOnly = True
@@ -2439,12 +2456,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 End If
                 Me.SetEnalbleGroupBox()
             End If
-
-            'Me.chkClosed.Enabled = True
-            'Me.ibtnCopyMe.Enabled = True
-
-            'Me.btnApprove.Enabled = True
-            'CheckWBSRight()
         End Sub
         Private Sub SetEnalbleGroupBox(Optional ByVal SetReadOnly As Boolean = False)
             'Dim CtrlEnble As Boolean = grbCostCenter.Enabled

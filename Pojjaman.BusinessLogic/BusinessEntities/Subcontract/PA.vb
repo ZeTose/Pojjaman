@@ -844,6 +844,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             Return True
         End Function
+        Public Function IshaveAdvancePayClosed() As Boolean
+            Dim advpClosed As Decimal
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+            , CommandType.StoredProcedure _
+            , "GetChkAdvancePayClosed" _
+            , New SqlParameter("@pa_id", Me.Id) _
+            )
+            If ds.Tables(0).Rows.Count <> 0 Then
+                Dim row As DataRow = ds.Tables(0).Rows(0)
+                Dim deh As New DataRowHelper(row)
+                advpClosed = deh.GetValue(Of Decimal)("chkClosed")
+            End If
+            If advpClosed > 0 Then
+                Return False
+            Else
+                Return True
+            End If
+        End Function
         Public Sub SetPAAdvancePayAndRetention()
             Dim sc_retention As Decimal
             Dim sc_advancepay As Decimal
