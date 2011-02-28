@@ -640,22 +640,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
     End Sub
-    Private Sub UpdateDiscount(ByVal decitemamt As Decimal, ByVal oldGRamt As Decimal)
-      Dim rat As Decimal = 1
-      If oldGRamt > 0 Then
-        rat = (oldGRamt - decitemamt) / oldGRamt
-      End If
-      Dim PercentRate As String = Discount.GetRateDiscount(Me.GoodsReceipt.Discount.Rate)
-      Dim FixRate As Decimal = Configuration.Format(Discount.GetFixDiscount(Me.GoodsReceipt.Discount.Rate) * rat, DigitConfig.Price)
-      Dim rate As New List(Of String)
-      If PercentRate.Length > 0 Then
-        rate.Add(PercentRate)
-      End If
-      If FixRate <> 0 Then
-        rate.Add(CStr(FixRate))
-      End If
-      Me.GoodsReceipt.Discount.Rate = String.Join(",", rate)
-    End Sub
+   
     
     Public Property Qty() As Decimal
       Get
@@ -696,7 +681,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Discount.Rate = String.Join(",", rate)
         Dim decitemamt As Decimal = olditemamt - Amount
         If Me.GoodsReceipt IsNot Nothing Then
-          UpdateDiscount(decitemamt, oldGRamt)
+          Me.GoodsReceipt.UpdateDiscount(decitemamt, oldGRamt)
         End If
         UpdateWBS()
       End Set

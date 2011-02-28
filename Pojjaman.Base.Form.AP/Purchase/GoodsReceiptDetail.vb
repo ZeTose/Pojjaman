@@ -3673,6 +3673,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
       Dim rowsCount As Integer = 0
+      Dim itemAmt As Decimal
+      Dim oldAmt As Decimal = Me.m_entity.RealGross
+
       For Each Obj As Object In Me.m_treeManager.SelectedRows
         If Not Obj Is Nothing Then
           rowsCount += 1
@@ -3681,6 +3684,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If TypeOf row.Tag Is GoodsReceiptItem Then
               Dim doc As GoodsReceiptItem = CType(row.Tag, GoodsReceiptItem)
               If Not doc Is Nothing Then
+                itemAmt += doc.Amount
                 Me.m_entity.ItemCollection.Remove(doc)
               End If
             End If
@@ -3693,9 +3697,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If doc Is Nothing Then
           Return
         End If
+        itemAmt += doc.Amount
         Me.m_entity.ItemCollection.Remove(doc)
       End If
 
+      Me.m_entity.UpdateDiscount(itemAmt, oldAmt)
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True

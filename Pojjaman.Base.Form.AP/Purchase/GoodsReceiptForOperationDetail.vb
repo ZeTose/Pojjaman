@@ -2201,11 +2201,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim doc As GoodsReceiptItem = Me.CurrentItem
-      If doc Is Nothing Then
-        Return
+      
+      Dim itemAmt As Decimal
+      Dim oldAmt As Decimal = Me.m_entity.RealGross
+      Dim rowsCount As Integer = 0
+
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          rowsCount += 1
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            If TypeOf row.Tag Is GoodsReceiptItem Then
+              Dim doc As GoodsReceiptItem = CType(row.Tag, GoodsReceiptItem)
+              If Not doc Is Nothing Then
+                itemAmt += doc.Amount
+                Me.m_entity.ItemCollection.Remove(doc)
+              End If
+            End If
+          End If
+        End If
+      Next
+
+      If rowsCount.Equals(0) Then
+        Dim doc As GoodsReceiptItem = Me.m_entity.ItemCollection.CurrentItem
+        If doc Is Nothing Then
+          Return
+        End If
+        itemAmt += doc.Amount
+        Me.m_entity.ItemCollection.Remove(doc)
       End If
-      Me.m_entity.ItemCollection.Remove(doc)
+
+      Me.m_entity.UpdateDiscount(itemAmt, oldAmt)
       RefreshDocs()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub

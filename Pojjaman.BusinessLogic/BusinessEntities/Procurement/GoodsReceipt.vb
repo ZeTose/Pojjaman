@@ -949,6 +949,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       Next
     End Sub
+    ''' <summary>
+    ''' คิดส่วนลดเอกสารใหม่
+    ''' </summary>
+    ''' <param name="decitemamt">มูลค่าที่ลดลง ของ item</param>
+    ''' <param name="oldGRamt">มูลค่าของเอกสารรวมเดิม</param>
+    ''' <remarks></remarks>
+    Public Sub UpdateDiscount(ByVal decitemamt As Decimal, ByVal oldGRamt As Decimal)
+      Dim rat As Decimal = 1
+      If oldGRamt > 0 Then
+        rat = (oldGRamt - decitemamt) / oldGRamt
+      End If
+      Dim PercentRate As String = Discount.GetRateDiscount(Me.Discount.Rate)
+      Dim FixRate As Decimal = Configuration.Format(Discount.GetFixDiscount(Me.Discount.Rate) * rat, DigitConfig.Price)
+      Dim rate As New List(Of String)
+      If PercentRate.Length > 0 Then
+        rate.Add(PercentRate)
+      End If
+      If FixRate <> 0 Then
+        rate.Add(CStr(FixRate))
+      End If
+      Me.Discount.Rate = String.Join(",", rate)
+    End Sub
+
     Public Overrides Sub ClearReference()
       If Not Me.Vat Is Nothing Then
         Me.Vat.RefDoc = Nothing
