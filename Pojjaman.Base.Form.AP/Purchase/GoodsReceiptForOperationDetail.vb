@@ -2232,6 +2232,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Me.m_entity.UpdateDiscount(itemAmt, oldAmt)
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
+      forceUpdateGross = True
       RefreshDocs()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
