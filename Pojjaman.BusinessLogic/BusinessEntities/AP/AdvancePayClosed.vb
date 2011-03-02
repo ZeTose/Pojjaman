@@ -509,7 +509,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entity", IIf(Me.AdvancePay.Originated, Me.AdvancePay.Id, DBNull.Value)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entitytype", Me.EntityType))
-      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_clearvatbasenotdue", Me.AvpVatBaseNotDueRemain))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_clearvatbasenotdue", Math.Min(Me.AvpVatBaseNotDueRemain, Me.avpcTaxbase)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_remainamt", Me.RemainingAmount))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amt", Me.Amount))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
@@ -872,8 +872,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "B9.2"
         'ยอดภาษีที่ออกใบกำกับมาแล้ว เกินจาก ยอดมูลค่า vat ที่ใช้หักมัดจำไป
         ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
-        If Me.CostCenter.Originated Then
-          ji.CostCenter = Me.CostCenter
+        If Me.AdvancePay.CostCenter.Originated Then
+          ji.CostCenter = Me.AdvancePay.CostCenter
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -886,8 +886,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "B9.2.1"
         'ยอด Vat Not Due ของมัดจำที่เหลืออยู่ เทียบกับที่ ปิดเงินปัดจำ  เอาอันที่น้อยกว่า
         ji.Amount = Configuration.Format(Math.Min(Me.VatNotDueAmount, Me.AvpVatNotDueRemain), DigitConfig.Price)
-        If Me.CostCenter.Originated Then
-          ji.CostCenter = Me.CostCenter
+        If Me.AdvancePay.CostCenter.Originated Then
+          ji.CostCenter = Me.AdvancePay.CostCenter
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -900,8 +900,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "B9.4"
         'ยอดมูลค่า vat ที่ได้รับใบกำกับ มากกกว่า ยอดภาษีที่หักใช้ไป 
         ji.Amount = Configuration.Format(Me.AvpVatDueAmount - Me.VatUseAmt, DigitConfig.Price)
-        If Me.CostCenter.Originated Then
-          ji.CostCenter = Me.CostCenter
+        If Me.AdvancePay.CostCenter.Originated Then
+          ji.CostCenter = Me.AdvancePay.CostCenter
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -924,8 +924,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji = New JournalEntryItem
         ji.Mapping = "B9.3"
         ji.Amount = Me.WitholdingTaxCollection.Amount
-        If Me.CostCenter.Originated Then
-          ji.CostCenter = Me.CostCenter
+        If Me.AdvancePay.CostCenter.Originated Then
+          ji.CostCenter = Me.AdvancePay.CostCenter
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
@@ -951,8 +951,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.18"
           ji.Amount = CDec(WHTTypeSum(obj))
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-          If Me.CostCenter.Originated Then
-            ji.CostCenter = Me.CostCenter
+          If Me.AdvancePay.CostCenter.Originated Then
+            ji.CostCenter = Me.AdvancePay.CostCenter
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
@@ -970,8 +970,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.18D"
           ji.Amount = wht.Amount
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-          If Me.CostCenter.Originated Then
-            ji.CostCenter = Me.CostCenter
+          If Me.AdvancePay.CostCenter.Originated Then
+            ji.CostCenter = Me.AdvancePay.CostCenter
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
@@ -989,8 +989,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.Mapping = "E3.18W"
           ji.Amount = wht.Amount
           ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-          If Me.CostCenter.Originated Then
-            ji.CostCenter = Me.CostCenter
+          If Me.AdvancePay.CostCenter.Originated Then
+            ji.CostCenter = Me.AdvancePay.CostCenter
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
