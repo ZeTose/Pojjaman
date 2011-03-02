@@ -2321,7 +2321,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     If Not TypeOf crlt Is FixedGroupBox Then
                         crlt.Enabled = False
                     End If
-                Next
+        Next
+        If m_entity.Status.Value = 5 Then
+          grbBuyDetail.Enabled = False
+          grbCalcDetail.Enabled = False
+        End If
                 'For Each crlt As Control In grbStatus.Controls
                 '    crlt.Enabled = False
                 'Next

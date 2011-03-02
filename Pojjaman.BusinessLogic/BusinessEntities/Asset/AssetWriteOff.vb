@@ -565,6 +565,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim Assetlist As New List(Of String)
 
+          For Each awi As AssetWriteOffItem In Itemcollection
+            If awi.ItemType.Value = 28 Then
+              Assetlist.Add(awi.Entity.Id.ToString)
+            End If
+          Next
+
           'ChangeOldItemStatus(conn, trans)
           Dim saveItemError As SaveErrorException = Me.SaveDetail(Me.Id, conn, trans, Assetlist)
           If Not IsNumeric(saveItemError.Message) Then
@@ -795,8 +801,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           End If
           Dim drh As New DataRowHelper(dr)
-          If drh.GetValue(Of Integer)("eqtstocki_entitytype") = 28 Then
-            Assetlist.Add(drh.GetValue(Of Integer)("eqtstocki_entity").ToString)
+          If drh.GetValue(Of Integer)("eqtstocki_entitytype") = 28 AndAlso Not AssetList.Contains(drh.GetValue(Of Integer)("eqtstocki_entity").ToString) Then
+            AssetList.Add(drh.GetValue(Of Integer)("eqtstocki_entity").ToString)
           End If
         Next
         For Each dr As DataRow In rowsToDelete

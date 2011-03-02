@@ -1399,7 +1399,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Public ReadOnly Property DepreAmnt As Decimal
             Get
-        Return Me.GetDepreAmntfromDB
+        Return Me.GetDepreAmntfromDB + Me.DepreOpening
             End Get
         End Property
 
@@ -1706,82 +1706,98 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
             Next
         End Function
-        Public Shared Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "AssetStock"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Public Shared Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "AssetStock"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-            'Items()
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "Linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "Linenumber"
+      'Items()
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "Linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "Linenumber"
 
-            Dim csType As New TreeTextColumn
-            csType.MappingName = "DocType"
-            csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.DocTypeHeaderText}")
-            csType.NullText = ""
-            csType.ReadOnly = True
+      Dim csType As New TreeTextColumn
+      csType.MappingName = "DocType"
+      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.DocTypeHeaderText}")
+      csType.NullText = ""
+      csType.ReadOnly = True
 
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "DocCode"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.ToolCodeHeaderText}")
-            csCode.NullText = ""
-            csCode.ReadOnly = True
+      Dim csMCode As New TreeTextColumn
+      csMCode.MappingName = "MainCode"
+      csMCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.ToolCodeHeaderText}")
+      csMCode.NullText = ""
+      csMCode.ReadOnly = True
 
-            Dim csName As New TreeTextColumn
-            csName.MappingName = "DocName"
-            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.NameHeaderText}")
-            csName.NullText = ""
-            csName.ReadOnly = True
+      Dim csMName As New TreeTextColumn
+      csMName.MappingName = "MainName"
+      csMName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.NameHeaderText}")
+      csMName.NullText = ""
+      csMName.ReadOnly = True
+
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "ItemCode"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.ToolCodeHeaderText}")
+      csCode.NullText = ""
+      csCode.ReadOnly = True
+
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "ItemName"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.NameHeaderText}")
+      csName.NullText = ""
+      csName.ReadOnly = True
 
 
-            Dim csFromCCcode As New TreeTextColumn
-            csFromCCcode.MappingName = "FromCCcode"
-            csFromCCcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CCcodeHeaderText}")
-            csFromCCcode.NullText = ""
-            csFromCCcode.ReadOnly = True
+      Dim csFromCCcode As New TreeTextColumn
+      csFromCCcode.MappingName = "FromCCcode"
+      csFromCCcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CCcodeHeaderText}")
+      csFromCCcode.NullText = ""
+      csFromCCcode.ReadOnly = True
 
-            Dim csFromCCname As New TreeTextColumn
-            csFromCCname.MappingName = "FromCCname"
-            csFromCCname.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CCnameHeaderText}")
-            csFromCCname.NullText = ""
-            csFromCCname.ReadOnly = True
+      Dim csFromCCname As New TreeTextColumn
+      csFromCCname.MappingName = "FromCCname"
+      csFromCCname.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CCnameHeaderText}")
+      csFromCCname.NullText = ""
+      csFromCCname.ReadOnly = True
 
-            'Dim csAmount As New TreeTextColumn
-            'csAmount.MappingName = "Amount"
-            'csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.AmountHeaderText}")
-            'csAmount.NullText = ""
-            'csAmount.ReadOnly = True
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csType)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csName)
-            dst.GridColumnStyles.Add(csFromCCcode)
-            dst.GridColumnStyles.Add(csFromCCname)
-            'dst.GridColumnStyles.Add(csAmount)
+      'Dim csAmount As New TreeTextColumn
+      'csAmount.MappingName = "Amount"
+      'csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.AmountHeaderText}")
+      'csAmount.NullText = ""
+      'csAmount.ReadOnly = True
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csType)
+      dst.GridColumnStyles.Add(csMCode)
+      dst.GridColumnStyles.Add(csMName)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csFromCCcode)
+      dst.GridColumnStyles.Add(csFromCCname)
+      'dst.GridColumnStyles.Add(csAmount)
 
-            Return dst
-        End Function
+      Return dst
+    End Function
 
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As New TreeTable("AssetStock")
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("AssetStock")
 
-            myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("DocCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("DocName", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("FromCCcode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("FromCCname", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("FromCC", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("ToCC", GetType(String)))
-            'myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
-            Return myDatatable
-        End Function
+      myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("LineNumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("MainCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("MainName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ItemCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ItemName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCcode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCCname", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("FromCC", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("ToCC", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      Return myDatatable
+    End Function
 #End Region
 
         Public Function ValidCostCenter(ByVal cc As CostCenter) As Boolean
@@ -2440,43 +2456,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Items"
-        Public Overloads Sub ReLoadItems()
-            Me.IsInitialized = False
-            m_itemTable = GetSchemaTable()
-            LoadItems()
-            Me.IsInitialized = True
-        End Sub
-        Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.IsInitialized = False
-            m_itemTable = GetSchemaTable()
-            Me.IsInitialized = True
-        End Sub
-        Private Sub LoadItems()
-            If Not Me.Originated Then
-                Return
-            End If
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-            , CommandType.StoredProcedure _
-            , "GetAssetStocks" _
-            , New SqlParameter("@asset_id", Me.Id) _
-            )
+    Public Overloads Sub ReLoadItems()
+      Me.IsInitialized = False
+      m_itemTable = GetSchemaTable()
+      LoadItems()
+      Me.IsInitialized = True
+    End Sub
+    Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.IsInitialized = False
+      m_itemTable = GetSchemaTable()
+      Me.IsInitialized = True
+    End Sub
+    Private Sub LoadItems()
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetAssetStocks" _
+      , New SqlParameter("@asset_id", Me.Id) _
+      )
 
-            Dim i As Integer = 0
-            Dim amt As Decimal = 0
-            For Each row As DataRow In ds.Tables(0).Rows
-                i += 1
-                Dim dr As TreeRow = m_itemTable.Childs.Add
-                dr("Linenumber") = i
-                dr("DocType") = row("DocType")
-                dr("DocCode") = row("DocCode")
-                dr("DocName") = row("DocName")
-                dr("FromCCcode") = row("FromCCcode")
-                dr("FromCCname") = row("FromCCname")
-                'If IsNumeric(row("Amount")) Then
-                '  dr("Amount") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-                'End If
-            Next
-        End Sub
+      Dim i As Integer = 0
+      Dim amt As Decimal = 0
+      For Each row As DataRow In ds.Tables(0).Rows
+        i += 1
+        Dim dr As TreeRow = m_itemTable.Childs.Add
+        dr("Linenumber") = i
+        dr("DocType") = row("DocType")
+        dr("MainCode") = row("MainCode")
+        dr("MainName") = row("MainName")
+        dr("ItemCode") = row("ItemCode")
+        dr("ItemName") = row("ItemName")
+        dr("FromCCcode") = row("FromCCcode")
+        dr("FromCCname") = row("FromCCname")
+        'If IsNumeric(row("Amount")) Then
+        '  dr("Amount") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
+        'End If
+      Next
+    End Sub
 #End Region
 
 
