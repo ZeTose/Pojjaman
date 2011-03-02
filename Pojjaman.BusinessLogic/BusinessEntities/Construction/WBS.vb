@@ -394,6 +394,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_ListNumber As String
     Private m_direction As Byte
     Private m_referenced As Boolean
+
+    Private m_mcbs As CBS
+    Private m_lcbs As CBS
+    Private m_ecbs As CBS
 #End Region
 
 #Region "Constructors"
@@ -425,12 +429,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_finishdate = Now
         .m_qty = 0
         .m_unit = New Unit
+
+        .m_mcbs = New CBS
+        .m_lcbs = New CBS
+        .m_ecbs = New CBS
       End With
     End Sub
     Private m_dr As DataRow
     Private m_aliasPrefix As String = ""
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
+
+      Dim drh As New DataRowHelper(dr)
+
       If dr.Table.Columns.Contains(aliasPrefix & "wbs_note") AndAlso Not dr.IsNull(aliasPrefix & "wbs_note") Then
         Me.m_note = CStr(dr(aliasPrefix & "wbs_note"))
       End If
@@ -473,6 +484,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains("isReference") AndAlso Not dr.IsNull("isReference") Then
         m_referenced = CBool(dr("isReference").ToString)
       End If
+
+      m_mcbs = New CBS(drh.GetValue(Of Integer)("boqi_mcbs"))
+      m_lcbs = New CBS(drh.GetValue(Of Integer)("boqi_lcbs"))
+      m_ecbs = New CBS(drh.GetValue(Of Integer)("boqi_ecbs"))
 
       m_dr = dr
       m_aliasPrefix = aliasPrefix
@@ -560,7 +575,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Boolean)
         m_referenced = value
       End Set
-    End Property    Public Property OwnerMatBudgetAmount As Decimal    Public Property OwnerLabBudgetAmount As Decimal    Public Property OwnerEqBudgetAmount As Decimal#Region "Cost Control"    Public Shared WBSReportType As Boq.WBSReportType = WBSReportType.GoodsReceipt    Public Shared Function GetAmountFromSproc(ByVal sproc As String, ByVal toDate As Date, ByVal id As Integer, ByVal isMarkup As Boolean, ByVal view As Integer, ByVal requestor As Integer) As Decimal      Try
+    End Property    Public Property OwnerMatBudgetAmount As Decimal    Public Property OwnerLabBudgetAmount As Decimal    Public Property OwnerEqBudgetAmount As Decimal    Public Property MatCBS As CBS
+      Get
+        Return m_mcbs
+      End Get
+      Set(ByVal value As CBS)
+        m_mcbs = value
+      End Set
+    End Property
+    Public Property LabCBS As CBS
+      Get
+        Return m_lcbs
+      End Get
+      Set(ByVal value As CBS)
+        m_lcbs = value
+      End Set
+    End Property
+    Public Property EqCBS As CBS
+      Get
+        Return m_ecbs
+      End Get
+      Set(ByVal value As CBS)
+        m_ecbs = value
+      End Set
+    End Property#Region "Cost Control"    Public Shared WBSReportType As Boq.WBSReportType = WBSReportType.GoodsReceipt    Public Shared Function GetAmountFromSproc(ByVal sproc As String, ByVal toDate As Date, ByVal id As Integer, ByVal isMarkup As Boolean, ByVal view As Integer, ByVal requestor As Integer) As Decimal      Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 ConnectionString _
                 , CommandType.StoredProcedure _

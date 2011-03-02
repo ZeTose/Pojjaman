@@ -81,7 +81,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 CBSCodeList.Add(c.Code, c)
 
                 m_idHash(c.Id) = c
-                m_codeHash(c.Code) = c
+        m_codeHash(c.Code.ToLower) = c
             Next
             m_tree.AddRange(orphans)
         End Sub
@@ -131,7 +131,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim cb As New CBS
                 cb.Construct(row, "")
                 m_idHash(cb.Id) = cb
-                m_codeHash(cb.Code) = cb
+        m_codeHash(cb.Code.ToLower) = cb
             Next
         End Sub
         Public Sub New(ByVal myParent As CBS)
@@ -141,7 +141,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'MyBase.New(id)
             If id = 0 Then
                 Return
-            End If
+      End If
+      If m_idHash Is Nothing Then
+        RefreshEntityTable()
+      End If
             Dim cb As CBS = CType(m_idHash(id), CBS)
             If Not cb Is Nothing Then
                 Me.Clone(cb)
@@ -151,8 +154,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'MyBase.New(code)
             If code = "" Then
                 Return
-            End If
-            Dim cb As CBS = CType(m_codeHash(code), CBS)
+      End If
+      If m_codeHash Is Nothing Then
+        RefreshEntityTable()
+      End If
+      Dim cb As CBS = CType(m_codeHash(code.ToLower), CBS)
             If Not cb Is Nothing Then
                 Me.Clone(cb)
             End If

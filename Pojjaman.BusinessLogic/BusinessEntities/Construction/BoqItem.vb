@@ -50,6 +50,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_qtyPerWBS As Decimal
 
+    Private m_mcbs As CBS
+    Private m_lcbs As CBS
+    Private m_ecbs As CBS
+
+
 #End Region
 
 #Region "Constructors"
@@ -58,6 +63,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_entity = New BlankItem("")
       Me.m_unit = New Unit
       Me.m_itemType = New BOQItemType(42)
+      Me.m_mcbs = New CBS
+      Me.m_lcbs = New CBS
+      Me.m_ecbs = New CBS
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
@@ -70,6 +78,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String, ByVal boq As BOQ)
       With Me
+        Dim drh As New DataRowHelper(dr)
         If dr.Table.Columns.Contains(aliasPrefix & "boqi_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "boqi_lineNumber") Then
           .m_lineNumber = CInt(dr(aliasPrefix & "boqi_lineNumber"))
         End If
@@ -171,6 +180,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "boqi_qtyPerWBS") AndAlso Not dr.IsNull(aliasPrefix & "boqi_qtyPerWBS") Then
           .m_qtyPerWBS = CDec(dr(aliasPrefix & "boqi_qtyPerWBS"))
         End If
+
+        .m_mcbs = New CBS(drh.GetValue(Of Integer)("boqi_mcbs"))
+        .m_lcbs = New CBS(drh.GetValue(Of Integer)("boqi_lcbs"))
+        .m_ecbs = New CBS(drh.GetValue(Of Integer)("boqi_ecbs"))
+
       End With
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
@@ -251,6 +265,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return TotalCost + Me.DirectCostAdjust
       End Get
     End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property
+
+    Public Property MatCBS As CBS
+      Get
+        Return m_mcbs
+      End Get
+      Set(ByVal value As CBS)
+        m_mcbs = value
+      End Set
+    End Property
+    Public Property LabCBS As CBS
+      Get
+        Return m_lcbs
+      End Get
+      Set(ByVal value As CBS)
+        m_lcbs = value
+      End Set
+    End Property
+    Public Property EqCBS As CBS
+      Get
+        Return m_ecbs
+      End Get
+      Set(ByVal value As CBS)
+        m_ecbs = value
+      End Set
+    End Property
+
 #End Region
 
 #Region "Methods"

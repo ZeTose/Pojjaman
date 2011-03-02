@@ -595,7 +595,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If opdlg.ShowDialog = DialogResult.OK Then
                 Dim i As New Excel.Import(opdlg.FileName)
                 i.Where = "Type in ('WBS','item')"
-                i.Fields = "Type,[Level],EntityType,Code,Description,Note,Qty,Unit,UMC,UEC,ULC"
+        i.Fields = "Type,[Level],EntityType,Code,Description,Note,Qty,Unit,UMC,UEC,ULC,MCBS,LCBS,ECBS"
                 Dim dt As DataTable = i.Query()
                 Me.m_entity.Import(dt)
             End If

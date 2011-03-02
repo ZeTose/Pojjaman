@@ -8,7 +8,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Inherits IIdentifiable
         Property [Date]() As Date
         Property Person() As IBillablePerson
-        ReadOnly Property NoVat() As Boolean
+    ReadOnly Property NoVat() As Boolean
     Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
         Property Vat() As Vat
         Function GetAfterTax() As Decimal

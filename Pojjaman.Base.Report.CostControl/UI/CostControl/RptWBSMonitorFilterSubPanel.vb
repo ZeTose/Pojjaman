@@ -1,5 +1,5 @@
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels

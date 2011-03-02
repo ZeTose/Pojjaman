@@ -230,6 +230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         currWBS = Me.WBSCollection.GetRoot
       End If
       For Each row As DataRow In dt.Rows
+        Dim drh As New DataRowHelper(row)
         If Not row.IsNull("Type") Then
           Select Case CStr(row("Type")).ToLower
             Case "wbs"
@@ -280,6 +281,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
                   End If
                   '------------------------END TWC----------------------
+                  newWbs.MatCBS = New CBS(RTrim(LTrim(drh.GetValue(Of String)("MCBS"))))
+                  newWbs.LabCBS = New CBS(RTrim(LTrim(drh.GetValue(Of String)("LCBS"))))
+                  newWbs.EqCBS = New CBS(RTrim(LTrim(drh.GetValue(Of String)("ECBS"))))
 
                   currWBS = newWbs
                   currLevel = newLevel
@@ -329,6 +333,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         Dim s As String = row("Description").ToString
                         If s.EndsWith(suffix) Then
                           item.EntityName = s.Remove(s.Length - suffix.Length, suffix.Length)
+                        Else
+                          item.EntityName = s
                         End If
                       Else
                         item.EntityName = ""
@@ -373,6 +379,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     item.UEC = CDec(row("UEC"))
                   End If
                 End If
+
+                item.MatCBS = New CBS(drh.GetValue(Of String)("MCBS"))
+                item.LabCBS = New CBS(drh.GetValue(Of String)("LCBS"))
+                item.EqCBS = New CBS(drh.GetValue(Of String)("ECBS"))
 
                 If Not row.IsNull("Note") Then
                   item.Note = CStr(row("Note"))
@@ -740,6 +750,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("WBSQty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("TotalPerWBS", GetType(String)))
 
+      myDatatable.Columns.Add(New DataColumn("boqi_mcbs", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("boqi_lcbs", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("boqi_ecbs", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("boqi_umc", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("TotalMaterialCost", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("boqi_ulc", GetType(String)))
@@ -1376,6 +1389,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wulc = tlab / allQ
               wuec = teq / allQ
             End If
+
+            tr("boqi_mcbs") = myWbs.MatCBS.Code
+            tr("boqi_lcbs") = myWbs.LabCBS.Code
+            tr("boqi_ecbs") = myWbs.EqCBS.Code
+
             tr("boqi_umc") = Configuration.FormatToString(wumc, DigitConfig.UnitPrice)
             tr("boqi_ulc") = Configuration.FormatToString(wulc, DigitConfig.UnitPrice)
             tr("boqi_uec") = Configuration.FormatToString(wuec, DigitConfig.UnitPrice)
@@ -1429,6 +1447,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itr("TotalEquipmentCost") = Configuration.FormatToString(item.TotalEquipmentCost, DigitConfig.Price)
             itr("Total") = Configuration.FormatToString(item.TotalCost, DigitConfig.Price)
             itr("boqi_note") = item.Note
+
+            itr("boqi_mcbs") = item.MatCBS.Code
+            itr("boqi_lcbs") = item.LabCBS.Code
+            itr("boqi_ecbs") = item.EqCBS.Code
 
             itr("QtyPerWBS") = Configuration.FormatToString(item.QtyPerWBS, DigitConfig.Qty)
             itr("TotalPerWBS") = Configuration.FormatToString(item.TotalPerWBS, DigitConfig.Price)
@@ -3944,6 +3966,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           drItem("boqi_umc") = item.UMC
           drItem("boqi_ulc") = item.ULC
           drItem("boqi_uec") = item.UEC
+          drItem("boqi_mcbs") = ValidIdOrDBNull(item.MatCBS)
+          drItem("boqi_lcbs") = ValidIdOrDBNull(item.LabCBS)
+          drItem("boqi_ecbs") = ValidIdOrDBNull(item.EqCBS)
           drItem("boqi_note") = item.Note
           dtBoqItem.Rows.Add(drItem)
           item.LineNumber = boqLine
@@ -4104,6 +4129,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         drWbs("wbs_finishdate") = myWbs.FinishDate
         drWbs("wbs_qty") = myWbs.Qty
         drWbs("wbs_unit") = ValidIdOrDBNull(myWbs.Unit)
+        drWbs("wbs_mcbs") = ValidIdOrDBNull(myWbs.MatCBS)
+        drWbs("wbs_lcbs") = ValidIdOrDBNull(myWbs.LabCBS)
+        drWbs("wbs_ecbs") = ValidIdOrDBNull(myWbs.eqcbs)
         If drs.Length = 0 Then
           dtWbs.Rows.Add(drWbs)
           Dim oldParId As Integer = myWbs.Id

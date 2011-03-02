@@ -1787,6 +1787,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csQty.Width = 55
       csQty.ReadOnly = includeQtyPerWBS
 
+      Dim csMCBS As New TreeTextColumn
+      csMCBS.MappingName = "boqi_mcbs"
+      csMCBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.MatCbs}")
+      csMCBS.NullText = ""
+      csMCBS.DataAlignment = HorizontalAlignment.Center
+      csMCBS.TextBox.Name = "boqi_mcbs"
+      csMCBS.Width = 0
 
       Dim csUMC As New TreeTextColumn
       csUMC.MappingName = "boqi_umc"
@@ -1808,6 +1815,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csTotalMC.ReadOnly = Not Me.m_entity.HasMaterialCost
       csTotalMC.Width = 55
 
+      Dim cslcbs As New TreeTextColumn
+      cslcbs.MappingName = "boqi_lcbs"
+      cslcbs.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LabCbs}")
+      cslcbs.NullText = ""
+      cslcbs.DataAlignment = HorizontalAlignment.Center
+      cslcbs.TextBox.Name = "boqi_lcbs"
+      cslcbs.Width = 0
+
       Dim csULC As New TreeTextColumn
       csULC.MappingName = "boqi_ulc"
       csULC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.ULCHeaderText}")
@@ -1827,6 +1842,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csTotalLC.TextBox.Name = "TotalLaborCost"
       csTotalLC.ReadOnly = Not Me.m_entity.HasLaborCost
       csTotalLC.Width = 55
+
+      Dim csecbs As New TreeTextColumn
+      csecbs.MappingName = "boqi_ecbs"
+      csecbs.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.EqCbs}")
+      csecbs.NullText = ""
+      csecbs.DataAlignment = HorizontalAlignment.Center
+      csecbs.TextBox.Name = "boqi_ecbs"
+      csecbs.Width = 0
 
       Dim csUEC As New TreeTextColumn
       csUEC.MappingName = "boqi_uec"
@@ -1909,10 +1932,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       dst.GridColumnStyles.Add(csQty)
+      dst.GridColumnStyles.Add(csMCBS)
       dst.GridColumnStyles.Add(csUMC)
       dst.GridColumnStyles.Add(csTotalMC)
+      dst.GridColumnStyles.Add(cslcbs)
       dst.GridColumnStyles.Add(csULC)
       dst.GridColumnStyles.Add(csTotalLC)
+      dst.GridColumnStyles.Add(csecbs)
       dst.GridColumnStyles.Add(csUEC)
       dst.GridColumnStyles.Add(csTotalEC)
 
