@@ -1227,12 +1227,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub CellDblClick(ByVal sender As Object, ByVal e As System.EventArgs)
 
             Dim doc As ReceiveItem = Me.CurrentItem
-            If doc Is Nothing Then
-                Return
-            End If
+      If doc Is Nothing OrElse doc.Entity Is Nothing Then
+        Return
+      End If
 
             Dim docId As Integer
-            Dim docType As Integer
+      Dim docType As Integer
+
 
             docId = doc.Entity.Id
             docType = doc.EntityType.Value
