@@ -90,9 +90,9 @@
 				<ToolbarItem id="NoteEntity2" icon="Icons.16x16.Info" tooltip="${res:XML.MainMenu.FileMenu.NoteEntity.Description}" class="Longkong.Pojjaman.Commands.NoteEntity"/>	
 			</Conditional>		
 			<ToolbarItem id="AcctSeparator" tooltip="-"/>
-			<ToolbarItem id="Cut" icon="Icons.16x16.CutIcon" label="${res:XML.MainMenu.EditMenu.Cut}" tooltip="${res:XML.MainMenu.EditMenu.Cut.Description}" class="Longkong.Pojjaman.Commands.Cut"/>
-			<ToolbarItem id="Copy" icon="Icons.16x16.CopyIcon" label="${res:XML.MainMenu.EditMenu.Copy}" tooltip="${res:XML.MainMenu.EditMenu.Copy.Description}" class="Longkong.Pojjaman.Commands.Copy"/>
-			<ToolbarItem id="Paste" icon="Icons.16x16.PasteIcon" label="${res:XML.MainMenu.EditMenu.Paste}" tooltip="${res:XML.MainMenu.EditMenu.Paste.Description}" class="Longkong.Pojjaman.Commands.Paste"/>
+			<ToolbarItem id="Cut" icon="Icons.16x16.CutIcon" shortcut="Control|X" label="${res:XML.MainMenu.EditMenu.Cut}" tooltip="${res:XML.MainMenu.EditMenu.Cut.Description}" class="Longkong.Pojjaman.Commands.Cut"/>
+			<ToolbarItem id="Copy" icon="Icons.16x16.CopyIcon" shortcut="Control|C" label="${res:XML.MainMenu.EditMenu.Copy}" tooltip="${res:XML.MainMenu.EditMenu.Copy.Description}" class="Longkong.Pojjaman.Commands.Copy"/>
+			<ToolbarItem id="Paste" icon="Icons.16x16.PasteIcon" shortcut="Control|V" label="${res:XML.MainMenu.EditMenu.Paste}" tooltip="${res:XML.MainMenu.EditMenu.Paste.Description}" class="Longkong.Pojjaman.Commands.Paste"/>
 			<!--<ToolbarItem id="Delete" icon="Icons.16x16.DeleteIcon" label="${res:XML.MainMenu.EditMenu.Delete}" tooltip="${res:XML.MainMenu.EditMenu.Delete.Description}" class="Longkong.Pojjaman.Commands.Delete"/>
 			<ToolbarItem id="Undo" icon="Icons.16x16.UndoIcon" label="${res:XML.MainMenu.EditMenu.Undo}" tooltip="${res:XML.MainMenu.EditMenu.Undo.Description}" class="Longkong.Pojjaman.Commands.Undo"/>
 			<ToolbarItem id="Redo" icon="Icons.16x16.RedoIcon" label="${res:XML.MainMenu.EditMenu.Redo}" tooltip="${res:XML.MainMenu.EditMenu.Redo.Description}" class="Longkong.Pojjaman.Commands.Redo"/>-->
