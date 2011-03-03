@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Configuration
 Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class AdvancePayClosedStatus
@@ -217,7 +218,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_amt = Value
-        
+
       End Set
     End Property
     Public Property TaxType() As TaxType Implements IAdvancePayItemAble.TaxType
@@ -822,6 +823,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
     End Sub
+    
 #End Region
 #Region "IWitholdingTaxable"
     Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase

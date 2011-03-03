@@ -1975,6 +1975,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
             Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            Dim novat As Boolean = Me.txtInvoiceCode.Text.Length = 0
+            Me.m_entity.SetNoVat(novat)
+            UpdateVatAutogenStatus()
             dirtyFlag = True
           End If
         Case "txtinvoicedate"
@@ -2164,7 +2167,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         vi.Code = ""
         Me.m_entity.Vat.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        If Me.m_entity.NoVat Then
+          Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+        Else
+          Me.Validator.SetRequired(Me.txtInvoiceCode, True)
+        End If
         Me.txtInvoiceCode.Text = m_oldInvoiceCode
         Me.txtInvoiceCode.ReadOnly = False
         Me.m_entity.Vat.AutoGen = False

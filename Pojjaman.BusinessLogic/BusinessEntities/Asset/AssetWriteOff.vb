@@ -8,6 +8,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
 
@@ -1958,9 +1959,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ' cr.ภาษีขาย
     Private Sub SetGLI7_7(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
-      If Me.TaxAmount > 0 Then
+      If Me.TaxAmount > 0 AndAlso Not Me.NoVat Then
         ji = New JournalEntryItem
         ji.Mapping = "I7.7"
+        ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+        ji.CostCenter = Me.FromCostCenter
+        jiColl.Add(ji)
+      End If
+
+      If Me.TaxAmount > 0 AndAlso Me.NoVat Then
+        ji = New JournalEntryItem
+        ji.Mapping = "I7.7.1"
         ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
         ji.CostCenter = Me.FromCostCenter
         jiColl.Add(ji)
@@ -2110,11 +2119,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
       Return Me.BeforeTax
     End Function
+    Private m_NoVat As Nullable(Of Boolean)
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        Return Me.TaxType.Value = 0
+        If Not m_NoVat.HasValue Then
+          SetNoVat()
+        End If
+        Return m_NoVat.Value
       End Get
     End Property
+    Public Sub SetNoVat(ByVal novat As Boolean)
+      m_NoVat = novat
+    End Sub
+
+    Public Sub SetNoVat()
+      If Me.TaxType.Value = 0 OrElse Me.TaxAmount - Me.Vat.Amount > 0 _
+        OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
+        OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+        m_NoVat = True
+      Else
+        m_NoVat = False
+      End If
+    End Sub
+    Public Shared Function GetTaxBase(ByVal id As Integer) As Decimal
+      Dim ret As Decimal = 0
+      If id <= 0 Then
+        Return ret
+      End If
+
+      Dim RealConnectionString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(RealConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetAssetWriteOff" _
+      , New SqlParameter("@" & "eqtstock_id", id) _
+      )
+      If ds.Tables(0).Rows.Count = 1 Then
+        Dim dr As DataRow = ds.Tables(0).Rows(0)
+        If dr.Table.Columns.Contains("eqtstock_taxbase") _
+        AndAlso Not dr.IsNull("eqtstock_taxbase") Then
+          ret = CDec(dr("eqtstock_taxbase"))
+        End If
+      End If
+      Return ret
+    End Function
 #End Region
 
 #Region "IWitholdingTaxable"

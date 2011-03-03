@@ -1427,6 +1427,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.Vat.ItemCollection.Add(vitem)
             End If
           End If
+        ElseIf item.EntityId = 366 Then
+          If Not item.TaxType.Value = 0 Then
+            i += 1
+            Dim vitem As New VatItem
+            vitem.AutoGen = True
+            vitem.LineNumber = i
+            'Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me)
+            vitem.Code = ""          'newCode
+            'lastCode = newCode
+            vitem.DocDate = Me.DocDate
+            vitem.PrintName = Me.Customer.Name
+            vitem.PrintAddress = Me.Customer.BillingAddress
+            If Not item.DeductedTaxBase.HasValue Then
+              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+            End If
+            Dim mtb As Decimal = item.BeforeTax - item.DeductedTaxBase.Value
+            ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
+            'If item.BilledAmount <> item.UnreceivedAmount + mi.RetentionforBillIssue Then
+            '  mtb = (item.UnreceivedAmount / (item.BilledAmount - mi.RetentionforBillIssue)) * mtb
+            'End If
+            Dim amt As Decimal = item.Amount
+            Dim uamt As Decimal = item.UnreceivedAmount
+            '---------------------------------------------
+            Dim tb As Decimal = (amt / uamt) * mtb
+            '---------------------------------------------
+
+            vitem.TaxBase = tb
+            vitem.TaxRate = item.TaxRate
+            'If mi.CostCenter.Originated Then
+            '    vitem.CcId = mi.CostCenter.Id
+            'Else
+            '    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
+            'End If
+            vitem.CcId = GetAllCC.Id
+            vitem.Refdoc = Me.Id
+            vitem.RefdocType = Me.EntityId
+            If tb <> 0 Then
+              Me.Vat.ItemCollection.Add(vitem)
+            End If
+          End If
         End If
       Next
       '   If Me.Vat.ItemCollection.Amount = 0 Then
@@ -1601,6 +1641,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             item.TaxBase = GoodsSold.GetTaxBase(item.Id)
           ElseIf item.EntityId = 48 Then
             item.TaxBase = SaleCN.GetTaxBase(item.Id)
+          ElseIf item.EntityId = 366 Then
+            item.TaxBase = AssetWriteOff.GetTaxBase(item.Id)
           End If
           If Not item.DeductedTaxBase.HasValue Then
             If conn IsNot Nothing AndAlso trans IsNot Nothing Then

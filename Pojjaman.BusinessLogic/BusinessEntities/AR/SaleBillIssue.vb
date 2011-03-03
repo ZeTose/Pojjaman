@@ -1432,6 +1432,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If ds.Tables(0).Rows.Count > 0 Then
             Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
           End If
+        ElseIf Me.m_typeId = 366 Then 'ถ้าเป็นเอกสาร Writeoff asset
+          Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                  Me.ConnectionString _
+                  , CommandType.StoredProcedure _
+                  , "GetUnreceiveWriteOffAmount" _
+                  , New SqlParameter("@stock_id", Me.Id) _
+                  , New SqlParameter("@salebillii_salebilli", salebilli_id) _
+                  )
+          If ds.Tables(0).Rows.Count > 0 Then
+            Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
+          End If
         Else
           Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                   Me.ConnectionString _
@@ -1507,6 +1518,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Me.ConnectionString _
                   , CommandType.StoredProcedure _
                   , "GetUnreceiveSaleCNAmount" _
+                  , New SqlParameter("@stock_id", Me.Id) _
+                  , New SqlParameter("@receivesi_receives", receives_id) _
+                  )
+          If ds.Tables(0).Rows.Count > 0 Then
+            Return Configuration.Format(CDec(ds.Tables(0).Rows(0)(0)), DigitConfig.Price)
+          End If
+        ElseIf Me.m_typeId = 366 Then 'ถ้าเป็นเอกสาร Writeoff asset
+          Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                  Me.ConnectionString _
+                  , CommandType.StoredProcedure _
+                  , "GetUnreceiveWriteOffAmount" _
                   , New SqlParameter("@stock_id", Me.Id) _
                   , New SqlParameter("@receivesi_receives", receives_id) _
                   )
