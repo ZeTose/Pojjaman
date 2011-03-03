@@ -2018,6 +2018,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(7)() As Filter
       Dim grNeedsApproval As Boolean = False
       grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
+      Dim paNeedsApproval As Boolean = CBool(Configuration.GetConfig("ApprovePA"))
 
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45)), _
       New Filter("grNeedsApproval", grNeedsApproval)}
@@ -2039,10 +2040,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(5) = New Filter() {New Filter("IDList", GetRetItemIDList(45)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
       filters(6) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
-     , New Filter("grNeedsApproval", grNeedsApproval)}
+     , New Filter("grNeedsApproval", paNeedsApproval)}
 
-      filters(7) = New Filter() {New Filter("IDList", GetItemIDList(292))}
-      'New Filter("remainMustValid", True), _
+      filters(7) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
+      , New Filter("grNeedsApproval", paNeedsApproval)}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
       Dim entities(7) As ISimpleEntity
