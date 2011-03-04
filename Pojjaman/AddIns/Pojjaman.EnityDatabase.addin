@@ -99,7 +99,7 @@
         <MenuItem id="EquipmentToolStock" label="${res:MainMenu.EquipmentToolStock}">
           <MenuItem id="Tool" label="${res:MainMenu.ItemMenu.ToolList}" icon="Icons.16x16.Tool" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Tool"/>
           <MenuItem id="ToolGroup" label="${res:MainMenu.ItemMenu.ToolGroup}" icon="Icons.16x16.ToolGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolGroup"/>
-          <MenuItem id="Equipment" label="${res:MainMenu.StockMenu.Equipment}" icon="Icons.16x16.Equipment" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Equipment"/>
+          <!--<MenuItem id="Equipment" label="${res:MainMenu.StockMenu.Equipment}" icon="Icons.16x16.Equipment" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Equipment"/>-->
           <MenuItem id="EquipmentToolStockSeparator1" label="-"></MenuItem>
           <MenuItem id="EqtWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw"/>
           <MenuItem id="EqtReturn" label="${res:MainMenu.StockMenu.EqtReturn}" icon="Icons.16x16.ToolReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolReturn"/>

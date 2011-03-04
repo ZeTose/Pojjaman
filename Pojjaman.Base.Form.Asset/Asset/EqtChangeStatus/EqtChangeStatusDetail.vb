@@ -699,10 +699,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "eqtstocki_lineNumber"
 
       Dim csType As DataGridComboColumn
+      'เอาเครื่องจักรออกก่อน ลดความซ้ำซ้อน
+      'csType = New DataGridComboColumn("Type" _
+      '  , CodeDescription.GetCodeList("eqtstocki_entityType" _
+      '                                , "code_value not in (28,348)") _
+      '  , "code_description", "code_value")
       csType = New DataGridComboColumn("Type" _
-        , CodeDescription.GetCodeList("eqtstocki_entityType" _
-                                      , "code_value not in (28,348)") _
-        , "code_description", "code_value")
+       , CodeDescription.GetCodeList("eqtstocki_entityType" _
+                                     , "code_value not in (28,348,346)") _
+       , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentDetail.TypeHeaderText}")
       csType.Width = 40
       csType.NullText = String.Empty

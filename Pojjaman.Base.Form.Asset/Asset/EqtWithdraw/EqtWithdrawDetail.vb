@@ -810,10 +810,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "eqtstocki_lineNumber"
 
       Dim csType As DataGridComboColumn
+      'เอาเครื่องจักรออกก่อน ลดความซ้ำซ้อน
+      'csType = New DataGridComboColumn("Type" _
+      '  , CodeDescription.GetCodeList("eqtstocki_entityType" _
+      '                                , "code_value not in (28,348)") _
+      '  , "code_description", "code_value")
       csType = New DataGridComboColumn("Type" _
-        , CodeDescription.GetCodeList("eqtstocki_entityType" _
-                                      , "code_value not in (28,348)") _
-        , "code_description", "code_value")
+       , CodeDescription.GetCodeList("eqtstocki_entityType" _
+                                     , "code_value not in (28,348,346)") _
+       , "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentDetail.TypeHeaderText}")
       csType.Width = 40
       csType.NullText = String.Empty
@@ -1344,19 +1349,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         activeIndex = 1
       End If
 
-      Dim filters(1)() As Filter
+      Dim filters(0)() As Filter
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(19))}
-      filters(1) = New Filter() {New Filter("IDList", GetItemIDList(342))}
+      'filters(1) = New Filter() {New Filter("IDList", GetItemIDList(346))}
 
       Dim filterEntities(5) As ArrayList
-      For i As Integer = 0 To 1
+      For i As Integer = 0 To 0
         filterEntities(i) = New ArrayList
         filterEntities(i).Add(Me.m_entity.FromCC)
       Next
 
-      Dim entities(1) As ISimpleEntity
+      Dim entities(0) As ISimpleEntity
       entities(0) = New ToolForSelection
-      entities(1) = New EqItemForSelection
+      'entities(1) = New EqItemForSelection
 
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, activeIndex)
 
