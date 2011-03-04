@@ -86,10 +86,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.Rows.FrozenCount = 1
 
       Dim indent As String = Space(3)
-      m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetTypeCode}")              '"ประเภทสินทรัพย์"
-      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetTypeName}")            '"ประเภทสินทรัพย์"
-      m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetAcctCode}")              '"รหัสบัญชี"
-      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetAcctName}")            '"ชื่อบัญชีสินทรัพย์"
+      m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetTypeCode}")              '"ประเภทสินทรัพย์"
+      m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetTypeName}")            '"ประเภทสินทรัพย์"
+      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetAcctCode}")              '"รหัสบัญชี"
+      m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetAcctName}")            '"ชื่อบัญชีสินทรัพย์"
 
       m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.No}")  '"No."
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetCode}")  '"รหัสสินทรัพย์"
@@ -208,11 +208,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim ast As DataRowHelper
           If AsType.ContainsKey(rType) Then
             ast = New DataRowHelper(AsType.Item(rType))
-            m_grid(currAccountIndex, 1).CellValue = ast.GetValue(Of String)("assettype_code")
-            m_grid(currAccountIndex, 2).CellValue = ast.GetValue(Of String)("assettype_name")
-            m_grid(currAccountIndex, 3).CellValue = ast.GetValue(Of String)("AssetAcctCode")
-            m_grid(currAccountIndex, 4).CellValue = ast.GetValue(Of String)("AssetAcctName")
-            m_grid(currAccountIndex, 1).Tag = "Font.Bold"
+            m_grid(currAccountIndex, 2).CellValue = ast.GetValue(Of String)("assettype_code")
+            m_grid(currAccountIndex, 3).CellValue = ast.GetValue(Of String)("assettype_name")
+            m_grid(currAccountIndex, 4).CellValue = ast.GetValue(Of String)("AssetAcctCode")
+            m_grid(currAccountIndex, 5).CellValue = ast.GetValue(Of String)("AssetAcctName")
+            m_grid(currAccountIndex, 2).Tag = "Font.Bold"
           End If
           
           CurrType = rType
@@ -241,25 +241,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currAssetIndex, 18).CellValue = indent & darow.GetValue(Of String)("cc_code")
         m_grid(currAssetIndex, 19).CellValue = indent & darow.GetValue(Of String)("cc_name")
 
-        sumPrice = darow.GetValue(Of Decimal)("asset_buyPrice")
-        sumDepreBase = darow.GetValue(Of Decimal)("BalDepreBase")
-        sumWriteOff = darow.GetValue(Of Decimal)("WfAmt")
-        sumBalAsset = darow.GetValue(Of Decimal)("BalAsset")
-        sumDepre = darow.GetValue(Of Decimal)("Depre")
-        sumAccDepreBf = darow.GetValue(Of Integer)("BfAccDepre")
-        sumAccDepreWf = darow.GetValue(Of Decimal)("WfAccDp")
-        sumAccDepre = darow.GetValue(Of Decimal)("BalAccDp")
-        sumAssetValueRemain = darow.GetValue(Of Decimal)("AssetValueRemain")
+        sumPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
+        sumDepreBase += darow.GetValue(Of Decimal)("BalDepreBase")
+        sumWriteOff += darow.GetValue(Of Decimal)("WfAmt")
+        sumBalAsset += darow.GetValue(Of Decimal)("BalAsset")
+        sumDepre += darow.GetValue(Of Decimal)("Depre")
+        sumAccDepreBf += darow.GetValue(Of Integer)("BfAccDepre")
+        sumAccDepreWf += darow.GetValue(Of Decimal)("WfAccDp")
+        sumAccDepre += darow.GetValue(Of Decimal)("BalAccDp")
+        sumAssetValueRemain += darow.GetValue(Of Decimal)("AssetValueRemain")
 
-        totalPrice = darow.GetValue(Of Decimal)("asset_buyPrice")
-        totalDepreBase = darow.GetValue(Of Decimal)("BalDepreBase")
-        totalWriteOff = darow.GetValue(Of Decimal)("WfAmt")
-        totalBalAsset = darow.GetValue(Of Decimal)("BalAsset")
-        totalDepre = darow.GetValue(Of Decimal)("Depre")
-        totalAccDepreBf = darow.GetValue(Of Integer)("BfAccDepre")
-        totalAccDepreWf = darow.GetValue(Of Decimal)("WfAccDp")
-        totalAccDepre = darow.GetValue(Of Decimal)("BalAccDp")
-        totalAssetValueRemain = darow.GetValue(Of Decimal)("AssetValueRemain")
+        totalPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
+        totalDepreBase += darow.GetValue(Of Decimal)("BalDepreBase")
+        totalWriteOff += darow.GetValue(Of Decimal)("WfAmt")
+        totalBalAsset += darow.GetValue(Of Decimal)("BalAsset")
+        totalDepre += darow.GetValue(Of Decimal)("Depre")
+        totalAccDepreBf += darow.GetValue(Of Integer)("BfAccDepre")
+        totalAccDepreWf += darow.GetValue(Of Decimal)("WfAccDp")
+        totalAccDepre += darow.GetValue(Of Decimal)("BalAccDp")
+        totalAssetValueRemain += darow.GetValue(Of Decimal)("AssetValueRemain")
       Next
 
       'สำหรับสินทรัพย์ตัวสุดท้าย
@@ -279,16 +279,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.RowStyles(currAssetIndex).Font.Bold = True
       m_grid.RowStyles(currAssetIndex).ReadOnly = True
       m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Total}")   '"รวม"
-      m_grid(currAccountIndex, 8).CellValue = indent & Configuration.FormatToString(totalPrice, DigitConfig.Price)
-      m_grid(currAccountIndex, 9).CellValue = indent & Configuration.FormatToString(totalDepreBase, DigitConfig.Price)
-      m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(totalWriteOff, DigitConfig.Price)
-      m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(totalBalAsset, DigitConfig.Price)
-      m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
-      m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(totalAccDepreBf, DigitConfig.Price)
-      m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(totalAccDepreWf, DigitConfig.Price)
-      m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
-      m_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(totalAccDepre, DigitConfig.Price)
-      m_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(totalAssetValueRemain, DigitConfig.Price)
+      m_grid(currAssetIndex, 8).CellValue = indent & Configuration.FormatToString(totalPrice, DigitConfig.Price)
+      m_grid(currAssetIndex, 9).CellValue = indent & Configuration.FormatToString(totalDepreBase, DigitConfig.Price)
+      m_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(totalWriteOff, DigitConfig.Price)
+      m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(totalBalAsset, DigitConfig.Price)
+      m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
+      m_grid(currAssetIndex, 13).CellValue = Configuration.FormatToString(totalAccDepreBf, DigitConfig.Price)
+      m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(totalAccDepreWf, DigitConfig.Price)
+      m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
+      m_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(totalAccDepre, DigitConfig.Price)
+      m_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(totalAssetValueRemain, DigitConfig.Price)
       m_grid(currAssetIndex, 1).Tag = "Font.Bold"
 
       'Dim currAccountIndex As Integer = -1
