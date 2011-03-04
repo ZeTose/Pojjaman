@@ -229,8 +229,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trPaysDoc("col0") = indent & deh.GetValue(Of String)("pays_code")
               trPaysDoc("col1") = indent & deh.GetValue(Of Date)("pays_docdate").ToShortDateString
               trPaysDoc("col3") = indent & deh.GetValue(Of String)("entity_description")
-              trStockCode("col4") = deh.GetValue(Of String)("supplier_code")
-              trStockCode("col5") = deh.GetValue(Of String)("supplier_name")
+              trPaysDoc("col4") = deh.GetValue(Of String)("supplier_code")
+              trPaysDoc("col5") = deh.GetValue(Of String)("supplier_name")
               trPaysDoc("col10") = indent & Configuration.FormatToString(deh.GetValue(Of Decimal)("dueVat_base"), DigitConfig.Price)
               trPaysDoc("col11") = indent & Configuration.FormatToString(deh.GetValue(Of Decimal)("dueVat_amt"), DigitConfig.Price)
               tmpDueVatBase = deh.GetValue(Of Decimal)("dueVat_base")
@@ -267,7 +267,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               '  End If
               'End If
 
-                trPaysDoc("col12") = deh.GetValue(Of String)("gl_note")
+              trPaysDoc("col14") = deh.GetValue(Of String)("gl_note")
               sumDueVatBase += tmpDueVatBase
               sumDueVatAmt += tmpDueVatAmt
               currStockId = stockRow("stock_id").ToString
