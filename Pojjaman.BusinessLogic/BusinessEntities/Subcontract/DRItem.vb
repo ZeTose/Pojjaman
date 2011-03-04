@@ -1263,7 +1263,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               row.SetColumnError("dri_itemName", "")
             End If
-            If Not IsNumeric(dri_qty) Then 'OrElse CDec(poi_qty) <= 0 Then
+            If Not IsNumeric(dri_qty) AndAlso Not Me.Dr.Closing Then 'OrElse CDec(poi_qty) <= 0 Then
               'If isClosed Then
               '    row.SetColumnError("poi_qty", "")
               'Else
