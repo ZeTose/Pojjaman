@@ -6,6 +6,8 @@ Imports System.Configuration
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Imports Longkong.Core.AddIns
+Imports Longkong.Core.Properties
+Imports System.Xml
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Enum DigitConfig
@@ -492,6 +494,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Nothing
     End Function
 #End Region
+
+    Public Shared Function CheckGigaSiteRight() As Boolean
+      Dim properties As ConfigurationService = CType(ServiceManager.Services.GetService(GetType(ConfigurationService)), ConfigurationService)
+      Dim r As Object = properties.GetProperty("Longkong.Pojjaman.GigaSiteConfiguration")
+      Dim isGigaSiteRight As Boolean = False
+      If r IsNot Nothing AndAlso TypeOf r Is XmlElement Then
+        Dim element As XmlElement = CType(r, XmlElement)
+        Dim nodes As XmlNodeList = element.Item("GigaSiteRelease").ChildNodes
+        For Each chilenodes As XmlElement In nodes
+          If chilenodes.Name = "RealGigaSiteRelease" Then
+            For Each el As XmlElement In chilenodes
+              If el.Name = "RealGigaSiteRelease" Then
+                isGigaSiteRight = CBool(el.Attributes("right").InnerText) 'el.Attributes("current").InnerText
+              End If
+            Next
+          End If
+        Next
+
+      End If
+
+      Return isGigaSiteRight
+
+    End Function
+
   End Class
   Public Class MoneyConverter
 

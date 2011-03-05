@@ -74,6 +74,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pnl1.Name = "pnl1"
       Me.pnl1.Size = New System.Drawing.Size(408, 72)
       Me.pnl1.TabIndex = 0
+      Me.pnl1.Tag = "NotGigaSite"
       '
       'lbl1
       '
@@ -112,6 +113,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pnl2.Name = "pnl2"
       Me.pnl2.Size = New System.Drawing.Size(408, 72)
       Me.pnl2.TabIndex = 1
+      Me.pnl2.Tag = "NotGigaSite"
       '
       'lbl2
       '
@@ -180,6 +182,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Initialize()
       EventWiring()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.pnl1.Enabled = False
+        Me.pnl2.Enabled = False
+      End If
     End Sub
 #End Region
 

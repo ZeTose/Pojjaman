@@ -827,6 +827,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblInvoiceCode.Name = "lblInvoiceCode"
             Me.lblInvoiceCode.Size = New System.Drawing.Size(100, 18)
             Me.lblInvoiceCode.TabIndex = 21
+      Me.lblInvoiceCode.Tag = "NotGigaSite"
             Me.lblInvoiceCode.Text = "เลขที่ใบกำกับภาษี:"
             Me.lblInvoiceCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
@@ -845,6 +846,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtInvoiceCode.Size = New System.Drawing.Size(112, 21)
             Me.txtInvoiceCode.TabIndex = 5
             Me.txtInvoiceCode.TabStop = False
+      Me.txtInvoiceCode.Tag = "NotGigaSite"
             '
             'Validator
             '
@@ -920,6 +922,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtInvoiceDate, False)
             Me.txtInvoiceDate.Size = New System.Drawing.Size(78, 20)
             Me.txtInvoiceDate.TabIndex = 6
+      Me.txtInvoiceDate.Tag = "NotGigaSite"
             '
             'txtRetention
             '
@@ -1167,6 +1170,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtAdvancePayAmount.Size = New System.Drawing.Size(153, 20)
             Me.txtAdvancePayAmount.TabIndex = 36
             Me.txtAdvancePayAmount.TabStop = False
+      Me.txtAdvancePayAmount.Tag = "NotGigaSite"
             Me.txtAdvancePayAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
             '
             'txtWHT
@@ -1289,6 +1293,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpInvoiceDate.Size = New System.Drawing.Size(96, 21)
             Me.dtpInvoiceDate.TabIndex = 28
             Me.dtpInvoiceDate.TabStop = False
+      Me.dtpInvoiceDate.Tag = "NotGigaSite"
             '
             'lblInvoiceDate
             '
@@ -1298,6 +1303,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblInvoiceDate.Name = "lblInvoiceDate"
             Me.lblInvoiceDate.Size = New System.Drawing.Size(32, 18)
             Me.lblInvoiceDate.TabIndex = 24
+      Me.lblInvoiceDate.Tag = "NotGigaSite"
             Me.lblInvoiceDate.Text = "วันที่:"
             Me.lblInvoiceDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
@@ -1460,6 +1466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ibtnEnableVatInput.Size = New System.Drawing.Size(24, 24)
             Me.ibtnEnableVatInput.TabIndex = 29
             Me.ibtnEnableVatInput.TabStop = False
+      Me.ibtnEnableVatInput.Tag = "NotGigaSite"
             Me.ibtnEnableVatInput.ThemedImage = CType(resources.GetObject("ibtnEnableVatInput.ThemedImage"), System.Drawing.Bitmap)
             '
             'chkAutorun
@@ -1547,6 +1554,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblAdvancePay.Name = "lblAdvancePay"
             Me.lblAdvancePay.Size = New System.Drawing.Size(80, 18)
             Me.lblAdvancePay.TabIndex = 35
+      Me.lblAdvancePay.Tag = "NotGigaSite"
             Me.lblAdvancePay.Text = "มัดจำ :"
             Me.lblAdvancePay.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
@@ -1561,6 +1569,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ibtnShowAdvancePay.Size = New System.Drawing.Size(24, 23)
             Me.ibtnShowAdvancePay.TabIndex = 44
             Me.ibtnShowAdvancePay.TabStop = False
+      Me.ibtnShowAdvancePay.Tag = "NotGigaSite"
             Me.ibtnShowAdvancePay.ThemedImage = CType(resources.GetObject("ibtnShowAdvancePay.ThemedImage"), System.Drawing.Bitmap)
             '
             'lblWHT
@@ -1790,6 +1799,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dt.RowDeleted, AddressOf GRItemDelete
 
       EventWiring()
+      'DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.lblInvoiceCode.Enabled = False
+        Me.txtInvoiceCode.Enabled = False
+        Me.txtInvoiceDate.Enabled = False
+        Me.txtAdvancePayAmount.Enabled = False
+        Me.dtpInvoiceDate.Enabled = False
+        Me.lblInvoiceDate.Enabled = False
+        Me.ibtnEnableVatInput.Enabled = False
+        Me.lblAdvancePay.Enabled = False
+        Me.ibtnShowAdvancePay.Enabled = False
+      End If
     End Sub
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
@@ -2001,9 +2024,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csUnitPRice)
       dst.GridColumnStyles.Add(csDiscount)
       dst.GridColumnStyles.Add(csAmount)
+      If Not Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
       dst.GridColumnStyles.Add(csAccountCode)
       dst.GridColumnStyles.Add(csAccountButton)
       dst.GridColumnStyles.Add(csAccount)
+      End If
       dst.GridColumnStyles.Add(csVatable)
       dst.GridColumnStyles.Add(csQuality)
       dst.GridColumnStyles.Add(csNote)
@@ -3425,6 +3450,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'AdvancePay เมื่อ save
         AddHandler m_entity.AdvanceClick, AddressOf ibtnShowAdvancePay_Click
         UpdateEntityProperties()
+        DisableGigaSiteControl()
       End Set
     End Property
     Public Overrides Sub Initialize()

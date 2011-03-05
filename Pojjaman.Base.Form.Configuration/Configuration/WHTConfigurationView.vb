@@ -739,6 +739,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Check Module
             CheckModuleActivation()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        For Each ct As Control In Me.Controls
+          ct.Enabled = False
+        Next
+      End If
     End Sub
 #End Region
 

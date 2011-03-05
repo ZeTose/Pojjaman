@@ -387,6 +387,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_description As String
     Private m_autoCodeFormat As String
     Private m_isAutoGen As Boolean
+    Private m_notVisible As Boolean
 #End Region
 
 #Region "Constructors"
@@ -395,6 +396,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_description = ""
       m_autoCodeFormat = ""
       m_isAutoGen = True
+      m_notVisible = False
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Construct(dr, aliasPrefix)
@@ -413,11 +415,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "entity_autogen") AndAlso Not dr.IsNull(aliasPrefix & "entity_autogen") Then
           .m_isAutoGen = CBool(dr(aliasPrefix & "entity_autogen"))
         End If
+
+        .m_notVisible = False
+        If dr.Table.Columns.Contains(aliasPrefix & "entity_visible") AndAlso Not dr.IsNull(aliasPrefix & "entity_visible") Then
+          .m_notVisible = CBool(dr(aliasPrefix & "entity_visible"))
+        End If
       End With
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property NotVisible As Boolean
+      Get
+        Return m_notVisible
+      End Get
+      Set(ByVal value As Boolean)
+        m_notVisible = value
+      End Set
+    End Property
     Public Property Id() As Integer
       Get
         Return m_id
@@ -546,6 +561,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newRow("AutoCodeFormat") = item.AutoCodeFormat
         newRow("AutoGen") = item.IsAutoGen
         newRow.Tag = item
+      Next
+    End Sub
+    Public Sub PopulateTable2(ByVal dt As TreeTable)
+      Dim i As Integer = 0
+      dt.Clear()
+      For Each item As FormEntity In Me
+        If Not item.NotVisible Then
+          i += 1
+          Dim newRow As TreeRow = dt.Childs.Add
+          newRow("Linenumber") = i
+          newRow("Description") = item.Description
+          newRow("AutoCodeFormat") = item.AutoCodeFormat
+          newRow("AutoGen") = item.IsAutoGen
+          newRow.Tag = item
+        End If
       Next
     End Sub
 #End Region

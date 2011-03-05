@@ -390,6 +390,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbJEDate.Size = New System.Drawing.Size(192, 48)
             Me.grbJEDate.TabIndex = 4
             Me.grbJEDate.TabStop = False
+      Me.grbJEDate.Tag = "NotGigaSite"
             Me.grbJEDate.Text = "วันที่เอกสาร GL"
             '
             'chkJEDate
@@ -442,6 +443,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.SetLabelText()
             Initialize()
             EventWiring()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.grbJEDate.Enabled = False
+      End If
         End Sub
 #End Region
 

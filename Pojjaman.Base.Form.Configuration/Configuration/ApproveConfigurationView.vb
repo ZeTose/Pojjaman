@@ -151,6 +151,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPA.Name = "chkPA"
       Me.chkPA.Size = New System.Drawing.Size(176, 24)
       Me.chkPA.TabIndex = 20
+      Me.chkPA.Tag = "NotGigaSite"
       Me.chkPA.Text = "ใบรับงาน (PA)"
       '
       'nudMaxLevelApprovePA
@@ -159,6 +160,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudMaxLevelApprovePA.Name = "nudMaxLevelApprovePA"
       Me.nudMaxLevelApprovePA.Size = New System.Drawing.Size(48, 21)
       Me.nudMaxLevelApprovePA.TabIndex = 22
+      Me.nudMaxLevelApprovePA.Tag = "NotGigaSite"
       Me.nudMaxLevelApprovePA.Value = New Decimal(New Integer() {1, 0, 0, 0})
       '
       'lblMaxLevelApprovePA
@@ -167,6 +169,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxLevelApprovePA.Name = "lblMaxLevelApprovePA"
       Me.lblMaxLevelApprovePA.Size = New System.Drawing.Size(128, 21)
       Me.lblMaxLevelApprovePA.TabIndex = 21
+      Me.lblMaxLevelApprovePA.Tag = "NotGigaSite"
       Me.lblMaxLevelApprovePA.Text = "ระดับสูงสุดในการอนุมัติ"
       Me.lblMaxLevelApprovePA.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -177,6 +180,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkSCApproveBeforePrint.Name = "chkSCApproveBeforePrint"
       Me.chkSCApproveBeforePrint.Size = New System.Drawing.Size(176, 24)
       Me.chkSCApproveBeforePrint.TabIndex = 18
+      Me.chkSCApproveBeforePrint.Tag = "NotGigaSite"
       Me.chkSCApproveBeforePrint.Text = "ป้องกันการพิมพ์ก่อนการอนุมัติ"
       '
       'chkSC
@@ -186,6 +190,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkSC.Name = "chkSC"
       Me.chkSC.Size = New System.Drawing.Size(176, 24)
       Me.chkSC.TabIndex = 15
+      Me.chkSC.Tag = "NotGigaSite"
       Me.chkSC.Text = "ใบสั่งจ้าง(SC,VO)"
       '
       'nudMaxLevelApproveSC
@@ -194,6 +199,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudMaxLevelApproveSC.Name = "nudMaxLevelApproveSC"
       Me.nudMaxLevelApproveSC.Size = New System.Drawing.Size(48, 21)
       Me.nudMaxLevelApproveSC.TabIndex = 17
+      Me.nudMaxLevelApproveSC.Tag = "NotGigaSite"
       Me.nudMaxLevelApproveSC.Value = New Decimal(New Integer() {1, 0, 0, 0})
       '
       'lblMaxLevelApproveSC
@@ -202,6 +208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxLevelApproveSC.Name = "lblMaxLevelApproveSC"
       Me.lblMaxLevelApproveSC.Size = New System.Drawing.Size(128, 21)
       Me.lblMaxLevelApproveSC.TabIndex = 16
+      Me.lblMaxLevelApproveSC.Tag = "NotGigaSite"
       Me.lblMaxLevelApproveSC.Text = "ระดับสูงสุดในการอนุมัติ"
       Me.lblMaxLevelApproveSC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -219,6 +226,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudMaxLevelApproveWR.Name = "nudMaxLevelApproveWR"
       Me.nudMaxLevelApproveWR.Size = New System.Drawing.Size(48, 21)
       Me.nudMaxLevelApproveWR.TabIndex = 14
+      Me.nudMaxLevelApproveWR.Tag = "NotGigaSite"
       Me.nudMaxLevelApproveWR.Value = New Decimal(New Integer() {1, 0, 0, 0})
       '
       'lblMaxLevelApproveWR
@@ -227,6 +235,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxLevelApproveWR.Name = "lblMaxLevelApproveWR"
       Me.lblMaxLevelApproveWR.Size = New System.Drawing.Size(128, 21)
       Me.lblMaxLevelApproveWR.TabIndex = 13
+      Me.lblMaxLevelApproveWR.Tag = "NotGigaSite"
       Me.lblMaxLevelApproveWR.Text = "ระดับสูงสุดในการอนุมัติ"
       Me.lblMaxLevelApproveWR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -237,6 +246,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkWR.Name = "chkWR"
       Me.chkWR.Size = New System.Drawing.Size(176, 24)
       Me.chkWR.TabIndex = 12
+      Me.chkWR.Tag = "NotGigaSite"
       Me.chkWR.Text = "ใบขอจ้าง (WR)"
       '
       'chkPOApproveBeforePrint
@@ -398,6 +408,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Check Module
       CheckModuleActivation()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.chkDR.Enabled = False
+        Me.nudMaxLevelApproveDR.Enabled = False
+        Me.lblMaxLevelApproveDR.Enabled = False
+        Me.chkPA.Enabled = False
+        Me.nudMaxLevelApprovePA.Enabled = False
+        Me.lblMaxLevelApprovePA.Enabled = False
+        Me.chkSCApproveBeforePrint.Enabled = False
+        Me.chkSC.Enabled = False
+        Me.nudMaxLevelApproveSC.Enabled = False
+        Me.lblMaxLevelApproveSC.Enabled = False
+        Me.nudMaxLevelApproveWR.Enabled = False
+        Me.lblMaxLevelApproveWR.Enabled = False
+        Me.chkWR.Enabled = False
+      End If
     End Sub
 #End Region
 

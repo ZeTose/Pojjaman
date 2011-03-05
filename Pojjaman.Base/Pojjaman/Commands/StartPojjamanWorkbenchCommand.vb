@@ -54,7 +54,11 @@ Namespace Longkong.Pojjaman.Commands
         workBenchForm.Text = myResourceService.GetString("MainWindow.DialogName") & " (" & loginUser.Name & ": " & Configuration.GetConfig("CompanyName").ToString & ")"
         Dim dbVersion As String = SqlHelper.GetVersion
         workBenchForm.Text &= ":DB=" & dbVersion
+        If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+          workBenchForm.Text &= ":Gigasite=" & version
+        Else
         workBenchForm.Text &= ":PJM=" & version
+      End If
       End If
 
       If Not NODBCHECK Then

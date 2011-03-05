@@ -797,6 +797,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnAccountFind.Size = New System.Drawing.Size(24, 23)
             Me.btnAccountFind.TabIndex = 22
             Me.btnAccountFind.TabStop = False
+      Me.btnAccountFind.Tag = "NotGigaSite"
             Me.btnAccountFind.ThemedImage = CType(resources.GetObject("btnAccountFind.ThemedImage"), System.Drawing.Bitmap)
             '
             'btnGroupEdit
@@ -819,6 +820,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnAccountEdit.Size = New System.Drawing.Size(24, 23)
             Me.btnAccountEdit.TabIndex = 0
             Me.btnAccountEdit.TabStop = False
+      Me.btnAccountEdit.Tag = "NotGigaSite"
             Me.btnAccountEdit.ThemedImage = CType(resources.GetObject("btnAccountEdit.ThemedImage"), System.Drawing.Bitmap)
             '
             'txtContact
@@ -956,6 +958,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblAccount.Name = "lblAccount"
             Me.lblAccount.Size = New System.Drawing.Size(128, 18)
             Me.lblAccount.TabIndex = 11
+      Me.lblAccount.Tag = "NotGigaSite"
             Me.lblAccount.Text = "ºÑ­ªÕ :"
             Me.lblAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
@@ -975,6 +978,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtAccountName.Size = New System.Drawing.Size(120, 21)
             Me.txtAccountName.TabIndex = 18
             Me.txtAccountName.TabStop = False
+      Me.txtAccountName.Tag = "NotGigaSite"
             '
             'txtGroupName
             '
@@ -1054,6 +1058,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetRequired(Me.txtAccountCode, True)
             Me.txtAccountCode.Size = New System.Drawing.Size(80, 21)
             Me.txtAccountCode.TabIndex = 3
+      Me.txtAccountCode.Tag = "NotGigaSite"
             '
             'txtNote
             '
@@ -1247,6 +1252,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler dt.RowDeleted, AddressOf ItemDelete
 
             Me.EventWiring()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.btnAccountFind.Enabled = False
+        Me.btnAccountEdit.Enabled = False
+        Me.lblAccount.Enabled = False
+        Me.txtAccountName.Enabled = False
+        Me.txtAccountCode.Enabled = False
+      End If
         End Sub
 #End Region
 

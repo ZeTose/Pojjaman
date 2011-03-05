@@ -8,5 +8,12 @@
         </RealRelease>
       </PojjamanRealRelease>
     </XmlConvertableProperty>
+  <XmlConvertableProperty key="Longkong.Pojjaman.GigaSiteConfiguration">
+      <GigaSiteRelease>
+        <RealGigaSiteRelease>
+          <RealGigaSiteRelease right="false" />
+        </RealGigaSiteRelease>
+      </GigaSiteRelease>
+    </XmlConvertableProperty>
   </Properties>
 </PojjamanProperties>

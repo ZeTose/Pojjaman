@@ -72,6 +72,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Size = New System.Drawing.Size(408, 56)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
+      Me.grbDetail.Tag = "NotGigaSite"
       Me.grbDetail.Text = "เลขที่เช็ค"
       '
       'chkAllowNoCQCodeDate
@@ -96,6 +97,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItem.Size = New System.Drawing.Size(408, 162)
       Me.grbItem.TabIndex = 2
       Me.grbItem.TabStop = False
+      Me.grbItem.Tag = "NotGigaSite"
       Me.grbItem.Text = "อื่นๆ"
       '
       'chkCheckRegist
@@ -172,6 +174,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Initialize()
       EventWiring()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.grbDetail.Enabled = False
+        Me.grbItem.Enabled = False
+      End If
     End Sub
 #End Region
 

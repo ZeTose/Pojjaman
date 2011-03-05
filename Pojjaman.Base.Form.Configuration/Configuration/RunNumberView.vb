@@ -133,7 +133,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_formCollection = New FormEntityCollection
 
             Me.m_tableInitialized = False
-            Me.m_formCollection.PopulateTable(Me.m_treeManager.Treetable)
+      Me.m_formCollection.PopulateTable2(Me.m_treeManager.Treetable)
             Me.m_tableInitialized = True
         End Sub
 #End Region
@@ -344,7 +344,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ClearDetail()
 
             Me.m_tableInitialized = False
-            Me.m_formCollection.PopulateTable(Me.m_treeManager.Treetable)
+      Me.m_formCollection.PopulateTable2(Me.m_treeManager.Treetable)
             Me.m_tableInitialized = True
 
             SetStatus()

@@ -828,6 +828,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtWipAcctCode, False)
       Me.txtWipAcctCode.Size = New System.Drawing.Size(64, 22)
       Me.txtWipAcctCode.TabIndex = 6
+      Me.txtWipAcctCode.Tag = "NotGigaSite"
       '
       'lblStoreAcct
       '
@@ -837,6 +838,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStoreAcct.Name = "lblStoreAcct"
       Me.lblStoreAcct.Size = New System.Drawing.Size(88, 18)
       Me.lblStoreAcct.TabIndex = 35
+      Me.lblStoreAcct.Tag = "NotGigaSite"
       Me.lblStoreAcct.Text = "¼Ñ§ºÑ­ªÕ Store:"
       Me.lblStoreAcct.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.ToolTip1.SetToolTip(Me.lblStoreAcct, "¼Ùé¨Ñ´¡ÒÃ:")
@@ -855,6 +857,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtStoreAcctCode, True)
       Me.txtStoreAcctCode.Size = New System.Drawing.Size(64, 22)
       Me.txtStoreAcctCode.TabIndex = 5
+      Me.txtStoreAcctCode.Tag = "NotGigaSite"
       '
       'lblWipAcct
       '
@@ -864,6 +867,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWipAcct.Name = "lblWipAcct"
       Me.lblWipAcct.Size = New System.Drawing.Size(88, 18)
       Me.lblWipAcct.TabIndex = 36
+      Me.lblWipAcct.Tag = "NotGigaSite"
       Me.lblWipAcct.Text = "¼Ñ§ºÑ­ªÕ WIP:"
       Me.lblWipAcct.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -876,6 +880,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowWipAcct.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowWipAcct.TabIndex = 45
       Me.ibtnShowWipAcct.TabStop = False
+      Me.ibtnShowWipAcct.Tag = "NotGigaSite"
       Me.ibtnShowWipAcct.ThemedImage = CType(resources.GetObject("ibtnShowWipAcct.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowStoreAcct
@@ -887,6 +892,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowStoreAcct.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowStoreAcct.TabIndex = 44
       Me.ibtnShowStoreAcct.TabStop = False
+      Me.ibtnShowStoreAcct.Tag = "NotGigaSite"
       Me.ibtnShowStoreAcct.ThemedImage = CType(resources.GetObject("ibtnShowStoreAcct.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowStoreAcctDialog
@@ -899,6 +905,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowStoreAcctDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowStoreAcctDialog.TabIndex = 41
       Me.ibtnShowStoreAcctDialog.TabStop = False
+      Me.ibtnShowStoreAcctDialog.Tag = "NotGigaSite"
       Me.ibtnShowStoreAcctDialog.ThemedImage = CType(resources.GetObject("ibtnShowStoreAcctDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowWipAcctDialog
@@ -911,6 +918,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowWipAcctDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowWipAcctDialog.TabIndex = 42
       Me.ibtnShowWipAcctDialog.TabStop = False
+      Me.ibtnShowWipAcctDialog.Tag = "NotGigaSite"
       Me.ibtnShowWipAcctDialog.ThemedImage = CType(resources.GetObject("ibtnShowWipAcctDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'txtWipAcctName
@@ -929,6 +937,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWipAcctName.Size = New System.Drawing.Size(176, 22)
       Me.txtWipAcctName.TabIndex = 39
       Me.txtWipAcctName.TabStop = False
+      Me.txtWipAcctName.Tag = "NotGigaSite"
       '
       'txtStoreAcctName
       '
@@ -946,6 +955,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtStoreAcctName.Size = New System.Drawing.Size(176, 22)
       Me.txtStoreAcctName.TabIndex = 38
       Me.txtStoreAcctName.TabStop = False
+      Me.txtStoreAcctName.Tag = "NotGigaSite"
       '
       'ibtnShowExpenseAcct
       '
@@ -956,6 +966,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowExpenseAcct.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowExpenseAcct.TabIndex = 43
       Me.ibtnShowExpenseAcct.TabStop = False
+      Me.ibtnShowExpenseAcct.Tag = "NotGigaSite"
       Me.ibtnShowExpenseAcct.ThemedImage = CType(resources.GetObject("ibtnShowExpenseAcct.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowExpenseAcctDialog
@@ -968,6 +979,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowExpenseAcctDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowExpenseAcctDialog.TabIndex = 40
       Me.ibtnShowExpenseAcctDialog.TabStop = False
+      Me.ibtnShowExpenseAcctDialog.Tag = "NotGigaSite"
       Me.ibtnShowExpenseAcctDialog.ThemedImage = CType(resources.GetObject("ibtnShowExpenseAcctDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'txtExpenseAcctName
@@ -986,6 +998,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtExpenseAcctName.Size = New System.Drawing.Size(176, 22)
       Me.txtExpenseAcctName.TabIndex = 37
       Me.txtExpenseAcctName.TabStop = False
+      Me.txtExpenseAcctName.Tag = "NotGigaSite"
       '
       'lblExpenseAcct
       '
@@ -995,6 +1008,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblExpenseAcct.Name = "lblExpenseAcct"
       Me.lblExpenseAcct.Size = New System.Drawing.Size(88, 18)
       Me.lblExpenseAcct.TabIndex = 34
+      Me.lblExpenseAcct.Tag = "NotGigaSite"
       Me.lblExpenseAcct.Text = "¼Ñ§ºÑ­ªÕ¤èÒãªé¨èÒÂ:"
       Me.lblExpenseAcct.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.ToolTip1.SetToolTip(Me.lblExpenseAcct, "¼Ùé¨Ñ´¡ÒÃ:")
@@ -1013,6 +1027,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtExpenseAcctCode, True)
       Me.txtExpenseAcctCode.Size = New System.Drawing.Size(64, 22)
       Me.txtExpenseAcctCode.TabIndex = 4
+      Me.txtExpenseAcctCode.Tag = "NotGigaSite"
       '
       'txtCustomerCode
       '
@@ -1171,6 +1186,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateEntityProperties()
       EventWiring()
       LoopControl(Me)
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.txtWipAcctCode.Enabled = False
+        Me.lblStoreAcct.Enabled = False
+        Me.txtStoreAcctCode.Enabled = False
+        Me.lblWipAcct.Enabled = False
+        Me.ibtnShowWipAcct.Enabled = False
+        Me.ibtnShowStoreAcct.Enabled = False
+        Me.ibtnShowStoreAcctDialog.Enabled = False
+        Me.ibtnShowWipAcctDialog.Enabled = False
+        Me.txtWipAcctName.Enabled = False
+        Me.txtStoreAcctName.Enabled = False
+        Me.ibtnShowExpenseAcct.Enabled = False
+        Me.ibtnShowExpenseAcctDialog.Enabled = False
+        Me.txtExpenseAcctName.Enabled = False
+        Me.lblExpenseAcct.Enabled = False
+        Me.txtExpenseAcctCode.Enabled = False
+      End If
     End Sub
 #End Region
 

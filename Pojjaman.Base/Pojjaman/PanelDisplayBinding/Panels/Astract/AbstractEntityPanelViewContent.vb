@@ -260,9 +260,9 @@ Namespace Longkong.Pojjaman.Gui
         End If
 
         '-------------------Check AccountPeriod-------------------
-        If TypeOf myEntity Is ICheckPeriod Then
+        If TypeOf myEntity Is ICheckPeriod AndAlso Not Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
           Dim docDate As Date = CType(myEntity, ICheckPeriod).DocDate
-          If Not AccountPeriod.ValidDate(docdate) Then
+          If Not AccountPeriod.ValidDate(docDate) Then
             msgServ.ShowMessage("${res:Global.Error.CannotSavePeriodIsClosed}")
             Me.OnSaved(New SaveEventArgs(False))
             SecurityService.UpdateAccessTable()

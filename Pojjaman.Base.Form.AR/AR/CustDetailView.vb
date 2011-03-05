@@ -597,7 +597,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAccount, True)
       Me.txtAccount.Size = New System.Drawing.Size(88, 21)
       Me.txtAccount.TabIndex = 14
-      Me.txtAccount.Text = ""
+      Me.txtAccount.Tag = "NotGigaSite"
       '
       'txtGroup
       '
@@ -627,6 +627,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnAccountEdit.TabIndex = 21
       Me.btnAccountEdit.TabStop = False
+      Me.btnAccountEdit.Tag = "NotGigaSite"
       Me.btnAccountEdit.ThemedImage = CType(resources.GetObject("btnAccountEdit.ThemedImage"), System.Drawing.Bitmap)
       '
       'btnGroupEdit
@@ -662,6 +663,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountFind.Size = New System.Drawing.Size(24, 23)
       Me.btnAccountFind.TabIndex = 15
       Me.btnAccountFind.TabStop = False
+      Me.btnAccountFind.Tag = "NotGigaSite"
       Me.btnAccountFind.ThemedImage = CType(resources.GetObject("btnAccountFind.ThemedImage"), System.Drawing.Bitmap)
       '
       'rdJuris
@@ -773,6 +775,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAccount.Name = "lblAccount"
       Me.lblAccount.Size = New System.Drawing.Size(120, 18)
       Me.lblAccount.TabIndex = 11
+      Me.lblAccount.Tag = "NotGigaSite"
       Me.lblAccount.Text = "ºÑ­ªÕ:"
       Me.lblAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -821,7 +824,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAccountName, False)
       Me.txtAccountName.Size = New System.Drawing.Size(128, 21)
       Me.txtAccountName.TabIndex = 18
-      Me.txtAccountName.Text = ""
+      Me.txtAccountName.Tag = "NotGigaSite"
       '
       'txtGroupName
       '
@@ -1039,6 +1042,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_treeManager.AllowDelete = False
 
             EventWiring()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.txtAccount.Enabled = False
+        Me.btnAccountEdit.Enabled = False
+        Me.btnAccountFind.Enabled = False
+        Me.lblAccount.Enabled = False
+        Me.txtAccountName.Enabled = False
+      End If
         End Sub
 #End Region
 

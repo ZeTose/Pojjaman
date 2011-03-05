@@ -82,7 +82,11 @@ Namespace Longkong.Pojjaman.Gui
       Else
         ret = myResourceService.GetString("MainWindow.DialogName")
       End If
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        ret &= ":Gigasite=" & version
+      Else
       ret &= ":PJM=" & version
+      End If
       Return ret
     End Function
     Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)

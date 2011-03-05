@@ -272,6 +272,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApprovePA.Name = "nudLevelApprovePA"
       Me.nudLevelApprovePA.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApprovePA.TabIndex = 28
+      Me.nudLevelApprovePA.Tag = "NotGigaSite"
       '
       'lblPA
       '
@@ -280,6 +281,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPA.Name = "lblPA"
       Me.lblPA.Size = New System.Drawing.Size(104, 24)
       Me.lblPA.TabIndex = 27
+      Me.lblPA.Tag = "NotGigaSite"
       Me.lblPA.Text = "ใบรับงาน (PA)"
       Me.lblPA.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -290,6 +292,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelPA.Name = "lblLevelPA"
       Me.lblLevelPA.Size = New System.Drawing.Size(80, 24)
       Me.lblLevelPA.TabIndex = 26
+      Me.lblLevelPA.Tag = "NotGigaSite"
       Me.lblLevelPA.Text = "ระดับสิทธิ:"
       Me.lblLevelPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -300,6 +303,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxAmtPA.Name = "lblMaxAmtPA"
       Me.lblMaxAmtPA.Size = New System.Drawing.Size(128, 24)
       Me.lblMaxAmtPA.TabIndex = 25
+      Me.lblMaxAmtPA.Tag = "NotGigaSite"
       Me.lblMaxAmtPA.Text = "วงเงินสูงสุดที่อนุมัติได้"
       Me.lblMaxAmtPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -310,6 +314,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht7.Name = "lblBaht7"
       Me.lblBaht7.Size = New System.Drawing.Size(40, 24)
       Me.lblBaht7.TabIndex = 24
+      Me.lblBaht7.Tag = "NotGigaSite"
       Me.lblBaht7.Text = "บาท"
       Me.lblBaht7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -326,6 +331,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtMaxAmtPA, False)
       Me.txtMaxAmtPA.Size = New System.Drawing.Size(80, 21)
       Me.txtMaxAmtPA.TabIndex = 29
+      Me.txtMaxAmtPA.Tag = "NotGigaSite"
       Me.txtMaxAmtPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'nudLevelApproveDR
@@ -334,6 +340,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveDR.Name = "nudLevelApproveDR"
       Me.nudLevelApproveDR.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveDR.TabIndex = 22
+      Me.nudLevelApproveDR.Tag = "NotGigaSite"
       '
       'lblDR
       '
@@ -342,6 +349,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDR.Name = "lblDR"
       Me.lblDR.Size = New System.Drawing.Size(104, 24)
       Me.lblDR.TabIndex = 21
+      Me.lblDR.Tag = "NotGigaSite"
       Me.lblDR.Text = "ใบหัก (DR)"
       Me.lblDR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -352,6 +360,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelDR.Name = "lblLevelDR"
       Me.lblLevelDR.Size = New System.Drawing.Size(80, 24)
       Me.lblLevelDR.TabIndex = 20
+      Me.lblLevelDR.Tag = "NotGigaSite"
       Me.lblLevelDR.Text = "ระดับสิทธิ:"
       Me.lblLevelDR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -362,6 +371,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxAmtDR.Name = "lblMaxAmtDR"
       Me.lblMaxAmtDR.Size = New System.Drawing.Size(128, 24)
       Me.lblMaxAmtDR.TabIndex = 19
+      Me.lblMaxAmtDR.Tag = "NotGigaSite"
       Me.lblMaxAmtDR.Text = "วงเงินสูงสุดที่อนุมัติได้"
       Me.lblMaxAmtDR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -372,6 +382,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht6.Name = "lblBaht6"
       Me.lblBaht6.Size = New System.Drawing.Size(40, 24)
       Me.lblBaht6.TabIndex = 18
+      Me.lblBaht6.Tag = "NotGigaSite"
       Me.lblBaht6.Text = "บาท"
       Me.lblBaht6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -388,6 +399,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtMaxAmtDR, False)
       Me.txtMaxAmtDR.Size = New System.Drawing.Size(80, 21)
       Me.txtMaxAmtDR.TabIndex = 23
+      Me.txtMaxAmtDR.Tag = "NotGigaSite"
       Me.txtMaxAmtDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'nudLevelApproveSC
@@ -396,6 +408,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveSC.Name = "nudLevelApproveSC"
       Me.nudLevelApproveSC.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveSC.TabIndex = 16
+      Me.nudLevelApproveSC.Tag = "NotGigaSite"
       '
       'lblSC
       '
@@ -404,6 +417,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSC.Name = "lblSC"
       Me.lblSC.Size = New System.Drawing.Size(104, 24)
       Me.lblSC.TabIndex = 15
+      Me.lblSC.Tag = "NotGigaSite"
       Me.lblSC.Text = "ใบสั้งจ้าง (SC,VO)"
       Me.lblSC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -414,6 +428,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelSC.Name = "lblLevelSC"
       Me.lblLevelSC.Size = New System.Drawing.Size(80, 24)
       Me.lblLevelSC.TabIndex = 14
+      Me.lblLevelSC.Tag = "NotGigaSite"
       Me.lblLevelSC.Text = "ระดับสิทธิ:"
       Me.lblLevelSC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -424,6 +439,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxAmtSC.Name = "lblMaxAmtSC"
       Me.lblMaxAmtSC.Size = New System.Drawing.Size(128, 24)
       Me.lblMaxAmtSC.TabIndex = 13
+      Me.lblMaxAmtSC.Tag = "NotGigaSite"
       Me.lblMaxAmtSC.Text = "วงเงินสูงสุดที่อนุมัติได้"
       Me.lblMaxAmtSC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -434,6 +450,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht5.Name = "lblBaht5"
       Me.lblBaht5.Size = New System.Drawing.Size(40, 24)
       Me.lblBaht5.TabIndex = 12
+      Me.lblBaht5.Tag = "NotGigaSite"
       Me.lblBaht5.Text = "บาท"
       Me.lblBaht5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -450,6 +467,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtMaxAmtSC, False)
       Me.txtMaxAmtSC.Size = New System.Drawing.Size(80, 21)
       Me.txtMaxAmtSC.TabIndex = 17
+      Me.txtMaxAmtSC.Tag = "NotGigaSite"
       Me.txtMaxAmtSC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtMaxAmtWR
@@ -465,6 +483,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtMaxAmtWR, False)
       Me.txtMaxAmtWR.Size = New System.Drawing.Size(80, 21)
       Me.txtMaxAmtWR.TabIndex = 11
+      Me.txtMaxAmtWR.Tag = "NotGigaSite"
       Me.txtMaxAmtWR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'nudLevelApproveWR
@@ -473,6 +492,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveWR.Name = "nudLevelApproveWR"
       Me.nudLevelApproveWR.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveWR.TabIndex = 10
+      Me.nudLevelApproveWR.Tag = "NotGigaSite"
       '
       'lblWR
       '
@@ -481,6 +501,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWR.Name = "lblWR"
       Me.lblWR.Size = New System.Drawing.Size(104, 24)
       Me.lblWR.TabIndex = 9
+      Me.lblWR.Tag = "NotGigaSite"
       Me.lblWR.Text = "ใบขอจ้าง (WR)"
       Me.lblWR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -491,6 +512,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelWR.Name = "lblLevelWR"
       Me.lblLevelWR.Size = New System.Drawing.Size(80, 24)
       Me.lblLevelWR.TabIndex = 6
+      Me.lblLevelWR.Tag = "NotGigaSite"
       Me.lblLevelWR.Text = "ระดับสิทธิ:"
       Me.lblLevelWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -501,6 +523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMaxAmtWR.Name = "lblMaxAmtWR"
       Me.lblMaxAmtWR.Size = New System.Drawing.Size(128, 24)
       Me.lblMaxAmtWR.TabIndex = 7
+      Me.lblMaxAmtWR.Tag = "NotGigaSite"
       Me.lblMaxAmtWR.Text = "วงเงินสูงสุดที่อนุมัติได้"
       Me.lblMaxAmtWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -511,6 +534,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht4.Name = "lblBaht4"
       Me.lblBaht4.Size = New System.Drawing.Size(40, 24)
       Me.lblBaht4.TabIndex = 8
+      Me.lblBaht4.Tag = "NotGigaSite"
       Me.lblBaht4.Text = "บาท"
       Me.lblBaht4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
@@ -1448,8 +1472,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.m_User.CostCenterUserAccessCollection = New CostCenterUserAccessCollection(Me.m_User)
         'Me.m_User.ApprovalDocLevelCollection = New ApprovalDocLevelCollection(Me.m_User)
         UpdateEntityProperties()
+        DisableGigaSiteControl()
       End Set
     End Property
+
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.nudLevelApprovePA.Enabled = False
+        Me.lblPA.Enabled = False
+        Me.lblLevelPA.Enabled = False
+        Me.lblMaxAmtPA.Enabled = False
+        Me.lblBaht7.Enabled = False
+        Me.txtMaxAmtPA.Enabled = False
+        Me.nudLevelApproveDR.Enabled = False
+        Me.lblDR.Enabled = False
+        Me.lblLevelDR.Enabled = False
+        Me.lblMaxAmtDR.Enabled = False
+        Me.lblBaht6.Enabled = False
+        Me.txtMaxAmtDR.Enabled = False
+        Me.nudLevelApproveSC.Enabled = False
+        Me.lblSC.Enabled = False
+        Me.lblLevelSC.Enabled = False
+        Me.lblMaxAmtSC.Enabled = False
+        Me.lblBaht5.Enabled = False
+        Me.txtMaxAmtSC.Enabled = False
+        Me.txtMaxAmtWR.Enabled = False
+        Me.nudLevelApproveWR.Enabled = False
+        Me.lblWR.Enabled = False
+        Me.lblLevelWR.Enabled = False
+        Me.lblMaxAmtWR.Enabled = False
+        Me.lblBaht4.Enabled = False
+      End If
+    End Sub
     Public Overrides Sub Initialize()
 
     End Sub

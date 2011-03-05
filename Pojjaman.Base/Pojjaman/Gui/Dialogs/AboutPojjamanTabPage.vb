@@ -32,7 +32,11 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Me.m_versionTextBox.Text = String.Concat(pjmVersionArray)
       'Me.m_buildTextBox.Text = Me.m_versionTextBox.Text.Trim & "" & pjmRealVersion   'pjmVersion.Revision.ToString
       Dim service1 As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.m_versionLabel.Text = "Gigasite Version"
+      Else
       Me.m_versionLabel.Text = service1.GetString("Dialog.About.m_versionLabelText")
+      End If
       'Me.m_buildLabel.Text = service1.GetString("Dialog.About.m_buildLabelText")
       Me.m_dbVersionLabel.Text = service1.GetString("Dialog.About.m_dbVersionLabel")
       Me.m_dbVersionTextBox.Text = Longkong.Pojjaman.DataAccessLayer.SqlHelper.GetRealVersion

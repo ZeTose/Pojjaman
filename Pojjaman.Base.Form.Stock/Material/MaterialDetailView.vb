@@ -300,6 +300,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccount.Size = New System.Drawing.Size(120, 21)
       Me.txtAccount.TabIndex = 16
       Me.txtAccount.TabStop = False
+      Me.txtAccount.Tag = "NotGigaSite"
       '
       'txtDefaultUnit
       '
@@ -514,6 +515,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowAccount.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowAccount.TabIndex = 18
       Me.ibtnShowAccount.TabStop = False
+      Me.ibtnShowAccount.Tag = "NotGigaSite"
       Me.ibtnShowAccount.ThemedImage = CType(resources.GetObject("ibtnShowAccount.ThemedImage"), System.Drawing.Bitmap)
       '
       'lblAccount
@@ -524,6 +526,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAccount.Name = "lblAccount"
       Me.lblAccount.Size = New System.Drawing.Size(96, 18)
       Me.lblAccount.TabIndex = 9
+      Me.lblAccount.Tag = "NotGigaSite"
       Me.lblAccount.Text = "¼Ñ§ºÑ­ªÕ:"
       Me.lblAccount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
@@ -541,6 +544,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAccountCode, True)
       Me.txtAccountCode.Size = New System.Drawing.Size(56, 21)
       Me.txtAccountCode.TabIndex = 2
+      Me.txtAccountCode.Tag = "NotGigaSite"
       '
       'ibtnShowAccountDialog
       '
@@ -552,6 +556,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowAccountDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowAccountDialog.TabIndex = 17
       Me.ibtnShowAccountDialog.TabStop = False
+      Me.ibtnShowAccountDialog.Tag = "NotGigaSite"
       Me.ibtnShowAccountDialog.ThemedImage = CType(resources.GetObject("ibtnShowAccountDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowDefaultUnitDialog
@@ -1210,6 +1215,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SetLabelText()
       Initialize()
       EventWiring()
+      DisableGigaSiteControl()
+    End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.txtAccount.Enabled = False
+        Me.ibtnShowAccount.Enabled = False
+        Me.lblAccount.Enabled = False
+        Me.txtAccountCode.Enabled = False
+        Me.ibtnShowAccountDialog.Enabled = False
+      End If
     End Sub
 #End Region
 
