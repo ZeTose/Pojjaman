@@ -1726,7 +1726,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
     End Function
-    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs) Implements IWBSAllocatableItem.WBSChangedHandler
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
         Select Case e.Name.ToLower

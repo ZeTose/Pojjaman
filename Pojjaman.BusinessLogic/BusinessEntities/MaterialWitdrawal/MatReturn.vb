@@ -2162,6 +2162,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs) Implements IWBSAllocatableItem.WBSChangedHandler
+
+    End Sub
   End Class
 
   <Serializable(), DefaultMember("Item")> _

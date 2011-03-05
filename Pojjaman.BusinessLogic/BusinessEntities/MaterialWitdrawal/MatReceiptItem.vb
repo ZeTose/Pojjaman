@@ -557,8 +557,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.MatReceipt.IsInitialized = True
     End Sub
 
-    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-     
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs) Implements IWBSAllocatableItem.WBSChangedHandler
+
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
         Select Case e.Name.ToLower
@@ -579,10 +579,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Me.m_entity IsNot Nothing Then
               theName = Me.Entity.Name
             End If
-            
-                wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
-                wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
-              
+
+            wbsd.BudgetAmount = newWBS.GetTotalMatFromDB
+            wbsd.BudgetQty = newWBS.GetTotalMatQtyFromDB(Me.Entity.Id)
+
             If wbsd.IsMarkup Then
               wbsd.BudgetRemain = newWBS.GetTotalMarkUpFromDB - newWBS.GetWBSActualFromDB(Me.MatReceipt.Id, Me.MatReceipt.EntityId, 42)
               wbsd.QtyRemain = 0

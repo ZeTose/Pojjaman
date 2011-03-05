@@ -12,6 +12,8 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 Imports System.IO
 Imports Longkong.Core.Properties
 Imports Longkong.AdobeForm
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class scWBSView
@@ -51,15 +53,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnAddWBS As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDelWBS As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnAddCBS As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnMultiAllocate As System.Windows.Forms.Button
+    Friend WithEvents chkAll As System.Windows.Forms.CheckBox
     Friend WithEvents ibtnDelCBS As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(scWBSView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkAll = New System.Windows.Forms.CheckBox()
+      Me.btnMultiAllocate = New System.Windows.Forms.Button()
       Me.ibtnAddWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelWBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnAddCBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnDelCBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.tgToCC = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -69,6 +73,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName = New System.Windows.Forms.TextBox()
       Me.lblSupplier = New System.Windows.Forms.Label()
       Me.lblCostCenter = New System.Windows.Forms.Label()
+      Me.ibtnAddCBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelCBS = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.grbDetail.SuspendLayout()
@@ -82,6 +88,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.chkAll)
+      Me.grbDetail.Controls.Add(Me.btnMultiAllocate)
       Me.grbDetail.Controls.Add(Me.ibtnAddWBS)
       Me.grbDetail.Controls.Add(Me.ibtnDelWBS)
       Me.grbDetail.Controls.Add(Me.tgToCC)
@@ -96,6 +104,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "จัดสรร"
+      '
+      'chkAll
+      '
+      Me.chkAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.chkAll.AutoSize = True
+      Me.chkAll.Location = New System.Drawing.Point(646, 114)
+      Me.chkAll.Name = "chkAll"
+      Me.chkAll.Size = New System.Drawing.Size(74, 17)
+      Me.chkAll.TabIndex = 33
+      Me.chkAll.Text = "ทุกรายการ"
+      Me.chkAll.UseVisualStyleBackColor = True
+      '
+      'btnMultiAllocate
+      '
+      Me.btnMultiAllocate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnMultiAllocate.Location = New System.Drawing.Point(532, 110)
+      Me.btnMultiAllocate.Name = "btnMultiAllocate"
+      Me.btnMultiAllocate.Size = New System.Drawing.Size(110, 23)
+      Me.btnMultiAllocate.TabIndex = 32
+      Me.btnMultiAllocate.Text = "ล้าง/จัดสรรใหม่"
+      Me.btnMultiAllocate.UseVisualStyleBackColor = True
       '
       'ibtnAddWBS
       '
@@ -117,26 +146,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnDelWBS.TabStop = False
       Me.ibtnDelWBS.ThemedImage = CType(resources.GetObject("ibtnDelWBS.ThemedImage"), System.Drawing.Bitmap)
       '
-      'ibtnAddCBS
-      '
-      Me.ibtnAddCBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnAddCBS.Location = New System.Drawing.Point(90, 110)
-      Me.ibtnAddCBS.Name = "ibtnAddCBS"
-      Me.ibtnAddCBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnAddCBS.TabIndex = 30
-      Me.ibtnAddCBS.TabStop = False
-      Me.ibtnAddCBS.ThemedImage = CType(resources.GetObject("ibtnAddCBS.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnDelCBS
-      '
-      Me.ibtnDelCBS.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelCBS.Location = New System.Drawing.Point(114, 110)
-      Me.ibtnDelCBS.Name = "ibtnDelCBS"
-      Me.ibtnDelCBS.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnDelCBS.TabIndex = 31
-      Me.ibtnDelCBS.TabStop = False
-      Me.ibtnDelCBS.ThemedImage = CType(resources.GetObject("ibtnDelCBS.ThemedImage"), System.Drawing.Bitmap)
-
       'tgToCC
       '
       Me.tgToCC.AllowNew = False
@@ -268,6 +277,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCostCenter.Text = "CostCenter:"
       Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'ibtnAddCBS
+      '
+      Me.ibtnAddCBS.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnAddCBS.Location = New System.Drawing.Point(90, 110)
+      Me.ibtnAddCBS.Name = "ibtnAddCBS"
+      Me.ibtnAddCBS.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnAddCBS.TabIndex = 30
+      Me.ibtnAddCBS.TabStop = False
+      Me.ibtnAddCBS.ThemedImage = Nothing
+      '
+      'ibtnDelCBS
+      '
+      Me.ibtnDelCBS.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelCBS.Location = New System.Drawing.Point(114, 110)
+      Me.ibtnDelCBS.Name = "ibtnDelCBS"
+      Me.ibtnDelCBS.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnDelCBS.TabIndex = 31
+      Me.ibtnDelCBS.TabStop = False
+      Me.ibtnDelCBS.ThemedImage = Nothing
+      '
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
@@ -312,6 +341,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public MatActualHash As Hashtable
     Public LabActualHash As Hashtable
     Public EQActualHash As Hashtable
+
+    Private m_listMultiAllocate As List(Of MultiAllocate)
 #End Region
 
 #Region "Constructors"
@@ -340,6 +371,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
+
+      m_listMultiAllocate = New List(Of MultiAllocate)
     End Sub
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
@@ -882,6 +915,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblSupplier}")
       Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblCostCenter}")
 
+      Me.btnMultiAllocate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.btnMultiAllocate}")
+      Me.chkAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.chkAll}")
+
       'Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblCode}")
       'Me.Validator.SetDisplayName(Me.cmbCode, StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
 
@@ -1010,7 +1046,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim transferAmt As Decimal = 0
       Dim selectIndex As Integer = 0
       If m_wbsTreeManager.SelectedRow IsNot Nothing Then
-      selectIndex = m_wbsTreeManager.SelectedRow.Index
+        selectIndex = m_wbsTreeManager.SelectedRow.Index
       End If
       Me.m_isInitialized = False
       If TypeOf m_entity Is IWBSAllocatable Then
@@ -1959,6 +1995,132 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
       Me.m_entity = Nothing
+    End Sub
+
+    Private Function GetDocAliasName() As String
+      If Not Me.m_entity Is Nothing AndAlso TypeOf Me.m_entity Is ISimpleEntity Then
+
+        Select Case CType(m_entity, ISimpleEntity).EntityId
+          Case 6, 289, 290 'อ้างอิงตาม swang_UpdatePOWBSActual
+            Return "po"
+          Case 7, 324 'อ้างอิงตาม swang_UpdatePRWBSActual
+            Return "pr"
+          Case 45, 343, 46, 292 'อ้างอิงตาม swang_UpdateGRWBSActual ยกเว้น 31, 51, 
+            Return "gr"
+            'Case 31
+            '  Return "mat"
+          Case 393 'เอกสารปรับปรุงการจัดสรร
+            Dim adjwbs As WBSAdjust = CType(m_entity, WBSAdjust)
+            Select Case adjwbs.AllocationType
+              Case 6
+                Return "po"
+              Case 7
+                Return "pr"
+              Case 45
+                Return "gr"
+                'Case 31
+                '  Return "mat"
+            End Select
+        End Select
+      Else
+        Return ""
+      End If
+    End Function
+
+    Private Sub btnMultiAllocate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMultiAllocate.Click
+      Dim myString As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim myMsg As MessageService = CType(ServiceManager.Services.GetService(GetType(MessageService)), MessageService)
+      Dim rowsCount As Integer = 0
+
+      If Not Me.chkAll.Checked Then
+        For Each Obj As Object In Me.m_wbsTreeManager.SelectedRows
+          If Not Obj Is Nothing AndAlso TypeOf Obj Is TreeRow Then
+            Dim row As TreeRow = CType(Obj, TreeRow)
+            If TypeOf row.Tag Is IWBSAllocatableItem Then
+              rowsCount += 1
+            End If
+          End If
+        Next
+        If rowsCount <= 1 Then
+          Return
+        End If
+      End If
+
+      'Me.btnMultiAllocate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.btnMultiAllocate}")
+      'Me.chkAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.chkAll}")
+
+      If Not myMsg.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.CleanAndNewAllocate}") Then
+        Return
+      End If
+
+      Me.m_listMultiAllocate = New List(Of MultiAllocate)
+
+      Dim dlg As New MultiAllocateWBSForm(m_listMultiAllocate)
+      dlg.StartPosition = FormStartPosition.CenterParent
+      If dlg.ShowDialog() = DialogResult.OK Then
+        If Not m_listMultiAllocate Is Nothing Then
+
+          If Me.chkAll.Checked Then
+            For Each Obj As Object In Me.m_wbsTreeManager.Treetable.Rows
+              If Not Obj Is Nothing AndAlso TypeOf Obj Is TreeRow Then
+                Dim row As TreeRow = CType(Obj, TreeRow)
+                If TypeOf row.Tag Is IWBSAllocatableItem Then
+
+                  Dim doc As IWBSAllocatableItem = CType(row.Tag, IWBSAllocatableItem)
+                  doc.WBSDistributeCollection = New WBSDistributeCollection
+
+                  AddHandler doc.WBSDistributeCollection.PropertyChanged, AddressOf doc.WBSChangedHandler
+
+                  For Each ml As MultiAllocate In Me.m_listMultiAllocate
+                    Dim wbsd As New WBSDistribute
+                    doc.WBSDistributeCollection.Add(wbsd)
+                    wbsd.CostCenter = ml.CostCenter
+                    wbsd.WBS = ml.WBS
+                    wbsd.CBS = ml.CBS
+                    wbsd.Percent = ml.Percent
+                  Next
+
+                End If
+
+              End If
+            Next
+            Me.chkAll.Checked = False
+          Else
+            For Each Obj As Object In Me.m_wbsTreeManager.SelectedRows
+              If Not Obj Is Nothing AndAlso TypeOf Obj Is TreeRow Then
+                Dim row As TreeRow = CType(Obj, TreeRow)
+                If TypeOf row.Tag Is IWBSAllocatableItem Then
+
+                  Dim doc As IWBSAllocatableItem = CType(row.Tag, IWBSAllocatableItem)
+                  doc.WBSDistributeCollection = New WBSDistributeCollection
+
+                  AddHandler doc.WBSDistributeCollection.PropertyChanged, AddressOf doc.WBSChangedHandler
+
+                  For Each ml As MultiAllocate In Me.m_listMultiAllocate
+                    Dim wbsd As New WBSDistribute
+                    doc.WBSDistributeCollection.Add(wbsd)
+                    wbsd.CostCenter = ml.CostCenter
+                    wbsd.WBS = ml.WBS
+                    wbsd.CBS = ml.CBS
+                    wbsd.Percent = ml.Percent
+                  Next
+
+                End If
+
+              End If
+            Next
+          End If
+
+        End If
+
+        Dim flag As Boolean = m_isInitialized
+        m_isInitialized = False
+        'wsdColl.Populate(dt, doc, view)
+        Me.RefreshDocs() '---------------------**
+        m_isInitialized = flag
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+      End If
+
     End Sub
 
   End Class

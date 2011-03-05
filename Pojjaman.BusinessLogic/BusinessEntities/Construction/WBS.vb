@@ -2313,5 +2313,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class MultiAllocate
+    Public Property LineNumber As Integer
+    Public Property CostCenter As CostCenter
+    Public Property CBS As CBS
+    Public Property WBS As WBS
+    Public Property Percent As Decimal
+
+    Public Shared Function GetMultiBudgetAndActual(ByVal wbsListId As String, ByVal docType As String) As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, _
+                                                   CommandType.StoredProcedure, _
+                                                   "GetMultiPleAllocation", _
+                                                   New SqlParameter("@wbsListId", wbsListId), _
+                                                   New SqlParameter("@docType", docType))
+      Return ds
+    End Function
+  End Class
 End Namespace
 

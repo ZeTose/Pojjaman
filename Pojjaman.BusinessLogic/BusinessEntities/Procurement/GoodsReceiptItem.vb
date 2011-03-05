@@ -1205,10 +1205,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Qty = poitem.Qty  '(poitem.Qty * poitem.Conversion) / Me.Conversion
         End If
         If Not poitem.WBSDistributeCollection Is Nothing Then
-          Me.WBSDistributeCollection = poitem.WBSDistributeCollection.Clone(Me)
 
           'เพิ่มตรงนี้มา --> เพราะของเดิมแก้ % , wbs แล้วค่าคงเหลือไม่เปลี่ยน
-          AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
+          'AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
+
+          Me.WBSDistributeCollection = poitem.WBSDistributeCollection.Clone(Me)
 
         End If
       End If
@@ -1432,7 +1433,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs) Implements IWBSAllocatableItem.WBSChangedHandler
       'If TypeOf sender Is WBSDistribute Then
       '  Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
       '  Select Case e.Name.ToLower

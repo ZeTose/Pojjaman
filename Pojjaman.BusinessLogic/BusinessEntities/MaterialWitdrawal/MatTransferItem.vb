@@ -645,8 +645,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.MatTransfer.IsInitialized = True
     End Sub
 
-    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
-      
+    Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs) Implements IWBSAllocatableItem.WBSChangedHandler
+
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
         Select Case e.Name.ToLower
@@ -674,8 +674,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wbsd.QtyRemain = 0
             Else
               wbsd.BudgetRemain = wbsd.BudgetAmount - newWBS.GetWBSActualFromDB(Me.MatTransfer.Id, Me.MatTransfer.EntityId, 42)
-                wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.MatTransfer.Id, Me.MatTransfer.EntityId, Me.Entity.Id, _
-                                                                              42, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
+              wbsd.QtyRemain = wbsd.BudgetQty - newWBS.GetWBSQtyActualFromDB(Me.MatTransfer.Id, Me.MatTransfer.EntityId, Me.Entity.Id, _
+                                                                            42, theName) 'แปลงเป็นหน่วยตาม boq เรียบร้อย
             End If
 
         End Select

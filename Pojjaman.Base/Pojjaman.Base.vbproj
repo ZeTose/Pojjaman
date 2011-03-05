@@ -179,6 +179,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\CrystalDecisions.ReportSource.dll</HintPath>
@@ -244,6 +247,7 @@
     <Reference Include="System.Drawing.Design">
       <Name>System.Drawing.Design</Name>
     </Reference>
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms">
       <Name>system.windows.forms</Name>
     </Reference>
@@ -1436,6 +1440,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatItemSelectionView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\WBS\MultiAllocateWBSForm.Designer.vb">
+      <DependentUpon>MultiAllocateWBSForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\WBS\MultiAllocateWBSForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\WBS\scTransferWBSView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1826,6 +1836,9 @@
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Vat\VatItemSelectionView.resx">
       <DependentUpon>VatItemSelectionView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\WBS\MultiAllocateWBSForm.resx">
+      <DependentUpon>MultiAllocateWBSForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\WBS\scTransferWBSView.resx">
       <DependentUpon>scTransferWBSView.vb</DependentUpon>
     </EmbeddedResource>
@@ -1864,7 +1877,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

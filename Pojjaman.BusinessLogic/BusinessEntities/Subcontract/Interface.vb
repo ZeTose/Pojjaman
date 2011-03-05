@@ -52,6 +52,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property WBSDistributeCollection() As WBSDistributeCollection
     Property WBSDistributeCollection2() As WBSDistributeCollection
     ReadOnly Property AllocationType As String
+    Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
   End Interface
   Public Enum AllocationType
     Non

@@ -533,9 +533,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As PO)
         m_po = Value
         ChangePO()
+        RefreshWBSAndChangePo()
         OnGlChanged()
       End Set
     End Property
+    Private Sub RefreshWBSAndChangePo()
+      For Each item As GoodsReceiptItem In Me.ItemCollection
+        RemoveHandler item.WBSDistributeCollection.PropertyChanged, AddressOf item.WBSChangedHandler
+        AddHandler item.WBSDistributeCollection.PropertyChanged, AddressOf item.WBSChangedHandler
+        For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+          Dim oldwbs As New WBS(wbsd.WBS.Id)
+          wbsd.WBS = New WBS
+          wbsd.WBS = oldwbs
+
+          wbsd.BaseCost = item.Cost
+        Next
+      Next
+
+      'For Each item As GoodsReceiptItem In arr
+
+      '  For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+      '    wbsd.BaseCost = item.Cost
+      '    'wbsd.TransferBaseCost = item.Cost
+      '    'Me.SetActual(wbsd.WBS, 0, item.Cost * wbsd.Percent / 100, item.ItemType.Value)
+      '    'Me.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
+      '  Next
+      'Next
+    End Sub
     Private Sub ChangePO()
       'ลบรายการ
       Dim itemsToRemove As New ArrayList
@@ -618,19 +642,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         For Each newPOitem As POItem In itemsToAdd
           Dim item As New GoodsReceiptItem
+
           item.CopyFromPOItem(newPOitem)
           Me.ItemCollection.Add(item)
           arr.Add(item)
         Next
         Me.RefreshTaxBase()
-        For Each item As GoodsReceiptItem In arr
-          For Each wbsd As WBSDistribute In item.WBSDistributeCollection
-            wbsd.BaseCost = item.Cost
-            'wbsd.TransferBaseCost = item.Cost
-            Me.SetActual(wbsd.WBS, 0, item.Cost * wbsd.Percent / 100, item.ItemType.Value)
-            'Me.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
-          Next
-        Next
+        'For Each item As GoodsReceiptItem In arr
+
+        '  For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+        '    wbsd.BaseCost = item.Cost
+        '    'wbsd.TransferBaseCost = item.Cost
+        '    'Me.SetActual(wbsd.WBS, 0, item.Cost * wbsd.Percent / 100, item.ItemType.Value)
+        '    'Me.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
+        '  Next
+        'Next
       Else
         If Not Me.m_supplier Is Nothing Then
           Me.CreditPeriod = Me.Supplier.CreditPeriod
