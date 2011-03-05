@@ -682,6 +682,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '--------------------------END SAVING EXTENDERS---------------------
           End If
 
+          '------------------------- อย่าลืม ทำลายทิ้งด้วยนะ -----------------------------
+          CostCenter.DestroyCachCC()
+          '------------------------- อย่าลืม ทำลายทิ้งด้วยนะ -----------------------------
+
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As Exception
@@ -1091,6 +1095,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trans.Rollback()
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
+
+        '------------------------- อย่าลืม ทำลายทิ้งด้วยนะ -----------------------------
+        CostCenter.DestroyCachCC()
+        '------------------------- อย่าลืม ทำลายทิ้งด้วยนะ -----------------------------
+
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException
