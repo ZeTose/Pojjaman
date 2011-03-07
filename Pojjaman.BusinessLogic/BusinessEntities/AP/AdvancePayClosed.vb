@@ -544,7 +544,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       oldjeautogen = Me.m_je.AutoGen
 
       Try
-        UpdateAdvancePayStatus(False)
 
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         If IsNumeric(returnVal.Value) Then
@@ -612,6 +611,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
         End If
+
+        If Me.Status.Value = 0 Then
+          UpdateAdvancePayStatus(False, conn, trans)
+        Else
+          UpdateAdvancePayStatus(True, conn, trans)
+        End If
+
 
         Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
         If Not IsNumeric(saveVatError.Message) Then
@@ -700,7 +706,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         trans.Commit()
 
-        UpdateAdvancePayStatus(True)
 
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
@@ -717,12 +722,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Close()
       End Try
     End Function
-    Public Sub UpdateAdvancePayStatus(ByVal Closed As Boolean)
+    Public Sub UpdateAdvancePayStatus(ByVal Closed As Boolean, ByVal conn As SqlConnection, ByVal tran As SqlTransaction)
       ' Execute Store Procedure ...
       If Not Me.Originated Then
         Return
       End If
-      SqlHelper.ExecuteNonQuery(Me.ConnectionString, CommandType.StoredProcedure, "UpdateAdvancePayStatus", New SqlParameter("@advpclosed_id", Me.Id), New SqlParameter("@advp_closed", Closed))
+      SqlHelper.ExecuteNonQuery(conn, tran, CommandType.StoredProcedure, "UpdateAdvancePayStatus", New SqlParameter("@advpclosed_id", Me.Id), New SqlParameter("@advp_closed", Closed))
     End Sub
 
 #End Region
