@@ -1059,6 +1059,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       EventWiring()
     End Sub
+    Private Sub DisableGigaSiteControl()
+      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+        Me.lblEquipment.Enabled = False
+        Me.txtEquipmentCode.Enabled = False
+        Me.txtEquipmentName.Enabled = False
+        Me.ibtnShowEquipmentDiaog.Enabled = False
+        Me.ibtnShowEquipment.Enabled = False
+      End If
+    End Sub
     Private Sub SaveEnableState()
       m_enableState = New Hashtable
       For Each ctrl As Control In Me.grbDetail.Controls
@@ -1591,6 +1600,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.chkShowCost.Enabled = True
       Me.ibtnApprove.Enabled = True
       CheckWBSRight()
+      DisableGigaSiteControl()
     End Sub
     Private Sub CheckWBSRight()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -2007,6 +2017,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
+        DisableGigaSiteControl()
       End Set
     End Property
     Public Overrides Sub Initialize()
