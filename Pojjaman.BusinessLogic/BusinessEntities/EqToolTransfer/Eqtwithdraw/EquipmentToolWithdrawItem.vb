@@ -106,6 +106,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
+    Public ReadOnly Property RentalRate() As Decimal
+      Get        If m_qty = 0 Then          Return Entity.RentalRate
+        End If        Return m_rentalperday / m_qty
+      End Get    End Property
+
     Public Overrides Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal value As Decimal)
         m_amount = value
         If m_rentalqty > 0 Then
@@ -243,12 +248,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'rpd = rentrate * Me.Qty
         'If Me.RentalPerDay <> 0 And rpd <> 0 Then
         If Me.RentalPerDay <> 0 Then
+          row("RentalRate") = Configuration.FormatToString(Me.RentalRate, DigitConfig.Price)
           row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
           'Else
           '  row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
           '  Me.RentalPerDay = rpd
           'End If
         Else
+          row("RentalRate") = ""
           row("RentalPerDay") = ""
         End If
 

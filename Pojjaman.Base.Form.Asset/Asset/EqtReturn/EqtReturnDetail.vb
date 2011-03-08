@@ -929,6 +929,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'csUnitButton.NullText = ""
       'AddHandler csUnitButton.Click, AddressOf UnitClicked
 
+      Dim csRentalRate As New TreeTextColumn
+      csRentalRate.MappingName = "RentalRate"
+      csRentalRate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolWithdrawDetail.RentalRate}")
+      csRentalRate.NullText = ""
+      csRentalRate.Alignment = HorizontalAlignment.Center
+      csRentalRate.DataAlignment = HorizontalAlignment.Right
+      csRentalRate.Format = "#,##0.00"
+      csRentalRate.Width = 100
+      csRentalRate.ReadOnly = True
+      csRentalRate.TextBox.Name = "RentalRate"
+
       Dim csQty As New TreeTextColumn
       csQty.MappingName = "Qty"
       csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.QtyHeaderText}")
@@ -991,6 +1002,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dst.GridColumnStyles.Add(csButton)
       dst.GridColumnStyles.Add(csName)
       dst.GridColumnStyles.Add(csUnit)
+      dst.GridColumnStyles.Add(csRentalRate)
       dst.GridColumnStyles.Add(csQty)
       dst.GridColumnStyles.Add(csRentalPerDay)
       dst.GridColumnStyles.Add(csRentalQty)

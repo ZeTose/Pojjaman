@@ -282,6 +282,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Name", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("UnitName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RentalRate", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Qty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RentalPerDay", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RentalQty", GetType(String)))

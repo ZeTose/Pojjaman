@@ -701,14 +701,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
       If Me.m_entity.Canceled OrElse Me.m_entity.GetIsReferenced OrElse Me.m_entity.ItemCollection.Count > 0 Then
-        For Each ctrl As Control In Me.Controls
-          ctrl.Enabled = False
+        For Each ctrl As Control In Me.grbDetail.Controls
+          If Not TypeOf ctrl Is FixedGroupBox Then
+            ctrl.Enabled = False
+          End If
+
         Next
         'Me.chkcancel.Enabled = True
       Else
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = True
         Next
+      End If
+      If Not Me.m_entity.Canceled Then
+        txtRent.Enabled = True
       End If
     End Sub
     ' เคลียร์ข้อมูลใน control

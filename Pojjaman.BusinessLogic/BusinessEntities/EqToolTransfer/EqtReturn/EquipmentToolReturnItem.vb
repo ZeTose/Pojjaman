@@ -100,6 +100,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
         '  Return
         'End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))        RentalPerDay = m_qty * Entity.RentalRate      End Set    End Property
+    Public ReadOnly Property RentalRate() As Decimal
+      Get        If m_qty = 0 Then          Return Entity.RentalRate
+        End If        Return m_rentalperday / m_qty
+      End Get    End Property
     Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
         m_rentalperday = value
         m_rentalAmt = m_rentalperday * m_rentalqty
@@ -254,12 +258,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         rpd = rentrate * Me.Qty
         If Me.RentalPerDay <> 0 And rpd <> 0 Then
           If Me.RentalPerDay <> 0 Then
+            row("RentalRate") = Configuration.FormatToString(Me.RentalRate, DigitConfig.Price)
             row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
           Else
+            row("RentalRate") = Configuration.FormatToString(rentrate, DigitConfig.Price)
             row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
             Me.RentalPerDay = rpd
           End If
         Else
+          row("RentalRate") = ""
           row("RentalPerDay") = ""
         End If
         row("RentalQty") = Configuration.FormatToString(Me.RentalQty, DigitConfig.Price)
