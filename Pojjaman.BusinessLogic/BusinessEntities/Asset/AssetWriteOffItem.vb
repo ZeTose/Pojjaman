@@ -545,6 +545,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .RealRemainQty = 0
               .BuyUnitPrice = 0
               .UnitPrice = 0
+              .m_calcwriteoffamount = drh.GetValue(Of Decimal)("eqi_buycost") * drh.GetValue(Of Decimal)("WriteOffQty")
             Else
               .RemainingQty = 1
               .Qty = 1

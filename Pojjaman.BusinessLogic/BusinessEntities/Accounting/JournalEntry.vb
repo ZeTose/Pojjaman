@@ -610,7 +610,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim diff As Decimal = Me.DebitAmount - Me.CreditAmount
       If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < entriesFromDoc.Count Then
         Dim ji As New JournalEntryItem
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        If TypeOf Me.RefDoc Is IHasToCostCenter Then
+          ji.CostCenter = CType(Me.RefDoc, IHasToCostCenter).ToCC
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
         ji.IsDebit = (diff < 0)
         'If diff < 0 Then
         diff = Math.Abs(diff)

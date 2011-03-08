@@ -1030,6 +1030,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Or Not (Me.m_isInitialized) Then
         Return
       End If
+      Dim oldDate As DateTime = Me.m_entity.DepreDate
+      If oldDate <> CDate(txtDepreDate.Text) OrElse oldDate <> dtpDepreDate.Value Then
+
       Dim flag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
       Me.m_entity.ReCalculationAll()
       Dim index As Integer = tgItem.CurrentRowIndex
@@ -1037,6 +1040,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgItem.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = flag
       RefreshBlankGrid()
+      End If
     End Sub
     Private m_dateSetting As Boolean = False
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
