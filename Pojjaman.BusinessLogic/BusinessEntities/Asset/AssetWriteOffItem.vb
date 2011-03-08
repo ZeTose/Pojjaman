@@ -195,7 +195,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         m_writeoffamount = value
-        m_writeOffDepreAmount = value / m_calcwriteoffamount * m_calcwriteOffDepreAmount
+        If Not Me.HasChild Then
+          m_writeOffDepreAmount = value / m_calcwriteoffamount * m_calcwriteOffDepreAmount
+        End If
       End Set
     End Property    Public ReadOnly Property CalcWriteOffAmt As Decimal
       Get
