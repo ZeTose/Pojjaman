@@ -1071,7 +1071,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return 0
       End If
     End Function
-#End Region    Public Function GetTotalMat() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
+#End Region    Private m_totalMat As Nullable(Of Decimal)    Public Function GetTotalMat() As Decimal      If m_totalMat.HasValue Then
+        Return m_totalMat.Value
+      End If      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
       For Each child As WBS In childs
         ret += child.GetTotalMat
@@ -1080,6 +1082,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim items As BoqItemCollection = Me.Boq.ItemCollection.GetCollectionForWBS(Me)
       ret += items.GetTotalMat
       items = Nothing
+      m_totalMat = ret
       Return ret
     End Function    Public Function GetTotalMatQty(ByVal matId As Integer) As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
@@ -1101,7 +1104,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ret += items.GetFinalMat
       items = Nothing
       Return ret
-    End Function    Public Function GetTotalLab() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
+    End Function    Private m_totalLab As Nullable(Of Decimal)    Public Function GetTotalLab() As Decimal      If m_totalLab.HasValue Then
+        Return m_totalLab.Value
+      End If      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
       For Each child As WBS In childs
         ret += child.GetTotalLab
@@ -1110,6 +1115,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim items As BoqItemCollection = Me.Boq.ItemCollection.GetCollectionForWBS(Me)
       ret += items.GetTotalLab
       items = Nothing
+      m_totalLab = ret
       Return ret
     End Function    Public Function GetTotalLabQty(ByVal name As String) As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
@@ -1132,7 +1138,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       items = Nothing
       Return ret
     End Function
-    Public Function GetTotalEq() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
+    Private m_totalEQ As Nullable(Of Decimal)
+    Public Function GetTotalEq() As Decimal      If m_totalEQ.HasValue Then
+        Return m_totalEQ.Value
+      End If      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
       For Each child As WBS In childs
         ret += child.GetTotalEq
@@ -1141,6 +1150,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim items As BoqItemCollection = Me.Boq.ItemCollection.GetCollectionForWBS(Me)
       ret += items.GetTotalEq
       items = Nothing
+      m_totalEQ = ret
       Return ret
     End Function    Public Function GetTotalEqQty(ByVal name As String) As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
@@ -1178,7 +1188,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       items = Nothing
       Return ret
     End Function
-    Public Function GetTotal() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
+    Private m_total As Nullable(Of Decimal)
+    Public Function GetTotal() As Decimal      If m_total.HasValue Then
+        Return m_total.Value
+      End If      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
       For Each child As WBS In childs
         ret += child.GetTotal
@@ -1187,9 +1200,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim items As BoqItemCollection = Me.Boq.ItemCollection.GetCollectionForWBS(Me)
       ret += items.GetTotal
       items = Nothing
+      m_total = ret
       Return ret
     End Function
-    Public Function GetTotalPerWBS() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
+    Private m_totalPerWbs As Nullable(Of Decimal)
+    Public Function GetTotalPerWBS() As Decimal      If m_totalPerWbs.HasValue Then
+        Return m_totalPerWbs.Value
+      End If      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)
       Dim ret As Decimal = 0
       For Each child As WBS In childs
         ret += (child.GetTotalPerWBS * child.Qty)
@@ -1198,6 +1215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim items As BoqItemCollection = Me.Boq.ItemCollection.GetCollectionForWBS(Me)
       ret += items.GetTotalPerWbs
       items = Nothing
+      m_totalPerWbs = ret
       Return ret
     End Function
     Public Function GetFinalTotal() As Decimal      Dim childs As WBSCollection = Me.Boq.WBSCollection.GetChildsOf(Me)

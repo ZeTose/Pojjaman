@@ -71,12 +71,13 @@ Namespace Longkong.Pojjaman.Gui.Components
 		Public ReadOnly Property Index() As Integer			Get				If Me.Table Is Nothing Then
 					Return -1
 				End If
-				For i As Integer = 0 To Me.Table.Rows.Count - 1
-					If Me.Table.Rows(i) Is Me Then
-						Return i
-					End If
-				Next
-				Return -1
+        'For i As Integer = 0 To Me.Table.Rows.Count - 1
+        '	If Me.Table.Rows(i) Is Me Then
+        '		Return i
+        '	End If
+        'Next
+        'Return -1
+        Return Me.Table.Rows.IndexOf(Me)
 			End Get		End Property		Public Property FixLevel() As Integer			Get				Return m_fixLevel			End Get			Set(ByVal Value As Integer)				m_fixLevel = Value			End Set		End Property		Public ReadOnly Property Level() As Integer			Get
 				If m_fixLevel >= 0 Then
 					Return m_fixLevel
