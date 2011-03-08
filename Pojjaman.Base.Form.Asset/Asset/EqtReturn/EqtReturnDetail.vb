@@ -1072,7 +1072,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       If Me.m_entity.Canceled _
       OrElse Me.m_entity.Status.Value = 0 _
-      OrElse Me.m_entity.Status.Value >= 3 Then
+      OrElse Me.m_entity.Status.Value >= 3 _
+      OrElse Me.m_entity.IsReferenced Then
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = False
         Next

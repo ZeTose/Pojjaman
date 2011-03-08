@@ -148,7 +148,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return False
-    End Function    'Public Sub SetItemCode(ByVal theCode As String)    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Function    'Protected Overrides Function GetLimitQty() As Decimal
+    '  Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEqtLimitQty", _
+    '                                                                                              New SqlParameter("@stockid", Me.EqtReturn.Id), _
+    '                                                                                              New SqlParameter("@eqtid", Me.Entity.Id), _
+    '                                                                                              New SqlParameter("@fromCC", Me.EqtReturn.ReturnCostcenter), _
+    '                                                                                              New SqlParameter("@EntityType", Me.Entity.EntityId), _
+    '                                                New SqlParameter("@eqtstatus", Me.FromStatus.Value))
+    'End Function    'Public Sub SetItemCode(ByVal theCode As String)    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
     '  If Me.ItemType Is Nothing Then
     '    'ไม่มี Type
     '    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -505,11 +514,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If itemType = 19 Then
             If refItem IsNot Nothing Then
               doc.Qty = refItem.Qty
+              doc.LimitQty = refItem.Qty
             Else
+              doc.LimitQty = 1
               doc.Qty = 1
             End If
             doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
           Else
+            doc.LimitQty = 1
             doc.Qty = 1
             doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
           End If

@@ -167,7 +167,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_qty") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_qty") Then
-          .m_qty = CInt(dr(aliasPrefix & "eqtstocki_qty"))
+          .m_qty = CDec(dr(aliasPrefix & "eqtstocki_qty"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_remainbuyqty") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_remainbuyqty") Then
+          .m_limitQty = CDec(dr(aliasPrefix & "eqtstocki_remainbuyqty"))
         End If
         ' Stock Note ...
         If dr.Table.Columns.Contains(aliasPrefix & "eqtstocki_note") AndAlso Not dr.IsNull(aliasPrefix & "eqtstocki_note") Then
@@ -282,7 +286,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Me.m_qty = 1
-    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Overridable Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overridable Property Qty() As Decimal      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 346 OrElse Me.m_itemtype.Value = 28 Then
+    End Sub    Public Property Entity() As IEqtItem      Get        Return m_entityitem      End Get      Set(ByVal Value As IEqtItem)        m_entityitem = Value      End Set    End Property    Public Overridable Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Dim m_limitQty As Nullable(Of Decimal)    ''' <summary>
+    ''' จำนวน limit 
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>    Public Property LimitQty As Decimal
+      Get
+        If Not m_limitQty.HasValue Then
+          m_limitQty = 0
+        End If
+        Return m_limitQty.Value
+      End Get
+      Set(ByVal value As Decimal)
+        m_limitQty = value
+      End Set
+    End Property
+    'Protected MustOverride Function GetLimitQty() As Decimal
+    'Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+    'Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEqtLimitQty", _
+    '                                                                                            New SqlParameter("@stockid", 0), _
+    '                                                                                            New SqlParameter("@eqtid", Me.Entity.Id), _
+    '                                                                                            New SqlParameter("@fromCC", 0), _
+    '                                                                                            New SqlParameter("@EntityType", Me.Entity.EntityId), _
+    '                                              New SqlParameter("@eqtstatus", Me.FromStatus.Value))
+    'End Function    Public Overridable Property Qty() As Decimal      Get        If Not Me.m_itemtype Is Nothing Then          If Me.m_itemtype.Value = 346 OrElse Me.m_itemtype.Value = 28 Then
             m_qty = 1
           End If
         End If        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -295,7 +324,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
           msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
           Return
-        End If        m_qty = Configuration.Format(Value, DigitConfig.Int)      End Set    End Property    Public Property Unit As Unit
+        End If        If LimitQty < Value Then
+          Value = LimitQty
+        End If
+        m_qty = Configuration.Format(Value, DigitConfig.Int)      End Set    End Property    Public Property Unit As Unit
       Get
         Return m_unit
       End Get

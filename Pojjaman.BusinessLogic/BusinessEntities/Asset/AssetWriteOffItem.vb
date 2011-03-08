@@ -306,6 +306,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+    'Protected Overrides Function GetLimitQty() As Decimal
+    '  Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEqtLimitQty", _
+    '                                                                                              New SqlParameter("@stockid", Me.AssetWriteoff.Id), _
+    '                                                                                              New SqlParameter("@eqtid", Me.Entity.Id), _
+    '                                                                                              New SqlParameter("@fromCC", Me.AssetWriteoff.FromCostCenter), _
+    '                                                                                              New SqlParameter("@EntityType", Me.Entity.EntityId), _
+    '                                                New SqlParameter("@eqtstatus", Me.FromStatus.Value))
+    'End Function
+
     Public Property RefSequence As Integer
       Get
         Return m_refSequence

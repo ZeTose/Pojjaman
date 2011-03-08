@@ -161,6 +161,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
     Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property
+
+    'Protected Overrides Function GetLimitQty() As Decimal
+    '  Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEqtLimitQty", _
+    '                                                                                              New SqlParameter("@stockid", Me.AssetSold.Id), _
+    '                                                                                              New SqlParameter("@eqtid", Me.Entity.Id), _
+    '                                                                                              New SqlParameter("@fromCC", Me.AssetSold.FromCostCenter), _
+    '                                                                                              New SqlParameter("@EntityType", Me.Entity.EntityId), _
+    '                                                New SqlParameter("@eqtstatus", Me.FromStatus.Value))
+    'End Function
 #End Region
 
 #Region "Methods"

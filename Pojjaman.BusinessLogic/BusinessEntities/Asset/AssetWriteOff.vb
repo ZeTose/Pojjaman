@@ -654,10 +654,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
+          '==============================eqtSTOCKFIFO=========================================
+          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (Teeraboon)
+          If Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockiFIFO", New SqlParameter("@eqtstock_id", Me.Id), _
+                                                                                                  New SqlParameter("@tostatus", 9), _
+                                                                                                  New SqlParameter("@fromstatus", 9) _
+                                                                                                  )
+          End If
+          '==============================eqtSTOCKFIFO=========================================
+
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAW_DepreRef" _
          , New SqlParameter("@stock_id", Me.Id))
-
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStockRef" _
+          , New SqlParameter("@refto_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
@@ -734,6 +745,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteOffAmt", New SqlParameter("@eqtstock_id", Me.Id) _
                                     , New SqlParameter("@AssetList", String.Join(",", assetlist)))
     End Sub
+
     'Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
     '  If Not Me.Originated Then
     '    Return

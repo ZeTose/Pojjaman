@@ -541,6 +541,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_entityType") = item.ItemType.Value
             dr("eqtstocki_Name") = item.Entity.Name
             dr("eqtstocki_qty") = item.Qty
+            dr("eqtstocki_remainbuyqty") = item.LimitQty
             dr("eqtstocki_unit") = item.Unit.Id
             dr("eqtstocki_amount") = item.Amount
             dr("eqtstocki_note") = item.Note

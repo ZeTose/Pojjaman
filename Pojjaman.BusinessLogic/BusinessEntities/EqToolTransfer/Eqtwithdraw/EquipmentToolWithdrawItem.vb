@@ -134,7 +134,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return False
-    End Function    'ไปใช้ของแม่ Eqtitem    'Public Sub SetItemCode(ByVal theCode As String)    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Function    'Protected Overrides Function GetLimitQty() As Decimal
+    '  Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetEqtLimitQty", _
+    '                                                                                              New SqlParameter("@stockid", Me.EquipmentToolWithdraw.Id), _
+    '                                                                                              New SqlParameter("@eqtid", Me.Entity.Id), _
+    '                                                                                              New SqlParameter("@fromCC", Me.EquipmentToolWithdraw.StoreCostcenter), _
+    '                                                                                              New SqlParameter("@EntityType", Me.Entity.EntityId), _
+    '                                                New SqlParameter("@eqtstatus", Me.FromStatus.Value))
+    'End Function    'ไปใช้ของแม่ Eqtitem    'Public Sub SetItemCode(ByVal theCode As String)    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
     '  If Me.ItemType Is Nothing Then
     '    'ไม่มี Type
     '    msgServ.ShowMessage("${res:Global.Error.NoItemType}")

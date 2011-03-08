@@ -995,7 +995,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       If Me.m_entity.Canceled _
       OrElse Me.m_entity.Status.Value = 0 _
-      OrElse Me.m_entity.Status.Value >= 3 Then
+      OrElse Me.m_entity.Status.Value >= 3 _
+      OrElse Me.m_entity.IsReferenced Then
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = False
         Next
@@ -1461,6 +1462,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               doc.Unit = prItem.Unit
               doc.ToStatus = New EqtStatus(3)
 
+              doc.LimitQty = item.Qty
               doc.Qty = item.Qty
               doc.RentalPerDay = prItem.UnitPrice * doc.Qty
 
@@ -1505,10 +1507,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If itemType = 19 Then
               If TypeOf item.Tag Is DataRow Then
                 Dim dr As DataRow = CType(item.Tag, DataRow)
+                doc.LimitQty = CInt(dr("tool_remaining"))
                 doc.Qty = CInt(dr("tool_remaining"))
               End If
               doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate * doc.Qty
             Else
+              doc.LimitQty = 1
               doc.Qty = 1
               doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate
             End If
