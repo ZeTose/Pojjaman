@@ -1349,17 +1349,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
 
-      If Me.CurrentItem Is Nothing Then
-        Return
-      End If
+      'If Me.CurrentItem Is Nothing Then
+      '  Return
+      'End If
 
+      'เอาเครื่องจักรออก
       Dim activeIndex As Integer = 0
 
-      If Me.CurrentItem.ItemType.Value = 19 Then
-        activeIndex = 0
-      Else
-        activeIndex = 1
-      End If
+      'If Me.CurrentItem.ItemType.Value = 19 Then
+      '  activeIndex = 0
+      'Else
+      '  activeIndex = 1
+      'End If
 
       Dim filters(0)() As Filter
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(19))}

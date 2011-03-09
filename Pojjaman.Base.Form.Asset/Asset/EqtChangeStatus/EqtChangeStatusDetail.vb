@@ -1300,61 +1300,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      'เอาชนิดออก
+      'If Me.CurrentItem Is Nothing Then
+      '  Return
+      'End If
+      'If Me.CurrentItem.ItemType.Value = 19 Then
+      Dim dlg As New BasketDialog
+      AddHandler dlg.EmptyBasket, AddressOf SetItems
 
-      If Me.CurrentItem Is Nothing Then
-        Return
-      End If
-      If Me.CurrentItem.ItemType.Value = 19 Then
-        Dim dlg As New BasketDialog
-        AddHandler dlg.EmptyBasket, AddressOf SetItems
+      Dim t As New ToolForSelection
 
-        Dim t As New ToolForSelection
+      Dim entities As New ArrayList
+      Dim entity As New ToolForSelection
+      entity.CC = Me.m_entity.FromCC
+      entity.FromWip = False
+      entity.EqtClass = Me.m_entity.ClassName
+      entity.fromstatus = m_entity.FromStatus
+      entities.Add(entity)
 
-        Dim entities As New ArrayList
-        Dim entity As New ToolForSelection
-        entity.CC = Me.m_entity.FromCC
-        entity.FromWip = False
-        entity.EqtClass = Me.m_entity.ClassName
-        entity.fromstatus = m_entity.FromStatus
-        entities.Add(entity)
+      'entities.Add(m_entity.FromStatus)
+      Dim filters(2) As Filter
+      filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
+      filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+      filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
+      'myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
 
-        'entities.Add(m_entity.FromStatus)
-        Dim filters(2) As Filter
-        filters(0) = New Filter("IDList", GenIDListFromDataTable(19))
-        filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
-        'myEntityPanelService.OpenListDialog(entity, AddressOf SetItems, filters, entities)
+      Dim view As AbstractEntityPanelViewContent = New ToolSelectionView(t, New BasketDialog, filters, entities)
+      dlg.Lists.Add(view)
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      myDialog.ShowDialog()
 
-        Dim view As AbstractEntityPanelViewContent = New ToolSelectionView(t, New BasketDialog, filters, entities)
-        dlg.Lists.Add(view)
-        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
-        myDialog.ShowDialog()
+      'เอาชนิดเครื่องจักรออก
+      'ElseIf Me.CurrentItem.ItemType.Value = 346 Then
+      'Dim dlg As New BasketDialog
+      'AddHandler dlg.EmptyBasket, AddressOf SetItems
 
-      ElseIf Me.CurrentItem.ItemType.Value = 346 Then
-        Dim dlg As New BasketDialog
-        AddHandler dlg.EmptyBasket, AddressOf SetItems
+      'Dim eqi As New EqItemForSelection
 
-        Dim eqi As New EqItemForSelection
+      'Dim filters(2) As Filter
+      'filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
+      'filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
+      'filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
 
-        Dim filters(2) As Filter
-        filters(0) = New Filter("IDList", GenIDListFromDataTable(342))
-        filters(1) = New Filter("EntityType", Me.m_entity.EntityId)
-        filters(2) = New Filter("eqtstatus", m_entity.FromStatus.Value)  'ต้องการสถานะว่าง
+      'Dim entities As New ArrayList
+      'eqi.Costcenter = Me.m_entity.FromCC
+      'eqi.entityId = Me.m_entity.EntityId
+      'eqi.Status = Me.m_entity.FromStatus
+      'entities.Add(eqi)
 
-        Dim entities As New ArrayList
-        eqi.Costcenter = Me.m_entity.FromCC
-        eqi.entityId = Me.m_entity.EntityId
-        eqi.Status = Me.m_entity.FromStatus
-        entities.Add(eqi)
-
-        Dim view As AbstractEntityPanelViewContent = New EqiSelectionView(eqi, New BasketDialog, filters, entities)
-        dlg.Lists.Add(view)
-        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
-        myDialog.ShowDialog()
+      'Dim view As AbstractEntityPanelViewContent = New EqiSelectionView(eqi, New BasketDialog, filters, entities)
+      'dlg.Lists.Add(view)
+      'Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      'myDialog.ShowDialog()
 
 
 
-      End If
+      'End If
 
     End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
