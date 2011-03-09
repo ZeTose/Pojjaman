@@ -709,7 +709,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
         'Me.chkcancel.Enabled = True
       Else
-        For Each ctrl As Control In Me.Controls
+        For Each ctrl As Control In Me.grbDetail.Controls
           ctrl.Enabled = True
         Next
       End If
