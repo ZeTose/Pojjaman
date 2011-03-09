@@ -3844,7 +3844,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.WBSCollection.UpdateParentId(oldParId, rootWbs.Id)
             Me.ItemCollection.UpdateWbsId(oldParId, rootWbs.Id)
           End If
-          Dim collForRoot As WBSCollection = Me.WBSCollection.GetChildsOf(rootWbs)
+          Dim collForRoot As WBSCollection = rootWbs.Childs
           LoopWbs(collForRoot, 1, dtWbs, drBoq)
           collForRoot = Nothing
         End If
@@ -4140,7 +4140,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.ItemCollection.UpdateWbsId(oldParId, myWbs.Id)
         End If
         line += 1
-        Dim childs As WBSCollection = Me.WBSCollection.GetChildsOf(myWbs)
+        Dim childs As WBSCollection = myWbs.Childs
         LoopWbs(childs, level + 1, dtWbs, drBoq)
         childs = Nothing
       Next
