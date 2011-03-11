@@ -211,6 +211,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    Public Function UnitCostAmount() As Decimal
+      Dim amt As Decimal = 0
+      Dim stockQty As Decimal = 0
+      For Each itm As StockCostItem In Me
+        amt += (itm.UnitCost * itm.StockQty)
+        stockQty += itm.StockQty
+      Next
+      If stockQty = 0 Then
+        Return 0
+      End If
+      Return amt / stockQty
+    End Function
 #End Region
 
 #Region "Collection Methods"

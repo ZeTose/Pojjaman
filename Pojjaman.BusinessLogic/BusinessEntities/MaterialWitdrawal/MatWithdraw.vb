@@ -1108,6 +1108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '********************************************
           If Not Me.m_je.ManualFormat Then
             m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            'Me.m_je.RefreshGLFormat()
           End If
           '********************************************
           Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)

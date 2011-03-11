@@ -316,11 +316,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.Qty * Me.Conversion
       End Get
     End Property    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property    Public Property UnitCost() As Decimal      Get        If m_unitCost = Decimal.MinValue OrElse m_unitCost = 0 Then
-          Return m_transferUnitPrice
+          m_unitCost = Me.ItemCollectionPrePareCost.UnitCostAmount
         End If        Return m_unitCost      End Get      Set(ByVal Value As Decimal)        m_unitCost = Value      End Set    End Property    Public ReadOnly Property Amount() As Decimal      Get
         If Me.UnitCost = Decimal.MinValue Then
-          Return 0
+          Return Me.ItemCollectionPrePareCost.CostAmount
         End If
+        m_transferAmount = (Me.Qty * Me.Conversion) * Me.UnitCost
         Return (Me.Qty * Me.Conversion) * Me.UnitCost
       End Get
     End Property    Public Property TransferUnitPrice() As Decimal
@@ -547,8 +548,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Else
         row("stocki_transferUnitPrice") = Configuration.FormatToString(Me.TransferUnitPrice, DigitConfig.UnitPrice)
       End If
-      If Me.TransferAmount <> 0 Then
-        row("stocki_transferamt") = Configuration.FormatToString(Me.TransferAmount, DigitConfig.Price)
+      If Me.Amount <> 0 Then
+        row("stocki_transferamt") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
       Else
         row("stocki_transferamt") = DBNull.Value
       End If
