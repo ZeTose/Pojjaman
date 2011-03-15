@@ -1290,6 +1290,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Dim value As Integer = CInt(TextParser.Evaluate(e.ProposedValue.ToString))
             doc.Qty = value
+            doc.RefreshRetalperday()
           Case "rentalperday"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -1477,6 +1478,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               doc.LimitQty = item.Qty
               doc.Qty = item.Qty
               doc.RentalPerDay = prItem.UnitPrice * doc.Qty
+              doc.RentalRate = prItem.UnitPrice
 
               doc.PRItem = prItem
             End If
@@ -1523,10 +1525,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 doc.Qty = CInt(dr("tool_remaining"))
               End If
               doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate * doc.Qty
+              doc.RentalRate = CType(newItem, IEqtItem).RentalRate
             Else
               doc.LimitQty = 1
               doc.Qty = 1
               doc.RentalPerDay = CType(newItem, IEqtItem).RentalRate
+              doc.RentalRate = CType(newItem, IEqtItem).RentalRate
             End If
           End If
         End If

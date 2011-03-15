@@ -612,7 +612,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
             dr("eqtstocki_rentalunit") = DBNull.Value
             dr("eqtstocki_rentalqty") = DBNull.Value
-            dr("eqtstocki_unitprice") = item.RentalPerDay
+            dr("eqtstocki_unitprice") = item.RentalRate
             dr("eqtstocki_Amount") = 0
             dr("eqtstocki_remainbuyqty") = item.LimitQty
             'dr("eqtstocki_unitAssetAmount") = 0

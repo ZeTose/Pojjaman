@@ -100,9 +100,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_Returnperson = New Employee(dr, "ReturnEmployee.")
           End If
         Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_toCCPerson") Then
-            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_toCCPerson") Then
-              .m_Returnperson = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_toCCPerson")))
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fromCCPerson") Then
+            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_fromCCPerson") Then
+              .m_Returnperson = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_fromCCPerson")))
             End If
           End If
         End If
@@ -115,9 +115,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_Returncc = New CostCenter(dr, "Returncostcenter.")
           End If
         Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_tocc") Then
-            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_tocc") Then
-              .m_Returncc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_tocc")))
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fromcc") Then
+            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_fromcc") Then
+              .m_Returncc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_fromcc")))
             End If
           End If
         End If
@@ -127,9 +127,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_storeperson = New Employee(dr, "storeperson.")
           End If
         Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fromCCPerson") Then
-            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_fromCCPerson") Then
-              .m_storeperson = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_fromCCPerson")))
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_toCCPerson") Then
+            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_toCCPerson") Then
+              .m_storeperson = New Employee(CInt(dr(aliasPrefix & Me.Prefix & "_toCCPerson")))
             End If
           End If
         End If
@@ -139,9 +139,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_storecc = New CostCenter(dr, "storecostcenter.")
           End If
         Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_fromcc") Then
-            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_fromcc") Then
-              .m_storecc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_fromcc")))
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_tocc") Then
+            If Not dr.IsNull(aliasPrefix & Me.Prefix & "_tocc") Then
+              .m_storecc = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_tocc")))
             End If
           End If
         End If
@@ -216,7 +216,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return m_Returnperson
       End Get      Set(ByVal Value As Employee)
-        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter Implements IWBSAllocatable.FromCostCenter      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter Implements IWBSAllocatable.ToCostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter Implements IWBSAllocatable.ToCostCenter 'สับสนหน่อย แต่เป็นการคืนของ เป็น cc ที่ได้การจัดสรรไป      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter Implements IWBSAllocatable.FromCostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -410,15 +410,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", Me.ValidDateOrDBNull(Me.DocDate)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromCCPerson", Me.ValidIdOrDBNull(Me.Storeperson)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromcc", Me.ValidIdOrDBNull(Me.StoreCostcenter)))
+        'สับสนเรื่อง ตกลง costcenter ไหน from  cc ไหน to และต้องแก้ทั้งตอน save และตอน เปิด ต้องไปดูที่รายงาน
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_toCCPerson", Me.ValidIdOrDBNull(Me.Storeperson)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_tocc", Me.ValidIdOrDBNull(Me.StoreCostcenter)))
 
         Dim person As SimpleBusinessEntityBase
         If TypeOf Me.ReturnPerson Is SimpleBusinessEntityBase Then
           person = CType(Me.ReturnPerson, SimpleBusinessEntityBase)
         End If
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_toCCPerson", Me.ValidIdOrDBNull(person)))
-        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_tocc", Me.ValidIdOrDBNull(Me.ReturnCostcenter)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromCCPerson", Me.ValidIdOrDBNull(person)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_fromcc", Me.ValidIdOrDBNull(Me.ReturnCostcenter)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docstatus", Me.Status.Value))
@@ -643,7 +644,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("eqtstocki_rentalrate") = item.RentalPerDay  'คิดจากจำนวนแล้ว
             dr("eqtstocki_rentalunit") = ValidIdOrDBNull(item.Unit)
             dr("eqtstocki_rentalqty") = DBNull.Value
-            dr("eqtstocki_unitprice") = item.RentalPerDay
+            dr("eqtstocki_unitprice") = item.RentalRate
             dr("eqtstocki_Amount") = item.Amount
             dr("eqtstocki_remainbuyqty") = item.LimitQty
             dr("eqtstocki_AssetAmount") = 0

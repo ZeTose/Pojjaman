@@ -102,6 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected m_qty As Decimal = 1
     Protected m_rentalqty As Decimal
     Protected m_rentalperday As Decimal
+    Protected m_rentalrate As Decimal
     Protected m_ownercc As CostCenter
 
     'Protected m_WBSDistributeCollection As WBSDistributeCollection

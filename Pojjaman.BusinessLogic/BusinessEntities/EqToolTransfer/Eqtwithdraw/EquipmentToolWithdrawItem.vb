@@ -51,6 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim deh As New DataRowHelper(dr)
 
         .m_rentalperday = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_rentalrate")
+        .m_rentalrate = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitprice")
 
         If dr.Table.Columns.Contains("eqtstock_id") Then
           .m_eqtWithdraw = New EquipmentToolWithdraw
@@ -106,10 +107,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-    Public ReadOnly Property RentalRate() As Decimal
-      Get        If m_qty = 0 Then          Return Entity.RentalRate
-        End If        Return m_rentalperday / m_qty
-      End Get    End Property
+    Public Sub RefreshRetalperday()
+      m_rentalperday = RentalRate * m_qty
+    End Sub
+
+
+    Public Property RentalRate() As Decimal
+      Get        Return m_rentalrate
+      End Get      Set(ByVal value As Decimal)
+        m_rentalrate = value
+      End Set    End Property
 
     Public Overrides Property Amount() As Decimal      Get        Return m_amount      End Get      Set(ByVal value As Decimal)
         m_amount = value

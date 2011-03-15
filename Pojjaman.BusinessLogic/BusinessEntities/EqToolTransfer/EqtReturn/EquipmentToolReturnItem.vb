@@ -99,11 +99,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
         '  msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveQty}")
         '  Return
-        'End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))        RentalPerDay = m_qty * Entity.RentalRate      End Set    End Property
-    Public ReadOnly Property RentalRate() As Decimal
-      Get        If m_qty = 0 Then          Return Entity.RentalRate
-        End If        Return m_rentalperday / m_qty
-      End Get    End Property
+        'End If        m_qty = CInt(Configuration.Format(Value, DigitConfig.Int))        RentalPerDay = m_qty * Me.RentalRate      End Set    End Property
+    Public Property RentalRate() As Decimal
+      Get                Return m_rentalrate
+      End Get      Set(ByVal value As Decimal)        m_rentalrate = value
+      End Set    End Property
     Public Property RentalPerDay() As Decimal      Get        Return m_rentalperday      End Get      Set(ByVal value As Decimal)
         m_rentalperday = value
         m_rentalAmt = m_rentalperday * m_rentalqty
@@ -522,14 +522,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If refItem IsNot Nothing Then
               doc.Qty = refItem.Qty
               doc.LimitQty = refItem.Qty
+              doc.RentalRate = refItem.RentalRate
             Else
+              doc.RentalRate = refItem.RentalRate
               doc.LimitQty = 1
               doc.Qty = 1
             End If
-            doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
+            doc.RentalPerDay = doc.RentalRate * doc.Qty
+            'doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
           Else
             doc.LimitQty = 1
             doc.Qty = 1
+            doc.RentalRate = refItem.RentalRate
             doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
           End If
         End If
