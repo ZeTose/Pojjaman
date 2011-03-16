@@ -10,7 +10,7 @@ Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Tool
     Inherits SimpleBusinessEntityBase
-    Implements IHasRentalRate, IHasImage, IHasUnit, IHasPrice, IHasGroup, IEqtItem
+    Implements IHasRentalRate, IHasImage, IHasUnit, IHasPrice, IHasGroup, IEqtItem, IHasToCostCenter
 
 #Region "Members"
     Private tool_name As String
@@ -169,7 +169,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_qty = Value
       End Set
     End Property
-    Public Property Costcenter() As CostCenter
+    Public Property Costcenter() As CostCenter Implements IHasToCostCenter.ToCC
       Get
         Return m_cc
       End Get
