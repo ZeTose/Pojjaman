@@ -365,6 +365,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi.Table = "Item"
                 dpiColl.Add(dpi)
 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col8"
+        dpi.Value = m_grid(rowIndex, 9).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
                 n += 1
             Next
 
