@@ -2685,6 +2685,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dlg.EmptyBasket, AddressOf SetItems
 
       Dim Entities As New ArrayList
+      If Not Me.m_entity.Costcenter Is Nothing AndAlso Me.m_entity.Costcenter.Originated Then
+        Dim tocc As New CostCenter
+        tocc.Id = m_entity.Costcenter.Id
+        tocc.Code = m_entity.Costcenter.Code
+        tocc.Name = m_entity.Costcenter.Name
+        Entities.Add(tocc)
+      End If
       Dim view As AbstractEntityPanelViewContent = New GoodsReceiptSelectionView(Me.m_entity, 0, dlg, filters, Entities)
       dlg.Lists.Add(view)
 

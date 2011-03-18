@@ -183,7 +183,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_unicost = drh.GetValue(Of Decimal)("toollot_unitcost")
         m_buyqty = drh.GetValue(Of Decimal)("toollot_buyqty")
-        m_remainqty = drh.GetValue(Of Decimal)("toollot_remainqty")
+        m_remainqty = drh.GetValue(Of Decimal)("RemainQty")
+        m_writeoff = drh.GetValue(Of Decimal)("wfQty")
 
         Me.IsReferenced = drh.GetValue(Of Boolean)("isreferenced")
         'Dim unitid2 As Integer = drh.GetValue(Of Integer)("eqi_rentalunit")

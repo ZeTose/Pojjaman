@@ -563,8 +563,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               .RemainingQty = 1
               .Qty = 1
               .RealRemainQty = 1
-              .BuyUnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
-              .UnitPrice = drh.GetValue(Of Decimal)("asset_buyPrice")
+              .BuyUnitPrice = drh.GetValue(Of Decimal)("assetRemain")
+              .UnitPrice = drh.GetValue(Of Decimal)("assetRemain")
               .m_calcwriteoffamount = Me.WriteOffAmount
             End If
             .m_accdepre = drh.GetValue(Of Decimal)("accdepre")
