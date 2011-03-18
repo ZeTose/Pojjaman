@@ -472,9 +472,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       OrElse Me.m_entity.Payment.Status.Value = 0 _
       OrElse Me.m_entity.Payment.Status.Value >= 3 _
       Then
-        Me.Enabled = False
+        For Each ctrl As Control In Me.Controls
+            ctrl.Enabled = False
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
       Else
-        Me.Enabled = True
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
       End If
     End Sub
     Public Overrides Sub ClearDetail()

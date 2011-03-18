@@ -558,6 +558,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.DeleteRef(conn, trans)
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PCCRef" _
           , New SqlParameter("@pcc_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAVP_PCCRef" _
+          , New SqlParameter("@pcc_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePays_PCCRef" _
+          , New SqlParameter("@pcc_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_PCCRef" _
+          , New SqlParameter("@pcc_id", Me.Id))
           If Me.Status.Value = 0 Then
             Me.CancelRef(conn, trans)
           End If
