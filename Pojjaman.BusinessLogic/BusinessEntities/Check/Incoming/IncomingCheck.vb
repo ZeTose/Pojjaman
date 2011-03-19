@@ -310,6 +310,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", _
         "${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.lblAmount}")
       End If
+
+      saveCheckType = SaveType.Normal
       'Return New SaveErrorException("Not Yet Implemented")
 
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
@@ -415,12 +417,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
     '----------------SAVING FROM OTHER DOC---------------------'
+    Public Overrides Function GetLastCode(ByVal prefixPattern As String) As String
+      If saveCheckType = SaveType.Normal Then
+        Return MyBase.GetLastCode(prefixPattern)
+      End If
+      If connz Is Nothing Then
+        Return ""
+      End If
+      Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "%' " & " order by " & Me.Prefix & "_id desc"
+
+      Dim cmd As SqlCommand = connz.CreateCommand
+      cmd.CommandText = sql
+      cmd.Transaction = transz
+
+      Dim obj As Object = cmd.ExecuteScalar
+      If Not IsDBNull(obj) AndAlso Not obj Is Nothing Then
+        Return obj.ToString
+      End If
+      Return ""
+    End Function
+    Public Overrides Function DuplicateCode(ByVal newCode As String) As Boolean
+      If saveCheckType = SaveType.Normal Then
+        Return MyBase.DuplicateCode(newCode)
+      End If
+      If connz Is Nothing Then
+        Return True
+      End If
+      Dim sql As String = "select count(*) from [" & Me.TableName & "] where " & Me.Prefix & "_code='" & newCode & "' and " & Me.Prefix & "_id <> " & Me.Id
+
+      Dim cmd As SqlCommand = connz.CreateCommand
+      cmd.CommandText = sql
+      cmd.Transaction = transz
+
+      Dim recordCount As Object = cmd.ExecuteScalar
+      If Not IsDBNull(recordCount) AndAlso CInt(recordCount) > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
+    Dim connz As SqlConnection
+    Dim transz As SqlTransaction
+    Dim saveCheckType As SaveType
+    Private Enum SaveType
+      Normal
+      OtherDoc
+    End Enum
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       If Me.Amount <= 0 Then
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", _
         "${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.lblAmount}")
       End If
       'Return New SaveErrorException("Not Yet Implemented")
+      connz = conn
+      transz = trans
+      saveCheckType = SaveType.OtherDoc
 
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
       returnVal.ParameterName = "RETURN_VALUE"

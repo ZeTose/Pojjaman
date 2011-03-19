@@ -593,12 +593,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                                         check.Id = CInt(itemRow("receivei_entity"))
                                         check.DocDate = Me.DocDate
+                    If Not itemRow.IsNull("receivei_amt") Then
                                         check.Amount = CDec(itemRow("receivei_amt"))
+                    End If
                                         If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
                                             check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                      If Not check.BankAccount.BankBranch Is Nothing Then
+                        If Not check.BankAccount.BankBranch.Bank Is Nothing Then
                                             check.Bank = check.BankAccount.BankBranch.Bank
+                        End If
                                             check.CustBankBranch = check.BankAccount.BankBranch.Name
                                         End If
+                    End If
                                         If Not itemRow.IsNull("receivei_oldbankacct") AndAlso IsNumeric(itemRow("receivei_oldbankacct")) Then
                                             check.OldBankAccount = New BankAccount(CInt(itemRow("receivei_oldbankacct")))
                                         End If
