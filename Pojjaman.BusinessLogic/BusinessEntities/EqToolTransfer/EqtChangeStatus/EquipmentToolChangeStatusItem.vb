@@ -217,6 +217,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
+    '''To do เอาไว้ก่อนแล้วกัน
+    'Public Sub RefreshLimitQty()
+    '  If Not Me.m_eqtChangeStatus.Originated Then
+    '    Return
+    '  End If
+
+    '  Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+    '  , CommandType.StoredProcedure _
+    '  , "GetEqtNewLimitQty" _
+    '  , New SqlParameter("@entity_id", Me.Entity.Id) _
+    '  , New SqlParameter("@entity_type", Me.ItemType.Value) _
+    '  , New SqlParameter("@fromStatus", Me.FromStatus.Value) _
+    '  )
+    '  Dim dtExp As DataTable = ds.Tables(1)
+    'End Sub
 #End Region
 
   End Class

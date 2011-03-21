@@ -71,8 +71,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnNewLot As System.Windows.Forms.Button
     Friend WithEvents ibtnSave As System.Windows.Forms.Button
     Friend WithEvents ibtnDel As System.Windows.Forms.Button
+    Friend WithEvents btnLotRef As System.Windows.Forms.Button
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolLotDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtToollotCode = New System.Windows.Forms.TextBox()
@@ -114,9 +116,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAssetName = New System.Windows.Forms.TextBox()
       Me.txtAssetCode = New System.Windows.Forms.TextBox()
       Me.TxtToollotBuycost = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.btnLotRef = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       Me.Grbeqi.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -221,6 +224,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Grbeqi.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.Grbeqi.Controls.Add(Me.btnLotRef)
       Me.Grbeqi.Controls.Add(Me.ibtnDel)
       Me.Grbeqi.Controls.Add(Me.ibtnNewLot)
       Me.Grbeqi.Controls.Add(Me.ibtnSave)
@@ -429,7 +433,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtDescription.Size = New System.Drawing.Size(254, 47)
       Me.txtDescription.TabIndex = 9
-      Me.txtDescription.TabStop = True
       '
       'lblBrand
       '
@@ -693,6 +696,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
+      '
+      'btnLotRef
+      '
+      Me.btnLotRef.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.btnLotRef.Location = New System.Drawing.Point(35, 389)
+      Me.btnLotRef.Name = "btnLotRef"
+      Me.btnLotRef.Size = New System.Drawing.Size(80, 29)
+      Me.btnLotRef.TabIndex = 342
+      Me.btnLotRef.Text = "Reference"
+      Me.btnLotRef.UseVisualStyleBackColor = True
       '
       'ToolLotDetailView
       '
@@ -1725,6 +1738,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           crlt.Enabled = False
         Next
       End If
+      'Check Reference ปกติไม่ได้ ต้องทำแยก
+
     End Sub
     'Public Sub CheckToolLotEnable()
     '  If Me.m_entity.ToolLot.IsReferenced Then
@@ -2272,9 +2287,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       btnAssetFind.Enabled = isEnable
       btnPurchaseFind.Enabled = isEnable
       txtToollotBuyQTY.Enabled = isEnable
+      txtToollotUnitCost.Enabled = isEnable
       TxtToollotBuycost.Enabled = isEnable
       TxtToollotbrand.Enabled = isEnable
       txtDescription.Enabled = isEnable
+      btnLotRef.Enabled = Not isEnable
     End Sub
     Private Sub SetLVItemRegular()
       For Each item As ListViewItem In lv.Items
@@ -2713,6 +2730,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Me.m_entity.ToolLot = Me.m_entity.ItemCollection(Me.m_entity.ItemCollection.Count - 1)
       'End If
       'Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+
+    Private Sub btnLotRef_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLotRef.Click
+      If Not Me.m_entity.Originated OrElse Not m_entity.ToolLot.Originated Then
+        Return
+      End If
+      Dim rd As RefDialog
+      Dim ds As DataSet = m_entity.ToolLot.GetLotReference
+      Dim dt As DataTable
+      Dim dt2 As DataTable
+      dt = ds.Tables(0)
+      dt2 = ds.Tables(1)
+      rd = New RefDialog
+      rd.dt1 = dt
+      rd.dt2 = dt2
+      rd.ShowDialog()
     End Sub
   End Class
 

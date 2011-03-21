@@ -1243,6 +1243,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               e.ProposedValue = "1"
             End If
             Dim value As Integer = CInt(TextParser.Evaluate(e.ProposedValue.ToString))
+            'doc.RefreshLimitQty()
             doc.Qty = value
            
           Case "amount"

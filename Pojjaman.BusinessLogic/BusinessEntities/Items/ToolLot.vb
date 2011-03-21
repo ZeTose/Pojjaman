@@ -705,6 +705,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return Me.tool.ItemCollection.DupCodeInCollection(newCode)
     End Function
+
+    Public Function GetLotReference() As DataSet
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetLotReference" _
+                , New SqlParameter("@entity_id", Me.Tool.Id) _
+                , New SqlParameter("@entity_type", 19) _
+                , New SqlParameter("@entity_lot", Me.Id) _
+                )
+        Return ds
+      Catch ex As Exception
+      End Try
+    End Function
     'Public Sub LoadImage()
     '  If Id <= 0 Then
     '    Return
