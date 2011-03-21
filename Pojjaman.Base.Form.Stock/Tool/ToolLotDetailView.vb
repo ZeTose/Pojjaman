@@ -1394,18 +1394,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = False
       Select Case CType(sender, Control).Name.ToLower
 
-        'Case "cmbcode"
-        '  doc.Code = cmbCode.Text
-        '  dirtyFlag = True
-        'Case "txtToollotCode"
-        '  Me.m_entity.Code = txtToollotCode.Text
-        '  dirtyFlag = True
-        'Case "txttoolname"
-        '  Me.m_entity.Name = txtToolName.Text
-        '  dirtyFlag = True
-        'Case "txttoollotname"
-        '  doc.Name = txtToollotName.Text
-        '  dirtyFlag = True
+        Case "cmbcode"
+          doc.Code = cmbCode.Text
+          dirtyFlag = True
+          'Case "txtToollotCode"
+          '  Me.m_entity.Code = txtToollotCode.Text
+          '  dirtyFlag = True
+          'Case "txttoolname"
+          '  Me.m_entity.Name = txtToolName.Text
+          '  dirtyFlag = True
+          'Case "txttoollotname"
+          '  doc.Name = txtToollotName.Text
+          '  dirtyFlag = True
 
         Case "txttoollotbrand"
           doc.Brand = TxtToollotbrand.Text
