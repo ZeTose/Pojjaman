@@ -462,122 +462,146 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"
-        Public Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "FFormatColumn"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Public Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "FFormatColumn"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "ffc_linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "ffc_linenumber"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "ffc_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "ffc_linenumber"
 
-            Dim csName As New TreeTextColumn
-            csName.MappingName = "ffc_name"
-            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.NameHeaderText}")
-            csName.NullText = ""
-            csName.TextBox.Name = "ffc_name"
+      Dim csName As New TreeTextColumn
+      csName.MappingName = "ffc_name"
+      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.NameHeaderText}")
+      csName.NullText = ""
+      csName.TextBox.Name = "ffc_name"
 
-            Dim csWidthPercent As New TreeTextColumn
-            csWidthPercent.MappingName = "ffc_widthpercent"
-            csWidthPercent.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.WidthPercentHeaderText}")
-            csWidthPercent.NullText = ""
-            csWidthPercent.DataAlignment = HorizontalAlignment.Right
-            csWidthPercent.Format = "#,###.##"
-            csWidthPercent.TextBox.Name = "RealAmount"
+      Dim csWidthPercent As New TreeTextColumn
+      csWidthPercent.MappingName = "ffc_widthpercent"
+      csWidthPercent.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.WidthPercentHeaderText}")
+      csWidthPercent.NullText = ""
+      csWidthPercent.DataAlignment = HorizontalAlignment.Right
+      csWidthPercent.Format = "#,###.##"
+      csWidthPercent.TextBox.Name = "RealAmount"
 
-            Dim csAlignment As DataGridComboColumn
-            csAlignment = New DataGridComboColumn("ffc_alignment", CodeDescription.GetCodeList("HAlignment"), "code_description", "code_value")
-            csAlignment.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.AlignmentHeaderText}")
-            csAlignment.Width = 70
-            csAlignment.NullText = String.Empty
+      Dim csAlignment As DataGridComboColumn
+      csAlignment = New DataGridComboColumn("ffc_alignment", CodeDescription.GetCodeList("HAlignment"), "code_description", "code_value")
+      csAlignment.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.AlignmentHeaderText}")
+      csAlignment.Width = 70
+      csAlignment.NullText = String.Empty
 
-            Dim csStartDate As New DataGridTimePickerColumn
-            csStartDate.MappingName = "ffc_startdate"
-            csStartDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.StartDateHeaderText}")
-            csStartDate.NullText = ""
-            'csStartDate.ReadOnly = True
+      Dim csStartDate As New DataGridTimePickerColumn
+      csStartDate.MappingName = "ffc_startdate"
+      csStartDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.StartDateHeaderText}")
+      csStartDate.NullText = ""
+      'csStartDate.ReadOnly = True
 
-            Dim csEndDate As New DataGridTimePickerColumn
-            csEndDate.MappingName = "ffc_enddate"
-            csEndDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.EndDateHeaderText}")
-            csEndDate.NullText = ""
-            'csEndDate.ReadOnly = True
+      Dim csEndDate As New DataGridTimePickerColumn
+      csEndDate.MappingName = "ffc_enddate"
+      csEndDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.EndDateHeaderText}")
+      csEndDate.NullText = ""
+      'csEndDate.ReadOnly = True
 
-            Dim csCCCode As New TreeTextColumn
-            csCCCode.MappingName = "CCCode"
-            csCCCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCCodeHeaderText}")
-            csCCCode.NullText = ""
-            csCCCode.TextBox.Name = "CCCode"
-            csCCCode.Width = 60
-            'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
-            'csUnit.DataAlignment = HorizontalAlignment.Center
+      Dim csCCCode As New TreeTextColumn
+      csCCCode.MappingName = "CCCode"
+      csCCCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCCodeHeaderText}")
+      csCCCode.NullText = ""
+      csCCCode.TextBox.Name = "CCCode"
+      csCCCode.Width = 60
+      'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
+      'csUnit.DataAlignment = HorizontalAlignment.Center
 
-            Dim csCCButton As New DataGridButtonColumn
-            csCCButton.MappingName = "CCButton"
-            csCCButton.HeaderText = ""
-            csCCButton.NullText = ""
-            AddHandler csCCButton.Click, AddressOf CCClicked
+      Dim csCCButton As New DataGridButtonColumn
+      csCCButton.MappingName = "CCButton"
+      csCCButton.HeaderText = ""
+      csCCButton.NullText = ""
+      AddHandler csCCButton.Click, AddressOf CCClicked
 
-            Dim csCCName As New TreeTextColumn
-            csCCName.MappingName = "CCName"
-            csCCName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCNameHeaderText}")
-            csCCName.NullText = ""
-            csCCName.TextBox.Name = "CCName"
-            csCCName.ReadOnly = True
-            csCCName.Width = 100
+      Dim csCCName As New TreeTextColumn
+      csCCName.MappingName = "CCName"
+      csCCName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.CCNameHeaderText}")
+      csCCName.NullText = ""
+      csCCName.TextBox.Name = "CCName"
+      csCCName.ReadOnly = True
+      csCCName.Width = 100
 
-            Dim csIncludeChildCC As New DataGridCheckBoxColumn
-            csIncludeChildCC.MappingName = "ffc_includechildcc"
-            csIncludeChildCC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetail.IncludeChildCCHeaderText}")
-            csIncludeChildCC.Width = 50
-            csIncludeChildCC.InvisibleWhenUnspcified = True
+      Dim csIncludeChildCC As New DataGridCheckBoxColumn
+      csIncludeChildCC.MappingName = "ffc_includechildcc"
+      csIncludeChildCC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetail.IncludeChildCCHeaderText}")
+      csIncludeChildCC.Width = 50
+      csIncludeChildCC.InvisibleWhenUnspcified = True
 
-            Dim csJCode As New TreeTextColumn
-            csJCode.MappingName = "JCode"
-            csJCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.JCodeHeaderText}")
-            csJCode.NullText = ""
-            csJCode.TextBox.Name = "JCode"
-            csJCode.Width = 60
+      Dim csJCode As New TreeTextColumn
+      csJCode.MappingName = "JCode"
+      csJCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.JCodeHeaderText}")
+      csJCode.NullText = ""
+      csJCode.TextBox.Name = "JCode"
+      csJCode.Width = 60
 
-            Dim csJButton As New DataGridButtonColumn
-            csJButton.MappingName = "JButton"
-            csJButton.HeaderText = ""
-            csJButton.NullText = ""
-            AddHandler csJButton.Click, AddressOf JClicked
+      Dim csJButton As New DataGridButtonColumn
+      csJButton.MappingName = "JButton"
+      csJButton.HeaderText = ""
+      csJButton.NullText = ""
+      AddHandler csJButton.Click, AddressOf JClicked
 
-            Dim csJName As New TreeTextColumn
-            csJName.MappingName = "JName"
-            csJName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.JNameHeaderText}")
-            csJName.NullText = ""
-            csJName.TextBox.Name = "JName"
-            csJName.ReadOnly = True
-            csJName.Width = 100
+      Dim csJName As New TreeTextColumn
+      csJName.MappingName = "JName"
+      csJName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.JNameHeaderText}")
+      csJName.NullText = ""
+      csJName.TextBox.Name = "JName"
+      csJName.ReadOnly = True
+      csJName.Width = 100
 
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csName)
-            dst.GridColumnStyles.Add(csWidthPercent)
-            dst.GridColumnStyles.Add(csAlignment)
-            dst.GridColumnStyles.Add(csStartDate)
-            dst.GridColumnStyles.Add(csEndDate)
-            dst.GridColumnStyles.Add(csCCCode)
-            dst.GridColumnStyles.Add(csCCButton)
-            dst.GridColumnStyles.Add(csCCName)
-            dst.GridColumnStyles.Add(csIncludeChildCC)
-            dst.GridColumnStyles.Add(csJCode)
-            dst.GridColumnStyles.Add(csJButton)
-            dst.GridColumnStyles.Add(csJName)
+      Dim csEJCode As New TreeTextColumn
+      csEJCode.MappingName = "EJCode"
+      csEJCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.JCodeHeaderText}")
+      csEJCode.NullText = ""
+      csEJCode.TextBox.Name = "EJCode"
+      csEJCode.Width = 60
 
-            m_tableStyleEnable = New Hashtable
-            For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
-                m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
-            Next
-            Return dst
-        End Function
+      Dim csEJButton As New DataGridButtonColumn
+      csEJButton.MappingName = "EJButton"
+      csEJButton.HeaderText = ""
+      csEJButton.NullText = ""
+      AddHandler csEJButton.Click, AddressOf JClicked
+
+      Dim csEJName As New TreeTextColumn
+      csEJName.MappingName = "EJName"
+      csEJName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.JournalEntryDetail.JNameHeaderText}")
+      csEJName.NullText = ""
+      csEJName.TextBox.Name = "EJName"
+      csEJName.ReadOnly = True
+      csEJName.Width = 100
+
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csName)
+      dst.GridColumnStyles.Add(csWidthPercent)
+      dst.GridColumnStyles.Add(csAlignment)
+      dst.GridColumnStyles.Add(csStartDate)
+      dst.GridColumnStyles.Add(csEndDate)
+      dst.GridColumnStyles.Add(csCCCode)
+      dst.GridColumnStyles.Add(csCCButton)
+      dst.GridColumnStyles.Add(csCCName)
+      dst.GridColumnStyles.Add(csIncludeChildCC)
+      dst.GridColumnStyles.Add(csJCode)
+      dst.GridColumnStyles.Add(csJButton)
+      dst.GridColumnStyles.Add(csJName)
+      dst.GridColumnStyles.Add(csEJCode)
+      dst.GridColumnStyles.Add(csEJButton)
+      dst.GridColumnStyles.Add(csEJName)
+
+      m_tableStyleEnable = New Hashtable
+      For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
+        m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
+      Next
+      Return dst
+    End Function
         Public Sub CCClicked(ByVal e As ButtonColumnEventArgs)
             If e.Column = 7 Then
                 CCButtonClick(e)
@@ -590,18 +614,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub SetCC(ByVal cc As ISimpleEntity)
             Me.m_treeManager.SelectedRow("CCCode") = cc.Code
         End Sub
-        Public Sub JClicked(ByVal e As ButtonColumnEventArgs)
-            If e.Column = 11 Then
-                JButtonClick(e)
-            End If
-        End Sub
+    Public Sub JClicked(ByVal e As ButtonColumnEventArgs)
+      If e.Column = 11 Then
+        JButtonClick(e)
+      ElseIf e.Column = 14 Then
+        EJButtonClick(e)
+      End If
+    End Sub
         Public Sub JButtonClick(ByVal e As ButtonColumnEventArgs)
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
             myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetJournal)
         End Sub
         Private Sub SetJournal(ByVal jr As ISimpleEntity)
             Me.m_treeManager.SelectedRow("JCode") = jr.Code
-        End Sub
+    End Sub
+    Public Sub EJButtonClick(ByVal e As ButtonColumnEventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetEJournal)
+    End Sub
+    Private Sub SetEJournal(ByVal jr As ISimpleEntity)
+      Me.m_treeManager.SelectedRow("EJCode") = jr.Code
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -630,46 +663,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Me.WorkbenchWindow.ViewContent.IsDirty = True
         End Sub
-        Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-            If Not m_isInitialized Then
-                Return
-            End If
-            If Me.m_treeManager.SelectedRow Is Nothing Then
-                Return
-            End If
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If Me.m_entity Is Nothing Then
-                Return
-            End If
-            If Me.CurrentItem Is Nothing Then
-                Dim doc As New FFormatColumn
-                Me.m_entity.ColumnCollection.Add(doc)
-                Me.m_treeManager.SelectedRow.Tag = doc
-            End If
-            Try
-                Select Case e.Column.ColumnName.ToLower
-                    Case "ffc_name"
-                        SetName(e)
-                    Case "ffc_widthpercent"
-                        SetWidthPercent(e)
-                    Case "ffc_alignment"
-                        SetAlignment(e)
-                    Case "ffc_startdate"
-                        SetStartDate(e)
-                    Case "ffc_enddate"
-                        SetEndDate(e)
-                    Case "cccode"
-                        SetCostCenterValue(e)
-                    Case "ffc_includechildcc"
-                        Me.CurrentItem.IncludeChildCostCenter = CBool(e.ProposedValue)
-                    Case "jcode"
-                        SetJournalValue(e)
-                End Select
-                ValidateRow(e)
-            Catch ex As Exception
-                MessageBox.Show(ex.ToString)
-            End Try
-        End Sub
+    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      If Me.m_treeManager.SelectedRow Is Nothing Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.CurrentItem Is Nothing Then
+        Dim doc As New FFormatColumn
+        Me.m_entity.ColumnCollection.Add(doc)
+        Me.m_treeManager.SelectedRow.Tag = doc
+      End If
+      Try
+        Select Case e.Column.ColumnName.ToLower
+          Case "ffc_name"
+            SetName(e)
+          Case "ffc_widthpercent"
+            SetWidthPercent(e)
+          Case "ffc_alignment"
+            SetAlignment(e)
+          Case "ffc_startdate"
+            SetStartDate(e)
+          Case "ffc_enddate"
+            SetEndDate(e)
+          Case "cccode"
+            SetCostCenterValue(e)
+          Case "ffc_includechildcc"
+            Me.CurrentItem.IncludeChildCostCenter = CBool(e.ProposedValue)
+          Case "jcode"
+            SetJournalValue(e)
+          Case "ejcode"
+            SetJournalValue(e)
+        End Select
+        ValidateRow(e)
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+    End Sub
         Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
             Dim ffc_name As Object = e.Row("ffc_name")
             Dim ffc_alignment As Object = e.Row("ffc_alignment")
@@ -742,23 +777,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
             doc.CostCenter = entity
             m_updating = False
         End Sub
-        Public Sub SetJournalValue(ByVal e As System.Data.DataColumnChangeEventArgs)
-            If m_updating Then
-                Return
-            End If
-            m_updating = True
-            Dim entity As New AccountBook(e.ProposedValue.ToString)
-            If entity.Originated Then
-                e.ProposedValue = entity.Code
-                e.Row("JName") = entity.Name
-            Else
-                e.ProposedValue = DBNull.Value
-                e.Row("JName") = DBNull.Value
-            End If
-            Dim doc As FFormatColumn = Me.CurrentItem
-            doc.AccountBook = entity
-            m_updating = False
-        End Sub
+    Public Sub SetJournalValue(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If m_updating Then
+        Return
+      End If
+      m_updating = True
+      Dim entity As New AccountBook(e.ProposedValue.ToString)
+      If entity.Originated Then
+        e.ProposedValue = entity.Code
+        If e.Column.ColumnName.ToLower = "jcode" Then
+          e.Row("JName") = entity.Name
+        ElseIf e.Column.ColumnName.ToLower = "ejcode" Then
+          e.Row("EJName") = entity.Name
+        End If
+      Else
+        e.ProposedValue = DBNull.Value
+        If e.Column.ColumnName.ToLower = "jcode" Then
+          e.Row("JName") = DBNull.Value
+        ElseIf e.Column.ColumnName.ToLower = "ejcode" Then
+          e.Row("EJName") = DBNull.Value
+        End If
+      End If
+      Dim doc As FFormatColumn = Me.CurrentItem
+      If e.Column.ColumnName.ToLower = "jcode" Then
+        doc.AccountBook = entity
+      ElseIf e.Column.ColumnName.ToLower = "ejcode" Then
+        doc.EndAccountBook = entity
+      End If
+      m_updating = False
+    End Sub
         Public Sub SetName(ByVal e As DataColumnChangeEventArgs)
             If m_updating Then
                 Return
