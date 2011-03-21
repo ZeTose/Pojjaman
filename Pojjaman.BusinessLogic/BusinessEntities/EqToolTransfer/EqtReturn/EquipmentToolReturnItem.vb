@@ -51,6 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         Dim deh As New DataRowHelper(dr)
 
+        .m_rentalrate = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_unitprice")
         .m_rentalperday = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_rentalrate")
         .m_rentalqty = deh.GetValue(Of Integer)(aliasPrefix & "eqtstocki_rentalqty")
         .m_rentalAmt = deh.GetValue(Of Decimal)(aliasPrefix & "eqtstocki_Amount")
