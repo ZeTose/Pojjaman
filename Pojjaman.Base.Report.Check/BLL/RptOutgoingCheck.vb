@@ -88,6 +88,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col13") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.cc}") '"รหัส Cost center"
       tr("col14") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckRecipient}") '"ผู้รับเช็ค"
       tr("col15") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNote}") '"หมายเหตุ"
+      tr("col16") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CQUpdateCheck}") '"เลขที่ปรับปรุงสถานะเช็ค"
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -241,6 +242,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("CqNote") Then
               TrCheq("col15") = row("CqNote").ToString
             End If
+            If Not row.IsNull("cqupdate_code") Then
+              TrCheq("col16") = indent & indent & row("cqupdate_code").ToString
+            End If
             If IsNumeric(row("Amount")) Then
               SumAmount += CDec(row("Amount"))
               SumBankAmt += CDec(row("Amount"))
@@ -358,6 +362,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
       Return myDatatable
     End Function
     Public Overrides Function CreateSimpleTableStyle() As DataGridTableStyle
@@ -381,7 +386,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(220) '13
       widths.Add(220) '14
       widths.Add(220) '15
-      For i As Integer = 0 To 15
+      widths.Add(220) '16
+      For i As Integer = 0 To 16
         If i = 1 Then
           Dim cs As New PlusMinusTreeTextColumn
           cs.MappingName = "col" & i
