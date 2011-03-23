@@ -64,7 +64,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
-      m_grid.ColCount = 16
+      m_grid.ColCount = 17
 
       m_grid.ColWidths(1) = 120
       m_grid.ColWidths(2) = 120
@@ -86,7 +86,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -94,6 +94,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 0
       m_grid.Rows.FrozenCount = 0
@@ -106,14 +107,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.beforetax}")          '"ยอดก่อนภาษี"
       m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.tax}")             '"ภาษี"
       m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.aftertax}")          '"ยอดรวมภาษี"
-      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.postatusinfo}")    '"ผู้อนุมัติ"
-      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.referable}")      '"หมายเหตุ"
-      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.note}")           '"วันที่อนุมัติ"
-      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.PRcode}")         '"สถานะการสั่งซื้อ"
-      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.po_note}")        '"รหัสใบสั่งซื้อ"
-      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.closestatus}")    '"สถานะการเปิด PO"
-      m_grid(0, 15).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.refstatus}")      '"อ้างอิง"
-      m_grid(0, 16).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.DueDate}")      '"วันที่ครบกำหนด"
+      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.NetCost}")          '"ยอดต้นทุนสุทธิ"
+      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.postatusinfo}")    '"ผู้อนุมัติ"
+      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.referable}")      '"หมายเหตุ"
+      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.note}")           '"วันที่อนุมัติ"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.PRcode}")         '"สถานะการสั่งซื้อ"
+      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.po_note}")        '"รหัสใบสั่งซื้อ"
+      m_grid(0, 15).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.closestatus}")    '"สถานะการเปิด PO"
+      m_grid(0, 16).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.refstatus}")      '"อ้างอิง"
+      m_grid(0, 17).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt275.DueDate}")      '"วันที่ครบกำหนด"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -123,7 +125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -132,6 +134,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
@@ -144,11 +147,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim SumAmount As Decimal = 0
       Dim SumTaxAmt As Decimal = 0
       Dim SumAfterTax As Decimal = 0
+      Dim SumNetCost As Decimal = 0
 
 
       Dim n As Int32 = 0
 
       For Each row As DataRow In dt.Rows
+        Dim drh As New DataRowHelper(row)
         m_grid.RowCount += 1
         currItemIndex = m_grid.RowCount
         m_grid(currItemIndex, 0).Tag = row
@@ -184,19 +189,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("Po_aftertax")), DigitConfig.Price)
           SumAfterTax += CDec(row("Po_aftertax"))
         End If
-        m_grid(currItemIndex, 9).CellValue = row("approvepersoninfo").ToString
+        If Not row.IsNull("Po_NetCost") Then
+          m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(row("Po_NetCost")), DigitConfig.Price)
+          SumNetCost += CDec(row("Po_NetCost"))
+        End If
+        m_grid(currItemIndex, 10).CellValue = row("approvepersoninfo").ToString
         If Not row.IsNull("po_approvedate") Then
-          m_grid(currItemIndex, 10).CellValue = CDate(row("po_approvedate")).ToShortDateString
+          m_grid(currItemIndex, 11).CellValue = CDate(row("po_approvedate")).ToShortDateString
         End If
-        m_grid(currItemIndex, 11).CellValue = row("postatusinfo").ToString
-        m_grid(currItemIndex, 12).CellValue = row("PRcode").ToString
-        m_grid(currItemIndex, 13).CellValue = row("po_note").ToString
-        m_grid(currItemIndex, 14).CellValue = row("closestatus").ToString
-        m_grid(currItemIndex, 15).CellValue = row("refstatus").ToString
+        m_grid(currItemIndex, 12).CellValue = row("postatusinfo").ToString
+        m_grid(currItemIndex, 13).CellValue = row("PRcode").ToString
+        m_grid(currItemIndex, 14).CellValue = row("po_note").ToString
+        m_grid(currItemIndex, 15).CellValue = row("closestatus").ToString
+        m_grid(currItemIndex, 16).CellValue = row("refstatus").ToString
         If row("po_status").ToString = "0" Then
-          m_grid(currItemIndex, 11).CellValue = row("postatusinfo").ToString
+          m_grid(currItemIndex, 12).CellValue = row("postatusinfo").ToString
         End If
-        m_grid(currItemIndex, 16).CellValue = CDate(row("duedate")).ToShortDateString
+        m_grid(currItemIndex, 17).CellValue = CDate(row("duedate")).ToShortDateString
 
       Next
       m_grid.RowCount += 1
@@ -208,6 +217,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currTrIndex, 6).CellValue = Configuration.FormatToString(SumAmount, DigitConfig.Price) 'ยอดเงิน
       m_grid(currTrIndex, 7).CellValue = Configuration.FormatToString(SumTaxAmt, DigitConfig.Price) 'ยอดภาษี
       m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(SumAfterTax, DigitConfig.Price) 'ยอดรวมภาษี 
+      m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(SumNetCost, DigitConfig.Price) 'ยอดรวมภาษี 
       m_grid(currTrIndex, 1).Tag = "Group Level"
 
     End Sub
