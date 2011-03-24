@@ -2628,6 +2628,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnNewLot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnNewLot.Click
       ClearAllText()
       Me.m_entity.ToolLot = New ToolLot(Me.m_entity)
+      Me.ToggleReferenced(Me.m_entity.ToolLot)
 
       m_chkAutorunCheckChanged = True
       Me.m_entity.ToolLot.Autogen = True
