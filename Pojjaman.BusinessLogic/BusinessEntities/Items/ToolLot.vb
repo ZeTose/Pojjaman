@@ -60,6 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_tool As Tool
     Private m_unicost As Decimal
     Private m_buyqty As Decimal
+    Private m_oldbuyqty As Decimal
     Private m_writeoff As Decimal
     Private m_remainqty As Decimal
     Private m_RemainCost As Decimal
@@ -182,6 +183,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_rentalrate = drh.GetValue(Of Decimal)("toollot_rentrate")
 
         m_unicost = drh.GetValue(Of Decimal)("toollot_unitcost")
+        m_oldbuyqty = drh.GetValue(Of Decimal)("toollot_buyqty")
         m_buyqty = drh.GetValue(Of Decimal)("toollot_buyqty")
         m_remainqty = drh.GetValue(Of Decimal)("RemainQty")
         m_writeoff = drh.GetValue(Of Decimal)("wfQty")
@@ -582,7 +584,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_buyqty
       End Get
       Set(ByVal value As Decimal)
-        m_buyqty = value
+        If value <= m_oldbuyqty Then
+          m_buyqty = value
+        End If
         'm_buycost = m_buyqty * m_unicost
         'm_writeoff = m_buyqty - m_remainqty
       End Set
@@ -638,6 +642,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Buydoc.Code = drh.GetValue(Of String)("Code")
           Me.Buydoc.Sequence = drh.GetValue(Of Integer)("Sequence")
           Me.Buydoc.Supplier = New Supplier(drh.GetValue(Of Integer)("stock_entity"))
+          Me.m_oldbuyqty = drh.GetValue(Of Decimal)("qtyremaining")
           Me.Buyqty = drh.GetValue(Of Decimal)("qtyremaining")
           Me.Buydate = drh.GetValue(Of DateTime)("DocDate")
           Me.UnitCost = drh.GetValue(Of Decimal)("UnitCost")
