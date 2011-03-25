@@ -616,7 +616,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Get
                 Return m_gross
             End Get
-        End Property
+    End Property
+    Public ReadOnly Property GrossWODR() As Decimal
+      Get '
+        Dim ret As Decimal
+        For Each i As PAItem In Me.ItemCollection
+          If i.RefDocType <> 291 AndAlso i.Level = 1 Then
+            ret += i.Amount
+          End If
+        Next
+        Return ret
+      End Get
+    End Property
         Public Overrides Property Status() As CodeDescription
             Get
                 Return m_status
@@ -2605,7 +2616,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Mapping = "RealGross"
             dpi.Value = Configuration.FormatToString(Me.RealGross, DigitConfig.Price)
             dpi.DataType = "System.Decimal"
-            dpiColl.Add(dpi)
+      dpiColl.Add(dpi)
+
+      'GrossWoDR
+      dpi = New DocPrintingItem
+      dpi.Mapping = "GrossWoDR"
+      dpi.Value = Configuration.FormatToString(Me.GrossWODR, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
 
             If Not Me.Discount Is Nothing Then
                 'DiscountRate
