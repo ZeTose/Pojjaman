@@ -1476,6 +1476,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_laborCostManager.AllowSorting = False
 
       EventWiring()
+      ibtnZoomChart.PerformClick()
     End Sub
 #End Region
 
