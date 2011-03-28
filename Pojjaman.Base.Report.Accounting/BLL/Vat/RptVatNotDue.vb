@@ -453,6 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       Dim i As Integer = 0
+     
       Dim SumTaxAmount As Decimal = 0
       Dim SumBeforeTax As Decimal = 0
       Dim SumAfterTax As Decimal = 0

@@ -2691,123 +2691,126 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-        ''' <summary>
-        ''' เปลี่ยนแปลง GL
-        ''' </summary>
-        ''' <remarks></remarks>
-        Private Sub SetRefDocGLChange()
-            If Not m_vat Is Nothing Then
-                If TypeOf m_vat.RefDoc Is SimpleBusinessEntityBase Then
-                    CType(m_vat.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
-                End If
-            End If
-        End Sub
-        Public Sub ItemValidateRow(ByVal row As DataRow)
-            Dim proposedTaxBase As Object = row("vati_taxbase")
-            Dim proposedTaxRate As Object = row("vati_taxrate")
-            Dim proposedCode As Object = row("vati_code")
-            Dim proposedDocDate As Object = row("vati_docdate")
-            Dim proposedPrintName As Object = row("vati_printname")
-            Dim proposedPrintAddress As Object = row("vati_printaddress")
+    Public Sub SetVatAmount()
+      Me.m_taxBase = Me.Vat.RefDoc.TaxBase - Me.Vat.TaxBase
+    End Sub
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_vat Is Nothing Then
+        If TypeOf m_vat.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_vat.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
+    Public Sub ItemValidateRow(ByVal row As DataRow)
+      Dim proposedTaxBase As Object = row("vati_taxbase")
+      Dim proposedTaxRate As Object = row("vati_taxrate")
+      Dim proposedCode As Object = row("vati_code")
+      Dim proposedDocDate As Object = row("vati_docdate")
+      Dim proposedPrintName As Object = row("vati_printname")
+      Dim proposedPrintAddress As Object = row("vati_printaddress")
 
-            Dim isBlankRow As Boolean = False
-            If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
-                And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
-                And (IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0) _
-                And (IsDBNull(proposedPrintName) OrElse CStr(proposedPrintName).Length = 0) _
-                And (IsDBNull(proposedPrintAddress) OrElse CStr(proposedPrintAddress).Length = 0) _
-                And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) Then
-                isBlankRow = True
-            End If
+      Dim isBlankRow As Boolean = False
+      If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
+          And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
+          And (IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0) _
+          And (IsDBNull(proposedPrintName) OrElse CStr(proposedPrintName).Length = 0) _
+          And (IsDBNull(proposedPrintAddress) OrElse CStr(proposedPrintAddress).Length = 0) _
+          And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) Then
+        isBlankRow = True
+      End If
 
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-            If Not isBlankRow Then
-                If IsDBNull(proposedTaxBase) Then
-                    row.SetColumnError("vati_taxbase", myStringParserService.Parse("${res:Global.Error.TaxBaseMissing}"))
-                Else
-                    row.SetColumnError("vati_taxbase", "")
-                End If
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      If Not isBlankRow Then
+        If IsDBNull(proposedTaxBase) Then
+          row.SetColumnError("vati_taxbase", myStringParserService.Parse("${res:Global.Error.TaxBaseMissing}"))
+        Else
+          row.SetColumnError("vati_taxbase", "")
+        End If
 
-                If IsDBNull(proposedTaxRate) Then
-                    row.SetColumnError("vati_taxrate", myStringParserService.Parse("${res:Global.Error.TaxRateMissing}"))
-                Else
-                    row.SetColumnError("vati_taxrate", "")
-                End If
+        If IsDBNull(proposedTaxRate) Then
+          row.SetColumnError("vati_taxrate", myStringParserService.Parse("${res:Global.Error.TaxRateMissing}"))
+        Else
+          row.SetColumnError("vati_taxrate", "")
+        End If
 
-                If IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0 Then
-                    row.SetColumnError("vati_code", myStringParserService.Parse("${res:Global.Error.DescriptonMissing}"))
-                Else
-                    row.SetColumnError("vati_code", "")
-                End If
-            End If
-        End Sub
-        Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-            Dim proposedTaxBase As Object = row("vati_taxbase")
-            Dim proposedTaxRate As Object = row("vati_taxrate")
-            Dim proposedCode As Object = row("vati_code")
-            Dim proposedDocDate As Object = row("vati_docdate")
-            Dim proposedPrintName As Object = row("vati_printname")
-            Dim proposedPrintAddress As Object = row("vati_printaddress")
+        If IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0 Then
+          row.SetColumnError("vati_code", myStringParserService.Parse("${res:Global.Error.DescriptonMissing}"))
+        Else
+          row.SetColumnError("vati_code", "")
+        End If
+      End If
+    End Sub
+    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+      Dim proposedTaxBase As Object = row("vati_taxbase")
+      Dim proposedTaxRate As Object = row("vati_taxrate")
+      Dim proposedCode As Object = row("vati_code")
+      Dim proposedDocDate As Object = row("vati_docdate")
+      Dim proposedPrintName As Object = row("vati_printname")
+      Dim proposedPrintAddress As Object = row("vati_printaddress")
 
-            Dim flag As Boolean = True
-            If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
-                And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
-                And (IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0) _
-                And (IsDBNull(proposedPrintName) OrElse CStr(proposedPrintName).Length = 0) _
-                And (IsDBNull(proposedPrintAddress) OrElse CStr(proposedPrintAddress).Length = 0) _
-                And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) _
-                Then
-                flag = False
-            End If
+      Dim flag As Boolean = True
+      If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
+          And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
+          And (IsDBNull(proposedCode) OrElse CStr(proposedCode).Length = 0) _
+          And (IsDBNull(proposedPrintName) OrElse CStr(proposedPrintName).Length = 0) _
+          And (IsDBNull(proposedPrintAddress) OrElse CStr(proposedPrintAddress).Length = 0) _
+          And (IsDBNull(proposedDocDate) OrElse CStr(proposedDocDate).Length = 0 OrElse CDate(proposedDocDate).Equals(Date.MinValue)) _
+          Then
+        flag = False
+      End If
 
-            Return flag
-            Return True
-        End Function
-        Public Sub CopyToDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Me.Vat.IsInitialized = False
-            If row.IsNull("Selected") Then
-                row("Selected") = False
-            End If
-            row("vati_linenumber") = Me.LineNumber
-            row("vati_code") = Me.Code
-            row("vati_printname") = Me.PrintName
-            row("vati_printaddress") = Me.PrintAddress
-            row("vati_docdate") = Me.DocDate
+      Return flag
+      Return True
+    End Function
+    Public Sub CopyToDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Me.Vat.IsInitialized = False
+      If row.IsNull("Selected") Then
+        row("Selected") = False
+      End If
+      row("vati_linenumber") = Me.LineNumber
+      row("vati_code") = Me.Code
+      row("vati_printname") = Me.PrintName
+      row("vati_printaddress") = Me.PrintAddress
+      row("vati_docdate") = Me.DocDate
 
-            row("vati_refdoc") = Me.Refdoc
-            row("vati_refdoctype") = Me.RefdocType
+      row("vati_refdoc") = Me.Refdoc
+      row("vati_refdoctype") = Me.RefdocType
 
-            row("useCustomAmt") = Me.UseCustomTaxAmount
-            If Me.Amount = 0 Then
-                row("Amount") = ""
-            Else
-                row("Amount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
-            End If
+      row("useCustomAmt") = Me.UseCustomTaxAmount
+      If Me.Amount = 0 Then
+        row("Amount") = ""
+      Else
+        row("Amount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
+      End If
 
-            If Me.TaxRate = 0 Then
-                row("vati_taxrate") = ""
-            Else
-                row("vati_taxrate") = Configuration.FormatToString(Me.TaxRate, DigitConfig.Price)
-            End If
-            If Me.TaxBase = 0 Then
-                row("vati_taxbase") = ""
-            Else
-                row("vati_taxbase") = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
-            End If
-            row("vati_realtaxbase") = Me.TaxBase
+      If Me.TaxRate = 0 Then
+        row("vati_taxrate") = ""
+      Else
+        row("vati_taxrate") = Configuration.FormatToString(Me.TaxRate, DigitConfig.Price)
+      End If
+      If Me.TaxBase = 0 Then
+        row("vati_taxbase") = ""
+      Else
+        row("vati_taxbase") = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+      End If
+      row("vati_realtaxbase") = Me.TaxBase
 
-            row("vati_note") = Me.Note
-            row("vati_runnumber") = Me.Runnumber
-            row("vati_cc") = Me.CcId
+      row("vati_note") = Me.Note
+      row("vati_runnumber") = Me.Runnumber
+      row("vati_cc") = Me.CcId
 
-            row("vati_group") = Me.Group.Id
-            row("vati_submitaldate") = Me.SubmitalDate
+      row("vati_group") = Me.Group.Id
+      row("vati_submitaldate") = Me.SubmitalDate
 
-            Me.Vat.IsInitialized = True
-        End Sub
+      Me.Vat.IsInitialized = True
+    End Sub
 #End Region
 
 #Region "ICodeGeneratable"

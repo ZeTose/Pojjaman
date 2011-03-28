@@ -923,7 +923,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
               CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
             End If
-						doc.Code = CStr(e.ProposedValue)
+            Dim oldcode As String = doc.Code
+            doc.Code = CStr(e.ProposedValue)
+            If oldcode Is Nothing OrElse oldcode.Length = 0 Then
+              doc.SetVatAmount()
+            End If
 					Case "vati_printname"
 						If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
 							e.ProposedValue = ""

@@ -64,6 +64,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_itemCollection As PurchaseCNItemCollection
 
+    Private m_novat As Nullable(Of Boolean)
+
 #End Region
 
 #Region "Constructors"
@@ -1880,9 +1882,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        Return False
+        If Not m_novat.HasValue Then
+          SetNoVat()
+        End If
+        Return Me.TaxType.Value = 0 OrElse m_novat.Value
       End Get
     End Property
+    Public Sub SetNoVat()
+      If Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0 _
+           OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
+           OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+        m_novat = True
+      Else
+        m_novat = False
+      End If
+
+    End Sub
 #End Region
 
 #Region "IBillAcceptable"
