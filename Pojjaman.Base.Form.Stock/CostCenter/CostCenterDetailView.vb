@@ -30,8 +30,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents txtName As System.Windows.Forms.TextBox
         Friend WithEvents lblName As System.Windows.Forms.Label
         Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblManager As System.Windows.Forms.Label
+    Friend WithEvents lblManager As System.Windows.Forms.Label
         Friend WithEvents lblAddress As System.Windows.Forms.Label
         Friend WithEvents lblAdmin As System.Windows.Forms.Label
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
@@ -99,6 +98,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkActive As System.Windows.Forms.CheckBox
     Friend WithEvents btnCashFlow As System.Windows.Forms.Button
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -107,6 +107,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbMainDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.Button1 = New System.Windows.Forms.Button()
       Me.btnCashFlow = New System.Windows.Forms.Button()
       Me.picImage = New System.Windows.Forms.PictureBox()
       Me.chkActive = New System.Windows.Forms.CheckBox()
@@ -131,7 +132,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblManager = New System.Windows.Forms.Label()
       Me.txtManager = New System.Windows.Forms.TextBox()
       Me.lblAdmin = New System.Windows.Forms.Label()
-      Me.txtCode = New System.Windows.Forms.TextBox()
       Me.txtPhone = New System.Windows.Forms.TextBox()
       Me.txtAddress = New System.Windows.Forms.TextBox()
       Me.lblFax = New System.Windows.Forms.Label()
@@ -173,7 +173,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.Button1 = New System.Windows.Forms.Button()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.grbDetail.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -229,6 +229,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbMainDetail
       '
+      Me.grbMainDetail.Controls.Add(Me.cmbCode)
       Me.grbMainDetail.Controls.Add(Me.Button1)
       Me.grbMainDetail.Controls.Add(Me.btnCashFlow)
       Me.grbMainDetail.Controls.Add(Me.picImage)
@@ -254,7 +255,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.Controls.Add(Me.lblManager)
       Me.grbMainDetail.Controls.Add(Me.txtManager)
       Me.grbMainDetail.Controls.Add(Me.lblAdmin)
-      Me.grbMainDetail.Controls.Add(Me.txtCode)
       Me.grbMainDetail.Controls.Add(Me.txtPhone)
       Me.grbMainDetail.Controls.Add(Me.txtAddress)
       Me.grbMainDetail.Controls.Add(Me.lblFax)
@@ -298,6 +298,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.Text = "รายละเอียด Cost Center:"
       Me.ToolTip1.SetToolTip(Me.grbMainDetail, "ข้อมูลทั่วไป:")
       '
+      'Button1
+      '
+      Me.Button1.Location = New System.Drawing.Point(185, 324)
+      Me.Button1.Name = "Button1"
+      Me.Button1.Size = New System.Drawing.Size(75, 23)
+      Me.Button1.TabIndex = 327
+      Me.Button1.Text = "Cash Flow"
+      Me.Button1.UseVisualStyleBackColor = True
+      '
       'btnCashFlow
       '
       Me.btnCashFlow.Location = New System.Drawing.Point(104, 324)
@@ -323,7 +332,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkActive.Location = New System.Drawing.Point(104, 267)
       Me.chkActive.Name = "chkActive"
       Me.chkActive.Size = New System.Drawing.Size(223, 24)
-      Me.chkActive.TabIndex = 325
+      Me.chkActive.TabIndex = 11
       Me.chkActive.Text = "โครงการอยู่ระหว่างก่อสร้าง(Active Project)"
       '
       'lblPicSize
@@ -389,7 +398,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkcancle.Location = New System.Drawing.Point(104, 293)
       Me.chkcancle.Name = "chkcancle"
       Me.chkcancle.Size = New System.Drawing.Size(104, 24)
-      Me.chkcancle.TabIndex = 49
+      Me.chkcancle.TabIndex = 12
       Me.chkcancle.Text = "ยกเลิกโครงการ"
       '
       'lblBOQ
@@ -428,13 +437,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtBOQCode, "")
       Me.Validator.SetRequired(Me.txtBOQCode, False)
       Me.txtBOQCode.Size = New System.Drawing.Size(136, 21)
-      Me.txtBOQCode.TabIndex = 47
+      Me.txtBOQCode.TabIndex = 10
       '
       'lblCustomer
       '
       Me.lblCustomer.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCustomer.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblCustomer.Location = New System.Drawing.Point(264, 25)
+      Me.lblCustomer.Location = New System.Drawing.Point(285, 25)
       Me.lblCustomer.Name = "lblCustomer"
       Me.lblCustomer.Size = New System.Drawing.Size(48, 20)
       Me.lblCustomer.TabIndex = 25
@@ -449,14 +458,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCustomerName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
-      Me.txtCustomerName.Location = New System.Drawing.Point(392, 24)
+      Me.txtCustomerName.Location = New System.Drawing.Point(433, 24)
       Me.txtCustomerName.MaxLength = 200
       Me.Validator.SetMinValue(Me.txtCustomerName, "")
       Me.txtCustomerName.Name = "txtCustomerName"
       Me.txtCustomerName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCustomerName, "")
       Me.Validator.SetRequired(Me.txtCustomerName, False)
-      Me.txtCustomerName.Size = New System.Drawing.Size(384, 21)
+      Me.txtCustomerName.Size = New System.Drawing.Size(343, 21)
       Me.txtCustomerName.TabIndex = 27
       Me.txtCustomerName.TabStop = False
       '
@@ -468,7 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbCCType.Location = New System.Drawing.Point(120, 216)
       Me.cmbCCType.Name = "cmbCCType"
       Me.cmbCCType.Size = New System.Drawing.Size(160, 21)
-      Me.cmbCCType.TabIndex = 11
+      Me.cmbCCType.TabIndex = 9
       '
       'ibtnShowManager
       '
@@ -517,7 +526,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtParent, "")
       Me.Validator.SetRequired(Me.txtParent, False)
       Me.txtParent.Size = New System.Drawing.Size(160, 21)
-      Me.txtParent.TabIndex = 10
+      Me.txtParent.TabIndex = 8
       Me.txtParent.TabStop = False
       '
       'lblPhone
@@ -545,7 +554,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtAdmin, "")
       Me.Validator.SetRequired(Me.txtAdmin, False)
       Me.txtAdmin.Size = New System.Drawing.Size(64, 22)
-      Me.txtAdmin.TabIndex = 3
+      Me.txtAdmin.TabIndex = 4
       '
       'lblManager
       '
@@ -572,7 +581,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtManager, "")
       Me.Validator.SetRequired(Me.txtManager, False)
       Me.txtManager.Size = New System.Drawing.Size(64, 22)
-      Me.txtManager.TabIndex = 2
+      Me.txtManager.TabIndex = 3
       '
       'lblAdmin
       '
@@ -584,22 +593,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAdmin.TabIndex = 19
       Me.lblAdmin.Text = "ธุรการ:"
       Me.lblAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtCode
-      '
-      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.txtCode.Location = New System.Drawing.Point(120, 24)
-      Me.txtCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtCode, "")
-      Me.txtCode.Name = "txtCode"
-      Me.Validator.SetRegularExpression(Me.txtCode, "")
-      Me.Validator.SetRequired(Me.txtCode, True)
-      Me.txtCode.Size = New System.Drawing.Size(96, 21)
-      Me.txtCode.TabIndex = 0
       '
       'txtPhone
       '
@@ -615,7 +608,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtPhone, "")
       Me.Validator.SetRequired(Me.txtPhone, False)
       Me.txtPhone.Size = New System.Drawing.Size(160, 22)
-      Me.txtPhone.TabIndex = 8
+      Me.txtPhone.TabIndex = 6
       '
       'txtAddress
       '
@@ -631,7 +624,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtAddress, "")
       Me.Validator.SetRequired(Me.txtAddress, False)
       Me.txtAddress.Size = New System.Drawing.Size(704, 22)
-      Me.txtAddress.TabIndex = 7
+      Me.txtAddress.TabIndex = 5
       '
       'lblFax
       '
@@ -659,7 +652,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtFax, "")
       Me.Validator.SetRequired(Me.txtFax, False)
       Me.txtFax.Size = New System.Drawing.Size(160, 22)
-      Me.txtFax.TabIndex = 9
+      Me.txtFax.TabIndex = 7
       '
       'lblAddress
       '
@@ -711,7 +704,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtName, "")
       Me.Validator.SetRequired(Me.txtName, True)
       Me.txtName.Size = New System.Drawing.Size(320, 22)
-      Me.txtName.TabIndex = 1
+      Me.txtName.TabIndex = 2
       '
       'txtAdminName
       '
@@ -827,7 +820,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtWipAcctCode, "")
       Me.Validator.SetRequired(Me.txtWipAcctCode, False)
       Me.txtWipAcctCode.Size = New System.Drawing.Size(64, 22)
-      Me.txtWipAcctCode.TabIndex = 6
+      Me.txtWipAcctCode.TabIndex = 15
       Me.txtWipAcctCode.Tag = "NotGigaSite"
       '
       'lblStoreAcct
@@ -856,7 +849,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtStoreAcctCode, "")
       Me.Validator.SetRequired(Me.txtStoreAcctCode, True)
       Me.txtStoreAcctCode.Size = New System.Drawing.Size(64, 22)
-      Me.txtStoreAcctCode.TabIndex = 5
+      Me.txtStoreAcctCode.TabIndex = 14
       Me.txtStoreAcctCode.Tag = "NotGigaSite"
       '
       'lblWipAcct
@@ -1026,7 +1019,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRegularExpression(Me.txtExpenseAcctCode, "")
       Me.Validator.SetRequired(Me.txtExpenseAcctCode, True)
       Me.txtExpenseAcctCode.Size = New System.Drawing.Size(64, 22)
-      Me.txtExpenseAcctCode.TabIndex = 4
+      Me.txtExpenseAcctCode.TabIndex = 13
       Me.txtExpenseAcctCode.Tag = "NotGigaSite"
       '
       'txtCustomerCode
@@ -1036,13 +1029,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCustomerCode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerCode, System.Drawing.Color.Empty)
-      Me.txtCustomerCode.Location = New System.Drawing.Point(312, 24)
+      Me.txtCustomerCode.Location = New System.Drawing.Point(335, 24)
       Me.Validator.SetMinValue(Me.txtCustomerCode, "")
       Me.txtCustomerCode.Name = "txtCustomerCode"
       Me.Validator.SetRegularExpression(Me.txtCustomerCode, "")
       Me.Validator.SetRequired(Me.txtCustomerCode, False)
-      Me.txtCustomerCode.Size = New System.Drawing.Size(80, 22)
-      Me.txtCustomerCode.TabIndex = 26
+      Me.txtCustomerCode.Size = New System.Drawing.Size(98, 22)
+      Me.txtCustomerCode.TabIndex = 1
       '
       'btnShowMap
       '
@@ -1083,7 +1076,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(216, 24)
+      Me.chkAutorun.Location = New System.Drawing.Point(253, 24)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 324
@@ -1132,14 +1125,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'Button1
+      'cmbCode
       '
-      Me.Button1.Location = New System.Drawing.Point(185, 324)
-      Me.Button1.Name = "Button1"
-      Me.Button1.Size = New System.Drawing.Size(75, 23)
-      Me.Button1.TabIndex = 327
-      Me.Button1.Text = "Cash Flow"
-      Me.Button1.UseVisualStyleBackColor = True
+      Me.cmbCode.Location = New System.Drawing.Point(120, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(134, 21)
+      Me.cmbCode.TabIndex = 0
       '
       'CostCenterDetailView
       '
@@ -1240,7 +1231,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     ' เคลียร์ข้อมูลใน control
     Public Overrides Sub ClearDetail()
       With Me
-        .txtCode.Text = ""
+        '.txtCode.Text = ""
+        .cmbCode.Text = ""
         .txtName.Text = ""
         .txtAddress.Text = ""
         .txtPhone.Text = ""
@@ -1287,7 +1279,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostcenterDetailView.lblName}")
       Me.Validator.SetDisplayName(Me.txtName, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblName.Text, ":"))
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblCode}")
-      Me.Validator.SetDisplayName(Me.txtCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
+      Me.Validator.SetDisplayName(Me.cmbCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lblCode.Text, ":"))
       Me.lblManager.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblManager}")
       Me.lblAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblAddress}")
       Me.lblAdmin.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblAdmin}")
@@ -1310,7 +1302,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkActive.Text = "โครงการอยู่ระหว่างก่อสร้าง(Active)"
     End Sub
     Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      'AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
+
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtBOQCode.Validated, AddressOf Me.ChangeProperty
 
@@ -1345,9 +1340,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_entity.LoadImage()
       '.......................................
 
+      cmbCode.Text = m_entity.Code
+      Me.m_oldCode = Me.m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
+
       ' ทำการผูก Property ต่าง ๆ เข้ากับ control
       With Me
-        .txtCode.Text = .m_entity.Code
+        '.txtCode.Text = .m_entity.Code
         .txtName.Text = .m_entity.Name
 
         ' Autogencode
@@ -1449,8 +1449,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
-        Case "txtcode"
-          Me.m_entity.Code = Me.txtCode.Text
+        'Case "txtcode"
+        '  Me.m_entity.Code = Me.txtCode.Text
+        '  dirtyFlag = True
+        Case "cmbcode"
+          If m_entity.AutoGen Then
+            'เพิ่ม AutoCode
+            If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+              Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+              Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            End If
+          Else
+            Me.m_entity.Code = cmbCode.Text
+          End If
           dirtyFlag = True
         Case "txtname"
           Me.m_entity.Name = Me.txtName.Text
@@ -1954,19 +1965,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
+      'If Me.chkAutorun.Checked Then
+      '  Me.Validator.SetRequired(Me.txtCode, False)
+      '  Me.ErrorProvider1.SetError(Me.txtCode, "")
+      '  Me.txtCode.ReadOnly = True
+      '  m_oldCode = Me.txtCode.Text
+      '  Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+      '  'Hack: set Code เป็น "" เอง
+      '  Me.m_entity.Code = ""
+      '  Me.m_entity.AutoGen = True
+      'Else
+      '  Me.Validator.SetRequired(Me.txtCode, True)
+      '  Me.txtCode.Text = m_oldCode
+      '  Me.txtCode.ReadOnly = False
+      '  Me.m_entity.AutoGen = False
+      'End If
       If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-        'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
+        m_oldCode = Me.cmbCode.Text
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
+        'Me.Validator.SetRequired(Me.txtCode, True)
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Items.Clear()
+        Me.cmbCode.Text = m_oldCode
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = False
       End If
     End Sub

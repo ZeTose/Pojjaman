@@ -601,7 +601,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.BoqId = 0
         End If
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
         Me.AutoGen = False
@@ -694,6 +694,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(ex.ToString)
         End Try
       End With
+    End Function
+    Public Overrides Function GetNextCode() As String
+      Dim autoCodeFormat As String = Me.Code 'Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+
+      pattern = CodeGenerator.GetPattern(pattern)
+
+      Dim lastCode As String = Me.GetLastCode(pattern)
+      Dim newCode As String = _
+      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      While DuplicateCode(newCode)
+        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+      End While
+      Return newCode
     End Function
 #End Region
 
