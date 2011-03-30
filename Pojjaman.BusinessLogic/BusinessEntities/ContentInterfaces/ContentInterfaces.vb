@@ -147,6 +147,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property Code() As String
   End Interface
 
+  Public Interface IDescripable
+    Property id As Integer
+    Property name As String
+    Property desc As String
+  End Interface
   Public Interface IHasName
     Inherits IIdentifiable
     Property Name() As String

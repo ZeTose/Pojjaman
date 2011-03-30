@@ -449,6 +449,7 @@
     <Compile Include="BusinessEntities\Construction\BoqItem.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Construction\CostItem.vb" />
     <Compile Include="BusinessEntities\Construction\Markup.vb">
       <SubType>Code</SubType>
     </Compile>

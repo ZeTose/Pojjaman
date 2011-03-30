@@ -444,15 +444,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dgt = DigitConfig.Int
       End If
       dt.Clear()
-      Dim dt2 As DataTable = Me.DataSet.Tables(0)
-      Dim dt3 As DataTable = Me.DataSet.Tables(1)
-      Dim dt4 As DataTable = Me.DataSet.Tables(2)
-      dt2.TableName = "Table0"
-      dt3.TableName = "Table1"
-      dt4.TableName = "Table2"
-      If dt2.Rows.Count <= 0 Then
+      Dim dtwbs As DataTable = Me.DataSet.Tables(0)
+      Dim dtMarkUp As DataTable = Me.DataSet.Tables(1)
+      Dim dtDoc As DataTable = Me.DataSet.Tables(2)
+      dtwbs.TableName = "Table0"
+      dtMarkUp.TableName = "Table1"
+      dtDoc.TableName = "Table2"
+      If dtwbs.Rows.Count <= 0 Then
         Return
       End If
+
+      Dim detail As Integer = CInt(Me.Filters(4).Value)
 
       ' WBS ##################################################################################################
       '#######################################################################################################
@@ -467,7 +469,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim stage As String = ""
       Try
         'แบบไม่เลือก Option WBS 
-        For Each wbsrow As DataRow In dt2.Rows
+        For Each wbsrow As DataRow In dtwbs.Rows
           If CInt(wbsrow("wbs_level")) = 0 Then
             parentNode = dt.Childs.Add
             SumNetWbsBudget += CDec(wbsrow("wbs_budget"))
@@ -515,7 +517,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tr.State = RowExpandState.Expanded
           End If
 
-          If CInt(Me.Filters(4).Value) > 0 Then
+          If detail > 0 Then
             Dim DocMatActual As Decimal = 0
             Dim DocLabActual As Decimal = 0
             Dim DocEqActual As Decimal = 0
@@ -523,7 +525,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myDocId As String = ""
             Dim Doctr As TreeRow = Nothing
             Dim DocItemTr As TreeRow = Nothing
-            For Each wbsDoc As DataRow In dt4.Select("wbsid = " & wbsrow("wbs_id") & " and ismarkup = 0")
+            For Each wbsDoc As DataRow In dtDoc.Select("wbsid = " & wbsrow("wbs_id") & " and ismarkup = 0")
 
               If Not myDocId = CStr(wbsDoc("DocId")) Then
                 If Not Doctr Is Nothing Then
@@ -548,7 +550,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Doctr("note") = CStr(wbsDoc("Docnote"))
               End If
 
-              If CInt(Me.Filters(4).Value) > 1 Then
+              If detail > 1 Then
                 'แสดงรายการในแต่ละเอกสาร
                 If Not Doctr Is Nothing Then
                   Doctr.State = RowExpandState.Expanded
@@ -596,8 +598,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim markuptr As TreeRow = Nothing
         overheadedtr = dt.Childs.Add
         overheadedtr("boqi_itemName") = Me.StringParserService.Parse("${res:Global.Overhead}")
-        If dt3.Rows.Count > 0 Then
-          For Each markuprow As DataRow In dt3.Select("code_tag = 0")
+        If dtMarkUp.Rows.Count > 0 Then
+          For Each markuprow As DataRow In dtMarkUp.Select("code_tag = 0")
             'แต่ละ Over Head
             If Not overheadTemp = CStr(markuprow("code_order")) Then
               If Not overheadtr Is Nothing Then
@@ -648,7 +650,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
             'รายการแต่ละเอกสารในแต่ละ Markup
-            If CInt(Me.Filters(4).Value) > 0 Then
+            If detail > 0 Then
               Dim DocMatActual As Decimal = 0
               Dim DocLabActual As Decimal = 0
               Dim DocEqActual As Decimal = 0
@@ -658,7 +660,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim DocMarkuptr As TreeRow = Nothing
               Dim DocMarkupItemTr As TreeRow = Nothing
 
-              For Each markupdocrow As DataRow In dt4.Select("wbsid = " & markuprow("markup_id") & " and ismarkup = 1")
+              For Each markupdocrow As DataRow In dtDoc.Select("wbsid = " & markuprow("markup_id") & " and ismarkup = 1")
                 If Not myTempDoc = CStr(markupdocrow("DocId")) Then
                   If Not DocMarkuptr Is Nothing Then
                     DocMarkuptr("Actual") = Configuration.FormatToString(DocAmount, dgt)
@@ -673,7 +675,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   myTempDoc = CStr(markupdocrow("DocId"))
                 End If
 
-                If CInt(Me.Filters(4).Value) > 1 Then
+                If detail > 1 Then
                   If Not DocMarkuptr Is Nothing Then
                     'แสดงรายการในแต่ละเอกสาร
                     DocMarkupItemTr = DocMarkuptr.Childs.Add
@@ -752,8 +754,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         profitheadedtr = dt.Childs.Add
         profitheadedtr("boqi_itemName") = Me.StringParserService.Parse("${res:Global.Profit}" & "<ประเมิน>")
 
-        If dt3.Rows.Count > 0 Then
-          For Each profitrow As DataRow In dt3.Select("code_tag = 1")
+        If dtMarkUp.Rows.Count > 0 Then
+          For Each profitrow As DataRow In dtMarkUp.Select("code_tag = 1")
 
             profitheadtr = profitheadedtr.Childs.Add
 
@@ -945,6 +947,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tpt
       End Get
     End Property
+    Public Property AdvanceFindCollection() As AdvanceFindCollection
+   
 #End Region
 
 #Region "IPrintableEntity"

@@ -5,6 +5,7 @@ Imports System.IO
 Imports System.Configuration
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Text.RegularExpressions
 Imports System.Reflection
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class AdvanceFindField
@@ -256,237 +257,350 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             Return ret
         End Function
-        Public Function GetBuiltSQLString() As String
-            Dim ret As String
-            Dim ret1 As String
-            Dim advanceFindString(0) As String
-            Dim tempFindString(0) As String
-            Dim i As Integer = 0
-            Dim j As Integer = 0
+    Public Function GetBuiltSQLString() As String
+      Dim ret As String
+      Dim ret1 As String
+      Dim advanceFindString(0) As String
+      Dim tempFindString(0) As String
+      Dim i As Integer = 0
+      Dim j As Integer = 0
 
-            For Each myAdvf As AdvanceFind In Me
-                If myAdvf.ItemCollection.Count > 0 Then
+      For Each myAdvf As AdvanceFind In Me
+        If myAdvf.ItemCollection.Count > 0 Then
 
-                    j = 0
-                    For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
-                        If Not myAdvfItem.Field.StartsWith("lci") Then
+          j = 0
+          For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
+            If Not myAdvfItem.Field.StartsWith("lci") AndAlso ((myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string")) Then
+              Dim hasSingleQuot As String = ""
+              Dim wildCard As String = "%"
+              If (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string") Then
+                hasSingleQuot = "'"
+              End If
 
-                            ' ถ้ามี MinValue
-                            If Not myAdvfItem.MinValue Is Nothing AndAlso myAdvfItem.MinValue.Length > 0 Then
-                                ReDim Preserve tempFindString(j)
-                                ''' ตรวจสอบค่าที่ใส่ ถ้ามีทั้งคู่ ให้เป็น between ถ้ามีตัวเดียวให้ดู datatype แล้วกำหนดเป็น = หรือ like
 
-                                If Not myAdvfItem.MaxValue Is Nothing AndAlso myAdvfItem.MaxValue.Length > 0 Then
-                                    Dim hasSingleQuot As String = ""
-                                    Dim wildCard As String = "%"
-                                    If (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string") Then
-                                        hasSingleQuot = "'"
-                                    End If
+              Select Case myAdvfItem.ItemCase
+                Case AdvanceFindItem.FindCase.OnlyMax
+                  ReDim Preserve tempFindString(j)
+                  If hasSingleQuot.Length > 0 Then
+                    tempFindString(j) = myAdvfItem.Field + " like "
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  Else
+                    tempFindString(j) = myAdvfItem.Field
+                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " <= ", " like "))
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  End If
 
-                                    tempFindString(j) = myAdvfItem.Field
-                                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " >= ", " like "))
-                                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
-                                    tempFindString(j) &= " and " & myAdvfItem.Field
-                                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " <= ", " like "))
-                                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
-                                End If
-                            End If
+                Case AdvanceFindItem.FindCase.OnlyMin
+                  ReDim Preserve tempFindString(j)
+                  If hasSingleQuot.Length > 0 Then
+                    tempFindString(j) = myAdvfItem.Field + " like "
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  Else
+                    tempFindString(j) = myAdvfItem.Field
+                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " >= ", " like "))
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  End If
+                Case AdvanceFindItem.FindCase.Both
+                  ReDim Preserve tempFindString(j)
+                  If hasSingleQuot.Length > 0 Then
+                    tempFindString(j) = myAdvfItem.Field + " between "
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                    tempFindString(j) &= " and " '& myAdvfItem.Field
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  Else
+                    tempFindString(j) = myAdvfItem.Field
+                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " >= ", " like "))
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                    tempFindString(j) &= " and " & myAdvfItem.Field
+                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " <= ", " like "))
+                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  End If
+                Case AdvanceFindItem.FindCase.Zero
+              End Select
 
-                            If Not tempFindString(j) Is Nothing AndAlso tempFindString(j).Length > 0 Then
-                                j += 1
-                            Else
-                                ReDim Preserve tempFindString(j - 1)
-                            End If
 
-                        End If
-                    Next
+              tempFindString(j) = "(" + tempFindString(j) + ")"
 
-                    ReDim Preserve advanceFindString(i)
-                    advanceFindString(i) = Join(tempFindString, CStr(IIf(myAdvf.OperatorAnd, " and ", " or ")))
-                    If Not advanceFindString(i) Is Nothing AndAlso advanceFindString(i).Length > 0 Then
-                        advanceFindString(i) = "(" & advanceFindString(i) & ")"
-                        i += 1
-                    Else
-                        ReDim Preserve advanceFindString(i - 1)
-                    End If
-                    tempFindString = Nothing
+              If Not tempFindString(j) Is Nothing AndAlso tempFindString(j).Length > 0 Then
+                j += 1
+              Else
+                ReDim Preserve tempFindString(j - 1)
+              End If
+            End If
+          Next
 
+          ReDim Preserve advanceFindString(i)
+          advanceFindString(i) = Join(tempFindString, CStr(IIf(myAdvf.OperatorAnd, " and ", " or ")))
+          If Not advanceFindString(i) Is Nothing AndAlso advanceFindString(i).Length > 0 Then
+            advanceFindString(i) = "(" & advanceFindString(i) & ")"
+            i += 1
+          Else
+            ReDim Preserve advanceFindString(i - 1)
+          End If
+          tempFindString = Nothing
+
+        End If
+      Next
+
+      ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
+      Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
+      'Return ret & ""
+    End Function
+
+    Public Function GetBuiltSQLStringforValue() As String
+      Dim ret As String
+      Dim ret1 As String
+      Dim advanceFindString(0) As String
+      Dim tempFindString(0) As String
+      Dim i As Integer = 0
+      Dim j As Integer = 0
+
+      For Each myAdvf As AdvanceFind In Me
+        If myAdvf.ItemCollection.Count > 0 Then
+
+          j = 0
+          For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
+            If Not myAdvfItem.Field.StartsWith("lci") AndAlso (Not (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string")) Then
+
+              Select Case myAdvfItem.ItemCase
+                Case AdvanceFindItem.FindCase.OnlyMax
+                  ReDim Preserve tempFindString(j)
+                  tempFindString(j) = myAdvfItem.Field & " <= " & myAdvfItem.MaxValue
+
+                Case AdvanceFindItem.FindCase.OnlyMin
+                  ReDim Preserve tempFindString(j)
+                  tempFindString(j) = myAdvfItem.Field & " >= " & myAdvfItem.MinValue
+                Case AdvanceFindItem.FindCase.Both
+                  ReDim Preserve tempFindString(j)
+                  tempFindString(j) = myAdvfItem.Field & " <= " & myAdvfItem.MaxValue
+                  tempFindString(j) &= " and " & myAdvfItem.Field & " >= " & myAdvfItem.MinValue
+                  
+                Case AdvanceFindItem.FindCase.Zero
+              End Select
+
+
+              tempFindString(j) = "(" + tempFindString(j) + ")"
+
+              If Not tempFindString(j) Is Nothing AndAlso tempFindString(j).Length > 0 Then
+                j += 1
+              Else
+                ReDim Preserve tempFindString(j - 1)
+              End If
+            End If
+          Next
+
+          ReDim Preserve advanceFindString(i)
+          advanceFindString(i) = Join(tempFindString, CStr(IIf(myAdvf.OperatorAnd, " and ", " or ")))
+          If Not advanceFindString(i) Is Nothing AndAlso advanceFindString(i).Length > 0 Then
+            advanceFindString(i) = "(" & advanceFindString(i) & ")"
+            i += 1
+          Else
+            ReDim Preserve advanceFindString(i - 1)
+          End If
+          tempFindString = Nothing
+
+        End If
+      Next
+
+      ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
+      Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
+      'Return ret & ""
+    End Function
+
+    Public Function GetBuiltSQLString1() As String
+      Dim ret As String
+      Dim ret1 As String
+      Dim advanceFindString(0) As String
+      Dim tempFindString(0) As String
+      Dim i As Integer = 0
+      Dim j As Integer = 0
+
+      For Each myAdvf As AdvanceFind In Me
+        If myAdvf.ItemCollection.Count > 0 Then
+
+          j = 0
+          For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
+            If myAdvfItem.Field.StartsWith("lci") Then
+
+              ' ถ้ามี MinValue
+              If Not myAdvfItem.MinValue Is Nothing AndAlso myAdvfItem.MinValue.Length > 0 Then
+                ReDim Preserve tempFindString(j)
+                ''' ตรวจสอบค่าที่ใส่ ถ้ามีทั้งคู่ ให้เป็น between ถ้ามีตัวเดียวให้ดู datatype แล้วกำหนดเป็น = หรือ like
+
+                If Not myAdvfItem.MaxValue Is Nothing AndAlso myAdvfItem.MaxValue.Length > 0 Then
+                  Dim hasSingleQuot As String = ""
+                  Dim wildCard As String = "%"
+                  If (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string") Then
+                    hasSingleQuot = "'"
+                  End If
+
+                  tempFindString(j) = myAdvfItem.Field
+                  tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " >= ", " like "))
+                  tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
+                  tempFindString(j) &= " and " & myAdvfItem.Field
+                  tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " <= ", " like "))
+                  tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
                 End If
-            Next
+              End If
 
-            ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
-            Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
-            'Return ret & ""
-        End Function
+              If Not tempFindString(j) Is Nothing AndAlso tempFindString(j).Length > 0 Then
+                j += 1
+              Else
+                ReDim Preserve tempFindString(j - 1)
+              End If
 
-        Public Function GetBuiltSQLString1() As String
-            Dim ret As String
-            Dim ret1 As String
-            Dim advanceFindString(0) As String
-            Dim tempFindString(0) As String
-            Dim i As Integer = 0
-            Dim j As Integer = 0
+            End If
+          Next
 
-            For Each myAdvf As AdvanceFind In Me
-                If myAdvf.ItemCollection.Count > 0 Then
+          ReDim Preserve advanceFindString(i)
+          advanceFindString(i) = Join(tempFindString, CStr(IIf(myAdvf.OperatorAnd, " and ", " or ")))
+          If Not advanceFindString(i) Is Nothing AndAlso advanceFindString(i).Length > 0 Then
+            advanceFindString(i) = "(" & advanceFindString(i) & ")"
+            i += 1
+          Else
+            ReDim Preserve advanceFindString(i - 1)
+          End If
+          tempFindString = Nothing
 
-                    j = 0
-                    For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
-                        If myAdvfItem.Field.StartsWith("lci") Then
+        End If
+      Next
 
-                            ' ถ้ามี MinValue
-                            If Not myAdvfItem.MinValue Is Nothing AndAlso myAdvfItem.MinValue.Length > 0 Then
-                                ReDim Preserve tempFindString(j)
-                                ''' ตรวจสอบค่าที่ใส่ ถ้ามีทั้งคู่ ให้เป็น between ถ้ามีตัวเดียวให้ดู datatype แล้วกำหนดเป็น = หรือ like
+      ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
+      Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
+      'Return CStr(IIf(ret.Length > 0, " and " & ret, "")) & ""
+    End Function
 
-                                If Not myAdvfItem.MaxValue Is Nothing AndAlso myAdvfItem.MaxValue.Length > 0 Then
-                                    Dim hasSingleQuot As String = ""
-                                    Dim wildCard As String = "%"
-                                    If (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string") Then
-                                        hasSingleQuot = "'"
-                                    End If
+    Public Function InCriteria(ByVal dr As DataRow) As Nullable(Of Boolean)
+      Dim ret As Nullable(Of Boolean)
+      Dim j As Integer = 0
+      For Each myAdvf As AdvanceFind In Me
 
-                                    tempFindString(j) = myAdvfItem.Field
-                                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " >= ", " like "))
-                                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MinValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
-                                    tempFindString(j) &= " and " & myAdvfItem.Field
-                                    tempFindString(j) &= CStr(IIf(hasSingleQuot.Length = 0, " <= ", " like "))
-                                    tempFindString(j) &= hasSingleQuot & myAdvfItem.MaxValue & CStr(IIf(hasSingleQuot.Length = 0, "", wildCard)) & hasSingleQuot
-                                End If
-                            End If
+        If myAdvf.ItemCollection.Count > 0 Then
+          If myAdvf.OperatorAnd Then
+            ret = True
+          Else
+            ret = False
+          End If
+          For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
+            If Not myAdvfItem.Field.StartsWith("lci") AndAlso (Not (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string")) Then
+              If myAdvf.OperatorAnd Then
+                ret = ret And myAdvfItem.InDecimalCriteria(dr)
+              Else
+                ret = ret Or myAdvfItem.InDecimalCriteria(dr)
+              End If
+            End If
+          Next
 
-                            If Not tempFindString(j) Is Nothing AndAlso tempFindString(j).Length > 0 Then
-                                j += 1
-                            Else
-                                ReDim Preserve tempFindString(j - 1)
-                            End If
-
-                        End If
-                    Next
-
-                    ReDim Preserve advanceFindString(i)
-                    advanceFindString(i) = Join(tempFindString, CStr(IIf(myAdvf.OperatorAnd, " and ", " or ")))
-                    If Not advanceFindString(i) Is Nothing AndAlso advanceFindString(i).Length > 0 Then
-                        advanceFindString(i) = "(" & advanceFindString(i) & ")"
-                        i += 1
-                    Else
-                        ReDim Preserve advanceFindString(i - 1)
-                    End If
-                    tempFindString = Nothing
-
-                End If
-            Next
-
-            ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
-            Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
-            'Return CStr(IIf(ret.Length > 0, " and " & ret, "")) & ""
-        End Function
+        End If
+      Next
+      Return ret
+    End Function
 #End Region
 
 #Region "Collection Methods"
-        Public Function Add(ByVal value As AdvanceFind) As Integer
-            If Not Me.Contains(value) Then
-                Return MyBase.List.Add(value)
-            End If
-        End Function
-        Public Sub AddRange(ByVal value As AdvanceFindCollection)
-            For i As Integer = 0 To value.Count - 1
-                Me.Add(value(i))
-            Next
-        End Sub
-        Public Sub AddRange(ByVal value As AdvanceFind())
-            For i As Integer = 0 To value.Length - 1
-                Me.Add(value(i))
-            Next
-        End Sub
-        Public Function Contains(ByVal value As AdvanceFind) As Boolean
-            Return MyBase.List.Contains(value)
-        End Function
-        Public Sub CopyTo(ByVal array As AdvanceFind(), ByVal index As Integer)
-            MyBase.List.CopyTo(array, index)
-        End Sub
-        Public Function IndexOf(ByVal value As AdvanceFind) As Integer
-            Return MyBase.List.IndexOf(value)
-        End Function
-        Public Sub Insert(ByVal index As Integer, ByVal value As AdvanceFind)
-            MyBase.List.Insert(index, value)
-        End Sub
-        Public Sub Remove(ByVal value As AdvanceFind)
-            MyBase.List.Remove(value)
-        End Sub
-        Public Sub Remove(ByVal value As AdvanceFindCollection)
-            For i As Integer = 0 To value.Count - 1
-                Me.Remove(value(i))
-            Next
-        End Sub
-        Public Sub Remove(ByVal index As Integer)
-            MyBase.List.RemoveAt(index)
-        End Sub
+    Public Function Add(ByVal value As AdvanceFind) As Integer
+      If Not Me.Contains(value) Then
+        Return MyBase.List.Add(value)
+      End If
+    End Function
+    Public Sub AddRange(ByVal value As AdvanceFindCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As AdvanceFind())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As AdvanceFind) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As AdvanceFind(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Function IndexOf(ByVal value As AdvanceFind) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Sub Insert(ByVal index As Integer, ByVal value As AdvanceFind)
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As AdvanceFind)
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal value As AdvanceFindCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Remove(value(i))
+      Next
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      MyBase.List.RemoveAt(index)
+    End Sub
 #End Region
 
-    End Class
+  End Class
 
 
-    Public Class AdvanceFind
+  Public Class AdvanceFind
 #Region "Members"
-        Private m_level As Integer
-        Private m_operatorAnd As Boolean
-        Private m_itemColl As AdvanceFindItemCollection
+    Private m_level As Integer
+    Private m_operatorAnd As Boolean
+    Private m_itemColl As AdvanceFindItemCollection
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            m_itemColl = New AdvanceFindItemCollection
-        End Sub
-        'Public Sub New(ByVal value As Integer)
-        '    Me.code_value = value
-        '    Me.code_description = AdvanceFind.GetDescription(Me.CodeName, Me.Value)
-        'End Sub
+    Public Sub New()
+      m_itemColl = New AdvanceFindItemCollection
+    End Sub
+    'Public Sub New(ByVal value As Integer)
+    '    Me.code_value = value
+    '    Me.code_description = AdvanceFind.GetDescription(Me.CodeName, Me.Value)
+    'End Sub
 
-        'Public Sub New(ByVal description As String)
-        '    Me.Description = description
-        '    Me.Value = AdvanceFind.GetValue(Me.CodeName, Me.Description)
-        'End Sub
+    'Public Sub New(ByVal description As String)
+    '    Me.Description = description
+    '    Me.Value = AdvanceFind.GetValue(Me.CodeName, Me.Description)
+    'End Sub
 
-        'Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-        '    With Me
-        '        If Not dr.IsNull(aliasPrefix & "code_value") Then
-        '            .code_value = CInt(dr(aliasPrefix & "code_value"))        '            .code_description = AdvanceFind.GetDescription(Me.CodeName, Me.Value)        '        End If
-        '    End With
-        'End Sub
-        'Public Sub New(ByVal ds As DataSet, ByVal aliasPrefix As String)
-        '    Me.New(ds.Tables(0).Rows(0), aliasPrefix)
-        'End Sub
+    'Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+    '    With Me
+    '        If Not dr.IsNull(aliasPrefix & "code_value") Then
+    '            .code_value = CInt(dr(aliasPrefix & "code_value"))    '            .code_description = AdvanceFind.GetDescription(Me.CodeName, Me.Value)    '        End If
+    '    End With
+    'End Sub
+    'Public Sub New(ByVal ds As DataSet, ByVal aliasPrefix As String)
+    '    Me.New(ds.Tables(0).Rows(0), aliasPrefix)
+    'End Sub
 #End Region
 
 #Region "Properties"
-        Public Property Level() As Integer            Get                Return m_level            End Get            Set(ByVal Value As Integer)                m_level = Value            End Set        End Property        Public Property OperatorAnd() As Boolean            Get                Return m_operatorAnd            End Get            Set(ByVal Value As Boolean)                m_operatorAnd = Value            End Set        End Property        Public Property ItemCollection() As AdvanceFindItemCollection            Get                Return m_itemColl            End Get            Set(ByVal Value As AdvanceFindItemCollection)                m_itemColl = Value            End Set        End Property#End Region
+    Public Property Level() As Integer      Get        Return m_level      End Get      Set(ByVal Value As Integer)        m_level = Value      End Set    End Property    Public Property OperatorAnd() As Boolean      Get        Return m_operatorAnd      End Get      Set(ByVal Value As Boolean)        m_operatorAnd = Value      End Set    End Property    Public Property ItemCollection() As AdvanceFindItemCollection      Get        Return m_itemColl      End Get      Set(ByVal Value As AdvanceFindItemCollection)        m_itemColl = Value      End Set    End Property#End Region
 
-    End Class
+  End Class
 
 
-    <Serializable(), DefaultMember("Item")> _
-    Public Class AdvanceFindItemCollection
-        Inherits CollectionBase
+  <Serializable(), DefaultMember("Item")> _
+  Public Class AdvanceFindItemCollection
+    Inherits CollectionBase
 #Region "Members"
 
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
+    Public Sub New()
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Properties"
-        Default Public Property Item(ByVal index As Integer) As AdvanceFindItem
-            Get
-                Return CType(MyBase.List.Item(index), AdvanceFindItem)
-            End Get
-            Set(ByVal value As AdvanceFindItem)
-                MyBase.List.Item(index) = value
-            End Set
-        End Property
+    Default Public Property Item(ByVal index As Integer) As AdvanceFindItem
+      Get
+        Return CType(MyBase.List.Item(index), AdvanceFindItem)
+      End Get
+      Set(ByVal value As AdvanceFindItem)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
 #End Region
 
 #Region "Class Methods"
@@ -494,67 +608,132 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Collection Methods"
-        Public Function Add(ByVal value As AdvanceFindItem) As Integer
-            If Not Me.Contains(value) Then
-                Return MyBase.List.Add(value)
-            End If
-        End Function
-        Public Sub AddRange(ByVal value As AdvanceFindItemCollection)
-            For i As Integer = 0 To value.Count - 1
-                Me.Add(value(i))
-            Next
-        End Sub
-        Public Sub AddRange(ByVal value As AdvanceFindItem())
-            For i As Integer = 0 To value.Length - 1
-                Me.Add(value(i))
-            Next
-        End Sub
-        Public Function Contains(ByVal value As AdvanceFindItem) As Boolean
-            Return MyBase.List.Contains(value)
-        End Function
-        Public Sub CopyTo(ByVal array As AdvanceFindItem(), ByVal index As Integer)
-            MyBase.List.CopyTo(array, index)
-        End Sub
-        Public Function IndexOf(ByVal value As AdvanceFindItem) As Integer
-            Return MyBase.List.IndexOf(value)
-        End Function
-        Public Sub Insert(ByVal index As Integer, ByVal value As AdvanceFindItem)
-            MyBase.List.Insert(index, value)
-        End Sub
-        Public Sub Remove(ByVal value As AdvanceFindItem)
-            MyBase.List.Remove(value)
-        End Sub
-        Public Sub Remove(ByVal value As AdvanceFindItemCollection)
-            For i As Integer = 0 To value.Count - 1
-                Me.Remove(value(i))
-            Next
-        End Sub
-        Public Sub Remove(ByVal index As Integer)
-            MyBase.List.RemoveAt(index)
-        End Sub
+    Public Function Add(ByVal value As AdvanceFindItem) As Integer
+      If Not Me.Contains(value) Then
+        Return MyBase.List.Add(value)
+      End If
+    End Function
+    Public Sub AddRange(ByVal value As AdvanceFindItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As AdvanceFindItem())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As AdvanceFindItem) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As AdvanceFindItem(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Function IndexOf(ByVal value As AdvanceFindItem) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Sub Insert(ByVal index As Integer, ByVal value As AdvanceFindItem)
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As AdvanceFindItem)
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal value As AdvanceFindItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Remove(value(i))
+      Next
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      MyBase.List.RemoveAt(index)
+    End Sub
 #End Region
 
-    End Class
+  End Class
 
 
-    Public Class AdvanceFindItem
+  Public Class AdvanceFindItem
 
 #Region "Members"
-        Private m_field As String
-        Private m_dataType As String
-        Private m_minVal As String
-        Private m_maxVal As String
+    Private m_field As String
+    Private m_dataType As String
+    Private m_minVal As String
+    Private m_maxVal As String
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
+    Public Sub New()
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Properties"
-        Public Property Field() As String            Get                Return m_field            End Get            Set(ByVal Value As String)                m_field = Value            End Set        End Property        Public Property DataType() As String            Get                Return m_dataType            End Get            Set(ByVal Value As String)                m_dataType = Value            End Set        End Property        Public Property MinValue() As String            Get                Return m_minVal            End Get            Set(ByVal Value As String)                m_minVal = Value            End Set        End Property        Public Property MaxValue() As String            Get                Return m_maxVal            End Get            Set(ByVal Value As String)                m_maxVal = Value            End Set        End Property#End Region
+    Public Property Field() As String      Get        Return m_field      End Get      Set(ByVal Value As String)        m_field = Value      End Set    End Property    Public Property DataType() As String      Get        Return m_dataType      End Get      Set(ByVal Value As String)        m_dataType = Value      End Set    End Property    Public Property MinValue() As String      Get        Return m_minVal      End Get      Set(ByVal Value As String)        m_minVal = Value      End Set    End Property    Public Property MaxValue() As String      Get        Return m_maxVal      End Get      Set(ByVal Value As String)        m_maxVal = Value      End Set    End Property    Public ReadOnly Property ItemCase As FindCase      Get
+        If (m_minVal Is Nothing OrElse m_minVal.Length = 0) AndAlso (m_maxVal IsNot Nothing OrElse m_maxVal.Length > 0) Then
+          Return FindCase.OnlyMax
+        ElseIf (m_minVal IsNot Nothing OrElse m_minVal.Length <> 0) AndAlso (m_maxVal Is Nothing OrElse m_maxVal.Length = 0) Then
+          Return FindCase.OnlyMin
+        ElseIf (m_minVal IsNot Nothing OrElse m_minVal.Length <> 0) AndAlso (m_maxVal IsNot Nothing OrElse m_maxVal.Length = 0) Then
+          Return FindCase.Both
+        End If
+        Return FindCase.Zero
+      End Get
+    End Property#End Region
 
-    End Class
+    Public Enum FindCase
+      OnlyMin
+      OnlyMax
+      Both
+      Zero
+    End Enum
+#Region "Method"
+    Public Function InDecimalCriteria(ByVal dr As DataRow) As Boolean
+      Dim drh As New DataRowHelper(dr)
+      If drh.GetValue(Of Decimal)(Me.Field, Decimal.MinValue) = Decimal.MinValue Then
+        Return True
+      End If
+      Dim d As Decimal = drh.GetValue(Of Decimal)(Me.Field)
+      Select Case Me.ItemCase
+        Case FindCase.Both
+          If d >= CDec(Me.MinValue) AndAlso d <= CDec(Me.MaxValue) Then
+            Return True
+          End If
+        Case FindCase.OnlyMax
+          If d <= CDec(Me.MaxValue) Then
+            Return True
+          End If
+        Case FindCase.OnlyMin
+          If d >= CDec(Me.MinValue) Then
+            Return True
+          End If
+      End Select
+      Return False
+    End Function
+
+    Public Function InStringCriteria(ByVal dr As DataRow) As Boolean
+      Dim drh As New DataRowHelper(dr)
+      If drh.GetValue(Of String)(Me.Field, "nothing") = "nothing" Then
+        Return True
+      End If
+      Dim re As String = drh.GetValue(Of String)(Me.Field)
+      Select Case Me.ItemCase
+        Case FindCase.Both
+          If Regex.Match(re, Me.MaxValue).Length > 0 OrElse Regex.Match(re, Me.MinValue).Length > 0 Then
+            Return True
+          End If
+        Case FindCase.OnlyMax
+          If Regex.Match(re, Me.MaxValue).Length > 0 Then
+            Return True
+          End If
+        Case FindCase.OnlyMin
+          If Regex.Match(re, Me.MinValue).Length > 0 Then
+            Return True
+          End If
+      End Select
+      Return False
+    End Function
+#End Region
+
+
+  End Class
 
 End Namespace
