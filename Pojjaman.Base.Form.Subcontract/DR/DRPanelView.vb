@@ -2262,12 +2262,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           UpdateAmount(True)
           dirtyFlag = True
         Case "txtfromcostcentercode"
-          If txtfromcostcentercodeChanged Then
             If txtfromcostcentercodeChanged Then
-              dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
               txtfromcostcentercodeChanged = False
             End If
-          End If
         Case "txttocostcentercode"
           If txttocostcentercodeChanged Then
             If txttocostcentercodeChanged Then
@@ -2754,7 +2752,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostCenterDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SettoCostcenter)
+      myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetfromCostCenter)
     End Sub
     Private Sub SettoCostcenter(ByVal e As ISimpleEntity)
       Me.txtToCostCenterCode.Text = e.Code
@@ -2805,11 +2803,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenPanel(New Employee)
     End Sub
     ' From Costcenter
+    'Private Sub ibtnShowFromCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCostCenterDialog.Click
+    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    '  Dim myEntityPanelService As IEntityPanelService = _
+    '        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    '  myEntityPanelService.OpenTreeDialog(Me.m_entity.FromCostCenter, AddressOf SetCostCenterDialog)
+    'End Sub
     Private Sub ibtnShowFromCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCostCenterDialog.Click
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      Dim myEntityPanelService As IEntityPanelService = _
-            CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenTreeDialog(Me.m_entity.FromCostCenter, AddressOf SetCostCenterDialog)
+      If Me.m_entity.ToCostCenter Is Nothing OrElse Not Me.m_entity.ToCostCenter.Originated OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.Caption.ChangeCC}") Then
+        Dim myEntityPanelService As IEntityPanelService = _
+                    CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetfromCostCenter, New Filter() {New Filter("checkright", False)})
+      End If
+    End Sub
+    Private Sub SetfromCostCenter(ByVal e As ISimpleEntity)
+      Me.txtToCostCenterCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
+      Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code
+      Me.txtToCostCenterName.Text = Me.m_entity.ToCostCenter.Name
+      'ListType()
+      UpdateDestAdmin()
+      Try
+        If oldCCId <> Me.m_entity.ToCostCenter.Id Then
+          oldCCId = Me.m_entity.ToCostCenter.Id
+          ChangeCC()
+        End If
+      Catch ex As Exception
+
+      End Try
+      Me.txtfromcostcentercodeChanged = False
+      'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     ' To Costcenter
     Private Sub ibtnShowToCostCenterDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
