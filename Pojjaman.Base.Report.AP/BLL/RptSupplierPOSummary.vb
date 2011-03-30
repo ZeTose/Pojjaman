@@ -172,7 +172,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             For Each row As DataRow In dt.Rows
                 If row("SupplierId").ToString <> currentSupplierId Then
-                    'If currentSupplierId <> "" Then
+                    If currentSupplierId <> "" Then
                     '    If tmpDiscAmt > 0 Then
                     '        'm_grid.RowCount += 1
                     '        'currItemIndex = m_grid.RowCount
@@ -187,12 +187,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     '    '    '    'm_grid(currItemIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.TaxAmount}") '"ค่าภาษีมูลค่าเพิ่ม"
                     '    '    '    'm_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(tmpTaxAmount), DigitConfig.Price)
                     '    '    'End If
-                    '    '    'm_grid.RowCount += 1
-                    '    '    'currItemIndex = m_grid.RowCount
-                    '    '    'm_grid.RowStyles(currItemIndex).ReadOnly = True
-                    '    '    ''m_grid(currItemIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.Amount}") '"รวมเป็นเงิน"
-                    '    '    ''m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpAfterTax, DigitConfig.Price)
-                    'End If
+                            m_grid.RowCount += 1
+                            currItemIndex = m_grid.RowCount
+                            m_grid.RowStyles(currItemIndex).ReadOnly = True
+                            m_grid(currItemIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.Amount}") '"รวมเป็นเงิน"
+                            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpAfterTax, DigitConfig.Price)
+                    End If
                     m_grid.RowCount += 1
                     currSupplierIndex = m_grid.RowCount
                     m_grid.RowStyles(currSupplierIndex).BackColor = Color.FromArgb(128, 255, 128)
@@ -315,6 +315,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_grid(currDocIndex, 7).CellValue = Configuration.FormatToString(tmpAmount, DigitConfig.Price)
             Next
 
+      m_grid.RowCount += 1
+      currItemIndex = m_grid.RowCount
+      m_grid.RowStyles(currItemIndex).ReadOnly = True
+      m_grid(currItemIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.Amount}") '"รวมเป็นเงิน"
+      m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpAfterTax, DigitConfig.Price)
         End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"        Public Overrides ReadOnly Property ClassName() As String
