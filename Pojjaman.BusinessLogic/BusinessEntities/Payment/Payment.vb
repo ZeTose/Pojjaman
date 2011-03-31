@@ -656,8 +656,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                          AndAlso item.Entity.CreateDate.HasValue _
                          AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month _
                          AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
-            If msgServ.AskQuestion("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code) Then
-              Return New SaveErrorException("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code)
+            If Not msgServ.AskQuestion("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code _
+                                    & vbCrLf & "${res:Global.Error.DifferentMonthCheckAndPayment2}") Then
+              Return New SaveErrorException(item.Entity.Code & " " & "${res:Global.Error.DifferentMonthCheckAndPayment}")
             End If
           End If
 
