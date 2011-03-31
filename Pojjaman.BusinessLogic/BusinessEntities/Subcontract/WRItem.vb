@@ -2212,7 +2212,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As WRItem In Me
         'If Not item.NewChild Then
         If boqItem.ItemType.Value = 42 Then
-          If item.WBSId = boqItem.WBS.Id AndAlso item.Entity.Id = boqItem.Entity.Id Then
+          If item.WBSId = boqItem.WBS.Id AndAlso item.Entity.Id = boqItem.Entity.Id AndAlso item.UnitPrice = boqItem.UMC AndAlso item.Qty = boqItem.Qty Then
             Return item
           End If
         Else
@@ -2465,11 +2465,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub SetNewItems(ByVal bitem As BoqItem, ByVal unitPrice As Decimal)
               Dim item As WRItem = GetCurrentItems(bitem)
               Dim lastboqitem As WRItem = GetCurrentLastItems(bitem)
-              Dim doc As New WRItem
+      Dim doc As New WRItem
       'Dim tempUnitPrice As Decimal
 
                 If Not item Is Nothing Then
-                  doc = item
+        doc = item
                   doc.WBSId = bitem.WBS.Id
                 Else
                   doc.WBSId = bitem.WBS.Id
@@ -2490,7 +2490,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               doc.Entity = bitem.Entity
               doc.EntityName = bitem.Entity.Name
               doc.Unit = bitem.Unit
-              doc.Qty = bitem.Qty
+      doc.Qty = bitem.Qty + doc.Qty
       doc.UnitPrice = unitPrice
 
       Dim wbsd As New WBSDistribute
