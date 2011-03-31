@@ -2103,9 +2103,394 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
         'End If
       Next
+
+      dpiColl.AddRange(GetAllocateDocPrinting)
+
       Return dpiColl
 
 
+    End Function
+    Public Function GetAllocateDocPrinting() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      Dim line As Integer = 0
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      For Each item As WRItem In Me.ItemCollection
+        'Item.Code
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Code"
+        dpi.Value = item.Entity.Code
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        Dim qtyText As String = ""
+        If (item.ItemType.Value <> 160 And item.ItemType.Value <> 162) Then
+          line += 1
+          'Item.LineNumber
+          '************** เอามาไว้เป็นอันที่ 2
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.LineNumber"
+          dpi.Value = line
+          dpi.DataType = "System.Int32"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.Unit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Unit"
+          dpi.Value = item.Unit.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitPriceN
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitPrice" & (i + 1).ToString
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'Item.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Amount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitN
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Unit" & (i + 1).ToString
+          dpi.Value = item.Unit.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'Item.Qty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Qty"
+          If item.Qty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.QtyN
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Qty" & (i + 1).ToString
+          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          qtyText = Configuration.FormatToString(item.Qty, DigitConfig.Qty) & " " & item.Unit.Name
+        End If
+
+
+
+        'Item.Name
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Name"
+        If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+          dpi.Value = item.EntityName
+        Else
+          dpi.Value = item.Entity.Name
+        End If
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        'Item.NameN
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Name" & (i + 1).ToString
+        If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+          dpi.Value = item.EntityName
+        Else
+          dpi.Value = item.Entity.Name
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        '--------------------- WBS Section ------------------
+        'Dim WBSCostCenter As String = ""
+        'Dim WBSCode As String = ""
+        'Dim WBSName As String = ""
+        'Dim WBSCodePercent As String = ""
+        'Dim WBSCodeAmount As String = ""
+        'Dim WBSRemainAmount As String = ""
+        'Dim WBSRemainQty As String = ""
+        'If item.WBSDistributeCollection.Count > 0 Then
+        '  'Populate ให้คำนวณคงเหลือแบบหลอกๆ
+        '  'item.WBSDistributeCollection.Populate(WBSDistribute.GetSchemaTable, item, Me.EntityId)
+        '  If item.WBSDistributeCollection.Count = 1 Then
+        '    WBSCostCenter = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & _
+        '    item.WBSDistributeCollection.Item(0).CostCenter.Name 'Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+        '    WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
+        '    WBSName = item.WBSDistributeCollection.Item(0).WBS.Name
+        '    WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%"
+        '    WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price)
+        '    WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
+        '    WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
+        '  Else
+        '    Dim j As Integer
+        '    For j = 0 To item.WBSDistributeCollection.Count - 1
+        '      WBSCostCenter &= item.WBSDistributeCollection.Item(j).CostCenter.Code & ":" & _
+        '      item.WBSDistributeCollection.Item(j).CostCenter.Name ' & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+        '      WBSCode &= item.WBSDistributeCollection.Item(j).WBS.Code
+        '      WBSName &= item.WBSDistributeCollection.Item(j).WBS.Name
+        '      WBSCodePercent &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Percent, DigitConfig.Price)
+        '      WBSCodeAmount &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Amount, DigitConfig.Price)
+        '      WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).BudgetRemain, DigitConfig.Price)
+        '      WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).QtyRemain, DigitConfig.Price)
+        '      If j < item.WBSDistributeCollection.Count - 1 Then
+        '        WBSCostCenter &= ", "
+        '        'WBSCostCentern &= ", "
+        '        WBSCode &= ", "
+        '        WBSName &= ", "
+        '        WBSCodePercent &= ", "
+        '        WBSCodeAmount &= ", "
+        '        WBSRemainAmount &= ", "
+        '        WBSRemainQty &= ", "
+        '      End If
+        '    Next
+        '  End If
+        'End If
+
+        For Each dis As WBSDistribute In item.WBSDistributeCollection
+          line += 1
+          'Item.WBSCostCenter
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCostCenter"
+          dpi.Value = dis.CostCenter.Code & ":" & dis.CostCenter.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCode"
+          dpi.Value = dis.WBS.Code
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSName"
+          dpi.Value = dis.WBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSinfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSInfo"
+          dpi.Value = dis.WBS.Code & ":" & dis.WBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.CBSCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CBSCode"
+          dpi.Value = dis.CBS.Code
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.CBSName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CBSName"
+          dpi.Value = dis.CBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.CBSinfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CBSInfo"
+          dpi.Value = dis.CBS.Code & ":" & dis.CBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSCodePercent
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCodePercent"
+          dpi.Value = dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%"
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.Percent
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Percent"
+          dpi.Value = Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%"
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSCodeAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCodeAmount"
+          dpi.Value = dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Amount"
+          dpi.Value = Configuration.FormatToString(dis.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSRemainAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.BudgetAmount"
+          dpi.Value = dis.BudgetAmount
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSRemainAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSRemainAmount"
+          dpi.Value = dis.BudgetRemain
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          ''Item.WBSRemainAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "Item.AmountOverBudget"
+          'dpi.Value = dis.AmountOverBudget
+          'dpi.DataType = "System.String"
+          'dpi.Row = i + 1
+          'dpi.Table = "Allocate"
+          'dpiColl.Add(dpi)
+
+          'Item.WBSRemainQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSBudgetQty"
+          dpi.Value = dis.BudgetQty
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSRemainQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSRemainQty"
+          dpi.Value = dis.QtyRemain
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          ''Item.WBSRemainAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "Item.QtyOverBudget"
+          'dpi.Value = dis.QtyRemain
+          'dpi.DataType = "System.String"
+          'dpi.Row = i + 1
+          'dpi.Table = "Allocate"
+          'dpiColl.Add(dpi)
+          '--------------------- WBS Section ------------------
+        Next
+
+
+        ''Item.Note
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "Item.Note"
+        'dpi.Value = item.Note
+        'dpi.DataType = "System.String"
+        'dpi.Row = i + 1
+        'dpi.Table = "Allocate"
+        'dpiColl.Add(dpi)
+
+        ''Item.LciNote
+        'If TypeOf item.Entity Is IHasNote Then
+        '  dpi = New DocPrintingItem
+        '  dpi.Mapping = "Item.LciNote"
+        '  dpi.Value = CType(item.Entity, IHasNote).Note
+        '  dpi.DataType = "System.String"
+        '  dpi.Row = i + 1
+        '  dpi.Table = "Allocate"
+        '  dpiColl.Add(dpi)
+        'End If
+
+        ''Item.NoteN
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "Item.Note" & (i + 1).ToString
+        'dpi.Value = item.Note
+        'dpi.DataType = "System.String"
+        'dpiColl.Add(dpi)
+
+
+        ''Item.Description '''For Sitem โดยเฉพาะ
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "Item.Description"
+        'If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+        '  dpi.Value = item.EntityName & vbCrLf & qtyText
+        'Else
+        '  dpi.Value = item.Entity.Name & vbCrLf & qtyText
+        'End If
+        'dpi.DataType = "System.String"
+        'dpi.Row = i + 1
+        'dpi.Table = "Allocate"
+        'dpiColl.Add(dpi)
+
+        i += 1
+
+      Next
+
+      Return dpiColl
     End Function
 #End Region
 
