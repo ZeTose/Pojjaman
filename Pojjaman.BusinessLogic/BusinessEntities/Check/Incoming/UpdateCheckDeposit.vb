@@ -449,6 +449,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return saveDetailError
           End If
 
+          Me.DeleteRef(conn, trans)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheck_ReceiveRef" _
+          , New SqlParameter("@refto_id", Me.Id))
+          If Me.Status.Value = 0 Then
+            Me.CancelRef(conn, trans)
+          End If
+
           ' Save GL
 
           If Me.m_je.Status.Value = -1 Then
