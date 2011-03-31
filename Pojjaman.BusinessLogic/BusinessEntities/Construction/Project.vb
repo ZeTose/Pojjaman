@@ -192,7 +192,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Class
     Public Class Project
         Inherits TreeBaseEntity
-        Implements IHasIBillablePerson
+    Implements IHasIBillablePerson, IDuplicable
 
 #Region "Members"
         Private m_jobnumber As String
@@ -631,6 +631,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+#Region "IDuplicable"
+    Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
+      'เวลา Copy ให้เอา CustomNote จากอันปัจจุบันมาเก็บไว้ก่อน
+
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
+      End If
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.Canceled = False
+      Me.CancelPerson = New User
+      Me.ClearReference()
+      
+      Return Me
+    End Function
+#End Region
   End Class
 
 End Namespace

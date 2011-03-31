@@ -548,7 +548,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Return Nothing
     'End Function
     Public Function CanChangeType(ByVal newType As Integer) As Boolean
-      If (Me.Level = 0 And newType > 0) OrElse (Me.Level > 0 And newType = 0) Then
+      If (Me.Level = 0 And newType > 0 AndAlso Me.Originated) OrElse (Me.Level > 0 And newType = 0) Then
         Return False
       End If
       Return True
