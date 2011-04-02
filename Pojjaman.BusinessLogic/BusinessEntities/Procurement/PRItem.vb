@@ -1688,9 +1688,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 If Not bitem.WBS Is Nothing Then
                   matWbsd.IsMarkup = False
-
-                  matWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
-                  'matWbsd.CostCenter = Me.m_pr.CostCenter
+                  If m_pr.CostCenter IsNot Nothing Then
+                    matWbsd.CostCenter = Me.m_pr.CostCenter
+                  Else
+                    matWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  End If
                   matWbsd.WBS = bitem.WBS
                   matWbsd.Percent = 100
                   matWbsd.BaseCost = bitem.TotalMaterialCost
@@ -1722,7 +1724,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 labDoc.UnitPrice = bitem.ULC
                 If Not bitem.WBS Is Nothing Then
                   labWbsd.IsMarkup = False
-                  labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  If m_pr.CostCenter IsNot Nothing Then
+                    labWbsd.CostCenter = Me.m_pr.CostCenter
+                  Else
+                    labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  End If
                   labWbsd.WBS = bitem.WBS
                   labWbsd.Percent = 100
                   labWbsd.BaseCost = bitem.TotalLaborCost
@@ -1754,7 +1760,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 eqDoc.UnitPrice = bitem.UEC
                 If Not bitem.WBS Is Nothing Then
                   eqWbsd.IsMarkup = False
-                  eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  If m_pr.CostCenter IsNot Nothing Then
+                    eqWbsd.CostCenter = Me.m_pr.CostCenter
+                  Else
+                    eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  End If
                   eqWbsd.WBS = bitem.WBS
                   eqWbsd.Percent = 100
                   eqWbsd.BaseCost = bitem.TotalEquipmentCost
@@ -1810,7 +1820,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If bitem.ItemType.Value = 88 Then
                 If Not bitem.WBS Is Nothing Then
                   labWbsd.IsMarkup = False
-                  labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  If m_pr.CostCenter IsNot Nothing Then
+                    labWbsd.CostCenter = Me.m_pr.CostCenter
+                  Else
+                    labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  End If
                   labWbsd.WBS = bitem.WBS
                   labWbsd.Percent = 100
                   labWbsd.BaseCost = bitem.TotalLaborCost
@@ -1822,7 +1836,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If bitem.ItemType.Value = 89 Then
                 If Not bitem.WBS Is Nothing Then
                   eqWbsd.IsMarkup = False
-                  eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  If m_pr.CostCenter IsNot Nothing Then
+                    eqWbsd.CostCenter = Me.m_pr.CostCenter
+                  Else
+                    eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
+                  End If
                   eqWbsd.WBS = bitem.WBS
                   eqWbsd.Percent = 100
                   eqWbsd.BaseCost = bitem.TotalEquipmentCost
