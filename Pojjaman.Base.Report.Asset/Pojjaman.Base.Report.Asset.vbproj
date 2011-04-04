@@ -147,8 +147,9 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\RptAssetDepreciationFromDoc.vb" />
     <Compile Include="BLL\RptAssetWriteOff.vb" />
+    <Compile Include="BLL\RptAssetDepreciationFromDoc.vb" />
+    <Compile Include="BLL\RptAssetWriteOff2.vb" />
     <Compile Include="BLL\RptAssetProfitLoss.vb" />
     <Compile Include="BLL\RptToolMovement.vb" />
     <Compile Include="BLL\RptEquipmentMovement.vb" />
