@@ -301,7 +301,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("DiscAmt")), DigitConfig.Price)
                             m_grid(currItemIndex, 6).Tag = Configuration.FormatToString(CDec(row("PercentDiscount")), DigitConfig.Price) & " %"
                         End If
-                    End If
+          End If
+          If Not row.IsNull("DiscRate") Then
+            m_grid(currItemIndex, 6).CellValue = CStr(row("DiscRate"))
+          End If
                     If IsNumeric(row("Amount")) Then
                         m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
                     End If
@@ -537,7 +540,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 dpi = New DocPrintingItem
                 dpi.Mapping = "col11"
-                dpi.Value = CStr(m_grid(rowIndex, 6).Tag)
+        dpi.Value = CStr(m_grid(rowIndex, 6).CellValue)
                 dpi.DataType = "System.String"
                 dpi.Row = n + 1
                 dpi.Table = "Item"
