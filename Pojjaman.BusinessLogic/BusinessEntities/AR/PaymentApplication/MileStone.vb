@@ -955,15 +955,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Public Sub ResetReal()
+    Public Sub ResetReal(ByVal forcereset As Boolean)
       'HACK: RealMileStoneAmount ต้องอยู่อันแรกนะจ๊ะ
-      If Me.RealMileStoneAmount = Decimal.MinValue Then
+      If Me.RealMileStoneAmount = Decimal.MinValue OrElse forcereset Then
         Me.RealMileStoneAmount = Me.MileStoneAmount
       End If
-      If Me.RealTaxBase = Decimal.MinValue Then
+      If Me.RealTaxBase = Decimal.MinValue OrElse forcereset Then
         Me.RealTaxBase = Me.TaxBase
       End If
-      If Me.RealTaxAmount = Decimal.MinValue Then
+      If Me.RealTaxAmount = Decimal.MinValue OrElse forcereset Then
         Me.RealTaxAmount = Me.TaxAmount
       End If
     End Sub
@@ -2348,9 +2348,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
-    Public Sub ResetReal()
+    Public Sub ResetReal(ByVal forceReset As Boolean)
       For Each mi As Milestone In Me
-        mi.ResetReal()
+        mi.ResetReal(forceReset)
       Next
     End Sub
     Private Function IncludeThisItem(ByVal item As Milestone, ByVal pma As PaymentApplication) As Boolean

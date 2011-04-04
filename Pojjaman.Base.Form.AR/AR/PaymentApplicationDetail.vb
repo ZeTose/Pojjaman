@@ -1889,7 +1889,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim i As Integer
       For Each item As Milestone In Me.m_entity.ItemCollection
         If item.Status.Value = 2 Then
-          item.ResetReal()
+          item.ResetReal(False)
         End If
         i += 1
         Dim row As TreeRow = Me.m_treeManager.Treetable.Childs.Add()
@@ -2299,7 +2299,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Return
           Else
             Me.m_milestone.Discount.Rate = e.ProposedValue.ToString
-            Me.m_milestone.ResetReal()
+            Me.m_milestone.ResetReal(True)
             e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
             Me.UpdateItem()
             UpdateAmount()
@@ -2377,7 +2377,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             'e.Row("amount") = Configuration.FormatToString(oldRealAmount - (value + oldRetention + oldAdvance + oldDiscount), DigitConfig.Price)
             Me.m_milestone.Penalty = CDec(e.ProposedValue)
-            Me.m_milestone.ResetReal()
+            Me.m_milestone.ResetReal(True)
             e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
             Me.UpdateItem()
             UpdateAmount()
@@ -2456,7 +2456,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             'e.Row("amount") = Configuration.FormatToString(oldRealAmount - (value + oldRetention + oldPenalty + oldDiscount), DigitConfig.Price)
             Me.m_milestone.Advance = CDec(e.ProposedValue)
-            Me.m_milestone.ResetReal()
+            Me.m_milestone.ResetReal(True)
             e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
             Me.UpdateItem()
             UpdateAmount()
@@ -2527,7 +2527,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             'e.Row("amount") = Configuration.FormatToString(oldRealAmount - (value + oldAdvance + oldPenalty + oldDiscount), DigitConfig.Price)
             Me.m_milestone.Retention = CDec(e.ProposedValue)
-            Me.m_milestone.ResetReal()
+            Me.m_milestone.ResetReal(True)
             e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
             Me.UpdateItem()
             UpdateAmount()
@@ -2607,7 +2607,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'Else
           'e.Row("amount") = Configuration.FormatToString(value - (oldAdvance + oldPenalty + oldRetention + oldDiscount), DigitConfig.Price)
           Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)
-          Me.m_milestone.ResetReal()
+          Me.m_milestone.ResetReal(True)
           e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
           Me.UpdateItem()
           UpdateAmount()
@@ -2616,7 +2616,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case 79 '/Ŵ
           'e.Row("amount") = Configuration.FormatToString(value + (oldAdvance + oldPenalty + oldRetention + oldDiscount), DigitConfig.Price)
           Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)
-          Me.m_milestone.ResetReal()
+          Me.m_milestone.ResetReal(True)
           e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
           Me.UpdateItem()
           UpdateAmount()
@@ -2624,7 +2624,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case 86
           'e.Row("amount") = value
           Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)
-          Me.m_milestone.ResetReal()
+          Me.m_milestone.ResetReal(True)
           e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
           Me.UpdateItem()
           UpdateAmount()
@@ -2632,7 +2632,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case 77
           'e.Row("amount") = value
           Me.m_milestone.MileStoneAmount = CDec(e.ProposedValue)
-          Me.m_milestone.ResetReal()
+          Me.m_milestone.ResetReal(True)
           e.Row("amount") = Configuration.FormatToString(Me.m_milestone.Amount, DigitConfig.Price)
           Me.UpdateItem()
           UpdateAmount()
@@ -3872,7 +3872,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ret += myItem.Retention
       myItem.Retention = ret
       If Not Me.m_milestone Is Nothing Then
-        Me.m_milestone.ResetReal() 'TODO
+        Me.m_milestone.ResetReal(True) 'TODO
       End If
     End Sub
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click

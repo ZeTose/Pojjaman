@@ -440,7 +440,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As Milestone In coll
         If unhandedValue <> 0 AndAlso item.Status.Value < 3 Then
           item.Retention = Configuration.Format(remain * (item.MileStoneAmount / unhandedValue), DigitConfig.Price)
-          item.ResetReal()
+          item.ResetReal(True)
         End If
       Next
     End Sub
@@ -464,7 +464,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As Milestone In coll
         If unhandedValue <> 0 AndAlso item.Status.Value < 3 Then
           item.Advance = Configuration.Format(remain * (item.MileStoneAmount / unhandedValue), DigitConfig.Price)
-          item.ResetReal()
+          item.ResetReal(True)
         End If
       Next
     End Sub
