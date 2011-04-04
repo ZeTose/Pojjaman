@@ -957,9 +957,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Sub ResetReal()
       'HACK: RealMileStoneAmount ต้องอยู่อันแรกนะจ๊ะ
-      Me.RealMileStoneAmount = Me.MileStoneAmount
-      Me.RealTaxBase = Me.TaxBase
-      Me.RealTaxAmount = Me.TaxAmount
+      If Me.RealMileStoneAmount = Decimal.MinValue Then
+        Me.RealMileStoneAmount = Me.MileStoneAmount
+      End If
+      If Me.RealTaxBase = Decimal.MinValue Then
+        Me.RealTaxBase = Me.TaxBase
+      End If
+      If Me.RealTaxAmount = Decimal.MinValue Then
+        Me.RealTaxAmount = Me.TaxAmount
+      End If
     End Sub
     Public Sub CopyTo(ByVal newMi As Milestone)
       newMi.Advance = Me.Advance
