@@ -974,9 +974,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_wbs = newWbs
         Me.m_entity.WBSCollection.Add(newWbs)
         Me.tvWbs.SelectedNode = newNode
+
+        parentWbs.Childs = Me.m_entity.WBSCollection.GetChildsOf(parentWbs)
         If Me.txtCode.CanFocus Then
           Me.txtCode.Focus()
         End If
+
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
     End Sub
@@ -1006,9 +1009,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_wbs.FinishDate = Now.ToShortDateString
         Me.m_entity.WBSCollection.Insert(Me.m_entity.WBSCollection.IndexOf(friendWbs), newWbs)
         Me.tvWbs.SelectedNode = newNode
+
+        parentWbs.Childs = Me.m_entity.WBSCollection.GetChildsOf(parentWbs)
         If Me.txtCode.CanFocus Then
           Me.txtCode.Focus()
         End If
+
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
     End Sub

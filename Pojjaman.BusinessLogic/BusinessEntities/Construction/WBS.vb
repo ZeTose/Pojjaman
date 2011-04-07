@@ -2060,23 +2060,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return newWbsColl
     End Function
-    'Public Function GetChildsOf(ByVal parent As WBS) As WBSCollection
-    '  Dim newWbsColl As New WBSCollection
-    '  newWbsColl.Boq = Me.Boq
-    '  For Each myWbs As WBS In Me
-    '    'MessageBox.Show("Id" & ":" & myWbs.Id.ToString)
-    '    If Not myWbs Is myWbs.Parent AndAlso myWbs.Parent Is parent Then
-    '      'MessageBox.Show("added:" & myWbs.Id.ToString & ":" & parent.Id.ToString)
-    '      newWbsColl.Add(myWbs)
-    '    ElseIf myWbs.Id <> 0 AndAlso myWbs.Id <> parent.Id AndAlso myWbs.Parent.Id = parent.Id Then
-    '      'MessageBox.Show("added:" & myWbs.Id.ToString & ":" & parent.Id.ToString)
-    '      newWbsColl.Add(myWbs)
-    '    Else
-    '      'MessageBox.Show("Not added:" & myWbs.Id.ToString & ":" & parent.Id.ToString)
-    '    End If
-    '  Next
-    '  Return newWbsColl
-    'End Function
+    Public Function GetChildsOf(ByVal parent As WBS) As WBSCollection
+      Dim newWbsColl As New WBSCollection
+      newWbsColl.Boq = Me.Boq
+      For Each myWbs As WBS In Me
+        'MessageBox.Show("Id" & ":" & myWbs.Id.ToString)
+        If Not myWbs Is myWbs.Parent AndAlso myWbs.Parent Is parent Then
+          'MessageBox.Show("added:" & myWbs.Id.ToString & ":" & parent.Id.ToString)
+          newWbsColl.Add(myWbs)
+        ElseIf myWbs.Id <> 0 AndAlso myWbs.Id <> parent.Id AndAlso myWbs.Parent.Id = parent.Id Then
+          'MessageBox.Show("added:" & myWbs.Id.ToString & ":" & parent.Id.ToString)
+          newWbsColl.Add(myWbs)
+        Else
+          'MessageBox.Show("Not added:" & myWbs.Id.ToString & ":" & parent.Id.ToString)
+        End If
+      Next
+      Return newWbsColl
+    End Function
     Public Function GetSubOrdinatesOf(ByVal parent As WBS) As WBSCollection
       Dim newWbsColl As New WBSCollection
       newWbsColl.Boq = Me.Boq
