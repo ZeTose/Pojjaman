@@ -1739,10 +1739,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     '==============CURRENCY=================================
     Private Sub UpdateCurrency()
+      Dim flag As Boolean = m_isInitialized
+      m_isInitialized = False
       txtRate.Text = Configuration.FormatToString(Me.m_entity.Currency.Conversion, DigitConfig.Price)
       txtLanguage.Text = Me.m_entity.Currency.Language
       txtUnit1.Text = Me.m_entity.Currency.Unit
       txtUnit2.Text = Me.m_entity.Currency.SubUnit
+      m_isInitialized = flag
     End Sub
     '==============CURRENCY=================================
     Private Sub ibtnUpDateVat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnUpDateVat.Click
