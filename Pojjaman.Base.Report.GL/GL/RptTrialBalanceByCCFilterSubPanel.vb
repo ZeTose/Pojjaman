@@ -63,586 +63,592 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
     Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptTrialBalanceByCCFilterSubPanel))
-            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-            Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
-            Me.txtDocDateStart = New System.Windows.Forms.TextBox()
-            Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
-            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
-            Me.chkShowDoc = New Telerik.WinControls.UI.RadCheckBox()
-            Me.chkShowAll = New Telerik.WinControls.UI.RadCheckBox()
-            Me.chkShowTree = New Telerik.WinControls.UI.RadCheckBox()
-            Me.cmbCostCenterCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
-            Me.cmbCostCenterCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
-            Me.cmbAccountBookCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
-            Me.cmbAccountBookCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
-            Me.cmbAccountCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
-            Me.cmbAccountCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
-            Me.btnAcctBookEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.lblCCEnd = New System.Windows.Forms.Label()
-            Me.lblAcctBookEnd = New System.Windows.Forms.Label()
-            Me.btnAcctBookStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.lblAcctBookStart = New System.Windows.Forms.Label()
-            Me.btnAcctEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.lblAccountEnd = New System.Windows.Forms.Label()
-            Me.btnAcctStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.lblAccountStart = New System.Windows.Forms.Label()
-            Me.btnCCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.lblCCStart = New System.Windows.Forms.Label()
-            Me.lblDocDateStart = New System.Windows.Forms.Label()
-            Me.lblDocDateEnd = New System.Windows.Forms.Label()
-            Me.btnSearch = New System.Windows.Forms.Button()
-            Me.btnReset = New System.Windows.Forms.Button()
-            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-            Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-            Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
-            Me.grbMaster.SuspendLayout()
-            CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.chkShowTree, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.cmbAccountBookCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.cmbAccountBookCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.cmbAccountCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.cmbAccountCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
-            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.SuspendLayout()
-            '
-            'grbMaster
-            '
-            Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.grbMaster.Controls.Add(Me.txtDocDateEnd)
-            Me.grbMaster.Controls.Add(Me.txtDocDateStart)
-            Me.grbMaster.Controls.Add(Me.dtpDocDateStart)
-            Me.grbMaster.Controls.Add(Me.dtpDocDateEnd)
-            Me.grbMaster.Controls.Add(Me.chkShowDoc)
-            Me.grbMaster.Controls.Add(Me.chkShowAll)
-            Me.grbMaster.Controls.Add(Me.chkShowTree)
-            Me.grbMaster.Controls.Add(Me.cmbCostCenterCodeEnd)
-            Me.grbMaster.Controls.Add(Me.cmbCostCenterCodeStart)
-            Me.grbMaster.Controls.Add(Me.cmbAccountBookCodeEnd)
-            Me.grbMaster.Controls.Add(Me.cmbAccountBookCodeStart)
-            Me.grbMaster.Controls.Add(Me.cmbAccountCodeEnd)
-            Me.grbMaster.Controls.Add(Me.cmbAccountCodeStart)
-            Me.grbMaster.Controls.Add(Me.btnAcctBookEndFind)
-            Me.grbMaster.Controls.Add(Me.lblCCEnd)
-            Me.grbMaster.Controls.Add(Me.lblAcctBookEnd)
-            Me.grbMaster.Controls.Add(Me.btnAcctBookStartFind)
-            Me.grbMaster.Controls.Add(Me.lblAcctBookStart)
-            Me.grbMaster.Controls.Add(Me.btnAcctEndFind)
-            Me.grbMaster.Controls.Add(Me.lblAccountEnd)
-            Me.grbMaster.Controls.Add(Me.btnAcctStartFind)
-            Me.grbMaster.Controls.Add(Me.lblAccountStart)
-            Me.grbMaster.Controls.Add(Me.btnCCEndFind)
-            Me.grbMaster.Controls.Add(Me.btnCCStartFind)
-            Me.grbMaster.Controls.Add(Me.lblCCStart)
-            Me.grbMaster.Controls.Add(Me.lblDocDateStart)
-            Me.grbMaster.Controls.Add(Me.lblDocDateEnd)
-            Me.grbMaster.Controls.Add(Me.btnSearch)
-            Me.grbMaster.Controls.Add(Me.btnReset)
-            Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.grbMaster.Location = New System.Drawing.Point(8, 3)
-            Me.grbMaster.Name = "grbMaster"
-            Me.grbMaster.Size = New System.Drawing.Size(506, 180)
-            Me.grbMaster.TabIndex = 0
-            Me.grbMaster.TabStop = False
-            Me.grbMaster.Text = "ค้นหา"
-            '
-            'txtDocDateEnd
-            '
-            Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-            Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-            Me.txtDocDateEnd.Location = New System.Drawing.Point(330, 15)
-            Me.txtDocDateEnd.MaxLength = 10
-            Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
-            Me.txtDocDateEnd.Name = "txtDocDateEnd"
-            Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
-            Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-            Me.txtDocDateEnd.Size = New System.Drawing.Size(93, 21)
-            Me.txtDocDateEnd.TabIndex = 73
-            '
-            'txtDocDateStart
-            '
-            Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-            Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
-            Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-            Me.txtDocDateStart.Location = New System.Drawing.Point(128, 15)
-            Me.txtDocDateStart.MaxLength = 10
-            Me.Validator.SetMinValue(Me.txtDocDateStart, "")
-            Me.txtDocDateStart.Name = "txtDocDateStart"
-            Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
-            Me.Validator.SetRequired(Me.txtDocDateStart, False)
-            Me.txtDocDateStart.Size = New System.Drawing.Size(92, 21)
-            Me.txtDocDateStart.TabIndex = 71
-            '
-            'dtpDocDateStart
-            '
-            Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-            Me.dtpDocDateStart.Location = New System.Drawing.Point(128, 15)
-            Me.dtpDocDateStart.Name = "dtpDocDateStart"
-            Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
-            Me.dtpDocDateStart.TabIndex = 72
-            Me.dtpDocDateStart.TabStop = False
-            '
-            'dtpDocDateEnd
-            '
-            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-            Me.dtpDocDateEnd.Location = New System.Drawing.Point(330, 15)
-            Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-            Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
-            Me.dtpDocDateEnd.TabIndex = 74
-            Me.dtpDocDateEnd.TabStop = False
-            '
-            'chkShowDoc
-            '
-            Me.chkShowDoc.Location = New System.Drawing.Point(128, 149)
-            Me.chkShowDoc.Name = "chkShowDoc"
-            Me.chkShowDoc.Size = New System.Drawing.Size(165, 18)
-            Me.chkShowDoc.TabIndex = 13
-            Me.chkShowDoc.Text = "แสดงเอกสาร"
-            Me.chkShowDoc.Visible = False
-            '
-            'chkShowAll
-            '
-            Me.chkShowAll.Location = New System.Drawing.Point(128, 130)
-            Me.chkShowAll.Name = "chkShowAll"
-            Me.chkShowAll.Size = New System.Drawing.Size(165, 18)
-            Me.chkShowAll.TabIndex = 12
-            Me.chkShowAll.Text = "แสดงทุกผังบัญชี"
-            '
-            'chkShowTree
-            '
-            Me.chkShowTree.Location = New System.Drawing.Point(128, 111)
-            Me.chkShowTree.Name = "chkShowTree"
-            Me.chkShowTree.Size = New System.Drawing.Size(165, 18)
-            Me.chkShowTree.TabIndex = 11
-            Me.chkShowTree.Text = "แสดงผังบัญชีแม่"
-            '
-            'cmbCostCenterCodeEnd
-            '
-            '
-            'cmbCostCenterCodeEnd.NestedRadGridView
-            '
-            Me.cmbCostCenterCodeEnd.EditorControl.BackColor = System.Drawing.SystemColors.Window
-            Me.cmbCostCenterCodeEnd.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.cmbCostCenterCodeEnd.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.cmbCostCenterCodeEnd.EditorControl.Location = New System.Drawing.Point(0, 0)
-            '
-            '
-            '
-            Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
-            Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
-            Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
-            Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.EnableGrouping = False
-            Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
-            Me.cmbCostCenterCodeEnd.EditorControl.Name = "NestedRadGridView"
-            Me.cmbCostCenterCodeEnd.EditorControl.ReadOnly = True
-            Me.cmbCostCenterCodeEnd.EditorControl.ShowGroupPanel = False
-            Me.cmbCostCenterCodeEnd.EditorControl.Size = New System.Drawing.Size(240, 150)
-            Me.cmbCostCenterCodeEnd.EditorControl.TabIndex = 0
-            Me.cmbCostCenterCodeEnd.Location = New System.Drawing.Point(330, 87)
-            Me.cmbCostCenterCodeEnd.Name = "cmbCostCenterCodeEnd"
-            '
-            '
-            '
-            Me.cmbCostCenterCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-            Me.cmbCostCenterCodeEnd.Size = New System.Drawing.Size(140, 21)
-            Me.cmbCostCenterCodeEnd.TabIndex = 10
-            Me.cmbCostCenterCodeEnd.TabStop = False
-            Me.cmbCostCenterCodeEnd.Text = "RadMultiColumnComboBox6"
-            '
-            'cmbCostCenterCodeStart
-            '
-            '
-            'cmbCostCenterCodeStart.NestedRadGridView
-            '
-            Me.cmbCostCenterCodeStart.EditorControl.BackColor = System.Drawing.SystemColors.Window
-            Me.cmbCostCenterCodeStart.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.cmbCostCenterCodeStart.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.cmbCostCenterCodeStart.EditorControl.Location = New System.Drawing.Point(0, 0)
-            '
-            '
-            '
-            Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
-            Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
-            Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
-            Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.EnableGrouping = False
-            Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
-            Me.cmbCostCenterCodeStart.EditorControl.Name = "NestedRadGridView"
-            Me.cmbCostCenterCodeStart.EditorControl.ReadOnly = True
-            Me.cmbCostCenterCodeStart.EditorControl.ShowGroupPanel = False
-            Me.cmbCostCenterCodeStart.EditorControl.Size = New System.Drawing.Size(240, 150)
-            Me.cmbCostCenterCodeStart.EditorControl.TabIndex = 0
-            Me.cmbCostCenterCodeStart.Location = New System.Drawing.Point(128, 87)
-            Me.cmbCostCenterCodeStart.Name = "cmbCostCenterCodeStart"
-            '
-            '
-            '
-            Me.cmbCostCenterCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-            Me.cmbCostCenterCodeStart.Size = New System.Drawing.Size(140, 21)
-            Me.cmbCostCenterCodeStart.TabIndex = 9
-            Me.cmbCostCenterCodeStart.TabStop = False
-            Me.cmbCostCenterCodeStart.Text = "RadMultiColumnComboBox5"
-            '
-            'cmbAccountBookCodeEnd
-            '
-            '
-            'cmbAccountBookCodeEnd.NestedRadGridView
-            '
-            Me.cmbAccountBookCodeEnd.EditorControl.BackColor = System.Drawing.SystemColors.Window
-            Me.cmbAccountBookCodeEnd.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.cmbAccountBookCodeEnd.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.cmbAccountBookCodeEnd.EditorControl.Location = New System.Drawing.Point(0, 0)
-            '
-            '
-            '
-            Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
-            Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
-            Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
-            Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.EnableGrouping = False
-            Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
-            Me.cmbAccountBookCodeEnd.EditorControl.Name = "NestedRadGridView"
-            Me.cmbAccountBookCodeEnd.EditorControl.ReadOnly = True
-            Me.cmbAccountBookCodeEnd.EditorControl.ShowGroupPanel = False
-            Me.cmbAccountBookCodeEnd.EditorControl.Size = New System.Drawing.Size(240, 150)
-            Me.cmbAccountBookCodeEnd.EditorControl.TabIndex = 0
-            Me.cmbAccountBookCodeEnd.Location = New System.Drawing.Point(330, 63)
-            Me.cmbAccountBookCodeEnd.Name = "cmbAccountBookCodeEnd"
-            '
-            '
-            '
-            Me.cmbAccountBookCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-            Me.cmbAccountBookCodeEnd.Size = New System.Drawing.Size(140, 21)
-            Me.cmbAccountBookCodeEnd.TabIndex = 8
-            Me.cmbAccountBookCodeEnd.TabStop = False
-            Me.cmbAccountBookCodeEnd.Text = "RadMultiColumnComboBox4"
-            '
-            'cmbAccountBookCodeStart
-            '
-            '
-            'cmbAccountBookCodeStart.NestedRadGridView
-            '
-            Me.cmbAccountBookCodeStart.EditorControl.BackColor = System.Drawing.SystemColors.Window
-            Me.cmbAccountBookCodeStart.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.cmbAccountBookCodeStart.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.cmbAccountBookCodeStart.EditorControl.Location = New System.Drawing.Point(0, 0)
-            '
-            '
-            '
-            Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
-            Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
-            Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
-            Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.EnableGrouping = False
-            Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
-            Me.cmbAccountBookCodeStart.EditorControl.Name = "NestedRadGridView"
-            Me.cmbAccountBookCodeStart.EditorControl.ReadOnly = True
-            Me.cmbAccountBookCodeStart.EditorControl.ShowGroupPanel = False
-            Me.cmbAccountBookCodeStart.EditorControl.Size = New System.Drawing.Size(240, 150)
-            Me.cmbAccountBookCodeStart.EditorControl.TabIndex = 0
-            Me.cmbAccountBookCodeStart.Location = New System.Drawing.Point(128, 63)
-            Me.cmbAccountBookCodeStart.Name = "cmbAccountBookCodeStart"
-            '
-            '
-            '
-            Me.cmbAccountBookCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-            Me.cmbAccountBookCodeStart.Size = New System.Drawing.Size(140, 21)
-            Me.cmbAccountBookCodeStart.TabIndex = 7
-            Me.cmbAccountBookCodeStart.TabStop = False
-            Me.cmbAccountBookCodeStart.Text = "RadMultiColumnComboBox3"
-            '
-            'cmbAccountCodeEnd
-            '
-            '
-            'cmbAccountCodeEnd.NestedRadGridView
-            '
-            Me.cmbAccountCodeEnd.EditorControl.BackColor = System.Drawing.SystemColors.Window
-            Me.cmbAccountCodeEnd.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.cmbAccountCodeEnd.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.cmbAccountCodeEnd.EditorControl.Location = New System.Drawing.Point(0, 0)
-            '
-            '
-            '
-            Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
-            Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
-            Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
-            Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.EnableGrouping = False
-            Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
-            Me.cmbAccountCodeEnd.EditorControl.Name = "NestedRadGridView"
-            Me.cmbAccountCodeEnd.EditorControl.ReadOnly = True
-            Me.cmbAccountCodeEnd.EditorControl.ShowGroupPanel = False
-            Me.cmbAccountCodeEnd.EditorControl.Size = New System.Drawing.Size(240, 150)
-            Me.cmbAccountCodeEnd.EditorControl.TabIndex = 0
-            Me.cmbAccountCodeEnd.Location = New System.Drawing.Point(330, 39)
-            Me.cmbAccountCodeEnd.Name = "cmbAccountCodeEnd"
-            '
-            '
-            '
-            Me.cmbAccountCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-            Me.cmbAccountCodeEnd.Size = New System.Drawing.Size(140, 21)
-            Me.cmbAccountCodeEnd.TabIndex = 6
-            Me.cmbAccountCodeEnd.TabStop = False
-            Me.cmbAccountCodeEnd.Text = "RadMultiColumnComboBox2"
-            '
-            'cmbAccountCodeStart
-            '
-            '
-            'cmbAccountCodeStart.NestedRadGridView
-            '
-            Me.cmbAccountCodeStart.EditorControl.BackColor = System.Drawing.SystemColors.Window
-            Me.cmbAccountCodeStart.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.cmbAccountCodeStart.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
-            Me.cmbAccountCodeStart.EditorControl.Location = New System.Drawing.Point(0, 0)
-            '
-            '
-            '
-            Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
-            Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
-            Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
-            Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.EnableGrouping = False
-            Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
-            Me.cmbAccountCodeStart.EditorControl.Name = "NestedRadGridView"
-            Me.cmbAccountCodeStart.EditorControl.ReadOnly = True
-            Me.cmbAccountCodeStart.EditorControl.ShowGroupPanel = False
-            Me.cmbAccountCodeStart.EditorControl.Size = New System.Drawing.Size(240, 150)
-            Me.cmbAccountCodeStart.EditorControl.TabIndex = 0
-            Me.cmbAccountCodeStart.Location = New System.Drawing.Point(128, 39)
-            Me.cmbAccountCodeStart.Name = "cmbAccountCodeStart"
-            '
-            '
-            '
-            Me.cmbAccountCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
-            Me.cmbAccountCodeStart.Size = New System.Drawing.Size(140, 21)
-            Me.cmbAccountCodeStart.TabIndex = 5
-            Me.cmbAccountCodeStart.TabStop = False
-            Me.cmbAccountCodeStart.Text = "RadMultiColumnComboBox1"
-            '
-            'btnAcctBookEndFind
-            '
-            Me.btnAcctBookEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnAcctBookEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAcctBookEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAcctBookEndFind.Location = New System.Drawing.Point(472, 63)
-            Me.btnAcctBookEndFind.Name = "btnAcctBookEndFind"
-            Me.btnAcctBookEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAcctBookEndFind.TabIndex = 70
-            Me.btnAcctBookEndFind.TabStop = False
-            Me.btnAcctBookEndFind.ThemedImage = CType(resources.GetObject("btnAcctBookEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'lblCCEnd
-            '
-            Me.lblCCEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCCEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblCCEnd.Location = New System.Drawing.Point(300, 87)
-            Me.lblCCEnd.Name = "lblCCEnd"
-            Me.lblCCEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblCCEnd.TabIndex = 69
-            Me.lblCCEnd.Text = "ถึง"
-            Me.lblCCEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'lblAcctBookEnd
-            '
-            Me.lblAcctBookEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAcctBookEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblAcctBookEnd.Location = New System.Drawing.Point(300, 62)
-            Me.lblAcctBookEnd.Name = "lblAcctBookEnd"
-            Me.lblAcctBookEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblAcctBookEnd.TabIndex = 69
-            Me.lblAcctBookEnd.Text = "ถึง"
-            Me.lblAcctBookEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'btnAcctBookStartFind
-            '
-            Me.btnAcctBookStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnAcctBookStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAcctBookStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAcctBookStartFind.Location = New System.Drawing.Point(269, 63)
-            Me.btnAcctBookStartFind.Name = "btnAcctBookStartFind"
-            Me.btnAcctBookStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAcctBookStartFind.TabIndex = 68
-            Me.btnAcctBookStartFind.TabStop = False
-            Me.btnAcctBookStartFind.ThemedImage = CType(resources.GetObject("btnAcctBookStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'lblAcctBookStart
-            '
-            Me.lblAcctBookStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAcctBookStart.ForeColor = System.Drawing.Color.Black
-            Me.lblAcctBookStart.Location = New System.Drawing.Point(6, 67)
-            Me.lblAcctBookStart.Name = "lblAcctBookStart"
-            Me.lblAcctBookStart.Size = New System.Drawing.Size(116, 18)
-            Me.lblAcctBookStart.TabIndex = 67
-            Me.lblAcctBookStart.Text = "ตั้งแต่สมุดรายวัน"
-            Me.lblAcctBookStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'btnAcctEndFind
-            '
-            Me.btnAcctEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnAcctEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAcctEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAcctEndFind.Location = New System.Drawing.Point(472, 38)
-            Me.btnAcctEndFind.Name = "btnAcctEndFind"
-            Me.btnAcctEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAcctEndFind.TabIndex = 66
-            Me.btnAcctEndFind.TabStop = False
-            Me.btnAcctEndFind.ThemedImage = CType(resources.GetObject("btnAcctEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'lblAccountEnd
-            '
-            Me.lblAccountEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAccountEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblAccountEnd.Location = New System.Drawing.Point(300, 40)
-            Me.lblAccountEnd.Name = "lblAccountEnd"
-            Me.lblAccountEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblAccountEnd.TabIndex = 65
-            Me.lblAccountEnd.Text = "ถึง"
-            Me.lblAccountEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'btnAcctStartFind
-            '
-            Me.btnAcctStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnAcctStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnAcctStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnAcctStartFind.Location = New System.Drawing.Point(269, 38)
-            Me.btnAcctStartFind.Name = "btnAcctStartFind"
-            Me.btnAcctStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnAcctStartFind.TabIndex = 64
-            Me.btnAcctStartFind.TabStop = False
-            Me.btnAcctStartFind.ThemedImage = CType(resources.GetObject("btnAcctStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'lblAccountStart
-            '
-            Me.lblAccountStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblAccountStart.ForeColor = System.Drawing.Color.Black
-            Me.lblAccountStart.Location = New System.Drawing.Point(6, 43)
-            Me.lblAccountStart.Name = "lblAccountStart"
-            Me.lblAccountStart.Size = New System.Drawing.Size(116, 18)
-            Me.lblAccountStart.TabIndex = 59
-            Me.lblAccountStart.Text = "ตั้งแต่รหัสบัญชี"
-            Me.lblAccountStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'btnCCEndFind
-            '
-            Me.btnCCEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnCCEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnCCEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnCCEndFind.Location = New System.Drawing.Point(472, 87)
-            Me.btnCCEndFind.Name = "btnCCEndFind"
-            Me.btnCCEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnCCEndFind.TabIndex = 63
-            Me.btnCCEndFind.TabStop = False
-            Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'btnCCStartFind
-            '
-            Me.btnCCStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnCCStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnCCStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnCCStartFind.Location = New System.Drawing.Point(269, 86)
-            Me.btnCCStartFind.Name = "btnCCStartFind"
-            Me.btnCCStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnCCStartFind.TabIndex = 53
-            Me.btnCCStartFind.TabStop = False
-            Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'lblCCStart
-            '
-            Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCCStart.ForeColor = System.Drawing.Color.Black
-            Me.lblCCStart.Location = New System.Drawing.Point(9, 90)
-            Me.lblCCStart.Name = "lblCCStart"
-            Me.lblCCStart.Size = New System.Drawing.Size(113, 18)
-            Me.lblCCStart.TabIndex = 50
-            Me.lblCCStart.Text = "CostCenter เจ้าของ"
-            Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblDocDateStart
-            '
-            Me.lblDocDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateStart.Location = New System.Drawing.Point(6, 15)
-            Me.lblDocDateStart.Name = "lblDocDateStart"
-            Me.lblDocDateStart.Size = New System.Drawing.Size(116, 18)
-            Me.lblDocDateStart.TabIndex = 43
-            Me.lblDocDateStart.Text = "ตั้งแต่"
-            Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblDocDateEnd
-            '
-            Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateEnd.Location = New System.Drawing.Point(300, 16)
-            Me.lblDocDateEnd.Name = "lblDocDateEnd"
-            Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
-            Me.lblDocDateEnd.TabIndex = 44
-            Me.lblDocDateEnd.Text = "ถึง"
-            Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-            '
-            'btnSearch
-            '
-            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(423, 151)
-            Me.btnSearch.Name = "btnSearch"
-            Me.btnSearch.Size = New System.Drawing.Size(75, 23)
-            Me.btnSearch.TabIndex = 15
-            Me.btnSearch.Text = "ค้นหา"
-            '
-            'btnReset
-            '
-            Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnReset.Location = New System.Drawing.Point(342, 151)
-            Me.btnReset.Name = "btnReset"
-            Me.btnReset.Size = New System.Drawing.Size(75, 23)
-            Me.btnReset.TabIndex = 14
-            Me.btnReset.TabStop = False
-            Me.btnReset.Text = "เคลียร์"
-            '
-            'Validator
-            '
-            Me.Validator.BackcolorChanging = False
-            Me.Validator.DataTable = Nothing
-            Me.Validator.ErrorProvider = Me.ErrorProvider1
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-            Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
-            '
-            'ErrorProvider1
-            '
-            Me.ErrorProvider1.ContainerControl = Me
-            '
-            'RptTrialBalanceByCCFilterSubPanel
-            '
-            Me.Controls.Add(Me.grbMaster)
-            Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Name = "RptTrialBalanceByCCFilterSubPanel"
-            Me.Size = New System.Drawing.Size(519, 192)
-            Me.grbMaster.ResumeLayout(False)
-            Me.grbMaster.PerformLayout()
-            CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.chkShowTree, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.cmbAccountBookCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.cmbAccountBookCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.cmbAccountCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.cmbAccountCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
-            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.ResumeLayout(False)
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptTrialBalanceByCCFilterSubPanel))
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+      Me.chkShowDoc = New Telerik.WinControls.UI.RadCheckBox()
+      Me.chkShowAll = New Telerik.WinControls.UI.RadCheckBox()
+      Me.chkShowTree = New Telerik.WinControls.UI.RadCheckBox()
+      Me.cmbCostCenterCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+      Me.cmbCostCenterCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+      Me.cmbAccountBookCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+      Me.cmbAccountBookCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+      Me.cmbAccountCodeEnd = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+      Me.cmbAccountCodeStart = New Telerik.WinControls.UI.RadMultiColumnComboBox()
+      Me.btnAcctBookEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCCEnd = New System.Windows.Forms.Label()
+      Me.lblAcctBookEnd = New System.Windows.Forms.Label()
+      Me.btnAcctBookStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAcctBookStart = New System.Windows.Forms.Label()
+      Me.btnAcctEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAccountEnd = New System.Windows.Forms.Label()
+      Me.btnAcctStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAccountStart = New System.Windows.Forms.Label()
+      Me.btnCCEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnCCStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCCStart = New System.Windows.Forms.Label()
+      Me.lblDocDateStart = New System.Windows.Forms.Label()
+      Me.lblDocDateEnd = New System.Windows.Forms.Label()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+      Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
+      Me.grbMaster.SuspendLayout()
+      CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.chkShowTree, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.cmbAccountBookCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.cmbAccountBookCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.cmbAccountCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.cmbAccountCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.SuspendLayout()
+      '
+      'grbMaster
+      '
+      Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.txtDocDateEnd)
+      Me.grbMaster.Controls.Add(Me.txtDocDateStart)
+      Me.grbMaster.Controls.Add(Me.dtpDocDateStart)
+      Me.grbMaster.Controls.Add(Me.dtpDocDateEnd)
+      Me.grbMaster.Controls.Add(Me.chkShowDoc)
+      Me.grbMaster.Controls.Add(Me.chkShowAll)
+      Me.grbMaster.Controls.Add(Me.chkShowTree)
+      Me.grbMaster.Controls.Add(Me.cmbCostCenterCodeEnd)
+      Me.grbMaster.Controls.Add(Me.cmbCostCenterCodeStart)
+      Me.grbMaster.Controls.Add(Me.cmbAccountBookCodeEnd)
+      Me.grbMaster.Controls.Add(Me.cmbAccountBookCodeStart)
+      Me.grbMaster.Controls.Add(Me.cmbAccountCodeEnd)
+      Me.grbMaster.Controls.Add(Me.cmbAccountCodeStart)
+      Me.grbMaster.Controls.Add(Me.btnAcctBookEndFind)
+      Me.grbMaster.Controls.Add(Me.lblCCEnd)
+      Me.grbMaster.Controls.Add(Me.lblAcctBookEnd)
+      Me.grbMaster.Controls.Add(Me.btnAcctBookStartFind)
+      Me.grbMaster.Controls.Add(Me.lblAcctBookStart)
+      Me.grbMaster.Controls.Add(Me.btnAcctEndFind)
+      Me.grbMaster.Controls.Add(Me.lblAccountEnd)
+      Me.grbMaster.Controls.Add(Me.btnAcctStartFind)
+      Me.grbMaster.Controls.Add(Me.lblAccountStart)
+      Me.grbMaster.Controls.Add(Me.btnCCEndFind)
+      Me.grbMaster.Controls.Add(Me.btnCCStartFind)
+      Me.grbMaster.Controls.Add(Me.lblCCStart)
+      Me.grbMaster.Controls.Add(Me.lblDocDateStart)
+      Me.grbMaster.Controls.Add(Me.lblDocDateEnd)
+      Me.grbMaster.Controls.Add(Me.btnSearch)
+      Me.grbMaster.Controls.Add(Me.btnReset)
+      Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.grbMaster.Location = New System.Drawing.Point(8, 3)
+      Me.grbMaster.Name = "grbMaster"
+      Me.grbMaster.Size = New System.Drawing.Size(506, 180)
+      Me.grbMaster.TabIndex = 0
+      Me.grbMaster.TabStop = False
+      Me.grbMaster.Text = "ค้นหา"
+      '
+      'txtDocDateEnd
+      '
+      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDocDateEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(330, 15)
+      Me.txtDocDateEnd.MaxLength = 10
+      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(93, 21)
+      Me.txtDocDateEnd.TabIndex = 73
+      '
+      'txtDocDateStart
+      '
+      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtDocDateStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(128, 15)
+      Me.txtDocDateStart.MaxLength = 10
+      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
+      Me.Validator.SetRequired(Me.txtDocDateStart, False)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(92, 21)
+      Me.txtDocDateStart.TabIndex = 71
+      '
+      'dtpDocDateStart
+      '
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateStart.Location = New System.Drawing.Point(128, 15)
+      Me.dtpDocDateStart.Name = "dtpDocDateStart"
+      Me.dtpDocDateStart.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateStart.TabIndex = 72
+      Me.dtpDocDateStart.TabStop = False
+      '
+      'dtpDocDateEnd
+      '
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateEnd.Location = New System.Drawing.Point(330, 15)
+      Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
+      Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateEnd.TabIndex = 74
+      Me.dtpDocDateEnd.TabStop = False
+      '
+      'chkShowDoc
+      '
+      Me.chkShowDoc.Location = New System.Drawing.Point(128, 149)
+      Me.chkShowDoc.Name = "chkShowDoc"
+      Me.chkShowDoc.Size = New System.Drawing.Size(165, 18)
+      Me.chkShowDoc.TabIndex = 13
+      Me.chkShowDoc.Text = "แสดงเอกสาร"
+      Me.chkShowDoc.Visible = False
+      '
+      'chkShowAll
+      '
+      Me.chkShowAll.Location = New System.Drawing.Point(128, 130)
+      Me.chkShowAll.Name = "chkShowAll"
+      Me.chkShowAll.Size = New System.Drawing.Size(165, 18)
+      Me.chkShowAll.TabIndex = 12
+      Me.chkShowAll.Text = "แสดงทุกผังบัญชี"
+      '
+      'chkShowTree
+      '
+      Me.chkShowTree.Location = New System.Drawing.Point(128, 111)
+      Me.chkShowTree.Name = "chkShowTree"
+      Me.chkShowTree.Size = New System.Drawing.Size(165, 18)
+      Me.chkShowTree.TabIndex = 11
+      Me.chkShowTree.Text = "แสดงผังบัญชีแม่"
+      '
+      'cmbCostCenterCodeEnd
+      '
+      '
+      'cmbCostCenterCodeEnd.NestedRadGridView
+      '
+      Me.cmbCostCenterCodeEnd.EditorControl.BackColor = System.Drawing.SystemColors.Window
+      Me.cmbCostCenterCodeEnd.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.cmbCostCenterCodeEnd.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.cmbCostCenterCodeEnd.EditorControl.Location = New System.Drawing.Point(0, 0)
+      '
+      '
+      '
+      Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
+      Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
+      Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.EnableGrouping = False
+      Me.cmbCostCenterCodeEnd.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
+      Me.cmbCostCenterCodeEnd.EditorControl.Name = "NestedRadGridView"
+      Me.cmbCostCenterCodeEnd.EditorControl.ReadOnly = True
+      Me.cmbCostCenterCodeEnd.EditorControl.ShowGroupPanel = False
+      Me.cmbCostCenterCodeEnd.EditorControl.Size = New System.Drawing.Size(240, 150)
+      Me.cmbCostCenterCodeEnd.EditorControl.TabIndex = 0
+      Me.cmbCostCenterCodeEnd.Location = New System.Drawing.Point(330, 87)
+      Me.cmbCostCenterCodeEnd.Name = "cmbCostCenterCodeEnd"
+      '
+      '
+      '
+      Me.cmbCostCenterCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+      Me.cmbCostCenterCodeEnd.Size = New System.Drawing.Size(140, 21)
+      Me.cmbCostCenterCodeEnd.TabIndex = 10
+      Me.cmbCostCenterCodeEnd.TabStop = False
+      Me.cmbCostCenterCodeEnd.Text = "RadMultiColumnComboBox6"
+      '
+      'cmbCostCenterCodeStart
+      '
+      '
+      'cmbCostCenterCodeStart.NestedRadGridView
+      '
+      Me.cmbCostCenterCodeStart.EditorControl.BackColor = System.Drawing.SystemColors.Window
+      Me.cmbCostCenterCodeStart.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.cmbCostCenterCodeStart.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.cmbCostCenterCodeStart.EditorControl.Location = New System.Drawing.Point(0, 0)
+      '
+      '
+      '
+      Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
+      Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
+      Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.EnableGrouping = False
+      Me.cmbCostCenterCodeStart.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
+      Me.cmbCostCenterCodeStart.EditorControl.Name = "NestedRadGridView"
+      Me.cmbCostCenterCodeStart.EditorControl.ReadOnly = True
+      Me.cmbCostCenterCodeStart.EditorControl.ShowGroupPanel = False
+      Me.cmbCostCenterCodeStart.EditorControl.Size = New System.Drawing.Size(240, 150)
+      Me.cmbCostCenterCodeStart.EditorControl.TabIndex = 0
+      Me.cmbCostCenterCodeStart.Location = New System.Drawing.Point(128, 87)
+      Me.cmbCostCenterCodeStart.Name = "cmbCostCenterCodeStart"
+      '
+      '
+      '
+      Me.cmbCostCenterCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+      Me.cmbCostCenterCodeStart.Size = New System.Drawing.Size(140, 21)
+      Me.cmbCostCenterCodeStart.TabIndex = 9
+      Me.cmbCostCenterCodeStart.TabStop = False
+      Me.cmbCostCenterCodeStart.Text = "RadMultiColumnComboBox5"
+      '
+      'cmbAccountBookCodeEnd
+      '
+      '
+      'cmbAccountBookCodeEnd.NestedRadGridView
+      '
+      Me.cmbAccountBookCodeEnd.EditorControl.BackColor = System.Drawing.SystemColors.Window
+      Me.cmbAccountBookCodeEnd.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.cmbAccountBookCodeEnd.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.cmbAccountBookCodeEnd.EditorControl.Location = New System.Drawing.Point(0, 0)
+      '
+      '
+      '
+      Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
+      Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
+      Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.EnableGrouping = False
+      Me.cmbAccountBookCodeEnd.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
+      Me.cmbAccountBookCodeEnd.EditorControl.Name = "NestedRadGridView"
+      Me.cmbAccountBookCodeEnd.EditorControl.ReadOnly = True
+      Me.cmbAccountBookCodeEnd.EditorControl.ShowGroupPanel = False
+      Me.cmbAccountBookCodeEnd.EditorControl.Size = New System.Drawing.Size(240, 150)
+      Me.cmbAccountBookCodeEnd.EditorControl.TabIndex = 0
+      Me.cmbAccountBookCodeEnd.Location = New System.Drawing.Point(330, 63)
+      Me.cmbAccountBookCodeEnd.Name = "cmbAccountBookCodeEnd"
+      '
+      '
+      '
+      Me.cmbAccountBookCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+      Me.cmbAccountBookCodeEnd.Size = New System.Drawing.Size(140, 21)
+      Me.cmbAccountBookCodeEnd.TabIndex = 8
+      Me.cmbAccountBookCodeEnd.TabStop = False
+      Me.cmbAccountBookCodeEnd.Text = "RadMultiColumnComboBox4"
+      '
+      'cmbAccountBookCodeStart
+      '
+      '
+      'cmbAccountBookCodeStart.NestedRadGridView
+      '
+      Me.cmbAccountBookCodeStart.EditorControl.BackColor = System.Drawing.SystemColors.Window
+      Me.cmbAccountBookCodeStart.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.cmbAccountBookCodeStart.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.cmbAccountBookCodeStart.EditorControl.Location = New System.Drawing.Point(0, 0)
+      '
+      '
+      '
+      Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
+      Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
+      Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.EnableGrouping = False
+      Me.cmbAccountBookCodeStart.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
+      Me.cmbAccountBookCodeStart.EditorControl.Name = "NestedRadGridView"
+      Me.cmbAccountBookCodeStart.EditorControl.ReadOnly = True
+      Me.cmbAccountBookCodeStart.EditorControl.ShowGroupPanel = False
+      Me.cmbAccountBookCodeStart.EditorControl.Size = New System.Drawing.Size(240, 150)
+      Me.cmbAccountBookCodeStart.EditorControl.TabIndex = 0
+      Me.cmbAccountBookCodeStart.Location = New System.Drawing.Point(128, 63)
+      Me.cmbAccountBookCodeStart.Name = "cmbAccountBookCodeStart"
+      '
+      '
+      '
+      Me.cmbAccountBookCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+      Me.cmbAccountBookCodeStart.Size = New System.Drawing.Size(140, 21)
+      Me.cmbAccountBookCodeStart.TabIndex = 7
+      Me.cmbAccountBookCodeStart.TabStop = False
+      Me.cmbAccountBookCodeStart.Text = "RadMultiColumnComboBox3"
+      '
+      'cmbAccountCodeEnd
+      '
+      '
+      'cmbAccountCodeEnd.NestedRadGridView
+      '
+      Me.cmbAccountCodeEnd.EditorControl.BackColor = System.Drawing.SystemColors.Window
+      Me.cmbAccountCodeEnd.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.cmbAccountCodeEnd.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.cmbAccountCodeEnd.EditorControl.Location = New System.Drawing.Point(0, 0)
+      '
+      '
+      '
+      Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
+      Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
+      Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.EnableGrouping = False
+      Me.cmbAccountCodeEnd.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
+      Me.cmbAccountCodeEnd.EditorControl.Name = "NestedRadGridView"
+      Me.cmbAccountCodeEnd.EditorControl.ReadOnly = True
+      Me.cmbAccountCodeEnd.EditorControl.ShowGroupPanel = False
+      Me.cmbAccountCodeEnd.EditorControl.Size = New System.Drawing.Size(240, 150)
+      Me.cmbAccountCodeEnd.EditorControl.TabIndex = 0
+      Me.cmbAccountCodeEnd.Location = New System.Drawing.Point(330, 39)
+      Me.cmbAccountCodeEnd.Name = "cmbAccountCodeEnd"
+      '
+      '
+      '
+      Me.cmbAccountCodeEnd.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+      Me.cmbAccountCodeEnd.Size = New System.Drawing.Size(140, 21)
+      Me.cmbAccountCodeEnd.TabIndex = 6
+      Me.cmbAccountCodeEnd.TabStop = False
+      Me.cmbAccountCodeEnd.Text = "RadMultiColumnComboBox2"
+      '
+      'cmbAccountCodeStart
+      '
+      '
+      'cmbAccountCodeStart.NestedRadGridView
+      '
+      Me.cmbAccountCodeStart.EditorControl.BackColor = System.Drawing.SystemColors.Window
+      Me.cmbAccountCodeStart.EditorControl.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.cmbAccountCodeStart.EditorControl.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.cmbAccountCodeStart.EditorControl.Location = New System.Drawing.Point(0, 0)
+      '
+      '
+      '
+      Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.AllowAddNewRow = False
+      Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.AllowCellContextMenu = False
+      Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.AllowColumnChooser = False
+      Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.EnableGrouping = False
+      Me.cmbAccountCodeStart.EditorControl.MasterGridViewTemplate.ShowFilteringRow = False
+      Me.cmbAccountCodeStart.EditorControl.Name = "NestedRadGridView"
+      Me.cmbAccountCodeStart.EditorControl.ReadOnly = True
+      Me.cmbAccountCodeStart.EditorControl.ShowGroupPanel = False
+      Me.cmbAccountCodeStart.EditorControl.Size = New System.Drawing.Size(240, 150)
+      Me.cmbAccountCodeStart.EditorControl.TabIndex = 0
+      Me.cmbAccountCodeStart.Location = New System.Drawing.Point(128, 39)
+      Me.cmbAccountCodeStart.Name = "cmbAccountCodeStart"
+      '
+      '
+      '
+      Me.cmbAccountCodeStart.RootElement.AutoSizeMode = Telerik.WinControls.RadAutoSizeMode.WrapAroundChildren
+      Me.cmbAccountCodeStart.Size = New System.Drawing.Size(140, 21)
+      Me.cmbAccountCodeStart.TabIndex = 5
+      Me.cmbAccountCodeStart.TabStop = False
+      Me.cmbAccountCodeStart.Text = "RadMultiColumnComboBox1"
+      '
+      'btnAcctBookEndFind
+      '
+      Me.btnAcctBookEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAcctBookEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAcctBookEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAcctBookEndFind.Location = New System.Drawing.Point(472, 63)
+      Me.btnAcctBookEndFind.Name = "btnAcctBookEndFind"
+      Me.btnAcctBookEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAcctBookEndFind.TabIndex = 70
+      Me.btnAcctBookEndFind.TabStop = False
+      Me.btnAcctBookEndFind.ThemedImage = CType(resources.GetObject("btnAcctBookEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctBookEndFind.Visible = False
+      '
+      'lblCCEnd
+      '
+      Me.lblCCEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCCEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblCCEnd.Location = New System.Drawing.Point(300, 87)
+      Me.lblCCEnd.Name = "lblCCEnd"
+      Me.lblCCEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblCCEnd.TabIndex = 69
+      Me.lblCCEnd.Text = "ถึง"
+      Me.lblCCEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'lblAcctBookEnd
+      '
+      Me.lblAcctBookEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAcctBookEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblAcctBookEnd.Location = New System.Drawing.Point(300, 62)
+      Me.lblAcctBookEnd.Name = "lblAcctBookEnd"
+      Me.lblAcctBookEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblAcctBookEnd.TabIndex = 69
+      Me.lblAcctBookEnd.Text = "ถึง"
+      Me.lblAcctBookEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'btnAcctBookStartFind
+      '
+      Me.btnAcctBookStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAcctBookStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAcctBookStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAcctBookStartFind.Location = New System.Drawing.Point(269, 63)
+      Me.btnAcctBookStartFind.Name = "btnAcctBookStartFind"
+      Me.btnAcctBookStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAcctBookStartFind.TabIndex = 68
+      Me.btnAcctBookStartFind.TabStop = False
+      Me.btnAcctBookStartFind.ThemedImage = CType(resources.GetObject("btnAcctBookStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctBookStartFind.Visible = False
+      '
+      'lblAcctBookStart
+      '
+      Me.lblAcctBookStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAcctBookStart.ForeColor = System.Drawing.Color.Black
+      Me.lblAcctBookStart.Location = New System.Drawing.Point(6, 67)
+      Me.lblAcctBookStart.Name = "lblAcctBookStart"
+      Me.lblAcctBookStart.Size = New System.Drawing.Size(116, 18)
+      Me.lblAcctBookStart.TabIndex = 67
+      Me.lblAcctBookStart.Text = "ตั้งแต่สมุดรายวัน"
+      Me.lblAcctBookStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnAcctEndFind
+      '
+      Me.btnAcctEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAcctEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAcctEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAcctEndFind.Location = New System.Drawing.Point(472, 38)
+      Me.btnAcctEndFind.Name = "btnAcctEndFind"
+      Me.btnAcctEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAcctEndFind.TabIndex = 66
+      Me.btnAcctEndFind.TabStop = False
+      Me.btnAcctEndFind.ThemedImage = CType(resources.GetObject("btnAcctEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctEndFind.Visible = False
+      '
+      'lblAccountEnd
+      '
+      Me.lblAccountEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAccountEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblAccountEnd.Location = New System.Drawing.Point(300, 40)
+      Me.lblAccountEnd.Name = "lblAccountEnd"
+      Me.lblAccountEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblAccountEnd.TabIndex = 65
+      Me.lblAccountEnd.Text = "ถึง"
+      Me.lblAccountEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'btnAcctStartFind
+      '
+      Me.btnAcctStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAcctStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAcctStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAcctStartFind.Location = New System.Drawing.Point(269, 38)
+      Me.btnAcctStartFind.Name = "btnAcctStartFind"
+      Me.btnAcctStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAcctStartFind.TabIndex = 64
+      Me.btnAcctStartFind.TabStop = False
+      Me.btnAcctStartFind.ThemedImage = CType(resources.GetObject("btnAcctStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctStartFind.Visible = False
+      '
+      'lblAccountStart
+      '
+      Me.lblAccountStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAccountStart.ForeColor = System.Drawing.Color.Black
+      Me.lblAccountStart.Location = New System.Drawing.Point(6, 43)
+      Me.lblAccountStart.Name = "lblAccountStart"
+      Me.lblAccountStart.Size = New System.Drawing.Size(116, 18)
+      Me.lblAccountStart.TabIndex = 59
+      Me.lblAccountStart.Text = "ตั้งแต่รหัสบัญชี"
+      Me.lblAccountStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'btnCCEndFind
+      '
+      Me.btnCCEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnCCEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCCEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCCEndFind.Location = New System.Drawing.Point(472, 87)
+      Me.btnCCEndFind.Name = "btnCCEndFind"
+      Me.btnCCEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnCCEndFind.TabIndex = 63
+      Me.btnCCEndFind.TabStop = False
+      Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCEndFind.Visible = False
+      '
+      'btnCCStartFind
+      '
+      Me.btnCCStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnCCStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnCCStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnCCStartFind.Location = New System.Drawing.Point(269, 86)
+      Me.btnCCStartFind.Name = "btnCCStartFind"
+      Me.btnCCStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnCCStartFind.TabIndex = 53
+      Me.btnCCStartFind.TabStop = False
+      Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCStartFind.Visible = False
+      '
+      'lblCCStart
+      '
+      Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCCStart.ForeColor = System.Drawing.Color.Black
+      Me.lblCCStart.Location = New System.Drawing.Point(9, 90)
+      Me.lblCCStart.Name = "lblCCStart"
+      Me.lblCCStart.Size = New System.Drawing.Size(113, 18)
+      Me.lblCCStart.TabIndex = 50
+      Me.lblCCStart.Text = "CostCenter เจ้าของ"
+      Me.lblCCStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblDocDateStart
+      '
+      Me.lblDocDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
+      Me.lblDocDateStart.Location = New System.Drawing.Point(6, 15)
+      Me.lblDocDateStart.Name = "lblDocDateStart"
+      Me.lblDocDateStart.Size = New System.Drawing.Size(116, 18)
+      Me.lblDocDateStart.TabIndex = 43
+      Me.lblDocDateStart.Text = "ตั้งแต่"
+      Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblDocDateEnd
+      '
+      Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblDocDateEnd.Location = New System.Drawing.Point(300, 16)
+      Me.lblDocDateEnd.Name = "lblDocDateEnd"
+      Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblDocDateEnd.TabIndex = 44
+      Me.lblDocDateEnd.Text = "ถึง"
+      Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'btnSearch
+      '
+      Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnSearch.Location = New System.Drawing.Point(423, 151)
+      Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
+      Me.btnSearch.TabIndex = 15
+      Me.btnSearch.Text = "ค้นหา"
+      '
+      'btnReset
+      '
+      Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReset.Location = New System.Drawing.Point(342, 151)
+      Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
+      Me.btnReset.TabIndex = 14
+      Me.btnReset.TabStop = False
+      Me.btnReset.Text = "เคลียร์"
+      '
+      'Validator
+      '
+      Me.Validator.BackcolorChanging = False
+      Me.Validator.DataTable = Nothing
+      Me.Validator.ErrorProvider = Me.ErrorProvider1
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+      Me.Validator.HasNewRow = False
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+      '
+      'ErrorProvider1
+      '
+      Me.ErrorProvider1.ContainerControl = Me
+      '
+      'RptTrialBalanceByCCFilterSubPanel
+      '
+      Me.Controls.Add(Me.grbMaster)
+      Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Name = "RptTrialBalanceByCCFilterSubPanel"
+      Me.Size = New System.Drawing.Size(519, 192)
+      Me.grbMaster.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
+      CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.chkShowTree, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.cmbAccountBookCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.cmbAccountBookCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.cmbAccountCodeEnd, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.cmbAccountCodeStart, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.ResumeLayout(False)
 
-        End Sub
+    End Sub
 
 #End Region
 
@@ -819,6 +825,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim acctDataSourceEnd As DataTable = Me.CloneData(acctDataSourceStart)
       Me.cmbAccountCodeStart.DataSource = acctDataSourceStart
       Me.cmbAccountCodeEnd.DataSource = acctDataSourceEnd
+      Me.cmbAccountCodeStart.SelectedIndex = -1
+      Me.cmbAccountCodeEnd.SelectedIndex = -1
 
       'Add AccountBook Columns ==========================
       element = Me.cmbAccountBookCodeStart.MultiColumnComboBoxElement
@@ -846,6 +854,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim acctBookDataSourceEnd As DataTable = Me.CloneData(acctBookDataSourceStart)
       Me.cmbAccountBookCodeStart.DataSource = acctBookDataSourceStart
       Me.cmbAccountBookCodeEnd.DataSource = acctBookDataSourceEnd
+      Me.cmbAccountBookCodeStart.SelectedIndex = -1
+      Me.cmbAccountBookCodeEnd.SelectedIndex = -1
 
       'Add CostCenter Columns ==========================
       element = Me.cmbCostCenterCodeStart.MultiColumnComboBoxElement
@@ -868,6 +878,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim costCenterDataSourceEnd As DataTable = Me.CloneData(costCenterDataSourceStart)
       Me.cmbCostCenterCodeStart.DataSource = costCenterDataSourceStart
       Me.cmbCostCenterCodeEnd.DataSource = costCenterDataSourceEnd
+      Me.cmbCostCenterCodeStart.SelectedIndex = -1
+      Me.cmbCostCenterCodeEnd.SelectedIndex = -1
 
       'Filter, Auto Complete ============================================================================================================== 2
       'Me.cmbAccountCodeStart.AutoFilter = True

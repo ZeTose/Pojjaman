@@ -436,6 +436,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAcctBookEndFind.TabIndex = 70
       Me.btnAcctBookEndFind.TabStop = False
       Me.btnAcctBookEndFind.ThemedImage = CType(resources.GetObject("btnAcctBookEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctBookEndFind.Visible = False
       '
       'lblCCEnd
       '
@@ -470,6 +471,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAcctBookStartFind.TabIndex = 68
       Me.btnAcctBookStartFind.TabStop = False
       Me.btnAcctBookStartFind.ThemedImage = CType(resources.GetObject("btnAcctBookStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctBookStartFind.Visible = False
       '
       'lblAcctBookStart
       '
@@ -493,6 +495,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAcctEndFind.TabIndex = 66
       Me.btnAcctEndFind.TabStop = False
       Me.btnAcctEndFind.ThemedImage = CType(resources.GetObject("btnAcctEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctEndFind.Visible = False
       '
       'lblAccountEnd
       '
@@ -516,6 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAcctStartFind.TabIndex = 64
       Me.btnAcctStartFind.TabStop = False
       Me.btnAcctStartFind.ThemedImage = CType(resources.GetObject("btnAcctStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAcctStartFind.Visible = False
       '
       'lblAccountStart
       '
@@ -539,6 +543,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCEndFind.TabIndex = 63
       Me.btnCCEndFind.TabStop = False
       Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCEndFind.Visible = False
       '
       'btnCCStartFind
       '
@@ -551,6 +556,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCStartFind.TabIndex = 53
       Me.btnCCStartFind.TabStop = False
       Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCStartFind.Visible = False
       '
       'lblCCStart
       '
@@ -816,6 +822,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim acctDataSourceEnd As DataTable = Me.CloneData(acctDataSourceStart)
       Me.cmbAccountCodeStart.DataSource = acctDataSourceStart
       Me.cmbAccountCodeEnd.DataSource = acctDataSourceEnd
+      Me.cmbAccountCodeStart.SelectedIndex = -1
+      Me.cmbAccountCodeEnd.SelectedIndex = -1
 
       'Add AccountBook Columns ==========================
       element = Me.cmbAccountBookCodeStart.MultiColumnComboBoxElement
@@ -843,6 +851,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim acctBookDataSourceEnd As DataTable = Me.CloneData(acctBookDataSourceStart)
       Me.cmbAccountBookCodeStart.DataSource = acctBookDataSourceStart
       Me.cmbAccountBookCodeEnd.DataSource = acctBookDataSourceEnd
+      Me.cmbAccountBookCodeStart.SelectedIndex = -1
+      Me.cmbAccountBookCodeEnd.SelectedIndex = -1
 
       'Add CostCenter Columns ==========================
       element = Me.cmbCostCenterCodeStart.MultiColumnComboBoxElement
@@ -865,6 +875,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim costCenterDataSourceEnd As DataTable = Me.CloneData(costCenterDataSourceStart)
       Me.cmbCostCenterCodeStart.DataSource = costCenterDataSourceStart
       Me.cmbCostCenterCodeEnd.DataSource = costCenterDataSourceEnd
+      Me.cmbCostCenterCodeStart.SelectedIndex = -1
+      Me.cmbCostCenterCodeEnd.SelectedIndex = -1
 
       'Filter, Auto Complete ============================================================================================================== 2
       'Me.cmbAccountCodeStart.AutoFilter = True
