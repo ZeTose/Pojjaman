@@ -2176,6 +2176,24 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'Item.TaxBase
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.TaxBase"
+        If item.Amount = 0 Then
+          dpi.Value = ""
+        Else
+          If Me.TaxType.Value = 2 Then
+            dpi.Value = Configuration.FormatToString(item.Amount * (100 / (Me.TaxRate + 100)), DigitConfig.Price)
+          Else
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          End If
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.Amount
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Amount"
