@@ -225,6 +225,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         currWBS.Parent = currWBS
         currWBS.Level = 0
         levelHash(0) = currWBS
+        currWBS.Childs = Me.WBSCollection.GetChildsOf(currWBS)
         Me.WBSCollection.Add(currWBS)
       Else
         currWBS = Me.WBSCollection.GetRoot
@@ -286,6 +287,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   newWbs.EqCBS = New CBS(RTrim(LTrim(drh.GetValue(Of String)("ECBS"))))
 
                   currWBS = newWbs
+
                   currLevel = newLevel
                   levelHash(newLevel) = currWBS
                   Me.WBSCollection.Add(currWBS)
@@ -393,6 +395,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
           End Select
         End If
+      Next
+    End Sub
+
+    Public Sub SetUpWBSChildCollation()
+      For Each w As WBS In Me.WBSCollection
+        w.Childs = Me.WBSCollection.GetChildsOf(w)
       Next
     End Sub
 #End Region

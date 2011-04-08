@@ -589,22 +589,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 #End Region
 
-        Private Sub ibtnImportFromExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnImportFromExcel.Click
-            Dim opdlg As New OpenFileDialog
-            opdlg.Filter = "Excel files (*.xls)|*.xls"
-            If opdlg.ShowDialog = DialogResult.OK Then
-                Dim i As New Excel.Import(opdlg.FileName)
-                i.Where = "Type in ('WBS','item')"
+    Private Sub ibtnImportFromExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnImportFromExcel.Click
+      Dim opdlg As New OpenFileDialog
+      opdlg.Filter = "Excel files (*.xls)|*.xls"
+      If opdlg.ShowDialog = DialogResult.OK Then
+        Dim i As New Excel.Import(opdlg.FileName)
+        i.Where = "Type in ('WBS','item')"
         i.Fields = "Type,[Level],EntityType,Code,Description,Note,Qty,Unit,UMC,UEC,ULC,MCBS,LCBS,ECBS"
-                Dim dt As DataTable = i.Query()
-                Me.m_entity.Import(dt)
-            End If
-        End Sub
-        Private Sub ibtnCopyMe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnCopyMe.Click
-            Dim newEntity As ISimpleEntity = CType(Me.m_entity.GetNewEntity, ISimpleEntity)
-            CType(Me.WorkbenchWindow.ViewContent, ISimpleListPanel).SelectedEntity = newEntity
-            Me.Entity = newEntity
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End Sub
-    End Class
+        Dim dt As DataTable = i.Query()
+        Me.m_entity.Import(dt)
+        Me.m_entity.SetUpWBSChildCollation()
+        If Me.txtCode.Text.Trim.Length = 0 Then
+          Me.txtCode.Text = opdlg.SafeFileName.Split(".")(0)
+        End If
+      End If
+    End Sub
+    Private Sub ibtnCopyMe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnCopyMe.Click
+      Dim newEntity As ISimpleEntity = CType(Me.m_entity.GetNewEntity, ISimpleEntity)
+      CType(Me.WorkbenchWindow.ViewContent, ISimpleListPanel).SelectedEntity = newEntity
+      Me.Entity = newEntity
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+  End Class
 End Namespace
