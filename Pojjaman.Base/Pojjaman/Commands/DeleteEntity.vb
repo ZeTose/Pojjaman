@@ -33,6 +33,7 @@ Namespace Longkong.Pojjaman.Commands
           Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowMessage("${res:Global.Deleted}")
 
+          WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent.IsDirty = False
 
           'HACK================================================================
           Try
