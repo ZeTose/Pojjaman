@@ -3933,7 +3933,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           drItem("boqi_qtyperwbs") = item.QtyPerWBS
           Select Case item.ItemType.Value
             Case 42
-              Dim lci As New LCIItem(item.Entity.Id)
+              'Dim lci As New LCIItem(item.Entity.Id)
+              Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
               If Not lci.Originated Then
                 trans.Rollback()
                 Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
@@ -4085,7 +4086,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''=== Insert Update Budget and Actual ======================================================
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", theId)})
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", theId)})
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        If Not Me.Originated Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        End If
         ''=== Insert Update Budget and Actual ======================================================
 
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
