@@ -874,16 +874,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_entity = prItem.Entity
       Me.m_entityName = prItem.EntityName
       Me.m_unit = prItem.Unit
-      Me.m_qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0)
+      'Me.m_qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0)
       Me.m_unitPrice = prItem.UnitPrice
       Me.m_note = prItem.Note
       Me.Po.RefreshTaxBase()
 
       If Not newPritem.WBSDistributeCollection Is Nothing Then
-        Me.WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
+        'Me.WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
+        'AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
 
-        'เพิ่มตรงนี้มา --> เพราะของเดิมแก้ % , wbs แล้วค่าคงเหลือไม่เปลี่ยน
+        'For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
+
+        'Next
+
+        Me.WBSDistributeCollection = New WBSDistributeCollection
+        RemoveHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
         AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
+
+        'Dim wbscoll As WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
+        Dim newWbsd As New WBSDistribute
+        Me.WBSDistributeCollection.Add(newWbsd)
+
+        'เพื่อให้ Handler ของการ Change WBS ทำงาน 
+        For Each wbsd As WBSDistribute In newPritem.WBSDistributeCollection
+          newWbsd.CostCenter = wbsd.CostCenter
+          newWbsd.WBS = wbsd.WBS
+          newWbsd.Percent = wbsd.Percent
+          newWbsd.IsMarkup = wbsd.IsMarkup
+          newWbsd.IsOutWard = wbsd.IsOutWard
+          newWbsd.BudgetAmount = wbsd.BudgetAmount
+          newWbsd.BudgetQty = wbsd.BudgetQty
+          newWbsd.CBS = wbsd.CBS
+        Next
+
+        Me.Qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
 
       End If
     End Sub
@@ -1292,117 +1316,117 @@ Public Class POItemCollection
         Next
       Next
     End Sub
-    Public Sub RefreshBudget()
-      If Not Me.m_po Is Nothing Then
-        Me.m_po.RefreshTaxBase()
-      End If
-      For Each item As POItem In Me
-        Dim bfTax As Decimal = 0
-        If Not item.Po Is Nothing Then 'AndAlso item.Po.Originated
-          If item.Po.Closed Then
-            bfTax = item.ReceivedBeforeTax
-          Else
-            bfTax = item.BeforeTax
-          End If
-        End If
-        Dim transferAmt As Decimal = bfTax
-        For Each wbsd As WBSDistribute In item.WBSDistributeCollection
-          wbsd.BaseCost = bfTax
-          'wbsd.TransferBaseCost = transferAmt
-          If Not wbsd.IsMarkup Then
-            Dim actual As Decimal = 0
-            Dim budget As Decimal = 0
-            Dim budgetQty As Decimal = 0
-            Dim actualQty As Decimal = 0
+    'Public Sub RefreshBudget()
+    '  If Not Me.m_po Is Nothing Then
+    '    Me.m_po.RefreshTaxBase()
+    '  End If
+    '  For Each item As POItem In Me
+    '    Dim bfTax As Decimal = 0
+    '    If Not item.Po Is Nothing Then 'AndAlso item.Po.Originated
+    '      If item.Po.Closed Then
+    '        bfTax = item.ReceivedBeforeTax
+    '      Else
+    '        bfTax = item.BeforeTax
+    '      End If
+    '    End If
+    '    Dim transferAmt As Decimal = bfTax
+    '    For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+    '      wbsd.BaseCost = bfTax
+    '      'wbsd.TransferBaseCost = transferAmt
+    '      If Not wbsd.IsMarkup Then
+    '        Dim actual As Decimal = 0
+    '        Dim budget As Decimal = 0
+    '        Dim budgetQty As Decimal = 0
+    '        Dim actualQty As Decimal = 0
 
-            Dim theName As String = item.EntityName
-            If theName Is Nothing Then
-              theName = item.Entity.Name
-            End If
-            Select Case item.ItemType.Value
-              Case 0 'อื่นๆ
-                actual = wbsd.WBS.GetActualMat(item.Po, 6)
-                budget = wbsd.WBS.GetTotalMatFromDB
+    '        Dim theName As String = item.EntityName
+    '        If theName Is Nothing Then
+    '          theName = item.Entity.Name
+    '        End If
+    '        Select Case item.ItemType.Value
+    '          Case 0 'อื่นๆ
+    '            actual = wbsd.WBS.GetActualMat(item.Po, 6)
+    '            budget = wbsd.WBS.GetTotalMatFromDB
 
-                budgetQty = wbsd.WBS.GetBudgetQtyForType0FromDB(theName)
-                actualQty = wbsd.WBS.GetActualType0Qty(item.Po, 6)
-              Case 19 'Tool
-                actual = wbsd.WBS.GetActualMat(item.Po, 6)
-                budget = wbsd.WBS.GetTotalMatFromDB
+    '            budgetQty = wbsd.WBS.GetBudgetQtyForType0FromDB(theName)
+    '            actualQty = wbsd.WBS.GetActualType0Qty(item.Po, 6)
+    '          Case 19 'Tool
+    '            actual = wbsd.WBS.GetActualMat(item.Po, 6)
+    '            budget = wbsd.WBS.GetTotalMatFromDB
 
-                budgetQty = 0 'ไม่มี budget ให้เครื่องมือแน่ๆ
-                actualQty = wbsd.WBS.GetActualMatQty(item.Po, 6, item.Entity.Id, 19)
-              Case 42 'Mat
-                actual = wbsd.WBS.GetActualMat(item.Po, 6)
-                budget = wbsd.WBS.GetTotalMatFromDB
+    '            budgetQty = 0 'ไม่มี budget ให้เครื่องมือแน่ๆ
+    '            actualQty = wbsd.WBS.GetActualMatQty(item.Po, 6, item.Entity.Id, 19)
+    '          Case 42 'Mat
+    '            actual = wbsd.WBS.GetActualMat(item.Po, 6)
+    '            budget = wbsd.WBS.GetTotalMatFromDB
 
-                budgetQty = wbsd.WBS.GetTotalMatQtyFromDB(item.Entity.Id)
-                actualQty = wbsd.WBS.GetActualMatQty(item.Po, 6, item.Entity.Id, 42)
-              Case 88 'Lab
-                actual = wbsd.WBS.GetActualLab(item.Po, 6)
-                budget = wbsd.WBS.GetTotalLabFromDB
+    '            budgetQty = wbsd.WBS.GetTotalMatQtyFromDB(item.Entity.Id)
+    '            actualQty = wbsd.WBS.GetActualMatQty(item.Po, 6, item.Entity.Id, 42)
+    '          Case 88 'Lab
+    '            actual = wbsd.WBS.GetActualLab(item.Po, 6)
+    '            budget = wbsd.WBS.GetTotalLabFromDB
 
-                budgetQty = wbsd.WBS.GetTotalLabQtyFromDB(theName)
-                actualQty = wbsd.WBS.GetActualLabQty(item.Po, 6)
-              Case 89 'Eq
-                actual = wbsd.WBS.GetActualEq(item.Po, 6)
-                budget = wbsd.WBS.GetTotalEQFromDB
+    '            budgetQty = wbsd.WBS.GetTotalLabQtyFromDB(theName)
+    '            actualQty = wbsd.WBS.GetActualLabQty(item.Po, 6)
+    '          Case 89 'Eq
+    '            actual = wbsd.WBS.GetActualEq(item.Po, 6)
+    '            budget = wbsd.WBS.GetTotalEQFromDB
 
-                budgetQty = wbsd.WBS.GetTotalEQQtyFromDB(theName)
-                actualQty = wbsd.WBS.GetActualEqQty(item.Po, 6)
-            End Select
+    '            budgetQty = wbsd.WBS.GetTotalEQQtyFromDB(theName)
+    '            actualQty = wbsd.WBS.GetActualEqQty(item.Po, 6)
+    '        End Select
 
-            Dim theHash As Hashtable
-            Select Case item.ItemType.Value
-              Case 0, 19, 42
-                theHash = item.Po.MatActualHash
-              Case 88
-                theHash = item.Po.LabActualHash
-              Case 89
-                theHash = item.Po.EQActualHash
-            End Select
-            If Not theHash Is Nothing Then
-              Dim o_n As OldNew
-              If Not theHash.Contains(wbsd.WBS.Id) Then
-                o_n = New OldNew
-                o_n.OldValue = actual
-                o_n.NewValue = actual
-                theHash(wbsd.WBS.Id) = o_n
-              Else
-                o_n = CType(theHash(wbsd.WBS.Id), OldNew)
-                o_n.OldValue += actual
-                o_n.NewValue += actual
-              End If
-            End If
-            'MessageBox.Show(String.Format("{0}:{1}:{2}", actual, budget, current))
-            Dim budgetRemain As Decimal = budget - actual
-            If budgetRemain < 0 Then
-              wbsd.AmountOverBudget = True
-            Else
-              wbsd.AmountOverBudget = False
-            End If
-            wbsd.BudgetAmount = budget
-            wbsd.BudgetRemain = budgetRemain
+    '        Dim theHash As Hashtable
+    '        Select Case item.ItemType.Value
+    '          Case 0, 19, 42
+    '            theHash = item.Po.MatActualHash
+    '          Case 88
+    '            theHash = item.Po.LabActualHash
+    '          Case 89
+    '            theHash = item.Po.EQActualHash
+    '        End Select
+    '        If Not theHash Is Nothing Then
+    '          Dim o_n As OldNew
+    '          If Not theHash.Contains(wbsd.WBS.Id) Then
+    '            o_n = New OldNew
+    '            o_n.OldValue = actual
+    '            o_n.NewValue = actual
+    '            theHash(wbsd.WBS.Id) = o_n
+    '          Else
+    '            o_n = CType(theHash(wbsd.WBS.Id), OldNew)
+    '            o_n.OldValue += actual
+    '            o_n.NewValue += actual
+    '          End If
+    '        End If
+    '        'MessageBox.Show(String.Format("{0}:{1}:{2}", actual, budget, current))
+    '        Dim budgetRemain As Decimal = budget - actual
+    '        If budgetRemain < 0 Then
+    '          wbsd.AmountOverBudget = True
+    '        Else
+    '          wbsd.AmountOverBudget = False
+    '        End If
+    '        wbsd.BudgetAmount = budget
+    '        wbsd.BudgetRemain = budgetRemain
 
-            'MessageBox.Show(String.Format("{0}:{1}:{2}", budgetQty, actualQty, currentQty))
-            Dim qtyRemain As Decimal = budgetQty - actualQty
-            If qtyRemain < 0 AndAlso Not wbsd.WBS.NoQtyControl Then
-              wbsd.QtyOverBudget = True
-            Else
-              wbsd.QtyOverBudget = False
-            End If
-            wbsd.BudgetQty = budgetQty
-            wbsd.QtyRemain = qtyRemain
-          Else
-            Dim mk As New Markup(wbsd.WBS.Id)
-            If Not mk Is Nothing Then
-              wbsd.BudgetRemain = mk.StoredTotalAmount - mk.GetActualTotal(item.Po, 6) - item.Po.GetCurrentAmountForMarkup(mk)
-              'newRow("QtyRemain") = Configuration.FormatToString(wbsd.WBS.GetTotal, DigitConfig.Price)
-            End If
-          End If
-        Next
-      Next
-    End Sub
+    '        'MessageBox.Show(String.Format("{0}:{1}:{2}", budgetQty, actualQty, currentQty))
+    '        Dim qtyRemain As Decimal = budgetQty - actualQty
+    '        If qtyRemain < 0 AndAlso Not wbsd.WBS.NoQtyControl Then
+    '          wbsd.QtyOverBudget = True
+    '        Else
+    '          wbsd.QtyOverBudget = False
+    '        End If
+    '        wbsd.BudgetQty = budgetQty
+    '        wbsd.QtyRemain = qtyRemain
+    '      Else
+    '        Dim mk As New Markup(wbsd.WBS.Id)
+    '        If Not mk Is Nothing Then
+    '          wbsd.BudgetRemain = mk.StoredTotalAmount - mk.GetActualTotal(item.Po, 6) - item.Po.GetCurrentAmountForMarkup(mk)
+    '          'newRow("QtyRemain") = Configuration.FormatToString(wbsd.WBS.GetTotal, DigitConfig.Price)
+    '        End If
+    '      End If
+    '    Next
+    '  Next
+    'End Sub
 #End Region
 
 #Region "Properties"
@@ -1506,7 +1530,10 @@ Public Class POItemCollection
 							End If
 							If itemEntityLevel = 5 Then
 								If bitem.UMC <> 0 Then
-									matDoc = New POItem
+                  matDoc = New POItem
+                  RemoveHandler matDoc.WBSDistributeCollection.PropertyChanged, AddressOf matDoc.WBSChangedHandler
+                  AddHandler matDoc.WBSDistributeCollection.PropertyChanged, AddressOf matDoc.WBSChangedHandler
+                  matDoc.WBSDistributeCollection.Add(matWbsd)
 									If Me.Count = 0 Then
 										Me.Add(matDoc)
 									Else
@@ -1539,7 +1566,10 @@ Public Class POItemCollection
 									End If
 								End If
 								If bitem.ULC <> 0 Then						 '88
-									labDoc = New POItem
+                  labDoc = New POItem
+                  RemoveHandler labDoc.WBSDistributeCollection.PropertyChanged, AddressOf labDoc.WBSChangedHandler
+                  AddHandler labDoc.WBSDistributeCollection.PropertyChanged, AddressOf labDoc.WBSChangedHandler
+                  labDoc.WBSDistributeCollection.Add(labWbsd)
 									If Me.Count = 0 Then
 										Me.Add(labDoc)
 									Else
@@ -1571,7 +1601,10 @@ Public Class POItemCollection
 									End If
 								End If
 								If bitem.UEC <> 0 Then						 '89
-									eqDoc = New POItem
+                  eqDoc = New POItem
+                  RemoveHandler eqDoc.WBSDistributeCollection.PropertyChanged, AddressOf eqDoc.WBSChangedHandler
+                  AddHandler eqDoc.WBSDistributeCollection.PropertyChanged, AddressOf eqDoc.WBSChangedHandler
+                  eqDoc.WBSDistributeCollection.Add(eqWbsd)
 									If Me.Count = 0 Then
 										Me.Add(eqDoc)
 									Else
@@ -1671,27 +1704,27 @@ Public Class POItemCollection
 								End If
 							End If
 					End Select
-					If matWbsd.Percent = 100 Then
-						If Not matDoc Is Nothing Then
-							matDoc.WBSDistributeCollection.Add(matWbsd)
-							arr.Add(matDoc)
-						End If
-					End If
-					If labWbsd.Percent = 100 Then
-						If Not labDoc Is Nothing Then
-							labDoc.WBSDistributeCollection.Add(labWbsd)
-							arr.Add(labDoc)
-						End If
-					End If
-					If eqWbsd.Percent = 100 Then
-						If Not eqDoc Is Nothing Then
-							eqDoc.WBSDistributeCollection.Add(eqWbsd)
-							arr.Add(eqDoc)
-						End If
-					End If
+          'If matWbsd.Percent = 100 Then
+          '	If Not matDoc Is Nothing Then
+          '		matDoc.WBSDistributeCollection.Add(matWbsd)
+          '		arr.Add(matDoc)
+          '	End If
+          'End If
+          'If labWbsd.Percent = 100 Then
+          '	If Not labDoc Is Nothing Then
+          '		labDoc.WBSDistributeCollection.Add(labWbsd)
+          '		arr.Add(labDoc)
+          '	End If
+          'End If
+          'If eqWbsd.Percent = 100 Then
+          '	If Not eqDoc Is Nothing Then
+          '		eqDoc.WBSDistributeCollection.Add(eqWbsd)
+          '		arr.Add(eqDoc)
+          '	End If
+          'End If
 				ElseIf TypeOf items(i).Tag Is PRItem Then
 					'-----------------PR Items--------------------
-					Dim pri As PRItem = CType(items(i).Tag, PRItem)
+          Dim pri As PRItem = CType(items(i).Tag, PRItem)
           Dim poi As New POItem
           poi.Po = Me.m_po
 					poi.CopyFromPRItem(pri)
@@ -1703,22 +1736,22 @@ Public Class POItemCollection
 				End If
 			Next
 
-			Me.m_po.RefreshTaxBase()
-			For Each item As POItem In arr
-				Dim bfTax As Decimal = 0
-				If Not Me.m_po Is Nothing Then			'AndAlso item.Po.Originated
-					If Me.m_po.Closed Then
-						bfTax = item.ReceivedBeforeTax
-					Else
-						bfTax = item.BeforeTax
-					End If
-				End If
-				For Each wbsd As WBSDistribute In item.WBSDistributeCollection
-					Me.m_po.SetActual(wbsd.WBS, 0, bfTax * wbsd.Percent / 100, item.ItemType.Value)
-					'Me.m_po.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
-				Next
-			Next
-			RefreshBudget()
+      'Me.m_po.RefreshTaxBase()
+      'For Each item As POItem In arr
+      '	Dim bfTax As Decimal = 0
+      '	If Not Me.m_po Is Nothing Then			'AndAlso item.Po.Originated
+      '		If Me.m_po.Closed Then
+      '			bfTax = item.ReceivedBeforeTax
+      '		Else
+      '			bfTax = item.BeforeTax
+      '		End If
+      '	End If
+      '	For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+      '		Me.m_po.SetActual(wbsd.WBS, 0, bfTax * wbsd.Percent / 100, item.ItemType.Value)
+      '		'Me.m_po.SetActual(wbsd.WBS, 0, wbsd.TransferAmount, item.ItemType.Value)
+      '	Next
+      'Next
+      'RefreshBudget()
 		End Sub
 		Public Sub Populate(ByVal dt As TreeTable)
 			dt.Clear()
