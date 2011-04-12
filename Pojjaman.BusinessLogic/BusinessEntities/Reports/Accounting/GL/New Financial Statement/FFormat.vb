@@ -1649,6 +1649,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Linestyle = item.LineStyle
       Construct(dr, aliasPrefix)
     End Sub
+    Public Sub Clone(ByVal f As FFormatData)
+      Me.Formula = f.Formula
+      Me.Style = f.Style
+      Me.Linestyle = f.Linestyle
+      Me.Indentation = f.Indentation
+    End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
         ' Style.
@@ -1788,6 +1794,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           
           ShiftList.Add(str + n.ToString)
+        Next
+        Me.Formula = "=" + String.Join("", ShiftList)
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+    End Sub
+    Public Sub ShiftFormula(ByVal oldrowI As Integer, ByVal oldcolI As Integer, _
+                            ByVal newrowI As Integer, ByVal newcolI As Integer)
+      Try
+        If Not IsFormula() Then
+          Return
+        End If
+        Dim redigit As New Regex(ColumnDigitFormulaPettern)
+        Dim restr As New Regex("([A-Z]{1,2})")
+        Dim resign As New Regex("[+-/*^]?")
+        Dim list As New List(Of String)
+        Dim ShiftList As New List(Of String)
+        list = Me.GetVariable
+        Dim difCol As Integer = CInt((newcolI - oldcolI) / 2)
+        Dim difRow As Integer = newrowI - oldrowI
+        For Each strv As String In list
+          Dim n As Integer = CInt(redigit.Match(strv).ToString)
+          Dim strws As String = CStr(restr.Match(strv).ToString)
+          Dim sign As String = CStr(resign.Match(strv).ToString)
+          'Index จะมาลดจาก linenumber 1 จาก Insert นะ
+          If n + difRow >= 1 Then
+            n = n + difRow
+          Else
+            n = 1
+          End If
+
+          Dim i As Integer = TextHelper.StringHelper.GetExcelColumnIndex(strws)
+          If i + difCol >= 1 Then
+            i = i + difCol
+          Else
+            i = 1
+          End If
+          strws = TextHelper.StringHelper.GetExcelColumnString(i)
+
+          ShiftList.Add(sign + strws + n.ToString)
         Next
         Me.Formula = "=" + String.Join("", ShiftList)
       Catch ex As Exception

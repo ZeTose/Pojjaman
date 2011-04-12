@@ -828,6 +828,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Event of Button controls"
     Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+      WorkbenchSingleton.Workbench.RedrawEditComponents()
       Dim item As FFormatItem = Me.CurrentItem
       If item Is Nothing Then
         Return
@@ -1014,86 +1015,104 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IClipboardHandler Overrides"
-    'Public Overrides ReadOnly Property EnableCopy() As Boolean
-    '  Get
-    '    Return GetSelectedItems.Count > 0
-    '  End Get
-    'End Property
-    'Public Overrides ReadOnly Property EnableCut() As Boolean
-    '  Get
-    '    Return False
-    '  End Get
-    'End Property
-    'Public Overrides ReadOnly Property EnablePaste() As Boolean
-    '  Get
-    '    If m_copiedFdata Is Nothing OrElse m_copiedFdata.Count = 0 Then
-    '      Return False
-    '    End If
-    '    Return True
-    '  End Get
-    'End Property
-    Private m_copiedFdata As String
-    Public ReadOnly Property CopiedColl() As String
+    Public Overrides ReadOnly Property EnableCopy() As Boolean
       Get
-        Return m_copiedFdata
+        Return tgItem.CurrentCell.ColumnNumber <> -1 AndAlso tgItem.CurrentRowIndex <> -1
       End Get
     End Property
+    Public Overrides ReadOnly Property EnableCut() As Boolean
+      Get
+        Return False
+      End Get
+    End Property
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Return Not IsNothing(m_copiedFdata)
+      End Get
+    End Property
+    Private m_copiedFdata As CopiedFdata
+    'Public ReadOnly Property CopiedColl() As String
+    '  Get
+    '    Return m_copiedFdata
+    '  End Get
+    'End Property
 
     Public Overrides Sub Copy(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim formula As String = e.ToString
-      m_copiedFdata = formula
-      'WorkbenchSingleton.Workbench.RedrawEditComponents()
-    End Sub
-    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      If m_copiedFdata Is Nothing OrElse m_copiedFdata.Length = 0 Then
+      'Dim formula As String = m_treeManager.SelectedRow(tgItem.CurrentCell.ColumnNumber + 1).ToString()
+      Dim ffdata As New FFormatData
+      Dim item As FFormatItem = Me.CurrentItem
+      Dim colIndex As Integer = tgItem.CurrentCell.ColumnNumber
+      colIndex = CInt((colIndex + 1) / 2)
+      Dim theDat As FFormatData = item.DataCollection(m_entity.ColumnCollection(colIndex))
+      If theDat Is Nothing Then
         Return
       End If
-
-
-      'WorkbenchSingleton.Workbench.RedrawEditComponents()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    'Private Function GetSelectedItems() As FFormatData
-    '  Dim coll As New FFormatData
-    '  coll.Column = Me.m_entity.ItemCollection.Item
-    '  For Each myRow As TreeRow In Me.m_treeManager.SelectedRows
-    '    If TypeOf myRow.Tag Is BoqItem Then
-    '      coll.Add(CType(myRow.Tag, BoqItem))
-    '    End If
-    '  Next
-    '  Return coll
-    'End Function
-    Private Sub tgItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.Click
+      'ffdata.Formula = formula
+      'ffdata.Style = theDat.Style
+      'ffdata.Linestyle = theDat.Linestyle
+      'ffdata.Indentation = theDat.Indentation
+      
+     
+      m_copiedFdata = New CopiedFdata(theDat, tgItem.CurrentCell.ColumnNumber + 1, tgItem.CurrentRowIndex + 1)
       WorkbenchSingleton.Workbench.RedrawEditComponents()
     End Sub
-    'Private Sub tgItem_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles tgItem.KeyDown
-    '  If e.KeyCode = Keys.C And Keys.Control Then
-    '    Dim copyString As String = ConvertSelectedDataToString(tgItem)
-    '    Clipboard.SetDataObject(copyString)
-    '  End If
-    'End Sub
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      If m_copiedFdata Is Nothing Then
+        Return
+      End If
+      Dim item As FFormatItem = Me.CurrentItem
 
-    'Private Function ConvertSelectedDataToString(ByVal gr As TreeGrid) As String
-    '  Dim strBuild As New StringBuilder
+      Dim newcoli As Integer = tgItem.CurrentCell.ColumnNumber + 1
+      Dim newrowi As Integer = tgItem.CurrentRowIndex + 1
 
-    '  For Each col As GridViewDataColumn In gr.Columns
-    '    strBuild.Append(col.HeaderText)
-    '    strBuild.Append(ChrW(Keys.Tab))
-    '  Next
-    '  strBuild.AppendLine(ChrW(13))
+      Dim ffdata As New FFormatData
+      ffdata.clone(m_copiedFdata.fformatdata)
 
-    '  For rowIndex As Integer = 0 To gr.Rows.Count - 1
-    '    For colIndex As Integer = 0 To gr.Columns.Count - 1
-    '      strBuild.Append(gr.SelectedRows(rowIndex).Cells(colIndex).Value.ToString)
-    '      strBuild.Append(ChrW(Keys.Tab))
-    '    Next
-    '    strBuild.AppendLine(ChrW(13))
-    '  Next
+      If ffdata.IsFormula Then
 
-    '  Return strBuild.ToString()
-    'End Function
+        ffdata.ShiftFormula(m_copiedFdata.RowIndex, m_copiedFdata.ColIndex, newrowi, newcoli)
+      End If
+
+      m_treeManager.SelectedRow(tgItem.CurrentCell.ColumnNumber + 1) = ffdata.Formula
+
+      Dim colIndex As Integer = tgItem.CurrentCell.ColumnNumber
+      colIndex = CInt((colIndex + 1) / 2)
+      Dim theDat As FFormatData = item.DataCollection(m_entity.ColumnCollection(colIndex))
+      If theDat Is Nothing Then
+        Return
+      End If
+      item.DataCollection(m_entity.ColumnCollection(colIndex)).Clone(ffdata)
+      
+      Dim f As Font = FFormat.StringToFont(theDat.Style)
+      Me.txtFontName.Text = f.FontFamily.Name
+      Me.txtFontSize.Text = f.Size
+      Me.txtFontStyle.Text = f.Style.ToString
+      Me.lblIndention.Text = theDat.Indentation.ToString
+      Dim flg As Boolean
+      flg = Me.m_isInitialized
+      Me.m_isInitialized = False
+      CodeDescription.ComboSelect(Me.cmbUnderline, New CodeDescription(theDat.Linestyle))
+      Me.m_isInitialized = flg
+
+      WorkbenchSingleton.Workbench.RedrawEditComponents()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    
 #End Region
 
-   
+    Private Class CopiedFdata
+      Sub New(ByVal f As FFormatData, ByVal coli As Decimal, ByVal rowi As Decimal)
+        fformatdata = New FFormatData
+        Me.fformatdata = f
+        Me.ColIndex = coli
+        Me.RowIndex = rowi
+
+      End Sub
+      Public Property fformatdata As FFormatData
+      Public Property ColIndex As Decimal
+      Public Property RowIndex As Decimal
+
+    End Class
+
   End Class
 End Namespace

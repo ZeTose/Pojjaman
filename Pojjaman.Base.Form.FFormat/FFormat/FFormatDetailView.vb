@@ -1322,17 +1322,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Else 'Auto gen Costcenter
 
-        'Dim ls As New List(Of IDescripable)
-        'Dim chkdlg As New Longkong.Pojjaman.Gui.Panels.CheckListWDateDialog(ls, )
-        'Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(chkdlg)
-        'If myDialog.ShowDialog() = DialogResult.OK Then
-        '  Me.txtBillRecDays.Text = chkdlg.CheckedItemsString
-        '  Me.m_entity.ClaimRecDays = chkdlg.CheckedValuesString
-        '  Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-        '  myContent.IsDirty = True
-        'End If
+        ' Dim filters() As Filter
+        'filters = New Filter() {New Filter("IDList", GetCostIDList())}
+
+        'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        'myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetItems, filters)
       End If
 
     End Sub
+
   End Class
 End Namespace
