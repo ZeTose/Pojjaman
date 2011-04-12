@@ -1245,6 +1245,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListWDateDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\IntervalDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CSISelectionPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1698,6 +1704,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListDialog.resx">
       <DependentUpon>CheckListDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListWDateDialog.resx">
+      <DependentUpon>CheckListWDateDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\IntervalDialog.resx">
+      <DependentUpon>IntervalDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CSISelectionPanel.resx">
       <DependentUpon>CSISelectionPanel.vb</DependentUpon>

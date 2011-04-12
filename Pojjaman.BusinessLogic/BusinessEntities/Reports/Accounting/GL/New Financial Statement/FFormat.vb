@@ -30,6 +30,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+  Public Class FFormatAutoType
+    Inherits CodeDescription
+
+#Region "Construtors"
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
+#End Region
+
+#Region "Properties"
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "ff_autotype"
+      End Get
+    End Property
+#End Region
+
+  End Class
+
+
+
   Public Class FFormat
     Inherits SimpleBusinessEntityBase
     Implements IHasName, IPrintableEntity, IDuplicable
@@ -46,6 +67,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemCollection As FFormatItemCollection
     Private m_columnCollection As FFormatColumnCollection
 
+    Private m_autotype As FFormatAutoType
     Private m_divider As Integer = 1
 #End Region
 
@@ -84,10 +106,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = New FFormatItemCollection(Me)
         m_useCompanyNameInOption = True
         m_reportType = New FFormatType(1)
+        m_autotype = New FFormatAutoType(0)
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
+      Dim drh As New DataRowHelper(dr)
       With Me
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
           .m_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
@@ -114,6 +138,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_reportType.Value = CInt(dr(aliasPrefix & Me.Prefix & "_reporttype"))
         End If
 
+        .m_autotype.Value = CInt(drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_autotype"))
+
         m_columnCollection = New FFormatColumnCollection(Me) 'ต้องอยู่ก่อน Item!!!!
         m_itemCollection = New FFormatItemCollection(Me)
 
@@ -126,6 +152,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Header() As String      Get        Return m_header      End Get      Set(ByVal Value As String)        m_header = Value      End Set    End Property    Public Property Condition() As String      Get        Return m_condition      End Get      Set(ByVal Value As String)        m_condition = Value      End Set    End Property    Public Property Companyname() As String      Get        If UseCompanyNameInOption Then          Return CStr(Configuration.GetConfig("CompanyName"))
         End If        Return m_companyname      End Get      Set(ByVal Value As String)        m_companyname = Value      End Set    End Property    Public Property UseCompanyNameInOption() As Boolean      Get        Return m_useCompanyNameInOption      End Get      Set(ByVal Value As Boolean)        m_useCompanyNameInOption = Value      End Set    End Property
     Public Property ReportType() As FFormatType      Get        Return m_reportType      End Get      Set(ByVal Value As FFormatType)        m_reportType = Value      End Set    End Property
+    Public Property AutoType As FFormatAutoType
+      Get
+        Return m_autotype
+      End Get
+      Set(ByVal value As FFormatAutoType)
+        m_autotype = value
+      End Set
+    End Property
     Public Property ColumnCollection() As FFormatColumnCollection
       Get
         Return Me.m_columnCollection
@@ -181,6 +215,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tpt
       End Get
     End Property
+
 #End Region
 
 #Region "Shared"
@@ -536,6 +571,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@ff_condition", Me.Condition))
         paramArrayList.Add(New SqlParameter("@ff_companyname", Me.Companyname))
         paramArrayList.Add(New SqlParameter("@ff_usecompanynameinoption", Me.UseCompanyNameInOption))
+        paramArrayList.Add(New SqlParameter("@ff_autotype", Me.AutoType))
 
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
@@ -1119,6 +1155,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       value.FFormat = Me.m_fFormat
       MyBase.List.Insert(index, value)
       If Not Me.m_fFormat Is Nothing AndAlso Not Me.m_fFormat.ItemCollection Is Nothing Then
+        m_fFormat.ItemCollection.ShiftFormula(index, False, True)
         For Each item As FFormatItem In Me.m_fFormat.ItemCollection
           If Not item.DataCollection Is Nothing Then
             item.DataCollection.RefreshColumn()
@@ -1130,6 +1167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       value.FFormat = Nothing
       MyBase.List.Remove(value)
       If Not Me.m_fFormat Is Nothing AndAlso Not Me.m_fFormat.ItemCollection Is Nothing Then
+        m_fFormat.ItemCollection.ShiftFormula(value.LineNumber, False, False)
         For Each item As FFormatItem In Me.m_fFormat.ItemCollection
           If Not item.DataCollection Is Nothing Then
             item.DataCollection.RefreshDeletedColumn()
@@ -1512,12 +1550,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Insert(ByVal index As Integer, ByVal value As FFormatItem)
       value.FFormat = Me.m_fFormat
       MyBase.List.Insert(index, value)
-      ShiftFormula(index)
+      ShiftFormula(index, True, True)
     End Sub
     Public Sub Remove(ByVal value As FFormatItem)
       value.FFormat = Nothing
       MyBase.List.Remove(value)
-      ShiftFormula(value.LineNumber, False)
+      ShiftFormula(value.LineNumber, True, False)
     End Sub
     Public Sub Remove(ByVal value As FFormatItemCollection)
       For i As Integer = 0 To value.Count - 1
@@ -1527,7 +1565,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Remove(ByVal index As Integer)
       MyBase.List.RemoveAt(index)
     End Sub
-    Private Sub ShiftFormula(ByVal index As Integer, Optional ByVal IsInsert As Boolean = True)
+    Public Sub ShiftFormula(ByVal index As Integer, ByVal IsRow As Boolean, ByVal IsInsert As Boolean)
       Dim i As Integer = 0
       For Each ffi As FFormatItem In Me
         i += 1
@@ -1537,7 +1575,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not fff Is Nothing Then
             If fff.IsFormula Then
               'ค่า linenumber ใน ffi น่าจะยังเป็นของเดิม
-              fff.ShiftFormula(index, IsInsert)
+              fff.ShiftFormula(index, IsRow, IsInsert)
             End If
           End If
         Next
@@ -1709,7 +1747,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.ToString)
       End Try
     End Function
-    Public Sub ShiftFormula(ByVal index As Integer, ByVal IsInsert As Boolean)
+    Public Sub ShiftFormula(ByVal index As Integer, ByVal isRow As Boolean, ByVal IsInsert As Boolean)
       Try
         If Not IsFormula() Then
           Return
@@ -1722,17 +1760,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each strv As String In list
           Dim n As Integer = CInt(redigit.Match(strv).ToString)
           Dim str As String = CStr(restr.Match(strv).ToString)
-          'Index จะมาลดจาก linenumber 1 จาก Insert นะ
-          If n > index Then
-            If IsInsert Then
-              n = n + 1
-            Else
-              n = n - 1
-              If n < 1 Then
-                n = 1
+          If isRow Then
+            'Index จะมาลดจาก linenumber 1 จาก Insert นะ
+            If n > index Then
+              If IsInsert Then
+                n = n + 1
+              Else
+                n = n - 1
+                If n < 1 Then
+                  n = 1
+                End If
               End If
             End If
+          Else
+            Dim i As Integer = TextHelper.StringHelper.GetExcelColumnIndex(str)
+            If i > index Then
+              If IsInsert Then
+                i = i + 1
+              Else
+                i = i - 1
+                If i < 1 Then
+                  i = 1
+                End If
+              End If
+            End If
+            str = TextHelper.StringHelper.GetExcelColumnString(i)
           End If
+          
           ShiftList.Add(str + n.ToString)
         Next
         Me.Formula = "=" + String.Join("", ShiftList)
