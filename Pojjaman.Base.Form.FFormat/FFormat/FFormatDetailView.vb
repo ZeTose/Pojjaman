@@ -1275,7 +1275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnSetAutoGen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetAutoGen.Click
-      If m_entity.AutoType.Value = 0 OrElse m_entity.ColumnCollection.Count2 >= 1 Then 'ไม่ Autogen
+      If m_entity.AutoType.Value = 0 OrElse m_entity.ColumnCollection.Count2 = 0 Then 'ไม่ Autogen
         Return
 
       ElseIf Not m_entity.AutoType.Value = 1 Then 'Interval Autogen 
