@@ -1248,6 +1248,9 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListWDateDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\CopyCheckListDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\IntervalDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1707,6 +1710,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CheckListWDateDialog.resx">
       <DependentUpon>CheckListWDateDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\CopyCheckListDialog.resx">
+      <DependentUpon>CopyCheckListDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\IntervalDialog.resx">
       <DependentUpon>IntervalDialog.vb</DependentUpon>

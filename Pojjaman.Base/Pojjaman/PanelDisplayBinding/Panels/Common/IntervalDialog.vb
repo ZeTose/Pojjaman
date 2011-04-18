@@ -266,7 +266,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.DocDate = Date.MinValue
           End If
           m_dateSetting = False
-        Case "nudInt"
+        Case "nudint"
           m_int = CInt(nudInt.Value)
         Case "chkincludechildren"
           m_includechild = chkIncludeChildren.Checked
@@ -306,19 +306,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtdocdate.Text = DocDate.ToShortDateString
       dtpDocDate.Value = DocDate
       m_cc = New CostCenter(CInt(m_ccid))
+
       If m_cc IsNot Nothing Then
         txtCCCode.Text = m_cc.Code
         txtCCName.Text = m_cc.Name
       End If
       
       chkIncludeChildren.Checked = m_includechild
+      nudInt.Value = m_int
       EventWiring()
 
     End Sub
 #End Region
 
 #Region "Properties"
-    Private Property DocDate As Date
+    Public Property DocDate As Date
+    Public ReadOnly Property ccID As Decimal
+      Get
+        Return m_ccid
+      End Get
+    End Property
+
+    Public ReadOnly Property NumCol As Integer
+      Get
+        Return m_int
+      End Get
+    End Property
+    Public ReadOnly Property IncChild As Boolean
+      Get
+        Return m_includechild
+      End Get
+    End Property
 
 #End Region
 

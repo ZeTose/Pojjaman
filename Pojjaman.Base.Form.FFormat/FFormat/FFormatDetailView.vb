@@ -57,8 +57,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents rdOption As System.Windows.Forms.RadioButton
     Friend WithEvents rdCustom As System.Windows.Forms.RadioButton
     Friend WithEvents gbAutoGen As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents txtAutoGen As System.Windows.Forms.TextBox
-    Friend WithEvents btnAutoGen As System.Windows.Forms.Button
     Friend WithEvents btnSetAutoGen As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cmbAutoGenType As System.Windows.Forms.ComboBox
@@ -76,7 +74,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtName = New System.Windows.Forms.TextBox()
       Me.txtCondition = New System.Windows.Forms.TextBox()
       Me.txtNote = New System.Windows.Forms.TextBox()
-      Me.txtAutoGen = New System.Windows.Forms.TextBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.lblName = New System.Windows.Forms.Label()
@@ -92,7 +89,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblType = New System.Windows.Forms.Label()
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.gbAutoGen = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.btnAutoGen = New System.Windows.Forms.Button()
       Me.btnSetAutoGen = New System.Windows.Forms.Button()
       Me.Label1 = New System.Windows.Forms.Label()
       Me.cmbAutoGenType = New System.Windows.Forms.ComboBox()
@@ -121,7 +117,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(8, 187)
+      Me.lblItem.Location = New System.Drawing.Point(8, 166)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(112, 18)
       Me.lblItem.TabIndex = 15
@@ -236,25 +232,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.Size = New System.Drawing.Size(288, 42)
       Me.txtNote.TabIndex = 5
       '
-      'txtAutoGen
-      '
-      Me.txtAutoGen.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtAutoGen, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtAutoGen, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtAutoGen, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtAutoGen, System.Drawing.Color.Empty)
-      Me.txtAutoGen.Location = New System.Drawing.Point(6, 40)
-      Me.txtAutoGen.MaxLength = 1000
-      Me.Validator.SetMinValue(Me.txtAutoGen, "")
-      Me.txtAutoGen.Multiline = True
-      Me.txtAutoGen.Name = "txtAutoGen"
-      Me.txtAutoGen.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtAutoGen, "")
-      Me.Validator.SetRequired(Me.txtAutoGen, False)
-      Me.txtAutoGen.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-      Me.txtAutoGen.Size = New System.Drawing.Size(190, 52)
-      Me.txtAutoGen.TabIndex = 329
-      '
       'chkAutorun
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
@@ -320,7 +297,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(120, 179)
+      Me.ibtnBlank.Location = New System.Drawing.Point(120, 158)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 16
@@ -330,7 +307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(144, 179)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(144, 158)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 17
@@ -349,9 +326,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 208)
+      Me.tgItem.Location = New System.Drawing.Point(8, 187)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(784, 184)
+      Me.tgItem.Size = New System.Drawing.Size(784, 205)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 7
       Me.tgItem.TreeManager = Nothing
@@ -411,31 +388,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'gbAutoGen
       '
-      Me.gbAutoGen.Controls.Add(Me.txtAutoGen)
-      Me.gbAutoGen.Controls.Add(Me.btnAutoGen)
       Me.gbAutoGen.Controls.Add(Me.btnSetAutoGen)
       Me.gbAutoGen.Controls.Add(Me.Label1)
       Me.gbAutoGen.Controls.Add(Me.cmbAutoGenType)
       Me.gbAutoGen.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.gbAutoGen.Location = New System.Drawing.Point(392, 86)
       Me.gbAutoGen.Name = "gbAutoGen"
-      Me.gbAutoGen.Size = New System.Drawing.Size(304, 98)
+      Me.gbAutoGen.Size = New System.Drawing.Size(304, 67)
       Me.gbAutoGen.TabIndex = 328
       Me.gbAutoGen.TabStop = False
       Me.gbAutoGen.Text = "AutoGen"
       '
-      'btnAutoGen
-      '
-      Me.btnAutoGen.Location = New System.Drawing.Point(206, 69)
-      Me.btnAutoGen.Name = "btnAutoGen"
-      Me.btnAutoGen.Size = New System.Drawing.Size(92, 23)
-      Me.btnAutoGen.TabIndex = 13
-      Me.btnAutoGen.Text = "Auto Gen"
-      Me.btnAutoGen.UseVisualStyleBackColor = True
-      '
       'btnSetAutoGen
       '
-      Me.btnSetAutoGen.Location = New System.Drawing.Point(206, 40)
+      Me.btnSetAutoGen.Location = New System.Drawing.Point(196, 13)
       Me.btnSetAutoGen.Name = "btnSetAutoGen"
       Me.btnSetAutoGen.Size = New System.Drawing.Size(92, 23)
       Me.btnSetAutoGen.TabIndex = 12
@@ -490,7 +456,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbCompanyName.PerformLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.gbAutoGen.ResumeLayout(False)
-      Me.gbAutoGen.PerformLayout()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -1310,26 +1275,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnSetAutoGen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetAutoGen.Click
-      If m_entity.AutoType.Value = 0 Then 'ไม่ Autogen
+      If m_entity.AutoType.Value = 0 OrElse m_entity.ColumnCollection.Count2 >= 1 Then 'ไม่ Autogen
         Return
 
       ElseIf Not m_entity.AutoType.Value = 1 Then 'Interval Autogen 
-        Dim chkdlg As New Longkong.Pojjaman.Gui.Panels.IntervalDialog(m_entity.AutoType, Date.Now, 5, 16, False)
-        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(chkdlg)
+        Dim Intdlg As New Longkong.Pojjaman.Gui.Panels.IntervalDialog(m_entity.AutoType, _
+                                                                      Me.m_entity.ColumnCollection.StartDate, _
+                                                                      Me.m_entity.ColumnCollection.Count2 - 1, _
+                                                                      Me.m_entity.ColumnCollection.Item(1).CostCenter.Id, _
+                                                                      Me.m_entity.ColumnCollection.Item(1).IncludeChildCostCenter)
+        Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(Intdlg)
         If myDialog.ShowDialog() = DialogResult.OK Then
+          Dim startdate As Date = Intdlg.DocDate
+          Dim NumCol As Integer = Intdlg.NumCol
+          Dim CC As Decimal = Intdlg.ccID
+          Dim IncChild As Boolean = Intdlg.IncChild
+          m_entity.IntervalAutoGen(startdate, NumCol, CC, IncChild)
+          RefreshDocs()
           Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
           myContent.IsDirty = True
         End If
       Else 'Auto gen Costcenter
 
-        ' Dim filters() As Filter
-        'filters = New Filter() {New Filter("IDList", GetCostIDList())}
+        Dim filters() As Filter
+        filters = New Filter() {New Filter("IDList", "")}
 
-        'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-        'myEntityPanelService.OpenListDialog(New CostCenter, AddressOf SetItems, filters)
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        myEntityPanelService.OpenListDialog(New CostCenter, AddressOf Me.m_entity.CostCenterAutogen, filters)
+        RefreshDocs()
+        Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
 
     End Sub
-
+   
   End Class
 End Namespace

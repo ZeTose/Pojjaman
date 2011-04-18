@@ -532,6 +532,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim rowNum As Integer = CInt(m.Groups(2).Value)
       Return Me.ItemCollection(rowNum - 1).DataCollection(Me.ColumnCollection(colNum))
     End Function
+
     Public Overrides Function ToString() As String
       Return m_name
     End Function
@@ -571,7 +572,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@ff_condition", Me.Condition))
         paramArrayList.Add(New SqlParameter("@ff_companyname", Me.Companyname))
         paramArrayList.Add(New SqlParameter("@ff_usecompanynameinoption", Me.UseCompanyNameInOption))
-        paramArrayList.Add(New SqlParameter("@ff_autotype", Me.AutoType))
+        paramArrayList.Add(New SqlParameter("@ff_autotype", Me.AutoType.Value))
 
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
@@ -748,6 +749,110 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
+
+    Public Sub CopyColumn(ByVal source As Integer, ByVal listCol As List(Of Integer))
+
+      For Each ffi As FFormatItem In ItemCollection
+        For Each col As Integer In listCol
+          Dim fcol As FFormatColumn = Me.ColumnCollection.Item(col)
+          Dim fsource As FFormatColumn = Me.ColumnCollection.Item(source)
+          ffi.DataCollection.CopyColumn(fsource, source, fcol, col)
+        Next
+      Next
+    End Sub
+    ''' <summary>
+    ''' Autogen ช่วงวันที่
+    ''' 
+    ''' </summary>
+    ''' <param name="startdate"></param>
+    ''' <param name="NumCol"></param>
+    ''' <param name="CC"></param>
+    ''' <param name="IncChild"></param>
+    ''' <remarks></remarks>
+    Public Sub IntervalAutoGen(ByVal startdate As Date, ByVal NumCol As Integer, ByVal CC As Decimal, ByVal IncChild As Boolean)
+      Dim oldCol As Integer = CInt(ColumnCollection.Count2) - 1 'ไม่นับแถวแรก
+      If NumCol > oldCol Then
+        For i As Integer = oldCol + 1 To NumCol
+          Dim col As New FFormatColumn
+          ColumnCollection.Add(col)
+        Next
+      End If
+      Dim lstInt As New List(Of Integer)
+      Dim source As Integer
+      If ColumnCollection.Count2 >= 2 Then
+        source = 2
+      Else
+        source = 0
+      End If
+      For i As Integer = source + 1 To NumCol
+        lstInt.Add(i)
+      Next
+
+      Dim colEndDate As Date
+      Dim colStartDate As Date
+
+
+      Dim intType As DateInterval
+      Select Case Me.AutoType.Value
+        Case 2 'month
+          intType = DateInterval.Month
+          
+        Case 3 'Quarter
+          intType = DateInterval.Quarter
+        Case 4 'Year
+          intType = DateInterval.Year
+      End Select
+
+      Dim Costceneter As New CostCenter(CInt(CC))
+      Dim int As Integer = 0
+      Dim scol As FFormatColumn = ColumnCollection.Item(1)
+      Dim widthpercent As Decimal = (100 - scol.WidthPercent) / NumCol
+      For Each col As FFormatColumn In ColumnCollection
+        If col.LineNumber > 1 AndAlso col.LineNumber + 1 <= NumCol Then
+          colStartDate = DateAdd(intType, int, startdate)
+          Dim mon As New CalcCalendar(colStartDate)
+          col.StartDate = mon.StartPeriodDate(intType)
+          col.EndDate = mon.EndPeriodDate(intType)
+          col.Name = mon.Name(intType)
+          col.WidthPercent = widthpercent
+          col.Alignment = HorizontalAlignment.Right
+          col.CostCenter = Costceneter
+          col.IncludeChildCostCenter = IncChild
+          col.AccountBook = scol.AccountBook
+          col.EndAccountBook = scol.EndAccountBook
+          int += 1
+        End If
+      Next
+    End Sub
+    Public Sub CostCenterAutogen(ByVal items As BasketItemCollection)
+
+      Dim scol As FFormatColumn = ColumnCollection.Item(1)
+      Dim widthpercent As Decimal = (100 - scol.WidthPercent) / items.Count
+
+      For i As Integer = 0 To items.Count - 1 Step 1
+        Dim item As BasketItem = CType(items(i), BasketItem)
+        Dim index As Integer = i + 2
+        If Me.ColumnCollection.Item(index) Is Nothing Then
+          Dim col0 As New FFormatColumn
+          Me.ColumnCollection.Add(col0)
+        End If
+
+        Dim col As FFormatColumn = Me.ColumnCollection.Item(index)
+        Dim mycc As New CostCenter(item.Id)
+
+
+        col.StartDate = scol.StartDate
+        col.EndDate = scol.EndDate
+        col.Name = mycc.Code
+        col.WidthPercent = widthpercent
+        col.Alignment = HorizontalAlignment.Right
+        col.CostCenter = mycc
+        col.IncludeChildCostCenter = scol.IncludeChildCostCenter
+        col.AccountBook = scol.AccountBook
+        col.EndAccountBook = scol.EndAccountBook
+      Next
+    End Sub
+    
 #End Region
 
 #Region "IHasName"
@@ -869,6 +974,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Me
     End Function
 #End Region
+
+    
 
   End Class
 
@@ -1018,7 +1125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-
+   
 #End Region
 
   End Class
@@ -1074,6 +1181,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End Set
     End Property
+    Public ReadOnly Property Count2 As Decimal
+      Get
+        Dim ret As Decimal = 0
+        For Each col As FFormatColumn In Me
+          ret += 1
+        Next
+        Return ret
+      End Get
+    End Property
+    Public ReadOnly Property StartDate As Date
+      Get
+        Return Me.Item(1).StartDate
+      End Get
+    End Property
+
 #End Region
 
 #Region "Class Methods"
@@ -1185,6 +1307,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
     End Sub
+
 #End Region
 
 
@@ -1655,6 +1778,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Linestyle = f.Linestyle
       Me.Indentation = f.Indentation
     End Sub
+    Public Sub Copy(ByVal f As FFormatData, ByVal source As Integer, ByVal col As Integer)
+      Me.Style = f.Style
+      Me.Linestyle = f.Linestyle
+      Me.Indentation = f.Indentation
+      If f.IsFormula Then
+        Dim redigit As New Regex(ColumnDigitFormulaPettern)
+        Dim restr As New Regex("([A-Z]{1,2})")
+        Dim resign As New Regex("[+-/*^]?")
+        Dim list As New List(Of String)
+        Dim ShiftList As New List(Of String)
+        list = f.GetVariable
+        Dim difCol As Integer = CInt((col - source))
+        For Each strv As String In list
+          Dim n As Integer = CInt(redigit.Match(strv).ToString)
+          Dim strws As String = CStr(restr.Match(strv).ToString)
+          Dim sign As String = CStr(resign.Match(strv).ToString)
+          
+
+          Dim i As Integer = TextHelper.StringHelper.GetExcelColumnIndex(strws)
+          If i + difCol >= 1 Then
+            i = i + difCol
+          Else
+            i = 1
+          End If
+          strws = TextHelper.StringHelper.GetExcelColumnString(i)
+
+          ShiftList.Add(sign + strws + n.ToString)
+        Next
+        Me.Formula = "=" + String.Join("", ShiftList)
+      Else
+        Me.Formula = f.Formula
+      End If
+    End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
         ' Style.
@@ -2049,5 +2205,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_baseEnumerator.Reset()
       End Sub
     End Class
+
+    Public Sub CopyColumn(ByVal fsource As FFormatColumn, ByVal source As Integer, ByVal fcol As FFormatColumn, ByVal col As Integer)
+      Me.Item(fcol).Copy(Me.Item(fsource), source, col)
+    End Sub
+
   End Class
 End Namespace

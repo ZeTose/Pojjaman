@@ -120,6 +120,154 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return False
     End Function
   End Class
+  Public Class CalcCalendar
+
+    Public Property Number As Integer
+    Public Property WeekofYear As Integer
+    Public Month As Integer
+    Public Quarter As Integer
+    Public Year As Integer
+    Private m_date As Date
+    Public Sub New(ByVal d As Date)
+      Me.Month = d.Month
+      Me.Year = d.Year
+      Me.WeekofYear = Week.FindWeekofYear(d)
+      Me.Quarter = Week.FindQuaterofYear(d)
+      m_date = d
+
+    End Sub
+    Public ReadOnly Property NumberDayOfMonth(Optional ByVal m As Integer = -1) As Integer
+      Get
+        If m = -1 Then
+          m = Month
+        End If
+        Dim ret As Integer
+        Select Case m
+          Case 1, 3, 5, 7, 8, 10, 12
+            ret = 31
+          Case 4, 6, 9, 11
+            ret = 30
+          Case 2
+            If Year Mod 4 <> 0 Then
+              ret = 28
+            Else
+              ret = 29
+            End If
+
+        End Select
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property StartMonthDate As Date
+      Get
+        Dim ret As Date
+        Dim d As Integer = m_date.Day - 1
+        ret = DateAdd(DateInterval.Day, -d, m_date)
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property EndMonthDate As Date
+      Get
+        Dim ret As Date
+        Dim d As Integer = NumberDayOfMonth - m_date.Day
+        ret = DateAdd(DateInterval.Day, d, m_date)
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property StartQuarterDate As Date
+      Get
+        Dim ret As Date
+        Dim d As Integer = m_date.Day - 1
+        Dim dq As Integer = m_date.Month - ((Quarter * 3) - 2)
+        Dim smonth As Date = DateAdd(DateInterval.Month, -dq, m_date)
+        ret = DateAdd(DateInterval.Day, -d, smonth)
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property EndQuarterDate As Date
+      Get
+        Dim ret As Date
+        Dim dq As Integer = (Quarter * 3) - m_date.Month
+        Dim smonth As Date = DateAdd(DateInterval.Month, dq, m_date)
+        Dim d As Integer = NumberDayOfMonth(smonth.Month) - m_date.Day
+        ret = DateAdd(DateInterval.Day, d, smonth)
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property StartYearDate As Date
+      Get
+        Dim ret As Date
+        Dim d As Integer = m_date.Day - 1
+        Dim dq As Integer = m_date.Month - 1
+        Dim smonth As Date = DateAdd(DateInterval.Month, -dq, m_date)
+        ret = DateAdd(DateInterval.Day, -d, smonth)
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property EndYearDate As Date
+      Get
+        Dim ret As Date
+        Dim dq As Integer = 12 - m_date.Month
+        Dim smonth As Date = DateAdd(DateInterval.Month, dq, m_date)
+        Dim d As Integer = NumberDayOfMonth(smonth.Month) - m_date.Day
+        ret = DateAdd(DateInterval.Day, d, smonth)
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property StartPeriodDate(ByVal int As DateInterval) As Date
+      Get
+        Dim ret As Date
+        Select Case int
+          Case DateInterval.Month
+            ret = StartMonthDate
+          Case DateInterval.Quarter
+            ret = StartQuarterDate
+          Case DateInterval.Year
+            ret = StartYearDate
+        End Select
+        Return ret
+      End Get
+    End Property
+
+    Public ReadOnly Property EndPeriodDate(ByVal int As DateInterval) As Date
+      Get
+        Dim ret As Date
+        Select Case int
+          Case DateInterval.Month
+            ret = EndMonthDate
+          Case DateInterval.Quarter
+            ret = EndQuarterDate
+          Case DateInterval.Year
+            ret = EndYearDate
+        End Select
+        Return ret
+      End Get
+    End Property
+    Public ReadOnly Property Name(ByVal int As DateInterval) As String
+      Get
+        Dim ret As String = ""
+        Select Case int
+          Case DateInterval.Month
+            ret = EndMonthDate.ToString("MMM-yy")
+          Case DateInterval.Quarter
+            ret = "Q" & Quarter.ToString & " " & EndQuarterDate.ToString("yy")
+          Case DateInterval.Year
+            ret = EndYearDate.ToString("yy")
+        End Select
+        Return ret
+      End Get
+    End Property
+
+
+  End Class
+
   Public Class Budget
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IDisposable, IDuplicable

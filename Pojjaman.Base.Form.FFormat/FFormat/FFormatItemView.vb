@@ -9,6 +9,7 @@ Imports System.Globalization
 Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.ReportsAndDocs
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class FFormatItemView
@@ -56,35 +57,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblUnderline As System.Windows.Forms.Label
     Friend WithEvents ibtnIncIndent As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDecIndent As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnCopyColumn As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblIndention As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FFormatItemView))
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FFormatItemView))
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtName = New System.Windows.Forms.TextBox
-      Me.txtFontName = New System.Windows.Forms.TextBox
-      Me.txtFontStyle = New System.Windows.Forms.TextBox
-      Me.txtFontSize = New System.Windows.Forms.TextBox
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.lblName = New System.Windows.Forms.Label
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.cmbType = New System.Windows.Forms.ComboBox
-      Me.lblType = New System.Windows.Forms.Label
-      Me.lblFontName = New System.Windows.Forms.Label
-      Me.grbFormat = New System.Windows.Forms.GroupBox
-      Me.lblFontStyle = New System.Windows.Forms.Label
-      Me.lblFontSize = New System.Windows.Forms.Label
-      Me.ibtnFont = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.cmbUnderline = New System.Windows.Forms.ComboBox
-      Me.lblUnderline = New System.Windows.Forms.Label
-      Me.ibtnIncIndent = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDecIndent = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblIndention = New System.Windows.Forms.Label
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.txtFontName = New System.Windows.Forms.TextBox()
+      Me.txtFontStyle = New System.Windows.Forms.TextBox()
+      Me.txtFontSize = New System.Windows.Forms.TextBox()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.cmbType = New System.Windows.Forms.ComboBox()
+      Me.lblType = New System.Windows.Forms.Label()
+      Me.lblFontName = New System.Windows.Forms.Label()
+      Me.grbFormat = New System.Windows.Forms.GroupBox()
+      Me.lblFontStyle = New System.Windows.Forms.Label()
+      Me.lblFontSize = New System.Windows.Forms.Label()
+      Me.ibtnFont = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.cmbUnderline = New System.Windows.Forms.ComboBox()
+      Me.lblUnderline = New System.Windows.Forms.Label()
+      Me.ibtnIncIndent = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDecIndent = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblIndention = New System.Windows.Forms.Label()
+      Me.ibtnCopyColumn = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbFormat.SuspendLayout()
       Me.SuspendLayout()
@@ -109,9 +113,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'txtCode
       '
@@ -123,7 +127,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(96, 15)
       Me.txtCode.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
@@ -131,7 +134,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Size = New System.Drawing.Size(88, 21)
       Me.txtCode.TabIndex = 0
       Me.txtCode.TabStop = False
-      Me.txtCode.Text = ""
       '
       'txtName
       '
@@ -143,7 +145,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(96, 39)
       Me.txtName.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
@@ -151,7 +152,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtName.Size = New System.Drawing.Size(288, 21)
       Me.txtName.TabIndex = 2
       Me.txtName.TabStop = False
-      Me.txtName.Text = ""
       '
       'txtFontName
       '
@@ -162,7 +162,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtFontName, System.Drawing.Color.Empty)
       Me.txtFontName.Location = New System.Drawing.Point(72, 15)
       Me.txtFontName.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtFontName, "")
       Me.Validator.SetMinValue(Me.txtFontName, "")
       Me.txtFontName.Name = "txtFontName"
       Me.txtFontName.ReadOnly = True
@@ -171,7 +170,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFontName.Size = New System.Drawing.Size(160, 21)
       Me.txtFontName.TabIndex = 4
       Me.txtFontName.TabStop = False
-      Me.txtFontName.Text = ""
       '
       'txtFontStyle
       '
@@ -182,7 +180,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtFontStyle, System.Drawing.Color.Empty)
       Me.txtFontStyle.Location = New System.Drawing.Point(72, 39)
       Me.txtFontStyle.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtFontStyle, "")
       Me.Validator.SetMinValue(Me.txtFontStyle, "")
       Me.txtFontStyle.Name = "txtFontStyle"
       Me.txtFontStyle.ReadOnly = True
@@ -191,7 +188,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFontStyle.Size = New System.Drawing.Size(160, 21)
       Me.txtFontStyle.TabIndex = 5
       Me.txtFontStyle.TabStop = False
-      Me.txtFontStyle.Text = ""
       '
       'txtFontSize
       '
@@ -202,7 +198,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtFontSize, System.Drawing.Color.Empty)
       Me.txtFontSize.Location = New System.Drawing.Point(72, 63)
       Me.txtFontSize.MaxLength = 20
-      Me.Validator.SetMaxValue(Me.txtFontSize, "")
       Me.Validator.SetMinValue(Me.txtFontSize, "")
       Me.txtFontSize.Name = "txtFontSize"
       Me.txtFontSize.ReadOnly = True
@@ -211,7 +206,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFontSize.Size = New System.Drawing.Size(160, 21)
       Me.txtFontSize.TabIndex = 6
       Me.txtFontSize.TabStop = False
-      Me.txtFontSize.Text = ""
       '
       'lblCode
       '
@@ -237,7 +231,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(120, 96)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -247,7 +241,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(144, 96)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -349,7 +343,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnFont
       '
-      Me.ibtnFont.Image = CType(resources.GetObject("ibtnFont.Image"), System.Drawing.Image)
+      Me.ibtnFont.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnFont.Location = New System.Drawing.Point(232, 13)
       Me.ibtnFont.Name = "ibtnFont"
       Me.ibtnFont.Size = New System.Drawing.Size(24, 24)
@@ -378,7 +372,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnIncIndent
       '
-      Me.ibtnIncIndent.Image = CType(resources.GetObject("ibtnIncIndent.Image"), System.Drawing.Image)
+      Me.ibtnIncIndent.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnIncIndent.Location = New System.Drawing.Point(208, 96)
       Me.ibtnIncIndent.Name = "ibtnIncIndent"
       Me.ibtnIncIndent.Size = New System.Drawing.Size(24, 24)
@@ -388,7 +382,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDecIndent
       '
-      Me.ibtnDecIndent.Image = CType(resources.GetObject("ibtnDecIndent.Image"), System.Drawing.Image)
+      Me.ibtnDecIndent.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDecIndent.Location = New System.Drawing.Point(184, 96)
       Me.ibtnDecIndent.Name = "ibtnDecIndent"
       Me.ibtnDecIndent.Size = New System.Drawing.Size(24, 24)
@@ -406,8 +400,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblIndention.TabIndex = 3
       Me.lblIndention.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
+      'ibtnCopyColumn
+      '
+      Me.ibtnCopyColumn.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnCopyColumn.Location = New System.Drawing.Point(264, 96)
+      Me.ibtnCopyColumn.Name = "ibtnCopyColumn"
+      Me.ibtnCopyColumn.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnCopyColumn.TabIndex = 13
+      Me.ibtnCopyColumn.TabStop = False
+      Me.ibtnCopyColumn.ThemedImage = Nothing
+      '
       'FFormatItemView
       '
+      Me.Controls.Add(Me.ibtnCopyColumn)
       Me.Controls.Add(Me.grbFormat)
       Me.Controls.Add(Me.cmbType)
       Me.Controls.Add(Me.tgItem)
@@ -424,9 +429,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblIndention)
       Me.Name = "FFormatItemView"
       Me.Size = New System.Drawing.Size(808, 400)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbFormat.ResumeLayout(False)
+      Me.grbFormat.PerformLayout()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -799,7 +807,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
       Get
         Return Me.Validator
       End Get
@@ -1051,8 +1059,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ffdata.Style = theDat.Style
       'ffdata.Linestyle = theDat.Linestyle
       'ffdata.Indentation = theDat.Indentation
-      
-     
+
+
       m_copiedFdata = New CopiedFdata(theDat, tgItem.CurrentCell.ColumnNumber + 1, tgItem.CurrentRowIndex + 1)
       WorkbenchSingleton.Workbench.RedrawEditComponents()
     End Sub
@@ -1066,7 +1074,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim newrowi As Integer = tgItem.CurrentRowIndex + 1
 
       Dim ffdata As New FFormatData
-      ffdata.clone(m_copiedFdata.fformatdata)
+      ffdata.Clone(m_copiedFdata.fformatdata)
 
       If ffdata.IsFormula Then
 
@@ -1082,7 +1090,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       item.DataCollection(m_entity.ColumnCollection(colIndex)).Clone(ffdata)
-      
+
       Dim f As Font = FFormat.StringToFont(theDat.Style)
       Me.txtFontName.Text = f.FontFamily.Name
       Me.txtFontSize.Text = f.Size
@@ -1097,7 +1105,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       WorkbenchSingleton.Workbench.RedrawEditComponents()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
-    
+
 #End Region
 
     Private Class CopiedFdata
@@ -1114,5 +1122,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Class
 
+    Private Sub ibtnCopyColumn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnCopyColumn.Click
+
+      Dim chkdlg As New Longkong.Pojjaman.Gui.Panels.CopyCheckListDialog(Me.m_entity.ColumnCollection.GetMaxLine, Me.m_entity.ColumnCollection)
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(chkdlg)
+      If myDialog.ShowDialog() = DialogResult.OK Then
+        Dim source As Integer = chkdlg.SourceColumn
+        Dim listCol As List(Of Integer) = chkdlg.CheckedCopyColumn
+        Me.m_entity.CopyColumn(source, listCol)
+        Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+        RefreshDocs()
+        myContent.IsDirty = True
+      End If
+    End Sub
   End Class
 End Namespace

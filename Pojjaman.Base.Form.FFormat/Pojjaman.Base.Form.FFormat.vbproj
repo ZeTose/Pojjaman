@@ -126,6 +126,11 @@
     <Compile Include="FFormat\FFormatValueView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FFormat\FFormatDetailView.resx">
       <DependentUpon>FFormatDetailView.vb</DependentUpon>
     </EmbeddedResource>
@@ -141,10 +146,13 @@
     <EmbeddedResource Include="FFormat\FFormatValueView.resx">
       <DependentUpon>FFormatValueView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="My Project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
