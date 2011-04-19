@@ -185,7 +185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Public Shared Sub RefreshCodeList()
             Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select advfind_group,advfind_code,advfind_description,advfind_datatype,advfind_order from AdvanceFind order by advfind_group,advfind_order")
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select advfind_group,advfind_code,advfind_description,advfind_datatype,advfind_order from AdvanceFind where advfind_group  = 'wbs' order by advfind_group,advfind_order")
             Dim myTable As DataTable = ds.Tables(0)
             m_advFindHash = New Hashtable
             For Each row As DataRow In myTable.Rows
