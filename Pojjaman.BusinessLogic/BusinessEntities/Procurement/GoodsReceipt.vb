@@ -1251,7 +1251,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return True
           End If
           For Each dr As DataRow In ds.Tables(0).Rows
-            If Not dr.IsNull("refto_type") AndAlso CInt(dr("refto_type")) = 31 Then
+            If Not dr.IsNull("refto_type") AndAlso (CInt(dr("refto_type")) = 31 OrElse CInt(dr("refto_type")) = 352) Then
               isMatWidthdraw = True
             Else
               isMatWidthdraw = False
