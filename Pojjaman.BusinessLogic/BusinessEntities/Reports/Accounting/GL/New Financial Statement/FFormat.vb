@@ -808,7 +808,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim scol As FFormatColumn = ColumnCollection.Item(1)
       Dim widthpercent As Decimal = (100 - scol.WidthPercent) / NumCol
       For Each col As FFormatColumn In ColumnCollection
-        If col.LineNumber > 1 AndAlso col.LineNumber + 1 <= NumCol Then
+        If col.LineNumber > 1 AndAlso col.LineNumber <= NumCol + 1 Then
           colStartDate = DateAdd(intType, int, startdate)
           Dim mon As New CalcCalendar(colStartDate)
           col.StartDate = mon.StartPeriodDate(intType)

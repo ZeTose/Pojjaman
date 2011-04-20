@@ -41,177 +41,178 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents txtName As System.Windows.Forms.TextBox
         Friend WithEvents lblName As System.Windows.Forms.Label
         Friend WithEvents cmbType As System.Windows.Forms.ComboBox
-        Friend WithEvents lblType As System.Windows.Forms.Label
+    Friend WithEvents lblType As System.Windows.Forms.Label
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
         Friend WithEvents ibtnRefresh As Longkong.Pojjaman.Gui.Components.ImageButton
         <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(FFormatValueView))
-            Me.lblItem = New System.Windows.Forms.Label
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.txtCode = New System.Windows.Forms.TextBox
-            Me.txtName = New System.Windows.Forms.TextBox
-            Me.lblCode = New System.Windows.Forms.Label
-            Me.lblName = New System.Windows.Forms.Label
-            Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-            Me.cmbType = New System.Windows.Forms.ComboBox
-            Me.lblType = New System.Windows.Forms.Label
-            Me.ibtnRefresh = New Longkong.Pojjaman.Gui.Components.ImageButton
-            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.SuspendLayout()
-            '
-            'lblItem
-            '
-            Me.lblItem.BackColor = System.Drawing.Color.Transparent
-            Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblItem.Location = New System.Drawing.Point(8, 64)
-            Me.lblItem.Name = "lblItem"
-            Me.lblItem.Size = New System.Drawing.Size(64, 18)
-            Me.lblItem.TabIndex = 15
-            Me.lblItem.Text = "รายการ:"
-            Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-            '
-            'ErrorProvider1
-            '
-            Me.ErrorProvider1.ContainerControl = Me
-            '
-            'Validator
-            '
-            Me.Validator.BackcolorChanging = False
-            Me.Validator.DataTable = Nothing
-            Me.Validator.ErrorProvider = Me.ErrorProvider1
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
-            Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
-            '
-            'txtCode
-            '
-            Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtCode, "")
-            Me.txtCode.Enabled = False
-            Me.txtCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
-            Me.txtCode.Location = New System.Drawing.Point(96, 15)
-            Me.txtCode.MaxLength = 20
-            Me.Validator.SetMaxValue(Me.txtCode, "")
-            Me.Validator.SetMinValue(Me.txtCode, "")
-            Me.txtCode.Name = "txtCode"
-            Me.Validator.SetRegularExpression(Me.txtCode, "")
-            Me.Validator.SetRequired(Me.txtCode, False)
-            Me.txtCode.Size = New System.Drawing.Size(88, 21)
-            Me.txtCode.TabIndex = 0
-            Me.txtCode.TabStop = False
-            Me.txtCode.Text = ""
-            '
-            'txtName
-            '
-            Me.Validator.SetDataType(Me.txtName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtName, "")
-            Me.txtName.Enabled = False
-            Me.txtName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
-            Me.txtName.Location = New System.Drawing.Point(96, 39)
-            Me.txtName.MaxLength = 255
-            Me.Validator.SetMaxValue(Me.txtName, "")
-            Me.Validator.SetMinValue(Me.txtName, "")
-            Me.txtName.Name = "txtName"
-            Me.Validator.SetRegularExpression(Me.txtName, "")
-            Me.Validator.SetRequired(Me.txtName, False)
-            Me.txtName.Size = New System.Drawing.Size(288, 21)
-            Me.txtName.TabIndex = 2
-            Me.txtName.TabStop = False
-            Me.txtName.Text = ""
-            '
-            'lblCode
-            '
-            Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCode.ForeColor = System.Drawing.Color.Black
-            Me.lblCode.Location = New System.Drawing.Point(16, 16)
-            Me.lblCode.Name = "lblCode"
-            Me.lblCode.Size = New System.Drawing.Size(80, 18)
-            Me.lblCode.TabIndex = 8
-            Me.lblCode.Text = "เลขที่:"
-            Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblName
-            '
-            Me.lblName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblName.ForeColor = System.Drawing.Color.Black
-            Me.lblName.Location = New System.Drawing.Point(16, 40)
-            Me.lblName.Name = "lblName"
-            Me.lblName.Size = New System.Drawing.Size(80, 18)
-            Me.lblName.TabIndex = 11
-            Me.lblName.Text = "ชื่อรายงาน:"
-            Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'tgItem
-            '
-            Me.tgItem.AllowNew = False
-            Me.tgItem.AllowSorting = False
-            Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.tgItem.AutoColumnResize = False
-            Me.tgItem.CaptionVisible = False
-            Me.tgItem.Cellchanged = False
-            Me.tgItem.DataMember = ""
-            Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-            Me.tgItem.Location = New System.Drawing.Point(8, 80)
-            Me.tgItem.Name = "tgItem"
-            Me.tgItem.Size = New System.Drawing.Size(792, 312)
-            Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-            Me.tgItem.TabIndex = 7
-            Me.tgItem.TreeManager = Nothing
-            '
-            'cmbType
-            '
-            Me.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-            Me.cmbType.Enabled = False
-            Me.cmbType.Location = New System.Drawing.Point(264, 16)
-            Me.cmbType.Name = "cmbType"
-            Me.cmbType.Size = New System.Drawing.Size(121, 21)
-            Me.cmbType.TabIndex = 1
-            '
-            'lblType
-            '
-            Me.lblType.Enabled = False
-            Me.lblType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblType.ForeColor = System.Drawing.Color.Black
-            Me.lblType.Location = New System.Drawing.Point(208, 16)
-            Me.lblType.Name = "lblType"
-            Me.lblType.Size = New System.Drawing.Size(56, 18)
-            Me.lblType.TabIndex = 10
-            Me.lblType.Text = "ประเภท:"
-            Me.lblType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'ibtnRefresh
-            '
-            Me.ibtnRefresh.Image = CType(resources.GetObject("ibtnRefresh.Image"), System.Drawing.Image)
-            Me.ibtnRefresh.Location = New System.Drawing.Point(392, 16)
-            Me.ibtnRefresh.Name = "ibtnRefresh"
-            Me.ibtnRefresh.Size = New System.Drawing.Size(32, 32)
-            Me.ibtnRefresh.TabIndex = 16
-            Me.ibtnRefresh.ThemedImage = CType(resources.GetObject("ibtnRefresh.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'FFormatValueView
-            '
-            Me.Controls.Add(Me.ibtnRefresh)
-            Me.Controls.Add(Me.cmbType)
-            Me.Controls.Add(Me.tgItem)
-            Me.Controls.Add(Me.lblCode)
-            Me.Controls.Add(Me.txtCode)
-            Me.Controls.Add(Me.lblName)
-            Me.Controls.Add(Me.txtName)
-            Me.Controls.Add(Me.lblItem)
-            Me.Controls.Add(Me.lblType)
-            Me.Name = "FFormatValueView"
-            Me.Size = New System.Drawing.Size(808, 400)
-            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.ResumeLayout(False)
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FFormatValueView))
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.cmbType = New System.Windows.Forms.ComboBox()
+      Me.lblType = New System.Windows.Forms.Label()
+      Me.ibtnRefresh = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.SuspendLayout()
+      '
+      'lblItem
+      '
+      Me.lblItem.BackColor = System.Drawing.Color.Transparent
+      Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblItem.Location = New System.Drawing.Point(8, 64)
+      Me.lblItem.Name = "lblItem"
+      Me.lblItem.Size = New System.Drawing.Size(64, 18)
+      Me.lblItem.TabIndex = 15
+      Me.lblItem.Text = "รายการ:"
+      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'ErrorProvider1
+      '
+      Me.ErrorProvider1.ContainerControl = Me
+      '
+      'Validator
+      '
+      Me.Validator.BackcolorChanging = False
+      Me.Validator.DataTable = Nothing
+      Me.Validator.ErrorProvider = Me.ErrorProvider1
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+      Me.Validator.HasNewRow = False
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+      '
+      'txtCode
+      '
+      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCode, "")
+      Me.txtCode.Enabled = False
+      Me.txtCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
+      Me.txtCode.Location = New System.Drawing.Point(96, 15)
+      Me.txtCode.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtCode, "")
+      Me.txtCode.Name = "txtCode"
+      Me.Validator.SetRegularExpression(Me.txtCode, "")
+      Me.Validator.SetRequired(Me.txtCode, False)
+      Me.txtCode.Size = New System.Drawing.Size(88, 21)
+      Me.txtCode.TabIndex = 0
+      Me.txtCode.TabStop = False
+      '
+      'txtName
+      '
+      Me.Validator.SetDataType(Me.txtName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtName, "")
+      Me.txtName.Enabled = False
+      Me.txtName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
+      Me.txtName.Location = New System.Drawing.Point(96, 39)
+      Me.txtName.MaxLength = 255
+      Me.Validator.SetMinValue(Me.txtName, "")
+      Me.txtName.Name = "txtName"
+      Me.Validator.SetRegularExpression(Me.txtName, "")
+      Me.Validator.SetRequired(Me.txtName, False)
+      Me.txtName.Size = New System.Drawing.Size(288, 21)
+      Me.txtName.TabIndex = 2
+      Me.txtName.TabStop = False
+      '
+      'lblCode
+      '
+      Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCode.ForeColor = System.Drawing.Color.Black
+      Me.lblCode.Location = New System.Drawing.Point(16, 16)
+      Me.lblCode.Name = "lblCode"
+      Me.lblCode.Size = New System.Drawing.Size(80, 18)
+      Me.lblCode.TabIndex = 8
+      Me.lblCode.Text = "เลขที่:"
+      Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblName
+      '
+      Me.lblName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblName.ForeColor = System.Drawing.Color.Black
+      Me.lblName.Location = New System.Drawing.Point(16, 40)
+      Me.lblName.Name = "lblName"
+      Me.lblName.Size = New System.Drawing.Size(80, 18)
+      Me.lblName.TabIndex = 11
+      Me.lblName.Text = "ชื่อรายงาน:"
+      Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'tgItem
+      '
+      Me.tgItem.AllowNew = False
+      Me.tgItem.AllowSorting = False
+      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.tgItem.AutoColumnResize = False
+      Me.tgItem.CaptionVisible = False
+      Me.tgItem.Cellchanged = False
+      Me.tgItem.DataMember = ""
+      Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
+      Me.tgItem.Location = New System.Drawing.Point(8, 80)
+      Me.tgItem.Name = "tgItem"
+      Me.tgItem.Size = New System.Drawing.Size(792, 312)
+      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
+      Me.tgItem.TabIndex = 7
+      Me.tgItem.TreeManager = Nothing
+      '
+      'cmbType
+      '
+      Me.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.cmbType.Enabled = False
+      Me.cmbType.Location = New System.Drawing.Point(264, 16)
+      Me.cmbType.Name = "cmbType"
+      Me.cmbType.Size = New System.Drawing.Size(121, 21)
+      Me.cmbType.TabIndex = 1
+      '
+      'lblType
+      '
+      Me.lblType.Enabled = False
+      Me.lblType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblType.ForeColor = System.Drawing.Color.Black
+      Me.lblType.Location = New System.Drawing.Point(208, 16)
+      Me.lblType.Name = "lblType"
+      Me.lblType.Size = New System.Drawing.Size(56, 18)
+      Me.lblType.TabIndex = 10
+      Me.lblType.Text = "ประเภท:"
+      Me.lblType.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'ibtnRefresh
+      '
+      Me.ibtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnRefresh.Location = New System.Drawing.Point(392, 16)
+      Me.ibtnRefresh.Name = "ibtnRefresh"
+      Me.ibtnRefresh.Size = New System.Drawing.Size(32, 32)
+      Me.ibtnRefresh.TabIndex = 16
+      Me.ibtnRefresh.ThemedImage = CType(resources.GetObject("ibtnRefresh.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'FFormatValueView
+      '
+      Me.Controls.Add(Me.ibtnRefresh)
+      Me.Controls.Add(Me.cmbType)
+      Me.Controls.Add(Me.tgItem)
+      Me.Controls.Add(Me.lblCode)
+      Me.Controls.Add(Me.txtCode)
+      Me.Controls.Add(Me.lblName)
+      Me.Controls.Add(Me.txtName)
+      Me.Controls.Add(Me.lblItem)
+      Me.Controls.Add(Me.lblType)
+      Me.Name = "FFormatValueView"
+      Me.Size = New System.Drawing.Size(808, 400)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.ResumeLayout(False)
+      Me.PerformLayout()
 
-        End Sub
+    End Sub
 
 #End Region
 
@@ -444,18 +445,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_isInitialized = True
         End Sub
         Private m_value As Boolean
-        Private Sub RefreshDocsValue()
-            Me.m_isInitialized = False
-            If m_value Then
-                Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
-            Else
-                Me.m_entity.ItemCollection.PopulateValue(m_treeManager.Treetable)
-            End If
-            m_value = Not m_value
-            RefreshBlankGrid()
-            ReIndex()
-            Me.m_isInitialized = True
-        End Sub
+    Private Function RefreshDocsValue() As Boolean
+      Try
+        Me.m_isInitialized = False
+        If m_value Then
+          Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
+        Else
+          Me.m_entity.ItemCollection.PopulateValue(m_treeManager.Treetable)
+        End If
+        m_value = Not m_value
+        RefreshBlankGrid()
+        ReIndex()
+        Me.m_isInitialized = True
+        Me.m_treeManager.Treetable.AcceptChanges()
+      Catch e As Exception
+        Return False
+      End Try
+      Return True
+
+    End Function
         Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
             If e.Name = "ItemChanged" Then
                 Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -522,9 +530,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
-        Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnRefresh.Click
-            RefreshDocsValue()
-        End Sub
+    Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnRefresh.Click
+      'If Me.BackgroundWorker1.IsBusy Then
+      '  Return
+      'End If
+
+      'Me.BackgroundWorker1.RunWorkerAsync()
+      RefreshDocsValue()
+    End Sub
         Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim index As Integer = tgItem.CurrentRowIndex
             If index > Me.m_entity.ItemCollection.Count - 1 Then
@@ -711,5 +724,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 #End Region
 
-    End Class
+    Private Sub BackgroundWorker1_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles BackgroundWorker1.DoWork
+      e.Result = RefreshDocsValue()
+
+    End Sub
+
+    Private Sub BackgroundWorker1_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BackgroundWorker1.RunWorkerCompleted
+
+    End Sub
+  End Class
 End Namespace
