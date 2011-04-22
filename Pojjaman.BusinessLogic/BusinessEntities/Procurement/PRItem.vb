@@ -1691,7 +1691,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 If Not bitem.WBS Is Nothing Then
                   matWbsd.IsMarkup = False
-                  If m_pr.CostCenter IsNot Nothing Then
+                  If m_pr.CostCenter IsNot Nothing AndAlso m_pr.CostCenter.Originated Then
                     matWbsd.CostCenter = Me.m_pr.CostCenter
                   Else
                     matWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
@@ -1730,7 +1730,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 labDoc.UnitPrice = bitem.ULC
                 If Not bitem.WBS Is Nothing Then
                   labWbsd.IsMarkup = False
-                  If m_pr.CostCenter IsNot Nothing Then
+                  If m_pr.CostCenter IsNot Nothing AndAlso m_pr.CostCenter.Originated Then
                     labWbsd.CostCenter = Me.m_pr.CostCenter
                   Else
                     labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
@@ -1769,7 +1769,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 eqDoc.UnitPrice = bitem.UEC
                 If Not bitem.WBS Is Nothing Then
                   eqWbsd.IsMarkup = False
-                  If m_pr.CostCenter IsNot Nothing Then
+                  If m_pr.CostCenter IsNot Nothing AndAlso m_pr.CostCenter.Originated Then
                     eqWbsd.CostCenter = Me.m_pr.CostCenter
                   Else
                     eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
@@ -1833,7 +1833,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not bitem.WBS Is Nothing Then
                   doc.WBSDistributeCollection.Add(labWbsd)
                   labWbsd.IsMarkup = False
-                  If m_pr.CostCenter IsNot Nothing Then
+                  If m_pr.CostCenter IsNot Nothing AndAlso m_pr.CostCenter.Originated Then
                     labWbsd.CostCenter = Me.m_pr.CostCenter
                   Else
                     labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
@@ -1850,7 +1850,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not bitem.WBS Is Nothing Then
                   doc.WBSDistributeCollection.Add(eqWbsd)
                   eqWbsd.IsMarkup = False
-                  If m_pr.CostCenter IsNot Nothing Then
+                  If m_pr.CostCenter IsNot Nothing AndAlso m_pr.CostCenter.Originated Then
                     eqWbsd.CostCenter = Me.m_pr.CostCenter
                   Else
                     eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
