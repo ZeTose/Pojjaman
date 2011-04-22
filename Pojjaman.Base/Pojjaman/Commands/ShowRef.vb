@@ -59,7 +59,8 @@ Namespace Longkong.Pojjaman.Commands
     End Property
     Public Overrides ReadOnly Property ValidLevel() As Integer
       Get
-        Return 1
+        'เอาแค่ Read ก็เปิด Ref ได้
+        Return 0
       End Get
     End Property
 #End Region
