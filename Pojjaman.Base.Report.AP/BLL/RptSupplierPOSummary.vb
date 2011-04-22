@@ -273,7 +273,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           currentDocId = row("DocId").ToString
           currentItem = ""
         End If
-        If row("ItemId").ToString & row("ItemName").ToString <> currentItem Then
+        If row("ItemId").ToString & row("ItemName").ToString & ":" & row("UnitPrice").ToString <> currentItem Then
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
           Dim refId As Integer = 0
@@ -310,7 +310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If IsNumeric(row("Amount")) Then
             m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
           End If
-          currentItem = row("ItemId").ToString & row("ItemName").ToString
+          currentItem = row("ItemId").ToString & row("ItemName").ToString & ":" & row("UnitPrice").ToString
         End If
 
         tmpDiscAmt += CDec(row("DiscAmt"))
