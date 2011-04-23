@@ -393,6 +393,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private cancelHash As Hashtable
     Private refHash As Hashtable
+    Private DicCloseRef As Dictionary(Of Decimal, ClosedRef)
+
     Private Sub SearchData(ByVal order As String)
       Dim t As Date = Now
       lvItem.BeginUpdate()
@@ -416,6 +418,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       cancelHash = New Hashtable
       refHash = New Hashtable
+      DicCloseRef = New Dictionary(Of Decimal, ClosedRef)
+
 
       Dim dt As DataTable = m_entity.GetListDatatable(order, newfilters)
 
@@ -465,6 +469,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
           refHash(litem.Tag) = False
         End If
 
+        '===== Set Color สนใจ ปิด อ้างอิงบางส่วน
+        If row.Table.Columns.Contains(Me.m_entity.Prefix & "_closedRef") Then
+          If Not row.IsNull(Me.m_entity.Prefix & "_closedRef") Then
+            DicCloseRef.Add(CDec(litem.Tag), New ClosedRef(CType(row(Me.m_entity.Prefix & "_closedRef"), CRef), CBool(refHash(litem.Tag))))
+          Else
+            DicCloseRef.Add(CDec(litem.Tag), New ClosedRef(CRef.NonRef, CBool(refHash(litem.Tag))))
+          End If
+        End If
+        '===== Set Color สนใจ ปิด อ้างอิงบางส่วน
+
+
         For i As Integer = 1 To m_entity.Columns.Count - 1
           Dim otherColumn As BusinessLogic.Column = m_entity.Columns(i)
           Dim otherColumnText As String = ""
@@ -513,24 +528,107 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetStatusColor()
       'MessageBox.Show(dt.Rows.Count.ToString & " รายการ, ใช้เวลา: " & Now.Subtract(t).Seconds.ToString & " วินาที")
     End Sub
+    Public Enum CRef As Integer
+      Closed
+      HalfRef
+      FullRef
+      NonRef
+    End Enum
+    Private Class ClosedRef
+      
+      Private m_cref As CRef
+      Public ReadOnly Property ClosedRef As CRef
+        Get
+          Select Case m_cref
+            Case CRef.NonRef
+              If IsRef Then
+                m_cref = CRef.HalfRef
+              Else
+                m_cref = CRef.NonRef
+              End If
+            Case CRef.HalfRef
+              If IsRef Then
+                m_cref = CRef.HalfRef
+              Else
+                m_cref = CRef.NonRef
+              End If
+            Case CRef.FullRef
+              m_cref = CRef.FullRef
+            Case CRef.Closed
+              m_cref = CRef.Closed
+          End Select
+          Return m_cref
+        End Get
+      End Property
+      Public Property IsRef As Boolean
+
+      Public ReadOnly Property bgColor As Color
+        Get
+          Dim ret As Color
+          Select Case ClosedRef
+            Case CRef.Closed
+              ret = Color.DarkBlue
+            Case CRef.FullRef
+              ret = Color.ForestGreen
+            Case CRef.HalfRef
+              ret = Color.GreenYellow
+            Case CRef.NonRef
+              ret = SystemColors.Window
+          End Select
+          Return ret
+        End Get
+      End Property
+
+      Public ReadOnly Property fontColor As Color
+        Get
+          Dim ret As Color
+          Select Case ClosedRef
+            Case CRef.Closed
+              ret = Color.White
+            Case CRef.FullRef
+              ret = SystemColors.ControlText
+            Case CRef.HalfRef
+              ret = SystemColors.ControlText
+            Case CRef.NonRef
+              ret = SystemColors.ControlText
+          End Select
+          Return ret
+        End Get
+      End Property
+
+      Public Sub New(ByVal Cr As CRef, ByVal Ref As Boolean)
+        m_cref = Cr
+        IsRef = Ref
+      End Sub
+
+
+    End Class
+    
     Private Sub SetStatusColor()
       If chkHilight.Checked Then
         For Each item As ListViewItem In Me.lvItem.Items
           Dim isRefed As Boolean = False
           Dim isCancelled As Boolean = False
+          Dim RefClosed As ClosedRef
           Try
             isCancelled = CBool(cancelHash(item.Tag))
             isRefed = CBool(refHash(item.Tag))
+            If DicCloseRef.ContainsKey(CDec(item.Tag)) Then
+              RefClosed = DicCloseRef.Item(CDec(item.Tag))
+            End If
           Catch ex As Exception
 
           End Try
-          If isRefed Then
+          If RefClosed IsNot Nothing Then
+            lvItem.SetColors(item, RefClosed.bgColor, RefClosed.fontColor)
+          ElseIf isRefed Then
             lvItem.SetColors(item, Color.ForestGreen, SystemColors.ControlText)
           ElseIf isCancelled Then
             lvItem.SetColors(item, Color.Red, Color.White)
           Else
             lvItem.SetColors(item, SystemColors.Window, SystemColors.ControlText)
           End If
+          
         Next
       Else
         lvItem.PaintAlternatingBackColor(Color.White, Color.Khaki)
