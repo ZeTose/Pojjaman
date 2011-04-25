@@ -9,8 +9,25 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Syncfusion.Windows.Forms.Grid
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Class SumControlAccount
+    Public Property IsControl As Boolean
+    Public Property OpDr As Decimal
+    Public Property OpCr As Decimal
+    Public Property DocDr As Decimal
+    Public Property DocCr As Decimal
+    Public Property SumDr As Decimal
+    Public Property SumCr As Decimal
+    Public Property Balance As Decimal
+    Public Property ParentNode As TreeRow
+    Public Property parent As String
+    Sub New(ByVal tr As TreeRow, ByVal par As String)
+      ParentNode = tr
+      parent = par
+    End Sub
+  End Class
   Public Class RptTrialBalanceByCC
     Inherits Report
     Implements INewReport
@@ -162,7 +179,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csOpenningDocCr)
       dst.GridColumnStyles.Add(csDocDr)
       dst.GridColumnStyles.Add(csDocCr)
-      dst.GridColumnStyles.Add(cssumDr)
+      dst.GridColumnStyles.Add(csSumDr)
       dst.GridColumnStyles.Add(csSumCr)
 
       Return dst
@@ -214,7 +231,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                       {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 4, 1, 5), _
                                        Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 6, 1, 7), _
                                        Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 8, 1, 9)})
-      
+
       'tr("openningdocdr") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptTrialBalanceByCC.OpenningDocDr}") '"DR ยกมา"
       'tr("openningdoccr") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptTrialBalanceByCC.OpenningDocCr}") '"CR ยกมา"
       'tr("docdr") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptTrialBalanceByCC.DocDr}") '"DR ในช่วง"
@@ -359,8 +376,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '#######################################################################################################
       '#######################################################################################################
-      Dim Nodes As New Hashtable
-      Dim myParent As String
+      Dim Nodes As New Dictionary(Of String, SumControlAccount)
+      Dim myParent As String = ""
       Dim parentNode As TreeRow = Nothing
       Dim childNode As TreeRow = Nothing
       Dim docNode As TreeRow = Nothing
@@ -378,7 +395,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
 
         If Not showTreeParent Then
-
+          Dim TotalopacctDr As Decimal
+          Dim TotalopacctCr As Decimal
+          Dim TotalacctDr As Decimal
+          Dim TotalacctCr As Decimal
+          Dim TotalSumacctDr As Decimal
+          Dim TotalSumacctCr As Decimal
           For Each acctRow As DataRow In dt2.Rows
             tr = dt.Childs.Add
             tr("acct_code") = acctRow("acct_code")            '
@@ -388,7 +410,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               acctId = CInt(acctRow("acct_id"))
             End If
             tr.State = RowExpandState.Expanded
-
+            Dim opacctDr As Decimal = 0
+            Dim opacctCr As Decimal = 0
+            Dim acctDr As Decimal = 0
+            Dim acctCr As Decimal = 0
+            Dim SumacctDr As Decimal = 0
+            Dim SumacctCr As Decimal = 0
             For Each glirow As DataRow In dt3.Select("gli_acct = " & acctId.ToString)
               Dim drh As New DataRowHelper(glirow)
               ccId = drh.GetValue(Of Integer)("gli_cc")
@@ -397,21 +424,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
                 childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
                 childNode("openningdocdr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("openningdocdr"), DigitConfig.Price)
+                opacctDr += drh.GetValue(Of Decimal)("openningdocdr")
                 childNode("openningdoccr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("openningdoccr"), DigitConfig.Price)
+                opacctCr += drh.GetValue(Of Decimal)("openningdoccr")
                 childNode("docdr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("docdr"), DigitConfig.Price)
+                acctDr += drh.GetValue(Of Decimal)("docdr")
                 childNode("doccr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("doccr"), DigitConfig.Price)
+                acctCr += drh.GetValue(Of Decimal)("doccr")
                 Dim sumdrcr As Decimal = drh.GetValue(Of Decimal)("sumcr") - drh.GetValue(Of Decimal)("sumdr")
                 If sumdrcr < 0 Then
                   childNode("sumdr") = Configuration.FormatToString(Math.Abs(sumdrcr), DigitConfig.Price)
+                  SumacctDr += Math.Abs(sumdrcr)
                 ElseIf sumdrcr > 0 Then
                   childNode("sumcr") = Configuration.FormatToString(Math.Abs(sumdrcr), DigitConfig.Price)
+                  SumacctCr += Math.Abs(sumdrcr)
                 End If
                 childNode("rowType") = "costcenter"
               End If
             Next
-          Next
-        Else
+            tr("openningdocdr") = Configuration.FormatToString(opacctDr, DigitConfig.Price)
+            tr("openningdoccr") = Configuration.FormatToString(opacctCr, DigitConfig.Price)
+            tr("docdr") = Configuration.FormatToString(acctDr, DigitConfig.Price)
+            tr("doccr") = Configuration.FormatToString(acctCr, DigitConfig.Price)
+            TotalopacctDr += opacctDr
+            TotalopacctCr += opacctCr
+            TotalacctDr += acctDr
+            TotalacctCr += acctCr
 
+            Dim sumacctdrcr As Decimal = SumacctCr - SumacctDr
+            If sumacctdrcr < 0 Then
+              tr("sumdr") = Configuration.FormatToString(Math.Abs(sumacctdrcr), DigitConfig.Price)
+              TotalSumacctDr = SumacctDr
+            ElseIf sumacctdrcr > 0 Then
+              tr("sumcr") = Configuration.FormatToString(Math.Abs(sumacctdrcr), DigitConfig.Price)
+              TotalSumacctCr = SumacctCr
+            End If
+          Next
+          tr = dt.Childs.Add
+          tr("acct_name") = "รวมทั้งสิ้น"
+          tr("openningdocdr") = Configuration.FormatToString(TotalopacctDr, DigitConfig.Price)
+          tr("openningdoccr") = Configuration.FormatToString(TotalopacctCr, DigitConfig.Price)
+          tr("docdr") = Configuration.FormatToString(TotalacctDr, DigitConfig.Price)
+          tr("doccr") = Configuration.FormatToString(TotalacctCr, DigitConfig.Price)
+          Dim totalsumacctdrcr As Decimal = TotalSumacctCr - TotalSumacctDr
+          If totalsumacctdrcr < 0 Then
+            tr("sumdr") = Configuration.FormatToString(Math.Abs(totalsumacctdrcr), DigitConfig.Price)
+          ElseIf totalsumacctdrcr > 0 Then
+            tr("sumcr") = Configuration.FormatToString(Math.Abs(totalsumacctdrcr), DigitConfig.Price)
+          End If
+        Else
+          Dim TotalopacctDr As Decimal
+          Dim TotalopacctCr As Decimal
+          Dim TotalacctDr As Decimal
+          Dim TotalacctCr As Decimal
+          Dim TotalSumacctDr As Decimal
+          Dim TotalSumacctCr As Decimal
           For Each acctRow As DataRow In dt2.Rows
 
             If CInt(acctRow("acct_level")) = 0 Then
@@ -419,14 +486,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               myParent = acctRow("Parent")
               Try
-                parentNode = Nodes(myParent).Childs.Add
+                parentNode = Nodes.Item(myParent).ParentNode.Childs.Add
               Catch ex As Exception
 
               End Try
             End If
 
             If Not parentNode Is Nothing Then
-              Nodes(CStr(acctRow("acct_path"))) = parentNode
+              Dim path As String = (CStr(acctRow("acct_path")))
+              Nodes.Add(path, New SumControlAccount(parentNode, myParent))
               tr = parentNode
               tr("acct_code") = acctRow("acct_code")            '
               tr("acct_name") = acctRow("acct_name")
@@ -435,29 +503,127 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 acctId = CInt(acctRow("acct_id"))
               End If
               tr.State = RowExpandState.Expanded
-
-                       For Each glirow As DataRow In dt3.Select("gli_acct = " & acctId.ToString)
+              Dim opacctDr As Decimal = 0
+              Dim opacctCr As Decimal = 0
+              Dim acctDr As Decimal = 0
+              Dim acctCr As Decimal = 0
+              Dim SumacctDr As Decimal = 0
+              Dim SumacctCr As Decimal = 0
+              Dim isControl As Boolean = True
+              For Each glirow As DataRow In dt3.Select("gli_acct = " & acctId.ToString)
                 Dim drh As New DataRowHelper(glirow)
                 ccId = drh.GetValue(Of Integer)("gli_cc")
+                isControl = False
                 If ccId > 0 Then
                   childNode = tr.Childs.Add
                   childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
                   childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
                   childNode("openningdocdr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("openningdocdr"), DigitConfig.Price)
+                  opacctDr += drh.GetValue(Of Decimal)("openningdocdr")
                   childNode("openningdoccr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("openningdoccr"), DigitConfig.Price)
+                  opacctCr += drh.GetValue(Of Decimal)("openningdoccr")
                   childNode("docdr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("docdr"), DigitConfig.Price)
+                  acctDr += drh.GetValue(Of Decimal)("docdr")
                   childNode("doccr") = Configuration.FormatToString(drh.GetValue(Of Decimal)("doccr"), DigitConfig.Price)
+                  acctCr += drh.GetValue(Of Decimal)("doccr")
                   Dim sumdrcr As Decimal = drh.GetValue(Of Decimal)("sumcr") - drh.GetValue(Of Decimal)("sumdr")
                   If sumdrcr < 0 Then
                     childNode("sumdr") = Configuration.FormatToString(Math.Abs(sumdrcr), DigitConfig.Price)
+                    SumacctDr += Math.Abs(sumdrcr)
                   ElseIf sumdrcr > 0 Then
                     childNode("sumcr") = Configuration.FormatToString(Math.Abs(sumdrcr), DigitConfig.Price)
+                    SumacctCr += Math.Abs(sumdrcr)
                   End If
                   childNode("rowType") = "costcenter"
                 End If
+                tr("openningdocdr") = Configuration.FormatToString(opacctDr, DigitConfig.Price)
+                tr("openningdoccr") = Configuration.FormatToString(opacctCr, DigitConfig.Price)
+                tr("docdr") = Configuration.FormatToString(acctDr, DigitConfig.Price)
+                tr("doccr") = Configuration.FormatToString(acctCr, DigitConfig.Price)
+                TotalopacctDr += opacctDr
+                TotalopacctCr += opacctCr
+                TotalacctDr += acctDr
+                TotalacctCr += acctCr
+
+                Dim sumacctdrcr As Decimal = SumacctCr - SumacctDr
+                If sumacctdrcr < 0 Then
+                  tr("sumdr") = Configuration.FormatToString(Math.Abs(sumacctdrcr), DigitConfig.Price)
+                  TotalSumacctDr = SumacctDr
+                ElseIf sumacctdrcr > 0 Then
+                  tr("sumcr") = Configuration.FormatToString(Math.Abs(sumacctdrcr), DigitConfig.Price)
+                  TotalSumacctCr = SumacctCr
+                End If
               Next
+              Dim sca As SumControlAccount = Nodes.Item(path)
+              sca.IsControl = isControl
+              sca.OpDr += opacctDr
+              sca.OpCr += opacctCr
+              sca.DocDr += acctDr
+              sca.DocCr += acctCr
+              sca.SumDr += SumacctDr
+              sca.SumCr += SumacctCr
+              If myParent <> "|0|" AndAlso myParent.Length > 0 Then
+                Dim parPath As String = myParent
+                While parPath <> "|0|"
+                  Dim psca As SumControlAccount = Nodes.Item(parPath)
+                  psca.OpDr += sca.OpDr
+                  psca.OpCr += sca.OpCr
+                  psca.DocDr += sca.DocDr
+                  psca.DocCr += sca.DocCr
+                  psca.SumDr += sca.SumDr
+                  psca.SumCr += sca.SumCr
+
+                  parPath = parPath.Remove(parPath.LastIndexOf("||")) & "|"
+
+                End While
+              End If
+
             End If
           Next
+          ''รวมค่า
+          'For Each kv As KeyValuePair(Of String, SumControlAccount) In Nodes
+          '  Dim sca As SumControlAccount = kv.Value
+          '  Do While sca.parent.Length > 0 AndAlso sca.parent <> "|0|"
+
+          '  Loop
+          '  If sca.parent.Length > 0 AndAlso sca.parent <> "|0|" Then
+          '    Dim psca As SumControlAccount = Nodes.Item(sca.parent)
+          '    psca.OpDr += sca.OpDr
+          '    psca.OpCr += sca.OpCr
+          '    psca.DocDr += sca.DocDr
+          '    psca.DocCr += sca.DocCr
+          '    psca.SumDr += sca.SumDr
+          '    psca.SumCr += sca.SumCr
+          '  End If
+          'Next
+          'ใส่ค่า
+          For Each kv As KeyValuePair(Of String, SumControlAccount) In Nodes
+            Dim sca As SumControlAccount = kv.Value
+            tr = sca.ParentNode
+            tr("openningdocdr") = Configuration.FormatToString(sca.OpDr, DigitConfig.Price)
+            tr("openningdoccr") = Configuration.FormatToString(sca.OpCr, DigitConfig.Price)
+            tr("docdr") = Configuration.FormatToString(sca.DocDr, DigitConfig.Price)
+            tr("doccr") = Configuration.FormatToString(sca.DocCr, DigitConfig.Price)
+            Dim sumCacctdrcr As Decimal = sca.SumCr - sca.SumDr
+            If sumCacctdrcr < 0 Then
+              tr("sumdr") = Configuration.FormatToString(Math.Abs(sumCacctdrcr), DigitConfig.Price)
+            ElseIf sumCacctdrcr > 0 Then
+              tr("sumcr") = Configuration.FormatToString(Math.Abs(sumCacctdrcr), DigitConfig.Price)
+            End If
+          Next
+
+          tr = dt.Childs.Add
+          tr("acct_name") = "รวมทั้งสิ้น"
+          tr("openningdocdr") = Configuration.FormatToString(TotalopacctDr, DigitConfig.Price)
+          tr("openningdoccr") = Configuration.FormatToString(TotalopacctCr, DigitConfig.Price)
+          tr("docdr") = Configuration.FormatToString(TotalacctDr, DigitConfig.Price)
+          tr("doccr") = Configuration.FormatToString(TotalacctCr, DigitConfig.Price)
+          Dim totalsumacctdrcr As Decimal = TotalSumacctCr - TotalSumacctDr
+          If totalsumacctdrcr < 0 Then
+            tr("sumdr") = Configuration.FormatToString(Math.Abs(totalsumacctdrcr), DigitConfig.Price)
+          ElseIf totalsumacctdrcr > 0 Then
+            tr("sumcr") = Configuration.FormatToString(Math.Abs(totalsumacctdrcr), DigitConfig.Price)
+          End If
         End If
 
         Dim i As Integer = 0

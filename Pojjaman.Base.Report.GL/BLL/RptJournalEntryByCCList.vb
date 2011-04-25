@@ -9,6 +9,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Syncfusion.Windows.Forms.Grid
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptJournalEntryByCCList
@@ -292,7 +293,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dt2 As DataTable = Me.DataSet.Tables(0)
       Dim dtacctcc As DataTable = Me.DataSet.Tables(2)
       Dim dtdoc As DataTable = Me.DataSet.Tables(3)
-      
+
       Dim dt5 As DataTable = CostCenter.GetCostCenterSet
       Dim ccDataSource As DataTable = SetDataSourceFiltered(dt5, "cc_code", ccCodeStartFilter, ccCodeEndFilter)
       Dim newCChash As New Hashtable
@@ -308,8 +309,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '#######################################################################################################
       '#######################################################################################################
-      Dim Nodes As New Hashtable
-      Dim myParent As String
+      Dim Nodes As New Dictionary(Of String, SumControlAccount)
+      Dim myParent As String = ""
       Dim parentNode As TreeRow = Nothing
       Dim childNode As TreeRow = Nothing
       Dim docNode As TreeRow = Nothing
@@ -330,7 +331,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
 
         If Not showTreeParent Then
-
+          Dim TotalBal As Decimal
           For Each acctRow As DataRow In dt2.Rows
             tr = dt.Childs.Add
             tr("acct_code") = acctRow("acct_code")            '
@@ -340,6 +341,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               acctId = CInt(acctRow("acct_id"))
             End If
             tr.State = RowExpandState.Expanded
+            Dim SumBal As Decimal = 0
 
             If showDocument Then
               For Each acctccrow As DataRow In dtacctcc.Select("gli_acct=" & acctId.ToString)
@@ -350,7 +352,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childNode = tr.Childs.Add
                 childNode("acct_code") = indent & CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_code")
                 childNode("acct_name") = CType(newCChash(ccId), DataRowHelper).GetValue(Of String)("cc_name")
-               
+
                 childNode("rowType") = "costcenter"
                 ccHash(key) = childNode
                 childNode.State = RowExpandState.Expanded
@@ -392,7 +394,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Next
 
                 childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
-
+                SumBal += Bal
               Next
             Else
               For Each glirow As DataRow In dtacctcc.Select("gli_acct = " & acctId.ToString)
@@ -407,12 +409,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Bal = coeff * Bal
                   childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
                   childNode("rowType") = "costcenter"
+                  SumBal += Bal
                 End If
               Next
             End If
+            tr("Bal") = Configuration.FormatToString(SumBal, DigitConfig.Price)
+            TotalBal += SumBal
           Next
+          tr = dt.Childs.Add
+          tr("acct_name") = "รวมทั้งสิ้น"
+          tr("Bal") = Configuration.FormatToString(TotalBal, DigitConfig.Price)
         Else
-
+          Dim TotalBal As Decimal
           For Each acctRow As DataRow In dt2.Rows
 
             If CInt(acctRow("acct_level")) = 0 Then
@@ -420,14 +428,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               myParent = acctRow("Parent")
               Try
-                parentNode = Nodes(myParent).Childs.Add
+                parentNode = Nodes.Item(myParent).ParentNode.Childs.Add
               Catch ex As Exception
 
               End Try
             End If
 
             If Not parentNode Is Nothing Then
-              Nodes(CStr(acctRow("acct_path"))) = parentNode
+              Dim path As String = (CStr(acctRow("acct_path")))
+              Nodes.Add(path, New SumControlAccount(parentNode, myParent))
               tr = parentNode
               tr("acct_code") = acctRow("acct_code")            '
               tr("acct_name") = acctRow("acct_name")
@@ -436,7 +445,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 acctId = CInt(acctRow("acct_id"))
               End If
               tr.State = RowExpandState.Expanded
-
+              Dim SumBal As Decimal = 0
               If Not tr Is Nothing Then
                 If showDocument Then
                   For Each acctccrow As DataRow In dtacctcc.Select("gli_acct=" & acctId.ToString)
@@ -489,6 +498,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     Next
 
                     childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
+                    SumBal += Bal
 
                   Next
 
@@ -505,14 +515,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       Bal = coeff * Bal
                       childNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
                       childNode("rowType") = "costcenter"
+                      SumBal += Bal
                     End If
                   Next
 
                 End If
+                tr("Bal") = Configuration.FormatToString(SumBal, DigitConfig.Price)
+                TotalBal += SumBal
+                Dim sca As SumControlAccount = Nodes.Item(path)
+                sca.Balance = SumBal
 
+                If myParent <> "|0|" AndAlso myParent.Length > 0 Then
+                  Dim parPath As String = myParent
+                  While parPath <> "|0|"
+                    Dim psca As SumControlAccount = Nodes.Item(parPath)
+                    psca.Balance += sca.Balance
+
+                    parPath = parPath.Remove(parPath.LastIndexOf("||")) & "|"
+
+                  End While
+                End If
               End If
             End If
           Next
+
+          'ใส่ค่า
+          For Each kv As KeyValuePair(Of String, SumControlAccount) In Nodes
+            Dim sca As SumControlAccount = kv.Value
+            tr = sca.ParentNode
+            tr("Bal") = Configuration.FormatToString(sca.Balance, DigitConfig.Price)
+            
+          Next
+
+          tr = dt.Childs.Add
+          tr("acct_name") = "รวมทั้งสิ้น"
+          tr("Bal") = Configuration.FormatToString(TotalBal, DigitConfig.Price)
         End If
 
         Dim i As Integer = 0
