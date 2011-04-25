@@ -139,13 +139,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ElseIf Not fromCCCode Is Nothing AndAlso fromCCCode.Length > 0 Then
         ccCode = fromCCCode
       End If
-      Dim scCode As String
+      Dim scCode As String = ""
       'HACK by Tounsa
       If TypeOf o Is VO Then
         scCode = CType(o, VO).SC.Code
       End If
       If TypeOf o Is DR Then
         scCode = CType(o, DR).Sc.Code
+      End If
+      If TypeOf o Is PA Then
+        scCode = CType(o, PA).Sc.Code
       End If
 
       Dim parCode As String
