@@ -613,6 +613,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private advfColl As New AdvanceFindCollection
     Private advanceFindString As String
+    Private advanceFindWbsLevel As String
+
     Private advanceValueString As String
     Private advanceFindLCI As String
 
@@ -714,6 +716,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
+      
+
       Dim arr(11) As Filter
       If Me.txtCostCenterCode.Text.Length = 0 Then
         arr(0) = New Filter("cc", DBNull.Value)
@@ -934,12 +938,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnWBS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnWBS.Click
       advanceFindString = ""
+      advanceFindWbsLevel = ""
       advanceValueString = ""
       advanceFindLCI = ""
       Dim dlg As New AdvanceFindFilterPanel(Me, "wbs")
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(dlg)
       If myDialog.ShowDialog() Then
         advanceFindString = Me.AdvanceFindCollection.GetBuiltSQLString
+        advancefindWbsLevel = Me.AdvanceFindCollection.GetBuiltSQLStringforWbsLevel
         advanceValueString = Me.AdvanceFindCollection.GetBuiltSQLStringforValue
         advanceFindLCI = Me.AdvanceFindCollection.GetBuiltSQLString1
       End If

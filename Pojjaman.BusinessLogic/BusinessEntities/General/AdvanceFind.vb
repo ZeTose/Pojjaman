@@ -326,6 +326,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
                 ReDim Preserve tempFindString(j - 1)
               End If
+           
             End If
           Next
 
@@ -346,8 +347,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
       'Return ret & ""
     End Function
-
-    Public Function GetBuiltSQLStringforValue() As String
+    Public Function GetBuiltSQLStringforWbsLevel() As String
       Dim ret As String
       Dim ret1 As String
       Dim advanceFindString(0) As String
@@ -360,7 +360,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           j = 0
           For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
-            If Not myAdvfItem.Field.StartsWith("lci") AndAlso (Not (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string")) Then
+            If myAdvfItem.Field.ToLower.StartsWith("wbs_level") Then
 
               Select Case myAdvfItem.ItemCase
                 Case AdvanceFindItem.FindCase.OnlyMax
@@ -374,7 +374,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   ReDim Preserve tempFindString(j)
                   tempFindString(j) = myAdvfItem.Field & " <= " & myAdvfItem.MaxValue
                   tempFindString(j) &= " and " & myAdvfItem.Field & " >= " & myAdvfItem.MinValue
-                  
+
                 Case AdvanceFindItem.FindCase.Zero
               End Select
 
@@ -404,6 +404,65 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
       Return CStr(IIf(ret.Length > 0, " where " & ret, ""))
+      'Return ret & ""
+    End Function
+    Public Function GetBuiltSQLStringforValue() As String
+      Dim ret As String
+      Dim ret1 As String
+      Dim advanceFindString(0) As String
+      Dim tempFindString(0) As String
+      Dim i As Integer = 0
+      Dim j As Integer = 0
+
+      For Each myAdvf As AdvanceFind In Me
+        If myAdvf.ItemCollection.Count > 0 Then
+
+          j = 0
+          For Each myAdvfItem As AdvanceFindItem In myAdvf.ItemCollection
+            If Not myAdvfItem.Field.StartsWith("lci") AndAlso (Not (myAdvfItem.DataType.ToLower.StartsWith("system.string") OrElse myAdvfItem.DataType.ToLower = "system.string")) Then
+
+              Select Case myAdvfItem.ItemCase
+                Case AdvanceFindItem.FindCase.OnlyMax
+                  ReDim Preserve tempFindString(j)
+                  tempFindString(j) = myAdvfItem.Field & " <= " & myAdvfItem.MaxValue
+
+                Case AdvanceFindItem.FindCase.OnlyMin
+                  ReDim Preserve tempFindString(j)
+                  tempFindString(j) = myAdvfItem.Field & " >= " & myAdvfItem.MinValue
+                Case AdvanceFindItem.FindCase.Both
+                  ReDim Preserve tempFindString(j)
+                  tempFindString(j) = myAdvfItem.Field & " <= " & myAdvfItem.MaxValue
+                  tempFindString(j) &= " and " & myAdvfItem.Field & " >= " & myAdvfItem.MinValue
+
+                Case AdvanceFindItem.FindCase.Zero
+              End Select
+
+
+              tempFindString(j) = "(" + tempFindString(j) + ")"
+
+              If Not tempFindString(j) Is Nothing AndAlso tempFindString(j).Length > 0 Then
+                j += 1
+              Else
+                ReDim Preserve tempFindString(j - 1)
+              End If
+            End If
+          Next
+
+          ReDim Preserve advanceFindString(i)
+          advanceFindString(i) = Join(tempFindString, CStr(IIf(myAdvf.OperatorAnd, " and ", " or ")))
+          If Not advanceFindString(i) Is Nothing AndAlso advanceFindString(i).Length > 0 Then
+            advanceFindString(i) = "(" & advanceFindString(i) & ")"
+            i += 1
+          Else
+            ReDim Preserve advanceFindString(i - 1)
+          End If
+          tempFindString = Nothing
+
+        End If
+      Next
+
+      ret = CStr(IIf(advanceFindString.Length > 0, Join(advanceFindString, " and "), ""))
+      Return CStr(IIf(ret.Length > 0, ret, ""))
       'Return ret & ""
     End Function
 

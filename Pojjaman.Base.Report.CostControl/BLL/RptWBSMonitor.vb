@@ -456,6 +456,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim detail As Integer = CInt(Me.Filters(4).Value)
 
+      Dim ValueFilter As String = "wbs_level = 0 or " & CStr(Me.Filters(8).Value)
+
       ' WBS ##################################################################################################
       '#######################################################################################################
       Dim Nodes As New Hashtable
@@ -469,7 +471,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim stage As String = ""
       Try
         'แบบไม่เลือก Option WBS 
-        For Each wbsrow As DataRow In dtwbs.Rows
+        For Each wbsrow As DataRow In dtwbs.Select(ValueFilter)
           If CInt(wbsrow("wbs_level")) = 0 Then
             parentNode = dt.Childs.Add
             SumNetWbsBudget += CDec(wbsrow("wbs_budget"))
