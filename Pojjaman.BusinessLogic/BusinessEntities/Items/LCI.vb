@@ -6,6 +6,8 @@ Imports System.Configuration
 Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class LCIForList
     Inherits SimpleBusinessEntityBase
@@ -136,12 +138,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_monthperiod As Integer
 
     Private Shared m_AllLciitems As Hashtable
+    Private Shared m_AllLciitemsCodeMapId As Dictionary(Of String, String)
     Public Shared ReadOnly Property AllLciitems As Hashtable
       Get
         If m_AllLciitems Is Nothing Then
           RefreshAllData()
         End If
         Return m_AllLciitems
+      End Get
+    End Property
+    Public Shared ReadOnly Property LciCodeMaps As Dictionary(Of String, String)
+      Get
+        If m_AllLciitemsCodeMapId Is Nothing Then
+          RefreshAllData()
+        End If
+        Return m_AllLciitemsCodeMapId
       End Get
     End Property
     Private Shared m_LciitemTable As DataTable
@@ -679,7 +690,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Function
     Public Shared Sub RefreshAllData()
       LCIItem.m_AllLciitems = New Hashtable
+      'of string = code, string = id
+      LCIItem.m_AllLciitemsCodeMapId = New Dictionary(Of String, String)
+
       Dim key As String = ""
+      Dim code As String = ""
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
     , CommandType.StoredProcedure _
@@ -689,7 +704,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In ds.Tables(0).Rows
           Dim drh As New DataRowHelper(row)
           key = CStr(drh.GetValue(Of Integer)("lci_id"))
+          code = drh.GetValue(Of String)("lci_code")
           LCIItem.m_AllLciitems(key) = row
+          If LCIItem.m_AllLciitemsCodeMapId.ContainsKey(code) Then
+            MessageBox.Show("Dupplicate Lci Code :" & code)
+          Else
+            LCIItem.m_AllLciitemsCodeMapId.Add(code, key)
+          End If
         Next
       End If
     End Sub
@@ -1012,8 +1033,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Throw New Exception(ex.InnerException.ToString)
       End Try
     End Function
+    Public Shared Function GetLciItemByCode(ByVal code As String) As LCIItem
+      If code.Length = 0 Then
+        Return New LCIItem
+      End If
+      If LCIItem.LciCodeMaps.ContainsKey(code.ToString) Then
+        Return New LCIItem
+      End If
+      Dim key As String = LCIItem.LciCodeMaps.Item(code.ToString)
+      Dim row As DataRow = CType(LCIItem.AllLciitems(key), DataRow)
+      Try
+        Dim lci As New LCIItem(row, "") 'Pui
+        Return lci
+      Catch ex As Exception
+        Throw New Exception(ex.InnerException.ToString)
+      End Try
+    End Function
     Public Shared Sub DestroyLCI()
       m_AllLciitems = Nothing
+      m_AllLciitemsCodeMapId = Nothing
     End Sub
     Public Shared Function GetLciConversionByIdUnitId(ByVal id As Integer, ByVal unitId As Integer) As Decimal
       Dim newLci As LCIItem = LCIItem.GetLciItemById(id)

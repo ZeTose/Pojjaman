@@ -270,7 +270,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                   '------------------------TWC--------------------------
                   If Not row.IsNull(("Unit")) Then
-                    newWbs.Unit = New Unit(CStr(row("Unit")))
+                    'newWbs.Unit = New Unit(CStr(row("Unit")))
+                    newWbs.Unit = Unit.GetUnitByName(CStr(row("Unit")))
                   Else
                     newWbs.Unit = New Unit
                   End If
@@ -299,7 +300,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim item As New BoqItem
 
                 If Not row.IsNull(("Unit")) Then
-                  item.Unit = New Unit(CStr(row("Unit")))
+                  item.Unit = Unit.GetUnitByName(CStr(row("Unit")))
+                  'item.Unit = New Unit(CStr(row("Unit")))
                 Else
                   item.Unit = New Unit
                 End If
@@ -328,7 +330,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       End If
                     Case Else
                       If Not row.IsNull(("Code")) Then
-                        item.Entity = CType(SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(entityType), CStr(row("Code"))), IHasName)
+                        If entityType = 42 Then
+                          item.Entity = LCIItem.GetLciItemByCode(CStr(row("Code")))
+                        Else
+                          item.Entity = CType(SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(entityType), CStr(row("Code"))), IHasName)
+                        End If
                       End If
                       If Not row.IsNull(("Description")) Then
                         Dim suffix As String = "<" & item.Entity.Name & ">"

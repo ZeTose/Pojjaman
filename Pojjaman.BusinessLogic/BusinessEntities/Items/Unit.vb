@@ -8,6 +8,8 @@ Imports System.Configuration
 Imports System.Reflection
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Unit
     Inherits SimpleBusinessEntityBase
@@ -19,12 +21,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_isDefault As Boolean
 
     Private Shared m_AllUnits As Hashtable
+    Private Shared m_unitNameIds As Dictionary(Of String, String)
     Public Shared ReadOnly Property AllUnits As Hashtable
       Get
         If m_AllUnits Is Nothing Then
           RefreshAllData()
         End If
         Return m_AllUnits
+      End Get
+    End Property
+    Public Shared ReadOnly Property UnitsNameMap As Dictionary(Of String, String)
+      Get
+        If m_unitNameIds Is Nothing Then
+          RefreshAllData()
+        End If
+        Return m_unitNameIds
       End Get
     End Property
     Private Shared m_unitTable As DataTable
@@ -117,7 +128,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Shared Sub RefreshAllData()
       Unit.m_AllUnits = New Hashtable
+      Unit.m_unitNameIds = New Dictionary(Of String, String)
+
       Dim key As String = ""
+      Dim name As String = ""
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
     , CommandType.StoredProcedure _
@@ -127,7 +141,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In ds.Tables(0).Rows
           Dim drh As New DataRowHelper(row)
           key = CStr(drh.GetValue(Of Integer)("unit_id"))
-          Unit.m_AllUnits(key) = row
+          name = drh.GetValue(Of String)("unit_name")
+          If name <> "<Reserved>" Then
+            Unit.m_AllUnits(key) = row
+            If Unit.m_unitNameIds.ContainsKey(name) Then
+              MessageBox.Show("Dupplicate Unit Name :" & name)
+            Else
+              Unit.m_unitNameIds.Add(name, key)
+            End If
+          End If
         Next
       End If
     End Sub
@@ -144,8 +166,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim unit As New Unit(row, "") 'Pui
       Return unit
     End Function
+    Public Shared Function GetUnitByName(ByVal name As String) As Unit
+      If UnitsNameMap.ContainsKey(name) Then
+        Dim blankunit As New Unit
+        blankunit.Id = 0
+        blankunit.Code = ""
+        blankunit.Name = ""
+        Return blankunit
+      End If
+      Dim key As String = UnitsNameMap.Item(name)
+      Dim row As DataRow = CType(AllUnits(key), DataRow)
+      If row Is Nothing Then
+        Dim blankunit As New Unit
+        blankunit.Id = 0
+        blankunit.Code = ""
+        blankunit.Name = ""
+        Return blankunit
+      End If
+      Dim unit As New Unit(row, "") 'Pui
+      Return unit
+    End Function
     Public Shared Sub DestroyCachUnit()
       m_AllUnits = Nothing
+      m_unitNameIds = Nothing
     End Sub
     Public Shared Function CanDeleteThisId(ByVal id As Integer) As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "CountUnitRef", _
