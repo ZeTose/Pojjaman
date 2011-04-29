@@ -10,6 +10,9 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports System.Text.RegularExpressions
 Imports System.Collections.Generic
+Imports System.Data.OleDb
+Imports System.Data.Linq
+Imports System.Linq
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class FFormatType
@@ -508,22 +511,71 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Public Function GetGLValueFromAccount(ByVal col As FFormatColumn, ByVal acct As Account) As Decimal
-      Dim params(6) As SqlParameter
-      params(0) = New SqlParameter("@docdatestart", ValidDateOrDBNull(col.StartDate))
-      params(1) = New SqlParameter("@docdateend", ValidDateOrDBNull(col.EndDate))
-      params(2) = New SqlParameter("@acct_id", ValidIdOrDBNull(acct))
-      params(3) = New SqlParameter("@cc_id", ValidIdOrDBNull(col.CostCenter))
-      params(4) = New SqlParameter("@IncludeChildCC", col.IncludeChildCostCenter)
-      params(5) = New SqlParameter("@acctbook_id", ValidIdOrDBNull(col.AccountBook))
-      params(6) = New SqlParameter("@endacctbook_id", ValidIdOrDBNull(col.EndAccountBook))
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, "GetGLValue", params)
-      If ds.Tables(0).Rows.Count > 0 Then
-        If Not IsDBNull(ds.Tables(0).Rows(0)(0)) Then
-          Return CDec(ds.Tables(0).Rows(0)(0))
+    Private dicGlValue As Dictionary(Of String, Decimal)
+    Public Sub RefreshGLValue()
+      Dim startdate As Date = Date.MaxValue
+      Dim enddate As Date = Date.MinValue
+
+      For Each col As FFormatColumn In ColumnCollection
+        If col.StartDate < startdate Then
+          startdate = col.StartDate
         End If
+        If col.EndDate > enddate Then
+          enddate = col.EndDate
+        End If
+      Next
+
+
+      Dim params(0) As SqlParameter
+      params(0) = New SqlParameter("@fformat", Me.Id)
+
+      
+      Dim dsGlItem As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, "SumGLFromFFormat", params)
+
+      dicGlValue = New Dictionary(Of String, Decimal)
+
+      For Each row As DataRow In dsGlItem.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        dicGlValue.Add(drh.GetValue(Of String)("key"), drh.GetValue(Of Decimal)("Value"))
+      Next
+
+
+    End Sub
+    Public Function GetGLValueFromAccount(ByVal col As FFormatColumn, ByVal acct As Account) As Decimal
+      If dicGlValue Is Nothing Then
+        RefreshGLValue()
+      End If
+
+      'value = Aggregate glitemforFFormat In dt.AsEnumerable _
+      '            Where glitemforFFormat.Field(Of Decimal)("gli_acct") = acct.Id _
+      '            AndAlso glitemforFFormat.Field(Of Decimal)("cc_id") = col.CostCenter.Id _
+      'Into Sum(glitemforFFormat.Field(Of Decimal)("Value"))
+      ''AndAlso (col.IncludeChildCostCenter = True andalso glitemforFFormat.Field(Of String)("cc_path") like "|"&col.CostCenter.Id.ToString & "|*" ) _
+      ''AndAlso 
+
+      Dim key As String = col.LineNumber.ToString & ":" & acct.Code
+
+      If dicGlValue.ContainsKey(key) Then
+        Return dicGlValue.Item(key)
+
       End If
       Return 0
+
+      'Dim params(6) As SqlParameter
+      'params(0) = New SqlParameter("@docdatestart", ValidDateOrDBNull(col.StartDate))
+      'params(1) = New SqlParameter("@docdateend", ValidDateOrDBNull(col.EndDate))
+      'params(2) = New SqlParameter("@acct_id", ValidIdOrDBNull(acct))
+      'params(3) = New SqlParameter("@cc_id", ValidIdOrDBNull(col.CostCenter))
+      'params(4) = New SqlParameter("@IncludeChildCC", col.IncludeChildCostCenter)
+      'params(5) = New SqlParameter("@acctbook_id", ValidIdOrDBNull(col.AccountBook))
+      'params(6) = New SqlParameter("@endacctbook_id", ValidIdOrDBNull(col.EndAccountBook))
+      'Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, "GetGLValue", params)
+      'If ds.Tables(0).Rows.Count > 0 Then
+      '  If Not IsDBNull(ds.Tables(0).Rows(0)(0)) Then
+      '    Return CDec(ds.Tables(0).Rows(0)(0))
+      '  End If
+      'End If
+      'Return 0
     End Function
     Public Function GetDataFromExcelRowCol(ByVal pattern As String) As FFormatData
       Dim re As New Regex(FFormatData.ColumnFormulaPettern)
@@ -796,7 +848,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Select Case Me.AutoType.Value
         Case 2 'month
           intType = DateInterval.Month
-          
+
         Case 3 'Quarter
           intType = DateInterval.Quarter
         Case 4 'Year
@@ -852,7 +904,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         col.EndAccountBook = scol.EndAccountBook
       Next
     End Sub
-    
+
 #End Region
 
 #Region "IHasName"
@@ -1594,6 +1646,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub PopulateValue(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0
+      Me.FFormat.RefreshGLValue()
       For Each ffi As FFormatItem In Me
         i += 1
         Dim newRow As TreeRow = dt.Childs.Add()

@@ -446,6 +446,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
         Private m_value As Boolean
     Private Function RefreshDocsValue() As Boolean
+      If Me.WorkbenchWindow.ViewContent.IsDirty Then
+        MessageBox.Show("ต้องบันทึกงบการเงินก่อน")
+        Return False
+      End If
       Try
         Me.m_isInitialized = False
         If m_value Then
