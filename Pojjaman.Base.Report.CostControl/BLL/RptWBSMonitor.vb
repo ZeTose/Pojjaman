@@ -456,7 +456,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim detail As Integer = CInt(Me.Filters(4).Value)
 
-      Dim ValueFilter As String = "wbs_level = 0 or " & CStr(Me.Filters(8).Value)
+      Dim ValueFilter As String = ""
+
+      If Not Me.Filters(8).Value Is Nothing Then
+        ValueFilter = "wbs_level = 0 Or " & CStr(Me.Filters(8).Value)
+      End If
 
       ' WBS ##################################################################################################
       '#######################################################################################################
