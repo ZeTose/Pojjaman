@@ -511,52 +511,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Private dicGlValue As Dictionary(Of String, Decimal)
     Public Sub RefreshGLValue()
-      Dim startdate As Date = Date.MaxValue
-      Dim enddate As Date = Date.MinValue
 
+      'แยกกันเพื่อให้ส่ง parameter ไม่ต้อง save ก่อน
       For Each col As FFormatColumn In ColumnCollection
-        If col.StartDate < startdate Then
-          startdate = col.StartDate
-        End If
-        If col.EndDate > enddate Then
-          enddate = col.EndDate
-        End If
+        col.RefreshGLValue()
       Next
 
 
-      Dim params(0) As SqlParameter
-      params(0) = New SqlParameter("@fformat", Me.Id)
+      'ของเก่าต้องบังคับให้ save ก่อน
+      'Dim startdate As Date = Date.MaxValue
+      'Dim enddate As Date = Date.MinValue
 
-      
-      Dim dsGlItem As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, "SumGLFromFFormat", params)
+      'For Each col As FFormatColumn In ColumnCollection
+      '  If col.StartDate < startdate Then
+      '    startdate = col.StartDate
+      '  End If
+      '  If col.EndDate > enddate Then
+      '    enddate = col.EndDate
+      '  End If
+      'Next
 
-      dicGlValue = New Dictionary(Of String, Decimal)
 
-      For Each row As DataRow In dsGlItem.Tables(0).Rows
-        Dim drh As New DataRowHelper(row)
-        dicGlValue.Add(drh.GetValue(Of String)("key"), drh.GetValue(Of Decimal)("Value"))
-      Next
+      'Dim params(0) As SqlParameter
+      'params(0) = New SqlParameter("@fformat", Me.Id)
+
+
+      'Dim dsGlItem As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, "SumGLFromFFormat", params)
+
+      'dicGlValue = New Dictionary(Of String, Decimal)
+
+      'For Each row As DataRow In dsGlItem.Tables(0).Rows
+      '  Dim drh As New DataRowHelper(row)
+      '  dicGlValue.Add(drh.GetValue(Of String)("key"), drh.GetValue(Of Decimal)("Value"))
+      'Next
 
 
     End Sub
     Public Function GetGLValueFromAccount(ByVal col As FFormatColumn, ByVal acct As Account) As Decimal
-      If dicGlValue Is Nothing Then
-        RefreshGLValue()
-      End If
+      
 
-      'value = Aggregate glitemforFFormat In dt.AsEnumerable _
-      '            Where glitemforFFormat.Field(Of Decimal)("gli_acct") = acct.Id _
-      '            AndAlso glitemforFFormat.Field(Of Decimal)("cc_id") = col.CostCenter.Id _
-      'Into Sum(glitemforFFormat.Field(Of Decimal)("Value"))
-      ''AndAlso (col.IncludeChildCostCenter = True andalso glitemforFFormat.Field(Of String)("cc_path") like "|"&col.CostCenter.Id.ToString & "|*" ) _
-      ''AndAlso 
+      
 
-      Dim key As String = col.LineNumber.ToString & ":" & acct.Code
+      'เปลี่ยนเป็น เก็บไว้ใน แต่ละ Col
+      Dim key As String = acct.Code
 
-      If dicGlValue.ContainsKey(key) Then
-        Return dicGlValue.Item(key)
+      If col.DicGlValue.ContainsKey(key) Then
+        Return col.DicGlValue.Item(key)
 
       End If
       Return 0
@@ -576,6 +577,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  End If
       'End If
       'Return 0
+
+      ''ลองใช้ LINQ
+      'value = Aggregate glitemforFFormat In dt.AsEnumerable _
+      '            Where glitemforFFormat.Field(Of Decimal)("gli_acct") = acct.Id _
+      '            AndAlso glitemforFFormat.Field(Of Decimal)("cc_id") = col.CostCenter.Id _
+      'Into Sum(glitemforFFormat.Field(Of Decimal)("Value"))
+      ''AndAlso (col.IncludeChildCostCenter = True andalso glitemforFFormat.Field(Of String)("cc_path") like "|"&col.CostCenter.Id.ToString & "|*" ) _
+      ''AndAlso 
     End Function
     Public Function GetDataFromExcelRowCol(ByVal pattern As String) As FFormatData
       Dim re As New Regex(FFormatData.ColumnFormulaPettern)
@@ -1174,10 +1183,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property IncludeChildCostCenter() As Boolean      Get        Return m_includeChildCC      End Get      Set(ByVal Value As Boolean)        m_includeChildCC = Value      End Set    End Property
     Public Property AccountBook() As AccountBook      Get        Return m_accountBook      End Get      Set(ByVal Value As AccountBook)        m_accountBook = Value      End Set    End Property
     Public Property EndAccountBook() As AccountBook      Get        Return m_endaccountBook      End Get      Set(ByVal Value As AccountBook)        m_endaccountBook = Value      End Set    End Property
+    Public ReadOnly Property DicGlValue As Dictionary(Of String, Decimal)
+      Get
+        If m_dicGlValue Is Nothing Then
+          RefreshGLValue()
+        End If
+        Return m_dicGlValue
+      End Get
+    End Property
 #End Region
 
 #Region "Methods"
-   
+    Private m_dicGlValue As Dictionary(Of String, Decimal)
+    Public Sub RefreshGLValue()
+
+      Dim params(5) As SqlParameter
+      params(0) = New SqlParameter("@docdatestart", Me.FFormat.ValidDateOrDBNull(Me.StartDate))
+      params(1) = New SqlParameter("@docdateend", Me.FFormat.ValidDateOrDBNull(Me.EndDate))
+      params(2) = New SqlParameter("@cc_id", Me.FFormat.ValidIdOrDBNull(Me.CostCenter))
+      params(3) = New SqlParameter("@IncludeChildCC", Me.IncludeChildCostCenter)
+      params(4) = New SqlParameter("@acctbook_id", Me.FFormat.ValidIdOrDBNull(Me.AccountBook))
+      params(5) = New SqlParameter("@endacctbook_id", Me.FFormat.ValidIdOrDBNull(Me.EndAccountBook))
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.FFormat.ConnectionString, CommandType.StoredProcedure, "GetGLValueFromCol", params)
+
+      m_dicGlValue = New Dictionary(Of String, Decimal)
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        dicGlValue.Add(drh.GetValue(Of String)("key"), drh.GetValue(Of Decimal)("Value"))
+      Next
+
+    End Sub
 #End Region
 
   End Class

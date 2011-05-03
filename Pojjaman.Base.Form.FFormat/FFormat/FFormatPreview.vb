@@ -459,10 +459,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Event Handlers"
     Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnRefresh.Click
-      If Me.WorkbenchWindow.ViewContent.IsDirty Then
-        MessageBox.Show("ต้องบันทึกงบการเงินก่อน")
-        Return
-      End If
+      Me.m_entity.RefreshGLValue()
       Dim pd As PrintDocument = Me.PrintDocument
       If Not pd Is Nothing Then
         pd.PrintController = New PJMPreviewControl(AddressOf SetPreviewPageInfos)
