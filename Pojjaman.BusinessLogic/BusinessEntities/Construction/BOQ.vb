@@ -8,6 +8,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Text.RegularExpressions
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Delegate Sub CountDelegate(ByVal i As Integer)
   Public Class BOQStatus
@@ -214,7 +216,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Lazy = True
       End With
     End Sub
-    Public Sub Import(ByVal dt As DataTable)
+    Public Function Import(ByVal dt As DataTable) As List(Of String)
+      Dim LciMissingCode As New List(Of String)
       Dim levelHash As New Hashtable
       Dim currLevel As Integer = 0
       Dim currWBS As WBS
@@ -333,6 +336,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         If entityType = 42 Then
                           item.Entity = LCIItem.GetLciItemByCode(CStr(row("Code")))
                           If Not CType(item.Entity, LCIItem).Originated Then
+                            If Not LciMissingCode.Contains(CStr(row("Code"))) Then
+                              LciMissingCode.Add(CStr(row("Code")))
+                            End If
                             entityType = 0
                             item.ItemType.Value = 0
                             If Not row.IsNull(("Description")) Then
@@ -413,7 +419,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Select
         End If
       Next
-    End Sub
+      Return LciMissingCode
+    End Function
 
     Public Sub SetUpWBSChildCollation()
       For Each w As WBS In Me.WBSCollection
@@ -4159,7 +4166,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         drWbs("wbs_unit") = ValidIdOrDBNull(myWbs.Unit)
         drWbs("wbs_mcbs") = ValidIdOrDBNull(myWbs.MatCBS)
         drWbs("wbs_lcbs") = ValidIdOrDBNull(myWbs.LabCBS)
-        drWbs("wbs_ecbs") = ValidIdOrDBNull(myWbs.eqcbs)
+        drWbs("wbs_ecbs") = ValidIdOrDBNull(myWbs.EqCBS)
         If drs.Length = 0 Then
           dtWbs.Rows.Add(drWbs)
           Dim oldParId As Integer = myWbs.Id

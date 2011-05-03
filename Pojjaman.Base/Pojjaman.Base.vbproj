@@ -1329,6 +1329,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\MapDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\SimpleListDialog.Designer.vb">
+      <DependentUpon>SimpleListDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\SimpleListDialog.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkFormDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1778,6 +1784,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\MapDialog.resx">
       <DependentUpon>MapDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\SimpleListDialog.resx">
+      <DependentUpon>SimpleListDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Documents\LinkFormDetail.resx">
       <DependentUpon>LinkFormDetail.vb</DependentUpon>
