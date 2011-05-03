@@ -707,7 +707,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           code = drh.GetValue(Of String)("lci_code")
           LCIItem.m_AllLciitems(key) = row
           If LCIItem.m_AllLciitemsCodeMapId.ContainsKey(code) Then
-            MessageBox.Show("Dupplicate Lci Code :" & code)
+            'MessageBox.Show("Dupplicate Lci Code :" & code)
           Else
             LCIItem.m_AllLciitemsCodeMapId.Add(code, key)
           End If
@@ -1037,10 +1037,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If code.Length = 0 Then
         Return New LCIItem
       End If
-      If LCIItem.LciCodeMaps.ContainsKey(code.ToString) Then
+      If Not LCIItem.LciCodeMaps.ContainsKey(code) Then
         Return New LCIItem
       End If
-      Dim key As String = LCIItem.LciCodeMaps.Item(code.ToString)
+      Dim key As String = LCIItem.LciCodeMaps.Item(code)
       Dim row As DataRow = CType(LCIItem.AllLciitems(key), DataRow)
       Try
         Dim lci As New LCIItem(row, "") 'Pui
