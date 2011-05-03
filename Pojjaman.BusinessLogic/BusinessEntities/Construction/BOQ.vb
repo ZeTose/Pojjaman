@@ -332,6 +332,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       If Not row.IsNull(("Code")) Then
                         If entityType = 42 Then
                           item.Entity = LCIItem.GetLciItemByCode(CStr(row("Code")))
+                          If Not CType(item.Entity, LCIItem).Originated Then
+                            entityType = 0
+                            item.ItemType.Value = 0
+                            If Not row.IsNull(("Description")) Then
+                              item.Entity = New BlankItem(row("Description").ToString)
+                              item.EntityName = row("Description").ToString
+                            Else
+                              item.Entity = New BlankItem("")
+                              item.EntityName = ""
+                            End If
+                          End If
                         Else
                           item.Entity = CType(SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(entityType), CStr(row("Code"))), IHasName)
                         End If
@@ -4153,8 +4164,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dtWbs.Rows.Add(drWbs)
           Dim oldParId As Integer = myWbs.Id
           myWbs.Id = CInt(drWbs("wbs_id"))
-          Me.WBSCollection.UpdateParentId(oldParId, myWbs.Id)
-          Me.ItemCollection.UpdateWbsId(oldParId, myWbs.Id)
+          myWbs.Childs.UpdateParentId(oldParId, myWbs.Id)
+          myWbs.Boqitems.UpdateWbsId(oldParId, myWbs.Id)
+          'Me.WBSCollection.UpdateParentId(oldParId, myWbs.Id)
+          'Me.ItemCollection.UpdateWbsId(oldParId, myWbs.Id)
         End If
         line += 1
         Dim childs As WBSCollection = myWbs.Childs
