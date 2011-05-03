@@ -167,7 +167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return unit
     End Function
     Public Shared Function GetUnitByName(ByVal name As String) As Unit
-      If UnitsNameMap.ContainsKey(name) Then
+      If Not UnitsNameMap.ContainsKey(name) Then
         Dim blankunit As New Unit
         blankunit.Id = 0
         blankunit.Code = ""

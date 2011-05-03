@@ -600,13 +600,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
         i.Fields = "Type,[Level],EntityType,Code,Description,Note,Qty,Unit,UMC,UEC,ULC,MCBS,LCBS,ECBS"
         Dim dt As DataTable = i.Query()
 
-        Dim lciMissingCode As List(Of String) = Me.m_entity.Import(dt)
+        Dim MissingCode As List(Of ArrayList) = Me.m_entity.Import(dt)
         Me.m_entity.SetUpWBSChildCollation()
         If Me.txtCode.Text.Trim.Length = 0 Then
           Me.txtCode.Text = opdlg.SafeFileName.Split(".")(0)
         End If
+
+        Dim lciMissingCode As New List(Of String)
+        Dim unitMissingCode As New List(Of String)
+
+        For Each Str As String In MissingCode(0)
+          lciMissingCode.Add(Str)
+        Next
+        For Each Str As String In MissingCode(1)
+          unitMissingCode.Add(Str)
+        Next
         If lciMissingCode.Count > 0 Then
           Dim listdlq As New SimpleListDialog(lciMissingCode, "Lci ที่ไม่มีใน Database")
+          Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(listdlq)
+          myDialog.ShowDialog()
+        End If
+        If unitMissingCode.Count > 0 Then
+          Dim listdlq As New SimpleListDialog(unitMissingCode, "Unit ที่ไม่มีใน Database")
           Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(listdlq)
           myDialog.ShowDialog()
         End If

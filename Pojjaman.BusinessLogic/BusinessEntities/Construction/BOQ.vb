@@ -216,8 +216,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Lazy = True
       End With
     End Sub
-    Public Function Import(ByVal dt As DataTable) As List(Of String)
-      Dim LciMissingCode As New List(Of String)
+    Public Function Import(ByVal dt As DataTable) As List(Of ArrayList)
+      Dim LciMissingCode As New ArrayList
+      Dim UnitMissingCode As New ArrayList
       Dim levelHash As New Hashtable
       Dim currLevel As Integer = 0
       Dim currWBS As WBS
@@ -275,6 +276,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   If Not row.IsNull(("Unit")) Then
                     'newWbs.Unit = New Unit(CStr(row("Unit")))
                     newWbs.Unit = Unit.GetUnitByName(CStr(row("Unit")))
+                    If newWbs.Unit Is Nothing OrElse Not newWbs.Originated Then
+                      If Not UnitMissingCode.Contains(row("Unit").ToString) Then
+                        UnitMissingCode.Add(row("Unit").ToString)
+                      End If
+                    End If
                   Else
                     newWbs.Unit = New Unit
                   End If
@@ -305,6 +311,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not row.IsNull(("Unit")) Then
                   item.Unit = Unit.GetUnitByName(CStr(row("Unit")))
                   'item.Unit = New Unit(CStr(row("Unit")))
+                  If item.Unit Is Nothing OrElse Not item.Unit.Originated Then
+                    If Not UnitMissingCode.Contains(row("Unit").ToString) Then
+                      UnitMissingCode.Add(row("Unit").ToString)
+                    End If
+                  End If
                 Else
                   item.Unit = New Unit
                 End If
@@ -419,7 +430,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Select
         End If
       Next
-      Return LciMissingCode
+
+      Dim newMissingImport As New List(Of ArrayList)
+      newMissingImport.Add(LciMissingCode)
+      newMissingImport.Add(UnitMissingCode)
+
+      Return newMissingImport
     End Function
 
     Public Sub SetUpWBSChildCollation()

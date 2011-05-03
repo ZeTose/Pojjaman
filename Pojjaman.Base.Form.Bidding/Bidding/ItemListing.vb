@@ -1971,6 +1971,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
+        Dim nwbs As WBS = CType(CType(e.Row, TreeRow).Tag, WBS)
+        Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
+
         Me.m_treeManager.Treetable.AcceptChanges()
         Me.WorkbenchWindow.ViewContent.IsDirty = True
         Me.tgItem.RefreshHeights()
@@ -1980,6 +1983,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If ValidateRow(CType(e.Row, TreeRow)) Then
         UpdateAmount(e)
         UpdateItem()
+
+        Dim nwbs As WBS = CType(CType(e.Row, TreeRow).Tag, BoqItem).WBS
+        Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
       End If
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -3679,6 +3685,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
               theRow.Parent.Childs.Remove(theRow)
 
+              Dim nwbs As WBS = m_item.WBS
+              Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
             End If
           End If
         End If
