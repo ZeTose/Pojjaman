@@ -154,8 +154,8 @@
 				<MenuItem id="UpdateCheckReceive" icon="Icons.16x16.UpdateCheckReceive" label="${res:MainMenu.CheckMenu.UpdateCheckReceive}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckReceive"/>
 				<MenuItem id="CheckDiscount" icon="Icons.16x16.CheckDiscount" label="${res:MainMenu.CheckMenu.CheckDiscount}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckDiscount"/>
 				<MenuItem id="CheckChange" icon="Icons.16x16.CheckChange" label="${res:MainMenu.CheckMenu.CheckChange}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CheckChange"/>
-				<MenuItem id="Separator2" label="-"/>
-				<MenuItem id="ExportOutgoingCheck" icon="Icons.16x16.ExportOutgoingCheck" label="${res:MainMenu.CheckMenu.ExportOutgoingCheck}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ExportOutgoingCheck"/>
+				<!--<MenuItem id="Separator2" label="-"/>
+				<MenuItem id="ExportOutgoingCheck" icon="Icons.16x16.ExportOutgoingCheck" label="${res:MainMenu.CheckMenu.ExportOutgoingCheck}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ExportOutgoingCheck"/>-->
 			</MenuItem>
 			<MenuItem id="Asset" insertafter="Check" insertbefore="Accounting" label="${res:MainMenu.AssetMenu}">
 				<MenuItem id="AssetList" icon="Icons.16x16.AssetListIcon" label="${res:MainMenu.AssetMenu.AssetList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Asset"/>

@@ -6,5 +6,7 @@
 		<MenuItem id="BankTransferOut" insertbefore="ExportPC" label="${res:MainMenu.CashBankMenu.BankTransferOut}" icon="Icons.16x16.BankTransferOut" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransferOut"/>
 		<MenuItem id="ExportPC" insertbefore="Separator0" label="${res:MainMenu.CashBankMenu.ExportPC}" icon="Icons.16x16.ExportPC" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ExportPC"/>
 		<MenuItem id="Separator0" label="-" insertbefore="OutgoingCheck"/>
+    <MenuItem id="exportCheckSeparate" insertafter="CheckChange" insertbefore="ExportOutgoingCheck" label="-"/>
+    <MenuItem id="ExportOutgoingCheck" insertafter="exportCheckSeparate" icon="Icons.16x16.ExportOutgoingCheck" label="${res:MainMenu.CheckMenu.ExportOutgoingCheck}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ExportOutgoingCheck"/>
   </Extension>
 </AddIn>
