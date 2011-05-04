@@ -9,19 +9,20 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Reflection
 Imports System.Collections.Generic
+Imports System.Text.RegularExpressions
 
 Public Class DocPickupList
 
   Dim m_entity As IAbleSelectDocPickup
 
-  Public Sub New(ByVal entity As IAbleSelectDocPickup)
+  Public Sub New(ByVal entity As IAbleSelectDocPickup, ByVal CheckString As String)
     Me.InitializeComponent()
-    Me.InialListBox()
+    Me.InialListBox(CheckString)
 
     m_entity = entity
   End Sub
 
-  Private Sub InialListBox()
+  Private Sub InialListBox(ByVal CheckString As String)
     ListView1.View = View.Details
     ListView1.CheckBoxes = True
     ListView1.Columns.Add("")
@@ -29,12 +30,14 @@ Public Class DocPickupList
     ListView1.Columns.Add("Document for Pickup")
     ListView1.Columns(1).Width = 250
     ListView1.FullRowSelect = True
+
     Dim DocumentForPickup As DataTable = CodeDescription.GetCodeList("DocumentForPickup")
     For Each row As DataRow In DocumentForPickup.Rows
       If Not row.IsNull("code_description") Then
         Dim lv As New ListViewItem("")
         lv.SubItems.Add(row("code_description"))
         lv.Tag = row("code_tag")
+        lv.Checked = Regex.Match(CheckString, "\b" & CStr(row("code_tag"))).Value.ToString.Length > 0
         ListView1.Items.Add(lv)
       End If
     Next

@@ -1324,7 +1324,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If doc Is Nothing Then
           Return
         End If
-        Dim dlg As New DocPickupList(Me.m_entity)
+        Dim dlg As New DocPickupList(Me.m_entity, doc.DocumentForPickup)
         dlg.ShowDialog()
         doc.DocumentForPickup = Me.m_entity.DocumentPickingList
         RefreshDocs()
