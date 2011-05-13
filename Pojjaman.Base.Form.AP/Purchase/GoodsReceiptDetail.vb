@@ -2110,6 +2110,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
+    Dim FromChangeUnit As Boolean = False
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
@@ -2152,6 +2153,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               e.ProposedValue = ""
             End If
             Dim myUnit As New Unit(e.ProposedValue.ToString)
+            FromChangeUnit = True
             doc.Unit = myUnit
           Case "stocki_qty"
             If IsDBNull(e.ProposedValue) Then
@@ -2202,6 +2204,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
               If IsNumeric(e.ProposedValue) Then
                 value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
               End If
+            End If
+            If Not doc.POitem Is Nothing Then
+              Try
+                Dim CanChangeUnitPrice As Object = Configuration.GetConfig("CanChangeUnitPrice")
+                'ต้องคิดเรื่องกรณี เปลี่ยนหน่วยด้วย
+                If Not CanChangeUnitPrice Is Nothing Then
+                  If Not CBool(CanChangeUnitPrice) AndAlso Not FromChangeUnit Then
+                    FromChangeUnit = False
+                    msgServ.ShowMessageFormatted("${res:Global.Error.CanChangeUnitPrice}", New String() {Configuration.FormatToString(value, DigitConfig.Price), Configuration.FormatToString(doc.POitem.UnitPrice, DigitConfig.Qty)})
+                    value = Math.Min(value, doc.POitem.UnitPrice)
+                  End If
+                End If
+              Catch ex As Exception
+
+              End Try
             End If
             doc.UnitPrice = value
           Case "stocki_discrate"
