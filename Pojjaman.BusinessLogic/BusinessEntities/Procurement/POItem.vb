@@ -907,7 +907,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newWbsd.CBS = wbsd.CBS
         Next
 
-        Me.Qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
+        If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
+          '
+        Else
+          Me.Qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
+        End If
 
       End If
     End Sub

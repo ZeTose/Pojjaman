@@ -1268,19 +1268,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim key As String = ""
 
       For Each item As POItem In Me.ItemCollection
-
-        Dim newHash As New Hashtable
-        For Each wbitem As WBSDistribute In item.WBSDistributeCollection
-          key = wbitem.CostCenter.Code & ":" & wbitem.WBS.Id.ToString
-          If Not newHash.Contains(key) Then
-            newHash(key) = wbitem
-          Else
-            Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
-          End If
-          If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
-            Return New SaveErrorException("${res:Global.Error.WBSMissing}")
-          End If
-        Next
+        If item.ItemType.Value <> 162 AndAlso item.ItemType.Value <> 160 Then
+          Dim newHash As New Hashtable
+          For Each wbitem As WBSDistribute In item.WBSDistributeCollection
+            key = wbitem.CostCenter.Code & ":" & wbitem.WBS.Id.ToString
+            If Not newHash.Contains(key) Then
+              newHash(key) = wbitem
+            Else
+              Return New SaveErrorException("${res:Global.Error.DupplicateWBS}", New String() {wbitem.WBS.Code})
+            End If
+            If (wbitem.WBS Is Nothing OrElse wbitem.WBS.Id = 0) AndAlso wbitem.CostCenter.BoqId > 0 Then
+              Return New SaveErrorException("${res:Global.Error.WBSMissing}")
+            End If
+          Next
+        End If
       Next
 
       Return New SaveErrorException("0")
