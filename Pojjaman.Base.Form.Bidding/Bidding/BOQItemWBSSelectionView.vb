@@ -923,7 +923,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity = CType(e, BOQ)
       Me.txtBoqCode.Text = m_entity.Code
       ListWBS()
-      UpdateTable()
+      Dim config As Boolean = Configuration.GetConfig("BOQPopupShowWBSToo")
+      If config Then
+        UpdateTable()
+      End If
     End Sub
     Private Sub ListWBS()
       Me.cmbWBS.Items.Clear()
