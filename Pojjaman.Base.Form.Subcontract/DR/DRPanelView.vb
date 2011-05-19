@@ -2814,7 +2814,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.ToCostCenter Is Nothing OrElse Not Me.m_entity.ToCostCenter.Originated OrElse msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.Caption.ChangeCC}") Then
         Dim myEntityPanelService As IEntityPanelService = _
                     CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-        myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetfromCostCenter, New Filter() {New Filter("checkright", False)})
+        myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterDialog, New Filter() {New Filter("checkright", False)})
       End If
     End Sub
     Private Sub SetfromCostCenter(ByVal e As ISimpleEntity)
