@@ -191,6 +191,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As AdvancePay)
         m_advancepay = Value
+        TaxType = m_advancepay.TaxType
         If m_advancepayitemcoll Is Nothing Then
           m_advancepayitemcoll = New AdvancePayItemCollection
         End If
@@ -286,7 +287,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property avpcTaxbase As Decimal
       Get
-        Return Vat.GetExcludedVatAmount(RemainAmount)
+        If TaxType.Value = 1 Then
+          Return Vat.GetExcludedVatAmount(RemainAmount)
+        Else
+          Return RemainAmount
+        End If
       End Get
       Set(ByVal value As Decimal)
 
