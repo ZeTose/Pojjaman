@@ -670,6 +670,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not myTempDoc = CStr(markupdocrow("DocId")) Then
                   If Not DocMarkuptr Is Nothing Then
                     DocMarkuptr("Actual") = Configuration.FormatToString(DocAmount, dgt)
+                    DocAmount = 0
                   End If
 
                   'แสดงเอกสารแต่ละตัว
@@ -697,6 +698,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Next
               If Not DocMarkuptr Is Nothing Then
                 DocMarkuptr("Actual") = Configuration.FormatToString(DocAmount, dgt)
+                DocAmount = 0
               End If
             End If
           Next
