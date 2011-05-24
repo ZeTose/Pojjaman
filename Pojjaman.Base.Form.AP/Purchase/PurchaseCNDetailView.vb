@@ -3451,7 +3451,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     dirtyFlag = True
                 Case "txtinvoicecode"
                     If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
-                        Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+            Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+            Me.m_entity.SetNoVat()
                         m_oldInvoiceCode = Me.txtInvoiceCode.Text
                         dirtyFlag = True
                         m_invoicecodechange = False
