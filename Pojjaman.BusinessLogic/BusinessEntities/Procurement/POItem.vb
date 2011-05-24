@@ -1825,7 +1825,8 @@ Public Class POItemCollection
       If Not value.Pritem Is Nothing Then
         If Not value.Pritem.Pr Is Nothing AndAlso value.Pritem.Pr.Originated Then
           If Not m_prHash.Contains(value.Pritem.Pr.Id) Then
-            m_prHash(value.Pritem.Pr.Id) = New PR(value.Pritem.Pr.Id)
+            m_prHash(value.Pritem.Pr.Id) = value.Pritem.Pr
+            'm_prHash(value.Pritem.Pr.Id) = New PR(value.Pritem.Pr.Id)
           End If
           value.Pritem.Pr = CType(m_prHash(value.Pritem.Pr.Id), PR)
         End If

@@ -1019,6 +1019,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("m_pr") Then
             prId = CInt(row("m_pr"))
           End If
+          Dim prCode As String
+          If Not row.IsNull("Code") Then
+            prCode = CStr(row("Code"))
+          End If
 
           row("Linenumber") = tableRow("pri_linenumber")
           row("Date") = tableRow("pr_docdate")
@@ -1043,6 +1047,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           pri.Pr = New PR
           pri.Pr.Id = prId
+          pri.Pr.Code = prCode
           row.Tag = pri
         End If
       Next

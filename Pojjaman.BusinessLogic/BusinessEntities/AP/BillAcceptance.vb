@@ -2560,6 +2560,7 @@ Public Class BillAcceptanceItemCollection
       Return ret
     End Function
     Public Function GetPlusRetention() As Decimal
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim ret As Decimal = 0
       Dim retHt As New Hashtable
       For Each doc As BillAcceptanceItem In Me
@@ -2572,16 +2573,38 @@ Public Class BillAcceptanceItemCollection
           End If
         ElseIf doc.EntityId = 199 And doc.RetentionType = 45 Then
           If Not retHt.Contains(doc.Id) Then
-            Dim tmpDoc As New GoodsReceipt(doc.Id)
-            tmpDoc.RefreshTaxBase()
-            retHt(doc.Id) = tmpDoc.AfterTax + doc.AfterTax
+            'Dim tmpDoc As New GoodsReceipt(doc.Id)
+            'tmpDoc.RefreshTaxBase()
+            'retHt(doc.Id) = tmpDoc.AfterTax + doc.AfterTax
+
+
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+            , CommandType.StoredProcedure _
+            , "GetStockAftertax" _
+            , New SqlParameter("@stock_id", doc.Id) _
+            )
+            Dim tmpdocAftertax As Decimal = 0
+            If ds.Tables(0).Rows.Count > 0 Then
+              tmpdocAftertax = CDec(ds.Tables(0).Rows.Item(0).Item(0))
+            End If
+            retHt(doc.Id) = tmpdocAftertax + doc.AfterTax
             ret += CDec(retHt(doc.Id))
           End If
         ElseIf doc.EntityId = 199 And doc.RetentionType = 292 Then
           If Not retHt.Contains(doc.Id) Then
-            Dim tmpDoc As New PA(doc.Id)
-            tmpDoc.RefreshTaxBase()
-            retHt(doc.Id) = tmpDoc.AfterTax + doc.AfterTax
+            'Dim tmpDoc As New PA(doc.Id)
+            'tmpDoc.RefreshTaxBase()
+            'retHt(doc.Id) = tmpDoc.AfterTax + doc.AfterTax
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+            , CommandType.StoredProcedure _
+            , "GetPAAftertax" _
+            , New SqlParameter("@pa_id", doc.Id) _
+            )
+            Dim tmpdocAftertax As Decimal = 0
+            If ds.Tables(0).Rows.Count > 0 Then
+              tmpdocAftertax = CDec(ds.Tables(0).Rows.Item(0).Item(0))
+            End If
+            retHt(doc.Id) = tmpdocAftertax + doc.AfterTax
             ret += CDec(retHt(doc.Id))
           End If
         Else
@@ -2591,6 +2614,7 @@ Public Class BillAcceptanceItemCollection
       Return ret
     End Function
     Public Function GetRetentionDeducted() As Decimal
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim ret As Decimal = 0
       Dim retHt As New Hashtable
       For Each doc As BillAcceptanceItem In Me
@@ -2601,15 +2625,15 @@ Public Class BillAcceptanceItemCollection
           End If
         ElseIf doc.EntityId = 199 AndAlso doc.RetentionType = 45 Then
           If Not retHt.Contains(doc.Id) Then
-            Dim tmpDoc As New GoodsReceipt(doc.Id)
-            tmpDoc.RefreshTaxBase()
+            'Dim tmpDoc As New GoodsReceipt(doc.Id)
+            'tmpDoc.RefreshTaxBase()
             retHt(doc.Id) = doc.AfterTax
             ret += CDec(retHt(doc.Id))
           End If
         ElseIf doc.EntityId = 199 AndAlso doc.RetentionType = 292 Then
           If Not retHt.Contains(doc.Id) Then
-            Dim tmpDoc As New PA(doc.Id)
-            tmpDoc.RefreshTaxBase()
+            'Dim tmpDoc As New PA(doc.Id)
+            'tmpDoc.RefreshTaxBase()
             retHt(doc.Id) = doc.AfterTax
             ret += CDec(retHt(doc.Id))
           End If
