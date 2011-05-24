@@ -83,85 +83,88 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End Sub
         Private Sub PopulateData()
-            Dim dt As DataTable = Me.DataSet.Tables(0)
-            Dim dtOpen As DataTable = Me.DataSet.Tables(1)
-            Dim currentItemCode As String = ""
-            Dim currentDocCode As String = ""
+      Dim dtdoc As DataTable = Me.DataSet.Tables(0)
+      Dim dtOpen As DataTable = Me.DataSet.Tables(1)
+      Dim dtba As DataTable = Me.DataSet.Tables(2)
+      Dim currentItemCode As String = ""
+      Dim currentDocCode As String = ""
 
-            Dim currItemIndex As Integer = -1
-            Dim currDocIndex As Integer = -1
-            Dim indent As String = Space(3)
-            Dim tmpSum As Decimal = 0
+      Dim currItemIndex As Integer = -1
+      Dim currDocIndex As Integer = -1
+      Dim currBAIndex As Integer = -1
+      Dim indent As String = Space(3)
+      Dim tmpSum As Decimal = 0
 
-            For Each row As DataRow In dt.Rows
-                If row("BankBranchCode").ToString & row("BankacctBankCode").ToString <> currentDocCode Then
-                    tmpSum = 0
-                    m_grid.RowCount += 1
-                    currDocIndex = m_grid.RowCount
-                    m_grid.RowStyles(currDocIndex).BackColor = Color.FromArgb(128, 255, 128)
-                    m_grid.RowStyles(currDocIndex).Font.Bold = True
-                    m_grid.RowStyles(currDocIndex).ReadOnly = True
-                    Dim OpenRows As DataRow() = dtOpen.Select("BankBranchCode =" & "'" & row("BankBranchCode").ToString & "'" & " and " & "BankacctBankCode =" & "'" & row("BankacctBankCode").ToString & "'")
-                    If OpenRows.Length <> 0 Then
-                        For Each Myrow As DataRow In OpenRows
-                            m_grid.RowCount += 1
-                            currItemIndex = m_grid.RowCount
-                            m_grid.RowStyles(currItemIndex).ReadOnly = True
-                            If IsNumeric(Myrow("Balanceamt")) Then
-                                m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.OpeningBalance}") '"ยอดยกมา"
-                                m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(Myrow("Balanceamt")), DigitConfig.Price)
-                                tmpSum = CDec(Myrow("Balanceamt"))
-                            End If
-                        Next
-                    Else
-                        m_grid.RowCount += 1
-                        currItemIndex = m_grid.RowCount
-                        m_grid.RowStyles(currItemIndex).ReadOnly = True
-                        m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.OpeningBalance}") '"ยอดยกมา"
-                        m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(0), DigitConfig.Price)
-                    End If
-                    m_grid(currDocIndex, 1).CellValue = row("BankBranchName")
-                    m_grid(currDocIndex, 2).CellValue = row("BankacctBankCode")
-                    m_grid(currDocIndex, 3).CellValue = row("BankacctName")
-                    m_grid(currDocIndex, 4).CellValue = row("BankacctType")
-                    currentDocCode = row("BankBranchCode").ToString & row("BankacctBankCode").ToString
-                    currentItemCode = ""
-                End If
-                m_grid.RowCount += 1
-                currItemIndex = m_grid.RowCount
-                m_grid.RowStyles(currItemIndex).ReadOnly = True
-                If IsDate(row("DocDate")) Then
-                    m_grid(currItemIndex, 2).CellValue = indent & CDate(row("DocDate")).ToShortDateString
-                End If
-                If Not row.IsNull("DocCode") Then
-                    m_grid(currItemIndex, 3).CellValue = indent & row("DocCode").ToString
-                End If
-                If Not row.IsNull("CqCode") Then
-                    m_grid(currItemIndex, 4).CellValue = indent & row("CqCode").ToString
-                End If
-                If Not row.IsNull("Detail") Then
-                    m_grid(currItemIndex, 5).CellValue = indent & row("Detail").ToString
-                End If
-                If Not row.IsNull("RefCode") Then
-                    m_grid(currItemIndex, 6).CellValue = indent & row("Refcode").ToString
-                End If
-                If IsNumeric(row("Deprositamt")) Then
-                    m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Deprositamt")), DigitConfig.Price)
-                    tmpSum += CDec(row("Deprositamt"))
-                End If
-                If IsNumeric(row("Withdrawamt")) Then
-                    m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("Withdrawamt")), DigitConfig.Price)
-                    tmpSum -= CDec(row("Withdrawamt"))
-                End If
-                If IsNumeric(row("Balanceamt")) Then
-                    m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(tmpSum), DigitConfig.Price)
-                End If
-                If Not row.IsNull("Note") Then
-                    m_grid(currItemIndex, 10).CellValue = indent & row("Note").ToString
-                End If
-                currentItemCode = row("DocCode").ToString
-            Next
-        End Sub
+      For Each bar As DataRow In dtba.Rows
+        Dim brh As New DataRowHelper(bar)
+        tmpSum = 0
+        m_grid.RowCount += 1
+        currBAIndex = m_grid.RowCount
+        m_grid.RowStyles(currBAIndex).BackColor = Color.FromArgb(128, 255, 128)
+        m_grid.RowStyles(currBAIndex).Font.Bold = True
+        m_grid.RowStyles(currBAIndex).ReadOnly = True
+        m_grid(currBAIndex, 1).CellValue = brh.GetValue(Of String)("BankBranchName")
+        m_grid(currBAIndex, 2).CellValue = brh.GetValue(Of String)("BankacctBankCode")
+        m_grid(currBAIndex, 3).CellValue = brh.GetValue(Of String)("BankacctName")
+        m_grid(currBAIndex, 4).CellValue = brh.GetValue(Of String)("BankacctType")
+
+        Dim OpenRows As DataRow() = dtOpen.Select("BankAccountId =" & brh.GetValue(Of Decimal)("bankacct_id").ToString)
+        If OpenRows.Length <> 0 Then
+          For Each Myrow As DataRow In OpenRows
+            m_grid.RowCount += 1
+            currItemIndex = m_grid.RowCount
+            m_grid.RowStyles(currItemIndex).ReadOnly = True
+            If IsNumeric(Myrow("Balanceamt")) Then
+              m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.OpeningBalance}") '"ยอดยกมา"
+              m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(Myrow("Balanceamt")), DigitConfig.Price)
+              tmpSum = CDec(Myrow("Balanceamt"))
+            End If
+          Next
+        Else
+          m_grid.RowCount += 1
+          currItemIndex = m_grid.RowCount
+          m_grid.RowStyles(currItemIndex).ReadOnly = True
+          m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.OpeningBalance}") '"ยอดยกมา"
+          m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(0), DigitConfig.Price)
+        End If
+
+        For Each row As DataRow In dtdoc.Select("BankAccountId =" & brh.GetValue(Of Decimal)("bankacct_id").ToString)
+          m_grid.RowCount += 1
+          currItemIndex = m_grid.RowCount
+          m_grid.RowStyles(currItemIndex).ReadOnly = True
+          If IsDate(row("DocDate")) Then
+            m_grid(currItemIndex, 2).CellValue = indent & CDate(row("DocDate")).ToShortDateString
+          End If
+          If Not row.IsNull("DocCode") Then
+            m_grid(currItemIndex, 3).CellValue = indent & row("DocCode").ToString
+          End If
+          If Not row.IsNull("CqCode") Then
+            m_grid(currItemIndex, 4).CellValue = indent & row("CqCode").ToString
+          End If
+          If Not row.IsNull("Detail") Then
+            m_grid(currItemIndex, 5).CellValue = indent & row("Detail").ToString
+          End If
+          If Not row.IsNull("RefCode") Then
+            m_grid(currItemIndex, 6).CellValue = indent & row("Refcode").ToString
+          End If
+          If IsNumeric(row("Deprositamt")) Then
+            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Deprositamt")), DigitConfig.Price)
+            tmpSum += CDec(row("Deprositamt"))
+          End If
+          If IsNumeric(row("Withdrawamt")) Then
+            m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("Withdrawamt")), DigitConfig.Price)
+            tmpSum -= CDec(row("Withdrawamt"))
+          End If
+          If IsNumeric(row("Balanceamt")) Then
+            m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(tmpSum), DigitConfig.Price)
+          End If
+          If Not row.IsNull("Note") Then
+            m_grid(currItemIndex, 10).CellValue = indent & row("Note").ToString
+          End If
+          currentItemCode = row("DocCode").ToString
+        Next
+      Next
+    End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"        Public Overrides ReadOnly Property ClassName() As String
             Get
