@@ -1315,7 +1315,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               vitem.PrintName = Me.Customer.Name
               vitem.PrintAddress = Me.Customer.BillingAddress
               If Not item.DeductedTaxBase.HasValue Then
-                  item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
+                Dim sv As New SimpleVat
+                sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
+                item.DeductedTaxBase = sv.TaxBase
+                item.DeductedVatAmt = sv.VatAmt
               End If
               Dim mtb As Decimal = mi.TaxBase - item.DeductedTaxBase.Value
               'ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
@@ -1360,7 +1363,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
             If Not item.DeductedTaxBase.HasValue Then
-              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              Dim sv As New SimpleVat
+              sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              item.DeductedTaxBase = sv.TaxBase
+              item.DeductedVatAmt = sv.VatAmt
             End If
             Dim mtb As Decimal = item.TaxBase - item.DeductedTaxBase.Value
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
@@ -1400,7 +1406,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
             If Not item.DeductedTaxBase.HasValue Then
-              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              Dim sv As New SimpleVat
+              sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              item.DeductedTaxBase = sv.TaxBase
+              item.DeductedVatAmt = sv.VatAmt
             End If
             Dim mtb As Decimal = -item.TaxBase + item.DeductedTaxBase.Value
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
@@ -1440,7 +1449,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.PrintName = Me.Customer.Name
             vitem.PrintAddress = Me.Customer.BillingAddress
             If Not item.DeductedTaxBase.HasValue Then
-              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              Dim sv As New SimpleVat
+              sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              item.DeductedTaxBase = sv.TaxBase
+              item.DeductedVatAmt = sv.VatAmt
             End If
             Dim mtb As Decimal = item.BeforeTax - item.DeductedTaxBase.Value
             ''ถ้ายอดวางบิล ไม่เท่ากับยอด ค้างรับคงเหลือ (หรือเป็นการแบ่งรับชำระรอบ 2,3,...)
@@ -1607,11 +1619,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Dim mtb As Decimal = mi.TaxBase
                   Dim amt As Decimal = item.Amount
                   Dim uamt As Decimal = item.UnreceivedAmount
+                  Dim sv As New SimpleVat
                   If Not item.DeductedTaxBase.HasValue Then
                     If conn IsNot Nothing AndAlso trans IsNot Nothing Then
-                      item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId, conn, trans)
+                      sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId, conn, trans)
+                      item.DeductedTaxBase = sv.TaxBase
+                      item.DeductedVatAmt = sv.VatAmt
                     Else
-                      item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
+                      sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(mi.Id, mi.EntityId, Me.Id, Me.EntityId)
+                      item.DeductedTaxBase = sv.TaxBase
+                      item.DeductedVatAmt = sv.VatAmt
                     End If
                   End If
                   '---------------------------------------------
@@ -1645,10 +1662,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             item.TaxBase = AssetWriteOff.GetTaxBase(item.Id)
           End If
           If Not item.DeductedTaxBase.HasValue Then
+            Dim sv As New SimpleVat
             If conn IsNot Nothing AndAlso trans IsNot Nothing Then
-              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId, conn, trans)
+              sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId, conn, trans)
+              item.DeductedTaxBase = sv.TaxBase
+              item.DeductedVatAmt = sv.VatAmt
             Else
-              item.DeductedTaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
+              item.DeductedTaxBase = sv.TaxBase
+              item.DeductedVatAmt = sv.VatAmt
             End If
           End If
           Dim mtb As Decimal

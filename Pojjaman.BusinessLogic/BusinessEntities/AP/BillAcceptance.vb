@@ -1415,6 +1415,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxBase As Decimal
 
     Private m_deducttaxBase As Nullable(Of Decimal)
+    Private m_deductVatAmt As Nullable(Of Decimal)
     Private m_Remained As Nullable(Of Decimal)
 
     Private m_taxRate As Decimal
@@ -1444,6 +1445,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_retentionType As Integer
     Private m_remainningBalance As Decimal
+
+    Private m_vatamt As Decimal
+    Private m_unpaidvatamt As Decimal
 
 #End Region
 
@@ -1484,10 +1488,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If TypeOf payable Is ISimpleEntity Then
         m_typeId = CType(payable, ISimpleEntity).EntityId
-      End If      
+      End If
     End Sub
-    Public Sub New(ByVal advancepay As AdvancePay, ByVal apvi As APVatInput)
+    Public Sub New(ByVal advancepay As AdvancePay, ByVal apvi As APVatInput, ByVal dr As DataRow)
       MyBase.New()
+
+      Dim drh As New DataRowHelper(dr)
+
       m_apvi = apvi
 
       Me.Id = advancepay.Id
@@ -1503,7 +1510,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Amount = Me.TaxBase
       Me.UnpaidAmount = Me.TaxBase
       Me.BilledAmount = Me.TaxBase
-
+      Me.UnpaidVatAmt = drh.GetValue(Of Decimal)("paysi_unpaidvatamt")
+      Me.VatAmt = drh.GetValue(Of Decimal)("paysi_vatamt")
       If TypeOf advancepay Is ISimpleEntity Then
         m_typeId = CType(advancepay, ISimpleEntity).EntityId
       End If
@@ -1542,6 +1550,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Overloads Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
+      Dim drh As New DataRowHelper(dr)
+
       If dr.Table.Columns.Contains(aliasPrefix & "stock_aftertax") AndAlso Not dr.IsNull(aliasPrefix & "stock_aftertax") Then
         Me.m_afterTax = CDec(dr(aliasPrefix & "stock_aftertax"))
       End If
@@ -1637,6 +1647,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_billedamt") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_billedamt") Then
         Me.m_billedAmount = CDec(dr(aliasPrefix & m_itemprefix & "_billedamt"))
       End If
+      Me.m_unpaidvatamt = drh.GetValue(Of Decimal)(aliasPrefix & m_itemprefix & "_unpaidvatamt")
+      Me.m_vatamt = drh.GetValue(Of Decimal)(aliasPrefix & m_itemprefix & "_vatamt")
       '*********************************************************
       m_deducttaxBase = Nothing
     End Sub
@@ -1802,12 +1814,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If m_deducttaxBase.HasValue Then
           Return m_deducttaxBase.Value
         End If
+        Dim sv As New SimpleVat
         If conn IsNot Nothing AndAlso trans IsNot Nothing Then
           If Not Me.PaySelection Is Nothing Then
-            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId, conn, trans)
+            sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId, conn, trans)
+            m_deducttaxBase = sv.TaxBase
+            m_deductVatAmt = sv.VatAmt
             Return m_deducttaxBase.Value
           ElseIf Not Me.m_apvi Is Nothing Then
-            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId, conn, trans)
+            sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId, conn, trans)
+            m_deducttaxBase = sv.TaxBase
+            m_deductVatAmt = sv.VatAmt
             Return m_deducttaxBase.Value
           Else
             m_deducttaxBase = 0
@@ -1815,22 +1832,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Else
           If Not Me.PaySelection Is Nothing Then
-            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
+            sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, PaySelection.Id, PaySelection.EntityId)
+            m_deducttaxBase = sv.TaxBase
+            m_deductVatAmt = sv.VatAmt
             Return m_deducttaxBase.Value
           ElseIf Not Me.m_apvi Is Nothing Then
-            m_deducttaxBase = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
+            sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, m_apvi.Id, m_apvi.EntityId)
+            m_deducttaxBase = sv.TaxBase
+            m_deductVatAmt = sv.VatAmt
             Return m_deducttaxBase.Value
           Else
             m_deducttaxBase = 0
+            m_deductVatAmt = 0
             Return 0
           End If
         End If
-        
+
       End Get
       Set(ByVal Value As Decimal)
         m_deducttaxBase = Value
       End Set
     End Property
+    Public Property DeductVatAmt(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
+      Get
+        If m_deductVatAmt.HasValue Then
+          Return m_deductVatAmt.Value
+        End If
+        Dim t As Decimal = DeductTaxBase(conn, trans)
+        Return m_deductVatAmt.Value
+      End Get
+      Set(ByVal value As Decimal)
+        m_deductVatAmt = value
+      End Set
+    End Property
+
     Public ReadOnly Property TaxAmount As Decimal
       Get
         Return (Amount / UnpaidAmount) * (AfterTax - BeforeTax)
@@ -1908,6 +1943,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)
         m_amount = Value
+      End Set
+    End Property
+    ''' <summary>
+    ''' ใช้เฉพาะกับ กรอกใบกำกับภาษีซื้อเท่านั้น
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property VatAmt As Decimal
+      Get
+        Return m_vatamt
+      End Get
+      Set(ByVal value As Decimal)
+        m_vatamt = value
+      End Set
+    End Property
+    ''' <summary>
+    ''' ใช้เฉพาะกับ กรอกใบกำกับภาษีซื้อเท่านั้น
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property UnpaidVatAmt As Decimal
+      Get
+        Return m_unpaidvatamt
+      End Get
+      Set(ByVal value As Decimal)
+        m_unpaidvatamt = value
       End Set
     End Property
     Public Property UnpaidAmount() As Decimal
@@ -2537,6 +2600,28 @@ Public Class BillAcceptanceItemCollection
       Next
       Return ret
     End Function
+    Public Function UnpaidVatamt() As Decimal
+      Dim ret As Decimal = 0
+      For Each doc As BillAcceptanceItem In Me
+        If doc.EntityId = 46 Then
+          ret -= doc.UnpaidVatAmt
+        Else
+          ret += doc.UnpaidVatAmt
+        End If
+      Next
+      Return ret
+    End Function
+    Public Function Vatamt() As Decimal
+      Dim ret As Decimal = 0
+      For Each doc As BillAcceptanceItem In Me
+        If doc.EntityId = 46 Then
+          ret -= doc.VatAmt
+        Else
+          ret += doc.VatAmt
+        End If
+      Next
+      Return ret
+    End Function
     Public Function GetAfterTax(Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim ret As Decimal = 0
       For Each doc As BillAcceptanceItem In Me
@@ -2712,7 +2797,10 @@ Public Class BillAcceptanceItemCollection
         newRow("DocDate") = bai.Date
         newRow("DueDate") = bai.DueDate
         If bai.Amount <> 0 Then
-          newRow("Amount") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
+          newRow("Taxbase") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
+        End If
+        If bai.VatAmt <> 0 Then
+          newRow("VatAmt") = Configuration.FormatToString(bai.VatAmt, DigitConfig.Price)
         End If
         If bai.UnpaidAmount <> 0 Then
           newRow("RemainAmount") = Configuration.FormatToString(bai.UnpaidAmount, DigitConfig.Price)
@@ -2869,6 +2957,7 @@ Public Class BillAcceptanceItemCollection
         newRow("RealAmount") = Configuration.FormatToString(bai.BilledAmount, DigitConfig.Price)
         newRow("UnpaidAmount") = Configuration.FormatToString(bai.UnpaidAmount, DigitConfig.Price) 'Configuration.FormatToString(Math.Min(bai.UnpaidAmount, bai.BilledAmount), DigitConfig.Price)
         newRow(Me.m_prefix & "_amt") = Configuration.FormatToString(bai.Amount, DigitConfig.Price)
+        newRow(Me.m_prefix & "_vatamt") = Configuration.FormatToString(bai.VatAmt, DigitConfig.Price)
         newRow("RemainningBalance") = Configuration.FormatToString(bai.RemainningBalance, DigitConfig.Price)
         newRow(Me.m_prefix & "_note") = bai.Note
         newRow.Tag = bai

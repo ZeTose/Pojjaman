@@ -1092,7 +1092,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxrate As Decimal
     Private m_taxtype As TaxType
 
-    Private m_deducted As Nullable(Of Decimal)
+    Private m_deductedTaxbase As Nullable(Of Decimal)
+    Private m_deductedVatAmt As Nullable(Of Decimal)
 
 #End Region
 
@@ -1216,7 +1217,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.ARretention = CDec(dr(aliasPrefix & "stock_retention"))
             End If
         End Select
-       
+
       End If
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_unreceivedamt") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_unreceivedamt") Then
         Me.m_unReceivedAmount = CDec(dr(aliasPrefix & m_itemprefix & "_unreceivedamt"))
@@ -1242,13 +1243,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Properties"
     Public Property SaleBillIssue() As SaleBillIssue      Get        Return m_saleBillIssue      End Get      Set(ByVal Value As SaleBillIssue)        m_saleBillIssue = Value      End Set    End Property    Public Property ReceiveSelection() As ReceiveSelection      Get        Return m_receives      End Get      Set(ByVal Value As ReceiveSelection)        m_receives = Value      End Set    End Property    Public Property DeductedTaxBase As Nullable(Of Decimal)
       Get
-        If m_deducted.HasValue Then
-          Return m_deducted.Value
+        If m_deductedTaxbase.HasValue Then
+          Return m_deductedTaxbase.Value
         End If
         Return Nothing
       End Get
       Set(ByVal value As Nullable(Of Decimal))
-        m_deducted = value
+        m_deductedTaxbase = value
+      End Set
+    End Property    Public Property DeductedVatAmt As Nullable(Of Decimal)
+      Get
+        If m_deductedVatAmt.HasValue Then
+          Return m_deductedVatAmt.Value
+        End If
+        Return Nothing
+      End Get
+      Set(ByVal value As Nullable(Of Decimal))
+        m_deductedVatAmt = value
       End Set
     End Property    Public Property Linenumber() As Integer
       Get
@@ -1298,7 +1309,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As Decimal)        m_ARretention = Value      End Set
     End Property
-    
+
     Public ReadOnly Property Retention() As Decimal
       Get
         Return m_ARretention

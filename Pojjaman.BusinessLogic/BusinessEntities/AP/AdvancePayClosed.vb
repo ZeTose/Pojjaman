@@ -286,17 +286,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Property avpcTaxbase As Decimal
-      Get
-        If TaxType.Value = 1 Then
-          Return Vat.GetExcludedVatAmount(RemainAmount)
-        Else
-          Return RemainAmount
-        End If
-      End Get
-      Set(ByVal value As Decimal)
-
-      End Set
-    End Property
+      
     Public Property TaxbaseForIVatable As Decimal Implements IVatable.TaxBase
       Get
         If Me.NoVat Then
@@ -516,6 +506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entity", IIf(Me.AdvancePay.Originated, Me.AdvancePay.Id, DBNull.Value)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entitytype", Me.EntityType))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_clearvatbasenotdue", Math.Min(Me.AvpVatBaseNotDueRemain, Me.avpcTaxbase)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_clearvatamtnotdue", Math.Min(Me.VatNotDueAmount, Me.AvpVatNotDueRemain)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_remainamt", Me.RemainingAmount))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amt", Me.Amount))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
@@ -864,7 +855,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Mapping = "B9.1"
         ji.Account = Me.AdvancePay.ToAccount
         'หาค่า AVP Remain ที่ไม่รวม Vat
-        ji.Amount = Me.avpcTaxbase
+        If Me.TaxType.Value = 0 Then
+          ji.Amount = Me.RemainAmount
+        Else
+          ji.Amount = Me.avpcTaxbase
+        End If
         If Not Me.AdvancePay.CostCenter Is Nothing Then
           ji.CostCenter = Me.AdvancePay.CostCenter
         Else
@@ -1172,6 +1167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim drh As New DataRowHelper(dr)
 
       Dim remainamt As Decimal = drh.GetValue(Of Decimal)("ADVPRemain")     ' ยอดมัดจำคงเหลือรวม vat
+      Me.avpcTaxbase = drh.GetValue(Of Decimal)("ADVPVatBaseRemain")
       Me.AvpVatBaseNotDueRemain = drh.GetValue(Of Decimal)("ADVPVatBaseNotDue")    ' ยอดมัดจำไม่รวม vat & ไม่ได้ออกใบกำกับภาษี
       Me.AvpVatNotDueRemain = drh.GetValue(Of Decimal)("VatNotDue")      ' ยอด vat & ไม่ได้ออกใบกำกับภาษี
       Me.AvpVatDueAmount = drh.GetValue(Of Decimal)("VatDue")           ' ยอด vat & ออกใบกำกับภาษี

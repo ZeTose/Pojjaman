@@ -452,13 +452,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRemAmount.ReadOnly = True
 
       Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "Amount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.RemainHeaderText}")
+      csAmount.MappingName = "TaxBase"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APVatInputDetail.TaxbaseHeaderText}")
       csAmount.NullText = ""
       csAmount.Alignment = HorizontalAlignment.Left
       csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Width = 100
       csAmount.ReadOnly = False
+
+      Dim csVat As New TreeTextColumn
+      csVat.MappingName = "VatAmt"
+      csVat.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APVatInputDetail.VatHeaderText}")
+      csVat.NullText = ""
+      csVat.Alignment = HorizontalAlignment.Left
+      csVat.DataAlignment = HorizontalAlignment.Right
+      csVat.Width = 100
+      csVat.ReadOnly = False
 
       Dim csNote As New TreeTextColumn
       csNote.MappingName = "paysi_note"
@@ -475,6 +484,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csDueDate)
       dst.GridColumnStyles.Add(csRemAmount)
       dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csVat)
       dst.GridColumnStyles.Add(csNote)
 
       m_tableStyleEnable = New Hashtable
@@ -563,8 +573,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             SetDueDate(e)
           Case "docdate"
             SetDate(e)
-          Case "amount"
+          Case "taxbase"
             SetAmount(e)
+          Case "vatamt"
+            SetVatAmount(e)
           Case "paysi_note"
             SetNote(e)
         End Select
@@ -663,6 +675,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
         CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
       End If
       doc.Amount = amt
+      e.ProposedValue = Vat.GetVatAmount(amt)
+      SetVatAmount(e)
+      m_updating = False
+    End Sub
+    Public Sub SetVatAmount(ByVal e As DataColumnChangeEventArgs)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If m_updating Then
+      'Return
+      'End If
+      Dim doc As BillAcceptanceItem = Me.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      'm_updating = True
+      Dim amt As Decimal = 0
+      Dim unpad As Decimal = 0
+
+      If IsNumeric(e.ProposedValue) Then
+        If CDec(e.ProposedValue) <> 0 Then
+          amt = CDec(e.ProposedValue)
+        End If
+      End If
+      If doc.UnpaidVatAmt < amt Then
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.invalidAmount}", _
+                                     New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
+                                                   Configuration.FormatToString(doc.UnpaidVatAmt, DigitConfig.Price)})
+        Return
+      End If
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+      End If
+      doc.VatAmt = amt
       m_updating = False
     End Sub
     Public Sub SetNote(ByVal e As DataColumnChangeEventArgs)
@@ -1354,7 +1399,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If TypeOf item.Tag Is DataRow Then
             If item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.advancepayforvat" Then
               'เฉพาะสำหรับเอามัดจำจ่ายมากรอกใบกำกับภาษีซื้อ
-              newItem = New BillAcceptanceItem(New AdvancePay(CType(item.Tag, DataRow), ""), Me.m_entity)
+              newItem = New BillAcceptanceItem(New AdvancePay(CType(item.Tag, DataRow), ""), Me.m_entity, CType(item.Tag, DataRow))
             Else
               newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
             End If

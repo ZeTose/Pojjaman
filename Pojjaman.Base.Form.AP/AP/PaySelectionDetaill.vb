@@ -901,6 +901,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.Format = "#,###.##"
       csAmount.TextBox.Name = "paysi_amt"
 
+      Dim csVatAmount As New TreeTextColumn
+      csVatAmount.MappingName = "paysi_vatamt"
+      csVatAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APVatInputDetail.VatHeaderText}")
+      csVatAmount.NullText = ""
+      csVatAmount.DataAlignment = HorizontalAlignment.Right
+      csVatAmount.Format = "#,###.##"
+      csVatAmount.TextBox.Name = "paysi_vatamt"
+
       Dim csRemain As New TreeTextColumn
       csRemain.MappingName = "RemainningBalance"
       csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.RemainningBalanceHeaderText}")
@@ -928,6 +936,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csRealAmount)
       dst.GridColumnStyles.Add(csUnpaidAmount)
       dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csVatAmount)
       'dst.GridColumnStyles.Add(csRemain)''ยังผิดกรณีวางบิลหลายเอกสาร !!เอาไว้ก่อนละกัน pui
       dst.GridColumnStyles.Add(csNote)
 
@@ -1016,6 +1025,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Case "paysi_amt"
             'If IsNumeric(e) Then
             SetAmount(e)
+            'End If
+          Case "paysi_vatamt"
+            'If IsNumeric(e) Then
+            SetVatAmount(e)
             'End If
           Case "retention"
             SetRetention(e)
@@ -1150,6 +1163,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       doc.Amount = value
+      'to do
+      e.ProposedValue = doc.TaxAmount - doc.DeductVatAmt
+      SetVatAmount(e)
+      m_updating = False
+    End Sub
+    Public Sub SetVatAmount(ByVal e As DataColumnChangeEventArgs)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If m_updating Then
+      'Return
+      'End If
+      Dim doc As BillAcceptanceItem = Me.CurrentItem
+      If doc Is Nothing Then
+        Return
+      End If
+      'm_updating = True
+      Dim amt As Decimal = 0
+      Dim unpad As Decimal = 0
+
+      If IsNumeric(e.ProposedValue) Then
+        If CDec(e.ProposedValue) <> 0 Then
+          amt = CDec(e.ProposedValue)
+        End If
+      End If
+      If doc.UnpaidVatAmt < amt Then
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.invalidAmount}", _
+                                     New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
+                                                   Configuration.FormatToString(doc.UnpaidVatAmt, DigitConfig.Price)})
+        Return
+      End If
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
+      End If
+      doc.VatAmt = amt
       m_updating = False
     End Sub
     Public Sub SetRetention(ByVal e As DataColumnChangeEventArgs)
@@ -2172,6 +2219,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           'newItem.Amount = Math.Min(newItem.UnpaidAmount, newItem.BilledAmount)
           'newItem.UnpaidAmount = Math.Min(newItem.RealAmount, newItem.UnpaidAmount)
+          Dim svDd As New SimpleVat
+          svDd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(newItem.Id, newItem.EntityId, Me.m_entity.Id, Me.m_entity.EntityId)
+          newItem.DeductTaxBase = svDd.TaxBase
+          newItem.DeductVatAmt = svDd.VatAmt
+          Dim svVat As New SimpleVat
+          svVat = Vat.GetVatValue(newItem.Id, newItem.EntityId)
+          newItem.UnpaidVatAmt = svVat.VatAmt - svDd.VatAmt
+          newItem.VatAmt = svVat.VatAmt - svDd.VatAmt
           newItem.Amount = 0
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item

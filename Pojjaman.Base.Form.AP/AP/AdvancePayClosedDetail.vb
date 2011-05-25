@@ -1074,51 +1074,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Return result
             End If
         End Function
-        Public Sub SetAdvancePayData()
-            If Me.m_entity Is Nothing Then
-                Return
-            End If
-            If Me.m_entity.AdvancePay Is Nothing OrElse Not Me.m_entity.AdvancePay.Originated Then
-                ClearAdvancePay()
-                Me.m_entity.Amount = Nothing
-            Else
-                txtADVPDate.Text = MinDateToNull(Me.m_entity.AdvancePay.DocDate, "")
-                dtpADVPDate.Value = MinDateToNow(Me.m_entity.AdvancePay.DocDate)
+    Public Sub SetAdvancePayData()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.AdvancePay Is Nothing OrElse Not Me.m_entity.AdvancePay.Originated Then
+        ClearAdvancePay()
+        Me.m_entity.Amount = Nothing
+      Else
+        txtADVPDate.Text = MinDateToNull(Me.m_entity.AdvancePay.DocDate, "")
+        dtpADVPDate.Value = MinDateToNow(Me.m_entity.AdvancePay.DocDate)
 
-                txtDueDate.Text = MinDateToNull(Me.m_entity.AdvancePay.DueDate, "")
-                dtpDueDate.Value = MinDateToNow(Me.m_entity.AdvancePay.DueDate)
+        txtDueDate.Text = MinDateToNull(Me.m_entity.AdvancePay.DueDate, "")
+        dtpDueDate.Value = MinDateToNow(Me.m_entity.AdvancePay.DueDate)
 
-                txtSupplierCode.Text = Me.m_entity.AdvancePay.Supplier.Code
-                txtSupplierName.Text = Me.m_entity.AdvancePay.Supplier.Name
+        txtSupplierCode.Text = Me.m_entity.AdvancePay.Supplier.Code
+        txtSupplierName.Text = Me.m_entity.AdvancePay.Supplier.Name
 
-                txtSupplierCode.Enabled = False
-                txtSupplierName.Enabled = False
+        txtSupplierCode.Enabled = False
+        txtSupplierName.Enabled = False
 
-                txtCCCode.Text = Me.m_entity.AdvancePay.CostCenter.Code
-                txtCCName.Text = Me.m_entity.AdvancePay.CostCenter.Name
+        txtCCCode.Text = Me.m_entity.AdvancePay.CostCenter.Code
+        txtCCName.Text = Me.m_entity.AdvancePay.CostCenter.Name
 
-                txtCCCode.Enabled = False
-                txtCCName.Enabled = False
+        txtCCCode.Enabled = False
+        txtCCName.Enabled = False
 
 
-                txtTaxRate.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.TaxRate, DigitConfig.Price)
-                txtTaxBase.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.TaxBase, DigitConfig.Price)
-                txtTaxAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.TaxAmount, DigitConfig.Price)
-                txtRealTaxAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.RealTaxAmount, DigitConfig.Price)
-                txtRealTaxBase.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.RealTaxBase, DigitConfig.Price)
-                txtAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.AfterTax, DigitConfig.Price)
+        txtTaxRate.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.TaxRate, DigitConfig.Price)
+        txtTaxBase.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.TaxBase, DigitConfig.Price)
+        txtTaxAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.TaxAmount, DigitConfig.Price)
+        txtRealTaxAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.RealTaxAmount, DigitConfig.Price)
+        txtRealTaxBase.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.RealTaxBase, DigitConfig.Price)
+        txtAmount.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.AfterTax, DigitConfig.Price)
         'txtAccountCode.Text = Me.m_entity.AdvancePay.ToAccount.Code
         'txtAccountName.Text = Me.m_entity.AdvancePay.ToAccount.Name
-                txtADVPNote.Text = Me.m_entity.AdvancePay.Note
+        txtADVPNote.Text = Me.m_entity.AdvancePay.Note
 
-                ' วงเงินคงเหลือ
-                Me.m_entity.SetremainAVP()
+        ' วงเงินคงเหลือ
+        Me.m_entity.SetremainAVP()
 
-                txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.ADVPRemainingAmount, DigitConfig.Price)
+        txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.ADVPRemainingAmount, DigitConfig.Price)
 
-                SetVatToOneDoc()
-            End If
-        End Sub
+        SetVatToOneDoc()
+      End If
+    End Sub
         Private Sub ClearAdvancePay()
             For Each grbCrtl As Control In grbAdvancePay.Controls
                 If TypeOf grbCrtl Is TextBox Then

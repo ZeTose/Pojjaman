@@ -179,6 +179,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.ItemCollection.Amount
       End Get
     End Property
+    Public ReadOnly Property GrossVatAmt() As Decimal
+      Get
+        Return Me.ItemCollection.Vatamt
+      End Get
+    End Property
     Public ReadOnly Property Retention() As Decimal
       Get
         Return Me.ItemCollection.GetRetention
@@ -259,7 +264,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(dateCol)
 
       myDatatable.Columns.Add(New DataColumn("RemainAmount", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("TaxBase", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("VatAmt", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("paysi_note", GetType(String)))
 
       'เพื่อให้แสดง error ตามคอลัมน์เป็นภาษาที่ต้องการ
@@ -458,7 +464,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
+
           SaveDetail(Me.Id, conn, trans)
+          
+
           Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           If Not cc Is Nothing Then
             Me.m_vat.SetCCId(cc.Id)
@@ -622,6 +631,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stock_docdate") = billi.Date
           dr("stock_creditprd") = billi.CreditPeriod
           dr("paysi_amt") = billi.Amount
+          dr("paysi_unpaidvatamt") = billi.UnpaidVatAmt
+          dr("paysi_vatamt") = billi.VatAmt
           dr("paysi_billedamt") = billi.BilledAmount
           dr("paysi_unpaidamt") = billi.UnpaidAmount
           dr("stock_beforetax") = billi.BeforeTax
@@ -705,10 +716,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีซื้อไม่ถึงกำหนด
-      If Me.Vat.Amount > 0 Then
+      If Me.GrossVatAmt > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B8.5"
-        ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
+        ji.Amount = Configuration.Format(Me.GrossVatAmt, DigitConfig.Price)
         ji.CostCenter = myCC
         ji.EntityItem = Me.Id
         ji.EntityItemType = Me.EntityId
@@ -732,7 +743,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If apvi.Amount > 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "B8.5D"
-          ji.Amount = Configuration.Format(apvi.TaxAmountDeducted, DigitConfig.Price)
+          'ji.Amount = Configuration.Format(apvi.TaxAmountDeducted, DigitConfig.Price)
+          'เปลี่ยนเป็นตรงเลย เพราะต้องใช้
+          ji.Amount = Configuration.Format(apvi.VatAmt, DigitConfig.Price)
           ji.CostCenter = myCC
           ji.EntityItem = apvi.Id
           ji.EntityItemType = apvi.EntityId
@@ -882,11 +895,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           vitem.PrintName = Me.Supplier.Name
           vitem.PrintAddress = Me.Supplier.BillingAddress
           If item.EntityId = 59 Then
-            vitem.TaxBase = item.BeforeTax - item.DeductTaxBase
+            Dim tb As Decimal = 0
+            If item.TaxBase > 0 AndAlso item.BeforeTax <> item.TaxBase Then
+              tb = item.TaxBase
+            Else
+              tb = item.BeforeTax
+            End If
+            vitem.TaxBase = tb - item.DeductTaxBase
+            vitem.Amount = item.TaxAmount - item.DeductVatAmt
           ElseIf item.EntityId <> 46 Then
             vitem.TaxBase = item.TaxBase - item.DeductTaxBase
+            vitem.Amount = item.TaxAmount - item.DeductVatAmt
           ElseIf item.EntityId = 46 Then
             vitem.TaxBase = -(item.TaxBase - item.DeductTaxBase)
+            vitem.Amount = -(item.TaxAmount - item.DeductVatAmt)
           End If
           'vitem.TaxBase = item.TaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
           vitem.TaxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))

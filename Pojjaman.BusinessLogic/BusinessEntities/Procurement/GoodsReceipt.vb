@@ -2246,8 +2246,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End Select
             End If
           End If
-
-          Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.EntityId, conn, trans)  'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
+          Dim sv As New SimpleVat
+          sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.EntityId, conn, trans)  'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
+          Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - sv.TaxBase
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
@@ -4116,14 +4117,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IVatable"
     Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase
+      Dim sv As New SimpleVat
+
       If conn IsNot Nothing AndAlso trans IsNot Nothing Then
         'Todo: ต้อง refresh หรือเปล่า?
-        Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id, conn, trans)
+        sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id, conn, trans)
+        Return Me.RealTaxBase - sv.TaxBase
       Else
         'Todo: ต้อง refresh หรือเปล่า?
-        Return Me.RealTaxBase - Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id)
+        sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.Id)
+        Return Me.RealTaxBase - sv.TaxBase
       End If
-      
+
     End Function
     Public Property Person() As IBillablePerson Implements IVatable.Person, IWitholdingTaxable.Person
       Get

@@ -1032,18 +1032,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim jiColl As New JournalEntryItemCollection
             Dim ji As JournalEntryItem
 
-            If Me.BeforeTax > 0 Then
-                '�Ѵ�Ө�����ǧ˹��
-                ji = New JournalEntryItem
-                ji.Mapping = "B4.1"
-                ji.Amount = Configuration.Format(Me.BeforeTax, DigitConfig.Price)
-                If Me.CostCenter.Originated Then
-                    ji.CostCenter = Me.CostCenter
-                Else
-                    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                End If
-                jiColl.Add(ji)
-            End If
+      If Me.BeforeTax > 0 Then
+        '�Ѵ�Ө�����ǧ˹��
+        Dim tax As Decimal
+        If Me.RealTaxBase <> Me.TaxBase AndAlso Me.TaxBase > 0 Then
+          tax = Me.RealTaxBase
+        Else
+          tax = Me.BeforeTax
+        End If
+        ji = New JournalEntryItem
+        ji.Mapping = "B4.1"
+        ji.Amount = Configuration.Format(tax, DigitConfig.Price)
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        jiColl.Add(ji)
+      End If
 
 
             '���ի���
