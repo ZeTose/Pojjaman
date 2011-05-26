@@ -1294,10 +1294,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       'ภาษีซื้อไม่ถึงกำหนด
-      If Me.Vat.Amount <> 0 Then
+      If Me.GetVatAmt <> 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B8.5"
-        ji.Amount = Configuration.Format(Me.Vat.Amount, DigitConfig.Price)
+        ji.Amount = Configuration.Format(Me.GetVatAmt, DigitConfig.Price)
         ji.CostCenter = myCC
         jiColl.Add(ji)
 
@@ -1307,7 +1307,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If pi.Amount <> 0 Then
               ji = New JournalEntryItem
               ji.Mapping = "B8.5D"
-              ji.Amount = Configuration.Format(pi.TaxAmountDeducted, DigitConfig.Price)
+              ji.Amount = Configuration.Format(pi.VatAmt, DigitConfig.Price)
               ji.CostCenter = myCC
               ji.EntityItem = pi.Id
               ji.EntityItemType = pi.EntityId
@@ -1594,7 +1594,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
             'ptb += (item.Amount / item.BilledAmount) * (item.TaxBase - item.DeductTaxBase)
             'ถ้าจ่ายไม่เต็ม ค่า taxbase ต้องเท่ากับค่าจ่ายเท่านั้น
-            ptb += (item.Amount / item.AfterTax) * (item.TaxBase)  ' - item.DeductTaxBase)
+            ptb += (item.Amount / item.AfterTax) * (item.TaxBase - item.DeductTaxBase)
           End If
         Next
         Return ptb
@@ -1603,16 +1603,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
-        'Dim d As Decimal '= item.TaxBaseDeducted
+
+        If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
+          amt += (item.TaxBase - item.DeductTaxBase(conn, trans))
+        ElseIf item.EntityId = 46 Then
+          amt -= (item.TaxBase - item.DeductTaxBase(conn, trans))
+        End If
+      Next
+      Return amt
+    End Function
+    Public Function GetTaxBaseDeducted(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal
+      Dim amt As Decimal
+      For Each item As BillAcceptanceItem In Me.ItemCollection
+
+        Dim k As Decimal = item.TaxBaseDeducted
         ''If d = Decimal.MinValue Then
         'd = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
         ''d = Vat.GetTaxBaseDeductedWithoutThisRefDoc(item.Id, item.EntityId, Me.Id, Me.EntityId)
         'item.TaxBaseDeducted = d
         'End If
+
         If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
-          amt += item.TaxBase - item.DeductTaxBase(conn, trans)
+          amt += k * (item.TaxBase - item.DeductTaxBase(conn, trans))
         ElseIf item.EntityId = 46 Then
-          amt -= (item.TaxBase - item.DeductTaxBase(conn, trans))
+          amt -= k * (item.TaxBase - item.DeductTaxBase(conn, trans))
         End If
       Next
       Return amt

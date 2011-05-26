@@ -903,7 +903,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csVatAmount As New TreeTextColumn
       csVatAmount.MappingName = "paysi_vatamt"
-      csVatAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APVatInputDetail.VatHeaderText}")
+      csVatAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.VatHeaderText}")
       csVatAmount.NullText = ""
       csVatAmount.DataAlignment = HorizontalAlignment.Right
       csVatAmount.Format = "#,###.##"
@@ -1164,7 +1164,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       doc.Amount = value
       'to do
-      e.ProposedValue = doc.TaxAmount - doc.DeductVatAmt
+      e.ProposedValue = doc.TaxAmountDeducted
       SetVatAmount(e)
       m_updating = False
     End Sub

@@ -1261,7 +1261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Nullable(Of Decimal))
         m_deductedVatAmt = value
       End Set
-    End Property    Public Property Linenumber() As Integer
+    End Property    Public Property VatAmt As Decimal    Public Property Linenumber() As Integer
       Get
         Return m_linenumber
       End Get

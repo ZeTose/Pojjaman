@@ -1871,6 +1871,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return (Amount / UnpaidAmount) * (AfterTax - BeforeTax)
       End Get
     End Property
+    'Private m_taxBaseDeducted As Decimal = Decimal.MinValue
+    ''' <summary>
+    ''' เอาออกมาเป็น Ratio ใช้เมื่อเปลี่ยนยอดหน้าจ่ายชำระ
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property TaxBaseDeducted() As Decimal
+      Get
+        If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
+          If UnpaidAmount = Amount Then
+            If Me.EntityId = 59 Then
+              Return ((BeforeTax - DeductTaxBase) / BeforeTax)
+            End If
+            Return ((TaxBase - DeductTaxBase) / TaxBase)
+          End If
+          'Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
+          'If DeductTaxBase = 0 Then
+          'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
+          Return Amount / AfterTax
+          'Else
+          '  Dim x As Decimal = ((TaxBase - DeductTaxBase) / TaxBase)
+          '  Dim vated As Decimal = DeductTaxBase / TaxBase
+          '  Dim b As Decimal = (Amount / UnpaidAmount)
+          '  Dim taxamt As Decimal = (AfterTax - BeforeTax)
+          '  Dim ret As Decimal = (b - vated) * taxamt
+          '  Return ret
+          'End If
+        End If
+        If UnpaidAmount <> Amount Then
+          Return Amount / UnpaidAmount
+        End If
+        Return 1
+      End Get
+    End Property
     Public ReadOnly Property TaxAmountDeducted As Decimal
       Get
         If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
@@ -1919,15 +1954,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
-    'Private m_taxBaseDeducted As Decimal = Decimal.MinValue
-    'Public Property TaxBaseDeducted() As Decimal
-    '  Get
-    '    Return m_taxBaseDeducted
-    '  End Get
-    '  Set(ByVal Value As Decimal)
-    '    m_taxBaseDeducted = Value
-    '  End Set
-    'End Property
+ 
     Public Property RealAmount() As Decimal
       Get
         Return m_realAmount

@@ -824,6 +824,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stock_docdate") = billi.Date
           dr("stock_creditprd") = billi.CreditPeriod
           dr("receivesi_amt") = billi.Amount
+          dr("receivesi_vatamt") = billi.VatAmt
           dr("receivesi_billedamt") = billi.BilledAmount
           dr("receivesi_unreceivedamt") = billi.UnreceivedAmount
           dr("stock_beforetax") = billi.BeforeTax
@@ -1343,10 +1344,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'Else
               '    vitem.CcId = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ).Id
               'End If
+
               vitem.CcId = GetAllCC.Id
               vitem.Milestone = mi
               vitem.Refdoc = Me.Id
               vitem.RefdocType = Me.EntityId
+              item.VatAmt = vitem.Amount
               Me.Vat.ItemCollection.Add(vitem)
             End If
           Next
@@ -1389,6 +1392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.CcId = GetAllCC.Id
             vitem.Refdoc = Me.Id
             vitem.RefdocType = Me.EntityId
+            item.VatAmt = vitem.Amount
             If tb <> 0 Then
               Me.Vat.ItemCollection.Add(vitem)
             End If
@@ -1432,6 +1436,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.CcId = GetAllCC.Id
             vitem.Refdoc = Me.Id
             vitem.RefdocType = Me.EntityId
+            item.VatAmt = vitem.Amount
             If tb <> 0 Then
               Me.Vat.ItemCollection.Add(vitem)
             End If
@@ -1475,6 +1480,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             vitem.CcId = GetAllCC.Id
             vitem.Refdoc = Me.Id
             vitem.RefdocType = Me.EntityId
+            item.VatAmt = vitem.Amount
             If tb <> 0 Then
               Me.Vat.ItemCollection.Add(vitem)
             End If
@@ -1634,6 +1640,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   '---------------------------------------------
                   Dim tb As Decimal = (amt / uamt) * (mtb - item.DeductedTaxBase.Value)
                   tb = Vat.GetExcludedVatAmount(amt + item.BillIretention)
+                  item.VatAmt = Vat.GetVatAmount(tb)
                   If TypeOf mi Is VariationOrderDe Then
                     ret -= tb
                   Else
@@ -1656,10 +1663,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'ถ้าเป็นใบวางบิลขาย และเป็นรายการขายสินค้า
           If item.ParentType = 125 And item.EntityId = 83 Then
             item.TaxBase = GoodsSold.GetTaxBase(item.Id)
+            item.VatAmt = Vat.GetVatAmount(item.TaxBase)
           ElseIf item.EntityId = 48 Then
             item.TaxBase = SaleCN.GetTaxBase(item.Id)
+            item.VatAmt = Vat.GetVatAmount(item.TaxBase)
           ElseIf item.EntityId = 366 Then
             item.TaxBase = AssetWriteOff.GetTaxBase(item.Id)
+            item.VatAmt = Vat.GetVatAmount(item.TaxBase)
           End If
           If Not item.DeductedTaxBase.HasValue Then
             Dim sv As New SimpleVat
@@ -1683,6 +1693,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim uamt As Decimal = item.UnreceivedAmount
           '---------------------------------------------
           Dim tb As Decimal = (amt / uamt) * mtb
+          item.VatAmt = Vat.GetVatAmount(tb)
           ret += tb
         End If
       Next

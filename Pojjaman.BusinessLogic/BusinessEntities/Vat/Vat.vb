@@ -2723,7 +2723,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Sub SetVatAmount()
-      Me.m_taxBase = Me.Vat.RefDoc.TaxBase - Me.Vat.TaxBase
+      If TypeOf Me.Vat.RefDoc Is PaySelection Then
+        Me.m_taxBase = CType(Me.Vat.RefDoc, PaySelection).GetTaxBaseDeducted - Me.Vat.TaxBase
+      Else
+        Me.m_taxBase = Me.Vat.RefDoc.TaxBase - Me.Vat.TaxBase
+      End If
     End Sub
     ''' <summary>
     ''' เปลี่ยนแปลง GL
