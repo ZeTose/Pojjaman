@@ -39,6 +39,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
     Friend WithEvents txtCCName As System.Windows.Forms.TextBox
     Friend WithEvents chkIncludeChildren As System.Windows.Forms.CheckBox
+    Friend WithEvents lblColStart As System.Windows.Forms.Label
+    Friend WithEvents nudColStart As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label2 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(IntervalDialog))
@@ -55,8 +57,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtdocdate = New System.Windows.Forms.TextBox()
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblColStart = New System.Windows.Forms.Label()
+      Me.nudColStart = New System.Windows.Forms.NumericUpDown()
       Me.grbInterval.SuspendLayout()
       CType(Me.nudInt, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.nudColStart, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'btnOK
@@ -66,7 +71,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnOK.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnOK.ForeColor = System.Drawing.Color.Black
-      Me.btnOK.Location = New System.Drawing.Point(113, 139)
+      Me.btnOK.Location = New System.Drawing.Point(113, 191)
       Me.btnOK.Name = "btnOK"
       Me.btnOK.Size = New System.Drawing.Size(96, 23)
       Me.btnOK.TabIndex = 3
@@ -79,7 +84,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCancel.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCancel.ForeColor = System.Drawing.Color.Black
-      Me.btnCancel.Location = New System.Drawing.Point(217, 139)
+      Me.btnCancel.Location = New System.Drawing.Point(217, 191)
       Me.btnCancel.Name = "btnCancel"
       Me.btnCancel.Size = New System.Drawing.Size(96, 23)
       Me.btnCancel.TabIndex = 4
@@ -87,6 +92,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbInterval
       '
+      Me.grbInterval.Controls.Add(Me.lblColStart)
+      Me.grbInterval.Controls.Add(Me.nudColStart)
       Me.grbInterval.Controls.Add(Me.chkIncludeChildren)
       Me.grbInterval.Controls.Add(Me.Label2)
       Me.grbInterval.Controls.Add(Me.Label1)
@@ -99,7 +106,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbInterval.Controls.Add(Me.lblDocDate)
       Me.grbInterval.Location = New System.Drawing.Point(13, 3)
       Me.grbInterval.Name = "grbInterval"
-      Me.grbInterval.Size = New System.Drawing.Size(306, 128)
+      Me.grbInterval.Size = New System.Drawing.Size(328, 182)
       Me.grbInterval.TabIndex = 7
       Me.grbInterval.TabStop = False
       Me.grbInterval.Text = "รอบเวลา"
@@ -107,7 +114,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkIncludeChildren
       '
       Me.chkIncludeChildren.AutoSize = True
-      Me.chkIncludeChildren.Location = New System.Drawing.Point(85, 99)
+      Me.chkIncludeChildren.Location = New System.Drawing.Point(100, 129)
       Me.chkIncludeChildren.Name = "chkIncludeChildren"
       Me.chkIncludeChildren.Size = New System.Drawing.Size(117, 17)
       Me.chkIncludeChildren.TabIndex = 20
@@ -118,7 +125,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label2.ForeColor = System.Drawing.Color.Black
-      Me.Label2.Location = New System.Drawing.Point(7, 72)
+      Me.Label2.Location = New System.Drawing.Point(11, 102)
       Me.Label2.Name = "Label2"
       Me.Label2.Size = New System.Drawing.Size(78, 18)
       Me.Label2.TabIndex = 19
@@ -129,7 +136,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Label1.ForeColor = System.Drawing.Color.Black
-      Me.Label1.Location = New System.Drawing.Point(10, 45)
+      Me.Label1.Location = New System.Drawing.Point(14, 75)
       Me.Label1.Name = "Label1"
       Me.Label1.Size = New System.Drawing.Size(75, 18)
       Me.Label1.TabIndex = 18
@@ -141,7 +148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCFind.Location = New System.Drawing.Point(278, 70)
+      Me.btnCCFind.Location = New System.Drawing.Point(297, 100)
       Me.btnCCFind.Name = "btnCCFind"
       Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
       Me.btnCCFind.TabIndex = 15
@@ -151,7 +158,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtCCCode
       '
       Me.txtCCCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtCCCode.Location = New System.Drawing.Point(85, 72)
+      Me.txtCCCode.Location = New System.Drawing.Point(100, 102)
       Me.txtCCCode.Name = "txtCCCode"
       Me.txtCCCode.Size = New System.Drawing.Size(61, 21)
       Me.txtCCCode.TabIndex = 16
@@ -160,7 +167,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtCCName.Enabled = False
       Me.txtCCName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtCCName.Location = New System.Drawing.Point(148, 72)
+      Me.txtCCName.Location = New System.Drawing.Point(163, 102)
       Me.txtCCName.Name = "txtCCName"
       Me.txtCCName.ReadOnly = True
       Me.txtCCName.Size = New System.Drawing.Size(129, 21)
@@ -169,7 +176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'nudInt
       '
-      Me.nudInt.Location = New System.Drawing.Point(85, 45)
+      Me.nudInt.Location = New System.Drawing.Point(100, 75)
       Me.nudInt.Name = "nudInt"
       Me.nudInt.Size = New System.Drawing.Size(120, 21)
       Me.nudInt.TabIndex = 9
@@ -177,7 +184,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtdocdate
       '
       Me.txtdocdate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtdocdate.Location = New System.Drawing.Point(85, 17)
+      Me.txtdocdate.Location = New System.Drawing.Point(100, 47)
       Me.txtdocdate.Name = "txtdocdate"
       Me.txtdocdate.Size = New System.Drawing.Size(110, 21)
       Me.txtdocdate.TabIndex = 7
@@ -188,7 +195,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDate.Location = New System.Drawing.Point(85, 17)
+      Me.dtpDocDate.Location = New System.Drawing.Point(100, 47)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(128, 21)
       Me.dtpDocDate.TabIndex = 8
@@ -198,12 +205,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDate.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDate.Location = New System.Drawing.Point(10, 17)
+      Me.lblDocDate.Location = New System.Drawing.Point(14, 47)
       Me.lblDocDate.Name = "lblDocDate"
       Me.lblDocDate.Size = New System.Drawing.Size(75, 18)
       Me.lblDocDate.TabIndex = 6
       Me.lblDocDate.Text = "วันที่เริ่มต้น:"
       Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblColStart
+      '
+      Me.lblColStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblColStart.ForeColor = System.Drawing.Color.Black
+      Me.lblColStart.Location = New System.Drawing.Point(14, 23)
+      Me.lblColStart.Name = "lblColStart"
+      Me.lblColStart.Size = New System.Drawing.Size(82, 18)
+      Me.lblColStart.TabIndex = 22
+      Me.lblColStart.Text = "คอลัมน์เริ่มต้น:"
+      Me.lblColStart.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'nudColStart
+      '
+      Me.nudColStart.Location = New System.Drawing.Point(100, 20)
+      Me.nudColStart.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+      Me.nudColStart.Name = "nudColStart"
+      Me.nudColStart.Size = New System.Drawing.Size(120, 21)
+      Me.nudColStart.TabIndex = 21
+      Me.nudColStart.Value = New Decimal(New Integer() {2, 0, 0, 0})
       '
       'IntervalDialog
       '
@@ -212,10 +239,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.btnCancel)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "IntervalDialog"
-      Me.Size = New System.Drawing.Size(332, 162)
+      Me.Size = New System.Drawing.Size(357, 214)
       Me.grbInterval.ResumeLayout(False)
       Me.grbInterval.PerformLayout()
       CType(Me.nudInt, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.nudColStart, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -226,6 +254,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_StringParserService As StringParserService
     Private m_startdate As Date
     Private m_int As Integer
+    Private m_colstart As Integer
     Private m_cc As CostCenter
     Private m_includechild As Boolean
     Private m_ccid As Decimal
@@ -239,6 +268,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler nudInt.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler chkIncludeChildren.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler nudColStart.ValueChanged, AddressOf Me.ChangeProperty
+
     End Sub
 
     Private m_dateSetting As Boolean
@@ -268,6 +299,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_dateSetting = False
         Case "nudint"
           m_int = CInt(nudInt.Value)
+        Case "nudcolstart"
+          m_colstart = CInt(nudColStart.Value)
         Case "chkincludechildren"
           m_includechild = chkIncludeChildren.Checked
         Case Else
@@ -300,6 +333,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       DocDate = StartDate
       m_int = Int
+      m_colstart = 2
       m_ccid = cc
       m_includechild = includechild
 
@@ -311,7 +345,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtCCCode.Text = m_cc.Code
         txtCCName.Text = m_cc.Name
       End If
-      
+
+      nudColStart.Maximum = Int + 2
+      nudColStart.Minimum = 2
+
       chkIncludeChildren.Checked = m_includechild
       nudInt.Value = m_int
       EventWiring()
@@ -330,6 +367,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public ReadOnly Property NumCol As Integer
       Get
         Return m_int
+      End Get
+    End Property
+    Public ReadOnly Property StartCol As Integer
+      Get
+        Return m_colstart
       End Get
     End Property
     Public ReadOnly Property IncChild As Boolean
@@ -384,5 +426,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
 #End Region
+
   End Class
 End Namespace

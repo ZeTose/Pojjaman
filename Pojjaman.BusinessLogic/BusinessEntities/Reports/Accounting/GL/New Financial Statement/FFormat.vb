@@ -830,24 +830,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ''' <param name="CC"></param>
     ''' <param name="IncChild"></param>
     ''' <remarks></remarks>
-    Public Sub IntervalAutoGen(ByVal startdate As Date, ByVal NumCol As Integer, ByVal CC As Decimal, ByVal IncChild As Boolean)
-      Dim oldCol As Integer = CInt(ColumnCollection.Count2) - 1 'äÁè¹Ñºá¶ÇáÃ¡
-      If NumCol > oldCol Then
-        For i As Integer = oldCol + 1 To NumCol
+    Public Sub IntervalAutoGen(ByVal startdate As Date, ByVal NumCol As Integer, ByVal CC As Decimal, ByVal IncChild As Boolean, ByVal StartCol As Integer)
+
+      Dim oldCol As Integer = CInt(ColumnCollection.Count2) '- 1 'äÁè¹Ñºá¶ÇáÃ¡
+      'If NumCol > oldCol Then
+      '  For i As Integer = oldCol + 1 To NumCol
+      '    Dim col As New FFormatColumn
+      '    ColumnCollection.Add(col)
+      '  Next
+      'End If
+
+      If ((StartCol + NumCol) - 1) > oldCol Then
+        For i As Integer = 1 To (((StartCol + NumCol) - 1) - oldCol)
           Dim col As New FFormatColumn
           ColumnCollection.Add(col)
         Next
       End If
-      Dim lstInt As New List(Of Integer)
-      Dim source As Integer
-      If ColumnCollection.Count2 >= 2 Then
-        source = 2
-      Else
-        source = 0
-      End If
-      For i As Integer = source + 1 To NumCol
-        lstInt.Add(i)
-      Next
+
+
+
+      'Dim lstInt As New List(Of Integer)
+      'Dim source As Integer
+
+      'If ColumnCollection.Count2 >= 2 Then
+      '  source = 2
+      'Else
+      '  source = 0
+      'End If
+
+      'For i As Integer = source + 1 To NumCol
+      '  lstInt.Add(i)
+      'Next
+
+
 
       Dim colEndDate As Date
       Dim colStartDate As Date
@@ -865,11 +880,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Select
 
       Dim Costceneter As New CostCenter(CInt(CC))
-      Dim int As Integer = 0
+      Dim int As Integer = 1
       Dim scol As FFormatColumn = ColumnCollection.Item(1)
       Dim widthpercent As Decimal = (100 - scol.WidthPercent) / NumCol
+      'For Each col As FFormatColumn In ColumnCollection
+      '  If col.LineNumber > 1 AndAlso col.LineNumber <= NumCol + 1 Then
+      '    colStartDate = DateAdd(intType, int, startdate)
+      '    Dim mon As New CalcCalendar(colStartDate)
+      '    col.StartDate = mon.StartPeriodDate(intType)
+      '    col.EndDate = mon.EndPeriodDate(intType)
+      '    col.Name = mon.Name(intType)
+      '    col.WidthPercent = widthpercent
+      '    col.Alignment = HorizontalAlignment.Right
+      '    col.CostCenter = Costceneter
+      '    col.IncludeChildCostCenter = IncChild
+      '    col.AccountBook = scol.AccountBook
+      '    col.EndAccountBook = scol.EndAccountBook
+      '    int += 1
+      '  End If
+      'Next
+      Dim ic As Integer = 1
       For Each col As FFormatColumn In ColumnCollection
-        If col.LineNumber > 1 AndAlso col.LineNumber <= NumCol + 1 Then
+        If ic >= StartCol AndAlso ic <= ((NumCol + StartCol) - 1) Then
           colStartDate = DateAdd(intType, int, startdate)
           Dim mon As New CalcCalendar(colStartDate)
           col.StartDate = mon.StartPeriodDate(intType)
@@ -883,6 +915,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           col.EndAccountBook = scol.EndAccountBook
           int += 1
         End If
+        ic += 1
       Next
     End Sub
     Public Sub CostCenterAutogen(ByVal items As BasketItemCollection)
@@ -1300,6 +1333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each ffc As FFormatColumn In Me
         i += 1
         Dim newRow As TreeRow = dt.Childs.Add()
+
         newRow("ffc_linenumber") = i
         newRow("ffc_name") = ffc.Name
         newRow("ffc_widthpercent") = Configuration.FormatToString(ffc.WidthPercent, 2)

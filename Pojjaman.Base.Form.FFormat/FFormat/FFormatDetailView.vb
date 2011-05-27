@@ -1275,7 +1275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnSetAutoGen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetAutoGen.Click
-      If m_entity.AutoType.Value = 0 OrElse m_entity.ColumnCollection.Count2 = 0 Then 'ไม่ Autogen
+      If m_entity.AutoType.Value = 0 OrElse (m_entity.ColumnCollection.Count2 - 1) = 0 Then 'ไม่ Autogen
         Return
 
       ElseIf Not m_entity.AutoType.Value = 1 Then 'Interval Autogen 
@@ -1288,9 +1288,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If myDialog.ShowDialog() = DialogResult.OK Then
           Dim startdate As Date = Intdlg.DocDate
           Dim NumCol As Integer = Intdlg.NumCol
+          Dim StartCol As Integer = Intdlg.StartCol
           Dim CC As Decimal = Intdlg.ccID
           Dim IncChild As Boolean = Intdlg.IncChild
-          m_entity.IntervalAutoGen(startdate, NumCol, CC, IncChild)
+          m_entity.IntervalAutoGen(startdate, NumCol, CC, IncChild, StartCol)
           RefreshDocs()
           Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
           myContent.IsDirty = True
