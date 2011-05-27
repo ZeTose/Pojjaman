@@ -147,6 +147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_enityName = enityName
       m_level = level
       m_haschilds = haschild
+      m_parid = -1
     End Sub
 
     Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal entityType As Integer, _
@@ -161,6 +162,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_enityName = enityName
       m_level = level
       m_parid = parId
+      m_haschilds = False
     End Sub
 
     Public Sub New(ByVal id As Integer, ByVal stockCode As String, ByVal fullClassName As String, ByVal textInBasket As String, ByVal linenumber As Integer, ByVal entityType As Integer, _
@@ -264,6 +266,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IBasketItem"
     Public Overloads Overrides Function Equals(ByVal obj As Object) As Boolean Implements IBasketItem.Equals
       Dim item As EqtBasketItem = CType(obj, EqtBasketItem)
+      If Not Me.m_haschilds AndAlso Me.m_parid <> -1 Then
+        Return item.FullClassName = Me.FullClassName And item.Id = Me.Id And item.Linenumber = Me.Linenumber And item.EntityType = Me.EntityType And item.Level = Me.Level And Me.m_parid = item.m_parid
+      End If
       Return item.FullClassName = Me.FullClassName And item.Id = Me.Id And item.Linenumber = Me.Linenumber And item.EntityType = Me.EntityType And item.Level = Me.Level
     End Function
     Public ReadOnly Property TextInBasket() As String Implements IBasketItem.TextInBasket
