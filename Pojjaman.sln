@@ -96,6 +96,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Pojjaman.Base.Loan", "Pojja
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LineChart", "LineChart\LineChart\LineChart.vbproj", "{E4ACBE14-3A04-435A-B9FF-CD778129C8F3}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PojjamanLab", "PojjamanLab\PojjamanLab.vbproj", "{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BusinessLogic|Any CPU = BusinessLogic|Any CPU
@@ -1072,6 +1074,26 @@ Global
 		{E4ACBE14-3A04-435A-B9FF-CD778129C8F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E4ACBE14-3A04-435A-B9FF-CD778129C8F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E4ACBE14-3A04-435A-B9FF-CD778129C8F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.BusinessLogic|Any CPU.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.BusinessLogic|Mixed Platforms.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.BusinessLogic|Mixed Platforms.Build.0 = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.BusinessLogic|x86.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.BusinessLogic|x86.Build.0 = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Debug|x86.ActiveCfg = Debug|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Debug|x86.Build.0 = Debug|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Forms-Reports|Any CPU.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Forms-Reports|Mixed Platforms.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Forms-Reports|Mixed Platforms.Build.0 = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Forms-Reports|x86.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Forms-Reports|x86.Build.0 = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Release|Any CPU.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Release|x86.ActiveCfg = Release|x86
+		{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
