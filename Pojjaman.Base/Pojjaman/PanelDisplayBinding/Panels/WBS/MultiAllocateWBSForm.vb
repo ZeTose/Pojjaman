@@ -10,10 +10,11 @@ Public Class MultiAllocateWBSForm
   Private m_treeManager As TreeManager
   Private m_ListMultiAllocate As List(Of MultiAllocate)
   Private m_isInitialized As Boolean = False
+  Public SelectedCostcenter As CostCenter
 #End Region
 
 #Region "Construct"
-  Public Sub New(ByVal mlallocate As List(Of MultiAllocate))
+  Public Sub New(ByVal mlallocate As List(Of MultiAllocate), ByVal setCostcenter As CostCenter)
     InitializeComponent()
     m_ListMultiAllocate = mlallocate
 
@@ -23,7 +24,7 @@ Public Class MultiAllocateWBSForm
     m_treeManager.SetTableStyle(dstWBS)
     m_treeManager.AllowSorting = False
     m_treeManager.AllowDelete = False
-
+    SelectedCostcenter = setCostcenter
     m_isInitialized = False
     Me.RefreshDocs()
     m_isInitialized = True
@@ -68,27 +69,50 @@ Public Class MultiAllocateWBSForm
     m_hashWBS = New Hashtable
     Dim key As String = ""
     Dim i As Integer = 0
+    Dim foundblank As Boolean = False
     For Each ml As MultiAllocate In Me.m_ListMultiAllocate
       Dim wbsRow As TreeRow = Me.m_treeManager.Treetable.Childs.Add
       'wbsRow.FixLevel = -1
       wbsRow("Linenumber") = i
       wbsRow("Description") = ml.CostCenter.Code & " : " & ml.CostCenter.Name
-      wbsRow("CBS") = ml.CBS.Code & ":" & ml.CBS.Name
-      wbsRow("WBS") = ml.WBS.Code & " : " & ml.WBS.Name
+      If ml.CBS Is Nothing Or ml.WBS Is Nothing Then
+        foundblank = True
+      Else
+        wbsRow("CBS") = ml.CBS.Code & ":" & ml.CBS.Name
+        wbsRow("WBS") = ml.WBS.Code & " : " & ml.WBS.Name
+        key = ml.CostCenter.Id.ToString & ":" & ml.WBS.Id.ToString
+        m_hashWBS(key) = ml
+      End If
       wbsRow("Percent") = Configuration.FormatToString(ml.Percent, DigitConfig.Price)
 
       ml.LineNumber = i
       i += 1
 
-      key = ml.CostCenter.Id.ToString & ":" & ml.WBS.Id.ToString
-      m_hashWBS(key) = ml
+
 
       wbsRow.Tag = ml
 
     Next
 
     If 100 - Me.GetSumPercent > 0 Then
-      Me.m_treeManager.Treetable.Childs.Add()
+
+      If Not foundblank Then
+        Dim row As TreeRow = Me.m_treeManager.Treetable.Childs.Add
+        Dim doc As New MultiAllocate
+        row("Linenumber") = i
+        doc.LineNumber = i
+        If Not SelectedCostcenter Is Nothing Then
+          doc.CostCenter = SelectedCostcenter
+          row("Description") = doc.CostCenter.Code & " : " & doc.CostCenter.Name
+
+        End If
+
+
+        row.Tag = doc
+        Me.m_ListMultiAllocate.Add(doc)
+      End If
+
+
     End If
 
     Me.m_treeManager.Treetable.AcceptChanges()

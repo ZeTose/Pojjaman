@@ -2054,9 +2054,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Me.m_listMultiAllocate = New List(Of MultiAllocate)
+      Dim setcc As CostCenter = Nothing
+      If Me.RefDocAllocationType = AllocationType.AllocationFromOnly Then
 
-      Dim dlg As New MultiAllocateWBSForm(m_listMultiAllocate)
+        If Not RefDoc.FromCostCenter Is Nothing Then
+          setcc = RefDoc.FromCostCenter
+        End If
+
+      Else 'If Me.RefDocAllocationType = AllocationType.AllocationToOnly Then
+
+        If Not RefDoc.ToCostCenter Is Nothing Then
+          setcc = RefDoc.ToCostCenter
+        End If
+
+
+      End If
+      Dim dlg As New MultiAllocateWBSForm(m_listMultiAllocate, setcc)
       dlg.StartPosition = FormStartPosition.CenterParent
+
+
+
       If dlg.ShowDialog() = DialogResult.OK Then
         If Not m_listMultiAllocate Is Nothing Then
 
@@ -2072,12 +2089,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   AddHandler doc.WBSDistributeCollection.PropertyChanged, AddressOf doc.WBSChangedHandler
 
                   For Each ml As MultiAllocate In Me.m_listMultiAllocate
-                    Dim wbsd As New WBSDistribute
-                    doc.WBSDistributeCollection.Add(wbsd)
-                    wbsd.CostCenter = ml.CostCenter
-                    wbsd.WBS = ml.WBS
-                    wbsd.CBS = ml.CBS
-                    wbsd.Percent = ml.Percent
+                    If Not (ml.CBS Is Nothing Or ml.WBS Is Nothing) Then
+                      Dim wbsd As New WBSDistribute
+                      doc.WBSDistributeCollection.Add(wbsd)
+                      wbsd.CostCenter = ml.CostCenter
+                      wbsd.WBS = ml.WBS
+                      wbsd.CBS = ml.CBS
+                      wbsd.Percent = ml.Percent
+                    End If
+
                   Next
 
                 End If
@@ -2097,12 +2117,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   AddHandler doc.WBSDistributeCollection.PropertyChanged, AddressOf doc.WBSChangedHandler
 
                   For Each ml As MultiAllocate In Me.m_listMultiAllocate
-                    Dim wbsd As New WBSDistribute
-                    doc.WBSDistributeCollection.Add(wbsd)
-                    wbsd.CostCenter = ml.CostCenter
-                    wbsd.WBS = ml.WBS
-                    wbsd.CBS = ml.CBS
-                    wbsd.Percent = ml.Percent
+                    If Not (ml.CBS Is Nothing Or ml.WBS Is Nothing) Then
+                      Dim wbsd As New WBSDistribute
+                      doc.WBSDistributeCollection.Add(wbsd)
+                      wbsd.CostCenter = ml.CostCenter
+                      wbsd.WBS = ml.WBS
+                      wbsd.CBS = ml.CBS
+                      wbsd.Percent = ml.Percent
+                    End If
+
                   Next
 
                 End If
