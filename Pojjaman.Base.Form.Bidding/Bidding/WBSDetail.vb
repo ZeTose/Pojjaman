@@ -1118,15 +1118,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
     Private m_copiedNode As TreeNode
+    Private m_copiedBOQ As BOQ
+    Public Shared CopiedBOQ As BOQ
     Public Overrides Sub Copy(ByVal sender As Object, ByVal e As System.EventArgs)
       m_copiedNode = CType(Me.tvWbs.SelectedNode.Clone, TreeNode)
+      m_copiedBOQ = m_entity
+      CopiedBOQ = m_entity
       WorkbenchSingleton.Workbench.RedrawEditComponents()
     End Sub
-    Private Sub CopyNode(ByVal n As TreeNode)
+    Private copyboq As BOQ
+    Private Sub CopyNode(ByVal n As TreeNode, ByVal o As Object)
+
+      If copyboq Is Nothing OrElse copyboq.Id <> CType(o, BOQ).Id Then
+        copyboq = New BOQ(CType(o, BOQ).Id)
+      End If
+
       If TypeOf n.Tag Is WBS Then
         Dim myWbs As WBS = CType(n.Tag, WBS)
         Dim newWbs As New WBS
-        newWbs.Boq = myWbs.Boq
+        newWbs.Boq = copyboq
         newWbs.Code = myWbs.Code & "*"
         newWbs.Name = myWbs.Name
         newWbs.Note = myWbs.Note
@@ -1145,7 +1155,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
         Me.m_entity.WBSCollection.Add(newWbs)
-        For Each item As BoqItem In Me.m_entity.ItemCollection.GetCollectionForWBS(myWbs)
+
+        'For Each item As BoqItem In Me.m_entity.ItemCollection.GetCollectionForWBS(myWbs)
+        For Each item As BoqItem In copyboq.ItemCollection.GetCollectionForWBS(myWbs) 'CType(o, BOQ).ItemCollection.GetCollectionForWBS(myWbs)
           Dim newItem As New BoqItem
           newItem.WBS = newWbs
 
@@ -1164,7 +1176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      TreeViewHelper.TraverseNode(m_copiedNode, AddressOf CopyNode)
+      TreeViewHelper.TraverseNodeWithObject(m_copiedNode, m_copiedBOQ, AddressOf CopyNode)
       Me.tvWbs.SelectedNode.Nodes.Add(m_copiedNode)
       m_copiedNode = CType(m_copiedNode.Clone, TreeNode)
       WorkbenchSingleton.Workbench.RedrawEditComponents()
