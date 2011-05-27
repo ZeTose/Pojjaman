@@ -547,6 +547,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.ResetID(oldid)
               ResetCode(oldcode, oldautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
+            Case -11
+              trans.Rollback()
+              Me.ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateTaxId}"), New String() {Me.TaxId.ToString})
+            Case -13
+              trans.Rollback()
+              Me.ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateIdNo}"), New String() {Me.IdNo.ToString})
             Case Else
           End Select
         ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
