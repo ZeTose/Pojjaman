@@ -760,6 +760,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Function ValidateItem() As SaveErrorException
       Dim key As String = ""
+      Dim configObj As Object = Configuration.GetConfig("PRNeedStoreApprove")
 
       For Each item As MatOperationWithdrawItem In Me.ItemCollection
 
@@ -775,7 +776,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException("${res:Global.Error.WBSMissing}")
           End If
         Next
+
+        If CBool(configObj) Then
+          If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
+            If Not item.Pritem.Pr.CheckIsStoreApproved Then
+              Return New SaveErrorException("${res:Global.Error.ApproveStorePersonMissing}", New String() {item.Pritem.Pr.Code})
+            End If
+          End If
+        End If
       Next
+
+
 
       Return New SaveErrorException("0")
     End Function
