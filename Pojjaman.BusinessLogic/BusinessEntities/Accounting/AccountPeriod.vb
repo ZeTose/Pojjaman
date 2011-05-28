@@ -9,6 +9,9 @@ Imports System.Reflection
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
+  Public Interface IAbleExceptAccountPeriod
+    ReadOnly Property ExceptAccountPeriod As Boolean
+  End Interface
   Public Interface ICheckPeriod
     Property DocDate() As Date
   End Interface
@@ -301,7 +304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
   <Serializable(), DefaultMember("Item")> _
-Public Class AccountPeriodCollection
+  Public Class AccountPeriodCollection
     Inherits CollectionBase
 
 #Region "Members"

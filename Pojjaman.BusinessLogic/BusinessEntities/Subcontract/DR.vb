@@ -30,7 +30,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class DR
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
+    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
+      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod
 
 #Region "Members"
 
@@ -247,6 +248,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
+      Get
+        Return Me.Closed
+      End Get
+    End Property
     Public Property Sc() As SC
       Get
         Return m_sc

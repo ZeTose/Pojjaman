@@ -28,7 +28,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PR
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IHasCurrency
+    Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter,  _
+      IDuplicable, ICheckPeriod, IWBSAllocatable, IHasCurrency, IAbleExceptAccountPeriod
 
 #Region "Members"
     Private pr_docDate As Date
@@ -241,6 +242,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
+      Get
+        Return Me.Closed
+      End Get
+    End Property
     Public Property Attachment() As String
       Get
         Return m_attachment

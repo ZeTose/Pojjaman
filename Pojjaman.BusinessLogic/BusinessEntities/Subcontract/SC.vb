@@ -31,7 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class SC
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
+    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
+      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod
 
 #Region "Members"
 
@@ -295,6 +296,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
+      Get
+        Return Me.Closed
+      End Get
+    End Property
     '--------------------REAL-------------------------    Public Property RealGross() As Decimal
       Get
         'HACK
@@ -348,10 +354,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else 'ยกเลิกการปิด
           For Each item As SCItem In Me.ItemCollection
             'If Not item.NewChild Then
-            item.SetMat(item.oldMat)
-            item.SetLab(item.oldLab)
-            item.SetEq(item.oldEq)
-            item.SetQty(item.oldQty)
+            item.SetMat(item.OldMat)
+            item.SetLab(item.OldLab)
+            item.SetEq(item.OldEq)
+            item.SetQty(item.OldQty)
             'End If
           Next
         End If

@@ -18,7 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 		Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IApprovAble, ICancelable, IHasIBillablePerson, IHasToCostCenter _
       , IDuplicable, ICheckPeriod, IWBSAllocatable _
-      , IHasCurrency
+      , IHasCurrency, IAbleExceptAccountPeriod
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -319,6 +319,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
+      Get
+        Return Me.Closed
+      End Get
+    End Property
     '--------------------REAL-------------------------
     Public Property RealGross() As Decimal
       Get

@@ -12,7 +12,8 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class VO
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
+    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
+      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod
 
 #Region "Members"
     Private m_docDate As Date
@@ -176,7 +177,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-
+    Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
+      Get
+        Return Me.Closed
+      End Get
+    End Property
     Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate
       Get
         Return m_docDate

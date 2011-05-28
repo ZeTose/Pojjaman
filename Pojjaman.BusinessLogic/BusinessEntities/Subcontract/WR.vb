@@ -31,7 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class WR
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable, ICheckPeriod, IWBSAllocatable, IApprovAble
+    Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
+      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod
     
 #Region "Members"
 
@@ -194,6 +195,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
+      Get
+        Return Me.Closed
+      End Get
+    End Property
     Public Property Closed() As Boolean      Get
         Return m_closed
       End Get
@@ -209,19 +215,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If m_closing Then 'กำลังจะปิด
           For Each item As WRItem In Me.ItemCollection
             If item.ItemType.Value <> 289 Then
-            item.SetMat(item.OrderedMat)
-            item.SetLab(item.OrderedLab)
-            item.SetEq(item.OrderedEq)
-            item.SetQty(item.OrderedQty)
+              item.SetMat(item.OrderedMat)
+              item.SetLab(item.OrderedLab)
+              item.SetEq(item.OrderedEq)
+              item.SetQty(item.OrderedQty)
             End If
           Next
         Else 'ยกเลิกการปิด
           For Each item As WRItem In Me.ItemCollection
             If item.ItemType.Value <> 289 Then
-            item.SetMat(item.OldMat)
-            item.SetLab(item.OldLab)
-            item.SetEq(item.OldEq)
-            item.SetQty(item.OldQty)
+              item.SetMat(item.OldMat)
+              item.SetLab(item.OldLab)
+              item.SetEq(item.OldEq)
+              item.SetQty(item.OldQty)
             End If
           Next
         End If
