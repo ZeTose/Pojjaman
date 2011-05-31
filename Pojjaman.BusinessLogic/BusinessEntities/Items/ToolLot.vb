@@ -584,7 +584,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_buyqty
       End Get
       Set(ByVal value As Decimal)
-        If value <= m_oldbuyqty Then
+        If value <= m_oldbuyqty OrElse (Me.Buydoc Is Nothing OrElse Me.Buydoc.Id = 0) Then
           m_buyqty = value
         End If
         'm_buycost = m_buyqty * m_unicost

@@ -567,8 +567,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_startCalcDate = .m_buyDate
           .m_transferDate = .m_buyDate
         End If
-        If Not dr.IsNull("stocki_unitPrice") Then
-          .m_buyPrice = CDec(dr("stocki_unitPrice"))
+        If Not dr.IsNull("stocki_unitCost") Then
+          .m_buyPrice = CDec(dr("stocki_unitCost"))
+          .m_Deprebase = .m_buyPrice
         End If
         If Not dr.IsNull("stock_Code") Then
           .m_buyDocCode = CStr(dr("stock_Code"))
@@ -892,6 +893,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") Then
+          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
+            .m_status = New AssetStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
+          Else
+            .m_status = New AssetStatus(-1)
+          End If
+        Else
+          .m_status = New AssetStatus(-1)
+        End If
+
         .m_location = drh.GetValue(Of String)(aliasPrefix & Me.Prefix & "_location")
         .m_buyDate = drh.GetValue(Of Date)(aliasPrefix & Me.Prefix & "_buyDate")
         .m_buyPrice = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_buyPrice")
@@ -905,9 +916,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_rentalrate = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_rentalrate")
         .m_startCalcAmt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_startCalcAmt")
         .m_writeoffamt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_writeoffamt")
-        .m_Deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
         .m_age = drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_age")
+        .m_Deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
 
+        If m_status.Value <> 5 Then
+          .m_depreopening = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
+        End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_calcType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_calcType") Then
           .m_calcType = New AssetCalcType(CInt(dr(aliasPrefix & Me.Prefix & "_calcType")))
@@ -925,7 +939,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_saleDate = drh.GetValue(Of Date)(aliasPrefix & Me.Prefix & "_saleDate")
         .m_salePrice = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_salePrice")
         .m_balanceAtSaleDate = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_balanceAtSaleDate")
-        .m_depreopening = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
         .m_firstYearRate = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_firstYearRate")
 
 
@@ -1017,15 +1030,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") Then
-          If Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
-            .m_status = New AssetStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
-          Else
-            .m_status = New AssetStatus(-1)
-          End If
-        Else
-          .m_status = New AssetStatus(-1)
-        End If
+
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_DateIntervalUnit") Then
           If Not dr.IsNull(aliasPrefix & Me.Prefix & "_DateIntervalUnit") Then

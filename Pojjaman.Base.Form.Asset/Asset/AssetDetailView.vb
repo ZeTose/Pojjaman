@@ -326,11 +326,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'lblAssetStatus
       '
-      Me.lblAssetStatus.Location = New System.Drawing.Point(400, 27)
+      Me.lblAssetStatus.Location = New System.Drawing.Point(327, 27)
       Me.lblAssetStatus.Name = "lblAssetStatus"
-      Me.lblAssetStatus.Size = New System.Drawing.Size(80, 20)
+      Me.lblAssetStatus.Size = New System.Drawing.Size(153, 20)
       Me.lblAssetStatus.TabIndex = 0
       Me.lblAssetStatus.Text = "ʶҹлѨ�غѹ"
+      Me.lblAssetStatus.TextAlign = System.Drawing.ContentAlignment.TopRight
       '
       'btnClearImage
       '
@@ -1740,8 +1741,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.lblCurrency3.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
       'Me.lblCurrency4.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
       'Me.lblCurrency5.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-
-      Me.lblAssetStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAssetStatus}")
+      Dim status As String = ""
+      If Me.m_entity IsNot Nothing AndAlso Me.m_entity.Originated Then
+        status = m_entity.Status.Description
+      End If
+      Me.lblAssetStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAssetStatus}") & status
 
       'Me.grbStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbStatus}")
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.grbDetail}")
