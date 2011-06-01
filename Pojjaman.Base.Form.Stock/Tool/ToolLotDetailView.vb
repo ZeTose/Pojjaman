@@ -1099,7 +1099,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtAssetName.Text = Me.m_entity.ToolLot.Asset.Name
         End If
 
-        If Me.m_entity.ToolLot.Buydoc.Code.Trim.Length > 0 Then
+        If Me.m_entity.ToolLot.Buydoc IsNot Nothing AndAlso Me.m_entity.ToolLot.Buydoc.Code.Trim.Length > 0 Then
           Me.txtToollotbuydoccode.Text = Me.m_entity.ToolLot.Buydoc.Code
           Me.txtToollotBuyDate.Text = Me.m_entity.ToolLot.Buydate.ToShortDateString
         End If
