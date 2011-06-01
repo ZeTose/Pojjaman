@@ -147,6 +147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim sumPrice As Decimal = 0
       Dim sumDepreBase As Decimal = 0
+      Dim sumSalvage As Decimal = 0
       Dim sumWriteOff As Decimal = 0
       Dim sumBalAsset As Decimal = 0
       Dim sumDepre As Decimal = 0
@@ -158,6 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim totalPrice As Decimal = 0
       Dim totalDepreBase As Decimal = 0
+      Dim totalSalvage As Decimal = 0
       Dim totalWriteOff As Decimal = 0
       Dim totalBalAsset As Decimal = 0
       Dim totalDepre As Decimal = 0
@@ -181,17 +183,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If no > 1 Then
             m_grid(currAccountIndex, 8).CellValue = indent & Configuration.FormatToString(sumPrice, DigitConfig.Price)
             m_grid(currAccountIndex, 9).CellValue = indent & Configuration.FormatToString(sumDepreBase, DigitConfig.Price)
-            m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumWriteOff, DigitConfig.Price)
-            m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumBalAsset, DigitConfig.Price)
-            m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
-            m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(sumAccDepreBf, DigitConfig.Price)
-            m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(sumAccDepreWf, DigitConfig.Price)
-            m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
+            m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumSalvage, DigitConfig.Price)
+            m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumWriteOff, DigitConfig.Price)
+            m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumBalAsset, DigitConfig.Price)
+            m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
+            m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(sumAccDepreBf, DigitConfig.Price)
+            m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumAccDepreWf, DigitConfig.Price)
             m_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(sumAccDepre, DigitConfig.Price)
             m_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(sumAssetValueRemain, DigitConfig.Price)
             sumPrice = 0
             sumDepreBase = 0
             sumWriteOff = 0
+            sumSalvage = 0
             sumBalAsset = 0
             sumDepre = 0
             sumAccDepreBf = 0
@@ -234,7 +237,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("WfAmt"), DigitConfig.Price)
         m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("BalAsset"), DigitConfig.Price)
         m_grid(currAssetIndex, 13).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("Depre"), DigitConfig.Price)
-        m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(darow.GetValue(Of Integer)("BfAccDepre"), DigitConfig.Int)
+        m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(darow.GetValue(Of Integer)("BfAccDepre"), DigitConfig.Price)
         m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("WfAccDp"), DigitConfig.Price)
         m_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("BalAccDp"), DigitConfig.Price)
         m_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("AssetValueRemain"), DigitConfig.Price)
@@ -243,6 +246,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         sumPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
         sumDepreBase += darow.GetValue(Of Decimal)("BalDepreBase")
+        sumSalvage += darow.GetValue(Of Decimal)("asset_salvage")
         sumWriteOff += darow.GetValue(Of Decimal)("WfAmt")
         sumBalAsset += darow.GetValue(Of Decimal)("BalAsset")
         sumDepre += darow.GetValue(Of Decimal)("Depre")
@@ -253,6 +257,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         totalPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
         totalDepreBase += darow.GetValue(Of Decimal)("BalDepreBase")
+        totalSalvage += darow.GetValue(Of Decimal)("asset_salvage")
         totalWriteOff += darow.GetValue(Of Decimal)("WfAmt")
         totalBalAsset += darow.GetValue(Of Decimal)("BalAsset")
         totalDepre += darow.GetValue(Of Decimal)("Depre")
@@ -265,12 +270,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'สำหรับสินทรัพย์ตัวสุดท้าย
       m_grid(currAccountIndex, 8).CellValue = indent & Configuration.FormatToString(sumPrice, DigitConfig.Price)
       m_grid(currAccountIndex, 9).CellValue = indent & Configuration.FormatToString(sumDepreBase, DigitConfig.Price)
-      m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumWriteOff, DigitConfig.Price)
-      m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumBalAsset, DigitConfig.Price)
-      m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
-      m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(sumAccDepreBf, DigitConfig.Price)
-      m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(sumAccDepreWf, DigitConfig.Price)
-      m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
+      m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumSalvage, DigitConfig.Price)
+      m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumWriteOff, DigitConfig.Price)
+      m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumBalAsset, DigitConfig.Price)
+      m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
+      m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(sumAccDepreBf, DigitConfig.Price)
+      m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumAccDepreWf, DigitConfig.Price)
       m_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(sumAccDepre, DigitConfig.Price)
       m_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(sumAssetValueRemain, DigitConfig.Price)
 
@@ -281,133 +286,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Total}")   '"รวม"
       m_grid(currAssetIndex, 8).CellValue = indent & Configuration.FormatToString(totalPrice, DigitConfig.Price)
       m_grid(currAssetIndex, 9).CellValue = indent & Configuration.FormatToString(totalDepreBase, DigitConfig.Price)
-      m_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(totalWriteOff, DigitConfig.Price)
-      m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(totalBalAsset, DigitConfig.Price)
-      m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
-      m_grid(currAssetIndex, 13).CellValue = Configuration.FormatToString(totalAccDepreBf, DigitConfig.Price)
-      m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(totalAccDepreWf, DigitConfig.Price)
-      m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
+      m_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(totalSalvage, DigitConfig.Price)
+      m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(totalWriteOff, DigitConfig.Price)
+      m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(totalBalAsset, DigitConfig.Price)
+      m_grid(currAssetIndex, 13).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
+      m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(totalAccDepreBf, DigitConfig.Price)
+      m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(totalAccDepreWf, DigitConfig.Price)
       m_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(totalAccDepre, DigitConfig.Price)
       m_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(totalAssetValueRemain, DigitConfig.Price)
       m_grid(currAssetIndex, 1).Tag = "Font.Bold"
 
-      'Dim currAccountIndex As Integer = -1
-      'Dim currAssetIndex As Integer = -1
-      'Dim indent As String = Space(3)
-      'Dim no As Integer = 0
-      'Dim currAccountCode As String = ""
-
-      'Dim sumPrice As Decimal = 0
-      'Dim sumOpeningBalance As Decimal = 0
-      'Dim sumDeprebase As Decimal = 0
-      'Dim sumAccDepre As Decimal = 0
-      'Dim sumDepre As Decimal = 0
-      'Dim sumDepreAmount As Decimal = 0
-      'Dim sumEndingBalance As Decimal = 0
-
-      'Dim sumAllPrice As Decimal = 0
-      'Dim sumAllOpeningBalance As Decimal = 0
-      'Dim sumAllDeprebase As Decimal = 0
-      'Dim sumAllAccDepre As Decimal = 0
-      'Dim sumAllDepre As Decimal = 0
-      'Dim sumAllDepreAmount As Decimal = 0
-      'Dim sumAllEndingBalance As Decimal = 0
-
-      'For Each row As DataRow In dt.Rows
-      '  Dim darow As New DataRowHelper(row)
-
-      '  no += 1
-
-      '  If currAccountCode <> darow.GetValue(Of String)("AcctCode") Then
-      '    If no > 1 Then
-      '      m_grid(currAccountIndex, 8).CellValue = indent & Configuration.FormatToString(sumPrice, DigitConfig.Price)
-      '      m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumDeprebase, DigitConfig.Price)
-      '      m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumOpeningBalance, DigitConfig.Price)
-      '      m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumAccDepre, DigitConfig.Price)
-      '      m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
-      '      m_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(sumDepreAmount, DigitConfig.Price)
-      '      m_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(sumEndingBalance, DigitConfig.Price)
-      '      sumPrice = 0
-      '      sumOpeningBalance = 0
-      '      sumDeprebase = 0
-      '      sumAccDepre = 0
-      '      sumDepre = 0
-      '      sumDepreAmount = 0
-      '      sumEndingBalance = 0
-      '    End If
-
-      '    m_grid.RowCount += 1
-      '    currAccountIndex = m_grid.RowCount
-      '    m_grid.RowStyles(currAccountIndex).BackColor = Color.FromArgb(128, 255, 128)
-      '    m_grid.RowStyles(currAccountIndex).Font.Bold = True
-      '    m_grid.RowStyles(currAccountIndex).ReadOnly = True
-      '    m_grid(currAccountIndex, 1).CellValue = darow.GetValue(Of String)("AcctCode")
-      '    m_grid(currAccountIndex, 2).CellValue = darow.GetValue(Of String)("AcctName")
-      '    m_grid(currAccountIndex, 1).Tag = "Font.Bold"
-      '    currAccountCode = darow.GetValue(Of String)("AcctCode")
-      '  End If
-
-      '  m_grid.RowCount += 1
-      '  currAssetIndex = m_grid.RowCount
-      '  m_grid.RowStyles(currAssetIndex).ReadOnly = True
-      '  m_grid(currAssetIndex, 1).CellValue = indent & no.ToString
-      '  m_grid(currAssetIndex, 2).CellValue = indent & darow.GetValue(Of String)("asset_code")
-      '  m_grid(currAssetIndex, 3).CellValue = indent & darow.GetValue(Of String)("asset_name")
-      '  m_grid(currAssetIndex, 4).CellValue = indent & darow.GetValue(Of DateTime)("asset_buyDate").ToShortDateString
-      '  m_grid(currAssetIndex, 5).CellValue = indent & darow.GetValue(Of String)("asset_buyDocCode")
-      '  m_grid(currAssetIndex, 6).CellValue = indent & darow.GetValue(Of String)("cc_code")
-      '  m_grid(currAssetIndex, 7).CellValue = indent & darow.GetValue(Of String)("cc_name")
-      '  m_grid(currAssetIndex, 8).CellValue = indent & Configuration.FormatToString(darow.GetValue(Of Decimal)("asset_buyPrice"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 9).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("asset_salvage"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("asset_Deprebase"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("OpeningBalance"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 12).CellValue = indent & Configuration.FormatToString(darow.GetValue(Of Decimal)("OpeningDepre"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 13).CellValue = indent & Configuration.FormatToString(darow.GetValue(Of Decimal)("asset_calcRate"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 14).CellValue = indent & Configuration.FormatToString(darow.GetValue(Of Integer)("SumDayOfDepre"), DigitConfig.Int)
-      '  m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("Depre"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("DepreAmount"), DigitConfig.Price)
-      '  m_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("EndingBalance"), DigitConfig.Price)
-
-      '  sumPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
-      '  sumOpeningBalance += darow.GetValue(Of Decimal)("OpeningBalance")
-      '  sumDeprebase += darow.GetValue(Of Decimal)("asset_Deprebase")
-      '  sumAccDepre += darow.GetValue(Of Decimal)("OpenningDepre")
-      '  sumDepre += darow.GetValue(Of Decimal)("Depre")
-      '  sumDepreAmount += darow.GetValue(Of Decimal)("DepreAmount")
-      '  sumEndingBalance += darow.GetValue(Of Decimal)("EndingBalance")
-
-      '  sumAllPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
-      '  sumAllOpeningBalance += darow.GetValue(Of Decimal)("OpeningBalance")
-      '  sumAllDeprebase += darow.GetValue(Of Decimal)("asset_Deprebase")
-      '  sumAllAccDepre += darow.GetValue(Of Decimal)("OpenningDepre")
-      '  sumAllDepre += darow.GetValue(Of Decimal)("Depre")
-      '  sumAllDepreAmount += darow.GetValue(Of Decimal)("DepreAmount")
-      '  sumAllEndingBalance += darow.GetValue(Of Decimal)("EndingBalance")
-
-      'Next
-
-      ''สำหรับสินทรัพย์ตัวสุดท้าย
-      'm_grid(currAccountIndex, 8).CellValue = indent & Configuration.FormatToString(sumPrice, DigitConfig.Price)
-      'm_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumDeprebase, DigitConfig.Price)
-      'm_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumOpeningBalance, DigitConfig.Price)
-      'm_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumAccDepre, DigitConfig.Price)
-      'm_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
-      'm_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(sumDepreAmount, DigitConfig.Price)
-      'm_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(sumEndingBalance, DigitConfig.Price)
-
-      'm_grid.RowCount += 1
-      'currAssetIndex = m_grid.RowCount
-      'm_grid.RowStyles(currAssetIndex).Font.Bold = True
-      'm_grid.RowStyles(currAssetIndex).ReadOnly = True
-      'm_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Total}")   '"รวม"
-      'm_grid(currAssetIndex, 8).CellValue = Configuration.FormatToString(sumAllPrice, DigitConfig.Price)
-      'm_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(sumAllDeprebase, DigitConfig.Price)
-      'm_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(sumAllOpeningBalance, DigitConfig.Price)
-      'm_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(sumAllAccDepre, DigitConfig.Price)
-      'm_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(sumAllDepre, DigitConfig.Price)
-      'm_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(sumAllDepreAmount, DigitConfig.Price)
-      'm_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(sumAllEndingBalance, DigitConfig.Price) 'sumEdbNetAmt, DigitConfig.Price)
-      'm_grid(currAssetIndex, 1).Tag = "Font.Bold"
 
 
     End Sub
