@@ -1194,7 +1194,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ds As DataSet = Nothing
       Dim dt As DataTable = Nothing
       If m_dsCCList Is Nothing Then
-        dsCClist = GetAllListCostCenter()
+        If filters.Length > 0 Then
+          dsCClist = Me.GetTreeListCostCenter(filters)
+        Else
+          dsCClist = GetAllListCostCenter()
+        End If
         ds = dsCClist
         dt = dsCClist.Tables(0)
         'm_RefreshCCList = False
