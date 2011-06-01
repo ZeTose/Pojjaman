@@ -38,7 +38,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
     Friend WithEvents lblCode As System.Windows.Forms.Label
-    Friend WithEvents txtCode As System.Windows.Forms.TextBox
     Friend WithEvents lblInvoiceCode As System.Windows.Forms.Label
     Friend WithEvents txtInvoiceCode As System.Windows.Forms.TextBox
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
@@ -101,13 +100,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblCost As System.Windows.Forms.Label
     Friend WithEvents lblProfitLoss As System.Windows.Forms.Label
     Friend WithEvents lblWriteOff As System.Windows.Forms.Label
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents txtFromCCPersonCode As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AssetWriteOffDetail))
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.lblCode = New System.Windows.Forms.Label()
-      Me.txtCode = New System.Windows.Forms.TextBox()
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbCostCenter = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -176,6 +175,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCost = New System.Windows.Forms.Label()
       Me.lblAssetRemain = New System.Windows.Forms.Label()
       Me.lblWriteOffDepre = New System.Windows.Forms.Label()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbCostCenter.SuspendLayout()
       Me.grbDelivery.SuspendLayout()
@@ -212,22 +212,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.TabIndex = 13
       Me.lblCode.Text = "เลขที่ใบส่งของ:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtCode
-      '
-      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCode, "")
-      Me.txtCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.txtCode.Location = New System.Drawing.Point(96, 16)
-      Me.Validator.SetMinValue(Me.txtCode, "")
-      Me.txtCode.Name = "txtCode"
-      Me.Validator.SetRegularExpression(Me.txtCode, "")
-      Me.Validator.SetRequired(Me.txtCode, True)
-      Me.txtCode.Size = New System.Drawing.Size(112, 21)
-      Me.txtCode.TabIndex = 0
-      Me.txtCode.TabStop = False
       '
       'lblDocDate
       '
@@ -482,7 +466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtCustomerCode, "")
       Me.txtCustomerCode.Name = "txtCustomerCode"
       Me.Validator.SetRegularExpression(Me.txtCustomerCode, "")
-      'Me.Validator.SetRequired(Me.txtCustomerCode, True)
+      Me.Validator.SetRequired(Me.txtCustomerCode, False)
       Me.txtCustomerCode.Size = New System.Drawing.Size(91, 20)
       Me.txtCustomerCode.TabIndex = 0
       '
@@ -1139,8 +1123,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWriteOffDepre.Text = "ค่าเสื่อมสะสม Write Off :"
       Me.lblWriteOffDepre.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'cmbCode
+      '
+      Me.cmbCode.Location = New System.Drawing.Point(97, 16)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(108, 21)
+      Me.cmbCode.TabIndex = 44
+      '
       'AssetWriteOffDetail
       '
+      Me.Controls.Add(Me.cmbCode)
       Me.Controls.Add(Me.chkAutoRunVat)
       Me.Controls.Add(Me.chkAutorun)
       Me.Controls.Add(Me.lblPercent)
@@ -1177,7 +1169,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.grbDelivery)
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.lblCode)
-      Me.Controls.Add(Me.txtCode)
       Me.Controls.Add(Me.lblDocDate)
       Me.Controls.Add(Me.lblItem)
       Me.Controls.Add(Me.lblInvoiceCode)
@@ -1214,7 +1205,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDelivery.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.grbDelivery}")
 
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.lblCode}")
-      Me.Validator.SetDisplayName(txtCode, lblCode.Text)
+      'Me.Validator.SetDisplayName(txtCode, lblCode.Text)
 
       Me.lblInvoiceCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetSoldDetail.lblInvoiceCode}")
       Me.Validator.SetDisplayName(txtInvoiceCode, lblInvoiceCode.Text)
@@ -1757,8 +1748,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      'AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
 
@@ -1793,7 +1787,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
-      txtCode.Text = m_entity.Code
+      cmbCode.Text = m_entity.Code
       txtCreditPrd.Text = m_entity.CreditPeriod.ToString
       m_oldCode = m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
@@ -1890,8 +1884,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
-        Case "txtcode"
-          Me.m_entity.Code = txtCode.Text
+        Case "cmbcode"
+          If m_entity.AutoGen Then
+            'เพิ่ม AutoCode
+            If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+              Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+              Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            End If
+          Else
+            Me.m_entity.Code = cmbCode.Text
+          End If
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
@@ -2129,20 +2131,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-        'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
+        m_oldCode = Me.cmbCode.Text
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
+        'Me.Validator.SetRequired(Me.txtCode, True)
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Items.Clear()
+        Me.cmbCode.Text = m_oldCode
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = False
       End If
+      'If Me.chkAutorun.Checked Then
+      '  Me.Validator.SetRequired(Me.txtCode, False)
+      '  Me.ErrorProvider1.SetError(Me.txtCode, "")
+      '  Me.txtCode.ReadOnly = True
+      '  m_oldCode = Me.txtCode.Text
+      '  Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+      '  'Hack: set Code เป็น "" เอง
+      '  Me.m_entity.Code = ""
+      '  Me.m_entity.AutoGen = True
+      'Else
+      '  Me.Validator.SetRequired(Me.txtCode, True)
+      '  Me.txtCode.Text = m_oldCode
+      '  Me.txtCode.ReadOnly = False
+      '  Me.m_entity.AutoGen = False
+      'End If
     End Sub
     Private Sub chkAutoRunVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoRunVat.CheckedChanged
       UpdateVatAutogenStatus()

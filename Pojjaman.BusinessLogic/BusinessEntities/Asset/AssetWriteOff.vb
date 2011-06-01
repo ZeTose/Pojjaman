@@ -107,6 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_taxType = New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
         Me.m_fromCostCenter = New CostCenter
         Me.m_fromCostCenterPerson = New Employee
+        .AutoCodeFormat = New AutoCodeFormat(Me)
 
         .m_itemcollection = New AssetWriteOffItemCollection
 
@@ -707,6 +708,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
+          '==============================AUTOGEN==========================================
+          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+          If Not IsNumeric(saveAutoCodeError.Message) Then
+            trans.Rollback()
+            Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return saveAutoCodeError
+          Else
+            Select Case CInt(saveAutoCodeError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return saveAutoCodeError
+              Case Else
+            End Select
+          End If
+          '==============================AUTOGEN==========================================
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetWriteoffStatus" _
           ', New SqlParameter("@stock_id", Me.Id))
 
