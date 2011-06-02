@@ -1891,6 +1891,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return Configuration.Format(ret, DigitConfig.Price)
     End Function
+    Public Function VatAmount() As Decimal
+      Dim ret As Decimal = 0
+      For Each doc As SaleBillIssueItem In Me
+        If doc.EntityId = 79 OrElse doc.EntityId = 48 Then
+          ret -= doc.VatAmt
+        Else
+          ret += doc.VatAmt
+        End If
+      Next
+      Return Configuration.Format(ret, DigitConfig.Price)
+    End Function
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0

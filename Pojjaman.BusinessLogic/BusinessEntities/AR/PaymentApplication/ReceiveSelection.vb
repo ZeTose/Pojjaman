@@ -1073,6 +1073,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
+        If doc.VatAmt > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.3D"
+          ji.Amount = Configuration.Format(doc.VatAmt, DigitConfig.Price)
+          ji.CostCenter = itemCC
+          ji.Note = "ภาษีขายไม่ถึงกำหนด" & doc.Code
+          jiColl.Add(ji)
+        End If
       Next
 
       'ภาษีหัก ณ ที่จ่าย
@@ -1142,9 +1150,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each jVatItem As VatItem In Me.m_vat.ItemCollection
         If IsNumeric(jVatItem.TaxBase) Then
           jTaxBase += jVatItem.TaxBase
+          jVat += jVatItem.Amount
         End If
       Next
-      jVat = BusinessLogic.Vat.GetVatAmount(jTaxBase)
 
       ' ''--- Pui 20080422 เนื่องจาก รับชำระหน้าภาษี สามารถแบ่งรับชำระได้
       ' ''ภาษีขาย-ไม่ถึงกำหนด 'ซับซ้อนมาก
@@ -1183,10 +1191,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji = New JournalEntryItem
         ji.Mapping = "C8.3"
         'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
-        ji.Amount = Configuration.Format(jVat, DigitConfig.Price)
+        ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
         ji.CostCenter = cc   ' GetVatCC()
         jiColl.Add(ji)
       End If
+
+      
 
       For Each vi As VatItem In Me.Vat.ItemCollection
         ji = New JournalEntryItem
@@ -1203,7 +1213,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Note = vi.Code & "/" & vi.PrintName
         jiColl.Add(ji)
 
-
       Next
 
       If Not Me.Receive Is Nothing Then
@@ -1213,7 +1222,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public ReadOnly Property TaxAmount() As Decimal
       Get
-        Return BusinessLogic.Vat.GetVatAmount(GetMaximumTaxBase)
+        Return Me.ItemCollection.VatAmount
       End Get
     End Property
     Public Property TaxBase() As Decimal Implements IVatable.TaxBase

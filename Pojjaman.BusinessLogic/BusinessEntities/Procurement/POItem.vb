@@ -53,13 +53,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "pri_entityType") AndAlso Not dr.IsNull("pri_entityType") Then
           Me.m_pritem = New PRItem(dr, aliasPrefix)
           Dim myPR As New PR
-
+          Dim drh As New DataRowHelper(dr)
           If dr.Table.Columns.Contains(aliasPrefix & "pri_pr") AndAlso Not dr.IsNull(aliasPrefix & "pri_pr") Then
             myPR.Id = CInt(dr(aliasPrefix & "pri_pr"))
           End If
           If dr.Table.Columns.Contains(aliasPrefix & "pr_code") AndAlso Not dr.IsNull(aliasPrefix & "pr_code") Then
             myPR.Code = CStr(dr(aliasPrefix & "pr_code"))
           End If
+          myPR.Note = drh.GetValue(Of String)(aliasPrefix & "pr_note")
+          myPR.DocDate = drh.GetValue(Of Date)(aliasPrefix & "pr_docDate")
+          myPR.CostCenter = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)(aliasPrefix & "pr_cc"))
+          myPR.Requestor = Employee.GetEmployeeById(drh.GetValue(Of Integer)(aliasPrefix & "pr_requestor"))
+
           Me.m_pritem.Pr = myPR
         End If
 
