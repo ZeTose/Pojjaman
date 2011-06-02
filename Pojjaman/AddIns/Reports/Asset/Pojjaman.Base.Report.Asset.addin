@@ -23,11 +23,11 @@
 			</MenuItem>
       
       <MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport">
-        <MenuItem id="rptequipmentstatus" icon="Icons.16x16.RptEquipmentStatus" label="${res:MainMenu.PurchaseMenu.RptEquipmentStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus"/>
+        <!--<MenuItem id="rptequipmentstatus" icon="Icons.16x16.RptEquipmentStatus" label="${res:MainMenu.PurchaseMenu.RptEquipmentStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus"/>-->
         <MenuItem id="rpttoolstatus" icon="Icons.16x16.RptToolStatus" label="${res:MainMenu.PurchaseMenu.RptToolStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolStatus"/>
         <MenuItem id="rpteqtmaintenance" icon="Icons.16x16.RptEQTMaintenance" label="${res:MainMenu.PurchaseMenu.RptEQTMaintenance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance"/>
         <MenuItem id="rpteqtincome" icon="Icons.16x16.RptEQTIncome" label="${res:MainMenu.PurchaseMenu.RptEQTIncome.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTIncome"/>
-        <MenuItem id="rptequipmentmovement" icon="Icons.16x16.RptEquipmentMovement" label="${res:MainMenu.PurchaseMenu.RptEquipmentMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement"/>
+        <!--<MenuItem id="rptequipmentmovement" icon="Icons.16x16.RptEquipmentMovement" label="${res:MainMenu.PurchaseMenu.RptEquipmentMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement"/>-->
         <MenuItem id="rpttoolmovement" icon="Icons.16x16.RpttoolMovement" label="${res:MainMenu.PurchaseMenu.RptToolMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolMovement"/>
       </MenuItem>
 		</Conditional>

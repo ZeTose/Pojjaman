@@ -1,6 +1,3 @@
-Option Explicit On
-Option Strict On
-Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
 Imports System.IO
@@ -9,18 +6,17 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
-Imports Telerik.WinControls.UI
-Imports System.Collections.Generic
-Imports Telerik.WinControls
+Imports Longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.DataAccessLayer
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptToolMovement
     Inherits Report
-    Implements IUseTelerikGridReport
+    Implements INewReport
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
-    Private columnGroupsView As ColumnGroupsViewDefinition
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -33,207 +29,247 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Dim viewDef As ColumnGroupsViewDefinition
-    Private m_grid As RadGridView
-    Dim template As GridViewTemplate
-    Private rowInfo As GridViewDataRowInfo
-    Private Property radRadioHierarchyFromDataSet As Object
-
-    Private Property Theme As Object
-
-    Public Overrides Sub ListInNewGrid(ByVal grid As RadGridView)
-      'm_grid = New RadGridView
+    Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
+    Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-      m_grid.GridElement.BeginUpdate()
-      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Clear()
-      m_grid.MasterGridViewTemplate.AllowAddNewRow = False
-      m_grid.MasterGridViewTemplate.AllowDeleteRow = False
-      m_grid.MasterGridViewTemplate.AllowCellContextMenu = False
-      'm_grid.MasterGridViewTemplate.AllowColumnReorder = False
-      template = New GridViewTemplate
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
+      lkg.DefaultBehavior = False
+      lkg.HilightWhenMinus = True
+      lkg.Init()
+      lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+      ListInGrid(tm)
+      lkg.TreeTableStyle = CreateSimpleTableStyle()
+      lkg.TreeTable = tm.Treetable
+      
+        lkg.Rows.HeaderCount = 2
+        lkg.Rows.FrozenCount = 2
+
+      lkg.Refresh()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim dr As DataRow = CType(m_hashData(e.RowIndex), DataRow)
+      If dr Is Nothing Then
+        Return
+      End If
+
+      Dim drh As New DataRowHelper(dr)
+
+      Dim docId As Integer = drh.GetValue(Of Integer)("DocID")
+      Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+
+      Trace.WriteLine(docId.ToString & ":" & docType.ToString)
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
+    End Sub
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
+      Me.m_treemanager = tm
+      Me.m_treemanager.Treetable.Clear()
       CreateHeader()
-      CreateDocHeader()
-      setdatasource()
-      'PopulateData()
-      'PopulateMasterData()
-      'PopulateDocData()
-      SetRelation()
-      ExpandAllRows(m_grid, True)
-      'SetColumnProperties()
-      m_grid.GridElement.EndUpdate()
+      PopulateData()
     End Sub
-    Private Sub SetTheme()
-      'Me.radRadioHierarchyFromDataSet.ThemeName = Theme
-      'Me.radRadioButton2.ThemeName = Theme
-      'Me.radRadioManuallyUnbound.ThemeName = Theme
-      m_grid.ThemeName = CStr(Theme)
-      'Me.radGroupHierarchyOptions.ThemeName = Theme
-
-    End Sub
-
-    Private Sub Configure(ByVal template As GridViewTemplate, ByVal enableFiltering As Boolean)
-      template.EnableFiltering = enableFiltering
-
-      For i As Integer = 0 To template.ChildGridViewTemplates.Count - 1
-        Configure(template.ChildGridViewTemplates(i), enableFiltering)
-      Next i
-    End Sub
-
-    Private Sub ResetGridView()
-      m_grid.GridElement.RowHeight = 20
-      m_grid.AutoGenerateHierarchy = False
-
-      m_grid.CurrentRow = Nothing
-      m_grid.Relations.Clear()
-      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Clear()
-      m_grid.MasterGridViewTemplate.Columns.Clear()
-      m_grid.DataSource = Nothing
-
-      m_grid.MasterGridViewTemplate.AllowAddNewRow = False
-      m_grid.MasterGridViewTemplate.AllowEditRow = False
-      m_grid.MasterGridViewTemplate.AllowDeleteRow = False
-      m_grid.MasterGridViewTemplate.ShowFilteringRow = False
-    End Sub
-
     Private Sub CreateHeader()
-      viewDef = New ColumnGroupsViewDefinition
+      If Me.m_treemanager Is Nothing Then
+        Return
+      End If
 
-      Dim headerTextList As New List(Of String)
-      Dim FieldNameList As New List(Of String)
-      headerTextList.Add("")
-      FieldNameList.Add("tool_id")
-      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.EquipmentTypeCode}")) '"รหัส"
-      'FieldNameList.Add("toolg_code")
-      'headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.Name}")) '"ชื่อ"
-      'FieldNameList.Add("toolg_name")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolCode}")) '"รหัส"
-      FieldNameList.Add("tool_code")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolName}")) '"ชื่อ"
-      FieldNameList.Add("tool_name")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}")) '"CCเจ้าของ"
-      FieldNameList.Add("CC")
+      Dim indent As String = Space(3)
 
-      m_grid.Columns.Clear()
-      For i As Integer = 0 To 3
-        Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
-        If i = 0 Then
-          gridColumn.Width = 0
-        Else
-          gridColumn.Width = 100
+     
+        ' Level 1
+        Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+      tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolCode}") '"รหัส"
+      tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.ToolName}") '"ชื่อ"
+      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}") '"CCเจ้าของ"
+     
+
+        ' Level 2
+        tr = Me.m_treemanager.Treetable.Childs.Add
+      tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocCode}") '"รหัสเอกสาร"
+      tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}") ' "วันที่"
+      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}") '"ประเภทเอกสาร"
+      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}") '"CCรับ"
+      tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.Qty}") '"รายชื่อผู้ขาย"
+      tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}") '"มูลค่าซื้อถึงกำหนด"
+      tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}") '"ภาษีซื้อ(ถึงกำหนด)"
+    End Sub
+    Private Sub PopulateData()
+      Dim dtTool As DataTable = Me.DataSet.Tables(0)
+      Dim dtDoc As DataTable = Me.DataSet.Tables(1)
+
+      If dtTool.Rows.Count = 0 Then
+        Return
+      End If
+
+      Dim indent As String = Space(3)
+
+      Dim trToolCode As TreeRow
+      Dim trEqtDoc As TreeRow
+      'Dim trbfDefer As TreeRow
+
+      Dim currentStockCode As String = ""
+      Dim currStockId As String = ""
+      
+
+      Dim rowIndex As Integer = 0
+      m_hashData = New Hashtable
+
+      For Each tRow As DataRow In dtTool.Rows
+        Dim dht As New DataRowHelper(tRow)
+
+        trToolCode = Me.Treemanager.Treetable.Childs.Add
+        trToolCode.Tag = "Font.Bold"
+
+        trToolCode.Tag = tRow
+
+
+        trToolCode("col0") = dht.GetValue(Of String)("tool_code")
+        trToolCode("col1") = dht.GetValue(Of String)("tool_name")
+        trToolCode("col2") = dht.GetValue(Of String)("CC")
+        
+
+       
+
+        trToolCode.State = RowExpandState.Expanded
+        For Each eqtRow As DataRow In dtDoc.Select("tool_id=" & tRow("tool_id").ToString)
+          Dim deh As New DataRowHelper(eqtRow)
+
+          If Not trToolCode Is Nothing Then
+            trEqtDoc = trToolCode.Childs.Add
+            trEqtDoc.Tag = eqtRow
+            trEqtDoc("col0") = indent & deh.GetValue(Of String)("eqtstock_code")
+            trEqtDoc("col1") = indent & deh.GetValue(Of Date)("eqtstock_docdate").ToShortDateString
+            trEqtDoc("col3") = deh.GetValue(Of String)("DoctypeName")
+            trEqtDoc("col4") = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_qty"), DigitConfig.Int)
+            trEqtDoc("col5") = deh.GetValue(Of String)("unit_name")
+            trEqtDoc("col6") = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
+
+
+          End If
+        Next
+
+      Next
+
+      
+
+    
+      
+
+      Dim lineNumber As Integer = 1
+      For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+        If Not tr.Tag Is Nothing AndAlso TypeOf tr.Tag Is DataRow Then
+          m_hashData(lineNumber) = CType(tr.Tag, DataRow)
         End If
-        gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-        gridColumn.HeaderText = headerTextList(i)
-        gridColumn.FieldName = FieldNameList(i)
-        gridColumn.ReadOnly = True
-        m_grid.Columns.Add(gridColumn)
+
+        lineNumber += 1
       Next
-
     End Sub
-    Private Sub CreateDocHeader()
-      viewDef = New ColumnGroupsViewDefinition
-
-      Dim headerTextList As New List(Of String)
-      Dim FieldNameList As New List(Of String)
-      headerTextList.Add("")
-      FieldNameList.Add("tool_id")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocCode}")) '"รหัสเอกสาร"
-      FieldNameList.Add("eqtstock_code")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}")) '"วันที่"
-      FieldNameList.Add("eqtstock_docdate")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}")) '"ประเภทเอกสาร"
-      FieldNameList.Add("Doctype")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}")) '"CCรับ"
-      FieldNameList.Add("tocc")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.Qty}")) '"จำนวน"
-      FieldNameList.Add("eqtstocki_qty")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}")) '"หน่วย"
-      FieldNameList.Add("unit_name")
-      headerTextList.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}")) '"ค่าเช่า/ค่าใช้จ่าย"
-      FieldNameList.Add("eqtstocki_Amount")
-
-      template.Columns.Clear()
-      For i As Integer = 0 To 7
-        Dim gridColumn As New GridViewTextBoxColumn("Col" & i.ToString)
-        If i = 0 Then
-          gridColumn.Width = 0
-        Else
-          gridColumn.Width = 100
+    Private Function SearchTag(ByVal id As Integer) As TreeRow
+      If Me.m_treemanager Is Nothing Then
+        Return Nothing
+      End If
+      Dim dt As TreeTable = m_treemanager.Treetable
+      For Each row As TreeRow In dt.Rows
+        If IsNumeric(row.Tag) AndAlso CInt(row.Tag) = id Then
+          Return row
         End If
-        If i = 5 OrElse i = 7 Then
-          gridColumn.TextAlignment = ContentAlignment.MiddleRight
+      Next
+    End Function
+    Public Overrides Function GetSimpleSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("Report")
+      myDatatable.Columns.Add(New DataColumn("col0", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col1", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col2", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col3", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col4", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
+
+      Return myDatatable
+    End Function
+    Public Overrides Function CreateSimpleTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "Report"
+      Dim widths As New ArrayList
+      Dim iCol As Integer = 6 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+
+      widths.Add(100)
+      widths.Add(100)
+      widths.Add(100)
+      widths.Add(80)
+      widths.Add(70)
+      widths.Add(150)
+      widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(90)
+      'widths.Add(100)
+
+      For i As Integer = 0 To iCol
+        If i = 1 Then
+          'If m_showDetailInGrid <> 0 Then
+          Dim cs As New PlusMinusTreeTextColumn
+          cs.MappingName = "col" & i
+          cs.HeaderText = ""
+          cs.Width = CInt(widths(i))
+          cs.NullText = ""
+          cs.Alignment = HorizontalAlignment.Left
+          cs.ReadOnly = True
+          cs.Format = "s"
+          AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+          dst.GridColumnStyles.Add(cs)
         Else
-          gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+          Dim cs As New TreeTextColumn(i, True, Color.Khaki)
+          cs.MappingName = "col" & i
+          cs.HeaderText = ""
+          cs.Width = CInt(widths(i))
+          cs.NullText = ""
+          cs.Alignment = HorizontalAlignment.Left
+          'If Me.m_showDetailInGrid <> 0 Then
+          Select Case i
+            Case 0, 1, 2, 3, 5, 14
+              cs.Alignment = HorizontalAlignment.Left
+              cs.DataAlignment = HorizontalAlignment.Left
+              cs.Format = "s"
+            Case Else
+              cs.Alignment = HorizontalAlignment.Right
+              cs.DataAlignment = HorizontalAlignment.Right
+              cs.Format = "d"
+          End Select
+
+          cs.ReadOnly = True
+
+          AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+          dst.GridColumnStyles.Add(cs)
         End If
-        gridColumn.HeaderText = headerTextList(i)
-        gridColumn.FieldName = FieldNameList(i)
-        gridColumn.ReadOnly = True
-        template.Columns.Add(gridColumn)
       Next
 
+      Return dst
+    End Function
+    Public Overrides Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
+      e.HilightValue = False
+      If e.Row <= 1 Then
+        e.HilightValue = True
+      End If
     End Sub
-
-    Private Sub setdatasource()
-      Dim dt As DataTable = DataSet.Tables(0)
-      Dim dtchilds As DataTable = DataSet.Tables(1)
-
-      m_grid.DataSource = dt
-      template.DataSource = dtchilds
-      template.AllowDeleteRow = True
-      template.AllowAddNewRow = False
-
-      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
-
-    End Sub
-
-    Private Sub PopulateMasterData()
-      Dim dt As DataTable = DataSet.Tables(0)
-      For Each row As DataRow In dt.Rows
-        Dim deh As New DataRowHelper(row)
-        Dim currentGridRow As GridViewDataRowInfo = m_grid.Rows.AddNew()
-        currentGridRow.Cells(0).Value = deh.GetValue(Of Integer)("")
-        'currentGridRow.Cells(1).Value = deh.GetValue(Of String)("toolg_code")
-        'currentGridRow.Cells(2).Value = deh.GetValue(Of String)("toolg_name")
-        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("tool_code")
-        currentGridRow.Cells(2).Value = deh.GetValue(Of String)("tool_name")
-        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("CC")
-      Next
-
-    End Sub
-    Private Sub PopulateDocData()
-      Dim dt As DataTable = DataSet.Tables(1)
-
-      For Each row As DataRow In dt.Rows
-        Dim deh As New DataRowHelper(row)
-        Dim currentGridRow As GridViewDataRowInfo = template.Rows.AddNew()
-        currentGridRow.Cells(0).Value = deh.GetValue(Of String)("")
-        currentGridRow.Cells(1).Value = deh.GetValue(Of String)("eqtstock_code")
-        currentGridRow.Cells(2).Value = deh.GetValue(Of DateTime)("eqtstock_docdate").ToShortDateString
-        currentGridRow.Cells(3).Value = deh.GetValue(Of String)("Doctype")
-        currentGridRow.Cells(4).Value = deh.GetValue(Of String)("tocc")
-        currentGridRow.Cells(5).Value = deh.GetValue(Of String)("eqtstocki_qty")
-        currentGridRow.Cells(6).Value = deh.GetValue(Of String)("unit_name")
-        currentGridRow.Cells(7).Value = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
-      Next
-
-      m_grid.MasterGridViewTemplate.ChildGridViewTemplates.Add(template)
-
-    End Sub
-    Private Sub SetRelation()
-      Dim relation As GridViewRelation = New GridViewRelation(m_grid.MasterGridViewTemplate)
-      relation.ChildTemplate = template
-      relation.RelationName = "Toolid"
-      relation.ParentColumnNames.Add("tool_id")
-      relation.ChildColumnNames.Add("tool_id")
-      m_grid.Relations.Add(relation)
-    End Sub
-    Private Sub ExpandAllRows(ByVal grid As RadGridView, ByVal expand As Boolean)
-      grid.GridElement.BeginUpdate()
-      For Each row As GridViewRowInfo In grid.Rows
-        row.IsExpanded = expand
-      Next
-      grid.GridElement.EndUpdate()
-    End Sub
-
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
       Get
@@ -271,10 +307,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
-      Return "RptToolMovement"
+      Return "C:\Documents and Settings\Administrator\Desktop\Report.dfm"
     End Function
     Public Overrides Function GetDefaultForm() As String
-      Return "RptToolMovement"
+
     End Function
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
@@ -283,132 +319,424 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each fixDpi As DocPrintingItem In Me.FixValueCollection
         dpiColl.Add(fixDpi)
       Next
+      'Dim i As Integer = 0
+      Dim indent As String = Space(3)
 
-      Dim n As Integer = 0
-      Dim cRow As Integer = 0
-      For rowIndex As Integer = 0 To m_grid.RowCount - 1
+      Dim line As Decimal = 0
+
+      'For Each itemrow As TreeRow In Me.Treemanager.Treetable.Childs
+      For i As Decimal = 0 To Me.Treemanager.Treetable.Childs.Count - 2
+        Dim itemrow As TreeRow = Me.Treemanager.Treetable.Childs.Item(i + 2)
+        Dim dhstockrow As New DataRowHelper(CType(itemrow, DataRow))
+
+        'Item.LineNumber
         dpi = New DocPrintingItem
-        dpi.Mapping = "col0"
-        dpi.Value = m_grid.Rows(rowIndex).Cells(1).Value
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
+        dpi.Mapping = "linenumber"
+        dpi.Value = line + 1
+        dpi.DataType = "System.Sting"
+        dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'stock.DocCode
         dpi = New DocPrintingItem
-        dpi.Mapping = "col1"
-        dpi.Value = m_grid.Rows(rowIndex).Cells(2).Value
+        dpi.Mapping = "Stock.DocCode"
+        dpi.Value = dhstockrow.GetValue(Of String)("Col0")
         dpi.DataType = "System.String"
-        dpi.Row = n + 1
+        dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'Item.DocDate
         dpi = New DocPrintingItem
-        dpi.Mapping = "col2"
-        dpi.Value = m_grid.Rows(rowIndex).Cells(3).Value
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
+        dpi.Mapping = "Stock.DocDate"
+        dpi.Value = dhstockrow.GetValue(Of String)("Col1")
+        'dpi.Value = dhstockrow.GetValue(Of Date)("Col1").ToShortDateString
+        dpi.DataType = "System.DateTime"
+        dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col3"
-        'dpi.Value = m_grid.Rows(rowIndex).Cells(4).Value
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        'GL.DocCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "GL.DocCode"
+        dpi.Value = dhstockrow.GetValue(Of String)("Col2")
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col4"
-        'dpi.Value = m_grid.Rows(rowIndex).Cells(5).Value
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        'Type
+        dpi = New DocPrintingItem
+        dpi.Mapping = "DocType"
+        dpi.Value = dhstockrow.GetValue(Of String)("col3")
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        'dpi = New DocPrintingItem
-        'dpi.Mapping = "col5"
-        'dpi.Value = m_grid.Rows(rowIndex).Cells(6).Value
-        'dpi.DataType = "System.String"
-        'dpi.Row = n + 1
-        'dpi.Table = "Item"
-        'dpiColl.Add(dpi)
+        'SupplierCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierCode"
+        dpi.Value = dhstockrow.GetValue(Of String)("col4")
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        Dim childRowInfo As GridViewRowInfo = m_grid.Rows(rowIndex)
-        Dim childRows As GridViewRowInfo() = childRowInfo.ViewTemplate.ChildGridViewTemplates(0).GetChildRows(childRowInfo)
+        'SupplierName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierName"
+        dpi.Value = dhstockrow.GetValue(Of String)("col5")
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-        For i As Integer = 0 To childRows.Length - 1
+        'StockTaxBase
+        dpi = New DocPrintingItem
+        dpi.Mapping = "StockTaxBase"
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("col6"), DigitConfig.Price)
+        dpi.Value = dhstockrow.GetValue(Of String)("col6")
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col0"
-          dpi.Value = childRows(i).Cells(1).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'StockTaxAmt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "StockTaxAmt"
+        dpi.Value = dhstockrow.GetValue(Of String)("col7")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxAmt"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col1"
-          dpi.Value = childRows(i).Cells(2).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'StockTaxAmt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "bfdeferTaxBase"
+        dpi.Value = dhstockrow.GetValue(Of String)("col8")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col2"
-          dpi.Value = childRows(i).Cells(3).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'bfdeferTaxAmt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "bfdeferTaxAmt"
+        dpi.Value = dhstockrow.GetValue(Of String)("col9")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col3"
-          dpi.Value = childRows(i).Cells(4).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'duetaxBase
+        dpi = New DocPrintingItem
+        dpi.Mapping = "duetaxBase"
+        dpi.Value = dhstockrow.GetValue(Of String)("col10")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col4"
-          dpi.Value = childRows(i).Cells(5).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'duetaxAmt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "duetaxAmt"
+        dpi.Value = dhstockrow.GetValue(Of String)("col11")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col5"
-          dpi.Value = childRows(i).Cells(6).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'baldeferTaxBase
+        dpi = New DocPrintingItem
+        dpi.Mapping = "baldeferTaxBase"
+        dpi.Value = dhstockrow.GetValue(Of String)("col12")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxBase"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          dpi = New DocPrintingItem
-          dpi.Mapping = "col6"
-          dpi.Value = childRows(i).Cells(7).Value
-          dpi.DataType = "System.String"
-          dpi.Row = cRow + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'baldeferTaxAmt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "baldeferTaxAmt"
+        dpi.Value = dhstockrow.GetValue(Of String)("col13")
+        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxAmt"), DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          n += 1
-          cRow += 1
-        Next
+        'GlNote
+        dpi = New DocPrintingItem
+        dpi.Mapping = "GlNote"
+        dpi.Value = dhstockrow.GetValue(Of String)("col14")
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        line += 1
+        'add childs
+        If itemrow IsNot Nothing AndAlso Not itemrow.IsLeafRow Then
+          For Each paysrow As TreeRow In itemrow.Childs
+            i += 1
+            Dim prh As New DataRowHelper(paysrow)
+
+
+            'stock.DocCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Stock.DocCode"
+            dpi.Value = indent & prh.GetValue(Of String)("Col0")
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'stock.DocCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Stock.DocDate"
+            dpi.Value = indent & prh.GetValue(Of String)("Col1")
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'stock.DocCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "DocType"
+            dpi.Value = indent & prh.GetValue(Of String)("Col3")
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'SupplierCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "SupplierCode"
+            dpi.Value = indent & prh.GetValue(Of String)("col4")
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'SupplierName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "SupplierName"
+            dpi.Value = indent & prh.GetValue(Of String)("col5")
+            dpi.DataType = "System.String"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'duetaxBase
+            dpi = New DocPrintingItem
+            dpi.Mapping = "duetaxBase"
+            dpi.Value = prh.GetValue(Of String)("col10")
+            'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
+            dpi.DataType = "System.Decimal"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'duetaxAmt
+            dpi = New DocPrintingItem
+            dpi.Mapping = "duetaxAmt"
+            dpi.Value = prh.GetValue(Of String)("col11")
+            'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
+            dpi.DataType = "System.Decimal"
+            dpi.Row = i + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+          Next
+        End If
       Next
+
+
+      'Dim SumTaxAmount As Decimal = 0
+      'Dim SumBeforeTax As Decimal = 0
+      'Dim SumAfterTax As Decimal = 0
+      'For Each itemRow As DataRow In Me.DataSet.Tables(0).Rows
+      '  'Item.LineNumber
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "linenumber"
+      '  dpi.Value = i + 1
+      '  dpi.DataType = "System.Sting"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.DocDate
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.DocDate"
+      '  dpi.Value = itemRow("docdate")
+      '  dpi.DataType = "System.DateTime"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.Invoice
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.Invoice"
+      '  dpi.Value = itemRow("invoice")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.DocCode
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.DocCode"
+      '  dpi.Value = itemRow("docCode")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.VatRunNumber
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.vatrunnumber"
+      '  dpi.Value = itemRow("vatrunnumber")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.RelatedDoc
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.RelatedDoc"
+      '  dpi.Value = itemRow("RelatedDoc")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.SubmitalDate
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.SubmitalDate"
+      '  dpi.Value = itemRow("SubmitalDate")
+      '  dpi.DataType = "System.DateTime"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.Supplier
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.Supplier"
+      '  dpi.Value = itemRow("supplier")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.BeforeTax
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.BeforeTax"
+      '  dpi.Value = itemRow("beforetax")
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+      '  If IsNumeric(itemRow("beforetax")) Then
+      '    SumBeforeTax += Configuration.Format(CDec(itemRow("beforetax")), DigitConfig.Price)
+      '  End If
+
+      '  'Item.TaxAmount
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.TaxAmount"
+      '  dpi.Value = itemRow("taxamt")
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+      '  If IsNumeric(itemRow("taxamt")) Then
+      '    SumTaxAmount += Configuration.Format(CDec(itemRow("taxamt")), DigitConfig.Price)
+      '  End If
+
+      '  'Item.AfterTax
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.AfterTax"
+      '  dpi.Value = itemRow("aftertax")
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+      '  If IsNumeric(itemRow("aftertax")) Then
+      '    SumAfterTax += CDec(itemRow("aftertax"))
+      '  End If
+
+      '  'Item.Invoice
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.Invoice"
+      '  dpi.Value = itemRow("Invoice")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.GroupName
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.GroupName"
+      '  dpi.Value = itemRow("GroupName")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  'Item.CostcenterName
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Item.CostcenterName"
+      '  dpi.Value = itemRow("CostcenterName")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
+
+      '  i += 1
+      'Next
+
+      ''SumText
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "SumText"
+      'dpi.Value = "รวม"
+      'dpi.DataType = "System.String"
+      'dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpiColl.Add(dpi)
+
+      ''SumCol5
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "SumCol5"
+      'dpi.Value = Configuration.FormatToString(SumBeforeTax, DigitConfig.Price)
+      'dpi.DataType = "System.Decimal"
+      'dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpiColl.Add(dpi)
+
+      ''SumCol6
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "SumCol6"
+      'dpi.Value = Configuration.FormatToString(SumTaxAmount, DigitConfig.Price)
+      'dpi.DataType = "System.Decimal"
+      'dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpiColl.Add(dpi)
+
+      ''SumBeforeTax
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "SumAfterTax"
+      'dpi.Value = Configuration.FormatToString(SumAfterTax, DigitConfig.Price)
+      'dpi.DataType = "System.Decimal"
+      'dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      'dpiColl.Add(dpi)
+
       Return dpiColl
     End Function
 #End Region
-    Private Function radGroupHierarchyOptions() As Object
-      Throw New NotImplementedException
-    End Function
-
-
-
   End Class
 End Namespace
 
