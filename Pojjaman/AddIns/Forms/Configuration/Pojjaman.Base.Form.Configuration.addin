@@ -64,4 +64,6 @@
   <Extension path="/Pojjaman/Workbench/EntityListViews">
     <EntityListView id="multiapproval" entity="multiapproval" view="Longkong.Pojjaman.Gui.Panels.MultiApproveDetail"/>
   </Extension>
+
+
 </AddIn>

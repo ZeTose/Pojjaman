@@ -150,4 +150,10 @@
 	<Extension path="/Pojjaman/Workbench/EntityListViews">
 		<EntityListView id="billacceptanceitem" entity="billacceptanceitem" view="Longkong.Pojjaman.Gui.Panels.BillAcceptanceSelectionView"/>
 	</Extension>
+
+  <Extension path="/Pojjaman/Workbench/MainMenu/Supplier">
+    <MenuItem id="BuilkMatch" insertbefore="ReloadSeparator" insertafter="SupplierGroup" label="Builk Match" class="Longkong.Pojjaman.Commands.OpenPanel"  entity="Longkong.Pojjaman.BusinessLogic.Supplier" panel="Longkong.Pojjaman.Gui.Panels.BuilkMatchView"/>
+  </Extension>
+  
+  
 </AddIn>

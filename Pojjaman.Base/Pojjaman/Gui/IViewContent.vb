@@ -22,7 +22,9 @@ Namespace Longkong.Pojjaman.Gui
         End Property
 #End Region
     End Class
+  Public Interface ISaveContent
 
+  End Interface
     Public Interface IViewContent
         Inherits IBaseViewContent, IDisposable
 

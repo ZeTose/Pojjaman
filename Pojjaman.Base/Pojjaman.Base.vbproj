@@ -1658,6 +1658,9 @@
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\SelectFormsDialog.resx">
       <DependentUpon>SelectFormsDialog.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\WizardDialog.resx">
+      <DependentUpon>WizardDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbench.resx">
       <DependentUpon>PojjamanWorkbench.vb</DependentUpon>
     </EmbeddedResource>

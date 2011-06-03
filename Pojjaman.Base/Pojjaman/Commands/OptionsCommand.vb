@@ -20,7 +20,8 @@ Namespace Longkong.Pojjaman.Commands
         Public Overrides Sub Run()
             Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
             Dim tvOption As TreeViewOptions = New TreeViewOptions(CType(myPropertyService.GetProperty("ICSharpCode.TextEditor.Document.Document.DefaultDocumentAggregatorProperties", New DefaultProperties), IProperties), AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Dialogs/OptionsDialog"))
-            tvOption.FormBorderStyle = FormBorderStyle.FixedDialog
+      tvOption.Height = 500
+      tvOption.FormBorderStyle = FormBorderStyle.FixedDialog
             tvOption.Owner = CType(WorkbenchSingleton.Workbench, Form)
             tvOption.ShowDialog()
         End Sub
