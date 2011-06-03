@@ -656,13 +656,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tmpTaxBase - tmpRefTaxBase = -0.01 Then     'ยอดในใบกำกับน้อยกว่า
           If Me.ItemCollection.Count > 0 Then
             Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
-            item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
+            'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
+            'item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
           End If
         ElseIf Me.Direction.Value = 0 AndAlso _
         tmpTaxBase - tmpRefTaxBase = 0.01 Then      'ยอดในใบกำกับมากกว่า
           If Me.ItemCollection.Count > 0 Then
             Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
-            item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
+            'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
+            'item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
           End If
         ElseIf _
         ( _
