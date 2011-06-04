@@ -567,10 +567,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_startCalcDate = .m_buyDate
           .m_transferDate = .m_buyDate
         End If
-        If Not dr.IsNull("stocki_unitCost") Then
-          .m_buyPrice = CDec(dr("stocki_unitCost"))
-          .m_Deprebase = .m_buyPrice
+        If dr.Table.Columns.Contains("stocki_unitCost") Then
+          If Not dr.IsNull("stocki_unitCost") Then
+            .m_buyPrice = CDec(dr("stocki_unitCost"))
+            .m_Deprebase = .m_buyPrice
+          End If
+
         End If
+        
         If Not dr.IsNull("stock_Code") Then
           .m_buyDocCode = CStr(dr("stock_Code"))
         End If
