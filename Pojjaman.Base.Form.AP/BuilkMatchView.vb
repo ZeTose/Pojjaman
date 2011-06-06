@@ -2,21 +2,25 @@ Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
-'Imports System.Reflection
-'Imports Longkong.Pojjaman.DataAccessLayer
-'Imports Longkong.Pojjaman.Services
-'Imports System.Drawing.Printing
-'Imports Longkong.Pojjaman.Gui.ReportsAndDocs
-'Imports System.Drawing
-'Imports System.Drawing.Drawing2D
-Imports Syncfusion.Windows.Forms.Grid
-Imports System.Collections.Generic
-Imports System.Data.SqlClient
-'Imports System.Data.Objects
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Properties
+'Imports Longkong.Pojjaman.DataAccessLayer
+'Imports Longkong.Pojjaman.Gui.ReportsAndDocs
+
 Imports System.IO
 Imports System.Collections.Specialized
 Imports System.Text.RegularExpressions
+Imports System.Collections.Generic
+Imports System.Data.SqlClient
+Imports System.Net
+'Imports System.Reflection
+'Imports System.Drawing.Printing
+'Imports System.Drawing
+'Imports System.Drawing.Drawing2D
+'Imports System.Data.Objects
+
+Imports Syncfusion.Windows.Forms.Grid
+
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class BuilkMatchView
@@ -134,9 +138,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_updating As Boolean = False
 
 
+
 #End Region
 
 #Region "Constructors"
+
     Public Sub New()
 
       ' This call is required by the designer.
@@ -144,12 +150,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ' Add any initialization after the InitializeComponent() call.
       InitGrid()
 
+      GetBuilkRequest()
+
       PopulateGrid()
 
     End Sub
+
 #End Region
 
 #Region "Properties"
+
     Public Overrides Property TitleName As String
       Get
         Return "Builk Match"
@@ -158,18 +168,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
         MyBase.TitleName = value
       End Set
     End Property
+
     Public Overrides ReadOnly Property TabPageText() As String
       Get
         Return "Builk Match" 'Me.m_entity.ListPanelTitle
       End Get
     End Property
+
+    Private _builkMatchList As List(Of BuilkMatch)
+    Public Property BuilkMatchList As List(Of BuilkMatch)
+      Get
+        Return _builkMatchList
+      End Get
+      Set(ByVal value As List(Of BuilkMatch))
+        _builkMatchList = value
+      End Set
+    End Property
+
 #End Region
 
 #Region "Methods"
 
     Private Sub InitGrid()
 
-      tgitem.ColCount = 4
+      tgitem.ColCount = 5
       tgitem.RowCount = 1
 
       tgitem.Rows.HeaderCount = 1
@@ -179,36 +201,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       tgitem.TableStyle.CheckBoxOptions = New GridCheckBoxCellInfo("True", "False", "", False)
 
-      tgitem.ColStyles(4).CellType = "CheckBox"
-      tgitem.ColStyles(4).TriState = False
-      tgitem.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-
+      tgitem.ColStyles(1).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      tgitem.ColStyles(2).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      tgitem.ColStyles(3).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      tgitem.ColStyles(4).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
 
       Dim items As New StringCollection
       Dim dt As DataTable = (New Supplier).GetCodeNameList
-      For Each row As DataRow In dt.Rows
-        items.Add(row("supplier_name").ToString & "[" & row("supplier_code").ToString & "]")
+      For Each row As DataRow In dt.Select(Nothing, "supplier_code asc")
+        items.Add(row("supplier_code").ToString & ":" & row("supplier_name").ToString)
+      Next
+      For Each row As DataRow In dt.Select(Nothing, "supplier_name asc")
+        items.Add(row("supplier_name").ToString & "|" & row("supplier_code").ToString)
       Next
 
+      tgitem.ColStyles(4).CellType = "PushButton"
 
       tgitem.ColStyles(3).CellType = "ComboBox"
       tgitem.ColStyles(3).ChoiceList = items
       tgitem.ColStyles(3).CellValue = ""
 
+      tgitem.ColStyles(5).CellType = "CheckBox"
+      tgitem.ColStyles(5).TriState = False
+      tgitem.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+
+
+
+
+
 
       tgitem.ColWidths(1) = 200
       tgitem.ColWidths(2) = 550
-      tgitem.ColWidths(3) = 200
-      tgitem.ColWidths(4) = 100
+      tgitem.ColWidths(3) = 300
+      tgitem.ColWidths(4) = 40
+      tgitem.ColWidths(5) = 100
 
       SetGridValue(1, 1, "ชื่อ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
       SetGridValue(1, 2, "ที่อยู่", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
       SetGridValue(1, 3, "ผู้ขาย", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 4, "Payment Track", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 5, "Payment Track", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
 
 
 
-      tgItem.BackColor = Color.White
+      tgitem.BackColor = Color.White
 
 
 
@@ -222,6 +257,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem.RowCount = 1
 
 
+      If Not Me.BuilkMatchList Is Nothing AndAlso Me.BuilkMatchList.Count > 0 Then
+
+        For Each bm As BuilkMatch In Me.BuilkMatchList
+
+          SetGridValue(tgitem.RowCount, 1, bm.BuilkNameInfo)
+          SetGridValue(tgitem.RowCount, 2, bm.BuilkAddressInfo)
+          SetGridValue(tgitem.RowCount, 3, bm.PJMSupplier.Code & ":" & bm.PJMSupplier.Name)
+
+          tgitem(tgitem.RowCount, 5).CellValue = bm.PaymentTrack
+
+        Next
+
+
+      End If
+
+
       tgitem.RowCount += 1
       SetGridValue(tgitem.RowCount, 1, "")
       SetGridValue(tgitem.RowCount, 2, "")
@@ -229,10 +280,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'tgitem(tgitem.RowCount, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
 
       tgitem.EndUpdate()
-
-    End Sub
-
-    Private Sub ClearGrid()
 
     End Sub
 
@@ -248,14 +295,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
 
-
     Public Overloads Overrides Sub Save()
       'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
 
-      MessageBox.Show("It's Ok.")
+      'MessageBox.Show("It's Ok.")
+
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Longkong.Pojjaman.BusinessLogic.SimpleBusinessEntityBase.ConnectionString)
+      Dim sql As String = ""
+      Dim command As SqlCommand
+
+      Dim success As Boolean = False
+      conn.Open()
+      command = conn.CreateCommand
+      trans = conn.BeginTransaction()
+      command.Transaction = trans
+      command.CommandType = CommandType.Text
+
+
+
+      Try
+
+        For Each bm As BuilkMatch In Me.BuilkMatchList
+          sql = ""
+
+          If Not bm.PJMSupplier Is Nothing Then
+
+            sql = "update supplier set supplier_builkid = '" & bm.BuilkIdInfo & "' where supplier_id = " & bm.PJMSupplier.Id
+
+            command.CommandText = sql
+            command.ExecuteNonQuery()
+
+          End If
+
+        Next
+
+        trans.Commit()
+
+      Catch ex As Exception
+
+        trans.Rollback()
+
+        MessageBox.Show(ex.ToString)
+
+      Finally
+
+        conn.Close()
+
+      End Try
+
+      MessageBox.Show("Finish!")
 
     End Sub
 
+
+    Public Sub GetBuilkRequest()
+      Me.BuilkMatchList = New List(Of BuilkMatch)
+
+      Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+
+
+
+    End Sub
 
 
 #End Region
@@ -284,24 +385,127 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event"
-    Private Sub tgItem_CellDoubleClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
-      'MessageBox.Show("Hello" & MousePosition.X & ":" & MousePosition.Y)
 
-      If e.RowIndex < 3 Or e.ColIndex < 2 Then
+    Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
+
+      GetBuilkRequest()
+
+      PopulateGrid()
+
+    End Sub
+
+    Private Sub tgitem_CellButtonClicked(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellButtonClickedEventArgs) Handles tgitem.CellButtonClicked
+      tgitem.CurrentCell.SetCurrentCellNoActivate(e.RowIndex, e.ColIndex)
+      If e.ColIndex = 4 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim entity As New Supplier
+        myEntityPanelService.OpenListDialog(entity, AddressOf SetSupplier)
+      End If
+    End Sub
+
+    Private Sub SetSupplier(ByVal supp As ISimpleEntity)
+
+      Dim cc As GridCurrentCell = Me.tgitem.CurrentCell
+      If cc.RowIndex <= 1 Then
+        Return
+      End If
+      If cc.RowIndex - 1 > Me.BuilkMatchList.Count Then
         Return
       End If
 
+      If TypeOf supp Is Supplier Then
+
+        Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+
+        Me.WorkbenchWindow.ViewContent.IsDirty = True
+
+      End If
 
     End Sub
 
-    Private Sub tgItem_CurrentCellStartEditing(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
-      If Not m_updating Then
+    Private Sub tgitem_CurrentCellStartEditing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles tgitem.CurrentCellStartEditing
+      If tgitem.CurrentCell.ColIndex < 3 Then
         e.Cancel = True
       End If
     End Sub
+
+    Private Sub tgitem_CurrentCellValidating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles tgitem.CurrentCellValidating
+      Dim cc As GridCurrentCell = Me.tgitem.CurrentCell
+      If cc.RowIndex <= 1 Then
+        Return
+      End If
+      If cc.RowIndex - 1 > Me.BuilkMatchList.Count Then
+        Return
+      End If
+
+      Try
+
+        Select Case cc.ColIndex
+          Case 4
+            Dim txt As String = cc.Renderer.ControlValue
+            Dim reg As New Regex("(.*):")
+            Dim reg2 As New Regex("\|(.*)")
+
+            If reg.IsMatch(txt) Then
+
+              Dim supp As Supplier = Nothing
+              Dim oldsupp As Supplier = Nothing
+              supp = New Supplier(reg.Match(txt).Groups(1).Value)
+              oldsupp = Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier
+
+              If reg.Match(txt).Groups(1).Value.Length <> 0 AndAlso Not supp.Valid Then
+                MessageBox.Show(reg.Match(txt).Groups(1).Value & " ไม่มีในระบบ")
+              Else
+                Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+                'Me.WorkbenchWindow.ViewContent.IsDirty = True
+                SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
+              End If
+
+            ElseIf reg2.IsMatch(txt) Then
+
+              Dim supp As Supplier = Nothing
+              Dim oldsupp As Supplier = Nothing
+              supp = New Supplier(reg.Match(txt).Groups(1).Value)
+              oldsupp = Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier
+
+              If reg.Match(txt).Groups(1).Value.Length <> 0 AndAlso Not supp.Valid Then
+                MessageBox.Show(reg.Match(txt).Groups(1).Value & " ไม่มีในระบบ")
+              Else
+                Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+                'Me.WorkbenchWindow.ViewContent.IsDirty = True
+                SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
+              End If
+
+            ElseIf txt.Length > 0 Then
+
+              Dim supp As Supplier = Nothing
+              Dim oldsupp As Supplier = Nothing
+              supp = New Supplier(txt)
+              oldsupp = Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier
+
+              If txt.Length <> 0 AndAlso Not supp.Valid Then
+                MessageBox.Show(txt & " ไม่มีในระบบ")
+              Else
+                Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+                'Me.WorkbenchWindow.ViewContent.IsDirty = True
+                SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
+              End If
+
+            End If
+
+          Case 5
+            Me.BuilkMatchList(cc.RowIndex - 1).PaymentTrack = cc.Renderer.ControlValue
+            'Me.WorkbenchWindow.ViewContent.IsDirty = True
+            tgitem(cc.RowIndex, cc.ColIndex).CellValue = cc.Renderer.ControlValue
+
+        End Select
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+
+    End Sub
+
 #End Region
-
-
 
     '#Region "IPrintable"
     '        Public Overrides ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument
@@ -373,18 +577,68 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '        End Function
     '#End Region
 
-
-
-
-
-    Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
-
-    End Sub
-
-    Private Sub tgitem_CurrentCellStartEditing1(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles tgitem.CurrentCellStartEditing
-      If tgitem.CurrentCell.ColIndex < 3 Then
-        e.Cancel = True
-      End If
-    End Sub
   End Class
+
+  Public Class BuilkMatch
+
+    Public Sub New()
+      _builkIdInfo = ""
+      _builkNameInfo = ""
+      _builkAddressInfo = ""
+      _pjmSupplier = Nothing
+      _paymentTrack = False
+    End Sub
+
+    Private _builkIdInfo As String
+    Public Property BuilkIdInfo As String
+      Get
+        Return _builkIdInfo
+      End Get
+      Set(ByVal value As String)
+        _builkIdInfo = value
+      End Set
+    End Property
+
+    Private _builkNameInfo As String
+    Public Property BuilkNameInfo As String
+      Get
+        Return _builkNameInfo
+      End Get
+      Set(ByVal value As String)
+        _builkNameInfo = value
+      End Set
+    End Property
+
+    Private _builkAddressInfo As String
+    Public Property BuilkAddressInfo As String
+      Get
+        Return _builkAddressInfo
+      End Get
+      Set(ByVal value As String)
+        _builkAddressInfo = value
+      End Set
+    End Property
+
+    Private _pjmSupplier As Supplier
+    Public Property PJMSupplier As Supplier
+      Get
+        Return _pjmSupplier
+      End Get
+      Set(ByVal value As Supplier)
+        _pjmSupplier = value
+      End Set
+    End Property
+
+    Private _paymentTrack As Boolean
+    Public Property PaymentTrack As Boolean
+      Get
+        Return _paymentTrack
+      End Get
+      Set(ByVal value As Boolean)
+        _paymentTrack = value
+      End Set
+    End Property
+
+  End Class
+
 End Namespace

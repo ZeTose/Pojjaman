@@ -176,6 +176,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .NotGetItems = CBool(dr("supplier_notgetitems"))
           End If
         End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_builkid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_builkid") Then
+          .BuilkID = CStr(dr(aliasPrefix & Me.Prefix & "_builkid"))
+        Else
+          .BuilkID = ""
+        End If
+
       End With
 
       Dim deh As New DataRowHelper(dr)
@@ -331,6 +338,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return True
       End Get
+    End Property
+    Private m_builkid As String
+    Public Property BuilkID() As String
+      Get
+        Return m_builkid
+      End Get
+      Set(ByVal value As String)
+        m_builkid = value
+      End Set
     End Property
 #End Region
 
@@ -518,7 +534,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@supplier_kbankmcaccount", Me.MCAccount))
             paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
             paramArrayList.Add(New SqlParameter("@supplier_faxforexport", Me.FaxforExport))
-
+      paramArrayList.Add(New SqlParameter("@supplier_builkid", Me.BuilkID))
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
       ' ���ҧ SqlParameter �ҡ ArrayList ...
