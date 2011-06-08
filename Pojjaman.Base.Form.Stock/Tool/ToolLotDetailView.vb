@@ -1048,7 +1048,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_isInitialized = True
 
       Dim sequence As Integer = 0
-
+      Dim sumReqty As Decimal = 0
+      Dim sumbuqty As Decimal = 0
+      Dim sumwfqty As Decimal = 0
       lv.Items.Clear()
       For Each lot As ToolLot In Me.m_entity.ItemCollection
 
@@ -1065,6 +1067,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lvItem.SubItems.Add(Configuration.FormatToString(lot.Buyqty, DigitConfig.Qty))
         lvItem.SubItems.Add(Configuration.FormatToString(lot.WriteOff, DigitConfig.Price))
         lvItem.SubItems.Add(Configuration.FormatToString(lot.RemainQTY, DigitConfig.Qty))
+        sumReqty += lot.RemainQTY
+        sumbuqty += lot.Buyqty
+        sumwfqty += lot.WriteOff
         If lot.IsReferenced Then
           lvItem.SubItems.Add(Me.StringParserService.Parse("${res:Global.Referenced}"))
         Else
@@ -1082,6 +1087,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lvItem.Tag = lot
         lv.Items.Add(lvItem).Tag = lot 'มีปัญหาตอนปิด
       Next
+      'sum
+      If m_entity.ItemCollection.Count > 0 Then
+        sequence += 1
+        Dim lvItem As New ListViewItem(sequence)
+        lvItem.SubItems.Add("")
+        lvItem.SubItems.Add("รวม")
+        lvItem.SubItems.Add(Configuration.FormatToString(sumbuqty, DigitConfig.Qty))
+        lvItem.SubItems.Add(Configuration.FormatToString(sumwfqty, DigitConfig.Price))
+        lvItem.SubItems.Add(Configuration.FormatToString(sumReqty, DigitConfig.Qty))
+
+        lv.Items.Add(lvItem) 'มีปัญหาตอนปิด
+      End If
+
       Me.m_isInitialized = True
     End Sub
     Private Sub RefreshTextData()
