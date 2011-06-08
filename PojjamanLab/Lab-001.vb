@@ -65,6 +65,7 @@ Public Class Lab_001
     Dim dataStream As Stream = request.GetRequestStream()
     ' Write the data to the request stream.
     dataStream.Write(byteArray, 0, byteArray.Length)
+
     ' Close the Stream object.
     dataStream.Close()
     ' Get the response.
@@ -86,8 +87,6 @@ Public Class Lab_001
     reader.Close()
     dataStream.Close()
     response.Close()
-
-
 
   End Sub
 End Class
