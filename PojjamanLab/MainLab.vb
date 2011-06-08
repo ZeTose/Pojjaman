@@ -1,9 +1,13 @@
-﻿Public Class MainLab
+﻿
+'Namespace PojjamanLab
+Public Class MainLab
 
-    Private Sub btnLab001_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLab001.Click
-        Dim frm As New Lab_001
+  Private Sub btnLab001_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLab001.Click
+    Dim frm As New Lab_001
 
-        frm.Show()
+    frm.Show()
 
-    End Sub
+  End Sub
 End Class
+'End Namespace
+
