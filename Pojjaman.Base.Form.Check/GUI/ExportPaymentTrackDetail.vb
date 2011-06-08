@@ -12,7 +12,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ExportPaymentTrackDetail
     Inherits AbstractEntityDetailPanelView
     'Inherits UserControl
-    Implements IValidatable
+    'Implements IValidatable
 
 #Region " Windows Form Designer generated code "
 
@@ -32,39 +32,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    'Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    'Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents grbFilter As System.Windows.Forms.GroupBox
+    Friend WithEvents chkSupplier As System.Windows.Forms.CheckBox
     Friend WithEvents m_grid As Longkong.Pojjaman.Gui.Components.LKGrid
     Friend WithEvents btnExport As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
-      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.m_grid = New Longkong.Pojjaman.Gui.Components.LKGrid()
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbFilter = New System.Windows.Forms.GroupBox()
+      Me.chkSupplier = New System.Windows.Forms.CheckBox()
       Me.btnExport = New System.Windows.Forms.Button()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.grbMaster.SuspendLayout()
       CType(Me.m_grid, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.grbMaster.SuspendLayout()
+      Me.grbFilter.SuspendLayout()
       Me.SuspendLayout()
-      '
-      'grbMaster
-      '
-      Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbMaster.Controls.Add(Me.m_grid)
-      Me.grbMaster.Controls.Add(Me.btnExport)
-      Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbMaster.Location = New System.Drawing.Point(8, 8)
-      Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(714, 496)
-      Me.grbMaster.TabIndex = 0
-      Me.grbMaster.TabStop = False
-      Me.grbMaster.Text = "Export Text File : "
       '
       'm_grid
       '
@@ -81,47 +68,75 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_grid.HideHead = False
       Me.m_grid.HilightGroupParentText = False
       Me.m_grid.HilightWhenMinus = False
-      Me.m_grid.Location = New System.Drawing.Point(6, 49)
+      Me.m_grid.Location = New System.Drawing.Point(6, 63)
       Me.m_grid.Name = "m_grid"
       Me.m_grid.PlusMinusColumnIndex = 0
       Me.m_grid.RightToLeft = System.Windows.Forms.RightToLeft.No
       Me.m_grid.RowCount = 0
-      Me.m_grid.Size = New System.Drawing.Size(702, 441)
+      Me.m_grid.Size = New System.Drawing.Size(702, 427)
       Me.m_grid.SmartSizeBox = False
       Me.m_grid.TabIndex = 7
       Me.m_grid.ThemesEnabled = True
       Me.m_grid.TreeTable = Nothing
       Me.m_grid.TreeTableStyle = Nothing
       '
+      'grbMaster
+      '
+      Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.grbFilter)
+      Me.grbMaster.Controls.Add(Me.btnExport)
+      Me.grbMaster.Controls.Add(Me.m_grid)
+      Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbMaster.Location = New System.Drawing.Point(8, 8)
+      Me.grbMaster.Name = "grbMaster"
+      Me.grbMaster.Size = New System.Drawing.Size(714, 496)
+      Me.grbMaster.TabIndex = 0
+      Me.grbMaster.TabStop = False
+      Me.grbMaster.Text = "Export Text File : "
+      '
+      'grbFilter
+      '
+      Me.grbFilter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbFilter.Controls.Add(Me.chkSupplier)
+      Me.grbFilter.Location = New System.Drawing.Point(471, 10)
+      Me.grbFilter.Name = "grbFilter"
+      Me.grbFilter.Size = New System.Drawing.Size(237, 47)
+      Me.grbFilter.TabIndex = 7
+      Me.grbFilter.TabStop = False
+      Me.grbFilter.Text = "รายละเอียดการค้นหา"
+      '
+      'chkSupplier
+      '
+      Me.chkSupplier.AutoSize = True
+      Me.chkSupplier.Checked = True
+      Me.chkSupplier.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkSupplier.Location = New System.Drawing.Point(7, 20)
+      Me.chkSupplier.Name = "chkSupplier"
+      Me.chkSupplier.Size = New System.Drawing.Size(168, 17)
+      Me.chkSupplier.TabIndex = 0
+      Me.chkSupplier.Text = "แสดงเฉพาะ ที่ยืนยันผู้ขายแล้ว"
+      Me.chkSupplier.UseVisualStyleBackColor = True
+      '
       'btnExport
       '
       Me.btnExport.Location = New System.Drawing.Point(6, 19)
       Me.btnExport.Name = "btnExport"
-      Me.btnExport.Size = New System.Drawing.Size(88, 24)
+      Me.btnExport.Size = New System.Drawing.Size(88, 38)
       Me.btnExport.TabIndex = 6
       Me.btnExport.Text = "Export"
-      '
-      'ErrorProvider1
-      '
-      Me.ErrorProvider1.ContainerControl = Me
-      '
-      'Validator
-      '
-      Me.Validator.BackcolorChanging = False
-      Me.Validator.DataTable = Nothing
-      Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
-      Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
       'ExportPaymentTrackDetail
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Name = "ExportPaymentTrackDetail"
       Me.Size = New System.Drawing.Size(728, 512)
-      Me.grbMaster.ResumeLayout(False)
       CType(Me.m_grid, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.grbMaster.ResumeLayout(False)
+      Me.grbFilter.ResumeLayout(False)
+      Me.grbFilter.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -229,6 +244,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Function SetKeyValuePair(ByVal doctype As String, ByVal docId As String) As KeyValuePair
       Return New KeyValuePair(doctype, docId)
     End Function
+    Private Function DataRowsFilter(ByVal dt As DataTable) As DataRowCollection
+      If Me.chkSupplier.Checked Then
+        Dim rows As DataRow() = dt.Select("supplier_builkid is not null")
+        Dim newdt As New DataTable
+        For Each col As DataColumn In dt.Columns
+          newdt.Columns.Add(New DataColumn(col.ColumnName))
+        Next
+        For Each row As DataRow In rows
+          Dim drh As New Longkong.Pojjaman.DataAccessLayer.DataRowHelper(row)
+          If drh.GetValue(Of Integer)("supplier_builkid") > 0 Then '--กันไว้อีกรอบ--
+            Dim newrow As DataRow = newdt.NewRow
+            For Each col As DataColumn In dt.Columns
+              newrow(col.ColumnName) = row(col.ColumnName)
+            Next
+            newdt.Rows.Add(newrow)
+          End If
+        Next
+        Return newdt.Rows
+      End If
+      Return dt.Rows
+    End Function
     Private Sub PopulateData()
       If Me.m_entity.PaymentTrackDataSet Is Nothing _
         OrElse Me.m_entity.PaymentTrackDataSet.Tables.Count <= 0 _
@@ -251,7 +287,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim billTr As TreeRow = Nothing
       Dim docTr As TreeRow = Nothing
 
-      For Each row As DataRow In dt.Rows
+      For Each row As DataRow In DataRowsFilter(dt)
         Dim drh As New Longkong.Pojjaman.DataAccessLayer.DataRowHelper(row)
 
         If Not checkHs.ContainsKey(drh.GetValue(Of String)("check_id")) Then
@@ -919,16 +955,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
       If Me.m_entity.Originated Then
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
-          msgServ.ShowMessage(Validator.ValidationSummary)
-          Return
-        End If
+        'If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
+        '  msgServ.ShowMessage(Validator.ValidationSummary)
+        '  Return
+        'End If
 
         Dim culture As New CultureInfo("en-US", True)
         Dim myOpb As New SaveFileDialog
         myOpb.Filter = "All Files|*.*|Text File (*.txt)|*.txt"
         myOpb.FilterIndex = 2
-        myOpb.FileName = "PaymentTrack_" & CStr(Configuration.GetConfig("CompanyId")) & "_" & Me.m_entity.Id.ToString & ".txt"
+        myOpb.FileName = "PaymentTrack_" & Me.m_entity.PayerBuilkID & "_" & Me.m_entity.Id.ToString & ".txt"
         If myOpb.ShowDialog() = DialogResult.OK Then
           Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
           Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.Default)
@@ -949,12 +985,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
-      Get
-        Return Me.Validator
-      End Get
-    End Property
+    'Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+    '  Get
+    '    Return Me.Validator
+    '  End Get
+    'End Property
 #End Region
+
+    Private Sub chkSupplier_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkSupplier.CheckedChanged
+      If m_entity Is Nothing Then
+        Return
+      End If
+
+      RefreshDocs()
+    End Sub
 
   End Class
 

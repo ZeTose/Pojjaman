@@ -310,13 +310,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "wht_entity") AndAlso Not dr.IsNull(aliasPrefix & "wht_entity") Then
           entityId = CInt(dr(aliasPrefix & "wht_entity"))
         End If
-        If entityType = 10 AndAlso dr.Table.Columns.Contains(aliasPrefix & "supplier_id") AndAlso Not dr.IsNull(aliasPrefix & "supplier_id") Then
-          .wht_entity = CType(New Supplier(CInt(dr("supplier_id"))), IBillablePerson)
-          '.wht_entity = CType(Supplier.GetSupplierbyDataRow(dr), IBillablePerson)
-        ElseIf dr.Table.Columns.Contains("eocheck_supplier") Then '--เพื่อความเร็ว:pui--
+        If dr.Table.Columns.Contains("eocheck_supplier") Then '--เพื่อความเร็ว:pui--
           If Not dr.IsNull("eocheck_supplier") Then
             .wht_entity = New Supplier(dr, "") ' Supplier.GetSupplierbyDataRow(dr)
           End If
+        ElseIf entityType = 10 AndAlso dr.Table.Columns.Contains(aliasPrefix & "supplier_id") AndAlso Not dr.IsNull(aliasPrefix & "supplier_id") Then
+          .wht_entity = CType(New Supplier(CInt(dr("supplier_id"))), IBillablePerson)
+          '.wht_entity = CType(Supplier.GetSupplierbyDataRow(dr), IBillablePerson)
         Else
           .wht_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
         End If

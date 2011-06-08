@@ -630,7 +630,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "IPaymentTrackExportable"
     Public Property PayerBuilkID As String Implements IPaymentTrackExportable.PayerBuilkID
       Get
-        Dim obj As Object = Configuration.GetConfig("CompanyId")
+        Dim obj As Object = Configuration.GetConfig("BuilkID")
         Return CStr(obj)
       End Get
       Set(ByVal value As String)
@@ -639,14 +639,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property CheckQty As Integer Implements IPaymentTrackExportable.CheckQty
       Get
-        Return Me.ItemCollection.Count
+        Dim qty As Integer = 0
+        For Each c As ExportOutgoingCheckItem In Me.ItemCollection
+          If Not c.Entity Is Nothing AndAlso _
+          Not c.Entity.Supplier.BuilkID Is Nothing AndAlso _
+          c.Entity.Supplier.BuilkID.Trim.Length > 0 Then
+            qty += 1
+          End If
+        Next
+        Return qty
       End Get
     End Property
     Public ReadOnly Property CheckAmount As Decimal Implements IPaymentTrackExportable.CheckAmount
       Get
         Dim amt As Decimal = 0
         For Each c As ExportOutgoingCheckItem In Me.ItemCollection
-          If Not c.Entity Is Nothing Then
+          If Not c.Entity Is Nothing AndAlso _
+          Not c.Entity.Supplier.BuilkID Is Nothing AndAlso _
+          c.Entity.Supplier.BuilkID.Trim.Length > 0 Then
             amt += c.Entity.Amount
           End If
         Next
@@ -660,11 +670,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_PaymenTrackCheckDetailList = New List(Of PaymentTrackCheckDetail)
 
       For Each exCheck As ExportOutgoingCheckItem In Me.ItemCollection
-        If Not exCheck.Entity Is Nothing AndAlso exCheck.Entity.Originated Then
+        If Not exCheck.Entity Is Nothing AndAlso _
+          exCheck.Entity.Originated AndAlso _
+          Not exCheck.Entity.Supplier.BuilkID Is Nothing AndAlso _
+          exCheck.Entity.Supplier.BuilkID.Trim.Length > 0 Then
 
           Dim ck As New PaymentTrackCheckDetail
           ck.CheckCode = exCheck.Entity.Code
-          ck.PayeeBuilkId = exCheck.Entity.Supplier.Id.ToString
+          ck.PayeeBuilkId = exCheck.Entity.Supplier.BuilkID
           ck.CheckDescription = exCheck.Detail
           ck.CheckIssueDate = exCheck.Entity.IssueDate.ToString("yyyy-mm-dd", culture)
           ck.CheckAmount = exCheck.Entity.Amount.ToString

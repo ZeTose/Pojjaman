@@ -108,14 +108,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_dueDate = CDate(dr(aliasPrefix & "check_dueDate"))
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "supplier_id") Then
+        If dr.Table.Columns.Contains("eocheck_supplier") Then '--เพื่อความเร็ว:pui--
+          If Not dr.IsNull("eocheck_supplier") Then
+            .m_supplier = New Supplier(dr, "") ' Supplier.GetSupplierbyDataRow(dr)
+          End If
+        ElseIf dr.Table.Columns.Contains(aliasPrefix & "supplier_id") Then
           If Not dr.IsNull(aliasPrefix & "supplier_id") Then
             .m_supplier = New Supplier(CInt(dr("supplier_id")), True) ' Supplier.GetSupplierbyDataRow(dr)
             '.m_supplier = New Supplier(dr, aliasPrefix)
-          End If
-        ElseIf dr.Table.Columns.Contains("eocheck_supplier") Then '--เพื่อความเร็ว:pui--
-          If Not dr.IsNull("eocheck_supplier") Then
-            .m_supplier = New Supplier(dr, "") ' Supplier.GetSupplierbyDataRow(dr)
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & "check_supplier") AndAlso Not dr.IsNull(aliasPrefix & "check_supplier") Then
