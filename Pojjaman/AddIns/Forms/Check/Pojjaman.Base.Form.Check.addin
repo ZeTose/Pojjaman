@@ -55,7 +55,8 @@
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
 		</EntityTab>
 		<EntityTab id="exportoutgoingcheck">
-			<EntityTab id="ExportOutgoingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail"/>
+      <EntityTab id="ExportOutgoingCheckDetail" view="Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail"/>
+      <EntityTab id="ExportPaymentTrackDetail" view="Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail"/>
 		</EntityTab>
 	</Extension>
 </AddIn>

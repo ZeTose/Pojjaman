@@ -184,6 +184,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
       AddHandler m_itemTable.RowDeleting, AddressOf ItemDelete
     End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal ds As DataSet)
+      Me.Construct(dr, "")
+      ReLoadItems(ds, "")
+      'WrapperArrayList.AddItemAddedHandler(m_itemTable, AddressOf ItemAdded)
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      AddHandler m_itemTable.RowDeleting, AddressOf ItemDelete
+    End Sub
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
       With Me
@@ -305,6 +313,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If entityType = 10 AndAlso dr.Table.Columns.Contains(aliasPrefix & "supplier_id") AndAlso Not dr.IsNull(aliasPrefix & "supplier_id") Then
           .wht_entity = CType(New Supplier(CInt(dr("supplier_id"))), IBillablePerson)
           '.wht_entity = CType(Supplier.GetSupplierbyDataRow(dr), IBillablePerson)
+        ElseIf dr.Table.Columns.Contains("eocheck_supplier") Then '--เพื่อความเร็ว:pui--
+          If Not dr.IsNull("eocheck_supplier") Then
+            .wht_entity = New Supplier(dr, "") ' Supplier.GetSupplierbyDataRow(dr)
+          End If
         Else
           .wht_entity = CType(SimpleBusinessEntityBase.GetEntity(Longkong.Pojjaman.BusinessLogic.Entity.GetFullClassName(entityType), entityId), IBillablePerson)
         End If

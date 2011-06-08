@@ -314,7 +314,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(232, 176)
+      Me.ibtnBlank.Location = New System.Drawing.Point(232, 150)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 12
@@ -324,7 +324,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(256, 176)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(256, 150)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 13
@@ -411,9 +411,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 200)
+      Me.tgItem.Location = New System.Drawing.Point(8, 176)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(698, 144)
+      Me.tgItem.Size = New System.Drawing.Size(698, 168)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 11
       Me.tgItem.TreeManager = Nothing
@@ -423,7 +423,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.AutoSize = True
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(16, 180)
+      Me.lblItem.Location = New System.Drawing.Point(16, 154)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(210, 16)
       Me.lblItem.TabIndex = 10
@@ -491,7 +491,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCurrency.AutoSize = True
       Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency.ForeColor = System.Drawing.Color.Black
-      Me.lblCurrency.Location = New System.Drawing.Point(666, 176)
+      Me.lblCurrency.Location = New System.Drawing.Point(666, 154)
       Me.lblCurrency.Name = "lblCurrency"
       Me.lblCurrency.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrency.TabIndex = 11
@@ -503,7 +503,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCheckCount.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblCheckCount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCheckCount.ForeColor = System.Drawing.Color.Black
-      Me.lblCheckCount.Location = New System.Drawing.Point(410, 152)
+      Me.lblCheckCount.Location = New System.Drawing.Point(410, 128)
       Me.lblCheckCount.Name = "lblCheckCount"
       Me.lblCheckCount.Size = New System.Drawing.Size(144, 16)
       Me.lblCheckCount.TabIndex = 9
@@ -519,7 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSumTotal, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtSumTotal, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSumTotal, System.Drawing.Color.Empty)
-      Me.txtSumTotal.Location = New System.Drawing.Point(562, 176)
+      Me.txtSumTotal.Location = New System.Drawing.Point(562, 152)
       Me.Validator.SetMinValue(Me.txtSumTotal, "")
       Me.txtSumTotal.Name = "txtSumTotal"
       Me.txtSumTotal.ReadOnly = True
@@ -528,7 +528,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSumTotal.Size = New System.Drawing.Size(104, 21)
       Me.txtSumTotal.TabIndex = 10
       Me.txtSumTotal.TabStop = False
-      Me.txtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtCheckCount
       '
@@ -539,7 +539,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCheckCount, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtCheckCount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCheckCount, System.Drawing.Color.Empty)
-      Me.txtCheckCount.Location = New System.Drawing.Point(562, 152)
+      Me.txtCheckCount.Location = New System.Drawing.Point(562, 128)
       Me.Validator.SetMinValue(Me.txtCheckCount, "")
       Me.txtCheckCount.Name = "txtCheckCount"
       Me.txtCheckCount.ReadOnly = True
@@ -548,7 +548,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCheckCount.Size = New System.Drawing.Size(104, 21)
       Me.txtCheckCount.TabIndex = 7
       Me.txtCheckCount.TabStop = False
-      Me.txtCheckCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtCheckCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblSumCheckUnit
       '
@@ -556,7 +556,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSumCheckUnit.AutoSize = True
       Me.lblSumCheckUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSumCheckUnit.ForeColor = System.Drawing.Color.Black
-      Me.lblSumCheckUnit.Location = New System.Drawing.Point(666, 152)
+      Me.lblSumCheckUnit.Location = New System.Drawing.Point(666, 130)
       Me.lblSumCheckUnit.Name = "lblSumCheckUnit"
       Me.lblSumCheckUnit.Size = New System.Drawing.Size(40, 13)
       Me.lblSumCheckUnit.TabIndex = 8
@@ -568,7 +568,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSumTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSumTotal.ForeColor = System.Drawing.Color.Black
-      Me.lblSumTotal.Location = New System.Drawing.Point(410, 176)
+      Me.lblSumTotal.Location = New System.Drawing.Point(410, 152)
       Me.lblSumTotal.Name = "lblSumTotal"
       Me.lblSumTotal.Size = New System.Drawing.Size(144, 16)
       Me.lblSumTotal.TabIndex = 6
@@ -779,7 +779,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.MappingName = "code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail.CodeHeaderText}")
       csCode.NullText = ""
-      csCode.Width = 80
+      csCode.Width = 120
       csCode.Alignment = HorizontalAlignment.Center
       csCode.DataAlignment = HorizontalAlignment.Left
       csCode.ReadOnly = False
@@ -827,7 +827,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDetail.NullText = ""
       csDetail.Alignment = HorizontalAlignment.Center
       csDetail.DataAlignment = HorizontalAlignment.Left
-      csDetail.Width = 180
+      csDetail.Width = 210
       csDetail.ReadOnly = False
       csDetail.TextBox.Name = "detail"
 
@@ -836,14 +836,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDelivery = New DataGridComboColumn("deliverymethod", DeliveryDataTable, "code_description", "code_tag")
       csDelivery.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail.DeliveryMethodHeaderText}")
       csDelivery.NullText = String.Empty
-      csDelivery.Width = 180
+      csDelivery.Width = 160
       csDelivery.ReadOnly = False
       ' PickupCode ...
       Dim csPickupCode As DataGridComboColumn
       csPickupCode = New DataGridComboColumn("pickuplocationcode", PickUpDataTable, "code_description", "code_tag")
       csPickupCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail.PickupCodeHeaderText}")
       csPickupCode.NullText = String.Empty
-      csPickupCode.Width = 120
+      csPickupCode.Width = 100
       csPickupCode.ReadOnly = False
       ' DocumentForPickup ...
       Dim csDocumentForPickup As New TreeTextColumn
@@ -1273,7 +1273,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
           RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
           Me.m_entity = Nothing
         End If
-        Me.m_entity = CType(Value, ExportOutgoingCheck)
+
+        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+          'If Not Me.m_entity Is Nothing Then
+          '  Me.m_entity.ClearReference()
+          'End If
+          Me.m_entity = Nothing
+          Me.m_entity = CType(Value, ExportOutgoingCheck)
+        End If
+
+        'Me.m_entity = CType(Value, ExportOutgoingCheck)
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()

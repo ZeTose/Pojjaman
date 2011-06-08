@@ -114,8 +114,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_creditType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_creditType") Then
           .CreditType.Value = CInt(dr(aliasPrefix & Me.Prefix & "_creditType"))
         End If
-        If dr.Table.Columns.Contains("csg_id") Then
-          If Not dr.IsNull("csg_id") Then
+        If dr.Table.Columns.Contains("spg_id") Then
+          If Not dr.IsNull("spg_id") Then
             .Group = New SupplierGroup(dr, "")
           End If
         Else
