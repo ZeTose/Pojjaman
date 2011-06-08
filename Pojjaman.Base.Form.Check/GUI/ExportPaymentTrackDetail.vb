@@ -301,29 +301,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
             billTr = CType(billHs(drh.GetValue(Of String)("billa_id")), TreeRow)
           End If
         End If
-        If Not billTr Is Nothing Then
-          docTr = billTr.Childs.Add
-          indent2 = indent & indent
-        Else
-          docTr = checkTr.Childs.Add
-          indent2 = indent
+        If drh.GetValue(Of Integer)("stockid") > 0 Then
+          If Not billTr Is Nothing Then
+            docTr = billTr.Childs.Add
+            indent2 = indent & indent
+          Else
+            docTr = checkTr.Childs.Add
+            indent2 = indent
+          End If
+          docTr.Tag = Me.SetKeyValuePair(drh.GetValue(Of String)("stocktype"), drh.GetValue(Of String)("stockid"))
+          docTr("col0") = indent2 & drh.GetValue(Of String)("entity_description")
+          docTr("col1") = drh.GetValue(Of String)("stockcode")
+          If IsDate(drh.GetValue(Of String)("stockdocdate")) Then
+            docTr("col2") = indent2 & CDate(drh.GetValue(Of String)("stockdocdate")).ToShortDateString
+          End If
+          docTr("col3") = indent2 & drh.GetValue(Of String)("stockotherDocCode")
+          If IsDate(drh.GetValue(Of String)("stockotherDocDate")) Then
+            docTr("col4") = indent2 & CDate(drh.GetValue(Of String)("stockotherDocDate")).ToShortDateString
+          End If
+          docTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_beforetax"), DigitConfig.Price)
+          docTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_taxamt"), DigitConfig.Price)
+          docTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price)
+          docTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_advance"), DigitConfig.Price)
+          docTr("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stockretention"), DigitConfig.Price)
+          docTr("col10") = drh.GetValue(Of String)("posc")
         End If
-        docTr.Tag = Me.SetKeyValuePair(drh.GetValue(Of String)("stocktype"), drh.GetValue(Of String)("stockid"))
-        docTr("col0") = indent2 & drh.GetValue(Of String)("entity_description")
-        docTr("col1") = drh.GetValue(Of String)("stockcode")
-        If IsDate(drh.GetValue(Of String)("stockdocdate")) Then
-          docTr("col2") = indent2 & CDate(drh.GetValue(Of String)("stockdocdate")).ToShortDateString
-        End If
-        docTr("col3") = indent2 & drh.GetValue(Of String)("stockotherDocCode")
-        If IsDate(drh.GetValue(Of String)("stockotherDocDate")) Then
-          docTr("col4") = indent2 & CDate(drh.GetValue(Of String)("stockotherDocDate")).ToShortDateString
-        End If
-        docTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_beforetax"), DigitConfig.Price)
-        docTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_taxamt"), DigitConfig.Price)
-        docTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price)
-        docTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_advance"), DigitConfig.Price)
-        docTr("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stockretention"), DigitConfig.Price)
-        docTr("col10") = drh.GetValue(Of String)("posc")
       Next
       dt.AcceptChanges()
 

@@ -34,6 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_receiveList As List(Of ChequeReceiver)
     Private m_paymentTrackDataSet As DataSet
+    Private m_PaymenTrackCheckDetailList As List(Of PaymentTrackCheckDetail)
 #End Region
 
 #Region "Constructors"
@@ -636,47 +637,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+    Public ReadOnly Property CheckQty As Integer Implements IPaymentTrackExportable.CheckQty
+      Get
+        Return Me.ItemCollection.Count
+      End Get
+    End Property
+    Public ReadOnly Property CheckAmount As Decimal Implements IPaymentTrackExportable.CheckAmount
+      Get
+        Dim amt As Decimal = 0
+        For Each c As ExportOutgoingCheckItem In Me.ItemCollection
+          If Not c.Entity Is Nothing Then
+            amt += c.Entity.Amount
+          End If
+        Next
+        Return amt
+      End Get
+    End Property
 
     Public Function PaymenTrackCheckDetailList() As System.Collections.Generic.List(Of PaymentTrackCheckDetail) Implements IPaymentTrackExportable.PaymenTrackCheckDetailList
 
       Dim culture As New CultureInfo("en-US", True)
-      Dim m_PaymenTrackCheckDetailList As New List(Of PaymentTrackCheckDetail)
-      'Dim dcItemList As New List(Of PaymentTrackDocDetail)
+      m_PaymenTrackCheckDetailList = New List(Of PaymentTrackCheckDetail)
 
       For Each exCheck As ExportOutgoingCheckItem In Me.ItemCollection
-        Dim ck As New PaymentTrackCheckDetail
-        ck.CheckCode = exCheck.Entity.Code
-        ck.PayeeBuilkId = exCheck.Entity.Supplier.Id.ToString
-        ck.CheckDescription = exCheck.Detail
-        ck.CheckIssueDate = exCheck.Entity.IssueDate.ToString("yyyy-mm-dd", culture)
-        ck.CheckAmount = exCheck.Entity.Amount.ToString
-        ck.BeforeTax = exCheck.AmountBeforeVat.ToString
-        ck.WitholdingTax = exCheck.WHTCollection.Amount.ToString
-        ck.AfterTax = exCheck.AmountAfterVat.ToString
-        ck.DocForReceive = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.DocumentForPickup, "DocumentForPickup", True)
-        ck.ReceiveAddress = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.PickupCode, "PickupLocationCode", True)
-        ck.ReceiveMethod = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.DeliveryMethod, "DeliveryMethod", True)
-        ck.CheckRemark = exCheck.Entity.Note
-        ck.Added = Me.GetAddedList(exCheck.Entity)
-        ck.Subtract = Me.GetSubtractList(exCheck.Entity)
+        If Not exCheck.Entity Is Nothing AndAlso exCheck.Entity.Originated Then
 
-        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("billa_id is not null and check_id=" & exCheck.Entity.Id.ToString)
-        If dr.Length > 0 Then '--มีเอกสารวางบิล-- ====================== X1
-          Dim billHs As New Hashtable
-          For Each row As DataRow In dr
-            Dim pbhr As New DataRowHelper(row)
-            Dim pb As New PaymentTrackBillNoteDetail
+          Dim ck As New PaymentTrackCheckDetail
+          ck.CheckCode = exCheck.Entity.Code
+          ck.PayeeBuilkId = exCheck.Entity.Supplier.Id.ToString
+          ck.CheckDescription = exCheck.Detail
+          ck.CheckIssueDate = exCheck.Entity.IssueDate.ToString("yyyy-mm-dd", culture)
+          ck.CheckAmount = exCheck.Entity.Amount.ToString
+          ck.BeforeTax = exCheck.AmountBeforeVat.ToString
+          ck.WitholdingTax = exCheck.WHTCollection.Amount.ToString
+          ck.AfterTax = exCheck.AmountAfterVat.ToString
+          ck.DocForReceive = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.DocumentForPickup, "DocumentForPickup", True)
+          ck.ReceiveAddress = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.PickupCode, "PickupLocationCode", True)
+          ck.ReceiveMethod = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.DeliveryMethod, "DeliveryMethod", True)
+          ck.CheckRemark = exCheck.Entity.Note
+          ck.Added = Me.GetAddedList(exCheck.Entity)
+          ck.Subtract = Me.GetSubtractList(exCheck.Entity)
 
-            If Not billHs.ContainsKey(pbhr.GetValue(Of String)("billa_id")) Then
-              pb.BillNoteCode = pbhr.GetValue(Of String)("billa_billissueCode")
-              If IsDate(pbhr.GetValue(Of Date)("billa_billissueDate")) Then
-                pb.BillNoteDate = pbhr.GetValue(Of Date)("billa_billissueDate").ToString("yyyy-mm-dd", culture)
+          Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("billa_id is not null and check_id=" & exCheck.Entity.Id.ToString)
+          If dr.Length > 0 Then '--มีเอกสารวางบิล-- ====================== X1
+            Dim billHs As New Hashtable
+            For Each row As DataRow In dr
+              Dim pbhr As New DataRowHelper(row)
+              Dim pb As New PaymentTrackBillNoteDetail
+
+              If Not billHs.ContainsKey(pbhr.GetValue(Of String)("billa_id")) Then
+                pb.BillNoteCode = pbhr.GetValue(Of String)("billa_billissueCode")
+                If IsDate(pbhr.GetValue(Of Date)("billa_billissueDate")) Then
+                  pb.BillNoteDate = pbhr.GetValue(Of Date)("billa_billissueDate").ToString("yyyy-mm-dd", culture)
+                End If
+                pb.Amount = pbhr.GetValue(Of String)("billa_gross")
+
+                Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString & " and billa_id=" & pbhr.GetValue(Of String)("billa_id"))
+                For Each row2 As DataRow In dr2
+                  Dim dochr As New DataRowHelper(row2)
+                  Dim dc As New PaymentTrackDocDetail
+                  dc.DocumentType = dochr.GetValue(Of String)("entity_description")
+                  dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
+                  If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
+                    dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-mm-dd", culture)
+                  End If
+                  dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
+                  dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
+                  pb.PaymentTrackDocDetailList.Add(dc)
+                Next
+
+                billHs(pbhr.GetValue(Of String)("billa_id")) = row
+                ck.PaymentTrackBillNoteDetailList.Add(pb)
               End If
-              pb.Amount = pbhr.GetValue(Of String)("billa_gross")
+            Next
 
-              Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString & " and billa_id=" & pbhr.GetValue(Of String)("billa_id"))
-              For Each row2 As DataRow In dr2
-                Dim dochr As New DataRowHelper(row2)
+          Else '--ไม่มีมีเอกสารวางบิล-- =================================== X1
+            Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString)
+            For Each row As DataRow In dr2
+              Dim dochr As New DataRowHelper(row)
+              If dochr.GetValue(Of Integer)("stockid") > 0 Then
                 Dim dc As New PaymentTrackDocDetail
                 dc.DocumentType = dochr.GetValue(Of String)("entity_description")
                 dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
@@ -685,31 +724,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
                 dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
                 dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
-                pb.PaymentTrackDocDetailList.Add(dc)
-              Next
+                ck.PaymentTrackDocDetailList.Add(dc)
+              End If
+            Next
+          End If
 
-              billHs(pbhr.GetValue(Of String)("billa_id")) = row
-              ck.PaymentTrackBillNoteDetailList.Add(pb)
-            End If
-          Next
-
-        Else '--ไม่มีมีเอกสารวางบิล-- =================================== X1
-          Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString)
-          For Each row As DataRow In dr2
-            Dim dochr As New DataRowHelper(row)
-            Dim dc As New PaymentTrackDocDetail
-            dc.DocumentType = dochr.GetValue(Of String)("entity_description")
-            dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
-            If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
-              dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-mm-dd", culture)
-            End If
-            dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
-            dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
-            ck.PaymentTrackDocDetailList.Add(dc)
-          Next
+          m_PaymenTrackCheckDetailList.Add(ck)
         End If
-
-        m_PaymenTrackCheckDetailList.Add(ck)
       Next
 
       Return m_PaymenTrackCheckDetailList

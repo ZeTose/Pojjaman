@@ -1312,6 +1312,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IPaymentTrackExportable
     Property PayerBuilkID As String
     Property PaymentTrackID As String
+    ReadOnly Property CheckQty As Integer
+    ReadOnly Property CheckAmount As Decimal
     Function PaymenTrackCheckDetailList() As List(Of PaymentTrackCheckDetail)
   End Interface
   Public Class Exporter
@@ -2008,7 +2010,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim header As String = ""
       header &= "H".Pipe
       header &= p.PayerBuilkID.Pipe
-      header &= p.PaymentTrackID
+      header &= p.PaymentTrackID.Pipe
+      header &= p.CheckQty.ToString.Pipe
+      header &= p.CheckAmount.ToString
       writer.WriteLine(header)
 
       For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
@@ -2027,9 +2031,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         checkText &= check.ReceiveMethod.Pipe
         checkText &= check.CheckRemark.Pipe
         checkText &= check.Added.Pipe
-        checkText &= check.Subtract
+        checkText &= check.Subtract.Pipe
+        checkText &= check.BillNoteQty.ToString.Pipe
+        checkText &= check.BillNoteAmout.ToString.Pipe
+        checkText &= check.DocQty.ToString.Pipe
+        checkText &= check.DocAmount.ToString
         writer.WriteLine(checkText)
-
 
         For Each bill As PaymentTrackBillNoteDetail In check.PaymentTrackBillNoteDetailList
           Dim billText As String = ""
@@ -2040,7 +2047,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           billText &= bill.TotalAmount.Pipe
           billText &= bill.Added.Pipe
           billText &= bill.Subtract.Pipe
-          billText &= bill.Remarks
+          billText &= bill.Remarks.Pipe
+          billText &= bill.DocQty.ToString.Pipe
+          billText &= bill.DocAmount.ToString
           writer.WriteLine(billText)
 
           For Each doc As PaymentTrackDocDetail In bill.PaymentTrackDocDetailList
@@ -2073,95 +2082,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       Next
 
-      'Dim theItemList As List(Of PaymentForList) = c.PaymentList 'GetGroupedList(c.PaymentList, t)
-      'Dim amtString As String = Configuration.FormatToString(c.Amount, 2)
-
-      'Dim culture As New CultureInfo("en-US", True)
-
-      'Dim effectiveDate As Date = c.DueDate
-      'If theItemList IsNot Nothing AndAlso theItemList.Count > 0 Then
-      '  effectiveDate = theItemList(0).RefDueDate
-      'End If
-      'Dim exportTime As Date = Date.Now
-      'Dim header As String = ""
-      'header &= "H" 'Part Identifier
-      'header &= "MCL" 'Payment Type
-      'header &= String.Format("{0,-10}", c.BankAccount.BankCode.Replace("-", "")) 'Debit A/C No.
-      'header &= Space(16) 'Batch Ref.#
-      'header &= effectiveDate.ToString("dd-MM-yyyy", culture) 'Effective Date
-      'header &= Space(5) 'Customer Branch #
-      'header &= String.Format("{0:000000000000000000}", theItemList.Count)  'Total Credit Items
-      'header &= String.Format("{0:000000000000000.00}", CDbl(Replace(amtString, ",", ""))) 'Total Debit Amount
-      'header &= "N" 'Charges for A/C Of.
-
-      'writer.WriteLine(header)
-
-      'Dim i As Integer = 1
-      'For Each item As PaymentForList In theItemList
-      '  Dim bi As BankInfo = GetBankInfo(item.KbankMCBank, item.KbankMCAccount)
-      '  Dim itemBankCode As String = bi.BankCode
-      '  Dim itemBankName As String = bi.BankName
-      '  Dim itemBankBranchCode As String = bi.BankBranchCode
-      '  Dim itemBankBranchName As String = ""
-      '  Dim itemAccount As String = bi.BankAccountCode
-
-      '  Dim itemAmountString As String = Configuration.FormatToString(item.Amount, 2)
-      '  Dim itemBfVatString As String = Configuration.FormatToString(item.Amount, 2)
-      '  Dim itemWHtString As String = Configuration.FormatToString(item.Amount, 2)
-      '  Dim itemAfVatString As String = Configuration.FormatToString(item.Amount, 2)
-
-      '  Dim creditText As String = ""
-      '  creditText &= "D" 'Part Identifier
-      '  creditText &= String.Format("{0,-10}", i) 'Txn. Reference No.
-      '  creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemAmountString, ",", ""))) 'Amount
-      '  creditText &= String.Format("{0,-80}", item.PayeeName).Substring(0, 80) 'Payee
-      '  creditText &= Space(30) 'Payee Address 1
-      '  creditText &= Space(30) 'Payee Address 2
-      '  creditText &= Space(30) 'Payee Address 3
-      '  creditText &= Space(30) 'Payee Address 4
-      '  creditText &= String.Format("{0:00000000000000000000}", CDbl(itemAccount)) 'A/C #
-      '  creditText &= String.Format("{0,-16}", item.RefCode).Substring(0, 16) 'Bene. Ref #
-      '  creditText &= String.Format("{0,-13}", item.PersonalID).Substring(0, 13) 'Personal Id
-      '  creditText &= String.Format("{0:0000}", CInt(itemBankBranchCode)) 'Branch Code
-      '  creditText &= String.Format("{0:000}", CInt(itemBankCode)) 'Bank No
-      '  creditText &= Space(255) 'Details
-      '  creditText &= String.Format("{0,-10}", item.PayeeTaxID) 'Tax Id
-      '  creditText &= Space(50) 'Attachment Sub-file
-      '  creditText &= "F" 'Advice Mode (F = fax)
-      '  creditText &= String.Format("{0,-50}", SetDigitOnly(item.PayeeFax)) 'Fax No.
-      '  creditText &= Space(50) 'Email ID
-      '  creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemBfVatString, ",", ""))) 'Total Inv Amt bef VAT (10.2)
-      '  creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemWHtString, ",", ""))) 'Total Tax deducted Amt (10.2)
-      '  creditText &= String.Format("{0:0000000000.00}", CDbl(Replace(itemAfVatString, ",", ""))) 'Total Inv Amt after VAT (10.2)
-      '  creditText &= String.Format("{0:000}", item.TaxInfos.Count) 'Tax Info Count
-      '  writer.WriteLine(creditText)
-
-      '  Dim j As Integer = 1
-      '  For Each taxi As TaxInfo In item.TaxInfos
-      '    For Each ti As TaxInfoItem In taxi.TaxInfoItems
-      '      Dim tiAmountString As String = Configuration.FormatToString(ti.TaxRate, 2)
-      '      Dim tiBfVatString As String = Configuration.FormatToString(ti.BeforeVAT, 2)
-      '      Dim tiWHtString As String = Configuration.FormatToString(ti.WHT, 2)
-      '      Dim tiAfVatString As String = Configuration.FormatToString(ti.AfterVat, 2)
-
-      '      Dim taxDetail As String = ""
-      '      taxDetail &= "T" 'Part Identifier
-      '      taxDetail &= taxi.TaxForm 'Tax Form
-      '      taxDetail &= String.Format("{0,-10}", j) 'Tax Seq.#
-      '      taxDetail &= String.Format("{0:000.00}", CDbl(Replace(tiAmountString, ",", ""))) 'Tax rate (3.2)
-      '      taxDetail &= String.Format("{0,-40}", ti.Description).Substring(0, 40)   'Type of tax deducted
-      '      taxDetail &= String.Format("{0:0000000000.00}", CDbl(Replace(tiBfVatString, ",", ""))) 'Inv Amt bef VAT (10.2)
-      '      taxDetail &= String.Format("{0:0000000000.00}", CDbl(Replace(tiWHtString, ",", ""))) 'Tax deducted Amt (10.2)
-      '      taxDetail &= String.Format("{0:0000000000.00}", CDbl(Replace(tiAfVatString, ",", ""))) 'Inv Amt after VAT (10.2)
-      '      taxDetail &= taxi.TaxCondition 'Tax Condition
-      '      writer.WriteLine(taxDetail)
-      '    Next
-
-      '    j += 1
-      '  Next
-
-      '  i += 1
-      'Next
     End Sub
   End Class
   Public Class ChequeReceiver
@@ -2240,6 +2160,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property TaxCondition As String
 #End Region
   End Class
+
   Public Class PaymentTrackCheckDetail
     Public Property CheckCode As String
     Public Property PayeeBuilkId As String
@@ -2279,7 +2200,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_PaymentTrackDocDetailList = value
       End Set
     End Property
+    Public ReadOnly Property BillNoteQty As Integer
+      Get
+        If m_PaymentTrackBillNoteDetailList Is Nothing Then
+          m_PaymentTrackBillNoteDetailList = New List(Of PaymentTrackBillNoteDetail)
+        End If
+        Return m_PaymentTrackBillNoteDetailList.Count
+      End Get
+    End Property
+    Public ReadOnly Property BillNoteAmout As Decimal
+      Get
+        Dim amt As Decimal = 0
+        If m_PaymentTrackBillNoteDetailList Is Nothing Then
+          m_PaymentTrackBillNoteDetailList = New List(Of PaymentTrackBillNoteDetail)
+        End If
+        For Each b As PaymentTrackBillNoteDetail In m_PaymentTrackBillNoteDetailList
+          If b.Amount.Length > 0 Then
+            amt += CDec(b.Amount)
+          End If
+        Next
+        Return amt
+      End Get
+    End Property
+    Public ReadOnly Property DocQty As Integer
+      Get
+        If m_PaymentTrackDocDetailList Is Nothing Then
+          m_PaymentTrackDocDetailList = New List(Of PaymentTrackDocDetail)
+        End If
+        Return m_PaymentTrackDocDetailList.Count
+      End Get
+    End Property
+    Public ReadOnly Property DocAmount As Decimal
+      Get
+        Dim amt As Decimal = 0
+        If m_PaymentTrackDocDetailList Is Nothing Then
+          m_PaymentTrackDocDetailList = New List(Of PaymentTrackDocDetail)
+        End If
+        For Each p As PaymentTrackDocDetail In m_PaymentTrackDocDetailList
+          If p.Amount.Length > 0 Then
+            amt += CDec(p.Amount)
+          End If
+        Next
+        Return amt
+      End Get
+    End Property
   End Class
+
   Public Class PaymentTrackBillNoteDetail
     Public Property BillNoteCode As String
     Public Property BillNoteDate As String
@@ -2300,7 +2266,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_PaymentTrackDocDetailList = value
       End Set
     End Property
+    Public ReadOnly Property DocQty As Integer
+      Get
+        If m_PaymentTrackDocDetailList Is Nothing Then
+          m_PaymentTrackDocDetailList = New List(Of PaymentTrackDocDetail)
+        End If
+        Return m_PaymentTrackDocDetailList.Count
+      End Get
+    End Property
+    Public ReadOnly Property DocAmount As Decimal
+      Get
+        Dim amt As Decimal = 0
+        If m_PaymentTrackDocDetailList Is Nothing Then
+          m_PaymentTrackDocDetailList = New List(Of PaymentTrackDocDetail)
+        End If
+        For Each p As PaymentTrackDocDetail In m_PaymentTrackDocDetailList
+          If p.Amount.Length > 0 Then
+            amt += CDec(p.Amount)
+          End If
+        Next
+        Return amt
+      End Get
+    End Property
   End Class
+
   Public Class PaymentTrackDocDetail
     Public Property DocumentType As String
     Public Property DocumentCode As String
