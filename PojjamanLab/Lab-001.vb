@@ -58,7 +58,7 @@ Public Class Lab_001
     Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
     ' Set the ContentType property of the WebRequest.
     request.ContentType = "application/jason"
-    request.ContentType = "text/plain"
+    'request.ContentType = "text/plain"
     ' Set the ContentLength property of the WebRequest.
     request.ContentLength = byteArray.Length
     ' Get the request stream.
