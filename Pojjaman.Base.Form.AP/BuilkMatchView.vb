@@ -21,6 +21,9 @@ Imports System.Net
 
 Imports Syncfusion.Windows.Forms.Grid
 
+Imports Newtonsoft.Json
+Imports System.Text
+
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class BuilkMatchView
@@ -191,7 +194,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub InitGrid()
 
-      tgitem.ColCount = 5
+      tgitem.ColCount = 6
       tgitem.RowCount = 1
 
       tgitem.Rows.HeaderCount = 1
@@ -205,6 +208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem.ColStyles(2).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
       tgitem.ColStyles(3).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
       tgitem.ColStyles(4).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      tgitem.ColStyles(5).VerticalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
 
       Dim items As New StringCollection
       Dim dt As DataTable = (New Supplier).GetCodeNameList
@@ -215,40 +219,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
         items.Add(row("supplier_name").ToString & "|" & row("supplier_code").ToString)
       Next
 
-      tgitem.ColStyles(4).CellType = "PushButton"
+      tgitem.ColStyles(5).CellType = "PushButton"
 
-      tgitem.ColStyles(3).CellType = "ComboBox"
-      tgitem.ColStyles(3).ChoiceList = items
-      tgitem.ColStyles(3).CellValue = ""
+      tgitem.ColStyles(4).CellType = "ComboBox"
+      tgitem.ColStyles(4).ChoiceList = items
+      tgitem.ColStyles(4).CellValue = ""
 
-      tgitem.ColStyles(5).CellType = "CheckBox"
-      tgitem.ColStyles(5).TriState = False
-      tgitem.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-
-
-
-
-
+      tgitem.ColStyles(6).CellType = "CheckBox"
+      tgitem.ColStyles(6).TriState = False
+      tgitem.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
 
       tgitem.ColWidths(1) = 200
       tgitem.ColWidths(2) = 550
-      tgitem.ColWidths(3) = 300
-      tgitem.ColWidths(4) = 40
-      tgitem.ColWidths(5) = 100
+      tgitem.ColWidths(3) = 200
+      tgitem.ColWidths(4) = 300
+      tgitem.ColWidths(5) = 40
+      tgitem.ColWidths(6) = 100
 
       SetGridValue(1, 1, "ชื่อ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
       SetGridValue(1, 2, "ที่อยู่", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 3, "ผู้ขาย", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 5, "Payment Track", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-
-
+      SetGridValue(1, 3, "เลขประจำตัวผู้เสียภาษี", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 4, "ผู้ขาย", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 6, "ปฏิเสธ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
 
       tgitem.BackColor = Color.White
 
-
-
     End Sub
-
 
     Private Sub PopulateGrid()
 
@@ -261,11 +257,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         For Each bm As BuilkMatch In Me.BuilkMatchList
 
+          tgitem.RowCount += 1
+
           SetGridValue(tgitem.RowCount, 1, bm.BuilkNameInfo)
           SetGridValue(tgitem.RowCount, 2, bm.BuilkAddressInfo)
-          SetGridValue(tgitem.RowCount, 3, bm.PJMSupplier.Code & ":" & bm.PJMSupplier.Name)
+          SetGridValue(tgitem.RowCount, 3, bm.BuilkTaxIDInfo)
 
-          tgitem(tgitem.RowCount, 5).CellValue = bm.PaymentTrack
+          If Not bm.PJMSupplier Is Nothing Then
+            SetGridValue(tgitem.RowCount, 4, bm.PJMSupplier.Code & ":" & bm.PJMSupplier.Name)
+          End If
+
+          If bm.Reject.HasValue Then
+            tgitem(tgitem.RowCount, 6).CellValue = bm.Reject
+          End If
 
         Next
 
@@ -273,16 +277,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
 
-      tgitem.RowCount += 1
-      SetGridValue(tgitem.RowCount, 1, "")
-      SetGridValue(tgitem.RowCount, 2, "")
+      'tgitem.RowCount += 1
+      'SetGridValue(tgitem.RowCount, 1, "")
+      'SetGridValue(tgitem.RowCount, 2, "")
       'SetGridValue(tgitem.RowCount, 3, "")
       'tgitem(tgitem.RowCount, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
 
       tgitem.EndUpdate()
 
     End Sub
-
 
     Private Sub SetGridValue(ByVal row As Integer, ByVal col As Integer, ByVal value As String _
 , Optional ByVal bold As Boolean = False _
@@ -293,7 +296,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem(row, col).Text = value
       tgitem(row, col).Font.Bold = bold
     End Sub
-
 
     Public Overloads Overrides Sub Save()
       'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -319,7 +321,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each bm As BuilkMatch In Me.BuilkMatchList
           sql = ""
 
-          If Not bm.PJMSupplier Is Nothing Then
+          If Not bm.PJMSupplier Is Nothing AndAlso ((bm.Reject.HasValue AndAlso Not bm.Reject) OrElse (Not bm.Reject.HasValue)) Then
 
             sql = "update supplier set supplier_builkid = '" & bm.BuilkIdInfo & "' where supplier_id = " & bm.PJMSupplier.Id
 
@@ -331,6 +333,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
 
         trans.Commit()
+
+        ReturnBuilkRequest()
 
       Catch ex As Exception
 
@@ -348,16 +352,124 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
-
+    Private blist As List(Of BuilkInfo)
     Public Sub GetBuilkRequest()
-      Me.BuilkMatchList = New List(Of BuilkMatch)
+
 
       Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
 
+      If BuilkID = "" Then
+        Return
+      End If
+
+      Me.BuilkMatchList = New List(Of BuilkMatch)
+
+      ' Create a request for the URL. 
+      Dim request As WebRequest = _
+        WebRequest.Create("http://www.builk.com/paymenttrack/requestbuilksupplier/?bid=" & BuilkID)
+      ' If required by the server, set the credentials.
+      request.Credentials = CredentialCache.DefaultCredentials
+      ' Get the response.
+      Dim response As WebResponse = request.GetResponse()
+      ' Display the status.
+      'Console.WriteLine(CType(response, HttpWebResponse).StatusDescription)
+      ' Get the stream containing content returned by the server.
+      Dim dataStream As Stream = response.GetResponseStream()
+      ' Open the stream using a StreamReader for easy access.
+      Dim reader As New StreamReader(dataStream)
+      ' Read the content.
+      Dim responseFromServer As String = reader.ReadToEnd()
+      ' Display the content.
+      'Console.WriteLine(responseFromServer)
+      ' Clean up the streams and the response.
+      reader.Close()
+      response.Close()
+
+
+
+      blist = JsonConvert.DeserializeObject(Of List(Of BuilkInfo))(responseFromServer)
+
+      Dim bm As BuilkMatch
+
+      For Each bi As BuilkInfo In blist
+
+        bm = New BuilkMatch
+
+        bm.BuilkIdInfo = bi.Bid
+        bm.BuilkNameInfo = bi.Bname
+        bm.BuilkAddressInfo = bi.Baddress
+        bm.BuilkTaxIDInfo = bi.Btid
+
+        Me.BuilkMatchList.Add(bm)
+
+      Next
 
 
     End Sub
 
+    Public Sub ReturnBuilkRequest()
+
+      Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+
+      If BuilkID = "" Then
+        Return
+      End If
+
+      ' Create a request using a URL that can receive a post. 
+      Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=" & BuilkID)
+      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
+      ' Set the Method property of the request to POST.
+      request.Method = "POST"
+      ' Create POST data and convert it to a byte array.
+
+      Dim rblist As New List(Of BuilkInfo)
+
+      For Each bm As BuilkMatch In Me.BuilkMatchList
+        For Each bi As BuilkInfo In blist
+          If bm.BuilkIdInfo = bi.Bid Then
+            If Not bm.PJMSupplier Is Nothing AndAlso ((bm.Reject.HasValue AndAlso Not bm.Reject) OrElse (Not bm.Reject.HasValue)) Then
+              bi.IsApprove = True
+              rblist.Add(bi)
+            ElseIf bm.Reject.HasValue AndAlso bm.Reject Then
+              bi.IsApprove = False
+              rblist.Add(bi)
+            End If
+          End If
+        Next
+      Next
+
+      Dim postData As String = JsonConvert.SerializeObject(rblist) '"This is a test that posts this string to a Web server."
+      Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
+      ' Set the ContentType property of the WebRequest.
+      request.ContentType = "application/jason"
+      'request.ContentType = "text/plain"
+      ' Set the ContentLength property of the WebRequest.
+      request.ContentLength = byteArray.Length
+      ' Get the request stream.
+      Dim dataStream As Stream = request.GetRequestStream()
+      ' Write the data to the request stream.
+      dataStream.Write(byteArray, 0, byteArray.Length)
+      ' Close the Stream object.
+      dataStream.Close()
+      ' Get the response.
+      Dim response As WebResponse = request.GetResponse()
+      ' Display the status.
+      'Console.WriteLine(CType(response, HttpWebResponse).StatusDescription)
+      ' Get the stream containing content returned by the server.
+      dataStream = response.GetResponseStream()
+      ' Open the stream using a StreamReader for easy access.
+      Dim reader As New StreamReader(dataStream)
+      ' Read the content.
+      Dim responseFromServer As String = reader.ReadToEnd()
+      ' Display the content.
+      'Console.WriteLine(responseFromServer)
+      ' Clean up the streams.
+
+      reader.Close()
+      dataStream.Close()
+      response.Close()
+
+    End Sub
 
 #End Region
 
@@ -396,7 +508,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub tgitem_CellButtonClicked(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellButtonClickedEventArgs) Handles tgitem.CellButtonClicked
       tgitem.CurrentCell.SetCurrentCellNoActivate(e.RowIndex, e.ColIndex)
-      If e.ColIndex = 4 Then
+      If e.ColIndex = 5 Then
         Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
         Dim entity As New Supplier
         myEntityPanelService.OpenListDialog(entity, AddressOf SetSupplier)
@@ -424,7 +536,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub tgitem_CurrentCellStartEditing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles tgitem.CurrentCellStartEditing
-      If tgitem.CurrentCell.ColIndex < 3 Then
+      If tgitem.CurrentCell.ColIndex < 4 Then
         e.Cancel = True
       End If
     End Sub
@@ -441,7 +553,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Try
 
         Select Case cc.ColIndex
-          Case 4
+          Case 5
             Dim txt As String = cc.Renderer.ControlValue
             Dim reg As New Regex("(.*):")
             Dim reg2 As New Regex("\|(.*)")
@@ -493,8 +605,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             End If
 
-          Case 5
-            Me.BuilkMatchList(cc.RowIndex - 1).PaymentTrack = cc.Renderer.ControlValue
+          Case 6
+            Me.BuilkMatchList(cc.RowIndex - 1).Reject = cc.Renderer.ControlValue
             'Me.WorkbenchWindow.ViewContent.IsDirty = True
             tgitem(cc.RowIndex, cc.ColIndex).CellValue = cc.Renderer.ControlValue
 
@@ -586,7 +698,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       _builkNameInfo = ""
       _builkAddressInfo = ""
       _pjmSupplier = Nothing
-      _paymentTrack = False
+      Reject = False
     End Sub
 
     Private _builkIdInfo As String
@@ -619,6 +731,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Set
     End Property
 
+    Private _builkTaxIDInfo As String
+    Public Property BuilkTaxIDInfo As String
+      Get
+        Return _builkTaxIDInfo
+      End Get
+      Set(ByVal value As String)
+        _builkTaxIDInfo = value
+      End Set
+    End Property
+
     Private _pjmSupplier As Supplier
     Public Property PJMSupplier As Supplier
       Get
@@ -629,16 +751,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Set
     End Property
 
-    Private _paymentTrack As Boolean
-    Public Property PaymentTrack As Boolean
-      Get
-        Return _paymentTrack
-      End Get
-      Set(ByVal value As Boolean)
-        _paymentTrack = value
-      End Set
-    End Property
+    Public Reject? As Boolean
+    'Public Property Reject As Boolean
+    '  Get
+    '    Return _reject
+    '  End Get
+    '  Set(ByVal value As Boolean)
+    '    _reject = value
+    '  End Set
+    'End Property
 
+  End Class
+
+  Public Class BuilkInfo
+    Public Bid As String
+    Public IsApprove? As Boolean
+    Public Bname As String
+    Public Baddress As String
+    Public Btid As String
   End Class
 
 End Namespace
