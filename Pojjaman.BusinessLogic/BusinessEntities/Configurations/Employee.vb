@@ -241,14 +241,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Shared Function GetEmployeeById(ByVal empId As Integer) As Employee
-      Dim key As String = empId.ToString
-      Dim row As DataRow = CType(AllEmployee(key), DataRow)
-      Try
-        Dim emp As New Employee(row, "")
-        Return emp
-      Catch ex As Exception
-        Throw New Exception(ex.InnerException.ToString)
-      End Try
+      If empId > 0 Then
+        Dim key As String = empId.ToString
+        Dim row As DataRow = CType(AllEmployee(key), DataRow)
+        Try
+          Dim emp As New Employee(row, "")
+          Return emp
+        Catch ex As Exception
+          Throw New Exception(ex.InnerException.ToString)
+        End Try
+      Else
+        Return New Employee
+      End If
     End Function
     Private Shared Sub RefreshEmployee()
       Employee.m_allemployee = New Hashtable
