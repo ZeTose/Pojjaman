@@ -419,20 +419,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
             childRow("Code") = indent & drh.GetValue(Of String)("eqtcode")
             childRow("name") = indent & drh.GetValue(Of String)("eqtname")
             childRow("Unit") = drh.GetValue(Of String)("unit_name")
-            Dim curWqty As WQty = CType(HWqty(drh.GetValue(Of Integer)("eqtid").ToString & ":" & drh.GetValue(Of Integer)("type").ToString), WQty)
-            Dim qty As Integer = drh.GetValue(Of Integer)("remainQty")
-            If curWqty IsNot Nothing Then
-              If curWqty.Qty >= qty Then
-                childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
-                curWqty.Qty = curWqty.Qty - qty
-              Else
-                childRow("Qty") = Configuration.FormatToString(curWqty.Qty, DigitConfig.Price)
-                curWqty.Qty = 0
-                row("remainQty") = curWqty.Qty
-              End If
-            Else
-              childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
-            End If
+            'Dim curWqty As WQty = CType(HWqty(drh.GetValue(Of Integer)("eqtid").ToString & ":" & drh.GetValue(Of Integer)("type").ToString), WQty)
+            'Dim qty As Integer = drh.GetValue(Of Integer)("remainQty")
+            'If curWqty IsNot Nothing Then
+            '  If curWqty.Qty >= qty Then
+            '    childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
+            '    curWqty.Qty = curWqty.Qty - qty
+            '  Else
+            '    childRow("Qty") = Configuration.FormatToString(curWqty.Qty, DigitConfig.Price)
+            '    curWqty.Qty = 0
+            '    row("remainQty") = curWqty.Qty
+            '  End If
+            'Else
+            '  childRow("Qty") = Configuration.FormatToString(qty, DigitConfig.Price)
+            'End If
+            childRow("Qty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("WriteOffQty"), DigitConfig.Qty)
             childRow("BuyPrice") = Configuration.FormatToString(drh.GetValue(Of Decimal)("eqi_buycost"), DigitConfig.Price)
             childRow("parent") = drh.GetValue(Of Integer)("asset")
 
