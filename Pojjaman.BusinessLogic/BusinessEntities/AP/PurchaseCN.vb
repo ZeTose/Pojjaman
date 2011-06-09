@@ -2021,23 +2021,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim myVat As Vat = Me.Vat
       If Not myVat Is Nothing Then
-        Dim myVatitem As VatItem
-        myVatitem = myVat.ItemCollection(0)
+        If Not myVat.ItemCollection Is Nothing AndAlso myVat.ItemCollection.Count >= 1 Then
+          Dim myVatitem As VatItem
+          myVatitem = myVat.ItemCollection(0)
 
-        'VatCode (am เพิ่ม)
-        dpi = New DocPrintingItem
-        dpi.Mapping = "VatCode"
-        dpi.Value = myVatitem.Code
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
+          'VatCode (am เพิ่ม)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatCode"
+          dpi.Value = myVatitem.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-        'VatDocDate (am เพิ่ม)
-        dpi = New DocPrintingItem
-        dpi.Mapping = "VatDocDate"
-        dpi.Value = myVatitem.DocDate.ToShortDateString
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
-
+          'VatDocDate (am เพิ่ม)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "VatDocDate"
+          dpi.Value = myVatitem.DocDate.ToShortDateString
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
       End If
 
 
