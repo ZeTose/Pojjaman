@@ -48,7 +48,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtToolCodeEnd As System.Windows.Forms.TextBox
     Friend WithEvents lblToolEnd As System.Windows.Forms.Label
     Friend WithEvents txtToolCodeStart As System.Windows.Forms.TextBox
-    Friend WithEvents chkTool As System.Windows.Forms.CheckBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ChkCancel As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -56,7 +56,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.ChkCancel = New System.Windows.Forms.CheckBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.chkTool = New System.Windows.Forms.CheckBox()
       Me.btnToolEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnToolStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtToolCodeEnd = New System.Windows.Forms.TextBox()
@@ -76,6 +75,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Label1 = New System.Windows.Forms.Label()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -110,7 +110,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
-      Me.grbDetail.Controls.Add(Me.chkTool)
+      Me.grbDetail.Controls.Add(Me.Label1)
       Me.grbDetail.Controls.Add(Me.btnToolEndFind)
       Me.grbDetail.Controls.Add(Me.btnToolStartFind)
       Me.grbDetail.Controls.Add(Me.txtToolCodeEnd)
@@ -132,18 +132,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
-      '
-      'chkTool
-      '
-      Me.chkTool.Checked = True
-      Me.chkTool.CheckState = System.Windows.Forms.CheckState.Checked
-      Me.chkTool.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkTool.Location = New System.Drawing.Point(27, 38)
-      Me.chkTool.Name = "chkTool"
-      Me.chkTool.Size = New System.Drawing.Size(94, 24)
-      Me.chkTool.TabIndex = 13
-      Me.chkTool.Text = "ข้อมูลเครื่องมือ"
-      Me.chkTool.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnToolEndFind
       '
@@ -374,6 +362,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.ForeColor = System.Drawing.Color.Black
+      Me.Label1.Location = New System.Drawing.Point(37, 42)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(88, 18)
+      Me.Label1.TabIndex = 37
+      Me.Label1.Text = "ข้อมูลเครื่องมือ"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'RptEQTMaintenanceFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
@@ -537,7 +536,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(6) As Filter
+      Dim arr(5) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("ToolCodeStart", IIf(txtToolCodeStart.TextLength > 0, txtToolCodeStart.Text, DBNull.Value))
@@ -547,7 +546,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(4) = New Filter("CostCenter", IIf(txtCCCodeStart.TextLength > 0, txtCCCodeStart.Text, DBNull.Value))
       'arr(7) = New Filter("ChkCancel", IIf(ChkCancel.Checked, 1, 0))
       arr(5) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      arr(6) = New Filter("ChkTool", IIf(chkTool.Checked, 1, 0))
+      'arr(6) = New Filter("ChkTool", IIf(chkTool.Checked, 1, 0))
       'arr(9) = New Filter("ChkEquipment", IIf(chkEquipment.Checked, 1, 0))
 
       Return arr
@@ -825,7 +824,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
-    Private Sub chkTool_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTool.CheckedChanged
+    Private Sub chkTool_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
   End Class

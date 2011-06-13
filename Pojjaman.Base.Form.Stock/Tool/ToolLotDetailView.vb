@@ -1139,6 +1139,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtReference.Text = ""
         End If
 
+        If m_entity.ToolLot.Buydoc.Originated Then
+          Me.txtToollotUnitCost.ReadOnly = True
+        Else
+          Me.txtToollotUnitCost.ReadOnly = False
+        End If
       End If
 
     End Sub
@@ -1674,7 +1679,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "remainqty"
-      lvColumn.Text = "จำนวนคงเหลือ"
+      lvColumn.Text = "คงเหลือจาก write off"
       lvColumn.TextAlign = HorizontalAlignment.Right
       lvColumn.Width = 100
       lv.Columns.Add(lvColumn)

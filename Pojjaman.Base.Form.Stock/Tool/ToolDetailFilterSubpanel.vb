@@ -243,13 +243,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Me.lblAdmin.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblAdmin}")
             'Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblStatus}")
         End Sub
-        Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(2) As Filter
-            arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
+    Public Overrides Function GetFilterArray() As Filter()
+      Dim arr(3) As Filter
+      arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("name", IIf(Me.txtName.TextLength = 0, DBNull.Value, Me.txtName.Text))
       arr(2) = New Filter("group", IIf(Me.Group.Valid, Me.Group.Id, DBNull.Value))
-            Return arr
-        End Function
+      arr(3) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      Return arr
+    End Function
         
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
             Get
