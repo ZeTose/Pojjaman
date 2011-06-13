@@ -96,6 +96,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Members"
     Dim IsIDescripable As Boolean = False
+    Dim IsIHasname As Boolean = False
+    Dim IdDicIHasname As Dictionary(Of Integer, IHasName)
+    Dim IdDicCode As Dictionary(Of Integer, CodeDescription)
+    Dim hasnull As Boolean = True
 #End Region
 
 #Region "Constructors"
@@ -157,6 +161,80 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.clbItemList.SetItemChecked(index, True)
       Next
     End Sub
+    ''' <summary>
+    ''' สร้างจาก List 
+    ''' </summary>
+    ''' <param name="list"></param>
+    ''' <param name="checkedListString">List ลำดับที่ เลือกเอา ถ้าส่งว่างๆ มาจะเอาหมด เช่น 1,3,5 เป็นต้น</param>
+    ''' <remarks></remarks>
+    Public Sub New(ByVal list As List(Of IHasName), ByVal checkedListString As String, Optional ByVal ohasnull As Boolean = True)
+      Me.New()
+      Dim checkall As Boolean = checkedListString Is Nothing OrElse checkedListString.Length = 0
+      IdDicIHasname = New Dictionary(Of Integer, IHasName)
+      Me.clbItemList.Items.Clear()
+      Dim i As Integer = 0
+      hasnull = ohasnull
+      If hasnull Then
+        Me.clbItemList.Items.Add("Null ไม่ระบุ", checkall)
+        IdDicIHasname.Add(i, Nothing)
+        i += 1
+      End If
+      For Each item As IHasName In list
+        Me.clbItemList.Items.Add(item.Code & " " & item.Name, checkall)
+        IdDicIHasname.Add(i, item)
+        i += 1
+      Next
+
+
+      If clbItemList.Items.Count > 0 Then
+        IsIHasname = True
+      End If
+      If checkedListString Is Nothing OrElse checkedListString.Length = 0 Then
+        Return
+      End If
+      Dim checkedList As Object() = checkedListString.Split(","c)
+      For Each index As Integer In checkedList
+        Me.clbItemList.SetItemChecked(index, True)
+      Next
+    End Sub
+    ''' <summary>
+    ''' สร้างจาก List 
+    ''' </summary>
+    ''' <param name="list"></param>
+    ''' <param name="checkedListString">List ลำดับที่ เลือกเอา ถ้าส่งว่างๆ มาจะเอาหมด เช่น 1,3,5 เป็นต้น</param>
+    ''' <remarks></remarks>
+    Public Sub New(ByVal list As List(Of CodeDescription), ByVal checkedListString As String, Optional ByVal ohasnull As Boolean = True)
+      Me.New()
+      Dim checkall As Boolean = checkedListString Is Nothing OrElse checkedListString.Length = 0
+      IdDicIHasname = New Dictionary(Of Integer, IHasName)
+      Me.clbItemList.Items.Clear()
+      Dim i As Integer = 0
+      hasnull = ohasnull
+      If hasnull Then
+        Me.clbItemList.Items.Add("Null ไม่ระบุ", checkall)
+        IdDicIHasname.Add(i, Nothing)
+        i += 1
+      End If
+      For Each item As CodeDescription In list
+        Me.clbItemList.Items.Add(item.Description, checkall)
+        Dim newHasName As New simpleIhasname(item)
+
+        IdDicIHasname.Add(i, newHasName)
+        i += 1
+      Next
+
+
+      If clbItemList.Items.Count > 0 Then
+        IsIHasname = True
+      End If
+      If checkedListString Is Nothing OrElse checkedListString.Length = 0 Then
+        Return
+      End If
+      Dim checkedList As Object() = checkedListString.Split(","c)
+      For Each index As Integer In checkedList
+        Me.clbItemList.SetItemChecked(index, True)
+      Next
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -204,6 +282,82 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return result
       End Get
     End Property
+    Public ReadOnly Property CheckedCodeString() As String
+      Get
+        Dim idlist As New List(Of Integer)
+        Dim result As String = ""
+        For Each item As Object In Me.clbItemList.CheckedItems
+          idlist.Add(Me.clbItemList.Items.IndexOf(item))
+        Next
+        For Each i As Integer In idlist
+          If i = 0 AndAlso hasnull Then
+            result &= "ไม่ระบุ" & ","
+          Else
+            If IdDicIHasname.Item(i).Code.Length > 0 Then
+              result &= IdDicIHasname.Item(i).Code & ","
+            Else
+              result &= IdDicIHasname.Item(i).Name & ","
+            End If
+          End If
+        Next
+        If result.Length <> 0 Then
+          result = result.TrimEnd(","c)
+        End If
+        Return result
+      End Get
+    End Property
+    Public ReadOnly Property CheckedIdString() As String
+      Get
+        Dim idlist As New List(Of Integer)
+        Dim result As String = ""
+        For Each item As Object In Me.clbItemList.CheckedItems
+          idlist.Add(Me.clbItemList.Items.IndexOf(item))
+        Next
+        For Each i As Integer In idlist
+          If i <> 0 OrElse Not hasnull Then
+            '  result &= "Null" & ","
+            'Else
+            result &= IdDicIHasname.Item(i).Id.ToString & ","
+          End If
+        Next
+        If result.Length <> 0 Then
+          result = result.TrimEnd(","c)
+        ElseIf hasnull Then
+          result = "0"
+        End If
+        Return result
+      End Get
+    End Property
+    Public ReadOnly Property CheckedIdFilterString() As String
+      Get
+        Dim idlist As New List(Of Integer)
+        Dim result As String = ""
+        For Each item As Object In Me.clbItemList.CheckedItems
+          idlist.Add(Me.clbItemList.Items.IndexOf(item))
+        Next
+        For Each i As Integer In idlist
+          If i = 0 AndAlso hasnull Then
+            result &= "|" & "0" & "|"
+          Else
+            result &= "|" & IdDicIHasname.Item(i).Id.ToString & "|"
+          End If
+        Next
+
+        Return result
+      End Get
+    End Property
+    Public ReadOnly Property CheckedNull() As Boolean
+      Get
+        Dim result As Boolean = False
+        For Each item As Object In Me.clbItemList.CheckedItems
+          If Me.clbItemList.Items.IndexOf(item) = 0 Then
+            result = True
+            Exit For
+          End If
+        Next
+        Return result
+      End Get
+    End Property
 #End Region
 
 #Region "Methods"
@@ -236,4 +390,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
   End Class
+
+  Public Class simpleIhasname
+    Implements IHasName
+
+    Public Property Name As String Implements BusinessLogic.IHasName.Name
+    Public Property Code As String Implements BusinessLogic.IIdentifiable.Code
+    Public Property Id As Integer Implements BusinessLogic.IIdentifiable.Id
+
+    Public Sub New(ByVal Code As CodeDescription)
+      Me.Id = Code.Value
+      Me.Name = Code.Description
+      Me.Code = Code.CodeName
+    End Sub
+  End Class
+
 End Namespace

@@ -1,4 +1,4 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
@@ -9,6 +9,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptToolStatus
     Inherits Report
@@ -42,7 +44,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
-      m_grid.ColCount = 10
+      m_grid.ColCount = 13
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 100
@@ -54,6 +56,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(8) = 100
       m_grid.ColWidths(9) = 100
       m_grid.ColWidths(10) = 100
+      m_grid.ColWidths(11) = 100
+      m_grid.ColWidths(12) = 100
+      m_grid.ColWidths(13) = 100
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -65,6 +70,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
       m_grid.Rows.HeaderCount = 0
       m_grid.Rows.FrozenCount = 0
@@ -74,6 +82,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.OwnerCC}") '"CCเจ้าของ"
       m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}") '"ค่าเช่าต่อวัน"
       m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}") '"หน่วย"
+      m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Active}") '"Active"
+      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Available}") '"ว่าง"
+      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Withdraw}") '"เบิก"
+      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Rent}") '"ให้เช่า"
+      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.WaitingForRepair}") '"รอซ่อม"
+      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.SendRepair}") '"ส่งซ่อม"
+      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Damaged}") '"ชำรุดพัง"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Lost}") '"หาย"
       'm_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}") '"CCที่อยู่"
 
       Dim indent As String = Space(1)
@@ -88,10 +104,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
+      Dim dtqty As DataTable = Me.DataSet.Tables(1)
+
+      Dim qtystaus As New Dictionary(Of String, Integer)
+
+      For Each r As DataRow In dtqty.Rows
+        Dim rh As New DataRowHelper(r)
+        Dim key As String = rh.GetValue(Of Integer)("toolid").ToString & "|" & rh.GetValue(Of Integer)("tostatus")
+
+        qtystaus.Add(key, rh.GetValue(Of Integer)("Qty"))
+      Next
+
       Dim ccCode As String = ""
       Dim assetCode As String = ""
       Dim currentAssetTypeCode As String = ""
@@ -116,8 +146,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim no As Integer = 0
       Dim no1 As Integer = 0
 
+      Dim ct As DataTable = CodeDescription.GetCodeList("eqtstatus", "code_value not in (0,1,9,10)")
+
       For Each row As DataRow In dt.Rows
-        If row("toolg_code").ToString <> currentAssetTypeCode Then
+        Dim drh As New DataRowHelper(row)
+
+        If drh.GetValue(Of String)("toolg_code") <> currentAssetTypeCode Then
           If Not (currentAssetTypeCode = "") Then
             no = 1
           End If
@@ -126,19 +160,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowStyles(currAssetTypeIndex).BackColor = Color.FromArgb(128, 255, 128)
           m_grid.RowStyles(currAssetTypeIndex).Font.Bold = True
           m_grid.RowStyles(currAssetTypeIndex).ReadOnly = True
-          m_grid(currAssetTypeIndex, 1).CellValue = row("toolg_code")
-          m_grid(currAssetTypeIndex, 2).CellValue = row("toolg_Name")
-          currentAssetTypeCode = row("toolg_code").ToString
+          m_grid(currAssetTypeIndex, 1).CellValue = drh.GetValue(Of String)("toolg_code")
+          m_grid(currAssetTypeIndex, 2).CellValue = drh.GetValue(Of String)("toolg_Name")
+          currentAssetTypeCode = drh.GetValue(Of String)("toolg_code")
 
         End If
-        If row("tool_code").ToString <> currentAssetCode Then
+        If drh.GetValue(Of String)("tool_code") <> currentAssetCode Then
 
           m_grid.RowCount += 1
           currDocIndex = m_grid.RowCount
           m_grid.RowStyles(currDocIndex).ReadOnly = True
-          m_grid(currDocIndex, 1).CellValue = "  " & row("tool_code").ToString
-          m_grid(currDocIndex, 2).CellValue = "  " & row("tool_name").ToString
-          currentAssetCode = row("tool_code").ToString
+          m_grid(currDocIndex, 1).CellValue = "  " & drh.GetValue(Of String)("tool_code")
+          m_grid(currDocIndex, 2).CellValue = "  " & drh.GetValue(Of String)("tool_name")
+          currentAssetCode = drh.GetValue(Of String)("tool_code")
         End If
 
         'sumAssetWithdtaw += Withdtaw
@@ -149,9 +183,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'sum1 += Withdtaw
         'sum2 += bReturn
         m_grid.RowStyles(currCcIndex).ReadOnly = True
-        m_grid(currCcIndex, 3).CellValue = row("Costcenter").ToString
-        m_grid(currCcIndex, 4).CellValue = "  " & Configuration.FormatToString(CDec(row("tool_rentalrate")), DigitConfig.Price)
-        m_grid(currCcIndex, 5).CellValue = row("unit_name").ToString
+        m_grid(currCcIndex, 3).CellValue = drh.GetValue(Of String)("Costcenter")
+        m_grid(currCcIndex, 4).CellValue = "  " & Configuration.FormatToString(drh.GetValue(Of Decimal)("tool_rentalrate"), DigitConfig.Price)
+        m_grid(currCcIndex, 5).CellValue = drh.GetValue(Of String)("unit_name")
+
+        Dim active As Integer = 0
+        Dim id As String = drh.GetValue(Of Integer)("tool_id").ToString
+
+        Dim i As Integer = 7
+        For Each sr As DataRow In ct.Rows
+          Dim key As String = id & "|" & CInt(sr("code_value")).ToString
+          Dim val As Integer = 0
+          If qtystaus.ContainsKey(key) Then
+            val = qtystaus.Item(key)
+          End If
+          m_grid(currCcIndex, i).CellValue = Configuration.FormatToString(val, DigitConfig.Qty)
+          active += val
+          i += 1
+        Next
+
+        
+
+        m_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(active, DigitConfig.Qty)
 
       Next
 
@@ -264,7 +317,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-
+        For i As Integer = 8 To m_grid.ColCount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col" & (i - 1).ToString
+          dpi.Value = m_grid(rowIndex, i).CellValue
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+        Next
 
         n += 1
       Next

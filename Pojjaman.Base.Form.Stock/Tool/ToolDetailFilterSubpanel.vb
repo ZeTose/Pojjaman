@@ -359,6 +359,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End Set
         End Property
 
+   
+
     End Class
 End Namespace
 
