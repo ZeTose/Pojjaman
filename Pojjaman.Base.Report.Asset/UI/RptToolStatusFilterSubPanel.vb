@@ -768,7 +768,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim ls As Generic.List(Of CodeDescription) = CodeDescription.GetCodeListOf("eqtstatus", " code_value not in (0,1,10)")
 
-      Dim chkdlg As New Longkong.Pojjaman.Gui.Panels.CheckListDialog(ls, m_systemIndexList)
+      Dim chkdlg As New Longkong.Pojjaman.Gui.Panels.CheckListDialog(ls, m_systemIndexList, False)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(chkdlg)
       If myDialog.ShowDialog() = DialogResult.OK Then
         Me.txtDoctypeList.Text = chkdlg.CheckedCodeString

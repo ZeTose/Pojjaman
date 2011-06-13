@@ -42,6 +42,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
     End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String, ByVal CodeName As String)
+      With Me
+        If Not dr.IsNull(aliasPrefix & "code_value") Then
+          .code_value = CInt(dr(aliasPrefix & "code_value"))
+          .code_description = CodeDescription.GetDescription(CodeName, Me.Value)
+        End If
+      End With
+    End Sub
     Public Sub New(ByVal ds As DataSet, ByVal aliasPrefix As String)
       Me.New(ds.Tables(0).Rows(0), aliasPrefix)
     End Sub
@@ -204,7 +212,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("code_description") Then
             row("code_description") = myService.Parse(row("code_description").ToString)
           End If
-          dt.Add(New CodeDescription(row, ""))
+          dt.Add(New CodeDescription(row, "", code.ToLower))
         Next
         tmpdt = Nothing
         newHash = Nothing
