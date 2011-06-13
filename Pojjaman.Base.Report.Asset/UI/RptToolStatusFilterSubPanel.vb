@@ -552,7 +552,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.dtpDocDateEnd.Value = Me.DocDateEnd
 
       Me.ChkCancel.Checked = False
+
       Me.Group = New ToolGroup
+      Me.chkIncludeTGChildren.Checked = False
+
 
       m_systemIdList = ""
       m_systemCodeList = ""
