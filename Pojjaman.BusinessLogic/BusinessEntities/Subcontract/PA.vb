@@ -967,6 +967,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return 0
     End Function
+    Public Function GetContractDistCount() As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetContractDistCount" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      , New SqlParameter("@pa_id", Me.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          If CDec(ds.Tables(0).Rows(0)(0)) <= 0 Then
+            Return 0
+          End If
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
+    Public Function GetDistCountToDoc() As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetDistCountToDoc" _
+      , New SqlParameter("@sc_id", Me.Sc.Id) _
+      , New SqlParameter("@pa_id", Me.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        If IsNumeric(ds.Tables(0).Rows(0)(0)) Then
+          If CDec(ds.Tables(0).Rows(0)(0)) <= 0 Then
+            Return 0
+          End If
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      End If
+      Return 0
+    End Function
     Public Function GetSCVat() As Decimal
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
       , CommandType.StoredProcedure _
@@ -2640,6 +2674,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.Decimal"
         dpiColl.Add(dpi)
       End If
+
+      'ContractDiscount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContractDiscount"
+      dpi.Value = Me.GetContractDistCount
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'DiscounttoDoc
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DiscountToDoc"
+      dpi.Value = Me.GetDistCountToDoc
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
       ''Contract QTY  
       'dpi = New DocPrintingItem
