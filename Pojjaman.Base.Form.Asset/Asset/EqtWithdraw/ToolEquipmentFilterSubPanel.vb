@@ -253,6 +253,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Members"
     Private m_storecc As CostCenter
+    Private m_entity As ISimpleEntity
 #End Region
 
 #Region "Methods"
@@ -271,13 +272,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub PopulateStatus()
 
     End Sub
-
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(2) As Filter
-      arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
-      arr(1) = New Filter("fromCC", IIf(Me.m_storecc.Originated, Me.m_storecc.Id, DBNull.Value))
-      arr(2) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-      Return arr
+      If TypeOf m_entity Is EquipmentToolWithdraw Then
+        Dim arr(3) As Filter
+        arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
+        arr(1) = New Filter("fromCC", IIf(Me.m_storecc.Originated, Me.m_storecc.Id, DBNull.Value))
+        arr(2) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+        arr(3) = New Filter("eqtstocki_id", Me.ValidIdOrDBNull(CType(m_entity, EquipmentToolWithdraw)))
+        Return arr
+      Else
+        Dim arr(2) As Filter
+        arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
+        arr(1) = New Filter("fromCC", IIf(Me.m_storecc.Originated, Me.m_storecc.Id, DBNull.Value))
+        arr(2) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+        Return arr
+      End If
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
       Get
@@ -436,27 +445,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
         MyBase.Entities = Value
         For Each entity As ISimpleEntity In Value
           If TypeOf entity Is EquipmentToolWithdraw Then
-            Dim obj As EquipmentToolWithdraw = CType(entity, EquipmentToolWithdraw)
-
-            'If obj.Withdrawperson.Originated Then
-            '  Me.SetWithdrawPerson(obj.Withdrawperson)
-            'End If
-
-            'If obj.WithdrawCostcenter.Originated Then
-            '  Me.SetWithdrawCC(obj.WithdrawCostcenter)
-            'End If
-
-            'If obj.Storeperson.Originated Then
-            '  Me.SetStorePerson(obj.Storeperson)
-            'End If
-
-            'If obj.StoreCostcenter.Originated Then
-            '  Me.SetStoreCC(obj.StoreCostcenter)
-            '  Me.txtStoreCCCode.Enabled = False
-            '  Me.txtStoreCCName.Enabled = False
-            '  Me.btnStoreCCEdit.Enabled = False
-            '  Me.btnStoreCCFind.Enabled = False
-            'End If
+            Dim eqt As EquipmentToolWithdraw = CType(entity, EquipmentToolWithdraw)
+            m_entity = eqt
+            If Not eqt.WithdrawCostcenter Is Nothing Then
+              Me.SetStoreCC(eqt.WithdrawCostcenter)
+              Me.txtStoreCCCode.Enabled = False
+              Me.txtStoreCCName.Enabled = False
+              Me.btnStoreCCEdit.Enabled = False
+              Me.btnStoreCCFind.Enabled = False
+            End If
           ElseIf TypeOf entity Is CostCenter Then
             Me.SetStoreCC(entity)
             Me.txtStoreCCCode.Enabled = False

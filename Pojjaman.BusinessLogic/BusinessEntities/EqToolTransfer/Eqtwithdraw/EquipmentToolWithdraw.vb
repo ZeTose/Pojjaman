@@ -25,6 +25,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_tostatus As EqtStatus
     Private m_fromstatus As EqtStatus
     Private m_itemCollection As EquipmentToolWithdrawItemCollection
+    Private m_oldCC As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -56,6 +57,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_storecc = New CostCenter
         .m_fromstatus = New EqtStatus(2)
         .m_tostatus = New EqtStatus(3)
+        .m_oldCC = New CostCenter
       End With
       m_itemCollection = New EquipmentToolWithdrawItemCollection(Me)
     End Sub
@@ -108,7 +110,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
 
 
-        ' WithDraw Costcenter
+        ' WithDraw Costcenter, Request CostCenter
         If dr.Table.Columns.Contains(aliasPrefix & "withdrawcostcenter.cc_id") Then
           If Not dr.IsNull("withdrawcostcenter.cc_id") Then
             .m_withdrawcc = New CostCenter(dr, "withdrawcostcenter.")
@@ -120,6 +122,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
         End If
+
+        .m_oldCC = New CostCenter(.m_withdrawcc.Id)
+
         ' Store Person
         If dr.Table.Columns.Contains(aliasPrefix & "storeperson.employee_id") Then
           If Not dr.IsNull("storeperson.employee_id") Then
@@ -215,7 +220,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return m_withdrawperson
       End Get      Set(ByVal Value As Employee)
-        m_withdrawperson = Value      End Set    End Property    Public Property WithdrawCostcenter() As CostCenter      Get        Return m_withdrawcc      End Get      Set(ByVal Value As CostCenter)        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+        m_withdrawperson = Value      End Set    End Property    Public Property WithdrawCostcenter() As CostCenter      Get        Return m_withdrawcc      End Get      Set(ByVal Value As CostCenter)        If Not m_withdrawcc Is Nothing AndAlso m_withdrawcc.Id <> Value.Id Then          For Each itm As EquipmentToolWithdrawItem In Me.ItemCollection
+            itm.WBSDistributeCollection.Clear()
+          Next
+        End If        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -442,6 +450,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ResetId(oldid)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
+
+          '--Clear รายการจัดสรร ของ CC ปลายทางเก่าซะหน่อย (pui)-- ============================
+          If Me.Originated Then
+            If m_oldCC.Id <> m_storecc.Id Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                                     "DeleteOldAllocateEquipmentItem", _
+                                                     New SqlParameter("@eqtstock_id", Me.Id) _
+                                        )
+            End If
+          End If
+          '--Clear รายการจัดสรร ของ CC ปลายทางเก่าซะหน่อย-- ============================
 
           Dim errstr As SaveErrorException = SaveDetail(Me.Id, conn, trans)
           If IsNumeric(errstr.Message) Then

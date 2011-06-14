@@ -1370,7 +1370,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filterEntities(5) As ArrayList
       For i As Integer = 0 To 0
         filterEntities(i) = New ArrayList
-        filterEntities(i).Add(Me.m_entity.FromCC)
+        'filterEntities(i).Add(Me.m_entity.FromCC)
+        filterEntities(i).Add(Me.m_entity)
       Next
 
       Dim entities(0) As ISimpleEntity
