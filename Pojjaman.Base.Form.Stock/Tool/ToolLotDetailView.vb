@@ -72,6 +72,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnSave As System.Windows.Forms.Button
     Friend WithEvents ibtnDel As System.Windows.Forms.Button
     Friend WithEvents btnLotRef As System.Windows.Forms.Button
+    Public WithEvents lv2 As Longkong.Pojjaman.Gui.Components.PJMListView
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -81,8 +82,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.TxtToollotName = New System.Windows.Forms.TextBox()
       Me.lblToolCode = New System.Windows.Forms.Label()
       Me.lblToolName = New System.Windows.Forms.Label()
+      Me.lv2 = New Longkong.Pojjaman.Gui.Components.PJMListView()
       Me.lv = New Longkong.Pojjaman.Gui.Components.PJMListView()
       Me.Grbeqi = New System.Windows.Forms.GroupBox()
+      Me.btnLotRef = New System.Windows.Forms.Button()
       Me.ibtnDel = New System.Windows.Forms.Button()
       Me.ibtnNewLot = New System.Windows.Forms.Button()
       Me.ibtnSave = New System.Windows.Forms.Button()
@@ -119,7 +122,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.btnLotRef = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       Me.Grbeqi.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,6 +136,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.TxtToollotName)
       Me.grbDetail.Controls.Add(Me.lblToolCode)
       Me.grbDetail.Controls.Add(Me.lblToolName)
+      Me.grbDetail.Controls.Add(Me.lv2)
       Me.grbDetail.Controls.Add(Me.lv)
       Me.grbDetail.Controls.Add(Me.Grbeqi)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -200,6 +203,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblToolName.Text = "ชื่อชนิดเครื่องมือ :"
       Me.lblToolName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'lv2
+      '
+      Me.lv2.Alignment = System.Windows.Forms.ListViewAlignment.Left
+      Me.lv2.AllowSort = True
+      Me.lv2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lv2.FullRowSelect = True
+      Me.lv2.GridLines = True
+      Me.lv2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+      Me.lv2.HideSelection = False
+      Me.lv2.Location = New System.Drawing.Point(437, 102)
+      Me.lv2.Name = "lv2"
+      Me.lv2.Size = New System.Drawing.Size(552, 45)
+      Me.lv2.SortIndex = -1
+      Me.lv2.SortOrder = System.Windows.Forms.SortOrder.None
+      Me.lv2.TabIndex = 323
+      Me.lv2.UseCompatibleStateImageBehavior = False
+      Me.lv2.View = System.Windows.Forms.View.Details
+      '
       'lv
       '
       Me.lv.Alignment = System.Windows.Forms.ListViewAlignment.Left
@@ -209,11 +231,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lv.FullRowSelect = True
       Me.lv.GridLines = True
-      Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+      Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
       Me.lv.HideSelection = False
-      Me.lv.Location = New System.Drawing.Point(437, 101)
+      Me.lv.Location = New System.Drawing.Point(437, 147)
       Me.lv.Name = "lv"
-      Me.lv.Size = New System.Drawing.Size(552, 516)
+      Me.lv.Size = New System.Drawing.Size(552, 469)
       Me.lv.SortIndex = -1
       Me.lv.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lv.TabIndex = 323
@@ -264,6 +286,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Grbeqi.TabIndex = 0
       Me.Grbeqi.TabStop = False
       Me.Grbeqi.Text = "รายละเอียดเครื่องจักรรายตัว"
+      '
+      'btnLotRef
+      '
+      Me.btnLotRef.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.btnLotRef.Location = New System.Drawing.Point(35, 389)
+      Me.btnLotRef.Name = "btnLotRef"
+      Me.btnLotRef.Size = New System.Drawing.Size(80, 29)
+      Me.btnLotRef.TabIndex = 342
+      Me.btnLotRef.Text = "Reference"
+      Me.btnLotRef.UseVisualStyleBackColor = True
       '
       'ibtnDel
       '
@@ -697,16 +729,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'btnLotRef
-      '
-      Me.btnLotRef.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.btnLotRef.Location = New System.Drawing.Point(35, 389)
-      Me.btnLotRef.Name = "btnLotRef"
-      Me.btnLotRef.Size = New System.Drawing.Size(80, 29)
-      Me.btnLotRef.TabIndex = 342
-      Me.btnLotRef.Text = "Reference"
-      Me.btnLotRef.UseVisualStyleBackColor = True
-      '
       'ToolLotDetailView
       '
       Me.Controls.Add(Me.grbDetail)
@@ -842,6 +864,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
     Public Overrides Sub Initialize()
       SetLVHeader()
+      'SetLV2Header()
       ' กำหนดการคำนวณค่าเสื่อมราคา
       'AssetCalcType.ListCodeDescriptionInComboBox(cmbCalcType, "asset_calctype")
       ' กำหนดอัตราค่าเช่าพื้นฐาน
@@ -1048,9 +1071,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.m_isInitialized = True
 
       Dim sequence As Integer = 0
-      Dim sumReqty As Decimal = 0
-      Dim sumbuqty As Decimal = 0
-      Dim sumwfqty As Decimal = 0
+      'Dim sumReqty As Decimal = 0
+      'Dim sumbuqty As Decimal = 0
+      'Dim sumwfqty As Decimal = 0
       lv.Items.Clear()
       For Each lot As ToolLot In Me.m_entity.ItemCollection
 
@@ -1067,9 +1090,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lvItem.SubItems.Add(Configuration.FormatToString(lot.Buyqty, DigitConfig.Qty))
         lvItem.SubItems.Add(Configuration.FormatToString(lot.WriteOff, DigitConfig.Price))
         lvItem.SubItems.Add(Configuration.FormatToString(lot.RemainQTY, DigitConfig.Qty))
-        sumReqty += lot.RemainQTY
-        sumbuqty += lot.Buyqty
-        sumwfqty += lot.WriteOff
+        'sumReqty += lot.RemainQTY
+        'sumbuqty += lot.Buyqty
+        'sumwfqty += lot.WriteOff
         If lot.IsReferenced Then
           lvItem.SubItems.Add(Me.StringParserService.Parse("${res:Global.Referenced}"))
         Else
@@ -1087,18 +1110,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
         lvItem.Tag = lot
         lv.Items.Add(lvItem).Tag = lot 'มีปัญหาตอนปิด
       Next
-      'sum
-      If m_entity.ItemCollection.Count > 0 Then
-        sequence += 1
-        Dim lvItem As New ListViewItem(sequence)
-        lvItem.SubItems.Add("")
-        lvItem.SubItems.Add("รวม")
-        lvItem.SubItems.Add(Configuration.FormatToString(sumbuqty, DigitConfig.Qty))
-        lvItem.SubItems.Add(Configuration.FormatToString(sumwfqty, DigitConfig.Price))
-        lvItem.SubItems.Add(Configuration.FormatToString(sumReqty, DigitConfig.Qty))
+      ''sum
+      'If m_entity.ItemCollection.Count > 0 Then
+      '  sequence += 1
+      '  Dim lvItem As New ListViewItem(sequence)
+      '  lvItem.SubItems.Add("")
+      '  lvItem.SubItems.Add("รวม")
+      '  lvItem.SubItems.Add(Configuration.FormatToString(sumbuqty, DigitConfig.Qty))
+      '  lvItem.SubItems.Add(Configuration.FormatToString(sumwfqty, DigitConfig.Price))
+      '  lvItem.SubItems.Add(Configuration.FormatToString(sumReqty, DigitConfig.Qty))
 
-        lv.Items.Add(lvItem) 'มีปัญหาตอนปิด
-      End If
+      '  lv.Items.Add(lvItem) 'มีปัญหาตอนปิด
+      'End If
+
+      Me.SummaryLVCollumns()
 
       Me.m_isInitialized = True
     End Sub
@@ -1698,7 +1723,96 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lvColumn.Width = 80
       'lv.Columns.Add(lvColumn)
 
+      For Each col As ColumnHeader In Me.lv.Columns
+        Dim newcol As New ColumnHeader
+        newcol.Name = col.Name
+        newcol.Text = col.Text
+        newcol.TextAlign = col.TextAlign
+        newcol.Width = col.Width
+        lv2.Columns.Add(newcol)
+      Next
+
     End Sub
+
+    'Private Sub SetLV2Header()
+    '  lv2.MultiSelect = False
+
+    '  For Each col As ColumnHeader In Me.lv.Columns
+    '    Dim newcol As New ColumnHeader
+    '    newcol.Name = col.Name
+    '    newcol.Text = col.Text
+    '    newcol.TextAlign = col.TextAlign
+    '    newcol.Width = col.Width
+    '    lv2.Columns.Add(newcol)
+    '  Next
+    '  'lv2.CheckBoxes = True
+
+    '  Dim lvColumn As ColumnHeader
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "linenumber"
+    '  lvColumn.Text = "ลำดับ"
+    '  lvColumn.TextAlign = HorizontalAlignment.Left
+    '  lvColumn.Width = 80
+    '  lv2.Columns.Add(lvColumn)
+
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "lotno"
+    '  lvColumn.Text = "Lot No."
+    '  lvColumn.TextAlign = HorizontalAlignment.Left
+    '  lvColumn.Width = 120
+    '  lv2.Columns.Add(lvColumn)
+
+    '  'lvColumn = New ColumnHeader
+    '  'lvColumn.Name = "lotdate"
+    '  'lvColumn.Text = "วันที่ Lot No."
+    '  'lvColumn.TextAlign = HorizontalAlignment.Left
+    '  'lvColumn.Width = 80
+    '  'lv2.Columns.Add(lvColumn)
+
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "assetcode"
+    '  lvColumn.Text = "สินทรัพย์"
+    '  lvColumn.TextAlign = HorizontalAlignment.Left
+    '  lvColumn.Width = 150
+    '  lv2.Columns.Add(lvColumn)
+
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "buyqty"
+    '  lvColumn.Text = "จำนวน"
+    '  lvColumn.TextAlign = HorizontalAlignment.Right
+    '  lvColumn.Width = 100
+    '  lv2.Columns.Add(lvColumn)
+
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "writeoffqty"
+    '  lvColumn.Text = "จำนวน Write off"
+    '  lvColumn.TextAlign = HorizontalAlignment.Right
+    '  lvColumn.Width = 100
+    '  lv2.Columns.Add(lvColumn)
+
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "remainqty"
+    '  lvColumn.Text = "คงเหลือจาก write off"
+    '  lvColumn.TextAlign = HorizontalAlignment.Right
+    '  lvColumn.Width = 100
+    '  lv2.Columns.Add(lvColumn)
+
+    '  lvColumn = New ColumnHeader
+    '  lvColumn.Name = "refstatus"
+    '  lvColumn.Text = "สถานะการอ้างอิง"
+    '  lvColumn.TextAlign = HorizontalAlignment.Left
+    '  lvColumn.Width = 100
+    '  lv2.Columns.Add(lvColumn)
+
+    '  'lvColumn = New ColumnHeader
+    '  'lvColumn.Name = "status"
+    '  'lvColumn.Text = "status"
+    '  'lvColumn.TextAlign = HorizontalAlignment.Left
+    '  'lvColumn.Width = 80
+    '  'lv2.Columns.Add(lvColumn)
+
+    'End Sub
+
     'Public Function CreateTableStyle() As DataGridTableStyle
     '  Dim dst As New DataGridTableStyle
     '  dst.MappingName = "Equipment"
@@ -1764,37 +1878,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Check Reference ปกติไม่ได้ ต้องทำแยก
 
     End Sub
-    'Public Sub CheckToolLotEnable()
-    '  If Me.m_entity.ToolLot.IsReferenced Then
-    '    'For Each crlt As Control In grbDetail.Controls
-    '    '  crlt.Enabled = False
-    '    'Next
-    '    Grbeqi.Enabled = False
-    '    'btnDel.Enabled = False
-    '  Else
-    '    Grbeqi.Enabled = True
-    '    'btnDel.Enabled = True
-    '  End If
-    'End Sub
-    'Public Sub ClearItemOnly()
-    '  For Each ctrl As Control In Grbeqi.Controls
-    '    If TypeOf ctrl Is TextBox Then
-    '      ctrl.Text = ""
-    '    End If
-    '  Next
-
-    '  '  For Each ctrl As Control In TabPage1.Controls
-    '  '    If TypeOf ctrl Is TextBox Then
-    '  '      ctrl.Text = ""
-    '  '    End If
-    '  '  Next
-    '  '  For Each ctrl As Control In TabPage2.Controls
-    '  '    If TypeOf ctrl Is TextBox Then
-    '  '      ctrl.Text = ""
-    '  '    End If
-    '  '  Next
-    'End Sub
-
     ' เคลียร์ข้อมูลใน control
     Public Overrides Sub ClearDetail()
 
@@ -2279,7 +2362,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
 #End Region
 
-    Private Sub lv_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lv.DoubleClick
+    Private Sub SummaryLVCollumns()
+
+      Dim sequence As Integer = 0
+      Dim sumReqty As Decimal = 0
+      Dim sumbuqty As Decimal = 0
+      Dim sumwfqty As Decimal = 0
+      lv2.Items.Clear()
+      For Each lot As ToolLot In Me.m_entity.ItemCollection
+        sumReqty += lot.RemainQTY
+        sumbuqty += lot.Buyqty
+        sumwfqty += lot.WriteOff
+      Next
+
+      Dim lvItem As New ListViewItem("")
+      lvItem.Font = New Font("Tahoma", 8.25!, FontStyle.Bold, GraphicsUnit.Point, 0)
+      lvItem.SubItems.Add("")
+      lvItem.SubItems.Add(Me.StringParserService.Parse("${res:Global.Total}"))
+      lvItem.SubItems.Add(Configuration.FormatToString(sumbuqty, DigitConfig.Qty))
+      lvItem.SubItems.Add(Configuration.FormatToString(sumwfqty, DigitConfig.Price))
+      lvItem.SubItems.Add(Configuration.FormatToString(sumReqty, DigitConfig.Qty))
+      lv2.Items.Add(lvItem)
+
+    End Sub
+
+    Private Sub lv2_ColumnWidthChanging(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnWidthChangingEventArgs) Handles lv2.ColumnWidthChanging
+      For Each col As ColumnHeader In lv2.Columns
+        lv.Columns(col.Index).Width = col.Width
+      Next
+    End Sub
+
+    Private Sub lv_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lv.DoubleClick, lv2.DoubleClick
       Try
         Dim index As Integer = lv.SelectedItems(0).Index
 
@@ -2771,6 +2884,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       rd.dt2 = dt2
       rd.ShowDialog()
     End Sub
+
+
   End Class
 
 End Namespace
