@@ -2727,6 +2727,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetVatAmount()
       If TypeOf Me.Vat.RefDoc Is PaySelection Then
         Me.m_taxBase = CType(Me.Vat.RefDoc, PaySelection).GetTaxBaseDeducted - Me.Vat.TaxBase
+        Dim vatamt As Decimal = CType(Me.Vat.RefDoc, PaySelection).GetVatAmt
+        If vatamt <> Me.Amount Then
+          Me.Amount = vatamt
+        End If
       Else
         Me.m_taxBase = Me.Vat.RefDoc.TaxBase - Me.Vat.TaxBase
       End If

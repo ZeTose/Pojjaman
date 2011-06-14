@@ -1631,7 +1631,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
-    Private Function GetVatAmt() As Decimal
+    Public Function GetVatAmt() As Decimal
       Dim amt As Decimal
       For Each item As BillAcceptanceItem In Me.ItemCollection
         'Dim d As Decimal '= item.TaxBaseDeducted
