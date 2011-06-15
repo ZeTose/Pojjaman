@@ -4126,9 +4126,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''=== Insert Update Budget and Actual ======================================================
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", theId)})
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", theId)})
-        If Not Me.Originated Then
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
-        End If
+        'If Not Me.Originated Then
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        'End If
         ''=== Insert Update Budget and Actual ======================================================
 
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
