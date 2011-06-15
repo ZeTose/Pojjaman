@@ -1689,10 +1689,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler txtWithdrawCCCode.Validated, AddressOf Me.ChangeProperty
 
             AddHandler txtStorepersonCode.Validated, AddressOf Me.TextHandler
-            AddHandler txtStorepersonCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtStorepersonCode.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtStoreCCCode.Validated, AddressOf Me.TextHandler
-            AddHandler txtStoreCCCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtStoreCCCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtStoreCCCode.TextChanged, AddressOf Me.TextHandler
 
             AddHandler txtCustomerCode.TextChanged, AddressOf Me.TextHandler
             AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
