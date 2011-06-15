@@ -148,30 +148,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currDocIndex, 5).CellValue = Configuration.FormatToString(CDec(ccrow("pri_qty")), DigitConfig.Qty)
           sumPrQty += CDec(ccrow("pri_qty"))
         End If
-        If CDec(ccrow("remain")) <> 0 Then
+        If CDec(ccrow("remain")) > 0 Then
           m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
           sumRemainAllQty += CDec(ccrow("remain"))
         End If
-                If CInt(ccrow("ApprovePerson")) = 0 Then
-                    If CDec(ccrow("remain")) <> 0 Then
-                        m_grid(currDocIndex, 7).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
-                        sumUnApproveQty += CDec(ccrow("remain"))
-                    End If
-                End If
-                If CInt(ccrow("ApproveStorePerson")) = 0 And CInt(ccrow("ApprovePerson")) > 0 Then
-                    If CDec(ccrow("remain")) <> 0 Then
-                        m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
-                        sumUnStoreApproeveQty += CDec(ccrow("remain"))
-                    End If
-                End If
-                If CInt(ccrow("ApprovePerson")) > 0 And CInt(ccrow("ApproveStorePerson")) > 0 Then
-                    If CDec(ccrow("remain")) <> 0 Then
-                        m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
-                        sumPOReamainQty += CDec(ccrow("remain"))
-                    End If
-                End If
+        If CInt(ccrow("ApprovePerson")) = 0 Then
+          If CDec(ccrow("remain")) <> 0 Then
+            m_grid(currDocIndex, 7).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
+            sumUnApproveQty += CDec(ccrow("remain"))
+          End If
+        End If
+        If CInt(ccrow("ApproveStorePerson")) = 0 And CInt(ccrow("ApprovePerson")) > 0 Then
+          If CDec(ccrow("remain")) <> 0 Then
+            m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
+            sumUnStoreApproeveQty += CDec(ccrow("remain"))
+          End If
+        End If
+        If CInt(ccrow("ApprovePerson")) > 0 And CInt(ccrow("ApproveStorePerson")) > 0 Then
+          If CDec(ccrow("remain")) <> 0 Then
+            m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(ccrow("remain")), DigitConfig.Qty)
+            sumPOReamainQty += CDec(ccrow("remain"))
+          End If
+        End If
 
-            Next
+      Next
 
       m_grid.RowCount += 1
       currDocIndex = m_grid.RowCount

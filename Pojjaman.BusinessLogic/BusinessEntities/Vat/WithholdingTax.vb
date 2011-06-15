@@ -2636,7 +2636,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               drItem("whti_wht") = drWHT("wht_id")
               drItem("whti_linenumber") = i
               drItem("whti_description") = item("whti_description")
-              drItem("whti_taxrate") = item("whti_taxrate")
+              If IsNumeric(item("whti_taxrate")) Then
+                drItem("whti_taxrate") = item("whti_taxrate")
+              End If
               drItem("whti_taxbase") = item("whti_taxbase")
               drItem("whti_amt") = item("Amount")
               drItem("whti_note") = item("whti_note")
