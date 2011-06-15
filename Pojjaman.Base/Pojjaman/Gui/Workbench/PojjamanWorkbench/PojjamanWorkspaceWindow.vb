@@ -281,6 +281,10 @@ Namespace Longkong.Pojjaman.Gui
             '    End If
             'End If
       statusbarService.SetMessage("${res:MainWindow.StatusBar.ReadyMessage}")
+
+
+
+
             If Me.m_viewTabControl.SelectedIndex = 0 AndAlso TypeOf Me.ViewContent Is ISimpleListPanel AndAlso Me.ViewContent.IsDirty Then
         Dim resourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
                 Dim dr As DialogResult = MessageBox.Show(resourceService.GetString("MainWindow.SaveChangesMessage"), resourceService.GetString("MainWindow.SaveChangesMessageHeader") + " " + Title + " ?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
@@ -310,7 +314,7 @@ Namespace Longkong.Pojjaman.Gui
                 Dim newContent As IBaseViewContent = CType(Me.SubViewContents.Item(Me.m_viewTabControl.SelectedIndex), IBaseViewContent)
                 If (Not newContent Is Nothing) Then
                     newContent.SwitchedTo()
-                    newContent.Selected()
+          newContent.Selected()
                 End If
             End If
             Me.m_oldIndex = Me.m_viewTabControl.SelectedIndex

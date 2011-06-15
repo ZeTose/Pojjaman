@@ -2408,244 +2408,289 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
 
 
-                UpdateEntityProperties()
+        UpdateEntityProperties()
+
             End Set
         End Property
+    Private showMessage As String
+    Public Overrides Property StatusDescription() As String
+      Get
+        If Me.Entity Is Nothing Then
+          Return ""
+        End If
+
+        showMessage = "เพิ่มเข้าสู่ระบบ : "
+        If Not Me.Entity.Originator Is Nothing Then
+          showMessage += Me.Entity.OriginDate.ToShortDateString
+        Else
+          showMessage += ""
+        End If
+
+        showMessage += " โดย : "
+        If Not Me.Entity.Originator Is Nothing Then
+          showMessage += Me.Entity.Originator.Name
+        Else
+          showMessage += ""
+        End If
+
+        showMessage += " แก้ไขล่าสุด : "
+        If Not Me.Entity.LastEditor Is Nothing Then
+          showMessage += Me.Entity.LastEditDate.ToShortDateString
+        Else
+          showMessage += ""
+        End If
+
+        showMessage += " โดย : "
+        If Not Me.Entity.LastEditor Is Nothing Then
+          showMessage += Me.Entity.LastEditor.Name
+        Else
+          showMessage += ""
+        End If
+
+        Return showMessage
+        'Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
+        ''myStatusBarService.RefreshLanguage()
+        'myStatusBarService.SetMessage(showMessage)
+      End Get
+      Set(ByVal value As String)
+        showMessage = value
+      End Set
+    End Property
 
 
 
 #End Region
 
 #Region " IValidatable "
-        Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Image button"
-        Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
-            Dim dlg As New OpenFileDialog
-            Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
-            dlg.Filter = String.Join("|", fileFilters)
-            If dlg.ShowDialog = DialogResult.OK Then
-                Dim img As Image = Image.FromFile(dlg.FileName)
-                If img.Size.Height > Me.picImage.Height OrElse img.Size.Width >= Me.picImage.Width Then
-                    Dim percent As Decimal = 100 * (Math.Min(Me.picImage.Height / img.Size.Height, Me.picImage.Width / img.Size.Width))
-                    img = ImageHelper.Resize(img, percent)
-                End If
-                Me.picImage.Image = img
-                m_entity.Image = img
-                Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-                myContent.IsDirty = True
-                CheckLabelImgSize()
-            End If
-        End Sub
-        Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
-            m_entity.Image = Nothing
-            Me.picImage.Image = Nothing
-            Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-            myContent.IsDirty = True
-            CheckLabelImgSize()
-        End Sub
+    Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
+      Dim dlg As New OpenFileDialog
+      Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
+      dlg.Filter = String.Join("|", fileFilters)
+      If dlg.ShowDialog = DialogResult.OK Then
+        Dim img As Image = Image.FromFile(dlg.FileName)
+        If img.Size.Height > Me.picImage.Height OrElse img.Size.Width >= Me.picImage.Width Then
+          Dim percent As Decimal = 100 * (Math.Min(Me.picImage.Height / img.Size.Height, Me.picImage.Width / img.Size.Width))
+          img = ImageHelper.Resize(img, percent)
+        End If
+        Me.picImage.Image = img
+        m_entity.Image = img
+        Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+        myContent.IsDirty = True
+        CheckLabelImgSize()
+      End If
+    End Sub
+    Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
+      m_entity.Image = Nothing
+      Me.picImage.Image = Nothing
+      Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+      myContent.IsDirty = True
+      CheckLabelImgSize()
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New Account).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtglcode", "txtglname"
-                                Return True
-                            Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
-                                Return True
-                            Case "txtdepreacctcode", "txtdepreacctname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New Unit).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtunitcode", "txtunitname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New AssetType).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txttypecode", "txttypename"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New CostCenter).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtcostcentercode", "txtcostcentername"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New Account).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
-                Dim entity As New Account(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtglcode", "txtglname"
-                            Me.SetAccountDialog(entity)
-                        Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
-                            Me.SetDepreOpeningAccountDialog(entity)
-                        Case "txtdepreacctcode", "txtdepreacctname"
-                            Me.SetDepreAccountDialog(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New AssetType).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New AssetType).FullClassName))
-                Dim entity As New AssetType(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txttypecode", "txttypename"
-                            Me.SetAssetTypeDialog(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New CostCenter).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
-                Dim entity As New CostCenter(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtcostcentercode", "txtcostcentername"
-                            Me.SetCostCenterDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New Account).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtglcode", "txtglname"
+                Return True
+              Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
+                Return True
+              Case "txtdepreacctcode", "txtdepreacctname"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New Unit).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtunitcode", "txtunitname"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New AssetType).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txttypecode", "txttypename"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New CostCenter).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtcostcentercode", "txtcostcentername"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New Account).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
+        Dim entity As New Account(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtglcode", "txtglname"
+              Me.SetAccountDialog(entity)
+            Case "txtdepreopeningacctcode", "txtdepreopeningacctname"
+              Me.SetDepreOpeningAccountDialog(entity)
+            Case "txtdepreacctcode", "txtdepreacctname"
+              Me.SetDepreAccountDialog(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New AssetType).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New AssetType).FullClassName))
+        Dim entity As New AssetType(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txttypecode", "txttypename"
+              Me.SetAssetTypeDialog(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New CostCenter).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New CostCenter).FullClassName))
+        Dim entity As New CostCenter(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtcostcentercode", "txtcostcentername"
+              Me.SetCostCenterDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region "Event of Button controls"
-        ' Account button
-        Private Sub btnGLEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLEdit.Click, btnDepreAcctEdit.Click, btnDepreOpeningAcctEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Account)
-        End Sub
-        Private Sub btnGLFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLFind.Click, btnDepreAcctFind.Click, btnDepreOpeningAcctFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btnglfind"
-                    myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
-                Case "btndepreopeningacctfind"
-                    myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreOpeningAccountDialog)
-                Case "btndepreacctfind"
-                    myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreAccountDialog)
-            End Select
-        End Sub
-        Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtGLCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtGLCode, txtGLName, Me.m_entity.Account)
-        End Sub
-        Private Sub SetDepreOpeningAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtDepreOpeningAcctCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtDepreOpeningAcctCode, txtDepreOpeningAcctName, Me.m_entity.DepreOpeningAccount)
-        End Sub
-        Private Sub SetDepreAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtDepreAcctCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtDepreAcctCode, txtDepreAcctName, Me.m_entity.DepreAccount)
-        End Sub
-        ' Type button
-        Private Sub btnTypeEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New AssetType)
-        End Sub
-        Private Sub btnTypeFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New AssetType, AddressOf SetAssetTypeDialog)
-        End Sub
-        Private Sub SetAssetTypeDialog(ByVal e As ISimpleEntity)
-            Me.txtTypeCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or AssetType.GetAssetType(txtTypeCode, txtTypeName, Me.m_entity.Type)
-            SetValueFromAssetType()
-        End Sub
+    ' Account button
+    Private Sub btnGLEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLEdit.Click, btnDepreAcctEdit.Click, btnDepreOpeningAcctEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Account)
+    End Sub
+    Private Sub btnGLFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGLFind.Click, btnDepreAcctFind.Click, btnDepreOpeningAcctFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btnglfind"
+          myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
+        Case "btndepreopeningacctfind"
+          myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreOpeningAccountDialog)
+        Case "btndepreacctfind"
+          myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetDepreAccountDialog)
+      End Select
+    End Sub
+    Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtGLCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtGLCode, txtGLName, Me.m_entity.Account)
+    End Sub
+    Private Sub SetDepreOpeningAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtDepreOpeningAcctCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtDepreOpeningAcctCode, txtDepreOpeningAcctName, Me.m_entity.DepreOpeningAccount)
+    End Sub
+    Private Sub SetDepreAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtDepreAcctCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtDepreAcctCode, txtDepreAcctName, Me.m_entity.DepreAccount)
+    End Sub
+    ' Type button
+    Private Sub btnTypeEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New AssetType)
+    End Sub
+    Private Sub btnTypeFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTypeFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New AssetType, AddressOf SetAssetTypeDialog)
+    End Sub
+    Private Sub SetAssetTypeDialog(ByVal e As ISimpleEntity)
+      Me.txtTypeCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or AssetType.GetAssetType(txtTypeCode, txtTypeName, Me.m_entity.Type)
+      SetValueFromAssetType()
+    End Sub
 
-        ' Costcenter button
-        Private Sub btnCostcenterEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New CostCenter)
-        End Sub
-        Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterDialog)
-        End Sub
-        Private Sub SetCostCenterDialog(ByVal e As ISimpleEntity)
-            Me.txtCostcenterCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or CostCenter.GetCostCenter(txtCostcenterCode, txtCostcenterName, Me.m_entity.Costcenter)
-        End Sub
+    ' Costcenter button
+    Private Sub btnCostcenterEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New CostCenter)
+    End Sub
+    Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCostcenterFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New CostCenter, AddressOf SetCostCenterDialog)
+    End Sub
+    Private Sub SetCostCenterDialog(ByVal e As ISimpleEntity)
+      Me.txtCostcenterCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or CostCenter.GetCostCenter(txtCostcenterCode, txtCostcenterName, Me.m_entity.Costcenter)
+    End Sub
 
-        ' More detail
-        Private Sub btnAssetAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAssetAuxDetail.Click
-            Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.AssetAuxDetail
-            myAuxPanel.Entity = Me.m_entity
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
-            If myDialog.ShowDialog() = DialogResult.Cancel Then
-                Me.WorkbenchWindow.ViewContent.IsDirty = False
-            End If
-        End Sub
+    ' More detail
+    Private Sub btnAssetAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAssetAuxDetail.Click
+      Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.AssetAuxDetail
+      myAuxPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+      End If
+    End Sub
 #End Region
 
 #Region " Autogencode "
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_oldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
-                Me.Validator.SetRequired(Me.txtCode, False)
-                Me.ErrorProvider1.SetError(Me.txtCode, "")
-                Me.txtCode.ReadOnly = True
-                m_oldCode = Me.txtCode.Text
-                Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-                'Hack: set Code เป็น "" เอง
-                Me.m_entity.Code = ""
-                Me.m_entity.AutoGen = True
-            Else
-                Me.Validator.SetRequired(Me.txtCode, True)
-                Me.txtCode.Text = m_oldCode
-                Me.txtCode.ReadOnly = False
-                Me.m_entity.AutoGen = False
-            End If
-        End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
+        Me.Validator.SetRequired(Me.txtCode, False)
+        Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.txtCode.ReadOnly = True
+        m_oldCode = Me.txtCode.Text
+        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+        'Hack: set Code เป็น "" เอง
+        Me.m_entity.Code = ""
+        Me.m_entity.AutoGen = True
+      Else
+        Me.Validator.SetRequired(Me.txtCode, True)
+        Me.txtCode.Text = m_oldCode
+        Me.txtCode.ReadOnly = False
+        Me.m_entity.AutoGen = False
+      End If
+    End Sub
 #End Region
 
-        Private Sub CheckLabelImgSize()
-            Me.lblPicSize.Text = "272 X 204 pixel"
-            If Me.m_entity.Image Is Nothing Then
-                Me.lblPicSize.Visible = True
-            Else
-                Me.lblPicSize.Visible = False
-            End If
-        End Sub
+    Private Sub CheckLabelImgSize()
+      Me.lblPicSize.Text = "272 X 204 pixel"
+      If Me.m_entity.Image Is Nothing Then
+        Me.lblPicSize.Visible = True
+      Else
+        Me.lblPicSize.Visible = False
+      End If
+    End Sub
 
-        
+
   End Class
 
 End Namespace

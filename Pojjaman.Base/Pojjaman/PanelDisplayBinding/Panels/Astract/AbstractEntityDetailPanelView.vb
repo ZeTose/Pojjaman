@@ -54,8 +54,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
-    Public Property StatusDescription As String
-    Public Property StatusMessage As String
+    Public Overridable Property StatusDescription As String
+    Public Overridable Property StatusMessage As String
     Public Property StatusColor As Color
     <Browsable(False)> _
     Public ReadOnly Property StatusBarService() As IStatusBarService
