@@ -266,6 +266,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
               .m_status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_status"))
+            ElseIf dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docstatus") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docstatus") Then
+              .m_status.Value = CInt(dr(aliasPrefix & Me.Prefix & "_docstatus"))
             End If
           End If
         End If

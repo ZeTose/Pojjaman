@@ -110,7 +110,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
 
         .m_itemcollection = New AssetWriteOffItemCollection
-
+        .Status = New CheckStatus(-1)
         '----------------------------Tab Entities-----------------------------------------
         .m_whtcol = New WitholdingTaxCollection(Me)
         .m_whtcol.Direction = New WitholdingTaxDirection(0)
@@ -485,6 +485,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.m_receive.Status.Value = 4
           Me.m_whtcol.SetStatus(4)
           Me.m_vat.Status.Value = 4
+        End If
+        If Me.Status.Value = 0 Then
+          Me.m_je.Status.Value = 0
+          Me.m_receive.Status.Value = 0
+          Me.m_whtcol.SetStatus(0)
+          Me.m_vat.Status.Value = 0
         End If
         If Me.Status.Value = -1 Then
           Me.Status = New CheckStatus(2)
@@ -2627,7 +2633,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "ICancelable"
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
-        Return False
+        'Return False
         'UNDONE
         Return Me.Status.Value > 1 AndAlso Me.IsCancelable
       End Get
