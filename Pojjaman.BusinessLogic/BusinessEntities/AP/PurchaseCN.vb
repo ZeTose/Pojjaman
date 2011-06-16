@@ -205,6 +205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_itemCollection = New PurchaseCNItemCollection(Me)
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+      Me.SetNoVat()
     End Sub
 #End Region
 
@@ -1885,13 +1886,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not m_novat.HasValue Then
           SetNoVat()
         End If
-        Return Me.TaxType.Value = 0 OrElse m_novat.Value
+        Return m_novat.Value 'Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0
       End Get
     End Property
     Public Sub SetNoVat()
-      If Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0 _
-           OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
-           OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+      '      If Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0 _
+      'OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
+      'OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+
+      If Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0 Then
         m_novat = True
       Else
         m_novat = False
