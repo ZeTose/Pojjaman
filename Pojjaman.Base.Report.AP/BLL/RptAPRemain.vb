@@ -489,7 +489,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
-      Dim iCol As Integer = 17 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+      Dim iCol As Integer = 18 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
       widths.Add(90)
       widths.Add(180)
