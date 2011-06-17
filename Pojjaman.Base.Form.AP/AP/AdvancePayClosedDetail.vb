@@ -61,14 +61,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents lblDueDate As System.Windows.Forms.Label
         Friend WithEvents lblOrgDocDate As System.Windows.Forms.Label
         Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
-        Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
         Friend WithEvents btnAdvancePayFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents CachedCRptMatCountExpandedLciItem2 As CachedCRptMatCountExpandedLciItem
-        Friend WithEvents CachedCRptMatCountExpandedLciItem3 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem2 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem3 As CachedCRptMatCountExpandedLciItem
         Friend WithEvents lblCC As System.Windows.Forms.Label
         Friend WithEvents lblSupplier As System.Windows.Forms.Label
-        Friend WithEvents CachedCRptMatCountExpandedLciItem4 As CachedCRptMatCountExpandedLciItem
-        Friend WithEvents CachedCRptMatCountExpandedLciItem5 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem4 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem5 As CachedCRptMatCountExpandedLciItem
         Friend WithEvents lblInvoiceCode As System.Windows.Forms.Label
         Friend WithEvents txtADVPInvoiceCode As System.Windows.Forms.TextBox
         Friend WithEvents txtTaxBase As System.Windows.Forms.TextBox
@@ -161,11 +161,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAutoRunVat = New System.Windows.Forms.CheckBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
-      Me.CachedCRptMatCountExpandedLciItem2 = New CachedCRptMatCountExpandedLciItem()
-      Me.CachedCRptMatCountExpandedLciItem3 = New CachedCRptMatCountExpandedLciItem()
-      Me.CachedCRptMatCountExpandedLciItem4 = New CachedCRptMatCountExpandedLciItem()
-      Me.CachedCRptMatCountExpandedLciItem5 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem2 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem3 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem4 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem5 = New CachedCRptMatCountExpandedLciItem()
       Me.grbAdvancePay.SuspendLayout()
       Me.grbLocation.SuspendLayout()
       Me.grbHeader.SuspendLayout()

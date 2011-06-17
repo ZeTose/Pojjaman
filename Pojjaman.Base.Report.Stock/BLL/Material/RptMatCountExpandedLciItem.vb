@@ -8,7 +8,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
-  Public Class CRptMatCountExpandedLciItem
+  Public Class RptMatCountExpandedLciItem
     Inherits CrystalReport
     Implements IUseCrystalReport
 
@@ -60,7 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  m_grid.Rows.FrozenCount = 1
 
     '  Dim indent As String = Space(3)
-    '  m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.CRptMatCountExpandedLciItem.CostCenterID}") '"รหัส Cost Center"
+    '  m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatCountExpandedLciItem.CostCenterID}") '"รหัส Cost Center"
     '  m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.CRptMatCountExpandedLciItem.CostCenterName}") '"ชื่อ Cost Center"
 
     '  m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.CRptMatCountExpandedLciItem.StockID}") '"รหัสวัสดุ"
@@ -156,7 +156,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides Property ReportName As String
       Get
-        Return "CRptMatCountExpandedLciItem"
+        Return "RptMatCountExpandedLciItem"
         'Return "CRptMatCountExpandedLciItem"
       End Get
       Set(ByVal value As String)
@@ -164,27 +164,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property    Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "CRptMatCountExpandedLciItem"
+        Return "RptMatCountExpandedLciItem"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.CRptMatCountExpandedLciItem.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptMatCountExpandedLciItem.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.CRptMatCountExpandedLciItem"
+        Return "Icons.16x16.RptMatCountExpandedLciItem"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.CRptMatCountExpandedLciItem"
+        Return "Icons.16x16.RptMatCountExpandedLciItem"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.CRptMatCountExpandedLciItem.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptMatCountExpandedLciItem.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String

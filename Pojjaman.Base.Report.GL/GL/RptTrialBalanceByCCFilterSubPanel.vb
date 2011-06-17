@@ -60,7 +60,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
     Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
         Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
-        Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
     Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -98,7 +98,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-      Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
       Me.grbMaster.SuspendLayout()
       CType(Me.chkShowDoc, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).BeginInit()

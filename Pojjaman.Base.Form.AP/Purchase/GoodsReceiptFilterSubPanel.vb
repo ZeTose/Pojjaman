@@ -101,7 +101,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents txtPOCode As System.Windows.Forms.TextBox
         Friend WithEvents lblPO As System.Windows.Forms.Label
         Friend WithEvents btnFindPO As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
+    'Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
         Friend WithEvents lblEquipment As System.Windows.Forms.Label
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
@@ -185,7 +185,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnPVEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
             Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
+      'Me.CachedCRptMatCountExpandedLciItem1 = New CachedCRptMatCountExpandedLciItem()
             Me.grbDetail.SuspendLayout()
             Me.grbPO.SuspendLayout()
             Me.grbApprove.SuspendLayout()

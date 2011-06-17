@@ -156,7 +156,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\Material\CRptMatCountExpandedLciItem.vb" />
+    <Compile Include="BLL\Material\RptMatCountExpandedLciItem.vb" />
     <Compile Include="BLL\Material\RptMatTransfer.vb" />
     <Compile Include="BLL\Material\RptMatCount.vb">
       <SubType>Code</SubType>
@@ -191,13 +191,7 @@
     <Compile Include="BLL\Tool\RptStockCardTool.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Rpt\CRptMatCountExpandedLciItem1.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CRptMatCountExpandedLciItem.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Material\CRptMatCountExpendedLciItemFilterSubPanel.vb">
+    <Compile Include="UI\Material\RptMatCountExpendedLciItemFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Material\RptMatTransferFilterSubPanel.vb">
@@ -233,12 +227,8 @@
     <Compile Include="UI\Tool\RptStockCardToolFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <EmbeddedResource Include="Rpt\CRptMatCountExpandedLciItem.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRptMatCountExpandedLciItem1.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Material\CRptMatCountExpendedLciItemFilterSubPanel.resx">
-      <DependentUpon>CRptMatCountExpendedLciItemFilterSubPanel.vb</DependentUpon>
+    <EmbeddedResource Include="UI\Material\RptMatCountExpendedLciItemFilterSubPanel.resx">
+      <DependentUpon>RptMatCountExpendedLciItemFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Material\RptMatTransferFilterSubPanel.resx">
       <DependentUpon>RptMatTransferFilterSubPanel.vb</DependentUpon>
@@ -336,6 +326,6 @@
   <PropertyGroup>
     <PreBuildEvent />
     <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Reports\Stock
-copy $(ProjectDir)Rpt\*.rpt $(SolutionDir)Pojjaman\data\forms\Crystal</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

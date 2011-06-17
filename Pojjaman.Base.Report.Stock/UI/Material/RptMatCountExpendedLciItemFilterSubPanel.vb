@@ -6,7 +6,7 @@ Imports Telerik.WinControls.Data
 Imports Telerik.WinControls
 
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class CRptMatCountExpandedLciItemFilterSubPanel
+  Public Class RptMatCountExpandedLciItemFilterSubPanel
     'Inherits UserControl
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
@@ -43,6 +43,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbCostCenterCodeStart As Telerik.WinControls.UI.RadMultiColumnComboBox
     Friend WithEvents cmbShownLevel As System.Windows.Forms.ComboBox
     Friend WithEvents lblShownLevel As System.Windows.Forms.Label
+    Friend WithEvents chkShowCostCenter As System.Windows.Forms.CheckBox
     Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -61,6 +62,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblToCCend = New System.Windows.Forms.Label()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.chkShowCostCenter = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       CType(Me.cmbCostCenterCodeEnd, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.cmbCostCenterCodeStart, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,6 +71,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbMaster
       '
+      Me.grbMaster.Controls.Add(Me.chkShowCostCenter)
       Me.grbMaster.Controls.Add(Me.cmbShownLevel)
       Me.grbMaster.Controls.Add(Me.cmbCostCenterCodeEnd)
       Me.grbMaster.Controls.Add(Me.cmbCostCenterCodeStart)
@@ -192,7 +195,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'btnRefresh
       '
       Me.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnRefresh.Location = New System.Drawing.Point(12, 204)
+      Me.btnRefresh.Location = New System.Drawing.Point(12, 222)
       Me.btnRefresh.Name = "btnRefresh"
       Me.btnRefresh.Size = New System.Drawing.Size(75, 64)
       Me.btnRefresh.TabIndex = 5
@@ -212,7 +215,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'btnReset
       '
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(33, 274)
+      Me.btnReset.Location = New System.Drawing.Point(33, 292)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(54, 23)
       Me.btnReset.TabIndex = 6
@@ -276,11 +279,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'CRptMatCountExpandedLciItemFilterSubPanel
+      'chkShowCostCenter
+      '
+      Me.chkShowCostCenter.AutoSize = True
+      Me.chkShowCostCenter.Location = New System.Drawing.Point(12, 192)
+      Me.chkShowCostCenter.Name = "chkShowCostCenter"
+      Me.chkShowCostCenter.Size = New System.Drawing.Size(113, 17)
+      Me.chkShowCostCenter.TabIndex = 7
+      Me.chkShowCostCenter.Text = "แสดง Cost Center"
+      Me.chkShowCostCenter.UseVisualStyleBackColor = True
+      '
+      'RptMatCountExpandedLciItemFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "CRptMatCountExpandedLciItemFilterSubPanel"
+      Me.Name = "RptMatCountExpandedLciItemFilterSubPanel"
       Me.Size = New System.Drawing.Size(183, 347)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
@@ -375,8 +388,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
       Me.dtpDocDateEnd.Value = Me.DocDateEnd
 
-      If Me.cmbShownLevel.Items.Count >= 5 Then
-        Me.cmbShownLevel.SelectedIndex = 4
+      If Me.cmbShownLevel.Items.Count >= 1 Then
+        Me.cmbShownLevel.SelectedIndex = 0
       End If
 
     End Sub
@@ -406,13 +419,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Longkong.Pojjaman.BusinessLogic.Filter()
-      Dim arr(5) As Longkong.Pojjaman.BusinessLogic.Filter
+      Dim arr(6) As Longkong.Pojjaman.BusinessLogic.Filter
       arr(0) = New Longkong.Pojjaman.BusinessLogic.Filter("@DocDateStart", DBNull.Value) 'From the beginning
       arr(1) = New Longkong.Pojjaman.BusinessLogic.Filter("@DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Longkong.Pojjaman.BusinessLogic.Filter("@ToCCCodeStart", ValidCodeOrDBNullText(Me.cmbCostCenterCodeStart))
       arr(3) = New Longkong.Pojjaman.BusinessLogic.Filter("@ToCCCodeEnd", ValidCodeOrDBNullText(Me.cmbCostCenterCodeEnd))
       arr(4) = New Longkong.Pojjaman.BusinessLogic.Filter("@userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       arr(5) = New Longkong.Pojjaman.BusinessLogic.Filter("@LevelToShow", CType(Me.cmbShownLevel.SelectedItem, IdValuePair).Id)
+      arr(6) = New Longkong.Pojjaman.BusinessLogic.Filter("@NotShowCostCenter", IIf(Me.chkShowCostCenter.Checked, 1, DBNull.Value))
       ''arr(8) = New Filter("negativeonly", Me.chkNegativeOnly.Checked)
       Return arr
     End Function
