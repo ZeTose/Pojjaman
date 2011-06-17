@@ -839,6 +839,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '  txtCustBankBranch.Enabled = True
         '  txtNote.Enabled = True
         'End If
+      ElseIf Not Me.m_entity.ReceiveList Is Nothing AndAlso Me.m_entity.ReceiveList.Count > 0 Then
+        For Each crlt As Control In grbIncomingCheck.Controls
+          crlt.Enabled = False
+        Next
+        txtReceiveDate.Enabled = True
+        dtpReceiveDate.Enabled = True
+        txtDueDate.Enabled = True
+        dtpDueDate.Enabled = True
+        txtNote.Enabled = True
+
       Else
         If Me.m_entity.DocStatus.Value = 3 Then
           txtCode.Enabled = False
