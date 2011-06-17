@@ -1377,7 +1377,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           ''=============== Validate Over Budget ==================>>
           Dim ValidateOverBudgetError As SaveErrorException
-          Dim config As Integer = CInt(Configuration.GetConfig("PROverBudget"))
+          Dim config As Integer = CInt(Configuration.GetConfig("GROverBudget"))
           Select Case config
             Case 0   'Not allow
               ValidateOverBudgetError = Me.ValidateOverBudget
