@@ -1628,7 +1628,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Select Case m_itemprefix
           Case "paysi"
             If Not m_pays Is Nothing Then
-              Me.m_billedAmount = CDec(dr(aliasPrefix & "remain"))
+              Me.m_unpaidAmount = CDec(dr(aliasPrefix & "remain"))
               Me.m_remainningBalance = CDec(dr(aliasPrefix & "remain"))
             End If
           Case "billai"
@@ -1647,6 +1647,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dr.Table.Columns.Contains(aliasPrefix & m_itemprefix & "_billedamt") AndAlso Not dr.IsNull(aliasPrefix & m_itemprefix & "_billedamt") Then
         Me.m_billedAmount = CDec(dr(aliasPrefix & m_itemprefix & "_billedamt"))
       End If
+      If dr.Table.Columns.Contains(aliasPrefix & "PayAmt") AndAlso Not dr.IsNull(aliasPrefix & "PayAmt") Then
+        Me.m_billedAmount = CDec(dr(aliasPrefix & "PayAmt"))
+      End If
+
       Me.m_unpaidvatamt = drh.GetValue(Of Decimal)(aliasPrefix & m_itemprefix & "_unpaidvatamt")
       Me.m_vatamt = drh.GetValue(Of Decimal)(aliasPrefix & m_itemprefix & "_vatamt")
       '*********************************************************
@@ -1871,9 +1875,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return (Amount / UnpaidAmount) * (AfterTax - BeforeTax)
       End Get
     End Property
+    ''' <summary>
+    ''' ค่า amt จ่ายเพื่อไปคิด taxbase taxamt
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property PowerAmt As Decimal
+      Get
+        Return Me.AfterTax / Me.BilledAmount * Me.Amount
+      End Get
+    End Property
     'Private m_taxBaseDeducted As Decimal = Decimal.MinValue
     ''' <summary>
-    ''' เอาออกมาเป็น Ratio ใช้เมื่อเปลี่ยนยอดหน้าจ่ายชำระ
+    ''' ค่า Taxbase ใช้เมื่อเปลี่ยนยอดหน้าจ่ายชำระ 
+    ''' และใช้หา taxbase ด้วย
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
@@ -1881,55 +1897,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property TaxBaseDeducted() As Decimal
       Get
         If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
+          'ถ้าจ่ายหมด ก็เอามาทั้งหมด
           If UnpaidAmount = Amount Then
-            If Me.EntityId = 59 Then
-              Return ((BeforeTax - DeductTaxBase) / BeforeTax)
-            End If
-            Return ((TaxBase - DeductTaxBase) / TaxBase)
+            Return (TaxBase - DeductTaxBase)
           End If
-          'Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
-          'If DeductTaxBase = 0 Then
+          
           'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
-          Return Amount / AfterTax
-          'Else
-          '  Dim x As Decimal = ((TaxBase - DeductTaxBase) / TaxBase)
-          '  Dim vated As Decimal = DeductTaxBase / TaxBase
-          '  Dim b As Decimal = (Amount / UnpaidAmount)
-          '  Dim taxamt As Decimal = (AfterTax - BeforeTax)
-          '  Dim ret As Decimal = (b - vated) * taxamt
-          '  Return ret
-          'End If
+          Return PowerAmt / AfterTax * TaxBase
+         
         End If
         If UnpaidAmount <> Amount Then
-          Return Amount / UnpaidAmount
+          Return TaxBase * PowerAmt / AfterTax
+        ElseIf BilledAmount <> UnpaidAmount AndAlso UnpaidAmount = Amount Then
+          Return TaxBase * PowerAmt / AfterTax
         End If
-        Return 1
+        Return TaxBase
       End Get
     End Property
+    ''' <summary>
+    ''' มูลค่า Vatbase ที่ใช้
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public ReadOnly Property DueTaxBase As Decimal
+      Get
+        Dim ret As Decimal = 0
+        If VatAmt > 0 Then
+          ret = TaxBaseDeducted
+        End If
+        Return ret
+      End Get
+    End Property
+    ''' <summary>
+    ''' ยอดภาษีที่ลดแล้ว ใช้เฉพาะ payselection เท่านั้น
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
     Public ReadOnly Property TaxAmountDeducted As Decimal
       Get
         If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
+          'ถ้าจ่ายหมด ก็เอามาทั้งหมด
           If UnpaidAmount = Amount Then
-            If Me.EntityId = 59 Then
-              Return ((BeforeTax - DeductTaxBase) / BeforeTax) * (AfterTax - BeforeTax)
-            End If
-            Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax)
+            Return (AfterTax - BeforeTax) - DeductVatAmt
           End If
-          'Return ((TaxBase - DeductTaxBase) / TaxBase) * (AfterTax - BeforeTax) * Amount / UnpaidAmount
-          'If DeductTaxBase = 0 Then
+          
           'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
-          Return (AfterTax - BeforeTax) * Amount / AfterTax
-          'Else
-          '  Dim x As Decimal = ((TaxBase - DeductTaxBase) / TaxBase)
-          '  Dim vated As Decimal = DeductTaxBase / TaxBase
-          '  Dim b As Decimal = (Amount / UnpaidAmount)
-          '  Dim taxamt As Decimal = (AfterTax - BeforeTax)
-          '  Dim ret As Decimal = (b - vated) * taxamt
-          '  Return ret
-          'End If
+          Return (AfterTax - BeforeTax) * PowerAmt / AfterTax
+         
         End If
         If UnpaidAmount <> Amount Then
-          Return (AfterTax - BeforeTax) * Amount / UnpaidAmount
+          Return (AfterTax - BeforeTax) * PowerAmt / AfterTax
+        ElseIf BilledAmount <> UnpaidAmount AndAlso UnpaidAmount = Amount Then
+          Return (AfterTax - BeforeTax) * PowerAmt / AfterTax
         End If
         Return (AfterTax - BeforeTax)
       End Get

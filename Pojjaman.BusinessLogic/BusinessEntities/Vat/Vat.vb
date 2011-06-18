@@ -52,6 +52,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private vat_taxbase As Decimal
     Private m_refdocdate As Date
 
+    Public SettingVatAmount As Boolean = False
+
 #End Region
 
 #Region "Constructors"
@@ -2687,11 +2689,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public Property Amount() As Decimal
             Get
                 ' ถ้ากำหนด TaxAmount เอง
-                If UseCustomTaxAmount Then
-                    Return m_taxAmt
-                Else
-                    Return (Me.m_taxBase * Me.m_taxRate) / 100
-                End If
+        If UseCustomTaxAmount OrElse Vat.SettingVatAmount Then
+          Return m_taxAmt
+        Else
+          Return (Me.m_taxBase * Me.m_taxRate) / 100
+        End If
             End Get
             Set(ByVal Value As Decimal)
                 Me.UseCustomTaxAmount = True
@@ -2727,10 +2729,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetVatAmount()
       If TypeOf Me.Vat.RefDoc Is PaySelection Then
         Me.m_taxBase = CType(Me.Vat.RefDoc, PaySelection).GetTaxBaseDeducted - Me.Vat.TaxBase
-        Dim vatamt As Decimal = CType(Me.Vat.RefDoc, PaySelection).GetVatAmt
+        Me.Vat.SettingVatAmount = True
+        Dim vatamt As Decimal = CType(Me.Vat.RefDoc, PaySelection).GetVatAmt - Me.Vat.Amount
         If vatamt <> Me.Amount Then
           Me.Amount = vatamt
         End If
+        Me.Vat.SettingVatAmount = False
       Else
         Me.m_taxBase = Me.Vat.RefDoc.TaxBase - Me.Vat.TaxBase
       End If

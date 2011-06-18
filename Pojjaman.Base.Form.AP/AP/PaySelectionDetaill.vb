@@ -1192,6 +1192,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                                      New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
                                                    Configuration.FormatToString(doc.UnpaidVatAmt, DigitConfig.Price)})
         Return
+      ElseIf amt <> 0 AndAlso amt <> Configuration.Format(Vat.GetVatAmount(doc.TaxBaseDeducted), DigitConfig.Price) Then
+        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.invalidAmount}", _
+                                     New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
+                                                   Configuration.FormatToString(Vat.GetVatAmount(doc.TaxBaseDeducted), DigitConfig.Price)})
+        Return
       End If
       If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
         CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
@@ -2226,7 +2231,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Dim svVat As New SimpleVat
           svVat = Vat.GetVatValue(newItem.Id, newItem.EntityId)
           newItem.UnpaidVatAmt = svVat.VatAmt - svDd.VatAmt
-          newItem.VatAmt = svVat.VatAmt - svDd.VatAmt
+          newItem.Amount = newItem.UnpaidAmount
+          newItem.VatAmt = Math.Min(svVat.VatAmt - svDd.VatAmt, Vat.GetVatAmount(newItem.TaxBaseDeducted))
           newItem.Amount = 0
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item
