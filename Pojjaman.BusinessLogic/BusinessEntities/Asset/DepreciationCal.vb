@@ -547,9 +547,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
         Public Sub ReCalculationAll()
-            For Each item As DepreciationCalItem In Me.ItemCollection
-        item.GetDepreciationFromDB(Me, item.Entity)
-            Next
+      For Each item As DepreciationCalItem In Me.ItemCollection
+        If Me.DepreDate > item.Entity.StartCalcDate Then
+          item.GetDepreciationFromDB(Me, item.Entity)
+        End If
+      Next
         End Sub
 
 #Region " IGLAble "
