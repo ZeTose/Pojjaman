@@ -169,70 +169,70 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     currentSupplierCode = row("SupplierCode").ToString & row("SupplierName").ToString
                     currentItemCode = ""
                 End If
-                If row("ItemCode").ToString & row("ItemName").ToString <> currentItemCode Then
-                    If row("UnitID").ToString <> currentSubUnit And currentSubUnit <> "" Then
-                        SubUnitFlag = False
-                    End If
-                    If row("UnitID").ToString <> currentUnit And currentUnit <> "" Then
-                        UnitFlag = False
-                    End If
-                    m_grid.RowCount += 1
-                    currItemIndex = m_grid.RowCount
-                    m_grid.RowStyles(currItemIndex).ReadOnly = True
-                    If Not row.IsNull("ItemCode") Then
-                        m_grid(currItemIndex, 1).CellValue = indent & row("ItemCode").ToString
-                    End If
-                    If Not row.IsNull("ItemName") Then
-                        m_grid(currItemIndex, 2).CellValue = indent & row("ItemName").ToString
-                    End If
-                    If Not row.IsNull("UnitName") Then
-                        m_grid(currItemIndex, 3).CellValue = indent & row("UnitName").ToString
-                    End If
-                    If IsNumeric(row("CreditPurchaseQty")) Then
-                        m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(row("CreditPurchaseQty")), DigitConfig.Qty)
-                        tmpCrdPurchQty += CDec(row("CreditPurchaseQty"))
-                        SumCrdPurchQty += CDec(row("CreditPurchaseQty"))
-                    Else
-                        m_grid(currItemIndex, 4).CellValue = ""
-                    End If
-                    If IsNumeric(row("CreditPurchaseAmount")) Then
-                        m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(row("CreditPurchaseAmount")), DigitConfig.Price)
-                        tmpCrdPurchAmount += CDec(row("CreditPurchaseAmount"))
-                        SumCrdPurchAmount += CDec(row("CreditPurchaseAmount"))
-                    Else
-                        m_grid(currItemIndex, 5).CellValue = ""
-                    End If
-                    If IsNumeric(row("CashQty")) Then
-                        m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("CashQty")), DigitConfig.Qty)
-                        tmpCashQty += CDec(row("CashQty"))
-                        SumCashQty += CDec(row("CashQty"))
-                    Else
-                        m_grid(currItemIndex, 6).CellValue = ""
-                    End If
-                    If IsNumeric(row("CashAmount")) Then
-                        m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("CashAmount")), DigitConfig.Price)
-                        tmpCashAmount += CDec(row("CashAmount"))
-                        SumCashAmount += CDec(row("CashAmount"))
-                    Else
-                        m_grid(currItemIndex, 7).CellValue = ""
-                    End If
-                    If IsNumeric(row("TotalQty")) Then
-                        m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("TotalQty")), DigitConfig.Qty)
-                        tmpTotalQty += CDec(row("TotalQty"))
-                        SumTotalQty += CDec(row("TotalQty"))
-                    End If
-                    If IsNumeric(row("TotalAmount")) Then
-                        m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TotalAmount")), DigitConfig.Price)
-                        tmpTotalAmount += CDec(row("TotalAmount"))
-                        SumTotalAmount += CDec(row("TotalAmount"))
-                    End If
-                    tmpItem += 1
-                    SumItem += 1
-                    currentSubUnit = row("UnitID").ToString
-                    currentUnit = row("UnitID").ToString
-                    currentItemCode = row("ItemCode").ToString & row("ItemName").ToString
-                End If
-            Next
+        'If row("ItemCode").ToString & row("ItemName").ToString <> currentItemCode Then
+        'If row("UnitID").ToString <> currentSubUnit And currentSubUnit <> "" Then
+        '  SubUnitFlag = False
+        'End If
+        'If row("UnitID").ToString <> currentUnit And currentUnit <> "" Then
+        '  UnitFlag = False
+        'End If
+        m_grid.RowCount += 1
+        currItemIndex = m_grid.RowCount
+        m_grid.RowStyles(currItemIndex).ReadOnly = True
+        If Not row.IsNull("ItemCode") Then
+          m_grid(currItemIndex, 1).CellValue = indent & row("ItemCode").ToString
+        End If
+        If Not row.IsNull("ItemName") Then
+          m_grid(currItemIndex, 2).CellValue = indent & row("ItemName").ToString
+        End If
+        If Not row.IsNull("UnitName") Then
+          m_grid(currItemIndex, 3).CellValue = indent & row("UnitName").ToString
+        End If
+        If IsNumeric(row("CreditPurchaseQty")) Then
+          m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(CDec(row("CreditPurchaseQty")), DigitConfig.Qty)
+          tmpCrdPurchQty += CDec(row("CreditPurchaseQty"))
+          SumCrdPurchQty += CDec(row("CreditPurchaseQty"))
+        Else
+          m_grid(currItemIndex, 4).CellValue = ""
+        End If
+        If IsNumeric(row("CreditPurchaseAmount")) Then
+          m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(row("CreditPurchaseAmount")), DigitConfig.Price)
+          tmpCrdPurchAmount += CDec(row("CreditPurchaseAmount"))
+          SumCrdPurchAmount += CDec(row("CreditPurchaseAmount"))
+        Else
+          m_grid(currItemIndex, 5).CellValue = ""
+        End If
+        If IsNumeric(row("CashQty")) Then
+          m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("CashQty")), DigitConfig.Qty)
+          tmpCashQty += CDec(row("CashQty"))
+          SumCashQty += CDec(row("CashQty"))
+        Else
+          m_grid(currItemIndex, 6).CellValue = ""
+        End If
+        If IsNumeric(row("CashAmount")) Then
+          m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("CashAmount")), DigitConfig.Price)
+          tmpCashAmount += CDec(row("CashAmount"))
+          SumCashAmount += CDec(row("CashAmount"))
+        Else
+          m_grid(currItemIndex, 7).CellValue = ""
+        End If
+        If IsNumeric(row("TotalQty")) Then
+          m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("TotalQty")), DigitConfig.Qty)
+          tmpTotalQty += CDec(row("TotalQty"))
+          SumTotalQty += CDec(row("TotalQty"))
+        End If
+        If IsNumeric(row("TotalAmount")) Then
+          m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TotalAmount")), DigitConfig.Price)
+          tmpTotalAmount += CDec(row("TotalAmount"))
+          SumTotalAmount += CDec(row("TotalAmount"))
+        End If
+        tmpItem += 1
+        SumItem += 1
+        currentSubUnit = row("UnitID").ToString
+        currentUnit = row("UnitID").ToString
+        currentItemCode = row("ItemCode").ToString & row("ItemName").ToString
+        'End If
+      Next
 
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
@@ -240,11 +240,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currItemIndex, 2).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis.Sum}") & tmpItem & _
             Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis.Description}") '"รวม " " รายการ"
             m_grid(currItemIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis.Sum}") '"รวม "
-            If SubUnitFlag = True Then
-                m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(tmpCrdPurchQty, DigitConfig.Qty)
-                m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpCashQty, DigitConfig.Qty)
-                m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpTotalQty, DigitConfig.Qty)
-            End If
+      'If SubUnitFlag = True Then
+      '    m_grid(currItemIndex, 4).CellValue = Configuration.FormatToString(tmpCrdPurchQty, DigitConfig.Qty)
+      '    m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpCashQty, DigitConfig.Qty)
+      '    m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(tmpTotalQty, DigitConfig.Qty)
+      'End If
             m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(tmpCrdPurchAmount, DigitConfig.Price)
             m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpCashAmount, DigitConfig.Price)
             m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(tmpTotalAmount, DigitConfig.Price)
@@ -256,11 +256,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.RowStyles(currSupplierIndex).ReadOnly = True
             m_grid(currSupplierIndex, 1).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis.SumSupplier}") & indent & SumSupplier '"รวมจำนวนผู้ขายทั้งหมด"
             m_grid(currSupplierIndex, 2).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis.SumItem}") & indent & SumItem '"รวมรายการทั้งหมด" 
-            If UnitFlag = True Then
-                m_grid(currSupplierIndex, 4).CellValue = Configuration.FormatToString(SumCrdPurchQty, DigitConfig.Qty)
-                m_grid(currSupplierIndex, 6).CellValue = Configuration.FormatToString(SumCashQty, DigitConfig.Qty)
-                m_grid(currSupplierIndex, 8).CellValue = Configuration.FormatToString(SumTotalQty, DigitConfig.Qty)
-            End If
+      'If UnitFlag = True Then
+      '    m_grid(currSupplierIndex, 4).CellValue = Configuration.FormatToString(SumCrdPurchQty, DigitConfig.Qty)
+      '    m_grid(currSupplierIndex, 6).CellValue = Configuration.FormatToString(SumCashQty, DigitConfig.Qty)
+      '    m_grid(currSupplierIndex, 8).CellValue = Configuration.FormatToString(SumTotalQty, DigitConfig.Qty)
+      'End If
             m_grid(currSupplierIndex, 5).CellValue = Configuration.FormatToString(SumCrdPurchAmount, DigitConfig.Price)
             m_grid(currSupplierIndex, 7).CellValue = Configuration.FormatToString(SumCashAmount, DigitConfig.Price)
             m_grid(currSupplierIndex, 9).CellValue = Configuration.FormatToString(SumTotalAmount, DigitConfig.Price)
