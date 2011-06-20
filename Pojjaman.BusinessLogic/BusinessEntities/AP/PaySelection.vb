@@ -1054,7 +1054,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "IPayable"
     Public Function AmountToPay() As Decimal Implements IPayable.AmountToPay
-      Return Me.Gross
+      Return Configuration.Format(Me.Gross, DigitConfig.Price)
     End Function
     Public Property DueDate() As Date Implements IPayable.DueDate
       Get

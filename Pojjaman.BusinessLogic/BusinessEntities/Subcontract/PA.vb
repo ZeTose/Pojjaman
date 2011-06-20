@@ -3658,7 +3658,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function AmountToPay() As Decimal Implements IPayable.AmountToPay
       RefreshTaxBase()
 
-      Return Me.AfterTax
+      Return Configuration.Format(Me.AfterTax, DigitConfig.Price)
     End Function
 
     Public Property DueDate() As Date Implements IPayable.DueDate
