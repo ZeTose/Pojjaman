@@ -96,8 +96,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\syncfusion.grid.base.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.grid.windows, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
-    <Reference Include="syncfusion.shared.base, Version=5.102.1.47, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="syncfusion.grid.windows, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\syncfusion.grid.windows.dll</HintPath>
+    </Reference>
+    <Reference Include="syncfusion.shared.base, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\syncfusion.shared.base.dll</HintPath>
+    </Reference>
     <Reference Include="syncfusion.shared.windows, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\syncfusion.shared.windows.dll</HintPath>
