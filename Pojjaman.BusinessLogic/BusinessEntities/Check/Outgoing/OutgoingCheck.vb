@@ -1312,6 +1312,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IPaymentTrackExportable
     Property PayerBuilkID As String
     Property PaymentTrackID As String
+    Property PaymentTrackStatus As String
     ReadOnly Property CheckQty As Integer
     ReadOnly Property CheckAmount As Decimal
     Function PaymenTrackCheckDetailList() As List(Of PaymentTrackCheckDetail)
@@ -2011,13 +2012,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= "H".Pipe
       header &= p.PayerBuilkID.Pipe
       header &= p.PaymentTrackID.Pipe
+      header &= p.PaymentTrackStatus.Pipe
       header &= p.CheckQty.ToString.Pipe
-      header &= p.CheckAmount.ToString
+      header &= p.CheckAmount.ToString.Pipe
       writer.WriteLine(header)
 
       For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
         Dim checkText As String = ""
         checkText &= "C".Pipe
+        checkText &= check.CheckID.Pipe
         checkText &= check.CheckCode.Pipe
         checkText &= check.PayeeBuilkId.Pipe
         checkText &= check.CheckDescription.Pipe
@@ -2035,12 +2038,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         checkText &= check.BillNoteQty.ToString.Pipe
         checkText &= check.BillNoteAmout.ToString.Pipe
         checkText &= check.DocQty.ToString.Pipe
-        checkText &= check.DocAmount.ToString
+        checkText &= check.DocAmount.ToString.Pipe
         writer.WriteLine(checkText)
 
         For Each bill As PaymentTrackBillNoteDetail In check.PaymentTrackBillNoteDetailList
           Dim billText As String = ""
           billText &= "B".Pipe
+          billText &= bill.CheckID.Pipe
+          billText &= bill.BillID.Pipe
           billText &= bill.BillNoteCode.Pipe
           billText &= bill.BillNoteDate.Pipe
           billText &= bill.Amount.Pipe
@@ -2049,12 +2054,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           billText &= bill.Subtract.Pipe
           billText &= bill.Remarks.Pipe
           billText &= bill.DocQty.ToString.Pipe
-          billText &= bill.DocAmount.ToString
+          billText &= bill.DocAmount.ToString.Pipe
           writer.WriteLine(billText)
 
           For Each doc As PaymentTrackDocDetail In bill.PaymentTrackDocDetailList
             Dim billDocText As String = ""
             billDocText &= "D".Pipe
+            billDocText &= doc.CheckID.Pipe
+            billDocText &= doc.BillID.Pipe
             billDocText &= doc.DocumentType.Pipe
             billDocText &= doc.DocumentCode.Pipe
             billDocText &= doc.DocumentDate.Pipe
@@ -2062,7 +2069,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             billDocText &= doc.TotalAmount.Pipe
             billDocText &= doc.Added.Pipe
             billDocText &= doc.Subtract.Pipe
-            billDocText &= doc.ReferenceDocument
+            billDocText &= doc.ReferenceDocument.Pipe
             writer.WriteLine(billDocText)
           Next
         Next
@@ -2070,6 +2077,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each doc As PaymentTrackDocDetail In check.PaymentTrackDocDetailList
           Dim docText As String = ""
           docText &= "D".Pipe
+          docText &= doc.CheckID.Pipe
+          docText &= doc.BillID.Pipe
           docText &= doc.DocumentType.Pipe
           docText &= doc.DocumentCode.Pipe
           docText &= doc.DocumentDate.Pipe
@@ -2077,7 +2086,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           docText &= doc.TotalAmount.Pipe
           docText &= doc.Added.Pipe
           docText &= doc.Subtract.Pipe
-          docText &= doc.ReferenceDocument
+          docText &= doc.ReferenceDocument.Pipe
           writer.WriteLine(docText)
         Next
       Next
@@ -2162,6 +2171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   Public Class PaymentTrackCheckDetail
+    Public Property CheckID As String
     Public Property CheckCode As String
     Public Property PayeeBuilkId As String
     Public Property CheckDescription As String
@@ -2247,6 +2257,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   Public Class PaymentTrackBillNoteDetail
+    Public Property CheckID As String
+    Public Property BillID As String
     Public Property BillNoteCode As String
     Public Property BillNoteDate As String
     Public Property Amount As String
@@ -2291,6 +2303,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   Public Class PaymentTrackDocDetail
+    Public Property CheckID As String
+    Public Property BillID As String
     Public Property DocumentType As String
     Public Property DocumentCode As String
     Public Property DocumentDate As String

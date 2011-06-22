@@ -956,86 +956,86 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " Event of Button controls "
     Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
       If Me.m_entity.Originated Then
-        ExportPaymentTrackFile()
-        ExportPaymentTrackOnLine()
+        Me.m_entity.ExportPaymentTrackFile()
+        Me.m_entity.ExportPaymentTrackOnLine()
       End If
 
     End Sub
 
-    Private Sub ExportPaymentTrackFile()
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      'If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
-      '  msgServ.ShowMessage(Validator.ValidationSummary)
-      '  Return
-      'End If
+    'Private Sub ExportPaymentTrackFile()
+    '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    '  'If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
+    '  '  msgServ.ShowMessage(Validator.ValidationSummary)
+    '  '  Return
+    '  'End If
 
-      'Dim culture As New CultureInfo("en-US", True)
-      Dim myOpb As New SaveFileDialog
-      myOpb.Filter = "All Files|*.*|Text File (*.txt)|*.txt"
-      myOpb.FilterIndex = 2
-      myOpb.FileName = "PaymentTrack_" & Me.m_entity.PayerBuilkID & "_" & Me.m_entity.Id.ToString & ".txt"
-      If myOpb.ShowDialog() = DialogResult.OK Then
-        Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
-        Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.Default)
+    '  'Dim culture As New CultureInfo("en-US", True)
+    '  Dim myOpb As New SaveFileDialog
+    '  myOpb.Filter = "All Files|*.*|Text File (*.txt)|*.txt"
+    '  myOpb.FilterIndex = 2
+    '  myOpb.FileName = "PaymentTrack_" & Me.m_entity.PayerBuilkID & "_" & Me.m_entity.Id.ToString & ".txt"
+    '  If myOpb.ShowDialog() = DialogResult.OK Then
+    '    Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
+    '    Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.Default)
 
-        Try
-          Exporter.ExportPaymentTrack(m_entity, writer)
-          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
-        Catch ex As Exception
-          MessageBox.Show("Error:" & ex.ToString)
-        Finally
-          writer.Close()
-        End Try
+    '    Try
+    '      Exporter.ExportPaymentTrack(m_entity, writer)
+    '      MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+    '    Catch ex As Exception
+    '      MessageBox.Show("Error:" & ex.ToString)
+    '    Finally
+    '      writer.Close()
+    '    End Try
 
-      End If
-    End Sub
+    '  End If
+    'End Sub
 
-    Private Sub ExportPaymentTrackOnLine()
+    'Private Sub ExportPaymentTrackOnLine()
 
-      Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+    '  Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
 
-      If BuilkID = "" Then
-        Return
-      End If
+    '  If BuilkID = "" Then
+    '    Return
+    '  End If
 
-      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=12")
-      Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
-      request.Method = "POST"
-
-
+    '  'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=12")
+    '  Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
+    '  request.Method = "POST"
 
 
-      Dim postData As String = ""
-      'Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
-      Dim dataStream As Stream = request.GetRequestStream()
 
-      Dim writer As New IO.StreamWriter(dataStream, System.Text.Encoding.UTF8)
 
-      Try
-        Exporter.ExportPaymentTrack(m_entity, writer)
-        'MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
-      Catch ex As Exception
-        MessageBox.Show("Error:" & ex.ToString)
-      Finally
-        writer.Close()
+    '  Dim postData As String = ""
+    '  'Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
+    '  Dim dataStream As Stream = request.GetRequestStream()
 
-      End Try
+    '  Dim writer As New IO.StreamWriter(dataStream, System.Text.Encoding.UTF8)
 
-      request.ContentType = "text/plain"
-      request.ContentLength = dataStream.Length 'byteArray.Length
-      'dataStream.Write(byteArray, 0, byteArray.Length)
+    '  Try
+    '    Exporter.ExportPaymentTrack(m_entity, writer)
+    '    'MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+    '  Catch ex As Exception
+    '    MessageBox.Show("Error:" & ex.ToString)
+    '  Finally
+    '    writer.Close()
 
-      dataStream.Close()
+    '  End Try
 
-      Dim response As WebResponse = request.GetResponse()
-      'dataStream = response.GetResponseStream()
-      'Dim reader As New StreamReader(dataStream)
-      'Dim responseFromServer As String = reader.ReadToEnd()
-      'reader.Close()
-      'dataStream.Close()
-      response.Close()
+    '  request.ContentType = "text/plain"
+    '  request.ContentLength = dataStream.Length 'byteArray.Length
+    '  'dataStream.Write(byteArray, 0, byteArray.Length)
 
-    End Sub
+    '  dataStream.Close()
+
+    '  Dim response As WebResponse = request.GetResponse()
+    '  'dataStream = response.GetResponseStream()
+    '  'Dim reader As New StreamReader(dataStream)
+    '  'Dim responseFromServer As String = reader.ReadToEnd()
+    '  'reader.Close()
+    '  'dataStream.Close()
+    '  response.Close()
+
+    'End Sub
 
 #End Region
 

@@ -11,6 +11,7 @@ Imports Longkong.Pojjaman.TextHelper
 Imports System.Reflection
 Imports System.Collections.Generic
 Imports System.Globalization
+Imports System.Net
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IAbleSelectDocPickup
@@ -262,6 +263,80 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub ExportPaymentTrackFile()
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
+      '  msgServ.ShowMessage(Validator.ValidationSummary)
+      '  Return
+      'End If
+
+      'Dim culture As New CultureInfo("en-US", True)
+      Dim myOpb As New SaveFileDialog
+      myOpb.Filter = "All Files|*.*|Text File (*.txt)|*.txt"
+      myOpb.FilterIndex = 2
+      myOpb.FileName = "PaymentTrack_" & Me.PayerBuilkID & "_" & Me.Id.ToString & ".txt"
+      If myOpb.ShowDialog() = DialogResult.OK Then
+        Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
+        Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.Default)
+
+        Try
+          Exporter.ExportPaymentTrack(Me, writer)
+          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+        Catch ex As Exception
+          MessageBox.Show("Error:" & ex.ToString)
+        Finally
+          writer.Close()
+        End Try
+
+      End If
+    End Sub
+    Public Sub ExportPaymentTrackOnLine()
+
+      Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+
+      If BuilkID = "" Then
+        Return
+      End If
+
+      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=12")
+      Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
+      request.Method = "POST"
+
+
+
+
+      Dim postData As String = ""
+      'Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
+      Dim dataStream As Stream = request.GetRequestStream()
+
+      Dim writer As New IO.StreamWriter(dataStream, System.Text.Encoding.UTF8)
+
+      Try
+        Exporter.ExportPaymentTrack(Me, writer)
+        'MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+      Catch ex As Exception
+        MessageBox.Show("Error:" & ex.ToString)
+      Finally
+        writer.Close()
+
+      End Try
+
+      request.ContentType = "text/plain"
+      request.ContentLength = dataStream.Length 'byteArray.Length
+      'dataStream.Write(byteArray, 0, byteArray.Length)
+
+      dataStream.Close()
+
+      Dim response As WebResponse = request.GetResponse()
+      'dataStream = response.GetResponseStream()
+      'Dim reader As New StreamReader(dataStream)
+      'Dim responseFromServer As String = reader.ReadToEnd()
+      'reader.Close()
+      'dataStream.Close()
+      response.Close()
+
+    End Sub
+
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
@@ -637,6 +712,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Set
     End Property
+    Private m_paymentTrackStatus As String
+    Public Property PaymentTrackStatus As String Implements IPaymentTrackExportable.PaymentTrackStatus
+      Get
+        If Not Me.Originated Then
+          Return "N" 'New Export
+        Else
+          If m_paymentTrackStatus = "D" Then
+            Return m_paymentTrackStatus
+          End If
+          If Me.Status.Value = 0 Then
+            Return "C"
+          Else
+            Return "U"
+          End If
+        End If
+      End Get
+      Set(ByVal value As String)
+        m_paymentTrackStatus = value
+      End Set
+    End Property
     Public ReadOnly Property CheckQty As Integer Implements IPaymentTrackExportable.CheckQty
       Get
         Dim qty As Integer = 0
@@ -676,6 +771,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           exCheck.Entity.Supplier.BuilkID.Trim.Length > 0 Then
 
           Dim ck As New PaymentTrackCheckDetail
+          ck.CheckID = exCheck.Entity.Id.ToString
           ck.CheckCode = exCheck.Entity.Code
           ck.PayeeBuilkId = exCheck.Entity.Supplier.BuilkID
           ck.CheckDescription = exCheck.Detail
@@ -699,6 +795,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim pb As New PaymentTrackBillNoteDetail
 
               If Not billHs.ContainsKey(pbhr.GetValue(Of String)("billa_id")) Then
+                pb.CheckID = exCheck.Entity.Id.ToString
+                pb.BillID = pbhr.GetValue(Of String)("billa_id")
                 pb.BillNoteCode = pbhr.GetValue(Of String)("billa_billissueCode")
                 If IsDate(pbhr.GetValue(Of Date)("billa_billissueDate")) Then
                   pb.BillNoteDate = pbhr.GetValue(Of Date)("billa_billissueDate").ToString("yyyy-mm-dd", culture)
@@ -709,6 +807,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 For Each row2 As DataRow In dr2
                   Dim dochr As New DataRowHelper(row2)
                   Dim dc As New PaymentTrackDocDetail
+                  dc.CheckID = exCheck.Entity.Id.ToString
+                  dc.BillID = pbhr.GetValue(Of String)("billa_id")
                   dc.DocumentType = dochr.GetValue(Of String)("entity_description")
                   dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
                   If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
@@ -730,6 +830,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim dochr As New DataRowHelper(row)
               If dochr.GetValue(Of Integer)("stockid") > 0 Then
                 Dim dc As New PaymentTrackDocDetail
+                dc.CheckID = exCheck.Entity.Id.ToString
+                dc.BillID = ""
                 dc.DocumentType = dochr.GetValue(Of String)("entity_description")
                 dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
                 If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
@@ -844,6 +946,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteExportOutgoingCheck}", format) Then
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
+
+      If myMessage.AskQuestion("ต้องการให้ Export PaymentTrack ด้วยหรือไม่") Then
+        Try
+          Me.PaymentTrackStatus = "D"
+          Me.ExportPaymentTrackFile()
+        Catch ex As Exception
+          Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
+        End Try
+      End If
+   
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
