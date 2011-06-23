@@ -1952,22 +1952,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         With ds.Tables("paitem")
           For Each item As PAItem In Me.ItemCollection
 
-            Select Case item.ItemType.Value
-              Case 42
-                Dim lci As New LCIItem(item.Entity.Id)
-                If Not lci.Originated Then
-                  Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-                ElseIf Not lci.ValidUnit(item.Unit) Then
-                  Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
-                End If
-              Case 19
-                Dim myTool As New Tool(item.Entity.Id)
-                If Not myTool.Originated Then
-                  Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-                ElseIf myTool.Unit.Id <> item.Unit.Id Then
-                  Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
-                End If
-            End Select
+            'Select Case item.ItemType.Value
+            '  Case 42
+            '    Dim lci As New LCIItem(item.Entity.Id)
+            '    If Not lci.Originated Then
+            '      Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf Not lci.ValidUnit(item.Unit) Then
+            '      Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+            '    End If
+            '  Case 19
+            '    Dim myTool As New Tool(item.Entity.Id)
+            '    If Not myTool.Originated Then
+            '      Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf myTool.Unit.Id <> item.Unit.Id Then
+            '      Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+            '    End If
+            'End Select
+
             i += 1
             Dim dr As DataRow = .NewRow
 
