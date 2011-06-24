@@ -2012,6 +2012,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
           End If
 
+          ValidateError = Me.BeforeSave(currentUserId)
+          If Not IsNumeric(ValidateError.Message) Then
+            Return ValidateError
+          End If
 
         End If
 
