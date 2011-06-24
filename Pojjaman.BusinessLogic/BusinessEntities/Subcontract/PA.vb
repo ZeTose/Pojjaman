@@ -1608,7 +1608,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '        Case Else
           '    End Select
           'End If
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+
+          Dim saveDetailError As SaveErrorException = SaveDetailSp1(Me.Id, conn, trans)
           If Not IsNumeric(saveDetailError.Message) Then
             trans.Rollback()
             ResetId(oldid, oldPaymentId, oldVatId, oldJeId)
@@ -1624,12 +1625,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Return New SaveErrorException(returnVal.Value.ToString)
                 Case Else
               End Select
-              'ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-              '    trans.Rollback()
-              '    Me.ResetId(oldid, oldPaymentId, oldVatId, oldJeId)
-              '    Return New SaveErrorException(returnVal.Value.ToString)
             End If
           End If
+
+          'Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+          'If Not IsNumeric(saveDetailError.Message) Then
+          '  trans.Rollback()
+          '  ResetId(oldid, oldPaymentId, oldVatId, oldJeId)
+          '  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          '  Return saveDetailError
+          'Else
+          '  If IsNumeric(returnVal.Value) Then
+          '    Select Case CInt(returnVal.Value)
+          '      Case -1, -2, -5
+          '        trans.Rollback()
+          '        Me.ResetId(oldid, oldPaymentId, oldVatId, oldJeId)
+          '        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          '        Return New SaveErrorException(returnVal.Value.ToString)
+          '      Case Else
+          '    End Select
+          '  End If
+          'End If
+
           If Not Me.CostCenter Is Nothing Then
             Me.m_payment.CCId = Me.CostCenter.Id
             Me.m_whtcol.SetCCId(Me.CostCenter.Id)
@@ -1893,6 +1910,175 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'End If
       'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewPRItemStatus", New SqlParameter("@po_id", Me.Id))
     End Sub
+    Private Function SaveDetailSp1(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        Dim cmdWbs As String = "delete from paiwbs where paiw_sequence in (select pai_sequence from paitem where pai_pa=" & Me.Id & ")"
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmdWbs)
+
+        Dim da As New SqlDataAdapter("Select * from paitem where pai_pa=" & Me.Id, conn)
+        Dim ds As New DataSet
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+        da.SelectCommand.Transaction = trans
+        da.DeleteCommand = cmdBuilder.GetDeleteCommand
+        da.DeleteCommand.Transaction = trans
+        da.InsertCommand = cmdBuilder.GetInsertCommand
+        da.InsertCommand.Transaction = trans
+        da.UpdateCommand = cmdBuilder.GetUpdateCommand
+        da.UpdateCommand.Transaction = trans
+        cmdBuilder = Nothing
+        da.FillSchema(ds, SchemaType.Mapped, "paitem")
+        da.Fill(ds, "paitem")
+
+        Dim dt As DataTable = ds.Tables("paitem")
+        For Each row As DataRow In ds.Tables("paitem").Rows
+          row.Delete()
+        Next
+        Dim i As Integer = 0
+        Dim refSequence As Decimal = 0
+        Dim ItemCollectionHs As New Hashtable
+        With ds.Tables("paitem")
+          For Each item As PAItem In Me.ItemCollection
+            i += 1
+            ItemCollectionHs(i) = item
+
+            Dim dr As DataRow = .NewRow
+            dr("pai_refsequence") = item.RefSequence
+            dr("pai_sc") = Me.Sc.Id
+            dr("pai_pa") = Me.Id
+            dr("pai_refDoc") = item.RefDoc
+            dr("pai_refDocType") = item.RefDocType
+            dr("pai_lineNumber") = i
+            dr("pai_level") = item.Level
+            dr("pai_entity") = item.Entity.Id
+            dr("pai_entityType") = item.ItemType.Value
+            dr("pai_itemName") = item.EntityName
+            dr("pai_qty") = item.Qty
+            dr("pai_unitprice") = item.UnitPrice
+            dr("pai_mat") = item.Mat
+            dr("pai_eq") = item.Eq
+            dr("pai_lab") = item.Lab
+            dr("pai_amt") = item.ReceiveAmount
+            dr("pai_unitCost") = item.UnitCost
+            dr("pai_note") = item.Note
+            dr("pai_unit") = item.Unit.Id
+            dr("pai_unvatable") = item.UnVatable
+            dr("pai_status") = Me.Status.Value
+            dr("pai_progressAmt") = item.TotalProgressReceive
+            dr("pai_acct") = Me.ValidIdOrDBNull(item.MatAccount)
+            dr("pai_eqacct") = Me.ValidIdOrDBNull(item.EqAccount)
+            dr("pai_labacct") = Me.ValidIdOrDBNull(item.LabAccount)
+            .Rows.Add(dr)
+          Next
+        End With
+
+        Dim tmpDa As New SqlDataAdapter
+        tmpDa.DeleteCommand = da.DeleteCommand
+        tmpDa.InsertCommand = da.InsertCommand
+        tmpDa.UpdateCommand = da.UpdateCommand
+
+        'AddHandler tmpDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+        'AddHandler daWbs.RowUpdated, AddressOf daWbs_MyRowUpdated
+
+        tmpDa.Update(GetDeletedRows(dt))
+        tmpDa.Update(dt.Select("", "", DataViewRowState.ModifiedCurrent))
+        tmpDa.Update(dt.Select("", "", DataViewRowState.Added))
+
+        'Return New SaveErrorException("1")
+        'da.Update(ds.Tables("paitem").Select("", "", DataViewRowState.ModifiedCurrent))
+        'da.Update(ds.Tables("paitem").Select("", "", DataViewRowState.Added))
+
+        '--New Fetch-- 
+        Dim j As Integer = 0
+        Dim cmdList As New ArrayList
+        Dim cmd As String = "Select pai_sequence, pai_linenumber from paitem where pai_pa=" & Me.Id.ToString & " and pai_entityType not in (160,162,291,289)"
+        Dim ds2 As DataSet = SqlHelper.ExecuteDataset(conn, trans, CommandType.Text, cmd)
+        'Dim dt2 As DataTable = ds2.Tables(0)
+        For Each row As DataRow In ds2.Tables(0).Rows
+          j += 1
+          Dim drh As New DataRowHelper(row)
+          Dim item As PAItem = CType(ItemCollectionHs(j), PAItem)
+
+          Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
+          Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
+          Dim currentSum As Decimal = wbsdColl.GetSumPercent
+          For Each wbsd As WBSDistribute In wbsdColl
+            Dim cmdText As String = ""
+            Dim cmdTextList As New ArrayList
+            If currentSum < 100 AndAlso wbsd.WBS.Id = rootWBS.Id Then
+              'ยังไม่เต็ม 100 แต่มีหัวอยู่
+              wbsd.Percent += (100 - currentSum)
+            End If
+            Dim bfTax As Decimal = 0
+            bfTax = item.CostAmount
+            wbsd.BaseCost = bfTax
+            If wbsd.CostCenter Is Nothing Then
+              wbsd.CostCenter = Me.CostCenter
+            End If
+
+            cmdTextList.Add(drh.GetValue(Of String)("pai_sequence"))
+            cmdTextList.Add(wbsd.WBS.Id)
+            cmdTextList.Add(wbsd.Percent)
+            cmdTextList.Add(IIf(wbsd.IsMarkup, 1, 0))
+            cmdTextList.Add("0") 'in
+            cmdTextList.Add(wbsd.BaseCost)
+            cmdTextList.Add(wbsd.Amount)
+            cmdTextList.Add("3")
+            cmdTextList.Add(wbsd.CostCenter.Id)
+            cmdTextList.Add(wbsd.CBS.Id)
+
+            cmdText = String.Join(",", cmdTextList.ToArray)
+            cmdList.Add("(" & cmdText & ")")
+          Next
+
+          currentSum = wbsdColl.GetSumPercent
+          'ยังไม่เต็ม 100 และยังไม่มี root
+          If currentSum < 100 AndAlso Not rootWBS Is Nothing Then
+            Try
+              Dim cmdText As String = ""
+              Dim cmdTextList As New ArrayList
+              Dim newWbsd As New WBSDistribute
+              newWbsd.WBS = rootWBS
+              newWbsd.CostCenter = item.Pa.CostCenter
+              newWbsd.Percent = 100 - currentSum
+              Dim bfTax As Decimal = 0
+              bfTax = item.CostAmount
+              newWbsd.BaseCost = bfTax
+              If newWbsd.CostCenter Is Nothing Then
+                newWbsd.CostCenter = Me.CostCenter
+              End If
+
+              cmdTextList.Add(drh.GetValue(Of String)("pai_sequence"))
+              cmdTextList.Add(newWbsd.WBS.Id)
+              cmdTextList.Add(newWbsd.Percent)
+              cmdTextList.Add("0")
+              cmdTextList.Add("0") 'in
+              cmdTextList.Add(newWbsd.BaseCost)
+              cmdTextList.Add(newWbsd.Amount)
+              cmdTextList.Add("3")
+              cmdTextList.Add(newWbsd.CostCenter.Id)
+              cmdTextList.Add(newWbsd.CBS.Id)
+
+              cmdText = String.Join(",", cmdTextList.ToArray)
+              cmdList.Add("(" & cmdText & ")")
+            Catch ex As Exception
+              Throw New Exception(ex.Message.ToString)
+            End Try
+          End If
+        Next
+
+        Dim cmdAllocate As String = "insert into paiwbs (paiw_sequence,paiw_wbs,paiw_percent,paiw_isMarkup,paiw_direction,paiw_baseCost,paiw_amt,paiw_toaccttype,paiw_cc,paiw_cbs) values "
+        cmdAllocate &= String.Join(",", cmdList.ToArray)
+
+        If cmdList.Count > 0 Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmdAllocate)
+        End If
+
+        Return New SaveErrorException("1")
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       '    Dim currWBS As String
       Try
