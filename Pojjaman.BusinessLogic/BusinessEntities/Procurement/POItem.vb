@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class POItem
     Implements IWBSAllocatableItem
@@ -175,7 +177,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "poi_discrate") AndAlso Not dr.IsNull(aliasPrefix & "poi_discrate") Then
           .m_discount = New Discount(CStr(dr(aliasPrefix & "poi_discrate")))
         End If
-        
+
         If dr.Table.Columns.Contains(aliasPrefix & "poiRemain_discAmt") _
         AndAlso Not dr.IsNull(aliasPrefix & "poiRemain_discAmt") Then
           Dim remaindisc As Decimal = 0
@@ -1057,20 +1059,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
     End Sub
-    Public Function GetReceivedQty() As Decimal
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.Po.ConnectionString _
-      , CommandType.StoredProcedure _
-      , "GetStockedQty" _
-      , New SqlParameter("@po_id", Me.Po.Id) _
-      , New SqlParameter("@entity_id", Me.Entity.Id) _
-      , New SqlParameter("@linenumber", Me.LineNumber) _
-      )
-      If ds.Tables(0).Rows.Count = 1 Then
-        If IsNumeric(ds.Tables(0).Rows(0)("receivedQty")) Then
-          Return CDec(ds.Tables(0).Rows(0)("receivedQty"))
-        End If
-      End If
-    End Function
+    Public Property GetReceivedQty() As Decimal
+      Get
+        Return m_receivedQty
+      End Get
+      Set(ByVal value As Decimal)
+        m_receivedQty = value
+      End Set
+    End Property
+
 #End Region
 
 
@@ -1242,7 +1239,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class POItemCollection
+  Public Class POItemCollection
     Inherits CollectionBase
 
 #Region "Members"
@@ -1471,16 +1468,16 @@ Public Class POItemCollection
 #End Region
 
 #Region "Class Methods"
-		Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
-			Dim arr As New ArrayList
-			For i As Integer = 0 To items.Count - 1
-				If Not TypeOf items(i) Is StockBasketItem Then
-					'-----------------LCI Items--------------------
-					Dim itemEntityLevel As Integer
-					Dim item As BasketItem = CType(items(i), BasketItem)
-					Dim newItem As IHasName
-					Dim newType As Integer = -1
-					Select Case item.FullClassName.ToLower
+    Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
+      Dim arr As New ArrayList
+      For i As Integer = 0 To items.Count - 1
+        If Not TypeOf items(i) Is StockBasketItem Then
+          '-----------------LCI Items--------------------
+          Dim itemEntityLevel As Integer
+          Dim item As BasketItem = CType(items(i), BasketItem)
+          Dim newItem As IHasName
+          Dim newType As Integer = -1
+          Select Case item.FullClassName.ToLower
             Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
               newItem = New LCIItem(item.Id)
               If targetType > -1 Then
@@ -1489,230 +1486,230 @@ Public Class POItemCollection
                 newType = 42
               End If
               itemEntityLevel = CType(newItem, LCIItem).Level
-						Case "longkong.pojjaman.businesslogic.tool"
-							newItem = New Tool(item.Id)
-							newType = 19
-							itemEntityLevel = 5
-					End Select
-					If itemEntityLevel = 5 Then
-						Dim doc As New POItem
-						If Not Me.CurrentItem Is Nothing Then
-							doc = Me.CurrentItem
-							doc.ItemType.Value = newType
-							Me.CurrentItem = Nothing
-						Else
-							Me.Add(doc)
-							doc.ItemType = New ItemType(newType)
-						End If
-						doc.SetItemPrice(item.Code)
-						'doc.Entity = newItem   'Lock LCI
-						doc.SetItemCode(newItem.Code)
-					End If
-				ElseIf TypeOf items(i).Tag Is BoqItem Then
-					'-----------------BOQ Items--------------------
-					Dim bitem As BoqItem = CType(items(i).Tag, BoqItem)
-					If bitem.ItemType.Value = 18 Then			'ค่าแรง
+            Case "longkong.pojjaman.businesslogic.tool"
+              newItem = New Tool(item.Id)
+              newType = 19
+              itemEntityLevel = 5
+          End Select
+          If itemEntityLevel = 5 Then
+            Dim doc As New POItem
+            If Not Me.CurrentItem Is Nothing Then
+              doc = Me.CurrentItem
+              doc.ItemType.Value = newType
+              Me.CurrentItem = Nothing
+            Else
+              Me.Add(doc)
+              doc.ItemType = New ItemType(newType)
+            End If
+            doc.SetItemPrice(item.Code)
+            'doc.Entity = newItem   'Lock LCI
+            doc.SetItemCode(newItem.Code)
+          End If
+        ElseIf TypeOf items(i).Tag Is BoqItem Then
+          '-----------------BOQ Items--------------------
+          Dim bitem As BoqItem = CType(items(i).Tag, BoqItem)
+          If bitem.ItemType.Value = 18 Then     'ค่าแรง
             bitem.ItemType.Value = 88
             bitem.Entity.Id = 0
-					End If
-					If bitem.ItemType.Value = 20 Then			'ค่าเครื่องจักร
+          End If
+          If bitem.ItemType.Value = 20 Then     'ค่าเครื่องจักร
             bitem.ItemType.Value = 89
             bitem.Entity.Id = 0
-					End If
+          End If
 
-					Dim matWbsd As New WBSDistribute
-					Dim labWbsd As New WBSDistribute
-					Dim eqWbsd As New WBSDistribute
+          Dim matWbsd As New WBSDistribute
+          Dim labWbsd As New WBSDistribute
+          Dim eqWbsd As New WBSDistribute
 
-					Dim matDoc As POItem
-					Dim labDoc As POItem
-					Dim eqDoc As POItem
-					Dim itemType As Integer
-					itemType = bitem.ItemType.Value
-					Select Case bitem.ItemType.Value
-						Case 19, 42, 0
-							Dim itemEntityLevel As Integer = 5
-							If bitem.ItemType.Value = 42 Then
-								If TypeOf bitem.Entity Is LCIItem Then
-									itemEntityLevel = CType(bitem.Entity, LCIItem).Level
-								End If
-							End If
-							If itemEntityLevel = 5 Then
-								If bitem.UMC <> 0 Then
+          Dim matDoc As POItem
+          Dim labDoc As POItem
+          Dim eqDoc As POItem
+          Dim itemType As Integer
+          itemType = bitem.ItemType.Value
+          Select Case bitem.ItemType.Value
+            Case 19, 42, 0
+              Dim itemEntityLevel As Integer = 5
+              If bitem.ItemType.Value = 42 Then
+                If TypeOf bitem.Entity Is LCIItem Then
+                  itemEntityLevel = CType(bitem.Entity, LCIItem).Level
+                End If
+              End If
+              If itemEntityLevel = 5 Then
+                If bitem.UMC <> 0 Then
                   matDoc = New POItem
                   RemoveHandler matDoc.WBSDistributeCollection.PropertyChanged, AddressOf matDoc.WBSChangedHandler
                   AddHandler matDoc.WBSDistributeCollection.PropertyChanged, AddressOf matDoc.WBSChangedHandler
                   matDoc.WBSDistributeCollection.Add(matWbsd)
-									If Me.Count = 0 Then
-										Me.Add(matDoc)
-									Else
-										If Not Me.CurrentItem Is Nothing Then
-											matDoc = Me.CurrentItem
-										Else
-											Me.Add(matDoc)
-										End If
-									End If
-									matDoc.ItemType = New itemType(bitem.ItemType.Value)
-									If bitem.ItemType.Value = 0 Then
-										matDoc.EntityName = bitem.EntityName
-									Else
-										matDoc.Entity = bitem.Entity
-									End If
-									matDoc.Unit = bitem.Unit
-									matDoc.Qty = bitem.Qty
-									matDoc.UnitPrice = bitem.UMC
+                  If Me.Count = 0 Then
+                    Me.Add(matDoc)
+                  Else
+                    If Not Me.CurrentItem Is Nothing Then
+                      matDoc = Me.CurrentItem
+                    Else
+                      Me.Add(matDoc)
+                    End If
+                  End If
+                  matDoc.ItemType = New ItemType(bitem.ItemType.Value)
+                  If bitem.ItemType.Value = 0 Then
+                    matDoc.EntityName = bitem.EntityName
+                  Else
+                    matDoc.Entity = bitem.Entity
+                  End If
+                  matDoc.Unit = bitem.Unit
+                  matDoc.Qty = bitem.Qty
+                  matDoc.UnitPrice = bitem.UMC
 
-									If Not bitem.WBS Is Nothing Then
+                  If Not bitem.WBS Is Nothing Then
                     matWbsd.IsMarkup = False
                     matWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
                     'matWbsd.CostCenter = Me.m_po.CostCenter
-										matWbsd.WBS = bitem.WBS
-										matWbsd.Percent = 100
-										matWbsd.BaseCost = bitem.TotalMaterialCost
+                    matWbsd.WBS = bitem.WBS
+                    matWbsd.Percent = 100
+                    matWbsd.BaseCost = bitem.TotalMaterialCost
                     'matWbsd.TransferBaseCost = bitem.TotalMaterialCost
-										matWbsd.IsOutWard = False
-										matWbsd.Toaccttype = 3
-									End If
-								End If
-								If bitem.ULC <> 0 Then						 '88
+                    matWbsd.IsOutWard = False
+                    matWbsd.Toaccttype = 3
+                  End If
+                End If
+                If bitem.ULC <> 0 Then             '88
                   labDoc = New POItem
                   RemoveHandler labDoc.WBSDistributeCollection.PropertyChanged, AddressOf labDoc.WBSChangedHandler
                   AddHandler labDoc.WBSDistributeCollection.PropertyChanged, AddressOf labDoc.WBSChangedHandler
                   labDoc.WBSDistributeCollection.Add(labWbsd)
-									If Me.Count = 0 Then
-										Me.Add(labDoc)
-									Else
-										If Not Me.CurrentItem Is Nothing Then
-											labDoc = Me.CurrentItem
-										Else
-											Me.Add(labDoc)
-										End If
-									End If
-									labDoc.ItemType = New itemType(88)
-									If itemType = 42 Then
-										labDoc.Entity = bitem.Entity
-										labDoc.EntityName = bitem.Entity.Name
-									Else
-										labDoc.EntityName = bitem.Entity.Name
-									End If
-									labDoc.Unit = bitem.Unit
-									labDoc.Qty = bitem.Qty
-									labDoc.UnitPrice = bitem.ULC
-									If Not bitem.WBS Is Nothing Then
-										labWbsd.IsMarkup = False
+                  If Me.Count = 0 Then
+                    Me.Add(labDoc)
+                  Else
+                    If Not Me.CurrentItem Is Nothing Then
+                      labDoc = Me.CurrentItem
+                    Else
+                      Me.Add(labDoc)
+                    End If
+                  End If
+                  labDoc.ItemType = New ItemType(88)
+                  If itemType = 42 Then
+                    labDoc.Entity = bitem.Entity
+                    labDoc.EntityName = bitem.Entity.Name
+                  Else
+                    labDoc.EntityName = bitem.Entity.Name
+                  End If
+                  labDoc.Unit = bitem.Unit
+                  labDoc.Qty = bitem.Qty
+                  labDoc.UnitPrice = bitem.ULC
+                  If Not bitem.WBS Is Nothing Then
+                    labWbsd.IsMarkup = False
                     labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
-										labWbsd.WBS = bitem.WBS
-										labWbsd.Percent = 100
-										labWbsd.BaseCost = bitem.TotalLaborCost
+                    labWbsd.WBS = bitem.WBS
+                    labWbsd.Percent = 100
+                    labWbsd.BaseCost = bitem.TotalLaborCost
                     'labWbsd.TransferBaseCost = bitem.TotalLaborCost
-										labWbsd.IsOutWard = False
-										labWbsd.Toaccttype = 3
-									End If
-								End If
-								If bitem.UEC <> 0 Then						 '89
+                    labWbsd.IsOutWard = False
+                    labWbsd.Toaccttype = 3
+                  End If
+                End If
+                If bitem.UEC <> 0 Then             '89
                   eqDoc = New POItem
                   RemoveHandler eqDoc.WBSDistributeCollection.PropertyChanged, AddressOf eqDoc.WBSChangedHandler
                   AddHandler eqDoc.WBSDistributeCollection.PropertyChanged, AddressOf eqDoc.WBSChangedHandler
                   eqDoc.WBSDistributeCollection.Add(eqWbsd)
-									If Me.Count = 0 Then
-										Me.Add(eqDoc)
-									Else
-										If Not Me.CurrentItem Is Nothing Then
-											eqDoc = Me.CurrentItem
-										Else
-											Me.Add(eqDoc)
-										End If
-									End If
-									eqDoc.ItemType = New itemType(89)
-									If itemType = 42 Then
-										eqDoc.Entity = bitem.Entity
-										eqDoc.EntityName = bitem.Entity.Name
-									Else
-										eqDoc.EntityName = bitem.Entity.Name
-									End If
-									eqDoc.Unit = bitem.Unit
-									eqDoc.Qty = bitem.Qty
-									eqDoc.UnitPrice = bitem.UEC
-									If Not bitem.WBS Is Nothing Then
-										eqWbsd.IsMarkup = False
+                  If Me.Count = 0 Then
+                    Me.Add(eqDoc)
+                  Else
+                    If Not Me.CurrentItem Is Nothing Then
+                      eqDoc = Me.CurrentItem
+                    Else
+                      Me.Add(eqDoc)
+                    End If
+                  End If
+                  eqDoc.ItemType = New ItemType(89)
+                  If itemType = 42 Then
+                    eqDoc.Entity = bitem.Entity
+                    eqDoc.EntityName = bitem.Entity.Name
+                  Else
+                    eqDoc.EntityName = bitem.Entity.Name
+                  End If
+                  eqDoc.Unit = bitem.Unit
+                  eqDoc.Qty = bitem.Qty
+                  eqDoc.UnitPrice = bitem.UEC
+                  If Not bitem.WBS Is Nothing Then
+                    eqWbsd.IsMarkup = False
                     eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
-										eqWbsd.WBS = bitem.WBS
-										eqWbsd.Percent = 100
-										eqWbsd.BaseCost = bitem.TotalEquipmentCost
+                    eqWbsd.WBS = bitem.WBS
+                    eqWbsd.Percent = 100
+                    eqWbsd.BaseCost = bitem.TotalEquipmentCost
                     'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
-										eqWbsd.IsOutWard = False
-										eqWbsd.Toaccttype = 3
-									End If
-								End If
-							End If
-						Case 88, 89
-							Dim doc As POItem
-							Dim tempUnitPrice As Decimal
-							If Me.Count = 0 Then
-								If bitem.ItemType.Value = 88 Then
-									labDoc = New POItem
-									doc = labDoc
-									tempUnitPrice = bitem.ULC
-								End If
-								If bitem.ItemType.Value = 89 Then
-									eqDoc = New POItem
-									doc = eqDoc
-									tempUnitPrice = bitem.UEC
-								End If
-								Me.Add(doc)
-							Else
-								If bitem.ItemType.Value = 88 Then
-									labDoc = New POItem
-									If Not Me.CurrentItem Is Nothing Then
-										labDoc = Me.CurrentItem
-									Else
-										Me.Add(labDoc)
-									End If
-									doc = labDoc
-									tempUnitPrice = bitem.ULC
-								End If
-								If bitem.ItemType.Value = 89 Then
-									eqDoc = New POItem
-									If Not Me.CurrentItem Is Nothing Then
-										eqDoc = Me.CurrentItem
-									Else
-										Me.Add(eqDoc)
-									End If
-									doc = eqDoc
-									tempUnitPrice = bitem.UEC
-								End If
-							End If
-							doc.ItemType = New itemType(bitem.ItemType.Value)
-							doc.Entity = bitem.Entity
-							doc.EntityName = bitem.Entity.Name
-							doc.Unit = bitem.Unit
-							doc.Qty = bitem.Qty
-							doc.UnitPrice = tempUnitPrice
-							If bitem.ItemType.Value = 88 Then
-								If Not bitem.WBS Is Nothing Then
-									labWbsd.IsMarkup = False
+                    eqWbsd.IsOutWard = False
+                    eqWbsd.Toaccttype = 3
+                  End If
+                End If
+              End If
+            Case 88, 89
+              Dim doc As POItem
+              Dim tempUnitPrice As Decimal
+              If Me.Count = 0 Then
+                If bitem.ItemType.Value = 88 Then
+                  labDoc = New POItem
+                  doc = labDoc
+                  tempUnitPrice = bitem.ULC
+                End If
+                If bitem.ItemType.Value = 89 Then
+                  eqDoc = New POItem
+                  doc = eqDoc
+                  tempUnitPrice = bitem.UEC
+                End If
+                Me.Add(doc)
+              Else
+                If bitem.ItemType.Value = 88 Then
+                  labDoc = New POItem
+                  If Not Me.CurrentItem Is Nothing Then
+                    labDoc = Me.CurrentItem
+                  Else
+                    Me.Add(labDoc)
+                  End If
+                  doc = labDoc
+                  tempUnitPrice = bitem.ULC
+                End If
+                If bitem.ItemType.Value = 89 Then
+                  eqDoc = New POItem
+                  If Not Me.CurrentItem Is Nothing Then
+                    eqDoc = Me.CurrentItem
+                  Else
+                    Me.Add(eqDoc)
+                  End If
+                  doc = eqDoc
+                  tempUnitPrice = bitem.UEC
+                End If
+              End If
+              doc.ItemType = New ItemType(bitem.ItemType.Value)
+              doc.Entity = bitem.Entity
+              doc.EntityName = bitem.Entity.Name
+              doc.Unit = bitem.Unit
+              doc.Qty = bitem.Qty
+              doc.UnitPrice = tempUnitPrice
+              If bitem.ItemType.Value = 88 Then
+                If Not bitem.WBS Is Nothing Then
+                  labWbsd.IsMarkup = False
                   labWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
-									labWbsd.WBS = bitem.WBS
-									labWbsd.Percent = 100
-									labWbsd.BaseCost = bitem.TotalLaborCost
+                  labWbsd.WBS = bitem.WBS
+                  labWbsd.Percent = 100
+                  labWbsd.BaseCost = bitem.TotalLaborCost
                   'labWbsd.TransferBaseCost = bitem.TotalLaborCost
-									labWbsd.IsOutWard = False
-									labWbsd.Toaccttype = 3
-								End If
-							End If
-							If bitem.ItemType.Value = 89 Then
-								If Not bitem.WBS Is Nothing Then
-									eqWbsd.IsMarkup = False
+                  labWbsd.IsOutWard = False
+                  labWbsd.Toaccttype = 3
+                End If
+              End If
+              If bitem.ItemType.Value = 89 Then
+                If Not bitem.WBS Is Nothing Then
+                  eqWbsd.IsMarkup = False
                   eqWbsd.CostCenter = bitem.BOQ.GetCCFromBOQ
-									eqWbsd.WBS = bitem.WBS
-									eqWbsd.Percent = 100
-									eqWbsd.BaseCost = bitem.TotalEquipmentCost
+                  eqWbsd.WBS = bitem.WBS
+                  eqWbsd.Percent = 100
+                  eqWbsd.BaseCost = bitem.TotalEquipmentCost
                   'eqWbsd.TransferBaseCost = bitem.TotalEquipmentCost
-									eqWbsd.IsOutWard = False
-									eqWbsd.Toaccttype = 3
-								End If
-							End If
-					End Select
+                  eqWbsd.IsOutWard = False
+                  eqWbsd.Toaccttype = 3
+                End If
+              End If
+          End Select
           'If matWbsd.Percent = 100 Then
           '	If Not matDoc Is Nothing Then
           '		matDoc.WBSDistributeCollection.Add(matWbsd)
@@ -1731,19 +1728,19 @@ Public Class POItemCollection
           '		arr.Add(eqDoc)
           '	End If
           'End If
-				ElseIf TypeOf items(i).Tag Is PRItem Then
-					'-----------------PR Items--------------------
+        ElseIf TypeOf items(i).Tag Is PRItem Then
+          '-----------------PR Items--------------------
           Dim pri As PRItem = CType(items(i).Tag, PRItem)
           Dim poi As New POItem
           poi.Po = Me.m_po
-					poi.CopyFromPRItem(pri)
-					Me.Add(poi)
-					arr.Add(poi)
-					If Not poi.Pritem.Pr.ReceivingDate.Equals(Date.MinValue) AndAlso poi.Pritem.Pr.ReceivingDate < Me.m_po.ReceivingDate Then
-						Me.m_po.ReceivingDate = poi.Pritem.Pr.ReceivingDate
-					End If
-				End If
-			Next
+          poi.CopyFromPRItem(pri)
+          Me.Add(poi)
+          arr.Add(poi)
+          If Not poi.Pritem.Pr.ReceivingDate.Equals(Date.MinValue) AndAlso poi.Pritem.Pr.ReceivingDate < Me.m_po.ReceivingDate Then
+            Me.m_po.ReceivingDate = poi.Pritem.Pr.ReceivingDate
+          End If
+        End If
+      Next
 
       'Me.m_po.RefreshTaxBase()
       'For Each item As POItem In arr
@@ -1761,65 +1758,94 @@ Public Class POItemCollection
       '	Next
       'Next
       'RefreshBudget()
-		End Sub
-		Public Sub Populate(ByVal dt As TreeTable)
-			dt.Clear()
-			Dim i As Integer = 0
-			For Each poi As POItem In Me
-				i += 1
-				Dim thePR As PR = Nothing
-				If Not poi.Pritem Is Nothing Then
-					If Not poi.Pritem.Pr Is Nothing AndAlso poi.Pritem.Pr.Originated Then
-						thePR = poi.Pritem.Pr
-					End If
-				End If
-				Dim parRow As TreeRow = FindRow(dt, thePR)
-				Dim newRow As TreeRow = parRow.Childs.Add()
-				poi.CopyToDataRow(newRow)
-				poi.ItemValidateRow(newRow)
-				newRow.Tag = poi
-			Next
-			If i = 0 Then
-				Dim parRow As TreeRow = FindRow(dt, Nothing)
-			End If
-			dt.AcceptChanges()
-		End Sub
-		Public Shared Function FindRow(ByVal dt As TreeTable, ByVal thePR As PR) As TreeRow
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-			Dim noPRText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.BlankPRText}")
-			For Each row As TreeRow In dt.Childs
-				If thePR Is Nothing Then
-					If row.Tag Is Nothing Then
-						If Not row.IsNull("PRItemCode") AndAlso CStr(row("PRItemCode")) = noPRText Then
-							Return row
-						End If
-					End If
-				End If
-				If TypeOf row.Tag Is PR Then
-					If CType(row.Tag, PR) Is thePR Then
-						Return row
-					End If
-				End If
-			Next
+    End Sub
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each poi As POItem In Me
+        i += 1
+        Dim thePR As PR = Nothing
+        If Not poi.Pritem Is Nothing Then
+          If Not poi.Pritem.Pr Is Nothing AndAlso poi.Pritem.Pr.Originated Then
+            thePR = poi.Pritem.Pr
+          End If
+        End If
+        Dim parRow As TreeRow = FindRow(dt, thePR)
+        Dim newRow As TreeRow = parRow.Childs.Add()
+        poi.CopyToDataRow(newRow)
+        poi.ItemValidateRow(newRow)
+        newRow.Tag = poi
+      Next
+      If i = 0 Then
+        Dim parRow As TreeRow = FindRow(dt, Nothing)
+      End If
+      dt.AcceptChanges()
+    End Sub
+    Public Shared Function FindRow(ByVal dt As TreeTable, ByVal thePR As PR) As TreeRow
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim noPRText As String = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.BlankPRText}")
+      For Each row As TreeRow In dt.Childs
+        If thePR Is Nothing Then
+          If row.Tag Is Nothing Then
+            If Not row.IsNull("PRItemCode") AndAlso CStr(row("PRItemCode")) = noPRText Then
+              Return row
+            End If
+          End If
+        End If
+        If TypeOf row.Tag Is PR Then
+          If CType(row.Tag, PR) Is thePR Then
+            Return row
+          End If
+        End If
+      Next
 
-			'---->ไม่เจอ
-			Dim newRow As TreeRow
-			Dim desc As String = ""
-			If thePR Is Nothing Then
-				newRow = dt.Childs.Add
-				desc = noPRText
-			Else
-				Dim noParentRow As TreeRow = FindRow(dt, Nothing)
-				newRow = dt.Childs.InsertAt(dt.Childs.IndexOf(noParentRow))
-				desc = thePR.Code
-				newRow.Tag = thePR
-			End If
-			newRow("PRItemCode") = desc
-			newRow("Button") = "invisible"
-			newRow("UnitButton") = "invisible"
-			newRow.State = RowExpandState.Expanded
-			Return newRow
-		End Function
+      '---->ไม่เจอ
+      Dim newRow As TreeRow
+      Dim desc As String = ""
+      If thePR Is Nothing Then
+        newRow = dt.Childs.Add
+        desc = noPRText
+      Else
+        Dim noParentRow As TreeRow = FindRow(dt, Nothing)
+        newRow = dt.Childs.InsertAt(dt.Childs.IndexOf(noParentRow))
+        desc = thePR.Code
+        newRow.Tag = thePR
+      End If
+      newRow("PRItemCode") = desc
+      newRow("Button") = "invisible"
+      newRow("UnitButton") = "invisible"
+      newRow.State = RowExpandState.Expanded
+      Return newRow
+    End Function
+
+    Public Sub GetReceivedQty()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.m_po.ConnectionString _
+                                                   , CommandType.StoredProcedure _
+                                                       , "GetStockedQty" _
+                                                        , New SqlParameter("@po_id", Me.m_po.Id) _
+                                                          )
+
+      Dim stockedqtydic As New Dictionary(Of String, Decimal)
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim key As String = drh.GetValue(Of String)("poi_linenumber") & "|" & drh.GetValue(Of String)("poi_entity") & "|" & drh.GetValue(Of String)("poi_entitytype")
+
+        If Not stockedqtydic.ContainsKey(key) Then
+          stockedqtydic.Add(key, drh.GetValue(Of Decimal)("receivedQty"))
+        End If
+
+      Next
+
+      For Each poi As POItem In Me
+        Dim key As String = poi.LineNumber.ToString & "|" & poi.Entity.Id.ToString & "|" & poi.ItemType.Value.ToString
+
+        If stockedqtydic.ContainsKey(key) Then
+          poi.GetReceivedQty = stockedqtydic.Item(key)
+        End If
+      Next
+
+    End Sub
 #End Region
 
 #Region "Collection Methods"
@@ -1933,7 +1959,7 @@ Public Class POItemCollection
           Next
         End If
       End If
-     
+
     End Sub
 #End Region
 
@@ -1968,6 +1994,9 @@ Public Class POItemCollection
       End Sub
 
     End Class
+
+
+
   End Class
 
 End Namespace

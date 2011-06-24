@@ -1429,17 +1429,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+        'เตรียมข้อมูล Detail ก่อน save
+        If Me.Closed Then
+          Me.ItemCollection.GetReceivedQty()
+        End If
+
+        '''''===============
+
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
+
+
+        '======เริ่ม trans แรก ========
         trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
         Dim oldautogen As Boolean
         oldcode = Me.Code
         oldautogen = Me.AutoGen
+        Dim arr As New ArrayList
+
+        Try
+
+        
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           Select Case CInt(returnVal.Value)
@@ -1449,6 +1466,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ResetCode(oldcode, oldautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
           End Select
+
+
           '-------------------------------------------------------
           Dim pris As String = GetPritemString()
           Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
@@ -1460,7 +1479,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           , CommandType.Text _
           , sql _
           )
-          Dim arr As New ArrayList
           For Each row As DataRow In ds.Tables(0).Rows
             Dim o As New ValueDisplayPair(row("pri_pr"), row("pri_linenumber"))
             arr.Add(o)
@@ -1507,65 +1525,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           '==============CURRENCY=================================
 
-          'Save CustomNote จากการ Copy เอกสาร
-          If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
-            If Me.Originated Then
-              Me.m_customNoteColl.EntityId = Me.Id
-              Me.m_customNoteColl.Save()
-            End If
-          End If
-
-          For Each extender As Object In Me.Extenders
-            If TypeOf extender Is IExtender Then
-              Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-              If Not IsNumeric(saveDocError.Message) Then
-                trans.Rollback()
-                Return saveDocError
-              Else
-                Select Case CInt(saveDocError.Message)
-                  Case -1, -2, -5
-                    trans.Rollback()
-                    Return saveDocError
-                  Case Else
-                End Select
-              End If
-            End If
-          Next
-
-          Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
-          , New SqlParameter("@po_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PORef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
-
-          '--------------------------------------------------------------
-          Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
-          If Not IsNumeric(savePRItemsError.Message) Then
-            trans.Rollback()
-            ResetID(oldid)
-            ResetCode(oldcode, oldautogen)
-            Return savePRItemsError
-          Else
-            Select Case CInt(savePRItemsError.Message)
-              Case -1, -5
-                trans.Rollback()
-                ResetCode(oldcode, oldautogen)
-                ResetID(oldid)
-                Return savePRItemsError
-              Case -2
-                'Post ไปแล้ว
-                Return savePRItemsError
-              Case Else
-            End Select
-          End If
-          '--------------------------------------------------------------
-
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
           If Not IsNumeric(saveAutoCodeError.Message) Then
@@ -1584,23 +1543,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
           '==============================AUTOGEN==========================================
-
           trans.Commit()
 
-          'Try
-          '  trans = conn.BeginTransaction()
-          '  'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePROrderedQty" _
-          '  ', New SqlParameter("@po_id", Me.Id))
+            'Main Save Pass
 
-          '  trans.Commit()
-          'Catch ex As Exception
-          '  trans.Rollback()
-          '  Me.ResetID(oldid)
-          '  Return New SaveErrorException(ex.ToString)
-          'End Try
+         
 
 
-          Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid)
@@ -1611,10 +1560,95 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.ResetID(oldid)
           ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
+        
+          End Try
+
+          'Sub Save Block
+        Try
+            Dim trans2 As SqlTransaction = conn.BeginTransaction
+            Dim subsaveerror As SaveErrorException = SubSave(conn, trans2, arr)
+            If Not IsNumeric(subsaveerror.Message) Then
+              trans.Rollback()
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+            Return New SaveErrorException(returnVal.Value.ToString)
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block
+
+
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
+
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal arr As ArrayList) As SaveErrorException
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      'Save CustomNote จากการ Copy เอกสาร
+      If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
+        If Me.Originated Then
+          Me.m_customNoteColl.EntityId = Me.Id
+          Me.m_customNoteColl.Save()
+        End If
+      End If
+
+      For Each extender As Object In Me.Extenders
+        If TypeOf extender Is IExtender Then
+          Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+          If Not IsNumeric(saveDocError.Message) Then
+            trans.Rollback()
+            Return saveDocError
+          Else
+            Select Case CInt(saveDocError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                Return saveDocError
+              Case Else
+            End Select
+          End If
+        End If
+      Next
+
+      Me.DeleteRef(conn, trans)
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
+      , New SqlParameter("@po_id", Me.Id))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
+      , New SqlParameter("@refto_id", Me.Id))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PORef" _
+      , New SqlParameter("@refto_id", Me.Id))
+      If Me.Status.Value = 0 Then
+        Me.CancelRef(conn, trans)
+      End If
+
+      '--------------------------------------------------------------
+      Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
+      If Not IsNumeric(savePRItemsError.Message) Then
+        trans.Rollback()
+        Return savePRItemsError
+      Else
+        Select Case CInt(savePRItemsError.Message)
+          Case -1, -5
+            trans.Rollback()
+            Return savePRItemsError
+          Case -2
+            'Post ไปแล้ว
+            Return savePRItemsError
+          Case Else
+        End Select
+      End If
+      '--------------------------------------------------------------
+
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+
+
+      trans.Commit()
+
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code
@@ -1697,22 +1731,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each item As POItem In Me.ItemCollection
             beforeSaveQty = item.Qty
             i += 1
-            Select Case item.ItemType.Value
-              Case 42
-                Dim lci As New LCIItem(item.Entity.Id)
-                If Not lci.Originated Then
-                  Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-                ElseIf Not lci.ValidUnit(item.Unit) Then
-                  Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
-                End If
-              Case 19
-                Dim myTool As New Tool(item.Entity.Id)
-                If Not myTool.Originated Then
-                  Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-                ElseIf myTool.Unit.Id <> item.Unit.Id Then
-                  Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
-                End If
-            End Select
+            'ควรไปอยู่ที่ validate
+            'Select Case item.ItemType.Value
+            '  Case 42
+            '    Dim lci As New LCIItem(item.Entity.Id)
+            '    If Not lci.Originated Then
+            '      Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf Not lci.ValidUnit(item.Unit) Then
+            '      Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+            '    End If
+            '  Case 19
+            '    Dim myTool As New Tool(item.Entity.Id)
+            '    If Not myTool.Originated Then
+            '      Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf myTool.Unit.Id <> item.Unit.Id Then
+            '      Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+            '    End If
+            'End Select
             Dim dr As DataRow = .NewRow
             If item.Pritem Is Nothing Then
               dr("poi_pr") = DBNull.Value

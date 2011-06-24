@@ -1560,7 +1560,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
-        trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
         Dim oldPaymentId As Integer = Me.m_payment.Id
         Dim oldVatId As Integer = Me.m_vat.Id
@@ -1568,6 +1567,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.WitholdingTaxCollection.SaveOldID()
         End If
         Dim oldJeId As Integer = Me.m_je.Id
+
+        '======เริ่ม trans ========
+        trans = conn.BeginTransaction()
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
@@ -1743,22 +1745,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
-          For Each extender As Object In Me.Extenders
-            If TypeOf extender Is IExtender Then
-              Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-              If Not IsNumeric(saveDocError.Message) Then
-                trans.Rollback()
-                Return saveDocError
-              Else
-                Select Case CInt(saveDocError.Message)
-                  Case -1, -2, -5
-                    trans.Rollback()
-                    Return saveDocError
-                  Case Else
-                End Select
-              End If
-            End If
-          Next
+
 
           '==============================AUTOGEN==========================================
           Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
