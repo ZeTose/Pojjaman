@@ -1909,7 +1909,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     'Public NoItem As Boolean = False
     'Public OnlyPayment As Boolean = False
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
+      Dim sv As New SimpleVat
+      sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.EntityId)
+      Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - sv.TaxBase
+
+      ValidateError = Me.Vat.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.WitholdingTaxCollection.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.Payment.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+
 
       With Me
 
@@ -1978,7 +2012,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
           End If
 
+
         End If
+
+
 
         'If NoItem Then
         '    Return Me.SaveNoItem(currentUserId)
@@ -2246,9 +2283,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End Select
             End If
           End If
-          Dim sv As New SimpleVat
-          sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.EntityId, conn, trans)  'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
-          Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - sv.TaxBase
+          'Dim sv As New SimpleVat
+          'sv = Vat.GetTaxBaseDeductedWithoutThisRefDoc(Me.Id, Me.EntityId, Me.Id, Me.EntityId, conn, trans)  'เนื่องจากตอนบันทึกเอกสาร แล้ว Vat มีการเรียก Implement ตัวนี้แล้วเกิด DeadLock บ่อยมาก ๆ เลยเก็บค่านี้ไว้จังหวะก่อนบันทึก แล้วให้ m_vat.Save เรียกตัวนี้แทน
+          'Me.TaxBaseDeductedWithoutThisRefDoc = Me.RealTaxBase - sv.TaxBase
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
@@ -2834,7 +2871,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
       Dim tmp As Object = Configuration.GetConfig("APRetentionPoint")
-     
+
       Dim apRetentionPoint As Integer = 0
       If IsNumeric(tmp) Then
         apRetentionPoint = CInt(tmp)
@@ -4540,13 +4577,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
           dpi.DataType = "System.DateTime"
-                    dpiColl.Add(dpi)
+          dpiColl.Add(dpi)
 
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
-                    dpi.Value = deh.GetValue(Of String)("apvdoc_comment").ToString
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("apvdoc_comment").ToString
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
         Next
 
       End If

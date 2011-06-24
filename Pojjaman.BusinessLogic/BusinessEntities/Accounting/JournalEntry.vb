@@ -663,46 +663,148 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '-------------------------------Sumdebit/Sumcredit--------------------------------
 
     End Sub
+
+    Private saveParamArrayList As ArrayList
+    Private saveReturnVal As System.Data.SqlClient.SqlParameter
+    Private saveUser As User
+    Private saveTime As Date
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+      RefreshGLFormat()
+      Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)
+      Dim tmpcredit As Decimal = Configuration.Format(CreditAmount, DigitConfig.Price)
+      If tmpdebit <> tmpcredit Then
+        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.UnBalanceDebitCredit}"))
+      End If
+
+      saveReturnVal = New SqlParameter
+      saveReturnVal.ParameterName = "RETURN_VALUE"
+      saveReturnVal.DbType = DbType.Int32
+      saveReturnVal.Direction = ParameterDirection.ReturnValue
+      saveReturnVal.SourceVersion = DataRowVersion.Current
+
+      saveParamArrayList = New ArrayList
+
+      saveParamArrayList.Add(saveReturnVal)
+
+      If Me.Originated Then
+        saveParamArrayList.Add(New SqlParameter("@gl_id", Me.Id))
+      End If
+
+      saveTime = Now
+      saveUser = New User(currentUserId)
+      'If Me.Status.Value = -1 Then
+      '  Me.Status.Value = 2
+      'End If
+
+      'saveParamArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
+      'saveParamArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))
+      'saveParamArrayList.Add(New SqlParameter("@gl_creditamt", Me.CreditAmount))
+      'saveParamArrayList.Add(New SqlParameter("@gl_glFormat", IIf(Me.GLFormat.Originated, Me.GLFormat.Id, DBNull.Value)))
+      'saveParamArrayList.Add(New SqlParameter("@gl_manualformat", Me.ManualFormat))
+      'saveParamArrayList.Add(New SqlParameter("@gl_note", Me.Note))
+      'saveParamArrayList.Add(New SqlParameter("@gl_status", Me.Status.Value))
+
+
+      'If Me.RefDoc Is Nothing _
+      'OrElse Me.RefDoctype = Me.EntityId Then
+      '  saveRefType = Me.EntityId
+      '  If Me.RefJVdoc.Originated Then
+      '    RefDoc.Id = RefJVdoc.Id
+      '    RefDoc.Date = CType(RefJVdoc, JournalEntry).DocDate
+      '    RefDoc.Note = Me.Note
+      '    Dim refDebit As Decimal
+      '    Dim refCredit As Decimal
+      '    Dim jv As New JournalEntry(RefJVdoc.Id)
+      '    'If Me.DebitAmount <> jv.DebitAmount Then
+      '    '  ' TODO : ����͹
+      '    '  'Dim msgServics As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      '    '  'Dim b As Boolean = msgServics.AskQuestion("�ʹ���١��ͧ")
+      '    '  'MessageBox.Show(b.ToString)
+      '    'End If
+      '  End If
+      'Else
+      '  saveRefType = CType(Me.RefDoc, ISimpleEntity).EntityId
+      'End If
+
+      'Dim config As Boolean = CBool(Configuration.GetConfig("JEDateComesFromDocDate"))
+      'If config Then
+      '  If Not Me.DocDate.Equals(Me.RefDoc.Date) Then
+      '    Me.AutoGen = True
+      '    Me.Code = ""
+      '  End If
+      '  Me.DocDate = Me.RefDoc.Date
+      'End If
+      'If IsDBNull(Me.ValidDateOrDBNull(Me.DocDate)) Then
+      '  Me.DocDate = Me.RefDoc.Date
+      'End If
+      'If Me.AutoGen And Me.Code.Length = 0 Then
+      '  Me.Code = Me.GetNextCode
+      'End If
+      'Me.AutoGen = False
+
+      'If Not Me.RefDoc Is Nothing Then
+      '  If Me.Code Is Nothing OrElse Me.Code.Length = 0 Then
+      '    Me.Code = Me.RefDoc.Code
+      '  End If
+      'End If
+
+      'saveParamArrayList.Add(New SqlParameter("@gl_code", Me.Code))
+      'saveParamArrayList.Add(New SqlParameter("@gl_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
+      'If Not Me.RefDoc Is Nothing AndAlso Not Me.RefDoc.Code Is Nothing Then
+      '  saveParamArrayList.Add(New SqlParameter("@gl_refcode", IIf(Me.RefDoc.Code.Length = 0, DBNull.Value, Me.RefDoc.Code)))
+      'End If
+      'saveParamArrayList.Add(New SqlParameter("@gl_refDate", IIf(Me.RefDoc.Date.Equals(Date.MinValue), DBNull.Value, Me.RefDoc.Date)))
+      'saveParamArrayList.Add(New SqlParameter("@gl_refid", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
+      'saveParamArrayList.Add(New SqlParameter("@gl_refdoctype", saveRefType))
+      'If Me.RefDoc.Note Is Nothing Then Me.RefDoc.Note = ""
+      'saveParamArrayList.Add(New SqlParameter("@gl_refDocNote", IIf(Me.RefDoc.Note.Length = 0, DBNull.Value, Me.RefDoc.Note)))
+
+      'SetOriginEditCancelStatus(saveParamArrayList, currentUserId, saveTime)
+
+      Return New SaveErrorException("0")
+    End Function
+
+
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       If DontSave Then
         Return New SaveErrorException("0")
       End If
-      RefreshGLFormat()
+      'RefreshGLFormat()
       With Me
-        Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)
-        Dim tmpcredit As Decimal = Configuration.Format(CreditAmount, DigitConfig.Price)
-        If tmpdebit <> tmpcredit Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.UnBalanceDebitCredit}"))
-        End If
-        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-        returnVal.ParameterName = "RETURN_VALUE"
-        returnVal.DbType = DbType.Int32
-        returnVal.Direction = ParameterDirection.ReturnValue
-        returnVal.SourceVersion = DataRowVersion.Current
+        'Dim tmpdebit As Decimal = Configuration.Format(DebitAmount, DigitConfig.Price)
+        'Dim tmpcredit As Decimal = Configuration.Format(CreditAmount, DigitConfig.Price)
+        'If tmpdebit <> tmpcredit Then
+        '  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.UnBalanceDebitCredit}"))
+        'End If
+        'Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        'returnVal.ParameterName = "RETURN_VALUE"
+        'returnVal.DbType = DbType.Int32
+        'returnVal.Direction = ParameterDirection.ReturnValue
+        'returnVal.SourceVersion = DataRowVersion.Current
 
         ' ���ҧ ArrayList �ҡ Item �ͧ  SqlParameter ...
-        Dim paramArrayList As New ArrayList
+        'Dim paramArrayList As New ArrayList
 
-        paramArrayList.Add(returnVal)
+        'saveParamArrayList.Add(returnVal)
 
-        If Me.Originated Then
-          paramArrayList.Add(New SqlParameter("@gl_id", Me.Id))
-        End If
+        'If Me.Originated Then
+        '  saveParamArrayList.Add(New SqlParameter("@gl_id", Me.Id))
+        'End If
 
-        Dim theTime As Date = Now
-        Dim theUser As New User(currentUserId)
+        'Dim theTime As Date = Now
+        'Dim theUser As New User(currentUserId)
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If
 
 
-        paramArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
-        paramArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))
-        paramArrayList.Add(New SqlParameter("@gl_creditamt", Me.CreditAmount))
-        paramArrayList.Add(New SqlParameter("@gl_glFormat", IIf(Me.GLFormat.Originated, Me.GLFormat.Id, DBNull.Value)))
-        paramArrayList.Add(New SqlParameter("@gl_manualformat", Me.ManualFormat))
-        paramArrayList.Add(New SqlParameter("@gl_note", Me.Note))
-        paramArrayList.Add(New SqlParameter("@gl_status", Me.Status.Value))
+        saveParamArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
+        saveParamArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))
+        saveParamArrayList.Add(New SqlParameter("@gl_creditamt", Me.CreditAmount))
+        saveParamArrayList.Add(New SqlParameter("@gl_glFormat", IIf(Me.GLFormat.Originated, Me.GLFormat.Id, DBNull.Value)))
+        saveParamArrayList.Add(New SqlParameter("@gl_manualformat", Me.ManualFormat))
+        saveParamArrayList.Add(New SqlParameter("@gl_note", Me.Note))
+        saveParamArrayList.Add(New SqlParameter("@gl_status", Me.Status.Value))
         Dim refType As Integer
         If Me.RefDoc Is Nothing _
         OrElse Me.RefDoctype = Me.EntityId Then
@@ -711,15 +813,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             RefDoc.Id = RefJVdoc.Id
             RefDoc.Date = CType(RefJVdoc, JournalEntry).DocDate
             RefDoc.Note = Me.Note
-            Dim refDebit As Decimal
-            Dim refCredit As Decimal
-            Dim jv As New JournalEntry(RefJVdoc.Id)
-            If Me.DebitAmount <> jv.DebitAmount Then
-              ' TODO : ����͹
-              'Dim msgServics As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-              'Dim b As Boolean = msgServics.AskQuestion("�ʹ���١��ͧ")
-              'MessageBox.Show(b.ToString)
-            End If
+            'Dim refDebit As Decimal
+            'Dim refCredit As Decimal
+            'Dim jv As New JournalEntry(RefJVdoc.Id)
+            'If Me.DebitAmount <> jv.DebitAmount Then
+            '  ' TODO : ����͹
+            '  'Dim msgServics As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            '  'Dim b As Boolean = msgServics.AskQuestion("�ʹ���١��ͧ")
+            '  'MessageBox.Show(b.ToString)
+            'End If
           End If
         Else
           refType = CType(Me.RefDoc, ISimpleEntity).EntityId
@@ -747,36 +849,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-        paramArrayList.Add(New SqlParameter("@gl_code", Me.Code))
-        paramArrayList.Add(New SqlParameter("@gl_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
+        saveParamArrayList.Add(New SqlParameter("@gl_code", Me.Code))
+        saveParamArrayList.Add(New SqlParameter("@gl_docDate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
         If Not Me.RefDoc Is Nothing AndAlso Not Me.RefDoc.Code Is Nothing Then
-          paramArrayList.Add(New SqlParameter("@gl_refcode", IIf(Me.RefDoc.Code.Length = 0, DBNull.Value, Me.RefDoc.Code)))
+          saveParamArrayList.Add(New SqlParameter("@gl_refcode", IIf(Me.RefDoc.Code.Length = 0, DBNull.Value, Me.RefDoc.Code)))
         End If
-        paramArrayList.Add(New SqlParameter("@gl_refDate", IIf(Me.RefDoc.Date.Equals(Date.MinValue), DBNull.Value, Me.RefDoc.Date)))
-        paramArrayList.Add(New SqlParameter("@gl_refid", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
-        paramArrayList.Add(New SqlParameter("@gl_refdoctype", refType))
+        saveParamArrayList.Add(New SqlParameter("@gl_refDate", IIf(Me.RefDoc.Date.Equals(Date.MinValue), DBNull.Value, Me.RefDoc.Date)))
+        saveParamArrayList.Add(New SqlParameter("@gl_refid", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
+        saveParamArrayList.Add(New SqlParameter("@gl_refdoctype", refType))
         If Me.RefDoc.Note Is Nothing Then Me.RefDoc.Note = ""
-        paramArrayList.Add(New SqlParameter("@gl_refDocNote", IIf(Me.RefDoc.Note.Length = 0, DBNull.Value, Me.RefDoc.Note)))
+        saveParamArrayList.Add(New SqlParameter("@gl_refDocNote", IIf(Me.RefDoc.Note.Length = 0, DBNull.Value, Me.RefDoc.Note)))
 
-        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+        SetOriginEditCancelStatus(saveParamArrayList, currentUserId, saveTime)
 
         ' ���ҧ SqlParameter �ҡ ArrayList ...
         Dim sqlparams() As SqlParameter
-        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        sqlparams = CType(saveParamArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
+          Me.ExecuteSaveSproc(conn, trans, saveReturnVal, sqlparams, saveTime, saveUser)
+          If IsNumeric(saveReturnVal.Value) Then
+            Select Case CInt(saveReturnVal.Value)
               Case -1
                 Return New SaveErrorException("GL " & Me.StringParserService.Parse("${res:Global.Error.AlreadyHasThisCode}"), New String() {Me.Code})
               Case -5
-                Return New SaveErrorException(returnVal.Value.ToString)
+                Return New SaveErrorException(saveReturnVal.Value.ToString)
               Case -2
-                Return New SaveErrorException(returnVal.Value.ToString)
+                Return New SaveErrorException(saveReturnVal.Value.ToString)
               Case Else
             End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            Return New SaveErrorException(returnVal.Value.ToString)
+          ElseIf IsDBNull(saveReturnVal.Value) OrElse Not IsNumeric(saveReturnVal.Value) Then
+            Return New SaveErrorException(saveReturnVal.Value.ToString)
           End If
           Dim count As Integer = SaveDetail(Me.Id, conn, trans)
           Dim verbose As Boolean = True
@@ -787,7 +889,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             msgServ.ShowMessageFormatted("${res:Global.Info.PostItemCount}", New String() {count.ToString, Configuration.FormatToString(CreditAmount, DigitConfig.Price)})
           End If
-          Return New SaveErrorException(returnVal.Value.ToString)
+          Return New SaveErrorException(saveReturnVal.Value.ToString)
         Catch ex As SqlException
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
@@ -1586,10 +1688,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim AllCCCode As String = ""
       For Each item As JournalEntryItem In Me.ItemCollection
         If item.Account IsNot Nothing Then
-        If Not CCCode.Equals(item.CostCenter.Code) Then
-          CCCode = item.CostCenter.Code
-          AllCCCode &= ", " & item.CostCenter.Code & ":" & item.CostCenter.Name
-        End If
+          If Not CCCode.Equals(item.CostCenter.Code) Then
+            CCCode = item.CostCenter.Code
+            AllCCCode &= ", " & item.CostCenter.Code & ":" & item.CostCenter.Name
+          End If
         End If
       Next
       'CustomerName
@@ -1604,100 +1706,100 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-     
+
 
       Dim n As Integer = 0
       For Each item As JournalEntryItem In Me.ItemCollection
         If item.Account IsNot Nothing Then
 
-        'Item.LineNumber
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.LineNumber"
-        dpi.Value = n + 1
-        dpi.DataType = "System.Int32"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
-        Dim space As String = ""
-        If Not item.IsDebit Then
-          space = "   "
-        End If
-
-        'Item.AccountCode
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.AccountCode"
-        dpi.Value = space & item.Account.Code
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
-        'Item.Account
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.Account"
-        dpi.Value = space & item.Account.Name
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
-        'Item.CCCode
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.CCCode"
-        dpi.Value = item.CostCenter.Code
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
-        'Item.CCName
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.CCName"
-        dpi.Value = item.CostCenter.Name
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
-        'Item.CCInfo
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.CCInfo"
-        dpi.Value = item.CostCenter.Code & ":" & item.CostCenter.Code
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
-
-        If item.IsDebit Then
-          'Item.Debit
+          'Item.LineNumber
           dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Debit"
-          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          dpi.Mapping = "Item.LineNumber"
+          dpi.Value = n + 1
+          dpi.DataType = "System.Int32"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          Dim space As String = ""
+          If Not item.IsDebit Then
+            space = "   "
+          End If
+
+          'Item.AccountCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.AccountCode"
+          dpi.Value = space & item.Account.Code
           dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
           dpiColl.Add(dpi)
-        Else
-          ' Item.Credit
+
+          'Item.Account
           dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Credit"
-          dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          dpi.Mapping = "Item.Account"
+          dpi.Value = space & item.Account.Name
           dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"
           dpiColl.Add(dpi)
-        End If
+
+          'Item.CCCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CCCode"
+          dpi.Value = item.CostCenter.Code
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.CCName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CCName"
+          dpi.Value = item.CostCenter.Name
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.CCInfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CCInfo"
+          dpi.Value = item.CostCenter.Code & ":" & item.CostCenter.Code
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          If item.IsDebit Then
+            'Item.Debit
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Debit"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+          Else
+            ' Item.Credit
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Credit"
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+          End If
 
 
-        'Item.Note
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.Note"
-        dpi.Value = item.Note
-        dpi.DataType = "System.String"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+          'Item.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Note"
+          dpi.Value = item.Note
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
         End If
 
 
@@ -1903,7 +2005,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.CancelPerson = New User
       'Me.Closing = False
       Me.ClearReference()
-     
+
       Return Me
     End Function
 #End Region

@@ -606,156 +606,352 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ""
     End Function
-    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
-      With Me
-        Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
-        If Not o Is Nothing Then
-          Dim config As Boolean = CBool(o)
-          If config AndAlso Me.Direction.Value = 1 Then
-            Dim theDup As String = DupCode()
-            If theDup.Length > 0 Then
-              Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
-            End If
+
+    Private saveParamArrayList As ArrayList
+    Private saveReturnVal As System.Data.SqlClient.SqlParameter
+    Private saveUser As User
+    Private saveTime As Date
+
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
+      If Not o Is Nothing Then
+        Dim config As Boolean = CBool(o)
+        If config AndAlso Me.Direction.Value = 1 Then
+          Dim theDup As String = DupCode()
+          If theDup.Length > 0 Then
+            Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
           End If
         End If
+      End If
 
-        '================Checking for duplicate Vat Code (Sales Tax) =============
-        If Me.Direction.Value = 0 Then
-          Dim salesVatDup As String = DupSalesVatCode()
-          If salesVatDup.Length > 0 Then
-            Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
+      '================Checking for duplicate Vat Code (Sales Tax) =============
+      If Me.Direction.Value = 0 Then
+        Dim salesVatDup As String = DupSalesVatCode()
+        If salesVatDup.Length > 0 Then
+          Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
+        End If
+      End If
+      '================Checking for duplicate Vat Code (Sales Tax) =============
+
+      'Me.RefreshVatTaxBase()
+      'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
+      'tmpRefTaxBase คือ Taxbase ของเอกสารอ้างอิงที่ออกได้ทั้งหมด
+      Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
+      If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
+        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+      End If
+
+      Dim tmpRefTaxBase As Decimal = 0
+      If TypeOf Me.RefDoc Is PaySelection Then
+        Dim pays As PaySelection = CType(Me.RefDoc, PaySelection)
+        tmpRefTaxBase = Configuration.Format(pays.RealTaxBase, DigitConfig.Price)
+        'ถ้าใบจ่ายชำระนี้เป็นการแบ่งจ่ายชำระแล้ว จะไม่อนุญาติให้ออกใบกำกับภาษีมูลค่าเพิ่มที่เมนูจ่ายชำระแล้ว
+        If tmpTaxBase > 0 AndAlso (Not pays.Gross = pays.ItemCollection.GetPlusRetention And Not pays.Gross = pays.ItemCollection.Amount) Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Vat.ValidVatAmount}"))
+        End If
+      Else
+        If TypeOf Me.RefDoc Is GoodsReceipt Then
+          tmpRefTaxBase = CType(Me.RefDoc, GoodsReceipt).TaxBaseDeductedWithoutThisRefDoc
+        Else
+          tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase(), DigitConfig.Price)
+          'tmpRefTaxBase = Configuration.Format(Me.RefDocMaximumTaxBase, DigitConfig.Price)
+        End If
+      End If
+
+      Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
+      If Me.Direction.Value = 0 AndAlso _
+      tmpTaxBase - tmpRefTaxBase = -0.01 Then     'ยอดในใบกำกับน้อยกว่า
+        If Me.ItemCollection.Count > 0 Then
+          Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
+          'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
+          'item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
+        End If
+      ElseIf Me.Direction.Value = 0 AndAlso _
+      tmpTaxBase - tmpRefTaxBase = 0.01 Then      'ยอดในใบกำกับมากกว่า
+        If Me.ItemCollection.Count > 0 Then
+          Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
+          'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
+          'item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
+        End If
+      ElseIf _
+      ( _
+      TypeOf Me.RefDoc Is BillAcceptance _
+      OrElse TypeOf Me.RefDoc Is GoodsReceipt _
+      OrElse TypeOf Me.RefDoc Is PurchaseCN _
+      OrElse TypeOf Me.RefDoc Is APOpeningBalance _
+      OrElse TypeOf Me.RefDoc Is EqMaintenance _
+      OrElse TypeOf Me.RefDoc Is GoodsSold _
+      OrElse TypeOf Me.RefDoc Is ReceiveSelection _
+      OrElse TypeOf Me.RefDoc Is PA _
+      OrElse TypeOf Me.RefDoc Is AssetWriteOff _
+      ) _
+      AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
+        Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        If tmpTaxBase > tmpRefTaxBase AndAlso tmpTaxBase - tmpRefTaxBase < CInt(obj) Then
+          If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+                                        New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
+                                                      Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
+            Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
           End If
-        End If
-        '================Checking for duplicate Vat Code (Sales Tax) =============
-
-        'Me.RefreshVatTaxBase()
-        'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
-        'tmpRefTaxBase คือ Taxbase ของเอกสารอ้างอิงที่ออกได้ทั้งหมด
-        Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
-        If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
-          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-        End If
-
-        Dim tmpRefTaxBase As Decimal = 0
-        If TypeOf Me.RefDoc Is PaySelection Then
-          Dim pays As PaySelection = CType(Me.RefDoc, PaySelection)
-          tmpRefTaxBase = Configuration.Format(pays.RealTaxBase, DigitConfig.Price)
-          'ถ้าใบจ่ายชำระนี้เป็นการแบ่งจ่ายชำระแล้ว จะไม่อนุญาติให้ออกใบกำกับภาษีมูลค่าเพิ่มที่เมนูจ่ายชำระแล้ว
-          If tmpTaxBase > 0 AndAlso (Not pays.Gross = pays.ItemCollection.GetPlusRetention And Not pays.Gross = pays.ItemCollection.Amount) Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Vat.ValidVatAmount}"))
+        ElseIf tmpTaxBase < tmpRefTaxBase AndAlso tmpRefTaxBase - tmpTaxBase < CInt(obj) Then
+          If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+                                     New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
+                                                   Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
+            Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
           End If
         Else
-          If TypeOf Me.RefDoc Is GoodsReceipt Then
-            tmpRefTaxBase = CType(Me.RefDoc, GoodsReceipt).TaxBaseDeductedWithoutThisRefDoc
-          Else
-            tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase(conn, trans), DigitConfig.Price)
-            'tmpRefTaxBase = Configuration.Format(Me.RefDocMaximumTaxBase, DigitConfig.Price)
-          End If
-        End If
-
-        Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
-        If Me.Direction.Value = 0 AndAlso _
-        tmpTaxBase - tmpRefTaxBase = -0.01 Then     'ยอดในใบกำกับน้อยกว่า
-          If Me.ItemCollection.Count > 0 Then
-            Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
-            'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
-            'item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
-          End If
-        ElseIf Me.Direction.Value = 0 AndAlso _
-        tmpTaxBase - tmpRefTaxBase = 0.01 Then      'ยอดในใบกำกับมากกว่า
-          If Me.ItemCollection.Count > 0 Then
-            Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
-            'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
-            'item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
-          End If
-        ElseIf _
-        ( _
-        TypeOf Me.RefDoc Is BillAcceptance _
-        OrElse TypeOf Me.RefDoc Is GoodsReceipt _
-        OrElse TypeOf Me.RefDoc Is PurchaseCN _
-        OrElse TypeOf Me.RefDoc Is APOpeningBalance _
-        OrElse TypeOf Me.RefDoc Is EqMaintenance _
-        OrElse TypeOf Me.RefDoc Is GoodsSold _
-        OrElse TypeOf Me.RefDoc Is ReceiveSelection _
-        OrElse TypeOf Me.RefDoc Is PA _
-        OrElse TypeOf Me.RefDoc Is AssetWriteOff _
-        ) _
-        AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
-          Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          If tmpTaxBase > tmpRefTaxBase AndAlso tmpTaxBase - tmpRefTaxBase < CInt(obj) Then
-            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
-                                          New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
-                                                        Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
-              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
-            End If
-          ElseIf tmpTaxBase < tmpRefTaxBase AndAlso tmpRefTaxBase - tmpTaxBase < CInt(obj) Then
-            If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
-                                       New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
-                                                     Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
-              Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
-            End If
-          Else
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseMoreThanRefDocTaxBase}"), _
-                  New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
-                  , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
-          End If
-
-        ElseIf tmpTaxBase <> tmpRefTaxBase _
-        AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
-        AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _
-        AndAlso Not TypeOf Me.RefDoc Is PurchaseCN _
-        AndAlso Not TypeOf Me.RefDoc Is APOpeningBalance _
-        AndAlso Not TypeOf Me.RefDoc Is EqMaintenance _
-        AndAlso Not TypeOf Me.RefDoc Is GoodsSold _
-        AndAlso Not TypeOf Me.RefDoc Is APVatInput _
-        AndAlso Not TypeOf Me.RefDoc Is AdvancePay _
-        AndAlso Not TypeOf Me.RefDoc Is ReceiveSelection _
-        AndAlso Not TypeOf Me.RefDoc Is AROpeningBalance _
-        AndAlso Not TypeOf Me.RefDoc Is PA _
-        AndAlso Not TypeOf Me.RefDoc Is AssetWriteOff _
-          Then
-          If TypeOf Me.RefDoc Is PaySelection AndAlso tmpTaxBase <> 0 Then
-            'ในกรณี payselection ยอมรับ 2 case คือ Full Taxbase กับ Full Partial Pays
-            'tmpRefTaxbase คือ Full TaxBase  ที่ยังเหลืออยู่ 
-            'ต้องหา Full partial pays มากขึ้น
-            Dim ptb As Decimal = CType(Me.RefDoc, PaySelection).paysTaxbase
-            'Case ออก Vat มากกว่าที่ออกได้ ไม่ได้แน่ๆ
-            If tmpTaxBase > tmpRefTaxBase Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-                     New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
-                     , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
-            End If
-            If tmpTaxBase < tmpRefTaxBase Then
-              If Math.Abs(tmpTaxBase - ptb) > CDec(obj) Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
-                     New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
-                     , Configuration.FormatToString(ptb, DigitConfig.Price)})
-              End If
-            End If
-          ElseIf Not TypeOf Me.RefDoc Is PaySelection Then
-            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseMoreThanRefDocTaxBase}"), _
                 New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
                 , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+        End If
+
+      ElseIf tmpTaxBase <> tmpRefTaxBase _
+      AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
+      AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _
+      AndAlso Not TypeOf Me.RefDoc Is PurchaseCN _
+      AndAlso Not TypeOf Me.RefDoc Is APOpeningBalance _
+      AndAlso Not TypeOf Me.RefDoc Is EqMaintenance _
+      AndAlso Not TypeOf Me.RefDoc Is GoodsSold _
+      AndAlso Not TypeOf Me.RefDoc Is APVatInput _
+      AndAlso Not TypeOf Me.RefDoc Is AdvancePay _
+      AndAlso Not TypeOf Me.RefDoc Is ReceiveSelection _
+      AndAlso Not TypeOf Me.RefDoc Is AROpeningBalance _
+      AndAlso Not TypeOf Me.RefDoc Is PA _
+      AndAlso Not TypeOf Me.RefDoc Is AssetWriteOff _
+        Then
+        If TypeOf Me.RefDoc Is PaySelection AndAlso tmpTaxBase <> 0 Then
+          'ในกรณี payselection ยอมรับ 2 case คือ Full Taxbase กับ Full Partial Pays
+          'tmpRefTaxbase คือ Full TaxBase  ที่ยังเหลืออยู่ 
+          'ต้องหา Full partial pays มากขึ้น
+          Dim ptb As Decimal = CType(Me.RefDoc, PaySelection).paysTaxbase
+          'Case ออก Vat มากกว่าที่ออกได้ ไม่ได้แน่ๆ
+          If tmpTaxBase > tmpRefTaxBase Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+                   New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                   , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
           End If
+          If tmpTaxBase < tmpRefTaxBase Then
+            If Math.Abs(tmpTaxBase - ptb) > CDec(obj) Then
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+                   New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+                   , Configuration.FormatToString(ptb, DigitConfig.Price)})
+            End If
+          End If
+        ElseIf Not TypeOf Me.RefDoc Is PaySelection Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+              New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+              , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
         End If
+      End If
 
-        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-        returnVal.ParameterName = "RETURN_VALUE"
-        returnVal.DbType = DbType.Int32
-        returnVal.Direction = ParameterDirection.ReturnValue
-        returnVal.SourceVersion = DataRowVersion.Current
 
-        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-        Dim paramArrayList As New ArrayList
+      saveReturnVal = New SqlParameter
+      saveReturnVal.ParameterName = "RETURN_VALUE"
+      saveReturnVal.DbType = DbType.Int32
+      saveReturnVal.Direction = ParameterDirection.ReturnValue
+      saveReturnVal.SourceVersion = DataRowVersion.Current
 
-        paramArrayList.Add(returnVal)
+      ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+      saveParamArrayList = New ArrayList
 
-        If Me.Originated Then
-          paramArrayList.Add(New SqlParameter("@vat_id", Me.Id))
-        End If
+      saveParamArrayList.Add(saveReturnVal)
 
-        Dim theTime As Date = Now
-        Dim theUser As New User(currentUserId)
+      If Me.Originated Then
+        saveParamArrayList.Add(New SqlParameter("@vat_id", Me.Id))
+      End If
+
+      saveTime = Now
+      saveUser = New User(currentUserId)
+
+      'If Me.Status.Value = -1 Then
+      '  Me.Status.Value = 2
+      'End If
+
+      'Dim refDocType As Integer
+      'If TypeOf Me.RefDoc Is ISimpleEntity Then
+      '  refDocType = CType(Me.RefDoc, ISimpleEntity).EntityId
+      'End If
+      'saveParamArrayList.Add(New SqlParameter("@vat_refDocType", refDocType))
+      'saveParamArrayList.Add(New SqlParameter("@vat_refdoc", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
+      'saveParamArrayList.Add(New SqlParameter("@vat_refDocCode", Me.RefDoc.Code))
+      'saveParamArrayList.Add(New SqlParameter("@vat_refDocDate", Me.RefDoc.Date))
+
+      'If Not Me.RefDoc.Person Is Nothing AndAlso TypeOf Me.RefDoc.Person Is SimpleBusinessEntityBase Then
+      '  Dim payee As SimpleBusinessEntityBase = CType(Me.RefDoc.Person, SimpleBusinessEntityBase)
+      '  saveParamArrayList.Add(New SqlParameter("@vat_entity", ValidIdOrDBNull(payee)))
+      '  saveParamArrayList.Add(New SqlParameter("@vat_entityType", payee.EntityId))
+      'End If
+
+      'saveParamArrayList.Add(New SqlParameter("@vat_taxbase", Me.TaxBase))
+      'saveParamArrayList.Add(New SqlParameter("@vat_amt", Me.Amount))
+      'saveParamArrayList.Add(New SqlParameter("@vat_note", Me.Note))
+
+      'Dim myDirection As Boolean = False
+      'If Me.Direction.Value = 1 Then
+      '  myDirection = True
+      'End If
+      'saveParamArrayList.Add(New SqlParameter("@vat_direction", myDirection))
+      'saveParamArrayList.Add(New SqlParameter("@vat_status", Me.Status.Value))
+
+      'SetOriginEditCancelStatus(saveParamArrayList, currentUserId, saveTime)
+
+
+
+      Return New SaveErrorException("0")
+
+    End Function
+
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      With Me
+        '  Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
+        '  If Not o Is Nothing Then
+        '    Dim config As Boolean = CBool(o)
+        '    If config AndAlso Me.Direction.Value = 1 Then
+        '      Dim theDup As String = DupCode()
+        '      If theDup.Length > 0 Then
+        '        Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
+        '      End If
+        '    End If
+        '  End If
+
+        '  '================Checking for duplicate Vat Code (Sales Tax) =============
+        '  If Me.Direction.Value = 0 Then
+        '    Dim salesVatDup As String = DupSalesVatCode()
+        '    If salesVatDup.Length > 0 Then
+        '      Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
+        '    End If
+        '  End If
+        '  '================Checking for duplicate Vat Code (Sales Tax) =============
+
+        '  'Me.RefreshVatTaxBase()
+        '  'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
+        '  'tmpRefTaxBase คือ Taxbase ของเอกสารอ้างอิงที่ออกได้ทั้งหมด
+        '  Dim tmpTaxBase As Decimal = Configuration.Format(Me.TaxBase, DigitConfig.Price)
+        '  If Me.ItemCollection.Count <= 0 And tmpTaxBase > 0 Then
+        '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        '  End If
+
+        '  Dim tmpRefTaxBase As Decimal = 0
+        '  If TypeOf Me.RefDoc Is PaySelection Then
+        '    Dim pays As PaySelection = CType(Me.RefDoc, PaySelection)
+        '    tmpRefTaxBase = Configuration.Format(pays.RealTaxBase, DigitConfig.Price)
+        '    'ถ้าใบจ่ายชำระนี้เป็นการแบ่งจ่ายชำระแล้ว จะไม่อนุญาติให้ออกใบกำกับภาษีมูลค่าเพิ่มที่เมนูจ่ายชำระแล้ว
+        '    If tmpTaxBase > 0 AndAlso (Not pays.Gross = pays.ItemCollection.GetPlusRetention And Not pays.Gross = pays.ItemCollection.Amount) Then
+        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Vat.ValidVatAmount}"))
+        '    End If
+        '  Else
+        '    If TypeOf Me.RefDoc Is GoodsReceipt Then
+        '      tmpRefTaxBase = CType(Me.RefDoc, GoodsReceipt).TaxBaseDeductedWithoutThisRefDoc
+        '    Else
+        '      tmpRefTaxBase = Configuration.Format(Me.RefDoc.GetMaximumTaxBase(conn, trans), DigitConfig.Price)
+        '      'tmpRefTaxBase = Configuration.Format(Me.RefDocMaximumTaxBase, DigitConfig.Price)
+        '    End If
+        '  End If
+
+        '  Dim obj As Object = Configuration.GetConfig("VatAcceptDiffAmount")
+        '  If Me.Direction.Value = 0 AndAlso _
+        '  tmpTaxBase - tmpRefTaxBase = -0.01 Then     'ยอดในใบกำกับน้อยกว่า
+        '    If Me.ItemCollection.Count > 0 Then
+        '      Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
+        '      'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
+        '      'item.TaxBase += CDec(0.01 / (item.TaxRate / 100))
+        '    End If
+        '  ElseIf Me.Direction.Value = 0 AndAlso _
+        '  tmpTaxBase - tmpRefTaxBase = 0.01 Then      'ยอดในใบกำกับมากกว่า
+        '    If Me.ItemCollection.Count > 0 Then
+        '      Dim item As VatItem = Me.ItemCollection(Me.ItemCollection.Count - 1)
+        '      'ไม่รู้ที่มาที่ไปเลยเอาออกไว้ก่อนเพราะทำให้ยอดที่ใส่เข้ามาผิด
+        '      'item.TaxBase -= CDec(0.01 / (item.TaxRate / 100))
+        '    End If
+        '  ElseIf _
+        '  ( _
+        '  TypeOf Me.RefDoc Is BillAcceptance _
+        '  OrElse TypeOf Me.RefDoc Is GoodsReceipt _
+        '  OrElse TypeOf Me.RefDoc Is PurchaseCN _
+        '  OrElse TypeOf Me.RefDoc Is APOpeningBalance _
+        '  OrElse TypeOf Me.RefDoc Is EqMaintenance _
+        '  OrElse TypeOf Me.RefDoc Is GoodsSold _
+        '  OrElse TypeOf Me.RefDoc Is ReceiveSelection _
+        '  OrElse TypeOf Me.RefDoc Is PA _
+        '  OrElse TypeOf Me.RefDoc Is AssetWriteOff _
+        '  ) _
+        '  AndAlso (tmpTaxBase > 0) AndAlso tmpTaxBase > tmpRefTaxBase Then
+        '    Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        '    If tmpTaxBase > tmpRefTaxBase AndAlso tmpTaxBase - tmpRefTaxBase < CInt(obj) Then
+        '      If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+        '                                    New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
+        '                                                  Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
+        '        Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+        '      End If
+        '    ElseIf tmpTaxBase < tmpRefTaxBase AndAlso tmpRefTaxBase - tmpTaxBase < CInt(obj) Then
+        '      If Not myMessage.AskQuestionFormatted(StringParserService.Parse("${res:Global.Error.DiffTaxBaseAndVatTaxBase}"), _
+        '                                 New String() {Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price), _
+        '                                               Configuration.FormatToString(tmpTaxBase, DigitConfig.Price)}) Then
+        '        Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+        '      End If
+        '    Else
+        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseMoreThanRefDocTaxBase}"), _
+        '            New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+        '            , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+        '    End If
+
+        '  ElseIf tmpTaxBase <> tmpRefTaxBase _
+        '  AndAlso Not TypeOf Me.RefDoc Is BillAcceptance _
+        '  AndAlso Not TypeOf Me.RefDoc Is GoodsReceipt _
+        '  AndAlso Not TypeOf Me.RefDoc Is PurchaseCN _
+        '  AndAlso Not TypeOf Me.RefDoc Is APOpeningBalance _
+        '  AndAlso Not TypeOf Me.RefDoc Is EqMaintenance _
+        '  AndAlso Not TypeOf Me.RefDoc Is GoodsSold _
+        '  AndAlso Not TypeOf Me.RefDoc Is APVatInput _
+        '  AndAlso Not TypeOf Me.RefDoc Is AdvancePay _
+        '  AndAlso Not TypeOf Me.RefDoc Is ReceiveSelection _
+        '  AndAlso Not TypeOf Me.RefDoc Is AROpeningBalance _
+        '  AndAlso Not TypeOf Me.RefDoc Is PA _
+        '  AndAlso Not TypeOf Me.RefDoc Is AssetWriteOff _
+        '    Then
+        '    If TypeOf Me.RefDoc Is PaySelection AndAlso tmpTaxBase <> 0 Then
+        '      'ในกรณี payselection ยอมรับ 2 case คือ Full Taxbase กับ Full Partial Pays
+        '      'tmpRefTaxbase คือ Full TaxBase  ที่ยังเหลืออยู่ 
+        '      'ต้องหา Full partial pays มากขึ้น
+        '      Dim ptb As Decimal = CType(Me.RefDoc, PaySelection).paysTaxbase
+        '      'Case ออก Vat มากกว่าที่ออกได้ ไม่ได้แน่ๆ
+        '      If tmpTaxBase > tmpRefTaxBase Then
+        '        Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '               New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+        '               , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+        '      End If
+        '      If tmpTaxBase < tmpRefTaxBase Then
+        '        If Math.Abs(tmpTaxBase - ptb) > CDec(obj) Then
+        '          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '               New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+        '               , Configuration.FormatToString(ptb, DigitConfig.Price)})
+        '        End If
+        '      End If
+        '    ElseIf Not TypeOf Me.RefDoc Is PaySelection Then
+        '      Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.TaxBaseNotEqualRefDocTaxBase}"), _
+        '          New String() {Configuration.FormatToString(tmpTaxBase, DigitConfig.Price) _
+        '          , Configuration.FormatToString(tmpRefTaxBase, DigitConfig.Price)})
+        '    End If
+        '  End If
+
+        'Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        'returnVal.ParameterName = "RETURN_VALUE"
+        'returnVal.DbType = DbType.Int32
+        'returnVal.Direction = ParameterDirection.ReturnValue
+        'returnVal.SourceVersion = DataRowVersion.Current
+
+        '' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        'Dim paramArrayList As New ArrayList
+
+        'saveParamArrayList.Add(saveReturnVal)
+
+        'If Me.Originated Then
+        '  saveParamArrayList.Add(New SqlParameter("@vat_id", Me.Id))
+        'End If
+
+        'Dim theTime As Date = Now
+        'Dim theUser As New User(currentUserId)
 
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
@@ -765,52 +961,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If TypeOf Me.RefDoc Is ISimpleEntity Then
           refDocType = CType(Me.RefDoc, ISimpleEntity).EntityId
         End If
-        paramArrayList.Add(New SqlParameter("@vat_refDocType", refDocType))
-        paramArrayList.Add(New SqlParameter("@vat_refdoc", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
-        paramArrayList.Add(New SqlParameter("@vat_refDocCode", Me.RefDoc.Code))
-        paramArrayList.Add(New SqlParameter("@vat_refDocDate", Me.RefDoc.Date))
+        saveParamArrayList.Add(New SqlParameter("@vat_refDocType", refDocType))
+        saveParamArrayList.Add(New SqlParameter("@vat_refdoc", IIf(Me.RefDoc.Id <> 0, Me.RefDoc.Id, DBNull.Value)))
+        saveParamArrayList.Add(New SqlParameter("@vat_refDocCode", Me.RefDoc.Code))
+        saveParamArrayList.Add(New SqlParameter("@vat_refDocDate", Me.RefDoc.Date))
 
         If Not Me.RefDoc.Person Is Nothing AndAlso TypeOf Me.RefDoc.Person Is SimpleBusinessEntityBase Then
           Dim payee As SimpleBusinessEntityBase = CType(Me.RefDoc.Person, SimpleBusinessEntityBase)
-          paramArrayList.Add(New SqlParameter("@vat_entity", ValidIdOrDBNull(payee)))
-          paramArrayList.Add(New SqlParameter("@vat_entityType", payee.EntityId))
+          saveParamArrayList.Add(New SqlParameter("@vat_entity", ValidIdOrDBNull(payee)))
+          saveParamArrayList.Add(New SqlParameter("@vat_entityType", payee.EntityId))
         End If
 
-        paramArrayList.Add(New SqlParameter("@vat_taxbase", Me.TaxBase))
-        paramArrayList.Add(New SqlParameter("@vat_amt", Me.Amount))
-        paramArrayList.Add(New SqlParameter("@vat_note", Me.Note))
+        saveParamArrayList.Add(New SqlParameter("@vat_taxbase", Me.TaxBase))
+        saveParamArrayList.Add(New SqlParameter("@vat_amt", Me.Amount))
+        saveParamArrayList.Add(New SqlParameter("@vat_note", Me.Note))
 
         Dim myDirection As Boolean = False
         If Me.Direction.Value = 1 Then
           myDirection = True
         End If
-        paramArrayList.Add(New SqlParameter("@vat_direction", myDirection))
-        paramArrayList.Add(New SqlParameter("@vat_status", Me.Status.Value))
+        saveParamArrayList.Add(New SqlParameter("@vat_direction", myDirection))
+        saveParamArrayList.Add(New SqlParameter("@vat_status", Me.Status.Value))
 
-        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+        SetOriginEditCancelStatus(saveParamArrayList, currentUserId, saveTime)
 
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
-        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        sqlparams = CType(saveParamArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         Dim oldid As Integer = Me.Id
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
+          Me.ExecuteSaveSproc(conn, trans, saveReturnVal, sqlparams, saveTime, saveUser)
+          If IsNumeric(saveReturnVal.Value) Then
+            Select Case CInt(saveReturnVal.Value)
               Case -1
                 Me.ResetID(oldid)
                 Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", Me.Code)
               Case -2, -5
                 Me.ResetID(oldid)
-                Return New SaveErrorException(returnVal.Value.ToString)
+                Return New SaveErrorException(saveReturnVal.Value.ToString)
               Case Else
             End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          ElseIf IsDBNull(saveReturnVal.Value) OrElse Not IsNumeric(saveReturnVal.Value) Then
             Me.ResetID(oldid)
-            Return New SaveErrorException(returnVal.Value.ToString)
+            Return New SaveErrorException(saveReturnVal.Value.ToString)
           End If
           SaveDetail(Me.Id, conn, trans)
-          Return New SaveErrorException(returnVal.Value.ToString)
+          Return New SaveErrorException(saveReturnVal.Value.ToString)
         Catch ex As SqlException
           Me.ResetID(oldid)
           Return New SaveErrorException(ex.ToString)

@@ -642,59 +642,118 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End With
     End Function
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      For Each item As PaymentItem In Me.ItemCollection
+        If item.Entity.Id = 0 Then
+          If item.Amount <= 0 Then
+            Return New SaveErrorException("${res:Global.Error.AmountMissing}")
+          End If
+        End If
+        If (TypeOf item.Entity Is OutgoingCheck OrElse TypeOf item.Entity Is BankTransferOut) _
+                       AndAlso item.Entity.CreateDate.HasValue _
+                       AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month _
+                       AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
+          If Not msgServ.AskQuestion("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code _
+                                  & vbCrLf & "${res:Global.Error.DifferentMonthCheckAndPayment2}") Then
+            Return New SaveErrorException(item.Entity.Code & " " & "${res:Global.Error.DifferentMonthCheckAndPayment}")
+          End If
+        End If
+
+
+        '          ''ต้องทำยังงี้เพราะว่ามันเอาเวลามาเทียบกันด้วยซึ่งถ้าเป็นวันเดียวกันบาง case ก็ไม่ผ่าน validate เอาได้ ??? งงมาพักนึงเหมือนกัน ต้องระวังเรื่องเทียบวันที่
+        'If Not Date.MinValue.Equals(item.Entity.DueDate) AndAlso CDate(Me.RefDoc.Date.ToShortDateString) < CDate(item.Entity.DueDate.ToShortDateString) Then
+        '  Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
+        'End If
+      Next
+
+      If CBool(Configuration.GetConfig("OneCheckPerPV")) AndAlso MultipleCheck() Then
+        Return New SaveErrorException("${res:Global.Error.PaymentHasMultipleCheck}")
+      End If
+
+      Dim myGross As Decimal = Me.Gross
+
+      Dim cmp As Integer = Configuration.Compare(myGross, Me.Amount, DigitConfig.Price)
+      If cmp > 0 Then
+        Return New SaveErrorException("${res:Global.Error.PaymentGrossExceedAmount}", Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
+      ElseIf cmp < 0 Then
+        If Not TypeOf Me.RefDoc Is AdvancePay AndAlso Not TypeOf Me.RefDoc Is PaySelection _
+        AndAlso Not TypeOf Me.RefDoc Is AdvanceMoney Then
+          If Not Me.Status.Value = 4 Then
+            'ตั้งหนี้
+            If Not TypeOf Me.RefDoc Is PurchaseDN Then
+              If Not TypeOf Me.RefDoc Is APOpeningBalance Then
+                'If Not msgServ.AskQuestionFormatted("${res:Global.Question.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - myGross, DigitConfig.Price)}) Then
+                '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+                'End If
+              End If
+            End If
+          End If
+        ElseIf Not OnHold Then
+          Return New SaveErrorException("${res:Global.Error.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
+        End If
+      End If
+
+
+      Return New SaveErrorException("0")
+    End Function
+
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       With Me
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
-        For Each item As PaymentItem In Me.ItemCollection
-          If item.Entity.Id = 0 Then
-            If item.Amount <= 0 Then
-              Return New SaveErrorException("${res:Global.Error.AmountMissing}")
-            End If
-          End If
-          If (TypeOf item.Entity Is OutgoingCheck OrElse TypeOf item.Entity Is BankTransferOut) _
-                         AndAlso item.Entity.CreateDate.HasValue _
-                         AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month _
-                         AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
-            If Not msgServ.AskQuestion("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code _
-                                    & vbCrLf & "${res:Global.Error.DifferentMonthCheckAndPayment2}") Then
-              Return New SaveErrorException(item.Entity.Code & " " & "${res:Global.Error.DifferentMonthCheckAndPayment}")
-            End If
-          End If
+        'For Each item As PaymentItem In Me.ItemCollection
+        '  If item.Entity.Id = 0 Then
+        '    If item.Amount <= 0 Then
+        '      Return New SaveErrorException("${res:Global.Error.AmountMissing}")
+        '    End If
+        '  End If
+        '  If (TypeOf item.Entity Is OutgoingCheck OrElse TypeOf item.Entity Is BankTransferOut) _
+        '                 AndAlso item.Entity.CreateDate.HasValue _
+        '                 AndAlso Me.RefDoc.Date.Month <> item.Entity.CreateDate.Value.Month _
+        '                 AndAlso Me.RefDoc.Date.Year <> item.Entity.CreateDate.Value.Year Then
+        '    If Not msgServ.AskQuestion("${res:Global.Error.DifferentMonthCheckAndPayment}" & " " & item.Entity.Code _
+        '                            & vbCrLf & "${res:Global.Error.DifferentMonthCheckAndPayment2}") Then
+        '      Return New SaveErrorException(item.Entity.Code & " " & "${res:Global.Error.DifferentMonthCheckAndPayment}")
+        '    End If
+        '  End If
 
 
-          '          ''ต้องทำยังงี้เพราะว่ามันเอาเวลามาเทียบกันด้วยซึ่งถ้าเป็นวันเดียวกันบาง case ก็ไม่ผ่าน validate เอาได้ ??? งงมาพักนึงเหมือนกัน ต้องระวังเรื่องเทียบวันที่
-          'If Not Date.MinValue.Equals(item.Entity.DueDate) AndAlso CDate(Me.RefDoc.Date.ToShortDateString) < CDate(item.Entity.DueDate.ToShortDateString) Then
-          '  Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
-          'End If
-        Next
+        '  '          ''ต้องทำยังงี้เพราะว่ามันเอาเวลามาเทียบกันด้วยซึ่งถ้าเป็นวันเดียวกันบาง case ก็ไม่ผ่าน validate เอาได้ ??? งงมาพักนึงเหมือนกัน ต้องระวังเรื่องเทียบวันที่
+        '  'If Not Date.MinValue.Equals(item.Entity.DueDate) AndAlso CDate(Me.RefDoc.Date.ToShortDateString) < CDate(item.Entity.DueDate.ToShortDateString) Then
+        '  '  Return New SaveErrorException("${res:Global.Error.BeforeCreateDate}")
+        '  'End If
+        'Next
 
-        If CBool(Configuration.GetConfig("OneCheckPerPV")) AndAlso MultipleCheck() Then
-          Return New SaveErrorException("${res:Global.Error.PaymentHasMultipleCheck}")
-        End If
+        'If CBool(Configuration.GetConfig("OneCheckPerPV")) AndAlso MultipleCheck() Then
+        '  Return New SaveErrorException("${res:Global.Error.PaymentHasMultipleCheck}")
+        'End If
 
         Dim myGross As Decimal = Me.Gross
 
-        Dim cmp As Integer = Configuration.Compare(myGross, Me.Amount, DigitConfig.Price)
-        If cmp > 0 Then
-          Return New SaveErrorException("${res:Global.Error.PaymentGrossExceedAmount}", Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
-        ElseIf cmp < 0 Then
-          If Not TypeOf Me.RefDoc Is AdvancePay AndAlso Not TypeOf Me.RefDoc Is PaySelection _
-          AndAlso Not TypeOf Me.RefDoc Is AdvanceMoney Then
-            If Not Me.Status.Value = 4 Then
-              'ตั้งหนี้
-              If Not TypeOf Me.RefDoc Is PurchaseDN Then
-                If Not TypeOf Me.RefDoc Is APOpeningBalance Then
-                  'If Not msgServ.AskQuestionFormatted("${res:Global.Question.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - myGross, DigitConfig.Price)}) Then
-                  '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
-                  'End If
-                End If
-              End If
-            End If
-          ElseIf Not OnHold Then
-            Return New SaveErrorException("${res:Global.Error.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
-          End If
-        End If
+        'Dim cmp As Integer = Configuration.Compare(myGross, Me.Amount, DigitConfig.Price)
+        'If cmp > 0 Then
+        '  Return New SaveErrorException("${res:Global.Error.PaymentGrossExceedAmount}", Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
+        'ElseIf cmp < 0 Then
+        '  If Not TypeOf Me.RefDoc Is AdvancePay AndAlso Not TypeOf Me.RefDoc Is PaySelection _
+        '  AndAlso Not TypeOf Me.RefDoc Is AdvanceMoney Then
+        '    If Not Me.Status.Value = 4 Then
+        '      'ตั้งหนี้
+        '      If Not TypeOf Me.RefDoc Is PurchaseDN Then
+        '        If Not TypeOf Me.RefDoc Is APOpeningBalance Then
+        '          'If Not msgServ.AskQuestionFormatted("${res:Global.Question.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - myGross, DigitConfig.Price)}) Then
+        '          '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+        '          'End If
+        '        End If
+        '      End If
+        '    End If
+        '  ElseIf Not OnHold Then
+        '    Return New SaveErrorException("${res:Global.Error.PaymentAmountExceedGross}", New String() {Configuration.FormatToString(myGross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
+        '  End If
+        'End If
+
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32
