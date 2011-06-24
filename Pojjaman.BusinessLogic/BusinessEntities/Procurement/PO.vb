@@ -1565,8 +1565,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           'Sub Save Block
         Try
-            Dim trans2 As SqlTransaction = conn.BeginTransaction
-            Dim subsaveerror As SaveErrorException = SubSave(conn, trans2, arr)
+            Dim subsaveerror As SaveErrorException = SubSave(conn, arr)
             If Not IsNumeric(subsaveerror.Message) Then
               trans.Rollback()
               Return New SaveErrorException(" Save Incomplete Please Save Again")
@@ -1587,8 +1586,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End With
     End Function
-    Private Function SubSave(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal arr As ArrayList) As SaveErrorException
+    Private Function SubSave(ByVal conn As SqlConnection, ByVal arr As ArrayList) As SaveErrorException
+
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
       'Save CustomNote จากการ Copy เอกสาร
       If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
         If Me.Originated Then
@@ -1625,8 +1626,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.CancelRef(conn, trans)
       End If
 
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+
+
+      trans.Commit()
+
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+
       '--------------------------------------------------------------
-      Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
+      Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans2, conn)
       If Not IsNumeric(savePRItemsError.Message) Then
         trans.Rollback()
         Return savePRItemsError
@@ -1642,11 +1650,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select
       End If
       '--------------------------------------------------------------
-
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-
-
-      trans.Commit()
+      trans2.Commit()
 
       Return New SaveErrorException("0")
     End Function
