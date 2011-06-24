@@ -625,14 +625,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
 
-      '================Checking for duplicate Vat Code (Sales Tax) =============
+      ''================Checking for duplicate Vat Code (Sales Tax) =============
       If Me.Direction.Value = 0 Then
         Dim salesVatDup As String = DupSalesVatCode()
         If salesVatDup.Length > 0 Then
           Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
         End If
       End If
-      '================Checking for duplicate Vat Code (Sales Tax) =============
+      ''================Checking for duplicate Vat Code (Sales Tax) =============
 
       'Me.RefreshVatTaxBase()
       'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
@@ -804,25 +804,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       With Me
-        '  Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
-        '  If Not o Is Nothing Then
-        '    Dim config As Boolean = CBool(o)
-        '    If config AndAlso Me.Direction.Value = 1 Then
-        '      Dim theDup As String = DupCode()
-        '      If theDup.Length > 0 Then
-        '        Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
-        '      End If
+        'Dim o As Object = Configuration.GetConfig("NoDupSupplierDoc")
+        'If Not o Is Nothing Then
+        '  Dim config As Boolean = CBool(o)
+        '  If config AndAlso Me.Direction.Value = 1 Then
+        '    Dim theDup As String = DupCode()
+        '    If theDup.Length > 0 Then
+        '      Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", theDup)
         '    End If
         '  End If
+        'End If
 
-        '  '================Checking for duplicate Vat Code (Sales Tax) =============
-        '  If Me.Direction.Value = 0 Then
-        '    Dim salesVatDup As String = DupSalesVatCode()
-        '    If salesVatDup.Length > 0 Then
-        '      Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
-        '    End If
+        ''================Checking for duplicate Vat Code (Sales Tax) =============
+        'If Me.Direction.Value = 0 Then
+        '  Dim salesVatDup As String = DupSalesVatCode()
+        '  If salesVatDup.Length > 0 Then
+        '    Return New SaveErrorException("${res:Global.Error.VatCodeDuplicated}", salesVatDup)
         '  End If
-        '  '================Checking for duplicate Vat Code (Sales Tax) =============
+        'End If
+        ''================Checking for duplicate Vat Code (Sales Tax) =============
 
         '  'Me.RefreshVatTaxBase()
         '  'tmpTaxbase คือ Taxbase ที่ออกในเอกสาร Vat
