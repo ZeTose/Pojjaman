@@ -365,7 +365,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In dt.Rows
           Dim drh As New DataRowHelper(row)
           m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
-          m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower, row)
+          m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
         Next
       Else
         If Not m_SupplierCollection.Contains(Key) Then
@@ -373,7 +373,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each row As DataRow In dt.Rows
             Dim drh As New DataRowHelper(row)
             m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
-            m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower, row)
+            m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
           Next
         Else
           Dim drow As DataRow = CType(m_SupplierCollection(Key), DataRow)
@@ -382,7 +382,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each row As DataRow In dt.Rows
               Dim drh As New DataRowHelper(row)
               m_SupplierCollection(drh.GetValue(Of Integer)("supplier_id")) = row
-              m_SupplierCollection(drh.GetValue(Of String)("supplier_code").ToLower) = row
+              m_SupplierCollection(drh.GetValue(Of String)("supplier_code").ToLower.Trim) = row
             Next
           End If
         End If
