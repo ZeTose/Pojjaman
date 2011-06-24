@@ -2447,11 +2447,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
       trans.Commit()
 
-      Dim paymentsubsaveerror As SaveErrorException = Me.Payment.SubSave(conn)
-      If Not IsNumeric(paymentsubsaveerror.Message) Then
-        Return paymentsubsaveerror
-      End If
-
 
       Return New SaveErrorException("0")
     End Function

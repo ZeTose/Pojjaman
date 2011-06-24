@@ -871,6 +871,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+          UpdateItemEntityStatus(conn, trans)
+
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           Me.ResetID(oldid)
@@ -881,18 +883,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End With
     End Function
-    Public Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
-
-      Dim trans As SqlTransaction
-      Try
-      UpdateItemEntityStatus(conn, trans)
-        trans.Commit()
-        Return New SaveErrorException("0")
-      Catch ex As Exception
-        trans.Rollback()
-        Return New SaveErrorException(ex.ToString)
-      End Try
-    End Function
+    
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code     'Entity.GetAutoCodeFormat(Me.EntityId)
       Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
