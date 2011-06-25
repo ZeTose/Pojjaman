@@ -557,6 +557,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Private Sub ResetDetailCode()
+      If Me.AutoGen Then
+        For Each vi As VatItem In Me.ItemCollection
+          vi.Code = ""
+        Next
+      End If
+      
+    End Sub
     Private Function DupInside(ByVal target As VatItem) As String
       For Each item As VatItem In Me.ItemCollection
         If Not item Is target Then
@@ -796,8 +804,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'SetOriginEditCancelStatus(saveParamArrayList, currentUserId, saveTime)
 
+      Dim vi As New VatItem
+      Dim ptn As String = Longkong.Pojjaman.BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
+      Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      pattern = CodeGenerator.GetPattern(pattern)
+      Dim lastCode As String = vi.GetLastCode(pattern)
 
-
+      For Each item As VatItem In Me.ItemCollection
+        If (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
+          Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
+          item.Code = newCode
+          lastCode = newCode
+        End If
+      Next
       Return New SaveErrorException("0")
 
     End Function
@@ -1009,9 +1028,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(saveReturnVal.Value.ToString)
         Catch ex As SqlException
           Me.ResetID(oldid)
+          Me.ResetDetailCode()
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           Me.ResetID(oldid)
+          Me.ResetDetailCode()
           Return New SaveErrorException(ex.ToString)
         End Try
       End With
@@ -1034,11 +1055,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim dbCount As Integer = ds.Tables("Vatitem").Rows.Count
       Dim i As Integer = 0
-      Dim vi As New VatItem
-      Dim ptn As String = Longkong.Pojjaman.BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
-      Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-      pattern = CodeGenerator.GetPattern(pattern)
-      Dim lastCode As String = vi.GetLastCode(pattern)
+      'Dim vi As New VatItem
+      ''Dim ptn As String = Longkong.Pojjaman.BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
+      ''Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      ''pattern = CodeGenerator.GetPattern(pattern)
+      ''Dim lastCode As String = vi.GetLastCode(pattern)
 
       Dim refDocType As Integer
       If TypeOf Me.RefDoc Is ISimpleEntity Then
@@ -1055,12 +1076,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each item As VatItem In Me.ItemCollection
           i += 1
           Dim dr As DataRow = .NewRow
-          If (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
-            'item.Code = item.GetNextCode
-            Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
-            item.Code = newCode
-            lastCode = newCode
-          End If
+          'If (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
+          '  'item.Code = item.GetNextCode
+          '  Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
+          '  item.Code = newCode
+          '  lastCode = newCode
+          'End If
           If item.Runnumber Is Nothing Or Trim(item.Runnumber) = "" Then
             dr("vati_runnumber") = Me.RefDoc.Code & "-" & i.ToString.PadLeft(2, "0"c)
           Else
