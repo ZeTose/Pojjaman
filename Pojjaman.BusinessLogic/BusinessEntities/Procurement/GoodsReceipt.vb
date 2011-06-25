@@ -1928,15 +1928,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ValidateError
       End If
 
+      ValidateError = Me.Payment.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
       ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
       If Not IsNumeric(ValidateError.Message) Then
         Return ValidateError
       End If
 
-      ValidateError = Me.Payment.BeforeSave(currentUserId)
-      If Not IsNumeric(ValidateError.Message) Then
-        Return ValidateError
-      End If
+      
 
 
       Return New SaveErrorException("0")
@@ -2017,10 +2019,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
 
-        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
-        If Not IsNumeric(ValidateError2.Message) Then
-          Return ValidateError2
-        End If
+        
         'If NoItem Then
         '    Return Me.SaveNoItem(currentUserId)
         'ElseIf OnlyPayment Then
@@ -2155,6 +2154,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_asset", ValidIdOrDBNull(Me.Asset)))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
 
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
