@@ -12,6 +12,7 @@ Imports System.Reflection
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Net
+Imports System.Text
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IAbleSelectDocPickup
@@ -306,34 +307,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       Dim postData As String = ""
-      'Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
-      Dim dataStream As Stream = request.GetRequestStream()
 
-      Dim writer As New IO.StreamWriter(dataStream, System.Text.Encoding.UTF8)
+      'Dim writer As New IO.StreamWriter(dataStream, System.Text.Encoding.UTF8)
 
       Try
-        Exporter.ExportPaymentTrack(Me, writer)
+        Exporter.ExportPaymentTrack(Me, postData)
         'MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
       Catch ex As Exception
         MessageBox.Show("Error:" & ex.ToString)
-      Finally
-        writer.Close()
+        'Finally
+        '  writer.Close()
 
       End Try
 
-      request.ContentType = "text/plain"
-      request.ContentLength = dataStream.Length 'byteArray.Length
-      'dataStream.Write(byteArray, 0, byteArray.Length)
+      Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
+      Dim dataStream As Stream
 
-      dataStream.Close()
+      Try
+        request.ContentType = "text/plain"
+        request.ContentLength = byteArray.Length
+        dataStream = request.GetRequestStream()
+        dataStream.Write(byteArray, 0, byteArray.Length)
 
-      Dim response As WebResponse = request.GetResponse()
-      'dataStream = response.GetResponseStream()
-      'Dim reader As New StreamReader(dataStream)
-      'Dim responseFromServer As String = reader.ReadToEnd()
-      'reader.Close()
-      'dataStream.Close()
-      response.Close()
+      Catch ex As Exception
+        MessageBox.Show("Error:" & ex.ToString)
+      Finally
+        dataStream.Close()
+      End Try
+
+      Dim response As WebResponse
+      Dim reader As StreamReader
+      Dim responseFromServer As String
+      Try
+        response = request.GetResponse()
+        dataStream = response.GetResponseStream()
+        reader = New StreamReader(dataStream)
+        responseFromServer = reader.ReadToEnd()
+      Catch ex As Exception
+        MessageBox.Show("Error:" & ex.ToString)
+      Finally
+        response.Close()
+        dataStream.Close()
+      End Try
+
+
+
 
     End Sub
 
@@ -775,7 +793,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ck.CheckCode = exCheck.Entity.Code
           ck.PayeeBuilkId = exCheck.Entity.Supplier.BuilkID
           ck.CheckDescription = exCheck.Detail
-          ck.CheckIssueDate = exCheck.Entity.IssueDate.ToString("yyyy-mm-dd", culture)
+          ck.CheckIssueDate = exCheck.Entity.IssueDate.ToString("yyyy-MM-dd", culture)
           ck.CheckAmount = exCheck.Entity.Amount.ToString
           ck.BeforeTax = exCheck.AmountBeforeVat.ToString
           ck.WitholdingTax = exCheck.WHTCollection.Amount.ToString
@@ -799,7 +817,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 pb.BillID = pbhr.GetValue(Of String)("billa_id")
                 pb.BillNoteCode = pbhr.GetValue(Of String)("billa_billissueCode")
                 If IsDate(pbhr.GetValue(Of Date)("billa_billissueDate")) Then
-                  pb.BillNoteDate = pbhr.GetValue(Of Date)("billa_billissueDate").ToString("yyyy-mm-dd", culture)
+                  pb.BillNoteDate = pbhr.GetValue(Of Date)("billa_billissueDate").ToString("yyyy-MM-dd", culture)
                 End If
                 pb.Amount = pbhr.GetValue(Of String)("billa_gross")
 
@@ -812,7 +830,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   dc.DocumentType = dochr.GetValue(Of String)("entity_description")
                   dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
                   If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
-                    dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-mm-dd", culture)
+                    dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-MM-dd", culture)
                   End If
                   dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
                   dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
@@ -835,7 +853,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dc.DocumentType = dochr.GetValue(Of String)("entity_description")
                 dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
                 If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
-                  dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-mm-dd", culture)
+                  dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-MM-dd", culture)
                 End If
                 dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
                 dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
@@ -955,7 +973,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
         End Try
       End If
-   
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()

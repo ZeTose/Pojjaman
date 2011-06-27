@@ -2092,6 +2092,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
     End Sub
+    Public Shared Sub ExportPaymentTrack(ByVal p As IPaymentTrackExportable, ByRef writer As String)
+      Dim culture As New CultureInfo("en-US", True)
+
+      Dim header As String = ""
+      header &= "H".Pipe
+      header &= p.PayerBuilkID.Pipe
+      header &= p.PaymentTrackID.Pipe
+      header &= p.PaymentTrackStatus.Pipe
+      header &= p.CheckQty.ToString.Pipe
+      header &= p.CheckAmount.ToString.Pipe
+      writer += header & "\n"
+
+      For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
+        Dim checkText As String = ""
+        checkText &= "C".Pipe
+        checkText &= check.CheckID.Pipe
+        checkText &= check.CheckCode.Pipe
+        checkText &= check.PayeeBuilkId.Pipe
+        checkText &= check.CheckDescription.Pipe
+        checkText &= check.CheckIssueDate.Pipe
+        checkText &= check.CheckAmount.Pipe
+        checkText &= check.BeforeTax.Pipe
+        checkText &= check.WitholdingTax.Pipe
+        checkText &= check.AfterTax.Pipe
+        checkText &= check.DocForReceive.Pipe
+        checkText &= check.ReceiveAddress.Pipe
+        checkText &= check.ReceiveMethod.Pipe
+        checkText &= check.CheckRemark.Pipe
+        checkText &= check.Added.Pipe
+        checkText &= check.Subtract.Pipe
+        checkText &= check.BillNoteQty.ToString.Pipe
+        checkText &= check.BillNoteAmout.ToString.Pipe
+        checkText &= check.DocQty.ToString.Pipe
+        checkText &= check.DocAmount.ToString.Pipe
+        writer += checkText & "\n"
+
+        For Each bill As PaymentTrackBillNoteDetail In check.PaymentTrackBillNoteDetailList
+          Dim billText As String = ""
+          billText &= "B".Pipe
+          billText &= bill.CheckID.Pipe
+          billText &= bill.BillID.Pipe
+          billText &= bill.BillNoteCode.Pipe
+          billText &= bill.BillNoteDate.Pipe
+          billText &= bill.Amount.Pipe
+          billText &= bill.TotalAmount.Pipe
+          billText &= bill.Added.Pipe
+          billText &= bill.Subtract.Pipe
+          billText &= bill.Remarks.Pipe
+          billText &= bill.DocQty.ToString.Pipe
+          billText &= bill.DocAmount.ToString.Pipe
+          writer += billText & "\n"
+
+          For Each doc As PaymentTrackDocDetail In bill.PaymentTrackDocDetailList
+            Dim billDocText As String = ""
+            billDocText &= "D".Pipe
+            billDocText &= doc.CheckID.Pipe
+            billDocText &= doc.BillID.Pipe
+            billDocText &= doc.DocumentType.Pipe
+            billDocText &= doc.DocumentCode.Pipe
+            billDocText &= doc.DocumentDate.Pipe
+            billDocText &= doc.Amount.Pipe
+            billDocText &= doc.TotalAmount.Pipe
+            billDocText &= doc.Added.Pipe
+            billDocText &= doc.Subtract.Pipe
+            billDocText &= doc.ReferenceDocument.Pipe
+            writer += billDocText & "\n"
+          Next
+        Next
+
+        For Each doc As PaymentTrackDocDetail In check.PaymentTrackDocDetailList
+          Dim docText As String = ""
+          docText &= "D".Pipe
+          docText &= doc.CheckID.Pipe
+          docText &= doc.BillID.Pipe
+          docText &= doc.DocumentType.Pipe
+          docText &= doc.DocumentCode.Pipe
+          docText &= doc.DocumentDate.Pipe
+          docText &= doc.Amount.Pipe
+          docText &= doc.TotalAmount.Pipe
+          docText &= doc.Added.Pipe
+          docText &= doc.Subtract.Pipe
+          docText &= doc.ReferenceDocument.Pipe
+          writer += docText & "\n"
+        Next
+      Next
+
+    End Sub
+
   End Class
   Public Class ChequeReceiver
 #Region "Construct"
