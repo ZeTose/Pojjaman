@@ -10,7 +10,7 @@
     <Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/Supplier">
-    <MenuItem id="BuilkMatch" insertbefore="ReloadSeparator" insertafter="SupplierGroup" label="Builk Match" class="Longkong.Pojjaman.Commands.OpenPanel"  entity="Longkong.Pojjaman.BusinessLogic.Supplier" panel="Longkong.Pojjaman.Gui.Panels.BuilkMatchView"/>
+    <MenuItem id="BuilkMatch" insertbefore="ReloadSeparator" insertafter="SupplierGroup" label="Builk™ Match" icon="Icons.16x16.Builk" class="Longkong.Pojjaman.Commands.OpenPanel"  entity="Longkong.Pojjaman.BusinessLogic.Supplier" panel="Longkong.Pojjaman.Gui.Panels.BuilkMatchView"/>
   </Extension>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
     <MenuItem id="V-Arch" insertafter="PettyCash" insertbefore="PettyCashClaim" label="${res:MainMenu.PurchaseMenu.VArch}">

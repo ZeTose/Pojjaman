@@ -1,4 +1,4 @@
-Imports Longkong.Pojjaman.BusinessLogic
+ÔªøImports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
@@ -165,7 +165,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides Property TitleName As String
       Get
-        Return "Builk Match"
+        Return "Builk‚Ñ¢ Match"
       End Get
       Set(ByVal value As String)
         MyBase.TitleName = value
@@ -174,9 +174,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides ReadOnly Property TabPageText() As String
       Get
-        Return "Builk Match" 'Me.m_entity.ListPanelTitle
+        Return "Builk‚Ñ¢ Match" 'Me.m_entity.ListPanelTitle
       End Get
     End Property
+
+    Public Overrides ReadOnly Property TabPageIcon As String
+      Get
+        Return "Icons.16x16.Builk"
+      End Get
+    End Property
+
 
     Private _builkMatchList As List(Of BuilkMatch)
     Public Property BuilkMatchList As List(Of BuilkMatch)
@@ -236,11 +243,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem.ColWidths(5) = 40
       tgitem.ColWidths(6) = 100
 
-      SetGridValue(1, 1, "™◊ËÕ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 2, "∑’ËÕ¬ŸË", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 3, "‡≈¢ª√–®”µ—«ºŸÈ‡ ’¬¿“…’", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 4, "ºŸÈ¢“¬", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 6, "ªØ‘‡ ∏", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 1, "‡∏ä‡∏∑‡πà‡∏≠", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 2, "‡∏ó‡∏µ‡πà‡∏≠‡∏¢‡∏π‡πà", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 3, "‡πÄ‡∏•‡∏Ç‡∏õ‡∏£‡∏∞‡∏à‡∏≥‡∏ï‡∏±‡∏ß‡∏ú‡∏π‡πâ‡πÄ‡∏™‡∏µ‡∏¢‡∏†‡∏≤‡∏©‡∏µ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 4, "‡∏ú‡∏π‡πâ‡∏Ç‡∏≤‡∏¢", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+      SetGridValue(1, 6, "‡∏õ‡∏è‡∏¥‡πÄ‡∏™‡∏ò", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
 
       tgitem.BackColor = Color.White
 
@@ -349,6 +356,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Try
 
       MessageBox.Show("Finish!")
+
+      GetBuilkRequest()
+
+      PopulateGrid()
 
     End Sub
 
@@ -527,7 +538,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       If TypeOf supp Is Supplier Then
 
-        Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+        Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
 
         Me.WorkbenchWindow.ViewContent.IsDirty = True
 
@@ -563,12 +574,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim supp As Supplier = Nothing
               Dim oldsupp As Supplier = Nothing
               supp = New Supplier(reg.Match(txt).Groups(1).Value)
-              oldsupp = Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier
+              oldsupp = Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier
 
               If reg.Match(txt).Groups(1).Value.Length <> 0 AndAlso Not supp.Valid Then
-                MessageBox.Show(reg.Match(txt).Groups(1).Value & " ‰¡Ë¡’„π√–∫∫")
+                MessageBox.Show(reg.Match(txt).Groups(1).Value & " ‡πÑ‡∏°‡πà‡∏°‡∏µ‡πÉ‡∏ô‡∏£‡∏∞‡∏ö‡∏ö")
               Else
-                Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+                Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
                 'Me.WorkbenchWindow.ViewContent.IsDirty = True
                 SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
               End If
@@ -578,12 +589,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim supp As Supplier = Nothing
               Dim oldsupp As Supplier = Nothing
               supp = New Supplier(reg.Match(txt).Groups(1).Value)
-              oldsupp = Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier
+              oldsupp = Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier
 
               If reg.Match(txt).Groups(1).Value.Length <> 0 AndAlso Not supp.Valid Then
-                MessageBox.Show(reg.Match(txt).Groups(1).Value & " ‰¡Ë¡’„π√–∫∫")
+                MessageBox.Show(reg.Match(txt).Groups(1).Value & " ‡πÑ‡∏°‡πà‡∏°‡∏µ‡πÉ‡∏ô‡∏£‡∏∞‡∏ö‡∏ö")
               Else
-                Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+                Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
                 'Me.WorkbenchWindow.ViewContent.IsDirty = True
                 SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
               End If
@@ -593,12 +604,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim supp As Supplier = Nothing
               Dim oldsupp As Supplier = Nothing
               supp = New Supplier(txt)
-              oldsupp = Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier
+              oldsupp = Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier
 
               If txt.Length <> 0 AndAlso Not supp.Valid Then
-                MessageBox.Show(txt & " ‰¡Ë¡’„π√–∫∫")
+                MessageBox.Show(txt & " ‡πÑ‡∏°‡πà‡∏°‡∏µ‡πÉ‡∏ô‡∏£‡∏∞‡∏ö‡∏ö")
               Else
-                Me.BuilkMatchList(cc.RowIndex - 1).PJMSupplier = supp
+                Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
                 'Me.WorkbenchWindow.ViewContent.IsDirty = True
                 SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
               End If
@@ -606,9 +617,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
 
           Case 6
-            Me.BuilkMatchList(cc.RowIndex - 1).Reject = cc.Renderer.ControlValue
+            Me.BuilkMatchList(cc.RowIndex - 2).Reject = CBool(cc.Renderer.ControlValue)
             'Me.WorkbenchWindow.ViewContent.IsDirty = True
-            tgitem(cc.RowIndex, cc.ColIndex).CellValue = cc.Renderer.ControlValue
+            tgitem(cc.RowIndex, cc.ColIndex).CellValue = CBool(cc.Renderer.ControlValue)
 
         End Select
       Catch ex As Exception
