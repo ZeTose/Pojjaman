@@ -102,6 +102,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_totalamount = CDec(dr(aliasPrefix & "eocheck_totalAmount"))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & "eopt_status") AndAlso Not dr.IsNull(aliasPrefix & "eopt_status") Then
+          .m_paymentTrackStatus = CStr(dr(aliasPrefix & "eopt_status"))
+        End If
+
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = Nothing
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = OutgoingCheck.PVListDataSet
         m_itemCollection = New ExportOutgoingCheckItemCollection(Me)
@@ -264,6 +268,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub ExportPaymentTrack()
+      ExportPaymentTrackFile()
+      ExportPaymentTrackOnLine()
+    End Sub
     Public Sub ExportPaymentTrackFile()
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       'If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
@@ -361,6 +369,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
+        Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
         If Me.ItemCollection.Count = 0 Then
           Return New SaveErrorException("${res:Global.Error.NoItem}")
         End If
@@ -449,7 +459,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Me.UpdateDueDateToOutGoingCheck(conn, trans)
 
+          'If Me.Status.Value = 0 Then
+          '  Me.SavePaymentTrackStatus("C", currentUserId)
+          'End If
+
           trans.Commit()
+
+          Try
+            If Me.Status.Value = 0 Then
+              'If myMessage.AskQuestion("ต้องการให้ Export PaymentTrack ด้วยหรือไม่") Then
+              Me.SavePaymentTrackStatus("C", currentUserId)
+              Me.ExportPaymentTrack()
+              'End If
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
+          End Try
+
+
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
@@ -721,6 +748,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Function
 
 #Region "IPaymentTrackExportable"
+    Public Function SavePaymentTrackStatus(ByVal status As String, ByVal UserId As Object) As String
+      Me.m_paymentTrackStatus = status
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, _
+                                                   CommandType.StoredProcedure, "InsertExportPaymentTrack", _
+                                                   New SqlParameter("@eopt_eocheck", Me.Id), _
+                                                   New SqlParameter("@eopt_status", status), _
+                                                   New SqlParameter("@eopt_editor", UserId))
+    End Function
     Public Property PayerBuilkID As String Implements IPaymentTrackExportable.PayerBuilkID
       Get
         Dim obj As Object = Configuration.GetConfig("BuilkID")
@@ -733,18 +768,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_paymentTrackStatus As String
     Public Property PaymentTrackStatus As String Implements IPaymentTrackExportable.PaymentTrackStatus
       Get
-        If Not Me.Originated Then
-          Return "N" 'New Export
-        Else
-          If m_paymentTrackStatus = "D" Then
-            Return m_paymentTrackStatus
-          End If
-          If Me.Status.Value = 0 Then
-            Return "C"
-          Else
-            Return "U"
-          End If
-        End If
+        'If Not Me.Originated Then
+        '  Return "N" 'New Export
+        'Else
+        'If m_paymentTrackStatus = "D" Then
+        Return m_paymentTrackStatus
+        'End If
+        'If Me.Status.Value = 0 Then
+        '  Return "C"
+        'Else
+        '  Return "U"
+        'End If
+        'End If
       End Get
       Set(ByVal value As String)
         m_paymentTrackStatus = value
@@ -924,6 +959,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Sub
 
     Public Shared Function GetDescriptionFromCodeTag(ByVal picupCodeList As String, ByVal codeName As String, Optional ByVal JoinWithSemicolon As Boolean = False) As String
+      If picupCodeList Is Nothing OrElse picupCodeList.Length = 0 Then
+        Return ""
+      End If
       Dim splitCode() As String = picupCodeList.Split(" "c)
       Dim splitDescriptionList As New ArrayList
       Dim dt As DataTable = CodeDescription.GetCodeList(codeName)
@@ -965,15 +1003,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
 
-      If myMessage.AskQuestion("ต้องการให้ Export PaymentTrack ด้วยหรือไม่") Then
-        Try
-          Me.PaymentTrackStatus = "D"
-          Me.ExportPaymentTrackFile()
-        Catch ex As Exception
-          Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
-        End Try
-      End If
-
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
@@ -992,6 +1021,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         trans.Commit()
+
         Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()
@@ -1002,6 +1032,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
         conn.Close()
       End Try
+
+      '--Export Payment Track-- =================
+      Me.SavePaymentTrackStatus("D", DBNull.Value)
+      Me.ExportPaymentTrack()
+      '--Export Payment Track-- =================
+
     End Function
 #End Region
 

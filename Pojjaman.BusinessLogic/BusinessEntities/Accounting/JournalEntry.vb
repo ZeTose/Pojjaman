@@ -676,22 +676,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.UnBalanceDebitCredit}"))
       End If
 
-      saveReturnVal = New SqlParameter
-      saveReturnVal.ParameterName = "RETURN_VALUE"
-      saveReturnVal.DbType = DbType.Int32
-      saveReturnVal.Direction = ParameterDirection.ReturnValue
-      saveReturnVal.SourceVersion = DataRowVersion.Current
+      'saveReturnVal = New SqlParameter
+      'saveReturnVal.ParameterName = "RETURN_VALUE"
+      'saveReturnVal.DbType = DbType.Int32
+      'saveReturnVal.Direction = ParameterDirection.ReturnValue
+      'saveReturnVal.SourceVersion = DataRowVersion.Current
 
-      saveParamArrayList = New ArrayList
+      'saveParamArrayList = New ArrayList
 
-      saveParamArrayList.Add(saveReturnVal)
+      'saveParamArrayList.Add(saveReturnVal)
 
-      If Me.Originated Then
-        saveParamArrayList.Add(New SqlParameter("@gl_id", Me.Id))
-      End If
+      'If Me.Originated Then
+      '  saveParamArrayList.Add(New SqlParameter("@gl_id", Me.Id))
+      'End If
 
-      saveTime = Now
-      saveUser = New User(currentUserId)
+      'saveTime = Now
+      'saveUser = New User(currentUserId)
       'If Me.Status.Value = -1 Then
       '  Me.Status.Value = 2
       'End If
@@ -782,6 +782,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'returnVal.Direction = ParameterDirection.ReturnValue
         'returnVal.SourceVersion = DataRowVersion.Current
 
+        saveReturnVal = New SqlParameter
+        saveReturnVal.ParameterName = "RETURN_VALUE"
+        saveReturnVal.DbType = DbType.Int32
+        saveReturnVal.Direction = ParameterDirection.ReturnValue
+        saveReturnVal.SourceVersion = DataRowVersion.Current
+
+        saveParamArrayList = New ArrayList
+
+        saveParamArrayList.Add(saveReturnVal)
+
+        If Me.Originated Then
+          saveParamArrayList.Add(New SqlParameter("@gl_id", Me.Id))
+        End If
+
+        saveTime = Now
+        saveUser = New User(currentUserId)
+        If Me.Status.Value = -1 Then
+          Me.Status.Value = 2
+        End If
+
         ' ���ҧ ArrayList �ҡ Item �ͧ  SqlParameter ...
         'Dim paramArrayList As New ArrayList
 
@@ -796,7 +816,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = -1 Then
           Me.Status.Value = 2
         End If
-
 
         saveParamArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
         saveParamArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))

@@ -10,7 +10,7 @@
 				<MenuItem id="Project" label="${res:MainMenu.FileMenu.New.CostCenter}" icon="Icons.16x16.CostCenter" description="${res:MainMenu.FileMenu.New.CostCenter.Description}" shortcut="Control|Alt|N" class="Longkong.Pojjaman.Commands.CreateNewCostCenter"/>        
 			</MenuItem>
       <MenuItem id="MultiApproval" label="${res:MainMenu.FileMenu.New.MultiApproval}" icon="Icons.16x16.Multiapprove" description="${res:MainMenu.FileMenu.New.Multiapprove.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MultiApproval" />
-      <MenuItem id="BrowserPage" label="${res:MainMenu.FileMenu.BrowserPage}" icon="Icons.16x16.BrowserPage" description="${res:MainMenu.FileMenu.BrowserPage.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BrowserPage" />        
+      <!--<MenuItem id="BrowserPage" label="${res:MainMenu.FileMenu.BrowserPage}" icon="Icons.16x16.BrowserPage" description="${res:MainMenu.FileMenu.BrowserPage.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BrowserPage" />-->        
      	<!--<MenuItem id="Open" label="${res:MainMenu.FileMenu.Open}">
 				<MenuItem id="File" label="${res:MainMenu.FileMenu.Open.File}" icon="Icons.16x16.OpenFileIcon" description="D:\PerforceWorkSpace\Project\Pojjaman\AddIns\StartPage.addinx${res:MainMenu.FileMenu.Open.File.Description}" shortcut="Control|O" class="Longkong.Pojjaman.Commands.OpenFile"/>
 				<MenuItem id="Project" label="${res:MainMenu.FileMenu.Open.Project}" icon="Icons.16x16.ProjectIcon" description="${res:MainMenu.FileMenu.Open.Project.Description}" shortcut="Control|Shift|O" class="Longkong.Pojjaman.Commands.OpenFile"/>

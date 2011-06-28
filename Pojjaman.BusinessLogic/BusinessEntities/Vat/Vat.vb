@@ -10,24 +10,24 @@ Imports Longkong.Pojjaman.Services
 Imports System.Reflection
 Namespace Longkong.Pojjaman.BusinessLogic
 
-    Public Class VatDirection
-        Inherits CodeDescription
+  Public Class VatDirection
+    Inherits CodeDescription
 
 #Region "Constructors"
-        Public Sub New(ByVal value As Integer)
-            MyBase.New(value)
-        End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Public Overrides ReadOnly Property CodeName() As String
-            Get
-                Return "vat_direction"
-            End Get
-        End Property
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "vat_direction"
+      End Get
+    End Property
 #End Region
 
-    End Class
+  End Class
   Public Class SimpleVat
     Public Property TaxBase As Decimal
     Public Property VatAmt As Decimal
@@ -563,7 +563,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           vi.Code = ""
         Next
       End If
-      
+
     End Sub
     Private Function DupInside(ByVal target As VatItem) As String
       For Each item As VatItem In Me.ItemCollection
@@ -2378,567 +2378,570 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
-    Public Class VatForSelection
-        Inherits Vat
+  Public Class VatForSelection
+    Inherits Vat
 
-        Public Overrides ReadOnly Property CodonName() As String
-            Get
-                Return "VatForSelection"
-            End Get
-        End Property
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "VatForSelection"
+      End Get
+    End Property
 
-    End Class
+  End Class
 
-    Public Class VatGroup
-        Inherits TreeBaseEntity
+  Public Class VatGroup
+    Inherits TreeBaseEntity
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-        End Sub
-        Public Sub New(ByVal myParent As VatGroup)
-            MyBase.New(myParent)
-            myParent = New VatGroup(myParent.Id)
-        End Sub
-        Public Sub New(ByVal gid As Integer)
-            MyBase.New(gid)
-        End Sub
-        Public Sub New(ByVal gcode As String)
-            MyBase.New(gcode)
-        End Sub
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            MyBase.New(dr, aliasPrefix)
-        End Sub
-        Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            MyBase.Construct(dr, aliasPrefix)
-            With Me
-                If dr.Table.Columns.Contains(aliasPrefix & "vatg_note") AndAlso Not dr.IsNull(aliasPrefix & "vatg_note") Then
-                    .vatg_note = CStr(dr(aliasPrefix & "vatg_note"))
-                End If
-            End With
-        End Sub
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal myParent As VatGroup)
+      MyBase.New(myParent)
+      myParent = New VatGroup(myParent.Id)
+    End Sub
+    Public Sub New(ByVal gid As Integer)
+      MyBase.New(gid)
+    End Sub
+    Public Sub New(ByVal gcode As String)
+      MyBase.New(gcode)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      MyBase.New(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "vatg_note") AndAlso Not dr.IsNull(aliasPrefix & "vatg_note") Then
+          .vatg_note = CStr(dr(aliasPrefix & "vatg_note"))
+        End If
+      End With
+    End Sub
 #End Region
 
 #Region "Members"
-        Private vatg_note As String
+    Private vatg_note As String
 #End Region
 
 #Region "Properties"
-        Public Property Note() As String
-            Get
-                Return vatg_note
-            End Get
-            Set(ByVal Value As String)
-                vatg_note = Value
-            End Set
-        End Property
-        Public Overrides ReadOnly Property Prefix() As String
-            Get
-                Return "vatg"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ClassName() As String
-            Get
-                Return "VatGroup"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property CodonName() As String
-            Get
-                Return "VatGroup"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.VatGroup.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.VatGroup"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.VatGroup"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.VatGroup.ListLabel}"
-            End Get
-        End Property
+    Public Property Note() As String
+      Get
+        Return vatg_note
+      End Get
+      Set(ByVal Value As String)
+        vatg_note = Value
+      End Set
+    End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "vatg"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "VatGroup"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "VatGroup"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.VatGroup.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.VatGroup"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.VatGroup"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.VatGroup.ListLabel}"
+      End Get
+    End Property
 #End Region
 
 #Region "Methods"
-        Public Overloads Overrides Sub SetParent(ByVal parId As Integer)
-            If parId <> Id Then
-                Me.Parent = New VatGroup(parId)
-            Else
-                Me.Parent = Me
-            End If
-        End Sub
-        Public Overloads Overrides Sub SetParent(ByVal id As Integer, ByVal code As String, ByVal name As String)
-            Dim par As New VatGroup
-            par.Id = id
-            par.Code = code
-            par.Name = name
-            Me.Parent = par
-        End Sub
-        Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-            With Me
-                Dim parID As Object = 0
-                If Not Me.Parent Is Nothing AndAlso Me.Parent.Originated Then
-                    parID = Me.Parent.Id
-                End If
+    Public Overloads Overrides Sub SetParent(ByVal parId As Integer)
+      If parId <> Id Then
+        Me.Parent = New VatGroup(parId)
+      Else
+        Me.Parent = Me
+      End If
+    End Sub
+    Public Overloads Overrides Sub SetParent(ByVal id As Integer, ByVal code As String, ByVal name As String)
+      Dim par As New VatGroup
+      par.Id = id
+      par.Code = code
+      par.Name = name
+      Me.Parent = par
+    End Sub
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      With Me
+        Dim parID As Object = 0
+        If Not Me.Parent Is Nothing AndAlso Me.Parent.Originated Then
+          parID = Me.Parent.Id
+        End If
 
-                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-                returnVal.ParameterName = "RETURN_VALUE"
-                returnVal.DbType = DbType.Int32
-                returnVal.Direction = ParameterDirection.ReturnValue
-                returnVal.SourceVersion = DataRowVersion.Current
-                ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-                Dim paramArrayList As New ArrayList
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
 
-                paramArrayList.Add(returnVal)
-                If Me.Originated Then
-                    paramArrayList.Add(New SqlParameter("@vatg_id", Me.Id))
-                End If
+        paramArrayList.Add(returnVal)
+        If Me.Originated Then
+          paramArrayList.Add(New SqlParameter("@vatg_id", Me.Id))
+        End If
 
-                Dim theTime As Date = Now
-                Dim theUser As New User(currentUserId)
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
 
-                If Me.AutoGen And Me.Code.Length = 0 Then
-                    Me.Code = Me.GetNextCode
-                End If
-                Me.AutoGen = False
+        If Me.AutoGen And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+        Me.AutoGen = False
 
-                paramArrayList.Add(New SqlParameter("@vatg_code", Me.Code))
-                paramArrayList.Add(New SqlParameter("@vatg_name", Me.Name))
-                paramArrayList.Add(New SqlParameter("@vatg_altname", Me.AlternateName))
-                paramArrayList.Add(New SqlParameter("@vatg_parid", parID))
-                paramArrayList.Add(New SqlParameter("@vatg_level", Me.Level))
-                paramArrayList.Add(New SqlParameter("@vatg_path", Me.Path))
-                paramArrayList.Add(New SqlParameter("@vatg_control", Me.IsControlGroup))
-                paramArrayList.Add(New SqlParameter("@vatg_note", Me.Note))
+        paramArrayList.Add(New SqlParameter("@vatg_code", Me.Code))
+        paramArrayList.Add(New SqlParameter("@vatg_name", Me.Name))
+        paramArrayList.Add(New SqlParameter("@vatg_altname", Me.AlternateName))
+        paramArrayList.Add(New SqlParameter("@vatg_parid", parID))
+        paramArrayList.Add(New SqlParameter("@vatg_level", Me.Level))
+        paramArrayList.Add(New SqlParameter("@vatg_path", Me.Path))
+        paramArrayList.Add(New SqlParameter("@vatg_control", Me.IsControlGroup))
+        paramArrayList.Add(New SqlParameter("@vatg_note", Me.Note))
 
-                SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-                ' สร้าง SqlParameter จาก ArrayList ...
-                Dim sqlparams() As SqlParameter
-                sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
-                Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
+        Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
 
-                ' ตรวจจับ Error ของการ Save ...
+        ' ตรวจจับ Error ของการ Save ...
 
-                Return New SaveErrorException(returnVal.Value.ToString)
+        Return New SaveErrorException(returnVal.Value.ToString)
 
-            End With
-        End Function
+      End With
+    End Function
 #End Region
 
 #Region "Shared"
-        Public Shared Function GetVatGroup(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldGroup As VatGroup) As Boolean
-            Dim group As New VatGroup(txtCode.Text)
-            If txtCode.Text.Length <> 0 AndAlso Not group.Valid Then
-                MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
-                group = oldGroup
-                'ElseIf group.IsControlGroup Then
-                '    MessageBox.Show(group.Code & "-" & group.Name & " เป็นกลุ่มแม่")
-                '    group = oldGroup
-                Return False
-            End If
-            txtCode.Text = group.Code
-            txtName.Text = group.Name
+    Public Shared Function GetVatGroup(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldGroup As VatGroup) As Boolean
+      Dim group As New VatGroup(txtCode.Text)
+      If txtCode.Text.Length <> 0 AndAlso Not group.Valid Then
+        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+        group = oldGroup
+        'ElseIf group.IsControlGroup Then
+        '    MessageBox.Show(group.Code & "-" & group.Name & " เป็นกลุ่มแม่")
+        '    group = oldGroup
+        Return False
+      End If
+      txtCode.Text = group.Code
+      txtName.Text = group.Name
 
-            oldGroup = group
-            Return True
-            'If oldGroup Is Nothing OrElse oldGroup.Id <> group.Id Then
-            'oldGroup = group
-            'Return True
-            'End If
-            'Return False
-        End Function
+      oldGroup = group
+      Return True
+      'If oldGroup Is Nothing OrElse oldGroup.Id <> group.Id Then
+      'oldGroup = group
+      'Return True
+      'End If
+      'Return False
+    End Function
 #End Region
 
 #Region "Delete"
-        Public Overrides ReadOnly Property CanDelete() As Boolean
-            Get
-                Return True 'Hack
-            End Get
-        End Property
-        Public Overrides Function Delete() As SaveErrorException
-            If Not Me.Originated Then
-                Return New SaveErrorException("${res:Global.Error.NoIdError}")
-            End If
-            Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            Dim format(0) As String
-            format(0) = Me.Code
-            If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteVatGroup}", format) Then
-                Return New SaveErrorException("${res:Global.CencelDelete}")
-            End If
-            Dim trans As SqlTransaction
-            Dim conn As New SqlConnection(Me.ConnectionString)
-            conn.Open()
-            trans = conn.BeginTransaction()
-            Try
-                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-                returnVal.ParameterName = "RETURN_VALUE"
-                returnVal.DbType = DbType.Int32
-                returnVal.Direction = ParameterDirection.ReturnValue
-                returnVal.SourceVersion = DataRowVersion.Current
-                SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteVatGroup", New SqlParameter() {New SqlParameter("@vatg_id", Me.Id), returnVal})
-                If IsNumeric(returnVal.Value) Then
-                    Select Case CInt(returnVal.Value)
-                        Case -1
-                            trans.Rollback()
-                            Return New SaveErrorException("${res:Global.VatGroupIsReferencedCannotBeDeleted}")
-                        Case Else
-                    End Select
-                ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-                    trans.Rollback()
-                    Return New SaveErrorException(returnVal.Value.ToString)
-                End If
-                trans.Commit()
-                Return New SaveErrorException("1")
-            Catch ex As SqlException
-                trans.Rollback()
-                Return New SaveErrorException(ex.Message)
-            Catch ex As Exception
-                trans.Rollback()
-                Return New SaveErrorException(ex.Message)
-            Finally
-                conn.Close()
-            End Try
-        End Function
+    Public Overrides ReadOnly Property CanDelete() As Boolean
+      Get
+        Return True 'Hack
+      End Get
+    End Property
+    Public Overrides Function Delete() As SaveErrorException
+      If Not Me.Originated Then
+        Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      End If
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim format(0) As String
+      format(0) = Me.Code
+      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteVatGroup}", format) Then
+        Return New SaveErrorException("${res:Global.CencelDelete}")
+      End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteVatGroup", New SqlParameter() {New SqlParameter("@vatg_id", Me.Id), returnVal})
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              Return New SaveErrorException("${res:Global.VatGroupIsReferencedCannotBeDeleted}")
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
+    End Function
 #End Region
 
-    End Class
+  End Class
 
 
-    Public Class VatItem
-        Implements ICodeGeneratable, IObjectReflectable, IHasToCostCenter _
-        , IHasFromCostCenter, IHasGroup, IPrintableEntity, ICanSaveTreeTable
+  Public Class VatItem
+    Implements ICodeGeneratable, IObjectReflectable, IHasToCostCenter _
+    , IHasFromCostCenter, IHasGroup, IPrintableEntity, ICanSaveTreeTable
 
 #Region "Members"
-        Private m_vatId As Integer
-        Private m_vat As Vat
-        Private m_lineNumber As Integer
-        Private m_code As String
-        Private m_docDate As Date
-        Private m_printName As String
-        Private m_printAddress As String
-        Private m_taxBase As Decimal
-        Private m_taxRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
-        Private m_taxAmt As Decimal
-        Private m_useCustomTaxAmt As Boolean
-        Private m_note As String
-        Private m_runNumber As String
-        Private m_ccId As Integer
-        Private m_group As VatGroup
-        Private m_submitalDate As Date
+    Private m_vatId As Integer
+    Private m_vat As Vat
+    Private m_lineNumber As Integer
+    Private m_code As String
+    Private m_docDate As Date
+    Private m_printName As String
+    Private m_printAddress As String
+    Private m_taxBase As Decimal
+    Private m_taxRate As Decimal = CDec(Configuration.GetConfig("CompanyTaxRate"))
+    Private m_taxAmt As Decimal
+    Private m_useCustomTaxAmt As Boolean
+    Private m_note As String
+    Private m_runNumber As String
+    Private m_ccId As Integer
+    Private m_group As VatGroup
+    Private m_submitalDate As Date
 
-        Private m_refdoc As Integer
-        Private m_refdocType As Integer
+    Private m_refdoc As Integer
+    Private m_refdocType As Integer
 
-        Private m_lines As ArrayList
+    Private m_lines As ArrayList
 
-        Private m_milestone As Milestone
-        Private m_billAcceptanceItem As BillAcceptanceItem
+    Private m_milestone As Milestone
+    Private m_billAcceptanceItem As BillAcceptanceItem
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            Me.m_group = New VatGroup
-        End Sub
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-        End Sub
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            Me.m_group = New VatGroup
-            Me.Construct(dr, aliasPrefix)
-        End Sub
-        Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            With Me
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "vati_lineNumber") Then
-                    .m_lineNumber = CInt(dr(aliasPrefix & "vati_lineNumber"))
-                End If
+    Public Sub New()
+      MyBase.New()
+      Me.m_group = New VatGroup
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.m_group = New VatGroup
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "vati_lineNumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & "vati_lineNumber"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_taxrate") AndAlso Not dr.IsNull(aliasPrefix & "vati_taxrate") Then
-                    .m_taxRate = CDec(dr(aliasPrefix & "vati_taxrate"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_taxbase") AndAlso Not dr.IsNull(aliasPrefix & "vati_taxbase") Then
-                    .m_taxBase = CDec(dr(aliasPrefix & "vati_taxbase"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_amt") AndAlso Not dr.IsNull(aliasPrefix & "vati_amt") Then
-                    .m_taxAmt = CDec(dr(aliasPrefix & "vati_amt"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_taxrate") AndAlso Not dr.IsNull(aliasPrefix & "vati_taxrate") Then
+          .m_taxRate = CDec(dr(aliasPrefix & "vati_taxrate"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_taxbase") AndAlso Not dr.IsNull(aliasPrefix & "vati_taxbase") Then
+          .m_taxBase = CDec(dr(aliasPrefix & "vati_taxbase"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_amt") AndAlso Not dr.IsNull(aliasPrefix & "vati_amt") Then
+          .m_taxAmt = CDec(dr(aliasPrefix & "vati_amt"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_code") AndAlso Not dr.IsNull(aliasPrefix & "vati_code") Then
-                    .m_code = CStr(dr(aliasPrefix & "vati_code"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_printName") AndAlso Not dr.IsNull(aliasPrefix & "vati_printName") Then
-                    .m_printName = CStr(dr(aliasPrefix & "vati_printName"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_printAddress") AndAlso Not dr.IsNull(aliasPrefix & "vati_printAddress") Then
-                    .m_printAddress = CStr(dr(aliasPrefix & "vati_printAddress"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_code") AndAlso Not dr.IsNull(aliasPrefix & "vati_code") Then
+          .m_code = CStr(dr(aliasPrefix & "vati_code"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_printName") AndAlso Not dr.IsNull(aliasPrefix & "vati_printName") Then
+          .m_printName = CStr(dr(aliasPrefix & "vati_printName"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_printAddress") AndAlso Not dr.IsNull(aliasPrefix & "vati_printAddress") Then
+          .m_printAddress = CStr(dr(aliasPrefix & "vati_printAddress"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_docDate") AndAlso Not dr.IsNull(aliasPrefix & "vati_docDate") Then
-                    .m_docDate = CDate(dr(aliasPrefix & "vati_docDate"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_docDate") AndAlso Not dr.IsNull(aliasPrefix & "vati_docDate") Then
+          .m_docDate = CDate(dr(aliasPrefix & "vati_docDate"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_note") AndAlso Not dr.IsNull(aliasPrefix & "vati_note") Then
-                    .m_note = CStr(dr(aliasPrefix & "vati_note"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_note") AndAlso Not dr.IsNull(aliasPrefix & "vati_note") Then
+          .m_note = CStr(dr(aliasPrefix & "vati_note"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_runNumber") AndAlso Not dr.IsNull(aliasPrefix & "vati_runNumber") Then
-                    .m_runNumber = CStr(dr(aliasPrefix & "vati_runNumber"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_cc") AndAlso Not dr.IsNull(aliasPrefix & "vati_cc") Then
-                    .m_ccId = CInt(dr(aliasPrefix & "vati_cc"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_runNumber") AndAlso Not dr.IsNull(aliasPrefix & "vati_runNumber") Then
+          .m_runNumber = CStr(dr(aliasPrefix & "vati_runNumber"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_cc") AndAlso Not dr.IsNull(aliasPrefix & "vati_cc") Then
+          .m_ccId = CInt(dr(aliasPrefix & "vati_cc"))
+        End If
 
-                If dr.Table.Columns.Contains("vatg_id") Then
-                    If Not dr.IsNull("vatg_id") Then
-                        .VatGroup = New VatGroup(dr, "")
-                    End If
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & "vati_group") AndAlso Not dr.IsNull(aliasPrefix & "vati_group") Then
-                        .VatGroup = New VatGroup(CInt(dr(aliasPrefix & "vati_group")))
-                    End If
-                End If
+        If dr.Table.Columns.Contains("vatg_id") Then
+          If Not dr.IsNull("vatg_id") Then
+            .VatGroup = New VatGroup(dr, "")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "vati_group") AndAlso Not dr.IsNull(aliasPrefix & "vati_group") Then
+            .VatGroup = New VatGroup(CInt(dr(aliasPrefix & "vati_group")))
+          End If
+        End If
 
-                If dr.Table.Columns.Contains("vat_id") Then
-                    If Not dr.IsNull("vat_id") Then
-                        .m_vatId = CInt(dr("vat_id"))
-                    End If
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & "vati_vat") AndAlso Not dr.IsNull(aliasPrefix & "vati_vat") Then
-                        .m_vatId = CInt(dr(aliasPrefix & "vati_vat"))
-                    End If
-                End If
+        If dr.Table.Columns.Contains("vat_id") Then
+          If Not dr.IsNull("vat_id") Then
+            .m_vatId = CInt(dr("vat_id"))
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "vati_vat") AndAlso Not dr.IsNull(aliasPrefix & "vati_vat") Then
+            .m_vatId = CInt(dr(aliasPrefix & "vati_vat"))
+          End If
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_submitaldate") AndAlso Not dr.IsNull(aliasPrefix & "vati_submitaldate") Then
-                    .m_submitalDate = CDate(dr(aliasPrefix & "vati_submitaldate"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_submitaldate") AndAlso Not dr.IsNull(aliasPrefix & "vati_submitaldate") Then
+          .m_submitalDate = CDate(dr(aliasPrefix & "vati_submitaldate"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_refdoc") AndAlso Not dr.IsNull(aliasPrefix & "vati_refdoc") Then
-                    .m_refdoc = CInt(dr(aliasPrefix & "vati_refdoc"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_refdoctype") AndAlso Not dr.IsNull(aliasPrefix & "vati_refdoctype") Then
-                    .m_refdocType = CInt(dr(aliasPrefix & "vati_refdoctype"))
-                End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_refdoc") AndAlso Not dr.IsNull(aliasPrefix & "vati_refdoc") Then
+          .m_refdoc = CInt(dr(aliasPrefix & "vati_refdoc"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_refdoctype") AndAlso Not dr.IsNull(aliasPrefix & "vati_refdoctype") Then
+          .m_refdocType = CInt(dr(aliasPrefix & "vati_refdoctype"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "vati_customTaxAmount") AndAlso Not dr.IsNull(aliasPrefix & "vati_customTaxAmount") Then
-                    .m_useCustomTaxAmt = CBool(dr(aliasPrefix & "vati_customTaxAmount"))
-                End If
-            End With
-        End Sub
-        Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
+        If dr.Table.Columns.Contains(aliasPrefix & "vati_customTaxAmount") AndAlso Not dr.IsNull(aliasPrefix & "vati_customTaxAmount") Then
+          .m_useCustomTaxAmt = CBool(dr(aliasPrefix & "vati_customTaxAmount"))
+        End If
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Public Property Milestone() As Milestone
-            Get
-                Return m_milestone
-            End Get
-            Set(ByVal Value As Milestone)
-                m_milestone = Value
-            End Set
-        End Property
-        Public Property BillAcceptanceItem() As BillAcceptanceItem
-            Get
-                Return m_billAcceptanceItem
-            End Get
-            Set(ByVal Value As BillAcceptanceItem)
-                m_billAcceptanceItem = Value
-            End Set
-        End Property
-        Public Property Refdoc() As Integer
-            Get
-                Return m_refdoc
-            End Get
-            Set(ByVal Value As Integer)
-                m_refdoc = Value
-            End Set
-        End Property
-        Public Property RefdocType() As Integer
-            Get
-                Return m_refdocType
-            End Get
-            Set(ByVal Value As Integer)
-                m_refdocType = Value
-            End Set
-        End Property
-        Private m_headerText As String
-        Public Property HeaderText() As String
-            Get
-                Return m_headerText
-            End Get
-            Set(ByVal Value As String)
-                m_headerText = Value
-            End Set
-        End Property
-        Public Property SubmitalDate() As Date
-            Get
-                Return Me.m_submitalDate
-            End Get
-            Set(ByVal Value As Date)
-                m_submitalDate = Value
-            End Set
-        End Property
-        Public Property VatGroup() As VatGroup
-            Get
-                Return m_group
-            End Get
-            Set(ByVal Value As VatGroup)
-                m_group = Value
-            End Set
-        End Property
-        Public Property Runnumber() As String
-            Get
-                Return m_runNumber
-            End Get
-            Set(ByVal Value As String)
-                m_runNumber = Value
-            End Set
-        End Property
-        Public ReadOnly Property VatId() As Integer
-            Get
-                If Not Me.Vat Is Nothing AndAlso Me.Vat.Originated Then
-                    m_vatId = Me.Vat.Id
-                End If
-                Return m_vatId
-            End Get
-        End Property
-        Public Property Vat() As Vat
-            Get
-                Return m_vat
-            End Get
-            Set(ByVal Value As Vat)
-                m_vat = Value
-            End Set
-        End Property
-        Public Property LineNumber() As Integer
-            Get
-                Return m_lineNumber
-            End Get
-            Set(ByVal Value As Integer)
-                m_lineNumber = Value
-            End Set
-        End Property
-        Public Property Code() As String Implements IIdentifiable.Code
-            Get
-                Return m_code
-            End Get
-            Set(ByVal Value As String)
-                m_code = Value
-                Try
-                    'If TypeOf Me.RefDoc Is BillAcceptance Then  ' เอาออกเพราะเปลี่ยน code แล้วชื่อที่อยู่หาย
-                    Me.Vat.Entity = Me.Vat.RefDoc.Person
-                    'End If
-                Catch ex As Exception
+    Public Property Milestone() As Milestone
+      Get
+        Return m_milestone
+      End Get
+      Set(ByVal Value As Milestone)
+        m_milestone = Value
+      End Set
+    End Property
+    Public Property BillAcceptanceItem() As BillAcceptanceItem
+      Get
+        Return m_billAcceptanceItem
+      End Get
+      Set(ByVal Value As BillAcceptanceItem)
+        m_billAcceptanceItem = Value
+      End Set
+    End Property
+    Public Property Refdoc() As Integer
+      Get
+        Return m_refdoc
+      End Get
+      Set(ByVal Value As Integer)
+        m_refdoc = Value
+      End Set
+    End Property
+    Public Property RefdocType() As Integer
+      Get
+        Return m_refdocType
+      End Get
+      Set(ByVal Value As Integer)
+        m_refdocType = Value
+      End Set
+    End Property
+    Private m_headerText As String
+    Public Property HeaderText() As String
+      Get
+        Return m_headerText
+      End Get
+      Set(ByVal Value As String)
+        m_headerText = Value
+      End Set
+    End Property
+    Public Property SubmitalDate() As Date
+      Get
+        Return Me.m_submitalDate
+      End Get
+      Set(ByVal Value As Date)
+        m_submitalDate = Value
+      End Set
+    End Property
+    Public Property VatGroup() As VatGroup
+      Get
+        Return m_group
+      End Get
+      Set(ByVal Value As VatGroup)
+        m_group = Value
+      End Set
+    End Property
+    Public Property Runnumber() As String
+      Get
+        Return m_runNumber
+      End Get
+      Set(ByVal Value As String)
+        m_runNumber = Value
+      End Set
+    End Property
+    Public ReadOnly Property VatId() As Integer
+      Get
+        If Not Me.Vat Is Nothing AndAlso Me.Vat.Originated Then
+          m_vatId = Me.Vat.Id
+        End If
+        Return m_vatId
+      End Get
+    End Property
+    Public Property Vat() As Vat
+      Get
+        Return m_vat
+      End Get
+      Set(ByVal Value As Vat)
+        m_vat = Value
+      End Set
+    End Property
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+    Public Property Code() As String Implements IIdentifiable.Code
+      Get
+        Return m_code
+      End Get
+      Set(ByVal Value As String)
+        m_code = Value
+        Try
+          'If TypeOf Me.RefDoc Is BillAcceptance Then  ' เอาออกเพราะเปลี่ยน code แล้วชื่อที่อยู่หาย
+          Me.Vat.Entity = Me.Vat.RefDoc.Person
+          'End If
+        Catch ex As Exception
 
-                End Try
-                If Not Me.Vat Is Nothing Then
-                    Me.DocDate = Me.Vat.RefDoc.Date
-                    Me.PrintName = Me.Vat.Entity.Name
-                    Me.PrintAddress = Me.Vat.Entity.BillingAddress
-                    Me.SubmitalDate = Me.Vat.SubmitalDate
-                    Me.VatGroup = Me.Vat.VatGroup
-                End If
-            End Set
-        End Property
-        Public Property DocDate() As Date
-            Get
-                Return m_docDate
-            End Get
-            Set(ByVal Value As Date)
-                m_docDate = Value
-            End Set
-        End Property
-        Public Property PrintName() As String
-            Get
-                Return m_printName
-            End Get
-            Set(ByVal Value As String)
-                m_printName = Value
-            End Set
-        End Property
-        Public Property PrintAddress() As String
-            Get
-                Return m_printAddress
-            End Get
-            Set(ByVal Value As String)
-                m_printAddress = Value
-            End Set
-        End Property
-        Public Property TaxBase() As Decimal
-            Get
-                Return m_taxBase
-            End Get
-            Set(ByVal Value As Decimal)
-                m_taxBase = Value
-                Me.UseCustomTaxAmount = False
-            End Set
-        End Property
-        Public Property TaxRate() As Decimal
-            Get
-                Return m_taxRate
-            End Get
-            Set(ByVal Value As Decimal)
-                m_taxRate = Value
-            End Set
-        End Property
-        Public Property UseCustomTaxAmount() As Boolean
-            Get
-                Return m_useCustomTaxAmt
-            End Get
-            Set(ByVal Value As Boolean)
-                m_useCustomTaxAmt = Value
-            End Set
-        End Property
-        Public Property Amount() As Decimal
-            Get
-                ' ถ้ากำหนด TaxAmount เอง
+        End Try
+        If Not Me.Vat Is Nothing Then
+          Me.DocDate = Me.Vat.RefDoc.Date
+          Me.PrintName = Me.Vat.Entity.Name
+          Me.PrintAddress = Me.Vat.Entity.BillingAddress
+          Me.SubmitalDate = Me.Vat.SubmitalDate
+          Me.VatGroup = Me.Vat.VatGroup
+        End If
+      End Set
+    End Property
+    Public Property DocDate() As Date
+      Get
+        Return m_docDate
+      End Get
+      Set(ByVal Value As Date)
+        m_docDate = Value
+      End Set
+    End Property
+    Public Property PrintName() As String
+      Get
+        Return m_printName
+      End Get
+      Set(ByVal Value As String)
+        m_printName = Value
+      End Set
+    End Property
+    Public Property PrintAddress() As String
+      Get
+        Return m_printAddress
+      End Get
+      Set(ByVal Value As String)
+        m_printAddress = Value
+      End Set
+    End Property
+    Public Property TaxBase() As Decimal
+      Get
+        Return m_taxBase
+      End Get
+      Set(ByVal Value As Decimal)
+        m_taxBase = Value
+        Me.UseCustomTaxAmount = False
+      End Set
+    End Property
+    Public Property TaxRate() As Decimal
+      Get
+        Return m_taxRate
+      End Get
+      Set(ByVal Value As Decimal)
+        m_taxRate = Value
+      End Set
+    End Property
+    Public Property UseCustomTaxAmount() As Boolean
+      Get
+        Return m_useCustomTaxAmt
+      End Get
+      Set(ByVal Value As Boolean)
+        m_useCustomTaxAmt = Value
+      End Set
+    End Property
+    Public Property Amount() As Decimal
+      Get
+        ' ถ้ากำหนด TaxAmount เอง
+        If Vat Is Nothing Then
+          Return (Me.m_taxBase * Me.m_taxRate) / 100
+        End If
         If UseCustomTaxAmount OrElse Vat.SettingVatAmount Then
           Return m_taxAmt
         Else
           Return (Me.m_taxBase * Me.m_taxRate) / 100
         End If
-            End Get
-            Set(ByVal Value As Decimal)
-                Me.UseCustomTaxAmount = True
-                m_taxAmt = Value
-                SetRefDocGLChange()
-            End Set
-        End Property
-        Public Property Note() As String
-            Get
-                Return m_note
-            End Get
-            Set(ByVal Value As String)
-                m_note = Value
-            End Set
-        End Property
-        Public Property CcId() As Integer
-            Get
-                Return m_ccId
-            End Get
-            Set(ByVal Value As Integer)
-                m_ccId = Value
-            End Set
-        End Property
-        Public ReadOnly Property CostCenter() As CostCenter
-            Get
-                Return New CostCenter(m_ccId)
-            End Get
-        End Property
+      End Get
+      Set(ByVal Value As Decimal)
+        Me.UseCustomTaxAmount = True
+        m_taxAmt = Value
+        SetRefDocGLChange()
+      End Set
+    End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Property CcId() As Integer
+      Get
+        Return m_ccId
+      End Get
+      Set(ByVal Value As Integer)
+        m_ccId = Value
+      End Set
+    End Property
+    Public ReadOnly Property CostCenter() As CostCenter
+      Get
+        Return New CostCenter(m_ccId)
+      End Get
+    End Property
 
 #End Region
 
@@ -3076,1276 +3079,1276 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "ICodeGeneratable"
-        Public Function GetLastCode(ByVal prefixPattern As String) As String Implements ICodeGeneratable.GetLastCode
+    Public Function GetLastCode(ByVal prefixPattern As String) As String Implements ICodeGeneratable.GetLastCode
 
-            Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-            Dim conn As New SqlConnection(sqlConString)
-            'ไม่เวิร์ค ใช้แบบใหม่ข้างล่าง
-            'Dim sql As String = "select top 1 vati_code from [vatitem] where vati_direction = 0 and vati_code like '" & prefixPattern & "%' " & " order by vati_vat,vati_linenumber desc"
-            Dim sql As String = "select max(vati_code) vati_code from [vatitem] where vati_direction = 0 and vati_code like '" & prefixPattern & "%' "
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      'ไม่เวิร์ค ใช้แบบใหม่ข้างล่าง
+      'Dim sql As String = "select top 1 vati_code from [vatitem] where vati_direction = 0 and vati_code like '" & prefixPattern & "%' " & " order by vati_vat,vati_linenumber desc"
+      Dim sql As String = "select max(vati_code) vati_code from [vatitem] where vati_direction = 0 and vati_code like '" & prefixPattern & "%' "
 
-            conn.Open()
+      conn.Open()
 
-            Dim cmd As SqlCommand = conn.CreateCommand
-            cmd.CommandText = sql
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
 
-            Dim obj As Object = cmd.ExecuteScalar
-            If Not IsDBNull(obj) AndAlso Not obj Is Nothing Then
-                Return obj.ToString
-            End If
-            Return ""
-        End Function
-        Public Function GetNextCode() As String Implements ICodeGeneratable.GetNextCode
-            Dim ptn As String = Entity.GetAutoCodeFormat(Me.EntityId)
-            Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
-            pattern = CodeGenerator.GetPattern(pattern)
-            Dim newCode As String = CodeGenerator.Generate(ptn, Me.GetLastCode(pattern), Me)
-            While DuplicateCode(newCode)
-                newCode = CodeGenerator.Generate(Entity.GetAutoCodeFormat(Me.EntityId), newCode, Me)
-            End While
-            Return newCode
-        End Function
-        Private m_autogen As Boolean
-        Public Property AutoGen() As Boolean Implements ICodeGeneratable.AutoGen
-            Get
-                Return m_autogen
-            End Get
-            Set(ByVal Value As Boolean)
-                m_autogen = Value
-            End Set
-        End Property
-        Public Function DuplicateCode(ByVal newCode As String) As Boolean
-            If Me.Vat Is Nothing Then
-                Return False
-            End If
-            Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-            Dim conn As New SqlConnection(sqlConString)
-            Dim sql As String = "select count(*) from vatitem where vati_code='" & newCode & "' and (vati_vat <> " & Me.Vat.Id & " or vati_linenumber <> " & Me.LineNumber & ")" & _
-            " and vati_direction = 0" '****** ภาษีขายเท่านั้น
+      Dim obj As Object = cmd.ExecuteScalar
+      If Not IsDBNull(obj) AndAlso Not obj Is Nothing Then
+        Return obj.ToString
+      End If
+      Return ""
+    End Function
+    Public Function GetNextCode() As String Implements ICodeGeneratable.GetNextCode
+      Dim ptn As String = Entity.GetAutoCodeFormat(Me.EntityId)
+      Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      pattern = CodeGenerator.GetPattern(pattern)
+      Dim newCode As String = CodeGenerator.Generate(ptn, Me.GetLastCode(pattern), Me)
+      While DuplicateCode(newCode)
+        newCode = CodeGenerator.Generate(Entity.GetAutoCodeFormat(Me.EntityId), newCode, Me)
+      End While
+      Return newCode
+    End Function
+    Private m_autogen As Boolean
+    Public Property AutoGen() As Boolean Implements ICodeGeneratable.AutoGen
+      Get
+        Return m_autogen
+      End Get
+      Set(ByVal Value As Boolean)
+        m_autogen = Value
+      End Set
+    End Property
+    Public Function DuplicateCode(ByVal newCode As String) As Boolean
+      If Me.Vat Is Nothing Then
+        Return False
+      End If
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select count(*) from vatitem where vati_code='" & newCode & "' and (vati_vat <> " & Me.Vat.Id & " or vati_linenumber <> " & Me.LineNumber & ")" & _
+      " and vati_direction = 0" '****** ภาษีขายเท่านั้น
 
-            conn.Open()
+      conn.Open()
 
-            Dim cmd As SqlCommand = conn.CreateCommand
-            cmd.CommandText = sql
-            Dim recordCount As Object = cmd.ExecuteScalar
-            conn.Close()
-            If Not IsDBNull(recordCount) AndAlso CInt(recordCount) > 0 Then
-                Return True
-            End If
-            Return False
-        End Function
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
+      Dim recordCount As Object = cmd.ExecuteScalar
+      conn.Close()
+      If Not IsDBNull(recordCount) AndAlso CInt(recordCount) > 0 Then
+        Return True
+      End If
+      Return False
+    End Function
 #End Region
 
 #Region "IObjectReflectable"
-        Public ReadOnly Property EntityId() As Integer Implements IObjectReflectable.EntityId
-            Get
-                Return Entity.GetIdFromClassName(Me.ClassName)
-            End Get
-        End Property
-        Public ReadOnly Property ClassName() As String Implements IObjectReflectable.ClassName
-            Get
-                Return "VatItem"
-            End Get
-        End Property
-        Public ReadOnly Property FullClassName() As String Implements IObjectReflectable.FullClassName
-            Get
-                Return Me.Namespace & "." & Me.ClassName
-            End Get
-        End Property
-        Public ReadOnly Property FullClassNameForSecurity() As String Implements IObjectReflectable.FullClassNameForSecurity
-            Get
-                Return Me.FullClassName
-            End Get
-        End Property
-        Public ReadOnly Property [Namespace]() As String Implements IObjectReflectable.Namespace
-            Get
-                Return "Longkong.Pojjaman.BusinessLogic"
-            End Get
-        End Property
+    Public ReadOnly Property EntityId() As Integer Implements IObjectReflectable.EntityId
+      Get
+        Return Entity.GetIdFromClassName(Me.ClassName)
+      End Get
+    End Property
+    Public ReadOnly Property ClassName() As String Implements IObjectReflectable.ClassName
+      Get
+        Return "VatItem"
+      End Get
+    End Property
+    Public ReadOnly Property FullClassName() As String Implements IObjectReflectable.FullClassName
+      Get
+        Return Me.Namespace & "." & Me.ClassName
+      End Get
+    End Property
+    Public ReadOnly Property FullClassNameForSecurity() As String Implements IObjectReflectable.FullClassNameForSecurity
+      Get
+        Return Me.FullClassName
+      End Get
+    End Property
+    Public ReadOnly Property [Namespace]() As String Implements IObjectReflectable.Namespace
+      Get
+        Return "Longkong.Pojjaman.BusinessLogic"
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As New TreeTable("VatItem")
-            myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("RefDocCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("DocDate", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("SupplierName", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("TaxBase", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("TaxRate", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("TaxAmount", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("VatGroupCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("VatGroupButton", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("VatGroupName", GetType(String)))
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("VatItem")
+      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("RefDocCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocDate", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("SupplierName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("TaxBase", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("TaxRate", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("TaxAmount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("VatGroupCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("VatGroupButton", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("VatGroupName", GetType(String)))
 
-            myDatatable.Columns.Add(New DataColumn("vati_group", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("vati_vat", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("vati_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_group", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_vat", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_linenumber", GetType(Integer)))
 
-            myDatatable.Columns.Add(New DataColumn("vati_refdoc", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("vati_refdoctype", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_refdoc", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("vati_refdoctype", GetType(Integer)))
 
-            Dim dateCol As New DataColumn("SubmitalDate", GetType(Date))
-            dateCol.DefaultValue = Date.MinValue
-            myDatatable.Columns.Add(dateCol)
-            Return myDatatable
-        End Function
-        Public Shared Function GetItemDataTable(ByVal filters As Filter()) As TreeTable
-            Dim myDatatable As TreeTable = VatItem.GetSchemaTable
+      Dim dateCol As New DataColumn("SubmitalDate", GetType(Date))
+      dateCol.DefaultValue = Date.MinValue
+      myDatatable.Columns.Add(dateCol)
+      Return myDatatable
+    End Function
+    Public Shared Function GetItemDataTable(ByVal filters As Filter()) As TreeTable
+      Dim myDatatable As TreeTable = VatItem.GetSchemaTable
 
-            Dim params() As SqlParameter
-            If Not filters Is Nothing AndAlso filters.Length > 0 Then
-                ReDim params(filters.Length - 1)
-                For i As Integer = 0 To filters.Length - 1
-                    params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
-                Next
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetVatItemDetailList", params)
+
+      For Each dr As DataRow In ds.Tables(0).Rows
+        Dim vitem As New VatItem(dr, "")
+        Dim row As TreeRow = myDatatable.Childs.Add
+        row("vati_vat") = dr("vati_vat")
+        row("vati_linenumber") = dr("vati_linenumber")
+        row("vati_group") = dr("vati_group")
+        row("Code") = vitem.Code
+        row("RefDocCode") = dr("vat_refdoccode")
+        row("DocDate") = CDate(vitem.DocDate).ToShortDateString
+        row("SupplierName") = dr("EntityName")
+        row("TaxBase") = Configuration.FormatToString(vitem.TaxBase, DigitConfig.Price)
+        row("TaxRate") = Configuration.FormatToString(vitem.TaxRate, DigitConfig.Price)
+        row("TaxAmount") = Configuration.FormatToString(vitem.Amount, DigitConfig.Price)
+        row("VatGroupCode") = vitem.VatGroup.Code
+        row("VatGroupName") = vitem.VatGroup.Name
+        row("SubmitalDate") = CDate(vitem.SubmitalDate).ToShortDateString
+      Next
+      Return myDatatable
+    End Function
+    Public Function SaveGroupAndSubmitalDate(ByVal tt As TreeTable) As SaveErrorException Implements ICanSaveTreeTable.SaveTreeTable
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        Dim da As New SqlDataAdapter("Select * from Vatitem", conn)
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+
+        Dim ds As New DataSet
+
+        da.SelectCommand.Transaction = trans
+
+        'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+
+        da.Fill(ds, "Vatitem")
+        Dim dt As DataTable = ds.Tables("Vatitem")
+
+        Dim i As Integer = 0
+        For Each tr As TreeRow In tt.Rows
+          Dim vatId As Integer = CInt(tr("vati_vat"))
+          Dim line As Integer = CInt(tr("vati_linenumber"))
+          Dim groupId As Object = DBNull.Value
+          Dim sDate As Object = DBNull.Value
+          If IsDate(tr("SubmitalDate")) Then
+            If Not CDate(tr("SubmitalDate")).Equals(Date.MinValue) Then
+              sDate = tr("SubmitalDate")
             End If
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetVatItemDetailList", params)
+          End If
+          If Not tr.IsNull("vati_group") Then
+            groupId = CInt(tr("vati_group"))
+          End If
+          Dim drs As DataRow() = dt.Select("vati_vat=" & vatId & " and vati_linenumber=" & line)
+          If drs.Length = 1 Then
+            Dim dr As DataRow = drs(0)
+            dr("vati_group") = groupId
+            dr("vati_submitaldate") = sDate
+          End If
+        Next
 
-            For Each dr As DataRow In ds.Tables(0).Rows
-                Dim vitem As New VatItem(dr, "")
-                Dim row As TreeRow = myDatatable.Childs.Add
-                row("vati_vat") = dr("vati_vat")
-                row("vati_linenumber") = dr("vati_linenumber")
-                row("vati_group") = dr("vati_group")
-                row("Code") = vitem.Code
-                row("RefDocCode") = dr("vat_refdoccode")
-                row("DocDate") = CDate(vitem.DocDate).ToShortDateString
-                row("SupplierName") = dr("EntityName")
-                row("TaxBase") = Configuration.FormatToString(vitem.TaxBase, DigitConfig.Price)
-                row("TaxRate") = Configuration.FormatToString(vitem.TaxRate, DigitConfig.Price)
-                row("TaxAmount") = Configuration.FormatToString(vitem.Amount, DigitConfig.Price)
-                row("VatGroupCode") = vitem.VatGroup.Code
-                row("VatGroupName") = vitem.VatGroup.Name
-                row("SubmitalDate") = CDate(vitem.SubmitalDate).ToShortDateString
-            Next
-            Return myDatatable
-        End Function
-        Public Function SaveGroupAndSubmitalDate(ByVal tt As TreeTable) As SaveErrorException Implements ICanSaveTreeTable.SaveTreeTable
-            Dim trans As SqlTransaction
-            Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
-            conn.Open()
-            trans = conn.BeginTransaction()
-            Try
-                Dim da As New SqlDataAdapter("Select * from Vatitem", conn)
-                Dim cmdBuilder As New SqlCommandBuilder(da)
+        ' First process deletes.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
+    End Function
+    Public Shared Function GetListDatatable(ByVal ParamArray filters() As Filter) As TreeTable
 
-                Dim ds As New DataSet
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim params() As SqlParameter
+      If Not filters Is Nothing AndAlso filters.Length > 0 Then
+        ReDim params(filters.Length - 1)
+        For i As Integer = 0 To filters.Length - 1
+          params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
+        Next
+      End If
+      Dim dt As DataTable
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetVatItemDetailList", params)
+      dt = ds.Tables(0)
 
-                da.SelectCommand.Transaction = trans
+      Dim myDatatable As New TreeTable("VatItems")
+      myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Vat", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("VatItem", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("TaxBase", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("VatAmount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("DummyDate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("SubmitalDate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("DummySubmitalDate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("Group", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DummyGroup", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("EntityName", GetType(String)))
 
-                'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-                cmdBuilder.GetDeleteCommand.Transaction = trans
-                cmdBuilder.GetInsertCommand.Transaction = trans
-                cmdBuilder.GetUpdateCommand.Transaction = trans
-
-                da.Fill(ds, "Vatitem")
-                Dim dt As DataTable = ds.Tables("Vatitem")
-
-                Dim i As Integer = 0
-                For Each tr As TreeRow In tt.Rows
-                    Dim vatId As Integer = CInt(tr("vati_vat"))
-                    Dim line As Integer = CInt(tr("vati_linenumber"))
-                    Dim groupId As Object = DBNull.Value
-                    Dim sDate As Object = DBNull.Value
-                    If IsDate(tr("SubmitalDate")) Then
-                        If Not CDate(tr("SubmitalDate")).Equals(Date.MinValue) Then
-                            sDate = tr("SubmitalDate")
-                        End If
-                    End If
-                    If Not tr.IsNull("vati_group") Then
-                        groupId = CInt(tr("vati_group"))
-                    End If
-                    Dim drs As DataRow() = dt.Select("vati_vat=" & vatId & " and vati_linenumber=" & line)
-                    If drs.Length = 1 Then
-                        Dim dr As DataRow = drs(0)
-                        dr("vati_group") = groupId
-                        dr("vati_submitaldate") = sDate
-                    End If
-                Next
-
-                ' First process deletes.
-                da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-                ' Next process updates.
-                da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-                ' Finally process inserts.
-                da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-                trans.Commit()
-                Return New SaveErrorException("1")
-            Catch ex As Exception
-                trans.Rollback()
-                Return New SaveErrorException(ex.ToString)
-            Finally
-                conn.Close()
-            End Try
-        End Function
-        Public Shared Function GetListDatatable(ByVal ParamArray filters() As Filter) As TreeTable
-
-            Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-            Dim params() As SqlParameter
-            If Not filters Is Nothing AndAlso filters.Length > 0 Then
-                ReDim params(filters.Length - 1)
-                For i As Integer = 0 To filters.Length - 1
-                    params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
-                Next
-            End If
-            Dim dt As DataTable
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetVatItemDetailList", params)
-            dt = ds.Tables(0)
-
-            Dim myDatatable As New TreeTable("VatItems")
-            myDatatable.Columns.Add(New DataColumn("Selected", GetType(Boolean)))
-            myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("Vat", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("VatItem", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("TaxBase", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("VatAmount", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("Date", GetType(Date)))
-            myDatatable.Columns.Add(New DataColumn("DummyDate", GetType(Date)))
-            myDatatable.Columns.Add(New DataColumn("SubmitalDate", GetType(Date)))
-            myDatatable.Columns.Add(New DataColumn("DummySubmitalDate", GetType(Date)))
-            myDatatable.Columns.Add(New DataColumn("Group", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("DummyGroup", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("EntityName", GetType(String)))
-
-            For Each tableRow As DataRow In dt.Rows
-                Dim row As TreeRow = myDatatable.Childs.Add
-                row("Selected") = False
-                row("Code") = tableRow("vat_refdocCode")
-                row("Vat") = tableRow("vat_id")
-                row("Linenumber") = tableRow("vati_linenumber")
-                row("VatItem") = tableRow("vati_code")
-                row("Date") = tableRow("vati_docdate")
-                row("SubmitalDate") = tableRow("vati_submitaldate")
+      For Each tableRow As DataRow In dt.Rows
+        Dim row As TreeRow = myDatatable.Childs.Add
+        row("Selected") = False
+        row("Code") = tableRow("vat_refdocCode")
+        row("Vat") = tableRow("vat_id")
+        row("Linenumber") = tableRow("vati_linenumber")
+        row("VatItem") = tableRow("vati_code")
+        row("Date") = tableRow("vati_docdate")
+        row("SubmitalDate") = tableRow("vati_submitaldate")
 
 
-                row("EntityName") = tableRow("EntityName")
+        row("EntityName") = tableRow("EntityName")
 
-                If IsNumeric(tableRow("vati_taxbase")) Then
-                    row("TaxBase") = Configuration.FormatToString(CDec(tableRow("vati_taxbase")), DigitConfig.Price)
-                End If
-                If IsNumeric(tableRow("vati_amt")) Then
-                    row("VatAmount") = Configuration.FormatToString(CDec(tableRow("vati_amt")), DigitConfig.Price)
-                End If
-                row("Group") = tableRow("vatg_name")
-                row("CostCenter") = tableRow("cc_code")
-                row.State = RowExpandState.None
-                row.Tag = tableRow
-            Next
-            Return myDatatable
-        End Function
+        If IsNumeric(tableRow("vati_taxbase")) Then
+          row("TaxBase") = Configuration.FormatToString(CDec(tableRow("vati_taxbase")), DigitConfig.Price)
+        End If
+        If IsNumeric(tableRow("vati_amt")) Then
+          row("VatAmount") = Configuration.FormatToString(CDec(tableRow("vati_amt")), DigitConfig.Price)
+        End If
+        row("Group") = tableRow("vatg_name")
+        row("CostCenter") = tableRow("cc_code")
+        row.State = RowExpandState.None
+        row.Tag = tableRow
+      Next
+      Return myDatatable
+    End Function
 #End Region
 
-        Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
-            Get
-                Return Me.CostCenter
-            End Get
-            Set(ByVal Value As CostCenter)
+    Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
+      Get
+        Return Me.CostCenter
+      End Get
+      Set(ByVal Value As CostCenter)
 
-            End Set
-        End Property
+      End Set
+    End Property
 
-        Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
-            Get
-                Return Me.CostCenter
-            End Get
-            Set(ByVal Value As CostCenter)
+    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
+      Get
+        Return Me.CostCenter
+      End Get
+      Set(ByVal Value As CostCenter)
 
-            End Set
-        End Property
+      End Set
+    End Property
 
-        Public ReadOnly Property Group() As ISimpleEntity Implements IHasGroup.Group
-            Get
-                Return Me.VatGroup
-            End Get
-        End Property
+    Public ReadOnly Property Group() As ISimpleEntity Implements IHasGroup.Group
+      Get
+        Return Me.VatGroup
+      End Get
+    End Property
 
 #Region "IPrintableEntity"
-        Public Property Id() As Integer Implements IIdentifiable.Id
-            Get
+    Public Property Id() As Integer Implements IIdentifiable.Id
+      Get
 
-            End Get
-            Set(ByVal Value As Integer)
+      End Get
+      Set(ByVal Value As Integer)
 
-            End Set
-        End Property
-        Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
-            Return "TaxInvoice"
-        End Function
-        Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-            Return ""
-        End Function
-        Dim showSpecificLineOnly As Boolean = False
-        Dim myCount As Integer
-        Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
-            Dim dpiColl As New DocPrintingItemCollection
-            Dim dpi As DocPrintingItem
-            'Me.RefreshTaxBase()
-            'Code
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Code"
-            dpi.Value = Me.Code
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      End Set
+    End Property
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+      Return "TaxInvoice"
+    End Function
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+      Return ""
+    End Function
+    Dim showSpecificLineOnly As Boolean = False
+    Dim myCount As Integer
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      'Me.RefreshTaxBase()
+      'Code
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Code"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'InvoiceCode
-            dpi = New DocPrintingItem
-            dpi.Mapping = "InvoiceCode"
-            dpi.Value = Me.Code
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'InvoiceCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "InvoiceCode"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'DocDate
-            dpi = New DocPrintingItem
-            dpi.Mapping = "DocDate"
-            dpi.Value = Me.DocDate.ToShortDateString
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'DocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DocDate"
+      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Note
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Note"
-            dpi.Value = Me.Note
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Note
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Note2
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Note2"
-            dpi.Value = Me.Note
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Note2
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note2"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'Amount
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Amount"
-            dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'Amount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Amount"
+      dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            Dim entity As IBillablePerson
-            If Not Me.Vat Is Nothing Then
-                entity = CType(Me.Vat.Entity, IBillablePerson)
-            End If
-            If entity Is Nothing Then
-                entity = New Customer
-            End If
+      Dim entity As IBillablePerson
+      If Not Me.Vat Is Nothing Then
+        entity = CType(Me.Vat.Entity, IBillablePerson)
+      End If
+      If entity Is Nothing Then
+        entity = New Customer
+      End If
 
-            'CustomerCode 'รหัส
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerCode"
-            dpi.Value = entity.Code
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerCode 'รหัส
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerCode"
+      dpi.Value = entity.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerName 'ชื่อ
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerName"
-            dpi.Value = Me.PrintName 'entity.Name
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerName 'ชื่อ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerName"
+      dpi.Value = Me.PrintName 'entity.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerInfo 'รหัส:ชื่อ
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerInfo"
-            dpi.Value = entity.Code & ":" & entity.Name
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerInfo 'รหัส:ชื่อ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerInfo"
+      dpi.Value = entity.Code & ":" & entity.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerBillingAddress  ที่อยู่ออกบิล *****
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerBillingAddress"
-            dpi.Value = Me.PrintAddress 'entity.BillingAddress
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerBillingAddress  ที่อยู่ออกบิล *****
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerBillingAddress"
+      dpi.Value = Me.PrintAddress 'entity.BillingAddress
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerAddress 'ที่อยู่ปัจจุบัน
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerAddress"
-            dpi.Value = entity.Address
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerAddress 'ที่อยู่ปัจจุบัน
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerAddress"
+      dpi.Value = entity.Address
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerMobile 'มือถือ
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerMobile"
-            dpi.Value = entity.Mobile
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerMobile 'มือถือ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerMobile"
+      dpi.Value = entity.Mobile
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerPhone 'โทรศัพท์
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerPhone"
-            dpi.Value = entity.Phone
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerPhone 'โทรศัพท์
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerPhone"
+      dpi.Value = entity.Phone
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerFax 'Fax
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerFax"
-            dpi.Value = entity.Fax
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerFax 'Fax
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerFax"
+      dpi.Value = entity.Fax
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CustomerContact 'ผู้ติดต่อ
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CustomerContact"
-            dpi.Value = entity.Contact
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CustomerContact 'ผู้ติดต่อ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CustomerContact"
+      dpi.Value = entity.Contact
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            'CostCenter
-            ' CostcenterInfo
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CostCenterInfo"
-            dpi.Value = Me.CostCenter.Code & ":" & Me.CostCenter.Name
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'CostCenter
+      ' CostcenterInfo
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CostCenterInfo"
+      dpi.Value = Me.CostCenter.Code & ":" & Me.CostCenter.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            ' Costcenter Code
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CostCenterCode"
-            dpi.Value = Me.CostCenter.Code
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      ' Costcenter Code
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CostCenterCode"
+      dpi.Value = Me.CostCenter.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            ' CostCenter Name
-            dpi = New DocPrintingItem
-            dpi.Mapping = "CostCenterName"
-            dpi.Value = Me.CostCenter.Name
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      ' CostCenter Name
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CostCenterName"
+      dpi.Value = Me.CostCenter.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            Dim refDoc As IVatable
-            If Not Me.Vat Is Nothing AndAlso Not Me.Vat.RefDoc Is Nothing Then
-                refDoc = Me.Vat.RefDoc
-                If Not refDoc Is Nothing Then
-                    ' RefDocCode
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RefDocCode"
-                    dpi.Value = refDoc.Code
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+      Dim refDoc As IVatable
+      If Not Me.Vat Is Nothing AndAlso Not Me.Vat.RefDoc Is Nothing Then
+        refDoc = Me.Vat.RefDoc
+        If Not refDoc Is Nothing Then
+          ' RefDocCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RefDocCode"
+          dpi.Value = refDoc.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+
+        ''BeforeTax
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "BeforeTax"
+        'dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+        'dpi.DataType = "System.Decimal"
+        'dpiColl.Add(dpi)
+
+        'TaxAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxAmount"
+        dpi.Value = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'BeforeTaxAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "BeforeTaxAmount"
+        dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'AfterTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AfterTax"
+        dpi.Value = Configuration.FormatToString(Me.TaxBase + Me.Amount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+      End If
+      If TypeOf Me.Vat.RefDoc Is BillIssue Then
+        Dim bi As BillIssue = CType(Me.Vat.RefDoc, BillIssue)
+        myCount = bi.ItemCollection.Count
+        If Not bi.SingleVat Then
+          showSpecificLineOnly = True
+        End If
+        Dim SummaryAdvanceAmount As Decimal = 0
+        For Each bitem As Milestone In bi.ItemCollection
+          If bitem.TaxType.Value <> 0 Then
+            SummaryAdvanceAmount += (bitem.Advance / (100 + bitem.TaxRate) * 100)
+          Else
+            SummaryAdvanceAmount += bitem.Advance
+          End If
+        Next
+        'SummaryAdvanceAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SummaryAdvanceAmount"
+        dpi.Value = Configuration.FormatToString(Me.TaxBase + Me.Amount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+      End If
+
+      '**************************************Line Items*********************************************
+      Dim ls As ArrayList = Me.Lines
+      Dim sumRetention As Decimal = 0
+      If Not ls Is Nothing Then
+        Dim y As Integer = 0
+        Dim i As Integer = 0 'เริ่มไปก่อนแล้ว
+        Dim j As Integer = 0
+
+        Dim sumAdvance As Decimal = 0
+        Dim sumDiscount As Decimal = 0
+        Dim sumMilestoneAmount As Decimal = 0
+        Dim sumAftertax As Decimal = 0
+
+        For Each lineText As String In ls
+          j += 1
+          If Not showSpecificLineOnly OrElse (j = Me.LineNumber OrElse ls.Count <> myCount) Then
+            Dim lineTexts As String() = lineText.Split("|"c)
+            Dim typeValue As Integer = 0
+            If lineTexts.Length > 1 Then
+
+              If lineTexts.Length = 15 Then
+                typeValue = CInt(lineTexts(13))
+              Else
+                typeValue = -1
+              End If
+
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
+              dpi.Value = lineTexts(0)
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              If Not (typeValue = 160 OrElse typeValue = 162) Then
+
+                'Item.LineNumber
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.LineNumber"
+                If lineTexts(13) = "Detail" Then
+                  dpi.Value = ""
+                Else
+                  dpi.Value = y + 1
                 End If
+                dpi.DataType = "System.Int32"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                ''BeforeTax
+
+
+                'Item.Unit
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Unit"
+                dpi.Value = lineTexts(8)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.Qty
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Qty"
+                dpi.Value = lineTexts(9)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.UnitPrice
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.UnitPrice"
+                dpi.Value = lineTexts(1)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.UnitPrice
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.RealUnitPrice"
+                dpi.Value = lineTexts(1)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.Amount
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Amount"
+                dpi.Value = lineTexts(2)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.DiscountRate
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.DiscountRate"
+                dpi.Value = lineTexts(10)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.DiscountAmount()
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.DiscountAmount"
+                dpi.Value = lineTexts(4)
+                dpi.DataType = "System.Decimal"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                'Item.Note
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Note"
+                dpi.Value = lineTexts(3)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
+
+                ''Item.Amount
                 'dpi = New DocPrintingItem
-                'dpi.Mapping = "BeforeTax"
-                'dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
-                'dpi.DataType = "System.Decimal"
-                'dpiColl.Add(dpi)
-
-                'TaxAmount
-                dpi = New DocPrintingItem
-                dpi.Mapping = "TaxAmount"
-                dpi.Value = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
-                dpi.DataType = "System.Decimal"
-                dpiColl.Add(dpi)
-
-                'BeforeTaxAmount
-                dpi = New DocPrintingItem
-                dpi.Mapping = "BeforeTaxAmount"
-                dpi.Value = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
-                dpi.DataType = "System.Decimal"
-                dpiColl.Add(dpi)
-
-                'AfterTax
-                dpi = New DocPrintingItem
-                dpi.Mapping = "AfterTax"
-                dpi.Value = Configuration.FormatToString(Me.TaxBase + Me.Amount, DigitConfig.Price)
-                dpi.DataType = "System.Decimal"
-                dpiColl.Add(dpi)
-
-            End If
-            If TypeOf Me.Vat.RefDoc Is BillIssue Then
-                Dim bi As BillIssue = CType(Me.Vat.RefDoc, BillIssue)
-                myCount = bi.ItemCollection.Count
-                If Not bi.SingleVat Then
-                    showSpecificLineOnly = True
-                End If
-                Dim SummaryAdvanceAmount As Decimal = 0
-                For Each bitem As Milestone In bi.ItemCollection
-                    If bitem.TaxType.Value <> 0 Then
-                        SummaryAdvanceAmount += (bitem.Advance / (100 + bitem.TaxRate) * 100)
-                    Else
-                        SummaryAdvanceAmount += bitem.Advance
-                    End If
-                Next
-                'SummaryAdvanceAmount
-                dpi = New DocPrintingItem
-                dpi.Mapping = "SummaryAdvanceAmount"
-                dpi.Value = Configuration.FormatToString(Me.TaxBase + Me.Amount, DigitConfig.Price)
-                dpi.DataType = "System.Decimal"
-                dpiColl.Add(dpi)
-            End If
-
-            '**************************************Line Items*********************************************
-            Dim ls As ArrayList = Me.Lines
-            Dim sumRetention As Decimal = 0
-            If Not ls Is Nothing Then
-                Dim y As Integer = 0
-                Dim i As Integer = 0 'เริ่มไปก่อนแล้ว
-                Dim j As Integer = 0
-
-                Dim sumAdvance As Decimal = 0
-                Dim sumDiscount As Decimal = 0
-                Dim sumMilestoneAmount As Decimal = 0
-                Dim sumAftertax As Decimal = 0
-
-                For Each lineText As String In ls
-                    j += 1
-                    If Not showSpecificLineOnly OrElse (j = Me.LineNumber OrElse ls.Count <> myCount) Then
-                        Dim lineTexts As String() = lineText.Split("|"c)
-                        Dim typeValue As Integer = 0
-                        If lineTexts.Length > 1 Then
-
-                            If lineTexts.Length = 15 Then
-                                typeValue = CInt(lineTexts(13))
-                            Else
-                                typeValue = -1
-                            End If
-
-                            'Item.Name
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "Item.Name"
-                            dpi.Value = lineTexts(0)
-                            dpi.DataType = "System.String"
-                            dpi.Row = i + 1
-                            dpi.Table = "Item"
-                            dpiColl.Add(dpi)
-
-                            If Not (typeValue = 160 OrElse typeValue = 162) Then
-
-                                'Item.LineNumber
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.LineNumber"
-                                If lineTexts(13) = "Detail" Then
-                                    dpi.Value = ""
-                                Else
-                                    dpi.Value = y + 1
-                                End If
-                                dpi.DataType = "System.Int32"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-
-
-                                'Item.Unit
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Unit"
-                                dpi.Value = lineTexts(8)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.Qty
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Qty"
-                                dpi.Value = lineTexts(9)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.UnitPrice
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.UnitPrice"
-                                dpi.Value = lineTexts(1)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.UnitPrice
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.RealUnitPrice"
-                                dpi.Value = lineTexts(1)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.Amount
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Amount"
-                                dpi.Value = lineTexts(2)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.DiscountRate
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.DiscountRate"
-                                dpi.Value = lineTexts(10)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.DiscountAmount()
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.DiscountAmount"
-                                dpi.Value = lineTexts(4)
-                                dpi.DataType = "System.Decimal"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.Note
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Note"
-                                dpi.Value = lineTexts(3)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                ''Item.Amount
-                                'dpi = New DocPrintingItem
-                                'dpi.Mapping = "Item.Amount"
-                                'dpi.Value = lineTexts(2)
-                                'dpi.DataType = "System.String"
-                                'dpi.Row = i + 1
-                                'dpi.Table = "Item"
-                                'dpiColl.Add(dpi)
-
-                                'Item.UnitPriceWithoutDeduct
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.UnitPriceWithoutDeduct"
-                                dpi.Value = lineTexts(6)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.AmountWithoutDeduct
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.AmountWithoutDeduct"
-                                dpi.Value = lineTexts(6)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                'Item.TaxBase
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.TaxBase"
-                                dpi.Value = lineTexts(12)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
-
-                                If IsNumeric(lineTexts(4)) Then
-                                    sumDiscount += CDec(lineTexts(4))
-                                End If
-                                If IsNumeric(lineTexts(5)) Then
-                                    sumAdvance += CDec(lineTexts(5))
-                                End If
-                                If IsNumeric(lineTexts(6)) Then
-                                    sumMilestoneAmount += CDec(lineTexts(6))
-                                End If
-                                If IsNumeric(lineTexts(7)) Then
-                                    sumRetention += CDec(lineTexts(7))
-                                End If
-                                If IsNumeric(lineTexts(11)) Then
-                                    sumAftertax += CDec(lineTexts(11))
-                                End If
-                            End If
-
-                            y += 1
-                        Else
-                            'Item.Name
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "Item.Name"
-                            dpi.Value = lineText
-                            dpi.DataType = "System.String"
-                            dpi.Row = i + 1
-                            dpi.Table = "Item"
-                            dpiColl.Add(dpi)
-                        End If
-                        i += 1
-                    End If
-                Next
-                '************************************End Line Items***********************************************
-                Dim distRate As String = ""
-                Dim distAmt As Decimal = 0
-                If TypeOf (Me.Vat.RefDoc) Is ReceiveSelection Then
-                    For Each rcItem As SaleBillIssueItem In CType(Me.Vat.RefDoc, ReceiveSelection).ItemCollection  'bi.ItemCollection
-                        If rcItem.EntityId.Equals(83) Then  'GoodsSold
-                            Dim gs As New GoodsSold(rcItem.Id)
-                            distRate = gs.Discount.Rate
-                            distAmt = gs.Discount.Amount
-                        End If
-                    Next
-
-                    sumDiscount = distAmt
-                End If
-                'DiscountRate
-                dpi = New DocPrintingItem
-                dpi.Mapping = "DiscountRate"
-                dpi.Value = distRate
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
-
-                'DiscountAmount
-                dpi = New DocPrintingItem
-                dpi.Mapping = "DiscountAmount"
-                dpi.Value = Configuration.FormatToString(distAmt, DigitConfig.Price)
-                dpi.DataType = "System.Decimal"
-                dpiColl.Add(dpi)
-
-                'Gross
-                dpi = New DocPrintingItem
-                dpi.Mapping = "Gross"
-                dpi.Value = Configuration.FormatToString(sumMilestoneAmount, DigitConfig.Price)
-                dpi.DataType = "System.Decimal"
-                dpiColl.Add(dpi)
-
-                'SummaryMileStoneAmount 
-                dpi = New DocPrintingItem
-                dpi.Mapping = "SummaryMileStoneAmount"
-                dpi.Value = Configuration.FormatToString(sumMilestoneAmount, DigitConfig.Price)
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
-
-                'SummaryDiscountAmount
-                dpi = New DocPrintingItem
-                dpi.Mapping = "SummaryDiscountAmount"
-                dpi.Value = Configuration.FormatToString(sumDiscount, DigitConfig.Price)
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
-
-                'AfterDiscountAmount 
-                dpi = New DocPrintingItem
-                dpi.Mapping = "AfterDiscountAmount"
-                dpi.Value = Configuration.FormatToString(sumMilestoneAmount - sumDiscount, DigitConfig.Price)
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
-
-                'SummaryAdvanceAmount 
-                dpi = New DocPrintingItem
-                dpi.Mapping = "SummaryAdvanceAmount"
-                dpi.Value = Configuration.FormatToString(sumAdvance, DigitConfig.Price)
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
-
-                ''AfterAdvanceAmount 
-                'dpi = New DocPrintingItem
-                'dpi.Mapping = "AftertaxAdvance"
-                'dpi.Value = Configuration.FormatToString(sumMilestoneAmount - sumDiscount, DigitConfig.Price)
+                'dpi.Mapping = "Item.Amount"
+                'dpi.Value = lineTexts(2)
                 'dpi.DataType = "System.String"
+                'dpi.Row = i + 1
+                'dpi.Table = "Item"
                 'dpiColl.Add(dpi)
 
-                'AfterAdvanceAmount 
+                'Item.UnitPriceWithoutDeduct
                 dpi = New DocPrintingItem
-                dpi.Mapping = "AfterAdvanceAmount"
-                dpi.Value = Configuration.FormatToString((sumMilestoneAmount - sumDiscount) - sumAdvance, DigitConfig.Price)
+                dpi.Mapping = "Item.UnitPriceWithoutDeduct"
+                dpi.Value = lineTexts(6)
                 dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
                 dpiColl.Add(dpi)
 
-                'SummaryRetentionAmount 
+                'Item.AmountWithoutDeduct
                 dpi = New DocPrintingItem
-                dpi.Mapping = "SummaryRetentionAmount"
-                dpi.Value = Configuration.FormatToString(sumRetention, DigitConfig.Price)
+                dpi.Mapping = "Item.AmountWithoutDeduct"
+                dpi.Value = lineTexts(6)
                 dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
                 dpiColl.Add(dpi)
 
-                'AfterRetionAmount 
+                'Item.TaxBase
                 dpi = New DocPrintingItem
-                dpi.Mapping = "AfterRetionAmount"
-                dpi.Value = Configuration.FormatToString((sumAftertax - sumDiscount) - sumAdvance, DigitConfig.Price)
+                dpi.Mapping = "Item.TaxBase"
+                dpi.Value = lineTexts(12)
                 dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
                 dpiColl.Add(dpi)
 
-            End If
-
-            Return dpiColl
-        End Function
-        Public ReadOnly Property Lines() As ArrayList
-            Get
-                Me.m_lines = New ArrayList
-                If Not Me.Vat Is Nothing Then
-                    If TypeOf Me.Vat.RefDoc Is BillIssue Then 'รับวางบิล
-                        Dim bi As BillIssue = CType(Me.Vat.RefDoc, BillIssue)
-                        If Not Me.Milestone Is Nothing Then 'มี Milestone แปะอยู่
-                            Dim item As Milestone = Me.Milestone
-                            Dim itemText As String = ""
-                            itemText = item.Name & _
-                            "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
-                            "|" & item.Note & _
-                            "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price) & _
-                            "|รายการ" & _
-                            "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
-                            "|" & item.Discount.Rate & _
-                            "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
-                            "|"
-                            Me.m_lines.Add(itemText)
-
-                        Else 'ไม่มี Milestone แปะอยู่
-                            For Each item As Milestone In bi.ItemCollection
-                                Dim itemText As String = ""
-                                itemText = item.Name & _
-                                "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
-                                "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
-                                "|" & item.Note & _
-                                "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price) & _
-                                "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price) & _
-                                "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
-                                "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price) & _
-                                "|รายการ" & _
-                                "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
-                                "|" & item.Discount.Rate & _
-                                "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
-                                "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
-                              "|"
-                                Me.m_lines.Add(itemText)
-                                If bi.ShowDetail Then
-                                    For Each miDetailRow As TreeRow In item.ItemTable.Childs
-                                        'miDetailRow("milestonei_desc").ToString
-                                        Dim itext As String = ""
-                                        itext = miDetailRow("milestonei_desc").ToString & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & miDetailRow("milestonei_note").ToString & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|Detail"
-                                        Me.m_lines.Add(itext)
-                                    Next
-                                End If
-                            Next
-                        End If
-                    ElseIf TypeOf (Me.Vat.RefDoc) Is ReceiveSelection Then 'รับชำระหนี้
-                        Dim rs As ReceiveSelection = CType(Me.Vat.RefDoc, ReceiveSelection)
-                        If Not Me.Milestone Is Nothing Then 'มี Milestone แปะอยู่
-                            Dim item As Milestone = Me.Milestone
-                            Dim rcItem As SaleBillIssueItem
-                            For Each rcItem In rs.ItemCollection
-                                If (item.Id = rcItem.Id AndAlso item.Id <> 0) OrElse rcItem Is item Then
-                                    Exit For
-                                End If
-                            Next
-                            If rcItem Is Nothing Then
-                                rcItem = New SaleBillIssueItem
-                            End If
-                            Dim tb As Decimal = item.RealMileStoneAmount
-                            Dim dsc As Decimal = item.Discount.Amount + item.Penalty
-                            Dim adv As Decimal = item.Advance
-                            If rcItem.Amount <> rcItem.UnreceivedAmount Then
-                                tb = Me.TaxBase
-                                dsc = 0
-                                adv = 0
-                            End If
-                            Dim itemText As String = ""
-                            itemText = item.Name & _
-                            "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
-                            "|" & item.Note & _
-                            "|" & Configuration.FormatToString(dsc, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(adv, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price) & _
-                            "|รายการ" & _
-                            "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
-                            "|" & item.Discount.Rate & _
-                            "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
-                            "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
-                            "|"
-                            Me.m_lines.Add(itemText)
-                        Else 'ไม่มี Milestone แปะอยู่       
-                            If rs.SingleVat Then
-                                For Each rcItem As SaleBillIssueItem In rs.ItemCollection
-                                    If rcItem.EntityId = 83 Then 'GoodsSold
-                                        Dim gs As New GoodsSold(rcItem.Id)
-                                        For Each gsItem As GoodsSoldItem In gs.ItemCollection
-                                            Dim itemText As String = ""
-                                            itemText = gsItem.Entity.Name & _
-                                            "|" & Configuration.FormatToString(gsItem.UnitPrice, DigitConfig.Price) & _
-                                            "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
-                                            "|" & gsItem.Note & _
-                                            "|" & Configuration.FormatToString(gsItem.Discount.Amount, DigitConfig.Price) & _
-                                            "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
-                                            "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
-                                            "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
-                                            "|" & gsItem.Unit.Name & _
-                                            "|" & Configuration.FormatToString(gsItem.Qty, DigitConfig.Qty) & _
-                                            "|" & gsItem.Discount.Rate & _
-                                            "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
-                                            "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
-                                            "|" & gsItem.ItemType.Value.ToString & _
-                                    "|"
-                                            Me.m_lines.Add(itemText)
-                                        Next
-                                    ElseIf rcItem.EntityId.Equals(75) _
-                                    OrElse rcItem.EntityId.Equals(77) _
-                                    OrElse rcItem.EntityId.Equals(78) _
-                                    OrElse rcItem.EntityId.Equals(79) _
-                                    OrElse rcItem.EntityId.Equals(86) Then          'MileStone
-                                        Dim mi As New Milestone(rcItem.Id)
-                                        Dim itemText As String = ""
-                                        itemText = mi.Name & _
-                                        "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
-                                        "|" & mi.Note & _
-                                        "|" & Configuration.FormatToString(mi.Discount.Amount + mi.Penalty, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(mi.Advance, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price) & _
-                                        "|รายการ" & _
-                                        "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
-                                        "|" & mi.Discount.Rate & _
-                                        "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
-                                         "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price) & _
-                                  "|"
-                                        Me.m_lines.Add(itemText)
-                                        'Dim mitem As New Milestone(rcItem.StockId)
-                                        If rs.ItemCollection.ShowDetail Then
-                                            For Each miDetailRow As TreeRow In mi.ItemTable.Childs
-                                                'miDetailRow("milestonei_desc").ToString
-                                                Dim itext As String = ""
-                                                itext = miDetailRow("milestonei_desc").ToString & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & miDetailRow("milestonei_note").ToString & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|" & _
-                                                "|Detail"
-                                                Me.m_lines.Add(itext)
-                                            Next
-                                        End If
-                                    End If
-                                Next
-                            Else ' หลายใบ
-                                Dim i As Integer = Me.Vat.ItemCollection.IndexOf(Me)
-                                Dim rcItem As SaleBillIssueItem = rs.ItemCollection(i)
-                                If rcItem.EntityId = 83 Then 'GoodsSold
-                                    Dim gs As New GoodsSold(rcItem.Id)
-                                    For Each gsItem As GoodsSoldItem In gs.ItemCollection
-                                        Dim itemText As String = ""
-                                        itemText = gsItem.Entity.Name & _
-                                        "|" & Configuration.FormatToString(gsItem.UnitPrice, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
-                                        "|" & gsItem.Note & _
-                                        "|" & Configuration.FormatToString(gsItem.Discount.Amount, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
-                                        "|" & gsItem.Unit.Name & _
-                                        "|" & Configuration.FormatToString(gsItem.Qty, DigitConfig.Qty) & _
-                                        "|" & gsItem.Discount.Rate & _
-                                        "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
-                                        "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
-                                        "|" & gsItem.ItemType.Value.ToString & _
-                                  "|"
-                                        Me.m_lines.Add(itemText)
-                                    Next
-                                ElseIf rcItem.EntityId.Equals(75) _
-                                OrElse rcItem.EntityId.Equals(77) _
-                                OrElse rcItem.EntityId.Equals(78) _
-                                OrElse rcItem.EntityId.Equals(79) _
-                                OrElse rcItem.EntityId.Equals(86) Then 'MileStone
-                                    Dim mi As New Milestone(rcItem.Id)
-                                    Dim tb As Decimal = mi.RealMileStoneAmount
-                                    Dim dsc As Decimal = mi.Discount.Amount + mi.Penalty
-                                    Dim adv As Decimal = mi.Advance
-                                    If rcItem.Amount <> rcItem.UnreceivedAmount Then
-                                        tb = Me.TaxBase
-                                        dsc = 0
-                                        adv = 0
-                                    End If
-                                    Dim itemText As String = ""
-                                    itemText = mi.Name & _
-                                    "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
-                                    "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
-                                    "|" & mi.Note & _
-                                    "|" & Configuration.FormatToString(dsc, DigitConfig.Price) & _
-                                    "|" & Configuration.FormatToString(adv, DigitConfig.Price) & _
-                                    "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
-                                    "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price) & _
-                                    "|รายการ" & _
-                                    "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
-                                    "|" & mi.Discount.Rate & _
-                                    "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
-                                    "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price) & _
-                                "|"
-                                    Me.m_lines.Add(itemText)
-                                    'Dim mitem As New Milestone(rcItem.StockId)
-                                    If rs.ItemCollection.ShowDetail Then
-                                        For Each miDetailRow As TreeRow In mi.ItemTable.Childs
-                                            'miDetailRow("milestonei_desc").ToString
-                                            Dim itext As String = ""
-                                            itext = miDetailRow("milestonei_desc").ToString & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & miDetailRow("milestonei_note").ToString & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|" & _
-                                            "|Detail"
-                                            Me.m_lines.Add(itext)
-                                        Next
-                                    End If
-                                End If
-                            End If
-                        End If
-                    End If
+                If IsNumeric(lineTexts(4)) Then
+                  sumDiscount += CDec(lineTexts(4))
                 End If
-                Return m_lines
-            End Get
-        End Property
+                If IsNumeric(lineTexts(5)) Then
+                  sumAdvance += CDec(lineTexts(5))
+                End If
+                If IsNumeric(lineTexts(6)) Then
+                  sumMilestoneAmount += CDec(lineTexts(6))
+                End If
+                If IsNumeric(lineTexts(7)) Then
+                  sumRetention += CDec(lineTexts(7))
+                End If
+                If IsNumeric(lineTexts(11)) Then
+                  sumAftertax += CDec(lineTexts(11))
+                End If
+              End If
+
+              y += 1
+            Else
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
+              dpi.Value = lineText
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+            End If
+            i += 1
+          End If
+        Next
+        '************************************End Line Items***********************************************
+        Dim distRate As String = ""
+        Dim distAmt As Decimal = 0
+        If TypeOf (Me.Vat.RefDoc) Is ReceiveSelection Then
+          For Each rcItem As SaleBillIssueItem In CType(Me.Vat.RefDoc, ReceiveSelection).ItemCollection  'bi.ItemCollection
+            If rcItem.EntityId.Equals(83) Then  'GoodsSold
+              Dim gs As New GoodsSold(rcItem.Id)
+              distRate = gs.Discount.Rate
+              distAmt = gs.Discount.Amount
+            End If
+          Next
+
+          sumDiscount = distAmt
+        End If
+        'DiscountRate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "DiscountRate"
+        dpi.Value = distRate
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'DiscountAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "DiscountAmount"
+        dpi.Value = Configuration.FormatToString(distAmt, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'Gross
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Gross"
+        dpi.Value = Configuration.FormatToString(sumMilestoneAmount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'SummaryMileStoneAmount 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SummaryMileStoneAmount"
+        dpi.Value = Configuration.FormatToString(sumMilestoneAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SummaryDiscountAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SummaryDiscountAmount"
+        dpi.Value = Configuration.FormatToString(sumDiscount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'AfterDiscountAmount 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AfterDiscountAmount"
+        dpi.Value = Configuration.FormatToString(sumMilestoneAmount - sumDiscount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SummaryAdvanceAmount 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SummaryAdvanceAmount"
+        dpi.Value = Configuration.FormatToString(sumAdvance, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        ''AfterAdvanceAmount 
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "AftertaxAdvance"
+        'dpi.Value = Configuration.FormatToString(sumMilestoneAmount - sumDiscount, DigitConfig.Price)
+        'dpi.DataType = "System.String"
+        'dpiColl.Add(dpi)
+
+        'AfterAdvanceAmount 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AfterAdvanceAmount"
+        dpi.Value = Configuration.FormatToString((sumMilestoneAmount - sumDiscount) - sumAdvance, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SummaryRetentionAmount 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SummaryRetentionAmount"
+        dpi.Value = Configuration.FormatToString(sumRetention, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'AfterRetionAmount 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AfterRetionAmount"
+        dpi.Value = Configuration.FormatToString((sumAftertax - sumDiscount) - sumAdvance, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+      End If
+
+      Return dpiColl
+    End Function
+    Public ReadOnly Property Lines() As ArrayList
+      Get
+        Me.m_lines = New ArrayList
+        If Not Me.Vat Is Nothing Then
+          If TypeOf Me.Vat.RefDoc Is BillIssue Then 'รับวางบิล
+            Dim bi As BillIssue = CType(Me.Vat.RefDoc, BillIssue)
+            If Not Me.Milestone Is Nothing Then 'มี Milestone แปะอยู่
+              Dim item As Milestone = Me.Milestone
+              Dim itemText As String = ""
+              itemText = item.Name & _
+              "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
+              "|" & item.Note & _
+              "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price) & _
+              "|รายการ" & _
+              "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
+              "|" & item.Discount.Rate & _
+              "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
+              "|"
+              Me.m_lines.Add(itemText)
+
+            Else 'ไม่มี Milestone แปะอยู่
+              For Each item As Milestone In bi.ItemCollection
+                Dim itemText As String = ""
+                itemText = item.Name & _
+                "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
+                "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
+                "|" & item.Note & _
+                "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price) & _
+                "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price) & _
+                "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price) & _
+                "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price) & _
+                "|รายการ" & _
+                "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
+                "|" & item.Discount.Rate & _
+                "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
+                "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
+              "|"
+                Me.m_lines.Add(itemText)
+                If bi.ShowDetail Then
+                  For Each miDetailRow As TreeRow In item.ItemTable.Childs
+                    'miDetailRow("milestonei_desc").ToString
+                    Dim itext As String = ""
+                    itext = miDetailRow("milestonei_desc").ToString & _
+                    "|" & _
+                    "|" & _
+                    "|" & miDetailRow("milestonei_note").ToString & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|Detail"
+                    Me.m_lines.Add(itext)
+                  Next
+                End If
+              Next
+            End If
+          ElseIf TypeOf (Me.Vat.RefDoc) Is ReceiveSelection Then 'รับชำระหนี้
+            Dim rs As ReceiveSelection = CType(Me.Vat.RefDoc, ReceiveSelection)
+            If Not Me.Milestone Is Nothing Then 'มี Milestone แปะอยู่
+              Dim item As Milestone = Me.Milestone
+              Dim rcItem As SaleBillIssueItem
+              For Each rcItem In rs.ItemCollection
+                If (item.Id = rcItem.Id AndAlso item.Id <> 0) OrElse rcItem Is item Then
+                  Exit For
+                End If
+              Next
+              If rcItem Is Nothing Then
+                rcItem = New SaleBillIssueItem
+              End If
+              Dim tb As Decimal = item.RealMileStoneAmount
+              Dim dsc As Decimal = item.Discount.Amount + item.Penalty
+              Dim adv As Decimal = item.Advance
+              If rcItem.Amount <> rcItem.UnreceivedAmount Then
+                tb = Me.TaxBase
+                dsc = 0
+                adv = 0
+              End If
+              Dim itemText As String = ""
+              itemText = item.Name & _
+              "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
+              "|" & item.Note & _
+              "|" & Configuration.FormatToString(dsc, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(adv, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price) & _
+              "|รายการ" & _
+              "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
+              "|" & item.Discount.Rate & _
+              "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price) & _
+              "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price) & _
+              "|"
+              Me.m_lines.Add(itemText)
+            Else 'ไม่มี Milestone แปะอยู่       
+              If rs.SingleVat Then
+                For Each rcItem As SaleBillIssueItem In rs.ItemCollection
+                  If rcItem.EntityId = 83 Then 'GoodsSold
+                    Dim gs As New GoodsSold(rcItem.Id)
+                    For Each gsItem As GoodsSoldItem In gs.ItemCollection
+                      Dim itemText As String = ""
+                      itemText = gsItem.Entity.Name & _
+                      "|" & Configuration.FormatToString(gsItem.UnitPrice, DigitConfig.Price) & _
+                      "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
+                      "|" & gsItem.Note & _
+                      "|" & Configuration.FormatToString(gsItem.Discount.Amount, DigitConfig.Price) & _
+                      "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
+                      "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
+                      "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
+                      "|" & gsItem.Unit.Name & _
+                      "|" & Configuration.FormatToString(gsItem.Qty, DigitConfig.Qty) & _
+                      "|" & gsItem.Discount.Rate & _
+                      "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
+                      "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
+                      "|" & gsItem.ItemType.Value.ToString & _
+              "|"
+                      Me.m_lines.Add(itemText)
+                    Next
+                  ElseIf rcItem.EntityId.Equals(75) _
+                  OrElse rcItem.EntityId.Equals(77) _
+                  OrElse rcItem.EntityId.Equals(78) _
+                  OrElse rcItem.EntityId.Equals(79) _
+                  OrElse rcItem.EntityId.Equals(86) Then          'MileStone
+                    Dim mi As New Milestone(rcItem.Id)
+                    Dim itemText As String = ""
+                    itemText = mi.Name & _
+                    "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
+                    "|" & mi.Note & _
+                    "|" & Configuration.FormatToString(mi.Discount.Amount + mi.Penalty, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.Advance, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price) & _
+                    "|รายการ" & _
+                    "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
+                    "|" & mi.Discount.Rate & _
+                    "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
+                     "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price) & _
+              "|"
+                    Me.m_lines.Add(itemText)
+                    'Dim mitem As New Milestone(rcItem.StockId)
+                    If rs.ItemCollection.ShowDetail Then
+                      For Each miDetailRow As TreeRow In mi.ItemTable.Childs
+                        'miDetailRow("milestonei_desc").ToString
+                        Dim itext As String = ""
+                        itext = miDetailRow("milestonei_desc").ToString & _
+                        "|" & _
+                        "|" & _
+                        "|" & miDetailRow("milestonei_note").ToString & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|" & _
+                        "|Detail"
+                        Me.m_lines.Add(itext)
+                      Next
+                    End If
+                  End If
+                Next
+              Else ' หลายใบ
+                Dim i As Integer = Me.Vat.ItemCollection.IndexOf(Me)
+                Dim rcItem As SaleBillIssueItem = rs.ItemCollection(i)
+                If rcItem.EntityId = 83 Then 'GoodsSold
+                  Dim gs As New GoodsSold(rcItem.Id)
+                  For Each gsItem As GoodsSoldItem In gs.ItemCollection
+                    Dim itemText As String = ""
+                    itemText = gsItem.Entity.Name & _
+                    "|" & Configuration.FormatToString(gsItem.UnitPrice, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
+                    "|" & gsItem.Note & _
+                    "|" & Configuration.FormatToString(gsItem.Discount.Amount, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(gsItem.Amount, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(0, DigitConfig.Price) & _
+                    "|" & gsItem.Unit.Name & _
+                    "|" & Configuration.FormatToString(gsItem.Qty, DigitConfig.Qty) & _
+                    "|" & gsItem.Discount.Rate & _
+                    "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
+                    "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
+                    "|" & gsItem.ItemType.Value.ToString & _
+              "|"
+                    Me.m_lines.Add(itemText)
+                  Next
+                ElseIf rcItem.EntityId.Equals(75) _
+                OrElse rcItem.EntityId.Equals(77) _
+                OrElse rcItem.EntityId.Equals(78) _
+                OrElse rcItem.EntityId.Equals(79) _
+                OrElse rcItem.EntityId.Equals(86) Then 'MileStone
+                  Dim mi As New Milestone(rcItem.Id)
+                  Dim tb As Decimal = mi.RealMileStoneAmount
+                  Dim dsc As Decimal = mi.Discount.Amount + mi.Penalty
+                  Dim adv As Decimal = mi.Advance
+                  If rcItem.Amount <> rcItem.UnreceivedAmount Then
+                    tb = Me.TaxBase
+                    dsc = 0
+                    adv = 0
+                  End If
+                  Dim itemText As String = ""
+                  itemText = mi.Name & _
+                  "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
+                  "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
+                  "|" & mi.Note & _
+                  "|" & Configuration.FormatToString(dsc, DigitConfig.Price) & _
+                  "|" & Configuration.FormatToString(adv, DigitConfig.Price) & _
+                  "|" & Configuration.FormatToString(tb, DigitConfig.Price) & _
+                  "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price) & _
+                  "|รายการ" & _
+                  "|" & Configuration.FormatToString(1, DigitConfig.Qty) & _
+                  "|" & mi.Discount.Rate & _
+                  "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price) & _
+                  "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price) & _
+              "|"
+                  Me.m_lines.Add(itemText)
+                  'Dim mitem As New Milestone(rcItem.StockId)
+                  If rs.ItemCollection.ShowDetail Then
+                    For Each miDetailRow As TreeRow In mi.ItemTable.Childs
+                      'miDetailRow("milestonei_desc").ToString
+                      Dim itext As String = ""
+                      itext = miDetailRow("milestonei_desc").ToString & _
+                      "|" & _
+                      "|" & _
+                      "|" & miDetailRow("milestonei_note").ToString & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|" & _
+                      "|Detail"
+                      Me.m_lines.Add(itext)
+                    Next
+                  End If
+                End If
+              End If
+            End If
+          End If
+        End If
+        Return m_lines
+      End Get
+    End Property
 #End Region
 
-    End Class
+  End Class
 
-    <Serializable(), DefaultMember("Item")> _
-    Public Class VatItemCollection
-        Inherits CollectionBase
+  <Serializable(), DefaultMember("Item")> _
+  Public Class VatItemCollection
+    Inherits CollectionBase
 
 #Region "Members"
-        Private m_vat As Vat
+    Private m_vat As Vat
 #End Region
 
 #Region "Constructors"
-        Public Sub New(ByVal owner As Vat)
-            Me.m_vat = owner
-            If Not Me.m_vat.Originated Then
-                Return
-            End If
+    Public Sub New(ByVal owner As Vat)
+      Me.m_vat = owner
+      If Not Me.m_vat.Originated Then
+        Return
+      End If
 
 
-            Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
 
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-            , CommandType.StoredProcedure _
-            , "GetVatItems" _
-            , New SqlParameter("@vat_id", Me.m_vat.Id) _
-            )
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      , CommandType.StoredProcedure _
+      , "GetVatItems" _
+      , New SqlParameter("@vat_id", Me.m_vat.Id) _
+      )
 
-            For Each row As DataRow In ds.Tables(0).Rows
-                Dim item As New VatItem(row, "")
-                item.Vat = m_vat
-                Me.Add(item)
-            Next
-        End Sub
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New VatItem(row, "")
+        item.Vat = m_vat
+        Me.Add(item)
+      Next
+    End Sub
 #End Region
 
 #Region "Properties"
-        Default Public Property Item(ByVal index As Integer) As VatItem
-            Get
-                    Return CType(MyBase.List.Item(index), VatItem)
-            End Get
-            Set(ByVal value As VatItem)
-                MyBase.List.Item(index) = value
-            End Set
-        End Property
-        Public ReadOnly Property Amount() As Decimal
-            Get
-                Dim amt As Decimal = 0
-                For Each item As VatItem In Me
-                    amt += Configuration.Format(item.Amount, DigitConfig.Price)
-                Next
-                Return amt
-            End Get
-        End Property
+    Default Public Property Item(ByVal index As Integer) As VatItem
+      Get
+        Return CType(MyBase.List.Item(index), VatItem)
+      End Get
+      Set(ByVal value As VatItem)
+        MyBase.List.Item(index) = value
+      End Set
+    End Property
+    Public ReadOnly Property Amount() As Decimal
+      Get
+        Dim amt As Decimal = 0
+        For Each item As VatItem In Me
+          amt += Configuration.Format(item.Amount, DigitConfig.Price)
+        Next
+        Return amt
+      End Get
+    End Property
 #End Region
 
 #Region "Class Methods"
-        Public Sub Populate(ByVal dt As TreeTable)
-            dt.Clear()
-            Dim i As Integer = 0
-            For Each vi As VatItem In Me
-                i += 1
-                Dim newRow As TreeRow = dt.Childs.Add()
-                vi.CopyToDataRow(newRow)
-                vi.ItemValidateRow(newRow)
-                newRow.Tag = vi
-            Next
-        End Sub
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each vi As VatItem In Me
+        i += 1
+        Dim newRow As TreeRow = dt.Childs.Add()
+        vi.CopyToDataRow(newRow)
+        vi.ItemValidateRow(newRow)
+        newRow.Tag = vi
+      Next
+    End Sub
 #End Region
 
 #Region "Collection Methods"
-        ''' <summary>
-        ''' เปลี่ยนแปลง GL
-        ''' </summary>
-        ''' <remarks></remarks>
-        Private Sub SetRefDocGLChange()
-            If Not m_vat Is Nothing Then
-                If TypeOf m_vat.RefDoc Is SimpleBusinessEntityBase Then
-                    CType(m_vat.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
-                End If
-            End If
-        End Sub
-        Public Function Add(ByVal value As VatItem) As Integer
-            If Not m_vat Is Nothing Then
-                value.Vat = m_vat
-            End If
-            SetRefDocGLChange()
-            Return MyBase.List.Add(value)
-        End Function
-        Public Sub AddRange(ByVal value As VatItemCollection)
-            For i As Integer = 0 To value.Count - 1
-                Me.Add(value(i))
-            Next
-        End Sub
-        Public Sub AddRange(ByVal value As VatItem())
-            For i As Integer = 0 To value.Length - 1
-                Me.Add(value(i))
-            Next
-        End Sub
-        Public Function Contains(ByVal value As VatItem) As Boolean
-            Return MyBase.List.Contains(value)
-        End Function
-        Public Sub CopyTo(ByVal array As VatItem(), ByVal index As Integer)
-            MyBase.List.CopyTo(array, index)
-        End Sub
-        Public Shadows Function GetEnumerator() As VatItemEnumerator
-            Return New VatItemEnumerator(Me)
-        End Function
-        Public Function IndexOf(ByVal value As VatItem) As Integer
-            Return MyBase.List.IndexOf(value)
-        End Function
-        Public Sub Insert(ByVal index As Integer, ByVal value As VatItem)
-            If Not m_vat Is Nothing Then
-                value.Vat = m_vat
-            End If
-            SetRefDocGLChange()
-            MyBase.List.Insert(index, value)
-        End Sub
-        Public Sub Remove(ByVal value As VatItem)
-            SetRefDocGLChange()
-            MyBase.List.Remove(value)
-        End Sub
-        Public Sub Remove(ByVal index As Integer)
-            SetRefDocGLChange()
-            MyBase.List.RemoveAt(index)
-        End Sub
+    ''' <summary>
+    ''' เปลี่ยนแปลง GL
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Sub SetRefDocGLChange()
+      If Not m_vat Is Nothing Then
+        If TypeOf m_vat.RefDoc Is SimpleBusinessEntityBase Then
+          CType(m_vat.RefDoc, SimpleBusinessEntityBase).OnGlChanged()
+        End If
+      End If
+    End Sub
+    Public Function Add(ByVal value As VatItem) As Integer
+      If Not m_vat Is Nothing Then
+        value.Vat = m_vat
+      End If
+      SetRefDocGLChange()
+      Return MyBase.List.Add(value)
+    End Function
+    Public Sub AddRange(ByVal value As VatItemCollection)
+      For i As Integer = 0 To value.Count - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Sub AddRange(ByVal value As VatItem())
+      For i As Integer = 0 To value.Length - 1
+        Me.Add(value(i))
+      Next
+    End Sub
+    Public Function Contains(ByVal value As VatItem) As Boolean
+      Return MyBase.List.Contains(value)
+    End Function
+    Public Sub CopyTo(ByVal array As VatItem(), ByVal index As Integer)
+      MyBase.List.CopyTo(array, index)
+    End Sub
+    Public Shadows Function GetEnumerator() As VatItemEnumerator
+      Return New VatItemEnumerator(Me)
+    End Function
+    Public Function IndexOf(ByVal value As VatItem) As Integer
+      Return MyBase.List.IndexOf(value)
+    End Function
+    Public Sub Insert(ByVal index As Integer, ByVal value As VatItem)
+      If Not m_vat Is Nothing Then
+        value.Vat = m_vat
+      End If
+      SetRefDocGLChange()
+      MyBase.List.Insert(index, value)
+    End Sub
+    Public Sub Remove(ByVal value As VatItem)
+      SetRefDocGLChange()
+      MyBase.List.Remove(value)
+    End Sub
+    Public Sub Remove(ByVal index As Integer)
+      SetRefDocGLChange()
+      MyBase.List.RemoveAt(index)
+    End Sub
 #End Region
 
 
-        Public Class VatItemEnumerator
-            Implements IEnumerator
+    Public Class VatItemEnumerator
+      Implements IEnumerator
 
 #Region "Members"
-            Private m_baseEnumerator As IEnumerator
-            Private m_temp As IEnumerable
+      Private m_baseEnumerator As IEnumerator
+      Private m_temp As IEnumerable
 #End Region
 
 #Region "Construtor"
-            Public Sub New(ByVal mappings As VatItemCollection)
-                Me.m_temp = mappings
-                Me.m_baseEnumerator = Me.m_temp.GetEnumerator
-            End Sub
+      Public Sub New(ByVal mappings As VatItemCollection)
+        Me.m_temp = mappings
+        Me.m_baseEnumerator = Me.m_temp.GetEnumerator
+      End Sub
 #End Region
 
-            Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
-                Get
-                    Return CType(Me.m_baseEnumerator.Current, VatItem)
-                End Get
-            End Property
+      Public ReadOnly Property Current() As Object Implements System.Collections.IEnumerator.Current
+        Get
+          Return CType(Me.m_baseEnumerator.Current, VatItem)
+        End Get
+      End Property
 
-            Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
-                Return Me.m_baseEnumerator.MoveNext
-            End Function
+      Public Function MoveNext() As Boolean Implements System.Collections.IEnumerator.MoveNext
+        Return Me.m_baseEnumerator.MoveNext
+      End Function
 
-            Public Sub Reset() Implements System.Collections.IEnumerator.Reset
-                Me.m_baseEnumerator.Reset()
-            End Sub
+      Public Sub Reset() Implements System.Collections.IEnumerator.Reset
+        Me.m_baseEnumerator.Reset()
+      End Sub
 
-        End Class
     End Class
+  End Class
 
-    Public Class VatItemWithCustomNote
-        Implements IPrintableEntity
-        Private m_vitem As VatItem
-        Public Sub New(ByVal vitem As VatItem)
-            m_vitem = vitem
-        End Sub
+  Public Class VatItemWithCustomNote
+    Implements IPrintableEntity
+    Private m_vitem As VatItem
+    Public Sub New(ByVal vitem As VatItem)
+      m_vitem = vitem
+    End Sub
 
-        Public Property Code As String Implements IIdentifiable.Code
-            Get
+    Public Property Code As String Implements IIdentifiable.Code
+      Get
 
-            End Get
-            Set(ByVal value As String)
+      End Get
+      Set(ByVal value As String)
 
-            End Set
-        End Property
+      End Set
+    End Property
 
-        Public Property Id As Integer Implements IIdentifiable.Id
-            Get
+    Public Property Id As Integer Implements IIdentifiable.Id
+      Get
 
-            End Get
-            Set(ByVal value As Integer)
+      End Get
+      Set(ByVal value As Integer)
 
-            End Set
-        End Property
+      End Set
+    End Property
 
-        Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
 
-        End Function
+    End Function
 
-        Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
 
-        End Function
+    End Function
 
-        Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
-            Dim ret As DocPrintingItemCollection = m_vitem.GetDocPrintingEntries
-            If Not m_vitem.Vat Is Nothing AndAlso TypeOf m_vitem.Vat.RefDoc Is IHasCustomNote Then
-                Dim coll As CustomNoteCollection        ' = CType(m_entity, IHasCustomNote).GetCustomNoteCollection
-                If TypeOf m_vitem.Vat.RefDoc Is IHasMainDoc Then
-                    If Not (TypeOf (m_vitem.Vat.RefDoc) Is JournalEntry) Then
-                        coll = CType(CType(m_vitem.Vat.RefDoc, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
-                    Else
-                        coll = CType(m_vitem.Vat.RefDoc, IHasCustomNote).GetCustomNoteCollection
-                    End If
-                Else
-                    coll = CType(m_vitem.Vat.RefDoc, IHasCustomNote).GetCustomNoteCollection
-                End If
-                For Each note As CustomNote In coll
-                    Dim dpi As New DocPrintingItem
-                    dpi.Mapping = "Note." & note.NoteName
-                    If note.IsDropDown Then
-                        dpi.Value = Boolean.Parse(CStr(note.Note))
-                        dpi.DataType = "System.Boolean"
-                    Else
-                        dpi.Value = CStr(note.Note)
-                        dpi.DataType = "System.String"
-                    End If
-                    ret.Add(dpi)
-                Next
-            End If
-            Return ret
-        End Function
-    End Class
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+      Dim ret As DocPrintingItemCollection = m_vitem.GetDocPrintingEntries
+      If Not m_vitem.Vat Is Nothing AndAlso TypeOf m_vitem.Vat.RefDoc Is IHasCustomNote Then
+        Dim coll As CustomNoteCollection        ' = CType(m_entity, IHasCustomNote).GetCustomNoteCollection
+        If TypeOf m_vitem.Vat.RefDoc Is IHasMainDoc Then
+          If Not (TypeOf (m_vitem.Vat.RefDoc) Is JournalEntry) Then
+            coll = CType(CType(m_vitem.Vat.RefDoc, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
+          Else
+            coll = CType(m_vitem.Vat.RefDoc, IHasCustomNote).GetCustomNoteCollection
+          End If
+        Else
+          coll = CType(m_vitem.Vat.RefDoc, IHasCustomNote).GetCustomNoteCollection
+        End If
+        For Each note As CustomNote In coll
+          Dim dpi As New DocPrintingItem
+          dpi.Mapping = "Note." & note.NoteName
+          If note.IsDropDown Then
+            dpi.Value = Boolean.Parse(CStr(note.Note))
+            dpi.DataType = "System.Boolean"
+          Else
+            dpi.Value = CStr(note.Note)
+            dpi.DataType = "System.String"
+          End If
+          ret.Add(dpi)
+        Next
+      End If
+      Return ret
+    End Function
+  End Class
 End Namespace

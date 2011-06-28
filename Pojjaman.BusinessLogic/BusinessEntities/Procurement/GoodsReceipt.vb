@@ -1946,7 +1946,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
 
-
       With Me
 
         Me.RefreshTaxBase()
@@ -2014,12 +2013,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
           End If
 
-         
-
         End If
 
-
-        
         'If NoItem Then
         '    Return Me.SaveNoItem(currentUserId)
         'ElseIf OnlyPayment Then
@@ -2403,7 +2398,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
-              trans.Rollback()
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
             Return New SaveErrorException(returnVal.Value.ToString)
@@ -2442,19 +2436,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
 
-      Me.DeleteRef(conn, trans)
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePO_GRRef", New SqlParameter("@stock_id", Me.Id))
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef", New SqlParameter("@refto_id", Me.Id))
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef", New SqlParameter("@refto_id", Me.Id))
-      If Me.Status.Value = 0 Then
-        Me.CancelRef(conn, trans)
-      End If
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGoodsReceiptPVList", New SqlParameter("@stock_id", Me.Id))
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
-      'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+      Try
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePO_GRRef", New SqlParameter("@stock_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef", New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef", New SqlParameter("@refto_id", Me.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGoodsReceiptPVList", New SqlParameter("@stock_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
       trans.Commit()
-
-
       Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
