@@ -22,17 +22,31 @@ Namespace Longkong.Pojjaman.Services
 #End Region
 
 #Region "Methods"
-    Public Sub OpenStartUpPage(Optional ByVal FullClassName As String = "Longkong.Pojjaman.BusinessLogic.MultiApproval")
-      Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(FullClassName)
-
+    Public Sub OpenStartUpPage(Optional ByVal FullClassName As String = "")
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim CurrentStartUpPage As String = ""
+      'CurrentStartUpPage = Configuration.GetConfig("CurrentClassNameOfStartUpPage").ToString
+      If Not ConfigurationUser.GetConfig(secSrv.CurrentUser.Id, "CurrentClassNameOfStartUpPage") Is Nothing Then
+        CurrentStartUpPage = (ConfigurationUser.GetConfig(secSrv.CurrentUser.Id, "CurrentClassNameOfStartUpPage")).ToString
+      End If
+
+      If CurrentStartUpPage Is Nothing OrElse CurrentStartUpPage.Length = 0 Then
+        Return
+      End If
+      If FullClassName.Length > 0 Then
+        CurrentStartUpPage = FullClassName
+      End If
+      'Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(FullClassName)
+      Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(CurrentStartUpPage)
+
       Dim accessId As Integer = Entity.GetAccessIdFromFullClassName(simpleentity.FullClassName)
 
       Dim level As Integer = secSrv.GetAccess(accessId)
       Dim checkString As String = BinaryHelper.DecToBin(level, 5)
       checkString = BinaryHelper.RevertString(checkString)
 
-      Dim config As Boolean = CBool(ConfigurationUser.GetConfig(secSrv.CurrentUser.Id, "AlwaysShowMultiApprovePage"))
+      'Dim config As Boolean = CBool(ConfigurationUser.GetConfig(secSrv.CurrentUser.Id, "AlwaysShowMultiApprovePage"))
+      Dim config As Boolean = CBool(ConfigurationUser.GetConfig(secSrv.CurrentUser.Id, "AlwaysShowStartUpPage"))
       If CBool(checkString.Substring(0, 1)) Then
         If config Then
           Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)

@@ -229,11 +229,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
   
     Public Property AlwaysShowPage As Boolean
       Get
-        Dim config As Boolean = CBool(ConfigurationUser.GetConfig(CurrentUserId, "AlwaysShowMultiApprovePage"))
-        Return config
+        'Dim config As Boolean = CBool(ConfigurationUser.GetConfig(CurrentUserId, "AlwaysShowMultiApprovePage"))
+        Dim config As String = (ConfigurationUser.GetConfig(CurrentUserId, "CurrentClassNameOfStartUpPage")).ToString
+        If Me.FullClassName.ToLower.Equals(config.ToLower) Then
+          Return True
+        Else
+          Return False
+        End If
       End Get
       Set(ByVal value As Boolean)
-        Dim saveEx As SaveErrorException = ConfigurationUser.Save(CurrentUserId, "AlwaysShowMultiApprovePage", value)
+        Dim classToStartUp As String
+        If value Then
+          classToStartUp = Me.FullClassName
+        Else
+          classToStartUp = "" 'Configuration.GetConfig("CurrentClassNameOfStartUpPage").ToString
+        End If
+        Dim saveEx As SaveErrorException = ConfigurationUser.Save(CurrentUserId, "CurrentClassNameOfStartUpPage", classToStartUp)
         If Not IsNumeric(saveEx.Message) Then
           MessageBox.Show("ไม่สามารถกำหนดค่าได้" & vbCrLf, "", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End If

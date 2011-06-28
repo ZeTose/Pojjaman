@@ -433,6 +433,7 @@
     <Compile Include="BusinessEntities\Configurations\Configuration.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Configurations\BrowserPage.vb" />
     <Compile Include="BusinessEntities\Configurations\Department.vb">
       <SubType>Code</SubType>
     </Compile>

@@ -178,6 +178,9 @@
     <Compile Include="Right\RightDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="StartUpPage\BrowserPageView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="StartUpPage\MultiApprovalCommentForm.Designer.vb">
       <DependentUpon>MultiApprovalCommentForm.vb</DependentUpon>
     </Compile>
@@ -273,6 +276,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Right\RightDetailView.resx">
       <DependentUpon>RightDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartUpPage\BrowserPageView.resx">
+      <DependentUpon>BrowserPageView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StartUpPage\MultiApprovalCommentForm.resx">
       <DependentUpon>MultiApprovalCommentForm.vb</DependentUpon>
