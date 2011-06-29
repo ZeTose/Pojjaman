@@ -963,19 +963,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim filters(0) As Filter
         filters(0) = New Filter("IncludeIdList", idList)
         Dim dt As DataTable = m_entity.GetListDataSet("", filters).Tables(1)
+        Dim newCheckIds As New ArrayList
         If TypeOf Me.m_entity Is TreeBaseEntity AndAlso TypeOf Me.m_entity Is Account Then
           For Each id As Integer In checkIds
             Dim newAcc As New Account(id)
             If newAcc.IsControlGroup Then
-              MessageService.ShowMessage(newAcc.ControlMessage)
-              m_basketItems.Clear()
-              Return m_basketItems
+              If checkIds.Count = 1 Then
+                MessageService.ShowMessage(newAcc.ControlMessage)
+                m_basketItems.Clear()
+                Return m_basketItems
+              End If
+            Else
+              newCheckIds.Add(id)
             End If
           Next
         End If
-        For Each id As Integer In checkIds
+        For Each id As Integer In newCheckIds
           Dim row As DataRow = dt.Select(m_entity.Prefix & "_id=" & id.ToString)(0)
-          Dim basketitem As New basketitem(CInt(row(m_entity.Prefix & "_id")), row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName, row(m_entity.Prefix & "_code").ToString)
+          Dim basketitem As New BasketItem(CInt(row(m_entity.Prefix & "_id")), row(m_entity.Prefix & "_code").ToString, m_entity.FullClassName, row(m_entity.Prefix & "_code").ToString)
           basketitem.Tag = row
           m_basketItems.Add(basketitem)
         Next
