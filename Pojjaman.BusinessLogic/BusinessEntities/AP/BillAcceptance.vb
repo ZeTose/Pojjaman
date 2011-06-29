@@ -413,6 +413,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetCode(ByVal oldCode As String)
       Me.Code = oldCode
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      '
+      '
+      '
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Dim oldcode As String
@@ -468,6 +479,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          Me.ResetCode(oldcode)
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
         ' ҧ SqlParameter ҡ ArrayList ...
 
         Dim sqlparams() As SqlParameter
@@ -478,61 +497,112 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
+
         Try
-          Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid)
-                Me.ResetCode(oldcode)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case -69 'ใบวางบิลซ้ำ
-                trans.Rollback()
-                ResetID(oldid)
-                Me.ResetCode(oldcode)
-                Return New SaveErrorException("${res:Global.Error.BillIssueCodeDuplicated}", Me.BillIssueCode)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          Try
+            Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid)
+                  Me.ResetCode(oldcode)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case -69 'ใบวางบิลซ้ำ
+                  trans.Rollback()
+                  ResetID(oldid)
+                  Me.ResetCode(oldcode)
+                  Return New SaveErrorException("${res:Global.Error.BillIssueCodeDuplicated}", Me.BillIssueCode)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid)
+              Me.ResetCode(oldcode)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+            SaveDetail(Me.Id, conn, trans)
+
+            'Me.DeleteRef(conn, trans)
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_BillARef" _
+            ', New SqlParameter("@billa_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_BillARef" _
+            ', New SqlParameter("@billa_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_BillARef" _
+            ', New SqlParameter("@billa_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_BillARef" _
+            ', New SqlParameter("@billa_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPA_BillARef" _
+            ', New SqlParameter("@billa_id", Me.Id))
+            'If Me.Status.Value = 0 Then
+            '  Me.CancelRef(conn, trans)
+            'End If
+
+            trans.Commit()
+            'Return New SaveErrorException(returnVal.Value.ToString)
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid)
             Me.ResetCode(oldcode)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            Me.ResetID(oldid)
+            Me.ResetCode(oldcode)
+            Return New SaveErrorException(ex.ToString)
+            'Finally
+            '  conn.Close()
+          End Try
+
+          '--Sub Save Block-- ============================================================
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-          SaveDetail(Me.Id, conn, trans)
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save Block-- ============================================================
 
-          Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_BillARef" _
-          , New SqlParameter("@billa_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_BillARef" _
-          , New SqlParameter("@billa_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_BillARef" _
-          , New SqlParameter("@billa_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_BillARef" _
-          , New SqlParameter("@billa_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPA_BillARef" _
-          , New SqlParameter("@billa_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
-
-          trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid)
-          Me.ResetCode(oldcode)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid)
-          Me.ResetCode(oldcode)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
+
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_BillARef" _
+        , New SqlParameter("@billa_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_BillARef" _
+        , New SqlParameter("@billa_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_BillARef" _
+        , New SqlParameter("@billa_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_BillARef" _
+        , New SqlParameter("@billa_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPA_BillARef" _
+        , New SqlParameter("@billa_id", Me.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Private Function GetRefIdString() As String
       Dim ret As String = ""

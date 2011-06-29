@@ -554,83 +554,133 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       oldcode = Me.Code
       oldautogen = Me.AutoGen
+
       Try
-        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-        If IsNumeric(returnVal.Value) Then
-          Select Case CInt(returnVal.Value)
-            Case -1, -2, -5
-              trans.Rollback()
-              Me.ResetID(oldid)
-              ResetCode(oldcode, oldautogen)
-              Return New SaveErrorException(returnVal.Value.ToString)
-            Case -11
-              trans.Rollback()
-              Me.ResetID(oldid)
-              ResetCode(oldcode, oldautogen)
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateTaxId}"), New String() {Me.TaxId.ToString})
-            Case -13
-              trans.Rollback()
-              Me.ResetID(oldid)
-              ResetCode(oldcode, oldautogen)
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateIdNo}"), New String() {Me.IdNo.ToString})
-            Case Else
-          End Select
-        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+
+        Try
+          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1, -2, -5
+                trans.Rollback()
+                Me.ResetID(oldid)
+                ResetCode(oldcode, oldautogen)
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case -11
+                trans.Rollback()
+                Me.ResetID(oldid)
+                ResetCode(oldcode, oldautogen)
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateTaxId}"), New String() {Me.TaxId.ToString})
+              Case -13
+                trans.Rollback()
+                Me.ResetID(oldid)
+                ResetCode(oldcode, oldautogen)
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateIdNo}"), New String() {Me.IdNo.ToString})
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            trans.Rollback()
+            Me.ResetID(oldid)
+            ResetCode(oldcode, oldautogen)
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
+          Dim saveContactError As SaveErrorException = SaveContact(Me.Id, conn, trans)
+          If Not IsNumeric(saveContactError.Message) Then
+            trans.Rollback()
+            ResetID(oldid)
+            ResetCode(oldcode, oldautogen)
+            Return saveContactError
+          Else
+            Select Case CInt(saveContactError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                ResetID(oldid)
+                ResetCode(oldcode, oldautogen)
+                Return saveContactError
+              Case Else
+            End Select
+          End If
+          'trans.Commit()
+          'Return New SaveErrorException(returnVal.Value.ToString)
+          ' Update CostcenterImage ...
+          'If Me.Originated Then
+          '  paramArrayList = New ArrayList
+          '  paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+          '  Me.PrepareImageParams(paramArrayList)
+          '  sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+          '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
+          'End If
+
+          trans.Commit()
+          'Try
+          '  RefreshInfoList()
+          '  m_infolistNeedsRefreshing = True
+          'Catch ex As Exception
+          '  Throw New AfterCommitException("Error After Commit", ex)
+          'End Try
+          'Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As AfterCommitException
+          Return New SaveErrorException(ex.InnerException.ToString)
+        Catch ex As Exception
           trans.Rollback()
           Me.ResetID(oldid)
           ResetCode(oldcode, oldautogen)
-          Return New SaveErrorException(returnVal.Value.ToString)
-        End If
-        Dim saveContactError As SaveErrorException = SaveContact(Me.Id, conn, trans)
-        If Not IsNumeric(saveContactError.Message) Then
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As SqlException
           trans.Rollback()
-          ResetID(oldid)
+          Me.ResetID(oldid)
           ResetCode(oldcode, oldautogen)
-          Return saveContactError
-        Else
-          Select Case CInt(saveContactError.Message)
-            Case -1, -2, -5
-              trans.Rollback()
-              ResetID(oldid)
-              ResetCode(oldcode, oldautogen)
-              Return saveContactError
-            Case Else
-          End Select
-        End If
-        'trans.Commit()
-        'Return New SaveErrorException(returnVal.Value.ToString)
-        ' Update CostcenterImage ...
+          Return New SaveErrorException(ex.ToString)
+          'Finally
+          '  conn.Close()
+        End Try
+
+        '--Sub Save Block-- ============================================================
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        '--Sub Save Block-- ============================================================
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+
         If Me.Originated Then
-          paramArrayList = New ArrayList
+          Dim paramArrayList As New ArrayList
+          'paramArrayList = New ArrayList
+          Dim sqlparams() As SqlParameter
+          sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
           paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
           Me.PrepareImageParams(paramArrayList)
           sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "Insert" & Me.TableName & "Image", sqlparams)
         End If
 
-        trans.Commit()
-        Try
-          RefreshInfoList()          
-          m_infolistNeedsRefreshing = True
-        Catch ex As Exception
-          Throw New AfterCommitException("Error After Commit", ex)
-        End Try
-        Return New SaveErrorException(returnVal.Value.ToString)
-      Catch ex As AfterCommitException
-        Return New SaveErrorException(ex.InnerException.ToString)
+        RefreshInfoList()
+        m_infolistNeedsRefreshing = True
       Catch ex As Exception
         trans.Rollback()
-        Me.ResetID(oldid)
-        ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)
-      Catch ex As SqlException
-        trans.Rollback()
-        Me.ResetID(oldid)
-        ResetCode(oldcode, oldautogen)
-        Return New SaveErrorException(ex.ToString)
-      Finally
-        conn.Close()
       End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code 'Entity.GetAutoCodeFormat(Me.EntityId)

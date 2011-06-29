@@ -476,6 +476,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_je.Code = oldJecode
       Me.m_je.AutoGen = oldjeautogen
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      ValidateError = Me.Payment.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.Vat.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.WitholdingTaxCollection.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      Dim mycc As CostCenter = GetCCFromItem()
+      If Not mycc Is Nothing Then
+        Me.m_payment.CCId = mycc.Id
+        Me.m_whtcol.SetCCId(mycc.Id)
+        Me.m_vat.SetCCId(mycc.Id)
+      ElseIf Not cc Is Nothing Then
+        Me.m_payment.CCId = cc.Id
+        Me.m_whtcol.SetCCId(cc.Id)
+        Me.m_vat.SetCCId(cc.Id)
+      End If
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Dim oldcode As String
@@ -614,6 +653,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -636,199 +683,224 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldje As Integer = Me.m_je.Id
 
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
+
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje, oldVatId)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "ClearPayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
+
+            SaveDetail(Me.Id, conn, trans)
+
+            '==============CURRENCY=================================
+            'Save Currency
+            If Me.Originated Then
+              BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+            End If
+            '==============CURRENCY=================================
+
+            'Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            'Dim mycc As CostCenter = GetCCFromItem()
+            'If Not mycc Is Nothing Then
+            '  Me.m_payment.CCId = mycc.Id
+            '  Me.m_whtcol.SetCCId(mycc.Id)
+            '  Me.m_vat.SetCCId(mycc.Id)
+            'ElseIf Not cc Is Nothing Then
+            '  Me.m_payment.CCId = cc.Id
+            '  Me.m_whtcol.SetCCId(cc.Id)
+            '  Me.m_vat.SetCCId(cc.Id)
+            'End If
+            Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
+            If Not IsNumeric(savePaymentError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje, oldVatId)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return savePaymentError
+            Else
+              Select Case CInt(savePaymentError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return savePaymentError
+                Case Else
+              End Select
+            End If
+
+            If Not Me.NoVat Then
+              Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveVatError.Message) Then
                 trans.Rollback()
                 Me.ResetID(oldid, oldpay, oldje, oldVatId)
                 ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return saveVatError
+              Else
+                Select Case CInt(saveVatError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                    Return saveVatError
+                  Case Else
+                End Select
+              End If
+            End If
 
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
+              Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveWhtError.Message) Then
+                trans.Rollback()
+                Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return saveWhtError
+              Else
+                Select Case CInt(saveWhtError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                    Return saveWhtError
+                  Case Else
+                End Select
+              End If
+            End If
+
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje, oldVatId)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldje, oldVatId)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+            '  Me.DeleteRef(conn, trans)
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PaySRef" _
+            '  , New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_Retention_PaySRef" _
+            '  , New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_PaySRef" _
+            '  , New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateBillA_PaySRef" _
+            '  , New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_PaySRef" _
+            '  , New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_PaySRef" _
+            '  , New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_PaySRef" _
+            ', New SqlParameter("@pays_id", Me.Id))
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_Retention_PaySRef" _
+            ', New SqlParameter("@pays_id", Me.Id))
+            '  If Me.Status.Value = 0 Then
+            '    Me.CancelRef(conn, trans)
+            '  End If
+
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetID(oldid, oldpay, oldVatId, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid, oldpay, oldVatId, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
+            trans.Commit()
+
+            'trans = conn.BeginTransaction()
+            'For Each refwhtcoll As WitholdingTaxCollection In m_refWHTCollection
+            '  For Each refw As WitholdingTax In refwhtcoll
+            '    refw.AutoGen = False
+            '  Next
+            '  Dim saverefWHTError As SaveErrorException = refwhtcoll.Save(currentUserId, conn, trans)
+            '  If Not IsNumeric(saverefWHTError.Message) Then
+            '    trans.Rollback()
+            '    Me.ResetID(oldid, oldpay, oldje, oldVatId)
+            '    Return saverefWHTError
+            '  Else
+            '    Select Case CInt(saverefWHTError.Message)
+            '      Case -1, -2, -5
+            '        trans.Rollback()
+            '        Me.ResetID(oldid, oldpay, oldje, oldVatId)
+            '        Return saverefWHTError
+            '      Case Else
+            '    End Select
+            '  End If
+            'Next
+            'trans.Commit()
+            'Return New SaveErrorException(returnVal.Value.ToString)
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid, oldpay, oldje, oldVatId)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            Me.ResetID(oldid, oldpay, oldje, oldVatId)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+            'Finally
+            '  conn.Close()
+            '  'HACK================================
+            '  SimpleBusinessEntityBase.Connection = Nothing
+            '  SimpleBusinessEntityBase.Transaction = Nothing
+            '  'HACK================================
+          End Try
+
+          '--Sub Save Block-- ============================================================
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
-          End If
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save Block-- ============================================================
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "ClearPayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
-
-          SaveDetail(Me.Id, conn, trans)
-
-          '==============CURRENCY=================================
-          'Save Currency
-          If Me.Originated Then
-            BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
-          End If
-          '==============CURRENCY=================================
-
-          Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-          Dim mycc As CostCenter = GetCCFromItem()
-          If Not mycc Is Nothing Then
-            Me.m_payment.CCId = mycc.Id
-            Me.m_whtcol.SetCCId(mycc.Id)
-            Me.m_vat.SetCCId(mycc.Id)
-          ElseIf Not cc Is Nothing Then
-            Me.m_payment.CCId = cc.Id
-            Me.m_whtcol.SetCCId(cc.Id)
-            Me.m_vat.SetCCId(cc.Id)
-          End If
-          Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
-          If Not IsNumeric(savePaymentError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldje, oldVatId)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return savePaymentError
-          Else
-            Select Case CInt(savePaymentError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje, oldVatId)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return savePaymentError
-              Case Else
-            End Select
-          End If
-
-          If Not Me.NoVat Then
-            Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveVatError.Message) Then
-              trans.Rollback()
-              Me.ResetID(oldid, oldpay, oldje, oldVatId)
-              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-              Return saveVatError
-            Else
-              Select Case CInt(saveVatError.Message)
-                Case -1, -2, -5
-                  trans.Rollback()
-                  Me.ResetID(oldid, oldpay, oldje, oldVatId)
-                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                  Return saveVatError
-                Case Else
-              End Select
-            End If
-          End If
-
-          If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
-            Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveWhtError.Message) Then
-              trans.Rollback()
-              Me.ResetID(oldid, oldpay, oldje, oldVatId)
-              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-              Return saveWhtError
-            Else
-              Select Case CInt(saveWhtError.Message)
-                Case -1, -2, -5
-                  trans.Rollback()
-                  Me.ResetID(oldid, oldpay, oldje, oldVatId)
-                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                  Return saveWhtError
-                Case Else
-              End Select
-            End If
-          End If
-
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldje, oldVatId)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje, oldVatId)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-
-          Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PaySRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_Retention_PaySRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_PaySRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateBillA_PaySRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_PaySRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_PaySRef" _
-          , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_PaySRef" _
-        , New SqlParameter("@pays_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_Retention_PaySRef" _
-        , New SqlParameter("@pays_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
-
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
-
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
-            trans.Rollback()
-            ResetID(oldid, oldpay, oldVatId, oldje)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid, oldpay, oldVatId, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-
-          trans.Commit()
-
-          'trans = conn.BeginTransaction()
-          'For Each refwhtcoll As WitholdingTaxCollection In m_refWHTCollection
-          '  For Each refw As WitholdingTax In refwhtcoll
-          '    refw.AutoGen = False
-          '  Next
-          '  Dim saverefWHTError As SaveErrorException = refwhtcoll.Save(currentUserId, conn, trans)
-          '  If Not IsNumeric(saverefWHTError.Message) Then
-          '    trans.Rollback()
-          '    Me.ResetID(oldid, oldpay, oldje, oldVatId)
-          '    Return saverefWHTError
-          '  Else
-          '    Select Case CInt(saverefWHTError.Message)
-          '      Case -1, -2, -5
-          '        trans.Rollback()
-          '        Me.ResetID(oldid, oldpay, oldje, oldVatId)
-          '        Return saverefWHTError
-          '      Case Else
-          '    End Select
-          '  End If
-          'Next
-          'trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid, oldpay, oldje, oldVatId)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid, oldpay, oldje, oldVatId)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
@@ -838,6 +910,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'HACK================================
         End Try
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGR_Retention_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePCN_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateBillA_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQMaint_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAPO_PaySRef" _
+        , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_PaySRef" _
+      , New SqlParameter("@pays_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_Retention_PaySRef" _
+      , New SqlParameter("@pays_id", Me.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code 'Entity.GetAutoCodeFormat(Me.EntityId)
