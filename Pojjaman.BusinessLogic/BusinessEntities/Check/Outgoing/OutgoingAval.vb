@@ -610,44 +610,97 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim oldid As Integer = Me.Id
 
-      Try
-        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-        If IsNumeric(returnVal.Value) Then
-          Select Case CInt(returnVal.Value)
-            Case -1
-              trans.Rollback()
-              Me.ResetID(oldid)
-              Return New SaveErrorException("${res:Global.Error.DupCheckCode}", New String() {Me.Code, Me.CqCode})
-            Case -2
-              trans.Rollback()
-              Me.ResetID(oldid)
-              Return New SaveErrorException("${res:Global.Error.OutgoingCheckCodeIsRefed}", Me.Code)
-            Case Else
-          End Select
-        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-          trans.Rollback()
-          Me.ResetID(oldid)
-          Return New SaveErrorException(returnVal.Value.ToString)
-        End If
-        Dim detailError As SaveErrorException = SaveDetail(Me.Id, conn, trans, currentUserId)
-        If Not IsNumeric(detailError.Message) Then
-          Me.ResetID(oldid)
-          trans.Rollback()
-          Return detailError
-        Else
-          Select Case CInt(detailError.Message)
-            Case -1, -5
-              Me.ResetID(oldid)
-              trans.Rollback()
-              Return New SaveErrorException(returnVal.Value.ToString)
-            Case -2
-              Me.ResetID(oldid)
-              trans.Rollback()
-              Return New SaveErrorException(returnVal.Value.ToString)
-            Case Else
-          End Select
-        End If
 
+      Try
+
+        Try
+          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1
+                trans.Rollback()
+                Me.ResetID(oldid)
+                Return New SaveErrorException("${res:Global.Error.DupCheckCode}", New String() {Me.Code, Me.CqCode})
+              Case -2
+                trans.Rollback()
+                Me.ResetID(oldid)
+                Return New SaveErrorException("${res:Global.Error.OutgoingCheckCodeIsRefed}", Me.Code)
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            trans.Rollback()
+            Me.ResetID(oldid)
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
+          Dim detailError As SaveErrorException = SaveDetail(Me.Id, conn, trans, currentUserId)
+          If Not IsNumeric(detailError.Message) Then
+            Me.ResetID(oldid)
+            trans.Rollback()
+            Return detailError
+          Else
+            Select Case CInt(detailError.Message)
+              Case -1, -5
+                Me.ResetID(oldid)
+                trans.Rollback()
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case -2
+                Me.ResetID(oldid)
+                trans.Rollback()
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case Else
+            End Select
+          End If
+
+          Me.DeleteRef(conn, trans)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOutgoingAvalRef" _
+          , New SqlParameter("@check_id", Me.Id) _
+          , New SqlParameter("@loan_id", Me.Loan.Id))
+          If Me.Status.Value = 0 Then
+            Me.CancelRef(conn, trans)
+          End If
+
+          trans.Commit()
+          'Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          trans.Rollback()
+          Me.ResetID(oldid)
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          trans.Rollback()
+          Me.ResetID(oldid)
+          Return New SaveErrorException(ex.ToString)
+          'Finally
+          '  conn.Close()
+        End Try
+
+
+        'Sub Save Block
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        'Sub Save Block
+
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
+
+    End Function
+
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
         Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOutgoingAvalRef" _
         , New SqlParameter("@check_id", Me.Id) _
@@ -655,21 +708,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
-
-        trans.Commit()
-        Return New SaveErrorException(returnVal.Value.ToString)
-      Catch ex As SqlException
-        trans.Rollback()
-        Me.ResetID(oldid)
-        Return New SaveErrorException(ex.ToString)
       Catch ex As Exception
         trans.Rollback()
-        Me.ResetID(oldid)
         Return New SaveErrorException(ex.ToString)
-      Finally
-        conn.Close()
       End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
+
     End Function
+
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       If Me.Amount <= 0 AndAlso (Me.DocStatus.Value <> 5 OrElse Me.Originated) Then
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", "${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblAmount}")

@@ -468,6 +468,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         "${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.lblAmount}")
       End If
       'Return New SaveErrorException("Not Yet Implemented")
+
       connz = conn
       transz = trans
       saveCheckType = SaveType.OtherDoc

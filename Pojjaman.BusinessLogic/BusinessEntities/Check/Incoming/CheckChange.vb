@@ -619,1068 +619,1089 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private Sub ResetID(ByVal oldid As Integer, ByVal oldje As Integer)
             Me.Id = oldid
             Me.m_je.Id = oldje
-        End Sub
-        Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-            With Me
+    End Sub
 
-                If Me.MaxRowIndex < 0 Then
-                    Return New SaveErrorException("${res:Global.Error.NoItem}")
-                ElseIf Me.MaxRowIndexReplace < 0 Then
-                    Return New SaveErrorException("${res:Global.Error.CheckReplaceNoItem}")
-                ElseIf Me.TotalCancel <> Me.TotalReplace Then
-                    Return New SaveErrorException("${res:Global.Error.NotBalanceCheckChangeItem}")
-                End If
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+      Dim ValidateError As SaveErrorException
 
-                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-                returnVal.ParameterName = "RETURN_VALUE"
-                returnVal.DbType = DbType.Int32
-                returnVal.Direction = ParameterDirection.ReturnValue
-                returnVal.SourceVersion = DataRowVersion.Current
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
 
-                ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
-                Dim paramArrayList As New ArrayList
-
-                paramArrayList.Add(returnVal)
-                If .Originated Then
-                    paramArrayList.Add(New SqlParameter("@" & .Prefix & "_id", .Id))
-                End If
-
-                Dim theTime As Date = Now
-                Dim theUser As New User(currentUserId)
-
-                If Me.AutoGen And Me.Code.Length = 0 Then
-                    Me.Code = Me.GetNextCode
-                End If
-                Me.AutoGen = False
-
-                If Me.m_je.Status.Value = 4 Then
-                    Me.Status.Value = 4
-                End If
-                If Me.Status.Value = -1 Then
-                    Me.Status.Value = 2
-                End If
-
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", IIf(Me.IssueDate.Equals(Date.MinValue), DBNull.Value, Me.IssueDate)))
-
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_acct", IIf(Me.Account.Originated, Me.Account.Id, DBNull.Value)))
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_cust", IIf(Me.Customer.Originated, Me.Customer.Id, DBNull.Value)))
-
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_Checktype", Me.CheckType))
-                'paramArrayList.Add(New SqlParameter("@" & .Prefix & "_Checkdstatus", Me.CheckStatus))
-
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_otherrevenue", Me.OtherRevenue))
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalcancel", Me.TotalCancel))
-
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_cash", Me.Cash))
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_otherexpense", Me.OtherExpense))
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalreplace", Me.TotalReplace))
-
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", Me.Note))
-                paramArrayList.Add(New SqlParameter("@" & .Prefix & "_status", Me.Status.Value))
-
-                SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
-
-                ' สร้าง SqlParameter จาก ArrayList ...
-                Dim sqlparams() As SqlParameter
-                sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-
-                Dim trans As SqlTransaction
-                Dim conn As New SqlConnection(.ConnectionString)
-
-                If conn.State = ConnectionState.Open Then conn.Close()
-                conn.Open()
-                trans = conn.BeginTransaction()
-
-                Dim oldid As Integer = Me.Id
-                Dim oldje As Integer = m_je.Id
-
-                Try
-                    .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-                    If IsNumeric(returnVal.Value) Then
-                        Select Case CInt(returnVal.Value)
-                            Case -1, -2, -5
-                                trans.Rollback()
-                                Me.ResetID(oldid, oldje)
-                                Return New SaveErrorException(returnVal.Value.ToString)
-                            Case Else
-                        End Select
-                    ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-                        trans.Rollback()
-                        Me.ResetID(oldid, oldje)
-                        Return New SaveErrorException(returnVal.Value.ToString)
-                    End If
-
-                    Dim saveEx As SaveErrorException
-                    ' Save replace ก่อน ...
-                    saveEx = SaveReplaceDetail(currentUserId)
-                    If Not IsNumeric(saveEx.Message) Then
-                        trans.Rollback()
-                        Me.ResetID(oldid, oldje)
-                        Return saveEx
-                    End If
-                    ' Save CheckChange ...
-                    Dim saveRtn As Integer = SaveDetail(Me.Id, conn, trans, currentUserId)
-                    Select Case saveRtn
-                        Case -1, -2, -5
-                            trans.Rollback()
-                            Me.ResetID(oldid, oldje)
-                            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SQLErrorMissing}"))
-                        Case Else
-                            ' 
-                    End Select
-                    ' revert oldstatus 
-                    ChangeOldItemStatus(conn, trans)
-
-                    SaveDetail(Me.Id, conn, trans, currentUserId)
-
-                    ' save newstatus
-                    ChangeNewItemStatus(conn, trans)
-
-                    ' Save GL
-
-                    If Me.m_je.Status.Value = -1 Then
-                        m_je.Status.Value = 3
-                    End If
-                    Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-                    If Not IsNumeric(saveJeError.Message) Then
-                        trans.Rollback()
-                        ResetID(oldid, oldje)
-                        Return saveJeError
-                    Else
-                        Select Case CInt(saveJeError.Message)
-                            Case -1, -5
-                                trans.Rollback()
-                                ResetID(oldid, oldje)
-                                Return saveJeError
-                            Case -2
-                                'Post ไปแล้ว
-                                Return saveJeError
-                            Case Else
-                        End Select
-                    End If
+      Return New SaveErrorException("0")
+    End Function
 
 
-                    trans.Commit()
-                    Return New SaveErrorException(returnVal.Value.ToString)
-                Catch ex As SqlException
-                    trans.Rollback()
-                    Me.ResetID(oldid, oldje)
-                    Return New SaveErrorException(ex.ToString)
-                Catch ex As Exception
-                    trans.Rollback()
-                    Me.ResetID(oldid, oldje)
-                    Return New SaveErrorException(ex.ToString)
-                Finally
-                    conn.Close()
-                End Try
-            End With
-        End Function
 
-        Private Sub ChangeOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
-            If Not Me.Originated Then
-                Return
-            End If
-            Dim changedStatus As New IncomingCheckDocStatus(6) ' เปลี่ยนเช็ครับ
-            Dim sqlParams(2) As SqlParameter
-            sqlParams(0) = New SqlParameter("@cqUpdate_updatedstatus", changedStatus.Value)
-            sqlParams(1) = New SqlParameter("@RemoveIncludeIdList", Me.CheckRemovedInItemTable)
-            sqlParams(2) = New SqlParameter("@check_bankacct", DBNull.Value)
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      With Me
 
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldStatusIncomingCheck", sqlParams)
+        If Me.MaxRowIndex < 0 Then
+          Return New SaveErrorException("${res:Global.Error.NoItem}")
+        ElseIf Me.MaxRowIndexReplace < 0 Then
+          Return New SaveErrorException("${res:Global.Error.CheckReplaceNoItem}")
+        ElseIf Me.TotalCancel <> Me.TotalReplace Then
+          Return New SaveErrorException("${res:Global.Error.NotBalanceCheckChangeItem}")
+        End If
 
-        End Sub
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
 
-        Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
-            If Not Me.Originated Then
-                Return
-            End If
-            Dim changedStatus As New IncomingCheckDocStatus(6) ' เปลี่ยนเช็ครับ
-            Dim sqlParams(2) As SqlParameter
-            sqlParams(0) = New SqlParameter("@cqUpdate_updatedstatus", changedStatus.Value)
-            sqlParams(1) = New SqlParameter("@IncludeIdList", Me.CheckInItemTable)
-            sqlParams(2) = New SqlParameter("@check_bankacct", DBNull.Value)
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
 
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewStatusIncomingCheck", sqlParams)
+        paramArrayList.Add(returnVal)
+        If .Originated Then
+          paramArrayList.Add(New SqlParameter("@" & .Prefix & "_id", .Id))
+        End If
 
-        End Sub
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
 
-        Private Function SaveReplaceDetail(ByVal currentUserId As Integer) As SaveErrorException
-            Dim saveEx As SaveErrorException
-            Dim trans As SqlTransaction
-            Dim conn As New SqlConnection(Me.ConnectionString)
+        If Me.AutoGen And Me.Code.Length = 0 Then
+          Me.Code = Me.GetNextCode
+        End If
+        Me.AutoGen = False
 
-            If conn.State = ConnectionState.Open Then conn.Close()
+        If Me.m_je.Status.Value = 4 Then
+          Me.Status.Value = 4
+        End If
+        If Me.Status.Value = -1 Then
+          Me.Status.Value = 2
+        End If
 
-            Try
-                conn.Open()
-                trans = conn.BeginTransaction
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_code", .Code))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_issuedate", IIf(Me.IssueDate.Equals(Date.MinValue), DBNull.Value, Me.IssueDate)))
 
-                For Each row As TreeRow In Me.ItemReplaceTable.Childs
-                    If ValidateRowReplace(row) Then
-                        Dim incoming As IncomingCheck
-                        If Not row.IsNull("Originated") AndAlso CBool(row("Originated")) Then
-                            incoming = New IncomingCheck(CInt(row("check_id")))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_acct", IIf(Me.Account.Originated, Me.Account.Id, DBNull.Value)))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_cust", IIf(Me.Customer.Originated, Me.Customer.Id, DBNull.Value)))
 
-                            incoming.Code = CStr(row("check_code"))
-                            incoming.CqCode = CStr(row("check_cqcode"))
-                            incoming.Customer = Me.Customer
-                            incoming.ReceiveDate = CDate(row("check_receivedate"))
-                            incoming.DueDate = CDate(row("check_duedate"))
-                            incoming.ReceivePerson = New Employee(CInt(row("check_receiveperson")))
-                            incoming.Bank = New Bank(CInt(row("check_bank")))
-                            incoming.Amount = CDec(row("check_amt"))
-                            If Not row.IsNull("check_note") Then
-                                incoming.Note = CStr(row("check_note"))
-                            End If
-                        Else
-                            incoming = New IncomingCheck
-                            incoming.AutoGen = True
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_Checktype", Me.CheckType))
+        'paramArrayList.Add(New SqlParameter("@" & .Prefix & "_Checkdstatus", Me.CheckStatus))
 
-                            incoming.Code = ""    'CStr(row("check_code"))
-                            incoming.CqCode = CStr(row("check_cqcode"))
-                            incoming.Customer = Me.Customer
-                            incoming.ReceiveDate = CDate(row("check_receivedate"))
-                            incoming.DueDate = CDate(row("check_duedate"))
-                            incoming.ReceivePerson = New Employee(CInt(row("check_receiveperson")))
-                            incoming.Bank = New Bank(CInt(row("check_bank")))
-                            incoming.Amount = CDec(row("check_amt"))
-                            If Not row.IsNull("check_note") Then
-                                incoming.Note = CStr(row("check_note"))
-                            End If
-                        End If
-                        ' save incomingcheck
-                        saveEx = incoming.Save(currentUserId)
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_otherrevenue", Me.OtherRevenue))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalcancel", Me.TotalCancel))
 
-                        row("check_id") = incoming.Id
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_cash", Me.Cash))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_otherexpense", Me.OtherExpense))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_totalreplace", Me.TotalReplace))
 
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_note", Me.Note))
+        paramArrayList.Add(New SqlParameter("@" & .Prefix & "_status", Me.Status.Value))
 
-                    End If
-                Next
-                trans.Commit()
-            Catch ex As Exception
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+        Dim trans As SqlTransaction
+        Dim conn As New SqlConnection(.ConnectionString)
+
+        If conn.State = ConnectionState.Open Then conn.Close()
+        conn.Open()
+        trans = conn.BeginTransaction()
+
+        Dim oldid As Integer = Me.Id
+        Dim oldje As Integer = m_je.Id
+
+        Try
+          .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1, -2, -5
                 trans.Rollback()
-            Catch ex As SqlException
-                trans.Rollback()
-            Finally
-                conn.Close()
-            End Try
+                Me.ResetID(oldid, oldje)
+                Return New SaveErrorException(returnVal.Value.ToString)
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            trans.Rollback()
+            Me.ResetID(oldid, oldje)
+            Return New SaveErrorException(returnVal.Value.ToString)
+          End If
 
+          Dim saveEx As SaveErrorException
+          ' Save replace ก่อน ...
+          saveEx = SaveReplaceDetail(currentUserId)
+          If Not IsNumeric(saveEx.Message) Then
+            trans.Rollback()
+            Me.ResetID(oldid, oldje)
             Return saveEx
-        End Function
-        Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As Integer
-            Dim i As Integer = 0
+          End If
+          ' Save CheckChange ...
+          Dim saveRtn As Integer = SaveDetail(Me.Id, conn, trans, currentUserId)
+          Select Case saveRtn
+            Case -1, -2, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldje)
+              Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SQLErrorMissing}"))
+            Case Else
+              ' 
+          End Select
+          ' revert oldstatus 
+          ChangeOldItemStatus(conn, trans)
 
-            Dim da As New SqlDataAdapter("Select * from CheckChangeItem where cqChangei_cqChangeid = " & Me.Id, conn)
-            Dim cmdBuilder As New SqlCommandBuilder(da)
+          SaveDetail(Me.Id, conn, trans, currentUserId)
 
-            Dim ds As New DataSet
+          ' save newstatus
+          ChangeNewItemStatus(conn, trans)
 
-            da.SelectCommand.Transaction = trans
+          ' Save GL
 
-            'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-            cmdBuilder.GetDeleteCommand.Transaction = trans
-            cmdBuilder.GetInsertCommand.Transaction = trans
-            cmdBuilder.GetUpdateCommand.Transaction = trans
+          If Me.m_je.Status.Value = -1 Then
+            m_je.Status.Value = 3
+          End If
+          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveJeError.Message) Then
+            trans.Rollback()
+            ResetID(oldid, oldje)
+            Return saveJeError
+          Else
+            Select Case CInt(saveJeError.Message)
+              Case -1, -5
+                trans.Rollback()
+                ResetID(oldid, oldje)
+                Return saveJeError
+              Case -2
+                'Post ไปแล้ว
+                Return saveJeError
+              Case Else
+            End Select
+          End If
 
-            da.Fill(ds, "CheckChangeItem")
 
-            Dim dbCount As Integer = ds.Tables("CheckChangeItem").Rows.Count
-            Dim itemCount As Integer = Me.ItemTable.Childs.Count
+          trans.Commit()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        Catch ex As SqlException
+          trans.Rollback()
+          Me.ResetID(oldid, oldje)
+          Return New SaveErrorException(ex.ToString)
+        Catch ex As Exception
+          trans.Rollback()
+          Me.ResetID(oldid, oldje)
+          Return New SaveErrorException(ex.ToString)
+        Finally
+          conn.Close()
+        End Try
+      End With
+    End Function
+
+    Private Sub ChangeOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim changedStatus As New IncomingCheckDocStatus(6) ' เปลี่ยนเช็ครับ
+      Dim sqlParams(2) As SqlParameter
+      sqlParams(0) = New SqlParameter("@cqUpdate_updatedstatus", changedStatus.Value)
+      sqlParams(1) = New SqlParameter("@RemoveIncludeIdList", Me.CheckRemovedInItemTable)
+      sqlParams(2) = New SqlParameter("@check_bankacct", DBNull.Value)
+
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldStatusIncomingCheck", sqlParams)
+
+    End Sub
+
+    Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim changedStatus As New IncomingCheckDocStatus(6) ' เปลี่ยนเช็ครับ
+      Dim sqlParams(2) As SqlParameter
+      sqlParams(0) = New SqlParameter("@cqUpdate_updatedstatus", changedStatus.Value)
+      sqlParams(1) = New SqlParameter("@IncludeIdList", Me.CheckInItemTable)
+      sqlParams(2) = New SqlParameter("@check_bankacct", DBNull.Value)
+
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewStatusIncomingCheck", sqlParams)
+
+    End Sub
+
+    Private Function SaveReplaceDetail(ByVal currentUserId As Integer) As SaveErrorException
+      Dim saveEx As SaveErrorException
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+
+      If conn.State = ConnectionState.Open Then conn.Close()
+
+      Try
+        conn.Open()
+        trans = conn.BeginTransaction
+
+        For Each row As TreeRow In Me.ItemReplaceTable.Childs
+          If ValidateRowReplace(row) Then
+            Dim incoming As IncomingCheck
+            If Not row.IsNull("Originated") AndAlso CBool(row("Originated")) Then
+              incoming = New IncomingCheck(CInt(row("check_id")))
+
+              incoming.Code = CStr(row("check_code"))
+              incoming.CqCode = CStr(row("check_cqcode"))
+              incoming.Customer = Me.Customer
+              incoming.ReceiveDate = CDate(row("check_receivedate"))
+              incoming.DueDate = CDate(row("check_duedate"))
+              incoming.ReceivePerson = New Employee(CInt(row("check_receiveperson")))
+              incoming.Bank = New Bank(CInt(row("check_bank")))
+              incoming.Amount = CDec(row("check_amt"))
+              If Not row.IsNull("check_note") Then
+                incoming.Note = CStr(row("check_note"))
+              End If
+            Else
+              incoming = New IncomingCheck
+              incoming.AutoGen = True
+
+              incoming.Code = ""    'CStr(row("check_code"))
+              incoming.CqCode = CStr(row("check_cqcode"))
+              incoming.Customer = Me.Customer
+              incoming.ReceiveDate = CDate(row("check_receivedate"))
+              incoming.DueDate = CDate(row("check_duedate"))
+              incoming.ReceivePerson = New Employee(CInt(row("check_receiveperson")))
+              incoming.Bank = New Bank(CInt(row("check_bank")))
+              incoming.Amount = CDec(row("check_amt"))
+              If Not row.IsNull("check_note") Then
+                incoming.Note = CStr(row("check_note"))
+              End If
+            End If
+            ' save incomingcheck
+            saveEx = incoming.Save(currentUserId)
+
+            row("check_id") = incoming.Id
 
 
-            Dim theUser As New User(currentUserId)
-            With ds.Tables("CheckChangeItem")
-                For Each row As DataRow In .Rows
-                    row.Delete()
-                Next
-                For n As Integer = 0 To Me.MaxRowIndex
-                    Dim item As TreeRow = Me.m_itemTable.Childs(n)
-                    If ValidateRow(item) Then
-                        i += 1
-                        Dim dr As DataRow = .NewRow
-                        dr("cqChangei_cqChangeid") = Me.Id
-                        dr("cqChangei_linenumber") = i 'item("pri_linenumber")
-                        dr("cqChangei_entity") = item("check_id")
-                        dr("cqChangei_IsCancel") = True
-                        dr("cqChangei_beforestatus") = Me.CheckStatus
-                        .Rows.Add(dr)
+          End If
+        Next
+        trans.Commit()
+      Catch ex As Exception
+        trans.Rollback()
+      Catch ex As SqlException
+        trans.Rollback()
+      Finally
+        conn.Close()
+      End Try
 
-                    End If
-                Next
-                i = 0
-                For n As Integer = 0 To Me.MaxRowIndexReplace
-                    Dim itemreplace As TreeRow = Me.m_itemReplaceTable.Childs(n)
-                    If ValidateRowReplace(itemreplace) Then
-                        i += 1
-                        Dim dr As DataRow = .NewRow
-                        dr("cqChangei_cqChangeid") = Me.Id
-                        dr("cqChangei_linenumber") = i 'item("pri_linenumber")
-                        dr("cqChangei_entity") = itemreplace("check_id")
-                        dr("cqChangei_IsCancel") = False
-                        dr("cqChangei_beforestatus") = 1
-                        .Rows.Add(dr)
-                    End If
-                Next
+      Return saveEx
+    End Function
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As Integer
+      Dim i As Integer = 0
 
-            End With
-            Dim saveRtn As Integer
-            Dim dt As DataTable = ds.Tables("CheckChangeItem")
-            ' First process deletes.
-            saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-            ' Next process updates.
-            saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-            ' Finally process inserts.
-            saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+      Dim da As New SqlDataAdapter("Select * from CheckChangeItem where cqChangei_cqChangeid = " & Me.Id, conn)
+      Dim cmdBuilder As New SqlCommandBuilder(da)
 
-            Return saveRtn
+      Dim ds As New DataSet
 
-        End Function
+      da.SelectCommand.Transaction = trans
+
+      'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+      cmdBuilder.GetDeleteCommand.Transaction = trans
+      cmdBuilder.GetInsertCommand.Transaction = trans
+      cmdBuilder.GetUpdateCommand.Transaction = trans
+
+      da.Fill(ds, "CheckChangeItem")
+
+      Dim dbCount As Integer = ds.Tables("CheckChangeItem").Rows.Count
+      Dim itemCount As Integer = Me.ItemTable.Childs.Count
+
+
+      Dim theUser As New User(currentUserId)
+      With ds.Tables("CheckChangeItem")
+        For Each row As DataRow In .Rows
+          row.Delete()
+        Next
+        For n As Integer = 0 To Me.MaxRowIndex
+          Dim item As TreeRow = Me.m_itemTable.Childs(n)
+          If ValidateRow(item) Then
+            i += 1
+            Dim dr As DataRow = .NewRow
+            dr("cqChangei_cqChangeid") = Me.Id
+            dr("cqChangei_linenumber") = i 'item("pri_linenumber")
+            dr("cqChangei_entity") = item("check_id")
+            dr("cqChangei_IsCancel") = True
+            dr("cqChangei_beforestatus") = Me.CheckStatus
+            .Rows.Add(dr)
+
+          End If
+        Next
+        i = 0
+        For n As Integer = 0 To Me.MaxRowIndexReplace
+          Dim itemreplace As TreeRow = Me.m_itemReplaceTable.Childs(n)
+          If ValidateRowReplace(itemreplace) Then
+            i += 1
+            Dim dr As DataRow = .NewRow
+            dr("cqChangei_cqChangeid") = Me.Id
+            dr("cqChangei_linenumber") = i 'item("pri_linenumber")
+            dr("cqChangei_entity") = itemreplace("check_id")
+            dr("cqChangei_IsCancel") = False
+            dr("cqChangei_beforestatus") = 1
+            .Rows.Add(dr)
+          End If
+        Next
+
+      End With
+      Dim saveRtn As Integer
+      Dim dt As DataTable = ds.Tables("CheckChangeItem")
+      ' First process deletes.
+      saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+      ' Next process updates.
+      saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+      ' Finally process inserts.
+      saveRtn = da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+
+      Return saveRtn
+
+    End Function
 #End Region
 
 #Region "Items"
-        Public Overloads Sub ReLoadItems()
-            Me.IsInitialized = False
-            m_itemTable = CheckChangeItem.GetSchemaTable()
-            LoadItems()
-            Me.IsInitialized = True
-        End Sub
-        Public Overloads Sub ReLoadReplaceItems()
-            Me.IsInitialized = False
-            m_itemReplaceTable = CheckReplaceItem.GetSchemaTable()
-            LoadReplaceItems()
-            Me.IsInitialized = True
-        End Sub
-        Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.IsInitialized = False
-            m_itemTable = CheckChangeItem.GetSchemaTable()
-            LoadItems(ds, aliasPrefix)
-            Me.IsInitialized = True
-        End Sub
-        Public Overloads Sub ReloadReplaceItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.IsInitialized = False
-            m_itemReplaceTable = CheckReplaceItem.GetSchemaTable()
-            LoadReplaceItems(ds, aliasPrefix)
-            Me.IsInitialized = True
-        End Sub
-        Private Sub LoadItems()
-            If Not Me.Originated Then
-                Return
-            End If
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-            , CommandType.StoredProcedure _
-            , "GetCheckChangeItem" _
-            , New SqlParameter("@cqChangei_cqChangeid", Me.Id), New SqlParameter("@cqChangei_IsCancel", True) _
-            )
+    Public Overloads Sub ReLoadItems()
+      Me.IsInitialized = False
+      m_itemTable = CheckChangeItem.GetSchemaTable()
+      LoadItems()
+      Me.IsInitialized = True
+    End Sub
+    Public Overloads Sub ReLoadReplaceItems()
+      Me.IsInitialized = False
+      m_itemReplaceTable = CheckReplaceItem.GetSchemaTable()
+      LoadReplaceItems()
+      Me.IsInitialized = True
+    End Sub
+    Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.IsInitialized = False
+      m_itemTable = CheckChangeItem.GetSchemaTable()
+      LoadItems(ds, aliasPrefix)
+      Me.IsInitialized = True
+    End Sub
+    Public Overloads Sub ReloadReplaceItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.IsInitialized = False
+      m_itemReplaceTable = CheckReplaceItem.GetSchemaTable()
+      LoadReplaceItems(ds, aliasPrefix)
+      Me.IsInitialized = True
+    End Sub
+    Private Sub LoadItems()
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetCheckChangeItem" _
+      , New SqlParameter("@cqChangei_cqChangeid", Me.Id), New SqlParameter("@cqChangei_IsCancel", True) _
+      )
 
-            For Each row As DataRow In ds.Tables(0).Rows
-                Dim item As New CheckChangeItem(row, "")
-                item.CheckChange = Me
-                ' Hack : Huaneng ...
-                Me.Add(item)
-            Next
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New CheckChangeItem(row, "")
+        item.CheckChange = Me
+        ' Hack : Huaneng ...
+        Me.Add(item)
+      Next
 
-        End Sub
-        Private Sub LoadReplaceItems()
-            If Not Me.Originated Then
-                Return
-            End If
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-            , CommandType.StoredProcedure _
-            , "GetCheckChangeItem" _
-            , New SqlParameter("@cqChangei_cqChangeid", Me.Id), New SqlParameter("@cqChangei_IsCancel", False) _
-            )
+    End Sub
+    Private Sub LoadReplaceItems()
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetCheckChangeItem" _
+      , New SqlParameter("@cqChangei_cqChangeid", Me.Id), New SqlParameter("@cqChangei_IsCancel", False) _
+      )
 
-            For Each row As DataRow In ds.Tables(0).Rows
-                Dim item As New CheckReplaceItem(row, "")
-                item.CheckChange = Me
-                ' Hack : Huaneng ...
-                Me.Add(item)
-            Next
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New CheckReplaceItem(row, "")
+        item.CheckChange = Me
+        ' Hack : Huaneng ...
+        Me.Add(item)
+      Next
 
-        End Sub
-        Private Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            For Each dr As DataRow In ds.Tables(1).Rows
-                Dim item As New CheckChangeItem(dr, aliasPrefix)
-                item.CheckChange = Me
-                Me.Add(item)
-            Next
-        End Sub
-        Private Sub LoadReplaceItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            For Each dr As DataRow In ds.Tables(1).Rows
-                Dim item As New CheckReplaceItem(dr, aliasPrefix)
-                item.CheckChange = Me
-                Me.Add(item)
-            Next
-        End Sub
-        Public Sub AddBlankRow(ByVal count As Integer)
-            For i As Integer = 0 To count - 1
-                Dim newItem As New BlankItem("")
-                Dim mtwItem As New CheckChangeItem
-                Me.ItemTable.AcceptChanges()
-                Me.Add(mtwItem)
-            Next
-        End Sub
-        Public Sub AddReplaceBlankRow(ByVal count As Integer)
-            For i As Integer = 0 To count - 1
-                Dim newItem As New BlankItem("")
-                Dim mtwItem As New CheckReplaceItem
-                Me.ItemReplaceTable.AcceptChanges()
-                Me.Add(mtwItem)
-            Next
-        End Sub
-        Public Function Add(ByVal item As CheckChangeItem) As TreeRow
-            Dim myRow As TreeRow = Me.ItemTable.Childs.Add
-            item.LineNumber = Me.ItemTable.Childs.Count
-            item.CheckChange = Me
-            item.CopyToDataRow(myRow)
-            Return myRow
-        End Function
-        Public Function Add(ByVal item As CheckReplaceItem) As TreeRow
-            Dim myRow As TreeRow = Me.ItemReplaceTable.Childs.Add
-            item.LineNumber = Me.ItemReplaceTable.Childs.Count
-            item.CheckChange = Me
-            item.CopyToDataRow(myRow)
-            Return myRow
-        End Function
-        Public Function Insert(ByVal index As Integer, ByVal item As CheckChangeItem) As TreeRow
-            Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
-            item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
-            item.CheckChange = Me
-            item.CopyToDataRow(myRow)
-            ReIndex(index + 1)
-            Return myRow
-        End Function
-        Public Function Insert(ByVal index As Integer, ByVal item As CheckReplaceItem) As TreeRow
-            Dim myRow As TreeRow = Me.ItemReplaceTable.Childs.InsertAt(index)
-            item.LineNumber = Me.ItemReplaceTable.Childs.IndexOf(myRow) + 1
-            item.CheckChange = Me
-            item.CopyToDataRow(myRow)
-            ReIndex(index + 1)
-            Return myRow
-        End Function
-        Public Function MaxRowIndex() As Integer
-            If Me.m_itemTable Is Nothing Then
-                Return -1
-            End If
-            'ให้ index ของแถวสุดท้ายที่มีข้อมูล
-            For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
-                Dim row As TreeRow = Me.m_itemTable.Childs(i)
-                If ValidateRow(row) Then
-                    Return i
-                End If
-            Next
-            Return -1 'ไม่มีข้อมูลเลย
-        End Function
-        Public Function MaxRowIndexReplace() As Integer
-            'ให้ index ของแถวสุดท้ายที่มีข้อมูล
-            For i As Integer = Me.m_itemReplaceTable.Childs.Count - 1 To 0 Step -1
-                Dim row As TreeRow = Me.m_itemReplaceTable.Childs(i)
-                If ValidateRowReplace(row) Then
-                    Return i
-                End If
-            Next
-            Return -1 'ไม่มีข้อมูลเลย
-        End Function
-        Public Sub Remove(ByVal index As Integer)
-            Dim tr As TreeRow = Me.ItemTable.Childs(index)
-            ' เก็บค่า Check ที่เคยอยู่ใน list แล้ว remove ออก
-            If tr.Table.Columns.Contains("check_id") AndAlso Not tr.IsNull("check_id") Then
-                m_incomingcheckremoved += "|" & CStr(tr("check_id")) & "|"
-            End If
-            Me.ItemTable.Childs.Remove(tr)
-            ReIndex()
-        End Sub
-        Public Sub RemoveReplace(ByVal index As Integer)
-            Me.ItemReplaceTable.Childs.Remove(Me.ItemReplaceTable.Childs(index))
-            ReIndex()
-        End Sub
-        Private Sub ReIndex()
-            ReIndex(0)
-        End Sub
-        Private Sub ReIndexReplace()
-            ReIndexReplace(0)
-        End Sub
-        Private Sub ReIndex(ByVal index As Integer)
-            If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
-                Return
-            End If
-            For i As Integer = index To Me.ItemTable.Childs.Count - 1
-                Me.ItemTable.Childs(i)("linenumber") = i + 1
-            Next
-            ' replace
-            If index < 0 OrElse index > Me.ItemReplaceTable.Childs.Count - 1 Then
-                Return
-            End If
-            For i As Integer = index To Me.ItemReplaceTable.Childs.Count - 1
-                Me.ItemReplaceTable.Childs(i)("linenumber") = i + 1
-            Next
-        End Sub
-        Private Sub ReIndexReplace(ByVal index As Integer)
-            If index < 0 OrElse index > Me.ItemReplaceTable.Childs.Count - 1 Then
-                Return
-            End If
-            For i As Integer = index To Me.ItemReplaceTable.Childs.Count - 1
-                Me.ItemReplaceTable.Childs(i)("linenumber") = i + 1
-            Next
-        End Sub
+    End Sub
+    Private Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      For Each dr As DataRow In ds.Tables(1).Rows
+        Dim item As New CheckChangeItem(dr, aliasPrefix)
+        item.CheckChange = Me
+        Me.Add(item)
+      Next
+    End Sub
+    Private Sub LoadReplaceItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      For Each dr As DataRow In ds.Tables(1).Rows
+        Dim item As New CheckReplaceItem(dr, aliasPrefix)
+        item.CheckChange = Me
+        Me.Add(item)
+      Next
+    End Sub
+    Public Sub AddBlankRow(ByVal count As Integer)
+      For i As Integer = 0 To count - 1
+        Dim newItem As New BlankItem("")
+        Dim mtwItem As New CheckChangeItem
+        Me.ItemTable.AcceptChanges()
+        Me.Add(mtwItem)
+      Next
+    End Sub
+    Public Sub AddReplaceBlankRow(ByVal count As Integer)
+      For i As Integer = 0 To count - 1
+        Dim newItem As New BlankItem("")
+        Dim mtwItem As New CheckReplaceItem
+        Me.ItemReplaceTable.AcceptChanges()
+        Me.Add(mtwItem)
+      Next
+    End Sub
+    Public Function Add(ByVal item As CheckChangeItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable.Childs.Add
+      item.LineNumber = Me.ItemTable.Childs.Count
+      item.CheckChange = Me
+      item.CopyToDataRow(myRow)
+      Return myRow
+    End Function
+    Public Function Add(ByVal item As CheckReplaceItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemReplaceTable.Childs.Add
+      item.LineNumber = Me.ItemReplaceTable.Childs.Count
+      item.CheckChange = Me
+      item.CopyToDataRow(myRow)
+      Return myRow
+    End Function
+    Public Function Insert(ByVal index As Integer, ByVal item As CheckChangeItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
+      item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+      item.CheckChange = Me
+      item.CopyToDataRow(myRow)
+      ReIndex(index + 1)
+      Return myRow
+    End Function
+    Public Function Insert(ByVal index As Integer, ByVal item As CheckReplaceItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemReplaceTable.Childs.InsertAt(index)
+      item.LineNumber = Me.ItemReplaceTable.Childs.IndexOf(myRow) + 1
+      item.CheckChange = Me
+      item.CopyToDataRow(myRow)
+      ReIndex(index + 1)
+      Return myRow
+    End Function
+    Public Function MaxRowIndex() As Integer
+      If Me.m_itemTable Is Nothing Then
+        Return -1
+      End If
+      'ให้ index ของแถวสุดท้ายที่มีข้อมูล
+      For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
+        Dim row As TreeRow = Me.m_itemTable.Childs(i)
+        If ValidateRow(row) Then
+          Return i
+        End If
+      Next
+      Return -1 'ไม่มีข้อมูลเลย
+    End Function
+    Public Function MaxRowIndexReplace() As Integer
+      'ให้ index ของแถวสุดท้ายที่มีข้อมูล
+      For i As Integer = Me.m_itemReplaceTable.Childs.Count - 1 To 0 Step -1
+        Dim row As TreeRow = Me.m_itemReplaceTable.Childs(i)
+        If ValidateRowReplace(row) Then
+          Return i
+        End If
+      Next
+      Return -1 'ไม่มีข้อมูลเลย
+    End Function
+    Public Sub Remove(ByVal index As Integer)
+      Dim tr As TreeRow = Me.ItemTable.Childs(index)
+      ' เก็บค่า Check ที่เคยอยู่ใน list แล้ว remove ออก
+      If tr.Table.Columns.Contains("check_id") AndAlso Not tr.IsNull("check_id") Then
+        m_incomingcheckremoved += "|" & CStr(tr("check_id")) & "|"
+      End If
+      Me.ItemTable.Childs.Remove(tr)
+      ReIndex()
+    End Sub
+    Public Sub RemoveReplace(ByVal index As Integer)
+      Me.ItemReplaceTable.Childs.Remove(Me.ItemReplaceTable.Childs(index))
+      ReIndex()
+    End Sub
+    Private Sub ReIndex()
+      ReIndex(0)
+    End Sub
+    Private Sub ReIndexReplace()
+      ReIndexReplace(0)
+    End Sub
+    Private Sub ReIndex(ByVal index As Integer)
+      If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
+        Return
+      End If
+      For i As Integer = index To Me.ItemTable.Childs.Count - 1
+        Me.ItemTable.Childs(i)("linenumber") = i + 1
+      Next
+      ' replace
+      If index < 0 OrElse index > Me.ItemReplaceTable.Childs.Count - 1 Then
+        Return
+      End If
+      For i As Integer = index To Me.ItemReplaceTable.Childs.Count - 1
+        Me.ItemReplaceTable.Childs(i)("linenumber") = i + 1
+      Next
+    End Sub
+    Private Sub ReIndexReplace(ByVal index As Integer)
+      If index < 0 OrElse index > Me.ItemReplaceTable.Childs.Count - 1 Then
+        Return
+      End If
+      For i As Integer = index To Me.ItemReplaceTable.Childs.Count - 1
+        Me.ItemReplaceTable.Childs(i)("linenumber") = i + 1
+      Next
+    End Sub
 #End Region
 
 #Region "TreeTable Handlers"
-        Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-            If Not Me.IsInitialized Then
-                Return
-            End If
+    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not Me.IsInitialized Then
+        Return
+      End If
 
-            If Not e.Row.RowState = DataRowState.Detached Then
-                e.Row.SetColumnError("check_code", "")
-            Else
-                e.Row.SetColumnError("check_code", Me.StringParserService.Parse("${res:Global.Error.GridHasNewLine}"))
-                'If Not Me.m_validator Is Nothing Then
-                '    Me.m_validator.HasNewRow = True
-                'End If
-            End If
-            Me.m_itemTable.AcceptChanges()
-            Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
-            If index = Me.m_itemTable.Childs.Count - 1 Then
+      If Not e.Row.RowState = DataRowState.Detached Then
+        e.Row.SetColumnError("check_code", "")
+      Else
+        e.Row.SetColumnError("check_code", Me.StringParserService.Parse("${res:Global.Error.GridHasNewLine}"))
+        'If Not Me.m_validator Is Nothing Then
+        '    Me.m_validator.HasNewRow = True
+        'End If
+      End If
+      Me.m_itemTable.AcceptChanges()
+      Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
+      If index = Me.m_itemTable.Childs.Count - 1 Then
 
-            End If
-            Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
-            Me.OnPropertyChanged(Me, pe)
-        End Sub
-        Private Sub TreeReplacetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-            If Not Me.IsInitialized Then
-                Return
-            End If
-            Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
-            If ValidateRow(CType(e.Row, TreeRow)) Then
-                If index = Me.m_itemTable.Childs.Count - 1 Then
-                    Me.AddBlankRow(1)
-                End If
-                Dim pe As New PropertyChangedEventArgs
-                pe.Name = "ItemChanged"
-                Me.OnPropertyChanged(Me, pe)
-                Me.m_itemTable.AcceptChanges()
-            End If
-        End Sub
-        Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-            If Not Me.IsInitialized Then
-                Return
-            End If
-            Try
-                Select Case e.Column.ColumnName.ToLower
-                    Case "check_code"
-                        SetEntityValue(e)
-                End Select
-                ValidateRow(e)
-            Catch ex As Exception
-                MessageBox.Show(ex.ToString)
-            End Try
-        End Sub
+      End If
+      Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
+      Me.OnPropertyChanged(Me, pe)
+    End Sub
+    Private Sub TreeReplacetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not Me.IsInitialized Then
+        Return
+      End If
+      Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
+      If ValidateRow(CType(e.Row, TreeRow)) Then
+        If index = Me.m_itemTable.Childs.Count - 1 Then
+          Me.AddBlankRow(1)
+        End If
+        Dim pe As New PropertyChangedEventArgs
+        pe.Name = "ItemChanged"
+        Me.OnPropertyChanged(Me, pe)
+        Me.m_itemTable.AcceptChanges()
+      End If
+    End Sub
+    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not Me.IsInitialized Then
+        Return
+      End If
+      Try
+        Select Case e.Column.ColumnName.ToLower
+          Case "check_code"
+            SetEntityValue(e)
+        End Select
+        ValidateRow(e)
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+    End Sub
 
-        Private Sub TreeReplacetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-            If Not Me.IsInitialized Then
-                Return
-            End If
-            Try
-                Select Case e.Column.ColumnName.ToLower
-                    Case "check_code"
-                        SetEntityReplaceCheck(e)
-                    Case "check_cqcode"
-                        SetCqCoeCheck(e)
-                    Case "check_receivedate", "check_duedate"
-                        SetDateColumns(e)
-                    Case "receivepersonname"
-                        SetRecievePersonValue(e)
-                    Case "bankname"
-                        SetBankValue(e)
-                    Case "check_amt"
-                        SetAmount(e)
-                End Select
-                ValidateRowReplace(e)
-            Catch ex As Exception
-                MessageBox.Show(ex.ToString)
-            End Try
-            m_itemReplaceTable.AcceptChanges()
-
-        End Sub
-        Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-            Dim proposedCode As Object = e.Row("check_code")
-            Select Case e.Column.ColumnName.ToLower
-                Case "check_code"
-                    proposedCode = e.ProposedValue
-                Case Else
-                    Return
-            End Select
-
-            If IsDBNull(proposedCode) Then
-                e.Row.SetColumnError("check_code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
-            Else
-                e.Row.SetColumnError("check_code", "")
-            End If
-        End Sub
-        Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-            Dim proposedcqCode As Object = row("check_cqcode")
-
-            If (IsDBNull(proposedcqCode) OrElse CStr(proposedcqCode) = "") Then
-                Return False
-            End If
-            Return True
-        End Function
-        ' Replace Zone 
-        Public Sub ValidateRowReplace(ByVal e As DataColumnChangeEventArgs)
-            Dim proposedCode As Object = e.Row("check_code")
-            Dim proposedCqCode As Object = e.Row("check_cqcode")
-            Dim proposedReceiveDate As Object = e.Row("check_receivedate")
-            Dim proposedReceivePerson As Object = e.Row("receivepersonName")
-            Dim proposedBank As Object = e.Row("bankName")
-            Dim proposedAmt As Object = e.Row("check_amt")
-
-            Select Case e.Column.ColumnName.ToLower
-                Case "check_code"
-                    proposedCode = e.ProposedValue
-                Case "check_cqcode"
-                    proposedCqCode = e.ProposedValue
-                Case "check_receivedate"
-                    proposedReceiveDate = e.ProposedValue
-                Case "receivepersonName"
-                    proposedReceivePerson = e.ProposedValue
-                Case "bankName"
-                    proposedBank = e.ProposedValue
-                Case "check_amt"
-                    proposedAmt = e.ProposedValue
-                Case Else
-                    Return
-            End Select
-
-            ' Code 
-
-            If IsDBNull(proposedCode) Then
-                e.Row.SetColumnError("check_code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
-            Else
-                e.Row.SetColumnError("check_code", "")
-            End If
-            ' cqcode
-            If IsDBNull(proposedCqCode) Then
-                e.Row.SetColumnError("check_cqcode", Me.StringParserService.Parse("${res:Global.Error.CqCodeMissing}"))
-            Else
-                e.Row.SetColumnError("check_cqcode", "")
-            End If
-            ' Receivedate
-            If IsDBNull(proposedReceiveDate) Then
-                e.Row.SetColumnError("check_receivedate", Me.StringParserService.Parse("${res:Global.Error.ReceiveDateMissing}"))
-            Else
-                e.Row.SetColumnError("check_receivedate", "")
-            End If
-            ' receiveperson
-            If IsDBNull(proposedReceivePerson) Then
-                e.Row.SetColumnError("receivepersonName", Me.StringParserService.Parse("${res:Global.Error.ReceivePersonMissing}"))
-            Else
-                e.Row.SetColumnError("receivepersonName", "")
-            End If
-            ' Bank
-            If IsDBNull(proposedBank) Then
-                e.Row.SetColumnError("bankName", Me.StringParserService.Parse("${res:Global.Error.BankMissing}"))
-            Else
-                e.Row.SetColumnError("bankName", "")
-            End If
-            ' Bank
-            If IsDBNull(proposedAmt) Then
-                e.Row.SetColumnError("check_amt", Me.StringParserService.Parse("${res:Global.Error.AmountMissing}"))
-            Else
-                e.Row.SetColumnError("check_amt", "")
-            End If
-        End Sub
-        Public Function ValidateRowReplace(ByVal row As TreeRow) As Boolean
-            ' Dim proposedCode As Object = row("check_code")
-            Dim proposedCqCode As Object = row("check_cqcode")
-
-            If (IsDBNull(proposedCqCode) OrElse CStr(proposedCqCode) = "") Then
-                Return False
-            End If
-            Return True
-        End Function
-
-        Public Sub SetEntityName(ByVal e As DataColumnChangeEventArgs)
-            If m_entitySetting Then
-                Return
-            End If
-            e.Row("Code") = DBNull.Value
-        End Sub
-        Private m_entitySetting As Boolean = False
-        Public Sub SetEntityValue(ByVal e As System.Data.DataColumnChangeEventArgs)
-            If EntityBase Is Nothing Then
-                Return
-            End If
-            SetEntityIncomingCheck(e)
-        End Sub
-        Private Sub SetEntityIncomingCheck(ByVal e As System.Data.DataColumnChangeEventArgs)
-            Dim entity As New IncomingCheck(e.ProposedValue.ToString)
-            m_entitySetting = True
-            If entity Is Nothing Then
-                Debug.Assert(Not IsNothing(entity), "Entity nothing...")
-                Return
-            End If
-            If entity.Originated AndAlso entity.Status.Value = 1 Then
-                e.Row("check_id") = entity.Id
-                e.ProposedValue = entity.Code
-                e.Row("check_cqcode") = entity.CqCode
-                e.Row("check_receivedate") = entity.ReceiveDate
-                e.Row("check_duedate") = entity.DueDate
-
-                If entity.ReceivePerson.Originated Then
-                    e.Row("check_receiveperson") = entity.ReceivePerson.Id
-                    e.Row("receivepersonCode") = entity.ReceivePerson.Code
-                    e.Row("receivepersonName") = entity.ReceivePerson.Name
-                End If
-
-                If entity.Customer.Originated Then
-                    e.Row("check_customer") = entity.Customer.Id
-                End If
-
-                If entity.Bank.Originated Then
-                    e.Row("check_bank") = entity.Bank.Id
-                    e.Row("bankCode") = entity.Bank.Code
-                    e.Row("bankName") = entity.Bank.Name
-                End If
-
-                e.Row("check_amt") = entity.Amount
-                e.Row("check_note") = entity.Note
-                e.Row("check_status") = Me.CheckStatus
-            Else
-                If entity.Originated Then
-                    MessageBox.Show("สถานะเช็คในมือเท่านั้น")
-                End If
-                e.Row("check_id") = DBNull.Value
-                e.ProposedValue = DBNull.Value
-                e.Row("check_cqcode") = DBNull.Value
-                e.Row("check_receivedate") = DBNull.Value
-                e.Row("check_duedate") = DBNull.Value
-                e.Row("check_receiveperson") = DBNull.Value
-                e.Row("receivepersonCode") = DBNull.Value
-                e.Row("receivepersonName") = DBNull.Value
-                e.Row("check_customer") = DBNull.Value
-                e.Row("check_bank") = DBNull.Value
-                e.Row("bankCode") = DBNull.Value
-                e.Row("bankName") = DBNull.Value
-                e.Row("check_amt") = DBNull.Value
-                e.Row("check_note") = DBNull.Value
-                e.Row("check_status") = DBNull.Value
-            End If
-            m_entitySetting = False
-        End Sub
-        ' Replace zone 
-        Public Sub SetEntityReplaceValue(ByVal e As System.Data.DataColumnChangeEventArgs)
-            If EntityBase Is Nothing Then
-                Return
-            End If
+    Private Sub TreeReplacetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not Me.IsInitialized Then
+        Return
+      End If
+      Try
+        Select Case e.Column.ColumnName.ToLower
+          Case "check_code"
             SetEntityReplaceCheck(e)
-        End Sub
+          Case "check_cqcode"
+            SetCqCoeCheck(e)
+          Case "check_receivedate", "check_duedate"
+            SetDateColumns(e)
+          Case "receivepersonname"
+            SetRecievePersonValue(e)
+          Case "bankname"
+            SetBankValue(e)
+          Case "check_amt"
+            SetAmount(e)
+        End Select
+        ValidateRowReplace(e)
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+      m_itemReplaceTable.AcceptChanges()
 
-        Private Sub SetEntityReplaceCheck(ByVal e As System.Data.DataColumnChangeEventArgs)
-            If m_entitySetting Then
-                Return
-            End If
-            Dim code As String = e.ProposedValue.ToString
-            If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-                e.ProposedValue = ""
-                Return
-            End If
-            e.ProposedValue = code
+    End Sub
+    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+      Dim proposedCode As Object = e.Row("check_code")
+      Select Case e.Column.ColumnName.ToLower
+        Case "check_code"
+          proposedCode = e.ProposedValue
+        Case Else
+          Return
+      End Select
 
-        End Sub
+      If IsDBNull(proposedCode) Then
+        e.Row.SetColumnError("check_code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
+      Else
+        e.Row.SetColumnError("check_code", "")
+      End If
+    End Sub
+    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+      Dim proposedcqCode As Object = row("check_cqcode")
 
-        Private Sub SetCqCoeCheck(ByVal e As System.Data.DataColumnChangeEventArgs)
-            Dim obj As New IncomingCheck
-            m_entitySetting = True
-            Dim cqcode As String = e.ProposedValue.ToString
+      If (IsDBNull(proposedcqCode) OrElse CStr(proposedcqCode) = "") Then
+        Return False
+      End If
+      Return True
+    End Function
+    ' Replace Zone 
+    Public Sub ValidateRowReplace(ByVal e As DataColumnChangeEventArgs)
+      Dim proposedCode As Object = e.Row("check_code")
+      Dim proposedCqCode As Object = e.Row("check_cqcode")
+      Dim proposedReceiveDate As Object = e.Row("check_receivedate")
+      Dim proposedReceivePerson As Object = e.Row("receivepersonName")
+      Dim proposedBank As Object = e.Row("bankName")
+      Dim proposedAmt As Object = e.Row("check_amt")
 
-            Dim autocode As String = BusinessLogic.Entity.GetAutoCodeFormat(obj.EntityId)
+      Select Case e.Column.ColumnName.ToLower
+        Case "check_code"
+          proposedCode = e.ProposedValue
+        Case "check_cqcode"
+          proposedCqCode = e.ProposedValue
+        Case "check_receivedate"
+          proposedReceiveDate = e.ProposedValue
+        Case "receivepersonName"
+          proposedReceivePerson = e.ProposedValue
+        Case "bankName"
+          proposedBank = e.ProposedValue
+        Case "check_amt"
+          proposedAmt = e.ProposedValue
+        Case Else
+          Return
+      End Select
 
-            If e.Row.IsNull("Originated") OrElse Not CBool(e.Row("Originated")) Then
-                e.Row("check_code") = autocode
-                e.Row("Originated") = False
-            End If
-            e.ProposedValue = cqcode
-            m_entitySetting = False
-        End Sub
-        Public Sub SetRecievePersonValue(ByVal e As System.Data.DataColumnChangeEventArgs)
-            If m_entitySetting Then
-                Return
-            End If
+      ' Code 
 
-            If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-                e.ProposedValue = ""
-                Return
-            End If
+      If IsDBNull(proposedCode) Then
+        e.Row.SetColumnError("check_code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
+      Else
+        e.Row.SetColumnError("check_code", "")
+      End If
+      ' cqcode
+      If IsDBNull(proposedCqCode) Then
+        e.Row.SetColumnError("check_cqcode", Me.StringParserService.Parse("${res:Global.Error.CqCodeMissing}"))
+      Else
+        e.Row.SetColumnError("check_cqcode", "")
+      End If
+      ' Receivedate
+      If IsDBNull(proposedReceiveDate) Then
+        e.Row.SetColumnError("check_receivedate", Me.StringParserService.Parse("${res:Global.Error.ReceiveDateMissing}"))
+      Else
+        e.Row.SetColumnError("check_receivedate", "")
+      End If
+      ' receiveperson
+      If IsDBNull(proposedReceivePerson) Then
+        e.Row.SetColumnError("receivepersonName", Me.StringParserService.Parse("${res:Global.Error.ReceivePersonMissing}"))
+      Else
+        e.Row.SetColumnError("receivepersonName", "")
+      End If
+      ' Bank
+      If IsDBNull(proposedBank) Then
+        e.Row.SetColumnError("bankName", Me.StringParserService.Parse("${res:Global.Error.BankMissing}"))
+      Else
+        e.Row.SetColumnError("bankName", "")
+      End If
+      ' Bank
+      If IsDBNull(proposedAmt) Then
+        e.Row.SetColumnError("check_amt", Me.StringParserService.Parse("${res:Global.Error.AmountMissing}"))
+      Else
+        e.Row.SetColumnError("check_amt", "")
+      End If
+    End Sub
+    Public Function ValidateRowReplace(ByVal row As TreeRow) As Boolean
+      ' Dim proposedCode As Object = row("check_code")
+      Dim proposedCqCode As Object = row("check_cqcode")
 
-            Dim myEmp As New Employee(e.ProposedValue.ToString)
-            Dim err As String = ""
-            If Not myEmp.Originated Then
-                err = "${res:Global.Error.InvalidEmployee}"
-            End If
+      If (IsDBNull(proposedCqCode) OrElse CStr(proposedCqCode) = "") Then
+        Return False
+      End If
+      Return True
+    End Function
 
-            If err.Length = 0 Then
-                e.Row("check_receiveperson") = myEmp.Id
-                e.Row("receivepersonCode") = myEmp.Code
-                e.ProposedValue = myEmp.Name
-            Else
-                e.ProposedValue = e.Row(e.Column)
-                MessageBox.Show(Me.StringParserService.Parse(err))
-            End If
+    Public Sub SetEntityName(ByVal e As DataColumnChangeEventArgs)
+      If m_entitySetting Then
+        Return
+      End If
+      e.Row("Code") = DBNull.Value
+    End Sub
+    Private m_entitySetting As Boolean = False
+    Public Sub SetEntityValue(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If EntityBase Is Nothing Then
+        Return
+      End If
+      SetEntityIncomingCheck(e)
+    End Sub
+    Private Sub SetEntityIncomingCheck(ByVal e As System.Data.DataColumnChangeEventArgs)
+      Dim entity As New IncomingCheck(e.ProposedValue.ToString)
+      m_entitySetting = True
+      If entity Is Nothing Then
+        Debug.Assert(Not IsNothing(entity), "Entity nothing...")
+        Return
+      End If
+      If entity.Originated AndAlso entity.Status.Value = 1 Then
+        e.Row("check_id") = entity.Id
+        e.ProposedValue = entity.Code
+        e.Row("check_cqcode") = entity.CqCode
+        e.Row("check_receivedate") = entity.ReceiveDate
+        e.Row("check_duedate") = entity.DueDate
 
-        End Sub
+        If entity.ReceivePerson.Originated Then
+          e.Row("check_receiveperson") = entity.ReceivePerson.Id
+          e.Row("receivepersonCode") = entity.ReceivePerson.Code
+          e.Row("receivepersonName") = entity.ReceivePerson.Name
+        End If
 
-        Public Sub SetBankValue(ByVal e As System.Data.DataColumnChangeEventArgs)
-            If m_entitySetting Then
-                Return
-            End If
+        If entity.Customer.Originated Then
+          e.Row("check_customer") = entity.Customer.Id
+        End If
 
-            If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-                e.ProposedValue = ""
-                Return
-            End If
+        If entity.Bank.Originated Then
+          e.Row("check_bank") = entity.Bank.Id
+          e.Row("bankCode") = entity.Bank.Code
+          e.Row("bankName") = entity.Bank.Name
+        End If
 
-            Dim myBank As New Bank(e.ProposedValue.ToString)
-            Dim err As String = ""
-            If Not myBank.Originated Then
-                err = "${res:Global.Error.InvalidBank}"
-            End If
+        e.Row("check_amt") = entity.Amount
+        e.Row("check_note") = entity.Note
+        e.Row("check_status") = Me.CheckStatus
+      Else
+        If entity.Originated Then
+          MessageBox.Show("สถานะเช็คในมือเท่านั้น")
+        End If
+        e.Row("check_id") = DBNull.Value
+        e.ProposedValue = DBNull.Value
+        e.Row("check_cqcode") = DBNull.Value
+        e.Row("check_receivedate") = DBNull.Value
+        e.Row("check_duedate") = DBNull.Value
+        e.Row("check_receiveperson") = DBNull.Value
+        e.Row("receivepersonCode") = DBNull.Value
+        e.Row("receivepersonName") = DBNull.Value
+        e.Row("check_customer") = DBNull.Value
+        e.Row("check_bank") = DBNull.Value
+        e.Row("bankCode") = DBNull.Value
+        e.Row("bankName") = DBNull.Value
+        e.Row("check_amt") = DBNull.Value
+        e.Row("check_note") = DBNull.Value
+        e.Row("check_status") = DBNull.Value
+      End If
+      m_entitySetting = False
+    End Sub
+    ' Replace zone 
+    Public Sub SetEntityReplaceValue(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If EntityBase Is Nothing Then
+        Return
+      End If
+      SetEntityReplaceCheck(e)
+    End Sub
 
-            If err.Length = 0 Then
-                e.Row("check_bank") = myBank.Id
-                e.Row("bankCode") = myBank.Code
-                e.ProposedValue = myBank.Name
-            Else
-                e.ProposedValue = e.Row(e.Column)
-                MessageBox.Show(Me.StringParserService.Parse(err))
-            End If
+    Private Sub SetEntityReplaceCheck(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If m_entitySetting Then
+        Return
+      End If
+      Dim code As String = e.ProposedValue.ToString
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+        Return
+      End If
+      e.ProposedValue = code
 
-        End Sub
-        Public Sub SetDateColumns(ByVal e As DataColumnChangeEventArgs)
-            If m_entitySetting Then
-                Return
-            End If
+    End Sub
 
-            If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-                e.ProposedValue = ""
-                Return
-            End If
-        End Sub
-        Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
-            If m_entitySetting Then
-                Return
-            End If
+    Private Sub SetCqCoeCheck(ByVal e As System.Data.DataColumnChangeEventArgs)
+      Dim obj As New IncomingCheck
+      m_entitySetting = True
+      Dim cqcode As String = e.ProposedValue.ToString
 
-            If IsDBNull(e.ProposedValue) _
-            OrElse e.ProposedValue.ToString.Length = 0 Then
-                e.ProposedValue = 0
-                Return
-            End If
+      Dim autocode As String = BusinessLogic.Entity.GetAutoCodeFormat(obj.EntityId)
 
-            e.ProposedValue = Configuration.Format(CDec(e.ProposedValue), DigitConfig.Price)
-        End Sub
+      If e.Row.IsNull("Originated") OrElse Not CBool(e.Row("Originated")) Then
+        e.Row("check_code") = autocode
+        e.Row("Originated") = False
+      End If
+      e.ProposedValue = cqcode
+      m_entitySetting = False
+    End Sub
+    Public Sub SetRecievePersonValue(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If m_entitySetting Then
+        Return
+      End If
+
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+        Return
+      End If
+
+      Dim myEmp As New Employee(e.ProposedValue.ToString)
+      Dim err As String = ""
+      If Not myEmp.Originated Then
+        err = "${res:Global.Error.InvalidEmployee}"
+      End If
+
+      If err.Length = 0 Then
+        e.Row("check_receiveperson") = myEmp.Id
+        e.Row("receivepersonCode") = myEmp.Code
+        e.ProposedValue = myEmp.Name
+      Else
+        e.ProposedValue = e.Row(e.Column)
+        MessageBox.Show(Me.StringParserService.Parse(err))
+      End If
+
+    End Sub
+
+    Public Sub SetBankValue(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If m_entitySetting Then
+        Return
+      End If
+
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+        Return
+      End If
+
+      Dim myBank As New Bank(e.ProposedValue.ToString)
+      Dim err As String = ""
+      If Not myBank.Originated Then
+        err = "${res:Global.Error.InvalidBank}"
+      End If
+
+      If err.Length = 0 Then
+        e.Row("check_bank") = myBank.Id
+        e.Row("bankCode") = myBank.Code
+        e.ProposedValue = myBank.Name
+      Else
+        e.ProposedValue = e.Row(e.Column)
+        MessageBox.Show(Me.StringParserService.Parse(err))
+      End If
+
+    End Sub
+    Public Sub SetDateColumns(ByVal e As DataColumnChangeEventArgs)
+      If m_entitySetting Then
+        Return
+      End If
+
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+        Return
+      End If
+    End Sub
+    Public Sub SetAmount(ByVal e As DataColumnChangeEventArgs)
+      If m_entitySetting Then
+        Return
+      End If
+
+      If IsDBNull(e.ProposedValue) _
+      OrElse e.ProposedValue.ToString.Length = 0 Then
+        e.ProposedValue = 0
+        Return
+      End If
+
+      e.ProposedValue = Configuration.Format(CDec(e.ProposedValue), DigitConfig.Price)
+    End Sub
 #End Region
 
 #Region " IGLAble "
-        Public Property [Date]() As Date Implements IGLAble.Date
-            Get
-                Return Me.IssueDate
-            End Get
-            Set(ByVal Value As Date)
-                Me.IssueDate = Value
-            End Set
-        End Property
+    Public Property [Date]() As Date Implements IGLAble.Date
+      Get
+        Return Me.IssueDate
+      End Get
+      Set(ByVal Value As Date)
+        Me.IssueDate = Value
+      End Set
+    End Property
 
-        Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-                                                        , CommandType.StoredProcedure _
-                                                        , "GetGLFormatForEntity" _
-                                                        , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
+    Public Function GetDefaultGLFormat() As GLFormat Implements IGLAble.GetDefaultGLFormat
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+                                                  , CommandType.StoredProcedure _
+                                                  , "GetGLFormatForEntity" _
+                                                  , New SqlParameter("@entity_id", Me.EntityId), New SqlParameter("@default", 1))
 
-            Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
-            Return glf
-        End Function
+      Dim glf As New GLFormat(ds.Tables(0).Rows(0), "")
+      Return glf
+    End Function
 
-        Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
-            Dim jiColl As New JournalEntryItemCollection
-            Dim ji As New JournalEntryItem
-            'DR ----------------------
-            ' DR. เช็ครับรอนำฝาก      ji.Mapping = "H7.1"
-            SetGLH7_1(jiColl)
-            ' Dr. เงินสด                  ji.Mapping = "H7.2"
-            SetGLH7_2(jiColl)
-            ' Dr. ค่าใช้จ่ายอื่น ๆ        ji.Mapping = "H7.3"
-            SetGLH7_3(jiColl)
-            'CR ----------------------
-            ' Cr. เช็ครับรอนำฝาก     ji.Mapping = "H7.4"
-            SetGLH7_4(jiColl)
-            ' Cr. รายได้อื่น ๆ           ji.Mapping = "H7.5"
-            SetGLH7_5(jiColl)
+    Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As New JournalEntryItem
+      'DR ----------------------
+      ' DR. เช็ครับรอนำฝาก      ji.Mapping = "H7.1"
+      SetGLH7_1(jiColl)
+      ' Dr. เงินสด                  ji.Mapping = "H7.2"
+      SetGLH7_2(jiColl)
+      ' Dr. ค่าใช้จ่ายอื่น ๆ        ji.Mapping = "H7.3"
+      SetGLH7_3(jiColl)
+      'CR ----------------------
+      ' Cr. เช็ครับรอนำฝาก     ji.Mapping = "H7.4"
+      SetGLH7_4(jiColl)
+      ' Cr. รายได้อื่น ๆ           ji.Mapping = "H7.5"
+      SetGLH7_5(jiColl)
 
-            Return jiColl
-        End Function
-        ' Dr. เช็ครับรอนำฝาก
-        Private Sub SetGLH7_1(ByVal jiColl As JournalEntryItemCollection)
-            If Me.TotalReplace > 0 Then
-                Dim ji As JournalEntryItem
-                ji = New JournalEntryItem
-                ji.Mapping = "H7.1"
-                ji.Amount = (Me.TotalReplace - Me.Cash - Me.OtherExpense)
-                'If Me.Customer.Account.Originated Then
-                '    ji.Account = Me.Customer.Account
-                'End If
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
-        End Sub
-        ' Dr. เงินสด
-        Private Sub SetGLH7_2(ByVal jiColl As JournalEntryItemCollection)
-            If Me.Cash > 0 Then
-                Dim ji As JournalEntryItem
-                ji = New JournalEntryItem
-                ji.Mapping = "H7.2"
-                ji.Amount = Me.Cash
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
-        End Sub
-        ' Dr. ค่าใช้จ่ายอื่น ๆ 
-        Private Sub SetGLH7_3(ByVal jiColl As JournalEntryItemCollection)
-            If Me.OtherExpense > 0 Then
-                Dim ji As JournalEntryItem
-                ji = New JournalEntryItem
-                ji.Mapping = "H7.3"
-                ji.Amount = Me.OtherExpense
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
-        End Sub
-        ' Cr. ลูกหนี้การค้า
-        Private Sub SetGLH7_4(ByVal jiColl As JournalEntryItemCollection)
-            If Me.TotalCancel - Me.OtherRevenue > 0 Then
-                Dim ji As JournalEntryItem
-                ji = New JournalEntryItem
-                ji.Mapping = "H7.4"
-                ji.Amount = Me.TotalCancel - Me.OtherRevenue
-                If Me.Customer.Account.Originated Then
-                    ji.Account = Me.Customer.Account
-                End If
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
-        End Sub
-        Private Sub SetGLH7_5(ByVal jiColl As JournalEntryItemCollection)
-            If Me.OtherRevenue > 0 Then
-                Dim ji As JournalEntryItem
-                ji = New JournalEntryItem
-                ji.Mapping = "H7.5"
-                ji.Amount = Me.OtherRevenue
-                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                jiColl.Add(ji)
-            End If
-        End Sub
-        Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
-            Get
-                Return Me.m_je
-            End Get
-            Set(ByVal Value As JournalEntry)
-                Me.m_je = Value
-            End Set
-        End Property
+      Return jiColl
+    End Function
+    ' Dr. เช็ครับรอนำฝาก
+    Private Sub SetGLH7_1(ByVal jiColl As JournalEntryItemCollection)
+      If Me.TotalReplace > 0 Then
+        Dim ji As JournalEntryItem
+        ji = New JournalEntryItem
+        ji.Mapping = "H7.1"
+        ji.Amount = (Me.TotalReplace - Me.Cash - Me.OtherExpense)
+        'If Me.Customer.Account.Originated Then
+        '    ji.Account = Me.Customer.Account
+        'End If
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+      End If
+    End Sub
+    ' Dr. เงินสด
+    Private Sub SetGLH7_2(ByVal jiColl As JournalEntryItemCollection)
+      If Me.Cash > 0 Then
+        Dim ji As JournalEntryItem
+        ji = New JournalEntryItem
+        ji.Mapping = "H7.2"
+        ji.Amount = Me.Cash
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+      End If
+    End Sub
+    ' Dr. ค่าใช้จ่ายอื่น ๆ 
+    Private Sub SetGLH7_3(ByVal jiColl As JournalEntryItemCollection)
+      If Me.OtherExpense > 0 Then
+        Dim ji As JournalEntryItem
+        ji = New JournalEntryItem
+        ji.Mapping = "H7.3"
+        ji.Amount = Me.OtherExpense
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+      End If
+    End Sub
+    ' Cr. ลูกหนี้การค้า
+    Private Sub SetGLH7_4(ByVal jiColl As JournalEntryItemCollection)
+      If Me.TotalCancel - Me.OtherRevenue > 0 Then
+        Dim ji As JournalEntryItem
+        ji = New JournalEntryItem
+        ji.Mapping = "H7.4"
+        ji.Amount = Me.TotalCancel - Me.OtherRevenue
+        If Me.Customer.Account.Originated Then
+          ji.Account = Me.Customer.Account
+        End If
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+      End If
+    End Sub
+    Private Sub SetGLH7_5(ByVal jiColl As JournalEntryItemCollection)
+      If Me.OtherRevenue > 0 Then
+        Dim ji As JournalEntryItem
+        ji = New JournalEntryItem
+        ji.Mapping = "H7.5"
+        ji.Amount = Me.OtherRevenue
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        jiColl.Add(ji)
+      End If
+    End Sub
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
+      Get
+        Return Me.m_je
+      End Get
+      Set(ByVal Value As JournalEntry)
+        Me.m_je = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Delete"
-        Public Overrides ReadOnly Property CanDelete() As Boolean
-            Get
-                If Me.Originated Then
-                    Return Me.Status.Value <= 2
-                Else
-                    Return False
-                End If
-            End Get
-        End Property
-        Public Overrides Function Delete() As SaveErrorException
-            If Not Me.Originated Then
-                Return New SaveErrorException("${res:Global.Error.NoIdError}")
+    Public Overrides ReadOnly Property CanDelete() As Boolean
+      Get
+        If Me.Originated Then
+          Return Me.Status.Value <= 2
+        Else
+          Return False
+        End If
+      End Get
+    End Property
+    Public Overrides Function Delete() As SaveErrorException
+      If Not Me.Originated Then
+        Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      End If
+      ' ตรวจสอบ Childs ที่อ้างอิงแล้ว.
+      'Dim referedcodelist As String = GetIsChildsReferenced()
+      'If referedcodelist.Length > 0 Then
+      '    Dim strPare As String = Me.StringParserService.Parse("${res:Global.CheckChangeReferedList}")
+      '    Return New SaveErrorException(String.Format(strPare, referedcodelist))
+      'End If
+
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim format(0) As String
+      format(0) = Me.Code
+      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteCheckChange}", format) Then
+        Return New SaveErrorException("${res:Global.CencelDelete}")
+      End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        m_incomingcheckremoved = ""
+        For Each tr As TreeRow In Me.ItemTable.Childs
+          If Me.ValidateRow(tr) Then
+            If tr.Table.Columns.Contains("check_id") AndAlso Not tr.IsNull("check_id") Then
+              m_incomingcheckremoved += "|" & CInt(tr("check_id")) & "|"
             End If
-            ' ตรวจสอบ Childs ที่อ้างอิงแล้ว.
-            'Dim referedcodelist As String = GetIsChildsReferenced()
-            'If referedcodelist.Length > 0 Then
-            '    Dim strPare As String = Me.StringParserService.Parse("${res:Global.CheckChangeReferedList}")
-            '    Return New SaveErrorException(String.Format(strPare, referedcodelist))
-            'End If
+          End If
+        Next
 
-            Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            Dim format(0) As String
-            format(0) = Me.Code
-            If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteCheckChange}", format) Then
-                Return New SaveErrorException("${res:Global.CencelDelete}")
-            End If
-            Dim trans As SqlTransaction
-            Dim conn As New SqlConnection(Me.ConnectionString)
-            conn.Open()
-            trans = conn.BeginTransaction()
-            Try
-                m_incomingcheckremoved = ""
-                For Each tr As TreeRow In Me.ItemTable.Childs
-                    If Me.ValidateRow(tr) Then
-                        If tr.Table.Columns.Contains("check_id") AndAlso Not tr.IsNull("check_id") Then
-                            m_incomingcheckremoved += "|" & CInt(tr("check_id")) & "|"
-                        End If
-                    End If
-                Next
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteCheckChange", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              Return New SaveErrorException("${res:Global.CheckChangeIsReferencedCannotBeDeleted}")
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
 
-                Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-                returnVal.ParameterName = "RETURN_VALUE"
-                returnVal.DbType = DbType.Int32
-                returnVal.Direction = ParameterDirection.ReturnValue
-                returnVal.SourceVersion = DataRowVersion.Current
-                SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteCheckChange", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
-                If IsNumeric(returnVal.Value) Then
-                    Select Case CInt(returnVal.Value)
-                        Case -1
-                            trans.Rollback()
-                            Return New SaveErrorException("${res:Global.CheckChangeIsReferencedCannotBeDeleted}")
-                        Case Else
-                    End Select
-                ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-                    trans.Rollback()
-                    Return New SaveErrorException(returnVal.Value.ToString)
-                End If
+        ChangeOldItemStatus(conn, trans)
 
-                ChangeOldItemStatus(conn, trans)
-
-                trans.Commit()
-                Return New SaveErrorException("1")
-            Catch ex As SqlException
-                trans.Rollback()
-                Return New SaveErrorException(ex.Message)
-            Catch ex As Exception
-                trans.Rollback()
-                Return New SaveErrorException(ex.Message)
-            Finally
-                conn.Close()
-            End Try
-            m_incomingcheckremoved = ""
-        End Function
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
+      m_incomingcheckremoved = ""
+    End Function
 #End Region
 
 #Region "IHasIBillablePerson"
-        Public Property BillablePerson() As IBillablePerson Implements IHasIBillablePerson.BillablePerson
-            Get
-                Return Me.Customer
-            End Get
-            Set(ByVal Value As IBillablePerson)
-                If TypeOf Value Is Customer Then
-                    Me.Customer = CType(Value, Customer)
-                End If
-            End Set
-        End Property
+    Public Property BillablePerson() As IBillablePerson Implements IHasIBillablePerson.BillablePerson
+      Get
+        Return Me.Customer
+      End Get
+      Set(ByVal Value As IBillablePerson)
+        If TypeOf Value Is Customer Then
+          Me.Customer = CType(Value, Customer)
+        End If
+      End Set
+    End Property
 #End Region
 
-    
-    End Class
+
+  End Class
 
     ' Update check items
     Public Class CheckChangeItem
