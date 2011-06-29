@@ -1026,11 +1026,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@wbsadj_adjustPerson", Me.ValidIdOrDBNull(Me.AdjustPerson)))
         paramArrayList.Add(New SqlParameter("@wbsadj_gross", Me.Gross))
         paramArrayList.Add(New SqlParameter("@wbsadj_allocationType", Me.AllocationType))
-        'paramArrayList.Add(New SqlParameter("@pr_cc", ValidIdOrDBNull(Me.CostCenter)))
-        'paramArrayList.Add(New SqlParameter("@pr_approveperson", Me.ValidIdOrDBNull(Me.ApprovePerson)))
-        'paramArrayList.Add(New SqlParameter("@pr_approvedate", IIf(Me.ApprovePerson.Valid, theTime, DBNull.Value)))
-        'paramArrayList.Add(New SqlParameter("@pr_approvestoreperson", Me.ValidIdOrDBNull(Me.ApproveStorePerson)))
-        'paramArrayList.Add(New SqlParameter("@pr_approvestoredate", IIf(Me.ApproveStorePerson.Valid, theTime, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@wbsadj_reason", Me.Reason))
         paramArrayList.Add(New SqlParameter("@wbsadj_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@wbsadj_status", Me.Status.Value))
@@ -1052,153 +1047,135 @@ Namespace Longkong.Pojjaman.BusinessLogic
         oldcode = Me.Code
         oldautogen = Me.AutoGen
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid)
-                Me.ResetCode(oldcode, oldautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid)
+                  Me.ResetCode(oldcode, oldautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid)
+              Me.ResetCode(oldcode, oldautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+            Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
+              trans.Rollback()
+              ResetID(oldid)
+              Me.ResetCode(oldcode, oldautogen)
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid)
+                  Me.ResetCode(oldcode, oldautogen)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
+
+            'Select Case Me.AllocationType
+            '  Case 6
+            '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+            '  Case 7
+            '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+            '  Case 45
+            '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+            '  Case 31
+            '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+            'End Select
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetID(oldid)
+              Me.ResetCode(oldcode, oldautogen)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid)
+                  Me.ResetCode(oldcode, oldautogen)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
+            trans.Commit()
+            'Return New SaveErrorException(returnVal.Value.ToString)
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid)
             Me.ResetCode(oldcode, oldautogen)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            Me.ResetID(oldid)
+            Me.ResetCode(oldcode, oldautogen)
+            Return New SaveErrorException(ex.ToString)
+            'Finally
+            '  conn.Close()
+          End Try
+
+          '--Sub Save Block-- ============================================================
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
-            ResetID(oldid)
-            Me.ResetCode(oldcode, oldautogen)
-            Return saveDetailError
-          Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid)
-                Me.ResetCode(oldcode, oldautogen)
-                Return saveDetailError
-              Case Else
-            End Select
-          End If
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save Block-- ============================================================
 
-          ''==============CURRENCY=================================
-          ''Save Currency
-          'If Me.Originated Then
-          '  BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
-          'End If
-          ''==============CURRENCY=================================
-
-          ''Save CustomNote จากการ Copy เอกสาร
-          'If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
-          '  If Me.Originated Then
-          '    Me.m_customNoteColl.EntityId = Me.Id
-          '    Me.m_customNoteColl.Save()
-          '  End If
-          'End If
-
-          'For Each extender As Object In Me.Extenders
-          '  If TypeOf extender Is IExtender Then
-          '    Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-          '    If Not IsNumeric(saveDocError.Message) Then
-          '      trans.Rollback()
-          '      Return saveDocError
-          '    Else
-          '      Select Case CInt(saveDocError.Message)
-          '        Case -1, -2, -5
-          '          trans.Rollback()
-          '          Return saveDocError
-          '        Case Else
-          '      End Select
-          '    End If
-          '  End If
-          'Next
-
-          'Me.DeleteRef(conn, trans)
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PRRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PRRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          'If Me.Status.Value = 0 Then
-          '  Me.CancelRef(conn, trans)
-          'End If
-
-          Select Case Me.AllocationType
-            Case 6
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-            Case 7
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
-            Case 45
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
-            Case 31
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
-          End Select
-
-
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
-            trans.Rollback()
-            ResetID(oldid)
-            Me.ResetCode(oldcode, oldautogen)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid)
-                Me.ResetCode(oldcode, oldautogen)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-
-          trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid)
-          Me.ResetCode(oldcode, oldautogen)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid)
-          Me.ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
+
       End With
     End Function
-    'Public Overrides Function GetNextCode() As String
-    '  Dim autoCodeFormat As String
-    '  If Me.AutoCodeFormat.Format.Length > 0 Then
-    '    autoCodeFormat = Me.AutoCodeFormat.Format
-    '  Else
-    '    autoCodeFormat = Me.Code
-    '  End If
-    '  'Entity.GetAutoCodeFormat(Me.EntityId)
-    '  Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
 
-    '  pattern = CodeGenerator.GetPattern(pattern)
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
 
-    '  Dim lastCode As String = Me.GetLastCode(pattern)
-    '  Dim newCode As String = _
-    '  CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
-    '  While DuplicateCode(newCode)
-    '    newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
-    '  End While
-    '  Return newCode
-    'End Function
+      Try
+        Select Case Me.AllocationType
+          Case 6
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+          Case 7
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+          Case 45
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+          Case 31
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+        End Select
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
         Dim da As New SqlDataAdapter("Select * from wbsadjustitem where wbsadji_wbsadj=" & Me.Id, conn)
         Dim daWbs As New SqlDataAdapter("Select * from wbsadjustiwbs where wbsadjiw_sequence in (select wbsadji_sequence from wbsadjustitem where wbsadji_wbsadj=" & Me.Id & ")", conn)
-
 
         Dim ds As New DataSet
 
@@ -1261,24 +1238,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim seq As Integer = -1
         With ds.Tables("wbsadjustitem")
           For Each item As WBSAdjustItem In Me.ItemList
-            'Select Case item.ItemType.Value
-            '  Case 42
-            '    Dim lci As New LCIItem(item.Entity.Id)
-            '    If Not lci.Originated Then
-            '      Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-            '    ElseIf Not lci.ValidUnit(item.Unit) Then
-            '      Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
-            '    End If
-            '  Case 19
-            '    Dim myTool As New Tool(item.Entity.Id)
-            '    If Not myTool.Originated Then
-            '      Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-            '    ElseIf myTool.Unit.Id <> item.Unit.Id Then
-            '      Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
-            '    End If
-            'End Select
-            'beforeSaveQty = item.Qty
-
             i += 1
             '------------Checking if we have to add a new row or just update existing--------------------
             Dim dr As DataRow
@@ -1293,27 +1252,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '------------End Checking--------------------
 
-            'Dim dr As DataRow = .NewRow
-            'If Not m_closedBefor AndAlso Me.Closed Then
-            '  dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
-            '  dr("pri_originqty") = item.Qty
-            '  dr("pri_originamt") = item.Amount
-            '  item.m_qty = Configuration.Format(item.GetOrderedQty + item.GetWithdrawnQty, DigitConfig.Qty)
-            'ElseIf Not m_closedBefor AndAlso Not Me.Closed Then
-            '  dr("pri_qty") = item.Qty
-            '  dr("pri_originqty") = item.Qty
-            '  dr("pri_originamt") = item.Amount
-            'ElseIf m_closedBefor AndAlso Not Me.Closed Then
-            '  dr("pri_qty") = item.OriginQty
-            '  dr("pri_originqty") = item.OriginQty
-            '  dr("pri_originamt") = item.OriginAmount
-            '  item.m_qty = Configuration.Format(item.GetOrderedQty, DigitConfig.Qty)
-            'ElseIf m_closedBefor AndAlso Me.Closed Then
-            '  dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
-            '  dr("pri_originqty") = item.OriginQty
-            '  dr("pri_originamt") = item.OriginAmount
-            '  item.m_qty = Configuration.Format(item.GetOrderedQty + item.GetWithdrawnQty, DigitConfig.Qty)
-            'End If
             dr("wbsadji_wbsadj") = Me.Id
             dr("wbsadji_linenumber") = i
             'dr("wbsadji_entity") = item.Entity.Id
@@ -1351,8 +1289,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("wbsadjiw_ismarkup") = wbsd.IsMarkup
               childDr("wbsadjiw_direction") = item.Direction
               childDr("wbsadjiw_baseCost") = wbsd.BaseCost
-              'childDr("wbsadjiw_transferbaseCost") = wbsd.TransferBaseCost
-              'childDr("wbsadjiw_transferamt") = wbsd.TransferAmount
               childDr("wbsadjiw_amt") = wbsd.Amount
               childDr("wbsadjiw_toaccttype") = 3
               childDr("wbsadjiw_cbs") = wbsd.CBS.Id
@@ -1360,37 +1296,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dtWbs.Rows.Add(childDr)
             Next
 
-            'currentSum = wbsdColl.GetSumPercent
-            ''ยังไม่เต็ม 100 และยังไม่มี root
-            'If currentSum < 100 AndAlso Not rootWBS Is Nothing Then
-            '  Try
-            '    Dim rootWBS As New WBS(wbsd.CostCenter.RootWBSId)
-            '    Dim newWbsd As New WBSDistribute
-            '    newWbsd.WBS = rootWBS
-            '    newWbsd.CostCenter = item.Pr.CostCenter
-            '    newWbsd.Percent = 100 - currentSum
-            '    newWbsd.BaseCost = item.UnitPrice * m_currentQty
-            '    'newWbsd.TransferBaseCost = newWbsd.BaseCost
-            '    Dim childDr As DataRow = dtWbs.NewRow
-            '    childDr("wbsadjiw_wbs") = newWbsd.WBS.Id
-            '    childDr("wbsadjiw_cc") = newWbsd.CostCenter.Id
-            '    childDr("wbsadjiw_percent") = newWbsd.Percent
-            '    childDr("wbsadjiw_sequence") = item.Sequence
-            '    childDr("wbsadjiw_ismarkup") = False
-            '    childDr("wbsadjiw_direction") = item.Direction
-            '    childDr("wbsadjiw_baseCost") = newWbsd.BaseCost
-            '    'childDr("wbsadjiw_transferbaseCost") = newWbsd.TransferBaseCost
-            '    'childDr("wbsadjiw_transferamt") = newWbsd.TransferAmount
-            '    childDr("wbsadjiw_amt") = newWbsd.Amount
-            '    childDr("wbsadjiw_toaccttype") = 3
-            '    childDr("wbsadjiw_cbs") = newWbsd.CBS.Id
-            '    'Add เข้า priwbs
-            '    dtWbs.Rows.Add(childDr)
-            '  Catch ex As Exception
-            '    MessageBox.Show(ex.ToString)
-            '  End Try
-            'End If
-            'item.m_qty = beforeSaveQty
           Next
         End With
 

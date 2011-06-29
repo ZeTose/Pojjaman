@@ -3551,602 +3551,699 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Saving"
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      'Dim ValidateError As SaveErrorException
+
+      Try
+        For Each item As BoqItem In Me.ItemCollection
+          Select Case item.ItemType.Value
+            Case 42
+              Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
+              If Not lci.Originated Then
+                Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+              ElseIf Not lci.ValidUnit(item.Unit) Then
+                Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+              End If
+            Case 19
+              Dim myTool As New Tool(item.Entity.Id)
+              If Not myTool.Originated Then
+                Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+              ElseIf myTool.Unit.Id <> item.Unit.Id Then
+                Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+              End If
+            Case 18
+              Dim myLabor As New Labor(item.Entity.Id)
+              If Not myLabor.Originated Then
+                Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
+              ElseIf myLabor.Unit.Id <> item.Unit.Id Then
+                Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
+              End If
+            Case 20
+              Dim myEqCost As New EqCost(item.Entity.Id)
+              If Not myEqCost.Originated Then
+                Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
+              ElseIf myEqCost.Unit.Id <> item.Unit.Id Then
+                Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
+              End If
+          End Select
+        Next
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
+
+      Return New SaveErrorException("0")
+
+    End Function
     Private Function InsertUpdate(ByVal currentUserId As Integer) As SaveErrorException
       If Me.DuplicateCode(Me.Code) Then
         Return New SaveErrorException("${res:Global.Error.AlreadyHasThisCode}", New String() {Me.Code})
       End If
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+      Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError2.Message) Then
+        Return ValidateError2
+      End If
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
       trans = conn.BeginTransaction()
 
       Try
-        Dim theTime As Date = Now
-        Dim theUserId As Integer = currentUserId
+        Try
+          Dim theTime As Date = Now
+          Dim theUserId As Integer = currentUserId
 
-        Dim daBoq As SqlDataAdapter
-        Dim daWbs As SqlDataAdapter
-        Dim daBoqItem As SqlDataAdapter
-        Dim daMarkup As SqlDataAdapter
-        Dim daMarkupC As SqlDataAdapter
-        Dim daMarkupD As SqlDataAdapter
-        Dim daBoqAD As SqlDataAdapter
-        If Me.Originated Then
-          ''----------------HACK------------------------------------
-          'Dim cmd As New SqlCommand("update boqitem set boqi_wbs = null where boqi_boq=" & Me.Id, conn)
-          'cmd.Connection = conn
-          'cmd.Transaction = trans
-          'cmd.ExecuteNonQuery()
-          'cmd.CommandText = "delete wbs where wbs_boq=" & Me.Id.ToString
-          'cmd.ExecuteNonQuery()
-          ''----------------HACK------------------------------------
+          Dim daBoq As SqlDataAdapter
+          Dim daWbs As SqlDataAdapter
+          Dim daBoqItem As SqlDataAdapter
+          Dim daMarkup As SqlDataAdapter
+          Dim daMarkupC As SqlDataAdapter
+          Dim daMarkupD As SqlDataAdapter
+          Dim daBoqAD As SqlDataAdapter
+          If Me.Originated Then
+            ''----------------HACK------------------------------------
+            'Dim cmd As New SqlCommand("update boqitem set boqi_wbs = null where boqi_boq=" & Me.Id, conn)
+            'cmd.Connection = conn
+            'cmd.Transaction = trans
+            'cmd.ExecuteNonQuery()
+            'cmd.CommandText = "delete wbs where wbs_boq=" & Me.Id.ToString
+            'cmd.ExecuteNonQuery()
+            ''----------------HACK------------------------------------
 
-          daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
-          daWbs = New SqlDataAdapter("select * from wbs where wbs_boq=" & Me.Id & " order by wbs_level desc", conn)
-          daBoqItem = New SqlDataAdapter("select * from boqitem where boqi_boq=" & Me.Id, conn)
-          daMarkup = New SqlDataAdapter("select * from markup where markup_boq=" & Me.Id, conn)
-          daMarkupC = New SqlDataAdapter("select * from markupcondition where markupc_markup in (select markup_id from markup where markup_boq=" & Me.Id & ")", conn)
-          daMarkupD = New SqlDataAdapter("select * from markupdistribution where markupd_markup in (select markup_id from markup where markup_boq=" & Me.Id & ")", conn)
-          daBoqAD = New SqlDataAdapter("select * from boqadjdistribution where boqadj_boq=" & Me.Id, conn)
-        Else
-          daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
-          daWbs = New SqlDataAdapter("select * from wbs where 1=2", conn)
-          daBoqItem = New SqlDataAdapter("select * from boqitem where 1=2", conn)
-          daMarkup = New SqlDataAdapter("select * from markup where 1=2", conn)
-          daMarkupC = New SqlDataAdapter("select * from markupcondition where 1=2", conn)
-          daMarkupD = New SqlDataAdapter("select * from markupdistribution where 1=2", conn)
-          daBoqAD = New SqlDataAdapter("select * from boqadjdistribution where 1=2", conn)
-        End If
-
-        Dim ds As New DataSet
-
-        '***********----BOQ ----****************
-        Dim cb As New SqlCommandBuilder(daBoq)
-        daBoq.SelectCommand.Transaction = trans
-
-        daBoq.DeleteCommand = cb.GetDeleteCommand
-        daBoq.DeleteCommand.Transaction = trans
-
-        daBoq.InsertCommand = cb.GetInsertCommand
-        daBoq.InsertCommand.Transaction = trans
-
-        daBoq.UpdateCommand = cb.GetUpdateCommand
-        daBoq.UpdateCommand.Transaction = trans
-
-        daBoq.InsertCommand.CommandText &= "; Select * From boq Where boq_id= @@IDENTITY"
-        daBoq.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-        cb = Nothing
-
-        daBoq.FillSchema(ds, SchemaType.Mapped, "boq")
-        daBoq.Fill(ds, "boq")
-        '***********----BOQ ----****************
-
-        '***********----WBS ----****************
-        cb = New SqlCommandBuilder(daWbs)
-        daWbs.SelectCommand.Transaction = trans
-
-        daWbs.DeleteCommand = cb.GetDeleteCommand
-        daWbs.DeleteCommand.Transaction = trans
-
-        daWbs.InsertCommand = cb.GetInsertCommand
-        daWbs.InsertCommand.Transaction = trans
-
-        daWbs.UpdateCommand = cb.GetUpdateCommand
-        daWbs.UpdateCommand.Transaction = trans
-
-        daWbs.InsertCommand.CommandText &= ";" & _
-        "update wbs set wbs_parid = wbs_id where wbs_parid is null and wbs_id=@@IDENTITY;" & _
-        "update wbs set wbs_path ='|'+convert(nvarchar,wbs_id)+'|' where wbs_id = @@IDENTITY and wbs_parid= @@IDENTITY;" & _
-        "update wbs set wbs.wbs_path = (select parent.wbs_path from wbs parent where parent.wbs_id=wbs.wbs_parid) + '|'+convert(nvarchar,wbs.wbs_id)+'|' where wbs.wbs_id = @@IDENTITY and wbs.wbs_parid <> @@IDENTITY ;" & _
-        " Select * From wbs Where wbs_id= @@IDENTITY"
-        daWbs.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-        cb = Nothing
-
-        daWbs.FillSchema(ds, SchemaType.Mapped, "wbs")
-        daWbs.Fill(ds, "wbs")
-        ds.Relations.Add("boq_wbs", ds.Tables!boq.Columns!boq_id, ds.Tables!wbs.Columns!wbs_boq)
-        ds.Relations.Add("wbsTree", ds.Tables!wbs.Columns!wbs_id, ds.Tables!wbs.Columns!wbs_parid)
-        '***********----WBS ----****************
-
-        '***********----Markup ----****************
-        cb = New SqlCommandBuilder(daMarkup)
-        daMarkup.SelectCommand.Transaction = trans
-
-        daMarkup.DeleteCommand = cb.GetDeleteCommand
-        daMarkup.DeleteCommand.Transaction = trans
-
-        daMarkup.InsertCommand = cb.GetInsertCommand
-        daMarkup.InsertCommand.Transaction = trans
-
-        daMarkup.UpdateCommand = cb.GetUpdateCommand
-        daMarkup.UpdateCommand.Transaction = trans
-
-        daMarkup.InsertCommand.CommandText &= "; Select * From markup Where markup_id= @@IDENTITY"
-        daMarkup.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-        cb = Nothing
-
-        daMarkup.FillSchema(ds, SchemaType.Mapped, "markup")
-        daMarkup.Fill(ds, "markup")
-        ds.Relations.Add("boq_markup", ds.Tables!boq.Columns!boq_id, ds.Tables!markup.Columns!markup_boq)
-        '***********----Markup ----****************
-
-        '***********----MarkupCondition ----****************
-        cb = New SqlCommandBuilder(daMarkupC)
-        daMarkupC.SelectCommand.Transaction = trans
-
-        daMarkupC.DeleteCommand = cb.GetDeleteCommand
-        daMarkupC.DeleteCommand.Transaction = trans
-
-        daMarkupC.InsertCommand = cb.GetInsertCommand
-        daMarkupC.InsertCommand.Transaction = trans
-
-        daMarkupC.UpdateCommand = cb.GetUpdateCommand
-        daMarkupC.UpdateCommand.Transaction = trans
-        cb = Nothing
-
-        daMarkupC.FillSchema(ds, SchemaType.Mapped, "markupcondition")
-        daMarkupC.Fill(ds, "markupcondition")
-        ds.Relations.Add("markup_markupcondition", ds.Tables!markup.Columns!markup_id, ds.Tables!markupcondition.Columns!markupc_markup)
-        '***********----MarkupCondition ----****************
-
-
-        '***********----Item ----****************
-        cb = New SqlCommandBuilder(daBoqItem)
-        daBoqItem.SelectCommand.Transaction = trans
-
-        daBoqItem.DeleteCommand = cb.GetDeleteCommand
-        daBoqItem.DeleteCommand.Transaction = trans
-
-        daBoqItem.InsertCommand = cb.GetInsertCommand
-        daBoqItem.InsertCommand.Transaction = trans
-
-        daBoqItem.UpdateCommand = cb.GetUpdateCommand
-        daBoqItem.UpdateCommand.Transaction = trans
-        cb = Nothing
-
-        daBoqItem.FillSchema(ds, SchemaType.Mapped, "boqitem")
-        daBoqItem.Fill(ds, "boqitem")
-        ds.Relations.Add("boq_boqitem", ds.Tables!boq.Columns!boq_id, ds.Tables!boqitem.Columns!boqi_boq)
-        ds.Relations.Add("wbs_boqitem", ds.Tables!wbs.Columns!wbs_id, ds.Tables!boqitem.Columns!boqi_wbs)
-        '***********----Item ----****************
-
-        '***********----BOQAdjDistribution ----****************
-        cb = New SqlCommandBuilder(daBoqAD)
-        daBoqAD.SelectCommand.Transaction = trans
-
-        daBoqAD.DeleteCommand = cb.GetDeleteCommand
-        daBoqAD.DeleteCommand.Transaction = trans
-
-        daBoqAD.InsertCommand = cb.GetInsertCommand
-        daBoqAD.InsertCommand.Transaction = trans
-
-        daBoqAD.UpdateCommand = cb.GetUpdateCommand
-        daBoqAD.UpdateCommand.Transaction = trans
-        cb = Nothing
-
-        daBoqAD.FillSchema(ds, SchemaType.Mapped, "boqadjdistribution")
-        daBoqAD.Fill(ds, "boqadjdistribution")
-        ds.Relations.Add("boq_boqadjdistribution", ds.Tables!boq.Columns!boq_id, ds.Tables!boqadjdistribution.Columns!boqadj_boq)
-        '***********----BOQAdjDistribution ----****************
-
-        '***********----MarkupDistribution ----****************
-        cb = New SqlCommandBuilder(daMarkupD)
-        daMarkupD.SelectCommand.Transaction = trans
-
-        daMarkupD.DeleteCommand = cb.GetDeleteCommand
-        daMarkupD.DeleteCommand.Transaction = trans
-
-        daMarkupD.InsertCommand = cb.GetInsertCommand
-        daMarkupD.InsertCommand.Transaction = trans
-
-        daMarkupD.UpdateCommand = cb.GetUpdateCommand
-        daMarkupD.UpdateCommand.Transaction = trans
-        cb = Nothing
-
-        daMarkupD.FillSchema(ds, SchemaType.Mapped, "markupdistribution")
-        daMarkupD.Fill(ds, "markupdistribution")
-        ds.Relations.Add("markup_markupdistribution", ds.Tables!markup.Columns!markup_id, ds.Tables!markupdistribution.Columns!markupd_markup)
-        '***********----MarkupDistribution ----****************
-
-        Dim dtBoq As DataTable
-        Dim dtWbs As DataTable
-        Dim dtMarkup As DataTable
-        Dim dtBoqItem As DataTable
-        Dim dtMarkupC As DataTable
-        Dim dtBoqAD As DataTable
-        Dim dtMarkupD As DataTable
-        Dim dc As DataColumn
-
-        dtBoq = ds.Tables("boq")
-        dc = dtBoq.Columns!boq_id
-        dc.AutoIncrement = True
-        dc.AutoIncrementSeed = -1
-        dc.AutoIncrementStep = -1
-
-        dtWbs = ds.Tables("wbs")
-        dc = dtWbs.Columns!wbs_id
-        dc.AutoIncrement = True
-        dc.AutoIncrementSeed = Integer.MaxValue
-        dc.AutoIncrementStep = -1
-
-        dtMarkup = ds.Tables("markup")
-        dc = dtMarkup.Columns!markup_id
-        dc.AutoIncrement = True
-        dc.AutoIncrementSeed = Integer.MaxValue
-        dc.AutoIncrementStep = -1
-
-        dtMarkupC = ds.Tables("markupcondition")
-
-        dtBoqItem = ds.Tables("boqitem")
-
-        dtBoqAD = ds.Tables("boqadjdistribution")
-
-        dtMarkupD = ds.Tables("markupdistribution")
-
-        Dim tmpBoqDa As New SqlDataAdapter
-        tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
-        tmpBoqDa.InsertCommand = daBoq.InsertCommand
-        tmpBoqDa.UpdateCommand = daBoq.UpdateCommand
-
-        Dim tmpwbsDa As New SqlDataAdapter
-        tmpwbsDa.DeleteCommand = daWbs.DeleteCommand
-        tmpwbsDa.InsertCommand = daWbs.InsertCommand
-        tmpwbsDa.UpdateCommand = daWbs.UpdateCommand
-
-        Dim tmpMarkupDa As New SqlDataAdapter
-        tmpMarkupDa.DeleteCommand = daMarkup.DeleteCommand
-        tmpMarkupDa.InsertCommand = daMarkup.InsertCommand
-        tmpMarkupDa.UpdateCommand = daMarkup.UpdateCommand
-
-        AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
-        AddHandler tmpwbsDa.RowUpdated, AddressOf tmpwbsDa_MyRowUpdated
-        AddHandler tmpMarkupDa.RowUpdated, AddressOf tmpMarkupDa_MyRowUpdated
-        AddHandler daMarkupC.RowUpdated, AddressOf daMarkupC_MyRowUpdated
-        AddHandler daBoqItem.RowUpdated, AddressOf daBoqitem_MyRowUpdated
-        AddHandler daBoqAD.RowUpdated, AddressOf daBoqAD_MyRowUpdated
-        AddHandler daMarkupD.RowUpdated, AddressOf daMarkupD_MyRowUpdated
-
-        If Me.Status.Value = -1 Then
-          Me.Status.Value = 2
-        End If
-
-        Dim drBoq As DataRow
-        If Not Me.Originated Then
-          drBoq = dtBoq.NewRow
-        Else
-          drBoq = dtBoq.Rows(0)
-        End If
-        drBoq(Me.Prefix & "_code") = Me.Code
-        drBoq(Me.Prefix & "_project") = Me.ValidIdOrDBNull(Me.Project)
-        drBoq(Me.Prefix & "_estimator") = Me.ValidIdOrDBNull(Me.Estimator)
-        drBoq(Me.Prefix & "_materialMarkup") = Me.MaterialMarkup
-        drBoq(Me.Prefix & "_materialDmethod") = Me.MaterialMarkupMethod.Value
-        drBoq(Me.Prefix & "_laborMarkup") = Me.LaborMarkup
-        drBoq(Me.Prefix & "_laborDmethod") = Me.LaborMarkupMethod.Value
-        drBoq(Me.Prefix & "_equipmentMarkup") = Me.EquipmentMarkup
-        drBoq(Me.Prefix & "_equipmentDmethod") = Me.EquipmentMarkupMethod.Value
-        drBoq(Me.Prefix & "_status") = Me.Status.Value
-        drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
-        drBoq(Me.Prefix & "_markupstate") = Me.MarkupState
-        drBoq(Me.Prefix & "_finalbidprice") = Me.FinalBidPrice
-        drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
-        drBoq(Me.Prefix & "_locked") = Me.Locked
-
-        Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
-
-        If Not Me.Originated Then
-          dtBoq.Rows.Add(drBoq)
-        End If
-
-        Dim rowsToDelete As New ArrayList
-        For Each dr As DataRow In dtWbs.Rows
-          Dim found As Boolean = False
-          For Each testWbs As WBS In Me.WBSCollection
-            If testWbs.Id = CInt(dr("wbs_id")) Then
-              found = True
-              Exit For
-            End If
-          Next
-          If Not found Then
-            If Not rowsToDelete.Contains(dr) Then
-              rowsToDelete.Add(dr)
-            End If
-          End If
-        Next
-        For Each dr As DataRow In rowsToDelete
-          dr.Delete()
-        Next
-        Dim rootWbs As WBS = Me.WBSCollection.GetRoot
-        If Not rootWbs Is Nothing Then
-          Dim drWbs As DataRow
-          Dim drs As DataRow() = dtWbs.Select("wbs_id=" & rootWbs.Id)
-          If drs.Length = 0 Then
-            drWbs = dtWbs.NewRow
+            daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
+            daWbs = New SqlDataAdapter("select * from wbs where wbs_boq=" & Me.Id & " order by wbs_level desc", conn)
+            daBoqItem = New SqlDataAdapter("select * from boqitem where boqi_boq=" & Me.Id, conn)
+            daMarkup = New SqlDataAdapter("select * from markup where markup_boq=" & Me.Id, conn)
+            daMarkupC = New SqlDataAdapter("select * from markupcondition where markupc_markup in (select markup_id from markup where markup_boq=" & Me.Id & ")", conn)
+            daMarkupD = New SqlDataAdapter("select * from markupdistribution where markupd_markup in (select markup_id from markup where markup_boq=" & Me.Id & ")", conn)
+            daBoqAD = New SqlDataAdapter("select * from boqadjdistribution where boqadj_boq=" & Me.Id, conn)
           Else
-            drWbs = drs(0)
+            daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
+            daWbs = New SqlDataAdapter("select * from wbs where 1=2", conn)
+            daBoqItem = New SqlDataAdapter("select * from boqitem where 1=2", conn)
+            daMarkup = New SqlDataAdapter("select * from markup where 1=2", conn)
+            daMarkupC = New SqlDataAdapter("select * from markupcondition where 1=2", conn)
+            daMarkupD = New SqlDataAdapter("select * from markupdistribution where 1=2", conn)
+            daBoqAD = New SqlDataAdapter("select * from boqadjdistribution where 1=2", conn)
           End If
-          'drWbs("wbs_id") = ""
-          drWbs("wbs_boq") = drBoq(Me.Prefix & "_id")
-          drWbs("wbs_level") = 0
-          drWbs("wbs_code") = rootWbs.Code
-          drWbs("wbs_name") = rootWbs.Name
-          drWbs("wbs_altName") = rootWbs.AlternateName
-          drWbs("wbs_note") = rootWbs.Note
-          drWbs("wbs_control") = DBNull.Value
-          drWbs("wbs_path") = ""
-          drWbs("wbs_linenumber") = 1
-          drWbs("wbs_state") = CInt(rootWbs.State)
-          If rootWbs.Status.Value = -1 Then
-            rootWbs.Status.Value = 2
-          End If
-          drWbs("wbs_status") = rootWbs.Status.Value
-          drWbs("wbs_noqtycontrol") = rootWbs.NoQtyControl
-          drWbs("wbs_startdate") = rootWbs.StartDate
-          drWbs("wbs_finishdate") = rootWbs.FinishDate
-          drWbs("wbs_qty") = rootWbs.Qty
-          drWbs("wbs_unit") = ValidIdOrDBNull(rootWbs.Unit)
-          If drs.Length = 0 Then
-            dtWbs.Rows.Add(drWbs)
-            Dim oldParId As Integer = rootWbs.Id
-            rootWbs.Id = CInt(drWbs("wbs_id"))
-            Me.WBSCollection.UpdateParentId(oldParId, rootWbs.Id)
-            Me.ItemCollection.UpdateWbsId(oldParId, rootWbs.Id)
-          End If
-          Dim collForRoot As WBSCollection = rootWbs.Childs
-          LoopWbs(collForRoot, 1, dtWbs, drBoq)
-          collForRoot = Nothing
-        End If
 
-        For Each dr As DataRow In dtMarkupC.Rows
-          dr.Delete()
-        Next
-        rowsToDelete = New ArrayList
-        For Each dr As DataRow In dtMarkup.Rows
-          Dim found As Boolean = False
-          For Each testMarkup As Markup In Me.MarkupCollection
-            If testMarkup.Id = CInt(dr("markup_id")) Then
-              found = True
-              Exit For
-            End If
-          Next
-          If Not found Then
-            If Not rowsToDelete.Contains(dr) Then
-              rowsToDelete.Add(dr)
-            End If
+          Dim ds As New DataSet
+
+          '***********----BOQ ----****************
+          Dim cb As New SqlCommandBuilder(daBoq)
+          daBoq.SelectCommand.Transaction = trans
+
+          daBoq.DeleteCommand = cb.GetDeleteCommand
+          daBoq.DeleteCommand.Transaction = trans
+
+          daBoq.InsertCommand = cb.GetInsertCommand
+          daBoq.InsertCommand.Transaction = trans
+
+          daBoq.UpdateCommand = cb.GetUpdateCommand
+          daBoq.UpdateCommand.Transaction = trans
+
+          daBoq.InsertCommand.CommandText &= "; Select * From boq Where boq_id= @@IDENTITY"
+          daBoq.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+          cb = Nothing
+
+          daBoq.FillSchema(ds, SchemaType.Mapped, "boq")
+          daBoq.Fill(ds, "boq")
+          '***********----BOQ ----****************
+
+          '***********----WBS ----****************
+          cb = New SqlCommandBuilder(daWbs)
+          daWbs.SelectCommand.Transaction = trans
+
+          daWbs.DeleteCommand = cb.GetDeleteCommand
+          daWbs.DeleteCommand.Transaction = trans
+
+          daWbs.InsertCommand = cb.GetInsertCommand
+          daWbs.InsertCommand.Transaction = trans
+
+          daWbs.UpdateCommand = cb.GetUpdateCommand
+          daWbs.UpdateCommand.Transaction = trans
+
+          daWbs.InsertCommand.CommandText &= ";" & _
+          "update wbs set wbs_parid = wbs_id where wbs_parid is null and wbs_id=@@IDENTITY;" & _
+          "update wbs set wbs_path ='|'+convert(nvarchar,wbs_id)+'|' where wbs_id = @@IDENTITY and wbs_parid= @@IDENTITY;" & _
+          "update wbs set wbs.wbs_path = (select parent.wbs_path from wbs parent where parent.wbs_id=wbs.wbs_parid) + '|'+convert(nvarchar,wbs.wbs_id)+'|' where wbs.wbs_id = @@IDENTITY and wbs.wbs_parid <> @@IDENTITY ;" & _
+          " Select * From wbs Where wbs_id= @@IDENTITY"
+          daWbs.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+          cb = Nothing
+
+          daWbs.FillSchema(ds, SchemaType.Mapped, "wbs")
+          daWbs.Fill(ds, "wbs")
+          ds.Relations.Add("boq_wbs", ds.Tables!boq.Columns!boq_id, ds.Tables!wbs.Columns!wbs_boq)
+          ds.Relations.Add("wbsTree", ds.Tables!wbs.Columns!wbs_id, ds.Tables!wbs.Columns!wbs_parid)
+          '***********----WBS ----****************
+
+          '***********----Markup ----****************
+          cb = New SqlCommandBuilder(daMarkup)
+          daMarkup.SelectCommand.Transaction = trans
+
+          daMarkup.DeleteCommand = cb.GetDeleteCommand
+          daMarkup.DeleteCommand.Transaction = trans
+
+          daMarkup.InsertCommand = cb.GetInsertCommand
+          daMarkup.InsertCommand.Transaction = trans
+
+          daMarkup.UpdateCommand = cb.GetUpdateCommand
+          daMarkup.UpdateCommand.Transaction = trans
+
+          daMarkup.InsertCommand.CommandText &= "; Select * From markup Where markup_id= @@IDENTITY"
+          daMarkup.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+          cb = Nothing
+
+          daMarkup.FillSchema(ds, SchemaType.Mapped, "markup")
+          daMarkup.Fill(ds, "markup")
+          ds.Relations.Add("boq_markup", ds.Tables!boq.Columns!boq_id, ds.Tables!markup.Columns!markup_boq)
+          '***********----Markup ----****************
+
+          '***********----MarkupCondition ----****************
+          cb = New SqlCommandBuilder(daMarkupC)
+          daMarkupC.SelectCommand.Transaction = trans
+
+          daMarkupC.DeleteCommand = cb.GetDeleteCommand
+          daMarkupC.DeleteCommand.Transaction = trans
+
+          daMarkupC.InsertCommand = cb.GetInsertCommand
+          daMarkupC.InsertCommand.Transaction = trans
+
+          daMarkupC.UpdateCommand = cb.GetUpdateCommand
+          daMarkupC.UpdateCommand.Transaction = trans
+          cb = Nothing
+
+          daMarkupC.FillSchema(ds, SchemaType.Mapped, "markupcondition")
+          daMarkupC.Fill(ds, "markupcondition")
+          ds.Relations.Add("markup_markupcondition", ds.Tables!markup.Columns!markup_id, ds.Tables!markupcondition.Columns!markupc_markup)
+          '***********----MarkupCondition ----****************
+
+
+          '***********----Item ----****************
+          cb = New SqlCommandBuilder(daBoqItem)
+          daBoqItem.SelectCommand.Transaction = trans
+
+          daBoqItem.DeleteCommand = cb.GetDeleteCommand
+          daBoqItem.DeleteCommand.Transaction = trans
+
+          daBoqItem.InsertCommand = cb.GetInsertCommand
+          daBoqItem.InsertCommand.Transaction = trans
+
+          daBoqItem.UpdateCommand = cb.GetUpdateCommand
+          daBoqItem.UpdateCommand.Transaction = trans
+          cb = Nothing
+
+          daBoqItem.FillSchema(ds, SchemaType.Mapped, "boqitem")
+          daBoqItem.Fill(ds, "boqitem")
+          ds.Relations.Add("boq_boqitem", ds.Tables!boq.Columns!boq_id, ds.Tables!boqitem.Columns!boqi_boq)
+          ds.Relations.Add("wbs_boqitem", ds.Tables!wbs.Columns!wbs_id, ds.Tables!boqitem.Columns!boqi_wbs)
+          '***********----Item ----****************
+
+          '***********----BOQAdjDistribution ----****************
+          cb = New SqlCommandBuilder(daBoqAD)
+          daBoqAD.SelectCommand.Transaction = trans
+
+          daBoqAD.DeleteCommand = cb.GetDeleteCommand
+          daBoqAD.DeleteCommand.Transaction = trans
+
+          daBoqAD.InsertCommand = cb.GetInsertCommand
+          daBoqAD.InsertCommand.Transaction = trans
+
+          daBoqAD.UpdateCommand = cb.GetUpdateCommand
+          daBoqAD.UpdateCommand.Transaction = trans
+          cb = Nothing
+
+          daBoqAD.FillSchema(ds, SchemaType.Mapped, "boqadjdistribution")
+          daBoqAD.Fill(ds, "boqadjdistribution")
+          ds.Relations.Add("boq_boqadjdistribution", ds.Tables!boq.Columns!boq_id, ds.Tables!boqadjdistribution.Columns!boqadj_boq)
+          '***********----BOQAdjDistribution ----****************
+
+          '***********----MarkupDistribution ----****************
+          cb = New SqlCommandBuilder(daMarkupD)
+          daMarkupD.SelectCommand.Transaction = trans
+
+          daMarkupD.DeleteCommand = cb.GetDeleteCommand
+          daMarkupD.DeleteCommand.Transaction = trans
+
+          daMarkupD.InsertCommand = cb.GetInsertCommand
+          daMarkupD.InsertCommand.Transaction = trans
+
+          daMarkupD.UpdateCommand = cb.GetUpdateCommand
+          daMarkupD.UpdateCommand.Transaction = trans
+          cb = Nothing
+
+          daMarkupD.FillSchema(ds, SchemaType.Mapped, "markupdistribution")
+          daMarkupD.Fill(ds, "markupdistribution")
+          ds.Relations.Add("markup_markupdistribution", ds.Tables!markup.Columns!markup_id, ds.Tables!markupdistribution.Columns!markupd_markup)
+          '***********----MarkupDistribution ----****************
+
+          Dim dtBoq As DataTable
+          Dim dtWbs As DataTable
+          Dim dtMarkup As DataTable
+          Dim dtBoqItem As DataTable
+          Dim dtMarkupC As DataTable
+          Dim dtBoqAD As DataTable
+          Dim dtMarkupD As DataTable
+          Dim dc As DataColumn
+
+          dtBoq = ds.Tables("boq")
+          dc = dtBoq.Columns!boq_id
+          dc.AutoIncrement = True
+          dc.AutoIncrementSeed = -1
+          dc.AutoIncrementStep = -1
+
+          dtWbs = ds.Tables("wbs")
+          dc = dtWbs.Columns!wbs_id
+          dc.AutoIncrement = True
+          dc.AutoIncrementSeed = Integer.MaxValue
+          dc.AutoIncrementStep = -1
+
+          dtMarkup = ds.Tables("markup")
+          dc = dtMarkup.Columns!markup_id
+          dc.AutoIncrement = True
+          dc.AutoIncrementSeed = Integer.MaxValue
+          dc.AutoIncrementStep = -1
+
+          dtMarkupC = ds.Tables("markupcondition")
+
+          dtBoqItem = ds.Tables("boqitem")
+
+          dtBoqAD = ds.Tables("boqadjdistribution")
+
+          dtMarkupD = ds.Tables("markupdistribution")
+
+          Dim tmpBoqDa As New SqlDataAdapter
+          tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
+          tmpBoqDa.InsertCommand = daBoq.InsertCommand
+          tmpBoqDa.UpdateCommand = daBoq.UpdateCommand
+
+          Dim tmpwbsDa As New SqlDataAdapter
+          tmpwbsDa.DeleteCommand = daWbs.DeleteCommand
+          tmpwbsDa.InsertCommand = daWbs.InsertCommand
+          tmpwbsDa.UpdateCommand = daWbs.UpdateCommand
+
+          Dim tmpMarkupDa As New SqlDataAdapter
+          tmpMarkupDa.DeleteCommand = daMarkup.DeleteCommand
+          tmpMarkupDa.InsertCommand = daMarkup.InsertCommand
+          tmpMarkupDa.UpdateCommand = daMarkup.UpdateCommand
+
+          AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+          AddHandler tmpwbsDa.RowUpdated, AddressOf tmpwbsDa_MyRowUpdated
+          AddHandler tmpMarkupDa.RowUpdated, AddressOf tmpMarkupDa_MyRowUpdated
+          AddHandler daMarkupC.RowUpdated, AddressOf daMarkupC_MyRowUpdated
+          AddHandler daBoqItem.RowUpdated, AddressOf daBoqitem_MyRowUpdated
+          AddHandler daBoqAD.RowUpdated, AddressOf daBoqAD_MyRowUpdated
+          AddHandler daMarkupD.RowUpdated, AddressOf daMarkupD_MyRowUpdated
+
+          If Me.Status.Value = -1 Then
+            Me.Status.Value = 2
           End If
-        Next
-        For Each dr As DataRow In rowsToDelete
-          dr.Delete()
-        Next
-        For Each mrkp As Markup In Me.MarkupCollection
-          Dim drMarkup As DataRow
-          Dim drs As DataRow() = dtMarkup.Select("markup_id=" & mrkp.Id)
-          If drs.Length = 0 Then
-            drMarkup = dtMarkup.NewRow
+
+          Dim drBoq As DataRow
+          If Not Me.Originated Then
+            drBoq = dtBoq.NewRow
           Else
-            drMarkup = drs(0)
+            drBoq = dtBoq.Rows(0)
           End If
-          'drWbs("markup_id") = ""
-          drMarkup("markup_boq") = drBoq(Me.Prefix & "_id")
-          drMarkup("markup_name") = mrkp.Name
-          drMarkup("markup_note") = mrkp.Note
-          drMarkup("markup_type") = mrkp.Type.Value
-          drMarkup("markup_condition") = mrkp.Condition.Value
-          drMarkup("markup_amt") = mrkp.Amount
-          drMarkup("markup_unit") = mrkp.Unit.Value
-          drMarkup("markup_totalamt") = mrkp.TotalAmount
-          drMarkup("markup_distributedamt") = mrkp.DistributedAmount
-          drMarkup("markup_dmethod") = mrkp.DistributionMethod.Value
-          If mrkp.Status.Value = -1 Then
-            mrkp.Status.Value = 2
+          drBoq(Me.Prefix & "_code") = Me.Code
+          drBoq(Me.Prefix & "_project") = Me.ValidIdOrDBNull(Me.Project)
+          drBoq(Me.Prefix & "_estimator") = Me.ValidIdOrDBNull(Me.Estimator)
+          drBoq(Me.Prefix & "_materialMarkup") = Me.MaterialMarkup
+          drBoq(Me.Prefix & "_materialDmethod") = Me.MaterialMarkupMethod.Value
+          drBoq(Me.Prefix & "_laborMarkup") = Me.LaborMarkup
+          drBoq(Me.Prefix & "_laborDmethod") = Me.LaborMarkupMethod.Value
+          drBoq(Me.Prefix & "_equipmentMarkup") = Me.EquipmentMarkup
+          drBoq(Me.Prefix & "_equipmentDmethod") = Me.EquipmentMarkupMethod.Value
+          drBoq(Me.Prefix & "_status") = Me.Status.Value
+          drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
+          drBoq(Me.Prefix & "_markupstate") = Me.MarkupState
+          drBoq(Me.Prefix & "_finalbidprice") = Me.FinalBidPrice
+          drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
+          drBoq(Me.Prefix & "_locked") = Me.Locked
+
+          Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
+
+          If Not Me.Originated Then
+            dtBoq.Rows.Add(drBoq)
           End If
-          drMarkup("markup_status") = mrkp.Status.Value
-          If drs.Length = 0 Then
-            dtMarkup.Rows.Add(drMarkup)
-            mrkp.Id = CInt(drMarkup("markup_id"))
-          End If
-          Dim markupCLine As Integer = 1
-          For Each mrkpc As MarkupConditionItem In mrkp.ConditionItems
-            Dim drMarkupC As DataRow = dtMarkupC.NewRow
-            drMarkupC("markupc_markup") = mrkp.Id
-            drMarkupC("markupc_linenumber") = markupCLine
-            drMarkupC("markupc_lowerbound") = mrkpc.LowerBound
-            drMarkupC("markupc_upperbound") = mrkpc.UpperBound
-            drMarkupC("markupc_percent") = mrkpc.Percent
-            dtMarkupC.Rows.Add(drMarkupC)
-            markupCLine += 1
-          Next
-        Next
 
-        For Each dr As DataRow In dtBoqItem.Rows
-          dr.Delete()
-        Next
-        Dim boqLine As Integer = 1
-        For Each item As BoqItem In Me.ItemCollection
-          Dim drItem As DataRow = dtBoqItem.NewRow
-          drItem("boqi_boq") = drBoq(Me.Prefix & "_id")
-          drItem("boqi_linenumber") = boqLine
-          drItem("boqi_wbs") = item.WBS.Id
-          drItem("boqi_entity") = item.Entity.Id
-          drItem("boqi_entityType") = item.ItemType.Value
-          drItem("boqi_itemName") = item.EntityName
-          drItem("boqi_qtyperwbs") = item.QtyPerWBS
-          Select Case item.ItemType.Value
-            Case 42
-              'Dim lci As New LCIItem(item.Entity.Id)
-              Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
-              If Not lci.Originated Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-              ElseIf Not lci.ValidUnit(item.Unit) Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+          Dim rowsToDelete As New ArrayList
+          For Each dr As DataRow In dtWbs.Rows
+            Dim found As Boolean = False
+            For Each testWbs As WBS In Me.WBSCollection
+              If testWbs.Id = CInt(dr("wbs_id")) Then
+                found = True
+                Exit For
               End If
-            Case 19
-              Dim myTool As New Tool(item.Entity.Id)
-              If Not myTool.Originated Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-              ElseIf myTool.Unit.Id <> item.Unit.Id Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
-              End If
-            Case 18
-              Dim myLabor As New Labor(item.Entity.Id)
-              If Not myLabor.Originated Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
-              ElseIf myLabor.Unit.Id <> item.Unit.Id Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
-              End If
-            Case 20
-              Dim myEqCost As New EqCost(item.Entity.Id)
-              If Not myEqCost.Originated Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
-              ElseIf myEqCost.Unit.Id <> item.Unit.Id Then
-                trans.Rollback()
-                Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
-              End If
-          End Select
-          drItem("boqi_unit") = item.Unit.Id
-          drItem("boqi_qty") = item.Qty
-          drItem("boqi_umc") = item.UMC
-          drItem("boqi_ulc") = item.ULC
-          drItem("boqi_uec") = item.UEC
-          drItem("boqi_mcbs") = ValidIdOrDBNull(item.MatCBS)
-          drItem("boqi_lcbs") = ValidIdOrDBNull(item.LabCBS)
-          drItem("boqi_ecbs") = ValidIdOrDBNull(item.EqCBS)
-          drItem("boqi_note") = item.Note
-          dtBoqItem.Rows.Add(drItem)
-          item.LineNumber = boqLine
-          boqLine += 1
-        Next
-
-        '*************** BOQADJ ****************************
-        For Each dr As DataRow In dtBoqAD.Rows
-          dr.Delete()
-        Next
-        For Each dbi As BoqItem In Me.MaterialMarkupItems
-          Dim drBoqAD As DataRow = dtBoqAD.NewRow
-          drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
-          drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
-          drBoqAD("boqadj_type") = 1
-          dtBoqAD.Rows.Add(drBoqAD)
-        Next
-
-        For Each dbi As BoqItem In Me.LaborMarkupItems
-          Dim drBoqAD As DataRow = dtBoqAD.NewRow
-          drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
-          drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
-          drBoqAD("boqadj_type") = 2
-          dtBoqAD.Rows.Add(drBoqAD)
-        Next
-
-        For Each dbi As BoqItem In Me.EquipmentMarkupItems
-          Dim drBoqAD As DataRow = dtBoqAD.NewRow
-          drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
-          drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
-          drBoqAD("boqadj_type") = 3
-          dtBoqAD.Rows.Add(drBoqAD)
-        Next
-        '*************** BOQADJ ****************************
-
-        For Each dr As DataRow In dtMarkupD.Rows
-          dr.Delete()
-        Next
-        For Each mrkp As Markup In Me.MarkupCollection
-          For Each mrkpD As BoqItem In mrkp.DistributedItems
-            Dim drMarkupD As DataRow = dtMarkupD.NewRow
-            drMarkupD("markupd_markup") = mrkp.Id
-            drMarkupD("markupd_boqilinenumber") = mrkpD.LineNumber
-            dtMarkupD.Rows.Add(drMarkupD)
-          Next
-        Next
-
-        If Not rootWbs Is Nothing Then
-          '--------------------------SAVING EXTENDERS---------------------
-          For Each extender As Object In Me.Extenders
-            If TypeOf extender Is IExtender Then
-              Dim saveDetailError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-              If Not IsNumeric(saveDetailError.Message) Then
-                trans.Rollback()
-                'ResetID(oldid)
-                Return saveDetailError
-              Else
-                Select Case CInt(saveDetailError.Message)
-                  Case -1, -2, -5
-                    trans.Rollback()
-                    'ResetID(oldid)
-                    Return saveDetailError
-                  Case Else
-                End Select
+            Next
+            If Not found Then
+              If Not rowsToDelete.Contains(dr) Then
+                rowsToDelete.Add(dr)
               End If
             End If
           Next
-          '--------------------------END SAVING EXTENDERS---------------------
-        End If
+          For Each dr As DataRow In rowsToDelete
+            dr.Delete()
+          Next
+          Dim rootWbs As WBS = Me.WBSCollection.GetRoot
+          If Not rootWbs Is Nothing Then
+            Dim drWbs As DataRow
+            Dim drs As DataRow() = dtWbs.Select("wbs_id=" & rootWbs.Id)
+            If drs.Length = 0 Then
+              drWbs = dtWbs.NewRow
+            Else
+              drWbs = drs(0)
+            End If
+            'drWbs("wbs_id") = ""
+            drWbs("wbs_boq") = drBoq(Me.Prefix & "_id")
+            drWbs("wbs_level") = 0
+            drWbs("wbs_code") = rootWbs.Code
+            drWbs("wbs_name") = rootWbs.Name
+            drWbs("wbs_altName") = rootWbs.AlternateName
+            drWbs("wbs_note") = rootWbs.Note
+            drWbs("wbs_control") = DBNull.Value
+            drWbs("wbs_path") = ""
+            drWbs("wbs_linenumber") = 1
+            drWbs("wbs_state") = CInt(rootWbs.State)
+            If rootWbs.Status.Value = -1 Then
+              rootWbs.Status.Value = 2
+            End If
+            drWbs("wbs_status") = rootWbs.Status.Value
+            drWbs("wbs_noqtycontrol") = rootWbs.NoQtyControl
+            drWbs("wbs_startdate") = rootWbs.StartDate
+            drWbs("wbs_finishdate") = rootWbs.FinishDate
+            drWbs("wbs_qty") = rootWbs.Qty
+            drWbs("wbs_unit") = ValidIdOrDBNull(rootWbs.Unit)
+            If drs.Length = 0 Then
+              dtWbs.Rows.Add(drWbs)
+              Dim oldParId As Integer = rootWbs.Id
+              rootWbs.Id = CInt(drWbs("wbs_id"))
+              Me.WBSCollection.UpdateParentId(oldParId, rootWbs.Id)
+              Me.ItemCollection.UpdateWbsId(oldParId, rootWbs.Id)
+            End If
+            Dim collForRoot As WBSCollection = rootWbs.Childs
+            LoopWbs(collForRoot, 1, dtWbs, drBoq)
+            collForRoot = Nothing
+          End If
 
-        daMarkupD.Update(GetDeletedRows(dtMarkupD))
-        daBoqAD.Update(GetDeletedRows(dtBoqAD))
-        daBoqItem.Update(GetDeletedRows(dtBoqItem))
-        daMarkupC.Update(GetDeletedRows(dtMarkupC))
-        tmpMarkupDa.Update(GetDeletedRows(dtMarkup))
-        tmpwbsDa.Update(GetDeletedRows(dtWbs))
-        tmpBoqDa.Update(GetDeletedRows(dtBoq))
+          For Each dr As DataRow In dtMarkupC.Rows
+            dr.Delete()
+          Next
+          rowsToDelete = New ArrayList
+          For Each dr As DataRow In dtMarkup.Rows
+            Dim found As Boolean = False
+            For Each testMarkup As Markup In Me.MarkupCollection
+              If testMarkup.Id = CInt(dr("markup_id")) Then
+                found = True
+                Exit For
+              End If
+            Next
+            If Not found Then
+              If Not rowsToDelete.Contains(dr) Then
+                rowsToDelete.Add(dr)
+              End If
+            End If
+          Next
+          For Each dr As DataRow In rowsToDelete
+            dr.Delete()
+          Next
+          For Each mrkp As Markup In Me.MarkupCollection
+            Dim drMarkup As DataRow
+            Dim drs As DataRow() = dtMarkup.Select("markup_id=" & mrkp.Id)
+            If drs.Length = 0 Then
+              drMarkup = dtMarkup.NewRow
+            Else
+              drMarkup = drs(0)
+            End If
+            'drWbs("markup_id") = ""
+            drMarkup("markup_boq") = drBoq(Me.Prefix & "_id")
+            drMarkup("markup_name") = mrkp.Name
+            drMarkup("markup_note") = mrkp.Note
+            drMarkup("markup_type") = mrkp.Type.Value
+            drMarkup("markup_condition") = mrkp.Condition.Value
+            drMarkup("markup_amt") = mrkp.Amount
+            drMarkup("markup_unit") = mrkp.Unit.Value
+            drMarkup("markup_totalamt") = mrkp.TotalAmount
+            drMarkup("markup_distributedamt") = mrkp.DistributedAmount
+            drMarkup("markup_dmethod") = mrkp.DistributionMethod.Value
+            If mrkp.Status.Value = -1 Then
+              mrkp.Status.Value = 2
+            End If
+            drMarkup("markup_status") = mrkp.Status.Value
+            If drs.Length = 0 Then
+              dtMarkup.Rows.Add(drMarkup)
+              mrkp.Id = CInt(drMarkup("markup_id"))
+            End If
+            Dim markupCLine As Integer = 1
+            For Each mrkpc As MarkupConditionItem In mrkp.ConditionItems
+              Dim drMarkupC As DataRow = dtMarkupC.NewRow
+              drMarkupC("markupc_markup") = mrkp.Id
+              drMarkupC("markupc_linenumber") = markupCLine
+              drMarkupC("markupc_lowerbound") = mrkpc.LowerBound
+              drMarkupC("markupc_upperbound") = mrkpc.UpperBound
+              drMarkupC("markupc_percent") = mrkpc.Percent
+              dtMarkupC.Rows.Add(drMarkupC)
+              markupCLine += 1
+            Next
+          Next
 
-        tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
-        tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
-        tmpMarkupDa.Update(dtMarkup.Select("", "", DataViewRowState.ModifiedCurrent))
-        daMarkupC.Update(dtMarkupC.Select("", "", DataViewRowState.ModifiedCurrent))
-        daBoqItem.Update(dtBoqItem.Select("", "", DataViewRowState.ModifiedCurrent))
-        daBoqAD.Update(dtBoqAD.Select("", "", DataViewRowState.ModifiedCurrent))
-        daMarkupD.Update(dtMarkupD.Select("", "", DataViewRowState.ModifiedCurrent))
+          For Each dr As DataRow In dtBoqItem.Rows
+            dr.Delete()
+          Next
+          Dim boqLine As Integer = 1
+          For Each item As BoqItem In Me.ItemCollection
+            Dim drItem As DataRow = dtBoqItem.NewRow
+            drItem("boqi_boq") = drBoq(Me.Prefix & "_id")
+            drItem("boqi_linenumber") = boqLine
+            drItem("boqi_wbs") = item.WBS.Id
+            drItem("boqi_entity") = item.Entity.Id
+            drItem("boqi_entityType") = item.ItemType.Value
+            drItem("boqi_itemName") = item.EntityName
+            drItem("boqi_qtyperwbs") = item.QtyPerWBS
+            'Select Case item.ItemType.Value
+            '  Case 42
+            '    'Dim lci As New LCIItem(item.Entity.Id)
+            '    Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
+            '    If Not lci.Originated Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf Not lci.ValidUnit(item.Unit) Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+            '    End If
+            '  Case 19
+            '    Dim myTool As New Tool(item.Entity.Id)
+            '    If Not myTool.Originated Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf myTool.Unit.Id <> item.Unit.Id Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+            '    End If
+            '  Case 18
+            '    Dim myLabor As New Labor(item.Entity.Id)
+            '    If Not myLabor.Originated Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf myLabor.Unit.Id <> item.Unit.Id Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
+            '    End If
+            '  Case 20
+            '    Dim myEqCost As New EqCost(item.Entity.Id)
+            '    If Not myEqCost.Originated Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
+            '    ElseIf myEqCost.Unit.Id <> item.Unit.Id Then
+            '      trans.Rollback()
+            '      Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
+            '    End If
+            'End Select
+            drItem("boqi_unit") = item.Unit.Id
+            drItem("boqi_qty") = item.Qty
+            drItem("boqi_umc") = item.UMC
+            drItem("boqi_ulc") = item.ULC
+            drItem("boqi_uec") = item.UEC
+            drItem("boqi_mcbs") = ValidIdOrDBNull(item.MatCBS)
+            drItem("boqi_lcbs") = ValidIdOrDBNull(item.LabCBS)
+            drItem("boqi_ecbs") = ValidIdOrDBNull(item.EqCBS)
+            drItem("boqi_note") = item.Note
+            dtBoqItem.Rows.Add(drItem)
+            item.LineNumber = boqLine
+            boqLine += 1
+          Next
 
-        tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
+          '*************** BOQADJ ****************************
+          For Each dr As DataRow In dtBoqAD.Rows
+            dr.Delete()
+          Next
+          For Each dbi As BoqItem In Me.MaterialMarkupItems
+            Dim drBoqAD As DataRow = dtBoqAD.NewRow
+            drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
+            drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
+            drBoqAD("boqadj_type") = 1
+            dtBoqAD.Rows.Add(drBoqAD)
+          Next
+
+          For Each dbi As BoqItem In Me.LaborMarkupItems
+            Dim drBoqAD As DataRow = dtBoqAD.NewRow
+            drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
+            drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
+            drBoqAD("boqadj_type") = 2
+            dtBoqAD.Rows.Add(drBoqAD)
+          Next
+
+          For Each dbi As BoqItem In Me.EquipmentMarkupItems
+            Dim drBoqAD As DataRow = dtBoqAD.NewRow
+            drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
+            drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
+            drBoqAD("boqadj_type") = 3
+            dtBoqAD.Rows.Add(drBoqAD)
+          Next
+          '*************** BOQADJ ****************************
+
+          For Each dr As DataRow In dtMarkupD.Rows
+            dr.Delete()
+          Next
+          For Each mrkp As Markup In Me.MarkupCollection
+            For Each mrkpD As BoqItem In mrkp.DistributedItems
+              Dim drMarkupD As DataRow = dtMarkupD.NewRow
+              drMarkupD("markupd_markup") = mrkp.Id
+              drMarkupD("markupd_boqilinenumber") = mrkpD.LineNumber
+              dtMarkupD.Rows.Add(drMarkupD)
+            Next
+          Next
+
+          If Not rootWbs Is Nothing Then
+            '--------------------------SAVING EXTENDERS---------------------
+            For Each extender As Object In Me.Extenders
+              If TypeOf extender Is IExtender Then
+                Dim saveDetailError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+                If Not IsNumeric(saveDetailError.Message) Then
+                  trans.Rollback()
+                  'ResetID(oldid)
+                  Return saveDetailError
+                Else
+                  Select Case CInt(saveDetailError.Message)
+                    Case -1, -2, -5
+                      trans.Rollback()
+                      'ResetID(oldid)
+                      Return saveDetailError
+                    Case Else
+                  End Select
+                End If
+              End If
+            Next
+            '--------------------------END SAVING EXTENDERS---------------------
+          End If
+
+          daMarkupD.Update(GetDeletedRows(dtMarkupD))
+          daBoqAD.Update(GetDeletedRows(dtBoqAD))
+          daBoqItem.Update(GetDeletedRows(dtBoqItem))
+          daMarkupC.Update(GetDeletedRows(dtMarkupC))
+          tmpMarkupDa.Update(GetDeletedRows(dtMarkup))
+          tmpwbsDa.Update(GetDeletedRows(dtWbs))
+          tmpBoqDa.Update(GetDeletedRows(dtBoq))
+
+          tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
+          tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
+          tmpMarkupDa.Update(dtMarkup.Select("", "", DataViewRowState.ModifiedCurrent))
+          daMarkupC.Update(dtMarkupC.Select("", "", DataViewRowState.ModifiedCurrent))
+          daBoqItem.Update(dtBoqItem.Select("", "", DataViewRowState.ModifiedCurrent))
+          daBoqAD.Update(dtBoqAD.Select("", "", DataViewRowState.ModifiedCurrent))
+          daMarkupD.Update(dtMarkupD.Select("", "", DataViewRowState.ModifiedCurrent))
+
+          tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
 
 
-        ds.EnforceConstraints = False
+          ds.EnforceConstraints = False
 
-        tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.Added))
-        tmpMarkupDa.Update(dtMarkup.Select("", "", DataViewRowState.Added))
-        daMarkupC.Update(dtMarkupC.Select("", "", DataViewRowState.Added))
-        daBoqItem.Update(dtBoqItem.Select("", "", DataViewRowState.Added))
-        daBoqAD.Update(dtBoqAD.Select("", "", DataViewRowState.Added))
-        daMarkupD.Update(dtMarkupD.Select("", "", DataViewRowState.Added))
+          tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.Added))
+          tmpMarkupDa.Update(dtMarkup.Select("", "", DataViewRowState.Added))
+          daMarkupC.Update(dtMarkupC.Select("", "", DataViewRowState.Added))
+          daBoqItem.Update(dtBoqItem.Select("", "", DataViewRowState.Added))
+          daBoqAD.Update(dtBoqAD.Select("", "", DataViewRowState.Added))
+          daMarkupD.Update(dtMarkupD.Select("", "", DataViewRowState.Added))
 
-        ds.EnforceConstraints = True
-        Dim theId As Integer = Me.Id
-        If Not Me.Originated Then
-          theId = CInt(drBoq("boq_id"))
-        End If
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
+          ds.EnforceConstraints = True
+          Dim theId As Integer = Me.Id
+          If Not Me.Originated Then
+            theId = CInt(drBoq("boq_id"))
+          End If
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
 
-        ''=== Insert Update Budget and Actual ======================================================
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", theId)})
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", theId)})
-        'If Not Me.Originated Then
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
-        'End If
-        ''=== Insert Update Budget and Actual ======================================================
+          ' ''=== Insert Update Budget and Actual ======================================================
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", theId)})
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", theId)})
+          ''If Not Me.Originated Then
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+          ''End If
+          ' ''=== Insert Update Budget and Actual ======================================================
 
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
-        trans.Commit()
-        If Not Me.Originated Then
-          Me.Id = CInt(drBoq("boq_id"))
-        End If
-        Return New SaveErrorException("0")
-      Catch ex As SqlException
-        trans.Rollback()
-        'Hack
-        Return New SaveErrorException("${res:Global.Error.BOQHasWBSOrMarkupRefedCannotDelete}")
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
+          trans.Commit()
+          If Not Me.Originated Then
+            Me.Id = CInt(drBoq("boq_id"))
+          End If
+
+          'Return New SaveErrorException("0")
+        Catch ex As SqlException
+          trans.Rollback()
+          'Hack
+          Return New SaveErrorException("${res:Global.Error.BOQHasWBSOrMarkupRefedCannotDelete}")
+        Catch ex As Exception
+          trans.Rollback()
+          Return New SaveErrorException(ex.ToString)
+          'Finally
+          '  conn.Close()
+        End Try
+
+        '--Sub Save Block-- ============================================================
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+          Return New SaveErrorException("0")
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        '--Sub Save Block-- ============================================================
+
       Catch ex As Exception
-        trans.Rollback()
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()
       End Try
+      'Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", Me.Id)})
+
+        ''=== Insert Update Budget and Actual ======================================================
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", Me.Id)})
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", Me.Id)})
+        'If Not Me.Originated Then
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        'End If
+        ''=== Insert Update Budget and Actual ======================================================
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
       Return New SaveErrorException("0")
     End Function
     Private Sub LoopWbs(ByVal coll As WBSCollection, ByVal level As Integer, ByVal dtWbs As DataTable, ByVal drBoq As DataRow)

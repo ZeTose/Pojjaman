@@ -566,194 +566,231 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
       trans = conn.BeginTransaction()
+
       Try
-        Dim theTime As Date = Now
-        Dim theUserId As Integer = currentUserId
+        Try
+          Dim theTime As Date = Now
+          Dim theUserId As Integer = currentUserId
 
-        Dim daBoq As SqlDataAdapter
-        Dim daWbs As SqlDataAdapter
-        Dim daPlan As SqlDataAdapter
-        If Me.Originated Then
-          daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
-          daWbs = New SqlDataAdapter("select * from wbs where wbs_boq=" & Me.Id, conn)
-          daPlan = New SqlDataAdapter("select * from plans where plan_wbs in (select wbs_id from wbs where wbs_boq =" & Me.Id & ")", conn)
-        Else
-          daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
-          daWbs = New SqlDataAdapter("select * from wbs where 1=2", conn)
-          daPlan = New SqlDataAdapter("select * from plans where 1=2", conn)
-        End If
-
-        Dim ds As New DataSet
-
-        '***********----BOQ ----****************
-        Dim cb As New SqlCommandBuilder(daBoq)
-        daBoq.SelectCommand.Transaction = trans
-
-        daBoq.DeleteCommand = cb.GetDeleteCommand
-        daBoq.DeleteCommand.Transaction = trans
-
-        daBoq.InsertCommand = cb.GetInsertCommand
-        daBoq.InsertCommand.Transaction = trans
-
-        daBoq.UpdateCommand = cb.GetUpdateCommand
-        daBoq.UpdateCommand.Transaction = trans
-
-        daBoq.InsertCommand.CommandText &= "; Select * From boq Where boq_id= @@IDENTITY"
-        daBoq.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-        cb = Nothing
-
-        daBoq.FillSchema(ds, SchemaType.Mapped, "boq")
-        daBoq.Fill(ds, "boq")
-        '***********----BOQ ----****************
-
-        '***********----WBS ----****************
-        cb = New SqlCommandBuilder(daWbs)
-        daWbs.SelectCommand.Transaction = trans
-
-        daWbs.DeleteCommand = cb.GetDeleteCommand
-        daWbs.DeleteCommand.Transaction = trans
-
-        daWbs.InsertCommand = cb.GetInsertCommand
-        daWbs.InsertCommand.Transaction = trans
-
-        daWbs.UpdateCommand = cb.GetUpdateCommand
-        daWbs.UpdateCommand.Transaction = trans
-
-        daWbs.InsertCommand.CommandText &= ";" & _
-        "update wbs set wbs_parid = wbs_id where wbs_parid is null and wbs_id=@@IDENTITY;" & _
-        "update wbs set wbs_path ='|'+convert(nvarchar,wbs_id)+'|' where wbs_id = @@IDENTITY and wbs_parid= @@IDENTITY;" & _
-        "update wbs set wbs.wbs_path = (select parent.wbs_path from wbs parent where parent.wbs_id=wbs.wbs_parid) + '|'+convert(nvarchar,wbs.wbs_id)+'|' where wbs.wbs_id = @@IDENTITY and wbs.wbs_parid <> @@IDENTITY ;" & _
-        " Select * From wbs Where wbs_id= @@IDENTITY"
-        daWbs.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-        cb = Nothing
-
-        daWbs.FillSchema(ds, SchemaType.Mapped, "wbs")
-        daWbs.Fill(ds, "wbs")
-        ds.Relations.Add("boq_wbs", ds.Tables!boq.Columns!boq_id, ds.Tables!wbs.Columns!wbs_boq)
-        ds.Relations.Add("wbsTree", ds.Tables!wbs.Columns!wbs_id, ds.Tables!wbs.Columns!wbs_parid)
-        '***********----WBS ----****************
-
-        '***********----Item ----****************
-        cb = New SqlCommandBuilder(daPlan)
-        daPlan.SelectCommand.Transaction = trans
-
-        daPlan.DeleteCommand = cb.GetDeleteCommand
-        daPlan.DeleteCommand.Transaction = trans
-
-        daPlan.InsertCommand = cb.GetInsertCommand
-        daPlan.InsertCommand.Transaction = trans
-
-        daPlan.UpdateCommand = cb.GetUpdateCommand
-        daPlan.UpdateCommand.Transaction = trans
-        cb = Nothing
-
-        daPlan.FillSchema(ds, SchemaType.Mapped, "plans")
-        daPlan.Fill(ds, "plans")
-        ds.Relations.Add("plan_wbs", ds.Tables!wbs.Columns!wbs_id, ds.Tables!plans.Columns!plan_wbs)
-        '***********----Item ----****************
-
-        Dim dc As DataColumn
-
-        Dim dtBoq As DataTable = ds.Tables("boq")
-        dc = dtBoq.Columns!boq_id
-        dc.AutoIncrement = True
-        dc.AutoIncrementSeed = -1
-        dc.AutoIncrementStep = -1
-
-        Dim dtWbs As DataTable = ds.Tables("wbs")
-        dc = dtWbs.Columns!wbs_id
-        dc.AutoIncrement = True
-        dc.AutoIncrementSeed = Integer.MaxValue
-        dc.AutoIncrementStep = -1
-
-        Dim dtPlans As DataTable = ds.Tables("plans")
-
-        Dim tmpBoqDa As New SqlDataAdapter
-        tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
-        tmpBoqDa.InsertCommand = daBoq.InsertCommand
-        tmpBoqDa.UpdateCommand = daBoq.UpdateCommand
-
-        Dim tmpwbsDa As New SqlDataAdapter
-        tmpwbsDa.DeleteCommand = daWbs.DeleteCommand
-        tmpwbsDa.InsertCommand = daWbs.InsertCommand
-        tmpwbsDa.UpdateCommand = daWbs.UpdateCommand
-
-        AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
-        AddHandler tmpwbsDa.RowUpdated, AddressOf tmpwbsDa_MyRowUpdated
-        AddHandler daPlan.RowUpdated, AddressOf daPlan_MyRowUpdated
-        If Me.Status.Value = -1 Then
-          Me.Status.Value = 2
-        End If
-
-        Dim drBoq As DataRow
-        If Not Me.Originated Then
-          drBoq = dtBoq.NewRow
-          dtBoq.Rows.Add(drBoq)
-        Else
-          drBoq = dtBoq.Rows(0)
-        End If
-        drBoq(Me.Prefix & "_code") = Me.Code
-        drBoq(Me.Prefix & "_project") = Me.ValidIdOrDBNull(Me.Project)
-        drBoq(Me.Prefix & "_estimator") = Me.ValidIdOrDBNull(Me.Estimator)
-        drBoq(Me.Prefix & "_status") = Me.Status.Value
-        drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
-        drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
-        drBoq(Me.Prefix & "_StartDate") = Me.StartDate
-        drBoq(Me.Prefix & "_EndDate") = Me.EndDate
-
-        Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
-
-        Dim rowsToDelete As New ArrayList
-        For Each dr As DataRow In dtWbs.Rows
-          Dim found As Boolean = (Not FindWBS(CInt(dr("wbs_id"))) Is Nothing)
-          If Not found Then
-            If Not rowsToDelete.Contains(dr) Then
-              rowsToDelete.Add(dr)
-            End If
+          Dim daBoq As SqlDataAdapter
+          Dim daWbs As SqlDataAdapter
+          Dim daPlan As SqlDataAdapter
+          If Me.Originated Then
+            daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
+            daWbs = New SqlDataAdapter("select * from wbs where wbs_boq=" & Me.Id, conn)
+            daPlan = New SqlDataAdapter("select * from plans where plan_wbs in (select wbs_id from wbs where wbs_boq =" & Me.Id & ")", conn)
+          Else
+            daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
+            daWbs = New SqlDataAdapter("select * from wbs where 1=2", conn)
+            daPlan = New SqlDataAdapter("select * from plans where 1=2", conn)
           End If
-        Next
-        For Each dr As DataRow In rowsToDelete
-          dr.Delete()
-        Next
-        For Each dr As DataRow In dtPlans.Rows
-          dr.Delete()
-        Next
-        For Each rootWbs As WorkBreakdownStructure In Me.Childs
-          rootWbs.CreateOrUpdate(dtWbs, drBoq)
-          rootWbs.FillPlan(dtPlans)
-        Next
 
-        daPlan.Update(GetDeletedRows(dtPlans))
-        tmpwbsDa.Update(GetDeletedRows(dtWbs))
-        tmpBoqDa.Update(GetDeletedRows(dtBoq))
-        tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
-        tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
-        daPlan.Update(dtPlans.Select("", "", DataViewRowState.ModifiedCurrent))
+          Dim ds As New DataSet
 
-        tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
-        tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.Added))
-        daPlan.Update(dtPlans.Select("", "", DataViewRowState.Added))
-        ds.EnforceConstraints = True
-        Dim theId As Integer = Me.Id
-        If Not Me.Originated Then
-          theId = CInt(drBoq("boq_id"))
-        End If
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
-        trans.Commit()
-        If Not Me.Originated Then
-          Me.Id = CInt(drBoq("boq_id"))
-        End If
-        Return New SaveErrorException("0")
-        'Catch ex As Exception
-        'trans.Rollback()
-        ''Hack
-        'Return New SaveErrorException("${res:Global.Error.BOQHasWBSOrMarkupRefedCannotDelete}")
+          '***********----BOQ ----****************
+          Dim cb As New SqlCommandBuilder(daBoq)
+          daBoq.SelectCommand.Transaction = trans
+
+          daBoq.DeleteCommand = cb.GetDeleteCommand
+          daBoq.DeleteCommand.Transaction = trans
+
+          daBoq.InsertCommand = cb.GetInsertCommand
+          daBoq.InsertCommand.Transaction = trans
+
+          daBoq.UpdateCommand = cb.GetUpdateCommand
+          daBoq.UpdateCommand.Transaction = trans
+
+          daBoq.InsertCommand.CommandText &= "; Select * From boq Where boq_id= @@IDENTITY"
+          daBoq.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+          cb = Nothing
+
+          daBoq.FillSchema(ds, SchemaType.Mapped, "boq")
+          daBoq.Fill(ds, "boq")
+          '***********----BOQ ----****************
+
+          '***********----WBS ----****************
+          cb = New SqlCommandBuilder(daWbs)
+          daWbs.SelectCommand.Transaction = trans
+
+          daWbs.DeleteCommand = cb.GetDeleteCommand
+          daWbs.DeleteCommand.Transaction = trans
+
+          daWbs.InsertCommand = cb.GetInsertCommand
+          daWbs.InsertCommand.Transaction = trans
+
+          daWbs.UpdateCommand = cb.GetUpdateCommand
+          daWbs.UpdateCommand.Transaction = trans
+
+          daWbs.InsertCommand.CommandText &= ";" & _
+          "update wbs set wbs_parid = wbs_id where wbs_parid is null and wbs_id=@@IDENTITY;" & _
+          "update wbs set wbs_path ='|'+convert(nvarchar,wbs_id)+'|' where wbs_id = @@IDENTITY and wbs_parid= @@IDENTITY;" & _
+          "update wbs set wbs.wbs_path = (select parent.wbs_path from wbs parent where parent.wbs_id=wbs.wbs_parid) + '|'+convert(nvarchar,wbs.wbs_id)+'|' where wbs.wbs_id = @@IDENTITY and wbs.wbs_parid <> @@IDENTITY ;" & _
+          " Select * From wbs Where wbs_id= @@IDENTITY"
+          daWbs.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+          cb = Nothing
+
+          daWbs.FillSchema(ds, SchemaType.Mapped, "wbs")
+          daWbs.Fill(ds, "wbs")
+          ds.Relations.Add("boq_wbs", ds.Tables!boq.Columns!boq_id, ds.Tables!wbs.Columns!wbs_boq)
+          ds.Relations.Add("wbsTree", ds.Tables!wbs.Columns!wbs_id, ds.Tables!wbs.Columns!wbs_parid)
+          '***********----WBS ----****************
+
+          '***********----Item ----****************
+          cb = New SqlCommandBuilder(daPlan)
+          daPlan.SelectCommand.Transaction = trans
+
+          daPlan.DeleteCommand = cb.GetDeleteCommand
+          daPlan.DeleteCommand.Transaction = trans
+
+          daPlan.InsertCommand = cb.GetInsertCommand
+          daPlan.InsertCommand.Transaction = trans
+
+          daPlan.UpdateCommand = cb.GetUpdateCommand
+          daPlan.UpdateCommand.Transaction = trans
+          cb = Nothing
+
+          daPlan.FillSchema(ds, SchemaType.Mapped, "plans")
+          daPlan.Fill(ds, "plans")
+          ds.Relations.Add("plan_wbs", ds.Tables!wbs.Columns!wbs_id, ds.Tables!plans.Columns!plan_wbs)
+          '***********----Item ----****************
+
+          Dim dc As DataColumn
+
+          Dim dtBoq As DataTable = ds.Tables("boq")
+          dc = dtBoq.Columns!boq_id
+          dc.AutoIncrement = True
+          dc.AutoIncrementSeed = -1
+          dc.AutoIncrementStep = -1
+
+          Dim dtWbs As DataTable = ds.Tables("wbs")
+          dc = dtWbs.Columns!wbs_id
+          dc.AutoIncrement = True
+          dc.AutoIncrementSeed = Integer.MaxValue
+          dc.AutoIncrementStep = -1
+
+          Dim dtPlans As DataTable = ds.Tables("plans")
+
+          Dim tmpBoqDa As New SqlDataAdapter
+          tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
+          tmpBoqDa.InsertCommand = daBoq.InsertCommand
+          tmpBoqDa.UpdateCommand = daBoq.UpdateCommand
+
+          Dim tmpwbsDa As New SqlDataAdapter
+          tmpwbsDa.DeleteCommand = daWbs.DeleteCommand
+          tmpwbsDa.InsertCommand = daWbs.InsertCommand
+          tmpwbsDa.UpdateCommand = daWbs.UpdateCommand
+
+          AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+          AddHandler tmpwbsDa.RowUpdated, AddressOf tmpwbsDa_MyRowUpdated
+          AddHandler daPlan.RowUpdated, AddressOf daPlan_MyRowUpdated
+          If Me.Status.Value = -1 Then
+            Me.Status.Value = 2
+          End If
+
+          Dim drBoq As DataRow
+          If Not Me.Originated Then
+            drBoq = dtBoq.NewRow
+            dtBoq.Rows.Add(drBoq)
+          Else
+            drBoq = dtBoq.Rows(0)
+          End If
+          drBoq(Me.Prefix & "_code") = Me.Code
+          drBoq(Me.Prefix & "_project") = Me.ValidIdOrDBNull(Me.Project)
+          drBoq(Me.Prefix & "_estimator") = Me.ValidIdOrDBNull(Me.Estimator)
+          drBoq(Me.Prefix & "_status") = Me.Status.Value
+          drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
+          drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
+          drBoq(Me.Prefix & "_StartDate") = Me.StartDate
+          drBoq(Me.Prefix & "_EndDate") = Me.EndDate
+
+          Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
+
+          Dim rowsToDelete As New ArrayList
+          For Each dr As DataRow In dtWbs.Rows
+            Dim found As Boolean = (Not FindWBS(CInt(dr("wbs_id"))) Is Nothing)
+            If Not found Then
+              If Not rowsToDelete.Contains(dr) Then
+                rowsToDelete.Add(dr)
+              End If
+            End If
+          Next
+          For Each dr As DataRow In rowsToDelete
+            dr.Delete()
+          Next
+          For Each dr As DataRow In dtPlans.Rows
+            dr.Delete()
+          Next
+          For Each rootWbs As WorkBreakdownStructure In Me.Childs
+            rootWbs.CreateOrUpdate(dtWbs, drBoq)
+            rootWbs.FillPlan(dtPlans)
+          Next
+
+          daPlan.Update(GetDeletedRows(dtPlans))
+          tmpwbsDa.Update(GetDeletedRows(dtWbs))
+          tmpBoqDa.Update(GetDeletedRows(dtBoq))
+          tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
+          tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
+          daPlan.Update(dtPlans.Select("", "", DataViewRowState.ModifiedCurrent))
+
+          tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
+          tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.Added))
+          daPlan.Update(dtPlans.Select("", "", DataViewRowState.Added))
+          ds.EnforceConstraints = True
+          'Dim theId As Integer = Me.Id
+          'If Not Me.Originated Then
+          '  theId = CInt(drBoq("boq_id"))
+          'End If
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
+          trans.Commit()
+          If Not Me.Originated Then
+            Me.Id = CInt(drBoq("boq_id"))
+          End If
+          'Return New SaveErrorException("0")
+          'Catch ex As Exception
+          'trans.Rollback()
+          ''Hack
+          'Return New SaveErrorException("${res:Global.Error.BOQHasWBSOrMarkupRefedCannotDelete}")
+        Catch ex As Exception
+          trans.Rollback()
+          Return New SaveErrorException(ex.ToString)
+          'Finally
+          '  conn.Close()
+        End Try
+
+        '--Sub Save Block-- ============================================================
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+          Return New SaveErrorException("0")
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        '--Sub Save Block-- ============================================================
+
       Catch ex As Exception
-        trans.Rollback()
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()
       End Try
+
+      'Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", Me.Id)})
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
       Return New SaveErrorException("0")
     End Function
     Private Sub daPlan_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
