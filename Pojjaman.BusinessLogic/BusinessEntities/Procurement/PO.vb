@@ -1614,7 +1614,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
       Next
+      Try
 
+      
       Me.DeleteRef(conn, trans)
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
       , New SqlParameter("@po_id", Me.Id))
@@ -1628,7 +1630,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
 
+      Catch ex As Exception
+        Return New SaveErrorException(ex.InnerException.ToString)
 
+      End Try
       trans.Commit()
 
       Dim trans2 As SqlTransaction = conn.BeginTransaction

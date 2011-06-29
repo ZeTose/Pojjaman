@@ -421,6 +421,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.m_je.Id = oldid
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      If Not Me.ToCostCenter Is Nothing Then
+        Me.m_payment.CCId = Me.ToCostCenter.Id
+        Me.m_whtcol.SetCCId(Me.ToCostCenter.Id)
+        Me.m_vat.SetCCId(Me.ToCostCenter.Id)
+      End If
+
+      ValidateError = Me.Vat.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.WitholdingTaxCollection.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.Payment.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+     
+
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         If Originated Then
@@ -502,6 +538,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -517,7 +560,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.WitholdingTaxCollection.SaveOldID()
         End If
         Dim oldje As Integer = Me.m_je.Id
+        Try
 
+        
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
@@ -556,11 +601,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
-          If Not Me.ToCostCenter Is Nothing Then
-            Me.m_payment.CCId = Me.ToCostCenter.Id
-            Me.m_whtcol.SetCCId(Me.ToCostCenter.Id)
-            Me.m_vat.SetCCId(Me.ToCostCenter.Id)
-          End If
+         
           Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
           If Not IsNumeric(savePaymentError.Message) Then
             trans.Rollback()
@@ -629,12 +670,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-          Me.DeleteRef(conn, trans)
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
+         
           trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldvat, oldje)
@@ -643,10 +680,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trans.Rollback()
           Me.ResetID(oldid, oldpay, oldvat, oldje)
           Return New SaveErrorException(ex.ToString)
+          End Try
+
+          'Sub Save Block
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+            Return New SaveErrorException(returnVal.Value.ToString)
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block
+
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+    
+
+      Try
+        Me.DeleteRef(conn, trans)
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
 

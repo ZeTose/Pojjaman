@@ -327,7 +327,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private Sub ResetID(ByVal oldid As Integer, ByVal oldje As Integer)
             Me.Id = oldid
             Me.m_je.Id = oldje
-        End Sub
+    End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+     
+
+     
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+
+
+
+      Return New SaveErrorException("0")
+
+    End Function
         Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
             If Me.ItemCollection.Count = 0 Then
                 Return New SaveErrorException("${res:Global.Error.NoItem}")
@@ -379,6 +398,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ' กำหนดการบันทึกผู้แก้ไข
             SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+      Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError2.Message) Then
+        Return ValidateError2
+      End If
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
             ' สร้าง SqlParameter จาก ArrayList ...
             Dim sqlparams() As SqlParameter
             sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -392,7 +418,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Dim oldid As Integer = Me.Id
             Dim oldjeid As Integer = Me.m_je.Id
+      Try
 
+     
             Try
                 Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
                 If IsNumeric(returnVal.Value) Then
@@ -433,16 +461,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End Select
         End If
 
-        Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateDepre_AWRef" _
-       , New SqlParameter("@depre_id", Me.Id))
-
-        If Me.Status.Value = 0 Then
-          Me.CancelRef(conn, trans)
-        End If
+       
 
                 trans.Commit()
-                Return New SaveErrorException(returnVal.Value.ToString)
             Catch ex As SqlException
                 trans.Rollback()
                 Me.ResetID(oldid, oldjeid)
@@ -451,10 +472,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trans.Rollback()
                 Me.ResetID(oldid, oldjeid)
                 Return New SaveErrorException(ex.ToString)
-            Finally
-                conn.Close()
-            End Try
-        End Function
+            
+        End Try
+        'Sub Save Block
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        'Sub Save Block
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+     
+
+      Try
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateDepre_AWRef" _
+       , New SqlParameter("@depre_id", Me.Id))
+
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
         'private function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As Integer
       Dim sqlSelect As String = "Select * From DepreciationCalItem Where deprei_depre = " & Me.Id

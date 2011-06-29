@@ -465,217 +465,251 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.m_payment.AutoGen = oldjeautogen
             Me.m_je.Code = oldJecode
             Me.m_je.AutoGen = oldjeautogen
-        End Sub
-        Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-            'Return New SaveErrorException("Not Yet Implemented")
+    End Sub
 
-            Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-            returnVal.ParameterName = "RETURN_VALUE"
-            returnVal.DbType = DbType.Int32
-            returnVal.Direction = ParameterDirection.ReturnValue
-            returnVal.SourceVersion = DataRowVersion.Current
-            Dim paramArrayList As New ArrayList
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
 
-            paramArrayList.Add(returnVal)
-            If Me.Originated Then
-                paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+      Dim ValidateError As SaveErrorException
+
+
+
+      ValidateError = Me.Payment.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+
+
+
+      Return New SaveErrorException("0")
+
+    End Function
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      'Return New SaveErrorException("Not Yet Implemented")
+
+      Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      returnVal.ParameterName = "RETURN_VALUE"
+      returnVal.DbType = DbType.Int32
+      returnVal.Direction = ParameterDirection.ReturnValue
+      returnVal.SourceVersion = DataRowVersion.Current
+      Dim paramArrayList As New ArrayList
+
+      paramArrayList.Add(returnVal)
+      If Me.Originated Then
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_id", Me.Id))
+      End If
+
+      Dim theTime As Date = Now
+      Dim theUser As New User(currentUserId)
+
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+      Dim oldjecode As String
+      Dim oldjeautogen As Boolean
+
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
+      oldjecode = Me.m_je.Code
+      oldjeautogen = Me.m_je.AutoGen
+
+      If Me.AutoGen Then 'And Me.Code.Length = 0 
+        Me.Code = Me.GetNextCode
+      End If
+      Me.AutoGen = False
+
+      '---- AutoCode Format --------
+      Me.m_je.RefreshGLFormat()
+      If Not AutoCodeFormat Is Nothing Then
+
+
+        Select Case Me.AutoCodeFormat.CodeConfig.Value
+          Case 0
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
             End If
-
-            Dim theTime As Date = Now
-            Dim theUser As New User(currentUserId)
-
-            If Me.AutoGen Then 'And Me.Code.Length = 0 
-                Me.Code = Me.GetNextCode
-            End If
-            Me.AutoGen = False
-
-            '---- AutoCode Format --------
-            Me.m_je.RefreshGLFormat()
-            If Not AutoCodeFormat Is Nothing Then
-
-
-                Select Case Me.AutoCodeFormat.CodeConfig.Value
-                    Case 0
-                        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                            Me.Code = Me.GetNextCode
-                        End If
-                        Me.m_je.DontSave = True
-                        Me.m_je.Code = ""
-                        Me.m_je.DocDate = Me.DocDate
-                    Case 1
-                        'ตาม entity
-                        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                            Me.Code = Me.GetNextCode
-                        End If
-                        Me.m_je.Code = Me.Code
-                    Case 2
-                        'ตาม gl
-                        If Me.m_je.AutoGen Then
-                            Me.m_je.Code = m_je.GetNextCode
-                        End If
-                        Me.Code = Me.m_je.Code
-                    Case Else
-                        'แยก
-                        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                            Me.Code = Me.GetNextCode
-                        End If
-                        If Me.m_je.AutoGen Then
-                            Me.m_je.Code = m_je.GetNextCode
-                        End If
-                End Select
-            Else
-                If Me.m_je.Status.Value = 4 Then
-                    Me.Status.Value = 4
-                    Me.m_payment.Status.Value = 4
-                End If
-                If Me.Status.Value = -1 Then
-                    Me.Status.Value = 2
-                End If
-                If Me.m_je.AutoGen Then
-                    Me.m_je.Code = m_je.GetNextCode
-                End If
-            End If
+            Me.m_je.DontSave = True
+            Me.m_je.Code = ""
             Me.m_je.DocDate = Me.DocDate
-            Me.m_payment.Code = m_je.Code
-            Me.m_payment.DocDate = m_je.DocDate
-            If Me.AutoCodeFormat.CodeConfig.Value = 0 Then
-                Me.m_payment.Code = Me.Code
-                Me.m_payment.DocDate = Me.DocDate
+          Case 1
+            'ตาม entity
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
             End If
-            Me.AutoGen = False
-            Me.m_payment.AutoGen = False
-            Me.m_je.AutoGen = False
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isforemployee", Me.IsForEmployee))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_duedate", IIf(Me.DueDate.Equals(Date.MinValue), DBNull.Value, Me.DueDate)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acct", IIf(Me.Account.Originated, Me.Account.Id, DBNull.Value)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_emp", IIf(Me.Employee.Originated, Me.Employee.Id, DBNull.Value)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", IIf(Me.Costcenter.Originated, Me.Costcenter.Id, DBNull.Value)))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amount", Me.Amount))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_closed", Me.Closed))
-            paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+            Me.m_je.Code = Me.Code
+          Case 2
+            'ตาม gl
+            If Me.m_je.AutoGen Then
+              Me.m_je.Code = m_je.GetNextCode
+            End If
+            Me.Code = Me.m_je.Code
+          Case Else
+            'แยก
+            If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+              Me.Code = Me.GetNextCode
+            End If
+            If Me.m_je.AutoGen Then
+              Me.m_je.Code = m_je.GetNextCode
+            End If
+        End Select
+      Else
+        If Me.m_je.Status.Value = 4 Then
+          Me.Status.Value = 4
+          Me.m_payment.Status.Value = 4
+        End If
+        If Me.Status.Value = -1 Then
+          Me.Status.Value = 2
+        End If
+        If Me.m_je.AutoGen Then
+          Me.m_je.Code = m_je.GetNextCode
+        End If
+      End If
+      Me.m_je.DocDate = Me.DocDate
+      Me.m_payment.Code = m_je.Code
+      Me.m_payment.DocDate = m_je.DocDate
+      If Me.AutoCodeFormat.CodeConfig.Value = 0 Then
+        Me.m_payment.Code = Me.Code
+        Me.m_payment.DocDate = Me.DocDate
+      End If
+      Me.AutoGen = False
+      Me.m_payment.AutoGen = False
+      Me.m_je.AutoGen = False
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.Name))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_isforemployee", Me.IsForEmployee))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_docdate", IIf(Me.DocDate.Equals(Date.MinValue), DBNull.Value, Me.DocDate)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_duedate", IIf(Me.DueDate.Equals(Date.MinValue), DBNull.Value, Me.DueDate)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acct", IIf(Me.Account.Originated, Me.Account.Id, DBNull.Value)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_emp", IIf(Me.Employee.Originated, Me.Employee.Id, DBNull.Value)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", IIf(Me.Costcenter.Originated, Me.Costcenter.Id, DBNull.Value)))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_amount", Me.Amount))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_closed", Me.Closed))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
 
-            SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+      SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-            ' สร้าง SqlParameter จาก ArrayList ...
-            Dim sqlparams() As SqlParameter
-            sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-            Dim trans As SqlTransaction
-            Dim conn As New SqlConnection(Me.ConnectionString)
-            conn.Open()
-            trans = conn.BeginTransaction()
 
-            Dim oldid As Integer = Me.Id
-            Dim oldpay As Integer = Me.m_payment.Id
-            Dim oldje As Integer = Me.m_je.Id
-            Dim oldcode As String
-            Dim oldautogen As Boolean
-            Dim oldjecode As String
-            Dim oldjeautogen As Boolean
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+      Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError2.Message) Then
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+        Return ValidateError2
+      End If
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
 
-            oldcode = Me.Code
-            oldautogen = Me.AutoGen
-            oldjecode = Me.m_je.Code
-            oldjeautogen = Me.m_je.AutoGen
+      ' สร้าง SqlParameter จาก ArrayList ...
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
 
-            Try
-                Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-                If IsNumeric(returnVal.Value) Then
-                    Select Case CInt(returnVal.Value)
-                        Case -1, -2, -5
-                            trans.Rollback()
-                            Me.ResetID(oldid, oldpay, oldje)
-                            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                            Return New SaveErrorException(returnVal.Value.ToString)
-                        Case Else
-                    End Select
-                ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-                    trans.Rollback()
-                    Me.ResetID(oldid, oldpay, oldje)
-                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                    Return New SaveErrorException(returnVal.Value.ToString)
-                End If
-                Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
-                If Not IsNumeric(savePaymentError.Message) Then
-                    trans.Rollback()
-                    Me.ResetID(oldid, oldpay, oldje)
-                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                    Return savePaymentError
-                Else
-                    Select Case CInt(savePaymentError.Message)
-                        Case -1, -5
-                            trans.Rollback()
-                            Me.ResetID(oldid, oldpay, oldje)
-                            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                            Return savePaymentError
-                        Case -2
-                            trans.Rollback()
-                            Me.ResetID(oldid, oldpay, oldje)
-                            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                            Return savePaymentError
-                        Case Else
-                    End Select
-                End If
-                '==============================AUTOGEN==========================================
-                Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-                If Not IsNumeric(saveAutoCodeError.Message) Then
-                    trans.Rollback()
-                    ResetID(oldid, oldpay, oldje)
-                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                    Return saveAutoCodeError
-                Else
-                    Select Case CInt(saveAutoCodeError.Message)
-                        Case -1, -2, -5
-                            trans.Rollback()
-                            ResetID(oldid, oldpay, oldje)
-                            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                            Return saveAutoCodeError
-                        Case Else
-                    End Select
-                End If
-                '==============================AUTOGEN==========================================
+      Dim oldid As Integer = Me.Id
+      Dim oldpay As Integer = Me.m_payment.Id
+      Dim oldje As Integer = Me.m_je.Id
 
-                If Me.m_je.Status.Value = -1 Then
-                    m_je.Status.Value = 3
-                End If
-                Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-                If Not IsNumeric(saveJeError.Message) Then
-                    trans.Rollback()
-                    Me.ResetID(oldid, oldpay, oldje)
-                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                    Return saveJeError
-                Else
-                    Select Case CInt(saveJeError.Message)
-                        Case -1, -5
-                            trans.Rollback()
-                            Me.ResetID(oldid, oldpay, oldje)
-                            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                            Return saveJeError
-                        Case -2
-                            'Post ไปแล้ว
-                            Return saveJeError
-                        Case Else
-                    End Select
-                End If
-                trans.Commit()
-                Return New SaveErrorException(returnVal.Value.ToString)
-            Catch ex As SqlException
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(ex.ToString)
-            Catch ex As Exception
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(ex.ToString)
-            Finally
-                conn.Close()
-            End Try
-        End Function
+
+      Try
+        Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1, -2, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Me.ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
+        If Not IsNumeric(savePaymentError.Message) Then
+          trans.Rollback()
+          Me.ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return savePaymentError
+        Else
+          Select Case CInt(savePaymentError.Message)
+            Case -1, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return savePaymentError
+            Case -2
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return savePaymentError
+            Case Else
+          End Select
+        End If
+        '==============================AUTOGEN==========================================
+        Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+        If Not IsNumeric(saveAutoCodeError.Message) Then
+          trans.Rollback()
+          ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return saveAutoCodeError
+        Else
+          Select Case CInt(saveAutoCodeError.Message)
+            Case -1, -2, -5
+              trans.Rollback()
+              ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveAutoCodeError
+            Case Else
+          End Select
+        End If
+        '==============================AUTOGEN==========================================
+
+        If Me.m_je.Status.Value = -1 Then
+          m_je.Status.Value = 3
+        End If
+        Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+        If Not IsNumeric(saveJeError.Message) Then
+          trans.Rollback()
+          Me.ResetID(oldid, oldpay, oldje)
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return saveJeError
+        Else
+          Select Case CInt(saveJeError.Message)
+            Case -1, -5
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Case -2
+              'Post ไปแล้ว
+              Return saveJeError
+            Case Else
+          End Select
+        End If
+        trans.Commit()
+        Return New SaveErrorException(returnVal.Value.ToString)
+      Catch ex As SqlException
+        trans.Rollback()
+        Me.ResetID(oldid, oldpay, oldje)
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+        Return New SaveErrorException(ex.ToString)
+      Catch ex As Exception
+        trans.Rollback()
+        Me.ResetID(oldid, oldpay, oldje)
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
+    End Function
 #End Region
 
 #Region "IPayable"

@@ -444,6 +444,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Code = oldCode
       Me.AutoGen = oldautogen
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      
+
+      ValidateError = Me.Payment.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       'Return New SaveErrorException("Not Yet Implemented")
 
@@ -499,6 +514,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+
+      Dim oldid As Integer = Me.Id
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
+
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+      Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError2.Message) Then
+        ResetCode(oldcode, oldautogen)
+        Return ValidateError2
+      End If
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
       ' ���ҧ SqlParameter �ҡ ArrayList ...
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -507,12 +537,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       conn.Open()
       trans = conn.BeginTransaction()
 
-      Dim oldid As Integer = Me.Id
-      Dim oldcode As String
-      Dim oldautogen As Boolean
 
-      oldcode = Me.Code
-      oldautogen = Me.AutoGen
       Try
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         If IsNumeric(returnVal.Value) Then

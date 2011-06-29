@@ -967,6 +967,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
     End Function
 
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+     
+
+
+
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Dim docValidate As Boolean = True
@@ -1055,6 +1067,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim theTime As Date = Now
         Dim theUser As New User(currentUserId)
 
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+
         If Me.AutoGen Then   'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
@@ -1084,6 +1102,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          ResetCode(oldcode, oldautogen)
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -1095,11 +1121,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Open()
         trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
-        Dim oldcode As String
-        Dim oldautogen As Boolean
+        Try
 
-        oldcode = Me.Code
-        oldautogen = Me.AutoGen
+        
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
@@ -1134,53 +1158,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Select
           End If
 
-          'Save CustomNote จากการ Copy เอกสาร
-          If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
-            If Me.Originated Then
-              Me.m_customNoteColl.EntityId = Me.Id
-              Me.m_customNoteColl.Save()
-            End If
-          End If
+        
 
-          For Each extender As Object In Me.Extenders
-            If TypeOf extender Is IExtender Then
-              Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-              If Not IsNumeric(saveDocError.Message) Then
-                trans.Rollback()
-                Return saveDocError
-              Else
-                Select Case CInt(saveDocError.Message)
-                  Case -1, -2, -5
-                    trans.Rollback()
-                    Return saveDocError
-                  Case Else
-                End Select
-              End If
-            End If
-          Next
-
-          'Update สถานะยกเลิก ไปให้เอกสาร DR VO ด้วย
-          If Me.Status.Value = 0 Then
-
-          End If
-
-
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
-                                    , New SqlParameter("@id", Me.Id) _
-                                    , New SqlParameter("@docType", Me.EntityId))
-          Me.DeleteRef(conn, trans)
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PRRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PRRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          'If Me.Status.Value = 0 Then
-          '    Me.CancelRef(conn, trans)
-          'End If
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+        
 
           trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
           Me.ResetID(oldid)
@@ -1191,10 +1173,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.ResetID(oldid)
           ResetCode(oldcode, oldautogen)
           Return New SaveErrorException(ex.ToString)
+          End Try
+
+          'Sub Save Block
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+            Return New SaveErrorException(returnVal.Value.ToString)
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block
+
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      'Save CustomNote จากการ Copy เอกสาร
+      If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
+        If Me.Originated Then
+          Me.m_customNoteColl.EntityId = Me.Id
+          Me.m_customNoteColl.Save()
+        End If
+      End If
+
+      For Each extender As Object In Me.Extenders
+        If TypeOf extender Is IExtender Then
+          Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+          If Not IsNumeric(saveDocError.Message) Then
+            trans.Rollback()
+            Return saveDocError
+          Else
+            Select Case CInt(saveDocError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                Return saveDocError
+              Case Else
+            End Select
+          End If
+        End If
+      Next
+
+      Try
+        'Update สถานะยกเลิก ไปให้เอกสาร DR VO ด้วย
+        If Me.Status.Value = 0 Then
+
+        End If
+
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
+                                  , New SqlParameter("@id", Me.Id) _
+                                  , New SqlParameter("@docType", Me.EntityId))
+        Me.DeleteRef(conn, trans)
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PRRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PRRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'If Me.Status.Value = 0 Then
+        '    Me.CancelRef(conn, trans)
+        'End If
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code  'Entity.GetAutoCodeFormat(Me.EntityId)

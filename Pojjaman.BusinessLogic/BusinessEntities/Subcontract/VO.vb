@@ -1226,6 +1226,12 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         End If
         Me.RefreshTaxBase()
 
+        Dim oldcode As String
+        Dim oldautogen As Boolean
+
+        oldcode = Me.Code
+        oldautogen = Me.AutoGen
+
         If Me.AutoGen Then 'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
@@ -1275,145 +1281,154 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         conn.Open()
         trans = conn.BeginTransaction()
         Dim oldid As Integer = Me.Id
-        Dim oldcode As String
-        Dim oldautogen As Boolean
-
-        oldcode = Me.Code
-        oldautogen = Me.AutoGen
+       
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          Select Case CInt(returnVal.Value)
-            Case -1, -5
-              trans.Rollback()
-              ResetID(oldid)
-              ResetCode(oldcode, oldautogen)
-              Return New SaveErrorException(returnVal.Value.ToString)
-          End Select
-
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
-            ResetID(oldid)
-            ResetCode(oldcode, oldautogen)
-            Return saveDetailError
-          Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            Select Case CInt(returnVal.Value)
+              Case -1, -5
                 trans.Rollback()
                 ResetID(oldid)
                 ResetCode(oldcode, oldautogen)
-                Return saveDetailError
-              Case Else
-            End Select
-          End If
-
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid)
-                ResetCode(oldcode, oldautogen)
                 Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
             End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+
+            Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
+              trans.Rollback()
+              ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid)
+                  ResetCode(oldcode, oldautogen)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
+
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid)
+                  ResetCode(oldcode, oldautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+           
+
+           
+
+            trans.Commit()
+
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid)
-            ResetCode(oldcode, oldautogen)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            Me.ResetID(oldid)
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              trans.Rollback()
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-
-          'Save CustomNote จากการ Copy เอกสาร
-          If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
-            If Me.Originated Then
-              Me.m_customNoteColl.EntityId = Me.Id
-              Me.m_customNoteColl.Save()
-            End If
-          End If
-
-          For Each extender As Object In Me.Extenders
-            If TypeOf extender Is IExtender Then
-              Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-              If Not IsNumeric(saveDocError.Message) Then
-                trans.Rollback()
-                Return saveDocError
-              Else
-                Select Case CInt(saveDocError.Message)
-                  Case -1, -2, -5
-                    trans.Rollback()
-                    Return saveDocError
-                  Case Else
-                End Select
-              End If
-            End If
-          Next
-
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateSCParent" _
-                                    , New SqlParameter("@id", Me.Id) _
-                                    , New SqlParameter("@docType", Me.EntityId))
-          Me.DeleteRef(conn, trans)
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-
-          Dim isCanceled As Integer = 0
-          If Me.Status.Value = 0 Then
-            isCanceled = 1
-          End If
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdatereference" _
-          , New SqlParameter("@entity_id", Me.SC.Id) _
-          , New SqlParameter("@entity_type", Me.SC.EntityId) _
-          , New SqlParameter("@refto_id", Me.Id) _
-          , New SqlParameter("@refto_type", Me.EntityId) _
-          , New SqlParameter("@refto_iscanceled", isCanceled) _
-          )
-          'If Me.Status.Value = 0 Then
-          '    Me.CancelRef(conn, trans)
-          'End If
-
-          '    '--------------------------------------------------------------
-          '    Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
-          '    If Not IsNumeric(savePRItemsError.Message) Then
-          '        trans.Rollback()
-          '        ResetID(oldid)
-          '        Return savePRItemsError
-          '    Else
-          '        Select Case CInt(savePRItemsError.Message)
-          '            Case -1, -5
-          '                trans.Rollback()
-          '                ResetID(oldid)
-          '                Return savePRItemsError
-          '            Case -2
-          '                'Post ไปแล้ว
-          '                Return savePRItemsError
-          '            Case Else
-          '        End Select
-          '    End If
-          '    '--------------------------------------------------------------
-
-          '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertPOProcedure" _
-          '     , New SqlParameter("@po", Me.Id))
-
-          '    trans.Commit()
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block
 
 
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-
-          trans.Commit()
-
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      'Save CustomNote จากการ Copy เอกสาร
+      If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
+        If Me.Originated Then
+          Me.m_customNoteColl.EntityId = Me.Id
+          Me.m_customNoteColl.Save()
+        End If
+      End If
+
+      For Each extender As Object In Me.Extenders
+        If TypeOf extender Is IExtender Then
+          Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+          If Not IsNumeric(saveDocError.Message) Then
+            trans.Rollback()
+            Return saveDocError
+          Else
+            Select Case CInt(saveDocError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                Return saveDocError
+              Case Else
+            End Select
+          End If
+        End If
+      Next
+
+      
+      trans.Commit()
+
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+
+
+        SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "UpdateSCParent" _
+                                      , New SqlParameter("@id", Me.Id) _
+                                      , New SqlParameter("@docType", Me.EntityId))
+        Me.DeleteRef(conn, trans2)
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+
+        Dim isCanceled As Integer = 0
+        If Me.Status.Value = 0 Then
+          isCanceled = 1
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "InsertUpdatereference" _
+        , New SqlParameter("@entity_id", Me.SC.Id) _
+        , New SqlParameter("@entity_type", Me.SC.EntityId) _
+        , New SqlParameter("@refto_id", Me.Id) _
+        , New SqlParameter("@refto_type", Me.EntityId) _
+        , New SqlParameter("@refto_iscanceled", isCanceled) _
+        )
+       
+        SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        trans2.Commit()
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+
+
+
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code 'Entity.GetAutoCodeFormat(Me.EntityId)

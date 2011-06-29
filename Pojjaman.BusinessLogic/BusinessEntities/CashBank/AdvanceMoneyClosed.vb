@@ -198,6 +198,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_je.Code = oldJecode
       Me.m_je.AutoGen = oldjeautogen
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+    
+
+      
+
+      ValidateError = Me.Receive.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+
+
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       'Return New SaveErrorException("Not Yet Implemented")
       'MessageBox.Show(String.Format("{0}:{1}", Me.Amount, Me.Receive.Amount))
@@ -229,6 +253,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.Status.Value = -1 Then
         Me.Status.Value = 2
       End If
+
+      Dim oldcode As String
+      Dim oldautogen As Boolean
+      Dim oldjecode As String
+      Dim oldjeautogen As Boolean
+
+      oldcode = Me.Code
+      oldautogen = Me.AutoGen
+      oldjecode = Me.m_je.Code
+      oldjeautogen = Me.m_je.AutoGen
       '---- AutoCode Format --------
       Me.m_je.RefreshGLFormat()
       If Not AutoCodeFormat Is Nothing Then
@@ -287,6 +321,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+      Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError2.Message) Then
+        ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+        Return ValidateError2
+      End If
+      '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+      UpdateAdvanceMoneyStatus(False)
+
       ' สร้าง SqlParameter จาก ArrayList ...note
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -298,18 +341,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim oldid As Integer = Me.Id
       Dim oldreceive As Integer = m_receive.Id
       Dim oldje As Integer = m_je.Id
-      Dim oldcode As String
-      Dim oldautogen As Boolean
-      Dim oldjecode As String
-      Dim oldjeautogen As Boolean
-
-      oldcode = Me.Code
-      oldautogen = Me.AutoGen
-      oldjecode = Me.m_je.Code
-      oldjeautogen = Me.m_je.AutoGen
+      
 
       Try
-        UpdateAdvanceMoneyStatus(False)
 
         Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
         If IsNumeric(returnVal.Value) Then
