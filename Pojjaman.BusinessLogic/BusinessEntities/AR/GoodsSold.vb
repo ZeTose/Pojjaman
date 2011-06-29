@@ -886,7 +886,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '  Return New SaveErrorException(Me.Id.ToString)
             'End If
 
-            Return New SaveErrorException(returnVal.Value.ToString)
+            'Return New SaveErrorException(returnVal.Value.ToString)
           Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
