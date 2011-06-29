@@ -365,75 +365,122 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim oldid As Integer = Me.Id
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
 
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldid)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetId(oldid)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              ResetId(oldid)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+            Dim errstr As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If IsNumeric(errstr.Message) Then
+              Select Case CInt(errstr.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetId(oldid)
+                  Return New SaveErrorException(errstr.Message)
+                Case Else
+              End Select
+            ElseIf IsDBNull(errstr.Message) OrElse Not IsNumeric(errstr.Message) Then
+              trans.Rollback()
+              ResetId(oldid)
+              Return New SaveErrorException(errstr.Message)
+            End If
+
+            '==============================eqtSTOCKFIFO=========================================
+            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (Teeraboon)
+            If Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockiFIFO", New SqlParameter("@eqtstock_id", Me.Id), _
+                                                                                                    New SqlParameter("@tostatus", Me.ToStatus.Value), _
+                                                                                                    New SqlParameter("@fromstatus", Me.FromStatus.Value) _
+                                                                                                    )
+            End If
+            '==============================eqtSTOCKFIFO=========================================
+
+
+            'Me.DeleteRef(conn, trans)
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStockRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            ''SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+            '', New SqlParameter("@refto_id", Me.Id))
+            ''SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+            '', New SqlParameter("@refto_id", Me.Id))
+            'If Me.Status.Value = 0 Then
+            '  Me.CancelRef(conn, trans)
+            'End If
+
+            trans.Commit()
+            'Return New SaveErrorException(returnVal.Value.ToString)
+          Catch ex As SqlException
             trans.Rollback()
             ResetId(oldid)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            ResetId(oldid)
+            Return New SaveErrorException(ex.ToString)
+            'Finally
+            '  conn.Close()
+          End Try
+
+          '--Sub Save Block-- ============================================================
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
-          End If
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save Block-- ============================================================
 
-          Dim errstr As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If IsNumeric(errstr.Message) Then
-            Select Case CInt(errstr.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldid)
-                Return New SaveErrorException(errstr.Message)
-              Case Else
-            End Select
-          ElseIf IsDBNull(errstr.Message) OrElse Not IsNumeric(errstr.Message) Then
-            trans.Rollback()
-            ResetId(oldid)
-            Return New SaveErrorException(errstr.Message)
-          End If
-
-          '==============================eqtSTOCKFIFO=========================================
-          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (Teeraboon)
-          If Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertEqtStockiFIFO", New SqlParameter("@eqtstock_id", Me.Id), _
-                                                                                                  New SqlParameter("@tostatus", Me.ToStatus.Value), _
-                                                                                                  New SqlParameter("@fromstatus", Me.FromStatus.Value) _
-                                                                                                  )
-          End If
-          '==============================eqtSTOCKFIFO=========================================
-
-
-          Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-          ', New SqlParameter("@refto_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
-
-          trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          ResetId(oldid)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          ResetId(oldid)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
+
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateEQTStock_StockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Private Function GetRefIdString() As String
       Dim ret As String = ""
