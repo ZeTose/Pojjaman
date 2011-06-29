@@ -833,14 +833,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_je.Code = oldJecode
       Me.m_je.AutoGen = oldjeautogen
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      If Not Me.m_je.ManualFormat Then
+        m_je.SetGLFormat(Me.GetDefaultGLFormat)
+      End If
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
       conn.Open()
-      trans = conn.BeginTransaction()
-      Return Save(currentUserId, conn, trans)
+      'trans = conn.BeginTransaction()
+      Try
+
+        Dim mainsave As SaveErrorException = Save(currentUserId, conn, trans)
+        If Not IsNumeric(mainsave.Message) Then
+          Return New SaveErrorException(mainsave.Message)
+        End If
+
+        '--Sub Save Block-- ============================================================
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+          Return New SaveErrorException("0")
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        '--Sub Save Block-- ============================================================
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      Finally
+        conn.Close()
+      End Try
     End Function
     'Public Property AutoCodeFormat As String
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
@@ -925,13 +965,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Me.m_je.DocDate = Me.DocDate
 
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
         ' สร้าง SqlParameter จาก ArrayList ...
         'Dim sqlparams() As SqlParameter
         'sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
         'Dim trans As SqlTransaction
         'Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
         'conn.Open()
-        'trans = conn.BeginTransaction()
+        trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
         Dim oldjeid As Integer = Me.m_je.Id
@@ -1012,11 +1060,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Me.m_je.Status.Value = -1 Then
               m_je.Status.Value = 3
             End If
-            '********************************************
-            If Not Me.m_je.ManualFormat Then
-              m_je.SetGLFormat(Me.GetDefaultGLFormat)
-            End If
-            '********************************************
+            ''********************************************
+            'If Not Me.m_je.ManualFormat Then
+            '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            'End If
+            ''********************************************
             Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveJeError.Message) Then
               trans.Rollback()
@@ -1038,26 +1086,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============================Journal Entries=======================================
 
-            '==============================UPDATE PRITEM=========================================
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-            '==============================UPDATE PRITEM=========================================
+            ''==============================UPDATE PRITEM=========================================
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+            ''==============================UPDATE PRITEM=========================================
 
-            'Me.DeleteRef(conn, trans)
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
-            , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
-            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
+            ''Me.DeleteRef(conn, trans)
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
+            ', New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+            ''SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
+            '', New SqlParameter("@refto_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
             ', New SqlParameter("@refto_id", Me.Id))
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-            , New SqlParameter("@refto_id", Me.Id))
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-            , New SqlParameter("@refto_id", Me.Id))
-            'If Me.Status.Value = 0 Then
-            '  Me.CancelRef(conn, trans)
-            'End If
-            'trans.Commit()
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            ''If Me.Status.Value = 0 Then
+            ''  Me.CancelRef(conn, trans)
+            ''End If
+            ''trans.Commit()
 
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
-            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+            ''SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
 
           End If
 
@@ -1080,6 +1128,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'conn.Close()
         End Try
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        '==============================UPDATE PRITEM=========================================
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+        '==============================UPDATE PRITEM=========================================
+
+        'Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
+        , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        'If Me.Status.Value = 0 Then
+        '  Me.CancelRef(conn, trans)
+        'End If
+        'trans.Commit()
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String

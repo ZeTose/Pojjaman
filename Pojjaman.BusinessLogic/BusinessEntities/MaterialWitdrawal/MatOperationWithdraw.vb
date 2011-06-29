@@ -790,6 +790,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return New SaveErrorException("0")
     End Function
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+
+      Dim ValidateError As SaveErrorException
+
+      ValidateError = Me.JournalEntry.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
+
+      If Not Me.m_je.ManualFormat Then
+        m_je.SetGLFormat(Me.GetDefaultGLFormat)
+      End If
+
+      Return New SaveErrorException("0")
+
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       With Me
@@ -969,6 +985,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@stock_asset", IIf(Me.Asset.Originated, Me.Asset.Id, DBNull.Value)))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError2.Message) Then
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return ValidateError2
+        End If
+        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
         sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
@@ -981,208 +1005,262 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldjeid As Integer = Me.m_je.Id
 
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+            ''==============================DELETE STOCKCOST=========================================
+            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            If Me.Originated AndAlso Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+            End If
+            ''==============================DELETE STOCKCOST=========================================
+            '==============================UPDATE Old PRITEM=========================================
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+            '==============================UPDATE Old PRITEM=========================================
+            Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
+
+            ''============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
+            'Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+            ''============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
+
+            '==============================STOCKCOSTFIFO=========================================
+            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            If Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                    New SqlParameter("@stock_cc", Me.CostCenter.Id))
+            End If
+            '==============================STOCKCOSTFIFO=========================================
+
+            ''==============================UPDATE PRITEM=========================================
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
+            ''==============================UPDATE PRITEM=========================================
+
+            'Me.DeleteRef(conn, trans)
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+            ', New SqlParameter("@refto_id", Me.Id))
+            'If Me.Status.Value = 0 Then
+            '  Me.CancelRef(conn, trans)
+            'End If
+            'trans.Commit()
+
+
+            'Try
+            'trans = conn.BeginTransaction()
+            'Dim saveWBSError As SaveErrorException = Me.SaveWBSDetail(Me.Id, conn, trans)
+            'If Not IsNumeric(saveWBSError.Message) Then
+            '    trans.Rollback()
+            '    ResetId(oldid, oldjeid)
+            '    Return saveWBSError
+            'Else
+            '    Select Case CInt(saveWBSError.Message)
+            '        Case -1, -5
+            '            trans.Rollback()
+            '            ResetId(oldid, oldjeid)
+            '            Return saveWBSError
+            '        Case -2
+            '            'Post ไปแล้ว
+            '            Return saveWBSError
+            '        Case Else
+            '    End Select
+            'End If
+
+
+            ''--------------------------------------------------------------
+            'Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
+            'If Not IsNumeric(savePRItemsError.Message) Then
+            '    trans.Rollback()
+            '    ResetId(oldid, oldjeid)
+            '    Return savePRItemsError
+            'Else
+            '    Select Case CInt(savePRItemsError.Message)
+            '        Case -1, -5
+            '            trans.Rollback()
+            '            ResetId(oldid, oldjeid)
+            '            Return savePRItemsError
+            '        Case -2
+            '            'Post ไปแล้ว
+            '            Return savePRItemsError
+            '        Case Else
+            '    End Select
+            'End If
+            '--------------------------------------------------------------
+
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
+            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
+
+            'trans.Commit()
+            'Catch ex As Exception
+            '    trans.Rollback()
+            '    ResetId(oldid, oldjeid)
+            '    Return New SaveErrorException(ex.ToString)
+            'End Try
+
+            '-------------------------------GL----------------------------------------------------
+            'Try
+            '    trans = conn.BeginTransaction()
+            'Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            ''********************************************
+            'If Not Me.m_je.ManualFormat Then
+            '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            'End If
+            ''********************************************
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+            trans.Commit()
+            'Catch ex As Exception
+            '    trans.Rollback()
+            '    ResetId(oldid, oldjeid)
+            '    Return New SaveErrorException(ex.ToString)
+            'End Try
+            '-------------------------------END GL----------------------------------------------------
+
+            'Me.ItemCollection.CheckPRForStoreApprove()
+
+            'Return New SaveErrorException(returnVal.Value.ToString)
+          Catch ex As SqlException
             trans.Rollback()
             ResetId(oldid, oldjeid)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            ResetId(oldid, oldjeid)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+            'Finally
+            '  conn.Close()
+          End Try
+
+          '--Sub Save Block-- ============================================================
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
-          End If
+            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save Block-- ============================================================
 
-          ''==============================DELETE STOCKCOST=========================================
-          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          If Me.Originated AndAlso Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-          End If
-          ''==============================DELETE STOCKCOST=========================================
-          '==============================UPDATE Old PRITEM=========================================
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-          '==============================UPDATE Old PRITEM=========================================
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
-            ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveDetailError
-          Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveDetailError
-              Case Else
-            End Select
-          End If
-
-          '============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
-          Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
-          '============================== ถ้าวางไว้หลัง Save AutoCodeFormat แล้วเกิด DeadLock ========
-
-          '==============================STOCKCOSTFIFO=========================================
-          'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          If Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
-                                                                                                  New SqlParameter("@stock_cc", Me.CostCenter.Id))
-          End If
-          '==============================STOCKCOSTFIFO=========================================
-
-          '==============================UPDATE PRITEM=========================================
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
-          '==============================UPDATE PRITEM=========================================
-
-          Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
-          'trans.Commit()
-
-
-          'Try
-          'trans = conn.BeginTransaction()
-          'Dim saveWBSError As SaveErrorException = Me.SaveWBSDetail(Me.Id, conn, trans)
-          'If Not IsNumeric(saveWBSError.Message) Then
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return saveWBSError
-          'Else
-          '    Select Case CInt(saveWBSError.Message)
-          '        Case -1, -5
-          '            trans.Rollback()
-          '            ResetId(oldid, oldjeid)
-          '            Return saveWBSError
-          '        Case -2
-          '            'Post ไปแล้ว
-          '            Return saveWBSError
-          '        Case Else
-          '    End Select
-          'End If
-
-
-          ''--------------------------------------------------------------
-          'Dim savePRItemsError As SaveErrorException = Me.SavePRItemsDetail(arr, trans, conn)
-          'If Not IsNumeric(savePRItemsError.Message) Then
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return savePRItemsError
-          'Else
-          '    Select Case CInt(savePRItemsError.Message)
-          '        Case -1, -5
-          '            trans.Rollback()
-          '            ResetId(oldid, oldjeid)
-          '            Return savePRItemsError
-          '        Case -2
-          '            'Post ไปแล้ว
-          '            Return savePRItemsError
-          '        Case Else
-          '    End Select
-          'End If
-          '--------------------------------------------------------------
-
-          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStockProcedure", New SqlParameter("@stock_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
-
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
-            trans.Rollback()
-            ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-
-
-          'trans.Commit()
-          'Catch ex As Exception
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return New SaveErrorException(ex.ToString)
-          'End Try
-
-          '-------------------------------GL----------------------------------------------------
-          'Try
-          '    trans = conn.BeginTransaction()
-          'Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          '********************************************
-          If Not Me.m_je.ManualFormat Then
-            m_je.SetGLFormat(Me.GetDefaultGLFormat)
-          End If
-          '********************************************
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            trans.Rollback()
-            ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-
-          trans.Commit()
-          'Catch ex As Exception
-          '    trans.Rollback()
-          '    ResetId(oldid, oldjeid)
-          '    Return New SaveErrorException(ex.ToString)
-          'End Try
-          '-------------------------------END GL----------------------------------------------------
-
-          'Me.ItemCollection.CheckPRForStoreApprove()
-
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          ResetId(oldid, oldjeid)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          ResetId(oldid, oldjeid)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
       End With
+    End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+
+
+        '==============================UPDATE PRITEM=========================================
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
+        '==============================UPDATE PRITEM=========================================
+
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+        , New SqlParameter("@refto_id", Me.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String

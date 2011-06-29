@@ -705,8 +705,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
 
-      Dim tmpTaxBase As Decimal = Configuration.Format(Me.RealTaxBase, DigitConfig.Price)
-      Dim tmpVatTaxBase As Decimal = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
+      tmpTaxBase = Configuration.Format(Me.RealTaxBase, DigitConfig.Price)
+      tmpVatTaxBase = Configuration.Format(Me.Vat.TaxBase, DigitConfig.Price)
 
       Return New SaveErrorException("0")
 
