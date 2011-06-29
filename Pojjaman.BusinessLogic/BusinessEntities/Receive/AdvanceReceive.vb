@@ -1392,6 +1392,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
 
+
     Public Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       If advri_refDoc Is Nothing Then
         'UNDONE
