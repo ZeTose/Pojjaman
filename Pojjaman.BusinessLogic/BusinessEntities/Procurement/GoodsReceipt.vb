@@ -2449,7 +2449,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
       Catch ex As Exception
         trans.Rollback()
-        Return New SaveErrorException(ex.InnerException.ToString)
+        Return New SaveErrorException(ex.ToString)
       End Try
 
       trans.Commit()
