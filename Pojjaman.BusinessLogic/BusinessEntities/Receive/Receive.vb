@@ -354,7 +354,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
+    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
 
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Me.UpdateGross()
+      If TypeOf Me.RefDoc Is VariationOrderDe Then
+        If Configuration.Compare(Me.Gross, Me.Amount) = 0 Then
+          Return New SaveErrorException("${res:Global.Error.ReceiveGrossExceedAmount}", Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
+        ElseIf Configuration.Compare(Me.Amount, Me.Gross) > 0 Then
+          If Not TypeOf Me.RefDoc Is AdvanceReceive AndAlso Not TypeOf Me.RefDoc Is PettyCashClosed Then
+            'If Not TypeOf Me.RefDoc Is AROpeningBalance AndAlso Not TypeOf Me.RefDoc Is Milestone AndAlso Not TypeOf Me.RefDoc Is EquipmentReturn AndAlso Not msgServ.AskQuestionFormatted("${res:Global.Question.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.Price)}) Then
+            '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+            'End If
+          Else
+            Return New SaveErrorException("${res:Global.Error.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
+          End If
+        End If
+      Else
+        If Configuration.Compare(Me.Gross, Me.Amount) > 0 Then
+          Return New SaveErrorException("${res:Global.Error.ReceiveGrossExceedAmount}", Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
+        ElseIf Configuration.Compare(Me.Amount, Me.Gross) > 0 Then
+          If Not TypeOf Me.RefDoc Is AdvanceReceive AndAlso Not TypeOf Me.RefDoc Is PettyCashClosed Then
+            'If Not TypeOf Me.RefDoc Is AROpeningBalance AndAlso Not TypeOf Me.RefDoc Is Milestone AndAlso Not TypeOf Me.RefDoc Is EquipmentReturn AndAlso Not msgServ.AskQuestionFormatted("${res:Global.Question.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.Price)}) Then
+            '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
+            'End If
+          Else
+            Return New SaveErrorException("${res:Global.Error.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
+          End If
+        End If
+      End If
+    
+
+
+      Return New SaveErrorException("0")
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       With Me
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -369,32 +402,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  End If
         'Next
 
-        Me.UpdateGross()
-        If TypeOf Me.RefDoc Is VariationOrderDe Then
-          If Configuration.Compare(Me.Gross, Me.Amount) = 0 Then
-            Return New SaveErrorException("${res:Global.Error.ReceiveGrossExceedAmount}", Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
-          ElseIf Configuration.Compare(Me.Amount, Me.Gross) > 0 Then
-            If Not TypeOf Me.RefDoc Is AdvanceReceive AndAlso Not TypeOf Me.RefDoc Is PettyCashClosed Then
-              'If Not TypeOf Me.RefDoc Is AROpeningBalance AndAlso Not TypeOf Me.RefDoc Is Milestone AndAlso Not TypeOf Me.RefDoc Is EquipmentReturn AndAlso Not msgServ.AskQuestionFormatted("${res:Global.Question.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.Price)}) Then
-              '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
-              'End If
-            Else
-              Return New SaveErrorException("${res:Global.Error.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
-            End If
-          End If
-        Else
-          If Configuration.Compare(Me.Gross, Me.Amount) > 0 Then
-            Return New SaveErrorException("${res:Global.Error.ReceiveGrossExceedAmount}", Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price))
-          ElseIf Configuration.Compare(Me.Amount, Me.Gross) > 0 Then
-            If Not TypeOf Me.RefDoc Is AdvanceReceive AndAlso Not TypeOf Me.RefDoc Is PettyCashClosed Then
-              'If Not TypeOf Me.RefDoc Is AROpeningBalance AndAlso Not TypeOf Me.RefDoc Is Milestone AndAlso Not TypeOf Me.RefDoc Is EquipmentReturn AndAlso Not msgServ.AskQuestionFormatted("${res:Global.Question.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price), Configuration.FormatToString(Me.Amount - Me.Gross, DigitConfig.Price)}) Then
-              '    Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
-              'End If
-            Else
-              Return New SaveErrorException("${res:Global.Error.ReceiveAmountExceedGross}", New String() {Configuration.FormatToString(Me.Gross, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
-            End If
-          End If
-        End If
+       
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
