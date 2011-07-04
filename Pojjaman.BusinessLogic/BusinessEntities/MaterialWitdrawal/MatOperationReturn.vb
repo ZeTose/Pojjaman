@@ -417,9 +417,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ValidateError
       End If
 
-      If Not Me.m_je.ManualFormat Then
-        m_je.SetGLFormat(Me.GetDefaultGLFormat)
-      End If
+      'If Not Me.m_je.ManualFormat Then
+      '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+      'End If
 
       Return New SaveErrorException("0")
 
@@ -561,6 +561,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
         conn.Open()
+
+        Dim transbefore As SqlTransaction = conn.BeginTransaction
+        Try
+
+          ''==============================DELETE STOCKCOST=========================================
+          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          ''==============================DELETE STOCKCOST=========================================
+          transbefore.Commit()
+        Catch ex As Exception
+          transbefore.Rollback()
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return New SaveErrorException(ex.InnerException.ToString)
+        End Try
+
         trans = conn.BeginTransaction()
 
         Dim oldId As Integer = Me.Id
@@ -584,12 +601,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
-            '==============================DeleteSTOCKCOST=========================================
-            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            If Me.Originated AndAlso Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-            End If
-            '==============================DeleteSTOCKCOST=========================================
+            ''==============================DeleteSTOCKCOST=========================================
+            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            'If Me.Originated AndAlso Not Me.IsReferenced Then
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+            'End If
+            ''==============================DeleteSTOCKCOST=========================================
             Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
             If Not IsNumeric(saveDetailError.Message) Then
               trans.Rollback()
@@ -683,9 +700,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               m_je.Status.Value = 3
             End If
             ''********************************************
-            'If Not Me.m_je.ManualFormat Then
-            '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
-            'End If
+            If Not Me.m_je.ManualFormat Then
+              m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            End If
             ''********************************************
             Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveJeError.Message) Then

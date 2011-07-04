@@ -2164,6 +2164,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
+
+
+        ''==============================DELETE STOCKCOST=========================================
+        ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+        If Me.Originated AndAlso Not Me.IsReferenced Then
+          Dim transbefore As SqlTransaction = conn.BeginTransaction
+          Try
+            SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+
+          Catch ex As Exception
+            transbefore.Rollback()
+            Return New SaveErrorException(ex.InnerException.ToString)
+          End Try
+          transbefore.Commit()
+        End If
+        ''==============================DELETE STOCKCOST=========================================
+
         trans = conn.BeginTransaction()
         Dim oldId As Integer = Me.Id
         Dim oldPaymentId As Integer = Me.m_payment.Id
@@ -2208,12 +2225,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
 
-            ''==============================DELETE STOCKCOST=========================================
-            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            If Me.Originated AndAlso Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-            End If
-            ''==============================DELETE STOCKCOST=========================================
+
+           
             Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
             If Not IsNumeric(saveDetailError.Message) Then
               trans.Rollback()
@@ -2238,12 +2251,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============CURRENCY=================================
 
-            '==============================STOCKCOST=========================================
-            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            If Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCost", New SqlParameter("@stock_id", Me.Id))
-            End If
-            '==============================STOCKCOST=========================================
+           
 
             If Not Me.ToCostCenter Is Nothing Then
               Me.m_payment.CCId = Me.ToCostCenter.Id
@@ -2416,6 +2424,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
     Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '==============================STOCKCOST=========================================
+      'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut) 
+      If Not Me.IsReferenced Then
+        Dim transCost As SqlTransaction = conn.BeginTransaction
+        Try
+
+          'InsertStockiCostFirstFIFO ใช้สำหรับเอกสารตั้งต้น Cost จะได้ลดภาระ database
+          SqlHelper.ExecuteNonQuery(conn, transCost, CommandType.StoredProcedure, "InsertStockiCostFirstFIFO", New SqlParameter("@stock_id", Me.Id))
+        Catch ex As Exception
+          transCost.Rollback()
+          Return New SaveErrorException(ex.InnerException.ToString)
+        End Try
+        transCost.Commit()
+      End If
+      '==============================STOCKCOST=========================================
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction

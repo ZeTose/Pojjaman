@@ -3953,6 +3953,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
       Me.m_entity.AdvancePayItemCollection.Clear()
       m_isInitialized = flag
+      forceUpdateGross = True
+      forceUpdateTaxBase = True
+      forceUpdateTaxAmount = True
 
       RefreshDocs()
 

@@ -799,9 +799,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ValidateError
       End If
 
-      If Not Me.m_je.ManualFormat Then
-        m_je.SetGLFormat(Me.GetDefaultGLFormat)
-      End If
+    
 
       Return New SaveErrorException("0")
 
@@ -999,6 +997,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
         conn.Open()
+
+        Dim transbefore As SqlTransaction = conn.BeginTransaction
+        Try
+
+        ''==============================DELETE STOCKCOST=========================================
+        ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+        If Me.Originated AndAlso Not Me.IsReferenced Then
+          SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+        End If
+        ''==============================DELETE STOCKCOST=========================================
+        '==============================UPDATE Old PRITEM=========================================
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+          End If
+          '==============================UPDATE Old PRITEM=========================================
+          transbefore.Commit()
+        Catch ex As Exception
+          transbefore.Rollback()
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return New SaveErrorException(ex.InnerException.ToString)
+        End Try
+
         trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
@@ -1023,15 +1043,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
 
-            ''==============================DELETE STOCKCOST=========================================
-            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            If Me.Originated AndAlso Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-            End If
-            ''==============================DELETE STOCKCOST=========================================
-            '==============================UPDATE Old PRITEM=========================================
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-            '==============================UPDATE Old PRITEM=========================================
+
             Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
             If Not IsNumeric(saveDetailError.Message) Then
               trans.Rollback()
@@ -1060,7 +1072,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                                                                                     New SqlParameter("@stock_cc", Me.CostCenter.Id))
             End If
             '==============================STOCKCOSTFIFO=========================================
-
+            '''พึ่งได้ Cost มา ต้อง refresh GL ใหม่
             ''==============================UPDATE PRITEM=========================================
             'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
             ''==============================UPDATE PRITEM=========================================
@@ -1154,14 +1166,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '-------------------------------GL----------------------------------------------------
             'Try
             '    trans = conn.BeginTransaction()
-            'Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+            Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
             If Me.m_je.Status.Value = -1 Then
               m_je.Status.Value = 3
             End If
             ''********************************************
-            'If Not Me.m_je.ManualFormat Then
-            '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
-            'End If
+            If Not Me.m_je.ManualFormat Then
+              m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            End If
             ''********************************************
             Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveJeError.Message) Then
@@ -1229,12 +1241,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
     Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+      
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
+        'Me.ItemCollection = New MatOperationWithdrawItemCollection(Me, True, conn, trans)
 
 
         '==============================UPDATE PRITEM=========================================
@@ -1258,6 +1271,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trans.Rollback()
         Return New SaveErrorException(ex.ToString)
       End Try
+
+    
+     
 
       trans.Commit()
       Return New SaveErrorException("0")

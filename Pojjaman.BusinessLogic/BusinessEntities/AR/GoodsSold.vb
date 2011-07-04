@@ -438,14 +438,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       '=============================================
 
-      If Not Me.JournalEntry.ManualFormat Then
-        'If Not (Me.m_je.GLFormat.Originated) Then
-        Dim glf As GLFormat = Me.GetDefaultGLFormat
-        If Not glf Is Nothing Then
-          m_je.SetGLFormat(Me.GetDefaultGLFormat)
-        End If
-        'End If
-      End If
+      'If Not Me.JournalEntry.ManualFormat Then
+      '  'If Not (Me.m_je.GLFormat.Originated) Then
+      '  Dim glf As GLFormat = Me.GetDefaultGLFormat
+      '  If Not glf Is Nothing Then
+      '    m_je.SetGLFormat(Me.GetDefaultGLFormat)
+      '  End If
+      '  'End If
+      'End If
 
       ValidateError = Me.Receive.BeforeSave(currentUserId)
       If Not IsNumeric(ValidateError.Message) Then
@@ -644,6 +644,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(SimpleBusinessEntityBase.ConnectionString)
         conn.Open()
+
+        Dim transbefore As SqlTransaction = conn.BeginTransaction
+        Try
+
+          ''==============================DELETE STOCKCOST=========================================
+          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+          If Me.Originated AndAlso Not Me.IsReferenced Then
+            SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+          End If
+          ''==============================DELETE STOCKCOST=========================================
+          transbefore.Commit()
+        Catch ex As Exception
+          transbefore.Rollback()
+          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+          Return New SaveErrorException(ex.InnerException.ToString)
+        End Try
+
         trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
@@ -680,12 +697,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
 
-            '==============================DeleteSTOCKCOST=========================================
-            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            If Me.Originated AndAlso Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-            End If
-            '==============================DeleteSTOCKCOST=========================================
+            ''==============================DeleteSTOCKCOST=========================================
+            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            'If Me.Originated AndAlso Not Me.IsReferenced Then
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+            'End If
+            ''==============================DeleteSTOCKCOST=========================================
 
             Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
             If Not IsNumeric(saveDetailError.Message) Then
@@ -846,14 +863,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             'Me.ItemCollection = New GoodsSoldItemCollection(Me, False)
             '********************************************
-            'If Not Me.JournalEntry.ManualFormat Then
-            '  'If Not (Me.m_je.GLFormat.Originated) Then
-            '  Dim glf As GLFormat = Me.GetDefaultGLFormat
-            '  If Not glf Is Nothing Then
-            '    m_je.SetGLFormat(Me.GetDefaultGLFormat)
-            '  End If
-            '  'End If
-            'End If
+            If Not Me.JournalEntry.ManualFormat Then
+              'If Not (Me.m_je.GLFormat.Originated) Then
+              Dim glf As GLFormat = Me.GetDefaultGLFormat
+              If Not glf Is Nothing Then
+                m_je.SetGLFormat(Me.GetDefaultGLFormat)
+              End If
+              'End If
+            End If
             '********************************************
             Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveJeError.Message) Then
