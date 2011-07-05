@@ -121,6 +121,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property ExternalForce As Boolean
+
     Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate
       Get
         Return m_docdate
@@ -334,11 +336,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 
-
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
-        If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
-          Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        If Not ExternalForce Then
+          If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
+            Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
+          End If
         End If
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
@@ -532,7 +535,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '  conn.Close()
           End Try
 
-          'Sub Save Block
+          '--Sub Save Block  ======================================
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
@@ -543,7 +546,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
-          'Sub Save Block
+          '--Sub Save Block  ======================================
 
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
@@ -553,14 +556,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
 
-    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+    Public Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
-          Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheck_ReceiveRef" _
-        , New SqlParameter("@refto_id", Me.Id))
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                        "UpdateCheck_ReceiveRef", _
+                                        New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                        "UpdateCheckDeposit_RefDocReceiveRef", _
+                                        New SqlParameter("@refto_id", Me.Id))
+        Dim saveerr As SaveErrorException = Me.UpdateCheckDeposit_IncomingCheckRef(conn, trans, 0, 0)
+        If Not IsNumeric(saveerr.Message) Then
+          Return saveerr
+        End If
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
@@ -572,6 +583,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans.Commit()
       Return New SaveErrorException("0")
 
+    End Function
+
+    Public Function UpdateCheckDeposit_IncomingCheckRef(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal entity_id As Integer, ByVal entity_type As Integer) As SaveErrorException
+
+      Try
+        If entity_id > 0 Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                                  "UpdateCheckDeposit_IncomingCheckRef", _
+                                                  New SqlParameter("@entity_id", entity_id), _
+                                                  New SqlParameter("@entity_type", entity_type), _
+                                                  New SqlParameter("@refto_id", Me.Id))
+        Else
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                                "UpdateCheckDeposit_IncomingCheckRef", _
+                                                New SqlParameter("@entity_idLIst", Me.GetItemIdList), _
+                                                New SqlParameter("@refto_id", Me.Id))
+        End If
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Return New SaveErrorException("0")
+
+    End Function
+
+    Public Function UpdateCheckDeposit_ReceiveRefRef(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal entity_id As Integer, ByVal entity_type As Integer) As SaveErrorException
+
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                                "UpdateCheckDeposit_ReceiveRefRef", _
+                                                New SqlParameter("@entity_id", entity_id), _
+                                                New SqlParameter("@entity_type", entity_type), _
+                                                New SqlParameter("@refto_id", Me.Id))
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Return New SaveErrorException("0")
+
+    End Function
+
+    Private Function GetItemIdList() As String
+      Dim listOfItem As New ArrayList
+
+      For Each tr As TreeRow In Me.ItemTable.Childs
+        If Me.ValidateRow(tr) Then
+          If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
+            If Not listOfItem.Contains(CStr(tr("cqupdatei_entity"))) Then
+              listOfItem.Add(CStr(tr("cqupdatei_entity")))
+            End If
+          End If
+        End If
+      Next
+
+      Return String.Join(",", listOfItem.ToArray)
     End Function
 
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
@@ -625,6 +692,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
+
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       With Me
         'If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
@@ -731,82 +799,157 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldje As Integer = m_je.Id
 
         Try
-          .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+          Try
+            .ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
 
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                'trans.Rollback()
-                Me.ResetID(oldid, oldje)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  'trans.Rollback()
+                  Me.ResetID(oldid, oldje)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              'trans.Rollback()
+              Me.ResetID(oldid, oldje)
+              Return New SaveErrorException("Save update check not success")
+            End If
+
+            Dim saveDetailError As SaveErrorException = SaveDetail(conn, trans)
+            If Not IsNumeric(saveDetailError.Message) OrElse CInt(saveDetailError.Message) < 0 Then
+              'trans.Rollback()
+              Return saveDetailError
+            End If
+
+            ' Save GL
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              'trans.Rollback()
+              ResetID(oldid, oldje)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  'trans.Rollback()
+                  ResetID(oldid, oldje)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              'trans.Rollback()
+              ResetID(oldid, oldje)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  'trans.Rollback()
+                  ResetID(oldid, oldje)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
+            'trans.Commit()
+            'Return New SaveErrorException(returnVal.Value.ToString)
+          Catch ex As SqlException
             'trans.Rollback()
             Me.ResetID(oldid, oldje)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-
-          Dim saveDetailError As SaveErrorException = SaveDetail(.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) OrElse CInt(saveDetailError.Message) < 0 Then
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
             'trans.Rollback()
-            Return saveDetailError
-          End If
+            Me.ResetID(oldid, oldje)
+            Return New SaveErrorException(ex.ToString)
+            'Finally
+            'conn.Close()
+          End Try
 
-          ' Save GL
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+          '                                      "UpdateCheck_ReceiveRef", _
+          '                                      New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+          '                                "UpdateCheckDeposit_RefDocReceivekRef", _
+          '                                New SqlParameter("@refto_id", Me.Id))
 
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            'trans.Rollback()
-            ResetID(oldid, oldje)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                'trans.Rollback()
-                ResetID(oldid, oldje)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
+          ''--Sub Save Block  ======================================
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSave(conn)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+          ''--Sub Save Block  ======================================
 
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
-            'trans.Rollback()
-            ResetID(oldid, oldje)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                'trans.Rollback()
-                ResetID(oldid, oldje)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
+          Return New SaveErrorException(returnVal.Value.ToString) 'Complete Save
 
-          'trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          'trans.Rollback()
-          Me.ResetID(oldid, oldje)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          'trans.Rollback()
-          Me.ResetID(oldid, oldje)
-          Return New SaveErrorException(ex.ToString)
-        Finally
-          'conn.Close()
+          Return New SaveErrorException(ex.InnerException.ToString)
         End Try
       End With
+    End Function
+    Private Function SaveDetail(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        Dim da As New SqlDataAdapter("Select * from CheckUpdateItem where cqupdatei_cqupdateid = " & Me.Id, conn)
+
+        Dim cmdBuilder As New SqlCommandBuilder(da)
+
+        Dim ds As New DataSet
+
+        da.SelectCommand.Transaction = trans
+        cmdBuilder.GetDeleteCommand.Transaction = trans
+        cmdBuilder.GetInsertCommand.Transaction = trans
+        cmdBuilder.GetUpdateCommand.Transaction = trans
+        da.Fill(ds, "CheckUpdateItem")
+
+        UpdateOldItemStatus(conn, trans)
+
+        Dim dbCount As Integer = ds.Tables("CheckUpdateItem").Rows.Count
+        Dim itemCount As Integer = Me.ItemTable.Childs.Count
+        With ds.Tables("CheckUpdateItem")
+          For Each row As DataRow In .Rows
+            row.Delete()
+          Next
+          Dim i As Integer = 0
+          For n As Integer = 0 To Me.MaxRowIndex
+            Dim row As TreeRow = Me.m_itemTable.Childs(n)
+            If ValidateRow(row) Then
+              Dim item As New UpdateCheckDepositItem
+              item.CopyFromDataRow(row)
+              i += 1
+              Dim dr As DataRow = .NewRow
+              dr("cqupdatei_cqupdateid") = Me.Id
+              dr("cqupdatei_linenumber") = i
+              dr("cqupdatei_entity") = item.Entity.Id
+              dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
+              .Rows.Add(dr)
+
+              ' update IncomingCheck ...
+              'UpdateCheckStatus(item.Entity.Id, conn, trans)
+            End If
+          Next
+        End With
+        Dim dt As DataTable = ds.Tables("CheckUpdateItem")
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
     End Function
     Private Function UpdateOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, Optional ByVal changeAll As Boolean = False) As SaveErrorException
       Dim daOldRef As New SqlDataAdapter("select * from incomingcheck " & _
@@ -1222,7 +1365,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim item As New UpdateCheckDepositItem
               item.CopyFromDataRow(row)
               '0=ยกเลิก , 1=เช็คในมือ , 2=เช็คผ่าน , 3=เช็คนำฝาก , 4=เช็คขายลด , 5=เช็คคืน , 6=เปลี่ยนเช็ครับ
-              If Not item.Entity Is Nothing AndAlso item.Entity.DocStatus.Value <> 3 Then
+              If Not item.Entity Is Nothing AndAlso (item.Entity.DocStatus.Value = 0 OrElse item.Entity.DocStatus.Value = 2) Then
                 If Referenced.Length > 0 Then
                   Referenced += "," & item.Entity.Code
                 Else

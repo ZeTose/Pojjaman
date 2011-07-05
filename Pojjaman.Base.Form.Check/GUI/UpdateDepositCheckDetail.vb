@@ -757,9 +757,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each ctrl As Control In grbMaster.Controls
           ctrl.Enabled = False
         Next
+        Me.tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = True
+        Next
       Else
         For Each ctrl As Control In grbMaster.Controls
           ctrl.Enabled = True
+        Next
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = False
         Next
       End If
 

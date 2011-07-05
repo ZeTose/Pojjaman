@@ -589,6 +589,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End Select
             End If
 
+            'Dim savePaymentError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)
+            'If Not IsNumeric(savePaymentError.Message) Then
+            '  trans.Rollback()
+            '  Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            '  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen, oldvatautogen)
+            '  Return savePaymentError
+            'Else
+            '  Select Case CInt(savePaymentError.Message)
+            '    Case -1, -2, -5
+            '      trans.Rollback()
+            '      Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            '      ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen, oldvatautogen)
+            '      Return savePaymentError
+            '    Case Else
+            '  End Select
+            'End If
+
             'Me.DeleteRef(conn, trans)
             'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGS_ReceiveSRef" _
             ', New SqlParameter("@receives_id", Me.Id))
@@ -660,12 +677,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
-            Return New SaveErrorException(returnVal.Value.ToString)
-            'Complete Save
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
+
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSave3(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
           '--Sub Save-- =================================
+
+          Return New SaveErrorException(returnVal.Value.ToString) 'Save complete and success
 
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
@@ -714,6 +749,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave2(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        'm_receive.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans2, m_receive.DocDate)
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave3(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans3 As SqlTransaction = conn.BeginTransaction
+      Try
+        'm_receive.AutoSaveUpdateCheckDeposit(currentUserId, m_receive.DocDate)
+      Catch ex As Exception
+        trans3.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans3.Commit()
 
       Return New SaveErrorException("0")
     End Function

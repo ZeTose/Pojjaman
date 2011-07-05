@@ -52,6 +52,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_debitCollection As ReceiveAccountItemCollection
     Private m_creditCollection As ReceiveAccountItemCollection
+
+    'Private m_itemSavedCheckHash As Hashtable
+    Private m_oldReceiveItemList As List(Of ReceiveItem)
 #End Region
 
 #Region "Constructors"
@@ -135,6 +138,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .receive_refDoc.Date = Date.MinValue
         .receive_refDoc.Code = ""
         .receive_status = New ReceiveStatus(-1)
+        Me.LoadOldReceievItem()
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -199,6 +203,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .receive_ccId = CInt(dr(aliasPrefix & "receive_cc"))
           End If
 
+          IsRefenceByCheckDeposit = Me.GetCheckDepositRef
         Catch ex As Exception
         End Try
       End With
@@ -210,6 +215,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    ' ''' <summary>
+    ' ''' !!! ItemSavedCheckHash : จะเกิด Collection ของ Check หลังจาก Save แล้วเท่านั้น
+    ' ''' </summary>
+    ' ''' <value></value>
+    ' ''' <returns></returns>
+    ' ''' <remarks></remarks>
+    'Public ReadOnly Property ItemSavedCheckHash As Hashtable
+    '  Get
+    '    If m_itemSavedCheckHash Is Nothing Then
+    '      m_itemSavedCheckHash = New Hashtable
+    '    End If
+    '    Return m_itemSavedCheckHash
+    '  End Get
+    'End Property
+    Public Property IsRefenceByCheckDeposit As Boolean
     Public ReadOnly Property Maindoc() As ISimpleEntity Implements IHasMainDoc.MainDoc
       Get
         Return CType(receive_refDoc, ISimpleEntity)
@@ -383,7 +403,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
       End If
-    
+
 
 
       Return New SaveErrorException("0")
@@ -402,7 +422,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  End If
         'Next
 
-       
+
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
@@ -524,11 +544,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End While
       Return newCode
     End Function
+    Private Function GetItemCheckListFromOldItems() As String
+      Dim checkList As New ArrayList
+      For Each item As ReceiveItem In Me.m_oldReceiveItemList
+        If TypeOf item.Entity Is IncomingCheck Then
+          checkList.Add(item.Entity.Id)
+        End If
+      Next
+      Return String.Join(",", checkList.ToArray)
+    End Function
+    Private Function GetItemAdvanceReceiveListFromOldItems() As String
+      Dim advList As New ArrayList
+      For Each item As ReceiveItem In Me.m_oldReceiveItemList
+        If TypeOf item.Entity Is AdvanceReceive Then
+          advList.Add(item.Entity.Id)
+        End If
+      Next
+      Return String.Join(",", advList.ToArray)
+    End Function
     Private Sub ChangeItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
         Return
       End If
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateReceiveItemEntityStatus", New SqlParameter("@receive_id", Me.Id))
+      'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateReceiveItemEntityStatus", New SqlParameter("@receive_id", Me.Id))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheckStatusFromItems", _
+                                New SqlParameter("@receive_id", Me.Id), _
+                                New SqlParameter("@checkItemList", Me.GetItemCheckListFromOldItems))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAdvanceReceiveStatusFromItems", _
+                                New SqlParameter("@receive_id", Me.Id), _
+                                New SqlParameter("@advrItemList", Me.GetItemAdvanceReceiveListFromOldItems))
     End Sub
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
       Try
@@ -564,69 +608,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Case 0         'สด
                   dr("receivei_duedate") = itemRow("DueDate")
                 Case 27        'เช็ครับ
-                  Dim check As New IncomingCheck
-                  If CInt(itemRow("receivei_entity")) = 0 Then
-                    check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
-                    check.beforeCode = CurrentCheckCode
-                    check.DocDate = Me.DocDate
-                    If Not itemRow.IsNull("receivei_amt") Then
-                      check.Amount = CDec(itemRow("receivei_amt"))
-                    End If
-                    If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
-                      check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
-                      check.Bank = check.BankAccount.BankBranch.Bank
-                      check.CustBankBranch = check.BankAccount.BankBranch.Name
-                    End If
+                  'Dim check As New IncomingCheck
+                  'Dim isOldCheck As Boolean
+                  'If CInt(itemRow("receivei_entity")) = 0 Then
+                  '  check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
+                  '  check.beforeCode = CurrentCheckCode
+                  '  check.DocDate = Me.DocDate
+                  '  If Not itemRow.IsNull("receivei_amt") Then
+                  '    check.Amount = CDec(itemRow("receivei_amt"))
+                  '  End If
+                  '  If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                  '    check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                  '    check.Bank = check.BankAccount.BankBranch.Bank
+                  '    check.CustBankBranch = check.BankAccount.BankBranch.Name
+                  '  End If
 
-                    Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
-                    If Not IsNumeric(checkSaveError.Message) Then
-                      Return checkSaveError
-                    Else
-                      Select Case CInt(checkSaveError.Message)
-                        Case -1, -5
-                          Return New SaveErrorException(checkSaveError.Message)
-                        Case -2
-                          Return New SaveErrorException(checkSaveError.Message)
-                        Case Else
-                      End Select
-                    End If
+                  '  Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
+                  '  If Not IsNumeric(checkSaveError.Message) Then
+                  '    Return checkSaveError
+                  '  Else
+                  '    Select Case CInt(checkSaveError.Message)
+                  '      Case -1, -5
+                  '        Return New SaveErrorException(checkSaveError.Message)
+                  '      Case -2
+                  '        Return New SaveErrorException(checkSaveError.Message)
+                  '      Case Else
+                  '    End Select
+                  '  End If
 
-                    Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
-                    If Not IsNumeric(errCheck.Message) Then
-                      Return New SaveErrorException(errCheck.Message)
-                    End If
+                  '  'Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
+                  '  'If Not IsNumeric(errCheck.Message) Then
+                  '  '  Return New SaveErrorException(errCheck.Message)
+                  '  'End If
 
-                    CurrentCheckCode = check.Code
-                  Else
+                  '  'check.IsOldCheck = False
+                  '  CurrentCheckCode = check.Code
+                  'Else
 
-                    check.Id = CInt(itemRow("receivei_entity"))
-                    check.DocDate = Me.DocDate
-                    If Not itemRow.IsNull("receivei_amt") Then
-                      check.Amount = CDec(itemRow("receivei_amt"))
-                    End If
-                    If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
-                      check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
-                      If Not check.BankAccount.BankBranch Is Nothing Then
-                        If Not check.BankAccount.BankBranch.Bank Is Nothing Then
-                          check.Bank = check.BankAccount.BankBranch.Bank
-                        End If
-                        check.CustBankBranch = check.BankAccount.BankBranch.Name
-                      End If
-                    End If
-                    If Not itemRow.IsNull("receivei_oldbankacct") AndAlso IsNumeric(itemRow("receivei_oldbankacct")) Then
-                      check.OldBankAccount = New BankAccount(CInt(itemRow("receivei_oldbankacct")))
-                    End If
-                    Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate, True)
-                    If Not IsNumeric(errCheck.Message) Then
-                      Return New SaveErrorException(errCheck.Message)
-                    End If
+                  '  check.Id = CInt(itemRow("receivei_entity"))
+                  '  'check.DocDate = Me.DocDate
+                  '  'If Not itemRow.IsNull("receivei_amt") Then
+                  '  '  check.Amount = CDec(itemRow("receivei_amt"))
+                  '  'End If
+                  '  If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                  '    check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                  '    If Not check.BankAccount.BankBranch Is Nothing Then
+                  '      If Not check.BankAccount.BankBranch.Bank Is Nothing Then
+                  '        check.Bank = check.BankAccount.BankBranch.Bank
+                  '      End If
+                  '      check.CustBankBranch = check.BankAccount.BankBranch.Name
+                  '    End If
+                  '  End If
+                  '  'If Not itemRow.IsNull("receivei_oldbankacct") AndAlso IsNumeric(itemRow("receivei_oldbankacct")) Then
+                  '  '  check.OldBankAccount = New BankAccount(CInt(itemRow("receivei_oldbankacct")))
+                  '  'End If
 
-                  End If
-                  If Not check.Originated Then
-                    Return New SaveErrorException("Cannot Save Check 2")
-                  End If
-                  dr("receivei_entity") = check.Id
-                  'dr("receivei_bankacct") = itemRow("receivei_bankacct")
+                  '  'check.AutoGen = False
+                  '  'Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
+                  '  'If Not IsNumeric(checkSaveError.Message) Then
+                  '  '  Return checkSaveError
+                  '  'Else
+                  '  '  Select Case CInt(checkSaveError.Message)
+                  '  '    Case -1, -5
+                  '  '      Return New SaveErrorException(checkSaveError.Message)
+                  '  '    Case -2
+                  '  '      Return New SaveErrorException(checkSaveError.Message)
+                  '  '    Case Else
+                  '  '  End Select
+                  '  'End If
+
+                  '  'Dim m_checkDictionary As New Dictionary(Of Integer, IncomingCheck)
+
+                  '  Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
+                  '  If Not IsNumeric(errCheck.Message) Then
+                  '    Return New SaveErrorException(errCheck.Message)
+                  '  End If
+
+                  '  'check.IsOldCheck = True
+                  'End If
+                  'If Not check.Originated Then
+                  '  Return New SaveErrorException("Cannot Save Check 2")
+                  'End If
+                  'dr("receivei_entity") = check.Id
+                  'If Not ItemSavedCheckHash.ContainsKey(check.Id) Then
+                  '  ItemSavedCheckHash(check.Id) = check
+                  'End If
+                  dr("receivei_entity") = itemRow("receivei_entity")
+                  dr("receivei_duedate") = itemRow("duedate")
+                  dr("receivei_bankacct") = itemRow("receivei_bankacct")
                 Case 71        'มัดจำ
                   dr("receivei_entity") = itemRow("receivei_entity")
                 Case 72        'โอน
@@ -698,6 +767,251 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
       Return New SaveErrorException("0")
     End Function
+    Public Function AutoGenerateCheck(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Dim CurrentCheckCode As String = ""
+      For n As Integer = 0 To Me.MaxRowIndex
+        Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
+        If ValidateRow(itemRow) Then
+          Select Case CInt(itemRow("receivei_entityType"))
+            Case 27  'เช็ครับ
+              Dim check As New IncomingCheck
+              Dim isOldCheck As Boolean
+              If CInt(itemRow("receivei_entity")) = 0 OrElse itemRow.IsNull("receivei_entity") Then
+
+                check = ReceiveItem.GetNewCheckFromitemRow(itemRow, Me)
+                check.beforeCode = CurrentCheckCode
+                check.DocDate = Me.DocDate
+                If Not itemRow.IsNull("receivei_amt") Then
+                  check.Amount = CDec(itemRow("receivei_amt"))
+                End If
+                If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                  check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                  check.Bank = check.BankAccount.BankBranch.Bank
+                  check.CustBankBranch = check.BankAccount.BankBranch.Name
+                End If
+
+                Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
+                If Not IsNumeric(checkSaveError.Message) Then
+                  Return checkSaveError
+                Else
+                  Select Case CInt(checkSaveError.Message)
+                    Case -1, -5
+                      Return New SaveErrorException(checkSaveError.Message)
+                    Case -2
+                      Return New SaveErrorException(checkSaveError.Message)
+                    Case Else
+                  End Select
+                End If
+                CurrentCheckCode = check.Code
+
+                itemRow("receivei_entity") = check.Id
+              Else
+
+                check.Id = CInt(itemRow("receivei_entity"))
+                If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                  check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                  If Not check.BankAccount.BankBranch Is Nothing Then
+                    If Not check.BankAccount.BankBranch.Bank Is Nothing Then
+                      check.Bank = check.BankAccount.BankBranch.Bank
+                    End If
+                    check.CustBankBranch = check.BankAccount.BankBranch.Name
+                  End If
+                End If
+                Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
+                If Not IsNumeric(errCheck.Message) Then
+                  Return New SaveErrorException(errCheck.Message)
+                End If
+
+              End If
+            Case Else
+          End Select
+        End If
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
+    Public Function AutoGenerateUpdateDepositCheck(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Dim ds As DataSet = Me.GetCheckReceiveItemFromDB(conn, trans)
+      For Each drow As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(drow)
+        If drh.GetValue(Of Integer)("cqupdatei_entity") = 0 Then
+          Dim check As New IncomingCheck(drow, "")
+
+          Dim upd As New UpdateCheckDeposit
+          upd.AutoGen = True
+
+          Dim cmbCode As New ComboBox
+          BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
+          If cmbCode.Items.Count > 0 Then
+            upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
+            cmbCode.SelectedIndex = 0
+            upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
+          End If
+
+          upd.DocDate = check.DocDate
+          upd.BankAccount = check.BankAccount
+          upd.TotalAmount = check.Amount
+
+          Dim upditem As New UpdateCheckDepositItem
+          upditem.BeforeStatus = New IncomingCheckDocStatus(1)
+          upditem.Entity = check
+          upditem.LineNumber = 1
+          upd.Add(upditem)
+
+          'upd.ExternalForce = True
+          Dim saveerr As SaveErrorException = upd.Save(currentUserId, conn, trans)
+          If Not IsNumeric(saveerr.Message) Then
+            Return New SaveErrorException(saveerr.Message)
+          End If
+          Dim saveerr2 As SaveErrorException = upd.UpdateCheckDeposit_IncomingCheckRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
+          If Not IsNumeric(saveerr2.Message) Then
+            Return New SaveErrorException(saveerr2.Message)
+          End If
+          Dim saveerr3 As SaveErrorException = upd.UpdateCheckDeposit_ReceiveRefRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
+          If Not IsNumeric(saveerr3.Message) Then
+            Return New SaveErrorException(saveerr3.Message)
+          End If
+        End If
+
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
+    'Public Function UpdateCheckDeposit_IncomingCheckRef(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheckDeposit_IncomingCheckRef", New SqlParameter("@entity_id", Me.RefDoc.Id), New SqlParameter("@entity_type", CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId))
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.InnerException.ToString)
+    '  End Try
+    '  Return New SaveErrorException("0")
+    'End Function
+    Private Function GetCheckReceiveItemFromDB(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans, CommandType.StoredProcedure, "GetCheckReceiveItemFromDB", New SqlParameter("@receive_id", Me.Id))
+      Return ds
+    End Function
+    Private Function GetCheckDepositRef() As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetCheckDepositRef", New SqlParameter("@receive_id", Me.Id))
+      If Not ds.Tables(0).Rows(0).IsNull(0) Then
+        Return CBool(ds.Tables(0).Rows(0)(0))
+      End If
+      Return False
+    End Function
+    Private Sub LoadOldReceievItem()
+      m_oldReceiveItemList = New List(Of ReceiveItem)
+      For i As Integer = 0 To Me.MaxRowIndex
+        Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
+        If ValidateRow(itemRow) Then
+          Dim item As New ReceiveItem
+          item.CopyFromDataRow(itemRow)
+          'Dim itIsCash As Boolean = (TypeOf item.Entity Is CashItem)
+          m_oldReceiveItemList.Add(item)
+        End If
+      Next
+    End Sub
+    ''' <summary>
+    ''' !!!CheckUpdateBackAccountAndCheckDeposit ไม่ค่อยอยากใช้ pattern นี้สักเท่าไหร่ แต่ design เก่าบังคับให้ทำ ฉะนั้น Funcion นี้สงวนไว้สำหรับ SubSave อย่างเดียวเพราะมี ตัวแปรบางตัวที่จะมี value ได้ต้องผ่านsub savedetail มาก่อน
+    ''' </summary>
+    ''' <param name="currentUserId"></param>
+    ''' <param name="conn"></param>
+    ''' <param name="trans"></param>
+    ''' <param name="receiveDate"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    'Public Function CheckUpdateBackAccountAndCheckDeposit(ByVal currentUserId As Integer, _
+    '                                                      ByVal conn As System.Data.SqlClient.SqlConnection, _
+    '                                                      ByVal trans As System.Data.SqlClient.SqlTransaction, _
+    '                                                      ByVal receiveDate As DateTime) As SaveErrorException
+    'If ItemSavedCheckHash Is Nothing Then
+    '  Return New SaveErrorException("o")
+    'End If
+
+    'For Each check As IncomingCheck In ItemSavedCheckHash.Values
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+    '                       "CheckUpdateBackAccountAndCheckDeposit", _
+    '                       New SqlParameter() {New SqlParameter("@check_id", check.Id), _
+    '                                           New SqlParameter("@check_bankacct", SimpleBusinessEntityBase.ValidIdOrDBNull(check.BankAccount)), _
+    '                                           New SqlParameter("@check_bank", SimpleBusinessEntityBase.ValidIdOrDBNull(check.Bank)), _
+    '                                           New SqlParameter("@check_custbankbranch", check.CustBankBranch), _
+    '                                           New SqlParameter("@check_receivedate", receiveDate), _
+    '                                           New SqlParameter("@check_amt", check.Amount), _
+    '                                           New SqlParameter("@check_lasteditor", currentUserId), _
+    '                                           New SqlParameter("@isOldCheck", check.IsOldCheck)})
+
+    '  Catch ex As SqlException
+    '    Return New SaveErrorException(ex.Message)
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.Message)
+    '  End Try
+    'Next
+
+    '  Return New SaveErrorException("1")
+
+    'End Function
+    ''' <summary>
+    ''' !!!AutoSaveUpdateCheckDeposit ไม่ค่อยอยากใช้ pattern นี้สักเท่าไหร่ แต่ design เก่าบังคับให้ทำ ฉะนั้น Funcion นี้สงวนไว้สำหรับ SubSave อย่างเดียวเพราะมี ตัวแปรบางตัวที่จะมี value ได้ต้องผ่านsub savedetail มาก่อน
+    ''' </summary>
+    ''' <param name="currentUserId"></param>
+    ''' <param name="conn"></param>
+    ''' <param name="trans"></param>
+    ''' <param name="receiveDate"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    'Public Function AutoSaveUpdateCheckDeposit(ByVal currentUserId As Integer, _
+    '                                           ByVal receiveDate As DateTime) As SaveErrorException
+    'ByVal conn As System.Data.SqlClient.SqlConnection, _
+    'ByVal trans As System.Data.SqlClient.SqlTransaction, _
+    'ByVal receiveDate As DateTime) As SaveErrorException
+    'If ItemSavedCheckHash Is Nothing Then
+    '  Return New SaveErrorException("o")
+    'End If
+
+    'For Each check As IncomingCheck In ItemSavedCheckHash.Values
+    '  Try
+    '    If Not check.BankAccount Is Nothing AndAlso check.BankAccount.Originated Then
+    '      'If check.BankAccount.Id <> check.OldBankAccount.Id Then
+    '      If Not check.GetUpdateCheckDepositRight() Then
+
+    '        Dim upd As New UpdateCheckDeposit
+    '        upd.AutoGen = True
+
+    '        Dim cmbCode As New ComboBox
+    '        BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
+    '        If cmbCode.Items.Count > 0 Then
+    '          upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
+    '          cmbCode.SelectedIndex = 0
+    '          upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
+    '        End If
+
+    '        upd.DocDate = check.DocDate
+    '        upd.BankAccount = check.BankAccount
+    '        upd.TotalAmount = check.Amount
+
+    '        Dim upditem As New UpdateCheckDepositItem
+    '        upditem.BeforeStatus = New IncomingCheckDocStatus(1)
+    '        upditem.Entity = check
+    '        upditem.LineNumber = 1
+    '        upd.Add(upditem)
+
+    '        upd.ExternalForce = True
+    '        Dim saveerr As SaveErrorException = upd.Save(currentUserId)
+    '        If Not IsNumeric(saveerr.Message) Then
+    '          Return New SaveErrorException(saveerr.Message)
+    '        End If
+    '      End If
+    '      'End If
+    '    End If
+
+    '  Catch ex As SqlException
+    '    Return New SaveErrorException(ex.Message)
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.Message)
+    '  End Try
+    'Next
+
+    '  Return New SaveErrorException("1")
+
+    'End Function
 #End Region
 
 #Region "Items"
@@ -705,6 +1019,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.IsInitialized = False
       m_itemTable = GetSchemaTable()
       LoadItems()
+      LoadOldReceievItem()
       Me.IsInitialized = True
     End Sub
     Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)

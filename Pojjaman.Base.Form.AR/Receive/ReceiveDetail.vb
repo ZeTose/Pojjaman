@@ -1053,6 +1053,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_receive As Receive
 
     Private m_tableStyleEnable As Hashtable
+    Private m_checkDepositReferenced As Boolean
 #End Region
 
 #Region "Constructors"
@@ -1249,7 +1250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "IListDetail"
     Public Overrides Sub CheckFormEnable()
-      If (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value >= 4) OrElse Me.m_entity.Canceled Then
+      If (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value >= 4) OrElse Me.m_entity.Canceled OrElse m_checkDepositReferenced Then
         SetEnabledControls(False)
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
@@ -1514,6 +1515,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               m_receive.RefDoc.Receive = m_receive
             End If
             m_receive.RefDoc = receiveRefDoc
+
+            m_checkDepositReferenced = m_receive.IsRefenceByCheckDeposit
           End If
         End If
         If Not Me.m_receive Is Nothing Then

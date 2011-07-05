@@ -1042,8 +1042,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim filters(1) As Filter
       filters(0) = New Filter("IDList", GenIDListFromDataTable())
       filters(1) = New Filter("spacial_status", IIf(cmbStatus.SelectedIndex = 0, 0, DBNull.Value))
+      'filters(2) = New Filter("Caller", Me.m_entity.EntityId)
 
-      myEntityPanelService.OpenListDialog(New IncomingCheck, AddressOf SetCheckItems, filters, entities)
+      myEntityPanelService.OpenListDialog(New IncomingCheckForCheckUpdateSelection, AddressOf SetCheckItems, filters, entities)
+      'myEntityPanelService.OpenListDialog(New IncomingCheckForCheckUpdateSelection, AddressOf SetCheckItems)
     End Sub
     Private Function GenIDListFromDataTable() As String
       Dim idlist As String = ""

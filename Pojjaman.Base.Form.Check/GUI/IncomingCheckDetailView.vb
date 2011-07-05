@@ -824,8 +824,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           OrElse Me.m_entity.Status.Value = 0 _
           OrElse Me.m_entity.Status.Value > 3 _
           OrElse Me.m_entity.DocStatus.Value = 0 _
-          OrElse Me.m_entity.DocStatus.Value = 2 _
-          OrElse Me.m_entity.DocStatus.Value > 3 Then
+          OrElse Me.m_entity.DocStatus.Value >= 2 Then
+        'OrElse Me.m_entity.DocStatus.Value > 3 Then
         For Each crlt As Control In grbIncomingCheck.Controls
           crlt.Enabled = False
         Next
