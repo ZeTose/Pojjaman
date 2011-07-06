@@ -459,7 +459,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
-        trans = conn.BeginTransaction()
 
         'HACK================================
         SimpleBusinessEntityBase.Connection = conn
@@ -475,6 +474,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         Try
+          Try
+            '--Generate Check--==================================================
+            '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
+            Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          trans = conn.BeginTransaction()
+
           Try
             Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
             If IsNumeric(returnVal.Value) Then
@@ -681,14 +693,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(ex.ToString)
           End Try
 
-          'Try
-          '  Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
-          '  If Not IsNumeric(subsaveerror.Message) Then
-          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
-          '  End If
-          'Catch ex As Exception
-          '  Return New SaveErrorException(ex.ToString)
-          'End Try
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
 
           'Try
           '  Dim subsaveerror As SaveErrorException = SubSave3(conn, currentUserId)
@@ -753,12 +765,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
     End Function
 
-    Private Function SubSave2(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+    Private Function SubSaveFirst(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans2 As SqlTransaction = conn.BeginTransaction
       Try
-        'm_receive.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans2, m_receive.DocDate)
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
       Catch ex As Exception
         trans2.Rollback()
         Return New SaveErrorException(ex.InnerException.ToString)
@@ -769,18 +784,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
     End Function
 
-    Private Function SubSave3(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+    Private Function SubSave2(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
 
-      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
-      Dim trans3 As SqlTransaction = conn.BeginTransaction
+      ''ใช้ connection ใหม่ transaction ใหม่ของ update deposit check เอง
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
       Try
-        'm_receive.AutoSaveUpdateCheckDeposit(currentUserId, m_receive.DocDate)
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateUpdateDepositCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
       Catch ex As Exception
-        trans3.Rollback()
+        trans2.Rollback()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
-      trans3.Commit()
+      trans2.Commit()
 
       Return New SaveErrorException("0")
     End Function

@@ -948,15 +948,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(ex.ToString)
           End Try
 
-          Try
-            '--Generate Deposit Check--====================================
-            Dim subsaveerror As SaveErrorException = SubSave3(conn, currentUserId)
-            If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
-            End If
-          Catch ex As Exception
-            Return New SaveErrorException(ex.ToString)
-          End Try
           '--Sub Save-- ========================================
 
           Return New SaveErrorException(returnVal.Value.ToString) 'Complete Save
@@ -1023,25 +1014,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans2.Commit()
-
-      Return New SaveErrorException("0")
-    End Function
-
-    Private Function SubSave3(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
-
-      ''======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
-      'Dim trans3 As SqlTransaction = conn.BeginTransaction
-      'Try
-      '  Dim subsaveerror As SaveErrorException = m_receive.UpdateRefReceive2_DepositCheck(conn, trans3)
-      '  If Not IsNumeric(subsaveerror.Message) Then
-      '    Return New SaveErrorException(" Save Incomplete Please Save Again")
-      '  End If
-      'Catch ex As Exception
-      '  trans3.Rollback()
-      '  Return New SaveErrorException(ex.InnerException.ToString)
-      'End Try
-
-      'trans3.Commit()
 
       Return New SaveErrorException("0")
     End Function

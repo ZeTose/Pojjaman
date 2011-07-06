@@ -419,7 +419,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
-        trans = conn.BeginTransaction()
+
 
         Dim oldid As Integer = Me.Id
         Dim oldreceive As Integer = m_receive.Id
@@ -430,95 +430,100 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldje As Integer = m_je.Id
 
         Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetID(oldid, oldreceive, oldvat, oldje)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldreceive, oldvat, oldje)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
+          Try
+            '--Generate Check--==================================================
+            '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
+            Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
 
-          'ChangeOldItemStatus(conn, trans)
-          Dim saveItemError As SaveErrorException = Me.SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveItemError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldreceive, oldvat, oldje)
-            Return saveItemError
-          Else
-            Select Case CInt(saveItemError.Message)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetID(oldid, oldreceive, oldvat, oldje)
-                Return saveItemError
-              Case Else
-            End Select
-          End If
-          'ChangeNewItemStatus(conn, trans)
-          If Not Me.FromCostCenter Is Nothing Then
-            Me.m_receive.CcId = Me.FromCostCenter.Id
-            Me.m_whtcol.SetCCId(Me.FromCostCenter.Id)
-            Me.m_vat.SetCCId(Me.FromCostCenter.Id)
-          End If
-          Dim savePaymentError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)
-          If Not IsNumeric(savePaymentError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldreceive, oldvat, oldje)
-            Return savePaymentError
-          Else
-            Select Case CInt(savePaymentError.Message)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetID(oldid, oldreceive, oldvat, oldje)
-                Return savePaymentError
-              Case Else
-            End Select
-          End If
-          Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveVatError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldreceive, oldvat, oldje)
-            Return saveVatError
-          Else
-            Select Case CInt(saveVatError.Message)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetID(oldid, oldreceive, oldvat, oldje)
-                Return saveVatError
-              Case Else
-            End Select
-          End If
-
-          If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
-            Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveWhtError.Message) Then
-              trans.Rollback()
-              ResetID(oldid, oldreceive, oldvat, oldje)
-              Return saveWhtError
-            Else
-              Select Case CInt(saveWhtError.Message)
-                Case -1, -2, -5
+          trans = conn.BeginTransaction()
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2
                   trans.Rollback()
-                  ResetID(oldid, oldreceive, oldvat, oldje)
-                  Return saveWhtError
+                  Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+            'ChangeOldItemStatus(conn, trans)
+            Dim saveItemError As SaveErrorException = Me.SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveItemError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              Return saveItemError
+            Else
+              Select Case CInt(saveItemError.Message)
+                Case -1, -2
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  Return saveItemError
                 Case Else
               End Select
             End If
-          End If
+            'ChangeNewItemStatus(conn, trans)
+            If Not Me.FromCostCenter Is Nothing Then
+              Me.m_receive.CcId = Me.FromCostCenter.Id
+              Me.m_whtcol.SetCCId(Me.FromCostCenter.Id)
+              Me.m_vat.SetCCId(Me.FromCostCenter.Id)
+            End If
+            Dim savePaymentError As SaveErrorException = Me.m_receive.Save(currentUserId, conn, trans)
+            If Not IsNumeric(savePaymentError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              Return savePaymentError
+            Else
+              Select Case CInt(savePaymentError.Message)
+                Case -1, -2
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  Return savePaymentError
+                Case Else
+              End Select
+            End If
+            Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveVatError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              Return saveVatError
+            Else
+              Select Case CInt(saveVatError.Message)
+                Case -1, -2
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                  Return saveVatError
+                Case Else
+              End Select
+            End If
 
-          Me.DeleteRef(conn, trans)
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
-          trans.Commit()
-          Try
-            trans = conn.BeginTransaction()
+            If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
+              Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveWhtError.Message) Then
+                trans.Rollback()
+                ResetID(oldid, oldreceive, oldvat, oldje)
+                Return saveWhtError
+              Else
+                Select Case CInt(saveWhtError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    ResetID(oldid, oldreceive, oldvat, oldje)
+                    Return saveWhtError
+                  Case Else
+                End Select
+              End If
+            End If
 
 
             If Me.m_je.Status.Value = -1 Then
@@ -553,28 +558,107 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Case Else
               End Select
             End If
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetSoldStatus" _
-            , New SqlParameter("@stock_id", Me.Id))
 
             trans.Commit()
+          Catch ex As SqlException
+            trans.Rollback()
+            Me.ResetID(oldid, oldreceive, oldvat, oldje)
+            Return New SaveErrorException(ex.ToString)
           Catch ex As Exception
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
             Return New SaveErrorException(ex.ToString)
+            'Finally
+            '  conn.Close()
           End Try
+
+          '--Sub Save-- ========================================
+          Try
+            '--Generate Check--==================================================
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            '--Generate Check--==================================================
+            Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save-- ========================================
+
           Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid, oldreceive, oldvat, oldje)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid, oldreceive, oldvat, oldje)
-          Return New SaveErrorException(ex.ToString)
-        Finally
-          conn.Close()
+
         End Try
+
       End With
+    End Function
+
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Me.DeleteRef(conn, trans)
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetSoldStatus" _
+  , New SqlParameter("@stock_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSaveFirst(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave2(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      ''ใช้ connection ใหม่ transaction ใหม่ของ update deposit check เอง
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateUpdateDepositCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
     End Function
     Private Sub ChangeOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
