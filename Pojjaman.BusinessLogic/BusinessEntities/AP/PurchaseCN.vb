@@ -914,47 +914,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               WitholdingTax.DeleteFromRefDoc(Me.Id, Me.EntityId, conn, trans)
             End If
 
-            'Me.DeleteRef(conn, trans)
-            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateVat_PCNRef" _
-            ', New SqlParameter("@stock_id", Me.Id))
-            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
-            ', New SqlParameter("@refto_id", Me.Id))
-            'If Me.Status.Value = 0 Then
-            '  Me.CancelRef(conn, trans)
-            'End If
-            'trans.Commit()
-            'Try
-            'trans = conn.BeginTransaction()
+            
 
-            If Me.m_je.Status.Value = -1 Then
-              m_je.Status.Value = 3
-            End If
-            'Me.m_grouping = False
-            'Me.ReLoadItems()
-            ''********************************************
-            If Not Me.JournalEntry.ManualFormat Then
-              m_je.SetGLFormat(Me.GetDefaultGLFormat)
-            End If
-            ''********************************************
-            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveJeError.Message) Then
-              trans.Rollback()
-              Me.ResetID(oldid, oldreceive, oldvat, oldje)
-              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-              Return saveJeError
-            Else
-              Select Case CInt(saveJeError.Message)
-                Case -1, -5
-                  trans.Rollback()
-                  Me.ResetID(oldid, oldreceive, oldvat, oldje)
-                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                  Return saveJeError
-                Case -2
-                  'Post ไปแล้ว
-                  Return saveJeError
-                Case Else
-              End Select
-            End If
+           
 
             '==============================AUTOGEN==========================================
             Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
@@ -975,19 +937,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============================AUTOGEN==========================================
 
-            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
 
             trans.Commit()
-            'Catch ex As Exception
-            '  trans.Rollback()
-            '  Me.ResetID(oldid, oldreceive, oldvat, oldje)
-            '  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            '  Return New SaveErrorException(ex.ToString)
-            'End Try
-            'If Not Me.IsDirty AndAlso returnVal.Value.ToString = "-2" Then                  'ถ้าเอกสารไม่ถูกแก้ไข --> ให้ save
-            '  Return New SaveErrorException(Me.Id.ToString)
-            'End If
-            'Return New SaveErrorException(returnVal.Value.ToString)
+          
           Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid, oldreceive, oldvat, oldje)
@@ -1001,6 +953,73 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Finally
             '  conn.Close()
           End Try
+
+          '--JE Save Block-- ============================================================
+          If Not Me.m_je.DontSave Then
+            'ถึง error อันแรกก็ผ่านไปแล้ว  reset เฉพาะ GL ได้
+            oldid = Me.Id
+            oldcode = Me.Code
+            oldautogen = Me.AutoGen
+            Try
+
+              'ถ้า Manual Format ก็ไม่ต้องทำเลย
+              If Not Me.JournalEntry.ManualFormat Then
+                'หา Cost ใหม่ ยอมสร้างใหม่ แต่ไม่อยู่ใน trans
+                'แล้วค่อยใส trans ตอนเอาเข้า
+                Me.ItemCollection = New PurchaseCNItemCollection(Me)
+                '********************************************
+                'ต้องบอกให้มัน refresh gl เอา Cost ขึ้นมาให้ด้วย
+                Me.OnGlChanged()
+
+                Dim glf As GLFormat = Me.GetDefaultGLFormat
+                If Not glf Is Nothing Then
+                  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+                End If
+                'End If
+              End If
+              '********************************************
+            Catch ex As Exception
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End Try
+
+            Dim transJe As SqlTransaction = conn.BeginTransaction()
+            Try
+
+
+              If Me.m_je.Status.Value = -1 Then
+                m_je.Status.Value = 3
+              End If
+
+              Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, transJe)
+              If Not IsNumeric(saveJeError.Message) Then
+                transJe.Rollback()
+                Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return saveJeError
+              Else
+                Select Case CInt(saveJeError.Message)
+                  Case -1, -5
+                    transJe.Rollback()
+                    Me.ResetID(oldid, oldreceive, oldvat, oldje)
+                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                    Return saveJeError
+                  Case -2
+                    'Post ไปแล้ว
+                    Return saveJeError
+                  Case Else
+                End Select
+              End If
+
+              transJe.Commit()
+
+            Catch ex As Exception
+              transJe.Rollback()
+              Me.ResetID(oldid, oldreceive, oldvat, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return New SaveErrorException(ex.ToString)
+            End Try
+          End If
+          '--JE Save Block-- ============================================================
 
           '--Sub Save Block-- ============================================================
           Try

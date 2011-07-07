@@ -1055,36 +1055,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============================STOCKCOSTFIFO=========================================
 
-            '==============================Journal Entries=======================================
-            Me.ItemCollection = New MatReceiptItemCollection(Me, True, conn, trans)
-            If Me.m_je.Status.Value = -1 Then
-              m_je.Status.Value = 3
-            End If
-            ''********************************************
-            'If Not Me.m_je.ManualFormat Then
-            '  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            ''==============================Journal Entries=======================================
+            'Me.ItemCollection = New MatReceiptItemCollection(Me, True, conn, trans)
+            'If Me.m_je.Status.Value = -1 Then
+            '  m_je.Status.Value = 3
             'End If
-            ''********************************************
-            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveJeError.Message) Then
-              trans.Rollback()
-              ResetId(oldid, oldjeid)
-              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-              Return saveJeError
-            Else
-              Select Case CInt(saveJeError.Message)
-                Case -1, -5
-                  trans.Rollback()
-                  ResetId(oldid, oldjeid)
-                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                  Return saveJeError
-                Case -2
-                  'Post ไปแล้ว
-                  Return saveJeError
-                Case Else
-              End Select
-            End If
-            '==============================Journal Entries=======================================
+            ' ''********************************************
+            ''If Not Me.m_je.ManualFormat Then
+            ''  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+            ''End If
+            ' ''********************************************
+            'Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            'If Not IsNumeric(saveJeError.Message) Then
+            '  trans.Rollback()
+            '  ResetId(oldid, oldjeid)
+            '  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            '  Return saveJeError
+            'Else
+            '  Select Case CInt(saveJeError.Message)
+            '    Case -1, -5
+            '      trans.Rollback()
+            '      ResetId(oldid, oldjeid)
+            '      ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            '      Return saveJeError
+            '    Case -2
+            '      'Post ไปแล้ว
+            '      Return saveJeError
+            '    Case Else
+            '  End Select
+            'End If
+            ''==============================Journal Entries=======================================
 
             ''==============================UPDATE PRITEM=========================================
             'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
@@ -1112,7 +1112,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           trans.Commit()
 
-          Return New SaveErrorException("1")
         Catch ex As SqlException
 
           'trans.Rollback()
@@ -1127,6 +1126,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Finally
           'conn.Close()
         End Try
+
+        '--JE Save Block-- ============================================================
+        If Not Me.m_je.DontSave Then
+          'ถึง error อันแรกก็ผ่านไปแล้ว  reset เฉพาะ GL ได้
+          oldid = Me.Id
+          oldcode = Me.Code
+          oldautogen = Me.AutoGen
+          Try
+
+            'ถ้า Manual Format ก็ไม่ต้องทำเลย
+            If Not Me.JournalEntry.ManualFormat Then
+              'หา Cost ใหม่ ยอมสร้างใหม่ แต่ไม่อยู่ใน trans
+              'แล้วค่อยใส trans ตอนเอาเข้า
+              Me.ItemCollection = New MatReceiptItemCollection(Me, True)
+              '********************************************
+              'ต้องบอกให้มัน refresh gl เอา Cost ขึ้นมาให้ด้วย
+              Me.OnGlChanged()
+
+              Dim glf As GLFormat = Me.GetDefaultGLFormat
+              If Not glf Is Nothing Then
+                m_je.SetGLFormat(Me.GetDefaultGLFormat)
+              End If
+            End If
+            '********************************************
+          Catch ex As Exception
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End Try
+
+          Dim transJe As SqlTransaction = conn.BeginTransaction()
+          Try
+
+
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, transJe)
+            If Not IsNumeric(saveJeError.Message) Then
+              transJe.Rollback()
+              Me.ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  transJe.Rollback()
+                  Me.ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+            transJe.Commit()
+
+          Catch ex As Exception
+            transJe.Rollback()
+            Me.ResetId(oldid, oldjeid)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+          End Try
+        End If
+        '--JE Save Block-- ============================================================
+        Return New SaveErrorException("1")
+
       End With
     End Function
     Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
