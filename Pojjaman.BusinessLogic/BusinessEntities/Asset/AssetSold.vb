@@ -596,7 +596,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As Exception
-
+          Return New SaveErrorException(ex.ToString)
+        Finally
+          conn.Close()
         End Try
 
       End With

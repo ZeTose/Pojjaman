@@ -577,7 +577,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
-      trans = conn.BeginTransaction()
+
 
       'Dim oldid As Integer = Me.Id
       'Dim oldreceive As Integer = m_receive.Id
@@ -596,7 +596,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'oldjecode = Me.m_je.Code
       'oldjeautogen = Me.m_je.AutoGen
       Try
+        Try
+          '--Generate Check--==================================================
+          '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
+          Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
 
+        trans = conn.BeginTransaction()
         Try
 
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
@@ -783,6 +794,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(subsaveerror.Message) Then
             Return New SaveErrorException(" Save Incomplete Please Save Again")
           End If
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
           Return New SaveErrorException(returnVal.Value.ToString)
           'Complete Save
         Catch ex As Exception
@@ -790,13 +810,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
         '--Sub Save Block-- ============================================================
 
+        Return New SaveErrorException(returnVal.Value.ToString) 'Complete Save
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
       Finally
         conn.Close()
       End Try
 
+    End Function
 
+    Private Function SubSaveFirst(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave2(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      ''ใช้ connection ใหม่ transaction ใหม่ของ update deposit check เอง
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateUpdateDepositCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
     End Function
 
     Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
@@ -970,7 +1029,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.RemainAmount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B9.1"
-        ji.Account = Me.AdvancePay.ToAccount
+        'ji.Account = Me.AdvancePay.ToAccount
         'หาค่า AVP Remain ที่ไม่รวม Vat
         If Me.TaxType.Value = 0 Then
           ji.Amount = Me.RemainAmount

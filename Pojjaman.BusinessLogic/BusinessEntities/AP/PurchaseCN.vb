@@ -739,23 +739,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
 
-        Dim transbefore As SqlTransaction = conn.BeginTransaction
-        Try
 
-          ''==============================DELETE STOCKCOST=========================================
-          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          If Me.Originated AndAlso Not Me.IsReferenced Then
-            SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-          End If
-          ''==============================DELETE STOCKCOST=========================================
-          transbefore.Commit()
-        Catch ex As Exception
-          transbefore.Rollback()
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.InnerException.ToString)
-        End Try
-
-        trans = conn.BeginTransaction()
 
         Dim oldid As Integer = Me.Id
         Dim oldreceive As Integer = Me.m_receive.Id
@@ -766,6 +750,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         Try
+          Dim transbefore As SqlTransaction = conn.BeginTransaction
+          Try
+
+            ''==============================DELETE STOCKCOST=========================================
+            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            If Me.Originated AndAlso Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, transbefore, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+            End If
+            ''==============================DELETE STOCKCOST=========================================
+            transbefore.Commit()
+          Catch ex As Exception
+            transbefore.Rollback()
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.InnerException.ToString)
+          End Try
+
+          Try
+            '--Generate Check--==================================================
+            '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
+            Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          trans = conn.BeginTransaction()
 
           Try
             Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
@@ -996,6 +1008,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
             Return New SaveErrorException(returnVal.Value.ToString)
             'Complete Save
           Catch ex As Exception
@@ -1003,6 +1024,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Try
           '--Sub Save Block-- ============================================================
 
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
@@ -1034,6 +1057,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans.Commit()
       Return New SaveErrorException("0")
     End Function
+
+    Private Function SubSaveFirst(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave2(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+      ''ใช้ connection ใหม่ transaction ใหม่ของ update deposit check เอง
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateUpdateDepositCheck(currentUserId, conn, trans2)
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again")
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans2.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
+
     Private Function SaveDoc(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
 

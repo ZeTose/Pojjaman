@@ -864,7 +864,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============================AUTOGEN==========================================
 
-
             'trans.Commit()
             'Try
             '  trans = conn.BeginTransaction()
