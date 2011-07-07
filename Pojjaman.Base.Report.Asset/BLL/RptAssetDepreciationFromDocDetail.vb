@@ -9,7 +9,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
-  Public Class RptAssetDepreciationFromDoc
+  Public Class RptAssetDepreciationFromDocDetail
     Inherits Report
     Implements INewReport
 
@@ -40,7 +40,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 1
-      m_grid.ColCount = 19
+      m_grid.ColCount = 14
 
       m_grid.ColWidths(1) = 40
       m_grid.ColWidths(2) = 120
@@ -55,12 +55,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(11) = 120
       m_grid.ColWidths(12) = 120
       m_grid.ColWidths(13) = 100
-      m_grid.ColWidths(14) = 100
-      m_grid.ColWidths(15) = 100
-      m_grid.ColWidths(16) = 100
-      m_grid.ColWidths(17) = 100
-      m_grid.ColWidths(18) = 100
-      m_grid.ColWidths(19) = 120
+      m_grid.ColWidths(14) = 120
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -74,13 +69,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid.ColStyles(18).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid.ColStyles(19).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 1
       m_grid.Rows.FrozenCount = 1
@@ -102,14 +92,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 9).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.DepreBase}")  '"ฐานคิดค่าเสื่อม"
       m_grid(1, 10).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Salvage}")  '"ราคาค่าซาก"
       m_grid(1, 11).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.WriteOff}")   '"Write-off"
-      m_grid(1, 12).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.BalAsset}")   '"สินทรัพย์คงเหลือ"*
-      m_grid(1, 13).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Depreciation}")    '"ค่าเสื่อม"
-      m_grid(1, 14).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AccDpOpen}")   '"ค่าเสื่อมสะสมยกมา"*
-      m_grid(1, 15).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AccDepreWriteOff}")   '"WriteOff สะสม"*
-      m_grid(1, 16).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AccDp}")   '"ค่าเสื่อมราคาสะสมคงเหลือ"*
-      m_grid(1, 17).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.AssetValueRemain}")   '"มูลค่าคงเหลือ"*
-      m_grid(1, 18).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.cc_code}")   '"รหัส costcenter"
-      m_grid(1, 19).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.cc_name}")   '"ชื่อ costcenter"
+      m_grid(1, 12).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.Depreciation}")    '"ค่าเสื่อม"
+      m_grid(1, 13).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.cc_code}")   '"รหัส costcenter"
+      m_grid(1, 14).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation.cc_name}")   '"ชื่อ costcenter"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -126,47 +111,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 15).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 16).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 17).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(1, 18).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(1, 19).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
       Dim dtType As DataTable = Me.DataSet.Tables(0)
       Dim dtAsset As DataTable = Me.DataSet.Tables(1)
+      Dim dtdoc As DataTable = Me.DataSet.Tables(2)
 
       Dim AsType As New Dictionary(Of Decimal, DataRow)
       Dim no As Integer = 0
       Dim currAccountIndex As Integer = -1
       Dim currAssetIndex As Integer = -1
+      Dim currDocIndex As Integer = -1
       Dim indent As String = Space(3)
 
       Dim sumPrice As Decimal = 0
       Dim sumDepreBase As Decimal = 0
       Dim sumSalvage As Decimal = 0
       Dim sumWriteOff As Decimal = 0
-      Dim sumBalAsset As Decimal = 0
       Dim sumDepre As Decimal = 0
-      Dim sumAccDepreBf As Decimal = 0
-      Dim sumAccDepreWf As Decimal = 0
-      Dim sumAccDepre As Decimal = 0
-      Dim sumAssetValueRemain As Decimal = 0
 
 
       Dim totalPrice As Decimal = 0
       Dim totalDepreBase As Decimal = 0
       Dim totalSalvage As Decimal = 0
       Dim totalWriteOff As Decimal = 0
-      Dim totalBalAsset As Decimal = 0
       Dim totalDepre As Decimal = 0
-      Dim totalAccDepreBf As Decimal = 0
-      Dim totalAccDepreWf As Decimal = 0
-      Dim totalAccDepre As Decimal = 0
-      Dim totalAssetValueRemain As Decimal = 0
 
       For Each trow As DataRow In dtType.Rows
         'Dim ast As New AssetType(trow)
@@ -185,22 +157,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currAccountIndex, 9).CellValue = indent & Configuration.FormatToString(sumDepreBase, DigitConfig.Price)
             m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumSalvage, DigitConfig.Price)
             m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumWriteOff, DigitConfig.Price)
-            m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumBalAsset, DigitConfig.Price)
-            m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
-            m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(sumAccDepreBf, DigitConfig.Price)
-            m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumAccDepreWf, DigitConfig.Price)
-            m_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(sumAccDepre, DigitConfig.Price)
-            m_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(sumAssetValueRemain, DigitConfig.Price)
+            m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
             sumPrice = 0
             sumDepreBase = 0
             sumWriteOff = 0
             sumSalvage = 0
-            sumBalAsset = 0
             sumDepre = 0
-            sumAccDepreBf = 0
-            sumAccDepreWf = 0
-            sumAccDepre = 0
-            sumAssetValueRemain = 0
           End If
 
           m_grid.RowCount += 1
@@ -217,16 +179,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(currAccountIndex, 5).CellValue = ast.GetValue(Of String)("AssetAcctName")
             m_grid(currAccountIndex, 2).Tag = "Font.Bold"
           End If
-          
+
           CurrType = rType
         End If
 
         m_grid.RowCount += 1
         currAssetIndex = m_grid.RowCount
+        m_grid.RowStyles(currAssetIndex).BackColor = Color.FromArgb(180, 231, 245)
+        m_grid.RowStyles(currAssetIndex).Font.Bold = True
         m_grid.RowStyles(currAssetIndex).ReadOnly = True
         m_grid(currAssetIndex, 1).CellValue = indent & no.ToString
         m_grid(currAssetIndex, 2).CellValue = indent & darow.GetValue(Of String)("asset_code")
-        m_grid(currAssetIndex, 3).CellValue = indent & darow.GetValue(Of String)("asset_name")
+        m_grid(currAssetIndex, 3).CellValue = darow.GetValue(Of String)("asset_name")
         m_grid(currAssetIndex, 4).CellValue = indent & darow.GetValue(Of DateTime)("asset_buyDate").ToShortDateString
         m_grid(currAssetIndex, 5).CellValue = indent & darow.GetValue(Of String)("asset_buyDocCode")
         m_grid(currAssetIndex, 6).CellValue = indent & darow.GetValue(Of DateTime)("asset_transferDate").ToShortDateString
@@ -235,36 +199,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currAssetIndex, 9).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("BalDepreBase"), DigitConfig.Price)
         m_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("asset_salvage"), DigitConfig.Price)
         m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("WfAmt"), DigitConfig.Price)
-        m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("BalAsset"), DigitConfig.Price)
-        m_grid(currAssetIndex, 13).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("Depre"), DigitConfig.Price)
-        m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("BfAccDepre"), DigitConfig.Price)
-        m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("WfAccDp"), DigitConfig.Price)
-        m_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("BalAccDp"), DigitConfig.Price)
-        m_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("AssetValueRemain"), DigitConfig.Price)
-        m_grid(currAssetIndex, 18).CellValue = indent & darow.GetValue(Of String)("cc_code")
-        m_grid(currAssetIndex, 19).CellValue = indent & darow.GetValue(Of String)("cc_name")
+        m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(darow.GetValue(Of Decimal)("Depre"), DigitConfig.Price)
+        m_grid(currAssetIndex, 13).CellValue = indent & darow.GetValue(Of String)("cc_code")
+        m_grid(currAssetIndex, 14).CellValue = indent & darow.GetValue(Of String)("cc_name")
 
         sumPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
         sumDepreBase += darow.GetValue(Of Decimal)("BalDepreBase")
         sumSalvage += darow.GetValue(Of Decimal)("asset_salvage")
         sumWriteOff += darow.GetValue(Of Decimal)("WfAmt")
-        sumBalAsset += darow.GetValue(Of Decimal)("BalAsset")
         sumDepre += darow.GetValue(Of Decimal)("Depre")
-        sumAccDepreBf += darow.GetValue(Of Decimal)("BfAccDepre")
-        sumAccDepreWf += darow.GetValue(Of Decimal)("WfAccDp")
-        sumAccDepre += darow.GetValue(Of Decimal)("BalAccDp")
-        sumAssetValueRemain += darow.GetValue(Of Decimal)("AssetValueRemain")
 
         totalPrice += darow.GetValue(Of Decimal)("asset_buyPrice")
         totalDepreBase += darow.GetValue(Of Decimal)("BalDepreBase")
         totalSalvage += darow.GetValue(Of Decimal)("asset_salvage")
         totalWriteOff += darow.GetValue(Of Decimal)("WfAmt")
-        totalBalAsset += darow.GetValue(Of Decimal)("BalAsset")
         totalDepre += darow.GetValue(Of Decimal)("Depre")
-        totalAccDepreBf += darow.GetValue(Of Decimal)("BfAccDepre")
-        totalAccDepreWf += darow.GetValue(Of Decimal)("WfAccDp")
-        totalAccDepre += darow.GetValue(Of Decimal)("BalAccDp")
-        totalAssetValueRemain += darow.GetValue(Of Decimal)("AssetValueRemain")
+
+        Dim assetID As Decimal = darow.GetValue(Of Decimal)("asset_id")
+        For Each drow As DataRow In dtdoc.Select("AssetId =" & assetID.ToString)
+          Dim drh As New DataRowHelper(drow)
+          m_grid.RowCount += 1
+          currDocIndex = m_grid.RowCount
+          m_grid.RowStyles(currDocIndex).ReadOnly = True
+          m_grid(currDocIndex, 3).CellValue = indent & drh.GetValue(Of String)("DocTypeName")
+          m_grid(currDocIndex, 5).CellValue = indent & drh.GetValue(Of String)("DocCode")
+          m_grid(currDocIndex, 6).CellValue = indent & drh.GetValue(Of Date)("DocDate").ToShortDateString
+          m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("WfAmt"), DigitConfig.Price)
+          m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("Depre"), DigitConfig.Price)
+          m_grid(currDocIndex, 13).CellValue = indent & drh.GetValue(Of String)("cc_code")
+          m_grid(currDocIndex, 14).CellValue = indent & drh.GetValue(Of String)("cc_name")
+
+        Next
+
       Next
 
       'สำหรับสินทรัพย์ตัวสุดท้าย
@@ -272,12 +238,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currAccountIndex, 9).CellValue = indent & Configuration.FormatToString(sumDepreBase, DigitConfig.Price)
       m_grid(currAccountIndex, 10).CellValue = Configuration.FormatToString(sumSalvage, DigitConfig.Price)
       m_grid(currAccountIndex, 11).CellValue = Configuration.FormatToString(sumWriteOff, DigitConfig.Price)
-      m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumBalAsset, DigitConfig.Price)
-      m_grid(currAccountIndex, 13).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
-      m_grid(currAccountIndex, 14).CellValue = Configuration.FormatToString(sumAccDepreBf, DigitConfig.Price)
-      m_grid(currAccountIndex, 15).CellValue = Configuration.FormatToString(sumAccDepreWf, DigitConfig.Price)
-      m_grid(currAccountIndex, 16).CellValue = Configuration.FormatToString(sumAccDepre, DigitConfig.Price)
-      m_grid(currAccountIndex, 17).CellValue = Configuration.FormatToString(sumAssetValueRemain, DigitConfig.Price)
+      m_grid(currAccountIndex, 12).CellValue = Configuration.FormatToString(sumDepre, DigitConfig.Price)
 
       m_grid.RowCount += 1
       currAssetIndex = m_grid.RowCount
@@ -288,12 +249,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currAssetIndex, 9).CellValue = indent & Configuration.FormatToString(totalDepreBase, DigitConfig.Price)
       m_grid(currAssetIndex, 10).CellValue = Configuration.FormatToString(totalSalvage, DigitConfig.Price)
       m_grid(currAssetIndex, 11).CellValue = Configuration.FormatToString(totalWriteOff, DigitConfig.Price)
-      m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(totalBalAsset, DigitConfig.Price)
-      m_grid(currAssetIndex, 13).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
-      m_grid(currAssetIndex, 14).CellValue = Configuration.FormatToString(totalAccDepreBf, DigitConfig.Price)
-      m_grid(currAssetIndex, 15).CellValue = Configuration.FormatToString(totalAccDepreWf, DigitConfig.Price)
-      m_grid(currAssetIndex, 16).CellValue = Configuration.FormatToString(totalAccDepre, DigitConfig.Price)
-      m_grid(currAssetIndex, 17).CellValue = Configuration.FormatToString(totalAssetValueRemain, DigitConfig.Price)
+      m_grid(currAssetIndex, 12).CellValue = Configuration.FormatToString(totalDepre, DigitConfig.Price)
       m_grid(currAssetIndex, 1).Tag = "Font.Bold"
 
 
@@ -302,12 +258,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "RptAssetDepreciationFromDoc"
+        Return "RptAssetDepreciationFromDocDetail"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDoc.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDocDetail.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
@@ -322,7 +278,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDoc.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDocDetail.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -336,10 +292,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
-      Return "RptAssetDepreciationFromDoc"
+      Return "RptAssetDepreciationFromDocDetail"
     End Function
     Public Overrides Function GetDefaultForm() As String
-      Return "RptAssetDepreciationFromDoc"
+      Return "RptAssetDepreciationFromDocDetail"
     End Function
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection

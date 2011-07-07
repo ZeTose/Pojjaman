@@ -147,6 +147,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptAssetDepreciationFromDocDetail.vb" />
     <Compile Include="BLL\RptAssetWriteOff.vb" />
     <Compile Include="BLL\RptAssetDepreciationFromDoc.vb" />
     <Compile Include="BLL\RptAssetWriteOff2.vb" />
@@ -203,6 +204,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\RptAssetDepreciationFromDocDetailFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptAssetDepreciationFromDocFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -271,6 +275,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptAssetDepreciationFromDocDetailFilterSubPanel.resx">
+      <DependentUpon>RptAssetDepreciationFromDocDetailFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptAssetDepreciationFromDocFilterSubPanel.resx">
       <DependentUpon>RptAssetDepreciationFromDocFilterSubPanel.vb</DependentUpon>

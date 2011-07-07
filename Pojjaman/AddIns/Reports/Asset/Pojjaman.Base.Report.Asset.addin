@@ -7,7 +7,8 @@
 			<MenuItem id="AssetReport" label="${res:MainMenu.ReportMenu.AssetReport}" insertafter="TaxReport">
 
 				<MenuItem id="rptassetdepreciation" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciation.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation"/>
-				<MenuItem id="rptassetdepreciationfromdoc" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciationfromdoc.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDoc"/>
+        <MenuItem id="rptassetdepreciationfromdoc" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciationfromdoc.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDoc"/>
+        <MenuItem id="rptassetdepreciationfromdocdetail" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciationfromdocdetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDocDetail"/>
 				 <MenuItem id="rpt265" icon="Icons.16x16.Rpt265" label="${res:MainMenu.PurchaseMenu.Rpt265.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt265"/>
 				 <MenuItem id="rpt266" icon="Icons.16x16.Rpt266" label="${res:MainMenu.PurchaseMenu.Rpt266.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt266"/>
 				 <MenuItem id="rpt268" icon="Icons.16x16.Rpt268" label="${res:MainMenu.PurchaseMenu.Rpt268.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt268"/>
@@ -36,7 +37,8 @@
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 
 		<EntityFilter id="rptassetdepreciation" entity="rptassetdepreciation" filter="Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFilterSubPanel"/>
-		<EntityFilter id="rptassetdepreciationfromdoc" entity="rptassetdepreciationfromdoc" filter="Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFromDocFilterSubPanel"/>
+    <EntityFilter id="rptassetdepreciationfromdoc" entity="rptassetdepreciationfromdoc" filter="Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFromDocFilterSubPanel"/>
+    <EntityFilter id="rptassetdepreciationfromdocdetail" entity="rptassetdepreciationfromdocdetail" filter="Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFromDocDetailFilterSubPanel"/>
 		<EntityFilter id="rpt265" entity="rpt265" filter="Longkong.Pojjaman.Gui.Panels.Rpt265FilterSubPanel"/> 
 		<EntityFilter id="rpt266" entity="Rpt266" filter="Longkong.Pojjaman.Gui.Panels.Rpt266FilterSubPanel"/> 
 		<EntityFilter id="rpt268" entity="Rpt268" filter="Longkong.Pojjaman.Gui.Panels.Rpt268FilterSubPanel"/> 
@@ -65,6 +67,9 @@
 		<EntityTab id="rptassetdepreciationfromdoc">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
+    <EntityTab id="rptassetdepreciationfromdocdetail">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
 		<EntityTab id="rpt265">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
