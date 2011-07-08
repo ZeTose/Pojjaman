@@ -334,17 +334,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
-      trans = conn.BeginTransaction()
+
 
       Dim oldid As Integer = Me.Id
       Dim oldreceive As Integer = m_receive.Id
       Dim oldje As Integer = m_je.Id
 
       Try
-
-
         Try
+          '--Generate Check--==================================================
+          '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
+          Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return subsaveerror
+          End If
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
 
+        trans = conn.BeginTransaction()
+        Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
             Select Case CInt(returnVal.Value)
@@ -433,7 +442,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           trans.Commit()
 
-          UpdateAdvanceMoneyStatus(True)
+          'UpdateAdvanceMoneyStatus(True)
 
           'Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
@@ -450,12 +459,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         '--Sub Save Block-- ====================================================
         Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
+        Try
           Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
           If Not IsNumeric(subsaveerror.Message) Then
             Return New SaveErrorException(" Save Incomplete Please Save Again")
           End If
-          Return New SaveErrorException(returnVal.Value.ToString)
-          'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         End Try
@@ -468,6 +484,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Close()
       End Try
     End Function
+    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        UpdateAdvanceMoneyStatus(True)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+
+      Return New SaveErrorException("0")
+    End Function
     Private Function SubSaveFirst(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
@@ -475,7 +506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
         If Not IsNumeric(subsaveerror.Message) Then
-          Return New SaveErrorException(" Save Incomplete Please Save Again")
+          Return subsaveerror
         End If
       Catch ex As Exception
         trans2.Rollback()

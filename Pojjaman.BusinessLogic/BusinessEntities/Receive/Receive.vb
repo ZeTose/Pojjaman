@@ -519,7 +519,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
-          ChangeItemEntityStatus(conn, trans)
+          ChangeOldItemEntityStatus(conn, trans)
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           Me.ResetID(oldid)
@@ -562,7 +562,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return String.Join(",", advList.ToArray)
     End Function
-    Private Sub ChangeItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+    Private Sub ChangeOldItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
         Return
       End If
@@ -573,6 +573,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAdvanceReceiveStatusFromItems", _
                                 New SqlParameter("@receive_id", Me.Id), _
                                 New SqlParameter("@advrItemList", Me.GetItemAdvanceReceiveListFromOldItems))
+    End Sub
+    Private Function GetItemCheckListFromItems() As String
+      Dim checkList As New ArrayList
+      For n As Integer = 0 To Me.MaxRowIndex
+        Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
+        If ValidateRow(itemRow) Then
+          If CInt(itemRow("receivei_entityType")) = 27 Then
+            checkList.Add(CLng(itemRow("receivei_entity")))
+          End If
+        End If
+      Next
+      Return String.Join(",", checkList.ToArray)
+    End Function
+    Private Function GetItemAdvanceReceiveListFromItems() As String
+      Dim advList As New ArrayList
+      For n As Integer = 0 To Me.MaxRowIndex
+        Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
+        If ValidateRow(itemRow) Then
+          If CInt(itemRow("receivei_entityType")) = 71 Then
+            advList.Add(CLng(itemRow("receivei_entity")))
+          End If
+        End If
+      Next
+      Return String.Join(",", advList.ToArray)
+    End Function
+    Private Sub ChangeItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      If Not Me.Originated Then
+        Return
+      End If
+      'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateReceiveItemEntityStatus", New SqlParameter("@receive_id", Me.Id))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheckStatusFromItems", _
+                                New SqlParameter("@receive_id", Me.Id), _
+                                New SqlParameter("@checkItemList", Me.GetItemCheckListFromItems))
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAdvanceReceiveStatusFromItems", _
+                                New SqlParameter("@receive_id", Me.Id), _
+                                New SqlParameter("@advrItemList", Me.GetItemAdvanceReceiveListFromItems))
     End Sub
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
       Try
@@ -831,49 +867,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
     End Function
     Public Function AutoGenerateUpdateDepositCheck(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
-      Dim ds As DataSet = Me.GetCheckReceiveItemFromDB(conn, trans)
-      For Each drow As DataRow In ds.Tables(0).Rows
-        Dim drh As New DataRowHelper(drow)
-        If drh.GetValue(Of Integer)("cqupdatei_entity") = 0 Then
-          Dim check As New IncomingCheck(drow, "")
+      Try
 
-          Dim upd As New UpdateCheckDeposit
-          upd.AutoGen = True
+        Dim ds As DataSet = Me.GetCheckReceiveItemFromDB(conn, trans)
+        For Each drow As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(drow)
+          If drh.GetValue(Of Integer)("cqupdatei_entity") = 0 Then
+            Dim check As New IncomingCheck(drow, "")
 
-          Dim cmbCode As New ComboBox
-          BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
-          If cmbCode.Items.Count > 0 Then
-            upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
-            cmbCode.SelectedIndex = 0
-            upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
+            Dim upd As New UpdateCheckDeposit
+            upd.AutoGen = True
+
+            Dim cmbCode As New ComboBox
+            BusinessLogic.Entity.NewPopulateCodeCombo(cmbCode, upd.EntityId, currentUserId)
+            If cmbCode.Items.Count > 0 Then
+              upd.Code = CType(cmbCode.Items(0), AutoCodeFormat).Format
+              cmbCode.SelectedIndex = 0
+              upd.AutoCodeFormat = CType(cmbCode.Items(0), AutoCodeFormat)
+            End If
+
+            upd.DocDate = check.DocDate
+            upd.BankAccount = check.BankAccount
+            upd.TotalAmount = check.Amount
+
+            Dim upditem As New UpdateCheckDepositItem
+            upditem.BeforeStatus = New IncomingCheckDocStatus(1)
+            upditem.Entity = check
+            upditem.LineNumber = 1
+            upd.ListOfUpdateCheckDepositItem.Add(upditem)
+
+            'upd.ExternalForce = True
+            Dim saveerr As SaveErrorException = upd.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveerr.Message) Then
+              Return New SaveErrorException(saveerr.Message)
+            End If
+            Dim saveerr2 As SaveErrorException = upd.UpdateCheckDeposit_IncomingCheckRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
+            If Not IsNumeric(saveerr2.Message) Then
+              Return New SaveErrorException(saveerr2.Message)
+            End If
+            Dim saveerr3 As SaveErrorException = upd.UpdateCheckDeposit_ReceiveRefRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
+            If Not IsNumeric(saveerr3.Message) Then
+              Return New SaveErrorException(saveerr3.Message)
+            End If
           End If
 
-          upd.DocDate = check.DocDate
-          upd.BankAccount = check.BankAccount
-          upd.TotalAmount = check.Amount
+        Next
 
-          Dim upditem As New UpdateCheckDepositItem
-          upditem.BeforeStatus = New IncomingCheckDocStatus(1)
-          upditem.Entity = check
-          upditem.LineNumber = 1
-          upd.Add(upditem)
-
-          'upd.ExternalForce = True
-          Dim saveerr As SaveErrorException = upd.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveerr.Message) Then
-            Return New SaveErrorException(saveerr.Message)
-          End If
-          Dim saveerr2 As SaveErrorException = upd.UpdateCheckDeposit_IncomingCheckRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
-          If Not IsNumeric(saveerr2.Message) Then
-            Return New SaveErrorException(saveerr2.Message)
-          End If
-          Dim saveerr3 As SaveErrorException = upd.UpdateCheckDeposit_ReceiveRefRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
-          If Not IsNumeric(saveerr3.Message) Then
-            Return New SaveErrorException(saveerr3.Message)
-          End If
-        End If
-
-      Next
+        ChangeItemEntityStatus(conn, trans)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
 
       Return New SaveErrorException("0")
     End Function

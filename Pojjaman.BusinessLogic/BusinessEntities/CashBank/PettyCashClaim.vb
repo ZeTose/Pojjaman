@@ -362,11 +362,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim ValidateError As SaveErrorException
 
-      
-
-     
-
-
       ValidateError = Me.Payment.BeforeSave(currentUserId)
       If Not IsNumeric(ValidateError.Message) Then
         Return ValidateError
@@ -376,9 +371,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not IsNumeric(ValidateError.Message) Then
         Return ValidateError
       End If
-
-
-
 
       Return New SaveErrorException("0")
 
@@ -513,134 +505,132 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim trans As SqlTransaction
         Dim conn As New SqlConnection(Me.ConnectionString)
         conn.Open()
-        trans = conn.BeginTransaction()
 
-        
         Try
 
-        
-        Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldje)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-          Dim pmGross As Decimal = Me.Payment.Gross()
-          If pmGross < Me.Gross Then
-            Dim diff As Decimal = Me.Gross - pmGross
-            Dim newPaymentItem As New PaymentItem
-            Me.m_payment.ItemCollection.Insert(0, newPaymentItem)
-            newPaymentItem.EntityType = New PaymentEntityType(Me.PettyCash.EntityId)
-            newPaymentItem.Entity = Me.PettyCash
-            newPaymentItem.Amount = diff
-          End If
-          If Not Me.PettyCash.Costcenter Is Nothing Then
-            Me.m_payment.CCId = Me.PettyCash.Costcenter.Id
-          End If
+          trans = conn.BeginTransaction()
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+            Dim pmGross As Decimal = Me.Payment.Gross()
+            If pmGross < Me.Gross Then
+              Dim diff As Decimal = Me.Gross - pmGross
+              Dim newPaymentItem As New PaymentItem
+              Me.m_payment.ItemCollection.Insert(0, newPaymentItem)
+              newPaymentItem.EntityType = New PaymentEntityType(Me.PettyCash.EntityId)
+              newPaymentItem.Entity = Me.PettyCash
+              newPaymentItem.Amount = diff
+            End If
+            If Not Me.PettyCash.Costcenter Is Nothing Then
+              Me.m_payment.CCId = Me.PettyCash.Costcenter.Id
+            End If
 
-          Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
-          If Not IsNumeric(savePaymentError.Message) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldje)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return savePaymentError
-          Else
-            Select Case CInt(savePaymentError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return savePaymentError
-              Case Else
-            End Select
+            Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
+            If Not IsNumeric(savePaymentError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return savePaymentError
+            Else
+              Select Case CInt(savePaymentError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return savePaymentError
+                Case Else
+              End Select
             End If
             'to do Refactor
-          ChangeOldItemStatus(conn, trans)
-          SaveDetail(Me.Id, conn, trans)
-          ChangeNewItemStatus(conn, trans)
+            ChangeOldItemStatus(conn, trans)
+            SaveDetail(Me.Id, conn, trans)
+            ChangeNewItemStatus(conn, trans)
             'to do Refactor
 
 
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid, oldpay, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post �����
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetID(oldid, oldpay, oldje)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid, oldpay, oldje)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
+            trans.Commit()
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid, oldpay, oldje)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveJeError
-              Case -2
-                'Post �����
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-
-         
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
             trans.Rollback()
-            ResetID(oldid, oldpay, oldje)
+            Me.ResetID(oldid, oldpay, oldje)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid, oldpay, oldje)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-
-          trans.Commit()
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid, oldpay, oldje)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
-        Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid, oldpay, oldje)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
+            Return New SaveErrorException(ex.ToString)
           End Try
 
-          'Sub Save Block
+          '--Sub Save Block-- ===================================
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
-            Return New SaveErrorException(returnVal.Value.ToString)
-            'Complete Save
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
-          'Sub Save Block
+          '--Sub Save Block-- ==================================
 
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
@@ -652,7 +642,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
-     
+
 
       Try
         Me.DeleteRef(conn, trans)
@@ -1125,7 +1115,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
         If Me.Originated Then
-          Return Me.Status.Value <= 2
+          Return Me.Status.Value <= 2 AndAlso Not Me.PettyCash.Closed AndAlso Not Me.IsReferenced
         Else
           Return False
         End If
@@ -1182,7 +1172,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region ""
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
-        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+        Return Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso Not Me.PettyCash.Closed AndAlso Not Me.IsReferenced
       End Get
     End Property
     Public Overrides Function IsCancelable() As Boolean
@@ -1794,7 +1784,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim list As New List(Of String)
       list.Add("'0'")
       For Each item As PaymentForList In Me.PaymentList
-          list.Add(item.Id.ToString)
+        list.Add(item.Id.ToString)
       Next
       Return String.Join(",", list.ToArray)
     End Function

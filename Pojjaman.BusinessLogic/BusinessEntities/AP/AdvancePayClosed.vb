@@ -601,7 +601,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
           Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
           If Not IsNumeric(subsaveerror.Message) Then
-            Return New SaveErrorException(" Save Incomplete Please Save Again")
+            Return subsaveerror
           End If
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
@@ -826,7 +826,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
         If Not IsNumeric(subsaveerror.Message) Then
-          Return New SaveErrorException(" Save Incomplete Please Save Again")
+          Return subsaveerror
         End If
       Catch ex As Exception
         trans2.Rollback()
@@ -1252,7 +1252,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
         If Me.Originated Then
-          Return Me.Status.Value <= 2
+          Return Me.Status.Value <= 2 AndAlso Not Me.IsReferenced
         Else
           Return False
         End If
@@ -1306,7 +1306,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "ICancelable"
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
-        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+        Return Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso Not Me.IsReferenced
       End Get
     End Property
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity

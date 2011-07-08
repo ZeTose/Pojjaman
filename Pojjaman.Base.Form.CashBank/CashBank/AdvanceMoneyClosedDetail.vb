@@ -830,6 +830,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       If Me.m_entity.Status.Value = 0 _
       OrElse Me.m_entity.Status.Value >= 3 _
+       OrElse m_entityRefed = 1 _
       Then
         Me.Enabled = False
       Else
@@ -954,6 +955,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dtpDocDate.Value = Date.Now
       txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
     End Sub
+    Private m_entityRefed As Integer
     Public Overrides Property Entity() As ISimpleEntity
       Get
         Return Me.m_entity
@@ -961,6 +963,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Set(ByVal Value As ISimpleEntity)
         Me.m_entity = Nothing
         Me.m_entity = CType(Value, AdvanceMoneyClosed)
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
+        End If
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
@@ -968,21 +975,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 
     Public Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
     End Sub
 #End Region
 

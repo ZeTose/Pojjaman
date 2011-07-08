@@ -672,7 +672,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '--การสร้าง Check ใบใหม่จะได้ Id มาเก็บไว้ที่ Receive ด้วยจึงต้องวาง Code ไว้ก่อน Save Receive
             Dim subsaveerror As SaveErrorException = SubSaveFirst(conn, currentUserId)
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return subsaveerror
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
@@ -899,7 +899,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 Dim glf As GLFormat = Me.GetDefaultGLFormat
                 If Not glf Is Nothing Then
-                  m_je.SetGLFormat(Me.GetDefaultGLFormat)
+                  m_je.SetGLFormat(glf)
                 End If
                 'End If
               End If
@@ -1008,7 +1008,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Dim subsaveerror As SaveErrorException = m_receive.AutoGenerateCheck(currentUserId, conn, trans2)
         If Not IsNumeric(subsaveerror.Message) Then
-          Return New SaveErrorException(" Save Incomplete Please Save Again")
+          Return subsaveerror
         End If
       Catch ex As Exception
         trans2.Rollback()

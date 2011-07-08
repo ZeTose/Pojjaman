@@ -95,6 +95,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal refDoc As IGLAble)
       Me.New(refDoc.Id, CType(refDoc, IObjectReflectable).EntityId)
       Me.RefDoc = refDoc
+      If refDoc.Id = 0 Then
+        Me.SetAccountBookFromEntity(CType(refDoc, IObjectReflectable).EntityId)
+
+        'Dim glf As GLFormat = refDoc.GetDefaultGLFormat
+        'If Not glf Is Nothing Then
+        '  Me.SetGLFormat(glf)
+        'End If
+      End If
     End Sub
     Private Sub New(ByVal refId As Integer, ByVal refType As Integer)
       If refId = 0 Then
@@ -522,6 +530,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub SetAccountBookFromEntity(ByVal entityId As Integer)
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetAccountBookFromEntity", New SqlParameter("@entity_id", entityId))
+        If Not ds.Tables(0).Rows(0).IsNull("accountbook_id") Then
+          Me.AccountBook = New AccountBook(ds.Tables(0).Rows(0), "")
+        End If
+      Catch ex As Exception
+
+      End Try
+    End Sub
     Public Sub RefreshGLFormat()
       If Not Me.ManualFormat Then
         'If Not TypeOf Me.RefDoc Is GoodsSold _

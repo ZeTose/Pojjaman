@@ -1478,10 +1478,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      If Me.m_entity.Status.Value = 0 Or Me.m_entity.Status.Value >= 3 Then
-        Me.Enabled = False
+      If Me.m_entity.Status.Value = 0 Or Me.m_entity.Status.Value >= 3 OrElse m_entityRefed = 1 Then
+        'Me.Enabled = False
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = False
+        Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+        Next
       Else
-        Me.Enabled = True
+        'Me.Enabled = True
+        For Each ctrl As Control In Me.Controls
+          ctrl.Enabled = True
+        Next
       End If
     End Sub
     Public Overrides Sub ClearDetail()
@@ -1747,9 +1757,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			m_isInitialized = True
 		End Sub
     Public Sub SetStatus()
-   MyBase.SetStatusBarMessage()
+      MyBase.SetStatusBarMessage()
     End Sub
     Dim isfirstset As Boolean = False
+    Dim m_entityRefed As Integer
 		Public Overrides Property Entity() As ISimpleEntity
 			Get
 				Return Me.m_entity
@@ -1759,7 +1770,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					RemoveHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
 					Me.m_entity = Nothing
 				End If
-				Me.m_entity = CType(Value, ReceiveSelection)
+        Me.m_entity = CType(Value, ReceiveSelection)
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
+        End If
 				'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         isfirstset = True

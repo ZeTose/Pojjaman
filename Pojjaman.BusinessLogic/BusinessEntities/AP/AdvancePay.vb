@@ -1542,7 +1542,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
         ' Hack :
-        Return Not Me.IsReferenced() 'True
+        Return Not Me.IsReferenced() AndAlso Not Me.Closed AndAlso Not Me.Status.Value = 0 'True
       End Get
     End Property
     Public Overrides Function Delete() As SaveErrorException
@@ -1614,7 +1614,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             refAmt += CDec(row("Amount"))
           End If
         Next
-        Return Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso refAmt = 0
+        Return Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso refAmt = 0 AndAlso Not Me.Closed
       End Get
     End Property
 

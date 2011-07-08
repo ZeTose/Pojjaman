@@ -7,96 +7,96 @@ Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.Gui.Panels
 
-    Public Class AdvancePayClosedDetail
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class AdvancePayClosedDetail
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents lblStatus As System.Windows.Forms.Label
-        Friend WithEvents grbLocation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtSupplierCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
-        Friend WithEvents txtCCName As System.Windows.Forms.TextBox
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents grbLocation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtCCCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtSupplierCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtSupplierName As System.Windows.Forms.TextBox
+    Friend WithEvents txtCCName As System.Windows.Forms.TextBox
     Friend WithEvents txtAmount As System.Windows.Forms.TextBox
-        Friend WithEvents lblAmount As System.Windows.Forms.Label
-        Friend WithEvents lblPCNote As System.Windows.Forms.Label
-        Friend WithEvents grbHeader As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-        Friend WithEvents txtRemaining As System.Windows.Forms.TextBox
-        Friend WithEvents lblRemaining As System.Windows.Forms.Label
-        Friend WithEvents txtNote As System.Windows.Forms.TextBox
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtdocdate As System.Windows.Forms.TextBox
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents lblCurrencyUnit2 As System.Windows.Forms.Label
-        Friend WithEvents lblDocDate As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents lblCurrencyUnit1 As System.Windows.Forms.Label
-        Friend WithEvents grbAdvancePay As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtADVPDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpADVPDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtADVPCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblADVPCode As System.Windows.Forms.Label
-        Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblDueDate As System.Windows.Forms.Label
-        Friend WithEvents lblOrgDocDate As System.Windows.Forms.Label
-        Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
+    Friend WithEvents lblAmount As System.Windows.Forms.Label
+    Friend WithEvents lblPCNote As System.Windows.Forms.Label
+    Friend WithEvents grbHeader As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    Friend WithEvents txtRemaining As System.Windows.Forms.TextBox
+    Friend WithEvents lblRemaining As System.Windows.Forms.Label
+    Friend WithEvents txtNote As System.Windows.Forms.TextBox
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtdocdate As System.Windows.Forms.TextBox
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents lblCurrencyUnit2 As System.Windows.Forms.Label
+    Friend WithEvents lblDocDate As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents lblCurrencyUnit1 As System.Windows.Forms.Label
+    Friend WithEvents grbAdvancePay As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtADVPDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpADVPDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtADVPCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblADVPCode As System.Windows.Forms.Label
+    Friend WithEvents txtDueDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDueDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblDueDate As System.Windows.Forms.Label
+    Friend WithEvents lblOrgDocDate As System.Windows.Forms.Label
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     'Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
-        Friend WithEvents btnAdvancePayFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnAdvancePayFind As Longkong.Pojjaman.Gui.Components.ImageButton
     'Friend WithEvents CachedCRptMatCountExpandedLciItem2 As CachedCRptMatCountExpandedLciItem
     'Friend WithEvents CachedCRptMatCountExpandedLciItem3 As CachedCRptMatCountExpandedLciItem
-        Friend WithEvents lblCC As System.Windows.Forms.Label
-        Friend WithEvents lblSupplier As System.Windows.Forms.Label
+    Friend WithEvents lblCC As System.Windows.Forms.Label
+    Friend WithEvents lblSupplier As System.Windows.Forms.Label
     'Friend WithEvents CachedCRptMatCountExpandedLciItem4 As CachedCRptMatCountExpandedLciItem
     'Friend WithEvents CachedCRptMatCountExpandedLciItem5 As CachedCRptMatCountExpandedLciItem
-        Friend WithEvents lblInvoiceCode As System.Windows.Forms.Label
-        Friend WithEvents txtADVPInvoiceCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtTaxBase As System.Windows.Forms.TextBox
-        Friend WithEvents lblTaxBase As System.Windows.Forms.Label
-        Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblTaxAmount As System.Windows.Forms.Label
-        Friend WithEvents txtTaxAmount As System.Windows.Forms.TextBox
-        Friend WithEvents lblTaxType As System.Windows.Forms.Label
-        Friend WithEvents txtTaxRate As System.Windows.Forms.TextBox
-        Friend WithEvents lblTaxRate As System.Windows.Forms.Label
-        Friend WithEvents lblPercent As System.Windows.Forms.Label
-        Friend WithEvents cmbTaxType As System.Windows.Forms.ComboBox
-        Friend WithEvents txtADVPNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
-        Friend WithEvents lblADVPInvoiceDate As System.Windows.Forms.Label
-        Friend WithEvents txtADVPInvoiceDate As System.Windows.Forms.TextBox
-        Friend WithEvents lblInvoiceDate As System.Windows.Forms.Label
-        Friend WithEvents txtInvoiceDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpInvoiceDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpADVPInvoiceDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblAVPCInvoice As System.Windows.Forms.Label
-        Friend WithEvents txtInvoiceCode As System.Windows.Forms.TextBox
-        Friend WithEvents chkAVPCAutoRunVat As System.Windows.Forms.CheckBox
-        Friend WithEvents chkAutoRunVat As System.Windows.Forms.CheckBox
+    Friend WithEvents lblInvoiceCode As System.Windows.Forms.Label
+    Friend WithEvents txtADVPInvoiceCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtTaxBase As System.Windows.Forms.TextBox
+    Friend WithEvents lblTaxBase As System.Windows.Forms.Label
+    Friend WithEvents txtRealTaxAmount As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxAmount As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtRealTaxBase As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnResetTaxBase As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblTaxAmount As System.Windows.Forms.Label
+    Friend WithEvents txtTaxAmount As System.Windows.Forms.TextBox
+    Friend WithEvents lblTaxType As System.Windows.Forms.Label
+    Friend WithEvents txtTaxRate As System.Windows.Forms.TextBox
+    Friend WithEvents lblTaxRate As System.Windows.Forms.Label
+    Friend WithEvents lblPercent As System.Windows.Forms.Label
+    Friend WithEvents cmbTaxType As System.Windows.Forms.ComboBox
+    Friend WithEvents txtADVPNote As Longkong.Pojjaman.Gui.Components.MultiLineTextBox
+    Friend WithEvents lblADVPInvoiceDate As System.Windows.Forms.Label
+    Friend WithEvents txtADVPInvoiceDate As System.Windows.Forms.TextBox
+    Friend WithEvents lblInvoiceDate As System.Windows.Forms.Label
+    Friend WithEvents txtInvoiceDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpInvoiceDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpADVPInvoiceDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblAVPCInvoice As System.Windows.Forms.Label
+    Friend WithEvents txtInvoiceCode As System.Windows.Forms.TextBox
+    Friend WithEvents chkAVPCAutoRunVat As System.Windows.Forms.CheckBox
+    Friend WithEvents chkAutoRunVat As System.Windows.Forms.CheckBox
 
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdvancePayClosedDetail))
       Me.grbAdvancePay = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -1039,41 +1039,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SetLabelText "
-        Public Overrides Sub SetLabelText()
+    Public Overrides Sub SetLabelText()
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Members"
-        Private m_entity As AdvancePayClosed
-        Private m_isInitialized As Boolean = False
-        Private m_vat As Vat
+    Private m_entity As AdvancePayClosed
+    Private m_isInitialized As Boolean = False
+    Private m_vat As Vat
 #End Region
 
 #Region "Constructs"
-        Public Sub New()
-            MyBase.New()
-            InitializeComponent()
-            Initialize()
-            EventWiring()
-        End Sub
+    Public Sub New()
+      MyBase.New()
+      InitializeComponent()
+      Initialize()
+      EventWiring()
+    End Sub
 #End Region
 
 #Region "Methods"
-        Private Function ConvertItemsToValueArray(ByVal list As String) As String
-            Dim result As String = ""
-            If list Is Nothing OrElse list.Length = 0 Then
-                Return Nothing
-            Else
-                For Each item As String In list.Split(","c)
-                    result &= CStr(CInt(item) + 1) & ","
-                Next
-                If result.Length <> 0 Then
-                    result = result.TrimEnd(","c)
-                End If
-                Return result
-            End If
-        End Function
+    Private Function ConvertItemsToValueArray(ByVal list As String) As String
+      Dim result As String = ""
+      If list Is Nothing OrElse list.Length = 0 Then
+        Return Nothing
+      Else
+        For Each item As String In list.Split(","c)
+          result &= CStr(CInt(item) + 1) & ","
+        Next
+        If result.Length <> 0 Then
+          result = result.TrimEnd(","c)
+        End If
+        Return result
+      End If
+    End Function
     Public Sub SetAdvancePayData()
       If Me.m_entity Is Nothing Then
         Return
@@ -1119,500 +1119,508 @@ Namespace Longkong.Pojjaman.Gui.Panels
         SetVatToOneDoc()
       End If
     End Sub
-        Private Sub ClearAdvancePay()
-            For Each grbCrtl As Control In grbAdvancePay.Controls
-                If TypeOf grbCrtl Is TextBox Then
-                    grbCrtl.Text = ""
-                End If
-            Next
-            For Each grbCrtl As Control In grbLocation.Controls
-                If TypeOf grbCrtl Is TextBox Then
-                    grbCrtl.Text = ""
-                End If
-            Next
-            dtpADVPDate.Value = Date.Now
-            dtpDueDate.Value = Date.Now
-            ' วงเงินคงเหลือ
-            txtRemaining.Text = Configuration.FormatToString(0, DigitConfig.Price)
-        End Sub
+    Private Sub ClearAdvancePay()
+      For Each grbCrtl As Control In grbAdvancePay.Controls
+        If TypeOf grbCrtl Is TextBox Then
+          grbCrtl.Text = ""
+        End If
+      Next
+      For Each grbCrtl As Control In grbLocation.Controls
+        If TypeOf grbCrtl Is TextBox Then
+          grbCrtl.Text = ""
+        End If
+      Next
+      dtpADVPDate.Value = Date.Now
+      dtpDueDate.Value = Date.Now
+      ' วงเงินคงเหลือ
+      txtRemaining.Text = Configuration.FormatToString(0, DigitConfig.Price)
+    End Sub
 
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity Is Nothing Then
-                Return
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      If Me.m_entity.Status.Value = 0 _
+      OrElse Me.m_entity.Status.Value >= 3 _
+       OrElse m_entityRefed = 1 _
+      Then
+        Me.Enabled = False
+      Else
+        Me.Enabled = True
+      End If
+    End Sub
+    Public Overrides Sub Initialize()
+      SetTaxTypeComboBox()
+    End Sub
+    Private Sub SetTaxTypeComboBox()
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType", "code_Value <> 1")
+      cmbTaxType.SelectedIndex = 1
+    End Sub
+
+    Protected Overrides Sub EventWiring()
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler txtdocdate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtADVPCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtInvoiceCode.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtInvoiceCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtInvoiceDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
+
+      AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
+      AddHandler txtSupplierName.Validated, AddressOf ChangeProperty
+
+    End Sub
+    Private supplierCodeChanged As Boolean = False
+
+    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtsuppliercode"
+          supplierCodeChanged = True
+        Case "txtinvoicecode"
+          m_invoicecodechange = True
+      End Select
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Private m_invoicecodechange As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "cmbcode"
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            Me.m_entity.OnGlChanged()
+          End If
+          dirtyFlag = True
+        Case "dtpdocdate"
+          If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtdocdate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.DocDate = dtpDocDate.Value
             End If
-            If Me.m_entity.Status.Value = 0 _
-            OrElse Me.m_entity.Status.Value >= 3 _
-            Then
-                Me.Enabled = False
-            Else
-                Me.Enabled = True
+            dirtyFlag = True
+          End If
+        Case "txtdocdate"
+          m_dateSetting = True
+          If Not Me.txtdocdate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtdocdate) = "" Then
+            Dim theDate As Date = CDate(Me.txtdocdate.Text)
+            If Not Me.m_entity.DocDate.Equals(theDate) Then
+              dtpDocDate.Value = theDate
+              Me.m_entity.DocDate = dtpDocDate.Value
+              dirtyFlag = True
             End If
-        End Sub
-        Public Overrides Sub Initialize()
-            SetTaxTypeComboBox()
-        End Sub
-        Private Sub SetTaxTypeComboBox()
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType", "code_Value <> 1")
-            cmbTaxType.SelectedIndex = 1
-        End Sub
-
-        Protected Overrides Sub EventWiring()
-            AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler txtdocdate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDate.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler txtADVPCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtInvoiceCode.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtInvoiceCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtInvoiceDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpInvoiceDate.ValueChanged, AddressOf Me.ChangeProperty
-
-            AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtSupplierCode.TextChanged, AddressOf Me.TextHandler
-            AddHandler txtSupplierName.Validated, AddressOf ChangeProperty
-
-        End Sub
-        Private supplierCodeChanged As Boolean = False
-
-        Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtsuppliercode"
-                    supplierCodeChanged = True
-                Case "txtinvoicecode"
-                    m_invoicecodechange = True
-            End Select
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Private m_invoicecodechange As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "cmbcode"
-                    'เพิ่ม AutoCode
-                    If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
-                        Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
-                        Me.m_entity.Code = m_entity.AutoCodeFormat.Format
-                        Me.m_entity.OnGlChanged()
-                    End If
-                    dirtyFlag = True
-                Case "dtpdocdate"
-                    If Not Me.m_entity.DocDate.Equals(dtpDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtdocdate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                        End If
-                        dirtyFlag = True
-                    End If
-                Case "txtdocdate"
-                    m_dateSetting = True
-                    If Not Me.txtdocdate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtdocdate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtdocdate.Text)
-                        If Not Me.m_entity.DocDate.Equals(theDate) Then
-                            dtpDocDate.Value = theDate
-                            Me.m_entity.DocDate = dtpDocDate.Value
-                            dirtyFlag = True
-                        End If
-                    Else
-                        dtpDocDate.Value = Date.Now
-                        Me.m_entity.DocDate = Date.MinValue
-                        Me.m_entity.DocDate = Date.MinValue
-                        dirtyFlag = True
-                    End If
-                    m_dateSetting = False
-
-                Case "txtadvpcode"
-                    Dim OldAdvancePay As AdvancePay = Me.m_entity.AdvancePay
-
-                    dirtyFlag = AdvancePay.GetAdvancePay(txtADVPCode, Me.m_entity.AdvancePay)
-                    If dirtyFlag AndAlso (OldAdvancePay.Id <> Me.m_entity.AdvancePay.Id AndAlso Me.m_entity.AdvancePay.Closed) Then
-                        Dim myMsgService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-                        myMsgService.ShowWarningFormatted("${res:Global.Error.AdvancePayIsClosed}", Me.m_entity.AdvancePay.Code)
-                        Me.m_entity.AdvancePay = OldAdvancePay
-                        txtADVPCode.Text = OldAdvancePay.Code
-                        'txtADVPName.Text = OldAdvancePay.Name
-                    End If
-                    SetAdvancePayData()
-
-                Case "txtnote"
-                    dirtyFlag = True
-                    Me.m_entity.Note = txtNote.Text
-                Case "txtsuppliercode"
-                    If supplierCodeChanged Then
-                        supplierCodeChanged = False
-                        dirtyFlag = Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
-                        If dirtyFlag Then
-                            For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
-                                vitem.PrintName = Me.m_entity.Supplier.Name
-                                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
-                            Next
-                        End If
-                    End If
-                Case "txtsuppliername"
-                    Dim txt As String = txtSupplierName.Text
-                    Dim reg As New Regex("\[(.*)\]")
-                    If reg.IsMatch(txt) Then
-                        Dim sup As Supplier
-                        Try
-                            sup = New Supplier(reg.Match(txt).Groups(1).Value)
-                            dirtyFlag = True
-                        Catch ex As Exception
-                            sup = New Supplier
-                        End Try
-                        Me.m_entity.Supplier = sup
-                        If dirtyFlag Then
-                            For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
-                                vitem.PrintName = Me.m_entity.Supplier.Name
-                                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
-                            Next
-                        End If
-                    End If
-                    m_isInitialized = False
-                    Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
-                    Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
-                    m_isInitialized = True
-
-                Case "txtinvoicecode"
-                    If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
-                        Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
-                        Me.m_entity.SetNoVat()
-                        Me.m_entity.GenVatAmount(True)
-                        m_oldInvoiceCode = Me.txtInvoiceCode.Text
-                        dirtyFlag = True
-                        m_invoicecodechange = False
-                    End If
-                Case "txtinvoicedate"
-                    m_dateSetting = True
-                    dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
-                    m_dateSetting = False
-                Case "dtpinvoicedate"
-                    dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
-            End Select
-
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-            CheckFormEnable()
-        End Sub
-        Private m_oldInvoiceCode As String = ""
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
-            End If
-            cmbCode.Text = m_entity.Code
-            m_oldCode = m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
-
-            txtdocdate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-            dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
-
-            txtNote.Text = Me.m_entity.Note
-
-            ' vatcode ของ ปิดมัดจำจ่าย
-            Dim myVat As Vat = Me.m_entity.Vat
-            If Not myVat Is Nothing Then
-                Dim myVatitem As VatItem
-                If myVat.ItemCollection.Count <= 0 Then
-                    Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-                End If
-                VatInputEnabled(True)
-                myVatitem = myVat.ItemCollection(0)
-                myVat.AutoGen = False
-                If myVat.AutoGen Then
-                    Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
-                Else
-                    Me.txtInvoiceCode.Text = myVatitem.Code
-                End If
-                Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
-            End If
-            '-----------------------------
-            ' vatcode ของมัดจำจ่าย 
-            Me.m_entity.Vat.Direction.Value = 1
-            Dim ds As DataSet = Me.m_entity.GetVatForADVPC(Me.m_entity.AdvancePay)
-            If ds.Tables(0).Rows.Count <= 0 Then
-                VatInputEnabled(True)
-                Me.txtADVPInvoiceCode.Text = ""
-                Me.txtADVPInvoiceDate.Text = ""
-                Me.dtpADVPInvoiceDate.Value = Now
-            ElseIf ds.Tables(0).Rows.Count = 1 Then
-                For Each row As DataRow In ds.Tables(0).Rows
-                    VatInputEnabled(True)
-                    If Not row.IsNull("vati_code") Then
-                        Me.txtADVPInvoiceCode.Text = row("vati_code").ToString
-                        txtADVPInvoiceCode.Enabled = False
-                    End If
-                    If Not row.IsNull("vati_docdate") And IsDate(row("vati_docdate")) Then
-                        If Not row("vati_docdate").Equals(Date.MinValue) Then
-                            Me.txtADVPInvoiceDate.Text = CDate(row("vati_docdate")).ToShortDateString
-                            Me.dtpADVPInvoiceDate.Value = CDate(row("vati_docdate"))
-                            txtADVPInvoiceDate.Enabled = False
-                            dtpADVPInvoiceDate.Enabled = False
-                        End If
-                    End If
-                Next
-            Else
-                VatInputEnabled(False)
-                Me.txtADVPInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-                Me.txtADVPInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-                Me.dtpADVPInvoiceDate.Value = Now
-            End If
-
-            m_oldInvoiceCode = Me.txtInvoiceCode.Text
-            Me.chkAVPCAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
-            Me.UpdateVatAutogenStatus()
-
-            For Each item As IdValuePair In Me.cmbTaxType.Items
-                If Me.m_entity.TaxType.Value = item.Id Then
-                    Me.cmbTaxType.SelectedItem = item
-                End If
-            Next
-
-            If Me.m_entity.AdvancePay Is Nothing Then
-                txtADVPCode.Text = ""
-                txtRemaining.Text = Configuration.FormatToString(0, DigitConfig.Price)
-            Else
-                txtADVPCode.Text = Me.m_entity.AdvancePay.Code
-                txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.GetRemainingAmount, DigitConfig.Price)
-            End If
-
-            SetAdvancePayData()
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
-        End Sub
-
-        Public Overrides Sub ClearDetail()
-            For Each crlt As Control In grbHeader.Controls
-                If TypeOf crlt Is TextBox Then
-                    crlt.Text = ""
-                End If
-            Next
-
-            SetAdvancePayData()
-
+          Else
             dtpDocDate.Value = Date.Now
-            txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
-        End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
-                Me.m_entity = CType(Value, AdvancePayClosed)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
+            Me.m_entity.DocDate = Date.MinValue
+            Me.m_entity.DocDate = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
 
-        Public Sub SetStatus()
-            If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name
-            ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name
-            ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name
-            Else
-                lblStatus.Text = "ยังไม่ได้บันทึก"
-            End If
-        End Sub
-        Private Sub VatInputEnabled(ByVal enable As Boolean)
-            Me.txtInvoiceCode.Enabled = enable
-            Me.txtInvoiceDate.Enabled = enable
-            Me.dtpInvoiceDate.Enabled = enable
-            If enable Then
-                Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
-                Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-                If Me.m_isInitialized Then
-                    SetVatToOneDoc()
-                End If
-            Else
-                Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
-                Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-            End If
-        End Sub
-        Private Sub SetVatToNoDoc()
-            Dim flag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            Me.m_entity.AdvancePay.Vat.ItemCollection.Clear()
-            Me.txtInvoiceCode.Text = ""
-            Me.txtInvoiceDate.Text = ""
-            Me.dtpInvoiceDate.Value = Now
-            Me.m_isInitialized = flag
-        End Sub
-        Private Sub SetVatToOneDoc()
-            Dim flag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            If txtInvoiceCode.Text.Length > 0 Then
-                Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
-              , txtInvoiceDate _
-              , dtpInvoiceDate _
-              , AddressOf UpdateVatAutogenStatus)
-            Else
-                txtInvoiceDate.Text = txtdocdate.Text
-                dtpInvoiceDate.Value = dtpDocDate.Value
-            End If
-            m_entity.GenVatAmount()
-            Me.m_isInitialized = flag
-        End Sub
-        Private Sub chkAutoRunVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAVPCAutoRunVat.CheckedChanged
-            UpdateVatAutogenStatus()
-        End Sub
-        Private Sub UpdateVatAutogenStatus()
-            If Me.m_entity.Vat Is Nothing Then
-                Return
-            End If
-            Dim vi As New VatItem
-            If Me.m_entity.Vat.ItemCollection.Count <= 0 Then
-                Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-            End If
+        Case "txtadvpcode"
+          Dim OldAdvancePay As AdvancePay = Me.m_entity.AdvancePay
 
-            vi = Me.m_entity.Vat.ItemCollection(0)
-            If Me.chkAVPCAutoRunVat.Checked Then
-                Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-                Me.ErrorProvider1.SetError(Me.txtInvoiceCode, "")
-                Me.txtInvoiceCode.ReadOnly = True
-                m_oldInvoiceCode = Me.txtInvoiceCode.Text
-                Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
-                'Me.txtInvoiceCode.Text = m_oldInvoiceCode
-                'Hack: set Code เป็น "" เอง
-                vi.Code = ""
-                Me.m_entity.Vat.AutoGen = True
-            Else
-                Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-                Me.txtInvoiceCode.Text = m_oldInvoiceCode
-                Me.txtInvoiceCode.ReadOnly = False
-                Me.m_entity.Vat.AutoGen = False
+          dirtyFlag = AdvancePay.GetAdvancePay(txtADVPCode, Me.m_entity.AdvancePay)
+          If dirtyFlag AndAlso (OldAdvancePay.Id <> Me.m_entity.AdvancePay.Id AndAlso Me.m_entity.AdvancePay.Closed) Then
+            Dim myMsgService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            myMsgService.ShowWarningFormatted("${res:Global.Error.AdvancePayIsClosed}", Me.m_entity.AdvancePay.Code)
+            Me.m_entity.AdvancePay = OldAdvancePay
+            txtADVPCode.Text = OldAdvancePay.Code
+            'txtADVPName.Text = OldAdvancePay.Name
+          End If
+          SetAdvancePayData()
+
+        Case "txtnote"
+          dirtyFlag = True
+          Me.m_entity.Note = txtNote.Text
+        Case "txtsuppliercode"
+          If supplierCodeChanged Then
+            supplierCodeChanged = False
+            dirtyFlag = Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+            If dirtyFlag Then
+              For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
+                vitem.PrintName = Me.m_entity.Supplier.Name
+                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+              Next
             End If
-        End Sub
+          End If
+        Case "txtsuppliername"
+          Dim txt As String = txtSupplierName.Text
+          Dim reg As New Regex("\[(.*)\]")
+          If reg.IsMatch(txt) Then
+            Dim sup As Supplier
+            Try
+              sup = New Supplier(reg.Match(txt).Groups(1).Value)
+              dirtyFlag = True
+            Catch ex As Exception
+              sup = New Supplier
+            End Try
+            Me.m_entity.Supplier = sup
+            If dirtyFlag Then
+              For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
+                vitem.PrintName = Me.m_entity.Supplier.Name
+                vitem.PrintAddress = Me.m_entity.Supplier.BillingAddress
+              Next
+            End If
+          End If
+          m_isInitialized = False
+          Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
+          Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
+          m_isInitialized = True
+
+        Case "txtinvoicecode"
+          If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
+            Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+            Me.m_entity.SetNoVat()
+            Me.m_entity.GenVatAmount(True)
+            m_oldInvoiceCode = Me.txtInvoiceCode.Text
+            dirtyFlag = True
+            m_invoicecodechange = False
+          End If
+        Case "txtinvoicedate"
+          m_dateSetting = True
+          dirtyFlag = Me.m_entity.Vat.DateTextChanged(txtInvoiceDate, dtpInvoiceDate, Me.Validator)
+          m_dateSetting = False
+        Case "dtpinvoicedate"
+          dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
+      End Select
+
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    Private m_oldInvoiceCode As String = ""
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      cmbCode.Text = m_entity.Code
+      m_oldCode = m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
+
+      txtdocdate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      dtpDocDate.Value = MinDateToNow(Me.m_entity.DocDate)
+
+      txtNote.Text = Me.m_entity.Note
+
+      ' vatcode ของ ปิดมัดจำจ่าย
+      Dim myVat As Vat = Me.m_entity.Vat
+      If Not myVat Is Nothing Then
+        Dim myVatitem As VatItem
+        If myVat.ItemCollection.Count <= 0 Then
+          Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+        End If
+        VatInputEnabled(True)
+        myVatitem = myVat.ItemCollection(0)
+        myVat.AutoGen = False
+        If myVat.AutoGen Then
+          Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
+        Else
+          Me.txtInvoiceCode.Text = myVatitem.Code
+        End If
+        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+      End If
+      '-----------------------------
+      ' vatcode ของมัดจำจ่าย 
+      Me.m_entity.Vat.Direction.Value = 1
+      Dim ds As DataSet = Me.m_entity.GetVatForADVPC(Me.m_entity.AdvancePay)
+      If ds.Tables(0).Rows.Count <= 0 Then
+        VatInputEnabled(True)
+        Me.txtADVPInvoiceCode.Text = ""
+        Me.txtADVPInvoiceDate.Text = ""
+        Me.dtpADVPInvoiceDate.Value = Now
+      ElseIf ds.Tables(0).Rows.Count = 1 Then
+        For Each row As DataRow In ds.Tables(0).Rows
+          VatInputEnabled(True)
+          If Not row.IsNull("vati_code") Then
+            Me.txtADVPInvoiceCode.Text = row("vati_code").ToString
+            txtADVPInvoiceCode.Enabled = False
+          End If
+          If Not row.IsNull("vati_docdate") And IsDate(row("vati_docdate")) Then
+            If Not row("vati_docdate").Equals(Date.MinValue) Then
+              Me.txtADVPInvoiceDate.Text = CDate(row("vati_docdate")).ToShortDateString
+              Me.dtpADVPInvoiceDate.Value = CDate(row("vati_docdate"))
+              txtADVPInvoiceDate.Enabled = False
+              dtpADVPInvoiceDate.Enabled = False
+            End If
+          End If
+        Next
+      Else
+        VatInputEnabled(False)
+        Me.txtADVPInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+        Me.txtADVPInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+        Me.dtpADVPInvoiceDate.Value = Now
+      End If
+
+      m_oldInvoiceCode = Me.txtInvoiceCode.Text
+      Me.chkAVPCAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
+      Me.UpdateVatAutogenStatus()
+
+      For Each item As IdValuePair In Me.cmbTaxType.Items
+        If Me.m_entity.TaxType.Value = item.Id Then
+          Me.cmbTaxType.SelectedItem = item
+        End If
+      Next
+
+      If Me.m_entity.AdvancePay Is Nothing Then
+        txtADVPCode.Text = ""
+        txtRemaining.Text = Configuration.FormatToString(0, DigitConfig.Price)
+      Else
+        txtADVPCode.Text = Me.m_entity.AdvancePay.Code
+        txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.GetRemainingAmount, DigitConfig.Price)
+      End If
+
+      SetAdvancePayData()
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
+
+    Public Overrides Sub ClearDetail()
+      For Each crlt As Control In grbHeader.Controls
+        If TypeOf crlt Is TextBox Then
+          crlt.Text = ""
+        End If
+      Next
+
+      SetAdvancePayData()
+
+      dtpDocDate.Value = Date.Now
+      txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+    End Sub
+    Private m_entityRefed As Integer
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = Nothing
+        Me.m_entity = CType(Value, AdvancePayClosed)
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
+        End If
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
+
+    Public Sub SetStatus()
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
+    End Sub
+    Private Sub VatInputEnabled(ByVal enable As Boolean)
+      Me.txtInvoiceCode.Enabled = enable
+      Me.txtInvoiceDate.Enabled = enable
+      Me.dtpInvoiceDate.Enabled = enable
+      If enable Then
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+        If Me.m_isInitialized Then
+          SetVatToOneDoc()
+        End If
+      Else
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+      End If
+    End Sub
+    Private Sub SetVatToNoDoc()
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      Me.m_entity.AdvancePay.Vat.ItemCollection.Clear()
+      Me.txtInvoiceCode.Text = ""
+      Me.txtInvoiceDate.Text = ""
+      Me.dtpInvoiceDate.Value = Now
+      Me.m_isInitialized = flag
+    End Sub
+    Private Sub SetVatToOneDoc()
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      If txtInvoiceCode.Text.Length > 0 Then
+        Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
+      , txtInvoiceDate _
+      , dtpInvoiceDate _
+      , AddressOf UpdateVatAutogenStatus)
+      Else
+        txtInvoiceDate.Text = txtdocdate.Text
+        dtpInvoiceDate.Value = dtpDocDate.Value
+      End If
+      m_entity.GenVatAmount()
+      Me.m_isInitialized = flag
+    End Sub
+    Private Sub chkAutoRunVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAVPCAutoRunVat.CheckedChanged
+      UpdateVatAutogenStatus()
+    End Sub
+    Private Sub UpdateVatAutogenStatus()
+      If Me.m_entity.Vat Is Nothing Then
+        Return
+      End If
+      Dim vi As New VatItem
+      If Me.m_entity.Vat.ItemCollection.Count <= 0 Then
+        Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+      End If
+
+      vi = Me.m_entity.Vat.ItemCollection(0)
+      If Me.chkAVPCAutoRunVat.Checked Then
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+        Me.ErrorProvider1.SetError(Me.txtInvoiceCode, "")
+        Me.txtInvoiceCode.ReadOnly = True
+        m_oldInvoiceCode = Me.txtInvoiceCode.Text
+        Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
+        'Me.txtInvoiceCode.Text = m_oldInvoiceCode
+        'Hack: set Code เป็น "" เอง
+        vi.Code = ""
+        Me.m_entity.Vat.AutoGen = True
+      Else
+        Me.Validator.SetRequired(Me.txtInvoiceCode, False)
+        Me.txtInvoiceCode.Text = m_oldInvoiceCode
+        Me.txtInvoiceCode.ReadOnly = False
+        Me.m_entity.Vat.AutoGen = False
+      End If
+    End Sub
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Overrides"
-        Public Overrides ReadOnly Property TabPageIcon() As String
-            Get
-                Return (New AdvancePayClosed).DetailPanelIcon
-            End Get
-        End Property
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return (New AdvancePayClosed).DetailPanelIcon
+      End Get
+    End Property
 #End Region
 
 #Region "Event Handlers"
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_oldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
-                Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
-                Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
-                BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
-                If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
-                    If Me.cmbCode.Items.Count > 0 Then
-                        Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
-                        Me.cmbCode.SelectedIndex = 0
-                        Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
-                    End If
-                Else
-                    Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
-                    If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
-                        Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
-                    End If
-                End If
-                m_oldCode = Me.cmbCode.Text
-                Me.m_entity.Code = m_oldCode
-                Me.m_entity.AutoGen = True
-            Else
-                Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
-                Me.cmbCode.Text = m_oldCode
-                Me.m_entity.AutoGen = False
-            End If
-        End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList 'ComboBoxStyle.DropDown
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
+        m_oldCode = Me.cmbCode.Text
+        Me.m_entity.Code = m_oldCode
+        Me.m_entity.AutoGen = True
+      Else
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Text = m_oldCode
+        Me.m_entity.AutoGen = False
+      End If
+    End Sub
 #End Region
 
 #Region "Event of Button controls"
-        ' Employee
-        Private Sub btnAdvancePayEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New AdvancePay)
-        End Sub
-        Private Sub btnAdvancePayFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAdvancePayFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Dim entity As New ArrayList
-            Dim advp As New AdvancePay
-            advp.Closed = False
-            entity.Add(advp)
-            myEntityPanelService.OpenListDialog(New AdvancePayForClosed, AddressOf SetAdvancePayDialog, entity)
-        End Sub
-        Private Sub SetAdvancePayDialog(ByVal e As ISimpleEntity)
-            Me.txtADVPCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or AdvancePay.GetAdvancePay(txtADVPCode, Me.m_entity.AdvancePay)
-            SetAdvancePayData()
-            UpdateEntityProperties()
-        End Sub
+    ' Employee
+    Private Sub btnAdvancePayEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New AdvancePay)
+    End Sub
+    Private Sub btnAdvancePayFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAdvancePayFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim entity As New ArrayList
+      Dim advp As New AdvancePay
+      advp.Closed = False
+      entity.Add(advp)
+      myEntityPanelService.OpenListDialog(New AdvancePayForClosed, AddressOf SetAdvancePayDialog, entity)
+    End Sub
+    Private Sub SetAdvancePayDialog(ByVal e As ISimpleEntity)
+      Me.txtADVPCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or AdvancePay.GetAdvancePay(txtADVPCode, Me.m_entity.AdvancePay)
+      SetAdvancePayData()
+      UpdateEntityProperties()
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New AdvancePayClosed).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtadvpcode"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New AdvancePayClosed).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New AdvancePayClosed).FullClassName))
-                Dim entity As New AdvancePayClosed(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtadvpcode"
-                            Me.SetAdvancePayDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New AdvancePayClosed).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtadvpcode"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New AdvancePayClosed).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New AdvancePayClosed).FullClassName))
+        Dim entity As New AdvancePayClosed(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtadvpcode"
+              Me.SetAdvancePayDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
-        Private Sub txtInvoiceCode_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub txtInvoiceCode_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
-        End Sub
-    End Class
+    End Sub
+  End Class
 
 End Namespace

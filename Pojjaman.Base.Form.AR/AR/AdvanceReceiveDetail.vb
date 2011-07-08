@@ -829,6 +829,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       OrElse Me.m_entity.Status.Value >= 3 _
       OrElse Me.m_entity.Receive.Status.Value = 0 _
       OrElse Me.m_entity.Receive.Status.Value >= 3 _
+      OrElse m_entityRefed = 1 _
       Then
         For Each ctl As Control In Me.grbDetail.Controls
           ctl.Enabled = False
@@ -1221,6 +1222,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub SetStatus()
       MyBase.SetStatusBarMessage()
     End Sub
+    Private m_entityRefed As Integer
     Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
       Get
         Return Me.m_entity
@@ -1229,6 +1231,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not Object.ReferenceEquals(Me.m_entity, Value) Then
           Me.m_entity = Nothing
           Me.m_entity = CType(Value, AdvanceReceive)
+        End If
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
         End If
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)

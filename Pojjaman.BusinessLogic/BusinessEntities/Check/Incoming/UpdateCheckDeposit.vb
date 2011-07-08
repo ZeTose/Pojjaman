@@ -6,6 +6,7 @@ Imports System.Configuration
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class UpdateCheckDeposit
@@ -21,42 +22,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_updatedstatus As IncomingCheckDocStatus
     Private m_totalamount As Decimal
 
-    Private m_itemTable As TreeTable
+    'Private m_itemTable As TreeTable
 
     Private m_je As JournalEntry
     Private m_incomingcheckremoved As String
+
+    Private m_OldListOfUpdateCheckDepositItem As List(Of UpdateCheckDepositItem)
+    Private m_listOfUpdateCheckDepositItem As List(Of UpdateCheckDepositItem)
 #End Region
 
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
-      ReLoadItems()
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'ReLoadItems()
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
     End Sub
     Public Sub New(ByVal Code As String)
       MyBase.New(Code)
-      ReLoadItems()
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'ReLoadItems()
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-      ReLoadItems()
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'ReLoadItems()
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.Construct(ds, aliasPrefix)
-      ReLoadItems(ds, aliasPrefix)
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'ReLoadItems(ds, aliasPrefix)
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
     End Sub
     Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       Me.Construct(dr, aliasPrefix)
-      ReLoadItems()
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'ReLoadItems()
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
     End Sub
     Protected Overloads Overrides Sub Construct()
       MyBase.Construct()
@@ -71,9 +75,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je.DocDate = Me.m_docdate
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
-      ReLoadItems()
-      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+      'ReLoadItems()
+      m_listOfUpdateCheckDepositItem = New List(Of UpdateCheckDepositItem)
+      m_OldListOfUpdateCheckDepositItem = New List(Of UpdateCheckDepositItem)
+      'AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      'AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Dim dr As DataRow = ds.Tables(0).Rows(0)
@@ -116,11 +122,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je = New JournalEntry(Me)
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      m_listOfUpdateCheckDepositItem = New List(Of UpdateCheckDepositItem)
+      m_OldListOfUpdateCheckDepositItem = New List(Of UpdateCheckDepositItem)
+      LoadItems()
     End Sub
 
 #End Region
 
 #Region "Properties"
+    Public Property CurrentItem() As UpdateCheckDepositItem
+    Public Property ListOfUpdateCheckDepositItem As List(Of UpdateCheckDepositItem)
+      Get
+        Return m_listOfUpdateCheckDepositItem
+      End Get
+      Set(ByVal value As List(Of UpdateCheckDepositItem))
+        m_listOfUpdateCheckDepositItem = value
+      End Set
+    End Property
     Public Property ExternalForce As Boolean
 
     Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate
@@ -168,37 +187,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-    Public Property ItemTable() As TreeTable
-      Get
-        Return m_itemTable
-      End Get
-      Set(ByVal Value As TreeTable)
-        m_itemTable = Value
-      End Set
-    End Property
+    'Public Property ItemTable() As TreeTable
+    '  Get
+    '    Return m_itemTable
+    '  End Get
+    '  Set(ByVal Value As TreeTable)
+    '    m_itemTable = Value
+    '  End Set
+    'End Property
 
     Public ReadOnly Property IncomingCheckTotalAmount() As Decimal
       Get
         Dim totalamount As Decimal = 0
-        For Each row As TreeRow In Me.ItemTable.Rows
-          If Me.ValidateRow(row) Then
-            If Not row.IsNull("check_amt") Then
-              totalamount += CDec(row("check_amt"))
-            End If
-          End If
+        'For Each row As TreeRow In Me.ItemTable.Rows
+        '  If Me.ValidateRow(row) Then
+        '    If Not row.IsNull("check_amt") Then
+        '      totalamount += CDec(row("check_amt"))
+        '    End If
+        '  End If
+        'Next
+        For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+          totalamount += item.Entity.Amount
         Next
         Return totalamount
       End Get
     End Property
     Public ReadOnly Property IncomingCheckItem() As Integer
       Get
-        Dim item As Integer = 0
-        For Each row As TreeRow In Me.ItemTable.Rows
-          If Not row.IsNull("code") Then
-            item += 1
-          End If
-        Next
-        Return item
+        'Dim item As Integer = 0
+        'For Each row As TreeRow In Me.ItemTable.Rows
+        '  If Not row.IsNull("code") Then
+        '    item += 1
+        '  End If
+        'Next
+        'Return item
+        Return Me.ListOfUpdateCheckDepositItem.Count
       End Get
     End Property
 
@@ -209,12 +232,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property CheckInItemTable() As String
       Get
-        Dim incomminglist As String
-        For Each tr As TreeRow In Me.ItemTable.Childs
-          If Me.ValidateRow(tr) Then
-            If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
-              incomminglist += "|" & CInt(tr("cqupdatei_entity")) & "|"
-            End If
+        Dim incomminglist As String = ""
+        'For Each tr As TreeRow In Me.ItemTable.Childs
+        '  If Me.ValidateRow(tr) Then
+        '    If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
+        '      incomminglist += "|" & CInt(tr("cqupdatei_entity")) & "|"
+        '    End If
+        '  End If
+        'Next
+        For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+          If item.Entity.Id > 0 Then
+            incomminglist += "|" & item.Entity.Id & "|"
           End If
         Next
         Return incomminglist
@@ -278,7 +306,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("cqcode", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("docdate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("docdate", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("recipient", GetType(String)))
 
       myDatatable.Columns.Add(New DataColumn("cqupdatei_cqupdateid", GetType(Integer)))
@@ -299,7 +327,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("check_id", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("check_code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("check_cqcode", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("check_receivedate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("check_receivedate", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("check_duedate", GetType(Date)))
       myDatatable.Columns.Add(New DataColumn("check_receiveperson", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("check_customer", GetType(Integer)))
@@ -339,7 +367,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         If Not ExternalForce Then
-          If .MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
+          If Me.ListOfUpdateCheckDepositItem.Count < 0 Then '.ItemTable.Childs.Count = 0 Then
             Return New SaveErrorException(.StringParserService.Parse("${res:Global.Error.NoItem}"))
           End If
         End If
@@ -541,13 +569,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
-            Return New SaveErrorException(returnVal.Value.ToString)
-            'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave2_UpdateIncomingCheckAndReceiveStatus(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
           '--Sub Save Block  ======================================
 
+          Return New SaveErrorException(returnVal.Value.ToString) 'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
@@ -583,6 +619,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans.Commit()
       Return New SaveErrorException("0")
 
+    End Function
+
+    Private Function SubSave2_UpdateIncomingCheckAndReceiveStatus(ByVal conn As SqlConnection) As SaveErrorException
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+      Try
+        SqlHelper.ExecuteNonQuery(conn, _
+                                  trans2, _
+                                  CommandType.StoredProcedure, _
+                                  "UpdateIncomingCheckAndReceiveStatus", _
+                                  New SqlParameter("@checkIdList", Me.GetOldCheckIDList), _
+                                  New SqlParameter("@cqupdate_id", Me.Id), _
+                                  New SqlParameter("@bank_acct", ValidIdOrDBNull(Me.BankAccount)))
+
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans2.Commit()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function GetOldCheckIDList() As String
+      Dim arrCheckId As New ArrayList
+      For Each item As UpdateCheckDepositItem In Me.m_OldListOfUpdateCheckDepositItem
+        If Not arrCheckId.Contains(item.Entity.Id) Then
+          arrCheckId.Add(item.Entity.Id)
+        End If
+      Next
+
+      If arrCheckId.Count > 0 Then
+        Return String.Join(",", arrCheckId.ToArray)
+      End If
+
+      Return ""
     End Function
 
     Public Function UpdateCheckDeposit_IncomingCheckRef(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal entity_id As Integer, ByVal entity_type As Integer) As SaveErrorException
@@ -625,16 +696,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 
-    Private Function GetItemIdList() As String
+    'Private Function GenIDList() As String
+    '  Dim idlist As String = ""
+    '  For Each row As TreeRow In Me.m_entity.ItemTable.Rows
+    '    If Not IsDBNull(row("cqupdatei_entity")) Then
+    '      idlist &= CStr(row("cqupdatei_entity")) & ","
+    '    End If
+    '  Next
+    '  Return idlist
+    'End Function
+
+    Public Function GetItemIdList() As String
       Dim listOfItem As New ArrayList
 
-      For Each tr As TreeRow In Me.ItemTable.Childs
-        If Me.ValidateRow(tr) Then
-          If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
-            If Not listOfItem.Contains(CStr(tr("cqupdatei_entity"))) Then
-              listOfItem.Add(CStr(tr("cqupdatei_entity")))
-            End If
-          End If
+      'For Each tr As TreeRow In Me.ItemTable.Childs
+      '  If Me.ValidateRow(tr) Then
+      '    If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
+      '      If Not listOfItem.Contains(CStr(tr("cqupdatei_entity"))) Then
+      '        listOfItem.Add(CStr(tr("cqupdatei_entity")))
+      '      End If
+      '    End If
+      '  End If
+      'Next
+
+      For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+        If Not listOfItem.Contains(item.Entity.Id) Then
+          listOfItem.Add(item.Entity.Id)
         End If
       Next
 
@@ -655,32 +742,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
         cmdBuilder.GetUpdateCommand.Transaction = trans
         da.Fill(ds, "CheckUpdateItem")
 
-        UpdateOldItemStatus(conn, trans)
+        'UpdateOldItemStatus(conn, trans)
 
         Dim dbCount As Integer = ds.Tables("CheckUpdateItem").Rows.Count
-        Dim itemCount As Integer = Me.ItemTable.Childs.Count
+        Dim itemCount As Integer = Me.ListOfUpdateCheckDepositItem.Count
         With ds.Tables("CheckUpdateItem")
           For Each row As DataRow In .Rows
             row.Delete()
           Next
           Dim i As Integer = 0
-          For n As Integer = 0 To Me.MaxRowIndex
-            Dim row As TreeRow = Me.m_itemTable.Childs(n)
-            If ValidateRow(row) Then
-              Dim item As New UpdateCheckDepositItem
-              item.CopyFromDataRow(row)
-              i += 1
-              Dim dr As DataRow = .NewRow
-              dr("cqupdatei_cqupdateid") = Me.Id
-              dr("cqupdatei_linenumber") = i
-              dr("cqupdatei_entity") = item.Entity.Id
-              dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
-              .Rows.Add(dr)
-
-              ' update IncomingCheck ...
-              UpdateCheckStatus(item.Entity.Id, conn, trans)
-            End If
+          'For n As Integer = 0 To Me.MaxRowIndex
+          '  Dim row As TreeRow = Me.m_itemTable.Childs(n)
+          '  If ValidateRow(row) Then
+          For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+            i += 1
+            Dim dr As DataRow = .NewRow
+            dr("cqupdatei_cqupdateid") = Me.Id
+            dr("cqupdatei_linenumber") = i
+            dr("cqupdatei_entity") = item.Entity.Id
+            dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
+            .Rows.Add(dr)
           Next
+
+          ' update IncomingCheck ...
+          ''UpdateCheckStatus(item.Entity.Id, conn, trans)
+          '  End If
+          'Next
         End With
         Dim dt As DataTable = ds.Tables("CheckUpdateItem")
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -914,32 +1001,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
         cmdBuilder.GetUpdateCommand.Transaction = trans
         da.Fill(ds, "CheckUpdateItem")
 
-        UpdateOldItemStatus(conn, trans)
+        'UpdateOldItemStatus(conn, trans)
 
         Dim dbCount As Integer = ds.Tables("CheckUpdateItem").Rows.Count
-        Dim itemCount As Integer = Me.ItemTable.Childs.Count
+        'Dim itemCount As Integer = Me.ItemTable.Childs.Count
         With ds.Tables("CheckUpdateItem")
           For Each row As DataRow In .Rows
             row.Delete()
           Next
           Dim i As Integer = 0
-          For n As Integer = 0 To Me.MaxRowIndex
-            Dim row As TreeRow = Me.m_itemTable.Childs(n)
-            If ValidateRow(row) Then
-              Dim item As New UpdateCheckDepositItem
-              item.CopyFromDataRow(row)
-              i += 1
-              Dim dr As DataRow = .NewRow
-              dr("cqupdatei_cqupdateid") = Me.Id
-              dr("cqupdatei_linenumber") = i
-              dr("cqupdatei_entity") = item.Entity.Id
-              dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
-              .Rows.Add(dr)
-
-              ' update IncomingCheck ...
-              'UpdateCheckStatus(item.Entity.Id, conn, trans)
-            End If
+          'For n As Integer = 0 To Me.MaxRowIndex
+          '  Dim row As TreeRow = Me.m_itemTable.Childs(n)
+          '  If ValidateRow(row) Then
+          For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+            i += 1
+            Dim dr As DataRow = .NewRow
+            dr("cqupdatei_cqupdateid") = Me.Id
+            dr("cqupdatei_linenumber") = i
+            dr("cqupdatei_entity") = item.Entity.Id
+            dr("cqupdatei_beforestatus") = item.BeforeStatus.Value
+            .Rows.Add(dr)
           Next
+
+          ' update IncomingCheck ...
+          'UpdateCheckStatus(item.Entity.Id, conn, trans)
+          '  End If
+          'Next
         End With
         Dim dt As DataTable = ds.Tables("CheckUpdateItem")
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -951,152 +1038,152 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
-    Private Function UpdateOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, Optional ByVal changeAll As Boolean = False) As SaveErrorException
-      Dim daOldRef As New SqlDataAdapter("select * from incomingcheck " & _
-      "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
-      " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
-      " and check_id in (select receivei_entity from receiveitem " & _
-      " where receivei_entitytype = 27 and receivei_status <> 0)" _
-      , conn) '-----> มีใน checkupdate และ receive
+    'Private Function UpdateOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, Optional ByVal changeAll As Boolean = False) As SaveErrorException
+    '  Dim daOldRef As New SqlDataAdapter("select * from incomingcheck " & _
+    '  "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
+    '  " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
+    '  " and check_id in (select receivei_entity from receiveitem " & _
+    '  " where receivei_entitytype = 27 and receivei_status <> 0)" _
+    '  , conn) '-----> มีใน checkupdate และ receive
 
-      Dim daOldStatusRef As New SqlDataAdapter("select * from incomingcheck " & _
-      "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
-      " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
-      " and check_id not in (select receivei_entity from receiveitem " & _
-      " where receivei_entitytype = 27 and receivei_status <> 0)" _
-      , conn) '-----> มีใน checkupdate ไม่มีใน receive
+    '  Dim daOldStatusRef As New SqlDataAdapter("select * from incomingcheck " & _
+    '  "where check_id in (select cqupdatei_entity from CheckUpdateItem " & _
+    '  " where cqupdatei_cqupdateid =" & Me.Id & ")" & _
+    '  " and check_id not in (select receivei_entity from receiveitem " & _
+    '  " where receivei_entitytype = 27 and receivei_status <> 0)" _
+    '  , conn) '-----> มีใน checkupdate ไม่มีใน receive
 
-      Dim cmdBuilder As SqlCommandBuilder
+    '  Dim cmdBuilder As SqlCommandBuilder
 
-      Dim ds As New DataSet
+    '  Dim ds As New DataSet
 
-      cmdBuilder = New SqlCommandBuilder(daOldRef)
-      daOldRef.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
-      cmdBuilder = Nothing
-      daOldRef.Fill(ds, "OldCheck")
+    '  cmdBuilder = New SqlCommandBuilder(daOldRef)
+    '  daOldRef.SelectCommand.Transaction = trans
+    '  cmdBuilder.GetDeleteCommand.Transaction = trans
+    '  cmdBuilder.GetInsertCommand.Transaction = trans
+    '  cmdBuilder.GetUpdateCommand.Transaction = trans
+    '  cmdBuilder = Nothing
+    '  daOldRef.Fill(ds, "OldCheck")
 
-      cmdBuilder = New SqlCommandBuilder(daOldStatusRef)
-      daOldStatusRef.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
-      cmdBuilder = Nothing
-      daOldStatusRef.Fill(ds, "OldCheckStatus")
+    '  cmdBuilder = New SqlCommandBuilder(daOldStatusRef)
+    '  daOldStatusRef.SelectCommand.Transaction = trans
+    '  cmdBuilder.GetDeleteCommand.Transaction = trans
+    '  cmdBuilder.GetInsertCommand.Transaction = trans
+    '  cmdBuilder.GetUpdateCommand.Transaction = trans
+    '  cmdBuilder = Nothing
+    '  daOldStatusRef.Fill(ds, "OldCheckStatus")
 
-      Dim dtOldRef As DataTable = ds.Tables("OldCheck")
-      For Each row As DataRow In dtOldRef.Rows
-        Dim found As Boolean = False
-        For n As Integer = 0 To Me.MaxRowIndex
-          Dim item As TreeRow = Me.m_itemTable.Childs(n)
-          If ValidateRow(item) Then
-            If IsNumeric(item("cqupdatei_entity")) AndAlso CInt(item("cqupdatei_entity")) = CInt(row("check_id")) Then
-              'เจอแล้ว --> 
-              found = True
-              Exit For
-            End If
-          End If
-        Next
-        If (Not found) Or changeAll Then
-          'ไม่เจอ -- 
-          'แก้เฉพาะ docstatus เพราะมีอ้างอิงอยู่ที่อื่นด้วย
-          If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
-            If CInt(row("check_docstatus")) = 3 Then
-              row("check_docstatus") = 1
-            End If
-          End If
-        End If
-      Next
+    '  Dim dtOldRef As DataTable = ds.Tables("OldCheck")
+    '  For Each row As DataRow In dtOldRef.Rows
+    '    Dim found As Boolean = False
+    '    For n As Integer = 0 To Me.MaxRowIndex
+    '      Dim item As TreeRow = Me.m_itemTable.Childs(n)
+    '      If ValidateRow(item) Then
+    '        If IsNumeric(item("cqupdatei_entity")) AndAlso CInt(item("cqupdatei_entity")) = CInt(row("check_id")) Then
+    '          'เจอแล้ว --> 
+    '          found = True
+    '          Exit For
+    '        End If
+    '      End If
+    '    Next
+    '    If (Not found) Or changeAll Then
+    '      'ไม่เจอ -- 
+    '      'แก้เฉพาะ docstatus เพราะมีอ้างอิงอยู่ที่อื่นด้วย
+    '      If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
+    '        If CInt(row("check_docstatus")) = 3 Then
+    '          row("check_docstatus") = 1
+    '        End If
+    '      End If
+    '    End If
+    '  Next
 
-      Dim dtOldStatusRef As DataTable = ds.Tables("OldCheckStatus")
-      For Each row As DataRow In dtOldStatusRef.Rows
-        Dim found As Boolean = False
-        For n As Integer = 0 To Me.MaxRowIndex
-          Dim item As TreeRow = Me.m_itemTable.Childs(n)
-          If ValidateRow(item) Then
-            If IsNumeric(item("cqupdatei_entity")) AndAlso CInt(item("cqupdatei_entity")) = CInt(row("check_id")) Then
-              'เจอแล้ว --> 
-              found = True
-              Exit For
-            End If
-          End If
-        Next
-        If (Not found) Or changeAll Then
-          'ไม่เจอ
-          'แก้ทั้ง docstatus,status เพราะไม่มีอ้างอิงอยู่ที่อื่นด้วย
-          If Not row.IsNull("check_status") AndAlso IsNumeric(row("check_status")) Then
-            If CInt(row("check_status")) = 3 Then
-              row("check_status") = 2
-            End If
-          End If
-          If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
-            If CInt(row("check_docstatus")) = 3 Then
-              row("check_docstatus") = 1
-            End If
-          End If
-        End If
-      Next
-      daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
-      daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-      daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Added))
+    '  Dim dtOldStatusRef As DataTable = ds.Tables("OldCheckStatus")
+    '  For Each row As DataRow In dtOldStatusRef.Rows
+    '    Dim found As Boolean = False
+    '    For n As Integer = 0 To Me.MaxRowIndex
+    '      Dim item As TreeRow = Me.m_itemTable.Childs(n)
+    '      If ValidateRow(item) Then
+    '        If IsNumeric(item("cqupdatei_entity")) AndAlso CInt(item("cqupdatei_entity")) = CInt(row("check_id")) Then
+    '          'เจอแล้ว --> 
+    '          found = True
+    '          Exit For
+    '        End If
+    '      End If
+    '    Next
+    '    If (Not found) Or changeAll Then
+    '      'ไม่เจอ
+    '      'แก้ทั้ง docstatus,status เพราะไม่มีอ้างอิงอยู่ที่อื่นด้วย
+    '      If Not row.IsNull("check_status") AndAlso IsNumeric(row("check_status")) Then
+    '        If CInt(row("check_status")) = 3 Then
+    '          row("check_status") = 2
+    '        End If
+    '      End If
+    '      If Not row.IsNull("check_docstatus") AndAlso IsNumeric(row("check_docstatus")) Then
+    '        If CInt(row("check_docstatus")) = 3 Then
+    '          row("check_docstatus") = 1
+    '        End If
+    '      End If
+    '    End If
+    '  Next
+    '  daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
+    '  daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+    '  daOldRef.Update(dtOldRef.Select(Nothing, Nothing, DataViewRowState.Added))
 
-      daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
-      daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-      daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Added))
-    End Function
-    Private Function UpdateCheckStatus(ByVal checkID As Integer, _
-                                        ByVal conn As SqlConnection, _
-                                        ByVal trans As SqlTransaction) As Integer
-      Dim sqlSelecttext As String
+    '  daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Deleted))
+    '  daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+    '  daOldStatusRef.Update(dtOldStatusRef.Select(Nothing, Nothing, DataViewRowState.Added))
+    'End Function
+    'Private Function UpdateCheckStatus(ByVal checkID As Integer, _
+    '                                    ByVal conn As SqlConnection, _
+    '                                    ByVal trans As SqlTransaction) As Integer
+    '  Dim sqlSelecttext As String
 
-      sqlSelecttext = "Select * from IncomingCheck Where check_id = " & checkID
+    '  sqlSelecttext = "Select * from IncomingCheck Where check_id = " & checkID
 
-      Dim da As New SqlDataAdapter(sqlSelecttext, conn)
-      Dim cmdBuilder As New SqlCommandBuilder(da)
+    '  Dim da As New SqlDataAdapter(sqlSelecttext, conn)
+    '  Dim cmdBuilder As New SqlCommandBuilder(da)
 
-      Dim ds As New DataSet
+    '  Dim ds As New DataSet
 
-      da.SelectCommand.Transaction = trans
+    '  da.SelectCommand.Transaction = trans
 
-      'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-      cmdBuilder.GetDeleteCommand.Transaction = trans
-      cmdBuilder.GetInsertCommand.Transaction = trans
-      cmdBuilder.GetUpdateCommand.Transaction = trans
+    '  'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+    '  cmdBuilder.GetDeleteCommand.Transaction = trans
+    '  cmdBuilder.GetInsertCommand.Transaction = trans
+    '  cmdBuilder.GetUpdateCommand.Transaction = trans
 
-      da.Fill(ds)
-      With ds.Tables(0)
-        For Each row As DataRow In .Rows
-          If Not IsNumeric(row("check_status")) OrElse CInt(row("check_docstatus")) = 1 Then
-            row("check_docstatus") = Me.UpdatedStatus.Value
-          End If
-          If Not IsNumeric(row("check_status")) OrElse CInt(row("check_status")) <> 0 Then
-            row("check_status") = 3
-          End If
-          row("check_bankacct") = ValidIdOrDBNull(Me.BankAccount)
-        Next
-      End With
-      Dim dt As DataTable = ds.Tables(0)
-      ' First process deletes.
-      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-      ' Next process updates.
-      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-      ' Finally process inserts.
-      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-    End Function
+    '  da.Fill(ds)
+    '  With ds.Tables(0)
+    '    For Each row As DataRow In .Rows
+    '      If Not IsNumeric(row("check_status")) OrElse CInt(row("check_docstatus")) = 1 Then
+    '        row("check_docstatus") = Me.UpdatedStatus.Value
+    '      End If
+    '      If Not IsNumeric(row("check_status")) OrElse CInt(row("check_status")) <> 0 Then
+    '        row("check_status") = 3
+    '      End If
+    '      row("check_bankacct") = ValidIdOrDBNull(Me.BankAccount)
+    '    Next
+    '  End With
+    '  Dim dt As DataTable = ds.Tables(0)
+    '  ' First process deletes.
+    '  da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+    '  ' Next process updates.
+    '  da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+    '  ' Finally process inserts.
+    '  da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+    'End Function
 #End Region
 
 #Region "Items"
     Public Overloads Sub ReLoadItems()
       Me.IsInitialized = False
-      m_itemTable = GetSchemaTable()
+      'm_itemTable = GetSchemaTable()
       LoadItems()
       Me.IsInitialized = True
     End Sub
     Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       Me.IsInitialized = False
-      m_itemTable = GetSchemaTable()
+      'm_itemTable = GetSchemaTable()
       LoadItems(ds, aliasPrefix)
       Me.IsInitialized = True
     End Sub
@@ -1109,87 +1196,92 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , "GetCheckUpdateItem" _
       , New SqlParameter("@cqupdatei_cqupdateid", Me.Id) _
       )
+      'm_oldUpdateCheckDepositItemList = New List(Of UpdateCheckDepositItem)
 
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New UpdateCheckDepositItem(row, "")
         item.UpdateCheckDeposit = Me
         ' Hack : Huaneng ...
-        Me.Add(item)
+        'Me.Add(item)
+        m_listOfUpdateCheckDepositItem.Add(item)
+        m_OldListOfUpdateCheckDepositItem.Add(item)
       Next
     End Sub
     Private Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       For Each dr As DataRow In ds.Tables(1).Rows
         Dim item As New UpdateCheckDepositItem(dr, aliasPrefix)
         item.UpdateCheckDeposit = Me
-        Me.Add(item)
+        'Me.Add(item)
+        m_listOfUpdateCheckDepositItem.Add(item)
+        m_OldListOfUpdateCheckDepositItem.Add(item)
       Next
     End Sub
-    Public Sub AddBlankRow(ByVal count As Integer)
-      For i As Integer = 0 To count - 1
-        Dim newItem As New BlankItem("")
-        Dim mtwItem As New UpdateCheckDepositItem
-        Me.ItemTable.AcceptChanges()
-        Me.Add(mtwItem)
-      Next
-    End Sub
-    Public Function Add(ByVal item As UpdateCheckDepositItem) As TreeRow
-      Dim myRow As TreeRow = Me.ItemTable.Childs.Add
-      item.LineNumber = Me.ItemTable.Childs.Count
-      item.UpdateCheckDeposit = Me
-      item.CopyToDataRow(myRow)
-      Return myRow
-    End Function
-    Public Function Insert(ByVal index As Integer, ByVal item As UpdateCheckDepositItem) As TreeRow
-      Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
-      item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
-      item.UpdateCheckDeposit = Me
-      item.CopyToDataRow(myRow)
-      ReIndex(index + 1)
-      Return myRow
-    End Function
-    Public Function MaxRowIndex() As Integer
-      If Me.m_itemTable Is Nothing Then
-        Return -1
-      End If
-      'ให้ index ของแถวสุดท้ายที่มีข้อมูล
-      For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
-        Dim row As TreeRow = Me.m_itemTable.Childs(i)
-        If ValidateRow(row) Then
-          Return i
-        End If
-      Next
-      Return -1 'ไม่มีข้อมูลเลย
-    End Function
-    Public Sub Remove(ByVal index As Integer)
-      ' 0:ยกเลิก() , 1:เช็คในมือ() , 2:เช็คผ่าน()
-      ' 3:เช็คนำฝาก() , 4:เช็คขายลด() , 5:เช็คคืน() , 6:เปลี่ยนเช็ครับ()
-      Dim row As TreeRow = Me.ItemTable.Childs(index)
-      Dim item As New UpdateCheckDepositItem
-      item.CopyFromDataRow(row)
-      Dim referenced As Boolean = CheckEntityReferenced(row)
-      If referenced Then
-        Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        myMessage.ShowErrorFormatted("${res:Global.EntityReferenced}", item.Entity.Code)
-      Else
-        ' เก็บค่า Check ที่เคยอยู่ใน list แล้ว remove ออก
-        If row.Table.Columns.Contains("cqupdatei_entity") AndAlso Not row.IsNull("cqupdatei_entity") Then
-          m_incomingcheckremoved += "|" & CInt(row("cqupdatei_entity")) & "|"
-        End If
-        Me.ItemTable.Childs.Remove(row)
-      End If
-      ReIndex()
-    End Sub
-    Private Sub ReIndex()
-      ReIndex(0)
-    End Sub
-    Private Sub ReIndex(ByVal index As Integer)
-      If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
-        Return
-      End If
-      For i As Integer = index To Me.ItemTable.Childs.Count - 1
-        Me.ItemTable.Childs(i)("linenumber") = i + 1
-      Next
-    End Sub
+    'Public Sub AddBlankRow(ByVal count As Integer)
+    '  For i As Integer = 0 To count - 1
+    '    Dim newItem As New BlankItem("")
+    '    Dim mtwItem As New UpdateCheckDepositItem
+    '    Me.ItemTable.AcceptChanges()
+    '    Me.Add(mtwItem)
+    '  Next
+    'End Sub
+    'Public Function Add(ByVal item As UpdateCheckDepositItem) As TreeRow
+    '  Dim myRow As TreeRow = Me.ItemTable.Childs.Add
+    '  item.LineNumber = Me.ItemTable.Childs.Count
+    '  item.UpdateCheckDeposit = Me
+    '  item.CopyToDataRow(myRow)
+    '  Return myRow
+    'End Function
+    'Public Function Insert(ByVal index As Integer, ByVal item As UpdateCheckDepositItem) As TreeRow
+    '  Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
+    '  item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+    '  item.UpdateCheckDeposit = Me
+    '  item.CopyToDataRow(myRow)
+    '  ReIndex(index + 1)
+    '  Return myRow
+    'End Function
+    'Public Function MaxRowIndex() As Integer
+    '  If Me.m_itemTable Is Nothing Then
+    '    Return -1
+    '  End If
+    '  'ให้ index ของแถวสุดท้ายที่มีข้อมูล
+    '  For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
+    '    Dim row As TreeRow = Me.m_itemTable.Childs(i)
+    '    If ValidateRow(row) Then
+    '      Return i
+    '    End If
+    '  Next
+    '  Return -1 'ไม่มีข้อมูลเลย
+    'End Function
+    'Public Sub Remove(ByVal index As Integer)
+    '  ' 0:ยกเลิก() , 1:เช็คในมือ() , 2:เช็คผ่าน()
+    '  ' 3:เช็คนำฝาก() , 4:เช็คขายลด() , 5:เช็คคืน() , 6:เปลี่ยนเช็ครับ()
+    '  Dim row As TreeRow = Me.ItemTable.Childs(index)
+    '  Dim item As New UpdateCheckDepositItem
+    '  item.CopyFromDataRow(row)
+    '  Dim referenced As Boolean = CheckEntityReferenced(row)
+    '  If referenced Then
+    '    Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    '    myMessage.ShowErrorFormatted("${res:Global.EntityReferenced}", item.Entity.Code)
+    '  Else
+    '    ' เก็บค่า Check ที่เคยอยู่ใน list แล้ว remove ออก
+    '    If row.Table.Columns.Contains("cqupdatei_entity") AndAlso Not row.IsNull("cqupdatei_entity") Then
+    '      m_incomingcheckremoved += "|" & CInt(row("cqupdatei_entity")) & "|"
+    '    End If
+    '    Me.ItemTable.Childs.Remove(row)
+    '  End If
+    '  ReIndex()
+    'End Sub
+    'Private Sub ReIndex()
+    '  ReIndex(0)
+    'End Sub
+    'Private Sub ReIndex(ByVal index As Integer)
+    '  If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
+    '    Return
+    '  End If
+    '  For i As Integer = index To Me.ItemTable.Childs.Count - 1
+    '    Me.ItemTable.Childs(i)("linenumber") = i + 1
+    '  Next
+    'End Sub
     Public Function CheckEntityReferenced(ByVal row As TreeRow) As Boolean
       Dim item As New UpdateCheckReceiveItem
       item.CopyFromDataRow(row)
@@ -1207,58 +1299,99 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "TreeTable Handlers"
-    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.IsInitialized Then
-        Return
-      End If
-
-      If Not e.Row.RowState = DataRowState.Detached Then
-        e.Row.SetColumnError("Code", "")
-      Else
-        e.Row.SetColumnError("Code", Me.StringParserService.Parse("${res:Global.Error.GridHasNewLine}"))
-        'If Not Me.m_validator Is Nothing Then
-        '    Me.m_validator.HasNewRow = True
-        'End If
-      End If
-      Me.m_itemTable.AcceptChanges()
-      Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If index = Me.m_itemTable.Childs.Count - 1 Then
-
-      End If
-      Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
-      Me.OnPropertyChanged(Me, pe)
+    Public Sub Populate(ByVal dt As TreeTable)
+      dt.Clear()
+      Dim i As Integer = 0
+      For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+        i += 1
+        Dim newRow As TreeRow = dt.Childs.Add()
+        item.UpdateCheckDeposit = Me
+        item.LineNumber = i
+        item.CopyToDataRow(newRow)
+        'item.ItemValidateRow(newRow)
+        newRow.Tag = item
+      Next
     End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.IsInitialized Then
-        Return
-      End If
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "code"
-            SetEntityValue(e)
-        End Select
-        ValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
+    Public Sub SetItems(ByVal items As BasketItemCollection, ByVal index As Integer)
+      For i As Integer = 0 To items.Count - 1
+        If Not TypeOf items(i) Is StockBasketItem Then
+
+          'Dim item As BasketItem = CType(items(i), BasketItem)
+          'Dim newItem As IHasName
+          'Dim newType As Integer = -1
+
+          Dim newItem As New IncomingCheck(CType(items(i), BasketItem).Id)
+
+          Dim doc As New UpdateCheckDepositItem
+          If Not Me.CurrentItem Is Nothing Then
+            doc = Me.CurrentItem
+            doc.Entity = newItem
+            doc.BeforeStatus = New IncomingCheckDocStatus(newItem.DocStatus.Value)
+            Me.CurrentItem = Nothing
+          Else
+            If Me.ListOfUpdateCheckDepositItem.Count < index Then
+              Me.ListOfUpdateCheckDepositItem.Add(doc)
+            Else
+              Me.ListOfUpdateCheckDepositItem.Insert(index, doc)
+            End If
+            doc.Entity = newItem
+            doc.BeforeStatus = New IncomingCheckDocStatus(newItem.DocStatus.Value)
+          End If
+        End If
+      Next
     End Sub
-    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-      Dim proposedCode As Object = e.Row("Code")
-      Select Case e.Column.ColumnName.ToLower
-        Case "code"
-          proposedCode = e.ProposedValue
+    'Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+    '  If Not Me.IsInitialized Then
+    '    Return
+    '  End If
 
-        Case Else
-          Return
-      End Select
+    '  If Not e.Row.RowState = DataRowState.Detached Then
+    '    e.Row.SetColumnError("Code", "")
+    '  Else
+    '    e.Row.SetColumnError("Code", Me.StringParserService.Parse("${res:Global.Error.GridHasNewLine}"))
+    '    'If Not Me.m_validator Is Nothing Then
+    '    '    Me.m_validator.HasNewRow = True
+    '    'End If
+    '  End If
+    '  'Me.m_itemTable.AcceptChanges()
+    '  'Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
+    '  'If index = Me.m_itemTable.Childs.Count - 1 Then
 
-      If IsDBNull(proposedCode) Then
-        e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
-      Else
-        e.Row.SetColumnError("code", "")
-      End If
+    '  'End If
+    '  Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
+    '  Me.OnPropertyChanged(Me, pe)
+    'End Sub
+    'Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+    '  If Not Me.IsInitialized Then
+    '    Return
+    '  End If
+    '  Try
+    '    Select Case e.Column.ColumnName.ToLower
+    '      Case "code"
+    '        SetEntityValue(e)
+    '    End Select
+    '    ValidateRow(e)
+    '  Catch ex As Exception
+    '    MessageBox.Show(ex.ToString)
+    '  End Try
+    'End Sub
+    'Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+    '  Dim proposedCode As Object = e.Row("Code")
+    '  Select Case e.Column.ColumnName.ToLower
+    '    Case "code"
+    '      proposedCode = e.ProposedValue
 
-    End Sub
+    '    Case Else
+    '      Return
+    '  End Select
+
+    '  If IsDBNull(proposedCode) Then
+    '    e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
+    '  Else
+    '    e.Row.SetColumnError("code", "")
+    '  End If
+
+    'End Sub
     Public Function ValidateRow(ByVal row As TreeRow) As Boolean
       Dim proposedCode As Object = row("Code")
 
@@ -1360,17 +1493,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If Me.Originated Then
           Dim Referenced As String = ""
-          For Each row As TreeRow In Me.m_itemTable.Childs
-            If Me.ValidateRow(row) Then
-              Dim item As New UpdateCheckDepositItem
-              item.CopyFromDataRow(row)
-              '0=ยกเลิก , 1=เช็คในมือ , 2=เช็คผ่าน , 3=เช็คนำฝาก , 4=เช็คขายลด , 5=เช็คคืน , 6=เปลี่ยนเช็ครับ
-              If Not item.Entity Is Nothing AndAlso (item.Entity.DocStatus.Value = 0 OrElse item.Entity.DocStatus.Value = 2) Then
-                If Referenced.Length > 0 Then
-                  Referenced += "," & item.Entity.Code
-                Else
-                  Referenced = item.Entity.Code
-                End If
+          'For Each row As TreeRow In Me.m_itemTable.Childs
+          '  If Me.ValidateRow(row) Then
+          '    Dim item As New UpdateCheckDepositItem
+          '    item.CopyFromDataRow(row)
+          '    '0=ยกเลิก , 1=เช็คในมือ , 2=เช็คผ่าน , 3=เช็คนำฝาก , 4=เช็คขายลด , 5=เช็คคืน , 6=เปลี่ยนเช็ครับ
+          '    If Not item.Entity Is Nothing AndAlso (item.Entity.DocStatus.Value = 0 OrElse item.Entity.DocStatus.Value = 2) Then
+          '      If Referenced.Length > 0 Then
+          '        Referenced += "," & item.Entity.Code
+          '      Else
+          '        Referenced = item.Entity.Code
+          '      End If
+          '    End If
+          '  End If
+          'Next
+          For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+            '0=ยกเลิก , 1=เช็คในมือ , 2=เช็คผ่าน , 3=เช็คนำฝาก , 4=เช็คขายลด , 5=เช็คคืน , 6=เปลี่ยนเช็ครับ
+            If Not item.Entity Is Nothing AndAlso (item.Entity.DocStatus.Value = 0 OrElse item.Entity.DocStatus.Value = 2) Then
+              If Referenced.Length > 0 Then
+                Referenced += "," & item.Entity.Code
+              Else
+                Referenced = item.Entity.Code
               End If
             End If
           Next
@@ -1411,46 +1554,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
-      trans = conn.BeginTransaction()
+
       Try
-        UpdateOldItemStatus(conn, trans, True)
 
-        m_incomingcheckremoved = ""
-        For Each tr As TreeRow In Me.ItemTable.Childs
-          If Me.ValidateRow(tr) Then
-            If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
-              m_incomingcheckremoved += "|" & CInt(tr("cqupdatei_entity")) & "|"
-            End If
+        trans = conn.BeginTransaction()
+        Try
+          'UpdateOldItemStatus(conn, trans, True)
+
+          'm_incomingcheckremoved = ""
+          'For Each tr As TreeRow In Me.ItemTable.Childs
+          '  If Me.ValidateRow(tr) Then
+          '    If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
+          '      m_incomingcheckremoved += "|" & CInt(tr("cqupdatei_entity")) & "|"
+          '    End If
+          '  End If
+          'Next
+
+          Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+          returnVal.ParameterName = "RETURN_VALUE"
+          returnVal.DbType = DbType.Int32
+          returnVal.Direction = ParameterDirection.ReturnValue
+          returnVal.SourceVersion = DataRowVersion.Current
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteUpdateCheckDeposit", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
+          If IsNumeric(returnVal.Value) Then
+            Select Case CInt(returnVal.Value)
+              Case -1
+                trans.Rollback()
+                Return New SaveErrorException("${res:Global.UpdateCheckDepositIsReferencedCannotBeDeleted}")
+              Case Else
+            End Select
+          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+            trans.Rollback()
+            Return New SaveErrorException(returnVal.Value.ToString)
           End If
-        Next
 
-        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-        returnVal.ParameterName = "RETURN_VALUE"
-        returnVal.DbType = DbType.Int32
-        returnVal.Direction = ParameterDirection.ReturnValue
-        returnVal.SourceVersion = DataRowVersion.Current
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteUpdateCheckDeposit", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
-        If IsNumeric(returnVal.Value) Then
-          Select Case CInt(returnVal.Value)
-            Case -1
-              trans.Rollback()
-              Return New SaveErrorException("${res:Global.UpdateCheckDepositIsReferencedCannotBeDeleted}")
-            Case Else
-          End Select
-        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Commit()
+          'm_incomingcheckremoved = ""
+
+        Catch ex As SqlException
           trans.Rollback()
-          Return New SaveErrorException(returnVal.Value.ToString)
-        End If
+          Return New SaveErrorException(ex.Message)
+        Catch ex As Exception
+          trans.Rollback()
+          Return New SaveErrorException(ex.Message)
+        End Try
 
-        trans.Commit()
-        m_incomingcheckremoved = ""
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave2_UpdateIncomingCheckAndReceiveStatus(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Delete Incomplete Please Save Again")
+          End If
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
         Return New SaveErrorException("1")
-      Catch ex As SqlException
-        trans.Rollback()
-        Return New SaveErrorException(ex.Message)
       Catch ex As Exception
-        trans.Rollback()
-        Return New SaveErrorException(ex.Message)
       Finally
         conn.Close()
       End Try
@@ -1521,10 +1680,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Property UpdateCheckDeposit() As UpdateCheckDeposit
       Get
-        Return m_UpdateCheckDeposit
+        Return m_updatecheckdeposit
       End Get
       Set(ByVal Value As UpdateCheckDeposit)
-        m_UpdateCheckDeposit = Value
+        m_updatecheckdeposit = Value
       End Set
     End Property
 
@@ -1546,13 +1705,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property Entity() As IncomingCheck
       Get
+        If m_entity Is Nothing Then
+          m_entity = New IncomingCheck
+        End If
         Return m_entity
       End Get
       Set(ByVal Value As IncomingCheck)
         m_entity = Value
       End Set
     End Property
-
 #End Region
 
 #Region "Methods"
@@ -1567,13 +1728,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("cqupdatei_entity") = Me.Entity.Id
         row("code") = Me.Entity.Code
         row("cqcode") = Me.Entity.CqCode
-        row("docdate") = Me.Entity.ReceiveDate
+        row("docdate") = Me.Entity.ReceiveDate.ToShortDateString
 
         row("check_id") = Me.Entity.Id
         row("check_code") = Me.Entity.Code
         row("check_cqcode") = Me.Entity.CqCode
-        row("check_receivedate") = Me.Entity.ReceiveDate
-        row("check_duedate") = Me.Entity.DueDate
+        row("check_receivedate") = Me.Entity.ReceiveDate.ToShortDateString
+        row("check_duedate") = Me.Entity.DueDate.ToShortDateString
 
         If Not Me.Entity.ReceivePerson Is Nothing Then
           row("recipient") = Me.Entity.ReceivePerson.Name
@@ -1642,44 +1803,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Me.UpdateCheckDeposit.IsInitialized = True
     End Sub
-    Public Sub CopyFromDataRow(ByVal row As TreeRow)
-      If row Is Nothing Then
-        Return
-      End If
-      Try
-        ' Line number ...
-        If Not row.IsNull(("linenumber")) Then
-          Me.LineNumber = CInt(row("linenumber"))
-        End If
-        ' Entity ...
-        'If row.Table.Columns.Contains("check_id") AndAlso Not row.IsNull(("check_id")) Then
-        '    Me.Entity = New IncomingCheck(row, "")
-        'Else
-        '    If row.Table.Columns.Contains("cqupdatei_entity") _
-        '        AndAlso Not row.IsNull(("cqupdatei_entity")) Then
-        '        Me.Entity = New IncomingCheck(CType(row, DataRow), "")
-        '    End If
-        'End If
-        'แก้ code เหน่งด้านบนที่น่าจะผิด
-        If row.Table.Columns.Contains("check_id") AndAlso Not row.IsNull(("check_id")) Then
-          Me.Entity = New IncomingCheck(row, "")
-        Else
-          If row.Table.Columns.Contains("cqupdatei_entity") _
-              AndAlso Not row.IsNull(("cqupdatei_entity")) Then
-            Me.Entity = New IncomingCheck(CInt(row("cqupdatei_entity")))
-          End If
-        End If
+    'Public Sub CopyFromDataRow(ByVal row As TreeRow)
+    '  If row Is Nothing Then
+    '    Return
+    '  End If
+    '  Try
+    '    ' Line number ...
+    '    If Not row.IsNull(("linenumber")) Then
+    '      Me.LineNumber = CInt(row("linenumber"))
+    '    End If
+    '    ' Entity ...
+    '    'If row.Table.Columns.Contains("check_id") AndAlso Not row.IsNull(("check_id")) Then
+    '    '    Me.Entity = New IncomingCheck(row, "")
+    '    'Else
+    '    '    If row.Table.Columns.Contains("cqupdatei_entity") _
+    '    '        AndAlso Not row.IsNull(("cqupdatei_entity")) Then
+    '    '        Me.Entity = New IncomingCheck(CType(row, DataRow), "")
+    '    '    End If
+    '    'End If
+    '    'แก้ code เหน่งด้านบนที่น่าจะผิด
+    '    If row.Table.Columns.Contains("check_id") AndAlso Not row.IsNull(("check_id")) Then
+    '      Me.Entity = New IncomingCheck(row, "")
+    '    Else
+    '      If row.Table.Columns.Contains("cqupdatei_entity") _
+    '          AndAlso Not row.IsNull(("cqupdatei_entity")) Then
+    '        Me.Entity = New IncomingCheck(CInt(row("cqupdatei_entity")))
+    '      End If
+    '    End If
 
-        If row.Table.Columns.Contains("cqupdatei_beforestatus") _
-            AndAlso Not row.IsNull(("cqupdatei_beforestatus")) Then
-          Me.BeforeStatus = New IncomingCheckDocStatus(CInt(row("cqupdatei_beforestatus")))
-        End If
+    '    If row.Table.Columns.Contains("cqupdatei_beforestatus") _
+    '        AndAlso Not row.IsNull(("cqupdatei_beforestatus")) Then
+    '      Me.BeforeStatus = New IncomingCheckDocStatus(CInt(row("cqupdatei_beforestatus")))
+    '    End If
 
-      Catch ex As Exception
-        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
-      End Try
+    '  Catch ex As Exception
+    '    MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+    '  End Try
 
-    End Sub
+    'End Sub
 #End Region
 
   End Class

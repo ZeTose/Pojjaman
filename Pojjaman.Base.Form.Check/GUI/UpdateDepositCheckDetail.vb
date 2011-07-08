@@ -244,7 +244,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSumCheck.Size = New System.Drawing.Size(136, 21)
       Me.txtSumCheck.TabIndex = 1
       Me.txtSumCheck.TabStop = False
-      Me.txtSumCheck.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtSumCheck.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'TxtSumTotal
       '
@@ -265,7 +265,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.TxtSumTotal.Size = New System.Drawing.Size(136, 21)
       Me.TxtSumTotal.TabIndex = 4
       Me.TxtSumTotal.TabStop = False
-      Me.TxtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.TxtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblSumCheck
       '
@@ -572,14 +572,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Initialize()
       Me.SetLabelText()
 
+      'Dim dt As TreeTable = UpdateCheckDeposit.GetSchemaTable()
+      'Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+      ''Dim dst As DataGridTableStyle = UpdateCheckDeposit.CreateTableStyle()
+      'm_treeManager = New TreeManager(dt, tgItem)
+      'm_treeManager.SetTableStyle(dst)
+      'm_treeManager.AllowSorting = False
+      'm_treeManager.AllowDelete = False
+      'tgItem.AllowNew = False
+
       Dim dt As TreeTable = UpdateCheckDeposit.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-      'Dim dst As DataGridTableStyle = UpdateCheckDeposit.CreateTableStyle()
       m_treeManager = New TreeManager(dt, tgItem)
       m_treeManager.SetTableStyle(dst)
       m_treeManager.AllowSorting = False
       m_treeManager.AllowDelete = False
       tgItem.AllowNew = False
+      Me.Validator.DataTable = m_treeManager.Treetable
+
+      AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
+      AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
 
       EventWiring()
     End Sub
@@ -592,12 +604,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If row Is Nothing Then
           Return Nothing
         End If
-        Dim doc As New UpdateCheckDepositItem
-        doc.CopyFromDataRow(row)
-        If doc Is Nothing Then
-          Return Nothing
+        'Dim doc As New UpdateCheckDepositItem
+        'doc.CopyFromDataRow(row)
+        'If doc Is Nothing Then
+        '  Return Nothing
+        'End If
+        'Return doc
+        If TypeOf row.Tag Is UpdateCheckDepositItem Then
+          Return CType(row.Tag, UpdateCheckDepositItem)
         End If
-        Return doc
+
+        Return Nothing
       End Get
     End Property
 #End Region
@@ -738,6 +755,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+#Region "ItemTreeTable Handlers"
+    Private Sub ItemTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+    End Sub
+    Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      If Me.m_treeManager.SelectedRow Is Nothing Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      'Dim doc As UpdateCheckDepositItem = Me.m_entity.ItemCollection.CurrentItem
+      'If doc Is Nothing Then
+      '  doc = New UpdateCheckDepositItem
+      '  doc.ItemType = New ItemType(0)
+      '  Me.m_entity.ItemCollection.Add(doc)
+      '  Me.m_entity.ItemCollection.CurrentItem = doc
+      'End If
+      Select Case e.Column.ColumnName.ToLower
+        Case "code"
+          SetEntityValue(e)
+      End Select
+      ValidateRow(e)
+    End Sub
+    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+      Dim proposedCode As Object = e.Row("Code")
+      Select Case e.Column.ColumnName.ToLower
+        Case "code"
+          proposedCode = e.ProposedValue
+        Case Else
+          Return
+      End Select
+      If IsDBNull(proposedCode) Then
+        e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
+      Else
+        e.Row.SetColumnError("code", "")
+      End If
+    End Sub
+#End Region
+
 #Region "IListDetail"
     Public Overrides Sub Initialize()
 
@@ -822,12 +889,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtBankAcctName.Text = Me.m_entity.BankAccount.Name
         SetBankBranchName()
       End If
-      'Load Items**********************************************************
-      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-      AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-      Me.Validator.DataTable = m_treeManager.Treetable
-      '********************************************************************
-      RefreshBlankGrid()
+      ''Load Items**********************************************************
+      'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      'AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      'Me.Validator.DataTable = m_treeManager.Treetable
+      ''********************************************************************
+      RefreshDocs()
+      'RefreshBlankGrid()
 
       SetStatus()
       SetLabelText()
@@ -837,7 +905,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       m_isInitialized = True
     End Sub
-
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.Populate(m_treeManager.Treetable)
+      RefreshBlankGrid()
+      'ReIndex()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      'Me.UpdateAmount()
+      Me.m_isInitialized = True
+    End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
         Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -874,7 +950,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
 
         Case "cmbstatus"
-          Me.m_entity.ItemTable.Clear()
+          'Me.m_entity.ItemTable.Clear()
+          Me.m_entity.ListOfUpdateCheckDepositItem.Clear()
           RefreshBlankGrid()
 
           dirtyFlag = True
@@ -932,6 +1009,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+    Private currentY As Integer = -1
+    Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+      If tgItem.CurrentRowIndex <> currentY OrElse currentY = 0 OrElse currentY = -1 Then
+        Me.m_entity.CurrentItem = Me.CurrentItem
+        'RefreshWBS()
+        currentY = tgItem.CurrentRowIndex
+      End If
+    End Sub
     Public Sub CheckButtonClick(ByVal e As ButtonColumnEventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entities As New ArrayList
@@ -940,20 +1025,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       entities.Add(obj)
 
       Dim filters(1) As Filter
-      filters(0) = New Filter("IDList", GenIDListFromDataTable())
+      filters(0) = New Filter("IDList", Me.m_entity.GetItemIdList())
       filters(1) = New Filter("cqupdate_id", Me.m_entity.Id)
 
       myEntityPanelService.OpenListDialog(New IncomingCheck, AddressOf SetCheckItems, filters, entities)
     End Sub
-    Private Function GenIDListFromDataTable() As String
-      Dim idlist As String = ""
-      For Each row As TreeRow In Me.m_entity.ItemTable.Rows
-        If Not IsDBNull(row("cqupdatei_entity")) Then
-          idlist &= CStr(row("cqupdatei_entity")) & ","
-        End If
-      Next
-      Return idlist
-    End Function
+    'Private Function GenIDList() As String
+    '  Dim idlist As String = ""
+    '  For Each row As TreeRow In Me.m_entity.ItemTable.Rows
+    '    If Not IsDBNull(row("cqupdatei_entity")) Then
+    '      idlist &= CStr(row("cqupdatei_entity")) & ","
+    '    End If
+    '  Next
+    '  Return idlist
+    'End Function
 
     Private Sub SetEntityValue(ByVal check As ISimpleEntity)
       Me.m_treeManager.SelectedRow("Code") = check.Code
@@ -961,37 +1046,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetCheckItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
-
-      For i As Integer = items.Count - 1 To 0 Step -1
-        Dim newItem As New IncomingCheck(CType(items(i), BasketItem).Id)
-
-        Dim cqtype As New CheckType(newItem.EntityId)
-
-        Dim mtwItem As New UpdateCheckDepositItem
-
-        mtwItem.Entity = newItem
-
-        Me.m_entity.ItemTable.AcceptChanges()
-
-        If i = items.Count - 1 Then
-          If Me.m_entity.ItemTable.Childs.Count = 0 Then
-            Me.m_entity.Add(mtwItem)
-          Else
-            mtwItem.LineNumber = CInt(Me.m_entity.ItemTable.Childs(index)("linenumber"))
-            mtwItem.UpdateCheckDeposit = Me.m_entity
-            mtwItem.CopyToDataRow(Me.m_entity.ItemTable.Childs(index))
-          End If
-        Else
-          Me.m_entity.Insert(index, mtwItem)
-        End If
-        Me.m_entity.ItemTable.AcceptChanges()
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      Next
-
+      Me.m_entity.SetItems(items, index)
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
-      ' Summary ...
-      SetSummaryText()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Me.SetSummaryText()
     End Sub
 
     Private Sub PRPanelView_WorkbenchWindowChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.WorkbenchWindowChanged
@@ -1042,22 +1101,63 @@ Namespace Longkong.Pojjaman.Gui.Panels
     ' Add Item ...
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim newItem As New BlankItem("")
-      Dim checkItem As New UpdateCheckDepositItem
-
-      'checkItem.Entity = CType(newItem, ISimpleEntity)
-
-      Me.m_entity.Insert(index, checkItem)
-      Me.m_entity.ItemTable.AcceptChanges()
+      If index > Me.m_entity.ListOfUpdateCheckDepositItem.Count - 1 Then
+        Return
+      End If
+      'Dim newItem As New BlankItem("")
+      Dim item As New UpdateCheckDepositItem
+      item.Entity = New IncomingCheck
+      'prItem.ItemType = New ItemType(0)
+      'prItem.Qty = 0
+      Me.m_entity.ListOfUpdateCheckDepositItem.Insert(index, item)
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
+
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim newItem As New BlankItem("")
+      'Dim checkItem As New UpdateCheckDepositItem
+
+      ''checkItem.Entity = CType(newItem, ISimpleEntity)
+
+      'Me.m_entity.ListOfUpdateCheckDepositItem.Insert(index, checkItem)
+      ''Me.m_entity.ItemTable.AcceptChanges()
+      'tgItem.CurrentRowIndex = index
+      'RefreshBlankGrid()
     End Sub
     ' Delete Item ...
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      Me.m_entity.Remove(index)
-      Me.tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
+      Dim rowsCount As Integer = 0
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          rowsCount += 1
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            If TypeOf row.Tag Is UpdateCheckDepositItem Then
+              Dim doc As UpdateCheckDepositItem = CType(row.Tag, UpdateCheckDepositItem)
+              If Not doc Is Nothing Then
+                Me.m_entity.ListOfUpdateCheckDepositItem.Remove(doc)
+              End If
+            End If
+          End If
+        End If
+      Next
+
+      If rowsCount.Equals(0) Then
+        Dim doc As UpdateCheckDepositItem = Me.CurrentItem
+        If doc Is Nothing Then
+          Return
+        End If
+        Me.m_entity.ListOfUpdateCheckDepositItem.Remove(doc)
+      End If
+
+      RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+
+      'Dim index As Integer = Me.tgItem.CurrentRowIndex
+      ''Me.m_entity.Remove(index)
+      'Me.m_entity.ListOfUpdateCheckDepositItem.RemoveAt(index)
+      'Me.tgItem.CurrentRowIndex = index
+      'RefreshBlankGrid()
     End Sub
 #End Region
 
@@ -1069,30 +1169,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-      If Me.tgItem.Height = 0 Then
+         If Me.tgItem.Height = 0 Then
         Return
       End If
       Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim maxVisibleCount As Integer
-      Dim tgRowHeight As Integer = 17
-      maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_entity.ItemTable.Childs.Count < maxVisibleCount - 1
+      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
         'เพิ่มแถวจนเต็ม
-        Me.m_entity.AddBlankRow(1)
+        Me.m_treeManager.Treetable.Childs.Add()
       Loop
-      If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-        If Me.m_entity.ItemTable.Childs.Count < maxVisibleCount - 1 Then
-          'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-          Me.m_entity.AddBlankRow(1)
-        End If
+
+      If Me.m_entity.ListOfUpdateCheckDepositItem.Count = Me.m_treeManager.Treetable.Childs.Count Then
+        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+        Me.m_treeManager.Treetable.Childs.Add()
       End If
-      'Do While Me.m_entity.ItemTable.Childs.Count > maxVisibleCount - 1 And Me.m_entity.ItemTable.Childs.Count - 2 <> Me.m_entity.MaxRowIndex
-      '    'ลบแถวที่ไม่จำเป็น
-      '    MessageBox.Show(Me.m_entity.ItemTable.Childs.Count.ToString & ":" & maxVisibleCount.ToString & ":" & Me.m_entity.MaxRowIndex.ToString)
-      '    Me.m_entity.Remove(Me.m_entity.ItemTable.Childs.Count - 1)
-      'Loop
-      Me.m_entity.ItemTable.AcceptChanges()
+
+      Me.m_treeManager.Treetable.AcceptChanges()
       tgItem.CurrentRowIndex = Math.Max(0, index)
       Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub

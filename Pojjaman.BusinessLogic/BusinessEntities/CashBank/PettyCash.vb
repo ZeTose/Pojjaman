@@ -450,10 +450,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       
 
-      ValidateError = Me.Payment.BeforeSave(currentUserId)
-      If Not IsNumeric(ValidateError.Message) Then
-        Return ValidateError
-      End If
+      'ValidateError = Me.Payment.BeforeSave(currentUserId)
+      'If Not IsNumeric(ValidateError.Message) Then
+      '  Return ValidateError
+      'End If
 
 
       Return New SaveErrorException("0")

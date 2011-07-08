@@ -471,9 +471,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       OrElse Me.m_entity.Status.Value >= 3 _
       OrElse Me.m_entity.Payment.Status.Value = 0 _
       OrElse Me.m_entity.Payment.Status.Value >= 3 _
+      OrElse m_entityRefed = 1 _
+      OrElse Me.m_entity.PettyCash.Closed _
       Then
         For Each ctrl As Control In Me.Controls
-            ctrl.Enabled = False
+          ctrl.Enabled = False
         Next
         tgItem.Enabled = True
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
@@ -644,6 +646,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    lblStatus.Text = "ยังไม่บันทึก"
       'End If
     End Sub
+    Private m_entityRefed As Integer
     Public Overrides Property Entity() As ISimpleEntity
       Get
         Return Me.m_entity
@@ -654,6 +657,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity = Nothing
         End If
         Me.m_entity = CType(Value, PettyCashClaim)
+        If Me.m_entity.IsReferenced Then
+          m_entityRefed = 1
+        Else
+          m_entityRefed = 0
+        End If
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         UpdateEntityProperties()
