@@ -54,6 +54,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_creditCollection As PaymentAccountItemCollection
 
     Private m_itemCollection As PaymentItemCollection
+    Private m_oldListOfPaymentItem As List(Of PaymentItem)
 
     Public StandAlone As Boolean = False
 #End Region
@@ -102,6 +103,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .OnHold = False
       End With
       m_itemCollection = New PaymentItemCollection(Me)
+      m_oldListOfPaymentItem = New List(Of PaymentItem)
       m_debitCollection = New PaymentAccountItemCollection(Me, True)
       m_creditCollection = New PaymentAccountItemCollection(Me, False)
     End Sub
@@ -168,6 +170,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End With
       m_itemCollection = New PaymentItemCollection(Me)
+      m_oldListOfPaymentItem = m_itemCollection.ListOfPaymentItem ' New List(Of PaymentItem)
+
       m_debitCollection = New PaymentAccountItemCollection(Me, True)
       m_creditCollection = New PaymentAccountItemCollection(Me, False)
     End Sub
@@ -470,6 +474,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return False
     End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
@@ -702,6 +707,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       With Me
+
+        'MessageBox.Show("itemCollection : " & m_itemCollection.Count.ToString)
+        'MessageBox.Show("m_oldListOfPaymentItem" & m_oldListOfPaymentItem.Count.ToString)
+
         'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
         'For Each item As PaymentItem In Me.ItemCollection
@@ -848,13 +857,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
 
-          ''============ Update Old Payment item 
+          ' ''============ Update Old Payment item 
 
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPaymentItemEntityStatus" _
-                                    , New SqlParameter("@payment_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPaymentItemEntityStatus" _
+          '                          , New SqlParameter("@payment_id", Me.Id))
 
 
-          ''=====================================
+          ' ''=====================================
 
           Dim detailError As SaveErrorException = SaveDetail(Me.Id, conn, trans, currentUserId)
           If Not IsNumeric(detailError.Message) Then
@@ -871,7 +880,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Case Else
             End Select
           End If
+
           UpdateItemEntityStatus(conn, trans)
+
+          UpdatePayment_RefCheckPass(conn, trans)
 
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
@@ -898,11 +910,58 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End While
       Return newCode
     End Function
+
+    Private Sub UpdatePayment_RefCheckPass(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+      '@payment_refdoc numeric(18,0)
+      '@payment_refdoctype numeric(18,0)
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayment_RefCheckPass",
+                                New SqlParameter("@payment_refdoc", RefDoc.Id), New SqlParameter("@payment_refdoctype", CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId))
+    End Sub
+
+    Private Function GetOldOutGoingCheckIdList() As String
+      Dim arrId As New ArrayList
+      For Each item As PaymentItem In Me.m_oldListOfPaymentItem
+        If item.EntityType.Value = 22 Then
+          arrId.Add(item.Entity.Id)
+        End If
+      Next
+      Return String.Join(",", arrId.ToArray)
+    End Function
+    Private Function GetOldAdvancePayIdList() As String
+      Dim arrId As New ArrayList
+      For Each item As PaymentItem In Me.m_oldListOfPaymentItem
+        If item.EntityType.Value = 59 Then
+          arrId.Add(item.Entity.Id)
+        End If
+      Next
+      Return String.Join(",", arrId.ToArray)
+    End Function
+    Private Function GetOldPettyCashIdList() As String
+      Dim arrId As New ArrayList
+      For Each item As PaymentItem In Me.m_oldListOfPaymentItem
+        If item.EntityType.Value = 65 Then
+          arrId.Add(item.Entity.Id)
+        End If
+      Next
+      Return String.Join(",", arrId.ToArray)
+    End Function
+
     Private Sub UpdateItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
         Return
       End If
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePaymentItemEntityStatus", New SqlParameter("@payment_id", Me.Id))
+      Dim oldCheck As String = Me.GetOldOutGoingCheckIdList
+      Dim oldAdvancePay As String = Me.GetOldAdvancePayIdList
+      Dim oldPettyCash As String = Me.GetOldPettyCashIdList
+      SqlHelper.ExecuteNonQuery(conn,
+                                trans,
+                                CommandType.StoredProcedure,
+                                "UpdatePaymentItemEntityStatus",
+                                New SqlParameter("@payment_id", Me.Id),
+                                New SqlParameter("@OldOutGoingCheckIdList", oldCheck),
+                                New SqlParameter("@OldAdvancePayIdList", oldAdvancePay),
+                                New SqlParameter("@OldPettyCashIdList", oldPettyCash)
+                                )
     End Sub
     Private Function GetBAFromSproc(ByVal sproc As String, ByVal paymentRefDoc As Integer) As DataTable
       Try
@@ -5254,6 +5313,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Function ListOfPaymentItem() As List(Of PaymentItem)
+      Dim newList As New List(Of PaymentItem)
+      For Each Item As PaymentItem In Me
+        newList.Add(Item)
+      Next
+      Return newList
+    End Function
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0

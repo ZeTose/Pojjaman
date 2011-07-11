@@ -1264,7 +1264,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+  End Class
 
+  Public Class OutgoingCheckForSelection
+    Inherits OutgoingCheck
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "OutgoingCheckForSelection"
+      End Get
+    End Property
   End Class
 
   Public Class OutgoingCheckDocStatus

@@ -952,7 +952,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "cmbstatus"
           'Me.m_entity.ItemTable.Clear()
           Me.m_entity.ListOfUpdateCheckDepositItem.Clear()
-          RefreshBlankGrid()
+          RefreshDocs()
+          'RefreshBlankGrid()
 
           dirtyFlag = True
 
@@ -1169,7 +1170,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
-         If Me.tgItem.Height = 0 Then
+      If Me.tgItem.Height = 0 Then
         Return
       End If
       Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty

@@ -54,376 +54,376 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UpdateOutgoingCheckDetail))
-            Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-            Me.cmbCode = New System.Windows.Forms.ComboBox()
-            Me.chkAutorun = New System.Windows.Forms.CheckBox()
-            Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.txtIssueDate = New System.Windows.Forms.TextBox()
-            Me.lblCode = New System.Windows.Forms.Label()
-            Me.cmbStatus = New System.Windows.Forms.ComboBox()
-            Me.dtpIssueDate = New System.Windows.Forms.DateTimePicker()
-            Me.lblIssueDate = New System.Windows.Forms.Label()
-            Me.lblNote = New System.Windows.Forms.Label()
-            Me.txtNote = New System.Windows.Forms.TextBox()
-            Me.lblUpdateStatus = New System.Windows.Forms.Label()
-            Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-            Me.lblStatus = New System.Windows.Forms.Label()
-            Me.grbSum = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-            Me.txtSumCheck = New System.Windows.Forms.TextBox()
-            Me.TxtSumTotal = New System.Windows.Forms.TextBox()
-            Me.lblSumCheck = New System.Windows.Forms.Label()
-            Me.lblSumTotal = New System.Windows.Forms.Label()
-            Me.lblSumCheckUnit = New System.Windows.Forms.Label()
-            Me.lblCurrency = New System.Windows.Forms.Label()
-            Me.lblItem = New System.Windows.Forms.Label()
-            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-            Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-            Me.grbMaster.SuspendLayout()
-            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.grbSum.SuspendLayout()
-            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.SuspendLayout()
-            '
-            'grbMaster
-            '
-            Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.grbMaster.Controls.Add(Me.cmbCode)
-            Me.grbMaster.Controls.Add(Me.chkAutorun)
-            Me.grbMaster.Controls.Add(Me.ibtnBlank)
-            Me.grbMaster.Controls.Add(Me.ibtnDelRow)
-            Me.grbMaster.Controls.Add(Me.txtIssueDate)
-            Me.grbMaster.Controls.Add(Me.lblCode)
-            Me.grbMaster.Controls.Add(Me.cmbStatus)
-            Me.grbMaster.Controls.Add(Me.dtpIssueDate)
-            Me.grbMaster.Controls.Add(Me.lblIssueDate)
-            Me.grbMaster.Controls.Add(Me.lblNote)
-            Me.grbMaster.Controls.Add(Me.txtNote)
-            Me.grbMaster.Controls.Add(Me.lblUpdateStatus)
-            Me.grbMaster.Controls.Add(Me.tgItem)
-            Me.grbMaster.Controls.Add(Me.lblStatus)
-            Me.grbMaster.Controls.Add(Me.grbSum)
-            Me.grbMaster.Controls.Add(Me.lblItem)
-            Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.grbMaster.Location = New System.Drawing.Point(8, 8)
-            Me.grbMaster.Name = "grbMaster"
-            Me.grbMaster.Size = New System.Drawing.Size(704, 328)
-            Me.grbMaster.TabIndex = 0
-            Me.grbMaster.TabStop = False
-            Me.grbMaster.Text = "ปรับปรุงสถานะเช็ค : "
-            '
-            'cmbCode
-            '
-            Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-            Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-            Me.cmbCode.Location = New System.Drawing.Point(160, 23)
-            Me.cmbCode.Name = "cmbCode"
-            Me.cmbCode.Size = New System.Drawing.Size(144, 21)
-            Me.cmbCode.TabIndex = 274
-            '
-            'chkAutorun
-            '
-            Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
-            Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-            Me.chkAutorun.Location = New System.Drawing.Point(304, 24)
-            Me.chkAutorun.Name = "chkAutorun"
-            Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
-            Me.chkAutorun.TabIndex = 212
-            '
-            'ibtnBlank
-            '
-            Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.ibtnBlank.Location = New System.Drawing.Point(232, 104)
-            Me.ibtnBlank.Name = "ibtnBlank"
-            Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
-            Me.ibtnBlank.TabIndex = 211
-            Me.ibtnBlank.TabStop = False
-            Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'ibtnDelRow
-            '
-            Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.ibtnDelRow.Location = New System.Drawing.Point(256, 104)
-            Me.ibtnDelRow.Name = "ibtnDelRow"
-            Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
-            Me.ibtnDelRow.TabIndex = 210
-            Me.ibtnDelRow.TabStop = False
-            Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'txtIssueDate
-            '
-            Me.Validator.SetDataType(Me.txtIssueDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-            Me.Validator.SetDisplayName(Me.txtIssueDate, "")
-            Me.Validator.SetGotFocusBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
-            Me.ErrorProvider1.SetIconPadding(Me.txtIssueDate, 20)
-            Me.Validator.SetInvalidBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
-            Me.txtIssueDate.Location = New System.Drawing.Point(456, 24)
-            Me.Validator.SetMinValue(Me.txtIssueDate, "")
-            Me.txtIssueDate.Name = "txtIssueDate"
-            Me.Validator.SetRegularExpression(Me.txtIssueDate, "")
-            Me.Validator.SetRequired(Me.txtIssueDate, True)
-            Me.txtIssueDate.Size = New System.Drawing.Size(113, 20)
-            Me.txtIssueDate.TabIndex = 204
-            '
-            'lblCode
-            '
-            Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCode.ForeColor = System.Drawing.Color.Black
-            Me.lblCode.Location = New System.Drawing.Point(8, 24)
-            Me.lblCode.Name = "lblCode"
-            Me.lblCode.Size = New System.Drawing.Size(144, 16)
-            Me.lblCode.TabIndex = 202
-            Me.lblCode.Text = "เลขที่เอกสาร:"
-            Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'cmbStatus
-            '
-            Me.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-            Me.cmbStatus.Location = New System.Drawing.Point(160, 48)
-            Me.cmbStatus.Name = "cmbStatus"
-            Me.cmbStatus.Size = New System.Drawing.Size(168, 21)
-            Me.cmbStatus.TabIndex = 201
-            '
-            'dtpIssueDate
-            '
-            Me.dtpIssueDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-            Me.dtpIssueDate.Location = New System.Drawing.Point(456, 24)
-            Me.dtpIssueDate.Name = "dtpIssueDate"
-            Me.dtpIssueDate.Size = New System.Drawing.Size(144, 20)
-            Me.dtpIssueDate.TabIndex = 200
-            '
-            'lblIssueDate
-            '
-            Me.lblIssueDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblIssueDate.ForeColor = System.Drawing.Color.Black
-            Me.lblIssueDate.Location = New System.Drawing.Point(336, 24)
-            Me.lblIssueDate.Name = "lblIssueDate"
-            Me.lblIssueDate.Size = New System.Drawing.Size(112, 18)
-            Me.lblIssueDate.TabIndex = 197
-            Me.lblIssueDate.Text = "วันที่เอกสาร:"
-            Me.lblIssueDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblNote
-            '
-            Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblNote.ForeColor = System.Drawing.Color.Black
-            Me.lblNote.Location = New System.Drawing.Point(8, 72)
-            Me.lblNote.Name = "lblNote"
-            Me.lblNote.Size = New System.Drawing.Size(144, 16)
-            Me.lblNote.TabIndex = 198
-            Me.lblNote.Text = "หมายเหตุ:"
-            Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'txtNote
-            '
-            Me.Validator.SetDataType(Me.txtNote, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-            Me.Validator.SetDisplayName(Me.txtNote, "")
-            Me.txtNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
-            Me.txtNote.Location = New System.Drawing.Point(160, 72)
-            Me.txtNote.MaxLength = 255
-            Me.Validator.SetMinValue(Me.txtNote, "")
-            Me.txtNote.Name = "txtNote"
-            Me.Validator.SetRegularExpression(Me.txtNote, "")
-            Me.Validator.SetRequired(Me.txtNote, False)
-            Me.txtNote.Size = New System.Drawing.Size(440, 21)
-            Me.txtNote.TabIndex = 196
-            '
-            'lblUpdateStatus
-            '
-            Me.lblUpdateStatus.Cursor = System.Windows.Forms.Cursors.Default
-            Me.lblUpdateStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblUpdateStatus.ForeColor = System.Drawing.Color.Black
-            Me.lblUpdateStatus.Location = New System.Drawing.Point(8, 48)
-            Me.lblUpdateStatus.Name = "lblUpdateStatus"
-            Me.lblUpdateStatus.Size = New System.Drawing.Size(144, 16)
-            Me.lblUpdateStatus.TabIndex = 199
-            Me.lblUpdateStatus.Text = "ปรับปรุงสถานะเป็น:"
-            Me.lblUpdateStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'tgItem
-            '
-            Me.tgItem.AllowNew = True
-            Me.tgItem.AllowSorting = False
-            Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                        Or System.Windows.Forms.AnchorStyles.Left) _
-                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.tgItem.AutoColumnResize = True
-            Me.tgItem.CaptionVisible = False
-            Me.tgItem.Cellchanged = False
-            Me.tgItem.DataMember = ""
-            Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-            Me.tgItem.Location = New System.Drawing.Point(8, 128)
-            Me.tgItem.Name = "tgItem"
-            Me.tgItem.Size = New System.Drawing.Size(688, 120)
-            Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-            Me.tgItem.TabIndex = 191
-            Me.tgItem.TreeManager = Nothing
-            '
-            'lblStatus
-            '
-            Me.lblStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.lblStatus.AutoSize = True
-            Me.lblStatus.Cursor = System.Windows.Forms.Cursors.Default
-            Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblStatus.ForeColor = System.Drawing.Color.Black
-            Me.lblStatus.Location = New System.Drawing.Point(16, 304)
-            Me.lblStatus.Name = "lblStatus"
-            Me.lblStatus.Size = New System.Drawing.Size(48, 13)
-            Me.lblStatus.TabIndex = 192
-            Me.lblStatus.Text = "lblStatus"
-            Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'grbSum
-            '
-            Me.grbSum.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.grbSum.Controls.Add(Me.txtSumCheck)
-            Me.grbSum.Controls.Add(Me.TxtSumTotal)
-            Me.grbSum.Controls.Add(Me.lblSumCheck)
-            Me.grbSum.Controls.Add(Me.lblSumTotal)
-            Me.grbSum.Controls.Add(Me.lblSumCheckUnit)
-            Me.grbSum.Controls.Add(Me.lblCurrency)
-            Me.grbSum.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.grbSum.Location = New System.Drawing.Point(280, 248)
-            Me.grbSum.Name = "grbSum"
-            Me.grbSum.Size = New System.Drawing.Size(416, 72)
-            Me.grbSum.TabIndex = 195
-            Me.grbSum.TabStop = False
-            Me.grbSum.Text = "สรุปรายการเช็ค"
-            '
-            'txtSumCheck
-            '
-            Me.txtSumCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.Validator.SetDataType(Me.txtSumCheck, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int64Type)
-            Me.Validator.SetDisplayName(Me.txtSumCheck, "")
-            Me.txtSumCheck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.txtSumCheck, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.txtSumCheck, System.Drawing.Color.Empty)
-            Me.txtSumCheck.Location = New System.Drawing.Point(208, 16)
-            Me.Validator.SetMinValue(Me.txtSumCheck, "")
-            Me.txtSumCheck.Name = "txtSumCheck"
-            Me.txtSumCheck.ReadOnly = True
-            Me.Validator.SetRegularExpression(Me.txtSumCheck, "")
-            Me.Validator.SetRequired(Me.txtSumCheck, False)
-            Me.txtSumCheck.Size = New System.Drawing.Size(120, 21)
-            Me.txtSumCheck.TabIndex = 187
-            Me.txtSumCheck.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            '
-            'TxtSumTotal
-            '
-            Me.TxtSumTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.Validator.SetDataType(Me.TxtSumTotal, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
-            Me.Validator.SetDisplayName(Me.TxtSumTotal, "")
-            Me.TxtSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Validator.SetGotFocusBackColor(Me.TxtSumTotal, System.Drawing.Color.Empty)
-            Me.Validator.SetInvalidBackColor(Me.TxtSumTotal, System.Drawing.Color.Empty)
-            Me.TxtSumTotal.Location = New System.Drawing.Point(208, 40)
-            Me.Validator.SetMinValue(Me.TxtSumTotal, "")
-            Me.TxtSumTotal.Name = "TxtSumTotal"
-            Me.TxtSumTotal.ReadOnly = True
-            Me.Validator.SetRegularExpression(Me.TxtSumTotal, "")
-            Me.Validator.SetRequired(Me.TxtSumTotal, False)
-            Me.TxtSumTotal.Size = New System.Drawing.Size(120, 21)
-            Me.TxtSumTotal.TabIndex = 187
-            Me.TxtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-            '
-            'lblSumCheck
-            '
-            Me.lblSumCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblSumCheck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblSumCheck.ForeColor = System.Drawing.Color.Black
-            Me.lblSumCheck.Location = New System.Drawing.Point(24, 16)
-            Me.lblSumCheck.Name = "lblSumCheck"
-            Me.lblSumCheck.Size = New System.Drawing.Size(176, 18)
-            Me.lblSumCheck.TabIndex = 186
-            Me.lblSumCheck.Text = "จำนวนเช็คที่จะฝาก:"
-            Me.lblSumCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblSumTotal
-            '
-            Me.lblSumTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblSumTotal.ForeColor = System.Drawing.Color.Black
-            Me.lblSumTotal.Location = New System.Drawing.Point(24, 40)
-            Me.lblSumTotal.Name = "lblSumTotal"
-            Me.lblSumTotal.Size = New System.Drawing.Size(176, 18)
-            Me.lblSumTotal.TabIndex = 186
-            Me.lblSumTotal.Text = "จำนวนเงินรวม:"
-            Me.lblSumTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblSumCheckUnit
-            '
-            Me.lblSumCheckUnit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblSumCheckUnit.AutoSize = True
-            Me.lblSumCheckUnit.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.lblSumCheckUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblSumCheckUnit.ForeColor = System.Drawing.Color.Black
-            Me.lblSumCheckUnit.Location = New System.Drawing.Point(336, 16)
-            Me.lblSumCheckUnit.Name = "lblSumCheckUnit"
-            Me.lblSumCheckUnit.Size = New System.Drawing.Size(40, 13)
-            Me.lblSumCheckUnit.TabIndex = 186
-            Me.lblSumCheckUnit.Text = "รายการ"
-            Me.lblSumCheckUnit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblCurrency
-            '
-            Me.lblCurrency.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.lblCurrency.AutoSize = True
-            Me.lblCurrency.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblCurrency.ForeColor = System.Drawing.Color.Black
-            Me.lblCurrency.Location = New System.Drawing.Point(336, 40)
-            Me.lblCurrency.Name = "lblCurrency"
-            Me.lblCurrency.Size = New System.Drawing.Size(27, 13)
-            Me.lblCurrency.TabIndex = 186
-            Me.lblCurrency.Text = "บาท"
-            Me.lblCurrency.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblItem
-            '
-            Me.lblItem.AutoSize = True
-            Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblItem.ForeColor = System.Drawing.Color.Black
-            Me.lblItem.Location = New System.Drawing.Point(16, 112)
-            Me.lblItem.Name = "lblItem"
-            Me.lblItem.Size = New System.Drawing.Size(211, 16)
-            Me.lblItem.TabIndex = 193
-            Me.lblItem.Text = "รายการเช็คที่ต้องการเปลี่ยนสถานะ"
-            Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-            '
-            'ErrorProvider1
-            '
-            Me.ErrorProvider1.ContainerControl = Me
-            '
-            'Validator
-            '
-            Me.Validator.BackcolorChanging = False
-            Me.Validator.DataTable = Nothing
-            Me.Validator.ErrorProvider = Nothing
-            Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
-            Me.Validator.HasNewRow = False
-            Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
-            '
-            'UpdateOutgoingCheckDetail
-            '
-            Me.Controls.Add(Me.grbMaster)
-            Me.Name = "UpdateOutgoingCheckDetail"
-            Me.Size = New System.Drawing.Size(728, 344)
-            Me.grbMaster.ResumeLayout(False)
-            Me.grbMaster.PerformLayout()
-            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.grbSum.ResumeLayout(False)
-            Me.grbSum.PerformLayout()
-            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.ResumeLayout(False)
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UpdateOutgoingCheckDetail))
+      Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtIssueDate = New System.Windows.Forms.TextBox()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.cmbStatus = New System.Windows.Forms.ComboBox()
+      Me.dtpIssueDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblIssueDate = New System.Windows.Forms.Label()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblUpdateStatus = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.grbSum = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtSumCheck = New System.Windows.Forms.TextBox()
+      Me.TxtSumTotal = New System.Windows.Forms.TextBox()
+      Me.lblSumCheck = New System.Windows.Forms.Label()
+      Me.lblSumTotal = New System.Windows.Forms.Label()
+      Me.lblSumCheckUnit = New System.Windows.Forms.Label()
+      Me.lblCurrency = New System.Windows.Forms.Label()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.grbMaster.SuspendLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.grbSum.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.SuspendLayout()
+      '
+      'grbMaster
+      '
+      Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.cmbCode)
+      Me.grbMaster.Controls.Add(Me.chkAutorun)
+      Me.grbMaster.Controls.Add(Me.ibtnBlank)
+      Me.grbMaster.Controls.Add(Me.ibtnDelRow)
+      Me.grbMaster.Controls.Add(Me.txtIssueDate)
+      Me.grbMaster.Controls.Add(Me.lblCode)
+      Me.grbMaster.Controls.Add(Me.cmbStatus)
+      Me.grbMaster.Controls.Add(Me.dtpIssueDate)
+      Me.grbMaster.Controls.Add(Me.lblIssueDate)
+      Me.grbMaster.Controls.Add(Me.lblNote)
+      Me.grbMaster.Controls.Add(Me.txtNote)
+      Me.grbMaster.Controls.Add(Me.lblUpdateStatus)
+      Me.grbMaster.Controls.Add(Me.tgItem)
+      Me.grbMaster.Controls.Add(Me.lblStatus)
+      Me.grbMaster.Controls.Add(Me.grbSum)
+      Me.grbMaster.Controls.Add(Me.lblItem)
+      Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbMaster.Location = New System.Drawing.Point(8, 8)
+      Me.grbMaster.Name = "grbMaster"
+      Me.grbMaster.Size = New System.Drawing.Size(704, 328)
+      Me.grbMaster.TabIndex = 0
+      Me.grbMaster.TabStop = False
+      Me.grbMaster.Text = "ปรับปรุงสถานะเช็ค : "
+      '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(160, 23)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(144, 21)
+      Me.cmbCode.TabIndex = 274
+      '
+      'chkAutorun
+      '
+      Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
+      Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
+      Me.chkAutorun.Location = New System.Drawing.Point(304, 24)
+      Me.chkAutorun.Name = "chkAutorun"
+      Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
+      Me.chkAutorun.TabIndex = 212
+      '
+      'ibtnBlank
+      '
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlank.Location = New System.Drawing.Point(232, 104)
+      Me.ibtnBlank.Name = "ibtnBlank"
+      Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnBlank.TabIndex = 211
+      Me.ibtnBlank.TabStop = False
+      Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnDelRow
+      '
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelRow.Location = New System.Drawing.Point(256, 104)
+      Me.ibtnDelRow.Name = "ibtnDelRow"
+      Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnDelRow.TabIndex = 210
+      Me.ibtnDelRow.TabStop = False
+      Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtIssueDate
+      '
+      Me.Validator.SetDataType(Me.txtIssueDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtIssueDate, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtIssueDate, 20)
+      Me.Validator.SetInvalidBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
+      Me.txtIssueDate.Location = New System.Drawing.Point(456, 24)
+      Me.Validator.SetMinValue(Me.txtIssueDate, "")
+      Me.txtIssueDate.Name = "txtIssueDate"
+      Me.Validator.SetRegularExpression(Me.txtIssueDate, "")
+      Me.Validator.SetRequired(Me.txtIssueDate, True)
+      Me.txtIssueDate.Size = New System.Drawing.Size(113, 20)
+      Me.txtIssueDate.TabIndex = 204
+      '
+      'lblCode
+      '
+      Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCode.ForeColor = System.Drawing.Color.Black
+      Me.lblCode.Location = New System.Drawing.Point(8, 24)
+      Me.lblCode.Name = "lblCode"
+      Me.lblCode.Size = New System.Drawing.Size(144, 16)
+      Me.lblCode.TabIndex = 202
+      Me.lblCode.Text = "เลขที่เอกสาร:"
+      Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'cmbStatus
+      '
+      Me.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.cmbStatus.Location = New System.Drawing.Point(160, 48)
+      Me.cmbStatus.Name = "cmbStatus"
+      Me.cmbStatus.Size = New System.Drawing.Size(168, 21)
+      Me.cmbStatus.TabIndex = 201
+      '
+      'dtpIssueDate
+      '
+      Me.dtpIssueDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpIssueDate.Location = New System.Drawing.Point(456, 24)
+      Me.dtpIssueDate.Name = "dtpIssueDate"
+      Me.dtpIssueDate.Size = New System.Drawing.Size(144, 20)
+      Me.dtpIssueDate.TabIndex = 200
+      '
+      'lblIssueDate
+      '
+      Me.lblIssueDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblIssueDate.ForeColor = System.Drawing.Color.Black
+      Me.lblIssueDate.Location = New System.Drawing.Point(336, 24)
+      Me.lblIssueDate.Name = "lblIssueDate"
+      Me.lblIssueDate.Size = New System.Drawing.Size(112, 18)
+      Me.lblIssueDate.TabIndex = 197
+      Me.lblIssueDate.Text = "วันที่เอกสาร:"
+      Me.lblIssueDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblNote
+      '
+      Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblNote.ForeColor = System.Drawing.Color.Black
+      Me.lblNote.Location = New System.Drawing.Point(8, 72)
+      Me.lblNote.Name = "lblNote"
+      Me.lblNote.Size = New System.Drawing.Size(144, 16)
+      Me.lblNote.TabIndex = 198
+      Me.lblNote.Text = "หมายเหตุ:"
+      Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtNote
+      '
+      Me.Validator.SetDataType(Me.txtNote, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtNote, "")
+      Me.txtNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
+      Me.txtNote.Location = New System.Drawing.Point(160, 72)
+      Me.txtNote.MaxLength = 255
+      Me.Validator.SetMinValue(Me.txtNote, "")
+      Me.txtNote.Name = "txtNote"
+      Me.Validator.SetRegularExpression(Me.txtNote, "")
+      Me.Validator.SetRequired(Me.txtNote, False)
+      Me.txtNote.Size = New System.Drawing.Size(440, 21)
+      Me.txtNote.TabIndex = 196
+      '
+      'lblUpdateStatus
+      '
+      Me.lblUpdateStatus.Cursor = System.Windows.Forms.Cursors.Default
+      Me.lblUpdateStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUpdateStatus.ForeColor = System.Drawing.Color.Black
+      Me.lblUpdateStatus.Location = New System.Drawing.Point(8, 48)
+      Me.lblUpdateStatus.Name = "lblUpdateStatus"
+      Me.lblUpdateStatus.Size = New System.Drawing.Size(144, 16)
+      Me.lblUpdateStatus.TabIndex = 199
+      Me.lblUpdateStatus.Text = "ปรับปรุงสถานะเป็น:"
+      Me.lblUpdateStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'tgItem
+      '
+      Me.tgItem.AllowNew = True
+      Me.tgItem.AllowSorting = False
+      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                  Or System.Windows.Forms.AnchorStyles.Left) _
+                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.tgItem.AutoColumnResize = True
+      Me.tgItem.CaptionVisible = False
+      Me.tgItem.Cellchanged = False
+      Me.tgItem.DataMember = ""
+      Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
+      Me.tgItem.Location = New System.Drawing.Point(8, 128)
+      Me.tgItem.Name = "tgItem"
+      Me.tgItem.Size = New System.Drawing.Size(688, 120)
+      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
+      Me.tgItem.TabIndex = 191
+      Me.tgItem.TreeManager = Nothing
+      '
+      'lblStatus
+      '
+      Me.lblStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.lblStatus.AutoSize = True
+      Me.lblStatus.Cursor = System.Windows.Forms.Cursors.Default
+      Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblStatus.ForeColor = System.Drawing.Color.Black
+      Me.lblStatus.Location = New System.Drawing.Point(16, 304)
+      Me.lblStatus.Name = "lblStatus"
+      Me.lblStatus.Size = New System.Drawing.Size(48, 13)
+      Me.lblStatus.TabIndex = 192
+      Me.lblStatus.Text = "lblStatus"
+      Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'grbSum
+      '
+      Me.grbSum.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbSum.Controls.Add(Me.txtSumCheck)
+      Me.grbSum.Controls.Add(Me.TxtSumTotal)
+      Me.grbSum.Controls.Add(Me.lblSumCheck)
+      Me.grbSum.Controls.Add(Me.lblSumTotal)
+      Me.grbSum.Controls.Add(Me.lblSumCheckUnit)
+      Me.grbSum.Controls.Add(Me.lblCurrency)
+      Me.grbSum.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbSum.Location = New System.Drawing.Point(280, 248)
+      Me.grbSum.Name = "grbSum"
+      Me.grbSum.Size = New System.Drawing.Size(416, 72)
+      Me.grbSum.TabIndex = 195
+      Me.grbSum.TabStop = False
+      Me.grbSum.Text = "สรุปรายการเช็ค"
+      '
+      'txtSumCheck
+      '
+      Me.txtSumCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.Validator.SetDataType(Me.txtSumCheck, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int64Type)
+      Me.Validator.SetDisplayName(Me.txtSumCheck, "")
+      Me.txtSumCheck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtSumCheck, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtSumCheck, System.Drawing.Color.Empty)
+      Me.txtSumCheck.Location = New System.Drawing.Point(208, 16)
+      Me.Validator.SetMinValue(Me.txtSumCheck, "")
+      Me.txtSumCheck.Name = "txtSumCheck"
+      Me.txtSumCheck.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtSumCheck, "")
+      Me.Validator.SetRequired(Me.txtSumCheck, False)
+      Me.txtSumCheck.Size = New System.Drawing.Size(120, 21)
+      Me.txtSumCheck.TabIndex = 187
+      Me.txtSumCheck.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'TxtSumTotal
+      '
+      Me.TxtSumTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.Validator.SetDataType(Me.TxtSumTotal, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
+      Me.Validator.SetDisplayName(Me.TxtSumTotal, "")
+      Me.TxtSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.TxtSumTotal, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.TxtSumTotal, System.Drawing.Color.Empty)
+      Me.TxtSumTotal.Location = New System.Drawing.Point(208, 40)
+      Me.Validator.SetMinValue(Me.TxtSumTotal, "")
+      Me.TxtSumTotal.Name = "TxtSumTotal"
+      Me.TxtSumTotal.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.TxtSumTotal, "")
+      Me.Validator.SetRequired(Me.TxtSumTotal, False)
+      Me.TxtSumTotal.Size = New System.Drawing.Size(120, 21)
+      Me.TxtSumTotal.TabIndex = 187
+      Me.TxtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+      '
+      'lblSumCheck
+      '
+      Me.lblSumCheck.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblSumCheck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblSumCheck.ForeColor = System.Drawing.Color.Black
+      Me.lblSumCheck.Location = New System.Drawing.Point(24, 16)
+      Me.lblSumCheck.Name = "lblSumCheck"
+      Me.lblSumCheck.Size = New System.Drawing.Size(176, 18)
+      Me.lblSumCheck.TabIndex = 186
+      Me.lblSumCheck.Text = "จำนวนเช็คที่จะฝาก:"
+      Me.lblSumCheck.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblSumTotal
+      '
+      Me.lblSumTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblSumTotal.ForeColor = System.Drawing.Color.Black
+      Me.lblSumTotal.Location = New System.Drawing.Point(24, 40)
+      Me.lblSumTotal.Name = "lblSumTotal"
+      Me.lblSumTotal.Size = New System.Drawing.Size(176, 18)
+      Me.lblSumTotal.TabIndex = 186
+      Me.lblSumTotal.Text = "จำนวนเงินรวม:"
+      Me.lblSumTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblSumCheckUnit
+      '
+      Me.lblSumCheckUnit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblSumCheckUnit.AutoSize = True
+      Me.lblSumCheckUnit.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.lblSumCheckUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblSumCheckUnit.ForeColor = System.Drawing.Color.Black
+      Me.lblSumCheckUnit.Location = New System.Drawing.Point(336, 16)
+      Me.lblSumCheckUnit.Name = "lblSumCheckUnit"
+      Me.lblSumCheckUnit.Size = New System.Drawing.Size(40, 13)
+      Me.lblSumCheckUnit.TabIndex = 186
+      Me.lblSumCheckUnit.Text = "รายการ"
+      Me.lblSumCheckUnit.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblCurrency
+      '
+      Me.lblCurrency.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.lblCurrency.AutoSize = True
+      Me.lblCurrency.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.lblCurrency.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCurrency.ForeColor = System.Drawing.Color.Black
+      Me.lblCurrency.Location = New System.Drawing.Point(336, 40)
+      Me.lblCurrency.Name = "lblCurrency"
+      Me.lblCurrency.Size = New System.Drawing.Size(27, 13)
+      Me.lblCurrency.TabIndex = 186
+      Me.lblCurrency.Text = "บาท"
+      Me.lblCurrency.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'lblItem
+      '
+      Me.lblItem.AutoSize = True
+      Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblItem.ForeColor = System.Drawing.Color.Black
+      Me.lblItem.Location = New System.Drawing.Point(16, 112)
+      Me.lblItem.Name = "lblItem"
+      Me.lblItem.Size = New System.Drawing.Size(211, 16)
+      Me.lblItem.TabIndex = 193
+      Me.lblItem.Text = "รายการเช็คที่ต้องการเปลี่ยนสถานะ"
+      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      '
+      'ErrorProvider1
+      '
+      Me.ErrorProvider1.ContainerControl = Me
+      '
+      'Validator
+      '
+      Me.Validator.BackcolorChanging = False
+      Me.Validator.DataTable = Nothing
+      Me.Validator.ErrorProvider = Nothing
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
+      Me.Validator.HasNewRow = False
+      Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
+      '
+      'UpdateOutgoingCheckDetail
+      '
+      Me.Controls.Add(Me.grbMaster)
+      Me.Name = "UpdateOutgoingCheckDetail"
+      Me.Size = New System.Drawing.Size(728, 344)
+      Me.grbMaster.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.grbSum.ResumeLayout(False)
+      Me.grbSum.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.ResumeLayout(False)
 
-        End Sub
+    End Sub
 
 #End Region
 
@@ -483,25 +483,95 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_treeManager.AllowDelete = False
       tgItem.AllowNew = False
 
+      AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
+      AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
+
       EventWiring()
     End Sub
 #End Region
 
 #Region "Properties"
     Private ReadOnly Property CurrentItem() As UpdateCheckPaymentItem
+      'Get
+      '  Dim row As TreeRow = Me.m_treeManager.SelectedRow
+      '  If row Is Nothing Then
+      '    Return Nothing
+      '  End If
+      '  Dim doc As New UpdateCheckPaymentItem
+      '  doc.CopyFromDataRow(row)
+      '  If doc Is Nothing Then
+      '    Return Nothing
+      '  End If
+      '  Return doc
+      'End Get
       Get
         Dim row As TreeRow = Me.m_treeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
-        Dim doc As New UpdateCheckPaymentItem
-        doc.CopyFromDataRow(row)
-        If doc Is Nothing Then
-          Return Nothing
+        'Dim doc As New UpdateCheckDepositItem
+        'doc.CopyFromDataRow(row)
+        'If doc Is Nothing Then
+        '  Return Nothing
+        'End If
+        'Return doc
+        If TypeOf row.Tag Is UpdateCheckPaymentItem Then
+          Return CType(row.Tag, UpdateCheckPaymentItem)
         End If
-        Return doc
+
+        Return Nothing
       End Get
     End Property
+#End Region
+
+#Region "ItemTreeTable Handlers"
+    Private Sub ItemTreetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+      RefreshDocs()
+      tgItem.CurrentRowIndex = index
+    End Sub
+    Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      If Me.m_treeManager.SelectedRow Is Nothing Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      'Dim doc As UpdateCheckDepositItem = Me.m_entity.ItemCollection.CurrentItem
+      'If doc Is Nothing Then
+      '  doc = New UpdateCheckDepositItem
+      '  doc.ItemType = New ItemType(0)
+      '  Me.m_entity.ItemCollection.Add(doc)
+      '  Me.m_entity.ItemCollection.CurrentItem = doc
+      'End If
+      Select Case e.Column.ColumnName.ToLower
+        Case "code"
+          SetEntityValue(e)
+      End Select
+      ValidateRow(e)
+    End Sub
+    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+      Dim proposedCode As Object = e.Row("Code")
+      Select Case e.Column.ColumnName.ToLower
+        Case "code"
+          proposedCode = e.ProposedValue
+        Case Else
+          Return
+      End Select
+      If IsDBNull(proposedCode) Then
+        e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.CodeMissing}"))
+      Else
+        e.Row.SetColumnError("code", "")
+      End If
+    End Sub
 #End Region
 
 #Region " Style "
@@ -671,7 +741,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      Dim valid As SaveErrorException = Me.m_entity.ValidateItem 
+      Dim valid As SaveErrorException = Me.m_entity.ValidateItem
       If Not IsNumeric(valid.Message) Then
         Me.cmbCode.Enabled = False
         Me.chkAutorun.Enabled = False
@@ -738,13 +808,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         cmbStatus.SelectedIndex = index
       End If
 
-      'Load Items**********************************************************
-      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-      AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
-      Me.Validator.DataTable = m_treeManager.Treetable
-      '********************************************************************
-
-      RefreshBlankGrid()
+      ''Load Items**********************************************************
+      'Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      'AddHandler Me.m_entity.PropertyChanged, AddressOf PropChanged
+      'Me.Validator.DataTable = m_treeManager.Treetable
+      ''********************************************************************
+      RefreshDocs()
+      'RefreshBlankGrid()
 
       SetStatus()
       SetSummaryText()
@@ -752,7 +822,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       m_isInitialized = True
     End Sub
-
+    Private Sub RefreshDocs()
+      Me.m_isInitialized = False
+      Me.m_entity.Populate(m_treeManager.Treetable)
+      RefreshBlankGrid()
+      'ReIndex()
+      Me.m_treeManager.Treetable.AcceptChanges()
+      'Me.UpdateAmount()
+      Me.m_isInitialized = True
+    End Sub
     Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
       If e.Name = "ItemChanged" Then
         Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -793,8 +871,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
 
         Case "cmbstatus"
-          Me.m_entity.ItemTable.Clear()
-          RefreshBlankGrid()
+          'Me.m_entity.ItemTable.Clear()
+          Me.m_entity.ListOfUpdateCheckPaymentItem.Clear()
+          RefreshDocs()
+          'RefreshBlankGrid()
 
           Me.m_entity.UpdatedStatus = New OutgoingCheckDocStatus(cmbStatus.Text)
           dirtyFlag = True
@@ -869,16 +949,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(1) = New Filter("cqupdate_id", Me.m_entity.Id)
       filters(2) = New Filter("docstatus", checkValue)
 
-      myEntityPanelService.OpenListDialog(New OutgoingCheck, AddressOf SetCheckItems, filters, entities)
+      myEntityPanelService.OpenListDialog(New OutgoingCheckForSelection, AddressOf SetCheckItems, filters, entities)
     End Sub
     Private Function GenIDListFromDataTable() As String
-      Dim idlist As String = ""
-      For Each row As TreeRow In Me.m_entity.ItemTable.Rows
-        If Not IsDBNull(row("cqupdatei_entity")) Then
-          idlist &= CStr(row("cqupdatei_entity")) & ","
-        End If
+      'Dim idlist As String = ""
+      'For Each row As TreeRow In Me.m_entity.ItemTable.Rows
+      '  If Not IsDBNull(row("cqupdatei_entity")) Then
+      '    idlist &= CStr(row("cqupdatei_entity")) & ","
+      '  End If
+      'Next
+
+      Dim idList As New ArrayList
+      For Each item As UpdateCheckPaymentItem In Me.m_entity.ListOfUpdateCheckPaymentItem
+        idList.Add(item.Entity.Id)
       Next
-      Return idlist
+      If idList.Count > 0 Then
+        Return String.Join(",", idList.ToArray)
+      End If
+
+      Return ""
     End Function
 
     Private Sub SetEntityValue(ByVal check As ISimpleEntity)
@@ -887,33 +976,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetCheckItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
-
-      For i As Integer = items.Count - 1 To 0 Step -1
-        Dim newItem As New OutgoingCheck(CType(items(i), BasketItem).Id)
-        Dim cqtype As New CheckType(newItem.EntityId)
-
-        Dim mtwItem As New UpdateCheckPaymentItem
-        mtwItem.Entity = newItem
-
-        If i = items.Count - 1 Then
-          If Me.m_entity.ItemTable.Childs.Count = 0 Then
-            Me.m_entity.Add(mtwItem)
-          Else
-            mtwItem.LineNumber = CInt(Me.m_entity.ItemTable.Childs(index)("linenumber"))
-            mtwItem.UpdateCheckPayment = Me.m_entity
-            mtwItem.CopyToDataRow(Me.m_entity.ItemTable.Childs(index))
-          End If
-        Else
-          Me.m_entity.Insert(index, mtwItem)
-        End If
-        Me.m_entity.ItemTable.AcceptChanges()
-
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      Next
+      Me.m_entity.SetItems(items, index)
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
-      ' Summary ...
-      SetSummaryText()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+      Me.SetSummaryText()
+
+      'Dim index As Integer = tgItem.CurrentRowIndex
+
+      'For i As Integer = items.Count - 1 To 0 Step -1
+      '  Dim newItem As New OutgoingCheck(CType(items(i), BasketItem).Id)
+      '  Dim cqtype As New CheckType(newItem.EntityId)
+
+      '  Dim mtwItem As New UpdateCheckPaymentItem
+      '  mtwItem.Entity = newItem
+
+      '  If i = items.Count - 1 Then
+      '    If Me.m_entity.ItemTable.Childs.Count = 0 Then
+      '      Me.m_entity.Add(mtwItem)
+      '    Else
+      '      mtwItem.LineNumber = CInt(Me.m_entity.ItemTable.Childs(index)("linenumber"))
+      '      mtwItem.UpdateCheckPayment = Me.m_entity
+      '      mtwItem.CopyToDataRow(Me.m_entity.ItemTable.Childs(index))
+      '    End If
+      '  Else
+      '    Me.m_entity.Insert(index, mtwItem)
+      '  End If
+      '  Me.m_entity.ItemTable.AcceptChanges()
+
+      '  Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'Next
+      'tgItem.CurrentRowIndex = index
+      'RefreshBlankGrid()
+      '' Summary ...
+      'SetSummaryText()
     End Sub
 
     Private Function FindFilterforDialog(ByVal value As Integer) As Integer
@@ -975,76 +1071,148 @@ Namespace Longkong.Pojjaman.Gui.Panels
     ' Add Item ...
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim newItem As New BlankItem("")
-      Dim checkItem As New UpdateCheckPaymentItem
-
-      'checkItem.Entity = CType(newItem, ISimpleEntity)
-
-      Me.m_entity.Insert(index, checkItem)
-      Me.m_entity.ItemTable.AcceptChanges()
+      If index > Me.m_entity.ListOfUpdateCheckPaymentItem.Count - 1 Then
+        Return
+      End If
+      'Dim newItem As New BlankItem("")
+      Dim item As New UpdateCheckPaymentItem
+      item.Entity = New OutgoingCheck
+      'prItem.ItemType = New ItemType(0)
+      'prItem.Qty = 0
+      Me.m_entity.ListOfUpdateCheckPaymentItem.Insert(index, item)
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
+
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim newItem As New BlankItem("")
+      'Dim checkItem As New UpdateCheckPaymentItem
+
+      ''checkItem.Entity = CType(newItem, ISimpleEntity)
+
+      'Me.m_entity.Insert(index, checkItem)
+      'Me.m_entity.ItemTable.AcceptChanges()
+      'tgItem.CurrentRowIndex = index
+      'RefreshBlankGrid()
     End Sub
     ' Delete Item ...
     Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      Me.m_entity.Remove(index)
-      Me.tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
+      Dim rowsCount As Integer = 0
+      For Each Obj As Object In Me.m_treeManager.SelectedRows
+        If Not Obj Is Nothing Then
+          rowsCount += 1
+          Dim row As TreeRow = CType(Obj, TreeRow)
+          If Not row Is Nothing Then
+            If TypeOf row.Tag Is UpdateCheckPaymentItem Then
+              Dim doc As UpdateCheckPaymentItem = CType(row.Tag, UpdateCheckPaymentItem)
+              If Not doc Is Nothing Then
+                Me.m_entity.ListOfUpdateCheckPaymentItem.Remove(doc)
+              End If
+            End If
+          End If
+        End If
+      Next
+
+      If rowsCount.Equals(0) Then
+        Dim doc As UpdateCheckPaymentItem = Me.CurrentItem
+        If doc Is Nothing Then
+          Return
+        End If
+        Me.m_entity.ListOfUpdateCheckPaymentItem.Remove(doc)
+      End If
+
+      RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+
+      'Dim index As Integer = Me.tgItem.CurrentRowIndex
+      'Me.m_entity.Remove(index)
+      'Me.tgItem.CurrentRowIndex = index
+      'RefreshBlankGrid()
     End Sub
 #End Region
 
 #Region "Grid Resizing"
-    Private Sub tgItem_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tgItem.Resize
-      If Me.m_entity Is Nothing Then
-        Return
+    Private currentY As Integer = -1
+    Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+      If tgItem.CurrentRowIndex <> currentY OrElse currentY = 0 OrElse currentY = -1 Then
+        Me.m_entity.CurrentItem = Me.CurrentItem
+        'RefreshWBS()
+        currentY = tgItem.CurrentRowIndex
       End If
-      RefreshBlankGrid()
     End Sub
+    'Private Sub tgItem_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tgItem.Resize
+    '  If Me.m_entity Is Nothing Then
+    '    Return
+    '  End If
+    '  RefreshBlankGrid()
+    'End Sub
     Private Sub RefreshBlankGrid()
       If Me.tgItem.Height = 0 Then
         Return
       End If
       Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim maxVisibleCount As Integer
-      Dim tgRowHeight As Integer = 17
-      maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_entity.ItemTable.Childs.Count < maxVisibleCount - 1
+      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
         'เพิ่มแถวจนเต็ม
-        Me.m_entity.AddBlankRow(1)
+        Me.m_treeManager.Treetable.Childs.Add()
       Loop
-      If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-        If Me.m_entity.ItemTable.Childs.Count < maxVisibleCount - 1 Then
-          'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-          Me.m_entity.AddBlankRow(1)
-        End If
+
+      If Me.m_entity.ListOfUpdateCheckPaymentItem.Count = Me.m_treeManager.Treetable.Childs.Count Then
+        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+        Me.m_treeManager.Treetable.Childs.Add()
       End If
-      'Do While Me.m_entity.ItemTable.Childs.Count > maxVisibleCount - 1 And Me.m_entity.ItemTable.Childs.Count - 2 <> Me.m_entity.MaxRowIndex
-      '    'ลบแถวที่ไม่จำเป็น
-      '    MessageBox.Show(Me.m_entity.ItemTable.Childs.Count.ToString & ":" & maxVisibleCount.ToString & ":" & Me.m_entity.MaxRowIndex.ToString)
-      '    Me.m_entity.Remove(Me.m_entity.ItemTable.Childs.Count - 1)
-      'Loop
-      Me.m_entity.ItemTable.AcceptChanges()
+
+      Me.m_treeManager.Treetable.AcceptChanges()
       tgItem.CurrentRowIndex = Math.Max(0, index)
       Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+      'If Me.tgItem.Height = 0 Then
+      '  Return
+      'End If
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim maxVisibleCount As Integer
+      'Dim tgRowHeight As Integer = 17
+      'maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
+      'Do While Me.m_entity.ItemTable.Childs.Count < maxVisibleCount - 1
+      '  'เพิ่มแถวจนเต็ม
+      '  Me.m_entity.AddBlankRow(1)
+      'Loop
+      'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
+      '  If Me.m_entity.ItemTable.Childs.Count < maxVisibleCount - 1 Then
+      '    'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      '    Me.m_entity.AddBlankRow(1)
+      '  End If
+      'End If
+      ''Do While Me.m_entity.ItemTable.Childs.Count > maxVisibleCount - 1 And Me.m_entity.ItemTable.Childs.Count - 2 <> Me.m_entity.MaxRowIndex
+      ''    'ลบแถวที่ไม่จำเป็น
+      ''    MessageBox.Show(Me.m_entity.ItemTable.Childs.Count.ToString & ":" & maxVisibleCount.ToString & ":" & Me.m_entity.MaxRowIndex.ToString)
+      ''    Me.m_entity.Remove(Me.m_entity.ItemTable.Childs.Count - 1)
+      ''Loop
+      'Me.m_entity.ItemTable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
 #End Region
 
 #Region "Private Methods"
     Private Sub SetSummaryText()
-      Dim item As Integer = 0
-            Dim amount As Decimal = 0
-            For Each row As TreeRow In Me.m_entity.ItemTable.Rows
-                If Not row.IsNull("code") Then
-                    If Not row.IsNull("check_amount") Then
-                        amount += CDec(row("check_amount"))
-                        item += 1
-                    End If
-                End If
-            Next
-            txtSumCheck.Text = item.ToString("#,###")
-            TxtSumTotal.Text = Configuration.FormatToString(amount, DigitConfig.Price)
+      'Dim item As Integer = 0
+      Dim amount As Decimal = 0
+      'For Each row As TreeRow In Me.m_entity.ItemTable.Rows
+      '  If Not row.IsNull("code") Then
+      '    If Not row.IsNull("check_amount") Then
+      '      amount += CDec(row("check_amount"))
+      '      item += 1
+      '    End If
+      '  End If
+      'Next
+      For Each item As UpdateCheckPaymentItem In Me.m_entity.ListOfUpdateCheckPaymentItem
+        If Not item.Entity Is Nothing Then
+          amount += item.Entity.Amount
+        End If
+      Next
+
+      txtSumCheck.Text = Me.m_entity.ListOfUpdateCheckPaymentItem.Count.ToString("#,###")
+      TxtSumTotal.Text = Configuration.FormatToString(amount, DigitConfig.Price)
       Me.m_entity.TotalAmount = amount
     End Sub
 #End Region

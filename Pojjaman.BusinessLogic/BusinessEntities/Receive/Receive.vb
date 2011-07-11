@@ -909,9 +909,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not IsNumeric(saveerr3.Message) Then
               Return New SaveErrorException(saveerr3.Message)
             End If
+
+          Else '--เก็บ Reference ด้วย--
+            Dim upd As New UpdateCheckDeposit
+            upd.Id = drh.GetValue(Of Integer)("cqupdatei_cqupdateid")
+            Dim saveerr3 As SaveErrorException = upd.UpdateCheckDeposit_ReceiveRefRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
+            If Not IsNumeric(saveerr3.Message) Then
+              Return New SaveErrorException(saveerr3.Message)
+            End If
           End If
 
         Next
+
+        'Dim saveerr3 As SaveErrorException = upd.UpdateCheckDeposit_ReceiveRefRef(conn, trans, Me.RefDoc.Id, CType(Me.RefDoc, SimpleBusinessEntityBase).EntityId)
+        'If Not IsNumeric(saveerr3.Message) Then
+        '  Return New SaveErrorException(saveerr3.Message)
+        'End If
 
         ChangeItemEntityStatus(conn, trans)
       Catch ex As Exception

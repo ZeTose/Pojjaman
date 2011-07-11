@@ -914,10 +914,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               WitholdingTax.DeleteFromRefDoc(Me.Id, Me.EntityId, conn, trans)
             End If
 
-            
-
-           
-
             '==============================AUTOGEN==========================================
             Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
             If Not IsNumeric(saveAutoCodeError.Message) Then
