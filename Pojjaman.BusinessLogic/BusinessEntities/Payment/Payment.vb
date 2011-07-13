@@ -925,7 +925,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           arrId.Add(item.Entity.Id)
         End If
       Next
-      Return String.Join(",", arrId.ToArray)
+      If arrId.Count > 0 Then
+        Return String.Join(",", arrId.ToArray)
+      End If
+      Return ""
     End Function
     Private Function GetOldAdvancePayIdList() As String
       Dim arrId As New ArrayList
@@ -934,7 +937,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           arrId.Add(item.Entity.Id)
         End If
       Next
-      Return String.Join(",", arrId.ToArray)
+      If arrId.Count > 0 Then
+        Return String.Join(",", arrId.ToArray)
+      End If
+      Return ""
     End Function
     Private Function GetOldPettyCashIdList() As String
       Dim arrId As New ArrayList
@@ -943,9 +949,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           arrId.Add(item.Entity.Id)
         End If
       Next
-      Return String.Join(",", arrId.ToArray)
+      If arrId.Count > 0 Then
+        Return String.Join(",", arrId.ToArray)
+      End If
+      Return ""
     End Function
-
+    Private Function GetOldAdvanceMoneyList() As String
+      Dim arrId As New ArrayList
+      For Each item As PaymentItem In Me.m_oldListOfPaymentItem
+        If item.EntityType.Value = 174 Then
+          arrId.Add(item.Entity.Id)
+        End If
+      Next
+      If arrId.Count > 0 Then
+        Return String.Join(",", arrId.ToArray)
+      End If
+      Return ""
+    End Function
     Private Sub UpdateItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
         Return
@@ -953,6 +973,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim oldCheck As String = Me.GetOldOutGoingCheckIdList
       Dim oldAdvancePay As String = Me.GetOldAdvancePayIdList
       Dim oldPettyCash As String = Me.GetOldPettyCashIdList
+      Dim oldAdvanceMoney As String = Me.GetOldAdvanceMoneyList
       SqlHelper.ExecuteNonQuery(conn,
                                 trans,
                                 CommandType.StoredProcedure,
@@ -960,7 +981,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 New SqlParameter("@payment_id", Me.Id),
                                 New SqlParameter("@OldOutGoingCheckIdList", oldCheck),
                                 New SqlParameter("@OldAdvancePayIdList", oldAdvancePay),
-                                New SqlParameter("@OldPettyCashIdList", oldPettyCash)
+                                New SqlParameter("@OldPettyCashIdList", oldPettyCash),
+                                New SqlParameter("@OldAdvanceMoneyIdList", oldAdvanceMoney)
                                 )
     End Sub
     Private Function GetBAFromSproc(ByVal sproc As String, ByVal paymentRefDoc As Integer) As DataTable
