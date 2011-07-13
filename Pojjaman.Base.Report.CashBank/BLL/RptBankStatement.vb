@@ -114,10 +114,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
             m_grid.RowStyles(currItemIndex).ReadOnly = True
+            Dim myrh As New DataRowHelper(Myrow)
+
             If IsNumeric(Myrow("Balanceamt")) Then
               m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptBankStatement.OpeningBalance}") '"ยอดยกมา"
-              m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(Myrow("Balanceamt")), DigitConfig.Price)
-              tmpSum = CDec(Myrow("Balanceamt"))
+              m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(myrh.GetValue(Of Decimal)("Balanceamt"), DigitConfig.Price)
+              tmpSum = myrh.GetValue(Of Decimal)("Balanceamt")
             End If
           Next
         Else
@@ -132,36 +134,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowCount += 1
           currItemIndex = m_grid.RowCount
           m_grid.RowStyles(currItemIndex).ReadOnly = True
-          If IsDate(row("DocDate")) Then
-            m_grid(currItemIndex, 2).CellValue = indent & CDate(row("DocDate")).ToShortDateString
-          End If
-          If Not row.IsNull("DocCode") Then
-            m_grid(currItemIndex, 3).CellValue = indent & row("DocCode").ToString
-          End If
-          If Not row.IsNull("CqCode") Then
-            m_grid(currItemIndex, 4).CellValue = indent & row("CqCode").ToString
-          End If
-          If Not row.IsNull("Detail") Then
-            m_grid(currItemIndex, 5).CellValue = indent & row("Detail").ToString
-          End If
-          If Not row.IsNull("RefCode") Then
-            m_grid(currItemIndex, 6).CellValue = indent & row("Refcode").ToString
-          End If
-          If IsNumeric(row("Deprositamt")) Then
-            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Deprositamt")), DigitConfig.Price)
-            tmpSum += CDec(row("Deprositamt"))
-          End If
-          If IsNumeric(row("Withdrawamt")) Then
-            m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("Withdrawamt")), DigitConfig.Price)
-            tmpSum -= CDec(row("Withdrawamt"))
-          End If
-          If IsNumeric(row("Balanceamt")) Then
-            m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(tmpSum), DigitConfig.Price)
-          End If
-          If Not row.IsNull("Note") Then
-            m_grid(currItemIndex, 10).CellValue = indent & row("Note").ToString
-          End If
-          currentItemCode = row("DocCode").ToString
+
+          Dim drh As New DataRowHelper(row)
+
+          m_grid(currItemIndex, 2).CellValue = indent & drh.GetValue(Of Date)("DocDate").ToShortDateString
+          m_grid(currItemIndex, 3).CellValue = indent & drh.GetValue(Of String)("DocCode")
+          m_grid(currItemIndex, 4).CellValue = indent & drh.GetValue(Of String)("CqCode")
+          m_grid(currItemIndex, 5).CellValue = indent & drh.GetValue(Of String)("Detail")
+          m_grid(currItemIndex, 6).CellValue = indent & drh.GetValue(Of String)("Refcode").ToString
+          m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("Deprositamt"), DigitConfig.Price)
+          tmpSum += drh.GetValue(Of Decimal)("Deprositamt")
+          m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("Withdrawamt"), DigitConfig.Price)
+          tmpSum -= drh.GetValue(Of Decimal)("Withdrawamt")
+          m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(tmpSum), DigitConfig.Price)
+          m_grid(currItemIndex, 10).CellValue = indent & drh.GetValue(Of String)("Note")
+          currentItemCode = drh.GetValue(Of String)("DocCode")
         Next
       Next
     End Sub
