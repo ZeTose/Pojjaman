@@ -1095,7 +1095,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("vati_printAddress") = item.PrintAddress
           dr("vati_taxrate") = item.TaxRate
           dr("vati_taxbase") = Configuration.Format(item.TaxBase, DigitConfig.Price)
-          dr("vati_amt") = item.Amount
+          dr("vati_amt") = Configuration.Format(item.Amount, DigitConfig.Price)
           dr("vati_note") = item.Note
           dr("vati_direction") = myDirection
           dr("vati_cc") = item.CcId
