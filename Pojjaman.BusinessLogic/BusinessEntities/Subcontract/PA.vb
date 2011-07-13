@@ -2036,7 +2036,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each row As DataRow In ds2.Tables(0).Rows
           j += 1
           Dim drh As New DataRowHelper(row)
-          Dim item As PAItem = CType(ItemCollectionHs(j), PAItem)
+          Dim lineNumber As Integer = drh.GetValue(Of Integer)("pai_linenumber")
+          Dim item As PAItem = CType(ItemCollectionHs(lineNumber), PAItem)
 
           Dim wbsdColl As WBSDistributeCollection = item.WBSDistributeCollection
           Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
