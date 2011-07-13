@@ -216,7 +216,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             If Not advanceRow.IsNull("openningbalanceremain") Then
               trDoc("col9") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
-              advanceRemain = CDec(advanceRow("openningbalanceremain"))
+              If CDec(advanceRow("openningbalanceremain")) > 0 Then
+                advanceRemain = CDec(advanceRow("openningbalanceremain"))
+              Else
+                advanceRemain = CDec(advanceRow("aftertax"))
+              End If
             End If
             If Not advanceRow.IsNull("status") Then
               If CInt(advanceRow("status")) = 0 Then
