@@ -106,10 +106,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_paymentTrackStatus = CStr(dr(aliasPrefix & "eopt_status"))
         End If
 
+        m_paymentTrackDataSet = Me.GetExportPaymentTrackList
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = Nothing
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = OutgoingCheck.PVListDataSet
         m_itemCollection = New ExportOutgoingCheckItemCollection(Me)
-        m_paymentTrackDataSet = Me.GetExportPaymentTrackList
 
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = Nothing
       End With
@@ -664,7 +664,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         Return whtcol
       End If
-      Return Nothing
+      Return New WitholdingTaxCollection
     End Function
 
     Public Function GetAddedList(ByVal chk As OutgoingCheck) As String
@@ -1613,9 +1613,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.ExportOutgoingCheck.IsInitialized = True
     End Sub
 
-    Public Sub FillData()
+    Public Sub FillData(ByVal newRefresh As Boolean)
       If Not Me.Entity Is Nothing Then
-        'Me.Entity.ReLoadItems()
+
         Dim i As Integer = 0
         Me.WHTCollection = New WitholdingTaxCollection
         Me.AmountBeforeVat = 0
@@ -1623,36 +1623,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.AmountAfterVat = 0
         Me.TaxCount = 0
 
-        Me.PVCode = ExportOutgoingCheck.GetPVCodeListByCheckId(Me.Entity.Id)
-        Me.AmountBeforeVat = ExportOutgoingCheck.GetVATAmountByCheckId(Me.Entity.Id)
-        Me.AmountAfterVat = ExportOutgoingCheck.GetVATTaxBaseByCheckId(Me.Entity.Id)
-        Dim whtcol As WitholdingTaxCollection = Me.ExportOutgoingCheck.GetWHTCollectionByCheckId(Me.Entity.Id)
-        For Each wht As WitholdingTax In whtcol
-          Me.WHTCollection.Add(wht)
-        Next
-        Me.TaxCount = whtcol.Count
+        If Not newRefresh Then 'Me.ExportOutgoingCheck.Originated Then
+          Me.PVCode = ExportOutgoingCheck.GetPVCodeListByCheckId(Me.Entity.Id)
+          Me.AmountBeforeVat = ExportOutgoingCheck.GetVATAmountByCheckId(Me.Entity.Id)
+          Me.AmountAfterVat = ExportOutgoingCheck.GetVATTaxBaseByCheckId(Me.Entity.Id)
+          Dim whtcol As WitholdingTaxCollection = Me.ExportOutgoingCheck.GetWHTCollectionByCheckId(Me.Entity.Id)
+          For Each wht As WitholdingTax In whtcol
+            Me.WHTCollection.Add(wht)
+          Next
+          Me.TaxCount = whtcol.Count
 
-        'If Me.Entity.ItemTable.Childs.Count > 0 Then
-        '  For i = 0 To Me.Entity.ItemTable.Childs.Count - 1
-        '    If i > 0 Then
-        '      Me.PVCode = Me.PVCode & " ," & CStr(Me.Entity.ItemTable.Childs(i).Item("PVCode"))
-        '    Else
-        '      Me.PVCode = CStr(Me.Entity.ItemTable.Childs(i).Item("PVCode"))
-        '    End If
+        Else
+          Me.Entity.ReLoadItems()
+          If Me.Entity.ItemTable.Childs.Count > 0 Then
+            For i = 0 To Me.Entity.ItemTable.Childs.Count - 1
+              If i > 0 Then
+                Me.PVCode = Me.PVCode & " ," & CStr(Me.Entity.ItemTable.Childs(i).Item("PVCode"))
+              Else
+                Me.PVCode = CStr(Me.Entity.ItemTable.Childs(i).Item("PVCode"))
+              End If
 
-        '    Dim myVat As Vat = New Vat(CInt(Me.Entity.ItemTable.Childs(i).Item("refDoc")), CInt(Me.Entity.ItemTable.Childs(i).Item("refDocType")))
-        '    Me.AmountBeforeVat += myVat.TaxBase
-        '    Me.AmountAfterVat += myVat.TaxBase + myVat.Amount
+              Dim myVat As Vat = New Vat(CInt(Me.Entity.ItemTable.Childs(i).Item("refDoc")), CInt(Me.Entity.ItemTable.Childs(i).Item("refDocType")))
+              Me.AmountBeforeVat += myVat.TaxBase
+              Me.AmountAfterVat += myVat.TaxBase + myVat.Amount
 
-        '    Dim myWHT As WitholdingTaxCollection = New WitholdingTaxCollection(CInt(Me.Entity.ItemTable.Childs(i).Item("refDoc")), CInt(Me.Entity.ItemTable.Childs(i).Item("refDocType")))
-        '    Me.AmountWHT += myWHT.Amount
-        '    Dim j As Integer = 0
-        '    For j = 0 To myWHT.Count - 1
-        '      Me.WHTCollection.Add(myWHT(j))
-        '      Me.TaxCount += myWHT(j).ItemTable.Childs.Count
-        '    Next
-        '  Next
-        'End If
+              Dim myWHT As WitholdingTaxCollection = New WitholdingTaxCollection(CInt(Me.Entity.ItemTable.Childs(i).Item("refDoc")), CInt(Me.Entity.ItemTable.Childs(i).Item("refDocType")))
+              Me.AmountWHT += myWHT.Amount
+              Dim j As Integer = 0
+              For j = 0 To myWHT.Count - 1
+                Me.WHTCollection.Add(myWHT(j))
+                Me.TaxCount += myWHT(j).ItemTable.Childs.Count
+              Next
+            Next
+          End If
+        End If
+
       End If
     End Sub
     Public Function GetWHTCodeList() As String
@@ -1698,6 +1703,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           item.Entity = New OutgoingCheck(chkrow(0), "")
         End If
         item.ExportOutgoingCheck = m_exportOutgoingCheck
+        item.FillData(False)
         Me.Add(item)
       Next
     End Sub
@@ -1719,7 +1725,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dt.Clear()
       For Each eoci As ExportOutgoingCheckItem In Me
         Dim newRow As TreeRow = dt.Childs.Add()
-        eoci.FillData()
+        'eoci.FillData()
         eoci.CopyToDataRow(newRow)
         'eoci.ItemValidateRow(newRow)
         newRow.Tag = eoci

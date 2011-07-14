@@ -1357,6 +1357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
         doc.Entity = newItem
+        doc.FillData(True)
       Next
 
       RefreshDocs()
