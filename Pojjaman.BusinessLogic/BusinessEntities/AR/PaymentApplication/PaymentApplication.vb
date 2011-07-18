@@ -1152,6 +1152,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      'BillingCount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillingCount"
+      'myTemp = CInt(IIf(myCount(5) Is Nothing, "0", myCount(5)))
+      dpi.Value = CInt(IIf(myCount(4) Is Nothing, "0", myCount(4))) ' + myTemp
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'BillingAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillingAmount"
+      myTemp1 = CDec(IIf(mySum(4) Is Nothing, "0", mySum(4))) '+ CDec(IIf(mySum(5) Is Nothing, "0", mySum(5)))
+      dpi.Value = Configuration.FormatToString(myTemp1, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+
       'BilledCount
       dpi = New DocPrintingItem
       dpi.Mapping = "BilledCount"
