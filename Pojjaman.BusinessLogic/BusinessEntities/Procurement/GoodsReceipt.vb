@@ -537,6 +537,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnGlChanged()
       End Set
     End Property
+    Private m_forceupdateGross As Boolean = False
+    Public Property forceUpdateGross As Boolean
+      Get
+        Return m_forceupdateGross
+      End Get
+      Set(ByVal value As Boolean)
+        m_forceupdateGross = value
+      End Set
+    End Property
     Private Sub RefreshWBSAndChangePo()
       For Each item As GoodsReceiptItem In Me.ItemCollection
         RemoveHandler item.WBSDistributeCollection.PropertyChanged, AddressOf item.WBSChangedHandler
@@ -758,6 +767,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property DiscountAmount() As Decimal
       Get
+        If forceUpdateGross Then
+          Me.RealGross = Me.Gross
+        End If
         Me.Discount.AmountBeforeDiscount = Me.RealGross
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get

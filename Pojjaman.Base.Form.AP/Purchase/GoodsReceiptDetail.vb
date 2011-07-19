@@ -3172,6 +3172,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Next
                 Me.m_entity.AdvancePayItemCollection.Clear()
                 Me.RefreshBlankGrid()
+                forceUpdateGross = True
+                forceUpdateTaxBase = True
+                forceUpdateTaxAmount = True
                 UpdateAmount()
                 txtcreditprdChanged = False
               Else
@@ -3185,6 +3188,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtCreditPrd.Text = Configuration.FormatToString(Me.m_entity.CreditPeriod, DigitConfig.Int)
             Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
           End If
+          forceUpdateGross = True
+          forceUpdateTaxBase = True
+          forceUpdateTaxAmount = True
           RefreshDocs()
         Case "txtinvoicecode"
           If m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
@@ -3332,8 +3338,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateAmount()
     End Sub
     Private forceUpdateTaxBase As Boolean = False
-    Private forceUpdateGross As Boolean = False
+    Private m_forceUpdateGross As Boolean = False
     Private forceUpdateTaxAmount As Boolean = False
+    Private Property forceUpdateGross As Boolean
+      Get
+        Return m_forceUpdateGross
+      End Get
+      Set(ByVal value As Boolean)
+        m_forceUpdateGross = value
+        m_entity.forceUpdateGross = m_forceUpdateGross
+      End Set
+    End Property
     Private Sub UpdateAmount()
       Dim flag As Boolean = m_isInitialized
       m_isInitialized = False

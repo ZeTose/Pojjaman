@@ -84,7 +84,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each m As Match In re.Matches(rate)
         Dim partialRateString As String = m.Groups("discount").Value
         If partialRateString.EndsWith("%") Then
-          partialRate.Add(partialRateString & "%")
+          partialRate.Add(partialRateString)
         End If
       Next
       Return String.Join(",", partialRate)
