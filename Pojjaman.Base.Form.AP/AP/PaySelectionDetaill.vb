@@ -2232,7 +2232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           svVat = Vat.GetVatValue(newItem.Id, newItem.EntityId)
           newItem.UnpaidVatAmt = svVat.VatAmt - svDd.VatAmt
           newItem.Amount = newItem.UnpaidAmount
-          newItem.VatAmt = Math.Min(svVat.VatAmt - svDd.VatAmt, Vat.GetVatAmount(newItem.TaxBaseDeducted))
+          newItem.VatAmt = newItem.UnpaidVatAmt
           newItem.Amount = 0
           If i = items.Count - 1 Then
             'ตัวแรก -- update old item
