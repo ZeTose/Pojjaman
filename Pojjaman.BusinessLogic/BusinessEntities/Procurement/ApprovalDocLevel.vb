@@ -406,8 +406,8 @@ Public Class ApproveDocCollection
           drNew("apvdoc_originDate") = myApvDoc.OriginDate
           drNew("apvdoc_lastEditor") = myApvDoc.LastEditor
           drNew("apvdoc_lastEditDate") = IIf(myApvDoc.LastEditDate.Equals(Date.MinValue), DBNull.Value, myApvDoc.LastEditDate)
-					drNew("apvdoc_reject") = myApvDoc.Reject
-					dt.Rows.Add(drNew)
+          drNew("apvdoc_reject") = myApvDoc.Reject
+          dt.Rows.Add(drNew)
         Next
         ' First process deletes.
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -415,6 +415,27 @@ Public Class ApproveDocCollection
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
         ' Finally process inserts.
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+
+        If Me.Count > 0 Then
+          Dim m_DocMethod As SaveDocMultiApprovalMethod
+
+          Dim myApvDoc As ApproveDoc = Me(Me.Count - 1)
+          If myApvDoc.Reject Then
+            m_DocMethod = SaveDocMultiApprovalMethod.Reject
+          ElseIf myApvDoc.Level = 0 Then
+            m_DocMethod = SaveDocMultiApprovalMethod.Comment
+          Else
+            m_DocMethod = SaveDocMultiApprovalMethod.Approve
+          End If
+
+          SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, "UpdateCommentDocForMultiApproval",
+                                    New SqlParameter("@apvdoc_originator", myApvDoc.Originator),
+                                    New SqlParameter("@method", m_DocMethod),
+                                    New SqlParameter("@apvdoc_comment", myApvDoc.Comment),
+                                    New SqlParameter("@apvdoc_entityId", m_entityId),
+                                    New SqlParameter("@apvdoc_entityType", m_entityType)
+                                    )
+        End If
 
         Return New SaveErrorException("1")
       Catch ex As Exception
@@ -557,7 +578,6 @@ Public Class ApproveDocCollection
 
   Public Class ApprovalMultiDoc
     Inherits ApproveDoc
-
     Public Function Save() As SaveErrorException
       Try
         SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, _
@@ -571,11 +591,125 @@ Public Class ApproveDocCollection
                                   New SqlParameter("@apvdoc_originator", Me.Originator), _
                                   New SqlParameter("@apvdoc_reject", Me.Reject)
                                   )
+
+        'Dim mldoc As New DocMultiApproval(Me.EntityId, Me.EntityType)
+        'mldoc.UpdateApproveFromDocument()
+
         Return New SaveErrorException("0")
       Catch ex As Exception
         Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
       End Try
     End Function
+  End Class
+
+  Public Enum SaveDocMultiApprovalMethod
+    Reject '0
+    Save '1
+    Edit '2
+    Update '3
+    Comment '4
+    Approve '5
+    Authorize '6
+    Delete '7
+    Cancel '8
+    Close '9
+  End Enum
+
+  Public Class DocMultiApproval
+
+    Public Property DocId As Long
+    Public Property DocType As Integer
+    Public Property DocCode As String
+    Public Property DocDate As DateTime
+    Public Property DocAmount As Decimal
+    Public Property EditorId As Integer
+    Public Property DocMethod As SaveDocMultiApprovalMethod
+    Public Property EditDate As DateTime
+    Public Property DocComment As String
+    Public Property DocCCId As Integer
+    Public Property DocSupplierId As Integer
+
+    Public Sub New(ByVal docid As Long,
+                  ByVal doctype As Integer
+                  )
+      Me.DocId = docid
+      Me.DocType = doctype
+    End Sub
+    Public Sub New(ByVal docid As Long,
+                   ByVal doctype As Integer,
+                   ByVal doccode As String,
+                   ByVal docdate As DateTime,
+                   ByVal docamount As Decimal,
+                   ByVal editorid As Integer,
+                   ByVal docmethod As SaveDocMultiApprovalMethod,
+                   ByVal doccomment As String,
+                   ByVal docccid As Integer,
+                   ByVal docsupplierid As Integer
+                   )
+      Me.DocId = docid
+      Me.DocType = doctype
+      Me.DocCode = doccode
+      Me.DocDate = docdate
+      Me.DocAmount = docamount
+      Me.EditorId = editorid
+      Me.DocMethod = docmethod
+      'Me.EditDate = 
+      Me.DocComment = doccomment
+      Me.DocCCId = docccid
+      Me.DocSupplierId = docsupplierid
+    End Sub
+
+    Public Function UpdateApprove(ByVal UserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        If (Me.DocMethod = SaveDocMultiApprovalMethod.Authorize OrElse
+            Me.DocMethod = SaveDocMultiApprovalMethod.Delete OrElse
+            Me.DocMethod = SaveDocMultiApprovalMethod.Cancel OrElse
+            Me.DocMethod = SaveDocMultiApprovalMethod.Close) Then
+          SqlHelper.ExecuteNonQuery(conn,
+                                  trans,
+                                  CommandType.StoredProcedure,
+                                  "DeleteDocForMultiApproval",
+                                  New SqlParameter("@DocId", Me.DocId),
+                                  New SqlParameter("@DocType", Me.DocType)
+                                  )
+        Else
+          SqlHelper.ExecuteNonQuery(conn,
+                                  trans,
+                                  CommandType.StoredProcedure,
+                                  "UpdateDocForMultiApproval",
+                                  New SqlParameter("@DocId", Me.DocId),
+                                  New SqlParameter("@DocType", Me.DocType),
+                                  New SqlParameter("@DocCode", Me.DocCode),
+                                  New SqlParameter("@DocDate", Me.DocDate),
+                                  New SqlParameter("@DocAmount", Me.DocAmount),
+                                  New SqlParameter("@EditorId", Me.EditorId),
+                                  New SqlParameter("@MethodId", Me.DocMethod),
+                                  New SqlParameter("@DocComment", Me.DocComment),
+                                  New SqlParameter("@DocCCId", Me.DocCCId),
+                                  New SqlParameter("@DocSupplierId", Me.DocSupplierId)
+                                  )
+        End If
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
+      Return New SaveErrorException("0")
+    End Function
+
+    'Public Function UpdateApproveFromDocument() As SaveErrorException
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString,
+    '                            CommandType.StoredProcedure,
+    '                            "UpdateDocForMultiApprovalFromDocument",
+    '                            New SqlParameter("@DocId", Me.DocId),
+    '                            New SqlParameter("@DocType", Me.DocType)
+    '                            )
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.Message)
+    '  End Try
+    '  Return New SaveErrorException("0")
+    'End Function
+
   End Class
 
 End Namespace

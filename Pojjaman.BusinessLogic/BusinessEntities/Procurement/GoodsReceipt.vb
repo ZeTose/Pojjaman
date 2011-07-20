@@ -1956,9 +1956,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
 
     End Function
+    Private m_DocMethod As SaveDocMultiApprovalMethod
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
 
       With Me
+
+        If Not Me.Originated Then
+          m_DocMethod = SaveDocMultiApprovalMethod.Save
+        ElseIf Me.Status.Value = 0 Then
+          m_DocMethod = SaveDocMultiApprovalMethod.Cancel
+          'ElseIf Me.Closed Then
+          '  m_DocMethod = SaveDocMultiApprovalMethod.Close
+        Else
+          m_DocMethod = SaveDocMultiApprovalMethod.Update
+        End If
 
         Me.RefreshTaxBase()
 
@@ -2238,7 +2249,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
 
-           
+
             Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
             If Not IsNumeric(saveDetailError.Message) Then
               trans.Rollback()
@@ -2263,7 +2274,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '==============CURRENCY=================================
 
-           
+
 
             If Not Me.ToCostCenter Is Nothing Then
               Me.m_payment.CCId = Me.ToCostCenter.Id
@@ -2414,19 +2425,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           End Try
 
-          'Sub Save Block
+          'Sub Save Block ===========================================
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
-            Return New SaveErrorException(returnVal.Value.ToString)
-            'Complete Save
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
-          'Sub Save Block
 
+          Try
+            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block ===========================================
+
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
@@ -2489,6 +2509,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim strans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, "", Me.ToCostCenter.Id, Me.Supplier.Id)
+        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
+        If Not IsNumeric(savemldocError.Message) Then
+          strans.Rollback()
+          Return savemldocError
+        End If
+      Catch ex As Exception
+        strans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      strans.Commit()
       Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
@@ -5458,6 +5496,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
+
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
+        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, trans)
+        If Not IsNumeric(savemldocError.Message) Then
+          trans.Rollback()
+          Return savemldocError
+        End If
+
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException

@@ -979,8 +979,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
 
     End Function
+    Private m_DocMethod As SaveDocMultiApprovalMethod
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
+
+        If Not Me.Originated Then
+          m_DocMethod = SaveDocMultiApprovalMethod.Save
+        ElseIf Me.Status.Value = 0 Then
+          m_DocMethod = SaveDocMultiApprovalMethod.Cancel
+        ElseIf Me.Closed Then
+          m_DocMethod = SaveDocMultiApprovalMethod.Close
+        Else
+          m_DocMethod = SaveDocMultiApprovalMethod.Update
+        End If
+
         Dim docValidate As Boolean = True
         If (Me.Originated AndAlso Me.Status.Value = 0) OrElse Me.Closed Then
           docValidate = False
@@ -1123,71 +1135,76 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldid As Integer = Me.Id
         Try
 
-        
-        Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetID(oldid)
-                ResetCode(oldcode, oldautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetID(oldid)
+                  ResetCode(oldcode, oldautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+            Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
+              trans.Rollback()
+              ResetID(oldid)
+              ResetCode(oldcode, oldautogen)
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetID(oldid)
+                  ResetCode(oldcode, oldautogen)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
+
+            trans.Commit()
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetID(oldid)
             ResetCode(oldcode, oldautogen)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
             trans.Rollback()
-            ResetID(oldid)
+            Me.ResetID(oldid)
             ResetCode(oldcode, oldautogen)
-            Return saveDetailError
-          Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetID(oldid)
-                ResetCode(oldcode, oldautogen)
-                Return saveDetailError
-              Case Else
-            End Select
-          End If
-
-        
-
-        
-
-          trans.Commit()
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetID(oldid)
-          ResetCode(oldcode, oldautogen)
-          Return New SaveErrorException(ex.ToString)
-        Catch ex As Exception
-          trans.Rollback()
-          Me.ResetID(oldid)
-          ResetCode(oldcode, oldautogen)
-          Return New SaveErrorException(ex.ToString)
+            Return New SaveErrorException(ex.ToString)
           End Try
 
-          'Sub Save Block
+          'Sub Save Block ======================================
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
-            Return New SaveErrorException(returnVal.Value.ToString)
-            'Complete Save
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
-          'Sub Save Block
 
+          Try
+            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block =======================================
+
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
@@ -1251,6 +1268,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim strans As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, "", Me.CostCenter.Id, 0)
+        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
+        If Not IsNumeric(savemldocError.Message) Then
+          strans.Rollback()
+          Return savemldocError
+        End If
+      Catch ex As Exception
+        strans.Rollback()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      strans.Commit()
       Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
@@ -2711,6 +2746,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
+        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, trans)
+        If Not IsNumeric(savemldocError.Message) Then
+          trans.Rollback()
+          Return savemldocError
+        End If
+
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException
