@@ -1192,7 +1192,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                                      New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
                                                    Configuration.FormatToString(doc.UnpaidVatAmt, DigitConfig.Price)})
         Return
-      ElseIf amt <> 0 AndAlso amt <> Configuration.Format(Vat.GetVatAmount(doc.TaxBaseDeducted), DigitConfig.Price) Then
+      ElseIf amt <> 0 AndAlso amt <> Configuration.Format(doc.UnpaidVatAmt, DigitConfig.Price) Then
         msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.invalidAmount}", _
                                      New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
                                                    Configuration.FormatToString(Vat.GetVatAmount(doc.TaxBaseDeducted), DigitConfig.Price)})
