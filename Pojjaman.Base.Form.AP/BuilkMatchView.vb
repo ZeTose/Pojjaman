@@ -343,6 +343,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         ReturnBuilkRequest()
 
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+
       Catch ex As Exception
 
         trans.Rollback()
@@ -539,7 +541,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If TypeOf supp Is Supplier Then
 
         Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
-
+        SetGridValue(cc.RowIndex, 4, CType(supp, Supplier).Code & ":" & CType(supp, Supplier).Name)
         Me.WorkbenchWindow.ViewContent.IsDirty = True
 
       End If
@@ -564,7 +566,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Try
 
         Select Case cc.ColIndex
-          Case 5
+          Case 4
             Dim txt As String = cc.Renderer.ControlValue
             Dim reg As New Regex("(.*):")
             Dim reg2 As New Regex("\|(.*)")
@@ -580,7 +582,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 MessageBox.Show(reg.Match(txt).Groups(1).Value & " ไม่มีในระบบ")
               Else
                 Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
-                'Me.WorkbenchWindow.ViewContent.IsDirty = True
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
                 SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
               End If
 
@@ -595,7 +597,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 MessageBox.Show(reg.Match(txt).Groups(1).Value & " ไม่มีในระบบ")
               Else
                 Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
-                'Me.WorkbenchWindow.ViewContent.IsDirty = True
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
                 SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
               End If
 
@@ -610,7 +612,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 MessageBox.Show(txt & " ไม่มีในระบบ")
               Else
                 Me.BuilkMatchList(cc.RowIndex - 2).PJMSupplier = supp
-                'Me.WorkbenchWindow.ViewContent.IsDirty = True
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
                 SetGridValue(cc.RowIndex, cc.ColIndex, supp.Code & ":" & supp.Name)
               End If
 
@@ -618,7 +620,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           Case 6
             Me.BuilkMatchList(cc.RowIndex - 2).Reject = CBool(cc.Renderer.ControlValue)
-            'Me.WorkbenchWindow.ViewContent.IsDirty = True
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
             tgitem(cc.RowIndex, cc.ColIndex).CellValue = CBool(cc.Renderer.ControlValue)
 
         End Select
