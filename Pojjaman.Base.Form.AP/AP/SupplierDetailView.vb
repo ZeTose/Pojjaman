@@ -96,11 +96,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtMCBank As System.Windows.Forms.TextBox
     Friend WithEvents txtFaxforExport As System.Windows.Forms.TextBox
     Friend WithEvents lblFaxforExport As System.Windows.Forms.Label
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents txtBuilkID As System.Windows.Forms.TextBox
+    Friend WithEvents lblBuilkID As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SupplierDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+      Me.txtBuilkID = New System.Windows.Forms.TextBox()
+      Me.lblBuilkID = New System.Windows.Forms.Label()
       Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtMCAccount = New System.Windows.Forms.TextBox()
       Me.Label1 = New System.Windows.Forms.Label()
@@ -118,6 +124,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.btnAuxDetail = New System.Windows.Forms.Button()
       Me.primaryDetailGroupBox = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtFaxforExport = New System.Windows.Forms.TextBox()
+      Me.lblFaxforExport = New System.Windows.Forms.Label()
       Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.cbmProvince = New System.Windows.Forms.ComboBox()
@@ -166,9 +174,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtFaxforExport = New System.Windows.Forms.TextBox()
-      Me.lblFaxforExport = New System.Windows.Forms.Label()
       Me.grbDetail.SuspendLayout()
+      Me.GroupBox1.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.primaryDetailGroupBox.SuspendLayout()
@@ -181,6 +188,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.GroupBox1)
       Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.btnLock)
       Me.grbDetail.Controls.Add(Me.tgContact)
@@ -201,6 +209,44 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด Supplier : "
       '
+      'GroupBox1
+      '
+      Me.GroupBox1.Controls.Add(Me.txtBuilkID)
+      Me.GroupBox1.Controls.Add(Me.lblBuilkID)
+      Me.GroupBox1.Location = New System.Drawing.Point(750, 24)
+      Me.GroupBox1.Name = "GroupBox1"
+      Me.GroupBox1.Size = New System.Drawing.Size(206, 48)
+      Me.GroupBox1.TabIndex = 330
+      Me.GroupBox1.TabStop = False
+      Me.GroupBox1.Text = "PaymentTrack"
+      '
+      'txtBuilkID
+      '
+      Me.Validator.SetDataType(Me.txtBuilkID, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtBuilkID, "")
+      Me.txtBuilkID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
+      Me.txtBuilkID.Location = New System.Drawing.Point(80, 17)
+      Me.txtBuilkID.MaxLength = 200
+      Me.Validator.SetMinValue(Me.txtBuilkID, "")
+      Me.txtBuilkID.Name = "txtBuilkID"
+      Me.Validator.SetRegularExpression(Me.txtBuilkID, "")
+      Me.Validator.SetRequired(Me.txtBuilkID, True)
+      Me.txtBuilkID.Size = New System.Drawing.Size(120, 21)
+      Me.txtBuilkID.TabIndex = 211
+      '
+      'lblBuilkID
+      '
+      Me.lblBuilkID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblBuilkID.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.lblBuilkID.Location = New System.Drawing.Point(23, 17)
+      Me.lblBuilkID.Name = "lblBuilkID"
+      Me.lblBuilkID.Size = New System.Drawing.Size(51, 18)
+      Me.lblBuilkID.TabIndex = 210
+      Me.lblBuilkID.Text = "Builk ID:"
+      Me.lblBuilkID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'FixedGroupBox1
       '
       Me.FixedGroupBox1.Controls.Add(Me.txtMCAccount)
@@ -213,9 +259,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.FixedGroupBox1.Controls.Add(Me.txtMCBank)
       Me.FixedGroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.FixedGroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.FixedGroupBox1.Location = New System.Drawing.Point(750, 24)
+      Me.FixedGroupBox1.Location = New System.Drawing.Point(750, 78)
       Me.FixedGroupBox1.Name = "FixedGroupBox1"
-      Me.FixedGroupBox1.Size = New System.Drawing.Size(206, 124)
+      Me.FixedGroupBox1.Size = New System.Drawing.Size(206, 121)
       Me.FixedGroupBox1.TabIndex = 329
       Me.FixedGroupBox1.TabStop = False
       Me.FixedGroupBox1.Text = "Export : "
@@ -448,6 +494,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.primaryDetailGroupBox.TabIndex = 0
       Me.primaryDetailGroupBox.TabStop = False
       Me.primaryDetailGroupBox.Text = "ข้อมูลเบื้องต้น : "
+      '
+      'txtFaxforExport
+      '
+      Me.Validator.SetDataType(Me.txtFaxforExport, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtFaxforExport, "")
+      Me.txtFaxforExport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtFaxforExport, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtFaxforExport, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtFaxforExport, System.Drawing.Color.Empty)
+      Me.txtFaxforExport.Location = New System.Drawing.Point(96, 312)
+      Me.txtFaxforExport.MaxLength = 250
+      Me.Validator.SetMinValue(Me.txtFaxforExport, "")
+      Me.txtFaxforExport.Name = "txtFaxforExport"
+      Me.Validator.SetRegularExpression(Me.txtFaxforExport, "")
+      Me.Validator.SetRequired(Me.txtFaxforExport, False)
+      Me.txtFaxforExport.Size = New System.Drawing.Size(224, 21)
+      Me.txtFaxforExport.TabIndex = 23
+      '
+      'lblFaxforExport
+      '
+      Me.lblFaxforExport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblFaxforExport.ForeColor = System.Drawing.Color.Black
+      Me.lblFaxforExport.Location = New System.Drawing.Point(8, 312)
+      Me.lblFaxforExport.Name = "lblFaxforExport"
+      Me.lblFaxforExport.Size = New System.Drawing.Size(88, 18)
+      Me.lblFaxforExport.TabIndex = 24
+      Me.lblFaxforExport.Text = "Fax for Export:"
+      Me.lblFaxforExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'cmbCode
       '
@@ -1101,34 +1175,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
-      'txtFaxforExport
-      '
-      Me.Validator.SetDataType(Me.txtFaxforExport, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtFaxforExport, "")
-      Me.txtFaxforExport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtFaxforExport, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtFaxforExport, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtFaxforExport, System.Drawing.Color.Empty)
-      Me.txtFaxforExport.Location = New System.Drawing.Point(96, 312)
-      Me.txtFaxforExport.MaxLength = 250
-      Me.Validator.SetMinValue(Me.txtFaxforExport, "")
-      Me.txtFaxforExport.Name = "txtFaxforExport"
-      Me.Validator.SetRegularExpression(Me.txtFaxforExport, "")
-      Me.Validator.SetRequired(Me.txtFaxforExport, False)
-      Me.txtFaxforExport.Size = New System.Drawing.Size(224, 21)
-      Me.txtFaxforExport.TabIndex = 23
-      '
-      'lblFaxforExport
-      '
-      Me.lblFaxforExport.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblFaxforExport.ForeColor = System.Drawing.Color.Black
-      Me.lblFaxforExport.Location = New System.Drawing.Point(8, 312)
-      Me.lblFaxforExport.Name = "lblFaxforExport"
-      Me.lblFaxforExport.Size = New System.Drawing.Size(88, 18)
-      Me.lblFaxforExport.TabIndex = 24
-      Me.lblFaxforExport.Text = "Fax for Export:"
-      Me.lblFaxforExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
       'SupplierDetailView
       '
       Me.Controls.Add(Me.grbDetail)
@@ -1137,6 +1183,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(990, 496)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      Me.GroupBox1.ResumeLayout(False)
+      Me.GroupBox1.PerformLayout()
       Me.FixedGroupBox1.ResumeLayout(False)
       Me.FixedGroupBox1.PerformLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1591,7 +1639,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDCBank.Enabled = True
       Me.txtMCBank.Enabled = True
       Me.txtMCAccount.Enabled = True
-
+      Me.txtBuilkID.Enabled = True
       Try
         Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
         Dim currentUser As User = mySService.CurrentUser
@@ -1666,6 +1714,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDCACcount.TextChanged, AddressOf ChangeProperty
       AddHandler txtMCBank.TextChanged, AddressOf ChangeProperty
       AddHandler txtMCAccount.TextChanged, AddressOf ChangeProperty
+      AddHandler txtBuilkID.TextChanged, AddressOf ChangeProperty
 
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
@@ -1756,6 +1805,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtMCBank.Text = m_entity.MCBank
       txtMCAccount.Text = m_entity.MCAccount
+
+      txtBuilkID.Text = m_entity.BuilkID
 
       Me.RefreshContact()
 
@@ -2032,6 +2083,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "cbmprovince"
           Me.m_entity.Province = Me.cbmProvince.Text
           dirtyFlag = True
+
+        Case "txtbuilkid"
+          Me.m_entity.BuilkID = txtBuilkID.Text
+          dirtyFlag = True
+
 
       End Select
 

@@ -67,6 +67,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtBuilkID As System.Windows.Forms.TextBox
     Friend WithEvents lblBuilkID As System.Windows.Forms.Label
+    Friend WithEvents txtBuilkPaymentTrackID As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -83,6 +85,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtOwner = New System.Windows.Forms.TextBox()
       Me.txtTaxRate = New System.Windows.Forms.TextBox()
       Me.txtBuilkID = New System.Windows.Forms.TextBox()
+      Me.txtBuilkPaymentTrackID = New System.Windows.Forms.TextBox()
       Me.lblTaxID = New System.Windows.Forms.Label()
       Me.cmbTaxType = New System.Windows.Forms.ComboBox()
       Me.lblTaxType = New System.Windows.Forms.Label()
@@ -105,6 +108,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnClearImage = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblPicSize = New System.Windows.Forms.Label()
       Me.lblBuilkID = New System.Windows.Forms.Label()
+      Me.Label1 = New System.Windows.Forms.Label()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbTax.SuspendLayout()
       CType(Me.picLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -274,14 +278,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBuilkID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
-      Me.txtBuilkID.Location = New System.Drawing.Point(96, 326)
+      Me.txtBuilkID.Location = New System.Drawing.Point(99, 326)
       Me.txtBuilkID.MaxLength = 200
       Me.Validator.SetMinValue(Me.txtBuilkID, "")
       Me.txtBuilkID.Name = "txtBuilkID"
       Me.Validator.SetRegularExpression(Me.txtBuilkID, "")
       Me.Validator.SetRequired(Me.txtBuilkID, True)
-      Me.txtBuilkID.Size = New System.Drawing.Size(392, 21)
+      Me.txtBuilkID.Size = New System.Drawing.Size(389, 21)
       Me.txtBuilkID.TabIndex = 205
+      '
+      'txtBuilkPaymentTrackID
+      '
+      Me.Validator.SetDataType(Me.txtBuilkPaymentTrackID, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtBuilkPaymentTrackID, "")
+      Me.txtBuilkPaymentTrackID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtBuilkPaymentTrackID, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtBuilkPaymentTrackID, System.Drawing.Color.Empty)
+      Me.txtBuilkPaymentTrackID.Location = New System.Drawing.Point(185, 353)
+      Me.txtBuilkPaymentTrackID.MaxLength = 200
+      Me.Validator.SetMinValue(Me.txtBuilkPaymentTrackID, "")
+      Me.txtBuilkPaymentTrackID.Name = "txtBuilkPaymentTrackID"
+      Me.Validator.SetRegularExpression(Me.txtBuilkPaymentTrackID, "")
+      Me.Validator.SetRequired(Me.txtBuilkPaymentTrackID, True)
+      Me.txtBuilkPaymentTrackID.Size = New System.Drawing.Size(303, 21)
+      Me.txtBuilkPaymentTrackID.TabIndex = 207
       '
       'lblTaxID
       '
@@ -521,15 +541,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBuilkID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBuilkID.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBuilkID.Location = New System.Drawing.Point(8, 326)
+      Me.lblBuilkID.Location = New System.Drawing.Point(22, 326)
       Me.lblBuilkID.Name = "lblBuilkID"
-      Me.lblBuilkID.Size = New System.Drawing.Size(88, 18)
+      Me.lblBuilkID.Size = New System.Drawing.Size(71, 18)
       Me.lblBuilkID.TabIndex = 206
       Me.lblBuilkID.Text = "Builk ID:"
       Me.lblBuilkID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.Label1.Location = New System.Drawing.Point(19, 353)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(145, 18)
+      Me.Label1.TabIndex = 208
+      Me.Label1.Text = "Builk PaymentTrack ID:"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'ConfigurationView
       '
+      Me.Controls.Add(Me.txtBuilkPaymentTrackID)
+      Me.Controls.Add(Me.Label1)
       Me.Controls.Add(Me.txtBuilkID)
       Me.Controls.Add(Me.lblBuilkID)
       Me.Controls.Add(Me.lblPicSize)
@@ -557,7 +590,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblOwner)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "ConfigurationView"
-      Me.Size = New System.Drawing.Size(672, 355)
+      Me.Size = New System.Drawing.Size(672, 391)
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbTax.ResumeLayout(False)
       Me.grbTax.PerformLayout()
@@ -571,7 +604,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Members"
         Private m_isInitialized As Boolean
-    Public ConfigFilters(13) As Filter
+    Public ConfigFilters(14) As Filter
         Private Dirty As Boolean
 #End Region
 
@@ -625,7 +658,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler txtTaxRate.Validated, AddressOf TextHandler
 
       AddHandler txtBuilkID.TextChanged, AddressOf ChangeProperty
-
+      AddHandler txtBuilkPaymentTrackID.TextChanged, AddressOf ChangeProperty
 
             AddHandler cmbCostMethod.SelectedIndexChanged, AddressOf ChangeProperty
             AddHandler cmbInvMethod.SelectedIndexChanged, AddressOf ChangeProperty
@@ -699,6 +732,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtbuilkid"
           Me.SetFilterValue("BuilkID", txtBuilkID.Text)
           dirtyFlag = True
+        Case "txtbuilkpaymenttrackid"
+          Me.SetFilterValue("BuilkPaymentTrackID", txtBuilkPaymentTrackID.Text)
+          dirtyFlag = True
       End Select
             Dirty = Dirty Or dirtyFlag
             CheckFormEnable()
@@ -722,7 +758,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ' Hack : Logo
       ConfigFilters(12) = New Filter("Logo", Configuration.GetConfig("Logo"))
       ConfigFilters(13) = New Filter("BuilkID", Configuration.GetConfig("BuilkID"))
-
+      ConfigFilters(14) = New Filter("BuilkPaymentTrackID", Configuration.GetConfig("BuilkPaymentTrackID"))
             CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
             CodeDescription.ListCodeDescriptionInComboBox(Me.cmbInvMethod, "config_invmethod")
             CodeDescription.ListCodeDescriptionInComboBox(Me.cmbCostMethod, "config_costmethod")
@@ -769,7 +805,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtTaxRate.Text = Configuration.FormatToString(CDec(GetFilterValue("CompanyTaxRate")), 2)
 
       Me.txtBuilkID.Text = GetFilterValue("BuilkID").ToString
-
+      Me.txtBuilkPaymentTrackID.Text = GetFilterValue("BuilkPaymentTrackID").ToString
 
             Dim tmpCostMethod As New CodeDescription(CInt(GetFilterValue("CompanyCostMethod")))
             CodeDescription.ComboSelect(Me.cmbCostMethod, tmpCostMethod)
