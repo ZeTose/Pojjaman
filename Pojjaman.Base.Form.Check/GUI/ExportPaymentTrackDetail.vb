@@ -956,8 +956,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " Event of Button controls "
     Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
       If Me.m_entity.Originated Then
-        Me.m_entity.ExportPaymentTrackFile()
-        Me.m_entity.ExportPaymentTrackOnLine()
+        Dim CurrentUserId As Integer = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id
+        Dim newStatus As String = Me.m_entity.CheckExportPaymentTrackStatus
+        If newStatus.Trim.ToLower = "" Then
+          Me.m_entity.SaveExportPaymentTrackStatus("N", CurrentUserId)
+          Me.m_entity.PaymentTrackStatus = "N"
+        Else
+          Me.m_entity.SaveExportPaymentTrackStatus("U", CurrentUserId)
+          Me.m_entity.PaymentTrackStatus = newStatus
+        End If
+        'Me.m_entity.ExportPaymentTrackFile()
+        'Me.m_entity.ExportPaymentTrackOnLine()
+        Dim saveerr As SaveErrorException = Me.m_entity.ExportPaymentTrack
+        If Not IsNumeric(saveerr.Message) Then
+          MessageBox.Show("Failed to export. " & vbCrLf & saveerr.Message)
+        Else
+          If CInt(saveerr.Message) = -2 Then
+            Return
+          End If
+          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+        End If
       End If
 
     End Sub

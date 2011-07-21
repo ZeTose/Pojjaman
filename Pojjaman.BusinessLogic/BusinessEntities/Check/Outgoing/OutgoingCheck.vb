@@ -2022,7 +2022,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= p.PaymentTrackID.Pipe
       header &= p.PaymentTrackStatus.Pipe
       header &= p.CheckQty.ToString.Pipe
-      header &= p.CheckAmount.ToString.Pipe
+      header &= p.CheckAmount.ToString("####.00").Pipe
       writer.WriteLine(header)
 
       For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
@@ -2109,8 +2109,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= p.PaymentTrackID.Pipe
       header &= p.PaymentTrackStatus.Pipe
       header &= p.CheckQty.ToString.Pipe
-      header &= p.CheckAmount.ToString.Pipe
-      writer += header & "\n"
+      header &= p.CheckAmount.ToString("####.00").Pipe
+      writer += header & "{newline}"
 
       For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
         Dim checkText As String = ""
@@ -2134,7 +2134,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         checkText &= check.BillNoteAmout.ToString.Pipe
         checkText &= check.DocQty.ToString.Pipe
         checkText &= check.DocAmount.ToString.Pipe
-        writer += checkText & "\n"
+        writer += checkText & "{newline}"
 
         For Each bill As PaymentTrackBillNoteDetail In check.PaymentTrackBillNoteDetailList
           Dim billText As String = ""
@@ -2150,7 +2150,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           billText &= bill.Remarks.Pipe
           billText &= bill.DocQty.ToString.Pipe
           billText &= bill.DocAmount.ToString.Pipe
-          writer += billText & "\n"
+          writer += billText & "{newline}"
 
           For Each doc As PaymentTrackDocDetail In bill.PaymentTrackDocDetailList
             Dim billDocText As String = ""
@@ -2165,7 +2165,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             billDocText &= doc.Added.Pipe
             billDocText &= doc.Subtract.Pipe
             billDocText &= doc.ReferenceDocument.Pipe
-            writer += billDocText & "\n"
+            writer += billDocText & "{newline}"
           Next
         Next
 
@@ -2182,7 +2182,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           docText &= doc.Added.Pipe
           docText &= doc.Subtract.Pipe
           docText &= doc.ReferenceDocument.Pipe
-          writer += docText & "\n"
+          writer += docText & "{newline}"
         Next
       Next
 

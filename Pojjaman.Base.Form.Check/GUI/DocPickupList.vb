@@ -37,7 +37,9 @@ Public Class DocPickupList
         Dim lv As New ListViewItem("")
         lv.SubItems.Add(row("code_description"))
         lv.Tag = row("code_tag")
-        lv.Checked = Regex.Match(CheckString, "\b" & CStr(row("code_tag"))).Value.ToString.Length > 0
+        If Not CheckString Is Nothing Then
+          lv.Checked = Regex.Match(CheckString, "\b" & CStr(row("code_tag"))).Value.ToString.Length > 0
+        End If
         ListView1.Items.Add(lv)
       End If
     Next

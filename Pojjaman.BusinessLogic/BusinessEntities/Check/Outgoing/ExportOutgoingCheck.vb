@@ -102,9 +102,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_totalamount = CDec(dr(aliasPrefix & "eocheck_totalAmount"))
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "eopt_status") AndAlso Not dr.IsNull(aliasPrefix & "eopt_status") Then
-          .m_paymentTrackStatus = CStr(dr(aliasPrefix & "eopt_status"))
-        End If
+        'If dr.Table.Columns.Contains(aliasPrefix & "eopt_status") AndAlso Not dr.IsNull(aliasPrefix & "eopt_status") Then
+        '  .m_paymentTrackStatus = CStr(dr(aliasPrefix & "eopt_status"))
+        'End If
 
         m_paymentTrackDataSet = Me.GetExportPaymentTrackList
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = Nothing
@@ -268,11 +268,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-    Public Sub ExportPaymentTrack()
-      ExportPaymentTrackFile()
-      ExportPaymentTrackOnLine()
-    End Sub
-    Public Sub ExportPaymentTrackFile()
+    Public Function ExportPaymentTrack() As SaveErrorException
+      Dim saveerr1 As SaveErrorException = ExportPaymentTrackFile()
+      Dim saveerr2 As SaveErrorException = ExportPaymentTrackOnLine()
+      If Not IsNumeric(saveerr1.Message) OrElse Not IsNumeric(saveerr2.Message) Then
+        Dim strError As String = ""
+        If Not IsNumeric(saveerr1.Message) Then
+          strError = saveerr1.Message
+        Else
+          If CInt(saveerr1.Message) = -2 Then
+            Return New SaveErrorException("-2")
+          End If
+        End If
+        If Not IsNumeric(saveerr2.Message) Then
+          strError &= saveerr2.Message
+        End If
+        Return New SaveErrorException(strError)
+      End If
+      Return New SaveErrorException("0")
+    End Function
+    Public Function ExportPaymentTrackFile() As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       'If Not Validator.ValidationSummary Is Nothing AndAlso Validator.ValidationSummary.Length > 0 Then
       '  msgServ.ShowMessage(Validator.ValidationSummary)
@@ -290,29 +305,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Try
           Exporter.ExportPaymentTrack(Me, writer)
-          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+          'MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
         Catch ex As Exception
-          MessageBox.Show("Error:" & ex.ToString)
+          'MessageBox.Show("Error:" & ex.ToString)
+          Return New SaveErrorException(ex.Message)
         Finally
           writer.Close()
         End Try
-
+      Else
+        Return New SaveErrorException("-2")
       End If
-    End Sub
-    Public Sub ExportPaymentTrackOnLine()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function ExportPaymentTrackOnLine() As SaveErrorException
 
       Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
 
       If BuilkID = "" Then
-        Return
+        Return New SaveErrorException("0")
       End If
 
       'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=12")
       Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
       request.Method = "POST"
-
-
-
 
       Dim postData As String = ""
 
@@ -322,10 +337,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Exporter.ExportPaymentTrack(Me, postData)
         'MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
       Catch ex As Exception
-        MessageBox.Show("Error:" & ex.ToString)
-        'Finally
-        '  writer.Close()
-
+        Return New SaveErrorException(ex.Message)
       End Try
 
       Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postData)
@@ -338,7 +350,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dataStream.Write(byteArray, 0, byteArray.Length)
 
       Catch ex As Exception
-        MessageBox.Show("Error:" & ex.ToString)
+        Return New SaveErrorException(ex.Message)
       Finally
         dataStream.Close()
       End Try
@@ -351,17 +363,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dataStream = response.GetResponseStream()
         reader = New StreamReader(dataStream)
         responseFromServer = reader.ReadToEnd()
-      Catch ex As Exception
-        MessageBox.Show("Error:" & ex.ToString)
-      Finally
+
         response.Close()
         dataStream.Close()
+
+        If response Is Nothing Then
+          Throw New SaveErrorException("Not response from server")
+        Else
+          'response.ToString
+        End If
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
       End Try
 
+      Return New SaveErrorException("0")
 
-
-
-    End Sub
+    End Function
 
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
@@ -468,8 +485,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Try
             If Me.Status.Value = 0 Then
               'If myMessage.AskQuestion("ต้องการให้ Export PaymentTrack ด้วยหรือไม่") Then
-              Me.SavePaymentTrackStatus("C", currentUserId)
+              Me.SaveExportPaymentTrackStatus("C", currentUserId)
               Me.ExportPaymentTrack()
+              'Me.ExportPaymentTrackOnLine()
               'End If
             End If
           Catch ex As Exception
@@ -677,19 +695,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim drh As New DataRowHelper(row)
           percent = drh.GetValue(Of Decimal)("percent")
           If drh.GetValue(Of Decimal)("payment_interest") > 0 Then
-            addedText = "ดอกเบี้ยจ่าย".Colon & (drh.GetValue(Of Decimal)("payment_interest") * percent).ToString
+            addedText = "ดอกเบี้ยจ่าย".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_interest") * percent, DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
           If drh.GetValue(Of Decimal)("payment_bankcharge") > 0 Then
-            addedText = "ค่าธรรมเนียมธนาคาร".Colon & (drh.GetValue(Of Decimal)("payment_bankcharge") * percent).ToString
+            addedText = "ค่าธรรมเนียมธนาคาร".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_bankcharge") * percent, DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
           If drh.GetValue(Of Decimal)("payment_otherExpense") > 0 Then
-            addedText = "ค่าใช้จ่ายอื่นๆ".Colon & (drh.GetValue(Of Decimal)("payment_otherExpense") * percent).ToString
+            addedText = "ค่าใช้จ่ายอื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherExpense") * percent, DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
           If drh.GetValue(Of Decimal)("payment_creditamt") > 0 Then
-            addedText = "ยอดเพิ่มจำนวนจ่ายอื่น".Colon & (drh.GetValue(Of Decimal)("payment_creditamt") * percent).ToString
+            addedText = "ยอดเพิ่มจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_creditamt") * percent, DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
         Next
@@ -711,11 +729,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim drh As New DataRowHelper(row)
           percent = drh.GetValue(Of Decimal)("percent")
           If drh.GetValue(Of Decimal)("payment_discount") > 0 Then
-            subtractText = "ส่วนลดรับ".Colon & (drh.GetValue(Of Decimal)("payment_discount") * percent).ToString
+            subtractText = "ส่วนลดรับ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_discount") * percent, DigitConfig.Price).ToString
             subtractList.Add(subtractText)
           End If
           If drh.GetValue(Of Decimal)("payment_otherRevenue") > 0 Then
-            subtractText = "รายได้อื่นๆ".Colon & (drh.GetValue(Of Decimal)("payment_otherRevenue") * percent).ToString
+            subtractText = "รายได้อื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherRevenue") * percent, DigitConfig.Price).ToString
             subtractList.Add(subtractText)
           End If
           'If drh.GetValue(Of Decimal)("payment_witholdingTax") > 0 Then
@@ -723,7 +741,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  subtractList.Add(subtractText)
           'End If
           If drh.GetValue(Of Decimal)("payment_debitamt") > 0 Then
-            subtractText = "ยอดหักจำนวนจ่ายอื่น".Colon & (drh.GetValue(Of Decimal)("payment_debitamt") * percent).ToString
+            subtractText = "ยอดหักจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_debitamt") * percent, DigitConfig.Price).ToString
             subtractList.Add(subtractText)
           End If
         Next
@@ -748,10 +766,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Function
 
 #Region "IPaymentTrackExportable"
-    Public Function SavePaymentTrackStatus(ByVal status As String, ByVal UserId As Object) As String
-      Me.m_paymentTrackStatus = status
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, _
-                                                   CommandType.StoredProcedure, "InsertExportPaymentTrack", _
+    Public Function CheckExportPaymentTrackStatus() As String
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                  CommandType.StoredProcedure,
+                                                  "CheckExportPaymentTrack",
+                                                  New SqlParameter("@eopt_eocheck", Me.Id)
+                                                  )
+      If ds.Tables(0).Rows.Count = 0 OrElse ds.Tables(0).Rows(0).IsNull("eopt_status") Then
+        Return ""
+      Else
+        Return ds.Tables(0).Rows(0)("eopt_status").ToString
+      End If
+    End Function
+    Public Function SaveExportPaymentTrackStatus(ByVal status As String, ByVal UserId As Object) As String
+      'Me.m_paymentTrackStatus = status
+      SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, _
+                                                   CommandType.StoredProcedure,
+                                                   "InsertExportPaymentTrack", _
                                                    New SqlParameter("@eopt_eocheck", Me.Id), _
                                                    New SqlParameter("@eopt_status", status), _
                                                    New SqlParameter("@eopt_editor", UserId))
@@ -768,18 +799,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_paymentTrackStatus As String
     Public Property PaymentTrackStatus As String Implements IPaymentTrackExportable.PaymentTrackStatus
       Get
-        'If Not Me.Originated Then
-        '  Return "N" 'New Export
-        'Else
-        'If m_paymentTrackStatus = "D" Then
         Return m_paymentTrackStatus
-        'End If
-        'If Me.Status.Value = 0 Then
-        '  Return "C"
-        'Else
-        '  Return "U"
-        'End If
-        'End If
       End Get
       Set(ByVal value As String)
         m_paymentTrackStatus = value
@@ -829,10 +849,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ck.PayeeBuilkId = exCheck.Entity.Supplier.BuilkID
           ck.CheckDescription = exCheck.Detail
           ck.CheckIssueDate = exCheck.Entity.IssueDate.ToString("yyyy-MM-dd", culture)
-          ck.CheckAmount = exCheck.Entity.Amount.ToString
-          ck.BeforeTax = exCheck.AmountBeforeVat.ToString
-          ck.WitholdingTax = exCheck.WHTCollection.Amount.ToString
-          ck.AfterTax = exCheck.AmountAfterVat.ToString
+          ck.CheckAmount = Configuration.Format(exCheck.Entity.Amount, DigitConfig.Price).ToString
+          ck.BeforeTax = Configuration.Format(exCheck.AmountBeforeVat, DigitConfig.Price).ToString
+          ck.WitholdingTax = Configuration.Format(exCheck.WHTCollection.Amount, DigitConfig.Price).ToString
+          ck.AfterTax = Configuration.Format(exCheck.AmountAfterVat, DigitConfig.Price).ToString
           ck.DocForReceive = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.DocumentForPickup, "DocumentForPickup", True)
           ck.ReceiveAddress = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.PickupCode, "PickupLocationCode", True)
           ck.ReceiveMethod = ExportOutgoingCheck.GetDescriptionFromCodeTag(exCheck.DeliveryMethod, "DeliveryMethod", True)
@@ -854,7 +874,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If IsDate(pbhr.GetValue(Of Date)("billa_billissueDate")) Then
                   pb.BillNoteDate = pbhr.GetValue(Of Date)("billa_billissueDate").ToString("yyyy-MM-dd", culture)
                 End If
-                pb.Amount = pbhr.GetValue(Of String)("billa_gross")
+                pb.Amount = Configuration.Format(pbhr.GetValue(Of Decimal)("billa_gross"), DigitConfig.Price).ToString
 
                 Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString & " and billa_id=" & pbhr.GetValue(Of String)("billa_id"))
                 For Each row2 As DataRow In dr2
@@ -867,7 +887,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
                     dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-MM-dd", culture)
                   End If
-                  dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
+                  dc.Amount = Configuration.Format((dochr.GetValue(Of Decimal)("stock_aftertax") + dochr.GetValue(Of Decimal)("stockretention")), DigitConfig.Price).ToString
+                  dc.TotalAmount = Configuration.Format(dochr.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price).ToString
+                  If dochr.GetValue(Of Decimal)("stockretention") > 0 Then
+                    dc.Subtract = "Retention:" & Configuration.Format(dochr.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
+                  End If
                   dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
                   pb.PaymentTrackDocDetailList.Add(dc)
                 Next
@@ -890,7 +914,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
                   dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-MM-dd", culture)
                 End If
-                dc.Amount = dochr.GetValue(Of String)("stock_aftertax")
+                dc.Amount = Configuration.Format((dochr.GetValue(Of Decimal)("stock_aftertax") + dochr.GetValue(Of Decimal)("stockretention")), DigitConfig.Price).ToString
+                dc.TotalAmount = Configuration.Format(dochr.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price).ToString
+                If dochr.GetValue(Of Decimal)("stockretention") > 0 Then
+                  dc.Subtract = "Retention:" & Configuration.Format(dochr.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
+                End If
                 dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
                 ck.PaymentTrackDocDetailList.Add(dc)
               End If
@@ -1034,7 +1062,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       '--Export Payment Track-- =================
-      Me.SavePaymentTrackStatus("D", DBNull.Value)
+      Me.SaveExportPaymentTrackStatus("D", DBNull.Value)
       Me.ExportPaymentTrack()
       '--Export Payment Track-- =================
 
