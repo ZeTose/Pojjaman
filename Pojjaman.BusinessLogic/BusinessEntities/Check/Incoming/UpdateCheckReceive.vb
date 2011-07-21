@@ -611,9 +611,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Me.DeleteRef(conn, trans)
+        'Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateCheck_ReceiveRef" _
         , New SqlParameter("@refto_id", Me.Id))
+        Dim saveerr As SaveErrorException = Me.UpdateCheckReceive_IncomingCheckRef(conn, trans)
+        If Not IsNumeric(saveerr.Message) Then
+          Return saveerr
+        End If
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
@@ -627,6 +631,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 
+    Public Function UpdateCheckReceive_IncomingCheckRef(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, _
+                                           "UpdateCheckReceive_IncomingCheckRef", _
+                                           New SqlParameter("@entity_idLIst", Me.GetItemIdList), _
+                                           New SqlParameter("@refto_id", Me.Id))
+
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Return New SaveErrorException("0")
+
+    End Function
+
+    Public Function GetItemIdList() As String
+      Dim listOfItem As New ArrayList
+
+      For Each tr As TreeRow In Me.ItemTable.Childs
+        If Me.ValidateRow(tr) Then
+          If tr.Table.Columns.Contains("cqupdatei_entity") AndAlso Not tr.IsNull("cqupdatei_entity") Then
+            If Not listOfItem.Contains(CStr(tr("cqupdatei_entity"))) Then
+              listOfItem.Add(CStr(tr("cqupdatei_entity")))
+            End If
+          End If
+        End If
+      Next
+
+      'For Each item As UpdateCheckDepositItem In Me.ListOfUpdateCheckDepositItem
+      '  If Not listOfItem.Contains(item.Entity.Id) Then
+      '    listOfItem.Add(item.Entity.Id)
+      '  End If
+      'Next
+
+      Return String.Join(",", listOfItem.ToArray)
+    End Function
 
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Try
@@ -1920,12 +1961,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.Originated Then
         Return New SaveErrorException("${res:Global.Error.NoIdError}")
       End If
-      ' ตรวจสอบ Childs ที่อ้างอิงแล้ว.
-      Dim referedcodelist As String = GetIsChildsReferenced()
-      If referedcodelist.Length > 0 Then
-        Dim strPare As String = Me.StringParserService.Parse("${res:Global.UpdateCheckReceiveReferedList}")
-        Return New SaveErrorException(String.Format(strPare, referedcodelist))
-      End If
+      '' ตรวจสอบ Childs ที่อ้างอิงแล้ว.
+      'Dim referedcodelist As String = GetIsChildsReferenced()
+      'If referedcodelist.Length > 0 Then
+      '  Dim strPare As String = Me.StringParserService.Parse("${res:Global.UpdateCheckReceiveReferedList}")
+      '  Return New SaveErrorException(String.Format(strPare, referedcodelist))
+      'End If
 
       Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim format(0) As String

@@ -779,6 +779,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
     End Function
+    'Public Overrides Function GetNextCode(ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As String
+    '  Return MyBase.GetNextCode(conn, trans)
+    'End Function
 
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       With Me
@@ -813,7 +816,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Select Case Me.AutoCodeFormat.CodeConfig.Value
             Case 0
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
+                Me.Code = Me.GetNextCode(conn, trans)
               End If
               Me.m_je.DontSave = True
               Me.m_je.Code = ""
@@ -821,30 +824,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 1
               'ตาม entity
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
+                Me.Code = Me.GetNextCode(conn, trans)
               End If
               Me.m_je.Code = Me.Code
             Case 2
               'ตาม gl
               If Me.m_je.AutoGen Then
-                Me.m_je.Code = m_je.GetNextCode
+                Me.m_je.Code = m_je.GetNextCode(conn, trans)
               End If
               Me.Code = Me.m_je.Code
             Case Else
               'แยก
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-                Me.Code = Me.GetNextCode
+                Me.Code = Me.GetNextCode(conn, trans)
               End If
               If Me.m_je.AutoGen Then
-                Me.m_je.Code = m_je.GetNextCode
+                Me.m_je.Code = m_je.GetNextCode(conn, trans)
               End If
           End Select
         Else
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
-            Me.Code = Me.GetNextCode
+            Me.Code = Me.GetNextCode(conn, trans)
           End If
           If Me.m_je.AutoGen Then
-            Me.m_je.Code = m_je.GetNextCode
+            Me.m_je.Code = m_je.GetNextCode(conn, trans)
           End If
         End If
         Me.m_je.DocDate = Me.DocDate

@@ -1544,7 +1544,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Else
           chk = New IncomingCheck(CInt(Me.m_receive.ItemTable.Rows(e.Row)("receivei_entity")))
         End If
-        If Not chk.Bank Is Nothing AndAlso chk.Originated Then
+        If Not chk.BankAccount Is Nothing AndAlso chk.Originated AndAlso chk.DocStatus.Value <> 1 Then
           Dim msg As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), MessageService)
           msg.ShowWarning(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveDetail.NoSaveBankAccount}"))
           Return
