@@ -77,6 +77,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 45
               Dim GR As New GoodsReceipt(entityId)
               GR.LastEditDate = Now
+              GR.OnGlChanged()
               GR.Save(EditorId)
               count45 += 1
             Case 31

@@ -113,87 +113,87 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             For Each row As DataRow In dt.Rows
                 If row("CCId").ToString <> currentCCId Then
-                    If currentCCId.Length > 0 And CountRemain > 0 Then
-                        m_grid(currCCIndex, 3).CellValue = CountPR
-                        m_grid(currCCIndex, 4).CellValue = CountRemain
-                        m_grid(currCCIndex, 5).CellValue = CountUnApprove
-                        m_grid(currCCIndex, 6).CellValue = CountUnStockApprove
-                        m_grid(currCCIndex, 7).CellValue = CountUnPO
+          If currentCCId.Length > 0 And CountPR > 0 Then
+            m_grid(currCCIndex, 3).CellValue = CountPR
+            m_grid(currCCIndex, 4).CellValue = CountRemain
+            m_grid(currCCIndex, 5).CellValue = CountUnApprove
+            m_grid(currCCIndex, 6).CellValue = CountUnStockApprove
+            m_grid(currCCIndex, 7).CellValue = CountUnPO
 
-                        CountPR += 1
+            CountPR += 1
 
-                        CountPR = 0
-                        CountRemain = 0
-                        CountUnApprove = 0
-                        CountUnStockApprove = 0
-                        CountUnPO = 0
-                    End If
-                    If CInt(row("remain")) > 0 Then
-                        m_grid.RowCount += 1
-                        currCCIndex = m_grid.RowCount
-                        If showDetail <> 0 Then
-                            m_grid.RowStyles(currCCIndex).BackColor = Color.FromArgb(128, 255, 128)
-                            m_grid.RowStyles(currCCIndex).Font.Bold = True
-                        End If
-                        m_grid.RowStyles(currCCIndex).ReadOnly = True
-                        m_grid(currCCIndex, 1).CellValue = row("CCCode")
-                        m_grid(currCCIndex, 2).CellValue = row("CCName")
-                        currentCCId = row("CCId").ToString
-                    End If
-                End If
-                If CInt(row("remain")) > 0 Then
-                    CountRemain += 1
-                    CountAll_UnRemain += 1
-                    If showDetail <> 0 Then
-                        m_grid.RowCount += 1
-                        currItemIndex = m_grid.RowCount
-                        m_grid.RowStyles(currItemIndex).ReadOnly = True
-                        m_grid(currItemIndex, 3).CellValue = ""
-                        m_grid(currItemIndex, 4).CellValue = row("DocCode")
-                        m_grid(currItemIndex, 5).CellValue = ""
-                        m_grid(currItemIndex, 6).CellValue = ""
-                        m_grid(currItemIndex, 7).CellValue = ""
-                    End If
-                    If CInt(row("ApprovePersone")) = 0 Then
-                        If showDetail <> 0 Then
-                            m_grid.RowStyles(currItemIndex).ReadOnly = True
-                            m_grid(currItemIndex, 3).CellValue = ""
-                            m_grid(currItemIndex, 5).CellValue = row("DocCode")
-                            m_grid(currItemIndex, 6).CellValue = ""
-                            m_grid(currItemIndex, 7).CellValue = ""
-                        End If
-                        CountUnApprove += 1
-                        CountAll_UnApprove += 1
-                    End If
-                    If CInt(row("ApproveStorePersone")) = 0 And CInt(row("ApprovePersone")) > 0 Then
-                        If showDetail <> 0 Then
-                            m_grid.RowStyles(currItemIndex).ReadOnly = True
-                            m_grid(currItemIndex, 3).CellValue = ""
-                            m_grid(currItemIndex, 6).CellValue = row("DocCode")
-                            m_grid(currItemIndex, 7).CellValue = ""
-                        End If
-                        CountUnStockApprove += 1
-                        CountAll_UnStockApprove += 1
-                    End If
-                    If CInt(row("ApprovePersone")) > 0 And CInt(row("ApproveStorePersone")) > 0 Then
-                        If showDetail <> 0 Then
-                            m_grid.RowStyles(currItemIndex).ReadOnly = True
-                            m_grid(currItemIndex, 7).CellValue = row("DocCode")
-                        End If
-                        CountUnPO += 1
-                        CountAll_UnPO += 1
-                    End If
-                End If
-                CountPR += 1
-                CountAll_PR += 1
-            Next
-            If CountRemain > 0 Then
-                m_grid(currCCIndex, 3).CellValue = CountPR
-                m_grid(currCCIndex, 4).CellValue = CountRemain
-                m_grid(currCCIndex, 5).CellValue = CountUnApprove
-                m_grid(currCCIndex, 6).CellValue = CountUnStockApprove
-                m_grid(currCCIndex, 7).CellValue = CountUnPO
+            CountPR = 0
+            CountRemain = 0
+            CountUnApprove = 0
+            CountUnStockApprove = 0
+            CountUnPO = 0
+          End If
+          'If CInt(row("remain")) > 0 Then
+          m_grid.RowCount += 1
+          currCCIndex = m_grid.RowCount
+          If showDetail <> 0 Then
+            m_grid.RowStyles(currCCIndex).BackColor = Color.FromArgb(128, 255, 128)
+            m_grid.RowStyles(currCCIndex).Font.Bold = True
+          End If
+          m_grid.RowStyles(currCCIndex).ReadOnly = True
+          m_grid(currCCIndex, 1).CellValue = row("CCCode")
+          m_grid(currCCIndex, 2).CellValue = row("CCName")
+          currentCCId = row("CCId").ToString
+          'End If
+        End If
+        If CInt(row("remain")) > 0 Then
+          CountRemain += 1
+          CountAll_UnRemain += 1
+          If showDetail <> 0 Then
+            m_grid.RowCount += 1
+            currItemIndex = m_grid.RowCount
+            m_grid.RowStyles(currItemIndex).ReadOnly = True
+            m_grid(currItemIndex, 3).CellValue = ""
+            m_grid(currItemIndex, 4).CellValue = row("DocCode")
+            m_grid(currItemIndex, 5).CellValue = ""
+            m_grid(currItemIndex, 6).CellValue = ""
+            m_grid(currItemIndex, 7).CellValue = ""
+          End If
+          If CInt(row("ApprovePersone")) = 0 Then
+            If showDetail <> 0 Then
+              m_grid.RowStyles(currItemIndex).ReadOnly = True
+              m_grid(currItemIndex, 3).CellValue = ""
+              m_grid(currItemIndex, 5).CellValue = row("DocCode")
+              m_grid(currItemIndex, 6).CellValue = ""
+              m_grid(currItemIndex, 7).CellValue = ""
             End If
+            CountUnApprove += 1
+            CountAll_UnApprove += 1
+          End If
+          If CInt(row("ApproveStorePersone")) = 0 And CInt(row("ApprovePersone")) > 0 Then
+            If showDetail <> 0 Then
+              m_grid.RowStyles(currItemIndex).ReadOnly = True
+              m_grid(currItemIndex, 3).CellValue = ""
+              m_grid(currItemIndex, 6).CellValue = row("DocCode")
+              m_grid(currItemIndex, 7).CellValue = ""
+            End If
+            CountUnStockApprove += 1
+            CountAll_UnStockApprove += 1
+          End If
+          If CInt(row("ApprovePersone")) > 0 And CInt(row("ApproveStorePersone")) > 0 Then
+            If showDetail <> 0 Then
+              m_grid.RowStyles(currItemIndex).ReadOnly = True
+              m_grid(currItemIndex, 7).CellValue = row("DocCode")
+            End If
+            CountUnPO += 1
+            CountAll_UnPO += 1
+          End If
+        End If
+        CountPR += 1
+        CountAll_PR += 1
+      Next
+      If CountPR > 0 Then
+        m_grid(currCCIndex, 3).CellValue = CountPR
+        m_grid(currCCIndex, 4).CellValue = CountRemain
+        m_grid(currCCIndex, 5).CellValue = CountUnApprove
+        m_grid(currCCIndex, 6).CellValue = CountUnStockApprove
+        m_grid(currCCIndex, 7).CellValue = CountUnPO
+      End If
             m_grid.RowCount += 1
             currCCIndex = m_grid.RowCount
             m_grid.RowStyles(currCCIndex).BackColor = Color.FromArgb(167, 214, 231)
