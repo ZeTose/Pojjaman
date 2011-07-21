@@ -414,7 +414,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''initial entity
       Me.UpdateEntityProperties()
 
-
       'Me.TitleName = m_entity.TabPageText
 
     End Sub
@@ -461,12 +460,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity Is Nothing Then
 
         Me.m_entity.RefreshDataSource(User.CurrentUser.Id, rGrid, Me.GetListOfDocument, Me.GetListOfApproveType, Me.GetListOfDateRank, ForceRefresh)
+        Me.SetSummaryColumnHeader()
         'm_entity.RefreshDocumentList(chkDocumenList)
         'For Each rowinf As GridViewRowInfo In Me.rGrid.Rows
         '  'rowinf.EnsureVisible()
         '  rowinf.Height = 35
         'Next
       End If
+    End Sub
+    Private Sub SetSummaryColumnHeader()
+      Me.rGrid.Columns("lineNumber").HeaderText = "[" & Configuration.FormatToString(Me.m_entity.TotalQty, DigitConfig.Int) & "]"
+      Me.rGrid.Columns("doca_amount").HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Amount}") & "[" & Configuration.FormatToString(Me.m_entity.TotalAmount, DigitConfig.Price) & "]"
     End Sub
     Public Sub ChangeTitle(ByVal sender As Object, ByVal e As System.EventArgs) Implements ISimpleListPanel.ChangeTitle
 
@@ -536,6 +540,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ', _
           'rdbWaitforApprove.Name.ToLower, rdbApproved.Name.ToLower, rdbReject.Name.ToLower, rdbNotApprove.Name.ToLower
           Me.m_entity.RefreshDataSource(User.CurrentUser.Id, rGrid, Me.GetListOfDocument, Me.GetListOfApproveType, Me.GetListOfDateRank)
+          Me.SetSummaryColumnHeader()
         Case chkShowDetail.Name.ToLower
           Dim isExpand As Boolean = chkShowDetail.Checked
           Me.ExpandAllRows(rGrid, isExpand)
@@ -546,43 +551,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim checkCal As Integer = 0
       Dim docTypeString As String = ""
       If chkPR.Checked Then
-        docTypeString = "doctype = " & CType(chkPR.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkPR.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
       If chkWR.Checked Then
-        docTypeString = "doctype = " & CType(chkWR.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkWR.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
       If chkPO.Checked Then
-        docTypeString = "doctype = " & CType(chkPO.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkPO.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
       If chkSC.Checked Then
-        docTypeString = "doctype = " & CType(chkSC.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkSC.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
       If chkDR.Checked Then
-        docTypeString = "doctype = " & CType(chkDR.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkDR.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
       If chkGR.Checked Then
-        docTypeString = "doctype = " & CType(chkGR.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkGR.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
       If chkPA.Checked Then
-        docTypeString = "doctype = " & CType(chkPA.Tag, KeyValuePair).Key
+        docTypeString = "doca_entitytype = " & CType(chkPA.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
       End If
 
       If checkCal = 0 Then 'ไม่เลือกเลยสักตัว
-        newDocList.Add("doctype = -1")
+        newDocList.Add("doca_entitytype = -1")
       ElseIf checkCal = 7 Then 'เลือกทุกตัว
 
       End If
@@ -681,11 +686,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       rGrid.MasterGridViewTemplate.AllowCellContextMenu = False
       rGrid.MasterGridViewTemplate.AllowColumnResize = True
       rGrid.MasterGridViewTemplate.AllowRowResize = False
-
+      rGrid.MasterGridViewTemplate.EnableSorting = True
       'rGrid.MasterGridViewTemplate.AutoExpandGroups = True
 
-      CreateHeaderTemplateStyle()
-      CreateHeaderTemplateStyle2()
+      'CreateHeaderTemplateStyle()
+      'CreateHeaderTemplateStyle2()
 
       rGrid.GridElement.EndUpdate()
 
@@ -717,19 +722,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Methods"
     Private Sub PopulateCombo()
-      cmbApprovalType.Items.Add(New IdValuePair(5, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.WaitForApprove}"))) ' "รออนุมัติ"
-      cmbApprovalType.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Approved}"))) '"อนุมัติแล้ว"
-      cmbApprovalType.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Reject}"))) '"ถูกส่งกลับ"
-      cmbApprovalType.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NonApprove}"))) '"ยังไม่ได้อนุมัติ"
+      Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      'Dim waitLVSApprove As String = Me.StringParserService.Parse("${res:Global.WaitForOtherLevelApprove}")
+      ''Dim notAppear As String = Me.StringParserService.Parse("${res:Global.Unspecified}")
+      ''Dim maxGRApproveLevel As Integer = CType(Configuration.GetConfig("MaxLevelApprovePO"), Integer)
+      'Dim maxApproveLevel As Integer = MultiApproval.GetMaxLevelApproveConfig(User.CurrentUser.Id)
+      'For i As Integer = maxApproveLevel To 1 Step -1
+      '  Dim item As New IdValuePair(i - 1, String.Format(waitLVSApprove, i))
+      '  cmbApprovalType.Items.Add(item)
+      'Next
+
+      Dim stringFormat As String = ""
+      stringFormat = String.Format(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.WaitForApprove}"), New String() {User.CurrentUser.Name})
+      cmbApprovalType.Items.Add(New IdValuePair(0, stringFormat)) '"เอกสารรอคุณ {0} อนุมัติ"
+      stringFormat = String.Format(Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NonApprove}"), New String() {User.CurrentUser.Name})
+      cmbApprovalType.Items.Add(New IdValuePair(1, stringFormat)) '"เอกสารที่คุณ {0} ยังไม่ได้อนุมัติ"
+      cmbApprovalType.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Approved}"))) '"เอกสารที่อนุมัติแล้ว"
+      cmbApprovalType.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Reject}"))) '"เอกสารที่ถูกส่งกลับ"
+
+      'cmbApprovalType.Items.Add(New IdValuePair(0, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.WaitForApprove}"))) '"เอกสารรอคุณ {0} อนุมัติ"
+      'cmbApprovalType.Items.Add(New IdValuePair(1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Approved}"))) '"เอกสารอนุมัติแล้ว"
+      'cmbApprovalType.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Reject}"))) '"เอกสารถูกส่งกลับ"
+      'cmbApprovalType.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NonApprove}"))) '"เอกสารที่คุณ {0} ยังไม่ได้อนุมัติ"
 
       cmbApprovalType.SelectedIndex = 0
 
       cmbDateRank.Items.Add(New IdValuePair(-1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotSpecific}"))) ' "ไม่ระบุวัน"
-      cmbDateRank.Items.Add(New IdValuePair(1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Todays}"))) ' "ไม่เกินวันนี้"
-      cmbDateRank.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver24Hours}"))) ' "ไม่เกิน 24 ชั่วโมง"
-      cmbDateRank.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver15Days}"))) ' "ไม่เกิน 15 วัน"
-      cmbDateRank.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver4Weeks}"))) ' "ไม่เกิน 4 สัปดาห์"
-      cmbDateRank.Items.Add(New IdValuePair(5, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver12Months}"))) ' "ไม่เกิน 12 เดือน"
+      cmbDateRank.Items.Add(New IdValuePair(0, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Todays}"))) ' "ไม่เกินวันนี้"
+      'cmbDateRank.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver24Hours}"))) ' "ไม่เกิน 24 ชั่วโมง"
+      cmbDateRank.Items.Add(New IdValuePair(1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver7Day}"))) ' "ไม่เกิน 7 วัน"
+      cmbDateRank.Items.Add(New IdValuePair(2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver15Days}"))) ' "ไม่เกิน 15 วัน"
+      'cmbDateRank.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver4Weeks}"))) ' "ไม่เกิน 4 สัปดาห์"
+      cmbDateRank.Items.Add(New IdValuePair(3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver1Months}"))) ' "ไม่เกิน 1 เดือน"
+      'cmbDateRank.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver12Months}"))) ' "ไม่เกิน 12 เดือน"
+      cmbDateRank.Items.Add(New IdValuePair(4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.NotOver1Years}"))) ' "ไม่เกิน 1 ปี"
       'cmbDateRank.Items.Add(New IdValuePair(5, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Over1Year}"))) ' "เกิน 1 ปี"
 
       cmbDateRank.SelectedIndex = 4
@@ -822,19 +848,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Visible Column =================================================================================
 
-      Dim gridColumn As New GridViewTextBoxColumn("relationApproveId")
+      'Dim gridColumn As New GridViewTextBoxColumn("relationApproveId")
+      'gridColumn.Width = 0
+      'gridColumn.ReadOnly = True
+      'gridColumn.IsVisible = False
+      'rGrid.Columns.Add(gridColumn)
+
+      Dim gridColumn As New GridViewTextBoxColumn("doca_entityid")
+      'gridColumn = New GridViewTextBoxColumn("doca_entityid")
       gridColumn.Width = 0
       gridColumn.ReadOnly = True
       gridColumn.IsVisible = False
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("docid")
-      gridColumn.Width = 0
-      gridColumn.ReadOnly = True
-      gridColumn.IsVisible = False
-      rGrid.Columns.Add(gridColumn)
-
-      gridColumn = New GridViewTextBoxColumn("doctype")
+      gridColumn = New GridViewTextBoxColumn("doca_entitytype")
       gridColumn.Width = 0
       gridColumn.HeaderText = ""
       gridColumn.ReadOnly = True
@@ -848,36 +875,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.IsVisible = False
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("dateranktype")
-      gridColumn.Width = 0
-      gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
-      gridColumn.ReadOnly = True
-      gridColumn.IsVisible = False
-      rGrid.Columns.Add(gridColumn)
+      'gridColumn = New GridViewTextBoxColumn("doca_method")
+      'gridColumn.Width = 0
+      'gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
+      'gridColumn.ReadOnly = True
+      'gridColumn.IsVisible = False
+      'rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("apvdoc_linenumber")
-      gridColumn.Width = 0
-      gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
-      gridColumn.ReadOnly = True
-      gridColumn.IsVisible = False
-      rGrid.Columns.Add(gridColumn)
+      'gridColumn = New GridViewTextBoxColumn("dateranktype")
+      'gridColumn.Width = 0
+      'gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
+      'gridColumn.ReadOnly = True
+      'gridColumn.IsVisible = False
+      'rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("right_app_level")
-      gridColumn.Width = 0
-      gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
-      gridColumn.ReadOnly = True
-      gridColumn.IsVisible = False
-      rGrid.Columns.Add(gridColumn)
+      'gridColumn = New GridViewTextBoxColumn("apvdoc_linenumber")
+      'gridColumn.Width = 0
+      'gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
+      'gridColumn.ReadOnly = True
+      'gridColumn.IsVisible = False
+      'rGrid.Columns.Add(gridColumn)
+
+      'gridColumn = New GridViewTextBoxColumn("right_app_level")
+      'gridColumn.Width = 0
+      'gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
+      'gridColumn.ReadOnly = True
+      'gridColumn.IsVisible = False
+      'rGrid.Columns.Add(gridColumn)
 
       'Visible Column =================================
 
-      gridColumn = New GridViewTextBoxColumn("lineNumber")
-      gridColumn.Width = 40
-      gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Seq}") '"ลำดับ"
-      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'gridColumn = New GridViewTextBoxColumn("lineNumber")
+      'gridColumn.Width = 40
+      'gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Seq}") '"ลำดับ"
+      'gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      'gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      'gridColumn.ReadOnly = True
+      'rGrid.Columns.Add(gridColumn)
 
       Dim chkColumn As New GridViewCheckBoxColumn("selected")
       chkColumn.DataType = GetType(Boolean)
@@ -887,7 +921,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       chkColumn.ReadOnly = False
       rGrid.Columns.Add(chkColumn)
 
-      gridColumn = New GridViewTextBoxColumn("right_doctypename")
+      gridColumn = New GridViewTextBoxColumn("lineNumber")
+      gridColumn.Width = 80
+      gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Seq}") '"ลำดับ"
+      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.ReadOnly = True
+      rGrid.Columns.Add(gridColumn)
+
+      gridColumn = New GridViewTextBoxColumn("entity_description")
       gridColumn.Width = 110
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
@@ -895,7 +937,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("doccode")
+      gridColumn = New GridViewTextBoxColumn("doca_code")
       gridColumn.Width = 135
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
@@ -903,7 +945,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("docdate")
+      gridColumn = New GridViewTextBoxColumn("doca_docdate")
       gridColumn.Width = 75
       gridColumn.TextAlignment = ContentAlignment.MiddleCenter
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleCenter
@@ -913,8 +955,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("amount")
-      gridColumn.Width = 90
+      'gridColumn = New GridViewTextBoxColumn("cccode")
+      'gridColumn.Width = 145
+      'gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      'gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      'gridColumn.HeaderText = "Cost Center" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Cost Center"
+      'gridColumn.ReadOnly = True
+      'rGrid.Columns.Add(gridColumn)
+
+      gridColumn = New GridViewTextBoxColumn("doca_amount")
+      gridColumn.Width = 185
       gridColumn.TextAlignment = ContentAlignment.MiddleRight
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleRight
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Amount}") '"ยอดเงินรวม" 
@@ -923,19 +973,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("lasteditdocname")
-      gridColumn.Width = 135
+      gridColumn = New GridViewTextBoxColumn("supplier")
+      gridColumn.Width = 90
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastEditor}") '"ผู้ปรับปรุงสถานะล่าสุด" 
+      gridColumn.HeaderText = " ผู้ขาย/ผู้รับเหมา" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Supplier"
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("lasteditdocstatus")
-      gridColumn.Width = 175
+      gridColumn = New GridViewTextBoxColumn("costcenter")
+      gridColumn.Width = 90
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastStatus}") '"สถานะล่าสุด"
+      gridColumn.HeaderText = " Cost Center" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Supplier"
+      gridColumn.ReadOnly = True
+      rGrid.Columns.Add(gridColumn)
+
+      gridColumn = New GridViewTextBoxColumn("approveperson")
+      gridColumn.Width = 200
+      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderText = " ผู้อนุมัติ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastEditor}") '"ผู้ปรับปรุงสถานะล่าสุด" 
+      gridColumn.ReadOnly = True
+      rGrid.Columns.Add(gridColumn)
+
+      gridColumn = New GridViewTextBoxColumn("doca_comment")
+      gridColumn.Width = 135
+      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderText = " " & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Comment}") '"ความคิดเห็น" 
+      gridColumn.ReadOnly = True
+      rGrid.Columns.Add(gridColumn)
+
+      'gridColumn = New GridViewTextBoxColumn("editor")
+      'gridColumn.Width = 135
+      'gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      'gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      'gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastEditor}") '"ผู้ปรับปรุงสถานะล่าสุด" 
+      'gridColumn.ReadOnly = True
+      'rGrid.Columns.Add(gridColumn)
+
+      gridColumn = New GridViewTextBoxColumn("laststatus")
+      gridColumn.Width = 290
+      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
+      gridColumn.HeaderText = " " & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastStatus}") '"สถานะล่าสุด"
       gridColumn.ReadOnly = True
       rGrid.Columns.Add(gridColumn)
 
@@ -950,13 +1032,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''gridColumn.IsVisible = False
       'rGrid.Columns.Add(gridColumn)
 
-      gridColumn = New GridViewTextBoxColumn("apvdoc_comment")
-      gridColumn.Width = 135
-      gridColumn.TextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Comment}") '"ความคิดเห็น" 
-      gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+
+
+      'Dim grNewCol As New DataGridViewButtonColumn
+      'grNewCol.Width = 50
+      'grNewCol.Text = "Comment ทั้งหมด"
+      'rGrid.Columns.Add(grNewCol)
 
     End Sub
     Private Sub CreateHeaderTemplateStyle()
@@ -1129,67 +1210,67 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'relation2.ChildTemplate = gTemplate
       'rGrid.Relations.Add(relation2)
     End Sub
-    Private Sub radGridView1_CellFormatting(ByVal sender As Object, ByVal e As CellFormattingEventArgs) Handles rGrid.CellFormatting
-      Dim column As GridViewDataColumn = TryCast(e.CellElement.ColumnInfo, GridViewDataColumn)
-      If column IsNot Nothing Then
-        If column.OwnerTemplate.Caption = Me.DescriptionDocumentCaptionName Then
-          If column.FieldName = "cc_code" Then
-            e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b> " & _
-              e.CellElement.RowInfo.Cells("cc_code").Value.ToString()
-          End If
-          If column.FieldName = "supplier_code" Then
-            e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b>" & _
-              e.CellElement.RowInfo.Cells("supplier_code").Value.ToString()
-          End If
-          If column.FieldName = "cc_name" Then
-            e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b> " & _
-              e.CellElement.RowInfo.Cells("cc_name").Value.ToString()
-          End If
-          If column.FieldName = "supplier_name" Then
-            e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b>" & _
-              e.CellElement.RowInfo.Cells("supplier_name").Value.ToString()
-          End If
-        End If
-        'If column.OwnerTemplate.Caption = Me.MasterCaptionName Then
-        '  If column.FieldName.ToLower = "lasteditdocstatus" Then
-        '    e.CellElement.Text = e.CellElement.RowInfo.Cells("lastEditdocStatus").Value.ToString() & _
-        '      Space(2) & "(" & e.CellElement.RowInfo.Cells("daterank").Value.ToString & _
-        '      Space(1) & MultiApproval.GetDateUnitName(e.CellElement.RowInfo.Cells("dateranktype").Value) & ")"
-        '  End If
-        '  '  If column.FieldName = "docdate" Then
-        '  '    e.CellElement.Text = e.CellElement.FormatString("{0:d}")
-        '  '  End If
-        '  '  If column.FieldName = "amount" Then
-        '  '    e.CellElement.Text = String.Format("{0:n}", e.CellElement.RowInfo.Cells("amount").Value)
-        '  '  End If
-        'End If
-      End If
-      'If column IsNot Nothing AndAlso column.OwnerTemplate.Caption = "Performance" Then
-      '  If e.CellElement.RowInfo.Tag Is Nothing Then
-      '    chart.Series.Clear(chart.Series.Add(GetRowData(CType(e.CellElement.RowInfo, GridViewRowInfo))))
-      '    e.CellElement.RowInfo.Tag = chart.GetBitmap()
-      '  End If
-      '  e.CellElement.Image = TryCast(e.CellElement.RowInfo.Tag, Image)
-      '  e.CellElement.DrawBorder = False
-      '  e.CellElement.Text = ""
-      '  e.CellElement.Padding = New Padding(10, 0, 0, 0)
-      'End If
-    End Sub
-    Private Sub radGridView1_ViewRowFormatting(ByVal sender As Object, ByVal e As RowFormattingEventArgs) Handles rGrid.ViewRowFormatting
-      Dim row As GridDetailViewRowElement = TryCast(e.RowElement, GridDetailViewRowElement)
-      If row IsNot Nothing Then
-        row.ContentCell.ChildTableElement.Padding = New Padding(0, 8, 0, 8)
-        'If e.RowElement.ViewTemplate.Caption = Me.MasterCaptionName Then
-        '  e.RowElement.BackColor = Color.AntiqueWhite
-        'End If
-      End If
-    End Sub
-    Private Sub radGridView1_ChildViewExpanded(ByVal sender As Object, ByVal e As ChildViewExpandedEventArgs) Handles rGrid.ChildViewExpanded
-      'e.ChildRow.ChildViewInfos(0).Rows(0).Height = 45
-      e.ChildRow.ChildViewInfos(1).Rows(0).Height = 120
-      e.ChildRow.ChildViewInfos(1).Rows(0).IsSelected = False
-      'e.ChildRow.ChildViewInfos(1).Rows(1).Height = 50
-    End Sub
+    'Private Sub radGridView1_CellFormatting(ByVal sender As Object, ByVal e As CellFormattingEventArgs) Handles rGrid.CellFormatting
+    '  Dim column As GridViewDataColumn = TryCast(e.CellElement.ColumnInfo, GridViewDataColumn)
+    '  If column IsNot Nothing Then
+    '    If column.OwnerTemplate.Caption = Me.DescriptionDocumentCaptionName Then
+    '      If column.FieldName = "cc_code" Then
+    '        e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b> " & _
+    '          e.CellElement.RowInfo.Cells("cc_code").Value.ToString()
+    '      End If
+    '      If column.FieldName = "supplier_code" Then
+    '        e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b>" & _
+    '          e.CellElement.RowInfo.Cells("supplier_code").Value.ToString()
+    '      End If
+    '      If column.FieldName = "cc_name" Then
+    '        e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b> " & _
+    '          e.CellElement.RowInfo.Cells("cc_name").Value.ToString()
+    '      End If
+    '      If column.FieldName = "supplier_name" Then
+    '        e.CellElement.Text = "<html><b>" & e.CellElement.ColumnInfo.HeaderText & ": </b>" & _
+    '          e.CellElement.RowInfo.Cells("supplier_name").Value.ToString()
+    '      End If
+    '    End If
+    '    'If column.OwnerTemplate.Caption = Me.MasterCaptionName Then
+    '    '  If column.FieldName.ToLower = "lasteditdocstatus" Then
+    '    '    e.CellElement.Text = e.CellElement.RowInfo.Cells("lastEditdocStatus").Value.ToString() & _
+    '    '      Space(2) & "(" & e.CellElement.RowInfo.Cells("daterank").Value.ToString & _
+    '    '      Space(1) & MultiApproval.GetDateUnitName(e.CellElement.RowInfo.Cells("dateranktype").Value) & ")"
+    '    '  End If
+    '    '  '  If column.FieldName = "docdate" Then
+    '    '  '    e.CellElement.Text = e.CellElement.FormatString("{0:d}")
+    '    '  '  End If
+    '    '  '  If column.FieldName = "amount" Then
+    '    '  '    e.CellElement.Text = String.Format("{0:n}", e.CellElement.RowInfo.Cells("amount").Value)
+    '    '  '  End If
+    '    'End If
+    '  End If
+    'If column IsNot Nothing AndAlso column.OwnerTemplate.Caption = "Performance" Then
+    '  If e.CellElement.RowInfo.Tag Is Nothing Then
+    '    chart.Series.Clear(chart.Series.Add(GetRowData(CType(e.CellElement.RowInfo, GridViewRowInfo))))
+    '    e.CellElement.RowInfo.Tag = chart.GetBitmap()
+    '  End If
+    '  e.CellElement.Image = TryCast(e.CellElement.RowInfo.Tag, Image)
+    '  e.CellElement.DrawBorder = False
+    '  e.CellElement.Text = ""
+    '  e.CellElement.Padding = New Padding(10, 0, 0, 0)
+    'End If
+    'End Sub
+    'Private Sub radGridView1_ViewRowFormatting(ByVal sender As Object, ByVal e As RowFormattingEventArgs) Handles rGrid.ViewRowFormatting
+    '  Dim row As GridDetailViewRowElement = TryCast(e.RowElement, GridDetailViewRowElement)
+    '  If row IsNot Nothing Then
+    '    row.ContentCell.ChildTableElement.Padding = New Padding(0, 8, 0, 8)
+    '    'If e.RowElement.ViewTemplate.Caption = Me.MasterCaptionName Then
+    '    '  e.RowElement.BackColor = Color.AntiqueWhite
+    '    'End If
+    '  End If
+    'End Sub
+    'Private Sub radGridView1_ChildViewExpanded(ByVal sender As Object, ByVal e As ChildViewExpandedEventArgs) Handles rGrid.ChildViewExpanded
+    '  'e.ChildRow.ChildViewInfos(0).Rows(0).Height = 45
+    '  e.ChildRow.ChildViewInfos(1).Rows(0).Height = 120
+    '  e.ChildRow.ChildViewInfos(1).Rows(0).IsSelected = False
+    '  'e.ChildRow.ChildViewInfos(1).Rows(1).Height = 50
+    'End Sub
     'Private Function GetLockingComboTable() As DataTable
     '  Dim dt As New DataTable
     '  dt.Columns.Add(New DataColumn("Value"))
@@ -1212,92 +1293,92 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     '  Return dt
     'End Function
-    Public Function CreateTableStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "StockSequence"
-      Dim widths As New ArrayList
-      Dim iCol As Integer = 10 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+    'Public Function CreateTableStyle() As DataGridTableStyle
+    '  Dim dst As New DataGridTableStyle
+    '  dst.MappingName = "StockSequence"
+    '  Dim widths As New ArrayList
+    '  Dim iCol As Integer = 10 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
-      widths.Add(100)
-      widths.Add(200)
-      widths.Add(150)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(120)
-      widths.Add(120)
+    '  widths.Add(100)
+    '  widths.Add(200)
+    '  widths.Add(150)
+    '  widths.Add(100)
+    '  widths.Add(100)
+    '  widths.Add(100)
+    '  widths.Add(100)
+    '  widths.Add(120)
+    '  widths.Add(120)
+    '  widths.Add(120)
+    '  widths.Add(120)
 
-      For i As Integer = 0 To iCol
-        If i = 1 Then
-          Dim cs As New PlusMinusTreeTextColumn
-          cs.MappingName = "col" & i
-          cs.HeaderText = ""
-          cs.Width = CInt(widths(i))
-          cs.NullText = ""
-          cs.Alignment = HorizontalAlignment.Left
-          cs.ReadOnly = True
-          cs.Format = "s"
-          'AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
-          dst.GridColumnStyles.Add(cs)
-        Else
-          Dim cs As New TreeTextColumn(i, True, Color.Khaki)
-          cs.MappingName = "col" & i
-          cs.HeaderText = ""
-          cs.Width = CInt(widths(i))
-          cs.NullText = ""
-          cs.Alignment = HorizontalAlignment.Left
-          'If Me.m_showDetailInGrid <> 0 Then
-          '  Select Case i
-          '    Case 0, 1, 2
-          '      cs.Alignment = HorizontalAlignment.Left
-          '      cs.DataAlignment = HorizontalAlignment.Left
-          '      cs.Format = "s"
-          '    Case Else
-          '      cs.Alignment = HorizontalAlignment.Right
-          '      cs.DataAlignment = HorizontalAlignment.Right
-          '      cs.Format = "d"
-          '  End Select
-          'Else
-          '  Select Case i
-          '    Case 0, 1
-          '      cs.Alignment = HorizontalAlignment.Left
-          '      cs.DataAlignment = HorizontalAlignment.Left
-          '      cs.Format = "s"
-          '    Case Else
-          '      cs.Alignment = HorizontalAlignment.Right
-          '      cs.DataAlignment = HorizontalAlignment.Right
-          '      cs.Format = "d"
-          '  End Select
-          'End If
+    '  For i As Integer = 0 To iCol
+    '    If i = 1 Then
+    '      Dim cs As New PlusMinusTreeTextColumn
+    '      cs.MappingName = "col" & i
+    '      cs.HeaderText = ""
+    '      cs.Width = CInt(widths(i))
+    '      cs.NullText = ""
+    '      cs.Alignment = HorizontalAlignment.Left
+    '      cs.ReadOnly = True
+    '      cs.Format = "s"
+    '      'AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+    '      dst.GridColumnStyles.Add(cs)
+    '    Else
+    '      Dim cs As New TreeTextColumn(i, True, Color.Khaki)
+    '      cs.MappingName = "col" & i
+    '      cs.HeaderText = ""
+    '      cs.Width = CInt(widths(i))
+    '      cs.NullText = ""
+    '      cs.Alignment = HorizontalAlignment.Left
+    '      'If Me.m_showDetailInGrid <> 0 Then
+    '      '  Select Case i
+    '      '    Case 0, 1, 2
+    '      '      cs.Alignment = HorizontalAlignment.Left
+    '      '      cs.DataAlignment = HorizontalAlignment.Left
+    '      '      cs.Format = "s"
+    '      '    Case Else
+    '      '      cs.Alignment = HorizontalAlignment.Right
+    '      '      cs.DataAlignment = HorizontalAlignment.Right
+    '      '      cs.Format = "d"
+    '      '  End Select
+    '      'Else
+    '      '  Select Case i
+    '      '    Case 0, 1
+    '      '      cs.Alignment = HorizontalAlignment.Left
+    '      '      cs.DataAlignment = HorizontalAlignment.Left
+    '      '      cs.Format = "s"
+    '      '    Case Else
+    '      '      cs.Alignment = HorizontalAlignment.Right
+    '      '      cs.DataAlignment = HorizontalAlignment.Right
+    '      '      cs.Format = "d"
+    '      '  End Select
+    '      'End If
 
-          cs.ReadOnly = True
+    '      cs.ReadOnly = True
 
-          'AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
-          dst.GridColumnStyles.Add(cs)
-        End If
-      Next
+    '      'AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+    '      dst.GridColumnStyles.Add(cs)
+    '    End If
+    '  Next
 
-      Return dst
-    End Function
-    Public Function GetSchemaTable() As TreeTable
-      Dim myDatatable As New TreeTable("Report")
-      myDatatable.Columns.Add(New DataColumn("col0", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col1", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col2", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col3", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col4", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
+    '  Return dst
+    'End Function
+    'Public Function GetSchemaTable() As TreeTable
+    '  Dim myDatatable As New TreeTable("Report")
+    '  myDatatable.Columns.Add(New DataColumn("col0", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col1", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col2", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col3", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col4", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
+    '  myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
 
-      Return myDatatable
-    End Function
+    '  Return myDatatable
+    'End Function
 #End Region
 
 #Region "TreeTable Handlers"
@@ -1603,8 +1684,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'docType = CType(sender, GridDataCellElement).ViewTemplate.Rows(0).Cells(0).Value
           Return
         ElseIf CType(sender, GridDataCellElement).ViewTemplate.Caption.ToLower = "master" Then
-          docId = rGrid.Rows(e.RowIndex).Cells("DocId").Value
-          docType = rGrid.Rows(e.RowIndex).Cells("DocType").Value
+          docId = rGrid.Rows(e.RowIndex).Cells("doca_entityid").Value
+          docType = rGrid.Rows(e.RowIndex).Cells("doca_entitytype").Value
         End If
       End If
 
@@ -1620,7 +1701,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub ButtonApproveClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    
+
       If Me.m_entity.IsSelected(rGrid) Then
         Dim dlg As New MultiApprovalCommentForm(Me.m_entity)
         dlg.StartPosition = FormStartPosition.CenterParent

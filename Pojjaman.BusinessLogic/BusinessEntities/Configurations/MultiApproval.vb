@@ -122,28 +122,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim linenumber As Integer = 0
+      Me.TotalQty = 0
+      Me.TotalAmount = 0
       For Each row As DataRow In dt.Rows
         linenumber += 1
+
+        Dim drh As New DataRowHelper(row)
+
         row("linenumber") = linenumber
-        row("amount") = Configuration.FormatToString(CDec(row("amount")), DigitConfig.Price)
-        row("docdate") = CDate(row("docdate")).ToShortDateString
-        row("lasteditdocstatus") = row("lastEditdocStatus").ToString() & _
-            Space(2) & "(" & Me.GetDateUnitName(row("daterank").ToString, CInt(row("dateranktype"))) & ")"
+        row("doca_amount") = Configuration.FormatToString(drh.GetValue(Of Decimal)("doca_amount"), DigitConfig.Price)
+        If Not row.IsNull("doca_docdate") Then
+          row("doca_docdate") = drh.GetValue(Of Date)("doca_docdate").ToShortDateString
+        End If
+        If Not row.IsNull("minute_approve") Then
+          row("approveperson") = drh.GetValue(Of String)("approveperson") & " (อนุมัติ " & Me.DateRank(drh.GetValue(Of Long)("minute_approve"), drh.GetValue(Of Integer)("day_approve")) & ")"
+        End If
+        If Not row.IsNull("minute_edite") Then
+          row("laststatus") = drh.GetValue(Of String)("laststatus") & " " & Me.DateRank(drh.GetValue(Of Long)("minute_edite"), drh.GetValue(Of Integer)("day_edite")) & ")"
+        End If
+        'row("lasteditdocstatus") = row("lastEditdocStatus").ToString() & _
+        '    Space(2) & "(" & Me.GetDateUnitName(row("daterank").ToString, CInt(row("dateranktype"))) & ")"
+
+        Me.TotalQty += 1
+        Me.TotalAmount += drh.GetValue(Of Decimal)("doca_amount")
       Next
+
+      'laststatus
+      ',datediff(minute,doca_editdate,getdate()) [minute_edite]
+      ',datediff(minute,doca_approvdate,getdate()) [minute_approve]
+      ',datediff(day,doca_editdate,getdate()) [day_edite]
+      ',datediff(day,doca_approvdate,getdate()) [day_approve]
 
       Try
         rGrid.DataSource = dt
 
-        rGrid.MasterGridViewTemplate.ChildGridViewTemplates(0).DataSource = m_ListData.Tables(1)
+        'rGrid.MasterGridViewTemplate.ChildGridViewTemplates(0).DataSource = m_ListData.Tables(1)
 
-        rGrid.MasterGridViewTemplate.ChildGridViewTemplates(1).DataSource = dt
+        'rGrid.MasterGridViewTemplate.ChildGridViewTemplates(1).DataSource = dt
       Catch ex As Exception
 
       End Try
 
-    
-
     End Sub
+    Public Shared Function DateRank(ByVal minute As Long, ByVal day As Integer) As String
+      Select Case minute
+        Case Is < 1440
+          If minute < 60 AndAlso day <= 0 Then
+            Return minute.ToString & " นาทีมาแล้ว"
+          ElseIf day > 0 Then
+            Return day.ToString & " วันมาแล้ว"
+          Else
+            Return Math.Floor(minute / 60).ToString & " ชั่วโมงมาแล้ว"
+          End If
+        Case Is < 10080
+          Return Math.Floor(minute / 1440).ToString & " วันมาแล้ว"
+        Case Is < 21600
+          Return Math.Floor(minute / 1440).ToString & " วันมาแล้ว"
+        Case Is < 43200
+          If minute < 30240 Then
+            Return Math.Floor(minute / 1440).ToString & " วันมาแล้ว"
+          Else
+            Return Math.Floor(minute / 10080).ToString & " สัปดาห์มาแล้ว"
+          End If
+        Case Is < 525600
+          Return Math.Floor(minute / 43200).ToString & " เดือนมาแล้ว"
+        Case Else
+          Return "มากกว่า 1 ปีมาแล้ว"
+      End Select
+    End Function
     Public Function GetDateUnitName(ByVal rank As String, ByVal type As Integer) As String
       'Dim expandUnit As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Ago}")
       Select Case type
@@ -185,11 +231,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return newdt
 
     End Function
-
+    Public Shared Function GetMaxLevelApproveConfig(ByVal CurrentUserId As Integer) As Integer
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.Text,
+                                                   "select isnull(max(app_level),0) mx from dbo.ApprovalDocLevel where app_user = " & CurrentUserId.ToString)
+      If ds.Tables.Count > 0 AndAlso Not ds.Tables(0).Rows(0).IsNull("mx") Then
+        Return CInt(ds.Tables(0).Rows(0)(0))
+      End If
+      Return 0
+    End Function
 #End Region
 
 #Region "Properties"
-
+    Public Property TotalQty As Integer
+    Public Property TotalAmount As Decimal
     Private m_listSelected As ArrayList
     Public ReadOnly Property IsSelected(ByVal rgrid As RadGridView) As Boolean
       Get
