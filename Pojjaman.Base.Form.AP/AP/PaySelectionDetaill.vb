@@ -2230,7 +2230,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newItem.DeductVatAmt = svDd.VatAmt
           Dim svVat As New SimpleVat
           svVat = Vat.GetVatValue(newItem.Id, newItem.EntityId)
-          newItem.UnpaidVatAmt = svVat.VatAmt - svDd.VatAmt
+          If svVat.VatAmt - svDd.VatAmt > 0 Then
+            newItem.UnpaidVatAmt = svVat.VatAmt - svDd.VatAmt
+          Else
+            newItem.UnpaidVatAmt = 0
+          End If
           newItem.Amount = newItem.UnpaidAmount
           newItem.VatAmt = newItem.UnpaidVatAmt
           newItem.Amount = 0
