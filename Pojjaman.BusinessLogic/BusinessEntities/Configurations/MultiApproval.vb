@@ -121,6 +121,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dt = Me.GetDataFiltered(m_ListData.Tables(0), filters)
       End If
 
+      Dim authorizeString As String = CodeDescription.GetDescription("docApproveMethod", 5)
       Dim linenumber As Integer = 0
       Me.TotalQty = 0
       Me.TotalAmount = 0
@@ -134,8 +135,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not row.IsNull("doca_docdate") Then
           row("doca_docdate") = drh.GetValue(Of Date)("doca_docdate").ToShortDateString
         End If
-        If Not row.IsNull("minute_approve") Then
-          row("approveperson") = drh.GetValue(Of String)("approveperson") & " (อนุมัติ " & Me.DateRank(drh.GetValue(Of Long)("minute_approve"), drh.GetValue(Of Integer)("day_approve")) & ")"
+        If drh.GetValue(Of Integer)("doca_method") > 0 Then
+          If Not row.IsNull("minute_approve") Then
+            row("approveperson") = drh.GetValue(Of String)("approveperson") & " (" & authorizeString & " " & Me.DateRank(drh.GetValue(Of Long)("minute_approve"), drh.GetValue(Of Integer)("day_approve")) & ")"
+          End If
         End If
         If Not row.IsNull("minute_edite") Then
           row("laststatus") = drh.GetValue(Of String)("laststatus") & " " & Me.DateRank(drh.GetValue(Of Long)("minute_edite"), drh.GetValue(Of Integer)("day_edite")) & ")"
@@ -373,15 +376,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim AppMultiDoc As New ApprovalMultiDoc
 
-          AppMultiDoc.EntityId = CInt(gv.Cells("docid").Value)
-          AppMultiDoc.EntityType = CInt(gv.Cells("doctype").Value)
-          AppMultiDoc.LineNumber = CInt(gv.Cells("apvdoc_linenumber").Value)
+          AppMultiDoc.EntityId = CInt(gv.Cells("doca_entityid").Value)
+          AppMultiDoc.EntityType = CInt(gv.Cells("doca_entitytype").Value)
+          'AppMultiDoc.LineNumber = CInt(gv.Cells("apvdoc_linenumber").Value)
 
           AppMultiDoc.Comment = comment.Trim
           If isComment Then
             AppMultiDoc.Level = 0
           Else
-            AppMultiDoc.Level = CInt(gv.Cells("right_app_level").Value)
+            AppMultiDoc.Level = CInt(gv.Cells("viewer_level").Value)
           End If
           AppMultiDoc.Originator = Me.CurrentUserId
           AppMultiDoc.Reject = isReject

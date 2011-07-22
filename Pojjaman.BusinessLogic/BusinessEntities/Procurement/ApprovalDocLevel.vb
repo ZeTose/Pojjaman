@@ -585,12 +585,12 @@ Public Class ApproveDocCollection
                                   "InsertMultiApproval", _
                                   New SqlParameter("@apvdoc_entityId", Me.EntityId), _
                                   New SqlParameter("@apvdoc_entityType", Me.EntityType), _
-                                  New SqlParameter("@apvdoc_linenumber", Me.LineNumber + 1), _
                                   New SqlParameter("@apvdoc_comment", Me.Comment), _
                                   New SqlParameter("@apvdoc_level", Me.Level), _
                                   New SqlParameter("@apvdoc_originator", Me.Originator), _
                                   New SqlParameter("@apvdoc_reject", Me.Reject)
                                   )
+        'New SqlParameter("@apvdoc_linenumber", Me.LineNumber + 1), _
 
         'Dim mldoc As New DocMultiApproval(Me.EntityId, Me.EntityType)
         'mldoc.UpdateApproveFromDocument()

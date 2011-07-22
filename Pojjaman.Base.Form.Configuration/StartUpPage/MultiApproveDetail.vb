@@ -875,6 +875,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.IsVisible = False
       rGrid.Columns.Add(gridColumn)
 
+      gridColumn = New GridViewTextBoxColumn("viewer_level")
+      gridColumn.Width = 0
+      gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
+      gridColumn.ReadOnly = True
+      gridColumn.IsVisible = False
+      rGrid.Columns.Add(gridColumn)
+
       'gridColumn = New GridViewTextBoxColumn("doca_method")
       'gridColumn.Width = 0
       'gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
