@@ -458,7 +458,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim ValueFilter As String = ""
 
-      If Not Me.Filters(8).Value Is Nothing Then
+      If Not Me.Filters(8).Value Is Nothing AndAlso CStr(Me.Filters(8).Value).Length > 0 Then
         ValueFilter = "wbs_level = 0 Or " & CStr(Me.Filters(8).Value)
       End If
 
