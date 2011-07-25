@@ -1326,6 +1326,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Function PaymenTrackCheckDetailList() As List(Of PaymentTrackCheckDetail)
   End Interface
   Public Class Exporter
+    Private Shared Function GetCompanyName() As String
+      Return CStr(Configuration.GetConfig("CompanyName"))
+    End Function
     Public Shared Function GetBankInfo(ByVal bankName As String, ByVal bankAccountCode As String) As BankInfo
       If bankName Is Nothing Then
         bankName = ""
@@ -1560,7 +1563,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         i += 1
       Next
     End Sub
-    Public Const COMPANY_NAME As String = "บริษัท วิศวภัทร์ จำกัด"
+    'Public Const COMPANY_NAME As String = "บริษัท วิศวภัทร์ จำกัด"
     Private Shared Sub ExportDCP(ByVal c As IExportable, ByVal t As String, ByVal writer As TextWriter)
       Dim theItemList As List(Of PaymentForList) = c.PaymentList 'GetGroupedList(c.PaymentList, t)
       Dim amtString As String = Configuration.FormatToString(c.Amount, 2)
@@ -1590,7 +1593,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= Space(1) 'FILLER
       header &= Space(23) 'TITLE
       header &= Space(1) 'FILLER
-      header &= String.Format("{0,-50}", COMPANY_NAME) 'NAME
+      header &= String.Format("{0,-50}", GetCompanyName) 'NAME
       header &= effectiveDate.ToString("yyMMdd", culture) 'EFFECTIVE-DATE
       header &= String.Format("{0:000000000000000000}", theItemList.Count)  'Total Credit Items
       header &= "N" 'CHARGES FOR A/C OF

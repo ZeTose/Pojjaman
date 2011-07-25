@@ -126,9 +126,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnExport.Location = New System.Drawing.Point(6, 19)
       Me.btnExport.Name = "btnExport"
-      Me.btnExport.Size = New System.Drawing.Size(88, 38)
+      Me.btnExport.Size = New System.Drawing.Size(135, 38)
       Me.btnExport.TabIndex = 6
-      Me.btnExport.Text = "Export"
+      Me.btnExport.Text = "Export to Builk.com"
       '
       'ExportPaymentTrackDetail
       '
@@ -974,7 +974,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If CInt(saveerr.Message) = -2 Then
             Return
           End If
-          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+          If CInt(saveerr.Message) = 0 Then
+            MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+          End If
         End If
       End If
 

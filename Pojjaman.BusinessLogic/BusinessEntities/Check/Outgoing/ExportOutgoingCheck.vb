@@ -45,7 +45,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub New(ByVal id As Integer)
       MyBase.New(id)
-
     End Sub
     Public Sub New(ByVal code As String)
       MyBase.New(code)
@@ -883,9 +882,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   dc.CheckID = exCheck.Entity.Id.ToString
                   dc.BillID = pbhr.GetValue(Of String)("billa_id")
                   dc.DocumentType = dochr.GetValue(Of String)("entity_description")
-                  dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
-                  If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
-                    dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-MM-dd", culture)
+                  dc.DocumentCode = dochr.GetValue(Of String)("stockotherDocCode")
+                  If IsDate(dochr.GetValue(Of Date)("stockotherdocdate")) Then
+                    dc.DocumentDate = dochr.GetValue(Of Date)("stockotherdocdate").ToString("yyyy-MM-dd", culture)
                   End If
                   dc.Amount = Configuration.Format((dochr.GetValue(Of Decimal)("stock_aftertax") + dochr.GetValue(Of Decimal)("stockretention")), DigitConfig.Price).ToString
                   dc.TotalAmount = Configuration.Format(dochr.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price).ToString
@@ -910,9 +909,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dc.CheckID = exCheck.Entity.Id.ToString
                 dc.BillID = ""
                 dc.DocumentType = dochr.GetValue(Of String)("entity_description")
-                dc.DocumentCode = dochr.GetValue(Of String)("stockcode")
-                If IsDate(dochr.GetValue(Of Date)("stockdocdate")) Then
-                  dc.DocumentDate = dochr.GetValue(Of Date)("stockdocdate").ToString("yyyy-MM-dd", culture)
+                dc.DocumentCode = dochr.GetValue(Of String)("stockotherDocCode")
+                If IsDate(dochr.GetValue(Of Date)("stockotherdocdate")) Then
+                  dc.DocumentDate = dochr.GetValue(Of Date)("stockotherdocdate").ToString("yyyy-MM-dd", culture)
                 End If
                 dc.Amount = Configuration.Format((dochr.GetValue(Of Decimal)("stock_aftertax") + dochr.GetValue(Of Decimal)("stockretention")), DigitConfig.Price).ToString
                 dc.TotalAmount = Configuration.Format(dochr.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price).ToString
