@@ -232,7 +232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtBuilkID, "")
       Me.txtBuilkID.Name = "txtBuilkID"
       Me.Validator.SetRegularExpression(Me.txtBuilkID, "")
-      Me.Validator.SetRequired(Me.txtBuilkID, True)
+      Me.Validator.SetRequired(Me.txtBuilkID, False)
       Me.txtBuilkID.Size = New System.Drawing.Size(120, 21)
       Me.txtBuilkID.TabIndex = 211
       '
