@@ -98,6 +98,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "LineChart", "LineChart\Line
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PojjamanLab", "PojjamanLab\PojjamanLab.vbproj", "{10B9EB03-096C-4E2F-90B9-C8AFE83A5A5D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6866B3A3-C5AE-445F-9145-370B52E3EB3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BusinessLogic|Any CPU = BusinessLogic|Any CPU
