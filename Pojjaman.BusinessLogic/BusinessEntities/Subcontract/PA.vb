@@ -2930,14 +2930,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'ContractDiscount
       dpi = New DocPrintingItem
       dpi.Mapping = "ContractDiscount"
-      dpi.Value = Me.GetContractDistCount
+      dpi.Value = Configuration.FormatToString(Me.GetContractDistCount, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
       'DiscounttoDoc
       dpi = New DocPrintingItem
       dpi.Mapping = "DiscountToDoc"
-      dpi.Value = Me.GetDistCountToDoc
+      dpi.Value = Configuration.FormatToString(Me.GetDistCountToDoc, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
@@ -3732,6 +3732,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
 
         Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
+        mldoc.DocMethod = SaveDocMultiApprovalMethod.Delete
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, trans)
         If Not IsNumeric(savemldocError.Message) Then
           trans.Rollback()
