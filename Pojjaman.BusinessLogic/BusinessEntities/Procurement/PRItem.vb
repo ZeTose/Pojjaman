@@ -1004,16 +1004,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim inValidIds As ArrayList = GetPRIdWithOnlyNoteItem(dt)
       For Each tableRow As DataRow In dt.Rows
         If Not inValidIds.Contains(CInt(tableRow("pri_pr"))) Then
+          Dim trh As New DataRowHelper(tableRow)
 
           Dim newId As Integer = CInt(tableRow("pri_pr"))
           Dim newLine As Integer = CInt(tableRow("pri_linenumber"))
           'Dim pri As New PRItem(newId, newLine)
           Dim pri As New PRItem(tableRow, "")
 
+          Dim cc As New CostCenter(trh.GetValue(Of Integer)("cc_id"))
+
           Dim row As TreeRow = myDatatable.Childs.Add
           row("Selected") = False
           row("Code") = tableRow("pr_code")
           row("m_pr") = tableRow("pri_pr")
+
 
           Dim prId As Integer
           If Not row.IsNull("m_pr") Then
@@ -1023,6 +1027,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("Code") Then
             prCode = CStr(row("Code"))
           End If
+
 
           row("Linenumber") = tableRow("pri_linenumber")
           row("Date") = tableRow("pr_docdate")
@@ -1048,6 +1053,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           pri.Pr = New PR
           pri.Pr.Id = prId
           pri.Pr.Code = prCode
+          pri.Pr.CostCenter = cc
+          pri.Pr.FromCostCenter = cc
           row.Tag = pri
         End If
       Next

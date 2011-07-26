@@ -899,24 +899,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
 
         'Dim wbscoll As WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
-        Dim newWbsd As New WBSDistribute
-        Me.WBSDistributeCollection.Add(newWbsd)
-
-        'เพื่อให้ Handler ของการ Change WBS ทำงาน 
-        For Each wbsd As WBSDistribute In newPritem.WBSDistributeCollection
-          newWbsd.CostCenter = wbsd.CostCenter
-          newWbsd.WBS = wbsd.WBS
-          newWbsd.Percent = wbsd.Percent
-          newWbsd.IsMarkup = wbsd.IsMarkup
-          newWbsd.IsOutWard = wbsd.IsOutWard
-          newWbsd.BudgetAmount = wbsd.BudgetAmount
-          newWbsd.BudgetQty = wbsd.BudgetQty
-          newWbsd.CBS = wbsd.CBS
-        Next
+        
 
         If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
-          '
+          'Me.WBSDistributeCollection 
         Else
+          Dim newWbsd As New WBSDistribute
+          Me.WBSDistributeCollection.Add(newWbsd)
+
+          'เพื่อให้ Handler ของการ Change WBS ทำงาน 
+          For Each wbsd As WBSDistribute In newPritem.WBSDistributeCollection
+            newWbsd.CostCenter = wbsd.CostCenter
+            newWbsd.WBS = wbsd.WBS
+            newWbsd.Percent = wbsd.Percent
+            newWbsd.IsMarkup = wbsd.IsMarkup
+            newWbsd.IsOutWard = wbsd.IsOutWard
+            newWbsd.BudgetAmount = wbsd.BudgetAmount
+            newWbsd.BudgetQty = wbsd.BudgetQty
+            newWbsd.CBS = wbsd.CBS
+          Next
           Me.Qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
         End If
 
