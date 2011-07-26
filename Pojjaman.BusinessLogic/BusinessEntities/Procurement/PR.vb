@@ -2654,6 +2654,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.DeleteRef(conn, trans)
 
         Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
+        mldoc.DocMethod = SaveDocMultiApprovalMethod.Delete
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, trans)
         If Not IsNumeric(savemldocError.Message) Then
           trans.Rollback()
