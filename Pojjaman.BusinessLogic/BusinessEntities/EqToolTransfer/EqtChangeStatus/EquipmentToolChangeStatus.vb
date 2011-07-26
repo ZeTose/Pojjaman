@@ -809,6 +809,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteEqtReference", New SqlParameter("@eqtstock_id", Me.Id), New SqlParameter("@eqtstock_type", Me.EntityId))
+
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException

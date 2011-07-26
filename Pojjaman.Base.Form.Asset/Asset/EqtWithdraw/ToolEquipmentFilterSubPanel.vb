@@ -448,7 +448,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim eqt As EquipmentToolWithdraw = CType(entity, EquipmentToolWithdraw)
             m_entity = eqt
             If Not eqt.WithdrawCostcenter Is Nothing Then
-              Me.SetStoreCC(eqt.WithdrawCostcenter)
+              Me.SetStoreCC(eqt.StoreCostcenter)
               Me.txtStoreCCCode.Enabled = False
               Me.txtStoreCCName.Enabled = False
               Me.btnStoreCCEdit.Enabled = False
