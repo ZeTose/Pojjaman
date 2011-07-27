@@ -99,6 +99,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_realTaxAmount As Decimal
 
     Private m_itemCollection As GoodsReceiptItemCollection
+    Private m_oldActualDataSet As DataSet
 
     Private m_asset As Asset
     Private m_Unlock As Boolean = False
@@ -167,7 +168,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New GoodsReceiptItemCollection(Me)
-      'm_itemCollection.RefreshBudget()
+      m_oldActualDataSet = New DataSet
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -342,7 +343,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New GoodsReceiptItemCollection(Me)
+      'm_oldItemList = New List(Of GoodsReceiptItem)
+      'm_itemCollection.CopyItemToList(m_oldItemList)
       'm_itemCollection.RefreshBudget()
+      m_oldActualDataSet = Me.GetOldGRWBSActual
 
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
 
@@ -980,6 +984,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function GetOldGRWBSActual() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetOldGRWBSActual",
+                                                   New SqlParameter("@stock_id", Me.Id)
+                                                  )
+      Return ds
+    End Function
+    Private Function GetGRCommandActual() As String
+      If Me.m_oldActualDataSet Is Nothing OrElse Me.m_oldActualDataSet.Tables.Count = 0 OrElse Me.m_oldActualDataSet.Tables(0).Rows.Count = 0 Then
+        Return ""
+      End If
+      Dim cmd As String = ""
+      Dim cmdList As New ArrayList
+      For Each row As DataRow In Me.m_oldActualDataSet.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        cmd = ""
+        cmd = "" & _
+        " update swang_gr_wbsactual " & _
+        " set wbs_matactual = isnull(wbs_matactual,0) - " & drh.GetValue(Of Decimal)("wbsmatactual").ToString() & "" & _
+        " ,wbs_labactual = isnull(wbs_labactual,0) - " & drh.GetValue(Of Decimal)("wbslabactual").ToString() & "" & _
+        " ,wbs_eqactual = isnull(wbs_eqactual,0) - " & drh.GetValue(Of Decimal)("wbseqactual").ToString() & "" & _
+        " ,nonref_matactual = isnull(nonref_matactual,0) - " & drh.GetValue(Of Decimal)("nonrefmatactual").ToString() & "" & _
+        " ,nonref_labactual = isnull(nonref_labactual,0) - " & drh.GetValue(Of Decimal)("nonreflabactual").ToString() & "" & _
+        " ,nonref_eqactual = isnull(nonref_eqactual,0) - " & drh.GetValue(Of Decimal)("nonrefeqactual").ToString() & "" & _
+        " where wbs_id = " & drh.GetValue(Of Long)("stockiw_wbs").ToString & "" & _
+        " and isnull(wbs_ismarkup,0) = " & drh.GetValue(Of Integer)("stockiw_isMarkup").ToString
+        cmdList.Add(cmd)
+      Next
+      If cmdList.Count > 0 Then
+        Return String.Join(";", cmdList.ToArray)
+      End If
+
+      Return ""
+    End Function
     Public Sub RefreshWBS()
       For Each itm As GoodsReceiptItem In Me.ItemCollection
         For i As Integer = itm.WBSDistributeCollection.Count - 1 To 0
@@ -1274,24 +1313,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
       Return isMatWidthdraw
     End Function
-        Public Function IshaveAdvancePayClosed() As Boolean
-            Dim advpClosed As Decimal
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-            , CommandType.StoredProcedure _
-            , "GetGRChkAdvancePayClosed" _
-            , New SqlParameter("@stock_id", Me.Id) _
-            )
-            If ds.Tables(0).Rows.Count <> 0 Then
-                Dim row As DataRow = ds.Tables(0).Rows(0)
-                Dim deh As New DataRowHelper(row)
-                advpClosed = deh.GetValue(Of Decimal)("chkClosed")
-            End If
-            If advpClosed = 0 Then
-                Return False
-            Else
-                Return True
-            End If
-        End Function
+    Public Function IshaveAdvancePayClosed() As Boolean
+      Dim advpClosed As Decimal
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetGRChkAdvancePayClosed" _
+      , New SqlParameter("@stock_id", Me.Id) _
+      )
+      If ds.Tables(0).Rows.Count <> 0 Then
+        Dim row As DataRow = ds.Tables(0).Rows(0)
+        Dim deh As New DataRowHelper(row)
+        advpClosed = deh.GetValue(Of Decimal)("chkClosed")
+      End If
+      If advpClosed = 0 Then
+        Return False
+      Else
+        Return True
+      End If
+    End Function
     Private Function ListWbsId() As String
       Dim idList As New ArrayList
       For Each itm As GoodsReceiptItem In Me.ItemCollection
@@ -1950,7 +1989,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ValidateError
       End If
 
-      
+
 
 
       Return New SaveErrorException("0")
@@ -2501,8 +2540,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.CancelRef(conn, trans)
         End If
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGoodsReceiptPVList", New SqlParameter("@stock_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertStock2Procedure", New SqlParameter("@stock_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+
+        Dim cmd As String = Me.GetGRCommandActual
+        If cmd.Length > 0 Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_OnlyUpdateGRWBSActual", New SqlParameter("@stock_id", Me.Id))
+
       Catch ex As Exception
         trans.Rollback()
         Return New SaveErrorException(ex.ToString)
@@ -5503,6 +5548,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(savemldocError.Message) Then
           trans.Rollback()
           Return savemldocError
+        End If
+
+        Dim cmd As String = Me.GetGRCommandActual
+        If cmd.Length > 0 Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
         End If
 
         trans.Commit()
