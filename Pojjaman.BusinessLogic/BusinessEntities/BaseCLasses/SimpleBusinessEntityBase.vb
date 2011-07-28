@@ -596,7 +596,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         RefreshRefCancelDelete()
       End If
       If m_IsCancelable.HasValue Then
-        Return m_IsCancelable.Value
+        Return m_IsCancelable.Value AndAlso (Me.Status Is Nothing OrElse Me.Status.Value <> 4)
       End If
       Return False
     End Function
