@@ -1055,18 +1055,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
 
-    Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
+    'Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
 
-      Dim ValidateError As SaveErrorException
+    '  Dim ValidateError As SaveErrorException
 
-      ValidateError = Me.Receive.BeforeSave(currentUserId)
-      If Not IsNumeric(ValidateError.Message) Then
-        Return ValidateError
-      End If
+    '  ValidateError = Me.Receive.BeforeSave(currentUserId)
+    '  If Not IsNumeric(ValidateError.Message) Then
+    '    Return ValidateError
+    '  End If
 
-      Return New SaveErrorException("0")
+    '  Return New SaveErrorException("0")
 
-    End Function
+    'End Function
 
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
@@ -1128,12 +1128,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
-        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
-        Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
-        If Not IsNumeric(ValidateError2.Message) Then
-          Return ValidateError2
-        End If
-        '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        ''---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
+        'Dim ValidateError2 As SaveErrorException = Me.BeforeSave(currentUserId)
+        'If Not IsNumeric(ValidateError2.Message) Then
+        '  Return ValidateError2
+        'End If
+        ''---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
 
         ' สร้าง SqlParameter จาก ArrayList ...
         Dim sqlparams() As SqlParameter
