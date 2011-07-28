@@ -1192,7 +1192,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                                      New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
                                                    Configuration.FormatToString(doc.UnpaidVatAmt, DigitConfig.Price)})
         Return
-      ElseIf amt <> 0 AndAlso amt <> Configuration.Format(doc.UnpaidVatAmt, DigitConfig.Price) Then
+      ElseIf amt <> 0 AndAlso amt <> Configuration.Format(doc.UnpaidVatAmt, DigitConfig.Price) AndAlso
+        Configuration.Format(amt, DigitConfig.Price) <> Configuration.Format(doc.TaxAmountDeducted, DigitConfig.Price) Then
         msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.invalidAmount}", _
                                      New String() {Configuration.FormatToString(amt, DigitConfig.Price), _
                                                    Configuration.FormatToString(Vat.GetVatAmount(doc.TaxBaseDeducted), DigitConfig.Price)})
@@ -1201,7 +1202,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
         CType(Entity, SimpleBusinessEntityBase).OnGlChanged()
       End If
-      doc.VatAmt = amt
+      doc.VatAmt = Configuration.Format(amt, DigitConfig.Price)
       m_updating = False
     End Sub
     Public Sub SetRetention(ByVal e As DataColumnChangeEventArgs)
