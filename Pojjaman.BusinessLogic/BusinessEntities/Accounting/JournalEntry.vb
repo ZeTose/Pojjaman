@@ -831,9 +831,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Dim theTime As Date = Now
         'Dim theUser As New User(currentUserId)
-        If Me.Status.Value = -1 Then
-          Me.Status.Value = 2
-        End If
+       
 
         saveParamArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
         saveParamArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))
@@ -1196,7 +1194,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End With
     End Function
-    Public Sub GLPost()
+    Public Sub GLPost(ByVal currentUserId As Integer)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim sql As String
       Dim entityList As String
@@ -1206,89 +1204,107 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim swStr As String
       Dim docTable As String
       docTable = CType(Me.RefDoc, SimpleBusinessEntityBase).TableName
+
+      Dim glidstring As String = Me.Id.ToString
+
+      ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+      Dim paramArrayList As New ArrayList
+      paramArrayList.Add(New SqlParameter("@gl_idList", glidstring))
+      paramArrayList.Add(New SqlParameter("@CurrentUserId", currentUserId))
+
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
 
       trans = conn.BeginTransaction()
       Try
-        entityList = Me.RefDoctype.ToString
-        entityList = entityList & ",38"
-        If TypeOf (Me.RefDoc) Is IVatable Then
-          entityList = entityList & ",55"
-        End If
-        If TypeOf (Me.RefDoc) Is IWitholdingTaxable Then
-          entityList = entityList & ",69"
-        End If
-        If TypeOf (Me.RefDoc) Is IBillAcceptable Then
-          entityList = entityList & ",68"
-        End If
-        If TypeOf (Me.RefDoc) Is IBillIssuable Then
-          entityList = entityList & ",74"
-        End If
+        'entityList = Me.RefDoctype.ToString
+        'entityList = entityList & ",38"
+        'If TypeOf (Me.RefDoc) Is IVatable Then
+        '  entityList = entityList & ",55"
+        'End If
+        'If TypeOf (Me.RefDoc) Is IWitholdingTaxable Then
+        '  entityList = entityList & ",69"
+        'End If
+        'If TypeOf (Me.RefDoc) Is IBillAcceptable Then
+        '  entityList = entityList & ",68"
+        'End If
+        'If TypeOf (Me.RefDoc) Is IBillIssuable Then
+        '  entityList = entityList & ",74"
+        'End If
 
 
-        sql = "select entity_id [id],entity_table [table],entity_prefix [prefix] from Entity where entity_id in (" & entityList & ")"
-        dsEntityList = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
+        'sql = "select entity_id [id],entity_table [table],entity_prefix [prefix] from Entity where entity_id in (" & entityList & ")"
+        'dsEntityList = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
 
 
-        For Each row As DataRow In dsEntityList.Tables(0).Rows
+        'For Each row As DataRow In dsEntityList.Tables(0).Rows
 
-          If CInt(row("id")) = Me.RefDoctype Then
-            sql = "select " _
-            & CStr(row("prefix")) & "_id [id]," _
-            & CStr(row("prefix")) & "_status [status]" _
-            & " from " & CStr(row("table")) _
-            & " where " & CStr(row("prefix")) & "_id = " & Me.RefDoc.Id
-          Else
-            If CStr(row("table")) = "gl" Then
-              swStr = "refid"
-            Else
-              swStr = "refdoc"
-            End If
-            sql = "select " _
-            & CStr(row("prefix")) & "_id [id]," _
-            & CStr(row("prefix")) & "_status [status]" _
-            & " from " & CStr(row("table")) _
-            & " where " & CStr(row("prefix")) & "_" & swStr & " = " & Me.RefDoc.Id _
-            & " and " & CStr(row("prefix")) & "_refdoctype = " & Me.RefDoctype
-          End If
-          dsEntity = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
-          For Each row2 As DataRow In dsEntity.Tables(0).Rows
+        '  If CInt(row("id")) = Me.RefDoctype Then
+        '    sql = "select " _
+        '    & CStr(row("prefix")) & "_id [id]," _
+        '    & CStr(row("prefix")) & "_status [status]" _
+        '    & " from " & CStr(row("table")) _
+        '    & " where " & CStr(row("prefix")) & "_id = " & Me.RefDoc.Id
+        '  Else
+        '    If CStr(row("table")) = "gl" Then
+        '      swStr = "refid"
+        '    Else
+        '      swStr = "refdoc"
+        '    End If
+        '    sql = "select " _
+        '    & CStr(row("prefix")) & "_id [id]," _
+        '    & CStr(row("prefix")) & "_status [status]" _
+        '    & " from " & CStr(row("table")) _
+        '    & " where " & CStr(row("prefix")) & "_" & swStr & " = " & Me.RefDoc.Id _
+        '    & " and " & CStr(row("prefix")) & "_refdoctype = " & Me.RefDoctype
+        '  End If
+        '  dsEntity = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
+        '  For Each row2 As DataRow In dsEntity.Tables(0).Rows
 
-            sql = "insert into glpost " _
-            & "(glp_gl,glp_docid,glp_doctype,glp_docstatus)" _
-            & " values (" & Me.Id & "," & CInt(row2("id")) & "," _
-            & CInt(row("id")) & "," & CInt(row2("status")) & ")"
+        '    sql = "insert into glpost " _
+        '    & "(glp_gl,glp_docid,glp_doctype,glp_docstatus)" _
+        '    & " values (" & Me.Id & "," & CInt(row2("id")) & "," _
+        '    & CInt(row("id")) & "," & CInt(row2("status")) & ")"
 
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
+        '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
 
-            sql = "update " & CStr(row("table")) _
-            & " set " & CStr(row("prefix")) & "_status = 4" _
-            & " where " & CStr(row("prefix")) & "_id = " & CInt(row2("id"))
+        '    sql = "update " & CStr(row("table")) _
+        '    & " set " & CStr(row("prefix")) & "_status = 4" _
+        '    & " where " & CStr(row("prefix")) & "_id = " & CInt(row2("id"))
 
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
+        '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
 
-            sql = "select DISTINCT  sysobjects.name [table],left (syscolumns.name,charindex('_',syscolumns.name)) [prefix]" _
-             & " from sysobjects" _
-             & " left join syscolumns on sysobjects.id = syscolumns.id" _
-             & " left join systypes on syscolumns.xtype = systypes.xtype" _
-             & " where sysobjects.xtype = 'U'and not (systypes.name like 'sysname')" _
-             & " and sysobjects.name = '" & CStr(row("table")) & "item'" _
-             & " and syscolumns.name like '%status'" _
-             & " and syscolumns.name like '%" & CStr(row("prefix")) & "'"
+        '    sql = "select DISTINCT  sysobjects.name [table],left (syscolumns.name,charindex('_',syscolumns.name)) [prefix]" _
+        '     & " from sysobjects" _
+        '     & " left join syscolumns on sysobjects.id = syscolumns.id" _
+        '     & " left join systypes on syscolumns.xtype = systypes.xtype" _
+        '     & " where sysobjects.xtype = 'U'and not (systypes.name like 'sysname')" _
+        '     & " and sysobjects.name = '" & CStr(row("table")) & "item'" _
+        '     & " and syscolumns.name like '%status'" _
+        '     & " and syscolumns.name like '%" & CStr(row("prefix")) & "'"
 
-            dsItem = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
+        '    dsItem = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
 
-            For Each row3 As DataRow In dsItem.Tables(0).Rows
-              sql = "Update " & CStr(row("table")) & "item set " & CStr(row3("prefix")) & "status = 4" _
-               & "where " & CStr(row3("prefix")) & CStr(row("prefix")) & " = " & CStr(row2("id"))
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
-            Next
+        '    For Each row3 As DataRow In dsItem.Tables(0).Rows
+        '      sql = "Update " & CStr(row("table")) & "item set " & CStr(row3("prefix")) & "status = 4" _
+        '       & "where " & CStr(row3("prefix")) & CStr(row("prefix")) & " = " & CStr(row2("id"))
+        '      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
+        '    Next
 
-          Next
+        '  Next
 
-        Next
+        'Next
+
+        SqlHelper.ExecuteNonQuery(conn, trans _
+                    , CommandType.StoredProcedure _
+                    , "UpdatePostGLFromList" _
+                    , sqlparams)
+        trans.Commit()
+
         Me.Status.Value = 4
 
         CType(Me.RefDoc, SimpleBusinessEntityBase).Status.Value = 4
@@ -1304,10 +1320,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             CType(Me.RefDoc, IBillIssuable).Receive.Status.Value = 4
           End If
         End If
+        trans.Commit()
 
         msgServ.ShowMessageFormatted("${res:Global.Info.PostItemCount}", New String() {Me.ItemCollection.Count.ToString, Configuration.FormatToString(CreditAmount, DigitConfig.Price)})
 
-        trans.Commit()
 
 
       Catch ex As Exception
@@ -1318,7 +1334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
     End Sub
-    Public Sub GLUnPost()
+    Public Sub GLUnPost(ByVal currentUserId As Integer)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Dim sql As String
       Dim entityList As String
@@ -1330,7 +1346,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim recUnPost As Integer
       Dim payUnPost As Integer
 
-      Dim unPosted As Boolean = False
+      Dim unPosted As Boolean = True
+
+      Dim glidstring As String = Me.Id.ToString
+
+      ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+      Dim paramArrayList As New ArrayList
+      paramArrayList.Add(New SqlParameter("@gl_idList", glidstring))
+      paramArrayList.Add(New SqlParameter("@CurrentUserId", currentUserId))
+
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
 
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
@@ -1338,73 +1364,104 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       trans = conn.BeginTransaction()
       Try
-        entityList = Me.RefDoctype.ToString
-        entityList = entityList & ",38"
-        If TypeOf (Me.RefDoc) Is IVatable Then
-          entityList = entityList & ",55"
-        End If
-        If TypeOf (Me.RefDoc) Is IWitholdingTaxable Then
-          entityList = entityList & ",69"
-        End If
-        If TypeOf (Me.RefDoc) Is IBillAcceptable Then
-          entityList = entityList & ",68"
-        End If
-        If TypeOf (Me.RefDoc) Is IBillIssuable Then
-          entityList = entityList & ",74"
-        End If
+        'entityList = Me.RefDoctype.ToString
+        'entityList = entityList & ",38"
+        'If TypeOf (Me.RefDoc) Is IVatable Then
+        '  entityList = entityList & ",55"
+        'End If
+        'If TypeOf (Me.RefDoc) Is IWitholdingTaxable Then
+        '  entityList = entityList & ",69"
+        'End If
+        'If TypeOf (Me.RefDoc) Is IBillAcceptable Then
+        '  entityList = entityList & ",68"
+        'End If
+        'If TypeOf (Me.RefDoc) Is IBillIssuable Then
+        '  entityList = entityList & ",74"
+        'End If
 
 
-        sql = "select entity_id [id],entity_table [table],entity_prefix [prefix] from Entity where entity_id in (" & entityList & ")"
-        dsEntityList = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
+        'sql = "select entity_id [id],entity_table [table],entity_prefix [prefix] from Entity where entity_id in (" & entityList & ")"
+        'dsEntityList = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
 
 
-        For Each row As DataRow In dsEntityList.Tables(0).Rows
+        'For Each row As DataRow In dsEntityList.Tables(0).Rows
 
-          sql = "select * from glpost " _
-          & "where glp_gl = " & Me.Id & " and glp_doctype = " & CInt(row("id"))
+        '  sql = "select * from glpost " _
+        '  & "where glp_gl = " & Me.Id & " and glp_doctype = " & CInt(row("id"))
 
-          dsEntity = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
+        '  dsEntity = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
 
-          For Each row2 As DataRow In dsEntity.Tables(0).Rows
-            If CInt(row("id")) = 38 Then
-              glUnPost = CInt(row2("glp_docstatus"))
-              unPosted = True
-            ElseIf CInt(row("id")) = Me.RefDoctype Then
-              docUnPost = CInt(row2("glp_docstatus"))
-            ElseIf CInt(row("id")) = 68 Then
-              payUnPost = CInt(row2("glp_docstatus"))
-            ElseIf CInt(row("id")) = 74 Then
-              recUnPost = CInt(row2("glp_docstatus"))
-            End If
-            sql = "update " & CStr(row("table")) _
-            & " set " & CStr(row("prefix")) & "_status = " & CInt(row2("glp_docstatus")) _
-            & " where " & CStr(row("prefix")) & "_id = " & CInt(row2("glp_docid"))
+        '  For Each row2 As DataRow In dsEntity.Tables(0).Rows
+        '    If CInt(row("id")) = 38 Then
+        '      glUnPost = CInt(row2("glp_docstatus"))
+        '      unPosted = True
+        '    ElseIf CInt(row("id")) = Me.RefDoctype Then
+        '      docUnPost = CInt(row2("glp_docstatus"))
+        '    ElseIf CInt(row("id")) = 68 Then
+        '      payUnPost = CInt(row2("glp_docstatus"))
+        '    ElseIf CInt(row("id")) = 74 Then
+        '      recUnPost = CInt(row2("glp_docstatus"))
+        '    End If
+        '    sql = "update " & CStr(row("table")) _
+        '    & " set " & CStr(row("prefix")) & "_status = " & CInt(row2("glp_docstatus")) _
+        '    & " where " & CStr(row("prefix")) & "_id = " & CInt(row2("glp_docid"))
 
-            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
+        '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
 
-            sql = "select DISTINCT  sysobjects.name [table],left (syscolumns.name,charindex('_',syscolumns.name)) [prefix]" _
-             & " from sysobjects" _
-             & " left join syscolumns on sysobjects.id = syscolumns.id" _
-             & " left join systypes on syscolumns.xtype = systypes.xtype" _
-             & " where sysobjects.xtype = 'U'and not (systypes.name like 'sysname')" _
-             & " and sysobjects.name = '" & CStr(row("table")) & "item'" _
-             & " and syscolumns.name like '%status'" _
-             & " and syscolumns.name like '%" & CStr(row("prefix")) & "'"
+        '    sql = "select DISTINCT  sysobjects.name [table],left (syscolumns.name,charindex('_',syscolumns.name)) [prefix]" _
+        '     & " from sysobjects" _
+        '     & " left join syscolumns on sysobjects.id = syscolumns.id" _
+        '     & " left join systypes on syscolumns.xtype = systypes.xtype" _
+        '     & " where sysobjects.xtype = 'U'and not (systypes.name like 'sysname')" _
+        '     & " and sysobjects.name = '" & CStr(row("table")) & "item'" _
+        '     & " and syscolumns.name like '%status'" _
+        '     & " and syscolumns.name like '%" & CStr(row("prefix")) & "'"
 
-            dsItem = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
+        '    dsItem = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.Text, sql)
 
-            For Each row3 As DataRow In dsItem.Tables(0).Rows
-              sql = "Update " & CStr(row("table")) & "item set " & CStr(row3("prefix")) & "status = " & CInt(row2("glp_docstatus")) _
-               & "where " & CStr(row3("prefix")) & CStr(row("prefix")) & " = " & CInt(row2("glp_docid"))
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
-            Next
+        '    For Each row3 As DataRow In dsItem.Tables(0).Rows
+        '      sql = "Update " & CStr(row("table")) & "item set " & CStr(row3("prefix")) & "status = " & CInt(row2("glp_docstatus")) _
+        '       & "where " & CStr(row3("prefix")) & CStr(row("prefix")) & " = " & CInt(row2("glp_docid"))
+        '      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
+        '    Next
 
-          Next
+        '  Next
+
+        'Next
+
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans _
+                    , CommandType.StoredProcedure _
+                    , "UpdateUnPostGLFromList" _
+                    , sqlparams)
+
+        For Each row As DataRow In ds.Tables(0).Rows
+          Dim drh As New DataRowHelper(row)
+          If Me.Id = drh.GetValue(Of Integer)("glpid") Then
+            unPosted = True
+            Select Case drh.GetValue(Of Integer)("glpreftype")
+              Case 38
+                glUnPost = drh.GetValue(Of Integer)("glpstatus")
+              Case 55
+                'glUnPost = drh.GetValue(Of Integer)("glpstatus")
+              Case 68
+                payUnPost = drh.GetValue(Of Integer)("glpstatus")
+              Case 69
+                'glUnPost = drh.GetValue(Of Integer)("glpstatus")
+              Case 74
+                recUnPost = drh.GetValue(Of Integer)("glpstatus")
+              Case Else
+                docUnPost = drh.GetValue(Of Integer)("glpstatus")
+
+            End Select
+          Else
+            unPosted = False
+          End If
 
         Next
+
         If unPosted Then
-          sql = "delete from glpost where glp_gl = " & Me.Id
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, sql)
+         
+          trans.Commit()
 
           Me.Status.Value = glUnPost
 
@@ -1421,12 +1478,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               CType(Me.RefDoc, IBillIssuable).Receive.Status.Value = recUnPost
             End If
           End If
+          'trans.Commit()
 
           msgServ.ShowMessage("${res:Global.Info.UnPost}")
         Else
+          trans.Rollback()
           msgServ.ShowMessage("${res:Global.Info.CannotUnPost}")
         End If
-        trans.Commit()
 
 
       Catch ex As Exception

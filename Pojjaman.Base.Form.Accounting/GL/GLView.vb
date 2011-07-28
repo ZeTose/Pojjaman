@@ -1587,10 +1587,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
     Private Sub ibtnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnPost.Click
+      Dim currentUserId As Integer
+      Dim mySecurityService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      If mySecurityService.CurrentUser Is Nothing Then
+        msgServ.ShowMessage("${res:Global.Error.NoUser}")
+        Return
+      End If
+      currentUserId = mySecurityService.CurrentUser.Id
       If Me.m_je.Status.Value = 4 Then
         If msgServ.AskQuestion("${res:Global.Question.ConfirmUnPost}") Then
-          Me.m_je.GLUnPost()
+          Me.m_je.GLUnPost(currentUserId)
           CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).CheckFormEnable()
         End If
       Else
@@ -1599,7 +1608,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             msgServ.ShowMessage("${res:Global.Info.SaveBeforePost}")
             Exit Sub
           End If
-          Me.m_je.GLPost()
+          Me.m_je.GLPost(currentUserId)
           CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).CheckFormEnable()
         End If
       End If
