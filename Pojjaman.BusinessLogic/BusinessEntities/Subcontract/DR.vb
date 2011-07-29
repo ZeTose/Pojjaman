@@ -1260,6 +1260,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
         trans2.Commit()
       Catch ex As Exception
         trans2.Rollback()

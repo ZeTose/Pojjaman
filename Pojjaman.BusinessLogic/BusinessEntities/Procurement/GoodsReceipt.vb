@@ -5553,6 +5553,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim cmd As String = Me.GetGRCommandActual
         If cmd.Length > 0 Then
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_OnlyUpdateGRWBSChildActual")
         End If
 
         trans.Commit()
