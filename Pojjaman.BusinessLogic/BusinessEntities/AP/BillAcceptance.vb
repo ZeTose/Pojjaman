@@ -165,7 +165,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         m_itemCollection = New BillAcceptanceItemCollection(Me)
-
+        Me.GetBillAcceptanceCostCenterListFromDB()
       End With
     End Sub
 #End Region
@@ -407,6 +407,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Class InsideBillItemCostCenter
+      Public Property CCID As Integer
+      Public Property CCCode As String
+      Public Property CCName As String
+      Public Property IDType As String
+      Public Sub New(ByVal _id As Integer, ByVal _code As String, ByVal _name As String, ByVal _idtype As String)
+        CCID = _id
+        CCCode = _code
+        CCName = _name
+        IDType = _idtype
+      End Sub
+    End Class
+    Private m_ccHash As Hashtable
+    Public Sub GetBillAcceptanceCostCenterListFromDB()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetBillAcceptanceCostCenterList",
+                                                   New SqlParameter("@billa_id", Me.Id)
+      )
+      m_ccHash = New Hashtable
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim icc As New InsideBillItemCostCenter(drh.GetValue(Of Integer)("cc_id"),
+                                                drh.GetValue(Of String)("cc_code"),
+                                                drh.GetValue(Of String)("cc_name"),
+                                                drh.GetValue(Of String)("idtype"))
+        m_ccHash(icc.IDType) = icc
+      Next
+    End Sub
+    Private Function GetCostCenterCodeFromHsIDType(ByVal _id As Integer, ByVal _type As Integer) As String
+      Dim _idType As String = _id.ToString & "|" & _type.ToString
+      Return CType(m_ccHash(_idType), InsideBillItemCostCenter).CCCode
+    End Function
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
     End Sub
@@ -803,8 +836,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-      
-
       'Gross
       dpi = New DocPrintingItem
       dpi.Mapping = "Gross"
@@ -837,6 +868,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
 
+      Dim listOfCostCenter As New ArrayList
       Dim n As Integer = 0
       For Each item As BillAcceptanceItem In Me.ItemCollection
         'Item.LineNumber
@@ -869,7 +901,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.CostCenterCode
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.CostCenterCode"
-        dpi.Value = item.GetCostCenterFromRefDoc(item.Id, item.EntityId).Code
+        Dim RefCCCode As String = Me.GetCostCenterCodeFromHsIDType(item.Id, item.EntityId) ' item.GetCostCenterFromRefDoc(item.Id, item.EntityId).Code
+        dpi.Value = RefCCCode
+        If Not listOfCostCenter.Contains(RefCCCode) Then
+          listOfCostCenter.Add(RefCCCode)
+        End If
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"
@@ -1046,6 +1082,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         n += 1
       Next
+
+      'CostCenter ของเอกสารที่อ้างอิงในรายการ
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDocCostCenterList"
+      dpi.Value = String.Join(",", listOfCostCenter.ToArray)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
       ''Check สำหรับ Customize ของวีสถาปัตต์ วีคอนกรึต ===========================================>>>
       Dim hasVArch As Boolean = False
