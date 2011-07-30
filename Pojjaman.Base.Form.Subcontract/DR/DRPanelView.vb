@@ -2263,7 +2263,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "txtfromcostcentercode"
             If txtfromcostcentercodeChanged Then
-            dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtToCostCenterCode, txtToCostCenterName, Me.m_entity.ToCostCenter)
+            dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.FromCostCenter)
               txtfromcostcentercodeChanged = False
             End If
         Case "txttocostcentercode"
