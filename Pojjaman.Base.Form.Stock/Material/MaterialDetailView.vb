@@ -1276,39 +1276,42 @@ Namespace Longkong.Pojjaman.Gui.Panels
           For Each ctrl As Control In grbMatDetail.Controls
             ctrl.Enabled = True
           Next
-          grbOtherUnit.Enabled = True
+          'grbOtherUnit.Enabled = True
+          For Each ctrl As Control In grbOtherUnit.Controls
+            ctrl.Enabled = True
+          Next
+          Me.SetDisabledForUnitReferenced()
           grbLCI.Enabled = True
         ElseIf m_entity.IsReferenced AndAlso m_locked Then
           For Each ctrl As Control In grbMatDetail.Controls
             ctrl.Enabled = False
           Next
           For Each ctrl As Control In grbOtherUnit.Controls
-            ctrl.Enabled = False
+            ctrl.Enabled = True
           Next
+          Me.SetDisabledForUnitReferenced()
 
-
-
-          If m_entity.ConversionUnit1 = 0 Then
-            txtUnit1.Enabled = True
-            txtUnitCode1.Enabled = True
-            txtUnitConversion1.Enabled = True
-            ibtnShowUnit1.Enabled = True
-            ibtnShowUnitDialog1.Enabled = True
-          End If
-          If m_entity.ConversionUnit2 = 0 Then
-            txtUnit2.Enabled = True
-            txtUnitCode2.Enabled = True
-            txtUnitConversion2.Enabled = True
-            ibtnShowUnit2.Enabled = True
-            ibtnShowUnitDialog2.Enabled = True
-          End If
-          If m_entity.ConversionUnit3 = 0 Then
-            txtUnit3.Enabled = True
-            txtUnitCode3.Enabled = True
-            txtUnitConversion3.Enabled = True
-            ibtnShowUnit3.Enabled = True
-            ibtnShowUnitDialog3.Enabled = True
-          End If
+          'If m_entity.ConversionUnit1 = 0 Then
+          '  txtUnit1.Enabled = True
+          '  txtUnitCode1.Enabled = True
+          '  txtUnitConversion1.Enabled = True
+          '  ibtnShowUnit1.Enabled = True
+          '  ibtnShowUnitDialog1.Enabled = True
+          'End If
+          'If m_entity.ConversionUnit2 = 0 Then
+          '  txtUnit2.Enabled = True
+          '  txtUnitCode2.Enabled = True
+          '  txtUnitConversion2.Enabled = True
+          '  ibtnShowUnit2.Enabled = True
+          '  ibtnShowUnitDialog2.Enabled = True
+          'End If
+          'If m_entity.ConversionUnit3 = 0 Then
+          '  txtUnit3.Enabled = True
+          '  txtUnitCode3.Enabled = True
+          '  txtUnitConversion3.Enabled = True
+          '  ibtnShowUnit3.Enabled = True
+          '  ibtnShowUnitDialog3.Enabled = True
+          'End If
 
           grbLCI.Enabled = False
         End If
@@ -1329,7 +1332,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
     End Sub
-
+    Private Sub SetDisabledForUnitReferenced()
+      Dim hasOtherUnit As Boolean = False
+      If Not m_entity.CompareUnit1 Is Nothing AndAlso m_entity.CompareUnit1.Originated Then
+        If m_entity.IsThisUnitReferenced(m_entity.CompareUnit1) Then
+          hasOtherUnit = True
+          txtUnit1.Enabled = False
+          txtUnitCode1.Enabled = False
+          txtUnitConversion1.Enabled = False
+          ibtnShowUnit1.Enabled = False
+          ibtnShowUnitDialog1.Enabled = False
+        End If
+      End If
+      If Not m_entity.CompareUnit2 Is Nothing AndAlso m_entity.CompareUnit2.Originated Then
+        If m_entity.IsThisUnitReferenced(m_entity.CompareUnit2) Then
+          hasOtherUnit = True
+          txtUnit2.Enabled = False
+          txtUnitCode2.Enabled = False
+          txtUnitConversion2.Enabled = False
+          ibtnShowUnit2.Enabled = False
+          ibtnShowUnitDialog2.Enabled = False
+        End If
+      End If
+      If Not m_entity.CompareUnit3 Is Nothing AndAlso m_entity.CompareUnit3.Originated Then
+        If m_entity.IsThisUnitReferenced(m_entity.CompareUnit3) Then
+          hasOtherUnit = True
+          txtUnit3.Enabled = False
+          txtUnitCode3.Enabled = False
+          txtUnitConversion3.Enabled = False
+          ibtnShowUnit3.Enabled = False
+          ibtnShowUnitDialog3.Enabled = False
+        End If
+      End If
+      If Not m_entity.DefaultUnit Is Nothing AndAlso m_entity.DefaultUnit.Originated Then
+        If m_entity.IsThisUnitReferenced(m_entity.DefaultUnit) OrElse hasOtherUnit Then
+          txtDefaultUnit.Enabled = False
+          txtDefaultUnitCode.Enabled = False
+          ibtnShowDefaultUnit.Enabled = False
+          ibtnShowDefaultUnitDialog.Enabled = False
+        End If
+      End If
+    End Sub
     ' เคลียร์ข้อมูลวัสดุภัณฑ์ใน control
     Public Overrides Sub ClearDetail()
       Me.lblStatus.Text = ""

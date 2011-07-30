@@ -641,6 +641,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function IsThisUnitReferenced(ByVal _unit As Unit) As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetExistsUnit",
+                                                   New SqlParameter("@lci_id", Me.Id),
+                                                   New SqlParameter("@unit_id", _unit.Id))
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return CBool(ds.Tables(0).Rows(0)(0))
+      End If
+      Return False
+    End Function
     Public Function SetCancel(ByVal canceled As Boolean, ByVal userId As Integer) As Boolean
       Me.Canceled = canceled
       Me.CancelDate = Now
