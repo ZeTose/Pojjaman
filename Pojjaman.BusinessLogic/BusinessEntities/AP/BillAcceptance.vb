@@ -494,7 +494,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         oldcode = Me.Code
-        If Me.AutoGen And Me.Code.Length = 0 Then
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
         Me.AutoGen = False
