@@ -2670,6 +2670,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
         If item.Level = 1 Then
 
+          'Item.ChildUnitCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildUnitCode"
+          If item.Unit Is Nothing Then
+            dpi.Value = ""
+          Else
+            dpi.Value = item.Unit.Code
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildUnitName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildUnitName"
+          If item.Unit Is Nothing Then
+            dpi.Value = ""
+          Else
+            dpi.Value = item.Unit.Name
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.ChildQty
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.ChildQty"

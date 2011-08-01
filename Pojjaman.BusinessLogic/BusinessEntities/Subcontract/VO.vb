@@ -2192,31 +2192,31 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        If item.Level = 1 Then
-          'Item.Unit
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Unit"
-          dpi.Value = item.Unit.Name
-          dpi.Font = fn
-          dpi.DataType = "System.String"
-          dpi.Row = i + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'If item.Level = 1 Then
+        'Item.Unit
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Unit"
+        dpi.Value = item.Unit.Name
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
-          'Item.Qty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.Qty"
-          If item.Qty = 0 Then
-            dpi.Value = ""
-          Else
-            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
-          End If
-          dpi.Font = fn
-          dpi.DataType = "System.String"
-          dpi.Row = i + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
+        'Item.Qty
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Qty"
+        If item.Qty = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
         End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+        'End If
 
         'Item.UnitPrice
         dpi = New DocPrintingItem
@@ -2399,6 +2399,139 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
+
+        'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
+        If item.Level = 1 Then
+
+          'Item.ChildUnitCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildUnitCode"
+          If item.Unit Is Nothing Then
+            dpi.Value = ""
+          Else
+            dpi.Value = item.Unit.Code
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildUnitName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildUnitName"
+          If item.Unit Is Nothing Then
+            dpi.Value = ""
+          Else
+            dpi.Value = item.Unit.Name
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildQty"
+          If item.Qty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildUnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildUnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+          'End If
+
+          'Item.ChildMat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildMat"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Mat, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildLab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildLab"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Lab, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildEq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildEq"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Eq, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.ChildReceivedAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.ChildReceivedAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+        End If
+        'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
 
         i += 1
       Next
