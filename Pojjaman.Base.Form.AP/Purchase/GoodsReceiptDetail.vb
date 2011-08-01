@@ -3743,6 +3743,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim itemAmt As Decimal
       Dim oldAmt As Decimal = Me.m_entity.RealGross
 
+      Dim index As Integer = Me.tgItem.CurrentRowIndex
+
       For Each Obj As Object In Me.m_treeManager.SelectedRows
         If Not Obj Is Nothing Then
           rowsCount += 1
@@ -3773,6 +3775,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxAmount = True
       forceUpdateGross = True
       RefreshDocs()
+      Me.tgItem.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
     Private Sub ibtUnlocker_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtUnlocker.Click
