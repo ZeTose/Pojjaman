@@ -459,7 +459,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Private Sub ResetID(ByVal oldid As Integer)
+
       Me.Id = oldid
+
+    End Sub
+    Public Sub ResetDetail()
+      For Each pi As PaymentItem In ItemCollection
+        If TypeOf pi.Entity Is OutgoingCheck OrElse TypeOf pi.Entity Is OutgoingAval Then
+          pi.Entity.Id = pi.oldEntityId
+        End If
+      Next
     End Sub
     Public Function MultipleCheck() As Boolean
       Dim i As Integer = 0
@@ -652,6 +661,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
       For Each item As PaymentItem In Me.ItemCollection
+        item.oldEntityId = item.Entity.Id
         If item.Entity.Id = 0 Then
           If item.Amount <= 0 Then
             Return New SaveErrorException("${res:Global.Error.AmountMissing}")
@@ -4324,6 +4334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property oldEntityId As Integer
     Public Property Payment() As Payment
       Get
         Return m_payment

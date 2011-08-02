@@ -580,6 +580,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim savePaymentError As SaveErrorException = newPayment.Save(currentUserId, conn, trans)
         If Not IsNumeric(savePaymentError.Message) Then
           trans.Rollback()
+          Me.Payment.ResetDetail()
           Me.ResetID(oldid)
           ResetCode(oldcode, oldautogen)
           Return savePaymentError
@@ -587,6 +588,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Select Case CInt(savePaymentError.Message)
             Case -1, -2, -5
               trans.Rollback()
+              Me.Payment.ResetDetail()
               Me.ResetID(oldid)
               ResetCode(oldcode, oldautogen)
               Return savePaymentError
@@ -598,11 +600,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
         trans.Rollback()
+        Me.Payment.ResetDetail()
         Me.ResetID(oldid)
         ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)
       Catch ex As Exception
         trans.Rollback()
+        Me.Payment.ResetDetail()
         Me.ResetID(oldid)
         ResetCode(oldcode, oldautogen)
         Return New SaveErrorException(ex.ToString)

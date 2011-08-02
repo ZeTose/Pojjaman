@@ -483,10 +483,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Select Case CInt(savePaymentError.Message)
             Case -1, -5
               trans.Rollback()
+              Me.Payment.ResetDetail()
               Me.ResetID(oldid, oldpay, oldje)
               Return savePaymentError
             Case -2
               trans.Rollback()
+              Me.Payment.ResetDetail()
               Me.ResetID(oldid, oldpay, oldje)
               Return savePaymentError
             Case Else
@@ -500,12 +502,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
         If Not IsNumeric(saveJeError.Message) Then
           trans.Rollback()
+          Me.Payment.ResetDetail()
           Me.ResetID(oldid, oldpay, oldje)
           Return saveJeError
         Else
           Select Case CInt(saveJeError.Message)
             Case -1, -5
               trans.Rollback()
+              Me.Payment.ResetDetail()
               Me.ResetID(oldid, oldpay, oldje)
               Return saveJeError
             Case -2
@@ -525,12 +529,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
         If Not IsNumeric(saveAutoCodeError.Message) Then
           trans.Rollback()
+          Me.Payment.ResetDetail()
           ResetID(oldid, oldpay, oldje)
           Return saveAutoCodeError
         Else
           Select Case CInt(saveAutoCodeError.Message)
             Case -1, -2, -5
               trans.Rollback()
+              Me.Payment.ResetDetail()
               ResetID(oldid, oldpay, oldje)
               Return saveAutoCodeError
             Case Else
@@ -542,10 +548,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(returnVal.Value.ToString)
       Catch ex As SqlException
         trans.Rollback()
+        Me.Payment.ResetDetail()
         Me.ResetID(oldid, oldpay, oldje)
         Return New SaveErrorException(ex.ToString)
       Catch ex As Exception
         trans.Rollback()
+        Me.Payment.ResetDetail()
         Me.ResetID(oldid, oldpay, oldje)
         Return New SaveErrorException(ex.ToString)
       Finally

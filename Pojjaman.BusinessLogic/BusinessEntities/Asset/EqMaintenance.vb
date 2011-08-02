@@ -605,13 +605,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
           If Not IsNumeric(savePaymentError.Message) Then
             trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Me.Payment.ResetDetail()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
             Return savePaymentError
           Else
             Select Case CInt(savePaymentError.Message)
               Case -1, -2
                 trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Me.Payment.ResetDetail()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
                 Return savePaymentError
               Case Else
             End Select
@@ -619,13 +621,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveVatError.Message) Then
             trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Me.Payment.ResetDetail()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
             Return saveVatError
           Else
             Select Case CInt(saveVatError.Message)
               Case -1, -2
                 trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Me.Payment.ResetDetail()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
                 Return saveVatError
               Case Else
             End Select
@@ -635,13 +639,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
             If Not IsNumeric(saveWhtError.Message) Then
               trans.Rollback()
-              ResetID(oldid, oldpay, oldvat, oldje)
+                Me.Payment.ResetDetail()
+                ResetID(oldid, oldpay, oldvat, oldje)
               Return saveWhtError
             Else
               Select Case CInt(saveWhtError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
-                  ResetID(oldid, oldpay, oldvat, oldje)
+                    Me.Payment.ResetDetail()
+                    ResetID(oldid, oldpay, oldvat, oldje)
                   Return saveWhtError
                 Case Else
               End Select
@@ -655,13 +661,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
           If Not IsNumeric(saveJeError.Message) Then
             trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Me.Payment.ResetDetail()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
             Return saveJeError
           Else
             Select Case CInt(saveJeError.Message)
               Case -1
                 trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Me.Payment.ResetDetail()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
                 Return saveJeError
               Case -2
                 'Post ไปแล้ว
@@ -674,11 +682,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trans.Commit()
         Catch ex As SqlException
           trans.Rollback()
-          Me.ResetID(oldid, oldpay, oldvat, oldje)
+            Me.Payment.ResetDetail()
+            Me.ResetID(oldid, oldpay, oldvat, oldje)
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
-          Me.ResetID(oldid, oldpay, oldvat, oldje)
+            Me.Payment.ResetDetail()
+            Me.ResetID(oldid, oldpay, oldvat, oldje)
           Return New SaveErrorException(ex.ToString)
           End Try
 
