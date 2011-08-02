@@ -1113,6 +1113,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             dtpDepreDate.Value = Date.Now
             Me.m_entity.DepreDate = Date.MinValue
+            Me.m_entity.ReCalculationAll()
+            RefreshDocs()
             dirtyFlag = True
           End If
           m_dateSetting = False
@@ -1125,6 +1127,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Me.dtpDepreDate.Value = MaxDtpDate(Me.m_entity.DepreDate)
             End If
             dirtyFlag = True
+            Me.m_entity.ReCalculationAll()
+            RefreshDocs()
           End If
 
       End Select

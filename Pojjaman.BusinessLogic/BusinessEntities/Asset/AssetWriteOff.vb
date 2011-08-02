@@ -539,10 +539,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
         oldjecode = Me.m_je.Code
         oldjeautogen = Me.m_je.AutoGen
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
+        If Not AutoCodeFormat Is Nothing Then
+          Select Case Me.AutoCodeFormat.CodeConfig.Value
+            Case 0
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.DontSave = True
+              Me.m_je.Code = ""
+              Me.m_je.DocDate = Me.DocDate
+            Case 1
+              'ตาม entity
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              Me.m_je.Code = Me.Code
+            Case 2
+              'ตาม gl
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+              Me.Code = Me.m_je.Code
+            Case Else
+              'แยก
+              If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+                Me.Code = Me.GetNextCode
+              End If
+              If Me.m_je.AutoGen Then
+                Me.m_je.Code = m_je.GetNextCode
+              End If
+          End Select
+        Else
+          'แยก
+          If Me.AutoGen Then 'And Me.Code.Length = 0 Then
+            Me.Code = Me.GetNextCode
+          End If
+          If Me.m_je.AutoGen Then
+            Me.m_je.Code = m_je.GetNextCode
+          End If
+        End If
+        If Me.Receive.Gross <> 0 Then
+          Me.m_receive.Code = m_je.Code
+        End If
+        Me.m_je.DocDate = Me.DocDate
+        Me.m_receive.DocDate = m_je.DocDate
+        If Me.AutoCodeFormat.CodeConfig.Value = 0 Then
+          Me.m_receive.Code = Me.Code
+          Me.m_receive.DocDate = Me.DocDate
+        End If
+
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
         Me.AutoGen = False
+        Me.m_receive.AutoGen = False
+        Me.m_je.AutoGen = False
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_type", Me.EntityId))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_entity", Me.Customer.Id))
