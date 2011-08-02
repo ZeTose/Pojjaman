@@ -1931,8 +1931,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       New Filter("nocancel", True)}
       entities(6) = New SaleCN
 
+      Dim cust As Object = DBNull.Value
+      If Not Me.m_entity.Customer Is Nothing Then
+        cust = Me.m_entity.Customer.Id
+      End If
       filters(7) = New Filter() {New Filter("IDList", GetItemIDList(366)), _
-      New Filter("receives_id", Me.m_entity.Id)}
+      New Filter("receives_id", Me.m_entity.Id),
+      New Filter("cust_id", cust)}
       entities(7) = New AssetWriteOffSelectionForReceiveSelection
 
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities)
