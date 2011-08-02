@@ -182,7 +182,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_vat.Direction.Value = 1
 
         m_itemCollection = New BillAcceptanceItemCollection(Me)
-        CreateRefDocs()
+        GetPaySelectionRefDocFromDB()
+        'CreateRefDocs()
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
 
@@ -190,51 +191,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
       BusinessLogic.Currency.SetCurrencyFromDB(Me)
       '==============CURRENCY=================================
     End Sub
-    Public Function FindStock(ByVal id As Integer, ByVal type As Integer) As Stock
-      For Each s As Stock In Refinform
-        If s.Id = id AndAlso s.Type = type Then
-          Return s
-        End If
-      Next
-    End Function
-    Private Sub CreateRefDocs()
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-                 , CommandType.StoredProcedure _
-                 , "GetPayselectionItemRefDoc" _
-                 , New SqlParameter("@pays_id", Me.Id))
+    'Public Function FindStock(ByVal id As Integer, ByVal type As Integer) As Stock
+    '  For Each s As Stock In Refinform
+    '    If s.Id = id AndAlso s.Type = type Then
+    '      Return s
+    '    End If
+    '  Next
+    'End Function
+    'Private Sub CreateRefDocs()
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+    '             , CommandType.StoredProcedure _
+    '             , "GetPayselectionItemRefDoc" _
+    '             , New SqlParameter("@pays_id", Me.Id))
 
-      For Each row As DataRow In ds.Tables(0).Rows
-        Dim dh As New DataRowHelper(row)
-        Dim id, type As Integer
-        id = dh.GetValue(Of Integer)("stock_id")
-        type = dh.GetValue(Of Integer)("stock_type")
-        Dim s As Stock = FindStock(id, type)
-        If s Is Nothing Then
-          s = New Stock
-          s.Id = id
-          s.Type = type
-          s.GLCode = dh.GetValue(Of String)("GLCode")
-          s.GLNote = dh.GetValue(Of String)("GLNote")
-          s.Note = dh.GetValue(Of String)("Note")
-          s.VatCodes = New List(Of String)
-          Refinform.Add(s)
-        End If
-        Dim vatcode As String = dh.GetValue(Of String)("VatCode")
-        s.VatCodes.Add(vatcode)
-      Next
-    End Sub
+    '  For Each row As DataRow In ds.Tables(0).Rows
+    '    Dim dh As New DataRowHelper(row)
+    '    Dim id, type As Integer
+    '    id = dh.GetValue(Of Integer)("stock_id")
+    '    type = dh.GetValue(Of Integer)("stock_type")
+    '    Dim s As Stock = FindStock(id, type)
+    '    If s Is Nothing Then
+    '      s = New Stock
+    '      s.Id = id
+    '      s.Type = type
+    '      s.GLCode = dh.GetValue(Of String)("GLCode")
+    '      s.GLNote = dh.GetValue(Of String)("GLNote")
+    '      s.Note = dh.GetValue(Of String)("Note")
+    '      s.VatCodes = New List(Of String)
+    '      Refinform.Add(s)
+    '    End If
+    '    Dim vatcode As String = dh.GetValue(Of String)("VatCode")
+    '    s.VatCodes.Add(vatcode)
+    '  Next
+    'End Sub
 #End Region
 
 #Region "Properties"
-    Private m_RefDocs As List(Of Stock)
-    Public ReadOnly Property Refinform As List(Of Stock)
-      Get
-        If m_RefDocs Is Nothing Then
-          m_RefDocs = New List(Of Stock)
-        End If
-        Return m_RefDocs
-      End Get
-    End Property
+    'Private m_RefDocs As List(Of Stock)
+    'Public ReadOnly Property Refinform As List(Of Stock)
+    '  Get
+    '    If m_RefDocs Is Nothing Then
+    '      m_RefDocs = New List(Of Stock)
+    '    End If
+    '    Return m_RefDocs
+    '  End Get
+    'End Property
     Public Property RefWHTCollection() As ArrayList      Get        Return m_refWHTCollection      End Get      Set(ByVal Value As ArrayList)        m_refWHTCollection = Value      End Set    End Property
     Public Property ItemCollection() As BillAcceptanceItemCollection
       Get
@@ -451,6 +452,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Private m_ccHash As Hashtable
+    Public Sub GetPaySelectionRefDocFromDB()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetPaySelectionRefDocList",
+                                                   New SqlParameter("@pays_id", Me.Id)
+      )
+      m_ccHash = New Hashtable
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim icc As New PaySelectionRefDoc
+        icc.ListOfRefDocVatCode = New List(Of RefDocVatCode)
+        icc.CCID = drh.GetValue(Of Integer)("cc_id")
+        icc.CCCode = drh.GetValue(Of String)("cc_code")
+        icc.CCName = drh.GetValue(Of String)("cc_name")
+        icc.StockId = drh.GetValue(Of Integer)("stock_id")
+        icc.StockType = drh.GetValue(Of Integer)("stock_type")
+        icc.StockCode = drh.GetValue(Of String)("stock_code")
+        icc.StockRetention = drh.GetValue(Of Decimal)("refstock_retention")
+        icc.GLCode = drh.GetValue(Of String)("glcode")
+        icc.GLNote = drh.GetValue(Of String)("glnote")
+        icc.StockNote = drh.GetValue(Of String)("refstock_note")
+        icc.RetentionType = drh.GetValue(Of Integer)("retention_type")
+        icc.IDType = drh.GetValue(Of String)("idtype")
+
+        For Each vrow As DataRow In ds.Tables(1).Select("stock_id=" & icc.StockId.ToString & " and stock_type=" & icc.StockType.ToString)
+          Dim vdrh As New DataRowHelper(vrow)
+          Dim ivc As New RefDocVatCode
+          ivc.StockId = vdrh.GetValue(Of Integer)("stock_id")
+          ivc.StockType = vdrh.GetValue(Of Integer)("stock_type")
+          ivc.VatCode = vdrh.GetValue(Of String)("vatcode")
+          icc.ListOfRefDocVatCode.Add(ivc)
+        Next
+
+        m_ccHash(icc.IDType) = icc
+      Next
+    End Sub
+    Public Function GetPaySelectionRefDocFromHsIDType(ByVal _id As Integer, ByVal _type As Integer, ByVal _retType As Integer) As PaySelectionRefDoc
+      If m_ccHash Is Nothing OrElse m_ccHash.Count = 0 Then
+        Return New PaySelectionRefDoc
+      End If
+      Dim _idType As String = _id.ToString & "|" & _type.ToString & "|" & _retType.ToString
+      Return CType(m_ccHash(_idType), PaySelectionRefDoc)
+    End Function
     Public Function ValidateReferenceDocDate(ByVal bi As BillAcceptanceItem) As Boolean
       If Not bi Is Nothing Then
         If bi.Date <= Me.DocDate Then
@@ -1940,6 +1985,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "PAForPaySelection"
       End Get
     End Property
+  End Class
+
+  Public Class PaySelectionRefDoc
+    Public Property CCID As Integer
+    Public Property CCCode As String
+    Public Property CCName As String
+    Public Property StockId As Integer
+    Public Property StockType As Integer
+    Public Property StockCode As String
+    Public Property StockRetention As Decimal
+    Public Property GLCode As String
+    Public Property GLNote As String
+    Public Property StockNote As String
+    Public Property RetentionType As Integer
+    Public Property ListOfRefDocVatCode As List(Of RefDocVatCode)
+    Public Property IDType As String
+    Public Sub New()
+      'ListOfRefDocVatCode = New List(Of RefDocVatCode)
+    End Sub
+    Public Function GetVatCodes() As String
+      If ListOfRefDocVatCode Is Nothing Then
+        Return ""
+      End If
+      Dim arr As New ArrayList
+      For Each refvat As RefDocVatCode In ListOfRefDocVatCode
+        arr.Add(refvat.VatCode)
+      Next
+      Return String.Join(",", arr.ToArray)
+    End Function
+  End Class
+  Public Class RefDocVatCode
+    Public Property StockId As Integer
+    Public Property StockType As Integer
+    Public Property VatCode As String
   End Class
 End Namespace
 

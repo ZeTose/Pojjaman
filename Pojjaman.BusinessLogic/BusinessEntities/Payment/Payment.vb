@@ -3611,9 +3611,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim dh As New DataRowHelper(dr)
               Dim stock_id As Integer = dh.GetValue(Of Integer)("paysi_entity")
               Dim stock_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
-              Dim retention_type As Integer = dh.GetValue(Of Integer)("paysi_entityType")
+              Dim retention_type As Integer = dh.GetValue(Of Integer)("paysi_retentiontype", 0)
               'Trace.WriteLine(retention_type.ToString)
-              Dim s As Stock = ps.FindStock(stock_id, stock_type)
+              'Dim s As Stock = ps.FindStock(stock_id, stock_type)
+              Dim s As PaySelectionRefDoc = ps.GetPaySelectionRefDocFromHsIDType(stock_id, stock_type, retention_type)
               If s IsNot Nothing Then
                 'RefDocItem.Glnote
                 dpi = New DocPrintingItem
@@ -3636,7 +3637,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'RefDocItem.refnote
                 dpi = New DocPrintingItem
                 dpi.Mapping = "RefDocItem.refnote"
-                dpi.Value = s.Note
+                dpi.Value = s.StockNote
                 dpi.DataType = "System.String"
                 dpi.Row = n + 1
                 dpi.Table = "RefDocItem"
@@ -3646,6 +3647,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi = New DocPrintingItem
                 dpi.Mapping = "RefDocItem.VatCodes"
                 dpi.Value = s.GetVatCodes
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                'refRetention = ps.GetRetentionItem(stock_id, stock_type, retention_type)
+                refRetention = s.StockRetention
+                refDocRetention += refRetention
+                'RefDocItem.Retention
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.Retention"
+                dpi.Value = Configuration.FormatToString(refRetention, DigitConfig.UnitPrice)
+                dpi.DataType = "System.String"
+                dpi.Row = n + 1
+                dpi.Table = "RefDocItem"
+                dpiColl.Add(dpi)
+
+                'RefDocItem.CostCenterCode
+                dpi = New DocPrintingItem
+                dpi.Mapping = "RefDocItem.CostCenterCode"
+                Trace.WriteLine("stock_type=" & stock_type.ToString)
+                'dpi.Value = ps.GetCostCenterFromRefDoc(stock_id, stock_type, retention_type).Code
+                dpi.Value = s.CCCode
                 dpi.DataType = "System.String"
                 dpi.Row = n + 1
                 dpi.Table = "RefDocItem"
@@ -3717,17 +3741,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "RefDocItem"
               dpiColl.Add(dpi)
 
-              refRetention = ps.GetRetentionItem(stock_id, stock_type, retention_type)
-              refDocRetention += refRetention
-              'RefDocItem.Retention
-              dpi = New DocPrintingItem
-              dpi.Mapping = "RefDocItem.Retention"
-              dpi.Value = Configuration.FormatToString(refRetention, DigitConfig.UnitPrice)
-              dpi.DataType = "System.String"
-              dpi.Row = n + 1
-              dpi.Table = "RefDocItem"
-              dpiColl.Add(dpi)
-
               'RefDocItem.Note
               dpi = New DocPrintingItem
               dpi.Mapping = "RefDocItem.Note"
@@ -3762,16 +3775,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
                 dpi.Value = ""
               End If
-              dpi.DataType = "System.String"
-              dpi.Row = n + 1
-              dpi.Table = "RefDocItem"
-              dpiColl.Add(dpi)
-
-              'RefDocItem.CostCenterCode
-              dpi = New DocPrintingItem
-              dpi.Mapping = "RefDocItem.CostCenterCode"
-              Trace.WriteLine("stock_type=" & stock_type.ToString)
-              dpi.Value = ps.GetCostCenterFromRefDoc(stock_id, stock_type, retention_type).Code
               dpi.DataType = "System.String"
               dpi.Row = n + 1
               dpi.Table = "RefDocItem"
