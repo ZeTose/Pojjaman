@@ -1639,7 +1639,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity Is Nothing Then
         Return
       End If
-      If Me.m_entity.Status.Value = 0 Or Me.m_entity.Status.Value >= 3 Then
+      If Me.m_entity.Status.Value = 0 OrElse Me.m_entity.Status.Value >= 3 OrElse m_entityRefed = 1 Then
         Me.Enabled = False
       Else
         Me.Enabled = True
@@ -1936,6 +1936,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       MyBase.SetStatusBarMessage()
     End Sub
     Private m_entityChanged As Boolean = False
+    Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As ISimpleEntity
       Get
         Return Me.m_entity
@@ -1953,6 +1954,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity = CType(Value, PaySelection)
         'Hack:
         If Not m_entity Is Nothing Then
+          If Me.m_entity.IsReferenced Then
+            m_entityRefed = 1
+          Else
+            m_entityRefed = 0
+          End If
           Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
         'PurchaseCN เมื่อ save

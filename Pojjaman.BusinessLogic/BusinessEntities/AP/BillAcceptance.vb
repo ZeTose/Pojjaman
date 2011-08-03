@@ -436,8 +436,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_ccHash(icc.IDType) = icc
       Next
     End Sub
-    Private Function GetCostCenterCodeFromHsIDType(ByVal _id As Integer, ByVal _type As Integer) As String
-      Dim _idType As String = _id.ToString & "|" & _type.ToString
+    Private Function GetCostCenterCodeFromHsIDType(ByVal _id As Integer, ByVal _type As Integer, ByVal _retType As Integer) As String
+      Dim _idType As String = _id.ToString & "|" & _type.ToString & "|" & _retType.ToString
       Return CType(m_ccHash(_idType), InsideBillItemCostCenter).CCCode
     End Function
     Private Sub ResetID(ByVal oldid As Integer)
@@ -901,7 +901,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.CostCenterCode
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.CostCenterCode"
-        Dim RefCCCode As String = Me.GetCostCenterCodeFromHsIDType(item.Id, item.EntityId) ' item.GetCostCenterFromRefDoc(item.Id, item.EntityId).Code
+        Dim RefCCCode As String = Me.GetCostCenterCodeFromHsIDType(item.Id, item.EntityId, item.RetentionType) ' item.GetCostCenterFromRefDoc(item.Id, item.EntityId).Code
         dpi.Value = RefCCCode
         If Not listOfCostCenter.Contains(RefCCCode) Then
           listOfCostCenter.Add(RefCCCode)
