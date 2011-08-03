@@ -2050,15 +2050,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ''' <remarks></remarks>
     Public ReadOnly Property TaxAmountDeducted As Decimal
       Get
-        If DeductTaxBase <> 0 AndAlso TaxBase <> 0 Then
+        If DeductTaxBase <> 0 AndAlso TaxBase <> 0 AndAlso DeductTaxBase <> TaxBase Then
           'ถ้าจ่ายหมด ก็เอามาทั้งหมด
           If UnpaidAmount = Amount Then
             Return (AfterTax - BeforeTax) - DeductVatAmt
           End If
-          
+
           'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
           Return (AfterTax - BeforeTax) * PowerAmt / AfterTax
-         
+        ElseIf DeductTaxBase = TaxBase Then
+          Return 0
         End If
         If UnpaidAmount <> Amount Then
           Return (AfterTax - BeforeTax) * PowerAmt / AfterTax
