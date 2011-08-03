@@ -739,6 +739,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Case "cccode"
             SetCostCenterValue(e)
           Case "ffc_includechildcc"
+            Dim eindex As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+            Dim sindex As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(Me.m_treeManager.SelectedRow)
+            If eindex <> sindex Then
+              m_treeManager.SelectedRow = CType(e.Row, TreeRow)
+            End If
             Me.CurrentItem.IncludeChildCostCenter = CBool(e.ProposedValue)
           Case "jcode"
             SetJournalValue(e)
@@ -1310,5 +1315,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
    
+    'Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+    '  Dim i As Integer = tgItem.CurrentRowIndex
+    '  MessageBox.Show(i.ToString)
+    'End Sub
   End Class
 End Namespace

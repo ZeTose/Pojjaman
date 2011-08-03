@@ -2705,6 +2705,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    Public Function GetCanGetAdvancePlusRetentionNotMilestone75(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          If item.Type.Value <> 75 Then
+            Dim itemAmount As Decimal = item.AdvancePlusRetention
+            If roundBeforeSum Then
+              itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            End If
+            If TypeOf item Is VariationOrderDe Then
+              amt -= itemAmount
+            Else
+              amt += itemAmount
+            End If
+          End If
+        End If
+      Next
+      Return amt
+    End Function
     Public Function GetCanGetTaxBase(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
@@ -2818,7 +2837,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If roundBeforeSum Then
             itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
           End If
-          If TypeOf item Is Milestone AndAlso (item.Type.Value = 75 OrElse item.Type.Value = 77 OrElse item.Type.Value = 86) Then
+          'If TypeOf item Is Milestone AndAlso (item.Type.Value = 75 OrElse item.Type.Value = 77 OrElse item.Type.Value = 86) Then
+          If TypeOf item Is Milestone AndAlso (item.Type.Value = 75) Then
             amt += itemAmount
           End If
         End If
