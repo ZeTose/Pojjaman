@@ -473,18 +473,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         Dim tmpAdvr As Decimal = Configuration.Format(Me.ItemCollection.GetAdvrAmount, DigitConfig.Price)
         Dim tmpRealAdvr As Decimal = Configuration.Format(Me.Advance, DigitConfig.Price)
+        Dim tmpMiAdvr As Decimal = Configuration.Format(Me.ItemCollection.GetMilestoneAdvrAmount, DigitConfig.Price)
         If tmpAdvr <> tmpRealAdvr Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.AdvanceToHandIsnotEqual}"), _
           New String() {Configuration.FormatToString(tmpAdvr, DigitConfig.Price) _
           , Configuration.FormatToString(tmpRealAdvr, DigitConfig.Price)})
         End If
+        If tmpMiAdvr <> tmpAdvr Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.AdvanceToHandIsnotEqual}"), _
+         New String() {Configuration.FormatToString(tmpAdvr, DigitConfig.Price) _
+         , Configuration.FormatToString(tmpMiAdvr, DigitConfig.Price)})
+        End If
 
+        Dim tmpMiRtn As Decimal = Configuration.Format(Me.ItemCollection.GetMilestoneRetention, DigitConfig.Price)
         Dim tmpRtn As Decimal = Configuration.Format(Me.ItemCollection.GetRetentionAmount, DigitConfig.Price)
         Dim tmpRealRtn As Decimal = Configuration.Format(Me.Retention, DigitConfig.Price)
         If tmpRtn <> tmpRealRtn Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.RetentionToHandIsnotEqual}"), _
           New String() {Configuration.FormatToString(tmpRtn, DigitConfig.Price) _
           , Configuration.FormatToString(tmpRealRtn, DigitConfig.Price)})
+        End If
+        If tmpRtn <> tmpMiRtn Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.RetentionToHandIsnotEqual}"), _
+          New String() {Configuration.FormatToString(tmpRtn, DigitConfig.Price) _
+          , Configuration.FormatToString(tmpMiRtn, DigitConfig.Price)})
         End If
 
         'Dim tmpTotalAmount As Decimal = Configuration.Format(Me.TotalAmount, DigitConfig.Price) AfterTax
@@ -497,6 +509,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           New String() {Configuration.FormatToString(tmpAmount, DigitConfig.Price) _
           , Configuration.FormatToString(tmpTotalAmount, DigitConfig.Price)})
         End If
+
+        'Validate ราย milestone ไม่ให้ save ยอดติดลบได้
+        For Each item As Milestone In Me.ItemCollection
+          If item.Amount < 0 Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.MileStoneAmountIsMinus} ") _
+           & Configuration.FormatToString(item.Amount, DigitConfig.Price))
+          End If
+        Next
+
+
 
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
