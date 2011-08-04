@@ -64,6 +64,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_refdoc.Code = deh.GetValue(Of String)(aliasPrefix & "eqtstock_code")
         .m_refdoc.DocDate = deh.GetValue(Of Date)(aliasPrefix & "eqtstock_docdate")
 
+        '==Hack by Pui-- ======================= 
+        If dr.Table.Columns.Contains("eqtstocki_sequence") AndAlso dr.Table.Columns.Contains("eqtstocki_refsequence") Then
+          dr("eqtstocki_sequence") = dr("eqtstocki_refsequence")
+        End If
+        '==Hack by Pui-- ======================= 
+
         .m_ewi = New EquipmentToolWithdrawItem(dr, "")
 
       End With
