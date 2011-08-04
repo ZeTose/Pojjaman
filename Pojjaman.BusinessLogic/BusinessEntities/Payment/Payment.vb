@@ -3733,8 +3733,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi = New DocPrintingItem
               dpi.Mapping = "RefDocItem.Amount"
               If Not IsDBNull(dr("paysi_amt")) Then
-                dpi.Value = Configuration.FormatToString(CDec(dr("paysi_amt")), DigitConfig.UnitPrice)
-                sumAfterTax += CDec(dr("paysi_amt"))
+                Dim paysi_amt As Decimal = CDec(dr("paysi_amt"))
+                If stock_type = 46 Then
+                  paysi_amt = (-1) * paysi_amt
+                End If
+                dpi.Value = Configuration.FormatToString(paysi_amt, DigitConfig.UnitPrice)
+                sumAfterTax += paysi_amt 'CDec(dr("paysi_amt"))
               End If
               dpi.DataType = "System.String"
               dpi.Row = n + 1
