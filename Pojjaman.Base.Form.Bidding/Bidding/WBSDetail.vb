@@ -1046,13 +1046,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub CheckNodeStatus(ByVal n As TreeNode)
       If TypeOf n.Tag Is WBS Then
         Dim myWbs As WBS = CType(n.Tag, WBS)
-        If myWbs.Status.Value >= 3 Or myWbs.IsReferenced Then
+        If myWbs.Status.Value >= 3 Or myWbs.Referenced Then
           nodeWasRef = True
         End If
+        'If GetChildReferenced(myWbs) Then
+        '  nodeWasRef = True
+        'End If
       End If
     End Sub
+    'Private Function GetChildReferenced(ByVal nwbs As WBS) As Boolean
+    '  For Each child As WBS In nwbs.Childs
+    '    If child.Referenced Then
+    '      Return True
+    '    End If
+    '    If GetChildReferenced(child) Then
+    '      Return True
+    '    End If
+    '  Next
+    'End Function
     Private Sub DeleteNode(ByVal n As TreeNode)
       If TypeOf n.Tag Is WBS Then
+        Dim wbsp As WBS = CType(n.Tag, WBS).Parent
+        wbsp.Childs.Remove(CType(n.Tag, WBS))
         Me.m_entity.WBSCollection.Remove(CType(n.Tag, WBS))
       End If
     End Sub

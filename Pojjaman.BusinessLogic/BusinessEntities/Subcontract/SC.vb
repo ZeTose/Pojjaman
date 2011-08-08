@@ -1702,6 +1702,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         )
         End If
 
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromSC", New SqlParameter("@refto_id", Me.Id))
+
         SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
         trans2.Commit()

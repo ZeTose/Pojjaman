@@ -1276,10 +1276,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Try
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PRRef" _
-        , New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PRRef" _
-        , New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PRRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PRRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromPR", New SqlParameter("@refto_id", Me.Id))
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If

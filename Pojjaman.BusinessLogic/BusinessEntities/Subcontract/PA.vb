@@ -1948,6 +1948,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           )
         Next
 
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromPA", New SqlParameter("@refto_id", Me.Id))
+
         SqlHelper.ExecuteNonQuery(conn, trans3, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
       Catch ex As Exception
         trans3.Rollback()

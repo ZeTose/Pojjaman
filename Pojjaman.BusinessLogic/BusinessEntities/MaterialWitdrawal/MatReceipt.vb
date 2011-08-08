@@ -1211,15 +1211,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
         ', New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-        , New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-        , New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
         'If Me.Status.Value = 0 Then
         '  Me.CancelRef(conn, trans)
         'End If
         'trans.Commit()
 
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
       Catch ex As Exception

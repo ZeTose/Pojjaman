@@ -552,6 +552,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromEqtStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
       Catch ex As Exception
         trans.Rollback()
         Return New SaveErrorException(ex.ToString)

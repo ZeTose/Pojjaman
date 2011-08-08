@@ -10,12 +10,12 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
-	Public Class OldNew
-		Public OldValue As Decimal
-		Public NewValue As Decimal
-	End Class
-	Public Class PO
-		Inherits SimpleBusinessEntityBase
+  Public Class OldNew
+    Public OldValue As Decimal
+    Public NewValue As Decimal
+  End Class
+  Public Class PO
+    Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IApprovAble, ICancelable, IHasIBillablePerson, IHasToCostCenter _
       , IDuplicable, ICheckPeriod, IWBSAllocatable _
       , IHasCurrency, IAbleExceptAccountPeriod
@@ -1635,19 +1635,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Try
 
-      
-      Me.DeleteRef(conn, trans)
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
-      , New SqlParameter("@po_id", Me.Id))
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
-      , New SqlParameter("@refto_id", Me.Id))
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PORef" _
-      , New SqlParameter("@refto_id", Me.Id))
-      If Me.Status.Value = 0 Then
-        Me.CancelRef(conn, trans)
-      End If
 
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        Me.DeleteRef(conn, trans)
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_PORef" _
+        , New SqlParameter("@po_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_PORef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_PORef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromPO", New SqlParameter("@refto_id", Me.Id))
+        If Me.Status.Value = 0 Then
+          Me.CancelRef(conn, trans)
+        End If
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
 
       Catch ex As Exception
         Return New SaveErrorException(ex.InnerException.ToString)
@@ -2476,13 +2477,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Mapping = "ApprovePersonDateLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of Date)("apvdate").ToShortDateString
           dpi.DataType = "System.DateTime"
-                    dpiColl.Add(dpi)
+          dpiColl.Add(dpi)
 
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
-                    dpi.Value = deh.GetValue(Of String)("apvdoc_comment").ToString
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ApprovePersonInfoLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
+          dpi.Value = deh.GetValue(Of String)("apvdoc_comment").ToString
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
         Next
 
       End If
@@ -4210,32 +4211,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
-	Public Class TaxType
-		Inherits CodeDescription
+  Public Class TaxType
+    Inherits CodeDescription
 
 #Region "Constructors"
-		Public Sub New(ByVal value As Integer)
-			MyBase.New(value)
-		End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
 #End Region
 
 #Region "Properties"
-		Public Overrides ReadOnly Property CodeName() As String
-			Get
-				Return "taxtype"
-			End Get
-		End Property
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "taxtype"
+      End Get
+    End Property
 #End Region
 
-	End Class
+  End Class
 
-	Public Class POForApprove
-		Inherits PO
-		Public Overrides ReadOnly Property CodonName() As String
-			Get
-				Return "POForApprove"
-			End Get
-		End Property
+  Public Class POForApprove
+    Inherits PO
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "POForApprove"
+      End Get
+    End Property
   End Class
   Public Class POForGoodsReceipt
     Inherits PO

@@ -2549,8 +2549,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePO_GRRef", New SqlParameter("@stock_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef", New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef", New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef", New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef", New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If

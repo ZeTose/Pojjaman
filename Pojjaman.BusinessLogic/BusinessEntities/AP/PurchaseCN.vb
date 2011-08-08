@@ -1062,6 +1062,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
 
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
       Catch ex As Exception

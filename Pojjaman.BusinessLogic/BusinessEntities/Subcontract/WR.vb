@@ -1261,6 +1261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '    Me.CancelRef(conn, trans)
         'End If
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromWR", New SqlParameter("@refto_id", Me.Id))
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
       Catch ex As Exception
         trans.Rollback()
