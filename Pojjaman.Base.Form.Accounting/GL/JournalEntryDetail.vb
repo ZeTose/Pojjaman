@@ -884,6 +884,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
+        ibtnPost.Enabled = True
       Else
         For Each ctrl As Control In Me.grbDetail.Controls
           ctrl.Enabled = CBool(m_enableState(ctrl))
@@ -1298,10 +1299,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
     Private Sub ibtnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnPost.Click
+      'If msgServ.AskQuestion("${res:Global.Question.ConfirmPost}") Then
+      '  Me.m_entity.Status.Value = 4
+      '  Me.WorkbenchWindow.ViewContent.Save()
+      'End If
+      Dim currentUserId As Integer
+      Dim mySecurityService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If msgServ.AskQuestion("${res:Global.Question.ConfirmPost}") Then
-        Me.m_entity.Status.Value = 4
-        Me.WorkbenchWindow.ViewContent.Save()
+
+      If mySecurityService.CurrentUser Is Nothing Then
+        msgServ.ShowMessage("${res:Global.Error.NoUser}")
+        Return
+      End If
+      currentUserId = mySecurityService.CurrentUser.Id
+      If Me.m_entity.Status.Value = 4 Then
+        If msgServ.AskQuestion("${res:Global.Question.ConfirmUnPost}") Then
+          Me.m_entity.GLUnPost(currentUserId)
+          'Me.WorkbenchWindow.ViewContent.Save()
+          CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).CheckFormEnable()
+        End If
+      Else
+        If msgServ.AskQuestion("${res:Global.Question.ConfirmPost}") Then
+          If Me.WorkbenchWindow.ViewContent.IsDirty Then
+            msgServ.ShowMessage("${res:Global.Info.SaveBeforePost}")
+            Exit Sub
+          End If
+          Me.m_entity.GLPost(currentUserId)
+          'Me.WorkbenchWindow.ViewContent.Save()
+          CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).CheckFormEnable()
+        End If
       End If
     End Sub
 #End Region

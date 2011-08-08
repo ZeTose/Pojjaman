@@ -1202,8 +1202,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dsEntity As DataSet
       Dim dsItem As DataSet
       Dim swStr As String
-      Dim docTable As String
-      docTable = CType(Me.RefDoc, SimpleBusinessEntityBase).TableName
+      'Dim docTable As String
+      'docTable = CType(Me.RefDoc, SimpleBusinessEntityBase).TableName
 
       Dim glidstring As String = Me.Id.ToString
 
@@ -1303,23 +1303,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     , CommandType.StoredProcedure _
                     , "UpdatePostGLFromList" _
                     , sqlparams)
-        trans.Commit()
+        'trans.Commit()
 
         Me.Status.Value = 4
 
-        CType(Me.RefDoc, SimpleBusinessEntityBase).Status.Value = 4
+        If TypeOf Me.RefDoc Is SimpleBusinessEntityBase Then
 
-        If TypeOf (Me.RefDoc) Is IBillAcceptable Then
-          If Not (CType(Me.RefDoc, IBillAcceptable).Payment Is Nothing) Then
-            CType(Me.RefDoc, IBillAcceptable).Payment.Status.Value = 4
+          CType(Me.RefDoc, SimpleBusinessEntityBase).Status.Value = 4
+
+          If TypeOf (Me.RefDoc) Is IBillAcceptable Then
+            If Not (CType(Me.RefDoc, IBillAcceptable).Payment Is Nothing) Then
+              CType(Me.RefDoc, IBillAcceptable).Payment.Status.Value = 4
+            End If
           End If
+
+          If TypeOf (Me.RefDoc) Is IBillIssuable Then
+            If Not (CType(Me.RefDoc, IBillIssuable).Receive Is Nothing) Then
+              CType(Me.RefDoc, IBillIssuable).Receive.Status.Value = 4
+            End If
+          End If
+
         End If
 
-        If TypeOf (Me.RefDoc) Is IBillIssuable Then
-          If Not (CType(Me.RefDoc, IBillIssuable).Receive Is Nothing) Then
-            CType(Me.RefDoc, IBillIssuable).Receive.Status.Value = 4
-          End If
-        End If
         trans.Commit()
 
         msgServ.ShowMessageFormatted("${res:Global.Info.PostItemCount}", New String() {Me.ItemCollection.Count.ToString, Configuration.FormatToString(CreditAmount, DigitConfig.Price)})
@@ -1465,20 +1470,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Me.Status.Value = glUnPost
 
-          CType(Me.RefDoc, SimpleBusinessEntityBase).Status.Value = docUnPost
+          If TypeOf Me.RefDoc Is SimpleBusinessEntityBase Then
 
-          If TypeOf (Me.RefDoc) Is IBillAcceptable Then
-            If Not (CType(Me.RefDoc, IBillAcceptable).Payment Is Nothing) Then
-              CType(Me.RefDoc, IBillAcceptable).Payment.Status.Value = payUnPost
-            End If
-          End If
+            CType(Me.RefDoc, SimpleBusinessEntityBase).Status.Value = docUnPost
 
-          If TypeOf (Me.RefDoc) Is IBillIssuable Then
-            If Not (CType(Me.RefDoc, IBillIssuable).Receive Is Nothing) Then
-              CType(Me.RefDoc, IBillIssuable).Receive.Status.Value = recUnPost
+            If TypeOf (Me.RefDoc) Is IBillAcceptable Then
+              If Not (CType(Me.RefDoc, IBillAcceptable).Payment Is Nothing) Then
+                CType(Me.RefDoc, IBillAcceptable).Payment.Status.Value = payUnPost
+              End If
             End If
+
+            If TypeOf (Me.RefDoc) Is IBillIssuable Then
+              If Not (CType(Me.RefDoc, IBillIssuable).Receive Is Nothing) Then
+                CType(Me.RefDoc, IBillIssuable).Receive.Status.Value = recUnPost
+              End If
+            End If
+            'trans.Commit()
           End If
-          'trans.Commit()
 
           msgServ.ShowMessage("${res:Global.Info.UnPost}")
         Else
