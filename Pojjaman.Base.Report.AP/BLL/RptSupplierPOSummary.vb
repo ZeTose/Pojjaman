@@ -108,6 +108,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.DocDate}")  '"วันที่สั่งซื้อ"
       m_grid(1, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.EmployeeName}")  '"ผู้สั่งซื้อ"
       m_grid(1, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.CostCenter}")  '"Cost Center"
+      m_grid(1, 5).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.ReceiveDate}")  '"วันที่รับของ"
       m_grid(1, 8).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.DiscountAmount}")  '"ส่วนลดท้ายบิล"
       m_grid(1, 9).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.BeforeTax}")  '"ก่อนคิดภาษี"
       m_grid(1, 10).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary.TaxAmt}")  '"มูลค่าภาษี"
@@ -130,6 +131,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
@@ -238,7 +240,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("CCName") Then
             m_grid(currDocIndex, 4).CellValue = row("CCName").ToString
           End If
-
+          If IsDate(row("ReceiveDate")) Then
+            m_grid(currDocIndex, 5).CellValue = indent & CDate(row("ReceiveDate")).ToShortDateString
+            m_grid(currDocIndex, 5).HorizontalAlignment = HorizontalAlignment.Left
+          End If
           m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(tmpDiscAmt, DigitConfig.Price)
 
           If Not row.IsNull("DiscountAmount") Then
