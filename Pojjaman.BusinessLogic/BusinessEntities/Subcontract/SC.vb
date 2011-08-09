@@ -650,6 +650,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               , New SqlParameter("@sc_code", txtCode.Text) _
            )
           scNew = New SC
+          If ds.Tables(0).Rows.Count = 0 OrElse ds.Tables(0).Rows(0).IsNull(0) Then
+            MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+            scNew = oldSC
+            txtCode.Text = oldSC.Code
+            Return False
+          End If
           SetNewSCbyRow(scNew, ds.Tables(0).Rows(0))
         Else
           scNew = New SC(txtCode.Text)
