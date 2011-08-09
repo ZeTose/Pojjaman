@@ -593,329 +593,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
     End Sub
-    Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal type As Integer)
-      '    myWbs = New WBS(myWbs.Id)
-      '    ' Dim o_n As OldNew
-      '    Dim theHash As Hashtable
-      '    Select Case type
-      '        Case 0, 19, 42
-      '            theHash = MatActualHash
-      '        Case 88
-      '            theHash = LabActualHash
-      '        Case 89
-      '            theHash = EQActualHash
-      '    End Select
-      '    If Not theHash Is Nothing Then
-      '        'If theHash.Contains(myWbs.Id) Then
-      '        '    '    o_n = CType(theHash(myWbs.Id), OldNew)
-      '        'Else
-      '        '    '    o_n = New OldNew
-      '        '    Select Case type
-      '        '        Case 0, 19, 42
-      '        '            o_n.OldValue = myWbs.GetActualMat(Me, 6)
-      '        '        Case 88
-      '        '            o_n.OldValue = myWbs.GetActualLab(Me, 6)
-      '        '        Case 89
-      '        '            o_n.OldValue = myWbs.GetActualEq(Me, 6)
-      '        '    End Select
-      '        '    o_n.NewValue = o_n.OldValue
-      '        '    theHash(myWbs.Id) = o_n
-      '        'End If
-      '        '  o_n.NewValue += (newVal - oldVal)
-
-      '        'ส่งต่อไปยังแม่
-      '        If Not myWbs.Parent Is Nothing AndAlso Not myWbs.Parent.Id = myWbs.Id Then
-      '            SetActual(CType(myWbs.Parent, WBS), oldVal, newVal, type)
-      '        End If
-      '    End If
-    End Sub
-    Public Function GetCurrentDiffForWBS(ByVal myWbs As WBS, ByVal itemType As ItemType) As Decimal
-      '    Dim theHash As Hashtable
-      '    Select Case itemType.Value
-      '        Case 0, 19, 42
-      '            theHash = MatActualHash
-      '        Case 88
-      '            theHash = LabActualHash
-      '        Case 89
-      '            theHash = EQActualHash
-      '    End Select
-      '    'If Not theHash Is Nothing AndAlso theHash.Contains(myWbs.Id) Then
-      '    '    Dim o_n As OldNew = CType(theHash(myWbs.Id), OldNew)
-      '    '    Return o_n.NewValue - o_n.OldValue
-      '    'End If
-      '    Return 0
-    End Function
-    Public Function GetCurrentAmountForWBS(ByVal myWbs As WBS, ByVal itemType As ItemType) As Decimal
-      '    Dim ret As Decimal = 0
-      '    For Each item As POItem In Me.ItemCollection
-      '        Dim flag As Boolean = False
-      '        If Not item.ItemType Is Nothing Then
-      '            Select Case itemType.Value
-      '                Case 0, 19, 42
-      '                    Select Case item.ItemType.Value
-      '                        Case 0, 19, 42
-      '                            flag = True
-      '                        Case Else
-      '                            flag = False
-      '                    End Select
-      '                Case 88
-      '                    Select Case item.ItemType.Value
-      '                        Case 88
-      '                            flag = True
-      '                        Case Else
-      '                            flag = False
-      '                    End Select
-      '                Case 89
-      '                    Select Case item.ItemType.Value
-      '                        Case 89
-      '                            flag = True
-      '                        Case Else
-      '                            flag = False
-      '                    End Select
-      '            End Select
-      '        End If
-      '        If flag Then
-      '            For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-      '                If Not grWBSD.IsMarkup Then
-      '                    Dim isOut As Boolean = False
-      '                    Dim view As Integer = 6
-      '                    Dim transferAmt As Decimal = item.BeforeTax 'item.Amount
-      '                    Dim amt As Decimal = WBSDistribute.GetUsedAmount(transferAmt, item.Amount, isOut, view, 3)
-      '                    If grWBSD.WBS.IsDescendantOf(myWbs) Then
-      '                        ret += (grWBSD.Percent * amt / 100)
-      '                    End If
-      '                End If
-      '            Next
-      '        End If
-      '    Next
-      '    Return ret
-    End Function
-    Public Function GetCurrentAmountForMarkup(ByVal mk As Markup) As Decimal
-      '    Dim ret As Decimal = 0
-      '    For Each item As POItem In Me.ItemCollection
-      '        For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-      '            If grWBSD.IsMarkup Then
-      '                If grWBSD.WBS.Id = mk.Id And mk.Id <> 0 Then
-      '                    ret += (grWBSD.Percent * item.Amount / 100)
-      '                End If
-      '            End If
-      '        Next
-      '    Next
-      '    Return ret
-      'End Function
-      'Public Function GetCurrentTypeQtyForWBS(ByVal myWbs As WBS, ByVal name As String, ByVal type As Integer) As Decimal
-      '    Dim ret As Decimal = 0
-      '    For Each item As POItem In Me.ItemCollection
-      '        Dim theName As String = item.EntityName
-      '        If theName Is Nothing Then
-      '            theName = item.Entity.Name
-      '        End If
-      '        If theName Is Nothing Then
-      '            theName = ""
-      '        End If
-      '        If name Is Nothing Then
-      '            name = ""
-      '        End If
-      '        If Not item.ItemType Is Nothing _
-      '        AndAlso item.ItemType.Value = type _
-      '        AndAlso theName.ToLower = name.ToLower Then
-      '            For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-      '                If Not grWBSD.IsMarkup Then
-      '                    Dim isOut As Boolean = False
-      '                    Dim view As Integer = 6
-      '                    Dim transferAmt As Decimal = item.Amount
-      '                    Dim amt As Decimal = WBSDistribute.GetUsedQty(item.StockQty, isOut, view, 3)
-      '                    If grWBSD.WBS.IsDescendantOf(myWbs) Then
-      '                        ret += (grWBSD.Percent * amt / 100)
-      '                    End If
-      '                End If
-      '            Next
-      '        End If
-      '    Next
-      '    Return ret
-    End Function
-    Public Function GetCurrentMatQtyForWBS(ByVal myWbs As WBS, ByVal matId As Integer) As Decimal
-      '    Dim ret As Decimal = 0
-      '    For Each item As POItem In Me.ItemCollection
-      '        If Not item.ItemType Is Nothing _
-      '        AndAlso item.ItemType.Value = 42 _
-      '        AndAlso item.Entity.Id = matId Then
-      '            For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-      '                If Not grWBSD.IsMarkup Then
-      '                    Dim isOut As Boolean = False
-      '                    Dim view As Integer = 6
-      '                    Dim transferAmt As Decimal = item.Amount
-      '                    Dim amt As Decimal = WBSDistribute.GetUsedQty(item.StockQty, isOut, view, 3)
-      '                    If grWBSD.WBS.IsDescendantOf(myWbs) Then
-      '                        ret += (grWBSD.Percent * amt / 100)
-      '                    End If
-      '                End If
-      '            Next
-      '        End If
-      '    Next
-      '    Return ret
-    End Function
-    Public Function GetCurrentLabQtyForWBS(ByVal myWbs As WBS, ByVal name As String) As Decimal
-      '    Dim ret As Decimal = 0
-      '    For Each item As POItem In Me.ItemCollection
-      '        Dim theName As String = item.EntityName
-      '        If theName Is Nothing Then
-      '            theName = item.Entity.Name
-      '        End If
-      '        If theName Is Nothing Then
-      '            theName = ""
-      '        End If
-      '        If name Is Nothing Then
-      '            name = ""
-      '        End If
-      '        If Not item.ItemType Is Nothing _
-      '        AndAlso item.ItemType.Value = 88 _
-      '        AndAlso theName.ToLower = name.ToLower Then
-      '            For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-      '                If Not grWBSD.IsMarkup Then
-      '                    Dim isOut As Boolean = False
-      '                    Dim view As Integer = 6
-      '                    Dim transferAmt As Decimal = item.Amount
-      '                    Dim amt As Decimal = WBSDistribute.GetUsedQty(item.StockQty, isOut, view, 3)
-      '                    If grWBSD.WBS.IsDescendantOf(myWbs) Then
-      '                        ret += (grWBSD.Percent * amt / 100)
-      '                    End If
-      '                End If
-      '            Next
-      '        End If
-      '    Next
-      '    Return ret
-    End Function
-    Public Function GetCurrentEqQtyForWBS(ByVal myWbs As WBS, ByVal name As String) As Decimal
-      '    Dim ret As Decimal = 0
-      '    For Each item As POItem In Me.ItemCollection
-      '        Dim theName As String = item.EntityName
-      '        If theName Is Nothing Then
-      '            theName = item.Entity.Name
-      '        End If
-      '        If theName Is Nothing Then
-      '            theName = ""
-      '        End If
-      '        If name Is Nothing Then
-      '            name = ""
-      '        End If
-      '        If Not item.ItemType Is Nothing _
-      '        AndAlso item.ItemType.Value = 89 _
-      '        AndAlso theName.ToLower = name.ToLower Then
-      '            For Each grWBSD As WBSDistribute In item.WBSDistributeCollection
-      '                If Not grWBSD.IsMarkup Then
-      '                    Dim isOut As Boolean = False
-      '                    Dim view As Integer = 6
-      '                    Dim transferAmt As Decimal = item.Amount
-      '                    Dim amt As Decimal = WBSDistribute.GetUsedQty(item.StockQty, isOut, view, 3)
-      '                    If grWBSD.WBS.IsDescendantOf(myWbs) Then
-      '                        ret += (grWBSD.Percent * amt / 100)
-      '                    End If
-      '                End If
-      '            Next
-      '        End If
-      '    Next
-      '    Return ret
-    End Function
-    Private Function OverBudget() As Boolean
-      '    If Me.CostCenter.Type.Value <> 2 Then
-      '        Return False
-      '    End If
-      '    If Me.CostCenter.Boq Is Nothing OrElse Me.CostCenter.Boq.Id = 0 Then
-      '        Return False
-      '    End If
-      '    'POROverBudgetOnlyCC
-      '    Dim config As Object = Configuration.GetConfig("POOverBudgetOnlyCC")
-      '    Dim onlyCC As Boolean = False
-      '    If Not config Is Nothing Then
-      '        onlyCC = CBool(config)
-      '    End If
-      '    If Not onlyCC Then
-      '        For Each item As POItem In Me.ItemCollection
-      '            If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
-      '                Dim wsdColl As WBSDistributeCollection = item.WBSDistributeCollection
-      '                If wsdColl.Count = 0 Then
-      '                    Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
-      '                    Dim totalBudget As Decimal = 0
-      '                    Dim totalActual As Decimal = 0
-      '                    Dim totalCurrentDiff As Decimal = item.Amount
-      '                    Select Case item.ItemType.Value
-      '                        Case 88
-      '                            totalbudget = rootWBS.GetTotalLabFromDB
-      '                            totalactual = rootWBS.GetActualLab(Me, 6)
-      '                        Case 89
-      '                            totalbudget = rootWBS.GetTotalEQFromDB
-      '                            totalactual = rootWBS.GetActualEq(Me, 6)
-      '                        Case Else
-      '                            totalbudget = rootWBS.GetTotalMatFromDB
-      '                            totalactual = rootWBS.GetActualMat(Me, 6)
-      '                    End Select
-      '                    If totalBudget < (totalActual + totalCurrentDiff) Then
-      '                        Return True
-      '                    End If
-      '                End If
-      '                For Each wbsd As WBSDistribute In wsdColl
-      '                    If wbsd.AmountOverBudget Then
-      '                        Return True
-      '                    End If
-      '                    Dim rootWBS As New WBS(wbsd.WBS.Id)
-      '                    Dim totalBudget As Decimal = 0
-      '                    Dim totalActual As Decimal = 0
-      '                    Dim totalCurrentDiff As Decimal = 0
-      '                    'Select Case item.ItemType.Value
-      '                    '    Case 88
-      '                    '        totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88))
-      '                    '    Case 89
-      '                    '        totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
-      '                    '    Case Else
-      '                    '        totalcurrentdiff = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0))
-      '                    'End Select
-      '                    For Each row As DataRow In rootwbs.GetParentsBudget(Me.EntityId)
-      '                        totalBudget = 0
-      '                        totalActual = 0
-      '                        Select Case item.ItemType.Value
-      '                            Case 88
-      '                                If Not row.IsNull("labbudget") Then
-      '                                    totalbudget = CDec(row("labbudget"))
-      '                                End If
-      '                                If Not row.IsNull("labactual") Then
-      '                                    totalactual = CDec(row("labactual"))
-      '                                End If
-      '                            Case 89
-      '                                If Not row.IsNull("eqbudget") Then
-      '                                    totalbudget = CDec(row("eqbudget"))
-      '                                End If
-      '                                If Not row.IsNull("eqactual") Then
-      '                                    totalactual = CDec(row("eqactual"))
-      '                                End If
-      '                            Case Else
-      '                                If Not row.IsNull("matbudget") Then
-      '                                    totalbudget = CDec(row("matbudget"))
-      '                                End If
-      '                                If Not row.IsNull("matactual") Then
-      '                                    totalactual = CDec(row("matactual"))
-      '                                End If
-      '                        End Select
-      '                        If totalbudget < (totalActual + totalCurrentDiff) Then
-      '                            Return True
-      '                        End If
-      '                    Next
-      '                Next
-      '            End If
-      '        Next
-      '    Else
-      '        Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
-      '        Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-      '        Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 6) + rootWBS.GetActualLab(Me, 6) + rootWBS.GetActualEq(Me, 6))
-      'Dim totalCurrentDiff As Decimal = Me.GetCurrentDiffForWBS(rootWBS, New ItemType(0)) + _
-      'Me.GetCurrentDiffForWBS(rootWBS, New ItemType(88)) + _
-      'Me.GetCurrentDiffForWBS(rootWBS, New ItemType(89))
-      'If totalBudget < (totalActual + totalCurrentDiff) Then
-      '    Return True
-      'End If
-      '    End If
-      '    Return False
-    End Function
     Private Function ListWbsId() As String
       Dim idList As New ArrayList
       For Each itm As VOItem In Me.ItemCollection
@@ -1070,14 +747,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         Next
 
-        'Dim rootWBS As New WBS(Me.CostCenter.RootWBSId)
-        'Dim totalBudget As Decimal = (rootWBS.GetTotalEQFromDB + rootWBS.GetTotalLabFromDB + rootWBS.GetTotalMatFromDB)
-        'Dim totalActual As Decimal = (rootWBS.GetActualMat(Me, 6) + rootWBS.GetActualLab(Me, 6) + rootWBS.GetActualEq(Me, 6))
-        'Dim totalCurrent As Decimal = Me.ItemCollection.Amount
-
-        'If totalBudget < (totalActual + totalCurrent) Then
-        '  Return New SaveErrorException(rootWBS.Code & ":" & rootWBS.Name)
-        'End If
       End If
 
       Return New SaveErrorException("0")
@@ -1276,12 +945,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_retention", Me.Retention))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_advancepay", Me.AdvancePay))
 
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_director", ValidIdOrDBNull(Me.Director)))
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_witholdingtax", Me.WitholdingTax))
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discrate", Me.Discount.Rate))
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_discamt", Me.DiscountAmount))
-        'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxAmt", Me.RealTaxAmount))
-
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         ' สร้าง SqlParameter จาก ArrayList ...
@@ -1336,10 +999,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
               ResetCode(oldcode, oldautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
-
-
-
-
 
             trans.Commit()
 
@@ -1482,19 +1141,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       End While
       Return newCode
     End Function
-    'Private Sub ChangeOldItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
-    '    If Not Me.Originated Then
-    '        Return
-    '    End If
-    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateOldPRItemStatus", New SqlParameter("@po_id", Me.Id))
-
-    'End Sub
-    'Private Sub ChangeNewItemStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
-    '    If Not Me.Originated Then
-    '        Return
-    '    End If
-    '    SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateNewPRItemStatus", New SqlParameter("@po_id", Me.Id))
-    'End Sub
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
       Dim currWBS As String
       Try
@@ -1833,34 +1479,8 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       Return Rows
     End Function
     Private Function GetPritemString() As String
-      '    Dim ret As String = "("
-      '    For Each item As POItem In Me.ItemCollection
-      '        If Not item.Pritem Is Nothing Then
-      '            ret &= "'" & item.Pritem.Pr.Id.ToString & "|" & item.Pritem.LineNumber & "',"
-      '        End If
-      '    Next
-      '    ret &= "'')"
-      '    Return ret
     End Function
     Private Function SavePRItemsDetail(ByVal arr As ArrayList, ByVal trans As SqlTransaction, ByVal conn As SqlConnection) As SaveErrorException
-      '    Try
-      '        For Each o As ValueDisplayPair In arr
-      '            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePROrderedQty" _
-      '            , New SqlParameter("@pri_pr", CInt(o.Value)) _
-      '            , New SqlParameter("@pri_linenumber", CInt(o.Display)))
-      '        Next
-      '    Catch ex As Exception
-      '        Return New SaveErrorException(ex.ToString)
-      '    End Try
-      '    Return New SaveErrorException("1")
-      'End Function
-      'Public Function CloneGroupingItem() As PO
-      '    Dim po1 As New PO
-      '    po1.Id = Me.Id
-      '    po1.Group = True
-      '    'po1.ItemCollection = New VOItemCollection(po1)
-
-      '    Return po1
     End Function
 #End Region
 
@@ -2131,6 +1751,736 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Next
 
       End If
+      dpiColl.AddRange(GetRealItemCollDocPrintingEntries)
+      dpiColl.AddRange(GetRealParentCollDocPrintingEntries)
+      dpiColl.AddRange(GetRealChildCollDocPrintingEntries)
+
+      dpiColl.AddRange(GetItemCollDocPrintingEntries)
+      dpiColl.AddRange(GetParentCollDocPrintingEntries)
+      dpiColl.AddRange(GetChildCollDocPrintingEntries)
+      Return dpiColl
+    End Function
+    Public Function GetRealItemCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      '------------------ท้ายเอกสาร------------------------------
+      Dim line As Integer = 0
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font
+      Dim indent As String = ""
+      For Each item As VOItem In Me.ItemCollection
+        line += 1
+        If item.Level = 0 Then
+          parentLine += 1
+          childLine = 0
+          fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          indent = Space(0)
+        Else
+          If item.ItemType.Value <> 162 Then
+            childLine += 1
+          End If
+          fn = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+          indent = Space(3)
+        End If
+        'Item.LineNumber
+        '************** เอามาไว้เป็นอันที่ 2
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.LineNumber"
+        If item.Level = 0 Then
+          dpi.Value = parentLine
+        Else
+          If item.ItemType.Value <> 162 Then
+            dpi.Value = parentLine.ToString & "." & childLine.ToString
+          End If
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.string"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Code
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Code"
+        dpi.Value = item.Entity.Code
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Name
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Name"
+        If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+          dpi.Value = indent & item.EntityName.Trim
+        Else
+          dpi.Value = indent & item.Entity.Name.Trim
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'If item.Level = 1 Then
+        'Item.Unit
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Unit"
+        dpi.Value = item.Unit.Name
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Qty
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Qty"
+        If item.OldQty = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldQty, DigitConfig.Qty)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+        'End If
+
+        'Item.UnitPrice
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.UnitPrice"
+        If item.UnitPrice = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.TaxBase
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.TaxBase"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          If Me.TaxType.Value = 2 Then
+            dpi.Value = Configuration.FormatToString(item.OldAmount * (100 / (Me.TaxRate + 100)), DigitConfig.Price)
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldAmount, DigitConfig.Price)
+          End If
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Amount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Amount"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldAmount, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ReceivedAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ReceivedAmount"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Mat
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Mat"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldMat, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Lab
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Lab"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldLab, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Eq
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Eq"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldEq, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Note
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Note"
+        dpi.Value = item.Note
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryUnitPrice
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryUnitPrice"
+        dpi.Value = Configuration.FormatToString(item.SummaryUnitPrice, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryUnitCost
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryUnitCost"
+        dpi.Value = Configuration.FormatToString(item.SummaryUnitCost, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryAmount"
+        dpi.Value = Configuration.FormatToString(item.SummaryOldAmount, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryMat
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryMat"
+        dpi.Value = Configuration.FormatToString(item.SummaryOldMat, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryLab
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryLab"
+        dpi.Value = Configuration.FormatToString(item.SummaryOldLab, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryEq
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryEq"
+        dpi.Value = Configuration.FormatToString(item.SummaryOldEq, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ParentSummaryReceipt
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ParentSummaryReceipt"
+        dpi.Value = Configuration.FormatToString(item.SummaryReceipt, DigitConfig.Price)
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
+        If item.Level = 1 Then
+
+          'Item.ChildUnitCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildUnitCode"
+          If item.Unit Is Nothing Then
+            dpi.Value = ""
+          Else
+            dpi.Value = item.Unit.Code
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildUnitName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildUnitName"
+          If item.Unit Is Nothing Then
+            dpi.Value = ""
+          Else
+            dpi.Value = item.Unit.Name
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildQty"
+          If item.OldQty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldQty, DigitConfig.Qty)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildUnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildUnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildAmount"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+          'End If
+
+          'Item.ChildMat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildMat"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldMat, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildLab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildLab"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldLab, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildEq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildEq"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldEq, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+          'Item.ChildReceivedAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealItem.ChildReceivedAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealItem"
+          dpiColl.Add(dpi)
+
+        End If
+        'แบบไม่แสดงปริมาณ ราคา มูลค่า MAT LAB EQ Receipt ที่รายการสั่งจ้าง =========================================================================
+
+        i += 1
+      Next
+      Return dpiColl
+    End Function
+    Public Function GetRealParentCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      '------------------ท้ายเอกสาร------------------------------
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
+      For Each item As VOItem In Me.ItemCollection
+        If item.Level = 0 Then
+
+          'Item.LineNumber
+          '************** เอามาไว้เป็นอันที่ 2
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.LineNumber"
+          dpi.Value = i + 1
+          dpi.Font = fn
+          dpi.DataType = "System.string"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.Code
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.Code"
+          dpi.Value = item.Entity.Code
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.Name
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.Name"
+          If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+            dpi.Value = indent & item.EntityName.Trim
+          Else
+            dpi.Value = indent & item.Entity.Name.Trim
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.Note"
+          dpi.Value = item.Note
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryUnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryUnitPrice"
+          dpi.Value = Configuration.FormatToString(item.SummaryUnitPrice, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryUnitCost
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryUnitCost"
+          dpi.Value = Configuration.FormatToString(item.SummaryUnitCost, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryAmount"
+          dpi.Value = Configuration.FormatToString(item.SummaryOldAmount, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryMat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryMat"
+          dpi.Value = Configuration.FormatToString(item.SummaryOldMat, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryLab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryLab"
+          dpi.Value = Configuration.FormatToString(item.SummaryOldLab, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryEq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryEq"
+          dpi.Value = Configuration.FormatToString(item.SummaryOldEq, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          'Item.ParentSummaryReceipt
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealParentItem.ParentSummaryReceipt"
+          dpi.Value = Configuration.FormatToString(item.SummaryReceipt, DigitConfig.Price)
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealParentItem"
+          dpiColl.Add(dpi)
+
+          i += 1
+        End If
+      Next
+      Return dpiColl
+    End Function
+    Public Function GetRealChildCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      '------------------ท้ายเอกสาร------------------------------
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
+      For Each item As VOItem In Me.ItemCollection
+        If item.Level = 1 Then
+
+          'Item.LineNumber
+          '************** เอามาไว้เป็นอันที่ 2
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.LineNumber"
+          dpi.Value = i + 1
+          dpi.Font = fn
+          dpi.DataType = "System.string"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Code
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Code"
+          dpi.Value = item.Entity.Code
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Name
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Name"
+          If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+            dpi.Value = indent & item.EntityName.Trim
+          Else
+            dpi.Value = indent & item.Entity.Name.Trim
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Unit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Unit"
+          dpi.Value = item.Unit.Name
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Qty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Qty"
+          If item.OldQty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldQty, DigitConfig.Qty)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.UnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.UnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Amount"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.ReceivedAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.ReceivedAmount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Mat
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Mat"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldMat, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.Decimal"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Lab
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Lab"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldLab, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.Decimal"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Eq
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Eq"
+          If item.OldAmount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.OldEq, DigitConfig.Price)
+          End If
+          dpi.Font = fn
+          dpi.DataType = "System.Decimal"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          'Item.Note
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealChildItem.Note"
+          dpi.Value = item.Note
+          dpi.Font = fn
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "RealChildItem"
+          dpiColl.Add(dpi)
+
+          i += 1
+        End If
+      Next
+      Return dpiColl
+    End Function
+
+    Public Function GetItemCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
       '------------------ท้ายเอกสาร------------------------------
       Dim line As Integer = 0
       Dim counter As Integer = 0
@@ -2537,8 +2887,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 
         i += 1
       Next
-      dpiColl.AddRange(GetParentCollDocPrintingEntries)
-      dpiColl.AddRange(GetChildCollDocPrintingEntries)
       Return dpiColl
     End Function
     Public Function GetParentCollDocPrintingEntries() As DocPrintingItemCollection
@@ -3146,25 +3494,6 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 #End Region
 
   End Class
-
-  '    Public Class TaxType
-  '        Inherits CodeDescription
-
-  '#Region "Constructors"
-  '        Public Sub New(ByVal value As Integer)
-  '            MyBase.New(value)
-  '        End Sub
-  '#End Region
-
-  '#Region "Properties"
-  '        Public Overrides ReadOnly Property CodeName() As String
-  '            Get
-  '                Return "taxtype"
-  '            End Get
-  '        End Property
-  '#End Region
-
-  '    End Class
 
   Public Class VOForApprove
     Inherits VO

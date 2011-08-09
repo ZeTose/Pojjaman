@@ -1958,6 +1958,188 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       End If
+
+      dpiColl.AddRange(GetRealItemCollDocPrintingEntries)
+      dpiColl.AddRange(GetItemCollDocPrintingEntries)
+
+      Return dpiColl
+    End Function
+
+    Public Function GetRealItemCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      '------------------ท้ายเอกสาร------------------------------
+
+      Dim line As Integer = 0
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      Dim parentLine As Integer = 0
+      Dim childLine As Integer = 0
+      Dim fn As Font = New System.Drawing.Font("CordiaUPC", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Dim indent As String = ""
+      For Each item As DRItem In Me.ItemCollection
+        line += 1
+
+        'Item.LineNumber
+        '************** เอามาไว้เป็นอันที่ 2
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.LineNumber"
+        dpi.Value = line
+        dpi.Font = fn
+        dpi.DataType = "System.Int32"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Code
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Code"
+        dpi.Value = item.Entity.Code
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Name
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Name"
+        If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+          dpi.Value = item.EntityName
+        Else
+          dpi.Value = item.Entity.Name
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Unit
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Unit"
+        dpi.Value = item.Unit.Name
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Qty
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Qty"
+        If item.OldQty = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldQty, DigitConfig.Qty)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.UnitPrice
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.UnitPrice"
+        If item.UnitPrice = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Amount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Amount"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldAmount, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.ReceivedAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.ReceivedAmount"
+        If item.Amount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.ReceivedAmount, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Mat
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Mat"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldMat, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Lab
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Lab"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldLab, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Eq
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Eq"
+        If item.OldAmount = 0 Then
+          dpi.Value = ""
+        Else
+          dpi.Value = Configuration.FormatToString(item.OldEq, DigitConfig.Price)
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.Decimal"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        'Item.Note
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealItem.Note"
+        dpi.Value = item.Note
+        dpi.Font = fn
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
+
+        i += 1
+      Next
+      Return dpiColl
+    End Function
+    Public Function GetItemCollDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
       '------------------ท้ายเอกสาร------------------------------
 
       Dim line As Integer = 0

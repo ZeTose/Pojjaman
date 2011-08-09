@@ -297,6 +297,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property SummaryLab As Decimal
     Public Property SummaryEq As Decimal
     Public Property SummaryReceipt As Decimal
+    Public Property SummaryOldAmount As Decimal
+    Public Property SummaryOldMat As Decimal
+    Public Property SummaryOldLab As Decimal
+    Public Property SummaryOldEq As Decimal
     Public Property VO() As VO      Get        Return m_vo      End Get      Set(ByVal Value As VO)        m_vo = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Sequence() As Decimal      Get
         Return m_sequence
       End Get
@@ -1963,6 +1967,50 @@ Public Class VOItemCollection
         m_currentRealItem = Value
       End Set
     End Property
+    'Public ReadOnly Property SummaryOldAmount As Decimal
+    '  Get
+    '    Dim amt As Decimal = 0
+    '    For Each itm As VOItem In Me
+    '      If itm.Level = 1 Then
+    '        amt += itm.OldAmount
+    '      End If
+    '    Next
+    '    Return amt
+    '  End Get
+    'End Property
+    'Public ReadOnly Property SummaryOldMat As Decimal
+    '  Get
+    '    Dim amt As Decimal = 0
+    '    For Each itm As VOItem In Me
+    '      If itm.Level = 1 Then
+    '        amt += itm.OldMat
+    '      End If
+    '    Next
+    '    Return amt
+    '  End Get
+    'End Property
+    'Public ReadOnly Property SummaryOldLab As Decimal
+    '  Get
+    '    Dim amt As Decimal = 0
+    '    For Each itm As VOItem In Me
+    '      If itm.Level = 1 Then
+    '        amt += itm.OldLab
+    '      End If
+    '    Next
+    '    Return amt
+    '  End Get
+    'End Property
+    'Public ReadOnly Property SummaryOldEq As Decimal
+    '  Get
+    '    Dim amt As Decimal = 0
+    '    For Each itm As VOItem In Me
+    '      If itm.Level = 1 Then
+    '        amt += itm.OldEq
+    '      End If
+    '    Next
+    '    Return amt
+    '  End Get
+    'End Property
 #End Region
 
 #Region "Class Methods"
@@ -2389,6 +2437,10 @@ Public Class VOItemCollection
                 vi.SummaryMat += vic.Mat
                 vi.SummaryLab += vic.Lab
                 vi.SummaryEq += vic.Eq
+                vi.SummaryOldAmount += vic.OldAmount
+                vi.SummaryOldMat += vic.OldMat
+                vi.SummaryOldLab += vic.OldLab
+                vi.SummaryOldEq += vic.OldEq
                 vi.SummaryReceipt += vic.ReceivedAmount
               End If
             End If
@@ -2400,6 +2452,10 @@ Public Class VOItemCollection
           vi.SummaryMat = vi.Mat
           vi.SummaryLab = vi.Lab
           vi.SummaryEq = vi.Eq
+          vi.SummaryOldAmount += vi.OldAmount
+          vi.SummaryOldMat += vi.OldMat
+          vi.SummaryOldLab += vi.OldLab
+          vi.SummaryOldEq += vi.OldEq
           vi.SummaryReceipt = vi.ReceivedAmount
         End If
       Next
