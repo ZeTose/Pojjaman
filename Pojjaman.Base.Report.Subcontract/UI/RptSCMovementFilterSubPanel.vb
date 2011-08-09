@@ -634,44 +634,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
             Me.chkIsSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.chkIsSum}")
 
-            'Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
-
-            'Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblSuppliStart}")
-            'Me.Validator.SetDisplayName(txtSuppliCodeStart, lblSuppliStart.Text)
-
-            'Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblDocDateStart}")
-            'Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
-
-            'Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            'Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
-
-            'Me.lblEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblEmployee}")
-
-            ' Button
             Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
             Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
-            '' GroupBox
-            'Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.grbMaster}")
-            'Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.grbDetail}")
-
-            'Me.lblDocStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblDocStatus}")
-
-            'Me.lblSpgStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblSpgStart}")
-            'Me.chkIncludeChildSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.chkIncludeChildSupplierGroup}")
-
-            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cbAll}"))
-            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cbCancel}"))
-            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cbSave}")) 'บันทึกแล้ว
-            'Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cbClose}")) 'ปิดแล้ว
-            'Me.cmbDocStatus.SelectedIndex = 0
-
-            'สถานะรูปแบบการแสดงผล
-            'Me.lblDocStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.lblDocStatus}")
-            'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cmbDocAll}")) 'เอกสารสั่งซื้อทั้งหมด
-            'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cmbDocApprove}")) 'เอกสารสั่งซื้อที่อนุมัติแล้ว
-            'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementFilterSubPanel.cmbDocNoApprove}")) 'เอกสารสั่งซื้อที่ยังไม่อนุมัติ
-            'Me.cmbStatus.SelectedIndex = 0
         End Sub
 #End Region
 
