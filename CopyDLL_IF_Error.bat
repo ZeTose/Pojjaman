@@ -6,5 +6,5 @@ copy "Pojjaman.CustomControls\bin\Pojjaman.CustomControls.dll" "Pojjaman\bin"
 copy "Pojjaman.CustomControls\bin\Longkong.CustomControls.dll" "Pojjaman\bin"
 
 
-"Pojjaman\bin\Pojjaman.exe" 
+"Pojjaman\bin\Pojjaman.exe" -nopassword -nodbcheck
 
