@@ -418,9 +418,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("col17", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
 
       Return myDatatable
     End Function
@@ -448,10 +445,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(100)
       widths.Add(100)
       widths.Add(0)
-      'widths.Add(100)
-      'widths.Add(100)
-      'widths.Add(100)
-
 
       For i As Integer = 0 To 16
         If i = 0 Then
@@ -478,18 +471,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             cs.DataAlignment = HorizontalAlignment.Left
           End If
-
-          'Select Case i
-          '    Case 0, 1
-          '        cs.Alignment = HorizontalAlignment.Left
-          '        cs.DataAlignment = HorizontalAlignment.Left
-          '        cs.Format = "s"
-          '    Case Else
-          '        cs.Alignment = HorizontalAlignment.Right
-          '        cs.DataAlignment = HorizontalAlignment.Right
-          '        cs.Format = "d"
-          'End Select
-
 
           cs.ReadOnly = True
 
@@ -560,7 +541,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n As Integer = 0
       Dim i As Integer = 0
-      For rowIndex As Integer = 1 To m_grid.RowCount
+      For rowIndex As Integer = 3 To m_grid.RowCount
         i += 1
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"

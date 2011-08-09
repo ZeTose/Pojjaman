@@ -31,27 +31,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
-      Try
-        m_grid = grid
+      m_grid = grid
 
-        Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
-        lkg.DefaultBehavior = False
-        lkg.HilightWhenMinus = True
-        lkg.Init()
-        lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-        Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
-        ListInGrid(tm)
-        lkg.TreeTableStyle = CreateSimpleTableStyle()
-        lkg.TreeTable = tm.Treetable
+      Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
+      lkg.DefaultBehavior = False
+      lkg.HilightWhenMinus = True
+      lkg.Init()
+      lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+      ListInGrid(tm)
+      lkg.TreeTableStyle = CreateSimpleTableStyle()
+      lkg.TreeTable = tm.Treetable
 
-        lkg.Rows.HeaderCount = 2
-        lkg.Rows.FrozenCount = 2
+      lkg.Rows.HeaderCount = 2
+      lkg.Rows.FrozenCount = 2
 
-      Catch ex As Exception
-        Throw ex
-      Finally
-        m_grid.EndUpdate()
-      End Try
+      lkg.Refresh()
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
       Me.m_treemanager = tm
@@ -73,7 +68,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col6") = Me.StringParserService.Parse("${res:Remain}")     '"ยอดคงเหลือ"  '""  
       tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DR}")     '"ยอดหัก DR"  '""  
       tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Retention}")     '"มัดจำ"      
-      'tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Retentionn}")       '"Retention"
 
       tr = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.sc_docDate}")        '"วันที่เอกสาร"
@@ -93,28 +87,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.RetRemain}") '"มูลค่า Retคงเหลือ"
       tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DrRemain}") '"มูลค่าหักค่างานคงเหลือ"
 
-
-      'tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
-      'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
-      'tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
-      'tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
-      'tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก" 
-      'tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
-      'tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
-      'tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"  
-      ' ''tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalDebt}") '"ยอดหนี้"
-      ' ''tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.TotalRetentionDebt}") '"ยอดหนึ้"
-      ' ''tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Debt}") '"รวมทั้งสิ้น"  
-
-      'm_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-      'm_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-      'm_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-      'm_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
-
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                     {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 1, 0, 1), _
                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 2, 5), _
@@ -122,13 +94,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 10, 1, 13), _
                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 14, 1, 14), _
                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 15, 1, 16)}) ' _
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 17, 2, 17), _
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 18, 2, 18), _
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 19, 2, 19)})
-
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 2, 2), _
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 3, 2, 3), _
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 4, 2, 4), _
     End Sub
 
     Private Sub PopulateData()
@@ -221,12 +186,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             trSC("col11") = Configuration.FormatToString(retRemain, DigitConfig.Price)
             trSC("col12") = Configuration.FormatToString(drRemain, DigitConfig.Price) '***************************
 
-            'trSC("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
-            'trSC("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
-            'trSC("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
             trSC.State = RowExpandState.Expanded
-            'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-            '                          {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(index, 0, index, 1)})
 
             For Each childSCRow As DataRow In dt1.Select("supplier_id = " & subContRow("supplier_id").ToString & " and sc_id = " & scRow("sc_id").ToString & " and entityId <> 289" _
                                                          & " and cc_id =" & CCrow("cc_id").ToString)
@@ -268,10 +228,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trDetail("col8") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
               End If
 
-              'trDetail("col16") = Configuration.FormatToString(summarrySCDebt, DigitConfig.Price)
-              'trDetail("col17") = Configuration.FormatToString(summarryRetDebt, DigitConfig.Price)
-              'trDetail("col18") = Configuration.FormatToString(summarryAdvDebt, DigitConfig.Price)
-              'trDetail.State = RowExpandState.Expanded
             Next
             If IsPreveiewSummary Then
               For Each sumSCRow As DataRow In dt2.Select("supplier_id = " & subContRow("supplier_id").ToString & " and sc_id = " & scRow("sc_id").ToString)
@@ -331,9 +287,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("col17", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
 
       Return myDatatable
     End Function
@@ -358,10 +311,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(0)
       widths.Add(0)
       widths.Add(0)
-      'widths.Add(100)
-      'widths.Add(100)
-      'widths.Add(100)
-
 
       For i As Integer = 0 To 15
         If i = 0 Then
@@ -389,18 +338,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             cs.DataAlignment = HorizontalAlignment.Left
           End If
 
-          'Select Case i
-          '    Case 0, 1
-          '        cs.Alignment = HorizontalAlignment.Left
-          '        cs.DataAlignment = HorizontalAlignment.Left
-          '        cs.Format = "s"
-          '    Case Else
-          '        cs.Alignment = HorizontalAlignment.Right
-          '        cs.DataAlignment = HorizontalAlignment.Right
-          '        cs.Format = "d"
-          'End Select
-
-
           cs.ReadOnly = True
 
           AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
@@ -419,27 +356,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
       Get
-        Return "RptSCMovement"
+        Return "RptContractSummary"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptContractSummary.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.RptSCMovement"
+        Return "Icons.16x16.RptContractSummary"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.RptSCMovement"
+        Return "Icons.16x16.RptContractSummary"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptContractSummary.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -453,10 +390,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region#Region "IPrintableEntity"
     Public Overrides Function GetDefaultFormPath() As String
-      Return "RptSCMovement"
+      Return "RptContractSummary"
     End Function
     Public Overrides Function GetDefaultForm() As String
-      Return "RptSCMovement"
+      Return "RptContractSummary"
     End Function
     Public Overrides Function GetDocPrintingEntries() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
@@ -470,7 +407,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n As Integer = 0
       Dim i As Integer = 0
-      For rowIndex As Integer = 1 To m_grid.RowCount
+      For rowIndex As Integer = 3 To m_grid.RowCount
         i += 1
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
