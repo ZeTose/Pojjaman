@@ -15,6 +15,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class AdvancePayDetail
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -95,6 +96,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSupplier = New System.Windows.Forms.Label()
       Me.txtSupplierCode = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkOnHold = New System.Windows.Forms.CheckBox()
       Me.rdoForSC = New System.Windows.Forms.RadioButton()
       Me.rdoForAP = New System.Windows.Forms.RadioButton()
       Me.txtTaxBase = New System.Windows.Forms.TextBox()
@@ -140,7 +142,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.chkOnHold = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -176,7 +177,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(8, 280)
+      Me.lblItem.Location = New System.Drawing.Point(8, 277)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(96, 18)
       Me.lblItem.TabIndex = 179
@@ -262,6 +263,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "เอกสารจ่ายมัดจำ"
       '
+      'chkOnHold
+      '
+      Me.chkOnHold.AutoSize = True
+      Me.chkOnHold.Location = New System.Drawing.Point(267, 26)
+      Me.chkOnHold.Name = "chkOnHold"
+      Me.chkOnHold.Size = New System.Drawing.Size(65, 17)
+      Me.chkOnHold.TabIndex = 371
+      Me.chkOnHold.TabStop = False
+      Me.chkOnHold.Text = "On Hold"
+      Me.chkOnHold.UseVisualStyleBackColor = True
+      '
       'rdoForSC
       '
       Me.rdoForSC.Location = New System.Drawing.Point(112, 224)
@@ -287,7 +299,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxBase, System.Drawing.Color.Empty)
-      Me.txtTaxBase.Location = New System.Drawing.Point(400, 168)
+      Me.txtTaxBase.Location = New System.Drawing.Point(400, 169)
       Me.Validator.SetMinValue(Me.txtTaxBase, "")
       Me.txtTaxBase.Name = "txtTaxBase"
       Me.txtTaxBase.ReadOnly = True
@@ -301,7 +313,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTaxBase.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxBase.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxBase.Location = New System.Drawing.Point(304, 168)
+      Me.lblTaxBase.Location = New System.Drawing.Point(304, 169)
       Me.lblTaxBase.Name = "lblTaxBase"
       Me.lblTaxBase.Size = New System.Drawing.Size(96, 18)
       Me.lblTaxBase.TabIndex = 367
@@ -314,7 +326,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxAmount, System.Drawing.Color.Empty)
-      Me.txtRealTaxAmount.Location = New System.Drawing.Point(512, 192)
+      Me.txtRealTaxAmount.Location = New System.Drawing.Point(512, 193)
       Me.Validator.SetMinValue(Me.txtRealTaxAmount, "")
       Me.txtRealTaxAmount.Name = "txtRealTaxAmount"
       Me.Validator.SetRegularExpression(Me.txtRealTaxAmount, "")
@@ -326,7 +338,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxAmount
       '
       Me.ibtnResetTaxAmount.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(488, 192)
+      Me.ibtnResetTaxAmount.Location = New System.Drawing.Point(488, 193)
       Me.ibtnResetTaxAmount.Name = "ibtnResetTaxAmount"
       Me.ibtnResetTaxAmount.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetTaxAmount.TabIndex = 364
@@ -339,7 +351,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtRealTaxBase, "")
       Me.Validator.SetGotFocusBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtRealTaxBase, System.Drawing.Color.Empty)
-      Me.txtRealTaxBase.Location = New System.Drawing.Point(512, 168)
+      Me.txtRealTaxBase.Location = New System.Drawing.Point(512, 169)
       Me.Validator.SetMinValue(Me.txtRealTaxBase, "")
       Me.txtRealTaxBase.Name = "txtRealTaxBase"
       Me.Validator.SetRegularExpression(Me.txtRealTaxBase, "")
@@ -351,7 +363,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnResetTaxBase
       '
       Me.ibtnResetTaxBase.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(488, 168)
+      Me.ibtnResetTaxBase.Location = New System.Drawing.Point(488, 169)
       Me.ibtnResetTaxBase.Name = "ibtnResetTaxBase"
       Me.ibtnResetTaxBase.Size = New System.Drawing.Size(24, 20)
       Me.ibtnResetTaxBase.TabIndex = 363
@@ -362,7 +374,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBeforeTax.BackColor = System.Drawing.Color.Transparent
       Me.lblBeforeTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBeforeTax.Location = New System.Drawing.Point(296, 144)
+      Me.lblBeforeTax.Location = New System.Drawing.Point(296, 145)
       Me.lblBeforeTax.Name = "lblBeforeTax"
       Me.lblBeforeTax.Size = New System.Drawing.Size(104, 18)
       Me.lblBeforeTax.TabIndex = 341
@@ -376,7 +388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtBeforeTax, "")
       Me.Validator.SetGotFocusBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBeforeTax, System.Drawing.Color.Empty)
-      Me.txtBeforeTax.Location = New System.Drawing.Point(400, 144)
+      Me.txtBeforeTax.Location = New System.Drawing.Point(400, 145)
       Me.Validator.SetMinValue(Me.txtBeforeTax, "")
       Me.txtBeforeTax.Name = "txtBeforeTax"
       Me.txtBeforeTax.ReadOnly = True
@@ -391,7 +403,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTaxAmount.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxAmount.Location = New System.Drawing.Point(304, 192)
+      Me.lblTaxAmount.Location = New System.Drawing.Point(304, 193)
       Me.lblTaxAmount.Name = "lblTaxAmount"
       Me.lblTaxAmount.Size = New System.Drawing.Size(96, 18)
       Me.lblTaxAmount.TabIndex = 337
@@ -405,7 +417,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxAmount, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxAmount, System.Drawing.Color.Empty)
-      Me.txtTaxAmount.Location = New System.Drawing.Point(400, 192)
+      Me.txtTaxAmount.Location = New System.Drawing.Point(400, 193)
       Me.Validator.SetMinValue(Me.txtTaxAmount, "")
       Me.txtTaxAmount.Name = "txtTaxAmount"
       Me.txtTaxAmount.ReadOnly = True
@@ -422,7 +434,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtAfterTax, "")
       Me.Validator.SetGotFocusBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAfterTax, System.Drawing.Color.Empty)
-      Me.txtAfterTax.Location = New System.Drawing.Point(112, 144)
+      Me.txtAfterTax.Location = New System.Drawing.Point(112, 145)
       Me.Validator.SetMinValue(Me.txtAfterTax, "")
       Me.txtAfterTax.Name = "txtAfterTax"
       Me.Validator.SetRegularExpression(Me.txtAfterTax, "")
@@ -434,7 +446,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbTaxType
       '
       Me.cmbTaxType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbTaxType.Location = New System.Drawing.Point(112, 168)
+      Me.cmbTaxType.Location = New System.Drawing.Point(112, 169)
       Me.cmbTaxType.Name = "cmbTaxType"
       Me.cmbTaxType.Size = New System.Drawing.Size(64, 21)
       Me.cmbTaxType.TabIndex = 8
@@ -443,7 +455,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTaxType.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxType.Location = New System.Drawing.Point(16, 168)
+      Me.lblTaxType.Location = New System.Drawing.Point(16, 169)
       Me.lblTaxType.Name = "lblTaxType"
       Me.lblTaxType.Size = New System.Drawing.Size(96, 18)
       Me.lblTaxType.TabIndex = 343
@@ -457,7 +469,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTaxRate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxRate, System.Drawing.Color.Empty)
-      Me.txtTaxRate.Location = New System.Drawing.Point(240, 168)
+      Me.txtTaxRate.Location = New System.Drawing.Point(240, 169)
       Me.Validator.SetMinValue(Me.txtTaxRate, "")
       Me.txtTaxRate.Name = "txtTaxRate"
       Me.txtTaxRate.ReadOnly = True
@@ -471,7 +483,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTaxRate.BackColor = System.Drawing.Color.Transparent
       Me.lblTaxRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTaxRate.Location = New System.Drawing.Point(176, 168)
+      Me.lblTaxRate.Location = New System.Drawing.Point(176, 169)
       Me.lblTaxRate.Name = "lblTaxRate"
       Me.lblTaxRate.Size = New System.Drawing.Size(61, 18)
       Me.lblTaxRate.TabIndex = 345
@@ -482,7 +494,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblAfterTax.BackColor = System.Drawing.Color.Transparent
       Me.lblAfterTax.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAfterTax.Location = New System.Drawing.Point(0, 144)
+      Me.lblAfterTax.Location = New System.Drawing.Point(0, 145)
       Me.lblAfterTax.Name = "lblAfterTax"
       Me.lblAfterTax.Size = New System.Drawing.Size(112, 18)
       Me.lblAfterTax.TabIndex = 332
@@ -625,7 +637,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowCostCenter.Location = New System.Drawing.Point(576, 96)
+      Me.ibtnShowCostCenter.Location = New System.Drawing.Point(576, 95)
       Me.ibtnShowCostCenter.Name = "ibtnShowCostCenter"
       Me.ibtnShowCostCenter.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowCostCenter.TabIndex = 267
@@ -654,7 +666,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowCostCenterDialog.Location = New System.Drawing.Point(552, 96)
+      Me.ibtnShowCostCenterDialog.Location = New System.Drawing.Point(552, 95)
       Me.ibtnShowCostCenterDialog.Name = "ibtnShowCostCenterDialog"
       Me.ibtnShowCostCenterDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowCostCenterDialog.TabIndex = 266
@@ -665,7 +677,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowSupplier.Location = New System.Drawing.Point(576, 72)
+      Me.ibtnShowSupplier.Location = New System.Drawing.Point(576, 71)
       Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
       Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowSupplier.TabIndex = 264
@@ -694,7 +706,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowSupplierDIalog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowSupplierDIalog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowSupplierDIalog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowSupplierDIalog.Location = New System.Drawing.Point(552, 72)
+      Me.ibtnShowSupplierDIalog.Location = New System.Drawing.Point(552, 71)
       Me.ibtnShowSupplierDIalog.Name = "ibtnShowSupplierDIalog"
       Me.ibtnShowSupplierDIalog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowSupplierDIalog.TabIndex = 263
@@ -730,7 +742,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblPercent.BackColor = System.Drawing.Color.Transparent
       Me.lblPercent.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblPercent.Location = New System.Drawing.Point(280, 168)
+      Me.lblPercent.Location = New System.Drawing.Point(280, 169)
       Me.lblPercent.Name = "lblPercent"
       Me.lblPercent.Size = New System.Drawing.Size(16, 18)
       Me.lblPercent.TabIndex = 10
@@ -750,7 +762,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTotal, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTotal, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotal, System.Drawing.Color.Empty)
-      Me.txtTotal.Location = New System.Drawing.Point(336, 272)
+      Me.txtTotal.Location = New System.Drawing.Point(460, 276)
       Me.Validator.SetMinValue(Me.txtTotal, "")
       Me.txtTotal.Name = "txtTotal"
       Me.txtTotal.ReadOnly = True
@@ -758,12 +770,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTotal, False)
       Me.txtTotal.Size = New System.Drawing.Size(136, 20)
       Me.txtTotal.TabIndex = 186
+      Me.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblBaht3
       '
       Me.lblBaht3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBaht3.ForeColor = System.Drawing.Color.Black
-      Me.lblBaht3.Location = New System.Drawing.Point(480, 272)
+      Me.lblBaht3.Location = New System.Drawing.Point(602, 278)
       Me.lblBaht3.Name = "lblBaht3"
       Me.lblBaht3.Size = New System.Drawing.Size(32, 16)
       Me.lblBaht3.TabIndex = 178
@@ -773,7 +786,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblTotal
       '
       Me.lblTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblTotal.Location = New System.Drawing.Point(160, 272)
+      Me.lblTotal.Location = New System.Drawing.Point(284, 277)
       Me.lblTotal.Name = "lblTotal"
       Me.lblTotal.Size = New System.Drawing.Size(176, 18)
       Me.lblTotal.TabIndex = 184
@@ -806,23 +819,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 304)
+      Me.tgItem.Location = New System.Drawing.Point(8, 300)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(752, 272)
+      Me.tgItem.Size = New System.Drawing.Size(624, 248)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 1
       Me.tgItem.TreeManager = Nothing
-      '
-      'chkOnHold
-      '
-      Me.chkOnHold.AutoSize = True
-      Me.chkOnHold.Location = New System.Drawing.Point(267, 26)
-      Me.chkOnHold.Name = "chkOnHold"
-      Me.chkOnHold.Size = New System.Drawing.Size(65, 17)
-      Me.chkOnHold.TabIndex = 371
-      Me.chkOnHold.TabStop = False
-      Me.chkOnHold.Text = "On Hold"
-      Me.chkOnHold.UseVisualStyleBackColor = True
       '
       'AdvancePayDetail
       '
