@@ -1438,7 +1438,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         , New SqlParameter("@refto_iscanceled", isCanceled) _
         )
        
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromVO", New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "UpdateWBSReferencedFromVO", New SqlParameter("@refto_id", Me.Id))
 
         SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
         trans2.Commit()
