@@ -4873,8 +4873,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               Return
             End If
+            Me.Entity = check
+          Else
+            checkInstant.Amount = Configuration.Format(Math.Max(parentAmount - parentGross + oldAmount, 0), DigitConfig.Price)
+            Me.Entity = checkInstant
           End If
-          Me.Entity = check
+
           'Case 336    'Aval
           'If theCode Is Nothing OrElse theCode.Length = 0 Then
           'If Me.Entity.Code.Length <> 0 Then
