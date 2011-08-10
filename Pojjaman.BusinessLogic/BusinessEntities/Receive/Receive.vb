@@ -872,7 +872,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = Me.GetCheckReceiveItemFromDB(conn, trans)
         For Each drow As DataRow In ds.Tables(0).Rows
           Dim drh As New DataRowHelper(drow)
-          If drh.GetValue(Of Integer)("cqupdatei_entity") = 0 Then
+          If drh.GetValue(Of Integer)("cqupdatei_entity") = 0 AndAlso drh.GetValue(Of Integer)("receivei_bankacct") > 0 Then
             Dim check As New IncomingCheck(drow, "")
 
             Dim upd As New UpdateCheckDeposit
