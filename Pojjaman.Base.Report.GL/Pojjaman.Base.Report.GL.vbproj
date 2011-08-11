@@ -111,6 +111,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.shared.windows.dll</HintPath>
     </Reference>
+    <Reference Include="syncfusion.xlsio.base, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\syncfusion.xlsio.base.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -253,6 +257,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GL\RptJournalEntryFilterSubPanel.resx">
       <DependentUpon>RptJournalEntryFilterSubPanel.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\RptJVAutomatic\RptJVAutomaticFilterSubPanel.resx">
       <DependentUpon>RptJVAutomaticFilterSubPanel.vb</DependentUpon>

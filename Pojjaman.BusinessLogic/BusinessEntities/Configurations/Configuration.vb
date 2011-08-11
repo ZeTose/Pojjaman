@@ -8,6 +8,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Core.AddIns
 Imports Longkong.Core.Properties
 Imports System.Xml
+Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Enum DigitConfig
@@ -252,6 +253,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+    Public Shared Function IsFormatString(ByVal st As String, ByVal config As DigitConfig) As Boolean
+      Dim pattern As String = "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{" & GetDigit(config).ToString & "}$"
+      Dim ret As Boolean = Regex.IsMatch(st, pattern)
+      If Not ret Then
+        If CInt(Configuration.GetConfig("CompanyMinusSign")) = 1 Then 'ใช้ ()
+          pattern = "^\([+-]?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{" & GetDigit(config).ToString & "}\)$"
+        Else
+          pattern = "^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*\.[0-9]{" & GetDigit(config).ToString & "}$"
+        End If
+        ret = Regex.IsMatch(st, pattern)
+      End If
+      Return ret
+    End Function
     Public Shared Function FormatToString(ByVal number As Decimal, ByVal mindigit As Integer, ByVal maxdigit As Integer) As String
       Dim formatString As String = "N" & CStr(maxdigit)
       Return number.ToString(formatString)

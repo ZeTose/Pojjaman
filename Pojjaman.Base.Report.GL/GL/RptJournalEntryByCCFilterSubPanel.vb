@@ -4,6 +4,10 @@ Imports Longkong.Core.Services
 Imports Telerik.WinControls.UI
 Imports Telerik.WinControls.Data
 Imports Telerik.WinControls
+Imports Longkong.Core.Properties
+Imports System.IO
+Imports Syncfusion.XlsIO
+Imports Longkong.Pojjaman.Gui.Components
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptJournalEntryByCCFilterSubPanel
@@ -1166,7 +1170,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtcccodestart"
           'CostCenter.GetCostCenter(txtCCCodeStart, txtTemp, Me.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
 
-         Case "dtpdocdatestart"
+        Case "dtpdocdatestart"
           If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
             If Not m_dateSetting Then
               Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
@@ -1342,6 +1346,172 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  DropDownClosed
     'End Enum
 #End Region
+
+    '#Region "Export Excel"
+
+    '    Private m_tgItem As LKGrid
+    '    Public Property tgItem As Components.LKGrid Implements IExcellExportAble.tgItem
+    '      Get
+    '        Return m_tgItem
+    '      End Get
+    '      Set(ByVal value As Components.LKGrid)
+    '        m_tgItem = value
+    '      End Set
+    '    End Property
+    '    Public Sub xlsexport()
+    '      Dim xl As ExcelEngine = New ExcelEngine()
+    '      Dim dialog1 As SaveFileDialog = New SaveFileDialog
+    '      Dim ctime As Date
+
+    '      ctime = IIf(Me.DocDateEnd.Equals(Date.MinValue), Date.Now, Me.DocDateEnd)
+    '      Dim filename As String = "Export " & "RptJournalEntryByCC" & ctime.ToString("yyyyMMdd") & ".xls"
+    '      dialog1.OverwritePrompt = True
+    '      dialog1.AddExtension = True
+    '      dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
+    '      dialog1.FileName = filename
+    '      If dialog1.ShowDialog = DialogResult.OK Then
+    '        filename = dialog1.FileName
+    '      Else
+    '        Return
+    '      End If
+
+    '      Using xl
+    '        'instantiate excel application object
+    '        Dim xlApp As IApplication = xl.Excel
+
+
+    '        'create a new workbook with 2 worksheets
+    '        Dim wkbk As IWorkbook = xl.Excel.Workbooks.Create(1)
+
+
+    '        'get a reference to both worksheets
+    '        Dim sht1 As IWorksheet = wkbk.Worksheets(0)
+
+
+    '        wkbk.Worksheets(0).Name = "RptJournalEntryByCC"
+
+
+    '        'add data to the first cell of each worksheet
+    '        'sht1.Range("A1").Text = "Hello World"
+    '        'sht2.Range("A1").Text = "Hello World 2"
+
+    '        For i As Integer = 2 To tgItem.RowCount
+    '          For j As Integer = 1 To tgItem.ColCount
+    '            If tgItem(i, j).Text.Length > 0 AndAlso Configuration.IsFormatString(tgItem(i, j).Text, DigitConfig.Price) Then
+    '              Replace(tgItem(i, j).Text, "(", "")
+    '              Replace(tgItem(i, j).Text, ")", "")
+    '              sht1.Range(i, j).Value = CDec(tgItem(i, j).Text)
+    '            Else
+    '              sht1.Range(i, j).Text = tgItem(i, j).Text
+
+    '            End If
+    '          Next
+    '        Next
+
+    '        'For i As Integer = 2 To m_GridList(1).RowCount
+    '        '  For j As Integer = 1 To m_GridList(1).ColCount
+    '        '    sht2.Range(i, j).Text = m_GridList(1)(i, j).Text
+    '        '  Next
+    '        'Next
+
+    '        'For i As Integer = 2 To m_GridList(2).RowCount
+    '        '  For j As Integer = 1 To m_GridList(2).ColCount
+    '        '    sht3.Range(i, j).Text = m_GridList(2)(i, j).Text
+    '        '  Next
+    '        'Next
+
+    '        'For i As Integer = 2 To m_GridList(3).RowCount
+    '        '  For j As Integer = 1 To m_GridList(3).ColCount
+    '        '    sht4.Range(i, j).Text = m_GridList(3)(i, j).Text
+    '        '  Next
+    '        'Next
+
+    '        wkbk.SaveAs(filename)
+    '        wkbk.Close()
+    '      End Using
+    '      MessageBox.Show("Finish!")
+
+    '    End Sub
+    '    Private Sub ibtnSaveAsExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '      Try
+    '        xlsexport()
+
+    '        '  Dim Excel As Object = CreateObject("Excel.Application")
+    '        '  If Excel Is Nothing Then
+    '        '    MessageBox.Show("It appears that Excel is not installed on this machine. This operation requires MS Excel to be installed on this machine.")
+    '        '    Return
+    '        '  End If
+    '        '  Dim locale As String = "en-US"
+    '        '  Dim obj As Object = Configuration.GetConfig("ExcelLocale")
+    '        '  If IsDBNull(obj) AndAlso obj <> Nothing Then
+    '        '    locale = obj.ToString()
+    '        '  End If
+    '        '  Dim oldCI As System.Globalization.CultureInfo = _
+    '        '  System.Threading.Thread.CurrentThread.CurrentCulture
+    '        '  System.Threading.Thread.CurrentThread.CurrentCulture = _
+    '        '      New System.Globalization.CultureInfo(locale)
+
+    '        '  Dim ext As String = ".xlsx"
+    '        '  If CInt(Excel.Version) < 12 Then
+    '        '    ext = ".xls"
+    '        '  End If
+
+    '        '  Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+    '        '  Dim thePath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+    '        '  thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
+    '        '  If thePath.Length = 0 Then
+    '        '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+    '        '  End If
+
+    '        '  With Excel
+    '        '    .SheetsInNewWorkbook = 1
+    '        '    Dim oDoc As Object = .Workbooks.Add()
+    '        '    .Worksheets(1).Select()
+
+    '        '    Dim i As Integer = 1
+    '        '    For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+    '        '      .cells(1, i).value = col.HeaderText.Replace("@", "UnitPrice")
+    '        '      .cells(1, i).EntireRow.Font.Bold = True
+    '        '      i += 1
+    '        '    Next
+    '        '    i = 2
+    '        '    For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+    '        '      Dim j As Integer = 1
+    '        '      For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+    '        '        If Not row.IsNull(col.MappingName) Then
+    '        '          If TypeOf col Is DataGridComboColumn Then
+    '        '            .Cells(i, j).Value = New BOQItemType(row(col.MappingName)).Description
+    '        '          Else
+    '        '            .Cells(i, j).Value = row(col.MappingName).ToString()
+    '        '          End If
+    '        '        End If
+    '        '        j += 1
+    '        '      Next
+    '        '      i += 1
+    '        '    Next
+    '        '    .ActiveCell.Worksheet.SaveAs(thePath)
+
+    '        '    oDoc.Close()
+    '        '    .Quit()
+    '        '    oDoc = Nothing
+    '        '    Excel = Nothing
+    '        '  End With
+
+
+    '        '  MessageBox.Show("Items are exported to Excel Succesfully in '" & thePath & "'")
+    '        '  System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
+    '      Catch ex As Exception
+    '        MessageBox.Show(ex.Message)
+    '      End Try
+
+    '      ' '' The excel is created and opened for insert value. We most close this excel using this system
+    '      ''Dim pro() As Process = System.Diagnostics.Process.GetProcessesByName("EXCEL")
+    '      ''For Each i As Process In pro
+    '      ''  i.Kill()
+    '      ''Next
+
+    '    End Sub
+    '#End Region
 
     'Private Sub radMultiComboBox_Enter(ByVal sender As Object, ByVal e As System.EventArgs)
     '  'Me.SetAutoCompleteAble(sender, True)

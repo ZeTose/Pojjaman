@@ -1,13 +1,15 @@
-Option Explicit On 
+Option Explicit On
 Option Strict On
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
+Imports Syncfusion.XlsIO
+Imports Longkong.Pojjaman.Gui.Components
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptAPRemainFilterSubPanel
     Inherits AbstractFilterSubPanel
-    Implements IReportFilterSubPanel
+    Implements IReportFilterSubPanel, IExcellExportAble
 
 #Region " Windows Form Designer generated code "
 
@@ -63,6 +65,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnAccountStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblAccountStart As System.Windows.Forms.Label
+    Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents chkShowAll As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -102,10 +105,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.lblDocDateStart = New System.Windows.Forms.Label()
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -166,6 +171,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.ibtnSaveAsExcel)
       Me.grbDetail.Controls.Add(Me.btnAccountEndFind)
       Me.grbDetail.Controls.Add(Me.txtAccountCodeEnd)
       Me.grbDetail.Controls.Add(Me.lblAccountEnd)
@@ -597,6 +603,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'ibtnSaveAsExcel
+      '
+      Me.ibtnSaveAsExcel.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnSaveAsExcel.Location = New System.Drawing.Point(328, 147)
+      Me.ibtnSaveAsExcel.Name = "ibtnSaveAsExcel"
+      Me.ibtnSaveAsExcel.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnSaveAsExcel.TabIndex = 19
+      Me.ibtnSaveAsExcel.TabStop = False
+      Me.ibtnSaveAsExcel.ThemedImage = CType(resources.GetObject("ibtnSaveAsExcel.ThemedImage"), System.Drawing.Bitmap)
+      '
       'RptAPRemainFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
@@ -607,6 +623,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -809,7 +826,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
 
-    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
+    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       ClearCriterias()
       Me.btnSearch.PerformClick()
     End Sub
@@ -1098,13 +1115,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 
-    Private Sub chkShowAll_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowAll.CheckedChanged
+    Private Sub chkShowAll_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
       If Me.chkShowAll.Checked Then
         Me.chkDetail.Checked = Me.chkShowAll.Checked
       End If
     End Sub
 
-    Private Sub chkDetail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDetail.CheckedChanged
+    Private Sub chkDetail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
       If Not Me.chkDetail.Checked Then
         Me.chkShowAll.Checked = Me.chkDetail.Checked
       End If
@@ -1128,6 +1145,102 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccountCodeEnd.Text = e.Code
       AccountBook.GetAccountBook(txtAccountCodeEnd, txtAcctbookname, Me.m_AccountBookEnd)
     End Sub
+
+#Region "Export Excel"
+
+    Private m_tgItem As LKGrid
+    Public Property tgItem As Components.LKGrid Implements IExcellExportAble.tgItem
+      Get
+        Return m_tgItem
+      End Get
+      Set(ByVal value As Components.LKGrid)
+        m_tgItem = value
+      End Set
+    End Property
+    Public Sub xlsexport()
+      Dim xl As ExcelEngine = New ExcelEngine()
+      Dim dialog1 As SaveFileDialog = New SaveFileDialog
+      Dim ctime As Date
+
+      ctime = CDate(IIf(Me.DocDateEnd.Equals(Date.MinValue), Date.Now, Me.DocDateEnd))
+      Dim filename As String = "Export " & "RptAPRemain" & ctime.ToString("yyyyMMdd") & ".xls"
+      dialog1.OverwritePrompt = True
+      dialog1.AddExtension = True
+      dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
+      dialog1.FileName = filename
+      If dialog1.ShowDialog = DialogResult.OK Then
+        filename = dialog1.FileName
+      Else
+        Return
+      End If
+
+      Using xl
+        'instantiate excel application object
+        Dim xlApp As IApplication = xl.Excel
+
+
+        'create a new workbook with 2 worksheets
+        Dim wkbk As IWorkbook = xl.Excel.Workbooks.Create(1)
+
+
+        'get a reference to both worksheets
+        Dim sht1 As IWorksheet = wkbk.Worksheets(0)
+
+
+        wkbk.Worksheets(0).Name = "RptAPRemain"
+
+
+        'add data to the first cell of each worksheet
+        'sht1.Range("A1").Text = "Hello World"
+        'sht2.Range("A1").Text = "Hello World 2"
+
+        For i As Integer = 2 To tgItem.RowCount
+          For j As Integer = 1 To tgItem.ColCount
+            If tgItem(i, j).Text.Length > 0 AndAlso Configuration.IsFormatString(tgItem(i, j).Text, DigitConfig.Price) Then
+              Replace(tgItem(i, j).Text, "(", "")
+              Replace(tgItem(i, j).Text, ")", "")
+              sht1.Range(i, j).Value = CStr(CDec(tgItem(i, j).Text))
+            Else
+              sht1.Range(i, j).Text = tgItem(i, j).Text
+
+            End If
+          Next
+        Next
+
+        'For i As Integer = 2 To m_GridList(1).RowCount
+        '  For j As Integer = 1 To m_GridList(1).ColCount
+        '    sht2.Range(i, j).Text = m_GridList(1)(i, j).Text
+        '  Next
+        'Next
+
+        'For i As Integer = 2 To m_GridList(2).RowCount
+        '  For j As Integer = 1 To m_GridList(2).ColCount
+        '    sht3.Range(i, j).Text = m_GridList(2)(i, j).Text
+        '  Next
+        'Next
+
+        'For i As Integer = 2 To m_GridList(3).RowCount
+        '  For j As Integer = 1 To m_GridList(3).ColCount
+        '    sht4.Range(i, j).Text = m_GridList(3)(i, j).Text
+        '  Next
+        'Next
+
+        wkbk.SaveAs(filename)
+        wkbk.Close()
+      End Using
+      MessageBox.Show("Finish!")
+
+    End Sub
+    Private Sub ibtnSaveAsExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnSaveAsExcel.Click
+      Try
+        xlsexport()
+
+      Catch ex As Exception
+        MessageBox.Show(ex.Message)
+      End Try
+    End Sub
+
+#End Region
   End Class
 End Namespace
 

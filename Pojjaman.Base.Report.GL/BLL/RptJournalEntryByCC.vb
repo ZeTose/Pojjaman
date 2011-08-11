@@ -176,13 +176,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ccId = drh.GetValue(Of Integer)("cc_id")
         ccCode = drh.GetValue(Of String)("cc_code")
 
-        gridColumn = New GridViewTextBoxColumn(ccCode)
-        gridColumn.Width = 100
-        gridColumn.TextAlignment = ContentAlignment.MiddleRight
-        gridColumn.HeaderText = ccCode & " [" & colIndex.ToString & "]"
-        gridColumn.FieldName = ccId.ToString
-        gridColumn.ReadOnly = True
-        m_grid.Columns.Add(gridColumn)
+        'gridColumn = New GridViewTextBoxColumn(ccCode)
+        'gridColumn.Width = 100
+        'gridColumn.TextAlignment = ContentAlignment.MiddleRight
+        'gridColumn.HeaderText = ccCode & " [" & colIndex.ToString & "]"
+        'gridColumn.FieldName = ccId.ToString
+        'gridColumn.FormatString = "{0:#,#}"
+        'gridColumn.ExcelExportFormatString = ""
+        'gridColumn.ReadOnly = True
+
+        Dim gridDecColumn As New GridViewDecimalColumn(ccCode)
+        gridDecColumn.Width = 100
+        gridDecColumn.TextAlignment = ContentAlignment.MiddleRight
+        gridDecColumn.HeaderText = ccCode & " [" & colIndex.ToString & "]"
+        gridDecColumn.FieldName = ccId.ToString
+        gridDecColumn.ReadOnly = True
+
+        m_grid.Columns.Add(gridDecColumn)
+        'm_grid.Columns.Add(gridColumn)
 
         colIndex += 1
       Next
@@ -321,6 +332,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim drf As DataRow() = sourceData.Select("gli_acct=" & accth.GetValue(Of String)("acct_id") & " and gli_cc=" & ccid)
           If drf.Length > 0 Then
             dr(ccid) = Configuration.FormatToString(CDbl(drf(0)("amount")), DigitConfig.Price)
+            'dr(ccid) = CDbl(drf(0)("amount"))
           End If
 
         Next
