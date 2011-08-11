@@ -7,6 +7,7 @@
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="banktransferout" entity="banktransferout" filter="Longkong.Pojjaman.Gui.Panels.BankTransferOutFilterSubPanel"/>
     <EntityFilter id="outgoingcheck" entity="outgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.OutgoingCheckFilterSubPanel"/>
+    <EntityFilter id="exportoutgoingcheck" entity="exportoutgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckFilterSubPanel"/>
     <EntityFilter id="outgoingcheckforselection" entity="outgoingcheckforselection" filter="Longkong.Pojjaman.Gui.Panels.OutgoingCheckFilterSubPanel"/>
     <EntityFilter id="incomingcheck" entity="incomingcheck" filter="Longkong.Pojjaman.Gui.Panels.IncomingCheckFilterSubPanel"/>
     <EntityFilter id="incomingcheckforcheckupdateselection" entity="incomingcheckforcheckupdateselection" filter="Longkong.Pojjaman.Gui.Panels.IncomingCheckFilterSubPanel"/>

@@ -156,6 +156,9 @@
     <Compile Include="GUI\BankTransferOutFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\ExportOutgoingCheckFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\DocPickupList.Designer.vb">
       <DependentUpon>DocPickupList.vb</DependentUpon>
     </Compile>
@@ -227,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\BankTransferOutFilterSubPanel.resx">
       <DependentUpon>BankTransferOutFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ExportOutgoingCheckFilterSubPanel.resx">
+      <DependentUpon>ExportOutgoingCheckFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\DocPickupList.resx">
       <DependentUpon>DocPickupList.vb</DependentUpon>
