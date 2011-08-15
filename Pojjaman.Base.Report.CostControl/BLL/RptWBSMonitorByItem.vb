@@ -57,10 +57,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csUnit As New TreeTextColumn
       csUnit.MappingName = "Unit"
-      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitHeaderText}")
+      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DefaultUnitHeaderText}")
       csUnit.NullText = ""
       csUnit.DataAlignment = HorizontalAlignment.Center
       csUnit.Format = "#,###.##"
+      csUnit.Width = 110
       csUnit.TextBox.Name = "Unit"
       csUnit.ReadOnly = True
 
