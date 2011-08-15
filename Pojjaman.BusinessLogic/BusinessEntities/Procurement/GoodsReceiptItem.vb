@@ -314,6 +314,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If msgServ.AskQuestion("${res:Global.Question.ChangeGoodsReceiptEntityType}") Then
           Dim oldType As Integer = m_itemType.Value
           m_itemType = Value
+          If oldType = 42 AndAlso m_itemType.Value = 28 Then
+            Me.EntityName = Me.Entity.Name
+          End If
           For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
             Dim transferAmt As Decimal = Me.BeforeTax
             wbsd.BaseCost = transferAmt
