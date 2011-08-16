@@ -1,17 +1,14 @@
 <AddIn name="Pojjaman AP For V-Arch" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
 	<Runtime>
-		<Import assembly="Pojjaman.Base.Form.AP.dll"/>
+		<!--<Import assembly="Pojjaman.Base.Form.AP.dll"/>-->
 		<Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
 		<Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>
     <Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>
 		<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/>
-    <Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>
     <Import assembly="../../Reports/AP/Pojjaman.Base.Report.AP.dll"/>
     <Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>
+    <Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>
   </Runtime>
-  <Extension path="/Pojjaman/Workbench/MainMenu/Supplier">
-    <MenuItem id="BuilkMatch" insertbefore="ReloadSeparator" insertafter="SupplierGroup" label="Builk™ Match" icon="Icons.16x16.Builk" class="Longkong.Pojjaman.Commands.OpenPanel"  entity="Longkong.Pojjaman.BusinessLogic.Supplier" panel="Longkong.Pojjaman.Gui.Panels.BuilkMatchView"/>
-  </Extension>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
     <MenuItem id="V-Arch" insertafter="PettyCash" insertbefore="PettyCashClaim" label="${res:MainMenu.PurchaseMenu.VArch}">
       <MenuItem id="GoodsReceipt1" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceipt_v1}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.GoodsReceipt_v1}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" forceaccessid="327" args="|DocType:1|"/>

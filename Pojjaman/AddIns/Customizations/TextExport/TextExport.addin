@@ -1,6 +1,7 @@
 <AddIn name="TextExport" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
 	<Runtime>
 		<Import assembly="../../Forms/Check/Pojjaman.Base.Form.Check.dll"/>
+    <Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/Check">
 		<MenuItem id="BankTransferOut" insertbefore="ExportPC" label="${res:MainMenu.CashBankMenu.BankTransferOut}" icon="Icons.16x16.BankTransferOut" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransferOut"/>
@@ -8,5 +9,8 @@
 		<MenuItem id="Separator0" label="-" insertbefore="OutgoingCheck"/>
     <MenuItem id="exportCheckSeparate" insertafter="CheckChange" insertbefore="ExportOutgoingCheck" label="-"/>
     <MenuItem id="ExportOutgoingCheck" insertafter="exportCheckSeparate" icon="Icons.16x16.ExportOutgoingCheck" label="${res:MainMenu.CheckMenu.ExportOutgoingCheck}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ExportOutgoingCheck"/>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Supplier">
+    <MenuItem id="BuilkMatch" insertbefore="ReloadSeparator" insertafter="SupplierGroup" label="Builk™ Match" icon="Icons.16x16.Builk" class="Longkong.Pojjaman.Commands.OpenPanel"  entity="Longkong.Pojjaman.BusinessLogic.Supplier" panel="Longkong.Pojjaman.Gui.Panels.BuilkMatchView"/>
   </Extension>
 </AddIn>
