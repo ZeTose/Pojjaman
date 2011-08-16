@@ -10,6 +10,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptEstimateMilestoneFilterSubPanel
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -424,6 +425,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCustEndFind.TabIndex = 70
       Me.btnCustEndFind.TabStop = False
       Me.btnCustEndFind.ThemedImage = CType(resources.GetObject("btnCustEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCustEndFind.Visible = False
       '
       'lblCCEnd
       '
@@ -458,6 +460,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCustStartFind.TabIndex = 68
       Me.btnCustStartFind.TabStop = False
       Me.btnCustStartFind.ThemedImage = CType(resources.GetObject("btnCustStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCustStartFind.Visible = False
       '
       'lblCustStart
       '
@@ -481,6 +484,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCEndFind.TabIndex = 63
       Me.btnCCEndFind.TabStop = False
       Me.btnCCEndFind.ThemedImage = CType(resources.GetObject("btnCCEndFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCEndFind.Visible = False
       '
       'btnCCStartFind
       '
@@ -493,6 +497,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCCStartFind.TabIndex = 53
       Me.btnCCStartFind.TabStop = False
       Me.btnCCStartFind.ThemedImage = CType(resources.GetObject("btnCCStartFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnCCStartFind.Visible = False
       '
       'lblCCStart
       '
@@ -790,6 +795,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim CustDataSourceEnd As DataTable = Me.CloneData(CustDataSourceStart)
       Me.cmbCustCodeStart.DataSource = CustDataSourceStart
       Me.cmbCustCodeEnd.DataSource = CustDataSourceEnd
+      Me.cmbCustCodeStart.SelectedIndex = -1
+      Me.cmbCustCodeEnd.SelectedIndex = -1
 
       'Add CostCenter Columns ==========================
       element = Me.cmbCostCenterCodeStart.MultiColumnComboBoxElement
@@ -812,6 +819,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim costCenterDataSourceEnd As DataTable = Me.CloneData(costCenterDataSourceStart)
       Me.cmbCostCenterCodeStart.DataSource = costCenterDataSourceStart
       Me.cmbCostCenterCodeEnd.DataSource = costCenterDataSourceEnd
+      Me.cmbCostCenterCodeStart.SelectedIndex = -1
+      Me.cmbCostCenterCodeEnd.SelectedIndex = -1
 
       'Filter, Auto Complete ============================================================================================================== 2
       'Me.cmbAccountCodeStart.AutoFilter = True
@@ -1380,9 +1389,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     '  End If
     'End Sub
-
-
-
 
   End Class
 End Namespace
