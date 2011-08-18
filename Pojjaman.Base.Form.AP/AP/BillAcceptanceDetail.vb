@@ -1707,6 +1707,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtBillIssueCode.TextChanged, AddressOf Me.ChangeProperty
 
@@ -1810,7 +1811,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
+          'Me.m_entity.Code = cmbCode.Text
+          'dirtyFlag = True
           Me.m_entity.Code = cmbCode.Text
+          'เพิ่ม AutoCode
+          If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+            Me.m_entity.OnGlChanged()
+          End If
           dirtyFlag = True
         Case "txtnote"
           Me.m_entity.Note = txtNote.Text
