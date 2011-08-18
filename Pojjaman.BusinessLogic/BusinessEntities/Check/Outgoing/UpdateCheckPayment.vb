@@ -1662,7 +1662,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                   New SqlParameter("@listOfIds", Me.GetListIds),
                                   New SqlParameter("@listOfOldIds", Me.GetListOldIds),
                                   New SqlParameter("@docstatus", Me.UpdatedStatus.Value),
-                                  New SqlParameter("@cqupdate_id", Me.Id)
+                                  New SqlParameter("@cqupdate_id", Me.Id),
+                                  New SqlParameter("@isDeletingCase", 1)
                                   )
 
         'UpdateOldItemStatus(conn, trans, True)
