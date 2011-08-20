@@ -3933,6 +3933,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If rootWbs.Status.Value = -1 Then
               rootWbs.Status.Value = 2
             End If
+
             drWbs("wbs_status") = rootWbs.Status.Value
             drWbs("wbs_noqtycontrol") = rootWbs.NoQtyControl
             drWbs("wbs_startdate") = rootWbs.StartDate

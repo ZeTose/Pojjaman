@@ -58,11 +58,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents tgProgress As Longkong.Pojjaman.Gui.Components.TreeGrid
     Friend WithEvents ibtnBlankWBSProgress As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnLockBoq As System.Windows.Forms.Button
+    Friend WithEvents txtCBS As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowCBSDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnDelRowWBSProgress As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WBSDetail))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ibtnShowCBSDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCBS = New System.Windows.Forms.TextBox()
       Me.txtFinishDate = New System.Windows.Forms.TextBox()
       Me.lblFinishDate = New System.Windows.Forms.Label()
       Me.dtpFinishDate = New System.Windows.Forms.DateTimePicker()
@@ -105,6 +109,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.ibtnShowCBSDialog)
+      Me.grbDetail.Controls.Add(Me.txtCBS)
       Me.grbDetail.Controls.Add(Me.txtFinishDate)
       Me.grbDetail.Controls.Add(Me.lblFinishDate)
       Me.grbDetail.Controls.Add(Me.dtpFinishDate)
@@ -128,6 +134,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียดหมวดงาน"
+      '
+      'ibtnShowCBSDialog
+      '
+      Me.ibtnShowCBSDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowCBSDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowCBSDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowCBSDialog.Location = New System.Drawing.Point(445, 17)
+      Me.ibtnShowCBSDialog.Name = "ibtnShowCBSDialog"
+      Me.ibtnShowCBSDialog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowCBSDialog.TabIndex = 217
+      Me.ibtnShowCBSDialog.TabStop = False
+      Me.ibtnShowCBSDialog.ThemedImage = CType(resources.GetObject("ibtnShowCBSDialog.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtCBS
+      '
+      Me.Validator.SetDataType(Me.txtCBS, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCBS, "")
+      Me.txtCBS.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCBS, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCBS, System.Drawing.Color.Empty)
+      Me.txtCBS.Location = New System.Drawing.Point(276, 17)
+      Me.Validator.SetMinValue(Me.txtCBS, "")
+      Me.txtCBS.Name = "txtCBS"
+      Me.Validator.SetRegularExpression(Me.txtCBS, "")
+      Me.Validator.SetRequired(Me.txtCBS, False)
+      Me.txtCBS.Size = New System.Drawing.Size(166, 22)
+      Me.txtCBS.TabIndex = 216
       '
       'txtFinishDate
       '
@@ -689,13 +722,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         ibtnBlank.Enabled = True
         ibtnInsert.Enabled = True
       ElseIf m_entity.Locked Then
-        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
         'btnLockBoq.Text = "UnLock"
         ibtnDelRow.Enabled = False
         ibtnBlank.Enabled = False
         ibtnInsert.Enabled = False
       Else
-        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
         'btnLockBoq.Text = "Lock"
         ibtnDelRow.Enabled = True
         ibtnBlank.Enabled = True
@@ -728,6 +761,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Protected Overrides Sub EventWiring()
       AddHandler txtCode.TextChanged, AddressOf TextHandler
       AddHandler txtCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCBS.Validated, AddressOf Me.ChangeProperty
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
@@ -791,6 +825,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtNote.Text = m_wbs.Note
       txtStartDate.Text = m_wbs.StartDate.ToShortDateString
       txtFinishDate.Text = m_wbs.FinishDate.ToShortDateString
+      If m_wbs.MatCBS Is Nothing Then
+        txtCBS.Text = ""
+      Else
+        txtCBS.Text = m_wbs.MatCBS.Code & ":" & m_wbs.MatCBS.Name
+      End If
       'If Me.m_wbs.Level = 0 Then
       '    Me.grbDetail.Enabled = False
       'Else
@@ -807,6 +846,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ClearWBS()
       txtCode.Text = ""
+      txtCBS.Text = ""
       txtName.Text = ""
       txtNote.Text = ""
       txtStartDate.Text = ""
@@ -842,6 +882,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
               dirtyFlag = True
             End If
           End If
+        Case "txtCBS"
+          UpdateNode()
+          'If txtCodeChanged Then
+          '  txtCodeChanged = False
+          '  If Not DupCode(txtCode) Then
+          '    Me.m_wbs.Code = txtCode.Text
+          '    UpdateNode()
+          '    dirtyFlag = True
+          '  Else
+          '    Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          '    msgServ.ShowMessageFormatted("${res:Global.Error.WBSCodeDup}", New String() {txtCode.Text})
+          '    txtCode.Text = Me.m_wbs.Code
+          '    dirtyFlag = True
+          '  End If
+          'End If
         Case "txtname"
           Me.m_wbs.Name = txtName.Text
           UpdateNode()
@@ -1393,6 +1448,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       End If
       UpdateEntityProperties()
+    End Sub
+
+    Private Sub btnLockBoq_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLockBoq.MouseHover, btnLockBoq.GotFocus
+      If Not m_entity.Originated Then
+        btnLockBoq.Visible = False
+      ElseIf m_entity.Locked Then
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+      Else
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+      End If
+
+    End Sub
+
+    Private Sub SetCBS(ByVal myEntity As ISimpleEntity)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+      If m_wbs Is Nothing Then
+        Return
+      End If
+      
+      If TypeOf myEntity Is CBS Then
+        m_wbs.MatCBS = CType(myEntity, CBS)
+      End If
+      
+      If m_wbs.MatCBS Is Nothing Then
+        txtCBS.Text = ""
+      Else
+        txtCBS.Text = m_wbs.MatCBS.Code & ":" & m_wbs.MatCBS.Name
+      End If
+
+
+      Dim flag As Boolean = m_isInitialized
+      m_isInitialized = False
+      m_isInitialized = flag
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+
+    End Sub
+    Private Sub ibtnShowCBSDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCBSDialog.Click
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Dim entity As New CBS
+      Dim entities As New ArrayList
+      myEntityPanelService.OpenListDialog(entity, AddressOf SetCBS)
+    End Sub
+
+    Private Sub btnLockBoq_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLockBoq.MouseLeave
+      If Not m_entity.Originated Then
+        btnLockBoq.Visible = False
+      ElseIf m_entity.Locked Then
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+      Else
+        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+      End If
     End Sub
   End Class
 End Namespace

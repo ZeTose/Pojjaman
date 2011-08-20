@@ -394,7 +394,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_ListNumber As String
     Private m_direction As Byte
     Private m_referenced As Boolean
-
+    'ใช้ m_cbs
     Private m_mcbs As CBS
     Private m_lcbs As CBS
     Private m_ecbs As CBS
@@ -485,9 +485,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_referenced = CBool(dr("isReference").ToString)
       End If
 
-      m_mcbs = New CBS(drh.GetValue(Of Integer)("boqi_mcbs"))
-      m_lcbs = New CBS(drh.GetValue(Of Integer)("boqi_lcbs"))
-      m_ecbs = New CBS(drh.GetValue(Of Integer)("boqi_ecbs"))
+      m_mcbs = New CBS(drh.GetValue(Of Integer)("wbs_mcbs"))
+      m_lcbs = New CBS(drh.GetValue(Of Integer)("wbs_lcbs"))
+      m_ecbs = New CBS(drh.GetValue(Of Integer)("wbs_ecbs"))
 
       m_dr = dr
       m_aliasPrefix = aliasPrefix
@@ -599,7 +599,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal value As Boolean)
         m_referenced = value
       End Set
-    End Property    Public Property OwnerMatBudgetAmount As Decimal    Public Property OwnerLabBudgetAmount As Decimal    Public Property OwnerEqBudgetAmount As Decimal    Public Property MatCBS As CBS
+    End Property    Public Property OwnerMatBudgetAmount As Decimal    Public Property OwnerLabBudgetAmount As Decimal    Public Property OwnerEqBudgetAmount As Decimal    'ใช้ MAtCbs
+    Public Property MatCBS As CBS
       Get
         Return m_mcbs
       End Get
@@ -1811,6 +1812,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim nodeNote As String = ""
       If Not Me.Note Is Nothing AndAlso Me.Note.Length > 0 Then
         nodeNote = " (" & Me.Note & ")"
+      End If
+      If Not Me.MatCBS Is Nothing AndAlso Me.MatCBS.Code.Length > 0 Then
+        nodeNote = "[" & Me.MatCBS.Code & "-" & Me.MatCBS.Name & "]"
       End If
       If Me.Referenced Then
         nodeNote &= " <Ref>"
