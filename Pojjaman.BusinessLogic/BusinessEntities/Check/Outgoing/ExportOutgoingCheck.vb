@@ -602,7 +602,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetPVCodeListByCheckId(ByVal checkId As Integer) As String
       If Not m_paymentTrackDataSet Is Nothing AndAlso m_paymentTrackDataSet.Tables.Count > 0 Then
-        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(0).Select("check_id=" & checkId.ToString)
+        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & checkId.ToString)
         Dim cList As New ArrayList
         For Each row As DataRow In dr
           Dim drh As New DataRowHelper(row)
@@ -615,7 +615,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetVATAmountByCheckId(ByVal checkId As Integer) As Decimal
       If Not m_paymentTrackDataSet Is Nothing AndAlso m_paymentTrackDataSet.Tables.Count > 0 Then
-        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(0).Select("check_id=" & checkId.ToString)
+        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & checkId.ToString)
         Dim vatAmt As Decimal = 0
         For Each row As DataRow In dr
           Dim drh As New DataRowHelper(row)
@@ -628,7 +628,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetVATTaxBaseByCheckId(ByVal checkId As Integer) As Decimal
       If Not m_paymentTrackDataSet Is Nothing AndAlso m_paymentTrackDataSet.Tables.Count > 0 Then
-        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(0).Select("check_id=" & checkId.ToString)
+        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & checkId.ToString)
         Dim vattaxbase As Decimal = 0
         For Each row As DataRow In dr
           Dim drh As New DataRowHelper(row)
@@ -686,27 +686,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetAddedList(ByVal chk As OutgoingCheck) As String
       If Not Me.m_paymentTrackDataSet Is Nothing Then
-        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & chk.Id.ToString)
+        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(1).Select("eochecki_entity=" & chk.Id.ToString)
         Dim addedList As New ArrayList
         Dim percent As Decimal = 0
         Dim addedText As String = ""
         For Each row As DataRow In dr
           Dim drh As New DataRowHelper(row)
-          percent = drh.GetValue(Of Decimal)("percent")
+          'percent = drh.GetValue(Of Decimal)("percent")
           If drh.GetValue(Of Decimal)("payment_interest") > 0 Then
-            addedText = "ดอกเบี้ยจ่าย".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_interest") * percent, DigitConfig.Price).ToString
+            addedText = "ดอกเบี้ยจ่าย".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_interest"), DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
           If drh.GetValue(Of Decimal)("payment_bankcharge") > 0 Then
-            addedText = "ค่าธรรมเนียมธนาคาร".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_bankcharge") * percent, DigitConfig.Price).ToString
+            addedText = "ค่าธรรมเนียมธนาคาร".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_bankcharge"), DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
           If drh.GetValue(Of Decimal)("payment_otherExpense") > 0 Then
-            addedText = "ค่าใช้จ่ายอื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherExpense") * percent, DigitConfig.Price).ToString
+            addedText = "ค่าใช้จ่ายอื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherExpense"), DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
           If drh.GetValue(Of Decimal)("payment_creditamt") > 0 Then
-            addedText = "ยอดเพิ่มจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_creditamt") * percent, DigitConfig.Price).ToString
+            addedText = "ยอดเพิ่มจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_creditamt"), DigitConfig.Price).ToString
             addedList.Add(addedText)
           End If
         Next
@@ -720,19 +720,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetSubtractList(ByVal chk As OutgoingCheck) As String
       If Not Me.m_paymentTrackDataSet Is Nothing Then
-        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & chk.Id.ToString)
+        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(1).Select("eochecki_entity=" & chk.Id.ToString)
         Dim subtractList As New ArrayList
         Dim percent As Decimal = 0
         Dim subtractText As String = ""
         For Each row As DataRow In dr
           Dim drh As New DataRowHelper(row)
-          percent = drh.GetValue(Of Decimal)("percent")
+          'percent = drh.GetValue(Of Decimal)("percent")
           If drh.GetValue(Of Decimal)("payment_discount") > 0 Then
-            subtractText = "ส่วนลดรับ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_discount") * percent, DigitConfig.Price).ToString
+            subtractText = "ส่วนลดรับ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_discount"), DigitConfig.Price).ToString
             subtractList.Add(subtractText)
           End If
           If drh.GetValue(Of Decimal)("payment_otherRevenue") > 0 Then
-            subtractText = "รายได้อื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherRevenue") * percent, DigitConfig.Price).ToString
+            subtractText = "รายได้อื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherRevenue"), DigitConfig.Price).ToString
             subtractList.Add(subtractText)
           End If
           'If drh.GetValue(Of Decimal)("payment_witholdingTax") > 0 Then
@@ -740,7 +740,79 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  subtractList.Add(subtractText)
           'End If
           If drh.GetValue(Of Decimal)("payment_debitamt") > 0 Then
-            subtractText = "ยอดหักจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_debitamt") * percent, DigitConfig.Price).ToString
+            subtractText = "ยอดหักจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_debitamt"), DigitConfig.Price).ToString
+            subtractList.Add(subtractText)
+          End If
+        Next
+        If subtractList.Count > 0 Then
+          Return String.Join(";", subtractList.ToArray())
+        End If
+      End If
+
+      Return ""
+    End Function
+
+    Public Function GetRefDocAddedList(ByVal chk As OutgoingCheck, ByVal stockid As Integer) As String
+      If Not Me.m_paymentTrackDataSet Is Nothing Then
+        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & chk.Id.ToString & " and stockid=" & stockid.ToString)
+        Dim addedList As New ArrayList
+        Dim percent As Decimal = 0
+        Dim addedText As String = ""
+        For Each row As DataRow In dr
+          Dim drh As New DataRowHelper(row)
+          'percent = drh.GetValue(Of Decimal)("percent")
+          If drh.GetValue(Of Decimal)("payment_interest") > 0 Then
+            addedText = "ดอกเบี้ยจ่าย".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_interest"), DigitConfig.Price).ToString
+            addedList.Add(addedText)
+          End If
+          If drh.GetValue(Of Decimal)("payment_bankcharge") > 0 Then
+            addedText = "ค่าธรรมเนียมธนาคาร".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_bankcharge"), DigitConfig.Price).ToString
+            addedList.Add(addedText)
+          End If
+          If drh.GetValue(Of Decimal)("payment_otherExpense") > 0 Then
+            addedText = "ค่าใช้จ่ายอื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherExpense"), DigitConfig.Price).ToString
+            addedList.Add(addedText)
+          End If
+          If drh.GetValue(Of Decimal)("payment_creditamt") > 0 Then
+            addedText = "ยอดเพิ่มจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_creditamt"), DigitConfig.Price).ToString
+            addedList.Add(addedText)
+          End If
+        Next
+        If addedList.Count > 0 Then
+          Return String.Join(";", addedList.ToArray())
+        End If
+      End If
+
+      Return ""
+    End Function
+
+    Public Function GetRefDocSubtractList(ByVal chk As OutgoingCheck, ByVal stockid As Integer) As String
+      If Not Me.m_paymentTrackDataSet Is Nothing Then
+        Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & chk.Id.ToString & " and stockid=" & stockid.ToString)
+        Dim subtractList As New ArrayList
+        Dim percent As Decimal = 0
+        Dim subtractText As String = ""
+        For Each row As DataRow In dr
+          Dim drh As New DataRowHelper(row)
+          'percent = drh.GetValue(Of Decimal)("percent")
+          If drh.GetValue(Of Decimal)("payment_discount") > 0 Then
+            subtractText = "ส่วนลดรับ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_discount"), DigitConfig.Price).ToString
+            subtractList.Add(subtractText)
+          End If
+          If drh.GetValue(Of Decimal)("payment_otherRevenue") > 0 Then
+            subtractText = "รายได้อื่นๆ".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_otherRevenue"), DigitConfig.Price).ToString
+            subtractList.Add(subtractText)
+          End If
+          'If drh.GetValue(Of Decimal)("payment_witholdingTax") > 0 Then
+          '  subtractText = "ภาษีหัก ณ ที่จ่าย".Colon & (drh.GetValue(Of Decimal)("payment_witholdingTax") * percent).ToString
+          '  subtractList.Add(subtractText)
+          'End If
+          If drh.GetValue(Of Decimal)("payment_debitamt") > 0 Then
+            subtractText = "ยอดหักจำนวนจ่ายอื่น".Colon & Configuration.Format(drh.GetValue(Of Decimal)("payment_debitamt"), DigitConfig.Price).ToString
+            subtractList.Add(subtractText)
+          End If
+          If drh.GetValue(Of Decimal)("stockretention") > 0 Then
+            subtractText = "Retention:" & Configuration.Format(drh.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
             subtractList.Add(subtractText)
           End If
         Next
@@ -859,7 +931,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ck.Added = Me.GetAddedList(exCheck.Entity)
           ck.Subtract = Me.GetSubtractList(exCheck.Entity)
 
-          Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("billa_id is not null and check_id=" & exCheck.Entity.Id.ToString)
+          Dim dr As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("billa_id is not null and eochecki_entity=" & exCheck.Entity.Id.ToString)
           If dr.Length > 0 Then '--มีเอกสารวางบิล-- ====================== X1
             Dim billHs As New Hashtable
             For Each row As DataRow In dr
@@ -875,7 +947,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
                 pb.Amount = Configuration.Format(pbhr.GetValue(Of Decimal)("billa_gross"), DigitConfig.Price).ToString
 
-                Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString & " and billa_id=" & pbhr.GetValue(Of String)("billa_id"))
+                Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & exCheck.Entity.Id.ToString & " and billa_id=" & pbhr.GetValue(Of String)("billa_id"))
                 For Each row2 As DataRow In dr2
                   Dim dochr As New DataRowHelper(row2)
                   Dim dc As New PaymentTrackDocDetail
@@ -888,9 +960,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   End If
                   dc.Amount = Configuration.Format((dochr.GetValue(Of Decimal)("stock_aftertax") + dochr.GetValue(Of Decimal)("stockretention")), DigitConfig.Price).ToString
                   dc.TotalAmount = Configuration.Format(dochr.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price).ToString
-                  If dochr.GetValue(Of Decimal)("stockretention") > 0 Then
-                    dc.Subtract = "Retention:" & Configuration.Format(dochr.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
-                  End If
+                  'If dochr.GetValue(Of Decimal)("stockretention") > 0 Then
+                  '  dc.Subtract = "Retention:" & Configuration.Format(dochr.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
+                  'End If
+                  dc.Added = Me.GetRefDocAddedList(exCheck.Entity, dochr.GetValue(Of Integer)("stockid"))
+                  dc.Subtract = Me.GetRefDocSubtractList(exCheck.Entity, dochr.GetValue(Of Integer)("stockid"))
                   dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
                   pb.PaymentTrackDocDetailList.Add(dc)
                 Next
@@ -901,7 +975,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
 
           Else '--ไม่มีมีเอกสารวางบิล-- =================================== X1
-            Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("check_id=" & exCheck.Entity.Id.ToString)
+            Dim dr2 As DataRow() = Me.m_paymentTrackDataSet.Tables(0).Select("eochecki_entity=" & exCheck.Entity.Id.ToString)
             For Each row As DataRow In dr2
               Dim dochr As New DataRowHelper(row)
               If dochr.GetValue(Of Integer)("stockid") > 0 Then
@@ -915,9 +989,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
                 dc.Amount = Configuration.Format((dochr.GetValue(Of Decimal)("stock_aftertax") + dochr.GetValue(Of Decimal)("stockretention")), DigitConfig.Price).ToString
                 dc.TotalAmount = Configuration.Format(dochr.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price).ToString
-                If dochr.GetValue(Of Decimal)("stockretention") > 0 Then
-                  dc.Subtract = "Retention:" & Configuration.Format(dochr.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
-                End If
+                'If dochr.GetValue(Of Decimal)("stockretention") > 0 Then
+                '  dc.Subtract = "Retention:" & Configuration.Format(dochr.GetValue(Of Decimal)("stockretention"), DigitConfig.Price).ToString
+                'End If
+                dc.Added = Me.GetRefDocAddedList(exCheck.Entity, dochr.GetValue(Of Integer)("stockid"))
+                dc.Subtract = Me.GetRefDocSubtractList(exCheck.Entity, dochr.GetValue(Of Integer)("stockid"))
                 dc.ReferenceDocument = dochr.GetValue(Of String)("posc")
                 ck.PaymentTrackDocDetailList.Add(dc)
               End If
