@@ -2169,6 +2169,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Select Case item.FullClassName.ToLower
             Case "longkong.pojjaman.businesslogic.billacceptanceitem"
               newItem = CType(item.Tag, BillAcceptanceItem)
+
+              Dim wht As WitholdingTaxCollection = New WitholdingTaxCollection(newItem.Id, newItem.EntityId)
+              Select Case newItem.EntityId
+                Case 45
+                  payable = New GoodsReceipt
+                  payable.Id = newItem.Id
+                  wht.RefDoc = payable
+                  CType(payable, GoodsReceipt).WitholdingTaxCollection = wht
+                Case 46
+                  payable = New PurchaseCN
+                  payable.Id = newItem.Id
+                  wht.RefDoc = payable
+                  CType(payable, PurchaseCN).WitholdingTaxCollection = wht
+                Case 47
+                  'payable = New PurchaseDN
+                  'payable.Id = newItem.Id
+                  'wht.RefDoc = payable
+                  'CType(payable, PurchaseDN).WitholdingTaxCollection = wht
+                Case 15
+                  'payable = New APOpeningBalance
+                  'payable.Id = newItem.Id
+                  'wht.RefDoc = payable
+                  'CType(payable, APOpeningBalance).WitholdingTaxCollection = wht
+                Case 50
+                  payable = New EqMaintenance
+                  payable.Id = newItem.Id
+                  wht.RefDoc = payable
+                  CType(payable, EqMaintenance).WitholdingTaxCollection = wht
+                Case 292
+                  payable = New PA
+                  payable.Id = newItem.Id
+                  wht.RefDoc = payable
+                  CType(payable, PA).WitholdingTaxCollection = wht
+              End Select
+
               'Case "Longkong.Pojjaman.BusinessLogic.GoodsReceipt"
               '    If Not IsDBNull(item.Tag) Then
               '       newItem = New BillAcceptanceItem(New GoodsReceipt(CInt(item.Tag)), Me.m_entity)
@@ -2199,6 +2234,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               'payable = New GoodsReceipt(item.Id) 'Julawut ถ้า new GoodsReceipt จะช้ามาก ๆ *แก้เรื่องความเร็ว
               Dim wht As WitholdingTaxCollection = New WitholdingTaxCollection(newItem.Id, newItem.EntityId)
               payable = New GoodsReceipt
+              payable.Id = newItem.Id
+              wht.RefDoc = payable
               CType(payable, GoodsReceipt).WitholdingTaxCollection = wht
             End If
           Else
@@ -2359,6 +2396,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  End If
       'Next
       Me.m_entity.ItemCollection.Remove(doc)
+
+      Try 'ลบ WitholdingTax ที่ Tab WitholdingTax ด้วย
+        Dim listOfDel As New ArrayList
+        For Each wht As WitholdingTax In Me.m_entity.WitholdingTaxCollection
+          If wht.RefDoc.Id = doc.Id Then
+            listOfDel.Add(wht)
+          End If
+        Next
+        For Each wht As WitholdingTax In listOfDel
+          Me.m_entity.WitholdingTaxCollection.Remove(wht)
+        Next
+      Catch ex As Exception
+
+      End Try
 
       RefreshDocs()
       Me.tgItem.CurrentRowIndex = index
