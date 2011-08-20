@@ -275,6 +275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Dim dt As DataTable = Me.m_entity.PaymentTrackDataSet.Tables(0)
+      Dim dt1 As DataTable = Me.m_entity.PaymentTrackDataSet.Tables(1)
       m_dataPreviewHs = New Hashtable
 
       If dt.Rows.Count = 0 Then
@@ -289,82 +290,210 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim billTr As TreeRow = Nothing
       Dim docTr As TreeRow = Nothing
 
-      For Each row As DataRow In DataRowsFilter(dt)
-        Dim drh As New Longkong.Pojjaman.DataAccessLayer.DataRowHelper(row)
+      For Each eoci As ExportOutgoingCheckItem In Me.m_entity.ItemCollection
 
-        If Not checkHs.ContainsKey(drh.GetValue(Of String)("check_id")) Then
-          checkTr = Me.m_treeManager.Treetable.Childs.Add
-          checkTr.State = RowExpandState.Expanded
-          checkTr.Tag = Me.SetKeyValuePair(22, drh.GetValue(Of String)("check_id"))
-          checkTr("col0") = "àªç¤¨èÒÂ" 'drh.GetValue(Of String)("entity_description")
-          checkTr("col1") = drh.GetValue(Of String)("check_code")
-          checkTr("col2") = drh.GetValue(Of String)("supplier_code") & " : " & drh.GetValue(Of String)("supplier_name")
-          checkTr("col3") = drh.GetValue(Of String)("eochecki_detail")
-          If IsDate(drh.GetValue(Of String)("check_issuedate")) Then
-            checkTr("col4") = CDate(drh.GetValue(Of String)("check_issuedate")).ToShortDateString
+        checkTr = Nothing
+        If Not Me.chkSupplier.Checked Then
+          If Not checkHs.ContainsKey(eoci.Entity.Id) Then
+            checkTr = Me.m_treeManager.Treetable.Childs.Add
+            checkTr.State = RowExpandState.Expanded
+            checkTr.Tag = Me.SetKeyValuePair(22, eoci.Entity.Id)
+            checkTr("col0") = "àªç¤¨èÒÂ" 'drh.GetValue(Of String)("entity_description")
+            checkTr("col1") = eoci.Entity.Code
+            checkTr("col2") = eoci.Entity.Supplier.Code & " : " & eoci.Entity.Supplier.Name
+            checkTr("col3") = eoci.Detail 'drh.GetValue(Of String)("eochecki_detail")
+            'If IsDate(drh.GetValue(Of String)("check_issuedate")) Then
+            checkTr("col4") = eoci.Entity.IssueDate.ToShortDateString
+            'End If
+            checkTr("col5") = Configuration.FormatToString(eoci.Entity.Amount, DigitConfig.Price)
+            checkTr("col6") = Configuration.FormatToString(eoci.WHTCollection.Amount, DigitConfig.Price)
+            checkTr("col7") = Configuration.FormatToString(0, DigitConfig.Price)
+            checkTr("col8") = Configuration.FormatToString(0, DigitConfig.Price)
+            checkTr("col10") = ExportOutgoingCheck.GetDescriptionFromCodeTag(eoci.DocumentForPickup, "DocumentForPickup")
+            checkTr("col11") = ExportOutgoingCheck.GetDescriptionFromCodeTag(eoci.PickupCode, "PickupLocationCode", True)
+            checkTr("col12") = ExportOutgoingCheck.GetDescriptionFromCodeTag(eoci.DeliveryMethod, "DeliveryMethod", True)
+            checkTr("col13") = eoci.Entity.Note
+
+            checkHs(eoci.Entity.Id) = checkTr
+          Else
+            checkTr = CType(checkHs(eoci.Entity.Id), TreeRow)
           End If
-          checkTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("check_amt"), DigitConfig.Price)
-          checkTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("whtamt"), DigitConfig.Price)
-          checkTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deductpayment"), DigitConfig.Price)
-          checkTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("addedpayment"), DigitConfig.Price)
-          checkTr("col10") = ExportOutgoingCheck.GetDescriptionFromCodeTag(drh.GetValue(Of String)("eochecki_documentForPickup"), "DocumentForPickup")
-          checkTr("col11") = ExportOutgoingCheck.GetDescriptionFromCodeTag(drh.GetValue(Of String)("eochecki_pickupCode"), "PickupLocationCode")
-          checkTr("col12") = ExportOutgoingCheck.GetDescriptionFromCodeTag(drh.GetValue(Of String)("eochecki_deliveryMethod"), "DeliveryMethod")
-          checkTr("col13") = drh.GetValue(Of String)("check_note")
-
-          checkHs(drh.GetValue(Of String)("check_id")) = checkTr
         Else
-          checkTr = CType(checkHs(drh.GetValue(Of String)("check_id")), TreeRow)
-        End If
+          If eoci.Entity.Supplier.BuilkID IsNot Nothing AndAlso eoci.Entity.Supplier.BuilkID.Length > 0 Then
+            If Not checkHs.ContainsKey(eoci.Entity.Id) Then
+              checkTr = Me.m_treeManager.Treetable.Childs.Add
+              checkTr.State = RowExpandState.Expanded
+              checkTr.Tag = Me.SetKeyValuePair(22, eoci.Entity.Id)
+              checkTr("col0") = "àªç¤¨èÒÂ" 'drh.GetValue(Of String)("entity_description")
+              checkTr("col1") = eoci.Entity.Code
+              checkTr("col2") = eoci.Entity.Supplier.Code & " : " & eoci.Entity.Supplier.Name
+              checkTr("col3") = eoci.Detail 'drh.GetValue(Of String)("eochecki_detail")
+              'If IsDate(drh.GetValue(Of String)("check_issuedate")) Then
+              checkTr("col4") = eoci.Entity.IssueDate.ToShortDateString
+              'End If
+              checkTr("col5") = Configuration.FormatToString(eoci.Entity.Amount, DigitConfig.Price)
+              checkTr("col6") = Configuration.FormatToString(eoci.WHTCollection.Amount, DigitConfig.Price)
+              'checkTr("col7") = Configuration.FormatToString(0, DigitConfig.Price)
+              'checkTr("col8") = Configuration.FormatToString(0, DigitConfig.Price)
+              checkTr("col10") = ExportOutgoingCheck.GetDescriptionFromCodeTag(eoci.DocumentForPickup, "DocumentForPickup")
+              checkTr("col11") = ExportOutgoingCheck.GetDescriptionFromCodeTag(eoci.PickupCode, "PickupLocationCode", True)
+              checkTr("col12") = ExportOutgoingCheck.GetDescriptionFromCodeTag(eoci.DeliveryMethod, "DeliveryMethod", True)
+              checkTr("col13") = eoci.Entity.Note
 
-        billTr = Nothing
-        If drh.GetValue(Of Integer)("billa_id") > 0 Then
-          If Not billHs.ContainsKey(drh.GetValue(Of String)("billa_id")) Then
-            billTr = checkTr.Childs.Add
-            billTr.State = RowExpandState.Expanded
-            billTr.Tag = Me.SetKeyValuePair(60, drh.GetValue(Of String)("billa_id"))
-
-            billTr("col0") = indent & "ãºÃÑºÇÒ§ºÔÅ" 'drh.GetValue(Of String)("entity_description")
-            billTr("col1") = drh.GetValue(Of String)("billa_code")
-            If IsDate(drh.GetValue(Of String)("billa_docdate")) Then
-              billTr("col2") = indent & CDate(drh.GetValue(Of String)("billa_docdate")).ToShortDateString
+              checkHs(eoci.Entity.Id) = checkTr
+            Else
+              checkTr = CType(checkHs(eoci.Entity.Id), TreeRow)
             End If
-            billTr("col3") = indent & drh.GetValue(Of String)("billa_billissueCode")
-            If IsDate(drh.GetValue(Of String)("billa_billissueDate")) Then
-              billTr("col4") = indent & CDate(drh.GetValue(Of String)("billa_billissueDate")).ToShortDateString
-            End If
+          End If
+        End If
 
-            billHs(drh.GetValue(Of String)("billa_id")) = billTr
-          Else
-            billTr = CType(billHs(drh.GetValue(Of String)("billa_id")), TreeRow)
-          End If
+        If Not checkTr Is Nothing Then
+          For Each row As DataRow In Me.m_entity.PaymentTrackDataSet.Tables(0).Select("eochecki_entity=" & eoci.Entity.Id.ToString)
+            Dim drh As New Longkong.Pojjaman.DataAccessLayer.DataRowHelper(row)
+            billTr = Nothing
+            If drh.GetValue(Of Integer)("billa_id") > 0 Then
+              If Not billHs.ContainsKey(drh.GetValue(Of String)("billa_id")) Then
+                billTr = checkTr.Childs.Add
+                billTr.State = RowExpandState.Expanded
+                billTr.Tag = Me.SetKeyValuePair(60, drh.GetValue(Of String)("billa_id"))
+
+                billTr("col0") = indent & "ãºÃÑºÇÒ§ºÔÅ" 'drh.GetValue(Of String)("entity_description")
+                billTr("col1") = drh.GetValue(Of String)("billa_code")
+                If IsDate(drh.GetValue(Of String)("billa_docdate")) Then
+                  billTr("col2") = indent & CDate(drh.GetValue(Of String)("billa_docdate")).ToShortDateString
+                End If
+                billTr("col3") = indent & drh.GetValue(Of String)("billa_billissueCode")
+                If IsDate(drh.GetValue(Of String)("billa_billissueDate")) Then
+                  billTr("col4") = indent & CDate(drh.GetValue(Of String)("billa_billissueDate")).ToShortDateString
+                End If
+
+                billHs(drh.GetValue(Of String)("billa_id")) = billTr
+              Else
+                billTr = CType(billHs(drh.GetValue(Of String)("billa_id")), TreeRow)
+              End If
+            End If
+            If drh.GetValue(Of Integer)("stockid") > 0 Then
+              If Not billTr Is Nothing Then
+                docTr = billTr.Childs.Add
+                indent2 = indent & indent
+              Else
+                docTr = checkTr.Childs.Add
+                indent2 = indent
+              End If
+              docTr.Tag = Me.SetKeyValuePair(drh.GetValue(Of String)("stocktype"), drh.GetValue(Of String)("stockid"))
+              docTr("col0") = indent2 & drh.GetValue(Of String)("entity_description")
+              docTr("col1") = drh.GetValue(Of String)("stockcode")
+              If IsDate(drh.GetValue(Of String)("stockdocdate")) Then
+                docTr("col2") = indent2 & CDate(drh.GetValue(Of String)("stockdocdate")).ToShortDateString
+              End If
+              docTr("col3") = indent2 & drh.GetValue(Of String)("stockotherDocCode")
+              If IsDate(drh.GetValue(Of String)("stockotherDocDate")) Then
+                docTr("col4") = indent2 & CDate(drh.GetValue(Of String)("stockotherDocDate")).ToShortDateString
+              End If
+              docTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_beforetax"), DigitConfig.Price)
+              docTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_taxamt"), DigitConfig.Price)
+              docTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price)
+              docTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_advance"), DigitConfig.Price)
+              docTr("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stockretention"), DigitConfig.Price)
+              docTr("col10") = drh.GetValue(Of String)("posc")
+            End If
+          Next
         End If
-        If drh.GetValue(Of Integer)("stockid") > 0 Then
-          If Not billTr Is Nothing Then
-            docTr = billTr.Childs.Add
-            indent2 = indent & indent
-          Else
-            docTr = checkTr.Childs.Add
-            indent2 = indent
-          End If
-          docTr.Tag = Me.SetKeyValuePair(drh.GetValue(Of String)("stocktype"), drh.GetValue(Of String)("stockid"))
-          docTr("col0") = indent2 & drh.GetValue(Of String)("entity_description")
-          docTr("col1") = drh.GetValue(Of String)("stockcode")
-          If IsDate(drh.GetValue(Of String)("stockdocdate")) Then
-            docTr("col2") = indent2 & CDate(drh.GetValue(Of String)("stockdocdate")).ToShortDateString
-          End If
-          docTr("col3") = indent2 & drh.GetValue(Of String)("stockotherDocCode")
-          If IsDate(drh.GetValue(Of String)("stockotherDocDate")) Then
-            docTr("col4") = indent2 & CDate(drh.GetValue(Of String)("stockotherDocDate")).ToShortDateString
-          End If
-          docTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_beforetax"), DigitConfig.Price)
-          docTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_taxamt"), DigitConfig.Price)
-          docTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price)
-          docTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_advance"), DigitConfig.Price)
-          docTr("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stockretention"), DigitConfig.Price)
-          docTr("col10") = drh.GetValue(Of String)("posc")
-        End If
+
       Next
+
+      For Each eociId As Integer In checkHs.Keys
+        checkTr = CType(checkHs(eociId), TreeRow)
+
+        Dim deductpayment As Decimal = 0
+        Dim addedpayment As Decimal = 0
+        For Each row As DataRow In dt1.Select("eochecki_entity=" & eociId.ToString)
+          Dim drh As New Longkong.Pojjaman.DataAccessLayer.DataRowHelper(row)
+
+          deductpayment += drh.GetValue(Of Decimal)("deductpayment")
+          addedpayment += drh.GetValue(Of Decimal)("addedpayment")
+        Next
+
+        checkTr("col7") = Configuration.FormatToString(deductpayment, DigitConfig.Price)
+        checkTr("col8") = Configuration.FormatToString(addedpayment, DigitConfig.Price)
+      Next
+
+      'For Each row As DataRow In DataRowsFilter(dt)
+      '  Dim drh As New Longkong.Pojjaman.DataAccessLayer.DataRowHelper(row)
+
+      '  If Not checkHs.ContainsKey(drh.GetValue(Of String)("check_id")) Then
+      '    checkTr = Me.m_treeManager.Treetable.Childs.Add
+      '    checkTr.State = RowExpandState.Expanded
+      '    checkTr.Tag = Me.SetKeyValuePair(22, drh.GetValue(Of String)("check_id"))
+      '    checkTr("col0") = "àªç¤¨èÒÂ" 'drh.GetValue(Of String)("entity_description")
+      '    checkTr("col1") = drh.GetValue(Of String)("check_code")
+      '    checkTr("col2") = drh.GetValue(Of String)("supplier_code") & " : " & drh.GetValue(Of String)("supplier_name")
+      '    checkTr("col3") = drh.GetValue(Of String)("eochecki_detail")
+      '    If IsDate(drh.GetValue(Of String)("check_issuedate")) Then
+      '      checkTr("col4") = CDate(drh.GetValue(Of String)("check_issuedate")).ToShortDateString
+      '    End If
+      '    checkTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("check_amt"), DigitConfig.Price)
+      '    checkTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("whtamt"), DigitConfig.Price)
+      '    checkTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deductpayment"), DigitConfig.Price)
+      '    checkTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("addedpayment"), DigitConfig.Price)
+      '    checkTr("col10") = ExportOutgoingCheck.GetDescriptionFromCodeTag(drh.GetValue(Of String)("eochecki_documentForPickup"), "DocumentForPickup")
+      '    checkTr("col11") = ExportOutgoingCheck.GetDescriptionFromCodeTag(drh.GetValue(Of String)("eochecki_pickupCode"), "PickupLocationCode")
+      '    checkTr("col12") = ExportOutgoingCheck.GetDescriptionFromCodeTag(drh.GetValue(Of String)("eochecki_deliveryMethod"), "DeliveryMethod")
+      '    checkTr("col13") = drh.GetValue(Of String)("check_note")
+
+      '    checkHs(drh.GetValue(Of String)("check_id")) = checkTr
+      '  Else
+      '    checkTr = CType(checkHs(drh.GetValue(Of String)("check_id")), TreeRow)
+      '  End If
+
+      '  billTr = Nothing
+      '  If drh.GetValue(Of Integer)("billa_id") > 0 Then
+      '    If Not billHs.ContainsKey(drh.GetValue(Of String)("billa_id")) Then
+      '      billTr = checkTr.Childs.Add
+      '      billTr.State = RowExpandState.Expanded
+      '      billTr.Tag = Me.SetKeyValuePair(60, drh.GetValue(Of String)("billa_id"))
+
+      '      billTr("col0") = indent & "ãºÃÑºÇÒ§ºÔÅ" 'drh.GetValue(Of String)("entity_description")
+      '      billTr("col1") = drh.GetValue(Of String)("billa_code")
+      '      If IsDate(drh.GetValue(Of String)("billa_docdate")) Then
+      '        billTr("col2") = indent & CDate(drh.GetValue(Of String)("billa_docdate")).ToShortDateString
+      '      End If
+      '      billTr("col3") = indent & drh.GetValue(Of String)("billa_billissueCode")
+      '      If IsDate(drh.GetValue(Of String)("billa_billissueDate")) Then
+      '        billTr("col4") = indent & CDate(drh.GetValue(Of String)("billa_billissueDate")).ToShortDateString
+      '      End If
+
+      '      billHs(drh.GetValue(Of String)("billa_id")) = billTr
+      '    Else
+      '      billTr = CType(billHs(drh.GetValue(Of String)("billa_id")), TreeRow)
+      '    End If
+      '  End If
+      '  If drh.GetValue(Of Integer)("stockid") > 0 Then
+      '    If Not billTr Is Nothing Then
+      '      docTr = billTr.Childs.Add
+      '      indent2 = indent & indent
+      '    Else
+      '      docTr = checkTr.Childs.Add
+      '      indent2 = indent
+      '    End If
+      '    docTr.Tag = Me.SetKeyValuePair(drh.GetValue(Of String)("stocktype"), drh.GetValue(Of String)("stockid"))
+      '    docTr("col0") = indent2 & drh.GetValue(Of String)("entity_description")
+      '    docTr("col1") = drh.GetValue(Of String)("stockcode")
+      '    If IsDate(drh.GetValue(Of String)("stockdocdate")) Then
+      '      docTr("col2") = indent2 & CDate(drh.GetValue(Of String)("stockdocdate")).ToShortDateString
+      '    End If
+      '    docTr("col3") = indent2 & drh.GetValue(Of String)("stockotherDocCode")
+      '    If IsDate(drh.GetValue(Of String)("stockotherDocDate")) Then
+      '      docTr("col4") = indent2 & CDate(drh.GetValue(Of String)("stockotherDocDate")).ToShortDateString
+      '    End If
+      '    docTr("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_beforetax"), DigitConfig.Price)
+      '    docTr("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_taxamt"), DigitConfig.Price)
+      '    docTr("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_aftertax"), DigitConfig.Price)
+      '    docTr("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stock_advance"), DigitConfig.Price)
+      '    docTr("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("stockretention"), DigitConfig.Price)
+      '    docTr("col10") = drh.GetValue(Of String)("posc")
+      '  End If
+      'Next
       dt.AcceptChanges()
 
       Dim lineNumber As Integer = 1

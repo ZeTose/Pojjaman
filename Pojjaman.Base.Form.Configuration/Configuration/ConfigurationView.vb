@@ -12,63 +12,63 @@ Imports System.Drawing.Drawing2D
 Imports Longkong.Pojjaman.Gui.Dialogs
 Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class ConfigurationView
-        'Inherits UserControl
-        Inherits AbstractOptionPanel
-        Implements IValidatable
+  Public Class ConfigurationView
+    'Inherits UserControl
+    Inherits AbstractOptionPanel
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents cmbTaxType As System.Windows.Forms.ComboBox
-        Friend WithEvents lblTaxType As System.Windows.Forms.Label
-        Friend WithEvents lblPhone As System.Windows.Forms.Label
-        Friend WithEvents txtPhone As System.Windows.Forms.TextBox
-        Friend WithEvents txtAddress As System.Windows.Forms.TextBox
-        Friend WithEvents lblFax As System.Windows.Forms.Label
-        Friend WithEvents txtFax As System.Windows.Forms.TextBox
-        Friend WithEvents lblAddress As System.Windows.Forms.Label
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents txtTaxID As System.Windows.Forms.TextBox
-        Friend WithEvents lblTaxID As System.Windows.Forms.Label
-        Friend WithEvents Label8 As System.Windows.Forms.Label
-        Friend WithEvents txtBillingAddress As System.Windows.Forms.TextBox
-        Friend WithEvents txtAltName As System.Windows.Forms.TextBox
-        Friend WithEvents txtOwner As System.Windows.Forms.TextBox
-        Friend WithEvents txtTaxRate As System.Windows.Forms.TextBox
-        Friend WithEvents lblBillingAddress As System.Windows.Forms.Label
-        Friend WithEvents cmbInvMethod As System.Windows.Forms.ComboBox
-        Friend WithEvents lblInvMethod As System.Windows.Forms.Label
-        Friend WithEvents cmbCostMethod As System.Windows.Forms.ComboBox
-        Friend WithEvents lblostMethod As System.Windows.Forms.Label
-        Friend WithEvents lblAltName As System.Windows.Forms.Label
-        Friend WithEvents lblOwner As System.Windows.Forms.Label
-        Friend WithEvents lblTaxRate As System.Windows.Forms.Label
-        Friend WithEvents grbTax As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents picLogo As System.Windows.Forms.PictureBox
-        Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents cmbTaxType As System.Windows.Forms.ComboBox
+    Friend WithEvents lblTaxType As System.Windows.Forms.Label
+    Friend WithEvents lblPhone As System.Windows.Forms.Label
+    Friend WithEvents txtPhone As System.Windows.Forms.TextBox
+    Friend WithEvents txtAddress As System.Windows.Forms.TextBox
+    Friend WithEvents lblFax As System.Windows.Forms.Label
+    Friend WithEvents txtFax As System.Windows.Forms.TextBox
+    Friend WithEvents lblAddress As System.Windows.Forms.Label
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents txtTaxID As System.Windows.Forms.TextBox
+    Friend WithEvents lblTaxID As System.Windows.Forms.Label
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents txtBillingAddress As System.Windows.Forms.TextBox
+    Friend WithEvents txtAltName As System.Windows.Forms.TextBox
+    Friend WithEvents txtOwner As System.Windows.Forms.TextBox
+    Friend WithEvents txtTaxRate As System.Windows.Forms.TextBox
+    Friend WithEvents lblBillingAddress As System.Windows.Forms.Label
+    Friend WithEvents cmbInvMethod As System.Windows.Forms.ComboBox
+    Friend WithEvents lblInvMethod As System.Windows.Forms.Label
+    Friend WithEvents cmbCostMethod As System.Windows.Forms.ComboBox
+    Friend WithEvents lblostMethod As System.Windows.Forms.Label
+    Friend WithEvents lblAltName As System.Windows.Forms.Label
+    Friend WithEvents lblOwner As System.Windows.Forms.Label
+    Friend WithEvents lblTaxRate As System.Windows.Forms.Label
+    Friend WithEvents grbTax As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents picLogo As System.Windows.Forms.PictureBox
+    Friend WithEvents btnLoadImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnClearImage As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtBuilkID As System.Windows.Forms.TextBox
     Friend WithEvents lblBuilkID As System.Windows.Forms.Label
     Friend WithEvents txtBuilkPaymentTrackID As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblVerificationCode As System.Windows.Forms.Label
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -108,7 +108,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnClearImage = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblPicSize = New System.Windows.Forms.Label()
       Me.lblBuilkID = New System.Windows.Forms.Label()
-      Me.Label1 = New System.Windows.Forms.Label()
+      Me.lblVerificationCode = New System.Windows.Forms.Label()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbTax.SuspendLayout()
       CType(Me.picLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -198,13 +198,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTaxID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
-      Me.txtTaxID.Location = New System.Drawing.Point(136, 56)
+      Me.txtTaxID.Location = New System.Drawing.Point(128, 56)
       Me.txtTaxID.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtTaxID, "")
       Me.txtTaxID.Name = "txtTaxID"
       Me.Validator.SetRegularExpression(Me.txtTaxID, "")
       Me.Validator.SetRequired(Me.txtTaxID, False)
-      Me.txtTaxID.Size = New System.Drawing.Size(96, 21)
+      Me.txtTaxID.Size = New System.Drawing.Size(104, 21)
       Me.txtTaxID.TabIndex = 2
       '
       'txtBillingAddress
@@ -278,13 +278,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBuilkID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
-      Me.txtBuilkID.Location = New System.Drawing.Point(99, 326)
+      Me.txtBuilkID.Location = New System.Drawing.Point(136, 326)
       Me.txtBuilkID.MaxLength = 200
       Me.Validator.SetMinValue(Me.txtBuilkID, "")
       Me.txtBuilkID.Name = "txtBuilkID"
       Me.Validator.SetRegularExpression(Me.txtBuilkID, "")
       Me.Validator.SetRequired(Me.txtBuilkID, True)
-      Me.txtBuilkID.Size = New System.Drawing.Size(389, 21)
+      Me.txtBuilkID.Size = New System.Drawing.Size(352, 21)
       Me.txtBuilkID.TabIndex = 205
       '
       'txtBuilkPaymentTrackID
@@ -294,13 +294,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBuilkPaymentTrackID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.txtBuilkPaymentTrackID, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBuilkPaymentTrackID, System.Drawing.Color.Empty)
-      Me.txtBuilkPaymentTrackID.Location = New System.Drawing.Point(185, 353)
+      Me.txtBuilkPaymentTrackID.Location = New System.Drawing.Point(136, 351)
       Me.txtBuilkPaymentTrackID.MaxLength = 200
       Me.Validator.SetMinValue(Me.txtBuilkPaymentTrackID, "")
       Me.txtBuilkPaymentTrackID.Name = "txtBuilkPaymentTrackID"
       Me.Validator.SetRegularExpression(Me.txtBuilkPaymentTrackID, "")
       Me.Validator.SetRequired(Me.txtBuilkPaymentTrackID, True)
-      Me.txtBuilkPaymentTrackID.Size = New System.Drawing.Size(303, 21)
+      Me.txtBuilkPaymentTrackID.Size = New System.Drawing.Size(352, 21)
       Me.txtBuilkPaymentTrackID.TabIndex = 207
       '
       'lblTaxID
@@ -543,26 +543,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBuilkID.ForeColor = System.Drawing.SystemColors.ControlText
       Me.lblBuilkID.Location = New System.Drawing.Point(22, 326)
       Me.lblBuilkID.Name = "lblBuilkID"
-      Me.lblBuilkID.Size = New System.Drawing.Size(71, 18)
+      Me.lblBuilkID.Size = New System.Drawing.Size(114, 18)
       Me.lblBuilkID.TabIndex = 206
-      Me.lblBuilkID.Text = "Builk ID:"
+      Me.lblBuilkID.Text = "Builk Payer ID:"
       Me.lblBuilkID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'Label1
+      'lblVerificationCode
       '
-      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.Label1.Location = New System.Drawing.Point(19, 353)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(145, 18)
-      Me.Label1.TabIndex = 208
-      Me.Label1.Text = "Builk PaymentTrack ID:"
-      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblVerificationCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblVerificationCode.ForeColor = System.Drawing.SystemColors.ControlText
+      Me.lblVerificationCode.Location = New System.Drawing.Point(19, 351)
+      Me.lblVerificationCode.Name = "lblVerificationCode"
+      Me.lblVerificationCode.Size = New System.Drawing.Size(117, 18)
+      Me.lblVerificationCode.TabIndex = 208
+      Me.lblVerificationCode.Text = "Verification Code:"
+      Me.lblVerificationCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'ConfigurationView
       '
       Me.Controls.Add(Me.txtBuilkPaymentTrackID)
-      Me.Controls.Add(Me.Label1)
+      Me.Controls.Add(Me.lblVerificationCode)
       Me.Controls.Add(Me.txtBuilkID)
       Me.Controls.Add(Me.lblBuilkID)
       Me.Controls.Add(Me.lblPicSize)
@@ -590,7 +590,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblOwner)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "ConfigurationView"
-      Me.Size = New System.Drawing.Size(672, 391)
+      Me.Size = New System.Drawing.Size(514, 391)
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbTax.ResumeLayout(False)
       Me.grbTax.PerformLayout()
@@ -603,19 +603,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-        Private m_isInitialized As Boolean
+    Private m_isInitialized As Boolean
     Public ConfigFilters(14) As Filter
-        Private Dirty As Boolean
+    Private Dirty As Boolean
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
-            EventWiring()
-        End Sub
+    Public Sub New()
+      MyBase.New()
+      InitializeComponent()
+      Me.SetUpCustomize()
+      Me.SetLabelText()
+      Initialize()
+      EventWiring()
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -623,11 +624,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IListDetail"
-        Public Sub CheckFormEnable()
-        End Sub
-        Public Sub ClearDetail()
-        End Sub
-        Public Sub SetLabelText()
+    Public Sub CheckFormEnable()
+    End Sub
+    Public Sub ClearDetail()
+    End Sub
+    Public Sub SetLabelText()
       Me.lblTaxType.Text = XmlForms.BasePojjamanUserControl.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ConfigurationView.lblTaxType}")
       Me.lblPhone.Text = XmlForms.BasePojjamanUserControl.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ConfigurationView.lblPhone}")
       Me.lblFax.Text = XmlForms.BasePojjamanUserControl.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ConfigurationView.lblFax}")
@@ -642,92 +643,105 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblOwner.Text = XmlForms.BasePojjamanUserControl.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ConfigurationView.lblOwner}")
       Me.lblTaxRate.Text = XmlForms.BasePojjamanUserControl.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ConfigurationView.lblTaxRate}")
       Me.grbTax.Text = XmlForms.BasePojjamanUserControl.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ConfigurationView.grbTax}")
-        End Sub
-        Protected Sub EventWiring()
-            AddHandler txtName.TextChanged, AddressOf ChangeProperty
-            AddHandler txtAltName.TextChanged, AddressOf ChangeProperty
-            AddHandler txtAddress.TextChanged, AddressOf ChangeProperty
-            AddHandler txtBillingAddress.TextChanged, AddressOf ChangeProperty
-            AddHandler txtPhone.TextChanged, AddressOf ChangeProperty
-            AddHandler txtFax.TextChanged, AddressOf ChangeProperty
-            AddHandler txtOwner.TextChanged, AddressOf ChangeProperty
-            AddHandler txtTaxID.TextChanged, AddressOf ChangeProperty
+    End Sub
+    Protected Sub EventWiring()
+      AddHandler txtName.TextChanged, AddressOf ChangeProperty
+      AddHandler txtAltName.TextChanged, AddressOf ChangeProperty
+      AddHandler txtAddress.TextChanged, AddressOf ChangeProperty
+      AddHandler txtBillingAddress.TextChanged, AddressOf ChangeProperty
+      AddHandler txtPhone.TextChanged, AddressOf ChangeProperty
+      AddHandler txtFax.TextChanged, AddressOf ChangeProperty
+      AddHandler txtOwner.TextChanged, AddressOf ChangeProperty
+      AddHandler txtTaxID.TextChanged, AddressOf ChangeProperty
 
-            AddHandler txtTaxRate.TextChanged, AddressOf ChangeProperty
+      AddHandler txtTaxRate.TextChanged, AddressOf ChangeProperty
 
-            AddHandler txtTaxRate.Validated, AddressOf TextHandler
+      AddHandler txtTaxRate.Validated, AddressOf TextHandler
 
       AddHandler txtBuilkID.TextChanged, AddressOf ChangeProperty
       AddHandler txtBuilkPaymentTrackID.TextChanged, AddressOf ChangeProperty
 
-            AddHandler cmbCostMethod.SelectedIndexChanged, AddressOf ChangeProperty
-            AddHandler cmbInvMethod.SelectedIndexChanged, AddressOf ChangeProperty
-            AddHandler cmbTaxType.SelectedIndexChanged, AddressOf ChangeProperty
-        End Sub
-
-        Public Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txttaxrate"
-                    Dim txt As String = Me.txtTaxRate.Text
-                    Dim val As Decimal
-                    If txt.Length > 0 AndAlso IsNumeric(txt) Then
-                        val = CDec(txt)
-                    Else
-                        val = 0
-                    End If
-                    Me.SetFilterValue("CompanyTaxRate", val)
-                    txtTaxRate.Text = Configuration.FormatToString(val, 2)
-            End Select
-        End Sub
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtname"
-                    Me.SetFilterValue("CompanyName", txtName.Text)
-                    dirtyFlag = True
-                Case "txtaltname"
-                    Me.SetFilterValue("CompanyAltName", txtAltName.Text)
-                    dirtyFlag = True
-                Case "txtaddress"
-                    Me.SetFilterValue("CompanyAddress", txtAddress.Text)
-                    dirtyFlag = True
-                Case "txtbillingaddress"
-                    Me.SetFilterValue("CompanyBillingAddress", txtBillingAddress.Text)
-                    dirtyFlag = True
-                Case "txtphone"
-                    Me.SetFilterValue("CompanyPhone", txtPhone.Text)
-                    dirtyFlag = True
-                Case "txtfax"
-                    Me.SetFilterValue("CompanyFax", txtFax.Text)
-                    dirtyFlag = True
-                Case "txtowner"
-                    Me.SetFilterValue("CompanyOwner", txtOwner.Text)
-                    dirtyFlag = True
-                Case "txttaxid"
-                    Me.SetFilterValue("CompanyTaxId", txtTaxID.Text)
-                    dirtyFlag = True
-                Case "txttaxrate"
-                    dirtyFlag = True
-                Case "cmbcostmethod"
-                    Dim item As IdValuePair = CType(Me.cmbCostMethod.SelectedItem, IdValuePair)
-                    If Not item Is Nothing Then
-                        Me.SetFilterValue("CompanyCostMethod", item.Id)
-                    End If
-                    dirtyFlag = True
-                Case "cmbinvmethod"
-                    Dim item As IdValuePair = CType(Me.cmbInvMethod.SelectedItem, IdValuePair)
-                    If Not item Is Nothing Then
-                        Me.SetFilterValue("CompanyInventoryMethod", item.Id)
-                    End If
-                    dirtyFlag = True
-                Case "cmbtaxtype"
-                    Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
-                    If Not item Is Nothing Then
-                        Me.SetFilterValue("CompanyTaxType", item.Id)
-                    End If
+      AddHandler cmbCostMethod.SelectedIndexChanged, AddressOf ChangeProperty
+      AddHandler cmbInvMethod.SelectedIndexChanged, AddressOf ChangeProperty
+      AddHandler cmbTaxType.SelectedIndexChanged, AddressOf ChangeProperty
+    End Sub
+    Private Sub SetUpCustomize()
+      Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "textexport")
+      If isCustomize Then
+        lblBuilkID.Visible = True
+        lblVerificationCode.Visible = True
+        txtBuilkID.Visible = True
+        txtBuilkPaymentTrackID.Visible = True
+      Else
+        lblBuilkID.Visible = False
+        lblVerificationCode.Visible = False
+        txtBuilkID.Visible = False
+        txtBuilkPaymentTrackID.Visible = False
+      End If
+    End Sub
+    Public Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txttaxrate"
+          Dim txt As String = Me.txtTaxRate.Text
+          Dim val As Decimal
+          If txt.Length > 0 AndAlso IsNumeric(txt) Then
+            val = CDec(txt)
+          Else
+            val = 0
+          End If
+          Me.SetFilterValue("CompanyTaxRate", val)
+          txtTaxRate.Text = Configuration.FormatToString(val, 2)
+      End Select
+    End Sub
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtname"
+          Me.SetFilterValue("CompanyName", txtName.Text)
+          dirtyFlag = True
+        Case "txtaltname"
+          Me.SetFilterValue("CompanyAltName", txtAltName.Text)
+          dirtyFlag = True
+        Case "txtaddress"
+          Me.SetFilterValue("CompanyAddress", txtAddress.Text)
+          dirtyFlag = True
+        Case "txtbillingaddress"
+          Me.SetFilterValue("CompanyBillingAddress", txtBillingAddress.Text)
+          dirtyFlag = True
+        Case "txtphone"
+          Me.SetFilterValue("CompanyPhone", txtPhone.Text)
+          dirtyFlag = True
+        Case "txtfax"
+          Me.SetFilterValue("CompanyFax", txtFax.Text)
+          dirtyFlag = True
+        Case "txtowner"
+          Me.SetFilterValue("CompanyOwner", txtOwner.Text)
+          dirtyFlag = True
+        Case "txttaxid"
+          Me.SetFilterValue("CompanyTaxId", txtTaxID.Text)
+          dirtyFlag = True
+        Case "txttaxrate"
+          dirtyFlag = True
+        Case "cmbcostmethod"
+          Dim item As IdValuePair = CType(Me.cmbCostMethod.SelectedItem, IdValuePair)
+          If Not item Is Nothing Then
+            Me.SetFilterValue("CompanyCostMethod", item.Id)
+          End If
+          dirtyFlag = True
+        Case "cmbinvmethod"
+          Dim item As IdValuePair = CType(Me.cmbInvMethod.SelectedItem, IdValuePair)
+          If Not item Is Nothing Then
+            Me.SetFilterValue("CompanyInventoryMethod", item.Id)
+          End If
+          dirtyFlag = True
+        Case "cmbtaxtype"
+          Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
+          If Not item Is Nothing Then
+            Me.SetFilterValue("CompanyTaxType", item.Id)
+          End If
           dirtyFlag = True
         Case "txtbuilkid"
           Me.SetFilterValue("BuilkID", txtBuilkID.Text)
@@ -736,163 +750,163 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.SetFilterValue("BuilkPaymentTrackID", txtBuilkPaymentTrackID.Text)
           dirtyFlag = True
       End Select
-            Dirty = Dirty Or dirtyFlag
-            CheckFormEnable()
-        End Sub
-        Public Sub SetStatus()
+      Dirty = Dirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    Public Sub SetStatus()
 
-        End Sub
-        Public Sub Initialize()
-            ConfigFilters(0) = New Filter("CompanyName", Configuration.GetConfig("CompanyName"))
-            ConfigFilters(1) = New Filter("CompanyAddress", Configuration.GetConfig("CompanyAddress"))
-            ConfigFilters(2) = New Filter("CompanyBillingAddress", Configuration.GetConfig("CompanyBillingAddress"))
-            ConfigFilters(3) = New Filter("CompanyPhone", Configuration.GetConfig("CompanyPhone"))
-            ConfigFilters(4) = New Filter("CompanyFax", Configuration.GetConfig("CompanyFax"))
-            ConfigFilters(5) = New Filter("CompanyTaxId", Configuration.GetConfig("CompanyTaxId"))
-            ConfigFilters(6) = New Filter("CompanyInventoryMethod", Configuration.GetConfig("CompanyInventoryMethod"))
-            ConfigFilters(7) = New Filter("CompanyTaxRate", Configuration.GetConfig("CompanyTaxRate"))
-            ConfigFilters(8) = New Filter("CompanyTaxType", Configuration.GetConfig("CompanyTaxType"))
-            ConfigFilters(9) = New Filter("CompanyOwner", Configuration.GetConfig("CompanyOwner"))
-            ConfigFilters(10) = New Filter("CompanyAltName", Configuration.GetConfig("CompanyAltName"))
-            ConfigFilters(11) = New Filter("CompanyCostMethod", Configuration.GetConfig("CompanyCostMethod"))
-            ' Hack : Logo
+    End Sub
+    Public Sub Initialize()
+      ConfigFilters(0) = New Filter("CompanyName", Configuration.GetConfig("CompanyName"))
+      ConfigFilters(1) = New Filter("CompanyAddress", Configuration.GetConfig("CompanyAddress"))
+      ConfigFilters(2) = New Filter("CompanyBillingAddress", Configuration.GetConfig("CompanyBillingAddress"))
+      ConfigFilters(3) = New Filter("CompanyPhone", Configuration.GetConfig("CompanyPhone"))
+      ConfigFilters(4) = New Filter("CompanyFax", Configuration.GetConfig("CompanyFax"))
+      ConfigFilters(5) = New Filter("CompanyTaxId", Configuration.GetConfig("CompanyTaxId"))
+      ConfigFilters(6) = New Filter("CompanyInventoryMethod", Configuration.GetConfig("CompanyInventoryMethod"))
+      ConfigFilters(7) = New Filter("CompanyTaxRate", Configuration.GetConfig("CompanyTaxRate"))
+      ConfigFilters(8) = New Filter("CompanyTaxType", Configuration.GetConfig("CompanyTaxType"))
+      ConfigFilters(9) = New Filter("CompanyOwner", Configuration.GetConfig("CompanyOwner"))
+      ConfigFilters(10) = New Filter("CompanyAltName", Configuration.GetConfig("CompanyAltName"))
+      ConfigFilters(11) = New Filter("CompanyCostMethod", Configuration.GetConfig("CompanyCostMethod"))
+      ' Hack : Logo
       ConfigFilters(12) = New Filter("Logo", Configuration.GetConfig("Logo"))
       ConfigFilters(13) = New Filter("BuilkID", Configuration.GetConfig("BuilkID"))
       ConfigFilters(14) = New Filter("BuilkPaymentTrackID", Configuration.GetConfig("BuilkPaymentTrackID"))
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbInvMethod, "config_invmethod")
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbCostMethod, "config_costmethod")
-        End Sub
-        Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
-            For Each filter As filter In ConfigFilters
-                If filter.Name.ToLower = name.ToLower Then
-                    filter.Value = value
-                    Exit For
-                End If
-            Next
-        End Sub
-        Private Function GetFilterValue(ByVal name As String) As Object
-            For Each filter As filter In ConfigFilters
-                If filter.Name.ToLower = name.ToLower Then
-                    Return filter.Value
-                End If
-            Next
-        End Function
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbTaxType, "taxType")
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbInvMethod, "config_invmethod")
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbCostMethod, "config_costmethod")
+    End Sub
+    Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
+      For Each filter As filter In ConfigFilters
+        If filter.Name.ToLower = name.ToLower Then
+          filter.Value = value
+          Exit For
+        End If
+      Next
+    End Sub
+    Private Function GetFilterValue(ByVal name As String) As Object
+      For Each filter As filter In ConfigFilters
+        If filter.Name.ToLower = name.ToLower Then
+          Return filter.Value
+        End If
+      Next
+    End Function
 #End Region
 
 #Region "Methods"
 #End Region
 
 #Region "Event Handers"
-        Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Overrides"
-        Public Overloads Overrides Sub LoadPanelContents()
-            m_isInitialized = False
-            ClearDetail()
-            Me.txtName.Text = GetFilterValue("CompanyName").ToString
-            Me.txtAltName.Text = GetFilterValue("CompanyAltName").ToString
-            Me.txtAddress.Text = GetFilterValue("CompanyAddress").ToString
-            Me.txtBillingAddress.Text = GetFilterValue("CompanyBillingAddress").ToString
-            Me.txtPhone.Text = GetFilterValue("CompanyPhone").ToString
-            Me.txtFax.Text = GetFilterValue("CompanyFax").ToString
-            Me.txtOwner.Text = GetFilterValue("CompanyOwner").ToString
-            Me.txtTaxID.Text = GetFilterValue("CompanyTaxId").ToString
+    Public Overloads Overrides Sub LoadPanelContents()
+      m_isInitialized = False
+      ClearDetail()
+      Me.txtName.Text = GetFilterValue("CompanyName").ToString
+      Me.txtAltName.Text = GetFilterValue("CompanyAltName").ToString
+      Me.txtAddress.Text = GetFilterValue("CompanyAddress").ToString
+      Me.txtBillingAddress.Text = GetFilterValue("CompanyBillingAddress").ToString
+      Me.txtPhone.Text = GetFilterValue("CompanyPhone").ToString
+      Me.txtFax.Text = GetFilterValue("CompanyFax").ToString
+      Me.txtOwner.Text = GetFilterValue("CompanyOwner").ToString
+      Me.txtTaxID.Text = GetFilterValue("CompanyTaxId").ToString
 
-            Me.txtTaxRate.Text = Configuration.FormatToString(CDec(GetFilterValue("CompanyTaxRate")), 2)
+      Me.txtTaxRate.Text = Configuration.FormatToString(CDec(GetFilterValue("CompanyTaxRate")), 2)
 
       Me.txtBuilkID.Text = GetFilterValue("BuilkID").ToString
       Me.txtBuilkPaymentTrackID.Text = GetFilterValue("BuilkPaymentTrackID").ToString
 
-            Dim tmpCostMethod As New CodeDescription(CInt(GetFilterValue("CompanyCostMethod")))
-            CodeDescription.ComboSelect(Me.cmbCostMethod, tmpCostMethod)
+      Dim tmpCostMethod As New CodeDescription(CInt(GetFilterValue("CompanyCostMethod")))
+      CodeDescription.ComboSelect(Me.cmbCostMethod, tmpCostMethod)
 
-            Dim tmpInvMethod As New CodeDescription(CInt(GetFilterValue("CompanyInventoryMethod")))
-            CodeDescription.ComboSelect(Me.cmbInvMethod, tmpInvMethod)
+      Dim tmpInvMethod As New CodeDescription(CInt(GetFilterValue("CompanyInventoryMethod")))
+      CodeDescription.ComboSelect(Me.cmbInvMethod, tmpInvMethod)
 
-            Dim tmpTaxType As New CodeDescription(CInt(GetFilterValue("CompanyTaxType")))
-            CodeDescription.ComboSelect(Me.cmbTaxType, tmpTaxType)
+      Dim tmpTaxType As New CodeDescription(CInt(GetFilterValue("CompanyTaxType")))
+      CodeDescription.ComboSelect(Me.cmbTaxType, tmpTaxType)
 
-            Me.picLogo.Image = Configuration.LoadImage()
-            CheckLabelImgSize()
+      Me.picLogo.Image = Configuration.LoadImage()
+      CheckLabelImgSize()
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
-        End Sub
-        Public Overloads Overrides Function StorePanelContents() As Boolean
-            If Not m_isInitialized Then
-                Return True
-            End If
-            If Not Dirty Then
-                Return True
-            End If
-            Configuration.Save(Me.ConfigFilters)
-            WorkbenchSingleton.Workbench.RedrawAllComponents()
-            Return True
-        End Function
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
+    Public Overloads Overrides Function StorePanelContents() As Boolean
+      If Not m_isInitialized Then
+        Return True
+      End If
+      If Not Dirty Then
+        Return True
+      End If
+      Configuration.Save(Me.ConfigFilters)
+      WorkbenchSingleton.Workbench.RedrawAllComponents()
+      Return True
+    End Function
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
-        Private Sub btnLoadLogo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim dlg As New OpenFileDialog
-            dlg.Filter = "Jpeg files (*.jpg)|*.jpg|Bitmap files (*.bmp)|*.bmp|Gif file (*.gif)|*.gif"
-            With dlg
-                .CheckFileExists = True
-                .Filter = "Bitmap Files |*;*.GIF;*.JPG;*.BMP"
-            End With
-            If dlg.ShowDialog = DialogResult.OK Then
-                Dim img As Image = Image.FromFile(dlg.FileName)
-                Me.picLogo.Image = img
-                Me.SetFilterValue("logo", img)
-                'Hack
-                Dirty = True
-            End If
-        End Sub
+    Private Sub btnLoadLogo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim dlg As New OpenFileDialog
+      dlg.Filter = "Jpeg files (*.jpg)|*.jpg|Bitmap files (*.bmp)|*.bmp|Gif file (*.gif)|*.gif"
+      With dlg
+        .CheckFileExists = True
+        .Filter = "Bitmap Files |*;*.GIF;*.JPG;*.BMP"
+      End With
+      If dlg.ShowDialog = DialogResult.OK Then
+        Dim img As Image = Image.FromFile(dlg.FileName)
+        Me.picLogo.Image = img
+        Me.SetFilterValue("logo", img)
+        'Hack
+        Dirty = True
+      End If
+    End Sub
 #Region "Image button"
-        Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
-            Dim dlg As New OpenFileDialog
-            dlg.AddExtension = True
-            Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
-            dlg.Filter = String.Join("|", fileFilters)
-            If dlg.ShowDialog = DialogResult.OK Then
-                Dim img As Image = Image.FromFile(dlg.FileName)
-                If img.Size.Height > Me.picLogo.Height OrElse img.Size.Width >= Me.picLogo.Width Then
-                    Dim percent As Decimal = 100 * (Math.Min(Me.picLogo.Height / img.Size.Height, Me.picLogo.Width / img.Size.Width))
-                    img = ImageHelper.Resize(img, percent)
-                End If
-                Me.picLogo.Image = img
-                Me.SetFilterValue("logo", img)
-                'Hack
-                Dirty = True
-                CheckLabelImgSize()
-            End If
-        End Sub
-        Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
-            Me.picLogo.Image = Nothing
-            Me.SetFilterValue("logo", Nothing)
-            Dirty = True
-            CheckLabelImgSize()
-        End Sub
-        Private Sub CheckLabelImgSize()
-            Me.lblPicSize.Text = "160 X 192 pixel"
-            If Me.picLogo.Image Is Nothing Then
-                Me.lblPicSize.Visible = True
-            Else
-                Me.lblPicSize.Visible = False
-            End If
-        End Sub
+    Private Sub btnLoadImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoadImage.Click
+      Dim dlg As New OpenFileDialog
+      dlg.AddExtension = True
+      Dim fileFilters As String() = CType(AddInTreeSingleton.AddInTree.GetTreeNode("/Pojjaman/Workbench/Image/FileFilter").BuildChildItems(Me).ToArray(GetType(String)), String())
+      dlg.Filter = String.Join("|", fileFilters)
+      If dlg.ShowDialog = DialogResult.OK Then
+        Dim img As Image = Image.FromFile(dlg.FileName)
+        If img.Size.Height > Me.picLogo.Height OrElse img.Size.Width >= Me.picLogo.Width Then
+          Dim percent As Decimal = 100 * (Math.Min(Me.picLogo.Height / img.Size.Height, Me.picLogo.Width / img.Size.Width))
+          img = ImageHelper.Resize(img, percent)
+        End If
+        Me.picLogo.Image = img
+        Me.SetFilterValue("logo", img)
+        'Hack
+        Dirty = True
+        CheckLabelImgSize()
+      End If
+    End Sub
+    Private Sub btnClearImage_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearImage.Click
+      Me.picLogo.Image = Nothing
+      Me.SetFilterValue("logo", Nothing)
+      Dirty = True
+      CheckLabelImgSize()
+    End Sub
+    Private Sub CheckLabelImgSize()
+      Me.lblPicSize.Text = "160 X 192 pixel"
+      If Me.picLogo.Image Is Nothing Then
+        Me.lblPicSize.Visible = True
+      Else
+        Me.lblPicSize.Visible = False
+      End If
+    End Sub
 #End Region
 
     Private Sub lblostMethod_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblostMethod.Click

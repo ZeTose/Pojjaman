@@ -8,6 +8,7 @@ Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class SupplierDetailView
+    'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -96,7 +97,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtMCBank As System.Windows.Forms.TextBox
     Friend WithEvents txtFaxforExport As System.Windows.Forms.TextBox
     Friend WithEvents lblFaxforExport As System.Windows.Forms.Label
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents grbBuilkPayeeID As System.Windows.Forms.GroupBox
     Friend WithEvents txtBuilkID As System.Windows.Forms.TextBox
     Friend WithEvents lblBuilkID As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
@@ -104,7 +105,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SupplierDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+      Me.grbBuilkPayeeID = New System.Windows.Forms.GroupBox()
       Me.txtBuilkID = New System.Windows.Forms.TextBox()
       Me.lblBuilkID = New System.Windows.Forms.Label()
       Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -175,7 +176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.grbDetail.SuspendLayout()
-      Me.GroupBox1.SuspendLayout()
+      Me.grbBuilkPayeeID.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.primaryDetailGroupBox.SuspendLayout()
@@ -188,7 +189,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.GroupBox1)
+      Me.grbDetail.Controls.Add(Me.grbBuilkPayeeID)
       Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.btnLock)
       Me.grbDetail.Controls.Add(Me.tgContact)
@@ -209,16 +210,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด Supplier : "
       '
-      'GroupBox1
+      'grbBuilkPayeeID
       '
-      Me.GroupBox1.Controls.Add(Me.txtBuilkID)
-      Me.GroupBox1.Controls.Add(Me.lblBuilkID)
-      Me.GroupBox1.Location = New System.Drawing.Point(750, 24)
-      Me.GroupBox1.Name = "GroupBox1"
-      Me.GroupBox1.Size = New System.Drawing.Size(206, 48)
-      Me.GroupBox1.TabIndex = 330
-      Me.GroupBox1.TabStop = False
-      Me.GroupBox1.Text = "PaymentTrack"
+      Me.grbBuilkPayeeID.Controls.Add(Me.txtBuilkID)
+      Me.grbBuilkPayeeID.Controls.Add(Me.lblBuilkID)
+      Me.grbBuilkPayeeID.Location = New System.Drawing.Point(750, 24)
+      Me.grbBuilkPayeeID.Name = "grbBuilkPayeeID"
+      Me.grbBuilkPayeeID.Size = New System.Drawing.Size(206, 48)
+      Me.grbBuilkPayeeID.TabIndex = 330
+      Me.grbBuilkPayeeID.TabStop = False
+      Me.grbBuilkPayeeID.Text = "Builk Payee ID"
       '
       'txtBuilkID
       '
@@ -244,7 +245,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBuilkID.Name = "lblBuilkID"
       Me.lblBuilkID.Size = New System.Drawing.Size(51, 18)
       Me.lblBuilkID.TabIndex = 210
-      Me.lblBuilkID.Text = "Builk ID:"
+      Me.lblBuilkID.Text = "ID:"
       Me.lblBuilkID.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'FixedGroupBox1
@@ -1183,8 +1184,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(990, 496)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
-      Me.GroupBox1.ResumeLayout(False)
-      Me.GroupBox1.PerformLayout()
+      Me.grbBuilkPayeeID.ResumeLayout(False)
+      Me.grbBuilkPayeeID.PerformLayout()
       Me.FixedGroupBox1.ResumeLayout(False)
       Me.FixedGroupBox1.PerformLayout()
       CType(Me.tgContact, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1292,6 +1293,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.InitializeComponent()
       Me.SetLabelText()
       Me.Initialize()
+      Me.SetUpCustomize()
 
       Dim dt As TreeTable = SupplierContact.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
@@ -1405,6 +1407,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_contactInitialized = False
       scColl.Populate(dt)
       m_contactInitialized = True
+    End Sub
+    Private Sub SetUpCustomize()
+      Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "textexport")
+      If isCustomize Then
+        grbBuilkPayeeID.Visible = True
+      Else
+        grbBuilkPayeeID.Visible = False
+      End If
     End Sub
 #End Region
 
