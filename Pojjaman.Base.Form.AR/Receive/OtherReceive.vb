@@ -535,6 +535,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CheckFormEnable()
     End Sub
     Public Sub SetStatus()
+      MyBase.SetStatusBarMessage()
       'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
       '    lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
       '    " " & m_entity.CancelDate.ToShortTimeString & _
