@@ -102,6 +102,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.shared.windows.dll</HintPath>
     </Reference>
+    <Reference Include="syncfusion.xlsio.base, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\syncfusion.xlsio.base.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -163,6 +167,11 @@
     <Compile Include="BLL\RptWBSMonitorByItem.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Qatar\RptSpecialWBS.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -179,6 +188,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\ComplexReport\ComplexReportValueView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\CostControl\RptCBSMonitorFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\CostControl\RptWBSMonitorAllFilterSubPanel.vb">
@@ -208,6 +220,11 @@
     <Compile Include="UI\CostControl\RptWBSMonitorFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Qatar\RptSpecialWBSView.resx">
       <DependentUpon>RptSpecialWBSView.vb</DependentUpon>
     </EmbeddedResource>
@@ -222,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComplexReport\ComplexReportValueView.resx">
       <DependentUpon>ComplexReportValueView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CostControl\RptCBSMonitorFilterSubPanel.resx">
+      <DependentUpon>RptCBSMonitorFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CostControl\RptWBSMonitorAllFilterSubPanel.resx">
       <DependentUpon>RptWBSMonitorAllFilterSubPanel.vb</DependentUpon>
@@ -252,7 +272,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="My Project\" />
+    <None Include="Resources\Actions-go-up.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -305,6 +325,21 @@
       <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
       <Name>Pojjaman.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-down.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-up-icon48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-down-icon48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-down-icon32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-up-icon32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

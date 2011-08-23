@@ -1041,6 +1041,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       cc.StoreAccount.Code = drh.GetValue(Of String)("storeAcctCode")
       cc.StoreAccount.Name = drh.GetValue(Of String)("storeAcctName")
       cc.Address = drh.GetValue(Of String)("cc_address")
+      cc.IsActive = drh.GetValue(Of Boolean)("cc_isactive")
     End Sub
     Public Shared Sub DestroyCachCC()
       m_AllCCMinData = Nothing
@@ -1269,6 +1270,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_InfoList
       End Get
     End Property
+
+    Public Shared Function CostCenterRightList(ByVal currentuserid As Integer) As Generic.Dictionary(Of String, CostCenter)
+      Dim cclist As New Dictionary(Of String, CostCenter)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetMinCostCenterBOQRightList" _
+      , New SqlParameter("@user", currentuserid) _
+      )
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim cc As New CostCenter
+        SetMinimumCC(cc, row)
+        If Not cclist.ContainsKey(cc.Code) Then
+          cclist.Add(cc.Code, cc)
+        End If
+      Next
+      Return cclist
+    End Function
 
     Public Function GetCashFlow(ByVal dataDate As Date) As DataSet
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _

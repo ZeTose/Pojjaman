@@ -32,7 +32,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Style"
-    Public Shared Function CreateCBSMonitorTableStyle(ByVal dtcc As DataTable) As DataGridTableStyle
+    Public Shared Function CreateCBSMonitorTableStyle(ByVal dtcc As DataTable, ByVal Views As String) As DataGridTableStyle
       Dim dst As New DataGridTableStyle
       dst.MappingName = "CBS"
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -179,17 +179,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dst.GridColumnStyles.Add(csBarrier0)
 
         dst.GridColumnStyles.Add(csBudget)
-        dst.GridColumnStyles.Add(csActualTotalPR)
-        dst.GridColumnStyles.Add(csPRDiff)
 
-        dst.GridColumnStyles.Add(csActualTotalPO)
-        dst.GridColumnStyles.Add(csPODiff)
+        If Views.Contains("|7|") Then
+          dst.GridColumnStyles.Add(csActualTotalPR)
+          dst.GridColumnStyles.Add(csPRDiff)
+        End If
 
-        dst.GridColumnStyles.Add(csActualTotalGR)
-        dst.GridColumnStyles.Add(csGRDiff)
 
-        dst.GridColumnStyles.Add(csActualTotalMW)
-        dst.GridColumnStyles.Add(csMWDiff)
+        If Views.Contains("|6|") Then
+          dst.GridColumnStyles.Add(csActualTotalPO)
+          dst.GridColumnStyles.Add(csPODiff)
+        End If
+
+        If Views.Contains("|45|") Then
+          dst.GridColumnStyles.Add(csActualTotalGR)
+          dst.GridColumnStyles.Add(csGRDiff)
+        End If
+
+        If Views.Contains("|31|") Then
+          dst.GridColumnStyles.Add(csActualTotalMW)
+          dst.GridColumnStyles.Add(csMWDiff)
+        End If
 
       Next
 
@@ -290,7 +300,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'dst.GridColumnStyles.Add(csCBSCode)
       'dst.GridColumnStyles.Add(csCBSName)
 
-      
+
 
       Return dst
     End Function
@@ -423,7 +433,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return RptCBSMonitor.GetCBSMonitorSchemaTable(Nothing) 'BOQ.GetWBSMonitorSchemaTable
     End Function
     Public Overrides Function CreateSimpleTableStyle() As System.Windows.Forms.DataGridTableStyle
-      Return RptCBSMonitor.CreateCBSMonitorTableStyle(Nothing) 'BOQ.CreateWBSMonitorTableStyle
+      Return RptCBSMonitor.CreateCBSMonitorTableStyle(Nothing, "") 'BOQ.CreateWBSMonitorTableStyle
     End Function
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Private dtcc As DataTable
@@ -442,7 +452,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       Dim tm As New TreeManager(GetCBSMonitorSchemaTable(dtcc), New TreeGrid)
       ListInGrid(tm)
-      lkg.TreeTableStyle = CreateCBSMonitorTableStyle(dtcc)
+
+
+      lkg.TreeTableStyle = CreateCBSMonitorTableStyle(dtcc, CStr(Me.Filters(4).Value))
       lkg.TreeTable = tm.Treetable
       lkg.Rows.HeaderCount = 2
       lkg.Rows.FrozenCount = 2
@@ -452,6 +464,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.RefreshHeights()
       lkg.Refresh()
     End Sub
+    
     Public Overrides Sub ListInGrid(ByVal tm As Gui.Components.TreeManager)
       Me.m_treemanager = tm
       'If m_cc Is Nothing OrElse Not m_cc.Originated Then

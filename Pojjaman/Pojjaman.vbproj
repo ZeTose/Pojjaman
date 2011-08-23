@@ -168,6 +168,16 @@
     <Compile Include="Main\PojjamanMain.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <None Include="AddIns\Customizations\VArch\Pojjaman.Base.Form.VArch.addin">
       <SubType>Designer</SubType>
     </None>
@@ -439,6 +449,10 @@
     <Content Include="Externals\Telerik.WinControls.UI.dll" />
     <Content Include="Externals\TelerikCommon.dll" />
     <Content Include="PojjamanIcon.ico" />
+    <None Include="Resources\Action-gp-up.bmp" />
+    <None Include="Resources\Action-go-up.bmp" />
+    <None Include="Resources\Actions-go-down.ico" />
+    <None Include="Resources\Actions-go-up.ico" />
     <Content Include="Resources\Images\tv_minus.bmp" />
     <Content Include="Resources\Images\tv_plus.bmp" />
     <EmbeddedResource Include="data\resources\BitmapResources.resources" />
@@ -907,7 +921,6 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="data\resources\dialogs\UML Designer\" />
-    <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
