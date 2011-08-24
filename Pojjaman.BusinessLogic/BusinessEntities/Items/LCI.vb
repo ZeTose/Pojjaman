@@ -710,7 +710,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
     , CommandType.StoredProcedure _
     , "GetLCICollection" _
-    , Nothing)
+    , New SqlParameter("@forAllCollection", "y"))
       If ds.Tables(0).Rows.Count >= 1 Then
         For Each row As DataRow In ds.Tables(0).Rows
           Dim drh As New DataRowHelper(row)
