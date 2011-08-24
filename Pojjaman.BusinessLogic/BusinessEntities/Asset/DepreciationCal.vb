@@ -591,6 +591,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("deprei_status") = Me.Status.Value
           dr("deprei_depreopening") = Configuration.Format(item.DepreOpeningBalanceamnt, DigitConfig.Price)
           dr("deprei_deprebase") = Configuration.Format(item.DepreBase, DigitConfig.Price)
+          dr("deprei_cc") = ValidIdOrDBNull(item.CostCenter)
           .Rows.Add(dr)
         Next
       End With
@@ -689,218 +690,218 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return totalbuyprice
             End Get
         End Property
-        Private Function GetItemJournalEntries() As JournalEntryItemCollection
-            Dim jiColl As New JournalEntryItemCollection
+    Private Function GetItemJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
 
-            Dim ji As New JournalEntryItem
-            Dim withdrawAccount As Account
-            For Each item As DepreciationCalItem In Me.ItemCollection
+      Dim ji As New JournalEntryItem
+      Dim withdrawAccount As Account
+      For Each item As DepreciationCalItem In Me.ItemCollection
 
-                'item.DepreciationCalculation(item.Entity)
+        'item.DepreciationCalculation(item.Entity)
 
-                Dim depreAcctMatched As Boolean = False
-                Dim noDepreAcctMatched As Boolean = False
+        Dim depreAcctMatched As Boolean = False
+        Dim noDepreAcctMatched As Boolean = False
 
-                Dim depreOPBAcctMatched As Boolean = False
-                Dim noDepreOPBAcctMatched As Boolean = False
+        Dim depreOPBAcctMatched As Boolean = False
+        Dim noDepreOPBAcctMatched As Boolean = False
 
-                'For Each addedJi As JournalEntryItem In jiColl
-                '  If Not item.Entity Is Nothing Then
-                '    'I6.2  ค่าเสื่อมสะสม
-                '    Dim depreAccount As Account
-                '    If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
-                '      depreAccount = item.Entity.DepreOpeningAccount
-                '    End If
-                '    If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
-                '      If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreAccount.Id) And addedJi.Mapping = "I6.2" Then
-                '        addedJi.Amount += item.Depreamnt
-                '        depreAcctMatched = True
-                '      End If
-                '    ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
-                '      If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.2" Then
-                '        addedJi.Amount += item.Depreamnt
-                '        noDepreAcctMatched = True
-                '      End If
-                '    End If
+        'For Each addedJi As JournalEntryItem In jiColl
+        '  If Not item.Entity Is Nothing Then
+        '    'I6.2  ค่าเสื่อมสะสม
+        '    Dim depreAccount As Account
+        '    If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
+        '      depreAccount = item.Entity.DepreOpeningAccount
+        '    End If
+        '    If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
+        '      If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreAccount.Id) And addedJi.Mapping = "I6.2" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        depreAcctMatched = True
+        '      End If
+        '    ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
+        '      If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.2" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        noDepreAcctMatched = True
+        '      End If
+        '    End If
 
-                '    'I6.1 ค่าเสื่อมราคา
-                '    Dim depreOPBAccount As Account
-                '    If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
-                '      depreOPBAccount = item.Entity.DepreAccount
-                '    End If
-                '    If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
-                '      If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreOPBAccount.Id) And addedJi.Mapping = "I6.1" Then
-                '        addedJi.Amount += item.Depreamnt
-                '        depreAcctMatched = True
-                '      End If
-                '    ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
-                '      If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.1" Then
-                '        addedJi.Amount += item.Depreamnt
-                '        noDepreAcctMatched = True
-                '      End If
-                '    End If
-                '  End If
-                'Next
-                If Not item.Entity Is Nothing Then
-                    'I6.2  ค่าเสื่อมสะสม
-                    Dim depreAccount As Account
-                    If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
-                        'ใช้ acct ในรายการ
-                        depreAccount = item.Entity.DepreOpeningAccount
-                    End If
-                    If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
-                        'If Not depreAcctMatched Then
-                        ji = New JournalEntryItem
-                        ji.Mapping = "I6.2"
-                        ji.Amount += item.Depreamnt
-                        ji.Account = depreAccount
-                        If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                            ji.CostCenter = Me.FromCostcenter
-                        ElseIf item.Entity.Costcenter IsNot Nothing Then
-                            ji.CostCenter = item.Entity.Costcenter
-                        Else
-                            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        End If
-                        'ji.EntityItem = item.Entity.Id
-                        'ji.EntityItemType = item.Entity.EntityId
-                        jiColl.Add(ji)
-                        'End If
-                    ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
-                        If Not noDepreAcctMatched Then
-                            ji = New JournalEntryItem
-                            ji.Mapping = "I6.2"
-                            ji.Amount += item.Depreamnt
-                            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                                ji.CostCenter = Me.FromCostcenter
-                            ElseIf item.Entity.Costcenter IsNot Nothing Then
-                                ji.CostCenter = item.Entity.Costcenter
-                            Else
-                                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                            End If
-                            'ji.EntityItem = item.Entity.Id
-                            'ji.EntityItemType = item.Entity.EntityId
-                            jiColl.Add(ji)
-                        End If
-                    End If
+        '    'I6.1 ค่าเสื่อมราคา
+        '    Dim depreOPBAccount As Account
+        '    If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
+        '      depreOPBAccount = item.Entity.DepreAccount
+        '    End If
+        '    If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
+        '      If (Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = depreOPBAccount.Id) And addedJi.Mapping = "I6.1" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        depreAcctMatched = True
+        '      End If
+        '    ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
+        '      If (addedJi.Account Is Nothing OrElse Not addedJi.Account.Originated) And addedJi.Mapping = "I6.1" Then
+        '        addedJi.Amount += item.Depreamnt
+        '        noDepreAcctMatched = True
+        '      End If
+        '    End If
+        '  End If
+        'Next
+        If Not item.Entity Is Nothing Then
+          'I6.2  ค่าเสื่อมสะสม
+          Dim depreAccount As Account
+          If Not item.Entity.DepreOpeningAccount Is Nothing AndAlso item.Entity.DepreOpeningAccount.Originated Then
+            'ใช้ acct ในรายการ
+            depreAccount = item.Entity.DepreOpeningAccount
+          End If
+          If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.2"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.CostCenter IsNot Nothing Then
+              ji.CostCenter = item.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            'ji.EntityItem = item.Entity.Id
+            'ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
+            If Not noDepreAcctMatched Then
+              ji = New JournalEntryItem
+              ji.Mapping = "I6.2"
+              ji.Amount += item.Depreamnt
+              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+                ji.CostCenter = Me.FromCostcenter
+              ElseIf item.CostCenter IsNot Nothing Then
+                ji.CostCenter = item.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              'ji.EntityItem = item.Entity.Id
+              'ji.EntityItemType = item.Entity.EntityId
+              jiColl.Add(ji)
+            End If
+          End If
 
-                    If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
-                        'If Not depreAcctMatched Then
-                        ji = New JournalEntryItem
-                        ji.Mapping = "I6.2D"
-                        ji.Amount += item.Depreamnt
-                        ji.Account = depreAccount
-                        If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                            ji.CostCenter = Me.FromCostcenter
-                        ElseIf item.Entity.Costcenter IsNot Nothing Then
-                            ji.CostCenter = item.Entity.Costcenter
-                        Else
-                            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        End If
-                        ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
-                        ji.EntityItem = item.Entity.Id
-                        ji.EntityItemType = item.Entity.EntityId
-                        jiColl.Add(ji)
-                        'End If
-                    ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
-                        'If Not noDepreAcctMatched Then
-                        ji = New JournalEntryItem
-                        ji.Mapping = "I6.2D"
-                        ji.Amount += item.Depreamnt
-                        If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                            ji.CostCenter = Me.FromCostcenter
-                        ElseIf item.Entity.Costcenter IsNot Nothing Then
-                            ji.CostCenter = item.Entity.Costcenter
-                        Else
-                            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        End If
-                        ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
-                        ji.EntityItem = item.Entity.Id
-                        ji.EntityItemType = item.Entity.EntityId
-                        jiColl.Add(ji)
-                        'End If
-                    End If
+          If Not depreAccount Is Nothing AndAlso depreAccount.Originated Then
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.2D"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.CostCenter IsNot Nothing Then
+              ji.CostCenter = item.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          ElseIf depreAccount Is Nothing OrElse Not depreAccount.Originated Then
+            'If Not noDepreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.2D"
+            ji.Amount += item.Depreamnt
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.CostCenter IsNot Nothing Then
+              ji.CostCenter = item.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          End If
 
-                    'I6.1  ค่าเสื่อมราคา
-                    Dim depreOPBAccount As Account
-                    If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
-                        'ใช้ acct ในรายการ
-                        depreOPBAccount = item.Entity.DepreAccount
-                    End If
-                    If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
-                        'If Not depreAcctMatched Then
-                        ji = New JournalEntryItem
-                        ji.Mapping = "I6.1"
-                        ji.Amount += item.Depreamnt
-                        ji.Account = depreOPBAccount
-                        If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                            ji.CostCenter = Me.FromCostcenter
-                        ElseIf item.Entity.Costcenter IsNot Nothing Then
-                            ji.CostCenter = item.Entity.Costcenter
-                        Else
-                            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        End If
-                        'ji.EntityItem = item.Entity.Id
-                        'ji.EntityItemType = item.Entity.EntityId
-                        jiColl.Add(ji)
-                        'End If
-                    ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
-                        If Not noDepreAcctMatched Then
-                            ji = New JournalEntryItem
-                            ji.Mapping = "I6.1"
-                            ji.Amount += item.Depreamnt
-                            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                                ji.CostCenter = Me.FromCostcenter
-                            ElseIf item.Entity.Costcenter IsNot Nothing Then
-                                ji.CostCenter = item.Entity.Costcenter
-                            Else
-                                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                            End If
-                            'ji.EntityItem = item.Entity.Id
-                            'ji.EntityItemType = item.Entity.EntityId
-                            jiColl.Add(ji)
-                        End If
-                    End If
-                    If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
-                        'If Not depreAcctMatched Then
-                        ji = New JournalEntryItem
-                        ji.Mapping = "I6.1D"
-                        ji.Amount += item.Depreamnt
-                        ji.Account = depreOPBAccount
-                        If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                            ji.CostCenter = Me.FromCostcenter
-                        ElseIf item.Entity.Costcenter IsNot Nothing Then
-                            ji.CostCenter = item.Entity.Costcenter
-                        Else
-                            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        End If
-                        ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
-                        ji.EntityItem = item.Entity.Id
-                        ji.EntityItemType = item.Entity.EntityId
-                        jiColl.Add(ji)
-                        'End If
-                    ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
-                        'If Not noDepreAcctMatched Then
-                        ji = New JournalEntryItem
-                        ji.Mapping = "I6.1D"
-                        ji.Amount += item.Depreamnt
-                        If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
-                            ji.CostCenter = Me.FromCostcenter
-                        ElseIf item.Entity.Costcenter IsNot Nothing Then
-                            ji.CostCenter = item.Entity.Costcenter
-                        Else
-                            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-                        End If
-                        ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
-                        ji.EntityItem = item.Entity.Id
-                        ji.EntityItemType = item.Entity.EntityId
-                        jiColl.Add(ji)
-                        'End If
-                    End If
-                End If
+          'I6.1  ค่าเสื่อมราคา
+          Dim depreOPBAccount As Account
+          If Not item.Entity.DepreAccount Is Nothing AndAlso item.Entity.DepreAccount.Originated Then
+            'ใช้ acct ในรายการ
+            depreOPBAccount = item.Entity.DepreAccount
+          End If
+          If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.1"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreOPBAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.CostCenter IsNot Nothing Then
+              ji.CostCenter = item.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            'ji.EntityItem = item.Entity.Id
+            'ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
+            If Not noDepreAcctMatched Then
+              ji = New JournalEntryItem
+              ji.Mapping = "I6.1"
+              ji.Amount += item.Depreamnt
+              If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+                ji.CostCenter = Me.FromCostcenter
+              ElseIf item.CostCenter IsNot Nothing Then
+                ji.CostCenter = item.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              'ji.EntityItem = item.Entity.Id
+              'ji.EntityItemType = item.Entity.EntityId
+              jiColl.Add(ji)
+            End If
+          End If
+          If Not depreOPBAccount Is Nothing AndAlso depreOPBAccount.Originated Then
+            'If Not depreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.1D"
+            ji.Amount += item.Depreamnt
+            ji.Account = depreOPBAccount
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.CostCenter IsNot Nothing Then
+              ji.CostCenter = item.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          ElseIf depreOPBAccount Is Nothing OrElse Not depreOPBAccount.Originated Then
+            'If Not noDepreAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = "I6.1D"
+            ji.Amount += item.Depreamnt
+            If Me.IsTransfer AndAlso Me.FromCostcenter IsNot Nothing Then
+              ji.CostCenter = Me.FromCostcenter
+            ElseIf item.CostCenter IsNot Nothing Then
+              ji.CostCenter = item.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = "{glfi.Field.Name}" + " " + item.Entity.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            jiColl.Add(ji)
+            'End If
+          End If
+        End If
 
-            Next
-            Return jiColl
-        End Function
+      Next
+      Return jiColl
+    End Function
         Private Sub SetGLForCostCenter(ByVal jiColl As JournalEntryItemCollection)
             Dim ji As New JournalEntryItem
             Dim ht As New Hashtable
@@ -1350,7 +1351,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_lineNumber As Integer
 
         Private m_note As String
-        Private m_lastestCalcDate As Date
+    Private m_lastestCalcDate As Date
+    Private m_cc As CostCenter
 #End Region
 
 #Region "Constructors"
@@ -1366,7 +1368,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Sub
         Protected Sub Construct()
             With Me
-                .m_entity = New Asset
+        .m_entity = New Asset
+        .m_cc = New CostCenter
                 m_note = ""
             End With
         End Sub
@@ -1404,6 +1407,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_writeoffamt = drh.GetValue(Of Decimal)("asset_writeoffamt")
         m_deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
         m_buyprice = drh.GetValue(Of Decimal)("asset_buyprice")
+        m_cc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_cc"))
             End With
         End Sub
         Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -1448,7 +1452,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As String)
                 m_note = Value
             End Set
-        End Property
+    End Property
+    Public Property CostCenter As CostCenter
+      Get
+        Return m_cc
+      End Get
+      Set(ByVal value As CostCenter)
+        m_cc = value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
@@ -1512,7 +1524,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     msgServ.ShowWarningFormatted("${res:Global.Error.AssetEqNotAvaliable}", oEntity.Code, oEntity.Status.Description)
                     Return
                 End If
-                Me.Entity = oEntity
+        Me.Entity = oEntity
+        Me.CostCenter = oEntity.Costcenter
             Else
                 msgServ.ShowMessageFormatted("${res:Global.Error.NoEqAsset}", New String() {theCode})
                 Return
