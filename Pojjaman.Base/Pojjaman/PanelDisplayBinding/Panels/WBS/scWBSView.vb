@@ -622,7 +622,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.CCButtonClicked(e)
         'ElseIf e.Column = 4 Then
         '    Me.CBSButtonClicked(e)
-      ElseIf e.Column = 6 Then
+      ElseIf e.Column = 4 Then
         Me.WBSButtonClicked(e)
       Else
 
