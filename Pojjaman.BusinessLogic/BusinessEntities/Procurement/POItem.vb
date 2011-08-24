@@ -877,6 +877,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim newPritem As New PRItem(prItem.Pr.Id, prItem.LineNumber)
       Me.m_pritem = prItem
+
+      Dim newPr As New PR
+      'newPr.Id = newPritem.Pr.Id
+      'newPr.Code = newPritem.Pr.Code
+      'newPr.ReceivingDate = newPritem.Pr.ReceivingDate
+      'newPr.Note = newPritem.Pr.Note
+
+      newPr = newPritem.Pr
+      Me.m_pritem = newPritem
+      Me.m_pritem.Pr = newPr
+
       Me.m_itemType = prItem.ItemType
       Me.m_entity = prItem.Entity
       Me.m_entityName = prItem.EntityName

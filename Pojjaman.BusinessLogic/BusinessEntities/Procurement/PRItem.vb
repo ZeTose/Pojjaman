@@ -109,6 +109,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@pri_linenumber", line) _
       )
       Me.Construct(ds.Tables(0).Rows(0), "")
+
+      'If Me.Pr Is Nothing Then
+      '  Me.Pr = New PR
+      'End If
+      'Dim drh As New DataRowHelper(ds.Tables(0).Rows(0))
+      'Me.Pr.Id = id
+      'Me.Pr.Code = drh.GetValue(Of String)("pr_code")
+      'Me.Pr.Note = drh.GetValue(Of String)("pr_note")
+      'Me.Pr.ReceivingDate = drh.GetValue(Of Date)("pr_receivingDate")
+      Me.Pr = New PR(ds.Tables(0).Rows(0), "")
+
       Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
       AddHandler wbsdColl.PropertyChanged, AddressOf Me.WBSChangedHandler
       m_WBSDistributeCollection = wbsdColl
