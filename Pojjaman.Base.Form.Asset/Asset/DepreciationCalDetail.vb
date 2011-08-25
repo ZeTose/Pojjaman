@@ -576,7 +576,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDepreDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblDepreDate}")
       Me.Validator.SetDisplayName(txtDepreDate, lblDepreDate.Text)
 
-      
+
 
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblNote}")
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
@@ -599,7 +599,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.lblItem}")
 
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DepreciationCalDetail.grbMaster}")
-      
+
 
     End Sub
 #End Region
@@ -1033,13 +1033,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim oldDate As DateTime = Me.m_entity.DepreDate
       If oldDate <> CDate(txtDepreDate.Text) OrElse oldDate <> dtpDepreDate.Value Then
 
-      Dim flag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-      Me.m_entity.ReCalculationAll()
-      Dim index As Integer = tgItem.CurrentRowIndex
-      RefreshDocs()
-      tgItem.CurrentRowIndex = index
-      Me.WorkbenchWindow.ViewContent.IsDirty = flag
-      RefreshBlankGrid()
+        Dim flag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+        Me.m_entity.ReCalculationAll()
+        Dim index As Integer = tgItem.CurrentRowIndex
+        RefreshDocs()
+        tgItem.CurrentRowIndex = index
+        Me.WorkbenchWindow.ViewContent.IsDirty = flag
+        RefreshBlankGrid()
       End If
     End Sub
     Private m_dateSetting As Boolean = False
@@ -1213,7 +1213,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgItem.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = True
       'ถ้าเลือกมาแล้วตอนที่ยังไม่ได้ set costcenter ก็ห้ามกดอีก
-        btnTransferCC.Enabled = m_entity.IsTransfer
+      btnTransferCC.Enabled = m_entity.IsTransfer
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex

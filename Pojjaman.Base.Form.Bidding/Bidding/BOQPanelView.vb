@@ -597,7 +597,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If opdlg.ShowDialog = DialogResult.OK Then
         Dim i As New Excel.Import(opdlg.FileName)
         i.Where = "Type in ('WBS','item')"
-        i.Fields = "Type,[Level],EntityType,Code,Description,Note,Qty,Unit,UMC,UEC,ULC,MCBS,LCBS,ECBS"
+        i.Fields = "Type,[Level],EntityType,Code,Description,Note,Qty,Unit,QtyPerWBS,UMC,UEC,ULC,MCBS,LCBS,ECBS"
         Dim dt As DataTable = i.Query()
 
         Dim MissingCode As List(Of ArrayList) = Me.m_entity.Import(dt)

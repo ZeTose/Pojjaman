@@ -275,7 +275,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   '------------------------TWC--------------------------
                   If Not row.IsNull(("Unit")) Then
                     'newWbs.Unit = New Unit(CStr(row("Unit")))
-                    newWbs.Unit = Unit.GetUnitByName(CStr(row("Unit")))
+                    newWbs.Unit = Unit.GetUnitByName(RTrim(LTrim(CStr(row("Unit")))))
                     If newWbs.Unit Is Nothing OrElse Not newWbs.Originated Then
                       If Not UnitMissingCode.Contains(row("Unit").ToString) Then
                         UnitMissingCode.Add(row("Unit").ToString)
@@ -291,6 +291,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       '  newWbs.Qty = 0
                     End If
                   End If
+                  If drh.GetValue(Of Decimal)("QtyPerWBS") > 0 Then
+                    newWbs.Qty = drh.GetValue(Of Decimal)("QtyPerWBS")
+                  End If
+
                   '------------------------END TWC----------------------
                   newWbs.MatCBS = New CBS(RTrim(LTrim(drh.GetValue(Of String)("MCBS"))))
                   newWbs.LabCBS = New CBS(RTrim(LTrim(drh.GetValue(Of String)("LCBS"))))
@@ -386,6 +390,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       End If
                   End Select
                 End If
+                item.QtyPerWBS = drh.GetValue(Of Decimal)("QtyPerWBS")
 
                 If Not row.IsNull(("Qty")) Then
                   If CStr(row("Qty")).Length = 0 Then
