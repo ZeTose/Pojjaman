@@ -643,7 +643,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not m_paymentTrackDataSet Is Nothing AndAlso m_paymentTrackDataSet.Tables.Count > 1 Then
         Dim whtcol As New WitholdingTaxCollection
         'Dim ds As New DataSet
-        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(1).Select("eochecki_entity=" & checkId.ToString)
+        Dim dr As DataRow() = m_paymentTrackDataSet.Tables(1).Select("eochecki_entity=" & checkId.ToString & " and wht_id is not null")
         'Dim dr1 As DataRow() = m_paymentTrackDataSet.Tables(2).Select("eochecki_entity=" & checkId.ToString)
         'Dim dt As New DataTable
         'Dim dt1 As New DataTable
