@@ -1611,7 +1611,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Next
       For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
         If Not item.Entity Is Nothing AndAlso item.Entity.Originated Then
-          If Me.NextCheckUpdateStatus.ContainsKey(item.Entity.Id) Then
+          If Not Me.NextCheckUpdateStatus Is Nothing AndAlso Me.NextCheckUpdateStatus.ContainsKey(item.Entity.Id) Then
             Dim cqCode As String = ""
             If Not item.Entity.CqCode Is Nothing AndAlso item.Entity.CqCode.Length > 0 Then
               cqCode = item.Entity.CqCode
