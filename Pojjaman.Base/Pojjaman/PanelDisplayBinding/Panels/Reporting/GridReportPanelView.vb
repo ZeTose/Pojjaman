@@ -147,6 +147,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_entity.ListInNewGrid(tgItem)
       If TypeOf Me.m_filterSubPanel Is IExcellExportAble Then
         CType(Me.m_filterSubPanel, IExcellExportAble).tgItem = tgItem
+        CType(Me.m_filterSubPanel, IExcellExportAble).tgItem.Tag = m_entity.DataSet
       End If
     End Sub
     Private Sub RefreshEditableStatus()

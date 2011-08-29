@@ -204,6 +204,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .wht_direction = New WitholdingTaxDirection(0)
         .wht_docDate = Now.Date
         .SequenceNo = New WitholdingTaxSequence
+        .IndicationSubmit = 0
+        .SubmitNo = 0
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -340,6 +342,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "wht_otherpaymenttype") AndAlso Not dr.IsNull(aliasPrefix & "wht_otherpaymenttype") Then
           .wht_paymentType.OtherPaymentType = CStr(dr(aliasPrefix & "wht_otherpaymenttype"))
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "wht_indicationSubmit") AndAlso Not dr.IsNull(aliasPrefix & "wht_indicationSubmit") Then
+          .IndicationSubmit = CInt(dr(aliasPrefix & "wht_indicationSubmit"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "wht_submitNo") AndAlso Not dr.IsNull(aliasPrefix & "wht_submitNo") Then
+          .SubmitNo = CInt(dr(aliasPrefix & "wht_submitNo"))
+        End If
 
         Me.m_latestCode = Me.Code
       End With
@@ -351,6 +359,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property IndicationSubmit As Integer
+    Public Property SubmitNo As Integer
     Private m_sequenceNo As WitholdingTaxSequence
     Public Property SequenceNo As WitholdingTaxSequence
       Get
@@ -366,7 +376,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CType(wht_refDoc, ISimpleEntity)
       End Get
     End Property
-
     Public Property BookNo() As String
       Get
         Return wht_bookNo
@@ -672,215 +681,215 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-		Public Shared Function CreateTableStyle() As DataGridTableStyle
-			Dim dst As New DataGridTableStyle
-			dst.MappingName = "WitholdingTax"
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    Public Shared Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "WitholdingTax"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-			Dim csLineNumber As New TreeTextColumn
-			csLineNumber.MappingName = "whti_linenumber"
-			csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.LineNumberHeaderText}")
-			csLineNumber.NullText = ""
-			csLineNumber.Width = 30
-			csLineNumber.DataAlignment = HorizontalAlignment.Center
-			csLineNumber.ReadOnly = True
-			csLineNumber.TextBox.Name = "whti_linenumber"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "whti_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "whti_linenumber"
 
-			Dim csDesc As New TreeTextColumn
-			csDesc.MappingName = "whti_description"
-			csDesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.DescriptionHeaderText}")
-			csDesc.NullText = ""
-			csDesc.Width = 180
-			csDesc.TextBox.Name = "whti_description"
-
-
-			Dim csType As DataGridComboColumn
-			csType = New DataGridComboColumn("whti_type" _
-			, CodeDescription.GetCodeList("whti_type") _
-			, "code_description", "code_value")
-			csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TypeHeaderText}")
-			csType.NullText = String.Empty
-
-			Dim csTaxBase As New TreeTextColumn
-			csTaxBase.MappingName = "whti_taxbase"
-			csTaxBase.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxBaseHeaderText}")
-			csTaxBase.NullText = ""
-			csTaxBase.DataAlignment = HorizontalAlignment.Right
-			csTaxBase.Format = "#,###.##"
-			csTaxBase.TextBox.Name = "whti_taxbase"
-			csTaxBase.Width = 60
-
-			Dim csTaxRate As New TreeTextColumn
-			csTaxRate.MappingName = "whti_taxrate"
-			csTaxRate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxRateHeaderText}")
-			csTaxRate.NullText = ""
-			csTaxRate.DataAlignment = HorizontalAlignment.Right
-			csTaxRate.Format = "#,###.##"
-			csTaxRate.TextBox.Name = "whti_taxrate"
-			csTaxRate.Width = 60
+      Dim csDesc As New TreeTextColumn
+      csDesc.MappingName = "whti_description"
+      csDesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.DescriptionHeaderText}")
+      csDesc.NullText = ""
+      csDesc.Width = 180
+      csDesc.TextBox.Name = "whti_description"
 
 
-			Dim csAmount As New TreeTextColumn
-			csAmount.MappingName = "Amount"
-			csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.AmountHeaderText}")
-			csAmount.NullText = ""
-			csAmount.DataAlignment = HorizontalAlignment.Right
-			csAmount.Format = "#,###.##"
-			csAmount.TextBox.Name = "Amount"
-			csAmount.Width = 60
+      Dim csType As DataGridComboColumn
+      csType = New DataGridComboColumn("whti_type" _
+      , CodeDescription.GetCodeList("whti_type") _
+      , "code_description", "code_value")
+      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TypeHeaderText}")
+      csType.NullText = String.Empty
 
-			Dim csNote As New TreeTextColumn
-			csNote.MappingName = "whti_note"
-			csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.NoteHeaderText}")
-			csNote.NullText = ""
-			csNote.Width = 100
-			csNote.TextBox.Name = "whti_note"
+      Dim csTaxBase As New TreeTextColumn
+      csTaxBase.MappingName = "whti_taxbase"
+      csTaxBase.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxBaseHeaderText}")
+      csTaxBase.NullText = ""
+      csTaxBase.DataAlignment = HorizontalAlignment.Right
+      csTaxBase.Format = "#,###.##"
+      csTaxBase.TextBox.Name = "whti_taxbase"
+      csTaxBase.Width = 60
 
-			dst.GridColumnStyles.Add(csLineNumber)
-			dst.GridColumnStyles.Add(csType)
-			dst.GridColumnStyles.Add(csDesc)
-			dst.GridColumnStyles.Add(csTaxBase)
-			dst.GridColumnStyles.Add(csTaxRate)
-			dst.GridColumnStyles.Add(csAmount)
-			dst.GridColumnStyles.Add(csNote)
+      Dim csTaxRate As New TreeTextColumn
+      csTaxRate.MappingName = "whti_taxrate"
+      csTaxRate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxRateHeaderText}")
+      csTaxRate.NullText = ""
+      csTaxRate.DataAlignment = HorizontalAlignment.Right
+      csTaxRate.Format = "#,###.##"
+      csTaxRate.TextBox.Name = "whti_taxrate"
+      csTaxRate.Width = 60
 
-			Return dst
-		End Function
 
-		Public Shared Function CreateTableStyle2() As DataGridTableStyle
-			Dim dst As New DataGridTableStyle
-			dst.MappingName = "WitholdingTax"
-			Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.Format = "#,###.##"
+      csAmount.TextBox.Name = "Amount"
+      csAmount.Width = 60
 
-			Dim csLineNumber As New TreeTextColumn
-			csLineNumber.MappingName = "whti_linenumber"
-			csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.LineNumberHeaderText}")
-			csLineNumber.NullText = ""
-			csLineNumber.Width = 30
-			csLineNumber.DataAlignment = HorizontalAlignment.Center
-			csLineNumber.ReadOnly = True
-			csLineNumber.TextBox.Name = "whti_linenumber"
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "whti_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 100
+      csNote.TextBox.Name = "whti_note"
 
-			Dim csWHTCode As New TreeTextColumn
-			csWHTCode.MappingName = "wht_code"
-			csWHTCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.WHTCodeHeaderText}")
-			csWHTCode.NullText = ""
-			csWHTCode.Width = 100
-			csWHTCode.DataAlignment = HorizontalAlignment.Left
-			csWHTCode.ReadOnly = True
-			csWHTCode.TextBox.Name = "wht_code"
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csType)
+      dst.GridColumnStyles.Add(csDesc)
+      dst.GridColumnStyles.Add(csTaxBase)
+      dst.GridColumnStyles.Add(csTaxRate)
+      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csNote)
 
-			Dim csWHTType As New TreeTextColumn
-			csWHTType.MappingName = "wht_type"
-			csWHTType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.WHTTypeHeaderText}")
-			csWHTType.NullText = ""
-			csWHTType.Width = 150
-			csWHTType.DataAlignment = HorizontalAlignment.Left
-			csWHTType.ReadOnly = True
-			csWHTType.TextBox.Name = "wht_type"
+      Return dst
+    End Function
 
-			Dim csWHTPaymentType As New TreeTextColumn
-			csWHTPaymentType.MappingName = "wht_paymenttype"
-			csWHTPaymentType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.WHTPaymentTypeHeaderText}")
-			csWHTPaymentType.NullText = ""
-			csWHTPaymentType.Width = 150
-			csWHTPaymentType.DataAlignment = HorizontalAlignment.Left
-			csWHTPaymentType.ReadOnly = True
-			csWHTPaymentType.TextBox.Name = "wht_paymenttype"
+    Public Shared Function CreateTableStyle2() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "WitholdingTax"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-			Dim csDesc As New TreeTextColumn
-			csDesc.MappingName = "whti_description"
-			csDesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.DescriptionHeaderText}")
-			csDesc.NullText = ""
-			csDesc.Width = 180
-			csDesc.ReadOnly = True
-			csDesc.TextBox.Name = "whti_description"
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "whti_linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "whti_linenumber"
 
-			Dim csTaxBase As New TreeTextColumn
-			csTaxBase.MappingName = "whti_taxbase"
-			csTaxBase.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxBaseHeaderText}")
-			csTaxBase.NullText = ""
-			csTaxBase.DataAlignment = HorizontalAlignment.Right
-			csTaxBase.Format = "#,###.##"
-			csTaxBase.TextBox.Name = "whti_taxbase"
-			csTaxBase.Width = 70
-			csTaxBase.ReadOnly = True
+      Dim csWHTCode As New TreeTextColumn
+      csWHTCode.MappingName = "wht_code"
+      csWHTCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.WHTCodeHeaderText}")
+      csWHTCode.NullText = ""
+      csWHTCode.Width = 100
+      csWHTCode.DataAlignment = HorizontalAlignment.Left
+      csWHTCode.ReadOnly = True
+      csWHTCode.TextBox.Name = "wht_code"
 
-			Dim csTaxRate As New TreeTextColumn
-			csTaxRate.MappingName = "whti_taxrate"
-			csTaxRate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxRateHeaderText}")
-			csTaxRate.NullText = ""
-			csTaxRate.DataAlignment = HorizontalAlignment.Right
-			csTaxRate.Format = "#,###.##"
-			csTaxRate.TextBox.Name = "whti_taxrate"
-			csTaxRate.Width = 60
-			csTaxRate.ReadOnly = True
+      Dim csWHTType As New TreeTextColumn
+      csWHTType.MappingName = "wht_type"
+      csWHTType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.WHTTypeHeaderText}")
+      csWHTType.NullText = ""
+      csWHTType.Width = 150
+      csWHTType.DataAlignment = HorizontalAlignment.Left
+      csWHTType.ReadOnly = True
+      csWHTType.TextBox.Name = "wht_type"
 
-			Dim csAmount As New TreeTextColumn
-			csAmount.MappingName = "Amount"
-			csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.AmountHeaderText}")
-			csAmount.NullText = ""
-			csAmount.DataAlignment = HorizontalAlignment.Right
-			csAmount.Format = "#,###.##"
-			csAmount.TextBox.Name = "Amount"
-			csAmount.Width = 60
-			csAmount.ReadOnly = True
+      Dim csWHTPaymentType As New TreeTextColumn
+      csWHTPaymentType.MappingName = "wht_paymenttype"
+      csWHTPaymentType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.WHTPaymentTypeHeaderText}")
+      csWHTPaymentType.NullText = ""
+      csWHTPaymentType.Width = 150
+      csWHTPaymentType.DataAlignment = HorizontalAlignment.Left
+      csWHTPaymentType.ReadOnly = True
+      csWHTPaymentType.TextBox.Name = "wht_paymenttype"
 
-			Dim csAfterVAT As New TreeTextColumn
-			csAfterVAT.MappingName = "AfterVAT"
-			csAfterVAT.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.AmountAfterVat}")
-			csAfterVAT.NullText = ""
-			csAfterVAT.DataAlignment = HorizontalAlignment.Right
-			csAfterVAT.Format = "#,###.##"
-			csAfterVAT.TextBox.Name = "AfterVAT"
-			csAfterVAT.Width = 70
-			csAfterVAT.ReadOnly = True
+      Dim csDesc As New TreeTextColumn
+      csDesc.MappingName = "whti_description"
+      csDesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.DescriptionHeaderText}")
+      csDesc.NullText = ""
+      csDesc.Width = 180
+      csDesc.ReadOnly = True
+      csDesc.TextBox.Name = "whti_description"
 
-			dst.GridColumnStyles.Add(csLineNumber)
-			dst.GridColumnStyles.Add(csWHTCode)
-			dst.GridColumnStyles.Add(csWHTType)
-			dst.GridColumnStyles.Add(csWHTPaymentType)
-			dst.GridColumnStyles.Add(csDesc)
-			dst.GridColumnStyles.Add(csTaxBase)
-			dst.GridColumnStyles.Add(csTaxRate)
-			dst.GridColumnStyles.Add(csAmount)
-			'dst.GridColumnStyles.Add(csAfterVAT)
+      Dim csTaxBase As New TreeTextColumn
+      csTaxBase.MappingName = "whti_taxbase"
+      csTaxBase.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxBaseHeaderText}")
+      csTaxBase.NullText = ""
+      csTaxBase.DataAlignment = HorizontalAlignment.Right
+      csTaxBase.Format = "#,###.##"
+      csTaxBase.TextBox.Name = "whti_taxbase"
+      csTaxBase.Width = 70
+      csTaxBase.ReadOnly = True
 
-			Return dst
-		End Function
+      Dim csTaxRate As New TreeTextColumn
+      csTaxRate.MappingName = "whti_taxrate"
+      csTaxRate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.TaxRateHeaderText}")
+      csTaxRate.NullText = ""
+      csTaxRate.DataAlignment = HorizontalAlignment.Right
+      csTaxRate.Format = "#,###.##"
+      csTaxRate.TextBox.Name = "whti_taxrate"
+      csTaxRate.Width = 60
+      csTaxRate.ReadOnly = True
 
-		Public Shared Function GetSchemaTable() As TreeTable
-			Dim myDatatable As New TreeTable("WitholdingTax")
-			myDatatable.Columns.Add(New DataColumn("whti_linenumber", GetType(Integer)))
-			myDatatable.Columns.Add(New DataColumn("whti_description", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_taxbase", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_realtaxbase", GetType(Decimal)))		 'เก็บค่าเต็มๆ
-			myDatatable.Columns.Add(New DataColumn("whti_taxrate", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("useCustomAmt", GetType(Boolean)))
-			myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_note", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_cc", GetType(Integer)))
-			myDatatable.Columns.Add(New DataColumn("whti_type", GetType(Integer)))
-			Return myDatatable
-		End Function
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.DataAlignment = HorizontalAlignment.Right
+      csAmount.Format = "#,###.##"
+      csAmount.TextBox.Name = "Amount"
+      csAmount.Width = 60
+      csAmount.ReadOnly = True
 
-		Public Shared Function GetSchemaTable2() As TreeTable
-			Dim myDatatable As New TreeTable("WitholdingTax")
-			myDatatable.Columns.Add(New DataColumn("whti_linenumber", GetType(Integer)))
-			myDatatable.Columns.Add(New DataColumn("wht_code", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("wht_type", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("wht_type_id", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("wht_paymenttype", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("wht_paymenttype_id", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_description", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_taxrate", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_taxbase", GetType(String)))
-			myDatatable.Columns.Add(New DataColumn("whti_realtaxbase", GetType(Decimal)))		 'เก็บค่าเต็มๆ
+      Dim csAfterVAT As New TreeTextColumn
+      csAfterVAT.MappingName = "AfterVAT"
+      csAfterVAT.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.AmountAfterVat}")
+      csAfterVAT.NullText = ""
+      csAfterVAT.DataAlignment = HorizontalAlignment.Right
+      csAfterVAT.Format = "#,###.##"
+      csAfterVAT.TextBox.Name = "AfterVAT"
+      csAfterVAT.Width = 70
+      csAfterVAT.ReadOnly = True
+
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csWHTCode)
+      dst.GridColumnStyles.Add(csWHTType)
+      dst.GridColumnStyles.Add(csWHTPaymentType)
+      dst.GridColumnStyles.Add(csDesc)
+      dst.GridColumnStyles.Add(csTaxBase)
+      dst.GridColumnStyles.Add(csTaxRate)
+      dst.GridColumnStyles.Add(csAmount)
+      'dst.GridColumnStyles.Add(csAfterVAT)
+
+      Return dst
+    End Function
+
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("WitholdingTax")
+      myDatatable.Columns.Add(New DataColumn("whti_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("whti_description", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_taxbase", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_realtaxbase", GetType(Decimal)))    'เก็บค่าเต็มๆ
+      myDatatable.Columns.Add(New DataColumn("whti_taxrate", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("useCustomAmt", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_cc", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("whti_type", GetType(Integer)))
+      Return myDatatable
+    End Function
+
+    Public Shared Function GetSchemaTable2() As TreeTable
+      Dim myDatatable As New TreeTable("WitholdingTax")
+      myDatatable.Columns.Add(New DataColumn("whti_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("wht_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("wht_type", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("wht_type_id", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("wht_paymenttype", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("wht_paymenttype_id", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_description", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_taxrate", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_taxbase", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("whti_realtaxbase", GetType(Decimal)))    'เก็บค่าเต็มๆ
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("whti_cc", GetType(Integer)))
-			'myDatatable.Columns.Add(New DataColumn("AfterVat", GetType(String)))
-			Return myDatatable
-		End Function
+      'myDatatable.Columns.Add(New DataColumn("AfterVat", GetType(String)))
+      Return myDatatable
+    End Function
 #End Region
 
 #Region "Methods"
@@ -893,69 +902,69 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'End If
       'Next
     End Sub
-		Public Shared Sub DeleteFromRefDoc(ByVal refDocId As Integer, ByVal refDocType As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction)
-			Dim paramArrayList As New ArrayList
-			paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
-			paramArrayList.Add(New SqlParameter("@wht_refdoc", refDocId))
-			Dim sqlparams() As SqlParameter
-			sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-			SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteWitholdingtax", sqlparams)
-		End Sub
-		Public Shared Sub DeleteDoc(ByVal DocId As Integer, ByVal refDocId As Integer, ByVal refDocType As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction)
-			Dim paramArrayList As New ArrayList
-			paramArrayList.Add(New SqlParameter("@wht_id", DocId))
-			paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
-			paramArrayList.Add(New SqlParameter("@wht_refdoc", refDocId))
-			Dim sqlparams() As SqlParameter
-			sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-			SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteWitholdingtax", sqlparams)
-		End Sub
-		Private Sub ResetID(ByVal oldid As Integer)
-			Me.Id = oldid
-		End Sub
-		Public Overrides Function GetLastCode(ByVal prefixPattern As String) As String
-			Dim codePattern As String = ""
-			Dim generatePattern As String = ""
-			codePattern = CodeGenerator.GetPattern(prefixPattern)
-			generatePattern = Replace(prefixPattern, codePattern, "")
+    Public Shared Sub DeleteFromRefDoc(ByVal refDocId As Integer, ByVal refDocType As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction)
+      Dim paramArrayList As New ArrayList
+      paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
+      paramArrayList.Add(New SqlParameter("@wht_refdoc", refDocId))
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteWitholdingtax", sqlparams)
+    End Sub
+    Public Shared Sub DeleteDoc(ByVal DocId As Integer, ByVal refDocId As Integer, ByVal refDocType As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction)
+      Dim paramArrayList As New ArrayList
+      paramArrayList.Add(New SqlParameter("@wht_id", DocId))
+      paramArrayList.Add(New SqlParameter("@wht_refDocType", refDocType))
+      paramArrayList.Add(New SqlParameter("@wht_refdoc", refDocId))
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteWitholdingtax", sqlparams)
+    End Sub
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
+    Public Overrides Function GetLastCode(ByVal prefixPattern As String) As String
+      Dim codePattern As String = ""
+      Dim generatePattern As String = ""
+      codePattern = CodeGenerator.GetPattern(prefixPattern)
+      generatePattern = Replace(prefixPattern, codePattern, "")
 
-			Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-			Dim conn As New SqlConnection(sqlConString)
-			'Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "%' " & " and wht_direction = " & Me.Direction.Value & " order by " & Me.Prefix & "_id desc"
-			Dim sql As String = "select max(wht_code) from [WitholdingTax] " & _
-													"where wht_code like '" & codePattern & "%' " & _
-													"and wht_direction = " & Me.Direction.Value & " " & _
-													"and len(replace(wht_code,'" & codePattern & "','')) = " & generatePattern.Length
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      'Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "%' " & " and wht_direction = " & Me.Direction.Value & " order by " & Me.Prefix & "_id desc"
+      Dim sql As String = "select max(wht_code) from [WitholdingTax] " & _
+                "where wht_code like '" & codePattern & "%' " & _
+                "and wht_direction = " & Me.Direction.Value & " " & _
+                "and len(replace(wht_code,'" & codePattern & "','')) = " & generatePattern.Length
 
-			conn.Open()
+      conn.Open()
 
-			Dim cmd As SqlCommand = conn.CreateCommand
-			cmd.CommandText = sql
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
 
-			Dim obj As Object = cmd.ExecuteScalar
-			If Not IsDBNull(obj) AndAlso Not obj Is Nothing Then
-				Return obj.ToString
-			End If
-			Return ""
-		End Function
-		Public Overrides Function DuplicateCode(ByVal newCode As String) As Boolean
-			If Me.Direction.Value = 0 Then
-				Return False
-			End If
-			Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-			Dim conn As New SqlConnection(sqlConString)
-			Dim sql As String = "select count(*) from [" & Me.TableName & "] where " & Me.Prefix & "_code='" & newCode & "' and isnull(" & Me.Prefix & "_bookNo,'')='" & Me.BookNo & "' and " & Me.Prefix & "_id <> " & Me.Id & " and " & Me.Prefix & "_direction = 1"
+      Dim obj As Object = cmd.ExecuteScalar
+      If Not IsDBNull(obj) AndAlso Not obj Is Nothing Then
+        Return obj.ToString
+      End If
+      Return ""
+    End Function
+    Public Overrides Function DuplicateCode(ByVal newCode As String) As Boolean
+      If Me.Direction.Value = 0 Then
+        Return False
+      End If
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Dim conn As New SqlConnection(sqlConString)
+      Dim sql As String = "select count(*) from [" & Me.TableName & "] where " & Me.Prefix & "_code='" & newCode & "' and isnull(" & Me.Prefix & "_bookNo,'')='" & Me.BookNo & "' and " & Me.Prefix & "_id <> " & Me.Id & " and " & Me.Prefix & "_direction = 1"
 
-			conn.Open()
+      conn.Open()
 
-			Dim cmd As SqlCommand = conn.CreateCommand
-			cmd.CommandText = sql
-			Dim recordCount As Object = cmd.ExecuteScalar
-			conn.Close()
-			If Not IsDBNull(recordCount) AndAlso CInt(recordCount) > 0 Then
-				Return True
-			End If
-			Return False
+      Dim cmd As SqlCommand = conn.CreateCommand
+      cmd.CommandText = sql
+      Dim recordCount As Object = cmd.ExecuteScalar
+      conn.Close()
+      If Not IsDBNull(recordCount) AndAlso CInt(recordCount) > 0 Then
+        Return True
+      End If
+      Return False
     End Function
     Private Function GetCurrencyConversion() As Decimal
       If TypeOf Me.RefDoc Is IHasCurrency Then
@@ -966,11 +975,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetConvertedRefdocMaximumTaxBase() As Decimal
       Return Me.RefDoc.GetMaximumWitholdingTaxBase * GetCurrencyConversion()
     End Function
-		Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
-			With Me
-				If Me.MaxRowIndex < 0 Then		 '.ItemTable.Childs.Count = 0 Then
-					Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
-				End If
+    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      With Me
+        If Me.MaxRowIndex < 0 Then     '.ItemTable.Childs.Count = 0 Then
+          Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
+        End If
 
         Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
@@ -1079,6 +1088,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@wht_license", Me.License))
         paramArrayList.Add(New SqlParameter("@wht_cumulative", Me.Cumulative))
 
+        paramArrayList.Add(New SqlParameter("@wht_indicationSubmit", Me.IndicationSubmit))
+        paramArrayList.Add(New SqlParameter("@wht_submitNo", Me.SubmitNo))
+
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         ' สร้าง SqlParameter จาก ArrayList ...
@@ -1113,61 +1125,61 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(ex.ToString)
         End Try
       End With
-		End Function
+    End Function
 
-		Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
+    Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As Integer
 
 
-			Dim da As New SqlDataAdapter("Select * from witholdingtaxitem where whti_wht=" & Me.Id, conn)
-			Dim cmdBuilder As New SqlCommandBuilder(da)
+      Dim da As New SqlDataAdapter("Select * from witholdingtaxitem where whti_wht=" & Me.Id, conn)
+      Dim cmdBuilder As New SqlCommandBuilder(da)
 
-			Dim ds As New DataSet
+      Dim ds As New DataSet
 
-			da.SelectCommand.Transaction = trans
+      da.SelectCommand.Transaction = trans
 
-			'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
-			cmdBuilder.GetDeleteCommand.Transaction = trans
-			cmdBuilder.GetInsertCommand.Transaction = trans
-			cmdBuilder.GetUpdateCommand.Transaction = trans
+      'ต้องอยู่ต่อจาก da.SelectCommand.Transaction = trans
+      cmdBuilder.GetDeleteCommand.Transaction = trans
+      cmdBuilder.GetInsertCommand.Transaction = trans
+      cmdBuilder.GetUpdateCommand.Transaction = trans
 
-			da.Fill(ds, "witholdingtaxitem")
+      da.Fill(ds, "witholdingtaxitem")
 
-			Dim dbCount As Integer = ds.Tables("witholdingtaxitem").Rows.Count
-			Dim itemCount As Integer = Me.ItemTable.Childs.Count
-			Dim i As Integer = 0
-			With ds.Tables("witholdingtaxitem")
-				For Each row As DataRow In .Rows
-					row.Delete()
-				Next
-				For n As Integer = 0 To Me.MaxRowIndex
-					Dim item As TreeRow = Me.m_itemTable.Childs(n)
-					If ValidateRow(item) Then
-						i += 1
-						Dim dr As DataRow = .NewRow
-						dr("whti_wht") = Me.Id
-						dr("whti_linenumber") = i			 'item("whti_linenumber")
-						dr("whti_description") = item("whti_description")
-						dr("whti_taxrate") = item("whti_taxrate")
-						dr("whti_taxbase") = item("whti_taxbase")
-						dr("whti_amt") = item("Amount")
-						dr("whti_note") = item("whti_note")
+      Dim dbCount As Integer = ds.Tables("witholdingtaxitem").Rows.Count
+      Dim itemCount As Integer = Me.ItemTable.Childs.Count
+      Dim i As Integer = 0
+      With ds.Tables("witholdingtaxitem")
+        For Each row As DataRow In .Rows
+          row.Delete()
+        Next
+        For n As Integer = 0 To Me.MaxRowIndex
+          Dim item As TreeRow = Me.m_itemTable.Childs(n)
+          If ValidateRow(item) Then
+            i += 1
+            Dim dr As DataRow = .NewRow
+            dr("whti_wht") = Me.Id
+            dr("whti_linenumber") = i      'item("whti_linenumber")
+            dr("whti_description") = item("whti_description")
+            dr("whti_taxrate") = item("whti_taxrate")
+            dr("whti_taxbase") = item("whti_taxbase")
+            dr("whti_amt") = item("Amount")
+            dr("whti_note") = item("whti_note")
             dr("whti_cc") = Me.CCId 'item("whti_cc")
-						dr("whti_type") = item("whti_type")
-						If dr.IsNull("whti_type") Then
-							dr("whti_type") = 0
-						End If
-						.Rows.Add(dr)
-					End If
-				Next
-			End With
-			Dim dt As DataTable = ds.Tables("witholdingtaxitem")
-			' First process deletes.
-			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-			' Next process updates.
-			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-			' Finally process inserts.
-			da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
-		End Function
+            dr("whti_type") = item("whti_type")
+            If dr.IsNull("whti_type") Then
+              dr("whti_type") = 0
+            End If
+            .Rows.Add(dr)
+          End If
+        Next
+      End With
+      Dim dt As DataTable = ds.Tables("witholdingtaxitem")
+      ' First process deletes.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+      ' Next process updates.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+      ' Finally process inserts.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+    End Function
     Public Sub UpdateRefDoc()
       UpdateRefDoc(Me.RefDoc.Person, False)
     End Sub
@@ -1196,349 +1208,349 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Items"
-		Public Overloads Sub ReLoadItems()
-			Me.IsInitialized = False
-			m_itemTable = GetSchemaTable()
-			LoadItems()
-			Me.IsInitialized = True
-		End Sub
-		Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			Me.IsInitialized = False
-			m_itemTable = GetSchemaTable()
-			LoadItems(ds, aliasPrefix)
-			Me.IsInitialized = True
-		End Sub
-		Private Sub LoadItems()
-			If Not Me.Originated Then
-				Return
-			End If
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-			, CommandType.StoredProcedure _
-			, "GetWitholdingTaxItems" _
-			, New SqlParameter("@wht_id", Me.Id) _
-			)
-			For Each row As DataRow In ds.Tables(0).Rows
-				Dim item As New WitholdingTaxItem(row, "")
-				item.WitholdingTax = Me
-				Me.Add(item)
-			Next
-		End Sub
-		Private Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-			For Each dr As DataRow In ds.Tables(1).Rows
-				Dim item As New WitholdingTaxItem(dr, aliasPrefix)
-				item.WitholdingTax = Me
-				Me.Add(item)
-			Next
-		End Sub
-		Public Sub AddBlankRow(ByVal count As Integer)
-			For i As Integer = 0 To count - 1
-				Dim myItem As New WitholdingTaxItem
-				Me.ItemTable.AcceptChanges()
-				Me.Add(myItem)
-			Next
-		End Sub
-		Public Function Add(ByVal item As WitholdingTaxItem) As TreeRow
-			Dim myRow As TreeRow = Me.ItemTable.Childs.Add
-			item.LineNumber = Me.ItemTable.Childs.Count
-			item.WitholdingTax = Me
-			item.CopyToDataRow(myRow)
-			Return myRow
-		End Function
-		Public Function Insert(ByVal index As Integer, ByVal item As WitholdingTaxItem) As TreeRow
-			Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
-			item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
-			item.WitholdingTax = Me
-			item.CopyToDataRow(myRow)
-			ReIndex(index + 1)
-			Return myRow
-		End Function
-		Public Sub Remove(ByVal index As Integer)
-			Me.ItemTable.Childs.Remove(Me.ItemTable.Childs(index))
-			ReIndex()
-		End Sub
-		Private Sub ReIndex()
-			ReIndex(0)
-		End Sub
-		Private Sub ReIndex(ByVal index As Integer)
-			If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
-				Return
-			End If
-			For i As Integer = index To Me.ItemTable.Childs.Count - 1
-				Me.ItemTable.Childs(i)("whti_linenumber") = i + 1
-			Next
-		End Sub
-		Public Function MaxRowIndex() As Integer
-			If Me.m_itemTable Is Nothing Then
-				Return -1
-			End If
-			'ให้ index ของแถวสุดท้ายที่มีข้อมูล
-			For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
-				Dim row As TreeRow = Me.m_itemTable.Childs(i)
-				If ValidateRow(row) Then
-					Return i
-				End If
-			Next
-			Return -1		'ไม่มีข้อมูลเลย
-		End Function
+    Public Overloads Sub ReLoadItems()
+      Me.IsInitialized = False
+      m_itemTable = GetSchemaTable()
+      LoadItems()
+      Me.IsInitialized = True
+    End Sub
+    Public Overloads Sub ReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.IsInitialized = False
+      m_itemTable = GetSchemaTable()
+      LoadItems(ds, aliasPrefix)
+      Me.IsInitialized = True
+    End Sub
+    Private Sub LoadItems()
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetWitholdingTaxItems" _
+      , New SqlParameter("@wht_id", Me.Id) _
+      )
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New WitholdingTaxItem(row, "")
+        item.WitholdingTax = Me
+        Me.Add(item)
+      Next
+    End Sub
+    Private Sub LoadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      For Each dr As DataRow In ds.Tables(1).Rows
+        Dim item As New WitholdingTaxItem(dr, aliasPrefix)
+        item.WitholdingTax = Me
+        Me.Add(item)
+      Next
+    End Sub
+    Public Sub AddBlankRow(ByVal count As Integer)
+      For i As Integer = 0 To count - 1
+        Dim myItem As New WitholdingTaxItem
+        Me.ItemTable.AcceptChanges()
+        Me.Add(myItem)
+      Next
+    End Sub
+    Public Function Add(ByVal item As WitholdingTaxItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable.Childs.Add
+      item.LineNumber = Me.ItemTable.Childs.Count
+      item.WitholdingTax = Me
+      item.CopyToDataRow(myRow)
+      Return myRow
+    End Function
+    Public Function Insert(ByVal index As Integer, ByVal item As WitholdingTaxItem) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
+      item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+      item.WitholdingTax = Me
+      item.CopyToDataRow(myRow)
+      ReIndex(index + 1)
+      Return myRow
+    End Function
+    Public Sub Remove(ByVal index As Integer)
+      Me.ItemTable.Childs.Remove(Me.ItemTable.Childs(index))
+      ReIndex()
+    End Sub
+    Private Sub ReIndex()
+      ReIndex(0)
+    End Sub
+    Private Sub ReIndex(ByVal index As Integer)
+      If index < 0 OrElse index > Me.ItemTable.Childs.Count - 1 Then
+        Return
+      End If
+      For i As Integer = index To Me.ItemTable.Childs.Count - 1
+        Me.ItemTable.Childs(i)("whti_linenumber") = i + 1
+      Next
+    End Sub
+    Public Function MaxRowIndex() As Integer
+      If Me.m_itemTable Is Nothing Then
+        Return -1
+      End If
+      'ให้ index ของแถวสุดท้ายที่มีข้อมูล
+      For i As Integer = Me.m_itemTable.Childs.Count - 1 To 0 Step -1
+        Dim row As TreeRow = Me.m_itemTable.Childs(i)
+        If ValidateRow(row) Then
+          Return i
+        End If
+      Next
+      Return -1   'ไม่มีข้อมูลเลย
+    End Function
 
-		Public Overloads Sub ReLoadItems2(Optional ByVal dt As TreeTable = Nothing)
-			Me.IsInitialized = False
-			m_itemTable2 = GetSchemaTable2()
-			LoadItems2(dt)
-			Me.IsInitialized = True
-		End Sub
-		Private Sub LoadItems2(Optional ByVal dt As TreeTable = Nothing)
-			If Not Me.Originated Then
-				Return
-			End If
-			Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
-			, CommandType.StoredProcedure _
-			, "GetWitholdingTaxItems" _
-			, New SqlParameter("@wht_id", Me.Id) _
-			)
+    Public Overloads Sub ReLoadItems2(Optional ByVal dt As TreeTable = Nothing)
+      Me.IsInitialized = False
+      m_itemTable2 = GetSchemaTable2()
+      LoadItems2(dt)
+      Me.IsInitialized = True
+    End Sub
+    Private Sub LoadItems2(Optional ByVal dt As TreeTable = Nothing)
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetWitholdingTaxItems" _
+      , New SqlParameter("@wht_id", Me.Id) _
+      )
 
-			For Each row As DataRow In ds.Tables(0).Rows
-				Dim item As New WitholdingTaxItem(row, "")
-				item.WitholdingTax = Me
-				Me.Add2(item, dt)
-			Next
-		End Sub
-		Public Function Add2(ByVal item As WitholdingTaxItem, Optional ByVal dt As TreeTable = Nothing) As TreeRow
-			Dim myRow As TreeRow = Me.ItemTable2.Childs.Add
-			Dim myRow2 As TreeRow
-			item.LineNumber = Me.ItemTable2.Childs.Count
-			item.WitholdingTax = Me
-			item.CopyToDataRow2(myRow)
-			If Not dt Is Nothing Then
-				myRow2 = dt.Childs.Add
-				item.CopyToDataRow2(myRow2)
-			End If
-			Return myRow
-		End Function
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim item As New WitholdingTaxItem(row, "")
+        item.WitholdingTax = Me
+        Me.Add2(item, dt)
+      Next
+    End Sub
+    Public Function Add2(ByVal item As WitholdingTaxItem, Optional ByVal dt As TreeTable = Nothing) As TreeRow
+      Dim myRow As TreeRow = Me.ItemTable2.Childs.Add
+      Dim myRow2 As TreeRow
+      item.LineNumber = Me.ItemTable2.Childs.Count
+      item.WitholdingTax = Me
+      item.CopyToDataRow2(myRow)
+      If Not dt Is Nothing Then
+        myRow2 = dt.Childs.Add
+        item.CopyToDataRow2(myRow2)
+      End If
+      Return myRow
+    End Function
 #End Region
 
 #Region "TreeTable Handlers"
-		Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not Me.IsInitialized Then
-				Return
-			End If
-			Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
-			If ValidateRow(CType(e.Row, TreeRow)) Then
-				If e.Column.ColumnName <> "Amount" And e.Column.ColumnName <> "useCustomAmt" Then
-					UpdateAmount(e)
-				End If
-				If index = Me.m_itemTable.Childs.Count - 1 Then
-					Me.AddBlankRow(1)
-				End If
-				Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
-				Me.OnPropertyChanged(Me, pe)
-				Me.m_itemTable.AcceptChanges()
-			End If
-		End Sub
-		Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
-			Dim item As New WitholdingTaxItem
-			item.CopyFromDataRow(CType(e.Row, TreeRow))
-			e.Row("Amount") = item.Amount
-		End Sub
-		Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not Me.IsInitialized Then
-				Return
-			End If
-			Try
-				Select Case e.Column.ColumnName.ToLower
-					Case "whti_taxbase"
-						SetTaxBase(e)
-					Case "whti_taxrate"
-						SetTaxRate(e)
-					Case "amount"
-						SetTaxAmount(e)
-				End Select
-				ValidateRow(e)
-			Catch ex As Exception
-				MessageBox.Show(ex.ToString)
-			End Try
-		End Sub
-		Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-			Dim proposedTaxBase As Object = e.Row("whti_taxbase")
-			Dim proposedTaxRate As Object = e.Row("whti_taxrate")
-			Dim proposedDescription As Object = e.Row("whti_description")
+    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not Me.IsInitialized Then
+        Return
+      End If
+      Dim index As Integer = Me.m_itemTable.Childs.IndexOf(CType(e.Row, TreeRow))
+      If ValidateRow(CType(e.Row, TreeRow)) Then
+        If e.Column.ColumnName <> "Amount" And e.Column.ColumnName <> "useCustomAmt" Then
+          UpdateAmount(e)
+        End If
+        If index = Me.m_itemTable.Childs.Count - 1 Then
+          Me.AddBlankRow(1)
+        End If
+        Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
+        Me.OnPropertyChanged(Me, pe)
+        Me.m_itemTable.AcceptChanges()
+      End If
+    End Sub
+    Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
+      Dim item As New WitholdingTaxItem
+      item.CopyFromDataRow(CType(e.Row, TreeRow))
+      e.Row("Amount") = item.Amount
+    End Sub
+    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not Me.IsInitialized Then
+        Return
+      End If
+      Try
+        Select Case e.Column.ColumnName.ToLower
+          Case "whti_taxbase"
+            SetTaxBase(e)
+          Case "whti_taxrate"
+            SetTaxRate(e)
+          Case "amount"
+            SetTaxAmount(e)
+        End Select
+        ValidateRow(e)
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+    End Sub
+    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+      Dim proposedTaxBase As Object = e.Row("whti_taxbase")
+      Dim proposedTaxRate As Object = e.Row("whti_taxrate")
+      Dim proposedDescription As Object = e.Row("whti_description")
 
-			Select Case e.Column.ColumnName.ToLower
-				Case "whti_taxbase"
-					proposedTaxBase = e.ProposedValue
-				Case "whti_taxrate"
-					proposedTaxRate = e.ProposedValue
-				Case "whti_description"
-					proposedDescription = e.ProposedValue
-				Case Else
-					Return
-			End Select
+      Select Case e.Column.ColumnName.ToLower
+        Case "whti_taxbase"
+          proposedTaxBase = e.ProposedValue
+        Case "whti_taxrate"
+          proposedTaxRate = e.ProposedValue
+        Case "whti_description"
+          proposedDescription = e.ProposedValue
+        Case Else
+          Return
+      End Select
 
-			Dim isBlankRow As Boolean = False
-			If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
-					And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
-					And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) Then
-				isBlankRow = True
-			End If
+      Dim isBlankRow As Boolean = False
+      If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
+        And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
+        And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) Then
+        isBlankRow = True
+      End If
 
-			If Not isBlankRow Then
-				If IsDBNull(proposedTaxBase) Then
-					e.Row.SetColumnError("whti_taxbase", Me.StringParserService.Parse("${res:Global.Error.TaxBaseMissing}"))
-				Else
-					e.Row.SetColumnError("whti_taxbase", "")
-				End If
+      If Not isBlankRow Then
+        If IsDBNull(proposedTaxBase) Then
+          e.Row.SetColumnError("whti_taxbase", Me.StringParserService.Parse("${res:Global.Error.TaxBaseMissing}"))
+        Else
+          e.Row.SetColumnError("whti_taxbase", "")
+        End If
 
-				If IsDBNull(proposedTaxRate) Then
-					e.Row.SetColumnError("whti_taxrate", Me.StringParserService.Parse("${res:Global.Error.TaxRateMissing}"))
-				Else
-					e.Row.SetColumnError("whti_taxrate", "")
-				End If
+        If IsDBNull(proposedTaxRate) Then
+          e.Row.SetColumnError("whti_taxrate", Me.StringParserService.Parse("${res:Global.Error.TaxRateMissing}"))
+        Else
+          e.Row.SetColumnError("whti_taxrate", "")
+        End If
 
-				If IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0 Then
-					e.Row.SetColumnError("whti_description", Me.StringParserService.Parse("${res:Global.Error.DescriptonMissing}"))
-				Else
-					e.Row.SetColumnError("whti_description", "")
-				End If
-			End If
+        If IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0 Then
+          e.Row.SetColumnError("whti_description", Me.StringParserService.Parse("${res:Global.Error.DescriptonMissing}"))
+        Else
+          e.Row.SetColumnError("whti_description", "")
+        End If
+      End If
 
-		End Sub
-		Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-			Dim proposedTaxBase As Object = row("whti_taxbase")
-			Dim proposedTaxRate As Object = row("whti_taxrate")
-			Dim proposedDescription As Object = row("whti_description")
+    End Sub
+    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+      Dim proposedTaxBase As Object = row("whti_taxbase")
+      Dim proposedTaxRate As Object = row("whti_taxrate")
+      Dim proposedDescription As Object = row("whti_description")
 
-			Dim flag As Boolean = True
-			If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
-					And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
-					And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) _
-					Then
-				flag = False
-			End If
-			Return flag
-		End Function
-		Public Sub SetTaxRate(ByVal e As System.Data.DataColumnChangeEventArgs)
-			If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-				e.ProposedValue = ""
-				e.Row("Amount") = ""
-				Return
-			End If
-			e.Row("useCustomAmt") = False
-			e.ProposedValue = Configuration.FormatToString(TextParser.Evaluate(e.ProposedValue.ToString), DigitConfig.Price)
-		End Sub
-		Public Sub SetTaxBase(ByVal e As System.Data.DataColumnChangeEventArgs)
-			If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-				e.ProposedValue = ""
-			End If
-			Dim value As Decimal = 0
-			Try
-				value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-				e.ProposedValue = Configuration.FormatToString(value, DigitConfig.Price)
-			Catch ex As SyntaxErrorException
-				e.ProposedValue = e.Row(e.Column)
-			End Try
-			e.Row("whti_realtaxbase") = value
-			e.Row("useCustomAmt") = False
-			Dim item As New WitholdingTaxItem
-			item.CopyFromDataRow(CType(e.Row, TreeRow))
-			'e.Row("Amount") = item.Amount  'หลังจาก changed แล้วมีการอัปเดทอยู่แล้ว
-		End Sub
-		Public Sub SetTaxAmount(ByVal e As System.Data.DataColumnChangeEventArgs)
-			If Not e.Column.ColumnName = "Amount" Then
-				Return
-			End If
-			If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
-				e.ProposedValue = ""
-			End If
-			Dim value As Decimal = 0
-			Try
-				value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-				e.ProposedValue = Configuration.FormatToString(value, DigitConfig.Price)
-			Catch ex As SyntaxErrorException
-				e.ProposedValue = e.Row(e.Column)
-			End Try
-			e.Row("useCustomAmt") = True
-			Dim item As New WitholdingTaxItem
-			item.CopyFromDataRow(CType(e.Row, TreeRow))
-		End Sub
-		Private Sub ItemAdded(ByVal sender As Object, ByVal e As ITemAddedEventArgs)
-			Try
-				If Not Me.IsInitialized Then
-					Return
-				End If
-				Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
-				Me.OnPropertyChanged(Me, pe)
-				e.Row.SetColumnError("whti_description", "")
-			Catch ex As Exception
-				MessageBox.Show(ex.ToString)
-			End Try
-		End Sub
-		Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-			'Dim row As DataRow = e.Row
-			'Me.m_itemTable.Childs.Remove(CType(row, TreeRow))
-			'Try
-			'    If Not Me.m_isInitialized Then
-			'        Return
-			'    End If
+      Dim flag As Boolean = True
+      If (IsDBNull(proposedTaxBase) OrElse CStr(proposedTaxBase).Length = 0 OrElse CInt(proposedTaxBase) = 0) _
+        And (IsDBNull(proposedTaxRate) OrElse CStr(proposedTaxRate).Length = 0 OrElse CInt(proposedTaxRate) = 0) _
+        And (IsDBNull(proposedDescription) OrElse CStr(proposedDescription).Length = 0) _
+        Then
+        flag = False
+      End If
+      Return flag
+    End Function
+    Public Sub SetTaxRate(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+        e.Row("Amount") = ""
+        Return
+      End If
+      e.Row("useCustomAmt") = False
+      e.ProposedValue = Configuration.FormatToString(TextParser.Evaluate(e.ProposedValue.ToString), DigitConfig.Price)
+    End Sub
+    Public Sub SetTaxBase(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+      End If
+      Dim value As Decimal = 0
+      Try
+        value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+        e.ProposedValue = Configuration.FormatToString(value, DigitConfig.Price)
+      Catch ex As SyntaxErrorException
+        e.ProposedValue = e.Row(e.Column)
+      End Try
+      e.Row("whti_realtaxbase") = value
+      e.Row("useCustomAmt") = False
+      Dim item As New WitholdingTaxItem
+      item.CopyFromDataRow(CType(e.Row, TreeRow))
+      'e.Row("Amount") = item.Amount  'หลังจาก changed แล้วมีการอัปเดทอยู่แล้ว
+    End Sub
+    Public Sub SetTaxAmount(ByVal e As System.Data.DataColumnChangeEventArgs)
+      If Not e.Column.ColumnName = "Amount" Then
+        Return
+      End If
+      If IsDBNull(e.ProposedValue) OrElse CStr(e.ProposedValue).Length = 0 Then
+        e.ProposedValue = ""
+      End If
+      Dim value As Decimal = 0
+      Try
+        value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+        e.ProposedValue = Configuration.FormatToString(value, DigitConfig.Price)
+      Catch ex As SyntaxErrorException
+        e.ProposedValue = e.Row(e.Column)
+      End Try
+      e.Row("useCustomAmt") = True
+      Dim item As New WitholdingTaxItem
+      item.CopyFromDataRow(CType(e.Row, TreeRow))
+    End Sub
+    Private Sub ItemAdded(ByVal sender As Object, ByVal e As ITemAddedEventArgs)
+      Try
+        If Not Me.IsInitialized Then
+          Return
+        End If
+        Dim pe As New PropertyChangedEventArgs("ItemChanged", "", "")
+        Me.OnPropertyChanged(Me, pe)
+        e.Row.SetColumnError("whti_description", "")
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+    End Sub
+    Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+      'Dim row As DataRow = e.Row
+      'Me.m_itemTable.Childs.Remove(CType(row, TreeRow))
+      'Try
+      '    If Not Me.m_isInitialized Then
+      '        Return
+      '    End If
 
-			'    Dim index As TreeRow = CType(e.Row, TreeRow)
-			'    Me.m_itemTable.Childs.Remove(index)
-			'Catch ex As Exception
-			'    MessageBox.Show(ex.ToString)
-			'End Try
-		End Sub
+      '    Dim index As TreeRow = CType(e.Row, TreeRow)
+      '    Me.m_itemTable.Childs.Remove(index)
+      'Catch ex As Exception
+      '    MessageBox.Show(ex.ToString)
+      'End Try
+    End Sub
 #End Region
 
 #Region "IPrintableEntity"
-		Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-			Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\PV.dfm"
-		End Function
-		Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\PV.dfm"
+    End Function
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
 
-		End Function
-		Private Function InsertSpace(ByVal txt As String) As String
-			Dim ret As String = ""
-			For Each c As Char In txt.ToCharArray
-				ret &= c & "  "
-			Next
-			Return ret.TrimEnd(" "c)
-		End Function
-		Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
+    End Function
+    Private Function InsertSpace(ByVal txt As String) As String
+      Dim ret As String = ""
+      For Each c As Char In txt.ToCharArray
+        ret &= c & "  "
+      Next
+      Return ret.TrimEnd(" "c)
+    End Function
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-			'Code
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Code"
-			dpi.Value = Me.Code
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Code
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Code"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'BookNo
-			dpi = New DocPrintingItem
-			dpi.Mapping = "BookNo"
-			dpi.Value = Me.BookNo
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'BookNo
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BookNo"
+      dpi.Value = Me.BookNo
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'DocDate
-			dpi = New DocPrintingItem
-			dpi.Mapping = "DocDate"
-			dpi.Value = Me.DocDate.ToShortDateString
-			dpi.DataType = "System.DateTime"
-			dpiColl.Add(dpi)
+      'DocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DocDate"
+      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
 
-			'CodeRef
-			dpi = New DocPrintingItem
-			dpi.Mapping = "CodeRef"
-			dpi.Value = Me.RefDoc.Code
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'CodeRef
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CodeRef"
+      dpi.Value = Me.RefDoc.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'DocDateRef
-			dpi = New DocPrintingItem
-			dpi.Mapping = "DocDateRef"
-			dpi.Value = Me.RefDoc.Date.ToShortDateString
-			dpi.DataType = "System.DateTime"
+      'DocDateRef
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DocDateRef"
+      dpi.Value = Me.RefDoc.Date.ToShortDateString
+      dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
       'SequenceNO
@@ -1548,488 +1560,488 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-			'Note
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Note"
-			dpi.Value = Me.Note
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'Note
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'PrintName
-			dpi = New DocPrintingItem
-			dpi.Mapping = "PrintName"
-			dpi.Value = Me.PrintName
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'PrintName
+      dpi = New DocPrintingItem
+      dpi.Mapping = "PrintName"
+      dpi.Value = Me.PrintName
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'RepresentIdNo
-			dpi = New DocPrintingItem
-			dpi.Mapping = "RepresentIdNo"
-			dpi.Value = Me.RepresentIdNo
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
+      'RepresentIdNo
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RepresentIdNo"
+      dpi.Value = Me.RepresentIdNo
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-			'RepresentTaxId
-			dpi = New DocPrintingItem
-			dpi.Mapping = "RepresentTaxId"
-			dpi.Value = Me.RepresentTaxId
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-
-			If Not Me.RefDoc Is Nothing _
-			AndAlso Not Me.RefDoc.Person Is Nothing Then
-				'PrintAddress
-				dpi = New DocPrintingItem
-				dpi.Mapping = "PrintAddress"
-				If Not Me.EntityAddress Is Nothing Then
-					dpi.Value = Me.EntityAddress.Replace(vbCrLf, " ")
-				End If
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				If Me.EntityIdNo.Replace("-", "").Length = 13 Then
-					'EntityIdNo
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityIdNo"
-					dpi.Value = Me.EntityIdNo
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityIdNo1"
-					dpi.Value = Me.EntityIdNo.Replace("-", "").Substring(0, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityIdNo2"
-					dpi.Value = InsertSpace(Me.EntityIdNo.Replace("-", "").Substring(1, 4))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityIdNo3"
-					dpi.Value = InsertSpace(Me.EntityIdNo.Replace("-", "").Substring(5, 5))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityIdNo4"
-					dpi.Value = InsertSpace(Me.EntityIdNo.Replace("-", "").Substring(10, 2))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityIdNo5"
-					dpi.Value = Me.EntityIdNo.Replace("-", "").Substring(12, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				ElseIf EntityTaxId.Replace("-", "").Length = 10 Then
-					'EntityTaxId
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityTaxId"
-					dpi.Value = Me.EntityTaxId
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityTaxId1"
-					dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(0, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityTaxId2"
-					dpi.Value = InsertSpace(Me.EntityTaxId.Replace("-", "").Substring(1, 4))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityTaxId3"
-					dpi.Value = InsertSpace(Me.EntityTaxId.Replace("-", "").Substring(5, 4))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "EntityTaxId4"
-					dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(9, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				End If
-			End If
-
-			Dim taxId As String = CStr(Configuration.GetConfig("CompanyTaxId"))
-			If taxId.Replace("-", "").Length = 10 Then
-				'TaxId
-				dpi = New DocPrintingItem
-				dpi.Mapping = "TaxId"
-				dpi.Value = taxId
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				dpi = New DocPrintingItem
-				dpi.Mapping = "TaxId1"
-				dpi.Value = taxId.Replace("-", "").Substring(0, 1)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				dpi = New DocPrintingItem
-				dpi.Mapping = "TaxId2"
-				dpi.Value = InsertSpace(taxId.Replace("-", "").Substring(1, 4))
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				dpi = New DocPrintingItem
-				dpi.Mapping = "TaxId3"
-				dpi.Value = InsertSpace(taxId.Replace("-", "").Substring(5, 4))
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				dpi = New DocPrintingItem
-				dpi.Mapping = "TaxId4"
-				dpi.Value = taxId.Replace("-", "").Substring(9, 1)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-			End If
-
-			If Not Me.RepresentIdNo Is Nothing AndAlso Me.RepresentIdNo.Length > 0 Then
-				If Me.RepresentIdNo.Replace("-", "").Length = 13 Then
-					'RepresentIdNo
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentIdNo"
-					dpi.Value = Me.RepresentIdNo
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentIdNo1"
-					dpi.Value = Me.RepresentIdNo.Replace("-", "").Substring(0, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentIdNo2"
-					dpi.Value = InsertSpace(Me.RepresentIdNo.Replace("-", "").Substring(1, 4))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentIdNo3"
-					dpi.Value = InsertSpace(Me.RepresentIdNo.Replace("-", "").Substring(5, 5))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentIdNo4"
-					dpi.Value = InsertSpace(Me.RepresentIdNo.Replace("-", "").Substring(10, 2))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentIdNo5"
-					dpi.Value = Me.RepresentIdNo.Replace("-", "").Substring(12, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				End If
-			End If
-
-			If Not Me.RepresentTaxId Is Nothing AndAlso Me.RepresentTaxId.Length > 0 Then
-				If RepresentTaxId.Replace("-", "").Length = 10 Then
-					'RepresentTaxId
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentTaxId"
-					dpi.Value = Me.RepresentTaxId
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentTaxId1"
-					dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(0, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentTaxId2"
-					dpi.Value = InsertSpace(Me.RepresentTaxId.Replace("-", "").Substring(1, 4))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentTaxId3"
-					dpi.Value = InsertSpace(Me.RepresentTaxId.Replace("-", "").Substring(5, 4))
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "RepresentTaxId4"
-					dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(9, 1)
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				End If
-			End If
-
-			'RepresentName
-			dpi = New DocPrintingItem
-			dpi.Mapping = "RepresentName"
-			dpi.Value = Me.RepresentName
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'RepresentAddress
-			dpi = New DocPrintingItem
-			dpi.Mapping = "RepresentAddress"
-			If Not Me.RepresentAddress Is Nothing Then
-				dpi.Value = Me.RepresentAddress.Replace(vbCrLf, " ")
-			End If
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			Dim amt As String = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
-			Dim Bfpoint As String = Trim(Split(Replace(amt, ",", ""), ".")(0))
-			Dim Aftpoint As String = "00"
-			If UBound(Split(amt, "."), 1) <> 0 Then
-				Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
-			End If
-			'Amount
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Amount"
-			dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'Satang
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Satang"
-			dpi.Value = Aftpoint
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			amt = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
-			Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
-			Aftpoint = "00"
-			If UBound(Split(amt, "."), 1) <> 0 Then
-				Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
-			End If
-			'WHTAmount
-			dpi = New DocPrintingItem
-			dpi.Mapping = "WHTAmount"
-			dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'WHTSatang
-			dpi = New DocPrintingItem
-			dpi.Mapping = "WHTSatang"
-			dpi.Value = Aftpoint
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'WHT
-			dpi = New DocPrintingItem
-			dpi.Mapping = "WHT"
-			dpi.Value = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'EmployerAcct
-			dpi = New DocPrintingItem
-			dpi.Mapping = "EmployerAcct"
-			dpi.Value = Me.EmployerAcct
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'EmployeeSSN
-			dpi = New DocPrintingItem
-			dpi.Mapping = "EmployeeSSN"
-			dpi.Value = Me.EmployeeSSN
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'CompanySupport
-			dpi = New DocPrintingItem
-			dpi.Mapping = "CompanySupport"
-			dpi.Value = Me.CompanySupport
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'License
-			dpi = New DocPrintingItem
-			dpi.Mapping = "License"
-			dpi.Value = Me.License
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			'Cumulative
-			dpi = New DocPrintingItem
-			dpi.Mapping = "Cumulative"
-			dpi.Value = Me.Cumulative
-			dpi.DataType = "System.String"
-			dpiColl.Add(dpi)
-
-			Select Case Me.PaymentType.Value
-				Case 1		 'หัก ณ ที่จ่าย
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PaymentType1"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 2		 'ออกให้ตลอดไป
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PaymentType2"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 3		 'ออกให้ครั้งเดียว
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PaymentType3"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 4		 'อื่นๆ ระบุ
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PaymentType4"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-
-					dpi = New DocPrintingItem
-					dpi.Mapping = "OtherPaymentType"
-					dpi.Value = Me.PaymentType.OtherPaymentType
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-			End Select
-
-			Select Case Me.Type.Value
-				Case 1		 'ภ.ง.ด.1ก
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type1"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 2		 '
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type2"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 3		 '
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type3"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 4		 '
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type4"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 5		 '
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type5"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 6		 '
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type6"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				Case 7		 '
-					dpi = New DocPrintingItem
-					dpi.Mapping = "Type7"
-					dpi.Value = "P"
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-			End Select
-
-			'##############################ITEM###################################
-			Dim myItem As New Hashtable
-			Dim myWHT As New Hashtable
-			Dim myItemName As New Hashtable
-
-			For n As Integer = 0 To Me.MaxRowIndex
-				Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
-				If ValidateRow(itemRow) Then
-					If itemRow.IsNull("whti_type") Then
-						itemRow("whti_type") = 0
-					End If
-					Dim item As New WitholdingTaxItem
-					item.CopyFromDataRow(itemRow)
-
-					Dim eachitem As Double
-					Dim eachwht As Double
-					Dim eachitemname As String
-					eachitem = CDbl(myItem(itemRow("whti_type"))) + item.TaxBase
-					eachwht = CDbl(myWHT(itemRow("whti_type"))) + item.Amount
-					eachitemname = CStr(myItemName(itemRow("whti_type"))) & CStr(IIf(Not myItemName(itemRow("whti_type")) Is Nothing, ", ", "")) & item.Description
-					myItem(itemRow("whti_type")) = eachitem
-					myWHT(itemRow("whti_type")) = eachwht
-					myItemName(itemRow("whti_type")) = eachitemname
-				End If
-			Next
-
-			For Each obj As Object In myItem.Keys
-				amt = Configuration.FormatToString(CDec(myItem(obj)), DigitConfig.Price)
-				Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
-				Aftpoint = "00"
-				If UBound(Split(amt, "."), 1) <> 0 Then
-					Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
-				End If
-
-				'Amount
-				dpi = New DocPrintingItem
-				dpi.Mapping = "Amount" & CType(obj, Int32).ToString
-				dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
-
-				'Satang
-				dpi = New DocPrintingItem
-				dpi.Mapping = "Satang" & CType(obj, Int32).ToString
-				dpi.Value = Aftpoint
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+      'RepresentTaxId
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RepresentTaxId"
+      dpi.Value = Me.RepresentTaxId
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
 
-				amt = Configuration.FormatToString(CDec(myWHT(obj)), DigitConfig.Price)
-				Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
-				Aftpoint = "00"
-				If UBound(Split(amt, "."), 1) <> 0 Then
-					Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
-				End If
+      If Not Me.RefDoc Is Nothing _
+      AndAlso Not Me.RefDoc.Person Is Nothing Then
+        'PrintAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "PrintAddress"
+        If Not Me.EntityAddress Is Nothing Then
+          dpi.Value = Me.EntityAddress.Replace(vbCrLf, " ")
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-				'WHTAmount
-				dpi = New DocPrintingItem
-				dpi.Mapping = "WHTAmount" & CType(obj, Int32).ToString
-				dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+        If Me.EntityIdNo.Replace("-", "").Length = 13 Then
+          'EntityIdNo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityIdNo"
+          dpi.Value = Me.EntityIdNo
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-				'WHTSatang
-				dpi = New DocPrintingItem
-				dpi.Mapping = "WHTSatang" & CType(obj, Int32).ToString
-				dpi.Value = Aftpoint
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityIdNo1"
+          dpi.Value = Me.EntityIdNo.Replace("-", "").Substring(0, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-				'ItemName
-				dpi = New DocPrintingItem
-				dpi.Mapping = "ItemName" & CType(obj, Int32).ToString
-				dpi.Value = myItemName(obj)
-				dpi.DataType = "System.String"
-				dpiColl.Add(dpi)
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityIdNo2"
+          dpi.Value = InsertSpace(Me.EntityIdNo.Replace("-", "").Substring(1, 4))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-				'ItemDocDate
-				dpi = New DocPrintingItem
-				dpi.Mapping = "ItemDocDate" & CType(obj, Int32).ToString
-				dpi.Value = Me.DocDate.ToShortDateString
-				dpi.DataType = "System.DateTime"
-				dpiColl.Add(dpi)
-			Next
-			'##############################END ITEM###################################
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityIdNo3"
+          dpi.Value = InsertSpace(Me.EntityIdNo.Replace("-", "").Substring(5, 5))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityIdNo4"
+          dpi.Value = InsertSpace(Me.EntityIdNo.Replace("-", "").Substring(10, 2))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityIdNo5"
+          dpi.Value = Me.EntityIdNo.Replace("-", "").Substring(12, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        ElseIf EntityTaxId.Replace("-", "").Length = 10 Then
+          'EntityTaxId
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityTaxId"
+          dpi.Value = Me.EntityTaxId
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityTaxId1"
+          dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(0, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityTaxId2"
+          dpi.Value = InsertSpace(Me.EntityTaxId.Replace("-", "").Substring(1, 4))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityTaxId3"
+          dpi.Value = InsertSpace(Me.EntityTaxId.Replace("-", "").Substring(5, 4))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityTaxId4"
+          dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(9, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      End If
+
+      Dim taxId As String = CStr(Configuration.GetConfig("CompanyTaxId"))
+      If taxId.Replace("-", "").Length = 10 Then
+        'TaxId
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxId"
+        dpi.Value = taxId
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxId1"
+        dpi.Value = taxId.Replace("-", "").Substring(0, 1)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxId2"
+        dpi.Value = InsertSpace(taxId.Replace("-", "").Substring(1, 4))
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxId3"
+        dpi.Value = InsertSpace(taxId.Replace("-", "").Substring(5, 4))
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxId4"
+        dpi.Value = taxId.Replace("-", "").Substring(9, 1)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+
+      If Not Me.RepresentIdNo Is Nothing AndAlso Me.RepresentIdNo.Length > 0 Then
+        If Me.RepresentIdNo.Replace("-", "").Length = 13 Then
+          'RepresentIdNo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentIdNo"
+          dpi.Value = Me.RepresentIdNo
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentIdNo1"
+          dpi.Value = Me.RepresentIdNo.Replace("-", "").Substring(0, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentIdNo2"
+          dpi.Value = InsertSpace(Me.RepresentIdNo.Replace("-", "").Substring(1, 4))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentIdNo3"
+          dpi.Value = InsertSpace(Me.RepresentIdNo.Replace("-", "").Substring(5, 5))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentIdNo4"
+          dpi.Value = InsertSpace(Me.RepresentIdNo.Replace("-", "").Substring(10, 2))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentIdNo5"
+          dpi.Value = Me.RepresentIdNo.Replace("-", "").Substring(12, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      End If
+
+      If Not Me.RepresentTaxId Is Nothing AndAlso Me.RepresentTaxId.Length > 0 Then
+        If RepresentTaxId.Replace("-", "").Length = 10 Then
+          'RepresentTaxId
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentTaxId"
+          dpi.Value = Me.RepresentTaxId
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentTaxId1"
+          dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(0, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentTaxId2"
+          dpi.Value = InsertSpace(Me.RepresentTaxId.Replace("-", "").Substring(1, 4))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentTaxId3"
+          dpi.Value = InsertSpace(Me.RepresentTaxId.Replace("-", "").Substring(5, 4))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentTaxId4"
+          dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(9, 1)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      End If
+
+      'RepresentName
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RepresentName"
+      dpi.Value = Me.RepresentName
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'RepresentAddress
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RepresentAddress"
+      If Not Me.RepresentAddress Is Nothing Then
+        dpi.Value = Me.RepresentAddress.Replace(vbCrLf, " ")
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim amt As String = Configuration.FormatToString(Me.TaxBase, DigitConfig.Price)
+      Dim Bfpoint As String = Trim(Split(Replace(amt, ",", ""), ".")(0))
+      Dim Aftpoint As String = "00"
+      If UBound(Split(amt, "."), 1) <> 0 Then
+        Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
+      End If
+      'Amount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Amount"
+      dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'Satang
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Satang"
+      dpi.Value = Aftpoint
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      amt = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
+      Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
+      Aftpoint = "00"
+      If UBound(Split(amt, "."), 1) <> 0 Then
+        Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
+      End If
+      'WHTAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "WHTAmount"
+      dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'WHTSatang
+      dpi = New DocPrintingItem
+      dpi.Mapping = "WHTSatang"
+      dpi.Value = Aftpoint
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'WHT
+      dpi = New DocPrintingItem
+      dpi.Mapping = "WHT"
+      dpi.Value = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'EmployerAcct
+      dpi = New DocPrintingItem
+      dpi.Mapping = "EmployerAcct"
+      dpi.Value = Me.EmployerAcct
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'EmployeeSSN
+      dpi = New DocPrintingItem
+      dpi.Mapping = "EmployeeSSN"
+      dpi.Value = Me.EmployeeSSN
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'CompanySupport
+      dpi = New DocPrintingItem
+      dpi.Mapping = "CompanySupport"
+      dpi.Value = Me.CompanySupport
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'License
+      dpi = New DocPrintingItem
+      dpi.Mapping = "License"
+      dpi.Value = Me.License
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'Cumulative
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Cumulative"
+      dpi.Value = Me.Cumulative
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Select Case Me.PaymentType.Value
+        Case 1     'หัก ณ ที่จ่าย
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PaymentType1"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 2     'ออกให้ตลอดไป
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PaymentType2"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 3     'ออกให้ครั้งเดียว
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PaymentType3"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 4     'อื่นๆ ระบุ
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PaymentType4"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "OtherPaymentType"
+          dpi.Value = Me.PaymentType.OtherPaymentType
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+      End Select
+
+      Select Case Me.Type.Value
+        Case 1     'ภ.ง.ด.1ก
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type1"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 2     '
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type2"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 3     '
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type3"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 4     '
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type4"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 5     '
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type5"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 6     '
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type6"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Case 7     '
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Type7"
+          dpi.Value = "P"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+      End Select
+
+      '##############################ITEM###################################
+      Dim myItem As New Hashtable
+      Dim myWHT As New Hashtable
+      Dim myItemName As New Hashtable
+
+      For n As Integer = 0 To Me.MaxRowIndex
+        Dim itemRow As TreeRow = Me.m_itemTable.Childs(n)
+        If ValidateRow(itemRow) Then
+          If itemRow.IsNull("whti_type") Then
+            itemRow("whti_type") = 0
+          End If
+          Dim item As New WitholdingTaxItem
+          item.CopyFromDataRow(itemRow)
+
+          Dim eachitem As Double
+          Dim eachwht As Double
+          Dim eachitemname As String
+          eachitem = CDbl(myItem(itemRow("whti_type"))) + item.TaxBase
+          eachwht = CDbl(myWHT(itemRow("whti_type"))) + item.Amount
+          eachitemname = CStr(myItemName(itemRow("whti_type"))) & CStr(IIf(Not myItemName(itemRow("whti_type")) Is Nothing, ", ", "")) & item.Description
+          myItem(itemRow("whti_type")) = eachitem
+          myWHT(itemRow("whti_type")) = eachwht
+          myItemName(itemRow("whti_type")) = eachitemname
+        End If
+      Next
+
+      For Each obj As Object In myItem.Keys
+        amt = Configuration.FormatToString(CDec(myItem(obj)), DigitConfig.Price)
+        Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
+        Aftpoint = "00"
+        If UBound(Split(amt, "."), 1) <> 0 Then
+          Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
+        End If
+
+        'Amount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Amount" & CType(obj, Int32).ToString
+        dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Satang
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Satang" & CType(obj, Int32).ToString
+        dpi.Value = Aftpoint
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+
+        amt = Configuration.FormatToString(CDec(myWHT(obj)), DigitConfig.Price)
+        Bfpoint = Trim(Split(Replace(amt, ",", ""), ".")(0))
+        Aftpoint = "00"
+        If UBound(Split(amt, "."), 1) <> 0 Then
+          Aftpoint = Left(Trim(Split(amt, ".")(1)), 2)
+        End If
+
+        'WHTAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "WHTAmount" & CType(obj, Int32).ToString
+        dpi.Value = Configuration.FormatToString(CDec(Bfpoint), DigitConfig.Int)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'WHTSatang
+        dpi = New DocPrintingItem
+        dpi.Mapping = "WHTSatang" & CType(obj, Int32).ToString
+        dpi.Value = Aftpoint
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'ItemName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ItemName" & CType(obj, Int32).ToString
+        dpi.Value = myItemName(obj)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'ItemDocDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ItemDocDate" & CType(obj, Int32).ToString
+        dpi.Value = Me.DocDate.ToShortDateString
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
+      Next
+      '##############################END ITEM###################################
 
       '===============================ตาราง WHT ทั้งหมด==============================
       If Not Me.RefDoc Is Nothing Then
@@ -2072,131 +2084,131 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.AddRange(GetPVRVDocPrintingEntries)
       Return dpiColl
     End Function
-		Private Function GetGLDocPrintingEntries() As DocPrintingItemCollection
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			If TypeOf Me.RefDoc Is IGLAble Then
-				Dim je As JournalEntry = CType(Me.RefDoc, IGLAble).JournalEntry
-				If Not je Is Nothing Then
+    Private Function GetGLDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      If TypeOf Me.RefDoc Is IGLAble Then
+        Dim je As JournalEntry = CType(Me.RefDoc, IGLAble).JournalEntry
+        If Not je Is Nothing Then
 
-					'AccountBook
-					dpi = New DocPrintingItem
-					dpi.Mapping = "AccountBook"
-					If Not je.AccountBook Is Nothing Then
-						dpi.Value = je.AccountBook.Name
-					End If
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
+          'AccountBook
+          dpi = New DocPrintingItem
+          dpi.Mapping = "AccountBook"
+          If Not je.AccountBook Is Nothing Then
+            dpi.Value = je.AccountBook.Name
+          End If
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-					Dim n As Integer = 0
-					For Each item As JournalEntryItem In je.ItemCollection
-						'Item.LineNumber
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.LineNumber"
-						dpi.Value = n + 1
-						dpi.DataType = "System.Int32"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
+          Dim n As Integer = 0
+          For Each item As JournalEntryItem In je.ItemCollection
+            'Item.LineNumber
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.LineNumber"
+            dpi.Value = n + 1
+            dpi.DataType = "System.Int32"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
-						'Item.AccountCode
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.AccountCode"
-						If Not item.Account Is Nothing Then
-							dpi.Value = item.Account.Code
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
+            'Item.AccountCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.AccountCode"
+            If Not item.Account Is Nothing Then
+              dpi.Value = item.Account.Code
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
-						'Item.AccountName
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.AccountName"
-						If Not item.Account Is Nothing Then
-							dpi.Value = item.Account.Name
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
+            'Item.AccountName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.AccountName"
+            If Not item.Account Is Nothing Then
+              dpi.Value = item.Account.Name
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
-						If item.IsDebit Then
-							'Item.Debit
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.Debit"
-							dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-						Else
-							'Item.Credit
-							dpi = New DocPrintingItem
-							dpi.Mapping = "Item.Credit"
-							dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
-							dpi.DataType = "System.Decimal"
-							dpi.Row = n + 1
-							dpi.Table = "Item"
-							dpiColl.Add(dpi)
-						End If
+            If item.IsDebit Then
+              'Item.Debit
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Debit"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+            Else
+              'Item.Credit
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Credit"
+              dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+              dpi.DataType = "System.Decimal"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+            End If
 
-						'Item.CostCenter
-						dpi = New DocPrintingItem
-						dpi.Mapping = "Item.CostCenter"
-						If Not item.CostCenter Is Nothing Then
-							dpi.Value = item.CostCenter.Code
-						Else
-							dpi.Value = ""
-						End If
-						dpi.DataType = "System.String"
-						dpi.Row = n + 1
-						dpi.Table = "Item"
-						dpiColl.Add(dpi)
+            'Item.CostCenter
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.CostCenter"
+            If Not item.CostCenter Is Nothing Then
+              dpi.Value = item.CostCenter.Code
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
-						n += 1
-					Next
-				End If
-			End If
-			Return dpiColl
-		End Function
-		Private Function GetPVRVDocPrintingEntries() As DocPrintingItemCollection
-			Dim dpiColl As New DocPrintingItemCollection
-			Dim dpi As DocPrintingItem
-			If TypeOf Me.RefDoc Is IReceivable Then
-				Dim RV As Receive = CType(Me.RefDoc, IReceivable).Receive
-				If Not RV Is Nothing Then
-					'PVRVCode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PVRVCode"
-					dpi.Value = RV.Code
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				End If
-			ElseIf TypeOf Me.RefDoc Is IPayable Then
-				Dim PV As Payment = CType(Me.RefDoc, IPayable).Payment
-				If Not PV Is Nothing Then
-					'PVRVCode
-					dpi = New DocPrintingItem
-					dpi.Mapping = "PVRVCode"
-					dpi.Value = PV.Code
-					dpi.DataType = "System.String"
-					dpiColl.Add(dpi)
-				End If
-			End If
-			Return dpiColl
-		End Function
+            n += 1
+          Next
+        End If
+      End If
+      Return dpiColl
+    End Function
+    Private Function GetPVRVDocPrintingEntries() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      If TypeOf Me.RefDoc Is IReceivable Then
+        Dim RV As Receive = CType(Me.RefDoc, IReceivable).Receive
+        If Not RV Is Nothing Then
+          'PVRVCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PVRVCode"
+          dpi.Value = RV.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      ElseIf TypeOf Me.RefDoc Is IPayable Then
+        Dim PV As Payment = CType(Me.RefDoc, IPayable).Payment
+        If Not PV Is Nothing Then
+          'PVRVCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "PVRVCode"
+          dpi.Value = PV.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      End If
+      Return dpiColl
+    End Function
 #End Region
 
-		Public Overrides Function ToString() As String
-			Return Me.Code
-		End Function
+    Public Overrides Function ToString() As String
+      Return Me.Code
+    End Function
 
-	End Class
+  End Class
 
   <Serializable(), DefaultMember("Item")> _
   Public Class WitholdingTaxCollection
@@ -2683,6 +2695,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           drWHT("wht_cumulative") = wht.Cumulative
 
           drWHT("wht_delayed") = Me.IsBeforePay
+
+          drWHT("wht_indicationSubmit") = wht.IndicationSubmit
+          drWHT("wht_submitNo") = wht.SubmitNo
 
           wht.SetOriginEditCancelStatus(drWHT, theTime, currentUserId)
 

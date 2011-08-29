@@ -100,6 +100,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbBuilkPayeeID As System.Windows.Forms.GroupBox
     Friend WithEvents txtBuilkID As System.Windows.Forms.TextBox
     Friend WithEvents lblBuilkID As System.Windows.Forms.Label
+    Friend WithEvents btnExportDetail As System.Windows.Forms.Button
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -175,6 +176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.btnExportDetail = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       Me.grbBuilkPayeeID.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
@@ -197,6 +199,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.ibtnDelContact)
       Me.grbDetail.Controls.Add(Me.lblContactItem)
       Me.grbDetail.Controls.Add(Me.lblStatus)
+      Me.grbDetail.Controls.Add(Me.btnExportDetail)
       Me.grbDetail.Controls.Add(Me.btnAuxDetail)
       Me.grbDetail.Controls.Add(Me.primaryDetailGroupBox)
       Me.grbDetail.Controls.Add(Me.otherDetailGroupBox)
@@ -410,7 +413,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnAddContact
       '
       Me.ibtnAddContact.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnAddContact.Location = New System.Drawing.Point(488, 261)
+      Me.ibtnAddContact.Location = New System.Drawing.Point(488, 258)
       Me.ibtnAddContact.Name = "ibtnAddContact"
       Me.ibtnAddContact.Size = New System.Drawing.Size(24, 24)
       Me.ibtnAddContact.TabIndex = 327
@@ -420,7 +423,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelContact
       '
       Me.ibtnDelContact.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelContact.Location = New System.Drawing.Point(512, 261)
+      Me.ibtnDelContact.Location = New System.Drawing.Point(512, 258)
       Me.ibtnDelContact.Name = "ibtnDelContact"
       Me.ibtnDelContact.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelContact.TabIndex = 328
@@ -455,7 +458,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnAuxDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAuxDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAuxDetail.Location = New System.Drawing.Point(664, 256)
+      Me.btnAuxDetail.Location = New System.Drawing.Point(664, 257)
       Me.btnAuxDetail.Name = "btnAuxDetail"
       Me.btnAuxDetail.Size = New System.Drawing.Size(75, 23)
       Me.btnAuxDetail.TabIndex = 2
@@ -1175,6 +1178,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
+      '
+      'btnExportDetail
+      '
+      Me.btnExportDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnExportDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnExportDetail.Location = New System.Drawing.Point(568, 257)
+      Me.btnExportDetail.Name = "btnExportDetail"
+      Me.btnExportDetail.Size = New System.Drawing.Size(90, 23)
+      Me.btnExportDetail.TabIndex = 2
+      Me.btnExportDetail.Text = "ข้อมูล Export"
       '
       'SupplierDetailView
       '
@@ -2162,6 +2175,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
       If myDialog.ShowDialog() = DialogResult.Cancel Then
         Me.WorkbenchWindow.ViewContent.IsDirty = False
+      End If
+    End Sub
+    Private Sub btnExportDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportDetail.Click
+      Dim myExpPanel As New Longkong.Pojjaman.Gui.Panels.SupplierExportDetailView
+      myExpPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myExpPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        CType(Me.m_entity, IExportEntityDetail).ExportEntity = Nothing
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+        'Me.m_entity.ExportEntity.IsDirty = False
       End If
     End Sub
 #End Region

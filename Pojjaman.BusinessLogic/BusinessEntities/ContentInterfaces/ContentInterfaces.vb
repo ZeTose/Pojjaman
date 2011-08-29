@@ -372,4 +372,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Delegate Sub ColumnChangedHandler(ByVal sender As Object, ByVal e As DataColumnChangeEventArgs)
   Public Delegate Sub RowChangedHandler(ByVal sender As Object, ByVal e As DataRowChangeEventArgs)
 
+  Public Interface IExportEntityDetail
+    Property ExportEntity As ExportEntity
+  End Interface
+
 End Namespace

@@ -149,6 +149,9 @@
     <Compile Include="ApprovalComment\ApprovalCommentForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AP\SupplierExportDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="BuilkMatchView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -270,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ApprovalComment\ApprovalCommentForm.resx">
       <DependentUpon>ApprovalCommentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AP\SupplierExportDetailView.resx">
+      <DependentUpon>SupplierExportDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BuilkMatchView.resx">
       <DependentUpon>BuilkMatchView.vb</DependentUpon>

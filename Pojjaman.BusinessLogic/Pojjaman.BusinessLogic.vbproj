@@ -810,6 +810,7 @@
     <Compile Include="BusinessEntities\Subcontract\VOItem.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Vat\ExportVat.vb" />
     <Compile Include="BusinessEntities\Vat\ITaxable.vb">
       <SubType>Code</SubType>
     </Compile>

@@ -5,10 +5,12 @@ Imports System.IO
 Imports System.Configuration
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Supplier
     Inherits PersonEntityBase
-    Implements IPJMUpdatable, IPrintableEntity, IHasGroup
+    Implements IPJMUpdatable, IPrintableEntity, IHasGroup, IExportEntityDetail
 
 #Region "Members"
     Private m_creditAmount As Decimal
@@ -36,6 +38,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_contactCollection As SupplierContactCollection
     Private m_notGetItems As Boolean = False
     Public Shared m_SupplierCollection As Hashtable '���� Datarow
+
+    Private m_exportentity As ExportEntity
 #End Region
 
 #Region "Constructors"
@@ -430,6 +434,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub GetExportEntity()
+      If m_exportentity Is Nothing OrElse m_exportentity.IsDirty = False Then
+        m_exportentity = New ExportEntity(Me)
+      End If
+    End Sub
     Public Function IsReferenced() As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
       , CommandType.StoredProcedure _
@@ -532,8 +541,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@supplier_kbankdcaccount", Me.DCAccount))
       paramArrayList.Add(New SqlParameter("@supplier_kbankdcbank", Me.DCBank))
       paramArrayList.Add(New SqlParameter("@supplier_kbankmcaccount", Me.MCAccount))
-            paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
-            paramArrayList.Add(New SqlParameter("@supplier_faxforexport", Me.FaxforExport))
+      paramArrayList.Add(New SqlParameter("@supplier_kbankmcbank", Me.MCBank))
+      paramArrayList.Add(New SqlParameter("@supplier_faxforexport", Me.FaxforExport))
       paramArrayList.Add(New SqlParameter("@supplier_builkid", Me.BuilkID))
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -641,13 +650,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(subsaveerror.Message) Then
             Return New SaveErrorException(" Save Incomplete Please Save Again")
           End If
-          Return New SaveErrorException(returnVal.Value.ToString)
-          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        Try
+          Dim subsaveerror2 As SaveErrorException = SubSave2(conn)
+          If Not IsNumeric(subsaveerror2.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         End Try
         '--Sub Save Block-- ============================================================
 
+        Return New SaveErrorException(returnVal.Value.ToString) 'Complete Save
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
       Finally
@@ -680,6 +696,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave2(ByVal conn As SqlConnection) As SaveErrorException
+      If Me.ExportEntity Is Nothing Then
+        Return New SaveErrorException("0")
+      End If
+
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans2 As SqlTransaction = conn.BeginTransaction
+
+      Try
+        Dim saveerr As SaveErrorException = Me.ExportEntity.Save(conn, trans2)
+        Me.ExportEntity = Nothing
+        If Not IsNumeric(saveerr.Message) Then
+          Return saveerr
+        End If
+      Catch ex As Exception
+        trans2.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans2.Commit()
       Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
@@ -1113,6 +1151,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_InfoList.Add(kv)
       Next
     End Sub
+
+    Public Property ExportEntity As ExportEntity Implements IExportEntityDetail.ExportEntity
+      Get
+        Return m_exportentity
+      End Get
+      Set(ByVal value As ExportEntity)
+        m_exportentity = value
+      End Set
+    End Property
   End Class
 
   Public Class SupplierGroup
@@ -1311,6 +1358,202 @@ Namespace Longkong.Pojjaman.BusinessLogic
         conn.Close()
       End Try
     End Function
+#End Region
+
+  End Class
+
+  Public Class ExportEntity
+
+#Region "Properties"
+    Public Property EntityId As Integer
+    Public Property EntityType As Integer
+
+    Public Property Address As String
+    Public Property BranchId As String
+    Public Property BuildingName As String
+    Public Property District As String
+    Public Property FirstName As String
+    Public Property Floor As String
+    Public Property Id As String
+    Public Property Idno As String
+    Public Property LastName As String
+    Public Property Moo As String
+    Public Property Note As String
+    Public Property PhoneNumber As String
+    Public Property PostCode As String
+    Public Property Province As String
+    Public Property RegistrationNo As String
+    Public Property RoomNumber As String
+    Public Property Street As String
+    Public Property SubStreet As String
+    Public Property TamBon As String
+    Public Property TaxIdNo As String
+    Public Property TitleName As String
+    'Public Property EntityType As String
+    Public Property VillageName As String
+    Public Property IsDirty As Boolean
+
+    'Private Property OldDataset As DataSet
+
+    Public Shared Property AutoCompleteOfTitleName As AutoCompleteStringCollection
+    Public Shared Property AutoCompleteOfStreet As AutoCompleteStringCollection
+    Public Shared Property AutoCompleteOfTambon As AutoCompleteStringCollection
+    Public Shared Property AutoCompleteOfDistrict As AutoCompleteStringCollection
+    Public Shared Property AutoCompleteOfProvince As AutoCompleteStringCollection
+    Public Shared Property AutoCompleteOfPostCode As AutoCompleteStringCollection
+
+#End Region
+#Region "Construct"
+    Public Sub New(ByVal entity As IExportEntityDetail)
+      If CType(entity, ISimpleEntity).Id = 0 Then
+        Return
+      End If
+
+      Me.EntityId = CType(entity, ISimpleEntity).Id
+      Me.EntityType = CType(entity, ISimpleEntity).EntityId
+
+      Me.IsDirty = False
+
+      'Dim cnstring As String = CType(entity, SimpleBusinessEntityBase).RealConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure,
+                                                   "GetExportEntity",
+                                                   New SqlParameter("@entityId", Me.EntityId),
+                                                   New SqlParameter("@entityType", Me.EntityType)
+                                                   )
+      If ds.Tables(0).Rows.Count = 0 Then
+        If TypeOf entity Is Supplier Then
+          Dim newSupplier As Supplier = CType(entity, Supplier)
+
+          Me.FirstName = Mid(newSupplier.Name, 1, 160)
+          Me.Idno = Mid(newSupplier.IdNo, 1, 13)
+          Me.TaxIdNo = Mid(newSupplier.TaxId, 1, 10)
+          Me.Province = Mid(newSupplier.Province, 1, 50)
+          Me.PhoneNumber = Mid(newSupplier.Phone, 1, 30)
+          Me.Note = Mid(newSupplier.Note, 1, 80)
+        End If
+        Return
+      End If
+
+      Me.Construct(ds.Tables(0).Rows(0))
+      'Me.OldDataset = ds
+
+    End Sub
+    Private Sub Construct(ByVal dr As DataRow)
+      Dim drh As New DataRowHelper(dr)
+
+      Me.Address = drh.GetValue(Of String)("exportentity_address")
+      Me.BranchId = drh.GetValue(Of String)("exportentity_branchid")
+      Me.BuildingName = drh.GetValue(Of String)("exportentity_buildingname")
+      Me.District = drh.GetValue(Of String)("exportentity_district")
+      Me.FirstName = drh.GetValue(Of String)("exportentity_firstname")
+      Me.Floor = drh.GetValue(Of String)("exportentity_floor")
+      Me.Id = drh.GetValue(Of String)("exportentity_id")
+      Me.Idno = drh.GetValue(Of String)("exportentity_idno")
+      Me.LastName = drh.GetValue(Of String)("exportentity_lastname")
+      Me.Moo = drh.GetValue(Of String)("exportentity_moo")
+      Me.Note = drh.GetValue(Of String)("exportentity_note")
+      Me.PhoneNumber = drh.GetValue(Of String)("exportentity_phonenumber")
+      Me.PostCode = drh.GetValue(Of String)("exportentity_postcode")
+      Me.Province = drh.GetValue(Of String)("exportentity_province")
+      Me.RegistrationNo = drh.GetValue(Of String)("exportentity_registrationno")
+      Me.RoomNumber = drh.GetValue(Of String)("exportentity_roomnumber")
+      Me.Street = drh.GetValue(Of String)("exportentity_street")
+      Me.SubStreet = drh.GetValue(Of String)("exportentity_substreet")
+      Me.TamBon = drh.GetValue(Of String)("exportentity_tambon")
+      Me.TaxIdNo = drh.GetValue(Of String)("exportentity_taxidno")
+      Me.TitleName = drh.GetValue(Of String)("exportentity_titlename")
+      'Me.EntityType = drh.GetValue(Of Integer)("exportentity_type")
+      Me.VillageName = drh.GetValue(Of String)("exportentity_villagename")
+    End Sub
+#End Region
+#Region "Method"
+    Public Sub ReverseEntity()
+      'Dim dr As DataRow = Me.OldDataset.Tables(0).Rows(0)
+      'Me.Construct(dr)
+    End Sub
+    Public Function Save(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
+      Try
+        SqlHelper.ExecuteNonQuery(conn,
+                                  trans,
+                                  CommandType.StoredProcedure,
+                                  "InsertExportEntity",
+                                  New SqlParameter("@exportentity_entityid", Me.EntityId),
+                                  New SqlParameter("@exportentity_type", Me.EntityType),
+                                  New SqlParameter("@exportentity_address", Me.Address),
+                                  New SqlParameter("@exportentity_branchid", Me.BranchId),
+                                  New SqlParameter("@exportentity_buildingname", Me.BuildingName),
+                                  New SqlParameter("@exportentity_district", Me.District),
+                                  New SqlParameter("@exportentity_firstname", Me.FirstName),
+                                  New SqlParameter("@exportentity_floor", Me.Floor),
+                                  New SqlParameter("@exportentity_idno", Me.Idno),
+                                  New SqlParameter("@exportentity_lastname", Me.LastName),
+                                  New SqlParameter("@exportentity_moo", Me.Moo),
+                                  New SqlParameter("@exportentity_note", Me.Note),
+                                  New SqlParameter("@exportentity_phonenumber", Me.PhoneNumber),
+                                  New SqlParameter("@exportentity_postcode", Me.PostCode),
+                                  New SqlParameter("@exportentity_province", Me.Province),
+                                  New SqlParameter("@exportentity_registrationno", Me.RegistrationNo),
+                                  New SqlParameter("@exportentity_roomnumber", Me.RoomNumber),
+                                  New SqlParameter("@exportentity_street", Me.Street),
+                                  New SqlParameter("@exportentity_substreet", Me.SubStreet),
+                                  New SqlParameter("@exportentity_tambon", Me.TamBon),
+                                  New SqlParameter("@exportentity_taxidno", Me.TaxIdNo),
+                                  New SqlParameter("@exportentity_titlename", Me.TitleName),
+                                  New SqlParameter("@exportentity_villagename", Me.VillageName)
+                                )
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
+      End Try
+
+      Return New SaveErrorException("0")
+    End Function
+    Public Shared Sub GetCompleteCode()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.Text,
+                                                   "select distinct exportentity_street From exportentity; " & _
+                                                   "select distinct exportentity_titlename From exportentity; " & _
+                                                   "select distinct exportentity_district From exportentity; " & _
+                                                   "select distinct exportentity_province From exportentity union select province_name from province; " & _
+                                                   "select exportentity_postcode From exportentity;"
+                                                   )
+
+      AutoCompleteOfTitleName = New AutoCompleteStringCollection
+      AutoCompleteOfStreet = New AutoCompleteStringCollection
+      AutoCompleteOfTambon = New AutoCompleteStringCollection
+      AutoCompleteOfDistrict = New AutoCompleteStringCollection
+      AutoCompleteOfProvince = New AutoCompleteStringCollection
+      AutoCompleteOfPostCode = New AutoCompleteStringCollection
+
+      AutoCompleteOfTitleName.Add("นาย")
+      AutoCompleteOfTitleName.Add("นาง")
+      AutoCompleteOfTitleName.Add("นางสาว")
+
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        AutoCompleteOfStreet.Add(drh.GetValue(Of String)("exportentity_street"))
+      Next
+
+      For Each row As DataRow In ds.Tables(1).Rows
+        Dim drh As New DataRowHelper(row)
+        AutoCompleteOfTambon.Add(drh.GetValue(Of String)("exportentity_titlename"))
+      Next
+
+      For Each row As DataRow In ds.Tables(2).Rows
+        Dim drh As New DataRowHelper(row)
+        AutoCompleteOfDistrict.Add(drh.GetValue(Of String)("exportentity_district"))
+      Next
+
+      For Each row As DataRow In ds.Tables(3).Rows
+        Dim drh As New DataRowHelper(row)
+        AutoCompleteOfProvince.Add(drh.GetValue(Of String)("exportentity_province"))
+      Next
+
+      For Each row As DataRow In ds.Tables(4).Rows
+        Dim drh As New DataRowHelper(row)
+        AutoCompleteOfPostCode.Add(drh.GetValue(Of String)("exportentity_postcode"))
+      Next
+
+    End Sub
 #End Region
 
   End Class
