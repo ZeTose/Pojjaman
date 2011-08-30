@@ -192,6 +192,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myDatatable As New TreeTable("MatOpenningBalance")
 
       myDatatable.Columns.Add(New DataColumn("stocki_linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("stocki_sequence", GetType(Long)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("stocki_entity", GetType(Integer)))
@@ -371,49 +372,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Try
 
 
-       
-        Try
-          Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            Me.ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
 
-          ''SaveDetail(Me.Id, conn, trans)
-          ''==============================DeleteSTOCKCOST=========================================
-          ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-          'If Me.Originated AndAlso Not Me.IsReferenced Then
-          '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-          'End If
-          ''==============================DeleteSTOCKCOST=========================================
+          Try
+            Me.ExecuteSaveSproc(returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2
+                  trans.Rollback()
+                  Me.ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
 
-          Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
-          If Not IsNumeric(saveDetailError.Message) Then
-            trans.Rollback()
-            Me.ResetId(oldid, oldjeid)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveDetailError
-          Else
-            Select Case CInt(saveDetailError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                Me.ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveDetailError
-              Case Else
-            End Select
-          End If
+            ''SaveDetail(Me.Id, conn, trans)
+            ''==============================DeleteSTOCKCOST=========================================
+            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            'If Me.Originated AndAlso Not Me.IsReferenced Then
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+            'End If
+            ''==============================DeleteSTOCKCOST=========================================
+
+            Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
+            If Not IsNumeric(saveDetailError.Message) Then
+              trans.Rollback()
+              Me.ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveDetailError
+            Else
+              Select Case CInt(saveDetailError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Me.ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveDetailError
+                Case Else
+              End Select
+            End If
 
             ''==============================STOCKCOST=========================================
             ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
@@ -422,59 +423,59 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'End If
             ''==============================STOCKCOST=========================================
 
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              Me.ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1
+                  trans.Rollback()
+                  Me.ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetId(oldid, oldjeid)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  ResetId(oldid, oldjeid)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveAutoCodeError
+                Case Else
+              End Select
+            End If
+            '==============================AUTOGEN==========================================
+
+            trans.Commit()
+          Catch ex As SqlException
             trans.Rollback()
             Me.ResetId(oldid, oldjeid)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1
-                trans.Rollback()
-                Me.ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
             trans.Rollback()
-            ResetId(oldid, oldjeid)
+            Me.ResetId(oldid, oldjeid)
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldid, oldjeid)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-
-          trans.Commit()
-        Catch ex As SqlException
-          trans.Rollback()
-          Me.ResetId(oldid, oldjeid)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
-        Catch ex As Exception
-          trans.Rollback()
-          Me.ResetId(oldid, oldjeid)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
+            Return New SaveErrorException(ex.ToString)
           End Try
 
           'Sub Save Block
@@ -515,7 +516,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       '==============================STOCKCOST=========================================
 
-     
+
       Return New SaveErrorException("0")
     End Function
     Private Function SaveDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
@@ -537,38 +538,81 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim dbCount As Integer = ds.Tables("stockitem").Rows.Count
         Dim itemCount As Integer = Me.ItemTable.Childs.Count
         Dim i As Integer = 0
-        With ds.Tables("stockitem")
-          For Each row As DataRow In .Rows
-            row.Delete()
-          Next
+
+        Dim rowsToDelete As ArrayList
+        '------------Checking if we have to delete some rows--------------------
+        rowsToDelete = New ArrayList
+        For Each dr As DataRow In ds.Tables("stockitem").Rows
+          Dim found As Boolean = False
+
           For n As Integer = 0 To Me.MaxRowIndex
             Dim itemRow As TreeRow = CType(Me.m_itemTable.Childs(n), TreeRow)
             If ValidateRow(itemRow) Then
-              i += 1
               Dim item As New MatOpenningBalanceItem
               item.CopyFromDataRow(itemRow)
-              Dim dr As DataRow = .NewRow
-              dr("stocki_linenumber") = i
-              dr("stocki_stock") = Me.Id
-              dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.ToCostCenter)
-              dr("stocki_toacctType") = 3
-              dr("stocki_entity") = item.Entity.Id
-              dr("stocki_entityType") = CType(item.Entity, LCIItem).EntityId
-              dr("stocki_unit") = Me.ValidIdOrDBNull(item.Unit)
-              dr("stocki_qty") = item.Qty
-              dr("stocki_stockqty") = item.StockQty
-              dr("stocki_unitprice") = item.UnitPrice
-              dr("stocki_unitcost") = item.UnitCost
-              dr("stocki_amt") = item.Amount
-              dr("stocki_stockQty") = item.StockQty
-              dr("stocki_note") = item.Note
-              dr("stocki_iscancelled") = IIf(Me.Canceled, Me.Canceled, DBNull.Value)
-              dr("stocki_status") = Me.Status.Value
-              dr("stocki_type") = Me.EntityId
-              .Rows.Add(dr)
+
+              If item.Sequence = CInt(dr("stocki_sequence")) Then
+                found = True
+                Exit For
+              End If
+
             End If
           Next
-        End With
+          If Not found Then
+            If Not rowsToDelete.Contains(dr) Then
+              rowsToDelete.Add(dr)
+            End If
+          End If
+        Next
+        For Each dr As DataRow In rowsToDelete
+          dr.Delete()
+        Next
+
+        '------------End Checking--------------------
+        Dim seq As Integer = -1
+        For n As Integer = 0 To Me.MaxRowIndex
+          Dim itemRow As TreeRow = CType(Me.m_itemTable.Childs(n), TreeRow)
+          If ValidateRow(itemRow) Then
+            i += 1
+            Dim item As New MatOpenningBalanceItem
+            item.CopyFromDataRow(itemRow)
+            'Dim dr As DataRow = .NewRow
+            '------------Checking if we have to add a new row or just update existing--------------------
+            Dim dr As DataRow
+            Dim drs As DataRow() = ds.Tables("stockitem").Select("stocki_sequence=" & item.Sequence)
+            If drs.Length = 0 Then
+              dr = ds.Tables("stockitem").NewRow
+              seq = seq + (-1)
+              dr("stocki_sequence") = seq
+            Else
+              dr = drs(0)
+            End If
+            '------------End Checking--------------------
+
+            dr("stocki_linenumber") = i
+            dr("stocki_stock") = Me.Id
+            dr("stocki_tocc") = Me.ValidIdOrDBNull(Me.ToCostCenter)
+            dr("stocki_toacctType") = 3
+            dr("stocki_entity") = item.Entity.Id
+            dr("stocki_entityType") = CType(item.Entity, LCIItem).EntityId
+            dr("stocki_unit") = Me.ValidIdOrDBNull(item.Unit)
+            dr("stocki_qty") = item.Qty
+            dr("stocki_stockqty") = item.StockQty
+            dr("stocki_unitprice") = item.UnitPrice
+            dr("stocki_unitcost") = item.UnitCost
+            dr("stocki_amt") = item.Amount
+            dr("stocki_stockQty") = item.StockQty
+            dr("stocki_note") = item.Note
+            dr("stocki_iscancelled") = IIf(Me.Canceled, Me.Canceled, DBNull.Value)
+            dr("stocki_status") = Me.Status.Value
+            dr("stocki_type") = Me.EntityId
+            '------------Checking if we have to add a new row or just update existing--------------------
+            If drs.Length = 0 Then
+              ds.Tables("stockitem").Rows.Add(dr)
+            End If
+            '------------End Checking--------------------
+          End If
+        Next
         Dim dt As DataTable = ds.Tables("stockitem")
         ' First process deletes.
         da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -1185,6 +1229,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_stockQty As Decimal
 
     Private m_conversion As Decimal = 1
+    Private m_sequence As Long
 #End Region
 
 #Region "Constructors"
@@ -1237,6 +1282,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '.m_unit = New Unit(CInt(dr(aliasPrefix & "stocki_unit")))
           End If
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "stocki_sequence") AndAlso Not dr.IsNull(aliasPrefix & "stocki_sequence") Then
+          .m_sequence = CLng(dr(aliasPrefix & "stocki_sequence"))
+        End If
 
       End With
     End Sub
@@ -1247,7 +1295,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property MatOpenningBalance() As MatOpenningBalance      Get        Return m_matOpenningBalance      End Get      Set(ByVal Value As MatOpenningBalance)        m_matOpenningBalance = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Me.Conversion * Me.Qty      End Get    End Property    Public ReadOnly Property Amount() As Decimal
+    Public Property Sequence As Long
+      Get
+        Return m_sequence
+      End Get
+      Set(ByVal value As Long)
+        m_sequence = value
+      End Set
+    End Property
+    Public Property MatOpenningBalance() As MatOpenningBalance      Get        Return m_matOpenningBalance      End Get      Set(ByVal Value As MatOpenningBalance)        m_matOpenningBalance = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Me.Conversion * Me.Qty      End Get    End Property    Public ReadOnly Property Amount() As Decimal
       Get
         Return (Me.UnitPrice * Me.Qty)
       End Get
@@ -1293,34 +1349,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       If Me.Qty <> 0 Then
-        row("stocki_qty") = Me.Qty
+        row("stocki_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
       Else
         row("stocki_qty") = ""
       End If
 
       If Me.UnitPrice <> 0 Then
-        row("stocki_unitprice") = Me.Qty
+        row("stocki_unitprice") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
       Else
         row("stocki_unitprice") = ""
       End If
 
       If Me.Amount <> 0 Then
-        row("Amount") = Me.Amount
+        row("Amount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)
       Else
         row("Amount") = ""
       End If
 
       row("stocki_note") = Me.Note
       If Me.UnitPrice <> 0 Then
-        row("stocki_unitprice") = Me.UnitPrice
+        row("stocki_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.Price)
       Else
         row("stocki_unitprice") = ""
       End If
       If Me.StockQty <> 0 Then
-        row("StockQty") = Me.StockQty
+        row("StockQty") = Configuration.FormatToString(Me.StockQty, DigitConfig.Qty)
       Else
         row("StockQty") = ""
       End If
+
+      row("stocki_sequence") = Me.Sequence
 
       Me.MatOpenningBalance.IsInitialized = True
     End Sub
@@ -1349,6 +1407,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not row.IsNull(("stocki_note")) Then
           Me.Note = CStr(row("stocki_note"))
+        End If
+
+        If Not row.IsNull(("stocki_sequence")) Then
+          Me.Sequence = CLng(row("stocki_sequence"))
         End If
 
         GetAmountFromRow(row)

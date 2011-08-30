@@ -568,6 +568,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.MappingName = "stocki_unitprice"
       csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetail.UnitpriceHeaderText}")
       csUnitPRice.NullText = ""
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
       csUnitPRice.TextBox.Name = "stocki_unitprice"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
@@ -578,6 +579,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.NullText = ""
       csAmount.TextBox.Name = "Amount"
       csAmount.ReadOnly = True
+      csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Format = "#,###.##"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
@@ -589,6 +591,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csNote.Width = 180
       csNote.TextBox.Name = "stocki_note"
 
+      'Dim csSequence As New TreeTextColumn
+      'csSequence.MappingName = "stocki_sequence"
+      'csSequence.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetail.UnitpriceHeaderText}")
+      'csSequence.NullText = ""
+      'csSequence.Width = 0
+      'csSequence.TextBox.Name = "stocki_sequence"
 
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csCode)
@@ -601,6 +609,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csUnitPRice)
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csNote)
+      'dst.GridColumnStyles.Add(csSequence)
 
       m_tableStyleEnable = New Hashtable
       For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
