@@ -2250,11 +2250,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Delete"
     Public Overrides ReadOnly Property CanDelete() As Boolean
       Get
-        If Me.Originated Then
-          Return Me.Status.Value <= 2 AndAlso Not Me.IsReferenced
-        Else
-          Return False
-        End If
+        Return False
+        'If Me.Originated Then
+        '  Return Me.Status.Value <= 2 AndAlso Not Me.IsReferenced AndAlso Not Me.ApprovalCollection.IsApproved
+        'Else
+        '  Return False
+        'End If
       End Get
     End Property
     Public Function DeleteExtender(ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException Implements IExtender.Delete
@@ -2290,11 +2291,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  Return New SaveErrorException("${res:Global.Error.NoIdError}")
       'End If
       'Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      ''Dim format(0) As String
-      ''format(0) = Me.Code
-      ''If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteMatWithdraw}", format) Then
-      ''  Return New SaveErrorException("${res:Global.CencelDelete}")
-      ''End If
+      'Dim format(0) As String
+      'format(0) = Me.Code
+      'If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteMatReceipt}", format) Then
+      '  Return New SaveErrorException("${res:Global.CencelDelete}")
+      'End If
       ''  '-------------------------------------------------------
       ''  Dim pris As String = GetPritemString()
       ''  Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
@@ -2317,26 +2318,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'conn.Open()
       'trans = conn.BeginTransaction()
       'Try
-      '  'Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
-      '  'returnVal.ParameterName = "RETURN_VALUE"
-      '  'returnVal.DbType = DbType.Int32
-      '  'returnVal.Direction = ParameterDirection.ReturnValue
-      '  'returnVal.SourceVersion = DataRowVersion.Current
-      '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, "delete from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock =" & Me.Id & ") and stockiw_direction=0")
-      '  'If IsNumeric(returnVal.Value) Then
-      '  '  Select Case CInt(returnVal.Value)
-      '  '    Case -1
-      '  '      trans.Rollback()
-      '  '      Return New SaveErrorException("${res:Global.MatWithdrawIsReferencedCannotBeDeleted}")
-      '  '    Case Else
-      '  '  End Select
-      '  'ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-      '  '  trans.Rollback()
-      '  '  Return New SaveErrorException(returnVal.Value.ToString)
-      '  'End If
-      '  'Me.DeleteRef(conn, trans)
+      '  Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+      '  returnVal.ParameterName = "RETURN_VALUE"
+      '  returnVal.DbType = DbType.Int32
+      '  returnVal.Direction = ParameterDirection.ReturnValue
+      '  returnVal.SourceVersion = DataRowVersion.Current
+      '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteMatReceipt", New SqlParameter() {New SqlParameter("@" & Me.Prefix & "_id", Me.Id), returnVal})
+      '  If IsNumeric(returnVal.Value) Then
+      '    Select Case CInt(returnVal.Value)
+      '      Case -1
+      '        trans.Rollback()
+      '        Return New SaveErrorException("${res:Global.MatWithdrawIsReferencedCannotBeDeleted}")
+      '      Case Else
+      '    End Select
+      '  ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+      '    trans.Rollback()
+      '    Return New SaveErrorException(returnVal.Value.ToString)
+      '  End If
+      '  Me.DeleteRef(conn, trans)
 
+      '  '==============================UPDATE PRITEM=========================================
+      '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+      '  '==============================UPDATE PRITEM=========================================
 
+      '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMatWBSActual")
       '  ''--------------------------------------------------------------
       '  'Dim oldid As Integer = Me.Id
       '  'Dim oldjeid As Integer = Me.m_je.Id
@@ -2360,7 +2365,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  ''--------------------------------------------------------------
 
       '  trans.Commit()
-      '  Return New SaveErrorException("2")
+      '  Return New SaveErrorException("1")
       'Catch ex As SqlException
       '  trans.Rollback()
       '  Return New SaveErrorException(ex.Message)
@@ -2376,7 +2381,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "ICancelable"
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
-        Return Me.Status.Value > 1 AndAlso Me.IsCancelable
+        Return False 'Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso Not Me.ApprovalCollection.IsApproved
       End Get
     End Property
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
