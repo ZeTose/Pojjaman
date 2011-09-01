@@ -263,6 +263,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As CostCenter)
         m_toCostCenter = Value
         ValidateCCandType()
+        For Each mitem As MatWithdrawItem In Me.ItemCollection
+          For Each wbsd As WBSDistribute In mitem.InWbsdColl
+            wbsd.CostCenter = m_toCostCenter
+            wbsd.WBS = New WBS
+          Next
+        Next
       End Set
     End Property
     Public Property FromCostCenterPerson() As Employee
