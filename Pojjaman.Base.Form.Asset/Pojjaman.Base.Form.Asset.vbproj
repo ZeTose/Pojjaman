@@ -184,6 +184,9 @@
     <Compile Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\AssetWithdrawReturnView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\ToolFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -293,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.resx">
       <DependentUpon>AssetWriteOffFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Asset\AssetWithdrawReturnView.resx">
+      <DependentUpon>AssetWithdrawReturnView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\ToolFilterSubPanel.resx">
       <DependentUpon>ToolFilterSubPanel.vb</DependentUpon>

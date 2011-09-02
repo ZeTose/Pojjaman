@@ -8,6 +8,7 @@
     <Import assembly="../../Reports/AP/Pojjaman.Base.Report.AP.dll"/>
     <Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>
     <Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>
+    <Import assembly="../../Forms/Asset/Pojjaman.Base.Form.Asset.dll"/>
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
     <MenuItem id="V-Arch" insertafter="PettyCash" insertbefore="PettyCashClaim" label="${res:MainMenu.PurchaseMenu.VArch}">
@@ -37,4 +38,7 @@
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
   </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityTabs/asset">
+    <EntityTab id="AssetWithdrawReturnView" insertafter="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.AssetWithdrawReturnView"/>
+  </Extension>  
 </AddIn>

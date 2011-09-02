@@ -515,6 +515,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_status As AssetStatus
 
     Private m_itemTable As TreeTable
+    Private m_VitemTable As TreeTable
 
     Private m_Deprebase As Decimal
     Private m_writeoffamt As Decimal
@@ -1086,6 +1087,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property VisInitialized As Boolean
+    Public Property VItemTable As TreeTable
+      Get
+        Return m_VitemTable
+      End Get
+      Set(ByVal value As TreeTable)
+        m_VitemTable = value
+      End Set
+    End Property
     Public Property ItemTable() As TreeTable
       Get
         Return m_itemTable
@@ -1099,7 +1109,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_dateintervalunit
       End Get
       Set(ByVal Value As CodeDescription)
-        m_dateintervalunit = CType(m_dateintervalunit, DateinterValUnit)
+        m_dateintervalunit = CType(m_dateintervalunit, DateIntervalUnit)
       End Set
     End Property
     Public Property Name() As String Implements IHasName.Name
@@ -2504,6 +2514,119 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
       Next
     End Sub
+#End Region
+#Region "Items VArc Customize"
+    Public Overloads Sub VReLoadItems()
+      Me.VIsInitialized = False
+      m_VitemTable = VGetSchemaTable()
+      VLoadItems()
+      Me.VIsInitialized = True
+    End Sub
+    Public Overloads Sub VReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.VIsInitialized = False
+      m_VitemTable = VGetSchemaTable()
+      Me.VIsInitialized = True
+    End Sub
+    Private Sub VLoadItems()
+      If Not Me.Originated Then
+        Return
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
+      , CommandType.StoredProcedure _
+      , "GetVAssetStocks" _
+      , New SqlParameter("@asset_id", Me.Id) _
+      )
+
+      Dim i As Integer = 0
+      Dim amt As Decimal = 0
+      For Each row As DataRow In ds.Tables(0).Rows
+        i += 1
+        Dim dr As TreeRow = m_VitemTable.Childs.Add
+        dr("Linenumber") = i
+        dr("DocType") = row("DocType")
+        dr("DocCode") = row("DocCode")
+        dr("DocDate") = row("DocDate")
+        dr("FromCC") = row("FromCC")
+        dr("ToCC") = row("ToCC")
+        If IsNumeric(row("Amount")) Then
+          dr("Amount") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
+        End If
+      Next
+    End Sub
+    Public Shared Function VGetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("VAssetStock")
+
+      myDatatable.Columns.Add(New DataColumn("Linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("DocDate", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("FromCC", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ToCC", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
+      Return myDatatable
+    End Function
+    Public Shared Function VCreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "VAssetStock"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+
+      ' Items
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "Linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "Linenumber"
+
+      Dim csType As New TreeTextColumn
+      csType.MappingName = "DocType"
+      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.DocTypeHeaderText}")
+      csType.NullText = ""
+      csType.ReadOnly = True
+
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "DocCode"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.ReadOnly = True
+
+      Dim csDate As New TreeTextColumn
+      csDate.MappingName = "DocDate"
+      csDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.DateHeaderText}")
+      csDate.NullText = ""
+      csDate.ReadOnly = True
+
+
+      Dim csFromCc As New TreeTextColumn
+      csFromCc.MappingName = "FromCC"
+      csFromCc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.FromCCHeaderText}")
+      csFromCc.NullText = ""
+      csFromCc.ReadOnly = True
+
+      Dim csToCC As New TreeTextColumn
+      csToCC.MappingName = "ToCC"
+      csToCC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.ToCCHeaderText}")
+      csToCC.NullText = ""
+      csToCC.ReadOnly = True
+
+      Dim csAmount As New TreeTextColumn
+      csAmount.MappingName = "Amount"
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.AmountHeaderText}")
+      csAmount.NullText = ""
+      csAmount.ReadOnly = True
+
+      dst.GridColumnStyles.Add(csType)
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csDate)
+      dst.GridColumnStyles.Add(csFromCc)
+      dst.GridColumnStyles.Add(csToCC)
+      'dst.GridColumnStyles.Add(csAmount)
+
+      Return dst
+    End Function
 #End Region
 
 
