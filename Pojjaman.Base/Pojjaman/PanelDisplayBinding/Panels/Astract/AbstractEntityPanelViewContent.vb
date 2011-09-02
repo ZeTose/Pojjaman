@@ -437,6 +437,8 @@ Namespace Longkong.Pojjaman.Gui
           'simpleList.RefreshData(simpleList.SelectedEntity.Id.ToString)
         End If
         Me.TitleName = Me.StringParserService.Parse(simpleList.Entity.ListPanelTitle)
+        Me.StatusBarService.SetMessage(Me.StringParserService.Parse("${res:Global.Already}"))
+        Me.StatusBarService.SetStatusMessage("", SystemColors.Window)
         If Not Me.WorkbenchWindow Is Nothing Then
           For Each content As Object In Me.WorkbenchWindow.SubViewContents
             If TypeOf content Is AbstractEntityDetailPanelView AndAlso Not content Is Me Then

@@ -53,7 +53,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
     , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
-   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable, IDuplicable, IAbleHideCostByView, IHasCurrency
+   , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable, IDuplicable, IAbleHideCostByView, IHasCurrency _
+   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -100,6 +101,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_itemCollection As GoodsReceiptItemCollection
     Private m_oldActualDataSet As DataSet
+
+    Private m_approveDocColl As ApproveDocCollection
 
     Private m_asset As Asset
     Private m_Unlock As Boolean = False
@@ -169,6 +172,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       EQActualHash = New Hashtable
       m_itemCollection = New GoodsReceiptItemCollection(Me)
       m_oldActualDataSet = New DataSet
+      m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -347,6 +351,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'm_itemCollection.CopyItemToList(m_oldItemList)
       'm_itemCollection.RefreshBudget()
       m_oldActualDataSet = Me.GetOldGRWBSActual
+      m_approveDocColl = New ApproveDocCollection(Me)
 
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
 
@@ -357,6 +362,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property ApproveDocColl As ApproveDocCollection
+      Get
+        Return m_approveDocColl
+      End Get
+      Set(ByVal value As ApproveDocCollection)
+        '
+      End Set
+    End Property
     Public Property TaxBaseDeductedWithoutThisRefDoc As Decimal
     Public Property ViewName As String
     Public ReadOnly Property HideCost As Boolean Implements IAbleHideCostByView.HideCost
@@ -5738,6 +5751,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
     '==============CURRENCY=================================
+#Region "IApproveStatusAble"
+    Public ReadOnly Property IsAuthorized As Boolean Implements IApproveStatusAble.IsAuthorized
+      Get
+        Return Me.IsApproved
+      End Get
+    End Property
+
+    Public ReadOnly Property IsLevelApproved As Boolean Implements IApproveStatusAble.IsLevelApproved
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            If Not approveDoc.Reject AndAlso approveDoc.Level > 0 Then
+              Return True
+            End If
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property IsReject As Boolean Implements IApproveStatusAble.IsReject
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            Return approveDoc.Reject
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+#End Region
+
+#Region "ICloseStatusAble"
+    Public Property Closed As Boolean Implements ICloseStatusAble.Closed
+      Get
+
+      End Get
+      Set(ByVal value As Boolean)
+
+      End Set
+    End Property
+#End Region
+
   End Class
 
   Public Class GoodsReceiptForApprove

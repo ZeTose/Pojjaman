@@ -16,8 +16,9 @@ Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ListViewItemSelectionPanelView
+    'Inherits UserControl
     Inherits AbstractEntityPanelViewContent
-        Implements ISimpleListPanel, ICanMove, IPrintableEntity
+    Implements ISimpleListPanel, ICanMove, IPrintableEntity
 
 #Region " Windows Form Designer generated code "
 
@@ -49,22 +50,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtSelectTop As System.Windows.Forms.TextBox
     Friend WithEvents lblSelectTop As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents chkHilight As System.Windows.Forms.CheckBox
+    Friend WithEvents chkHilightApproveStatus As System.Windows.Forms.CheckBox
+    Friend WithEvents btnShowColorStatus As System.Windows.Forms.Button
+    Friend WithEvents btnShowApproveColorStatus As System.Windows.Forms.Button
+    Friend WithEvents chkHilightStatus As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ListViewItemSelectionPanelView))
-      Me.pnlFilter = New System.Windows.Forms.Panel
-      Me.pnlFilter2 = New System.Windows.Forms.Panel
-      Me.Splitter2 = New System.Windows.Forms.Splitter
-      Me.lvItem = New Longkong.Pojjaman.Gui.Components.PJMListView
-      Me.pnlFilter3 = New System.Windows.Forms.Panel
-      Me.lblSelectTop = New System.Windows.Forms.Label
-      Me.txtSelectTop = New System.Windows.Forms.TextBox
-      Me.ibtnAll = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnNone = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnSelectTop = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.Label2 = New System.Windows.Forms.Label
-      Me.Splitter1 = New System.Windows.Forms.Splitter
-      Me.chkHilight = New System.Windows.Forms.CheckBox
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ListViewItemSelectionPanelView))
+      Me.pnlFilter = New System.Windows.Forms.Panel()
+      Me.btnShowApproveColorStatus = New System.Windows.Forms.Button()
+      Me.btnShowColorStatus = New System.Windows.Forms.Button()
+      Me.chkHilightApproveStatus = New System.Windows.Forms.CheckBox()
+      Me.chkHilightStatus = New System.Windows.Forms.CheckBox()
+      Me.pnlFilter2 = New System.Windows.Forms.Panel()
+      Me.Splitter2 = New System.Windows.Forms.Splitter()
+      Me.lvItem = New Longkong.Pojjaman.Gui.Components.PJMListView()
+      Me.pnlFilter3 = New System.Windows.Forms.Panel()
+      Me.lblSelectTop = New System.Windows.Forms.Label()
+      Me.txtSelectTop = New System.Windows.Forms.TextBox()
+      Me.ibtnAll = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnNone = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnSelectTop = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.Label2 = New System.Windows.Forms.Label()
+      Me.Splitter1 = New System.Windows.Forms.Splitter()
       Me.pnlFilter.SuspendLayout()
       Me.pnlFilter2.SuspendLayout()
       Me.pnlFilter3.SuspendLayout()
@@ -72,12 +79,55 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'pnlFilter
       '
-      Me.pnlFilter.Controls.Add(Me.chkHilight)
+      Me.pnlFilter.Controls.Add(Me.btnShowApproveColorStatus)
+      Me.pnlFilter.Controls.Add(Me.btnShowColorStatus)
+      Me.pnlFilter.Controls.Add(Me.chkHilightApproveStatus)
+      Me.pnlFilter.Controls.Add(Me.chkHilightStatus)
       Me.pnlFilter.Dock = System.Windows.Forms.DockStyle.Top
       Me.pnlFilter.Location = New System.Drawing.Point(0, 0)
       Me.pnlFilter.Name = "pnlFilter"
-      Me.pnlFilter.Size = New System.Drawing.Size(800, 120)
+      Me.pnlFilter.Size = New System.Drawing.Size(900, 120)
       Me.pnlFilter.TabIndex = 0
+      '
+      'btnShowApproveColorStatus
+      '
+      Me.btnShowApproveColorStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnShowApproveColorStatus.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+      Me.btnShowApproveColorStatus.Location = New System.Drawing.Point(774, 98)
+      Me.btnShowApproveColorStatus.Name = "btnShowApproveColorStatus"
+      Me.btnShowApproveColorStatus.Size = New System.Drawing.Size(13, 13)
+      Me.btnShowApproveColorStatus.TabIndex = 1
+      Me.btnShowApproveColorStatus.UseVisualStyleBackColor = True
+      '
+      'btnShowColorStatus
+      '
+      Me.btnShowColorStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnShowColorStatus.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+      Me.btnShowColorStatus.Location = New System.Drawing.Point(659, 98)
+      Me.btnShowColorStatus.Name = "btnShowColorStatus"
+      Me.btnShowColorStatus.Size = New System.Drawing.Size(13, 13)
+      Me.btnShowColorStatus.TabIndex = 1
+      Me.btnShowColorStatus.UseVisualStyleBackColor = True
+      '
+      'chkHilightApproveStatus
+      '
+      Me.chkHilightApproveStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.chkHilightApproveStatus.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkHilightApproveStatus.Location = New System.Drawing.Point(790, 93)
+      Me.chkHilightApproveStatus.Name = "chkHilightApproveStatus"
+      Me.chkHilightApproveStatus.Size = New System.Drawing.Size(107, 24)
+      Me.chkHilightApproveStatus.TabIndex = 0
+      Me.chkHilightApproveStatus.Text = "Hilight"
+      '
+      'chkHilightStatus
+      '
+      Me.chkHilightStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.chkHilightStatus.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkHilightStatus.Location = New System.Drawing.Point(676, 93)
+      Me.chkHilightStatus.Name = "chkHilightStatus"
+      Me.chkHilightStatus.Size = New System.Drawing.Size(96, 24)
+      Me.chkHilightStatus.TabIndex = 0
+      Me.chkHilightStatus.Text = "Hilight"
       '
       'pnlFilter2
       '
@@ -87,7 +137,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pnlFilter2.Dock = System.Windows.Forms.DockStyle.Fill
       Me.pnlFilter2.Location = New System.Drawing.Point(0, 120)
       Me.pnlFilter2.Name = "pnlFilter2"
-      Me.pnlFilter2.Size = New System.Drawing.Size(800, 480)
+      Me.pnlFilter2.Size = New System.Drawing.Size(900, 480)
       Me.pnlFilter2.TabIndex = 2
       '
       'Splitter2
@@ -98,7 +148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Splitter2.MinExtra = 5
       Me.Splitter2.MinSize = 5
       Me.Splitter2.Name = "Splitter2"
-      Me.Splitter2.Size = New System.Drawing.Size(800, 1)
+      Me.Splitter2.Size = New System.Drawing.Size(900, 1)
       Me.Splitter2.TabIndex = 8
       Me.Splitter2.TabStop = False
       '
@@ -113,10 +163,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvItem.Location = New System.Drawing.Point(0, 32)
       Me.lvItem.MultiSelect = False
       Me.lvItem.Name = "lvItem"
-      Me.lvItem.Size = New System.Drawing.Size(800, 448)
+      Me.lvItem.Size = New System.Drawing.Size(900, 448)
       Me.lvItem.SortIndex = -1
       Me.lvItem.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lvItem.TabIndex = 3
+      Me.lvItem.UseCompatibleStateImageBehavior = False
       Me.lvItem.View = System.Windows.Forms.View.Details
       '
       'pnlFilter3
@@ -131,7 +182,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pnlFilter3.Dock = System.Windows.Forms.DockStyle.Top
       Me.pnlFilter3.Location = New System.Drawing.Point(0, 0)
       Me.pnlFilter3.Name = "pnlFilter3"
-      Me.pnlFilter3.Size = New System.Drawing.Size(800, 32)
+      Me.pnlFilter3.Size = New System.Drawing.Size(900, 32)
       Me.pnlFilter3.TabIndex = 7
       '
       'lblSelectTop
@@ -147,12 +198,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.txtSelectTop.Location = New System.Drawing.Point(392, 5)
       Me.txtSelectTop.Name = "txtSelectTop"
+      Me.txtSelectTop.Size = New System.Drawing.Size(100, 21)
       Me.txtSelectTop.TabIndex = 222
-      Me.txtSelectTop.Text = ""
       '
       'ibtnAll
       '
-      Me.ibtnAll.Image = CType(resources.GetObject("ibtnAll.Image"), System.Drawing.Image)
+      Me.ibtnAll.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
       Me.ibtnAll.Location = New System.Drawing.Point(24, 3)
       Me.ibtnAll.Name = "ibtnAll"
@@ -164,7 +215,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnNone
       '
-      Me.ibtnNone.Image = CType(resources.GetObject("ibtnNone.Image"), System.Drawing.Image)
+      Me.ibtnNone.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnNone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
       Me.ibtnNone.Location = New System.Drawing.Point(160, 3)
       Me.ibtnNone.Name = "ibtnNone"
@@ -202,18 +253,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Splitter1.MinExtra = 5
       Me.Splitter1.MinSize = 5
       Me.Splitter1.Name = "Splitter1"
-      Me.Splitter1.Size = New System.Drawing.Size(800, 1)
+      Me.Splitter1.Size = New System.Drawing.Size(900, 1)
       Me.Splitter1.TabIndex = 7
       Me.Splitter1.TabStop = False
-      '
-      'chkHilight
-      '
-      Me.chkHilight.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.chkHilight.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkHilight.Location = New System.Drawing.Point(8, 88)
-      Me.chkHilight.Name = "chkHilight"
-      Me.chkHilight.TabIndex = 0
-      Me.chkHilight.Text = "Hilight"
       '
       'ListViewItemSelectionPanelView
       '
@@ -226,6 +268,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pnlFilter.ResumeLayout(False)
       Me.pnlFilter2.ResumeLayout(False)
       Me.pnlFilter3.ResumeLayout(False)
+      Me.pnlFilter3.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -262,10 +305,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       InitializeComponent()
 
-      chkHilight.Checked = False
-
       m_entity = entity
 
+      Me.SetUpCheckHilight()
 
       'Filter อื่นที่ส่งมาด้วย
       m_otherFilters = filters
@@ -273,6 +315,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       theBasket = basket
       theEntities = entities
+
+    End Sub
+    Private Sub SetUpCheckHilight()
+      If TypeOf m_entity Is IShowStatusColorAble Then
+        chkHilightStatus.Visible = True
+        chkHilightApproveStatus.Visible = True
+        chkHilightStatus.Checked = False
+        chkHilightApproveStatus.Checked = False
+        btnShowColorStatus.Visible = True
+        btnShowApproveColorStatus.Visible = True
+      Else
+        chkHilightStatus.Visible = False
+        chkHilightApproveStatus.Visible = False
+        btnShowColorStatus.Visible = False
+        btnShowApproveColorStatus.Visible = False
+      End If
 
     End Sub
     Private Sub ListViewItemSelectionPanelView_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -395,6 +453,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private refHash As Hashtable
     Private DicCloseRef As Dictionary(Of Decimal, ClosedRef)
 
+    Private docStatusHs As Hashtable
+    Private ApproveStatus As Hashtable
+
     Private Sub SearchData(ByVal order As String)
       Dim t As Date = Now
       lvItem.BeginUpdate()
@@ -419,6 +480,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       cancelHash = New Hashtable
       refHash = New Hashtable
       DicCloseRef = New Dictionary(Of Decimal, ClosedRef)
+
+      docStatusHs = New Hashtable
+      ApproveStatus = New Hashtable
 
 
       Dim dt As DataTable = m_entity.GetListDatatable(order, newfilters)
@@ -457,6 +521,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '================FIRST COLUMN=======================================
 
         litem.Tag = row(Me.m_entity.Prefix & "_id")
+        docStatusHs(litem.Tag) = deh.GetValue(Of String)("docstatus")
 
         If row.Table.Columns.Contains(Me.m_entity.Prefix & "_status") AndAlso Not row.IsNull(Me.m_entity.Prefix & "_status") Then
           cancelHash(litem.Tag) = (CInt(row(Me.m_entity.Prefix & "_status")) = 0)
@@ -468,6 +533,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Else
           refHash(litem.Tag) = False
         End If
+
+
 
         '===== Set Color สนใจ ปิด อ้างอิงบางส่วน
         If row.Table.Columns.Contains(Me.m_entity.Prefix & "_closedRef") Then
@@ -535,7 +602,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       NonRef
     End Enum
     Private Class ClosedRef
-      
+
       Private m_cref As CRef
       Public ReadOnly Property ClosedRef As CRef
         Get
@@ -603,32 +670,135 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
     End Class
-    
-    Private Sub SetStatusColor()
-      If chkHilight.Checked Then
-        For Each item As ListViewItem In Me.lvItem.Items
-          Dim isRefed As Boolean = False
-          Dim isCancelled As Boolean = False
-          Dim RefClosed As ClosedRef
-          Try
-            isCancelled = CBool(cancelHash(item.Tag))
-            isRefed = CBool(refHash(item.Tag))
-            If DicCloseRef.ContainsKey(CDec(item.Tag)) Then
-              RefClosed = DicCloseRef.Item(CDec(item.Tag))
-            End If
-          Catch ex As Exception
 
-          End Try
-          If RefClosed IsNot Nothing Then
-            lvItem.SetColors(item, RefClosed.bgColor, RefClosed.fontColor)
-          ElseIf isRefed Then
-            lvItem.SetColors(item, Color.ForestGreen, SystemColors.ControlText)
-          ElseIf isCancelled Then
-            lvItem.SetColors(item, Color.Red, Color.White)
-          Else
-            lvItem.SetColors(item, SystemColors.Window, SystemColors.ControlText)
+    Private Sub SetApproveStatusColor()
+      If chkHilightApproveStatus.Checked Then
+        chkHilightStatus.Checked = False
+
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+
+        For Each item As ListViewItem In Me.lvItem.Items
+
+          Dim docStatusText() As String = docStatusHs(item.Tag).ToString.Split("/"c)
+          Dim docStatusType As Integer = 0
+
+          If CInt(docStatusText(4)) > 0 Then 'อนุมัติแล้ว(Approved) 
+            'lvItem.SetColors(item, Color.GreenYellow, SystemColors.ControlText)
+            'lvItem.SetColors(item, Color.FromArgb(255, 226, 255, 179), Color.Black)
+            lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.approve"), Color.Black)
+            If CInt(docStatusText(5)) = 1 Then 'อนุมัติสูงสุดแล้ว(Authorized)
+              'lvItem.SetColors(item, Color.Green, SystemColors.ControlText)
+              'lvItem.SetColors(item, Color.FromArgb(255, 180, 254, 177), Color.Black)
+              lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.authorize"), Color.Black)
+            End If
+          Else 'ยังไม่อนุมัติ
+            'lvItem.SetColors(item, Color.Ivory, SystemColors.ControlText)
+            'lvItem.SetColors(item, Color.Ivory, Color.Black)
+            lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.normal"), Color.Black)
           End If
-          
+          If CInt(docStatusText(6)) > 0 Then 'ถูกส่องกลับ(Reject) 
+            'lvItem.SetColors(item, Color.Gold, SystemColors.ControlText)
+            lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.reject"), Color.Black)
+          End If
+
+          'Select Case CInt(docStatusText(0))
+          '  Case 0
+          '    lvItem.SetColors(item, Color.Red, Color.White)
+          '  Case 2 'บันทึก, ยังไม่ถูกอ้างอิง
+          '    lvItem.SetColors(item, Color.Ivory, SystemColors.ControlText)
+          '    docStatusType = 2
+          '  Case 4 'ผ่านรายการแล้ว
+          '    lvItem.SetColors(item, Color.FromArgb(255, 255, 128, 0), SystemColors.ControlText)
+          'End Select
+          ''If docStatusType = 2 Then
+          ''  If CInt(docStatusText(1)) = 1 Then
+          ''    Select Case CInt(docStatusText(2))
+          ''      Case Is > 0 'ถูกอ้างอิงบางส่วน
+          ''        lvItem.SetColors(item, Color.Violet, SystemColors.ControlText)
+          ''      Case Else 'ถูกอ้างอิงแล้ว
+          ''        lvItem.SetColors(item, Color.FromArgb(192, Color.Magenta), SystemColors.ControlText)
+          ''    End Select
+          ''  End If
+          ''  If CInt(docStatusText(3)) = 1 Then
+          ''    lvItem.SetColors(item, Color.Silver, Color.Black) 'ปิด
+          ''  End If
+          ''End If
+
+        Next
+      Else
+        lvItem.PaintAlternatingBackColor(Color.White, Color.Khaki)
+      End If
+    End Sub
+
+    Private Sub SetStatusColor()
+      If chkHilightStatus.Checked Then
+        chkHilightApproveStatus.Checked = False
+
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+
+        For Each item As ListViewItem In Me.lvItem.Items
+
+          Dim docStatusText() As String = docStatusHs(item.Tag).ToString.Split("/"c)
+          Dim docStatusType As Integer = 0
+
+          Select Case CInt(docStatusText(0))
+            Case 0 'ยกเลิก
+              'lvItem.SetColors(item, Color.Red, Color.White)
+              'lvItem.SetColors(item, Color.FromArgb(255, 255, 176, 176), Color.Black)
+              lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.cancel"), Color.Black)
+            Case 2 'บันทึก, ยังไม่ถูกอ้างอิง
+              'lvItem.SetColors(item, Color.Ivory, SystemColors.ControlText)
+              'lvItem.SetColors(item, Color.FromArgb(255, 0, 0, 0), Color.Black)
+              lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.normal"), Color.Black)
+              docStatusType = 2
+            Case 4 'ผ่านรายการแล้ว
+              'lvItem.SetColors(item, Color.FromArgb(255, 255, 128, 0), SystemColors.ControlText)
+              'lvItem.SetColors(item, Color.FromArgb(255, 255, 203, 145), Color.Black)
+              lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.glpass"), Color.Black)
+          End Select
+          If docStatusType = 2 Then
+            If CInt(docStatusText(1)) = 1 Then
+              Select Case CInt(docStatusText(2))
+                Case Is > 0 'ถูกอ้างอิงบางส่วน
+                  'lvItem.SetColors(item, Color.Violet, Color.WhiteSmoke)
+                  'lvItem.SetColors(item, Color.FromArgb(255, 255, 204, 204), Color.Black)
+                  lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.somereference"), Color.Black)
+                Case Else 'ถูกอ้างอิงแล้ว
+                  'lvItem.SetColors(item, Color.FromArgb(255, Color.Magenta), Color.WhiteSmoke)
+                  'lvItem.SetColors(item, Color.FromArgb(255, 253, 176, 255), Color.Black)
+                  lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.reference"), Color.Black)
+              End Select
+            End If
+            If CInt(docStatusText(3)) = 1 Then
+              'lvItem.SetColors(item, Color.Silver, Color.Black) 'ปิด
+              'lvItem.SetColors(item, Color.FromArgb(255, 194, 194, 194), Color.Black) 'ปิด
+              lvItem.SetColors(item, ConfigurationUser.GetColorConfiguration(currentUserId, "color.close"), Color.Black)
+            End If
+          End If
+
+          'Dim isRefed As Boolean = False
+          'Dim isCancelled As Boolean = False
+          'Dim RefClosed As ClosedRef
+          'Try
+          '  isCancelled = CBool(cancelHash(item.Tag))
+          '  isRefed = CBool(refHash(item.Tag))
+          '  If DicCloseRef.ContainsKey(CDec(item.Tag)) Then
+          '    RefClosed = DicCloseRef.Item(CDec(item.Tag))
+          '  End If
+          'Catch ex As Exception
+
+          'End Try
+          'If RefClosed IsNot Nothing Then
+          '  lvItem.SetColors(item, RefClosed.bgColor, RefClosed.fontColor)
+          '  'lvItem.SetColors(item, Configuration.GetColorConfiguration(DocumentColor.Cancel), Color.White)
+          'ElseIf isRefed Then
+          '  lvItem.SetColors(item, Color.ForestGreen, SystemColors.ControlText)
+          'ElseIf isCancelled Then
+          '  lvItem.SetColors(item, Color.Red, Color.White)
+          '  'lvItem.SetColors(item, Configuration.GetColorConfiguration(DocumentColor.Cancel), Color.White)
+          'Else
+          '  lvItem.SetColors(item, SystemColors.Window, SystemColors.ControlText)
+          'End If
         Next
       Else
         lvItem.PaintAlternatingBackColor(Color.White, Color.Khaki)
@@ -745,6 +915,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.ibtnAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.ibtnAll}")
       Me.ibtnNone.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.ibtnNone}")
+      Me.chkHilightStatus.Text = "แสดงสีสถานะ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.chkHilightStatus}")
+      Me.chkHilightApproveStatus.Text = "แสดงสีการอนุมัติ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.chkHilightApproveStatus}")
     End Sub
     Public Sub UpdateEntityProperties() Implements ISimpleEntityPanel.UpdateEntityProperties
 
@@ -1065,10 +1237,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
 #End Region
-    Private Sub chkHilight_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkHilight.CheckedChanged
+    Private Sub chkHilight_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkHilightStatus.CheckedChanged
       SetStatusColor()
+      'chkHilightApproveStatus.Checked = False
     End Sub
-
+    Private Sub chkHilightApproveStatus_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkHilightApproveStatus.CheckedChanged
+      SetApproveStatusColor()
+      'chkHilightStatus.Checked = False
+    End Sub
 #Region "ICanMove"
     Public ReadOnly Property CanMoveNext As Boolean Implements ICanMove.CanMoveNext
       Get
@@ -1142,66 +1318,80 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-        Public Function GetDPICollFromListview() As DocPrintingItemCollection
-            Dim dpiColl As New DocPrintingItemCollection
-            Dim i As Integer = 0
-            For Each item As ListViewItem In lvItem.Items
-                i += 1
-                For Each col As ColumnHeader In lvItem.Columns
-                    Dim data As String = item.SubItems(col.Index).Text
-                    Dim dpi As New DocPrintingItem
-                    dpi.Mapping = "Item." & col.Text
-                    dpi.Value = data
-                    dpi.Row = i
-                    dpi.Table = "Item"
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
-                Next
-            Next
+    Public Function GetDPICollFromListview() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim i As Integer = 0
+      For Each item As ListViewItem In lvItem.Items
+        i += 1
+        For Each col As ColumnHeader In lvItem.Columns
+          Dim data As String = item.SubItems(col.Index).Text
+          Dim dpi As New DocPrintingItem
+          dpi.Mapping = "Item." & col.Text
+          dpi.Value = data
+          dpi.Row = i
+          dpi.Table = "Item"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Next
+      Next
 
-            Return dpiColl
-        End Function
+      Return dpiColl
+    End Function
 
 #Region "IPrintableEntity"
-        Public Property Code() As String Implements BusinessLogic.IIdentifiable.Code
-            Get
+    Public Property Code() As String Implements BusinessLogic.IIdentifiable.Code
+      Get
 
-            End Get
-            Set(ByVal Value As String)
+      End Get
+      Set(ByVal Value As String)
 
-            End Set
-        End Property
+      End Set
+    End Property
 
-        Public Property Id() As Integer Implements BusinessLogic.IIdentifiable.Id
-            Get
+    Public Property Id() As Integer Implements BusinessLogic.IIdentifiable.Id
+      Get
 
-            End Get
-            Set(ByVal Value As Integer)
+      End Get
+      Set(ByVal Value As Integer)
 
-            End Set
-        End Property
+      End Set
+    End Property
 
-        Public Function GetDefaultForm() As String Implements BusinessLogic.IPrintableEntity.GetDefaultForm
+    Public Function GetDefaultForm() As String Implements BusinessLogic.IPrintableEntity.GetDefaultForm
 
-        End Function
+    End Function
 
-        Public Function GetDefaultFormPath() As String Implements BusinessLogic.IPrintableEntity.GetDefaultFormPath
+    Public Function GetDefaultFormPath() As String Implements BusinessLogic.IPrintableEntity.GetDefaultFormPath
 
-        End Function
+    End Function
 
-        Public Function GetDocPrintingEntries() As BusinessLogic.DocPrintingItemCollection Implements BusinessLogic.IPrintableEntity.GetDocPrintingEntries
-            Dim dpiColl As New DocPrintingItemCollection
-            Dim dpi As DocPrintingItem
+    Public Function GetDocPrintingEntries() As BusinessLogic.DocPrintingItemCollection Implements BusinessLogic.IPrintableEntity.GetDocPrintingEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-            If TypeOf m_filterSubPanel Is IHasPrintItem Then
-                dpiColl.AddRange(CType(m_filterSubPanel, IHasPrintItem).GetDocPrintingEntries)
-            End If
+      If TypeOf m_filterSubPanel Is IHasPrintItem Then
+        dpiColl.AddRange(CType(m_filterSubPanel, IHasPrintItem).GetDocPrintingEntries)
+      End If
 
-            dpiColl.AddRange(GetDPICollFromListview())
+      dpiColl.AddRange(GetDPICollFromListview())
 
-            Return dpiColl
-        End Function
+      Return dpiColl
+    End Function
 #End Region
+
+    Private Sub btnShowColorStatus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowColorStatus.Click, btnShowApproveColorStatus.Click
+      Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+      Dim colortype As Integer = 0
+      If CType(sender, Button).Name = btnShowApproveColorStatus.Name Then
+        colortype = 1
+      End If
+
+      Dim x As Form
+
+      x = New ShowListViewColorForm(colortype, currentUserId, CType(sender, Button))
+
+      x.ShowDialog()
+    End Sub
 
   End Class
 End Namespace

@@ -207,6 +207,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overridable Sub SetStatusBarMessage()
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
+      Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+
       Dim cancelPersonName As String = ""
       Dim lastEditorPersonName As String = ""
       Dim originatorPersonName As String = ""
@@ -220,7 +222,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.StatusDescription = ""
       Me.StatusMessage = ""
-      Me.StatusColor = Color.FromArgb(0, Color.White)
+
+      Dim alpha As Byte = CByte(ConfigurationUser.GetConfig(currentUserId, "alpha.statusbar"))
 
       If Me.Entity Is Nothing Then
         Return
@@ -252,11 +255,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Me.Entity.Canceled Then
           Me.StatusDescription = myStringParserService.Parse("${res:Global.Cancel}") & ": " & cancelDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & cancelPersonName
           Me.StatusMessage = myStringParserService.Parse("${res:Global.Cancel}")
-          Me.StatusColor = Color.FromArgb(95, Color.Red)
-        ElseIf Me.Entity.Status.Value = 0 Then
+          Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.cancel"))
+        End If
+        If Me.Entity.Status.Value = 0 Then
           Me.StatusDescription = myStringParserService.Parse("${res:Global.Cancel}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
           Me.StatusMessage = myStringParserService.Parse("${res:Global.Cancel}")
-          Me.StatusColor = Color.FromArgb(95, Color.Red)
+          Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.cancel"))
         ElseIf Me.Entity.Status.Value = 4 Then
           If Me.Entity.Edited Then
             Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
@@ -264,51 +268,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
           End If
           Me.StatusMessage = myStringParserService.Parse("${res:Global.GLPasseded}")
-          Me.StatusColor = Color.FromArgb(95, Color.Orange)
-        ElseIf Me.Entity.Edited Then
-          Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
-
-          If TypeOf Me.Entity Is IApprovAble Then
-            Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
-            If aprov.IsApproved Then
-              Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
-              If Not Me.StatusColor.Equals(Color.FromArgb(95, Color.Red)) Then
-                Me.StatusColor = Color.FromArgb(95, Color.Green)
-              Else
-                Me.StatusColor = Color.FromArgb(95, Color.Blue)
-              End If
-            End If
-          End If
-
-          If TypeOf Me.Entity Is IDocStatusAble Then
-            Dim doc As IDocStatusAble = CType(Me.Entity, IDocStatusAble)
-            If doc.IsReferenced Then
-              If Me.StatusMessage.Length > 0 Then
-                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
-              Else
-                Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
-                Me.StatusColor = Color.FromArgb(95, Color.Pink)
-              End If
-            End If
-          End If
-
+          Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.glpass"))
         Else
-          Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
-          Me.StatusMessage = ""
-          Me.StatusColor = Color.FromArgb(0, Color.White)
 
-          If TypeOf Me.Entity Is IApprovAble Then
-            Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
-            If aprov.IsApproved Then
-              Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
-              If Not Me.StatusColor.Equals(Color.FromArgb(95, Color.Red)) Then
-                Me.StatusColor = Color.FromArgb(95, Color.Green)
-              Else
-                Me.StatusColor = Color.FromArgb(95, Color.Blue)
-              End If
-            End If
+          If Me.Entity.Edited Then
+            Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
+          Else
+            Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
           End If
-
           If TypeOf Me.Entity Is IDocStatusAble Then
             Dim doc As IDocStatusAble = CType(Me.Entity, IDocStatusAble)
             If doc.IsReferenced Then
@@ -316,10 +283,102 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
               Else
                 Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
-                Me.StatusColor = Color.FromArgb(95, Color.Pink)
               End If
+              Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.reference"))
             End If
           End If
+          If TypeOf Me.Entity Is ICloseStatusAble Then
+            Dim doc As ICloseStatusAble = CType(Me.Entity, ICloseStatusAble)
+            If doc.Closed Then
+              If Me.StatusMessage.Length > 0 Then
+                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Closed}")
+              Else
+                Me.StatusMessage = myStringParserService.Parse("${res:Global.Closed}")
+              End If
+              Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.close"))
+            End If
+          End If
+          If TypeOf Me.Entity Is IApproveStatusAble Then
+            Dim aprov As IApproveStatusAble = CType(Me.Entity, IApproveStatusAble)
+            If aprov.IsAuthorized Then
+              If Me.StatusMessage.Length > 0 Then
+                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Authorized}")
+              Else
+                Me.StatusMessage = myStringParserService.Parse("${res:Global.Authorized}")
+              End If
+              Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.authorize"))
+            ElseIf aprov.IsLevelApproved Then
+              If Me.StatusMessage.Length > 0 Then
+                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Approved}")
+              Else
+                Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
+              End If
+              Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.approve"))
+            ElseIf aprov.IsReject Then
+              If Me.StatusMessage.Length > 0 Then
+                Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Reject}")
+              Else
+                Me.StatusMessage = myStringParserService.Parse("${res:Global.Reject}")
+              End If
+              Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.reject"))
+            End If
+          End If
+
+          'ElseIf Me.Entity.Edited Then
+          '  Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName & ", " & myStringParserService.Parse("${res:Global.Edited}") & ": " & lastEditDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & lastEditorPersonName
+
+          '  If TypeOf Me.Entity Is IApprovAble Then
+          '    Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
+          '    If aprov.IsApproved Then
+          '      Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
+          '      If Not Me.StatusColor.Equals(Color.FromArgb(95, Color.Red)) Then
+          '        'Me.StatusColor = Color.FromArgb(95, Color.Green)
+          '      Else
+          '        'Me.StatusColor = Color.FromArgb(95, Color.Blue)
+          '      End If
+          '    End If
+          '  End If
+
+          '  If TypeOf Me.Entity Is IDocStatusAble Then
+          '    Dim doc As IDocStatusAble = CType(Me.Entity, IDocStatusAble)
+          '    If doc.IsReferenced Then
+          '      If Me.StatusMessage.Length > 0 Then
+          '        Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
+          '      Else
+          '        Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
+          '        'Me.StatusColor = Color.FromArgb(95, Color.Pink)
+          '      End If
+          '    End If
+          '  End If
+
+          'Else
+          '  Me.StatusDescription = myStringParserService.Parse("${res:Global.Added}") & ": " & originDate & " " & myStringParserService.Parse("${res:Global.By}") & ": " & originatorPersonName
+          '  Me.StatusMessage = ""
+          '  'Me.StatusColor = Color.FromArgb(0, Color.White)
+
+          '  If TypeOf Me.Entity Is IApprovAble Then
+          '    Dim aprov As IApprovAble = CType(Me.Entity, IApprovAble)
+          '    If aprov.IsApproved Then
+          '      Me.StatusMessage = myStringParserService.Parse("${res:Global.Approved}")
+          '      If Not Me.StatusColor.Equals(Color.FromArgb(95, Color.Red)) Then
+          '        'Me.StatusColor = Color.FromArgb(95, Color.Green)
+          '      Else
+          '        'Me.StatusColor = Color.FromArgb(95, Color.Blue)
+          '      End If
+          '    End If
+          '  End If
+
+          '  If TypeOf Me.Entity Is IDocStatusAble Then
+          '    Dim doc As IDocStatusAble = CType(Me.Entity, IDocStatusAble)
+          '    If doc.IsReferenced Then
+          '      If Me.StatusMessage.Length > 0 Then
+          '        Me.StatusMessage &= ", " & myStringParserService.Parse("${res:Global.Referenced}")
+          '      Else
+          '        Me.StatusMessage = myStringParserService.Parse("${res:Global.Referenced}")
+          '        'Me.StatusColor = Color.FromArgb(95, Color.Pink)
+          '      End If
+          '    End If
+          '  End If
 
         End If
       End If

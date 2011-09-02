@@ -1324,6 +1324,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ListViewItemSelectionPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ShowListViewColorForm.Designer.vb">
+      <DependentUpon>ShowListViewColorForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ShowListViewColorForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\UpdateCheckFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1782,6 +1788,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ListViewItemSelectionPanelView.resx">
       <DependentUpon>ListViewItemSelectionPanelView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\ShowListViewColorForm.resx">
+      <DependentUpon>ShowListViewColorForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Common\ListPanels\UpdateCheckFilterSubPanel.resx">
       <DependentUpon>UpdateCheckFilterSubPanel.vb</DependentUpon>

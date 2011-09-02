@@ -18,7 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IApprovAble, ICancelable, IHasIBillablePerson, IHasToCostCenter _
       , IDuplicable, ICheckPeriod, IWBSAllocatable _
-      , IHasCurrency, IAbleExceptAccountPeriod
+      , IHasCurrency, IAbleExceptAccountPeriod, ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -59,6 +59,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemCollection As POItemCollection
 
     Private m_customNoteColl As CustomNoteCollection
+
+    Private m_approveDocColl As ApproveDocCollection
 
     'Public BOQHASH As Hashtable
     Private m_remainDiscAmt As Discount
@@ -120,6 +122,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New POItemCollection(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
       m_deliveryAddressColl = GetPOPlaceDelivery()
       'm_itemCollection.RefreshBudget()
       'Me.AutoCodeFormat = New AutoCodeFormat(Me)
@@ -310,6 +313,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
       m_itemCollection = New POItemCollection(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
       'm_itemCollection.RefreshBudget()
 
       '==============CURRENCY=================================
@@ -319,6 +323,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property ApproveDocColl As ApproveDocCollection
+      Get
+        Return m_approveDocColl
+      End Get
+      Set(ByVal value As ApproveDocCollection)
+        '
+      End Set
+    End Property
     Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
       Get
         Return Me.Closed
@@ -354,7 +366,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     '--------------------END REAL-------------------------
-    Public Property Closed() As Boolean
+    Public Property Closed() As Boolean Implements ICloseStatusAble.Closed
       Get
         Return m_closed
       End Get
@@ -3900,7 +3912,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return False
       End Get
     End Property
+    Public ReadOnly Property IsAuthorized As Boolean Implements IApproveStatusAble.IsAuthorized
+      Get
+        Return Me.IsApproved
+      End Get
+    End Property
+    Public ReadOnly Property IsLevelApproved As Boolean Implements IApproveStatusAble.IsLevelApproved
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            If Not approveDoc.Reject AndAlso approveDoc.Level > 0 Then
+              Return True
+            End If
+          End If
+        End If
 
+        Return False
+      End Get
+    End Property
+    Public ReadOnly Property IsReject As Boolean Implements IApproveStatusAble.IsReject
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            Return approveDoc.Reject
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
     Public ReadOnly Property ApproveIcon() As String Implements IApprovAble.ApproveIcon
       Get
         Return "Icons.16x16.Approve"

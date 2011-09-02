@@ -532,7 +532,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 
+    Public Shared Function GetColorConfiguration(ByVal dcolor As DocumentColor) As Color
+      Dim properties As ConfigurationService = CType(ServiceManager.Services.GetService(GetType(ConfigurationService)), ConfigurationService)
+      Dim p As Object = properties.GetProperty("Longkong.Pojjaman.ColorConfiguration")
+
+      Dim lkc As Color
+
+      Dim desc As String
+      Dim a As Integer
+      Dim r As Integer
+      Dim g As Integer
+      Dim b As Integer
+
+      If p IsNot Nothing AndAlso TypeOf p Is XmlElement Then
+        Dim element As XmlElement = CType(p, XmlElement)
+        Dim nodes As XmlNodeList = element.Item("ColorConfiguration").ChildNodes
+        For Each chilenodes As XmlElement In nodes
+          If chilenodes.Name.ToLower = "DocumentStatusColor".ToLower Then
+            For Each el As XmlElement In chilenodes
+              If el.Name.ToLower = [Enum].GetName(GetType(DocumentColor), dcolor).ToLower Then
+                desc = CStr(el.Attributes("description").InnerText)
+                a = CInt(el.Attributes("a").InnerText)
+                r = CInt(el.Attributes("r").InnerText)
+                g = CInt(el.Attributes("g").InnerText)
+                b = CInt(el.Attributes("b").InnerText)
+
+                lkc = Color.FromArgb(a, r, g, b)
+              End If
+              'Exit For
+            Next
+          End If
+        Next
+
+      End If
+
+      Return lkc
+
+    End Function
   End Class
+  Public Enum DocumentColor
+    Normal
+    Referenced
+    HoldReferenced
+    PassGL
+    Cancel
+    Closed
+    NonApprove
+    Approved
+    Reject
+    Authorized
+  End Enum
+
   Public Class MoneyConverter
 
 
@@ -723,6 +773,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_hashData(row("config_name").ToString.ToLower) = row
       Next
     End Sub
+    Public Shared Function GetColorConfiguration(ByVal UserId As Integer, ByVal name As String) As Color
+      Dim cvalue As String = ConfigurationUser.GetConfig(UserId, name).ToString
+      Dim cvaluetex() As String = cvalue.Split("/"c)
+      Return Color.FromArgb(CInt(cvaluetex(0)), CInt(cvaluetex(1)), CInt(cvaluetex(2)), CInt(cvaluetex(3)))
+    End Function
     'Public Shared Function GetConfigId(ByVal UserId As Integer, ByVal name As String) As Integer
     '  If name.Length <> 0 Then
     '    If m_hashData Is Nothing Then

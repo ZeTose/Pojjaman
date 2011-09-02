@@ -14,6 +14,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Property Unit As Unit
     ReadOnly Property ItemType As Integer
   End Interface
+  Public Interface IShowStatusColorAble
+
+  End Interface
+  Public Interface IApproveStatusAble
+    ReadOnly Property IsAuthorized As Boolean
+    ReadOnly Property IsLevelApproved As Boolean
+    ReadOnly Property IsReject As Boolean
+  End Interface
+  Public Interface ICloseStatusAble
+    Property Closed As Boolean
+  End Interface
   Public Interface IDocStatusAble
     Function IsReferenced() As Boolean
     Function IsReferedFrom() As Boolean
