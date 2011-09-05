@@ -948,6 +948,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csOAmount.Format = "#,###.##"
       csOAmount.DataAlignment = HorizontalAlignment.Right
 
+      Dim csReceivingDate As New DataGridTimePickerColumn
+      csReceivingDate.MappingName = "pri_receivingDate"
+      csReceivingDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.ReceivingDateHeaderText}")
+      csReceivingDate.NullText = ""
+
+
+      
+
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csType)
       dst.GridColumnStyles.Add(csCode)
@@ -962,6 +970,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csOAmount)
       dst.GridColumnStyles.Add(csNote)
+      dst.GridColumnStyles.Add(csReceivingDate)
 
       m_tableStyleEnable = New Hashtable
       For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
@@ -1074,6 +1083,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               e.ProposedValue = ""
             End If
             doc.Note = e.ProposedValue.ToString
+          Case "pri_receivingdate"
+            If Not IsDate(e.ProposedValue) Then
+              e.ProposedValue = Date.MinValue
+            End If
+            doc.ReceivingDate = CDate(e.ProposedValue)
         End Select
       Catch ex As Exception
         MessageBox.Show(ex.ToString)
@@ -1081,6 +1095,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub PRItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
     End Sub
+    
 #End Region
 
 #Region "CheckPJMModule"
@@ -2205,5 +2220,8 @@ FinalLine:
         Me.WorkbenchWindow.ViewContent.IsDirty = True
       End If
     End Sub
+
+   
+
   End Class
 End Namespace

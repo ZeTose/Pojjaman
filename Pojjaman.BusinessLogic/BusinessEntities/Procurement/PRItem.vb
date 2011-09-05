@@ -91,6 +91,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_unitprice As Decimal
 
+    Private m_receivingdate As Date
+
     Private m_WBSDistributeCollection As WBSDistributeCollection
 #End Region
 
@@ -138,6 +140,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
       With Me
+        Dim drh As New DataRowHelper(dr)
         If dr.Table.Columns.Contains(aliasPrefix & "pri_entityType") AndAlso Not dr.IsNull(aliasPrefix & "pri_entityType") Then
           .m_itemType = New ItemType(CInt(dr(aliasPrefix & "pri_entityType")))
         End If
@@ -235,7 +238,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.Conversion = 1
           End If
         End If
-
+        .m_receivingdate = drh.GetValue(Of Date)("pri_receivingdate")
       End With
     End Sub
     Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -297,7 +300,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     '==============CURRENCY=================================
-
+    Public Property ReceivingDate As Date
+      Get
+        Return m_receivingdate
+      End Get
+      Set(ByVal value As Date)
+        m_receivingdate = value
+      End Set
+    End Property
     Public ReadOnly Property OriginAmount() As Decimal
       Get
         Return Configuration.Format((Me.UnitPrice * Me.OriginQty), DigitConfig.Price)
@@ -945,6 +955,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("OrderedQty") = DBNull.Value
         End If
+        row("pri_receivingDate") = Me.m_receivingdate
         Me.Pr.IsInitialized = True
       Catch ex As NoConversionException
         MessageBox.Show("วัสดุ '" & ex.Lci.Code & "' ไม่มีหน่วยนับ '" & ex.Unit.Name & "'")
@@ -1011,6 +1022,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("DummyReceivingDate", GetType(Date)))
       myDatatable.Columns.Add(New DataColumn("Requestor", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("CostCenter", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ItemReceivingDate", GetType(Date)))
 
       Dim inValidIds As ArrayList = GetPRIdWithOnlyNoteItem(dt)
       For Each tableRow As DataRow In dt.Rows
@@ -1059,6 +1071,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("OrderedQty") = pri.OrderedQty
           row("Requestor") = tableRow("requestorinfo")
           row("CostCenter") = tableRow("ccinfo")
+          row("ItemReceivingDate") = tableRow("pri_receivingdate")
           row.State = RowExpandState.None
 
           pri.Pr = New PR
@@ -2096,6 +2109,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Sub
 
     End Class
+
+    Sub SetReceivingDate(ByVal Value As Date)
+      For Each pri As PRItem In Me
+        pri.ReceivingDate = Value
+      Next
+    End Sub
+
   End Class
 
 End Namespace

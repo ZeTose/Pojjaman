@@ -264,6 +264,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           childRow("Qty") = filteredRow("Qty")
           childRow("OrderedQty") = filteredRow("OrderedQty")
           childRow("Linenumber") = filteredRow("Linenumber")
+          childRow("ReceivingDate") = filteredRow("ItemReceivingDate")
           childRow.Tag = filteredRow.Tag
         End If
       Next
