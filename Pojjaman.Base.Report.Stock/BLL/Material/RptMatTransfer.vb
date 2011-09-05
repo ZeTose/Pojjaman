@@ -40,7 +40,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub CreateHeader()
       Dim indent As String = Space(3)
       m_grid.RowCount = 1
-      m_grid.ColCount = 8
+      m_grid.ColCount = 9
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 120
@@ -48,8 +48,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(4) = 200
       m_grid.ColWidths(5) = 100
       m_grid.ColWidths(6) = 100
-      m_grid.ColWidths(7) = 0
-      m_grid.ColWidths(8) = 100
+      m_grid.ColWidths(7) = 100
+      m_grid.ColWidths(8) = 0
+      m_grid.ColWidths(9) = 100
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -59,6 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
       m_grid.Rows.HeaderCount = 1
       m_grid.Rows.FrozenCount = 1
@@ -67,24 +69,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.DocCode}") '"เลขที่เอกสาร"
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.FromCCname}") '"Cost Center ให้เบิก"
       m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.ToCCname}") '"Cost Center ขอเบิก"
-      m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.SumQty}") '"ยอดรวมจำนวน"
+      m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatTransfer.ReceviedQty}") '"ยอดรวมจำนวนรับแล้ว"
+      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatTransfer.WaitingQty}") '"ยอดรวมจำนวนยังไม่ได้รับ"
       'm_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.SumCostUnit}") '"ยอดรวมต้นทุน/หน่วย"
-      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.SumEntityamt}") '"ยอดรวมจำนวนเงิน"
+      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.SumEntityamt}") '"ยอดรวมจำนวนเงิน"
 
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.EntityCode}")  '"รหัสวัสดุ"
       m_grid(1, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.EntityName}")  '"ชื่อวัสดุ"
       m_grid(1, 5).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.EntityUnitName}")  '"หน่วย"
-      m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.Qty}")  '"จำนวน"
-      m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.UnitCost}")  '"เฉลี่ยต้นทุน/หน่วย"
-      m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.Entityamt}")  '"จำนวนเงิน"
+      m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatTransfer.ReceviedQty}")  '"จำนวน"
+      m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatTransfer.WaitingQty}")  '"จำนวน"
+      m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.UnitCost}")  '"เฉลี่ยต้นทุน/หน่วย"
+      m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatWithdraw.Entityamt}")  '"จำนวนเงิน"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      ''m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -92,6 +96,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -100,10 +105,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currCostCenterIndex As Integer = -1
       Dim currItemIndex As Integer = -1
       Dim indent As String = Space(3)
-      Dim sumQty As Decimal
+      Dim sumReceivedQty As Decimal
+      Dim sumWaitingQty As Decimal
       'Dim sumCostUnit As Decimal = 0
       Dim sumEntityamt As Decimal = 0
-      Dim countDoc As Decimal = 0
+      Dim countReceivedDoc As Decimal = 0
+      Dim countWaitingDoc As Decimal = 0
       Dim sumAmount As Decimal = 0
 
       Dim ReceiptComment As String = ""
@@ -182,10 +189,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '-----------------------
           currentDocCode = row("DocCode").ToString
           currentEntityCode = ""
-          sumQty = 0
+          sumReceivedQty = 0
+          sumWaitingQty = 0
           'sumCostUnit = 0
           sumEntityamt = 0
-          countDoc += 1
+          countReceivedDoc += 1
         End If
         'If row("EntityCode").ToString <> currentEntityCode Then
         m_grid.RowCount += 1
@@ -203,29 +211,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not row.IsNull("EntityUnitName") Then
           m_grid(currItemIndex, 5).CellValue = indent & row("EntityUnitName").ToString
         End If
+
         If IsNumeric(row("Qty")) Then
-          m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Qty)
-          sumQty += CDec(row("Qty"))
+          If isReceived Then
+            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Qty)
+            sumReceivedQty += CDec(row("Qty"))
+            countReceivedDoc += 1
+
+          Else
+            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Qty")), DigitConfig.Qty)
+            sumWaitingQty += CDec(row("Qty"))
+            countWaitingDoc += 1
+
+          End If
+
         End If
         If IsNumeric(row("UnitCost")) Then
-          m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(CDec(row("UnitCost")), DigitConfig.Price)
+          m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("UnitCost")), DigitConfig.Price)
           'sumCostUnit += CDec(row("UnitCost"))
         End If
         If IsNumeric(row("Amount")) Then
-          m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
+          m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
           sumEntityamt += CDec(row("Amount"))
           sumAmount += CDec(row("Amount"))
         End If
         'currentEntityCode = row("EntityCode").ToString
         'End If
-        If sumQty <> 0 Then
-          m_grid(currCostCenterIndex, 6).CellValue = Configuration.FormatToString(sumQty, DigitConfig.Price)
+        If sumReceivedQty <> 0 Then
+          m_grid(currCostCenterIndex, 6).CellValue = Configuration.FormatToString(sumReceivedQty, DigitConfig.Price)
+        End If
+        If sumWaitingQty <> 0 Then
+          m_grid(currCostCenterIndex, 7).CellValue = Configuration.FormatToString(sumWaitingQty, DigitConfig.Price)
         End If
         'If sumCostUnit <> 0 Then
         '  m_grid(currCostCenterIndex, 7).CellValue = Configuration.FormatToString(sumCostUnit, DigitConfig.Price)
         'End If
         If sumEntityamt <> 0 Then
-          m_grid(currCostCenterIndex, 8).CellValue = Configuration.FormatToString(sumEntityamt, DigitConfig.Price)
+          m_grid(currCostCenterIndex, 9).CellValue = Configuration.FormatToString(sumEntityamt, DigitConfig.Price)
         End If
       Next
 
@@ -234,8 +256,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.RowStyles(currItemIndex).ReadOnly = True
       m_grid(currItemIndex, 1).CellValue = DBNull.Value
       m_grid(currItemIndex, 5).CellValue = "รวมทั้งสิ้น"
-      m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(countDoc, DigitConfig.Int) & " รายการ"
-      m_grid(currItemIndex, 8).CellValue = Configuration.FormatToString(sumAmount, DigitConfig.Price)
+      m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(countReceivedDoc, DigitConfig.Int) & " รายการ"
+      m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(countWaitingDoc, DigitConfig.Int) & " รายการ"
+      m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(sumAmount, DigitConfig.Price)
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
