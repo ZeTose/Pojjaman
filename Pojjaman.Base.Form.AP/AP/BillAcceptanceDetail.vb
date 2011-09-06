@@ -2205,6 +2205,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             theDoc.BeforeTax = newItem.BeforeTax
 
             theDoc.TaxBase = newItem.TaxBase
+            theDoc.Retention = newItem.Retention
             theDoc.RetentionType = newItem.RetentionType
           End If
         Else
