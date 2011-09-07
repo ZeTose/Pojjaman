@@ -24,7 +24,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 	Public Interface IHasMainDoc
 		ReadOnly Property MainDoc() As ISimpleEntity
-	End Interface
+  End Interface
+  Public Enum SignatureType
+    Non
+    User
+    Person
+    CommentPerson
+    ApprovePerson
+    AuthorizedPerson
+    RejectPerson
+  End Enum
 	Public Class DocPrintingItem
 		Public Enum Frequency
 			FirstPage
@@ -41,22 +50,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 		Private m_level As Integer
 		Private m_printingFrequency As Frequency = Frequency.EveryPage
 		Private m_linestyle As Integer
-		Private m_lines As Integer = 1
+    Private m_lines As Integer = 1
+    Private m_signatureType As SignatureType
 #End Region
 
 #Region "Properties"
-		Public Property PrintingFrequency() As Frequency			Get				Return m_printingFrequency			End Get			Set(ByVal Value As Frequency)				m_printingFrequency = Value			End Set		End Property
-		Public Property DataType() As String			Get				Return m_dataType			End Get			Set(ByVal Value As String)				m_dataType = Value			End Set		End Property		Public Property Value() As Object			Get				If Not m_value Is Nothing Then					If Not Me.DataType Is Nothing AndAlso Me.DataType.ToLower = "system.string" Then
-						Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-						Return myStringParserService.Parse(m_value.ToString)
-					End If
-				End If				Return m_value			End Get			Set(ByVal Value As Object)				m_value = Value			End Set		End Property		Public Property Mapping() As String			Get				Return m_mapping			End Get			Set(ByVal Value As String)				m_mapping = Value			End Set		End Property		Public Property Lines() As Integer			Get				Return m_lines			End Get			Set(ByVal Value As Integer)				m_lines = Value			End Set		End Property		Public Property Row() As Integer			Get				Return m_row			End Get			Set(ByVal Value As Integer)				m_row = Value			End Set		End Property		Public Property Table() As String			Get				Return m_table			End Get			Set(ByVal Value As String)				m_table = Value			End Set		End Property		Public Property Font() As Font			Get				Return m_font			End Get			Set(ByVal Value As Font)				m_font = Value			End Set		End Property		Public Property Level() As Integer			Get				Return m_level			End Get			Set(ByVal Value As Integer)				m_level = Value			End Set		End Property		Public Property LineStyle() As Integer			Get
-				Return m_linestyle
-			End Get
-			Set(ByVal Value As Integer)
-				m_linestyle = Value
-			End Set
-		End Property#End Region
+    Public Property SignatureType As SignatureType
+      Get
+        Return m_signatureType
+      End Get
+      Set(ByVal value As SignatureType)
+        m_signatureType = value
+      End Set
+    End Property
+    Public Property PrintingFrequency() As Frequency      Get        Return m_printingFrequency      End Get      Set(ByVal Value As Frequency)        m_printingFrequency = Value      End Set    End Property
+    Public Property DataType() As String      Get        Return m_dataType      End Get      Set(ByVal Value As String)        m_dataType = Value      End Set    End Property    Public Property Value() As Object      Get        If Not m_value Is Nothing Then          If Not Me.DataType Is Nothing AndAlso Me.DataType.ToLower = "system.string" Then
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Return myStringParserService.Parse(m_value.ToString)
+          End If
+        End If        Return m_value      End Get      Set(ByVal Value As Object)        m_value = Value      End Set    End Property    Public Property Mapping() As String      Get        Return m_mapping      End Get      Set(ByVal Value As String)        m_mapping = Value      End Set    End Property    Public Property Lines() As Integer      Get        Return m_lines      End Get      Set(ByVal Value As Integer)        m_lines = Value      End Set    End Property    Public Property Row() As Integer      Get        Return m_row      End Get      Set(ByVal Value As Integer)        m_row = Value      End Set    End Property    Public Property Table() As String      Get        Return m_table      End Get      Set(ByVal Value As String)        m_table = Value      End Set    End Property    Public Property Font() As Font      Get        Return m_font      End Get      Set(ByVal Value As Font)        m_font = Value      End Set    End Property    Public Property Level() As Integer      Get        Return m_level      End Get      Set(ByVal Value As Integer)        m_level = Value      End Set    End Property    Public Property LineStyle() As Integer      Get
+        Return m_linestyle
+      End Get
+      Set(ByVal Value As Integer)
+        m_linestyle = Value
+      End Set
+    End Property#End Region
 
 #Region "Clone"
 		Public Function Clone() As DocPrintingItem

@@ -2124,6 +2124,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      'RequestorId
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RequestorId"
+      dpi.Value = Me.Requestor.Id
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.Person
+      dpiColl.Add(dpi)
+
       'RequestorName
       dpi = New DocPrintingItem
       dpi.Mapping = "RequestorName"
@@ -2499,8 +2507,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       End If
-      '*************************************LastPage********************************
 
+      Dim LastLevelApprove As New Hashtable
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 AndAlso Not ap.Reject Then
+          LastLevelApprove(ap.Level) = ap
+        End If
+      Next
+      For Each ap As ApproveDoc In LastLevelApprove.Values
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+        dpi.Value = ap.Originator
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.ApprovePerson
+        dpiColl.Add(dpi)
+      Next
+
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AuthorizeId"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.AuthorizedPerson
+      dpiColl.Add(dpi)
+      '*************************************LastPage********************************
 
       Dim n As Integer = 0
       Dim prList As String = ""

@@ -1998,10 +1998,52 @@ Namespace Longkong.AdobeForm
             Return item.Value
           End If
         ElseIf data.ToLower.StartsWith("=signature") Then
-          Dim map As String ' = data.Substring(1, Len(data) - 1)
+          Dim map As String '= data.Substring(1, Len(data) - 1)
           map = Replace(Replace(Replace(data, "=signature", ""), "(", ""), ")", "")
           Dim item As DocPrintingItem = m_tableColl.GetMappingItem(map)
-          If Not item.Value Is Nothing Then
+          If Not item Is Nothing AndAlso Not item.Value Is Nothing Then
+            Select Case item.SignatureType
+              Case SignatureType.AuthorizedPerson
+                Dim img As Object = User.GetAuthorizeSignator(CStr(item.Value))
+                If Not img Is Nothing Then '
+                  Return img
+                End If
+              Case SignatureType.ApprovePerson, SignatureType.User
+                Dim img As Object = User.GetSignator(CStr(item.Value))
+                If Not img Is Nothing Then '
+                  Return img
+                End If
+              Case SignatureType.Person
+                Dim img As Object = Employee.GetSignator(CStr(item.Value))
+                If Not img Is Nothing Then '
+                  Return img
+                End If
+              Case SignatureType.Non
+
+            End Select
+
+            'If map.ToLower.StartsWith("em") Then
+            '  Dim img As Object = Employee.GetSignator(CStr(item.Value))
+            '  If Not img Is Nothing Then '
+            '    Return img
+            '  End If
+            'ElseIf map.ToLower.StartsWith("us") Then
+            '  Dim img As Object = User.GetSignator(CStr(item.Value))
+            '  If Not img Is Nothing Then '
+            '    Return img
+            '  End If
+            'ElseIf map.ToLower.StartsWith("ap") Then
+            '  Dim img As Object = User.GetAuthorizeSignator(CStr(item.Value))
+            '  If Not img Is Nothing Then '
+            '    Return img
+            '  End If
+            'ElseIf map.ToLower.StartsWith("au") Then
+            '  Dim img As Object = User.GetAuthorizeSignator(CStr(item.Value))
+            '  If Not img Is Nothing Then '
+            '    Return img
+            '  End If
+            'End If
+            '  'แบบเก่า ------------------------------------------
             If map.ToLower.StartsWith("employeeid") Then
               Dim img As Object = Employee.GetSignator(CStr(item.Value))
               If Not img Is Nothing Then '
@@ -2017,15 +2059,17 @@ Namespace Longkong.AdobeForm
               If Not img Is Nothing Then '
                 Return img
               End If
+              'แบบเก่า ------------------------------------------
+            End If
+
+          End If
+          ElseIf data.StartsWith("=") Then
+            Dim map As String = data.Substring(1, Len(data) - 1)
+            Dim config As Object = Configuration.GetConfig(map)
+            If Not config Is Nothing Then
+              Return config
             End If
           End If
-        ElseIf data.StartsWith("=") Then
-          Dim map As String = data.Substring(1, Len(data) - 1)
-          Dim config As Object = Configuration.GetConfig(map)
-          If Not config Is Nothing Then
-            Return config
-          End If
-        End If
       End If
     End Function
     Private Function IndentCount(ByVal data As String) As Integer

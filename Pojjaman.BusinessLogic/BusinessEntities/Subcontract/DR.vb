@@ -31,7 +31,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class DR
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
-      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod
+      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod _
+   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
 
 #Region "Members"
 
@@ -71,6 +72,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_itemCollection As DRItemCollection
     Private m_closed As Boolean
     Private m_closing As Boolean
+
+    Private m_approveDocColl As ApproveDocCollection
 
     Private m_customNoteColl As CustomNoteCollection
     Public Group As Boolean = False
@@ -138,6 +141,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'LabActualHash = New Hashtable
       'EQActualHash = New Hashtable
       m_itemCollection = New DRItemCollection(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -242,12 +246,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'EQActualHash = New Hashtable
         m_itemCollection = New DRItemCollection(Me)
         Me.AutoCodeFormat = New AutoCodeFormat(Me)
+        m_approveDocColl = New ApproveDocCollection(Me)
       End With
 
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property ApproveDocColl As ApproveDocCollection
+      Get
+        Return m_approveDocColl
+      End Get
+      Set(ByVal value As ApproveDocCollection)
+        '
+      End Set
+    End Property
     Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
       Get
         Return Me.Closed
@@ -477,7 +490,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_witholdingTax = Value
       End Set
     End Property
-    Public Property Closed() As Boolean
+    Public Property Closed() As Boolean Implements ICloseStatusAble.Closed
       Get
         Return m_closed
       End Get
@@ -1237,7 +1250,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
 
-      
+
       trans.Commit()
       Dim isCanceled As Integer = 0
       If Me.Status.Value = 0 Then
@@ -1248,7 +1261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
         Me.DeleteRef(conn, trans2)
-       
+
         If Me.Sc.Id <> 0 Then
           SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "InsertUpdatereference" _
                , New SqlParameter("@entity_id", Me.Sc.Id) _
@@ -1760,6 +1773,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.Sc.Code
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        If Not Me.Sc.Director Is Nothing AndAlso Me.Sc.Director.Originated Then
+          'RequestorId
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorId"
+          dpi.Value = Me.Sc.Director.Id
+          dpi.DataType = "System.String"
+          dpi.SignatureType = SignatureType.Person
+          dpiColl.Add(dpi)
+
+          'RequestorInfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorInfo"
+          dpi.Value = Me.Sc.Director.Code & ":" & Me.Sc.Director.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RequestorCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorCode"
+          dpi.Value = Me.Sc.Director.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RequestorName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorName"
+          dpi.Value = Me.Sc.Director.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
       End If
 
       If Not Me.SubContractor Is Nothing AndAlso Me.SubContractor.Originated Then
@@ -1958,6 +2002,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       End If
+
+      Dim LastLevelApprove As New Hashtable
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 AndAlso Not ap.Reject Then
+          LastLevelApprove(ap.Level) = ap
+        End If
+      Next
+      For Each ap As ApproveDoc In LastLevelApprove.Values
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+        dpi.Value = ap.Originator
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.ApprovePerson
+        dpiColl.Add(dpi)
+      Next
+
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AuthorizeId"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.AuthorizedPerson
+      dpiColl.Add(dpi)
 
       dpiColl.AddRange(GetRealItemCollDocPrintingEntries)
       dpiColl.AddRange(GetItemCollDocPrintingEntries)
@@ -2580,8 +2651,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+#Region "IApproveStatusAble"
+    Public ReadOnly Property IsAuthorized As Boolean Implements IApproveStatusAble.IsAuthorized
+      Get
+        Return Me.IsApproved
+      End Get
+    End Property
 
+    Public ReadOnly Property IsLevelApproved As Boolean Implements IApproveStatusAble.IsLevelApproved
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            If Not approveDoc.Reject AndAlso approveDoc.Level > 0 Then
+              Return True
+            End If
+          End If
+        End If
 
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property IsReject As Boolean Implements IApproveStatusAble.IsReject
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            Return approveDoc.Reject
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+#End Region
 
   End Class
   '    Public Class DRStatus

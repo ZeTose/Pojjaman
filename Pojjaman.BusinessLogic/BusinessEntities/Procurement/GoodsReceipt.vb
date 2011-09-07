@@ -4709,6 +4709,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       If Not Me.ToCostCenterPerson Is Nothing AndAlso Me.ToCostCenterPerson.Originated Then
+        'ReceivePersonId
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ReceivePersonId"
+        dpi.Value = Me.ToCostCenterPerson.Id
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.Person
+        dpiColl.Add(dpi)
+
         'ReceivePersonInfo
         dpi = New DocPrintingItem
         dpi.Mapping = "ReceivePersonInfo"
@@ -4737,7 +4745,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Value = Me.Note
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
-
 
       'Mapping การอนุมัติ #917
       Dim appTable As DataTable = BusinessEntity.GetApprovePersonListfromDoc(Me.Id, Me.EntityId)
@@ -4776,6 +4783,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       End If
+
+      Dim LastLevelApprove As New Hashtable
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 AndAlso Not ap.Reject Then
+          LastLevelApprove(ap.Level) = ap
+        End If
+      Next
+      For Each ap As ApproveDoc In LastLevelApprove.Values
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+        dpi.Value = ap.Originator
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.ApprovePerson
+        dpiColl.Add(dpi)
+      Next
+
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AuthorizeId"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.AuthorizedPerson
+      dpiColl.Add(dpi)
 
       'CreditPeriod
       dpi = New DocPrintingItem

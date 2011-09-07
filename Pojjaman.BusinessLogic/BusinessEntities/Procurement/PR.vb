@@ -1441,7 +1441,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dr("pri_unitprice") = item.UnitPrice
             dr("pri_amt") = item.Amount
             dr("pri_note") = item.Note
-            dr("pri_receivingdate") = item.ReceivingDate
+            dr("pri_receivingdate") = Me.ValidDateOrDBNull(item.ReceivingDate)
             .Rows.Add(dr)
             If item.ItemType.Value <> 160 _
             AndAlso item.ItemType.Value <> 162 Then
@@ -1622,21 +1622,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 
-
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
-
-      'Authorizeid
-      dpi = New DocPrintingItem
-      dpi.Mapping = "Authorizeid"
-      If Me.IsApproved Then
-        dpi.Value = Me.ApprovePerson.Id
-      Else
-        dpi.Value = 0
-      End If
-      dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
 
       'Code
       dpi = New DocPrintingItem
@@ -1748,11 +1736,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       If Not Me.Requestor Is Nothing AndAlso Me.Requestor.Originated Then
-        'Requestor
+        'RequestorId
         dpi = New DocPrintingItem
-        dpi.Mapping = "EmployeeId"
+        dpi.Mapping = "RequestorId"
         dpi.Value = Me.Requestor.Id
         dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.Person
         dpiColl.Add(dpi)
 
         'Requestor
@@ -1796,6 +1785,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If appTable.Rows.Count > 0 Then
         For Each row As DataRow In appTable.Rows
           Dim deh As New DataRowHelper(row)
+
           dpi = New DocPrintingItem
           dpi.Mapping = "ApprovePersonNameLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
           dpi.Value = deh.GetValue(Of String)("user_name")
@@ -1829,6 +1819,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
 
+      Dim LastLevelApprove As New Hashtable
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 AndAlso Not ap.Reject Then
+          LastLevelApprove(ap.Level) = ap
+        End If
+      Next
+      For Each ap As ApproveDoc In LastLevelApprove.Values
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+        dpi.Value = ap.Originator
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.ApprovePerson
+        dpiColl.Add(dpi)
+      Next
+
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AuthorizeId"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.AuthorizedPerson
+      dpiColl.Add(dpi)
 
       Dim line As Integer = 0
       Dim counter As Integer = 0
@@ -2133,6 +2149,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return dpiColl
 
     End Function
+
     Public Function GetAllocateDocPrinting() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem

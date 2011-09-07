@@ -32,7 +32,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SC
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
-      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod
+      ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod _
+   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
 
 #Region "Members"
 
@@ -63,7 +64,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_contactPerson As String
     Private m_approvePerson As User
     Private m_approveDate As DateTime
-    
+
     'Public Group As Boolean = False
 
     Private m_note As String
@@ -73,6 +74,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_advancepay As Decimal
 
     Private m_itemCollection As SCItemCollection
+    Private m_approveDocColl As ApproveDocCollection
 #End Region
 
 #Region "Constructors"
@@ -134,6 +136,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'LabActualHash = New Hashtable
       'EQActualHash = New Hashtable
       m_itemCollection = New SCItemCollection(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -292,10 +295,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property ApproveDocColl As ApproveDocCollection
+      Get
+        Return m_approveDocColl
+      End Get
+      Set(ByVal value As ApproveDocCollection)
+        '
+      End Set
+    End Property
     Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
       Get
         Return Me.Closed
@@ -330,7 +342,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     '--------------------end REAL-------------------------
-    Public Property Closed() As Boolean      Get
+    Public Property Closed() As Boolean Implements ICloseStatusAble.Closed      Get
         Return m_closed
       End Get
       Set(ByVal Value As Boolean)
@@ -2354,6 +2366,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       If Not Me.Director Is Nothing AndAlso Me.Director.Originated Then
+        'RequestorId
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RequestorId"
+        dpi.Value = Me.Director.Id
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.Person
+        dpiColl.Add(dpi)
+
         'RequestorInfo
         dpi = New DocPrintingItem
         dpi.Mapping = "RequestorInfo"
@@ -2501,6 +2521,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       End If
+
+      Dim LastLevelApprove As New Hashtable
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 AndAlso Not ap.Reject Then
+          LastLevelApprove(ap.Level) = ap
+        End If
+      Next
+      For Each ap As ApproveDoc In LastLevelApprove.Values
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+        dpi.Value = ap.Originator
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.ApprovePerson
+        dpiColl.Add(dpi)
+      Next
+
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AuthorizeId"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.AuthorizedPerson
+      dpiColl.Add(dpi)
+
       '--สำหรับแสดงรายการตามที่เคย print (ยอดเก่าก่อน closed sc)--
       dpiColl.AddRange(GetRealItemsPrintingEntries)
       dpiColl.AddRange(GetRealParentPrintingEntries)
@@ -4139,6 +4187,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 
 #End Region
+
+#Region "IApproveStatusAble"
+    Public ReadOnly Property IsAuthorized As Boolean Implements IApproveStatusAble.IsAuthorized
+      Get
+        Return Me.IsApproved
+      End Get
+    End Property
+
+    Public ReadOnly Property IsLevelApproved As Boolean Implements IApproveStatusAble.IsLevelApproved
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            If Not approveDoc.Reject AndAlso approveDoc.Level > 0 Then
+              Return True
+            End If
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property IsReject As Boolean Implements IApproveStatusAble.IsReject
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            Return approveDoc.Reject
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+#End Region
+
 
   End Class
 

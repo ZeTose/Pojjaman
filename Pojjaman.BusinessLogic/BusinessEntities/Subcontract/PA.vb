@@ -30,7 +30,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PA
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
-        , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh, IHasToCostCenter
+        , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh, IHasToCostCenter _
+   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
 
 #Region "Members"
     '**************
@@ -83,6 +84,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_costcenter As CostCenter
 
     Private m_OldadvancePayItemColl As AdvancePayItemCollection
+    Private m_approveDocColl As ApproveDocCollection
     'Public MatActualHash As Hashtable
     'Public LabActualHash As Hashtable
     'Public EQActualHash As Hashtable
@@ -157,6 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
       m_itemCollection = New PAItemCollection(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
       m_hashWbsId = New Hashtable
       OnGlChanged()
     End Sub
@@ -340,12 +343,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.m_advancePayRemaining = adv
       End With
       m_itemCollection = New PAItemCollection(Me)
+      m_approveDocColl = New ApproveDocCollection(Me)
       m_hashWbsId = New Hashtable
       'm_itemCollection.RefreshBudget()
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property ApproveDocColl As ApproveDocCollection
+      Get
+        Return m_approveDocColl
+      End Get
+      Set(ByVal value As ApproveDocCollection)
+        '
+      End Set
+    End Property
     Public Property Sc() As SC      Get        Return m_sc      End Get      Set(ByVal Value As SC)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)        If Value.Status.Value = 0 OrElse Value.Closed Then
           msgServ.ShowWarningFormatted("${res:Global.Error.CanceledSC}", New String() {Value.Code})
           Return
@@ -646,7 +658,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property Closed() As Boolean
+    Public Property Closed() As Boolean Implements ICloseStatusAble.Closed
       Get
         Return m_closed
       End Get
@@ -1891,7 +1903,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
-       ' Save CustomNote จากการ Copy เอกสาร
+      ' Save CustomNote จากการ Copy เอกสาร
       If Not Me.m_customNoteColl Is Nothing AndAlso Me.m_customNoteColl.Count > 0 Then
         If Me.Originated Then
           Me.m_customNoteColl.EntityId = Me.Id
@@ -1923,7 +1935,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                    , New SqlParameter("@sc_id", Me.Sc.Id))
         End If
 
-       
+
       Catch ex As Exception
         trans2.Rollback()
         Return New SaveErrorException(ex.InnerException.ToString)
@@ -1934,7 +1946,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans3 As SqlTransaction = conn.BeginTransaction
 
       Try
-        
+
 
         Me.DeleteRef(conn, trans3)
 
@@ -2747,6 +2759,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.Sc.DocDate.ToShortDateString
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        If Not Me.Sc.Director Is Nothing AndAlso Me.Sc.Director.Originated Then
+          'RequestorId
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorId"
+          dpi.Value = Me.Sc.Director.Id
+          dpi.DataType = "System.String"
+          dpi.SignatureType = SignatureType.Person
+          dpiColl.Add(dpi)
+
+          'RequestorInfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorInfo"
+          dpi.Value = Me.Sc.Director.Code & ":" & Me.Sc.Director.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RequestorCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorCode"
+          dpi.Value = Me.Sc.Director.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'RequestorName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorName"
+          dpi.Value = Me.Sc.Director.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
       End If
 
       If Not Me.SubContractor Is Nothing Then
@@ -2852,6 +2895,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       If Not Me.Receiver Is Nothing Then
+        'ReceiverId
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ReceiverId"
+        dpi.Value = Me.Receiver.Id
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.Person
+        dpiColl.Add(dpi)
+
         'ReceiverCode
         dpi = New DocPrintingItem
         dpi.Mapping = "ReceiverCode"
@@ -2913,6 +2964,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       End If
+
+      Dim LastLevelApprove As New Hashtable
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 AndAlso Not ap.Reject Then
+          LastLevelApprove(ap.Level) = ap
+        End If
+      Next
+      For Each ap As ApproveDoc In LastLevelApprove.Values
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+        dpi.Value = ap.Originator
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.ApprovePerson
+        dpiColl.Add(dpi)
+      Next
+
+      'Authorizeid
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AuthorizeId"
+      If Me.IsApproved Then
+        dpi.Value = Me.ApprovePerson.Id
+      Else
+        dpi.Value = 0
+      End If
+      dpi.DataType = "System.String"
+      dpi.SignatureType = SignatureType.AuthorizedPerson
+      dpiColl.Add(dpi)
 
       'RealGross
       dpi = New DocPrintingItem
@@ -4777,6 +4855,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return 0
     End Function
+
+#Region "IApproveStatusAble"
+    Public ReadOnly Property IsAuthorized As Boolean Implements IApproveStatusAble.IsAuthorized
+      Get
+        Return Me.IsApproved
+      End Get
+    End Property
+
+    Public ReadOnly Property IsLevelApproved As Boolean Implements IApproveStatusAble.IsLevelApproved
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            If Not approveDoc.Reject AndAlso approveDoc.Level > 0 Then
+              Return True
+            End If
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+
+    Public ReadOnly Property IsReject As Boolean Implements IApproveStatusAble.IsReject
+      Get
+        If Not Me.ApproveDocColl Is Nothing AndAlso Me.ApproveDocColl.Count > 0 Then
+          Dim approveDoc As ApproveDoc = m_approveDocColl(ApproveDocColl.Count - 1)
+          If Not approveDoc Is Nothing Then
+            Return approveDoc.Reject
+          End If
+        End If
+
+        Return False
+      End Get
+    End Property
+#End Region
 
   End Class
 
