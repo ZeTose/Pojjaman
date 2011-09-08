@@ -3607,6 +3607,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 
   Public Class VOForApprove
     Inherits VO
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "VOForApprove"

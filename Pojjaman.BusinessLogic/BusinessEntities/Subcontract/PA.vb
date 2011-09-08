@@ -4899,6 +4899,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class PAForApprove
     Inherits PA
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PAForApprove"
@@ -4908,7 +4909,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class SCForPA
     Inherits SC
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "SCForPA"

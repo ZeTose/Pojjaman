@@ -5839,6 +5839,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class GoodsReceiptForApprove
     Inherits GoodsReceipt
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "GoodsReceiptForApprove"
@@ -5847,6 +5848,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class GoodsReceiptForOperation
     Inherits GoodsReceipt
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "GoodsReceiptForOperation"

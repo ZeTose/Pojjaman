@@ -3168,6 +3168,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class WRForApprove
     Inherits WR
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName As String
       Get
         Return "WRForApprove"
@@ -3177,6 +3178,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class WRForSC
     Inherits WR
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "WRForSC"

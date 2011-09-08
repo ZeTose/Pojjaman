@@ -2676,7 +2676,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
         Dim entities As New ArrayList
 
-        entities.Add(New SC)
+        entities.Add(New SCForDR)
 
         If Me.m_entity.Sc.SubContractor.Originated Then
           entities.Add(Me.m_entity.Sc.SubContractor)
@@ -2693,7 +2693,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'filters(1) = New Filter("excludeCanceled", True)
         'filters(2) = New Filter("excludedepleted", True)
         'filters(3) = New Filter("excludeclosed", True)
-        myEntityPanelService.OpenListDialog(Me.m_entity.Sc, AddressOf SetSC, entities)
+        myEntityPanelService.OpenListDialog(New SCForDR, AddressOf SetSC, entities)
       End If
     End Sub
     Private Sub SetSC(ByVal e As ISimpleEntity)

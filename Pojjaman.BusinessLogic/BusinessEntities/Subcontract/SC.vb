@@ -511,6 +511,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Discount.AmountBeforeDiscount = Me.RealGross
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get
+    End Property    Public Property RealDiscountAmount As Decimal      Get
+        Return Me.DiscountAmount
+      End Get
+      Set(ByVal value As Decimal)
+
+      End Set
     End Property    Public Property TaxRate() As Decimal
       Get
         Return m_taxRate
@@ -557,7 +563,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return Me.AfterTax - Me.RealTaxAmount
         End Select
       End Get
-    End Property
+    End Property    Public Property RealBeforeTax() As Decimal
+      Get
+        Return Me.BeforeTax
+      End Get
+      Set(ByVal value As Decimal)
+
+      End Set
+    End Property
     Public ReadOnly Property AfterTax() As Decimal Implements IApprovAble.AmountToApprove
       Get
         Select Case Me.TaxType.Value
@@ -569,6 +582,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return Me.RealGross - Me.Discount.Amount
         End Select
       End Get
+    End Property    Public Property RealAfterTax As Decimal      Get
+        Return Me.AfterTax
+      End Get
+      Set(ByVal value As Decimal)
+
+      End Set
     End Property    Public Overrides Property Status() As CodeDescription
       Get
         Return m_status
@@ -2449,6 +2468,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'RealGross
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RealGross"
+      dpi.Value = Configuration.FormatToString(Me.RealGross, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       'DiscountRate
       dpi = New DocPrintingItem
       dpi.Mapping = "DiscountRate"
@@ -2463,10 +2489,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'RealDiscountAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RealDiscountAmount"
+      dpi.Value = Configuration.FormatToString(Me.RealDiscountAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       'BeforeTax
       dpi = New DocPrintingItem
       dpi.Mapping = "BeforeTax"
       dpi.Value = Configuration.FormatToString(Me.BeforeTax, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'RealBeforeTax
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RealBeforeTax"
+      dpi.Value = Configuration.FormatToString(Me.RealBeforeTax, DigitConfig.Price)
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
@@ -2485,6 +2525,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'RealTaxAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RealTaxAmount"
+      dpi.Value = Configuration.FormatToString(Me.RealTaxAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       'AfterTax
       dpi = New DocPrintingItem
       dpi.Mapping = "AfterTax"
@@ -2492,6 +2539,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'RealAfterTax
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RealAfterTax"
+      dpi.Value = Configuration.FormatToString(Me.RealAfterTax, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
 
       'Mapping การอนุมัติ #917
       Dim appTable As DataTable = BusinessEntity.GetApprovePersonListfromDoc(Me.Id, Me.EntityId)
@@ -4232,9 +4285,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class SCForApprove
     Inherits SC
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName As String
       Get
         Return "SCForApprove"
+      End Get
+    End Property
+  End Class
+
+  Public Class SCForVO
+    Inherits SC
+    Implements IVisibleButtonShowColorListAble
+    Public Overrides ReadOnly Property CodonName As String
+      Get
+        Return "SCForVO"
+      End Get
+    End Property
+  End Class
+
+  Public Class SCForDR
+    Inherits SC
+    Implements IVisibleButtonShowColorListAble
+    Public Overrides ReadOnly Property CodonName As String
+      Get
+        Return "SCForDR"
       End Get
     End Property
   End Class

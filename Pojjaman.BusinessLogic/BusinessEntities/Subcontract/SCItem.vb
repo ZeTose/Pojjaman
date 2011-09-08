@@ -260,8 +260,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "scio_eq") AndAlso Not dr.IsNull(aliasPrefix & "scio_eq") Then
           .m_oldEq = CDec(dr(aliasPrefix & "scio_eq"))
         End If
-        If dr.Table.Columns.Contains(aliasPrefix & "scio_amount") AndAlso Not dr.IsNull(aliasPrefix & "scio_amount") Then
-          .m_oldAmount = CDec(dr(aliasPrefix & "scio_amount"))
+        If dr.Table.Columns.Contains(aliasPrefix & "scio_amt") AndAlso Not dr.IsNull(aliasPrefix & "scio_amt") Then
+          .m_oldAmount = CDec(dr(aliasPrefix & "scio_amt"))
         End If
 
         If Not Me.SC.WR Is Nothing Then

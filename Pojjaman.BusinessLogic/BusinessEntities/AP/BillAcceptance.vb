@@ -2014,10 +2014,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If UnpaidAmount = Amount Then
             Return (TaxBase - DeductTaxBase)
           End If
-          
+
           'ภ้าชำระไม่เต็ม ยอดต้องเท่ากับยอดที่จ่าย
           Return PowerAmt / AfterTax * TaxBase
-         
+
         End If
         If UnpaidAmount <> Amount Then
           Return TaxBase * PowerAmt / AfterTax
@@ -2089,7 +2089,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
- 
+
     Public Property RealAmount() As Decimal
       Get
         Return m_realAmount
@@ -2591,7 +2591,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class BillAcceptanceItemCollection
+  Public Class BillAcceptanceItemCollection
     Inherits CollectionBase
 
 #Region "Members"
@@ -3248,7 +3248,7 @@ Public Class BillAcceptanceItemCollection
 
   Public Class GoodsReceiptForBillAcceptance
     Inherits GoodsReceipt
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "GoodsReceiptForBillAcceptance"
@@ -3268,7 +3268,6 @@ Public Class BillAcceptanceItemCollection
   End Class
   Public Class APOpeningBalanceForBillAcceptance
     Inherits APOpeningBalance
-
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "APOpeningBalanceForBillAcceptance"
@@ -3295,7 +3294,7 @@ Public Class BillAcceptanceItemCollection
   End Class
   Public Class PurchaseRetentionForBillAcceptance
     Inherits PurchaseRetention
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PurchaseRetentionForBillAcceptance"
@@ -3306,44 +3305,44 @@ Public Class BillAcceptanceItemCollection
         Return New ColumnCollection(Me.ClassName, 0)
       End Get
     End Property
-    End Class
-    Public Class PARetentionForBillAcceptance
-        Inherits PurchaseRetention
-
-        Public Overrides ReadOnly Property ClassName As String
-            Get
-                Return "PARetentionForBillAcceptance"
-            End Get
-        End Property
-        'Public Overrides ReadOnly Property Columns() As ColumnCollection
-        '    Get
-        '        Return New ColumnCollection(Me.ClassName, 0)
-        '    End Get
-        'End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.PARetention.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.PARetention"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.PARetention"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.PARetention.ListLabel}"
-            End Get
-        End Property
-    End Class
+  End Class
+  Public Class PARetentionForBillAcceptance
+    Inherits PurchaseRetention
+    Implements IVisibleButtonShowColorListAble
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PARetentionForBillAcceptance"
+      End Get
+    End Property
+    'Public Overrides ReadOnly Property Columns() As ColumnCollection
+    '    Get
+    '        Return New ColumnCollection(Me.ClassName, 0)
+    '    End Get
+    'End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.PARetention.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.PARetention"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.PARetention"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.PARetention.ListLabel}"
+      End Get
+    End Property
+  End Class
   Public Class PAForBillAcceptance
     Inherits PA
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PAForBillAcceptance"

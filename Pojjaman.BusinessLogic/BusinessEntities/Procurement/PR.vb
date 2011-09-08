@@ -2871,6 +2871,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class PRForApprove
     Inherits PR
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForApprove"
@@ -2879,7 +2880,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PRForMatTransfer
     Inherits PR
-    Implements IWithdrawAble
+    Implements IWithdrawAble, IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatTransfer"
@@ -2893,7 +2894,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PRForMatOperationWithdraw
     Inherits PR
-    Implements IWithdrawAble
+    Implements IWithdrawAble, IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatOperationWithdraw"
@@ -2908,7 +2909,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class PRForEqToolTransfer
     Inherits PR
-    Implements IWithdrawAble
+    Implements IWithdrawAble, IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForEqToolTransfer"

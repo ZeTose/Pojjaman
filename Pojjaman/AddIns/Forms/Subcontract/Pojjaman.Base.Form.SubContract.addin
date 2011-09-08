@@ -8,7 +8,9 @@
   	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
       <EntityFilter id="wr" entity="wr" filter="Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel"/>
       <EntityFilter id="wrforsc" entity="wrforsc" filter="Longkong.Pojjaman.Gui.Panels.WRFilterSubPanel"/>
-			<EntityFilter id="sc" entity="sc" filter="Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel"/>
+      <EntityFilter id="sc" entity="sc" filter="Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel"/>
+      <EntityFilter id="scforvo" entity="sc" filter="Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel"/>
+      <EntityFilter id="scfordr" entity="sc" filter="Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel"/>
 			<EntityFilter id="scforpa" entity="scforpa" filter="Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel"/>
       <EntityFilter id="vo" entity="vo" filter="Longkong.Pojjaman.Gui.Panels.VOFilterSubPanel"/>
       <EntityFilter id="dr" entity="dr" filter="Longkong.Pojjaman.Gui.Panels.DRFilterSubPanel"/>

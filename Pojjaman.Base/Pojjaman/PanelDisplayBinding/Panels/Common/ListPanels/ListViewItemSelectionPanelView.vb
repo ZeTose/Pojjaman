@@ -319,19 +319,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetUpCheckHilight()
       If TypeOf m_entity Is IShowStatusColorAble Then
-        chkHilightStatus.Visible = True
-        chkHilightApproveStatus.Visible = True
-        chkHilightStatus.Checked = False
-        chkHilightApproveStatus.Checked = False
-        btnShowColorStatus.Visible = True
-        btnShowApproveColorStatus.Visible = True
+        If TypeOf m_entity Is IVisibleButtonShowColorListAble Then
+          chkHilightStatus.Visible = False
+          chkHilightApproveStatus.Visible = False
+          btnShowColorStatus.Visible = False
+          btnShowApproveColorStatus.Visible = False
+        Else
+          chkHilightStatus.Visible = True
+          chkHilightApproveStatus.Visible = True
+          chkHilightStatus.Checked = False
+          chkHilightApproveStatus.Checked = False
+          btnShowColorStatus.Visible = True
+          btnShowApproveColorStatus.Visible = True
+        End If
       Else
         chkHilightStatus.Visible = False
         chkHilightApproveStatus.Visible = False
         btnShowColorStatus.Visible = False
         btnShowApproveColorStatus.Visible = False
       End If
-
     End Sub
     Private Sub ListViewItemSelectionPanelView_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
       CreateColumn()

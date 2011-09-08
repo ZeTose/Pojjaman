@@ -4311,6 +4311,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class POForApprove
     Inherits PO
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "POForApprove"
@@ -4319,6 +4320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class POForGoodsReceipt
     Inherits PO
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "POForGoodsReceipt"

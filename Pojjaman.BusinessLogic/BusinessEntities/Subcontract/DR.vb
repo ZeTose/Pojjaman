@@ -2731,6 +2731,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class DRForApprove
     Inherits DR
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "DRForApprove"

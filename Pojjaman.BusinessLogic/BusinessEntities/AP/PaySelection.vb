@@ -1878,7 +1878,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class GoodsReceiptForPaySelection
     Inherits GoodsReceipt
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "GoodsReceiptForPaySelection"
@@ -1893,7 +1893,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class APOpeningBalanceForPaySelection
     Inherits APOpeningBalance
-
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "APOpeningBalanceForPaySelection"
@@ -1902,7 +1901,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class EqMaintenanceForPaySelection
     Inherits EqMaintenance
-
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "EqMaintenanceForPaySelection"
@@ -1911,7 +1909,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PurchaseCNForPaySelection
     Inherits PurchaseCN
-
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PurchaseCNForPaySelection"
@@ -1920,7 +1917,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PurchaseRetentionForPaySelection
     Inherits PurchaseRetention
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PurchaseRetentionForPaySelection"
@@ -1934,7 +1931,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PARetentionForPaySelection
     Inherits PurchaseRetention
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PARetentionForPaySelection"
@@ -1979,7 +1976,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class PAForPaySelection
     Inherits PA
-
+    Implements IVisibleButtonShowColorListAble
     Public Overrides ReadOnly Property ClassName As String
       Get
         Return "PAForPaySelection"

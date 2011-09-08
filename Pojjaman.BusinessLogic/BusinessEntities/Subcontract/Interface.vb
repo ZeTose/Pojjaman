@@ -17,6 +17,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IShowStatusColorAble
 
   End Interface
+  Public Interface IVisibleButtonShowColorListAble
+
+  End Interface
   Public Interface IApproveStatusAble
     ReadOnly Property IsAuthorized As Boolean
     ReadOnly Property IsLevelApproved As Boolean
