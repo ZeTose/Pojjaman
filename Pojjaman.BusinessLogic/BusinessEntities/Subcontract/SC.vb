@@ -885,6 +885,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
+      m_approveDocColl = New ApproveDocCollection(Me)
+    End Sub
     Private Sub ChangeWR()
       Me.ItemCollection.Clear()
       Me.StartDate = Date.Now

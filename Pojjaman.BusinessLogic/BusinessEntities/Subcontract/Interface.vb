@@ -21,6 +21,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ReadOnly Property IsAuthorized As Boolean
     ReadOnly Property IsLevelApproved As Boolean
     ReadOnly Property IsReject As Boolean
+    Sub RefreshApproveDocCollection()
   End Interface
   Public Interface ICloseStatusAble
     Property Closed As Boolean

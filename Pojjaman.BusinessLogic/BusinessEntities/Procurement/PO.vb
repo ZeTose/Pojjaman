@@ -818,6 +818,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
+      m_approveDocColl = New ApproveDocCollection(Me)
+    End Sub
     Public Sub UpdateNoteFromPR()
       Dim obj As Object = Configuration.GetConfig("UpdateNoteFromPR")
 

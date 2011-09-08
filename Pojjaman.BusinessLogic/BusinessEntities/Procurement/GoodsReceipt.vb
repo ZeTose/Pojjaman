@@ -997,6 +997,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
+      m_approveDocColl = New ApproveDocCollection(Me)
+    End Sub
     Public Function GetOldGRWBSActual() As DataSet
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
                                                    CommandType.StoredProcedure,

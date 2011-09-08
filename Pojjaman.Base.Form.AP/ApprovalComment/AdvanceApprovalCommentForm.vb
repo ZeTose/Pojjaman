@@ -422,7 +422,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			'Add to Collection
 			m_approveDocColl.Add(m_approveDoc)
 
-			m_approveDocColl.Save()
+      m_approveDocColl.Save()
+
+      If TypeOf m_entity Is IApproveStatusAble Then
+        CType(m_entity, IApproveStatusAble).RefreshApproveDocCollection()
+      End If
 		End Sub
 
 		Private ChangedText As String

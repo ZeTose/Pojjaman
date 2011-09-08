@@ -851,6 +851,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
+      m_approveDocColl = New ApproveDocCollection(Me)
+    End Sub
     Public Function IsMeLastedPADoc() As Boolean
       If Not Me.Originated Then
         Return True

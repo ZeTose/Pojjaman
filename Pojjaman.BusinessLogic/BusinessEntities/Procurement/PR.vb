@@ -595,6 +595,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
+      m_approveDocColl = New ApproveDocCollection(Me)
+    End Sub
     Public Sub SetActual(ByVal myWbs As WBS, ByVal oldVal As Decimal, ByVal newVal As Decimal, ByVal type As Integer)
       myWbs = New WBS(myWbs.Id)
       Dim o_n As OldNew
