@@ -202,6 +202,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           tmpTotalBilledAmount += brh.GetValue(Of Decimal)("SaleBillAmount")
           SummaryBaseBilledAmt += brh.GetValue(Of Decimal)("SaleBillAmount")
           m_grid(currentBilliIndex, 8).CellValue = brh.GetValue(Of String)("Type").ToString
+          'Trace.WriteLine(brh.GetValue(Of String)("Type").ToString)
 
           currentBillCode = brh.GetValue(Of String)("SaleBillCode").ToString
 
