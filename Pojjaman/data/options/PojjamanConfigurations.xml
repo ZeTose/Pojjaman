@@ -15,5 +15,21 @@
         </RealGigaSiteRelease>
       </GigaSiteRelease>
     </XmlConvertableProperty>
+    <XmlConvertableProperty key="Longkong.Pojjaman.ColorConfiguration">
+      <ColorConfiguration>
+        <DocumentStatusColor>
+          <Normal description="ยังไม่ถูกอ้างอิง,บันทึก" value="สีขาว" a="0" r="255" g="255" b="255" />
+          <Referenced description="ถูกอ้างอิงแล้ว" value="สีชมพู" a="0" r="255" g="255" b="255" />
+          <HoldReferenced description="ถูกอ้างอิงแล้วบางส่วน" value="สีชมพูอ่อน" a="0" r="255" g="255" b="255" />
+          <PassGL description="ผ่านรายการแล้ว" value="สีส้ม" a="0" r="255" g="255" b="255" />
+          <Cancel description="ยกเลิก" value="สีแดง" a="0" r="255" g="0" b="0" />
+          <Closed description="ปิด" value="สีน้ำเงิน" a="0" r="255" g="255" b="255" />
+          <NonApprove description="ยังไม่อนุมัติ" value="สีเขียวขาวจาง" a="0" r="255" g="255" b="255" />
+          <Approved description="อนุมัติแล้ว(Approved)" value="สีเขียวอ่อน" a="0" r="255" g="255" b="255" />
+          <Reject description="ถูกส่งกลับ" value="สีเหลือง" a="0" r="255" g="255" b="255" />
+          <Authorized description="อนุมัติสูงสุด(Authorized)" value="สีเขียว" a="0" r="255" g="255" b="255" />
+        </DocumentStatusColor>
+      </ColorConfiguration>
+    </XmlConvertableProperty>
   </Properties>
 </PojjamanProperties>
