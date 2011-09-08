@@ -932,6 +932,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'ชื่อผู้สร้างเอกสาร
           If myEntity.Originator IsNot Nothing Then
             myDpi = New DocPrintingItem
+            myDpi.Mapping = "CreatorId"
+            myDpi.Value = myEntity.Originator.Id
+            myDpi.DataType = "System.String"
+            myDpi.SignatureType = SignatureType.User
+            myDpiColl.Add(myDpi)
+
+            myDpi = New DocPrintingItem
             myDpi.Mapping = "CreatorName"
             myDpi.Value = myEntity.Originator.Name
             myDpi.DataType = "System.String"
@@ -961,6 +968,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           'ผู้แก้ไขล่าสุด
           If myEntity.LastEditor IsNot Nothing Then
+            myDpi = New DocPrintingItem
+            myDpi.Mapping = "LastEditorId"
+            myDpi.Value = myEntity.LastEditor.Id
+            myDpi.DataType = "System.String"
+            myDpi.SignatureType = SignatureType.User
+            myDpiColl.Add(myDpi)
+
             myDpi = New DocPrintingItem
             myDpi.Mapping = "LastEditorName"
             myDpi.Value = myEntity.LastEditor.Name
@@ -992,9 +1006,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'ผู้ที่ทำเอกสาร
           Dim mySecurity As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
           myDpi = New DocPrintingItem
-          myDpi.Mapping = "userid"
+          myDpi.Mapping = "UserId"
           myDpi.Value = mySecurity.CurrentUser.Id
           myDpi.DataType = "System.String"
+          myDpi.SignatureType = SignatureType.User
           myDpiColl.Add(myDpi)
 
           'ผู้ที่ Print
