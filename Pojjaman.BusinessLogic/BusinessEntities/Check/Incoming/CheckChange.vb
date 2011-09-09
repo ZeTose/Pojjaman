@@ -8,191 +8,194 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 
 Namespace Longkong.Pojjaman.BusinessLogic
-    Public Class CheckChange
-        Inherits SimpleBusinessEntityBase
+  Public Class CheckChange
+    Inherits SimpleBusinessEntityBase
     Implements IGLAble, IHasIBillablePerson, ICheckPeriod
 
 
 #Region "Member"
-        Private m_entitybase As New IncomingCheck
-        Private m_issuedate As Date
-        Private m_acct As Account
-        Private m_cust As Customer
-        ' Checktype => IncomingCheck
-        ' CheckStatus => เปลี่ยนเช็ครับ
+    Private m_entitybase As New IncomingCheck
+    Private m_issuedate As Date
+    Private m_oldissuedate As Date
+    Private m_acct As Account
+    Private m_cust As Customer
+    ' Checktype => IncomingCheck
+    ' CheckStatus => เปลี่ยนเช็ครับ
 
-        Private m_otherrevenue As Decimal
-        Private m_totalcancel As Decimal
+    Private m_otherrevenue As Decimal
+    Private m_totalcancel As Decimal
 
-        Private m_cash As Decimal
-        Private m_otherexpense As Decimal
-        Private m_totalreplace As Decimal
+    Private m_cash As Decimal
+    Private m_otherexpense As Decimal
+    Private m_totalreplace As Decimal
 
-        Private m_note As String
-        Private m_status As CheckStatus
+    Private m_note As String
+    Private m_status As CheckStatus
 
-        Private m_itemTable As TreeTable
-        Private m_itemReplaceTable As TreeTable
+    Private m_itemTable As TreeTable
+    Private m_itemReplaceTable As TreeTable
 
-        Private m_je As JournalEntry
-        Private m_incomingcheckremoved As String
+    Private m_je As JournalEntry
+    Private m_incomingcheckremoved As String
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            ReLoadItems()
-            ReLoadReplaceItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    Public Sub New()
+      MyBase.New()
+      ReLoadItems()
+      ReLoadReplaceItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
 
-            AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
-            AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
+      AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
+      AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
 
-        End Sub
-        Public Sub New(ByVal Code As String)
-            MyBase.New(Code)
-            ReLoadItems()
-            ReLoadReplaceItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal Code As String)
+      MyBase.New(Code)
+      ReLoadItems()
+      ReLoadReplaceItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
 
-            AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
-            AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
+      AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
+      AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
 
-        End Sub
-        Public Sub New(ByVal id As Integer)
-            MyBase.New(id)
-            ReLoadItems()
-            ReLoadReplaceItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+      ReLoadItems()
+      ReLoadReplaceItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
 
-            AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
-            AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
+      AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
+      AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
 
-        End Sub
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-            ReLoadItems(ds, aliasPrefix)
-            ReLoadReplaceItems(ds, aliasPrefix)
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+      ReLoadItems(ds, aliasPrefix)
+      ReLoadReplaceItems(ds, aliasPrefix)
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
 
-            AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
-            AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
+      AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
+      AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
 
-        End Sub
-        Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            Me.Construct(dr, aliasPrefix)
-            ReLoadItems()
-            ReLoadReplaceItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+    End Sub
+    Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+      ReLoadItems()
+      ReLoadReplaceItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
 
-            AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
-            AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
+      AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
+      AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
 
-        End Sub
-        Protected Overloads Overrides Sub Construct()
-            MyBase.Construct()
-            With Me
-                .m_issuedate = Now.Date
-                .m_acct = New Account
-                .m_cust = New Customer
-                .m_status = New CheckStatus(-1)
+    End Sub
+    Protected Overloads Overrides Sub Construct()
+      MyBase.Construct()
+      With Me
+        .m_issuedate = Now.Date
+        .m_oldissuedate = Now.Date
+        .m_acct = New Account
+        .m_cust = New Customer
+        .m_status = New CheckStatus(-1)
 
-                .m_je = New JournalEntry(Me)
-                .m_je.DocDate = Me.m_issuedate
-            End With
-            ReLoadItems()
-            ReLoadReplaceItems()
-            AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
-            AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
+        .m_je = New JournalEntry(Me)
+        .m_je.DocDate = Me.m_issuedate
+      End With
+      ReLoadItems()
+      ReLoadReplaceItems()
+      AddHandler m_itemTable.ColumnChanging, AddressOf Treetable_ColumnChanging
+      AddHandler m_itemTable.ColumnChanged, AddressOf Treetable_ColumnChanged
 
-            AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
-            AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
+      AddHandler m_itemReplaceTable.ColumnChanging, AddressOf TreeReplacetable_ColumnChanging
+      AddHandler m_itemReplaceTable.ColumnChanged, AddressOf TreeReplacetable_ColumnChanged
 
-        End Sub
-        Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Construct(dr, aliasPrefix)
-        End Sub
-        Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-            MyBase.Construct(dr, aliasPrefix)
-            With Me
-                ' Issuedate ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
-                    .m_issuedate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
-                End If
-                ' account 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_acct") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_acct") Then
-                    .m_acct = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_acct")))
-                End If
-                ' customer 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cust") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cust") Then
-                    .m_cust = New Customer(CInt(dr(aliasPrefix & Me.Prefix & "_cust")))
-                End If
-                ' Cancel 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_otherrevenue") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_otherrevenue") Then
-                    .m_otherrevenue = CDec(dr(aliasPrefix & Me.Prefix & "_otherrevenue"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_totalcancel") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_totalcancel") Then
-                    .m_totalcancel = CDec(dr(aliasPrefix & Me.Prefix & "_totalcancel"))
-                End If
-                ' Replace 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_otherexpense") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_otherexpense") Then
-                    .m_otherexpense = CDec(dr(aliasPrefix & Me.Prefix & "_otherexpense"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cash") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cash") Then
-                    .m_cash = CDec(dr(aliasPrefix & Me.Prefix & "_cash"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_totalreplace") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_totalreplace") Then
-                    .m_totalreplace = CDec(dr(aliasPrefix & Me.Prefix & "_totalreplace"))
-                End If
-                ' note 
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
-                    .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
-                End If
-                ' status
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
-                    .m_status = New CheckStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
-                End If
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Construct(dr, aliasPrefix)
+    End Sub
+    Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+      MyBase.Construct(dr, aliasPrefix)
+      With Me
+        ' Issuedate ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
+          .m_issuedate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
+          .m_oldissuedate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
+        End If
+        ' account 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_acct") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_acct") Then
+          .m_acct = New Account(CInt(dr(aliasPrefix & Me.Prefix & "_acct")))
+        End If
+        ' customer 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cust") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cust") Then
+          .m_cust = New Customer(CInt(dr(aliasPrefix & Me.Prefix & "_cust")))
+        End If
+        ' Cancel 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_otherrevenue") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_otherrevenue") Then
+          .m_otherrevenue = CDec(dr(aliasPrefix & Me.Prefix & "_otherrevenue"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_totalcancel") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_totalcancel") Then
+          .m_totalcancel = CDec(dr(aliasPrefix & Me.Prefix & "_totalcancel"))
+        End If
+        ' Replace 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_otherexpense") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_otherexpense") Then
+          .m_otherexpense = CDec(dr(aliasPrefix & Me.Prefix & "_otherexpense"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cash") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cash") Then
+          .m_cash = CDec(dr(aliasPrefix & Me.Prefix & "_cash"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_totalreplace") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_totalreplace") Then
+          .m_totalreplace = CDec(dr(aliasPrefix & Me.Prefix & "_totalreplace"))
+        End If
+        ' note 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
+          .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
+        End If
+        ' status
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_status") _
+            AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_status") Then
+          .m_status = New CheckStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
+        End If
 
-                .m_je = New JournalEntry(Me)
-            End With
-        End Sub
+        .m_je = New JournalEntry(Me)
+      End With
+    End Sub
 
 #End Region
 
 #Region "Properties"
-        Public ReadOnly Property CheckType() As Integer
-            Get
-                Return m_entitybase.EntityId
-            End Get
-        End Property
+    Public ReadOnly Property CheckType() As Integer
+      Get
+        Return m_entitybase.EntityId
+      End Get
+    End Property
 
-        Public ReadOnly Property CheckStatus() As Integer
-            Get
-                Return 6
-            End Get
-        End Property
+    Public ReadOnly Property CheckStatus() As Integer
+      Get
+        Return 6
+      End Get
+    End Property
 
-        Public ReadOnly Property EntityBase() As IncomingCheck
-            Get
-                Return m_entitybase
-            End Get
-        End Property
+    Public ReadOnly Property EntityBase() As IncomingCheck
+      Get
+        Return m_entitybase
+      End Get
+    End Property
 
     Public Property IssueDate() As Date Implements ICheckPeriod.DocDate
       Get
@@ -201,6 +204,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Date)
         m_issuedate = Value
       End Set
+    End Property
+
+    Public ReadOnly Property OldIssueDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_oldissuedate
+      End Get
     End Property
 
     Public Property Account() As Account
@@ -299,326 +308,326 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Overrides"
-        Public Overrides Property Status() As CodeDescription
-            Get
-                Return m_status
-            End Get
-            Set(ByVal Value As CodeDescription)
-                m_status = CType(Value, CheckStatus)
-            End Set
-        End Property
+    Public Overrides Property Status() As CodeDescription
+      Get
+        Return m_status
+      End Get
+      Set(ByVal Value As CodeDescription)
+        m_status = CType(Value, CheckStatus)
+      End Set
+    End Property
 
-        Public Overrides ReadOnly Property ClassName() As String
-            Get
-                Return "CheckChange"
-            End Get
-        End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "CheckChange"
+      End Get
+    End Property
 
-        Public Overrides ReadOnly Property Prefix() As String
-            Get
-                Return "cqChange"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property TableName() As String
-            Get
-                Return "CheckChange"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.CheckChange.DetailLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property DetailPanelIcon() As String
-            Get
-                Return "Icons.16x16.CheckChange"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelIcon() As String
-            Get
-                Return "Icons.16x16.CheckChange"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ListPanelTitle() As String
-            Get
-                Return "${res:Longkong.Pojjaman.BusinessLogic.CheckChange.ListLabel}"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property TabPageText() As String
-            Get
-                Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
-                If tpt.EndsWith("()") Then
-                    tpt.TrimEnd("()".ToCharArray)
-                End If
-                Return tpt
-            End Get
-        End Property
+    Public Overrides ReadOnly Property Prefix() As String
+      Get
+        Return "cqChange"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TableName() As String
+      Get
+        Return "CheckChange"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.CheckChange.DetailLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property DetailPanelIcon() As String
+      Get
+        Return "Icons.16x16.CheckChange"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelIcon() As String
+      Get
+        Return "Icons.16x16.CheckChange"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ListPanelTitle() As String
+      Get
+        Return "${res:Longkong.Pojjaman.BusinessLogic.CheckChange.ListLabel}"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Dim tpt As String = Me.StringParserService.Parse(Me.DetailPanelTitle) & " (" & Me.Code & ")"
+        If tpt.EndsWith("()") Then
+          tpt.TrimEnd("()".ToCharArray)
+        End If
+        Return tpt
+      End Get
+    End Property
 #End Region
 
 #Region "Shared"
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As TreeTable
-            myDatatable = CheckChangeItem.GetSchemaTable
-            ' Add columns เพิ่มเติม
-            Return myDatatable
-        End Function
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As TreeTable
+      myDatatable = CheckChangeItem.GetSchemaTable
+      ' Add columns เพิ่มเติม
+      Return myDatatable
+    End Function
 
-        Public Shared Function GetSchemaReplaceTable() As TreeTable
-            Dim myDatatable As TreeTable
-            myDatatable = CheckReplaceItem.GetSchemaTable
-            Return myDatatable
-        End Function
+    Public Shared Function GetSchemaReplaceTable() As TreeTable
+      Dim myDatatable As TreeTable
+      myDatatable = CheckReplaceItem.GetSchemaTable
+      Return myDatatable
+    End Function
 
-        Public Shared Function CreateTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "CheckUpdate"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-            ' line number ...
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.Alignment = HorizontalAlignment.Center
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "linenumber"
-            ' document code ...
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "check_code"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.Width = 70
-            csCode.Alignment = HorizontalAlignment.Center
-            csCode.DataAlignment = HorizontalAlignment.Left
-            csCode.ReadOnly = False
-            csCode.TextBox.Name = "check_code"
-            ' Check Find button ...
-            Dim csButton As New DataGridButtonColumn
-            csButton.MappingName = "btnCheck"
-            csButton.HeaderText = ""
-            csButton.NullText = ""
-            AddHandler csButton.Click, AddressOf CheckClicked
-            ' check docudate ...
-            Dim csReceiveDate As New TreeTextColumn
-            csReceiveDate.MappingName = "check_receivedate"
-            csReceiveDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.DocDateHeaderText}")
-            csReceiveDate.NullText = ""
-            csReceiveDate.Width = 120
-            csReceiveDate.Alignment = HorizontalAlignment.Center
-            csReceiveDate.DataAlignment = HorizontalAlignment.Center
-            csReceiveDate.ReadOnly = True
-            csReceiveDate.Format = "dd/MM/yyyy"
-            csReceiveDate.TextBox.Name = "check_receivedate"
-            ' CqCode ...
-            Dim csCqcode As New TreeTextColumn
-            csCqcode.MappingName = "check_cqcode"
-            csCqcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CqCodeHeaderText}")
-            csCqcode.NullText = ""
-            csCqcode.Width = 100
-            csCqcode.Alignment = HorizontalAlignment.Center
-            csCqcode.DataAlignment = HorizontalAlignment.Left
-            csCqcode.ReadOnly = True
-            csCqcode.TextBox.Name = "check_cqcode"
-            ' recievepient ...
-            Dim csRecipient As New TreeTextColumn
-            csRecipient.MappingName = "receivepersonName"
-            csRecipient.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.recipientHeaderText}")
-            csRecipient.NullText = ""
-            csRecipient.Alignment = HorizontalAlignment.Center
-            csRecipient.DataAlignment = HorizontalAlignment.Left
-            csRecipient.Width = 150
-            csRecipient.ReadOnly = True
-            csRecipient.TextBox.Name = "receivepersonName"
-            
-            ' Bank name ...
-            Dim csBankName As New TreeTextColumn
-            csBankName.MappingName = "bankName"
-            csBankName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.BankNameHeaderText}")
-            csBankName.NullText = ""
-            csBankName.Alignment = HorizontalAlignment.Center
-            csBankName.DataAlignment = HorizontalAlignment.Left
-            csBankName.Width = 150
-            csBankName.ReadOnly = True
-            csBankName.TextBox.Name = "bankName"
-            ' Check amount ...
-            Dim csCheckAmnt As New TreeTextColumn
-            csCheckAmnt.MappingName = "check_amt"
-            csCheckAmnt.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CheckAmountHeaderText}")
-            csCheckAmnt.NullText = ""
-            csCheckAmnt.Width = 80
-            csCheckAmnt.Alignment = HorizontalAlignment.Center
-            csCheckAmnt.DataAlignment = HorizontalAlignment.Right
-            csCheckAmnt.ReadOnly = True
-            csCheckAmnt.Format = "#,##0.00"
-            csCheckAmnt.TextBox.Name = "check_amt"
+    Public Shared Function CreateTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "CheckUpdate"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      ' line number ...
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.Alignment = HorizontalAlignment.Center
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "linenumber"
+      ' document code ...
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "check_code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 70
+      csCode.Alignment = HorizontalAlignment.Center
+      csCode.DataAlignment = HorizontalAlignment.Left
+      csCode.ReadOnly = False
+      csCode.TextBox.Name = "check_code"
+      ' Check Find button ...
+      Dim csButton As New DataGridButtonColumn
+      csButton.MappingName = "btnCheck"
+      csButton.HeaderText = ""
+      csButton.NullText = ""
+      AddHandler csButton.Click, AddressOf CheckClicked
+      ' check docudate ...
+      Dim csReceiveDate As New TreeTextColumn
+      csReceiveDate.MappingName = "check_receivedate"
+      csReceiveDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.DocDateHeaderText}")
+      csReceiveDate.NullText = ""
+      csReceiveDate.Width = 120
+      csReceiveDate.Alignment = HorizontalAlignment.Center
+      csReceiveDate.DataAlignment = HorizontalAlignment.Center
+      csReceiveDate.ReadOnly = True
+      csReceiveDate.Format = "dd/MM/yyyy"
+      csReceiveDate.TextBox.Name = "check_receivedate"
+      ' CqCode ...
+      Dim csCqcode As New TreeTextColumn
+      csCqcode.MappingName = "check_cqcode"
+      csCqcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CqCodeHeaderText}")
+      csCqcode.NullText = ""
+      csCqcode.Width = 100
+      csCqcode.Alignment = HorizontalAlignment.Center
+      csCqcode.DataAlignment = HorizontalAlignment.Left
+      csCqcode.ReadOnly = True
+      csCqcode.TextBox.Name = "check_cqcode"
+      ' recievepient ...
+      Dim csRecipient As New TreeTextColumn
+      csRecipient.MappingName = "receivepersonName"
+      csRecipient.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.recipientHeaderText}")
+      csRecipient.NullText = ""
+      csRecipient.Alignment = HorizontalAlignment.Center
+      csRecipient.DataAlignment = HorizontalAlignment.Left
+      csRecipient.Width = 150
+      csRecipient.ReadOnly = True
+      csRecipient.TextBox.Name = "receivepersonName"
 
-            ' Add column style ...
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csButton)
-            dst.GridColumnStyles.Add(csCqcode)
-            dst.GridColumnStyles.Add(csReceiveDate)
-            dst.GridColumnStyles.Add(csRecipient)
-            dst.GridColumnStyles.Add(csBankName)
-            dst.GridColumnStyles.Add(csCheckAmnt)
+      ' Bank name ...
+      Dim csBankName As New TreeTextColumn
+      csBankName.MappingName = "bankName"
+      csBankName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.BankNameHeaderText}")
+      csBankName.NullText = ""
+      csBankName.Alignment = HorizontalAlignment.Center
+      csBankName.DataAlignment = HorizontalAlignment.Left
+      csBankName.Width = 150
+      csBankName.ReadOnly = True
+      csBankName.TextBox.Name = "bankName"
+      ' Check amount ...
+      Dim csCheckAmnt As New TreeTextColumn
+      csCheckAmnt.MappingName = "check_amt"
+      csCheckAmnt.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CheckAmountHeaderText}")
+      csCheckAmnt.NullText = ""
+      csCheckAmnt.Width = 80
+      csCheckAmnt.Alignment = HorizontalAlignment.Center
+      csCheckAmnt.DataAlignment = HorizontalAlignment.Right
+      csCheckAmnt.ReadOnly = True
+      csCheckAmnt.Format = "#,##0.00"
+      csCheckAmnt.TextBox.Name = "check_amt"
 
-            Return dst
-        End Function
+      ' Add column style ...
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csButton)
+      dst.GridColumnStyles.Add(csCqcode)
+      dst.GridColumnStyles.Add(csReceiveDate)
+      dst.GridColumnStyles.Add(csRecipient)
+      dst.GridColumnStyles.Add(csBankName)
+      dst.GridColumnStyles.Add(csCheckAmnt)
 
-        Public Shared Function CreateReplaceTableStyle() As DataGridTableStyle
-            Dim dst As New DataGridTableStyle
-            dst.MappingName = "CheckUpdate"
-            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-            ' line number ...
-            Dim csLineNumber As New TreeTextColumn
-            csLineNumber.MappingName = "linenumber"
-            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.LineNumberHeaderText}")
-            csLineNumber.NullText = ""
-            csLineNumber.Width = 30
-            csLineNumber.Alignment = HorizontalAlignment.Center
-            csLineNumber.DataAlignment = HorizontalAlignment.Center
-            csLineNumber.ReadOnly = True
-            csLineNumber.TextBox.Name = "linenumber"
-            ' document code ...
-            Dim csCode As New TreeTextColumn
-            csCode.MappingName = "check_code"
-            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CodeHeaderText}")
-            csCode.NullText = ""
-            csCode.Width = 70
-            csCode.Alignment = HorizontalAlignment.Center
-            csCode.DataAlignment = HorizontalAlignment.Left
-            csCode.ReadOnly = False
-            csCode.TextBox.Name = "check_code"
+      Return dst
+    End Function
 
-            ' CqCode ...
-            Dim csCqcode As New TreeTextColumn
-            csCqcode.MappingName = "check_cqcode"
-            csCqcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CqCodeHeaderText}")
-            csCqcode.NullText = ""
-            csCqcode.Width = 100
-            csCqcode.Alignment = HorizontalAlignment.Center
-            csCqcode.DataAlignment = HorizontalAlignment.Left
-            csCqcode.ReadOnly = False
-            csCqcode.TextBox.Name = "check_cqcode"
+    Public Shared Function CreateReplaceTableStyle() As DataGridTableStyle
+      Dim dst As New DataGridTableStyle
+      dst.MappingName = "CheckUpdate"
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      ' line number ...
+      Dim csLineNumber As New TreeTextColumn
+      csLineNumber.MappingName = "linenumber"
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.LineNumberHeaderText}")
+      csLineNumber.NullText = ""
+      csLineNumber.Width = 30
+      csLineNumber.Alignment = HorizontalAlignment.Center
+      csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.ReadOnly = True
+      csLineNumber.TextBox.Name = "linenumber"
+      ' document code ...
+      Dim csCode As New TreeTextColumn
+      csCode.MappingName = "check_code"
+      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CodeHeaderText}")
+      csCode.NullText = ""
+      csCode.Width = 70
+      csCode.Alignment = HorizontalAlignment.Center
+      csCode.DataAlignment = HorizontalAlignment.Left
+      csCode.ReadOnly = False
+      csCode.TextBox.Name = "check_code"
 
-            ' check receive date ...
-            Dim csReceiveDate As New TreeTextColumn
-            csReceiveDate.MappingName = "check_receivedate"
-            csReceiveDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.ReceiveDateHeaderText}")
-            csReceiveDate.NullText = ""
-            csReceiveDate.Width = 100
-            csReceiveDate.Alignment = HorizontalAlignment.Center
-            csReceiveDate.DataAlignment = HorizontalAlignment.Center
-            csReceiveDate.ReadOnly = False
-            csReceiveDate.Format = "dd/MM/yyy"
-            csReceiveDate.TextBox.Name = "check_receivedate"
+      ' CqCode ...
+      Dim csCqcode As New TreeTextColumn
+      csCqcode.MappingName = "check_cqcode"
+      csCqcode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.CqCodeHeaderText}")
+      csCqcode.NullText = ""
+      csCqcode.Width = 100
+      csCqcode.Alignment = HorizontalAlignment.Center
+      csCqcode.DataAlignment = HorizontalAlignment.Left
+      csCqcode.ReadOnly = False
+      csCqcode.TextBox.Name = "check_cqcode"
 
-            ' check due date ...
-            Dim csDueDate As New TreeTextColumn
-            csDueDate.MappingName = "check_duedate"
-            csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.DueDateHeaderText}")
-            csDueDate.NullText = ""
-            csDueDate.Width = 100
-            csDueDate.Alignment = HorizontalAlignment.Center
-            csDueDate.DataAlignment = HorizontalAlignment.Center
-            csDueDate.ReadOnly = False
-            csDueDate.Format = "dd/MM/yyy"
-            csDueDate.TextBox.Name = "check_duedate"
-            
-            ' recieve personname ...
-            Dim csReceivePerson As New TreeTextColumn
-            csReceivePerson.MappingName = "receivepersonName"
-            csReceivePerson.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.ReceivePersonHeaderText}")
-            csReceivePerson.NullText = ""
-            csReceivePerson.Alignment = HorizontalAlignment.Center
-            csReceivePerson.DataAlignment = HorizontalAlignment.Left
-            csReceivePerson.Width = 150
-            csReceivePerson.ReadOnly = False
-            csReceivePerson.TextBox.Name = "receivepersonName"
-            ' Check Find button ...
-            Dim csBtnReceivePerson As New DataGridButtonColumn
-            csBtnReceivePerson.MappingName = "btnReceiveperson"
-            csBtnReceivePerson.HeaderText = ""
-            csBtnReceivePerson.NullText = ""
-            'AddHandler csBtnReceivePerson.Click, AddressOf ReplaceCheckClicked
+      ' check receive date ...
+      Dim csReceiveDate As New TreeTextColumn
+      csReceiveDate.MappingName = "check_receivedate"
+      csReceiveDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.ReceiveDateHeaderText}")
+      csReceiveDate.NullText = ""
+      csReceiveDate.Width = 100
+      csReceiveDate.Alignment = HorizontalAlignment.Center
+      csReceiveDate.DataAlignment = HorizontalAlignment.Center
+      csReceiveDate.ReadOnly = False
+      csReceiveDate.Format = "dd/MM/yyy"
+      csReceiveDate.TextBox.Name = "check_receivedate"
 
-            ' Bank name ...
-            Dim csBankName As New TreeTextColumn
-            csBankName.MappingName = "bankName"
-            csBankName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.BankNameHeaderText}")
-            csBankName.NullText = ""
-            csBankName.Alignment = HorizontalAlignment.Center
-            csBankName.DataAlignment = HorizontalAlignment.Left
-            csBankName.Width = 150
-            csBankName.ReadOnly = False
-            csBankName.TextBox.Name = "bankName"
+      ' check due date ...
+      Dim csDueDate As New TreeTextColumn
+      csDueDate.MappingName = "check_duedate"
+      csDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UpdateCheckDetail.DueDateHeaderText}")
+      csDueDate.NullText = ""
+      csDueDate.Width = 100
+      csDueDate.Alignment = HorizontalAlignment.Center
+      csDueDate.DataAlignment = HorizontalAlignment.Center
+      csDueDate.ReadOnly = False
+      csDueDate.Format = "dd/MM/yyy"
+      csDueDate.TextBox.Name = "check_duedate"
 
-            ' Check Find button ...
-            Dim csBtnBank As New DataGridButtonColumn
-            csBtnBank.MappingName = "btnBank"
-            csBtnBank.HeaderText = ""
-            csBtnBank.NullText = ""
-            AddHandler csBtnBank.Click, AddressOf ReplaceCheckClicked
+      ' recieve personname ...
+      Dim csReceivePerson As New TreeTextColumn
+      csReceivePerson.MappingName = "receivepersonName"
+      csReceivePerson.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.ReceivePersonHeaderText}")
+      csReceivePerson.NullText = ""
+      csReceivePerson.Alignment = HorizontalAlignment.Center
+      csReceivePerson.DataAlignment = HorizontalAlignment.Left
+      csReceivePerson.Width = 150
+      csReceivePerson.ReadOnly = False
+      csReceivePerson.TextBox.Name = "receivepersonName"
+      ' Check Find button ...
+      Dim csBtnReceivePerson As New DataGridButtonColumn
+      csBtnReceivePerson.MappingName = "btnReceiveperson"
+      csBtnReceivePerson.HeaderText = ""
+      csBtnReceivePerson.NullText = ""
+      'AddHandler csBtnReceivePerson.Click, AddressOf ReplaceCheckClicked
 
-            ' Check amount ...
-            Dim csCheckAmnt As New TreeTextColumn
-            csCheckAmnt.MappingName = "check_amt"
-            csCheckAmnt.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.CheckAmountHeaderText}")
-            csCheckAmnt.NullText = ""
-            csCheckAmnt.Width = 80
-            csCheckAmnt.Alignment = HorizontalAlignment.Center
-            csCheckAmnt.DataAlignment = HorizontalAlignment.Right
-            csCheckAmnt.ReadOnly = False
-            csCheckAmnt.Format = "#,##0.00"
-            csCheckAmnt.TextBox.Name = "check_amt"
+      ' Bank name ...
+      Dim csBankName As New TreeTextColumn
+      csBankName.MappingName = "bankName"
+      csBankName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.BankNameHeaderText}")
+      csBankName.NullText = ""
+      csBankName.Alignment = HorizontalAlignment.Center
+      csBankName.DataAlignment = HorizontalAlignment.Left
+      csBankName.Width = 150
+      csBankName.ReadOnly = False
+      csBankName.TextBox.Name = "bankName"
 
-            ' Note ...
-            Dim csNote As New TreeTextColumn
-            csNote.MappingName = "check_note"
-            csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.NoteHeaderText}")
-            csNote.NullText = ""
-            csNote.Width = 100
-            csNote.Alignment = HorizontalAlignment.Center
-            csNote.DataAlignment = HorizontalAlignment.Right
-            csNote.ReadOnly = False
-            csNote.TextBox.Name = "check_note"
+      ' Check Find button ...
+      Dim csBtnBank As New DataGridButtonColumn
+      csBtnBank.MappingName = "btnBank"
+      csBtnBank.HeaderText = ""
+      csBtnBank.NullText = ""
+      AddHandler csBtnBank.Click, AddressOf ReplaceCheckClicked
 
-            ' Add column style ...
-            dst.GridColumnStyles.Add(csLineNumber)
-            dst.GridColumnStyles.Add(csCode)
-            dst.GridColumnStyles.Add(csCqcode)
-            dst.GridColumnStyles.Add(csReceiveDate)
-            dst.GridColumnStyles.Add(csDueDate)
+      ' Check amount ...
+      Dim csCheckAmnt As New TreeTextColumn
+      csCheckAmnt.MappingName = "check_amt"
+      csCheckAmnt.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.CheckAmountHeaderText}")
+      csCheckAmnt.NullText = ""
+      csCheckAmnt.Width = 80
+      csCheckAmnt.Alignment = HorizontalAlignment.Center
+      csCheckAmnt.DataAlignment = HorizontalAlignment.Right
+      csCheckAmnt.ReadOnly = False
+      csCheckAmnt.Format = "#,##0.00"
+      csCheckAmnt.TextBox.Name = "check_amt"
 
-            dst.GridColumnStyles.Add(csReceivePerson)
-            dst.GridColumnStyles.Add(csBtnReceivePerson)
+      ' Note ...
+      Dim csNote As New TreeTextColumn
+      csNote.MappingName = "check_note"
+      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RecipientCheckDetail.NoteHeaderText}")
+      csNote.NullText = ""
+      csNote.Width = 100
+      csNote.Alignment = HorizontalAlignment.Center
+      csNote.DataAlignment = HorizontalAlignment.Right
+      csNote.ReadOnly = False
+      csNote.TextBox.Name = "check_note"
 
-            dst.GridColumnStyles.Add(csBankName)
-            dst.GridColumnStyles.Add(csBtnBank)
+      ' Add column style ...
+      dst.GridColumnStyles.Add(csLineNumber)
+      dst.GridColumnStyles.Add(csCode)
+      dst.GridColumnStyles.Add(csCqcode)
+      dst.GridColumnStyles.Add(csReceiveDate)
+      dst.GridColumnStyles.Add(csDueDate)
 
-            dst.GridColumnStyles.Add(csCheckAmnt)
-            dst.GridColumnStyles.Add(csNote)
-            Return dst
-        End Function
+      dst.GridColumnStyles.Add(csReceivePerson)
+      dst.GridColumnStyles.Add(csBtnReceivePerson)
 
-        Public Shared Event CheckButtonClick As DataGridButtonColumn.ButtonColumnClickHandler
+      dst.GridColumnStyles.Add(csBankName)
+      dst.GridColumnStyles.Add(csBtnBank)
 
-        Public Shared Sub CheckClicked(ByVal e As ButtonColumnEventArgs)
-            RaiseEvent CheckButtonClick(e)
-        End Sub
+      dst.GridColumnStyles.Add(csCheckAmnt)
+      dst.GridColumnStyles.Add(csNote)
+      Return dst
+    End Function
 
-        Public Shared Event ReplaceButtonClick As DataGridButtonColumn.ButtonColumnClickHandler
+    Public Shared Event CheckButtonClick As DataGridButtonColumn.ButtonColumnClickHandler
 
-        Public Shared Sub ReplaceCheckClicked(ByVal e As ButtonColumnEventArgs)
-            RaiseEvent ReplaceButtonClick(e)
-        End Sub
+    Public Shared Sub CheckClicked(ByVal e As ButtonColumnEventArgs)
+      RaiseEvent CheckButtonClick(e)
+    End Sub
+
+    Public Shared Event ReplaceButtonClick As DataGridButtonColumn.ButtonColumnClickHandler
+
+    Public Shared Sub ReplaceCheckClicked(ByVal e As ButtonColumnEventArgs)
+      RaiseEvent ReplaceButtonClick(e)
+    End Sub
 #End Region
 
 #Region "Methods"
-        Private Sub ResetID(ByVal oldid As Integer, ByVal oldje As Integer)
-            Me.Id = oldid
-            Me.m_je.Id = oldje
+    Private Sub ResetID(ByVal oldid As Integer, ByVal oldje As Integer)
+      Me.Id = oldid
+      Me.m_je.Id = oldje
     End Sub
 
     Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
@@ -1703,423 +1712,423 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
-    ' Update check items
-    Public Class CheckChangeItem
+  ' Update check items
+  Public Class CheckChangeItem
 
 #Region "Members"
-        Private m_CheckChange As CheckChange
-        Private m_entity As IncomingCheck
-        Private m_lineNumber As Integer
-        Private m_iscancel As Boolean = True
+    Private m_CheckChange As CheckChange
+    Private m_entity As IncomingCheck
+    Private m_lineNumber As Integer
+    Private m_iscancel As Boolean = True
 
-        Private m_docstatus As New IncomingCheckDocStatus(6)
+    Private m_docstatus As New IncomingCheckDocStatus(6)
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-        End Sub
+    Public Sub New()
+      MyBase.New()
+    End Sub
 
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-        End Sub
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
-        Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            With Me
-                ' Line number ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
-                    .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
-                End If
-                ' Entity ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
-                    .m_entity = New IncomingCheck(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
-                End If
-                ' before status ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docstatus") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docstatus") Then
-                    .m_docstatus = New IncomingCheckDocStatus(CInt(dr(aliasPrefix & Me.Prefix & "_docstatus")))
-                End If
-            End With
-        End Sub
-        Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        ' Line number ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
+        End If
+        ' Entity ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
+          .m_entity = New IncomingCheck(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
+        End If
+        ' before status ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docstatus") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docstatus") Then
+          .m_docstatus = New IncomingCheckDocStatus(CInt(dr(aliasPrefix & Me.Prefix & "_docstatus")))
+        End If
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Private ReadOnly Property Prefix() As String
-            Get
-                Return "cqchangei"
-            End Get
-        End Property
+    Private ReadOnly Property Prefix() As String
+      Get
+        Return "cqchangei"
+      End Get
+    End Property
 
-        Public Property CheckChange() As CheckChange            Get                Return m_CheckChange            End Get            Set(ByVal Value As CheckChange)                m_CheckChange = Value            End Set        End Property
-        Public Property LineNumber() As Integer            Get                Return m_lineNumber            End Get            Set(ByVal Value As Integer)                m_lineNumber = Value            End Set        End Property        Public Property IsCancel() As Boolean            Get
-                Return m_iscancel
-            End Get
-            Set(ByVal Value As Boolean)
-                m_iscancel = Value
-            End Set
-        End Property        Public Property Entity() As IncomingCheck            Get                Return m_entity            End Get            Set(ByVal Value As IncomingCheck)                m_entity = Value            End Set        End Property        Public Property ChangeStatus() As CodeDescription            Get
-                Return m_docstatus
-            End Get
-            Set(ByVal Value As CodeDescription)
-                m_docstatus = CType(Value, IncomingCheckDocStatus)
-            End Set
-        End Property
+    Public Property CheckChange() As CheckChange      Get        Return m_CheckChange      End Get      Set(ByVal Value As CheckChange)        m_CheckChange = Value      End Set    End Property
+    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property IsCancel() As Boolean      Get
+        Return m_iscancel
+      End Get
+      Set(ByVal Value As Boolean)
+        m_iscancel = Value
+      End Set
+    End Property    Public Property Entity() As IncomingCheck      Get        Return m_entity      End Get      Set(ByVal Value As IncomingCheck)        m_entity = Value      End Set    End Property    Public Property ChangeStatus() As CodeDescription      Get
+        Return m_docstatus
+      End Get
+      Set(ByVal Value As CodeDescription)
+        m_docstatus = CType(Value, IncomingCheckDocStatus)
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
-        Public Sub CopyToDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Me.CheckChange.IsInitialized = False
-            row("linenumber") = Me.LineNumber
-            If Not Me.Entity Is Nothing Then
-                'row("cqChangei_entity") = Me.Entity.Id
-                'row("cqChangei_IsCancel") = Me.IsCancels
-                'row("cqChangei_status") = Me.Status.Value 
-                row("check_id") = Me.Entity.Id
-                row("check_code") = Me.Entity.Code
-                row("check_cqcode") = Me.Entity.CqCode
+    Public Sub CopyToDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Me.CheckChange.IsInitialized = False
+      row("linenumber") = Me.LineNumber
+      If Not Me.Entity Is Nothing Then
+        'row("cqChangei_entity") = Me.Entity.Id
+        'row("cqChangei_IsCancel") = Me.IsCancels
+        'row("cqChangei_status") = Me.Status.Value 
+        row("check_id") = Me.Entity.Id
+        row("check_code") = Me.Entity.Code
+        row("check_cqcode") = Me.Entity.CqCode
 
-                row("check_receivedate") = Me.Entity.ReceiveDate
-                row("check_duedate") = Me.Entity.DueDate
+        row("check_receivedate") = Me.Entity.ReceiveDate
+        row("check_duedate") = Me.Entity.DueDate
 
-                If Not Me.Entity.ReceivePerson Is Nothing Then
-                    row("check_receiveperson") = Me.Entity.ReceivePerson.Id
-                    row("receivepersonCode") = Me.Entity.ReceivePerson.Code
-                    row("receivepersonName") = Me.Entity.ReceivePerson.Name
-                End If
+        If Not Me.Entity.ReceivePerson Is Nothing Then
+          row("check_receiveperson") = Me.Entity.ReceivePerson.Id
+          row("receivepersonCode") = Me.Entity.ReceivePerson.Code
+          row("receivepersonName") = Me.Entity.ReceivePerson.Name
+        End If
 
-                If Not Me.Entity.Customer Is Nothing Then
-                    row("check_customer") = Me.Entity.Customer.Id
-                End If
+        If Not Me.Entity.Customer Is Nothing Then
+          row("check_customer") = Me.Entity.Customer.Id
+        End If
 
-                If Not Me.Entity.Bank Is Nothing Then
-                    row("check_bank") = Me.Entity.Bank.Id
-                    row("bankCode") = Me.Entity.Bank.Code
-                    row("bankName") = Me.Entity.Bank.Name
-                    row("bank_id") = Me.Entity.Bank.Id
-                    row("bank_code") = Me.Entity.Bank.Code
-                    row("bank_name") = Me.Entity.Bank.Name
-                End If
+        If Not Me.Entity.Bank Is Nothing Then
+          row("check_bank") = Me.Entity.Bank.Id
+          row("bankCode") = Me.Entity.Bank.Code
+          row("bankName") = Me.Entity.Bank.Name
+          row("bank_id") = Me.Entity.Bank.Id
+          row("bank_code") = Me.Entity.Bank.Code
+          row("bank_name") = Me.Entity.Bank.Name
+        End If
 
-                row("check_amt") = Me.Entity.Amount
-                row("check_note") = Me.Entity.Note
-                row("check_status") = Me.ChangeStatus.Value
-            Else
-                'row("cqChangei_entity") = DBNull.Value
-                'row("cqChangei_IsCancel") = DBNull.Value
-                'row("cqChangei_status") = DBNull.Value
-                row("check_id") = DBNull.Value
-                row("check_code") = DBNull.Value
-                row("check_cqcode") = DBNull.Value
-                row("check_receivedate") = DBNull.Value
-                row("check_duedate") = DBNull.Value
-                row("check_receiveperson") = DBNull.Value
-                row("receivepersonCode") = DBNull.Value
-                row("receivepersonName") = DBNull.Value
-                row("check_customer") = DBNull.Value
-                row("check_bank") = DBNull.Value
-                row("check_amt") = DBNull.Value
-                row("check_note") = DBNull.Value
-                row("check_status") = DBNull.Value
-                ' bank
-                row("bankCode") = DBNull.Value
-                row("bankName") = DBNull.Value
-                row("bank_code") = DBNull.Value
-                row("bank_name") = DBNull.Value
-            End If
+        row("check_amt") = Me.Entity.Amount
+        row("check_note") = Me.Entity.Note
+        row("check_status") = Me.ChangeStatus.Value
+      Else
+        'row("cqChangei_entity") = DBNull.Value
+        'row("cqChangei_IsCancel") = DBNull.Value
+        'row("cqChangei_status") = DBNull.Value
+        row("check_id") = DBNull.Value
+        row("check_code") = DBNull.Value
+        row("check_cqcode") = DBNull.Value
+        row("check_receivedate") = DBNull.Value
+        row("check_duedate") = DBNull.Value
+        row("check_receiveperson") = DBNull.Value
+        row("receivepersonCode") = DBNull.Value
+        row("receivepersonName") = DBNull.Value
+        row("check_customer") = DBNull.Value
+        row("check_bank") = DBNull.Value
+        row("check_amt") = DBNull.Value
+        row("check_note") = DBNull.Value
+        row("check_status") = DBNull.Value
+        ' bank
+        row("bankCode") = DBNull.Value
+        row("bankName") = DBNull.Value
+        row("bank_code") = DBNull.Value
+        row("bank_name") = DBNull.Value
+      End If
 
-            Me.CheckChange.IsInitialized = True
-        End Sub
-        Public Sub CopyFromDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Try
-                ' Line number ...
-                If Not row.IsNull(("linenumber")) Then
-                    Me.LineNumber = CInt(row("linenumber"))
-                End If
-                ' Entity ...
-                If row.Table.Columns.Contains("check_id") _
-                    AndAlso Not row.IsNull(("check_id")) Then
-                    Me.Entity = New IncomingCheck(CInt(row("check_id")))
-                End If
-            Catch ex As Exception
-                MessageBox.Show(ex.Message & "::" & ex.StackTrace)
-            End Try
+      Me.CheckChange.IsInitialized = True
+    End Sub
+    Public Sub CopyFromDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Try
+        ' Line number ...
+        If Not row.IsNull(("linenumber")) Then
+          Me.LineNumber = CInt(row("linenumber"))
+        End If
+        ' Entity ...
+        If row.Table.Columns.Contains("check_id") _
+            AndAlso Not row.IsNull(("check_id")) Then
+          Me.Entity = New IncomingCheck(CInt(row("check_id")))
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+      End Try
 
-        End Sub
+    End Sub
 #End Region
 
 #Region " Shared Methods "
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As New TreeTable("CheckUpdate")
-            myDatatable.Columns.Add(New DataColumn("linenumber", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("btnCheck", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("btnReceiveperson", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("receivepersonCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("receivepersonName", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("btnBank", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("bankCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("bankName", GetType(String)))
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("CheckUpdate")
+      myDatatable.Columns.Add(New DataColumn("linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("btnCheck", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("btnReceiveperson", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("receivepersonCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("receivepersonName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("btnBank", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bankCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bankName", GetType(String)))
 
-            ' bank 
-            myDatatable.Columns.Add(New DataColumn("bank_id", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("bank_code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("bank_name", GetType(String)))
+      ' bank 
+      myDatatable.Columns.Add(New DataColumn("bank_id", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("bank_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bank_name", GetType(String)))
 
-            ' Check
-            myDatatable.Columns.Add(New DataColumn("check_id", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("check_cqcode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("check_receivedate", GetType(Date)))
-            myDatatable.Columns.Add(New DataColumn("check_duedate", GetType(Date)))
-            myDatatable.Columns.Add(New DataColumn("check_receiveperson", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_customer", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_bank", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_amt", GetType(Decimal)))
-            myDatatable.Columns.Add(New DataColumn("check_note", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("check_status", GetType(Integer)))
+      ' Check
+      myDatatable.Columns.Add(New DataColumn("check_id", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("check_cqcode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("check_receivedate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("check_duedate", GetType(Date)))
+      myDatatable.Columns.Add(New DataColumn("check_receiveperson", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_customer", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_bank", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_amt", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("check_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("check_status", GetType(Integer)))
 
-            Return myDatatable
-        End Function
+      Return myDatatable
+    End Function
 #End Region
-    End Class
+  End Class
 
-    ' Replace check item
-    Public Class CheckReplaceItem
+  ' Replace check item
+  Public Class CheckReplaceItem
 
 #Region "Members"
-        Private m_CheckChange As CheckChange
-        Private m_lineNumber As Integer
-        Private m_entity As IncomingCheck
-        Private m_iscancel As Boolean = False
-        Private m_replacestatus As New IncomingCheckDocStatus(1)
+    Private m_CheckChange As CheckChange
+    Private m_lineNumber As Integer
+    Private m_entity As IncomingCheck
+    Private m_iscancel As Boolean = False
+    Private m_replacestatus As New IncomingCheckDocStatus(1)
 
-        Private m_Originated As Boolean
-        Private m_AutoGen As Boolean
+    Private m_Originated As Boolean
+    Private m_AutoGen As Boolean
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-        End Sub
+    Public Sub New()
+      MyBase.New()
+    End Sub
 
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-        End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
 
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 
-        Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            With Me
-                ' Line number ...
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
-                    .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
-                End If
-                ' Entity ...
-                If dr.Table.Columns.Contains(aliasPrefix & "check_id") AndAlso Not dr.IsNull(aliasPrefix & "check_id") Then
-                    .m_entity = New IncomingCheck(dr, aliasPrefix)
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
-                    AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
-                        .m_entity = New IncomingCheck(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
-                    End If
-                End If
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        ' Line number ...
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
+        End If
+        ' Entity ...
+        If dr.Table.Columns.Contains(aliasPrefix & "check_id") AndAlso Not dr.IsNull(aliasPrefix & "check_id") Then
+          .m_entity = New IncomingCheck(dr, aliasPrefix)
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
+          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
+            .m_entity = New IncomingCheck(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
+          End If
+        End If
 
-            End With
-        End Sub
-        Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Private ReadOnly Property Prefix() As String
-            Get
-                Return "cqChangei"
-            End Get
-        End Property
-        Public ReadOnly Property ReplaceStatus() As Integer            Get
-                Return 1
-            End Get
-        End Property
+    Private ReadOnly Property Prefix() As String
+      Get
+        Return "cqChangei"
+      End Get
+    End Property
+    Public ReadOnly Property ReplaceStatus() As Integer      Get
+        Return 1
+      End Get
+    End Property
 
-        Public ReadOnly Property IsCancel() As Boolean
-            Get
-                Return m_iscancel
-            End Get
-        End Property
+    Public ReadOnly Property IsCancel() As Boolean
+      Get
+        Return m_iscancel
+      End Get
+    End Property
 
-        Public Property CheckChange() As CheckChange            Get                Return m_CheckChange            End Get            Set(ByVal Value As CheckChange)                m_CheckChange = Value            End Set        End Property        Public Property LineNumber() As Integer            Get                Return m_lineNumber            End Get            Set(ByVal Value As Integer)                m_lineNumber = Value            End Set        End Property        Public Property Entity() As IncomingCheck            Get                Return m_entity            End Get            Set(ByVal Value As IncomingCheck)                m_entity = Value            End Set        End Property        Public ReadOnly Property Originated() As Boolean            Get                Return m_entity.Originated            End Get        End Property        Public ReadOnly Property AutoGen() As Boolean            Get                Return m_entity.Originated            End Get        End Property
+    Public Property CheckChange() As CheckChange      Get        Return m_CheckChange      End Get      Set(ByVal Value As CheckChange)        m_CheckChange = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IncomingCheck      Get        Return m_entity      End Get      Set(ByVal Value As IncomingCheck)        m_entity = Value      End Set    End Property    Public ReadOnly Property Originated() As Boolean      Get        Return m_entity.Originated      End Get    End Property    Public ReadOnly Property AutoGen() As Boolean      Get        Return m_entity.Originated      End Get    End Property
 #End Region
 
 #Region " Methods "
-        Public Sub CopyToDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Me.CheckChange.IsInitialized = False
-            row("linenumber") = Me.LineNumber
-            If Not Me.Entity Is Nothing Then
-                row("check_id") = Entity.Id
-                row("check_code") = Entity.Code
-                row("check_cqcode") = Entity.CqCode
+    Public Sub CopyToDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Me.CheckChange.IsInitialized = False
+      row("linenumber") = Me.LineNumber
+      If Not Me.Entity Is Nothing Then
+        row("check_id") = Entity.Id
+        row("check_code") = Entity.Code
+        row("check_cqcode") = Entity.CqCode
 
-                row("check_receivedate") = Entity.ReceiveDate
-                row("check_duedate") = Entity.DueDate
+        row("check_receivedate") = Entity.ReceiveDate
+        row("check_duedate") = Entity.DueDate
 
-                If Not Entity.ReceivePerson Is Nothing Then
-                    row("check_receiveperson") = Entity.ReceivePerson.Id
-                    row("receivepersonCode") = Entity.ReceivePerson.Code
-                    row("receivepersonName") = Entity.ReceivePerson.Name
-                End If
+        If Not Entity.ReceivePerson Is Nothing Then
+          row("check_receiveperson") = Entity.ReceivePerson.Id
+          row("receivepersonCode") = Entity.ReceivePerson.Code
+          row("receivepersonName") = Entity.ReceivePerson.Name
+        End If
 
-                If Not Entity.Customer Is Nothing Then
-                    row("check_customer") = Entity.Customer.Id
-                End If
+        If Not Entity.Customer Is Nothing Then
+          row("check_customer") = Entity.Customer.Id
+        End If
 
-                If Not Entity.Bank Is Nothing Then
-                    row("check_bank") = Entity.Bank.Id
-                    row("bankCode") = Entity.Bank.Code
-                    row("bankName") = Entity.Bank.Name
-                    row("bank_id") = Me.Entity.Bank.Id
-                    row("bank_code") = Me.Entity.Bank.Code
-                    row("bank_name") = Me.Entity.Bank.Name
-                End If
+        If Not Entity.Bank Is Nothing Then
+          row("check_bank") = Entity.Bank.Id
+          row("bankCode") = Entity.Bank.Code
+          row("bankName") = Entity.Bank.Name
+          row("bank_id") = Me.Entity.Bank.Id
+          row("bank_code") = Me.Entity.Bank.Code
+          row("bank_name") = Me.Entity.Bank.Name
+        End If
 
-                row("check_amt") = Entity.Amount
-                row("check_note") = Entity.Note
-                row("check_status") = Me.ReplaceStatus
+        row("check_amt") = Entity.Amount
+        row("check_note") = Entity.Note
+        row("check_status") = Me.ReplaceStatus
 
-                row("Originated") = Me.Originated
-                row("AutoGen") = Me.AutoGen
-            Else
-                row("check_id") = DBNull.Value
-                row("check_code") = DBNull.Value
-                row("check_cqcode") = DBNull.Value
+        row("Originated") = Me.Originated
+        row("AutoGen") = Me.AutoGen
+      Else
+        row("check_id") = DBNull.Value
+        row("check_code") = DBNull.Value
+        row("check_cqcode") = DBNull.Value
 
-                row("check_receivedate") = Date.MinValue
-                row("check_duedate") = Date.MinValue
+        row("check_receivedate") = Date.MinValue
+        row("check_duedate") = Date.MinValue
 
-                row("check_receiveperson") = DBNull.Value
-                row("receivepersonCode") = DBNull.Value
-                row("receivepersonName") = DBNull.Value
-                row("check_customer") = DBNull.Value
-                row("check_bank") = DBNull.Value
-                row("bankCode") = DBNull.Value
-                row("bankName") = DBNull.Value
-                row("check_amt") = DBNull.Value
-                row("check_note") = DBNull.Value
-                row("check_status") = DBNull.Value
-                ' bank
-                row("bank_id") = DBNull.Value
-                row("bank_code") = DBNull.Value
-                row("bank_name") = DBNull.Value
-                ' other
-                row("Originated") = DBNull.Value
-                row("AutoGen") = DBNull.Value
-            End If
+        row("check_receiveperson") = DBNull.Value
+        row("receivepersonCode") = DBNull.Value
+        row("receivepersonName") = DBNull.Value
+        row("check_customer") = DBNull.Value
+        row("check_bank") = DBNull.Value
+        row("bankCode") = DBNull.Value
+        row("bankName") = DBNull.Value
+        row("check_amt") = DBNull.Value
+        row("check_note") = DBNull.Value
+        row("check_status") = DBNull.Value
+        ' bank
+        row("bank_id") = DBNull.Value
+        row("bank_code") = DBNull.Value
+        row("bank_name") = DBNull.Value
+        ' other
+        row("Originated") = DBNull.Value
+        row("AutoGen") = DBNull.Value
+      End If
 
-            Me.CheckChange.IsInitialized = True
-        End Sub
-        Public Sub CopyFromDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Try
-                ' Line number ...
-                If Not row.IsNull(("linenumber")) Then
-                    Me.LineNumber = CInt(row("linenumber"))
-                End If
-                ' Entity ...
-                If row.Table.Columns.Contains("check_id") _
-                    AndAlso Not row.IsNull(("check_id")) Then
-                    Me.Entity = New IncomingCheck(CInt(row("check_id")))
-                End If
-            Catch ex As Exception
-                MessageBox.Show(ex.Message & "::" & ex.StackTrace)
-            End Try
+      Me.CheckChange.IsInitialized = True
+    End Sub
+    Public Sub CopyFromDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Try
+        ' Line number ...
+        If Not row.IsNull(("linenumber")) Then
+          Me.LineNumber = CInt(row("linenumber"))
+        End If
+        ' Entity ...
+        If row.Table.Columns.Contains("check_id") _
+            AndAlso Not row.IsNull(("check_id")) Then
+          Me.Entity = New IncomingCheck(CInt(row("check_id")))
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+      End Try
 
-        End Sub
+    End Sub
 #End Region
 
 #Region " Shared Methods "
-        Public Shared Function GetSchemaTable() As TreeTable
-            Dim myDatatable As New TreeTable("CheckUpdate")
-            myDatatable.Columns.Add(New DataColumn("linenumber", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("btnReceiveperson", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("receivepersonCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("receivepersonName", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("btnBank", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("bankCode", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("bankName", GetType(String)))
-            'bank
-            myDatatable.Columns.Add(New DataColumn("bank_id", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("bank_code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("bank_name", GetType(String)))
-            ' check 
-            myDatatable.Columns.Add(New DataColumn("check_id", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_code", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("check_cqcode", GetType(String)))
+    Public Shared Function GetSchemaTable() As TreeTable
+      Dim myDatatable As New TreeTable("CheckUpdate")
+      myDatatable.Columns.Add(New DataColumn("linenumber", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("btnReceiveperson", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("receivepersonCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("receivepersonName", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("btnBank", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bankCode", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bankName", GetType(String)))
+      'bank
+      myDatatable.Columns.Add(New DataColumn("bank_id", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("bank_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("bank_name", GetType(String)))
+      ' check 
+      myDatatable.Columns.Add(New DataColumn("check_id", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_code", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("check_cqcode", GetType(String)))
 
-            Dim dateCol As New DataColumn("check_receivedate", GetType(Date))
-            dateCol.DefaultValue = Date.MinValue
-            myDatatable.Columns.Add(dateCol)
+      Dim dateCol As New DataColumn("check_receivedate", GetType(Date))
+      dateCol.DefaultValue = Date.MinValue
+      myDatatable.Columns.Add(dateCol)
 
-            dateCol = New DataColumn("check_duedate", GetType(Date))
-            dateCol.DefaultValue = Date.MinValue
-            myDatatable.Columns.Add(dateCol)
+      dateCol = New DataColumn("check_duedate", GetType(Date))
+      dateCol.DefaultValue = Date.MinValue
+      myDatatable.Columns.Add(dateCol)
 
-            myDatatable.Columns.Add(New DataColumn("check_receiveperson", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_customer", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_bank", GetType(Integer)))
-            myDatatable.Columns.Add(New DataColumn("check_amt", GetType(Decimal)))
-            myDatatable.Columns.Add(New DataColumn("check_note", GetType(String)))
-            myDatatable.Columns.Add(New DataColumn("check_status", GetType(Integer)))
-            ' Other
-            myDatatable.Columns.Add(New DataColumn("Originated", GetType(Boolean)))
-            myDatatable.Columns.Add(New DataColumn("AutoGen", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("check_receiveperson", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_customer", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_bank", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("check_amt", GetType(Decimal)))
+      myDatatable.Columns.Add(New DataColumn("check_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("check_status", GetType(Integer)))
+      ' Other
+      myDatatable.Columns.Add(New DataColumn("Originated", GetType(Boolean)))
+      myDatatable.Columns.Add(New DataColumn("AutoGen", GetType(Boolean)))
 
-            Return myDatatable
-        End Function
+      Return myDatatable
+    End Function
 #End Region
 
-    End Class
+  End Class
 
-    Public Class CheckChangeStatus
-        Inherits CodeDescription
+  Public Class CheckChangeStatus
+    Inherits CodeDescription
 
 #Region " Construtors "
-        Public Sub New(ByVal description As String)
-            MyBase.New(description)
-        End Sub
-        Public Sub New(ByVal value As Integer)
-            MyBase.New(value)
-        End Sub
+    Public Sub New(ByVal description As String)
+      MyBase.New(description)
+    End Sub
+    Public Sub New(ByVal value As Integer)
+      MyBase.New(value)
+    End Sub
 #End Region
 
 #Region " Properties "
-        Public Overrides ReadOnly Property CodeName() As String
-            Get
-                Return "checkchange_status"
-            End Get
-        End Property
+    Public Overrides ReadOnly Property CodeName() As String
+      Get
+        Return "checkchange_status"
+      End Get
+    End Property
 #End Region
 
-    End Class
+  End Class
 End Namespace

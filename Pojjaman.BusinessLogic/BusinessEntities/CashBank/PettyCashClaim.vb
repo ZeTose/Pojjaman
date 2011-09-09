@@ -36,6 +36,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private pcc_docDate As Date
+    Private pcc_olddocDate As Date
     Private pcc_pc As PettyCash
     Private pcc_note As String
     Private pcc_gross As Decimal
@@ -89,6 +90,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .pcc_docDate = Now.Date
+        .pcc_olddocDate = Now.Date
         .pcc_pc = New PettyCash
         .pcc_status = New PettyCashClaimStatus(-1)
 
@@ -105,6 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not dr.IsNull(aliasPrefix & "pcc_docDate") Then
           .pcc_docDate = CDate(dr(aliasPrefix & "pcc_docDate"))
+          .pcc_olddocDate = CDate(dr(aliasPrefix & "pcc_docDate"))
         End If
 
         If Not dr.IsNull(aliasPrefix & "pcc_note") Then
@@ -155,6 +158,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
         Me.m_je.DocDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return pcc_olddocDate
+      End Get
     End Property
     Public Property Note() As String Implements IPayable.Note, IGLAble.Note
       Get

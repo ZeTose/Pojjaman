@@ -32,6 +32,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_note As String
     Private m_status As OpenningBalanceStatus
 
@@ -86,6 +87,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_je = New JournalEntry(Me)
         .m_je.DocDate = Me.m_docDate
         .m_status = New OpenningBalanceStatus(-1)
@@ -98,6 +100,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not dr.IsNull(aliasPrefix & "opb_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "opb_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "opb_docDate"))
         End If
 
         If Not dr.IsNull(aliasPrefix & "opb_note") Then
@@ -155,7 +158,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        If Me.m_je IsNot Nothing Then
           Me.m_je.DocDate = Value
-        End If      End Set    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, OpenningBalanceStatus)      End Set    End Property
+        End If      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, OpenningBalanceStatus)      End Set    End Property
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "OpenningBalance"

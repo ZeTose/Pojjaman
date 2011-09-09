@@ -14,6 +14,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Interface
   Public Interface ICheckPeriod
     Property DocDate() As Date
+    ReadOnly Property OldDocDate As Date
   End Interface
   Public Enum AccountPeriodLock
     NoLock = 0

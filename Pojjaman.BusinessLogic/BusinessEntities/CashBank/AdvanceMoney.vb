@@ -39,6 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_name As String
     Private m_docdate As Date
+    Private m_olddocdate As Date
     Private m_account As Account
     Private m_employee As Employee
     Private m_costcenter As Costcenter
@@ -78,6 +79,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_costcenter = New Costcenter
         .m_isforemployee = True
         .m_docdate = Date.Now
+        .m_olddocdate = Date.Now
         .m_duedate = Date.Now
         .m_payment = New Payment
         .m_payment.DocDate = Me.m_docdate
@@ -102,6 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
         End If
         ' duedate
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_duedate") _
@@ -205,6 +208,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docdate = Value
         Me.m_je.DocDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocdate
+      End Get
     End Property
 
     Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate

@@ -259,7 +259,7 @@ Namespace Longkong.Pojjaman.Gui
           Return
         End If
 
-        '-------------------Check AccountPeriod-------------------
+        '-------------------Check AccountPeriod เพื่อเอกสารเลือกวันที่ ๆ Lock ไปแล้วห้ามบันทึก-------------------
         If TypeOf myEntity Is ICheckPeriod AndAlso Not Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
           Dim docDate As Date = CType(myEntity, ICheckPeriod).DocDate
           Dim exceptClosedDoc As Boolean = False
@@ -267,7 +267,7 @@ Namespace Longkong.Pojjaman.Gui
             exceptClosedDoc = CType(myEntity, IAbleExceptAccountPeriod).ExceptAccountPeriod
           End If
           If Not AccountPeriod.ValidDate(docDate) AndAlso Not exceptClosedDoc Then
-            msgServ.ShowMessage("${res:Global.Error.CannotSavePeriodIsClosed}")
+            msgServ.ShowWarning("${res:Global.Error.CannotSavePeriodIsClosed}")
             Me.OnSaved(New SaveEventArgs(False))
             SecurityService.UpdateAccessTable()
             WorkbenchSingleton.Workbench.RedrawEditComponents()
@@ -275,6 +275,31 @@ Namespace Longkong.Pojjaman.Gui
           End If
         End If
         '-------------------End Check AccountPeriod-------------------
+
+        '-------------------Check Locking เพื่อเอกสารที่วันที่ ๆ Lock ไปแล้วห้ามเปลี่ยนเป็นวันที่อื่น ๆ-------------------------
+        If TypeOf myEntity Is ICheckPeriod AndAlso Not Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+          Dim oldDocDate As Date = CType(myEntity, ICheckPeriod).OldDocDate
+          If myEntity.Originated Then
+            Dim acctperiod As AccountPeriodLock = AccountPeriod.GetLockingForDate(oldDocDate)
+            If acctperiod = AccountPeriodLock.GlLock AndAlso TypeOf myEntity Is IGLAble Then
+              msgServ.ShowWarningFormatted("${res:Global.Error.DocumentInPeriodGLLock}", New String() {oldDocDate.ToShortDateString})
+              'MessageBox.Show("GL Lock")
+              Me.OnSaved(New SaveEventArgs(False))
+              SecurityService.UpdateAccessTable()
+              WorkbenchSingleton.Workbench.RedrawEditComponents()
+              Return
+            End If
+            If acctperiod = AccountPeriodLock.AllLock Then
+              msgServ.ShowWarningFormatted("${res:Global.Error.DocumentInPeriodAllLock}", New String() {oldDocDate.ToShortDateString})
+              'MessageBox.Show("All Lock")
+              Me.OnSaved(New SaveEventArgs(False))
+              SecurityService.UpdateAccessTable()
+              WorkbenchSingleton.Workbench.RedrawEditComponents()
+              Return
+            End If
+          End If
+        End If
+        '-------------------Check Locking-------------------------
 
         If TypeOf myEntity Is IGLAble Then
           'มี GL

@@ -595,7 +595,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csPercent)
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csBudgetRemain)
-      dst.GridColumnStyles.Add(csQtyRemain)
+
+      Dim showQtyRemain As Boolean = CBool(Configuration.GetConfig("ShowWBSQtyRemain"))
+      If showQtyRemain Then
+        dst.GridColumnStyles.Add(csQtyRemain)
+      End If
 
       Return dst
     End Function
@@ -706,7 +710,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csPercent)
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csBudgetRemain)
-      dst.GridColumnStyles.Add(csQtyRemain)
+
+      Dim showQtyRemain As Boolean = CBool(Configuration.GetConfig("ShowWBSQtyRemain"))
+      If showQtyRemain Then
+        dst.GridColumnStyles.Add(csQtyRemain)
+      End If
 
       Return dst
     End Function

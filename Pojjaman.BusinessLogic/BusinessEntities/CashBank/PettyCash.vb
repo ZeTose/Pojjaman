@@ -36,6 +36,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_name As String
     Private m_docdate As Date
+    Private m_olddocdate As Date
     Private m_account As Account
     Private m_employee As Employee
     Private m_costcenter As Costcenter
@@ -84,6 +85,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docdate = Now.Date
+        .m_olddocdate = Now.Date
         .m_account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.PettyCash).Account
         .m_employee = New Employee
         .m_costcenter = New CostCenter
@@ -113,6 +115,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
         End If
         ' account
         If dr.Table.Columns.Contains("account.account_id") Then
@@ -250,7 +253,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
 
-    Public Property Name() As String Implements IHasName.Name      Get        Return m_name      End Get      Set(ByVal Value As String)        m_name = Value      End Set    End Property    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+    Public Property Name() As String Implements IHasName.Name      Get        Return m_name      End Get      Set(ByVal Value As String)        m_name = Value      End Set    End Property    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocdate
+      End Get
+    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
       Get
         Return DocDate
       End Get

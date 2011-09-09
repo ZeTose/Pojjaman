@@ -21,6 +21,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_storeperson As Employee
     Private m_storecc As CostCenter
     Private m_note As String
@@ -50,6 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_note = ""
 
         .m_storeperson = New Employee
@@ -66,6 +68,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docDate") _
         AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
         End If
         ' note
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
@@ -164,7 +167,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public ReadOnly Property Gross As Decimal
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public ReadOnly Property Gross As Decimal
       Get
         Return ItemCollection.Gross
       End Get

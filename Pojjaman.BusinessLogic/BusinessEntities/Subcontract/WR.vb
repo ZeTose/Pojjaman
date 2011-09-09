@@ -38,6 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
 
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_startDate As Date
     Private m_endDate As Date
     Private m_cc As CostCenter
@@ -83,6 +84,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_startDate = Now.Date
         .m_endDate = Now.Date
         .m_cc = New CostCenter
@@ -109,12 +111,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not dr.IsNull("wr_docdate") Then
             If IsDate(dr("wr_docdate")) Then
               .m_docDate = CDate(dr("wr_docdate"))
+              .m_olddocDate = CDate(dr("wr_docdate"))
             End If
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "wr_docdate") Then
             If IsDate(dr(aliasPrefix & "wr_docdate")) Then
               .m_docDate = CDate(aliasPrefix & "wr_docdate")
+              .m_olddocDate = CDate(aliasPrefix & "wr_docdate")
             End If
           End If
         End If
@@ -374,7 +378,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApprovePerson() As User      Get        Return m_approvePerson      End Get      Set(ByVal Value As User)        m_approvePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveDate() As DateTime      Get        Return m_approveDate      End Get      Set(ByVal Value As DateTime)        m_approveDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property StartDate() As Date      Get        Return m_startDate      End Get      Set(ByVal Value As Date)        m_startDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property EndDate() As Date      Get        Return m_endDate      End Get      Set(ByVal Value As Date)        m_endDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String      Get
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property ApprovePerson() As User      Get        Return m_approvePerson      End Get      Set(ByVal Value As User)        m_approvePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveDate() As DateTime      Get        Return m_approveDate      End Get      Set(ByVal Value As DateTime)        m_approveDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property StartDate() As Date      Get        Return m_startDate      End Get      Set(ByVal Value As Date)        m_startDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property EndDate() As Date      Get        Return m_endDate      End Get      Set(ByVal Value As Date)        m_endDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String      Get
         Return m_note
       End Get
       Set(ByVal Value As String)

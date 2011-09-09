@@ -60,6 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private gl_accountBook As AccountBook
     Private gl_docDate As Date
+    Private gl_olddocDate As Date
     Private gl_note As String
     Private gl_status As JournalEntryStatus
     Private gl_postPerson As User
@@ -125,6 +126,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .gl_accountBook = New AccountBook
+        .gl_olddocDate = Now.Date
         .RefDoc = New GenericGlAble
         .gl_refDoc.Id = 0
         .gl_refDoc.Date = Date.MinValue
@@ -146,6 +148,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not dr.IsNull(aliasPrefix & "gl_docDate") Then
           .gl_docDate = CDate(dr(aliasPrefix & "gl_docDate"))
+          .gl_olddocDate = CDate(dr(aliasPrefix & "gl_docDate"))
         End If
 
         If Not dr.IsNull(aliasPrefix & "gl_note") Then
@@ -317,7 +320,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return sumCredit
       End Get
     End Property
-    Public Property AccountBook() As AccountBook Implements IHasAccountBook.AccountBook      Get        Return gl_accountBook      End Get      Set(ByVal Value As AccountBook)        gl_accountBook = Value      End Set    End Property    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return gl_docDate      End Get      Set(ByVal Value As Date)        gl_docDate = Value      End Set    End Property    Public Property Note() As String      Get        Return gl_note      End Get      Set(ByVal Value As String)        gl_note = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return gl_status      End Get      Set(ByVal Value As CodeDescription)        gl_status = CType(Value, JournalEntryStatus)      End Set    End Property    Public Property PostPerson() As User      Get        Return gl_postPerson      End Get      Set(ByVal Value As User)        gl_postPerson = Value      End Set    End Property    Public Property PostDate() As DateTime      Get        Return gl_postDate      End Get      Set(ByVal Value As DateTime)        gl_postDate = Value      End Set    End Property    Public Property RefDoc() As IGLAble      Get        Return gl_refDoc      End Get      Set(ByVal Value As IGLAble)        gl_refDoc = Value        If Not gl_refDoc Is Nothing Then          gl_refDoc.JournalEntry = Me
+    Public Property AccountBook() As AccountBook Implements IHasAccountBook.AccountBook      Get        Return gl_accountBook      End Get      Set(ByVal Value As AccountBook)        gl_accountBook = Value      End Set    End Property    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return gl_docDate      End Get      Set(ByVal Value As Date)        gl_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return gl_olddocDate
+      End Get
+    End Property    Public Property Note() As String      Get        Return gl_note      End Get      Set(ByVal Value As String)        gl_note = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return gl_status      End Get      Set(ByVal Value As CodeDescription)        gl_status = CType(Value, JournalEntryStatus)      End Set    End Property    Public Property PostPerson() As User      Get        Return gl_postPerson      End Get      Set(ByVal Value As User)        gl_postPerson = Value      End Set    End Property    Public Property PostDate() As DateTime      Get        Return gl_postDate      End Get      Set(ByVal Value As DateTime)        gl_postDate = Value      End Set    End Property    Public Property RefDoc() As IGLAble      Get        Return gl_refDoc      End Get      Set(ByVal Value As IGLAble)        gl_refDoc = Value        If Not gl_refDoc Is Nothing Then          gl_refDoc.JournalEntry = Me
           If TypeOf gl_refDoc Is IGlChangable Then
             RemoveHandler CType(gl_refDoc, IGlChangable).GlChanged, AddressOf GlChangedHandler
             AddHandler CType(gl_refDoc, IGlChangable).GlChanged, AddressOf GlChangedHandler

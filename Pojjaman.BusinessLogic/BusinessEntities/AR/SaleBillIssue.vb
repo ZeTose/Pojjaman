@@ -37,6 +37,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_customer As Customer
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_employee As Employee
     Private m_note As String
     Private m_creditPeriod As Integer
@@ -74,6 +75,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_creditPeriod = 0
         .m_note = ""
         .m_docDate = Date.Now.Date
+        .m_olddocDate = Date.Now.Date
         .m_status = New SaleBillIssueStatus(-1)
         m_itemCollection = New SaleBillIssueItemCollection(Me)
       End With
@@ -102,6 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("salebilli_docDate") AndAlso Not dr.IsNull(aliasPrefix & "salebilli_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "salebilli_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "salebilli_docDate"))
         End If
 
         If dr.Table.Columns.Contains("salebilli_note") AndAlso Not dr.IsNull(aliasPrefix & "salebilli_note") Then
@@ -118,7 +121,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property ItemCollection() As SaleBillIssueItemCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As SaleBillIssueItemCollection)        m_itemCollection = Value      End Set    End Property    Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        m_customer = Value      End Set    End Property    Public Property Employee() As Employee      Get        Return m_employee      End Get      Set(ByVal Value As Employee)        m_employee = Value      End Set    End Property    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property DueDate() As Date
+    Public Property ItemCollection() As SaleBillIssueItemCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As SaleBillIssueItemCollection)        m_itemCollection = Value      End Set    End Property    Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        m_customer = Value      End Set    End Property    Public Property Employee() As Employee      Get        Return m_employee      End Get      Set(ByVal Value As Employee)        m_employee = Value      End Set    End Property    Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public ReadOnly Property DueDate() As Date
       Get
         Try
           Return Me.DocDate.AddDays(Me.CreditPeriod)

@@ -39,6 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_note As String
 
     'Private m_costCenter As CostCenter
@@ -82,6 +83,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         '.m_costCenter = New CostCenter
         .m_CostCenter = New CostCenter
         .m_CostCenterPerson = New Employee
@@ -169,6 +171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -222,6 +225,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_je.DocDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property Type() As MatOperationWithdrawType
       Get

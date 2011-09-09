@@ -22,6 +22,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_cqcode As String
     Private m_issueDate As Date
+    Private m_oldissueDate As Date
     Private m_dueDate As Date
     Private m_supplier As Supplier
     Private m_recipient As String
@@ -66,6 +67,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_bankacct = New BankAccount
       Me.m_supplier = New Supplier
       Me.m_issueDate = Now.Date
+      Me.m_oldissueDate = Now.Date
       If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
         Me.m_dueDate = Now.Date
       End If
@@ -102,6 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & "check_issueDate") AndAlso Not dr.IsNull(aliasPrefix & "check_issueDate") Then
           .m_issueDate = CDate(dr(aliasPrefix & "check_issueDate"))
+          .m_oldissueDate = CDate(dr(aliasPrefix & "check_issueDate"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "check_dueDate") AndAlso Not dr.IsNull(aliasPrefix & "check_dueDate") Then
@@ -218,7 +221,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.IssueDate
       End Get
     End Property
-    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
+    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public ReadOnly Property OldIssueDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_oldissueDate
+      End Get
+    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IPaymentItem.CreateDate
       Get
         Return DocDate
       End Get

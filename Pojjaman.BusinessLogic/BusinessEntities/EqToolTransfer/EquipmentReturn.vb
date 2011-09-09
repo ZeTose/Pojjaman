@@ -18,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_isExternal As Boolean
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_returnperson As IBillablePerson
     Private m_returncc As CostCenter
     Private m_storeperson As Employee
@@ -52,6 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         .m_isExternal = False
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_note = ""
         .m_returnperson = New Employee
         .m_returncc = New CostCenter
@@ -70,6 +72,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docDate") _
         AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
         End If
         ' note
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
@@ -218,6 +221,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Date)
         m_docDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property ReturnPerson() As IBillablePerson      Get
         Return m_returnperson

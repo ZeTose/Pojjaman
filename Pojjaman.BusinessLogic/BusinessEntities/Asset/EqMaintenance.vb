@@ -41,6 +41,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_equipment As Asset
 
     Private m_docDate As Date
+    Private m_olddocDate As Date
 
     Private m_toCostCenter As CostCenter
     Private m_toCostCenterPerson As Employee
@@ -138,6 +139,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_discount = New Discount("")
         .m_taxType = New TaxType(1)
         .m_docDate = Date.Now.Date
+        .m_olddocDate = Date.Now.Date
         .m_payment.DocDate = .m_docDate
         .m_je.DocDate = Me.m_docDate
         .m_status = New EqMaintenanceStatus(-1)
@@ -205,6 +207,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -293,7 +296,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_supplier = Value      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.docdate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
+        End If        m_supplier = Value      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.docdate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
         End If      End Get    End Property    Public Property DeliveryDocCode() As String      Get        Return m_deliveryDocCode      End Get      Set(ByVal Value As String)        m_deliveryDocCode = Value      End Set    End Property    Public Property DeliveryDocDate() As Date      Get        Return m_deliveryDocDate      End Get      Set(ByVal Value As Date)        m_deliveryDocDate = Value      End Set    End Property    Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property    Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
       Get
         Return m_whtcol

@@ -15,6 +15,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_cqcode As String
     Private m_ReceiveDate As Date
+    Private m_oldReceiveDate As Date
 
     Private m_amount As Decimal
     Private m_bankcharge As Decimal
@@ -64,6 +65,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Status = New CheckStatus(-1)
 
       Me.m_ReceiveDate = Now.Date
+      Me.m_oldReceiveDate = Now.Date
       Me.m_dueDate = Now.Date
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -99,6 +101,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_ReceiveDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_ReceiveDate") Then
           .ReceiveDate = CDate(dr(aliasPrefix & Me.Prefix & "_ReceiveDate"))
+          .m_oldReceiveDate = CDate(dr(aliasPrefix & Me.Prefix & "_ReceiveDate"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "bankacct_id") Then
@@ -246,7 +249,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_ReceiveDate = Value
         m_docDate = m_ReceiveDate
       End Set
-    End Property    Public Property Note() As String      Get        If m_note Is Nothing Then          m_note = ""
+    End Property    Public ReadOnly Property OldReceiveDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_oldReceiveDate
+      End Get
+    End Property    Public Property Note() As String      Get        If m_note Is Nothing Then          m_note = ""
         End If        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property#End Region
 
 #Region "Overrides"

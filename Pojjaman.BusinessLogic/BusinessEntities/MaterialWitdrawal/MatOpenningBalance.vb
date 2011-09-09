@@ -34,6 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
 
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_toCostCenter As CostCenter
     Private m_note As String
     Private m_status As MatOpenningBalanceStatus
@@ -99,6 +100,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_je = New JournalEntry(Me)
         .m_note = ""
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_status = New MatOpenningBalanceStatus(-1)
         Me.m_toCostCenter = New CostCenter
         .m_je.DocDate = Me.m_docDate
@@ -123,6 +125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -139,7 +142,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Properties"
     Public Property ItemTable() As TreeTable      Get        Return m_itemTable      End Get      Set(ByVal Value As TreeTable)        m_itemTable = Value      End Set    End Property
-    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
+    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
         End If      End Get    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, MatOpenningBalanceStatus)      End Set    End Property    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "MatOpenningBalance"

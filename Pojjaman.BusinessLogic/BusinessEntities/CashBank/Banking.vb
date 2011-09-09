@@ -14,6 +14,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_bankacct As BankAccount
     Private m_docdate As Date
+    Private m_olddocdate As Date
 
     ' Transfer 
     Private m_cqcode As String
@@ -47,6 +48,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docdate = Now.Date
+        .m_olddocdate = Now.Date
         .m_bankacct = New BankAccount
         .m_bankacctdestinate = New BankAccount
 
@@ -69,6 +71,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
         End If
         '  ¡ÿ¥‡ß‘πΩ“°
         If dr.Table.Columns.Contains("bankacct_id") Then
@@ -163,7 +166,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_je.DocDate = Value
       End Set
     End Property
-
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocdate
+      End Get
+    End Property
     Public Property CqCode() As String
       Get
         Return m_cqcode

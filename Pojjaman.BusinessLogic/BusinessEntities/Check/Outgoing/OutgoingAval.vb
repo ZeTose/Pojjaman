@@ -16,6 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_cqcode As String
     Private m_issueDate As Date
+    Private m_oldissueDate As Date
     Private m_dueDate As Date
     Private m_supplier As Supplier
     Private m_recipient As String
@@ -53,6 +54,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_Loan = New Loan
       Me.m_supplier = New Supplier
       Me.m_issueDate = Now.Date
+      Me.m_oldissueDate = Now.Date
       If Not CBool(Configuration.GetConfig("AllowNoCqCodeDate")) Then
         Me.m_dueDate = Now.Date
       End If
@@ -155,7 +157,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return DocDate
       End Get
     End Property
-    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
+    Public Property IssueDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_issueDate      End Get      Set(ByVal Value As Date)        m_issueDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_oldissueDate
+      End Get
+    End Property    Public Property DueDate() As Date Implements IPaymentItem.DueDate      Get        Return m_dueDate      End Get      Set(ByVal Value As Date)        m_dueDate = Value      End Set    End Property    Public Property Supplier() As Supplier      Get        Return m_supplier      End Get      Set(ByVal Value As Supplier)        m_supplier = Value        If Me.Recipient Is Nothing OrElse Me.Recipient.Length = 0 Then          Me.Recipient = m_supplier.Name
         End If        If Not ConfigurationSettings.AppSettings.Item("AddInsDirectory") Is Nothing AndAlso ConfigurationSettings.AppSettings.Item("AddInsDirectory").ToLower.EndsWith("_ple\") Then
           RefreshPV()        End If
       End Set    End Property    Public Property Recipient() As String      Get        Return m_recipient      End Get      Set(ByVal Value As String)        m_recipient = Value      End Set    End Property    Public Property Loan() As Loan      Get        Return m_Loan      End Get      Set(ByVal Value As Loan)        m_Loan = Value      End Set    End Property    Public Property InterestAmt() As Decimal      Get

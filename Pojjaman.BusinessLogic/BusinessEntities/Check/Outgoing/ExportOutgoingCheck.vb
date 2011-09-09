@@ -24,6 +24,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_issueDate As Date
+    Private m_oldissueDate As Date
     Private m_effectiveDate As Date
     Private m_pickupDate As Date
     Private m_bankacct As BankAccount
@@ -56,6 +57,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
 
       Me.m_issueDate = Now.Date
+      Me.m_oldissueDate = Now.Date
       Me.m_effectiveDate = Now.Date
       Me.m_pickupDate = Now.Date
       Me.m_bankacct = New BankAccount
@@ -73,6 +75,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         If dr.Table.Columns.Contains(aliasPrefix & "eocheck_issueDate") AndAlso Not dr.IsNull(aliasPrefix & "eocheck_issueDate") Then
           .m_issueDate = CDate(dr(aliasPrefix & "eocheck_issueDate"))
+          .m_oldissueDate = CDate(dr(aliasPrefix & "eocheck_issueDate"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & "eocheck_pickupDate") AndAlso Not dr.IsNull(aliasPrefix & "eocheck_pickupDate") Then
@@ -146,6 +149,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Date)
         m_issueDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldIssueDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_oldissueDate
+      End Get
     End Property
     Public Property PickUpDate() As Date Implements ICOCExportable.PickUpDate
       Get

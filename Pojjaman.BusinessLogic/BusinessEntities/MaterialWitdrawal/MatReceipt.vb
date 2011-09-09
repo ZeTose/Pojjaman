@@ -39,6 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_MTDate As Date 'เอกสารโอนเดิม
     Private m_note As String
     Private m_otherDocCode As String
@@ -87,6 +88,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_costCenter = New CostCenter
         .m_fromCostCenter = New CostCenter
         .m_fromCostCenterPerson = New Employee
@@ -178,6 +180,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
 
@@ -251,6 +254,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_je.DocDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property MatTransferDocDate() As Date
       Get

@@ -33,6 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private pr_docDate As Date
+    Private pr_olddocDate As Date
     Private pr_receivingDate As Date
     Private pr_note As String
     Private pr_requestor As Employee
@@ -101,6 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .pr_cc = New CostCenter
         .pr_status = New PRStatus(-1)
         .pr_docDate = Now.Date
+        .pr_olddocDate = Now.Date
 
         .m_termNote = ""
         .m_deliveryTime = ""
@@ -123,6 +125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not dr.IsNull(aliasPrefix & "pr_docDate") Then
           .pr_docDate = CDate(dr(aliasPrefix & "pr_docDate"))
+          .pr_olddocDate = CDate(dr(aliasPrefix & "pr_docDate"))
         End If
 
         If Not dr.IsNull(aliasPrefix & "pr_note") Then
@@ -382,7 +385,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.pr_declareNote
       End Get
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return pr_docDate      End Get      Set(ByVal Value As Date)        pr_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ReceivingDate() As Date      Get        Return pr_receivingDate      End Get      Set(ByVal Value As Date)        pr_receivingDate = Value        'Me.ItemCollection.SetReceivingDate(Value)        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property Gross() As Decimal Implements IApprovAble.AmountToApprove      Get        If Me.ItemCollection Is Nothing OrElse Me.ItemCollection.Count = 0 Then          Return 0
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return pr_docDate      End Get      Set(ByVal Value As Date)        pr_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return pr_olddocDate
+      End Get
+    End Property    Public Property ReceivingDate() As Date      Get        Return pr_receivingDate      End Get      Set(ByVal Value As Date)        pr_receivingDate = Value        'Me.ItemCollection.SetReceivingDate(Value)        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property Gross() As Decimal Implements IApprovAble.AmountToApprove      Get        If Me.ItemCollection Is Nothing OrElse Me.ItemCollection.Count = 0 Then          Return 0
         End If        Return Me.ItemCollection.Amount      End Get    End Property    Public Property Note() As String      Get        Return pr_note      End Get      Set(ByVal Value As String)        pr_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Requestor() As Employee      Get        Return pr_requestor      End Get      Set(ByVal Value As Employee)        pr_requestor = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property CostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter      Get        Return pr_cc      End Get      Set(ByVal Value As CostCenter)        pr_cc = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApprovePerson() As User      Get        Return pr_approvePerson      End Get      Set(ByVal Value As User)        pr_approvePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveDate() As DateTime      Get        Return pr_approveDate      End Get      Set(ByVal Value As DateTime)        pr_approveDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveStorePerson() As User      Get        Return pr_approveStorePerson      End Get      Set(ByVal Value As User)        pr_approveStorePerson = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property ApproveStoreDate() As DateTime      Get        Return pr_approveStoreDate      End Get      Set(ByVal Value As DateTime)        pr_approveStoreDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property
     Public Overrides Property Status() As CodeDescription
       Get

@@ -23,6 +23,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_supplier As Supplier
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_receivingDate As Date
     Private m_note As String
     Private m_creditPeriod As Integer
@@ -103,6 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_discount = New Discount("")
         .m_taxType = New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_receivingDate = Now.Date.AddDays(3).Date
         .m_approveDate = Date.MinValue
         .m_cc = New CostCenter
@@ -134,6 +136,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' DocDate
         If Not dr.IsNull(aliasPrefix & "po_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "po_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "po_docDate"))
         End If
         ' Note
         If Not dr.IsNull(aliasPrefix & "po_note") Then
@@ -524,6 +527,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property ReceivingDate() As Date
       Get

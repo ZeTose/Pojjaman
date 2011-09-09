@@ -30,6 +30,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docdate As Date
+    Private m_olddocdate As Date
     Private m_advancemoney As AdvanceMoney
     Private m_remainamt As Decimal
     Private m_amt As Decimal
@@ -61,6 +62,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_advancemoney = New AdvanceMoney
         .m_status = New AdvanceMoneyClosedStatus(-1)
         .m_docdate = Now.Date
+        .m_olddocdate = Now.Date
         .m_receive = New Receive
         .m_receive.DocDate = Me.m_docdate
         .m_je = New JournalEntry(Me)
@@ -80,6 +82,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
         End If
         ' account
         If dr.Table.Columns.Contains("advancemoney.advm_id") Then
@@ -131,6 +134,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docdate = Value
         Me.m_je.DocDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocdate
+      End Get
     End Property
 
     Public Property AdvanceMoney() As AdvanceMoney

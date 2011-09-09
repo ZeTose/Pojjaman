@@ -34,6 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_adjustDate As Date
     Private m_allocationType As Integer
     Private m_reason As String
@@ -72,6 +73,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_adjustPerson = New Employee
         .m_status = New WBSAdjustStatus(-1)
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_adjustDate = Now.Date
         .m_allocationType = 7
         .AutoCodeFormat = New AutoCodeFormat(Me)
@@ -84,6 +86,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim drh As New DataRowHelper(dr)
 
       m_docDate = drh.GetValue(Of Date)("wbsadj_docdate")
+      m_olddocDate = drh.GetValue(Of Date)("wbsadj_docdate")
       m_adjustDate = drh.GetValue(Of Date)("wbsadj_adjustdate")
       m_allocationType = drh.GetValue(Of Integer)("wbsadj_allocationType")
       m_reason = drh.GetValue(Of String)("wbsadj_reason")
@@ -167,7 +170,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Return Me.pr_declareNote
     '  End Get
     'End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property AdjustDate() As Date      Get        Return m_adjustDate      End Get      Set(ByVal Value As Date)        m_adjustDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property Gross() As Decimal      Get        If Me.ItemList Is Nothing OrElse Me.ItemList.Count = 0 Then          Return 0
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property AdjustDate() As Date      Get        Return m_adjustDate      End Get      Set(ByVal Value As Date)        m_adjustDate = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property Gross() As Decimal      Get        If Me.ItemList Is Nothing OrElse Me.ItemList.Count = 0 Then          Return 0
         End If        Dim m_gross As Decimal = 0        For Each wbsadji As WBSAdjustItem In Me.ItemList          m_gross += wbsadji.Cost
         Next        Return m_gross      End Get    End Property    Public Property Reason() As String      Get        Return m_reason      End Get      Set(ByVal Value As String)        m_reason = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property AdjustPerson() As Employee      Get        Return m_adjustPerson      End Get      Set(ByVal Value As Employee)        m_adjustPerson = Value        'OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Overrides Property Status() As CodeDescription
       Get

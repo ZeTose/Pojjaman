@@ -32,6 +32,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docdate As Date
+    Private m_olddocdate As Date
     Private m_employee As Employee
     Private m_creditPeriod As Integer
     Private m_note As String
@@ -78,6 +79,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_creditPeriod = 0
         .m_note = ""
         .m_docdate = Date.Now.Date
+        .m_olddocdate = Date.Now.Date
         .m_employee = New Employee
         .m_status = New BillIssueStatus(-1)
         .m_itemCollection = New MilestoneCollection(Me)
@@ -114,6 +116,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("billi_docDate") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docDate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
         End If
 
         If dr.Table.Columns.Contains("billi_note") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
@@ -227,7 +230,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_customer = Value
       End Set
     End Property
-    Public Property DocDate() As Date Implements IVatable.Date, IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value      End Set    End Property    Public ReadOnly Property DueDate() As Date
+    Public Property DocDate() As Date Implements IVatable.Date, IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocdate
+      End Get
+    End Property    Public ReadOnly Property DueDate() As Date
       Get
         Return Me.DocDate.AddDays(Me.CreditPeriod)
       End Get

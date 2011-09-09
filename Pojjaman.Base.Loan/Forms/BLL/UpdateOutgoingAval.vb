@@ -16,6 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Member"
     Private m_loan As Loan
     Private m_docdate As Date
+    Private m_olddocdate As Date
     Private m_note As String
 
     Private m_updatedstatus As OutgoingCheckDocStatus
@@ -65,6 +66,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docdate = Now.Date
+        .m_olddocdate = Now.Date
         .m_loan = New Loan
 
         .m_updatedstatus = New OutgoingCheckDocStatus(3)    ' ผ่าน ...
@@ -89,6 +91,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_issuedate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_issuedate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_issuedate"))
         End If
         ' Note ...
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
@@ -132,6 +135,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docdate = Value
         Me.m_je.DocDate = Value
       End Set
+    End Property
+
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocdate
+      End Get
     End Property
 
     Public Property loan() As Loan

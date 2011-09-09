@@ -36,6 +36,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_customer As Customer
 
     Private m_docDate As Date
+    Private m_olddocDate As Date
 
     Private m_fromCostCenter As CostCenter
     Private m_fromCostCenterPerson As Employee
@@ -91,6 +92,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_customer = New Customer
         .m_creditPeriod = 0
         .m_taxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
@@ -170,6 +172,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -269,7 +272,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IReceivable.Date, IGLAble.Date, _      IAdvanceReceiveItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property FromCostCenter() As CostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.FromCostCenter Is Nothing AndAlso Me.FromCostCenter.Originated Then          Return Me.FromCostCenter.StoreAccount
+        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IReceivable.Date, IGLAble.Date, _      IAdvanceReceiveItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property FromCostCenter() As CostCenter      Get        Return m_fromCostCenter      End Get      Set(ByVal Value As CostCenter)        m_fromCostCenter = Value      End Set    End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.FromCostCenter Is Nothing AndAlso Me.FromCostCenter.Originated Then          Return Me.FromCostCenter.StoreAccount
         End If      End Get    End Property    Public Property PoDocCode() As String      Get        Return m_poDocCode      End Get      Set(ByVal Value As String)        m_poDocCode = Value      End Set    End Property    Public Property PoDocDate() As Date      Get        Return m_poDocDate      End Get      Set(ByVal Value As Date)        m_poDocDate = Value      End Set    End Property    Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property    Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
       Get
         Return m_whtcol

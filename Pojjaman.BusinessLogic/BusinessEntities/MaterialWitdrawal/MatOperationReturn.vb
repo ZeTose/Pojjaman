@@ -16,6 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_note As String
 
     Private m_costCenter As CostCenter
@@ -56,6 +57,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_costCenter = New CostCenter
         '.m_fromCostCenter = New CostCenter
         .m_fromCostCenterPerson = New Employee
@@ -134,6 +136,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -160,7 +163,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = Value
       End Set
     End Property
-    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    'Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter    '  Get    '    Return m_fromCostCenter    '  End Get    '  Set(ByVal Value As CostCenter)    '    m_fromCostCenter = Value    '  End Set    'End Property    'Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter    '  Get    '    Return m_toCostCenter    '  End Get    '  Set(ByVal Value As CostCenter)    '    m_toCostCenter = Value    '  End Set    'End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        'คืนเข้า store เท่านั้น        Return Me.CostCenter.StoreAccount      End Get    End Property    Public Overridable Property Grouping() As Boolean      Get
+    Public Property DocDate() As Date Implements IGLAble.Date, ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property Note() As String Implements IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    'Public Property FromCostCenter() As CostCenter Implements IWBSAllocatable.FromCostCenter    '  Get    '    Return m_fromCostCenter    '  End Get    '  Set(ByVal Value As CostCenter)    '    m_fromCostCenter = Value    '  End Set    'End Property    'Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter    '  Get    '    Return m_toCostCenter    '  End Get    '  Set(ByVal Value As CostCenter)    '    m_toCostCenter = Value    '  End Set    'End Property    Public Property FromCostCenterPerson() As Employee      Get        Return m_fromCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_fromCostCenterPerson = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        'คืนเข้า store เท่านั้น        Return Me.CostCenter.StoreAccount      End Get    End Property    Public Overridable Property Grouping() As Boolean      Get
         Return m_grouping
       End Get
       Set(ByVal Value As Boolean)

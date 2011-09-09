@@ -38,6 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
 
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_startDate As Date
     Private m_endDate As Date
     Private m_subcontractor As Supplier
@@ -101,6 +102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_startDate = Now.Date
         .m_endDate = Now.Date
         .m_subcontractor = New Supplier
@@ -145,12 +147,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not dr.IsNull("sc_docdate") Then
             If IsDate(dr("sc_docdate")) Then
               .m_docDate = CDate(dr("sc_docdate"))
+              .m_olddocDate = CDate(dr("sc_docdate"))
             End If
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "sc_docdate") Then
             If IsDate(dr(aliasPrefix & "sc_docdate")) Then
               .m_docDate = CDate(aliasPrefix & "sc_docdate")
+              .m_olddocDate = CDate(aliasPrefix & "sc_docdate")
             End If
           End If
         End If
@@ -461,7 +465,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property DueDate() As Date
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property DueDate() As Date
       Get
         Try
           Return Me.DocDate.AddDays(Me.CreditPeriod)

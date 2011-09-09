@@ -191,7 +191,9 @@
     <Content Include="AddIns\Customizations\TextExport\TextExport.addin">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin" />
+    <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin">
       <SubType>Designer</SubType>
     </Content>

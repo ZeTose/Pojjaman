@@ -38,7 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_costCenter As CostCenter
 
     Private m_docDate As Date
-
+    Private m_olddocDate As Date
 
     Private m_vat As Vat
     Private m_whtcol As WitholdingTaxCollection
@@ -90,6 +90,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_customer = New Customer
         .m_creditPeriod = 0
         .m_taxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
@@ -157,6 +158,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("advr_docDate") AndAlso Not dr.IsNull(aliasPrefix & "advr_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "advr_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "advr_docDate"))
         End If
 
         If dr.Table.Columns.Contains("advr_note") AndAlso Not dr.IsNull(aliasPrefix & "advr_note") Then
@@ -221,7 +223,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IReceivable.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IReceiveItem.CreateDate
+        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IGLAble.Date, IReceivable.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public ReadOnly Property CreateDate As Nullable(Of Date) Implements IReceiveItem.CreateDate
       Get
         Return DocDate
       End Get

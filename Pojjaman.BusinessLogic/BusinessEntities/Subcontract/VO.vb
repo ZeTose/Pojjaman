@@ -18,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_VO As VO
     Private m_note As String
     Private m_gross As Decimal
@@ -74,6 +75,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         .m_cc = New CostCenter
         .DocDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_subcontractor = New Supplier
 
         .m_sc = New SC
@@ -111,6 +113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("vo_docdate") AndAlso Not dr.IsNull("vo_docdate") Then
           If IsDate(dr("vo_docdate")) Then
             .m_docDate = CDate(dr("vo_docdate"))
+            .m_olddocDate = CDate(dr("vo_docdate"))
           End If
           '.m_subcontractor = New Supplier(dr, "supplier.")
         End If
@@ -200,6 +203,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
         'OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property VO() As VO
       Get

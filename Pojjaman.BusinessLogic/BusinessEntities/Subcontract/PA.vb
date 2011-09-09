@@ -36,6 +36,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     '**************
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_sc As SC
     'Private m_Supplier As Supplier
     Private m_receiver As Employee
@@ -115,6 +116,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
 
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_costcenter = New CostCenter
         .m_otherdoccode = ""
         .m_otherdocdate = Now.Date
@@ -190,6 +192,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains("pa_docdate") AndAlso Not dr.IsNull("pa_docdate") Then
           If IsDate(dr("pa_docdate")) Then
             .m_docDate = CDate(dr("pa_docdate"))
+            .m_olddocDate = CDate(dr("pa_docdate"))
           End If
           '.m_subcontractor = New Supplier(dr, "supplier.")
         End If
@@ -397,6 +400,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
         OnPropertyChanged(Me, New PropertyChangedEventArgs)
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property OtherDocCode As String
       Get

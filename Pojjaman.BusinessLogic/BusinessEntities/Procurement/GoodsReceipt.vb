@@ -61,6 +61,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_deliveryPerson As String
 
     Private m_docDate As Date
+    Private m_olddocDate As Date
 
     Private m_toCostCenter As CostCenter
     Private m_toCostCenterPerson As Employee
@@ -140,6 +141,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_discount = New Discount("")
         .m_taxType = New TaxType(CInt(Configuration.GetConfig("CompanyTaxType")))
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_approvePerson = New User
         .m_approveDate = Date.MinValue
         .m_status = New GoodsReceiptStatus(-1)
@@ -257,6 +259,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("stock_docDate") AndAlso Not dr.IsNull(aliasPrefix & "stock_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "stock_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "stock_docDate"))
         End If
 
         If dr.Table.Columns.Contains("stock_note") AndAlso Not dr.IsNull(aliasPrefix & "stock_note") Then
@@ -487,6 +490,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_je.DocDate = Value
         Me.Vat.SubmitalDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property ToCostCenter() As CostCenter Implements IWBSAllocatable.ToCostCenter
       Get

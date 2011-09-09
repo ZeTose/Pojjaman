@@ -17,6 +17,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docDate As Date
+    Private m_olddocDate As Date
     Private m_withdrawperson As Employee
     Private m_withdrawcc As CostCenter
     Private m_storeperson As Employee
@@ -49,6 +50,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docDate = Now.Date
+        .m_olddocDate = Now.Date
         .m_note = ""
         .m_withdrawperson = New Employee
         .m_withdrawcc = New CostCenter
@@ -68,6 +70,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docDate") _
         AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & Me.Prefix & "_docDate"))
         End If
         ' note
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
@@ -216,7 +219,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_tostatus = value
       End Set
     End Property
-    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Withdrawperson() As Employee
+    Public Property DocDate() As Date Implements ICheckPeriod.DocDate, IWBSAllocatable.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property Withdrawperson() As Employee
       Get
         Return m_withdrawperson
       End Get      Set(ByVal Value As Employee)

@@ -34,6 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_customer As Customer
     Private m_docDate As Date
+    Private m_olddocDate As Date
 
     Private m_note As String
     Private m_creditPeriod As Integer
@@ -80,6 +81,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_creditPeriod = 0
         .m_note = ""
         .m_docDate = Date.Now.Date
+        .m_olddocDate = Date.Now.Date
         .m_status = New ReceiveSelectionStatus(-1)
         m_itemCollection = New SaleBillIssueItemCollection(Me)
         m_singleVat = False
@@ -119,6 +121,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("receives_docDate") AndAlso Not dr.IsNull(aliasPrefix & "receives_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "receives_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "receives_docDate"))
         End If
 
         If dr.Table.Columns.Contains("receives_note") AndAlso Not dr.IsNull(aliasPrefix & "receives_note") Then
@@ -165,7 +168,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IReceivable.Date, IGLAble.Date, IWitholdingTaxable.Date, IVatable.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, ReceiveSelectionStatus)      End Set    End Property    Public ReadOnly Property Gross() As Decimal      Get        Return Me.ItemCollection.Amount      End Get    End Property    Public ReadOnly Property RemainingAmountAfter() As Decimal      Get        Return Me.ItemCollection.RemainingAmount      End Get    End Property    Public ReadOnly Property ItemCount() As Integer      Get        Return Me.ItemCollection.Count      End Get    End Property    Public Overrides ReadOnly Property ClassName() As String
+        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IReceivable.Date, IGLAble.Date, IWitholdingTaxable.Date, IVatable.Date, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        Return m_olddocDate
+      End Get
+    End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, ReceiveSelectionStatus)      End Set    End Property    Public ReadOnly Property Gross() As Decimal      Get        Return Me.ItemCollection.Amount      End Get    End Property    Public ReadOnly Property RemainingAmountAfter() As Decimal      Get        Return Me.ItemCollection.RemainingAmount      End Get    End Property    Public ReadOnly Property ItemCount() As Integer      Get        Return Me.ItemCollection.Count      End Get    End Property    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "ReceiveSelection"
       End Get

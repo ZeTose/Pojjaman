@@ -31,6 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_docdate As Date
+    Private m_olddocdate As Date
     Private m_pettycash As PettyCash
     Private m_remainamt As Decimal
     Private m_amt As Decimal
@@ -59,6 +60,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.Construct()
       With Me
         .m_docdate = Now.Date
+        .m_olddocdate = Now.Date
         .m_pettycash = New PettyCash
         .m_status = New PettyCashClosedStatus(-1)
         .m_docdate = Now.Date
@@ -81,6 +83,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_docdate") _
             AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_docdate") Then
           .m_docdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
+          .m_olddocdate = CDate(dr(aliasPrefix & Me.Prefix & "_docdate"))
         End If
         ' account
         If dr.Table.Columns.Contains("pettycash.pc_id") Then
@@ -132,6 +135,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docdate = Value
         Me.m_je.DocDate = Value
       End Set
+    End Property
+
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocdate
+      End Get
     End Property
 
     Public Property PettyCash() As PettyCash
