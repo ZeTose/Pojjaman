@@ -1316,6 +1316,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ctrl.Enabled = False
         Next
         tgItem.Enabled = True
+        chkShowCost.Enabled = True
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
