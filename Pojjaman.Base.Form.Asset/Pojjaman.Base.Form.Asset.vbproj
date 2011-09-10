@@ -172,6 +172,9 @@
     <Compile Include="Asset\AssetSelectionView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Asset\AssetTypeDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -181,7 +184,7 @@
     <Compile Include="Asset\AssetWriteOff\AssetWriteOffDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.vb">
+    <Compile Include="Asset\DepreciationCalFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Asset\AssetWithdrawReturnView.vb">
@@ -285,6 +288,9 @@
     <EmbeddedResource Include="Asset\AssetSelectionView.resx">
       <DependentUpon>AssetSelectionView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.resx">
+      <DependentUpon>AssetWriteOffFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Asset\AssetTypeDetailView.resx">
       <DependentUpon>AssetTypeDetailView.vb</DependentUpon>
     </EmbeddedResource>
@@ -294,8 +300,8 @@
     <EmbeddedResource Include="Asset\AssetWriteOff\AssetWriteOffDetail.resx">
       <DependentUpon>AssetWriteOffDetail.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Asset\AssetWriteOff\AssetWriteOffFilterSubPanel.resx">
-      <DependentUpon>AssetWriteOffFilterSubPanel.vb</DependentUpon>
+    <EmbeddedResource Include="Asset\DepreciationCalFilterSubPanel.resx">
+      <DependentUpon>DepreciationCalFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Asset\AssetWithdrawReturnView.resx">
       <DependentUpon>AssetWithdrawReturnView.vb</DependentUpon>

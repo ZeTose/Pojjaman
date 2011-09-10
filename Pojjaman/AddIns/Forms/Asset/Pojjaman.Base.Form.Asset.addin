@@ -14,8 +14,10 @@
     <EntityFilter id="equipment" entity="equipment" filter="Longkong.Pojjaman.Gui.Panels.EquipmentDetailFilterSubPanel"/>
     <EntityFilter id="eqmaintenance" entity="eqmaintenance" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel"/>
 		<EntityFilter id="eqmaintenanceforvat" entity="eqmaintenanceforvat" filter="Longkong.Pojjaman.Gui.Panels.EqMaintenanceForVatDetailFilterSubPanel"/>
-		<EntityFilter id="assetwriteoff" entity="assetwriteoff" filter="Longkong.Pojjaman.Gui.Panels.AssetWriteOffFilterSubPanel"/>
-		<!--<EntityFilter id="eqtwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>-->
+    <EntityFilter id="assetwriteoff" entity="assetwriteoff" filter="Longkong.Pojjaman.Gui.Panels.AssetWriteOffFilterSubPanel"/>
+    
+    <EntityFilter id="depreciationcal" entity="depreciationcal" filter="Longkong.Pojjaman.Gui.Panels.DepreciationCalFilterSubPanel"/>   
+    <!--<EntityFilter id="eqtwithdraw" entity="equipmenttoolwithdraw" filter="Longkong.Pojjaman.Gui.Panels.EqtWithdrawFilterSubPanel"/>-->
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="assetwithdraw">
