@@ -5,65 +5,65 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class RptARReceiveFilterSubPanel
-        Inherits AbstractFilterSubPanel
-        Implements IReportFilterSubPanel
+  Public Class RptARReceiveFilterSubPanel
+    Inherits AbstractFilterSubPanel
+    Implements IReportFilterSubPanel
 
 #Region " Windows Form Designer generated code "
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents btnSearch As System.Windows.Forms.Button
-        Friend WithEvents btnReset As System.Windows.Forms.Button
-        Friend WithEvents lblDocDateStart As System.Windows.Forms.Label
-        Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
-        Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
-        Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtcustCodeStart As System.Windows.Forms.TextBox
-        Friend WithEvents lblcustStart As System.Windows.Forms.Label
-        Friend WithEvents lblcustEnd As System.Windows.Forms.Label
-        Friend WithEvents txtcustCodeEnd As System.Windows.Forms.TextBox
-        Friend WithEvents txtTemp As System.Windows.Forms.TextBox
-        Friend WithEvents chkIncludeChildren As System.Windows.Forms.CheckBox
-        Friend WithEvents btnCCCodeStart As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtCCCodeStart As System.Windows.Forms.TextBox
-        Friend WithEvents lblCCStart As System.Windows.Forms.Label
-        Friend WithEvents txtCostCenterName As System.Windows.Forms.TextBox
-        Friend WithEvents btnCustEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnCustStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents chkShowDetail As System.Windows.Forms.CheckBox
-        Friend WithEvents Label2 As System.Windows.Forms.Label
-        Friend WithEvents Label1 As System.Windows.Forms.Label
-        Friend WithEvents txtRefDocCodePrefix As System.Windows.Forms.TextBox
-        Friend WithEvents txtGLCodeprefix As System.Windows.Forms.TextBox
-        Friend WithEvents grbTypeDisplay As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents chkChq As System.Windows.Forms.CheckBox
-        Friend WithEvents chkTransfer As System.Windows.Forms.CheckBox
-        Friend WithEvents cmbReceiveType As System.Windows.Forms.ComboBox
-        Friend WithEvents btnCustomerGroup As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtCustomerGroupCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblCustomerGroup As System.Windows.Forms.Label
-        Friend WithEvents txtCustomerGroupName As System.Windows.Forms.TextBox
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents grbMaster As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents btnSearch As System.Windows.Forms.Button
+    Friend WithEvents btnReset As System.Windows.Forms.Button
+    Friend WithEvents lblDocDateStart As System.Windows.Forms.Label
+    Friend WithEvents lblDocDateEnd As System.Windows.Forms.Label
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateStart As System.Windows.Forms.TextBox
+    Friend WithEvents dtpDocDateStart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtcustCodeStart As System.Windows.Forms.TextBox
+    Friend WithEvents lblcustStart As System.Windows.Forms.Label
+    Friend WithEvents lblcustEnd As System.Windows.Forms.Label
+    Friend WithEvents txtcustCodeEnd As System.Windows.Forms.TextBox
+    Friend WithEvents txtTemp As System.Windows.Forms.TextBox
+    Friend WithEvents chkIncludeChildren As System.Windows.Forms.CheckBox
+    Friend WithEvents btnCCCodeStart As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtCCCodeStart As System.Windows.Forms.TextBox
+    Friend WithEvents lblCCStart As System.Windows.Forms.Label
+    Friend WithEvents txtCostCenterName As System.Windows.Forms.TextBox
+    Friend WithEvents btnCustEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnCustStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkShowDetail As System.Windows.Forms.CheckBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txtRefDocCodePrefix As System.Windows.Forms.TextBox
+    Friend WithEvents txtGLCodeprefix As System.Windows.Forms.TextBox
+    Friend WithEvents grbTypeDisplay As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents chkChq As System.Windows.Forms.CheckBox
+    Friend WithEvents chkTransfer As System.Windows.Forms.CheckBox
+    Friend WithEvents cmbReceiveType As System.Windows.Forms.ComboBox
+    Friend WithEvents btnCustomerGroup As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtCustomerGroupCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblCustomerGroup As System.Windows.Forms.Label
+    Friend WithEvents txtCustomerGroupName As System.Windows.Forms.TextBox
     Friend WithEvents chkIncludeChildCust As System.Windows.Forms.CheckBox
     Friend WithEvents btnAccountEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeEnd As System.Windows.Forms.TextBox
@@ -71,8 +71,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnAccountStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblAccountStart As System.Windows.Forms.Label
-        Friend WithEvents chkCash As System.Windows.Forms.CheckBox
-        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+    Friend WithEvents chkCash As System.Windows.Forms.CheckBox
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptARReceiveFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -729,46 +729,46 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SetLabelText "
-        Public Sub SetLabelText()
-            'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.lblcustStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblcustStart}")
-            Me.Validator.SetDisplayName(txtcustCodeStart, lblcustStart.Text)
+    Public Sub SetLabelText()
+      'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.lblcustStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblcustStart}")
+      Me.Validator.SetDisplayName(txtcustCodeStart, lblcustStart.Text)
 
-            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblDocDateStart}")
-            Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
+      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblDocDateStart}")
+      Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-            Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblCCStart}")
-            Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
+      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblCCStart}")
+      Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
-            ' Global {ถึง}
-            Me.lblcustEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.Validator.SetDisplayName(txtcustCodeEnd, lblcustEnd.Text)
+      ' Global {ถึง}
+      Me.lblcustEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Validator.SetDisplayName(txtcustCodeEnd, lblcustEnd.Text)
 
-            Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
-            ' Button
-            Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
-            Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
+      Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+      ' Button
+      Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+      Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
-            ' GroupBox
-            Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.grbMaster}")
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.grbDetail}")
-            Me.grbTypeDisplay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblReceiveType}")
-            'Checkbox
-            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.chkIncludeChildren}")
-            Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.chkShowDetail}")
+      ' GroupBox
+      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.grbMaster}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.grbDetail}")
+      Me.grbTypeDisplay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.lblReceiveType}")
+      'Checkbox
+      Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.chkIncludeChildren}")
+      Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.chkShowDetail}")
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Member"
-        Private m_customerstart As Customer
-        Private m_customerend As Customer
+    Private m_customerstart As Customer
+    Private m_customerend As Customer
 
-        Private m_DocDateEnd As Date
-        Private m_DocDateStart As Date
+    Private m_DocDateEnd As Date
+    Private m_DocDateStart As Date
 
-        Private m_cc As CostCenter
+    Private m_cc As CostCenter
 
     Private m_csg As CustomerGroup
 
@@ -777,51 +777,51 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            InitializeComponent()
-            EventWiring()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      InitializeComponent()
+      EventWiring()
+      Initialize()
 
-            SetLabelText()
-            LoopControl(Me)
-        End Sub
+      SetLabelText()
+      LoopControl(Me)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Public Property customerStart() As Customer
-            Get
-                Return m_customerstart
-            End Get
-            Set(ByVal Value As Customer)
-                m_customerstart = Value
-            End Set
-        End Property
-        Public Property customerEnd() As Customer
-            Get
-                Return m_customerend
-            End Get
-            Set(ByVal Value As Customer)
-                m_customerend = Value
-            End Set
-        End Property
-        Public Property CustomerGroup() As CustomerGroup
-            Get
-                Return m_csg
-            End Get
-            Set(ByVal Value As CustomerGroup)
-                m_csg = Value
-            End Set
-        End Property
-        Public Property DocDateEnd() As Date            Get                Return m_DocDateEnd            End Get            Set(ByVal Value As Date)                m_DocDateEnd = Value            End Set        End Property        Public Property DocDateStart() As Date            Get                Return m_DocDateStart            End Get            Set(ByVal Value As Date)                m_DocDateStart = Value            End Set        End Property
+    Public Property customerStart() As Customer
+      Get
+        Return m_customerstart
+      End Get
+      Set(ByVal Value As Customer)
+        m_customerstart = Value
+      End Set
+    End Property
+    Public Property customerEnd() As Customer
+      Get
+        Return m_customerend
+      End Get
+      Set(ByVal Value As Customer)
+        m_customerend = Value
+      End Set
+    End Property
+    Public Property CustomerGroup() As CustomerGroup
+      Get
+        Return m_csg
+      End Get
+      Set(ByVal Value As CustomerGroup)
+        m_csg = Value
+      End Set
+    End Property
+    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
 
-        Public Property Costcenter() As Costcenter
-            Get
-                Return m_cc
-            End Get
-            Set(ByVal Value As Costcenter)
-                m_cc = Value
-            End Set
+    Public Property Costcenter() As Costcenter
+      Get
+        Return m_cc
+      End Get
+      Set(ByVal Value As Costcenter)
+        m_cc = Value
+      End Set
     End Property
 
     Public Property AccountBookStart() As AccountBook
@@ -844,117 +844,117 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Methods"
 
-        Private Sub Initialize()
-            RegisterDropdown()
-            ClearCriterias()
-        End Sub
-        Private Sub RegisterDropdown()
-            ' ประเภทการจ่าย
-            CodeDescription.ListCodeDescriptionInComboBox(cmbReceiveType, "receivei_entityType", True)
-            cmbReceiveType.SelectedIndex = 0
-        End Sub
+    Private Sub Initialize()
+      RegisterDropdown()
+      ClearCriterias()
+    End Sub
+    Private Sub RegisterDropdown()
+      ' ประเภทการจ่าย
+      CodeDescription.ListCodeDescriptionInComboBox(cmbReceiveType, "receivei_entityType", True)
+      cmbReceiveType.SelectedIndex = 0
+    End Sub
 
-        Private Sub ClearCriterias()
-            For Each grbCtrl As Control In grbMaster.Controls
-                If TypeOf grbCtrl Is Longkong.Pojjaman.Gui.Components.FixedGroupBox Then
-                    For Each Ctrl As Control In grbCtrl.Controls
-                        If TypeOf Ctrl Is TextBox Then
-                            Ctrl.Text = ""
-                        End If
-                    Next
-                End If
-            Next
+    Private Sub ClearCriterias()
+      For Each grbCtrl As Control In grbMaster.Controls
+        If TypeOf grbCtrl Is Longkong.Pojjaman.Gui.Components.FixedGroupBox Then
+          For Each Ctrl As Control In grbCtrl.Controls
+            If TypeOf Ctrl Is TextBox Then
+              Ctrl.Text = ""
+            End If
+          Next
+        End If
+      Next
 
       Me.Costcenter = New CostCenter
 
       Me.AccountBookStart = New AccountBook
       Me.AccountBookEnd = New AccountBook
 
-            Me.customerStart = New Customer
-            Me.customerEnd = New Customer
+      Me.customerStart = New Customer
+      Me.customerEnd = New Customer
 
-            Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
-            Me.DocDateStart = dtStart
-            Me.txtDocDateStart.Text = MinDateToNull(Me.DocDateStart, "")
-            Me.dtpDocDateStart.Value = Me.DocDateStart
+      Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
+      Me.DocDateStart = dtStart
+      Me.txtDocDateStart.Text = MinDateToNull(Me.DocDateStart, "")
+      Me.dtpDocDateStart.Value = Me.DocDateStart
 
-            Me.DocDateEnd = Date.Now
-            Me.txtDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
-            Me.dtpDocDateEnd.Value = Me.DocDateEnd
+      Me.DocDateEnd = Date.Now
+      Me.txtDocDateEnd.Text = MinDateToNull(Me.DocDateEnd, "")
+      Me.dtpDocDateEnd.Value = Me.DocDateEnd
 
-            Me.chkIncludeChildren.Checked = False
-            Me.chkShowDetail.Checked = False
-            If Me.cmbReceiveType.Items.Count > 0 Then
-                Me.cmbReceiveType.SelectedIndex = 0
-            End If
-            Me.chkIncludeChildCust.Checked = False
-        End Sub
-        Public Overrides Function GetFilterString() As String
+      Me.chkIncludeChildren.Checked = False
+      Me.chkShowDetail.Checked = False
+      If Me.cmbReceiveType.Items.Count > 0 Then
+        Me.cmbReceiveType.SelectedIndex = 0
+      End If
+      Me.chkIncludeChildCust.Checked = False
+    End Sub
+    Public Overrides Function GetFilterString() As String
 
-        End Function
-        Public Overrides Function GetFilterArray() As Filter()
+    End Function
+    Public Overrides Function GetFilterArray() As Filter()
       Dim arr(15) As Filter
-            arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
-            arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
-            arr(2) = New Filter("custCodeStart", IIf(txtcustCodeStart.TextLength > 0, txtcustCodeStart.Text, DBNull.Value))
-            arr(3) = New Filter("custCodeEnd", IIf(txtcustCodeEnd.TextLength > 0, txtcustCodeEnd.Text, DBNull.Value))
-            arr(4) = New Filter("cc_id", Me.ValidIdOrDBNull(m_cc))
-            arr(5) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
-            arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-            arr(7) = New Filter("ShowDetail", Me.chkShowDetail.Checked)
-            arr(8) = New Filter("ReceiveType", Me.cmbReceiveType.SelectedIndex - 1)
-            arr(9) = New Filter("GLCodeprefix", IIf(txtGLCodeprefix.TextLength > 0, txtGLCodeprefix.Text, DBNull.Value))
-            arr(10) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
-            arr(11) = New Filter("Type", GetChekType())
-            arr(12) = New Filter("CustGroupCode", IIf(txtCustomerGroupCode.TextLength > 0, txtCustomerGroupCode.Text, DBNull.Value))
+      arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
+      arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
+      arr(2) = New Filter("custCodeStart", IIf(txtcustCodeStart.TextLength > 0, txtcustCodeStart.Text, DBNull.Value))
+      arr(3) = New Filter("custCodeEnd", IIf(txtcustCodeEnd.TextLength > 0, txtcustCodeEnd.Text, DBNull.Value))
+      arr(4) = New Filter("cc_id", Me.ValidIdOrDBNull(m_cc))
+      arr(5) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
+      arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      arr(7) = New Filter("ShowDetail", Me.chkShowDetail.Checked)
+      arr(8) = New Filter("ReceiveType", Me.cmbReceiveType.SelectedIndex - 1)
+      arr(9) = New Filter("GLCodeprefix", IIf(txtGLCodeprefix.TextLength > 0, txtGLCodeprefix.Text, DBNull.Value))
+      arr(10) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
+      arr(11) = New Filter("Type", GetChekType())
+      arr(12) = New Filter("CustGroupCode", IIf(txtCustomerGroupCode.TextLength > 0, txtCustomerGroupCode.Text, DBNull.Value))
       arr(13) = New Filter("IncludeChildCust", Me.chkIncludeChildCust.Checked)
       arr(14) = New Filter("accountbookfrom", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
       arr(15) = New Filter("accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
-            Return arr
-        End Function
-        Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
-            Get
-                Return Me.btnSearch
-            End Get
-        End Property
+      Return arr
+    End Function
+    Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
+      Get
+        Return Me.btnSearch
+      End Get
+    End Property
 
-        Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
-            ClearCriterias()
-            Me.btnSearch.PerformClick()
-        End Sub
+    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
+      ClearCriterias()
+      Me.btnSearch.PerformClick()
+    End Sub
 #End Region
 
 #Region " IReportFilterSubPanel "
-        Public Function GetFixValueCollection() As BusinessLogic.DocPrintingItemCollection Implements IReportFilterSubPanel.GetFixValueCollection
-            Dim dpiColl As New DocPrintingItemCollection
-            Dim dpi As DocPrintingItem
+    Public Function GetFixValueCollection() As BusinessLogic.DocPrintingItemCollection Implements IReportFilterSubPanel.GetFixValueCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-            'costcenter start
-            dpi = New DocPrintingItem
-            dpi.Mapping = "costcenterstart"
-            dpi.Value = Me.txtCostCenterName.Text
-            dpi.DataType = "System.String"
-            dpiColl.Add(dpi)
+      'costcenter start
+      dpi = New DocPrintingItem
+      dpi.Mapping = "costcenterstart"
+      dpi.Value = Me.txtCostCenterName.Text
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
-            Return dpiColl
-        End Function
+      Return dpiColl
+    End Function
 #End Region
 
 #Region " ChangeProperty "
-        Private Sub EventWiring()
-            AddHandler btnCustStartFind.Click, AddressOf Me.btncustomerFind_Click
-            AddHandler btnCustEndFind.Click, AddressOf Me.btncustomerFind_Click
+    Private Sub EventWiring()
+      AddHandler btnCustStartFind.Click, AddressOf Me.btncustomerFind_Click
+      AddHandler btnCustEndFind.Click, AddressOf Me.btncustomerFind_Click
 
-            AddHandler btnCCCodeStart.Click, AddressOf Me.btnCostcenterFind_Click
-            AddHandler txtCCCodeStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler btnCCCodeStart.Click, AddressOf Me.btnCostcenterFind_Click
+      AddHandler txtCCCodeStart.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler btnCustomerGroup.Click, AddressOf Me.btnCustomerGroupFind_Click
+      AddHandler btnCustomerGroup.Click, AddressOf Me.btnCustomerGroupFind_Click
       AddHandler txtCustomerGroupCode.Validated, AddressOf Me.ChangeProperty
 
       AddHandler btnAccountStartFind.Click, AddressOf Me.btnAccountFind_Click
@@ -962,169 +962,169 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler btnAccountEndFind.Click, AddressOf Me.btnAccountFind_Click
       AddHandler txtAccountCodeEnd.Validated, AddressOf Me.ChangeProperty
-        End Sub
+    End Sub
 
-        Private m_dateSetting As Boolean
-        Private Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+    Private m_dateSetting As Boolean
+    Private Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
 
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcccodestart"
-                    Costcenter.GetCostCenter(txtCCCodeStart, Me.txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcccodestart"
+          Costcenter.GetCostCenter(txtCCCodeStart, Me.txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
 
-                Case "txtcustomergroupcode"
-                    CustomerGroup.GetCustomerGroup(txtCustomerGroupCode, txtCustomerGroupName, Me.CustomerGroup)
+        Case "txtcustomergroupcode"
+          CustomerGroup.GetCustomerGroup(txtCustomerGroupCode, txtCustomerGroupName, Me.CustomerGroup)
 
-                Case "dtpdocdatestart"
-                    If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.DocDateStart = dtpDocDateStart.Value
-                        End If
-                    End If
-                Case "txtdocdatestart"
-                    m_dateSetting = True
-                    If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
-                        If Not Me.DocDateStart.Equals(theDate) Then
-                            dtpDocDateStart.Value = theDate
-                            Me.DocDateStart = dtpDocDateStart.Value
-                        End If
-                    Else
-                        Me.dtpDocDateStart.Value = Date.Now
-                        Me.DocDateStart = Date.MinValue
-                    End If
-                    m_dateSetting = False
+        Case "dtpdocdatestart"
+          If Not Me.DocDateStart.Equals(dtpDocDateStart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateStart.Text = MinDateToNull(dtpDocDateStart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          End If
+        Case "txtdocdatestart"
+          m_dateSetting = True
+          If Not Me.txtDocDateStart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateStart) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateStart.Text)
+            If Not Me.DocDateStart.Equals(theDate) Then
+              dtpDocDateStart.Value = theDate
+              Me.DocDateStart = dtpDocDateStart.Value
+            End If
+          Else
+            Me.dtpDocDateStart.Value = Date.Now
+            Me.DocDateStart = Date.MinValue
+          End If
+          m_dateSetting = False
 
-                Case "dtpdocdateend"
-                    If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.DocDateEnd = dtpDocDateEnd.Value
-                        End If
-                    End If
-                Case "txtdocdateend"
-                    m_dateSetting = True
-                    If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
-                        Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
-                        If Not Me.DocDateEnd.Equals(theDate) Then
-                            dtpDocDateEnd.Value = theDate
-                            Me.DocDateEnd = dtpDocDateEnd.Value
-                        End If
-                    Else
-                        Me.dtpDocDateEnd.Value = Date.Now
-                        Me.DocDateEnd = Date.MinValue
-                    End If
-                    m_dateSetting = False
+        Case "dtpdocdateend"
+          If Not Me.DocDateEnd.Equals(dtpDocDateEnd.Value) Then
+            If Not m_dateSetting Then
+              Me.txtDocDateEnd.Text = MinDateToNull(dtpDocDateEnd.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.DocDateEnd = dtpDocDateEnd.Value
+            End If
+          End If
+        Case "txtdocdateend"
+          m_dateSetting = True
+          If Not Me.txtDocDateEnd.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDocDateEnd) = "" Then
+            Dim theDate As Date = CDate(Me.txtDocDateEnd.Text)
+            If Not Me.DocDateEnd.Equals(theDate) Then
+              dtpDocDateEnd.Value = theDate
+              Me.DocDateEnd = dtpDocDateEnd.Value
+            End If
+          Else
+            Me.dtpDocDateEnd.Value = Date.Now
+            Me.DocDateEnd = Date.MinValue
+          End If
+          m_dateSetting = False
         Case "txtaccountcodestart"
           AccountBook.GetAccountBook(txtAccountCodeStart, txtTemp, Me.m_AccountBookStart)
         Case "txtaccountcodeend"
           AccountBook.GetAccountBook(txtAccountCodeEnd, txtTemp, Me.m_AccountBookEnd)
-                Case Else
+        Case Else
 
-            End Select
-        End Sub
+      End Select
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New Customer).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtcustcodestart", "txtcustcodeend"
-                                Return True
-                        End Select
-                    End If
-                End If
-                ' Costcenter
-                If data.GetDataPresent((New Costcenter).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtcccodestart", "txtcccodeend"
-                                Return True
-                        End Select
-                    End If
-                End If
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New Customer).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Customer).FullClassName))
-                Dim entity As New Customer(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtcustcodestart"
-                            Me.SetcustomerStartDialog(entity)
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New Customer).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtcustcodestart", "txtcustcodeend"
+                Return True
+            End Select
+          End If
+        End If
+        ' Costcenter
+        If data.GetDataPresent((New Costcenter).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtcccodestart", "txtcccodeend"
+                Return True
+            End Select
+          End If
+        End If
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New Customer).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Customer).FullClassName))
+        Dim entity As New Customer(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtcustcodestart"
+              Me.SetcustomerStartDialog(entity)
 
-                        Case "txtcustcodeend"
-                            Me.SetcustomerEndDialog(entity)
+            Case "txtcustcodeend"
+              Me.SetcustomerEndDialog(entity)
 
-                    End Select
-                End If
-            End If
-            ' Costcenter
-            If data.GetDataPresent((New Costcenter).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Costcenter).FullClassName))
-                Dim entity As New Costcenter(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtcostcentercodestart"
-                            Me.SetCCCodeStartDialog(entity)
+          End Select
+        End If
+      End If
+      ' Costcenter
+      If data.GetDataPresent((New Costcenter).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Costcenter).FullClassName))
+        Dim entity As New Costcenter(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtcostcentercodestart"
+              Me.SetCCCodeStartDialog(entity)
 
-                        Case "txtcostcentercodeend"
-                            Me.SetCCCodeStartDialog(entity)
+            Case "txtcostcentercodeend"
+              Me.SetCCCodeStartDialog(entity)
 
-                    End Select
-                End If
-            End If
-        End Sub
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region " Event Handlers "
-        Private Sub btncustomerFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btncuststartfind"
-                    myEntityPanelService.OpenListDialog(New Customer, AddressOf SetcustomerStartDialog)
+    Private Sub btncustomerFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btncuststartfind"
+          myEntityPanelService.OpenListDialog(New Customer, AddressOf SetcustomerStartDialog)
 
-                Case "btncustendfind"
-                    myEntityPanelService.OpenListDialog(New Customer, AddressOf SetcustomerEndDialog)
+        Case "btncustendfind"
+          myEntityPanelService.OpenListDialog(New Customer, AddressOf SetcustomerEndDialog)
 
-            End Select
-        End Sub
-        ' Costcenter
-        Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btncccodestart"
-                    myEntityPanelService.OpenTreeDialog(New Costcenter, AddressOf SetCCCodeStartDialog)
-            End Select
-        End Sub
-        ' Customergroup
-        Private Sub btnCustomerGroupFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            Select Case CType(sender, Control).Name.ToLower
-                Case "btncustomergroup"
-                    myEntityPanelService.OpenTreeDialog(New CustomerGroup, AddressOf SetcustomergroupDialog)
-            End Select
-        End Sub
-        Private Sub SetcustomergroupDialog(ByVal e As ISimpleEntity)
-            Me.txtCustomerGroupCode.Text = e.Code
-            CustomerGroup.GetCustomerGroup(txtCustomerGroupCode, txtCustomerGroupName, Me.CustomerGroup)
-        End Sub
-        Private Sub SetcustomerStartDialog(ByVal e As ISimpleEntity)
-            Me.txtcustCodeStart.Text = e.Code
-            Customer.GetCustomer(txtcustCodeStart, txtTemp, Me.customerStart)
-        End Sub
-        Private Sub SetcustomerEndDialog(ByVal e As ISimpleEntity)
-            Me.txtcustCodeEnd.Text = e.Code
-            Customer.GetCustomer(txtcustCodeEnd, txtTemp, Me.customerEnd)
-        End Sub
-        Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
-            Me.txtCCCodeStart.Text = e.Code
-            Costcenter.GetCostCenter(txtCCCodeStart, txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+      End Select
+    End Sub
+    ' Costcenter
+    Private Sub btnCostcenterFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btncccodestart"
+          myEntityPanelService.OpenTreeDialog(New Costcenter, AddressOf SetCCCodeStartDialog)
+      End Select
+    End Sub
+    ' Customergroup
+    Private Sub btnCustomerGroupFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btncustomergroup"
+          myEntityPanelService.OpenTreeDialog(New CustomerGroup, AddressOf SetcustomergroupDialog)
+      End Select
+    End Sub
+    Private Sub SetcustomergroupDialog(ByVal e As ISimpleEntity)
+      Me.txtCustomerGroupCode.Text = e.Code
+      CustomerGroup.GetCustomerGroup(txtCustomerGroupCode, txtCustomerGroupName, Me.CustomerGroup)
+    End Sub
+    Private Sub SetcustomerStartDialog(ByVal e As ISimpleEntity)
+      Me.txtcustCodeStart.Text = e.Code
+      Customer.GetCustomer(txtcustCodeStart, txtTemp, Me.customerStart)
+    End Sub
+    Private Sub SetcustomerEndDialog(ByVal e As ISimpleEntity)
+      Me.txtcustCodeEnd.Text = e.Code
+      Customer.GetCustomer(txtcustCodeEnd, txtTemp, Me.customerEnd)
+    End Sub
+    Private Sub SetCCCodeStartDialog(ByVal e As ISimpleEntity)
+      Me.txtCCCodeStart.Text = e.Code
+      Costcenter.GetCostCenter(txtCCCodeStart, txtCostCenterName, m_cc, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
     End Sub
     Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
@@ -1147,31 +1147,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
-        Private Function GetChekType() As Object
-            Dim type As String = ""
-            If Me.chkCash.Checked = False And Me.chkChq.Checked = False And Me.chkTransfer.Checked = False Then
-                type = Nothing
-            Else
+    Private Function GetChekType() As Object
+      Dim type As String = ""
+      If Me.chkCash.Checked = False And Me.chkChq.Checked = False And Me.chkTransfer.Checked = False Then
+        type = Nothing
+      Else
 
-                If Me.chkCash.Checked Then
-                    type &= "0"
-                End If
-                If Me.chkChq.Checked Then
-                    If Len(type) > 0 Then
-                        type &= ","
-                    End If
-                    type &= "27"
-                End If
+        If Me.chkCash.Checked Then
+          type &= "0"
+        End If
+        If Me.chkChq.Checked Then
+          If Len(type) > 0 Then
+            type &= ","
+          End If
+          type &= "27"
+        End If
 
-                If Me.chkTransfer.Checked Then
-                    If Len(type) > 0 Then
-                        type &= ","
-                    End If
-                    type &= "72"
-                End If
-            End If
-            Return type
-        End Function
-    End Class
+        If Me.chkTransfer.Checked Then
+          If Len(type) > 0 Then
+            type &= ","
+          End If
+          type &= "72"
+        End If
+      End If
+      Return type
+    End Function
+  End Class
 End Namespace
 
