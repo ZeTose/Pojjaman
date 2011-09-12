@@ -173,7 +173,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currOpnIndex As Integer = -1
       Dim indent As String = Space(3)
       Dim currItemIndex As Integer = -1
-      Dim Sum As Decimal = 0
+      Dim SumIn As Decimal = 0
+      Dim SumOut As Decimal = 0
+      Dim SumRemain As Decimal = 0
       Dim DocRows As DataRow()
       Dim currentCCId As Integer = -1
 
@@ -318,7 +320,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '----> End Withdraw
 
           remainQty += (currentIn - currentOut)
-
+          SumOut += currentOutAmount
+          SumIn += currentInAmount
           remainAmount += (currentInAmount - currentOutAmount)
 
           '----> Balance
@@ -333,7 +336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           '----> End Balance
         Next
-        Sum += CDec(remainAmount)
+        SumRemain += CDec(remainAmount)
       Next
       m_grid.RowCount += 1
       currItemIndex = m_grid.RowCount
@@ -341,7 +344,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.RowStyles(currItemIndex).Font.Bold = True
       m_grid.RowStyles(currItemIndex).ReadOnly = True
       m_grid(currItemIndex, 11).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.SumAmount}")  '"รวมทั้งหมด"
-      m_grid(currItemIndex, 12).CellValue = Configuration.FormatToString(Sum, DigitConfig.Price)
+      m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(SumIn, DigitConfig.Price)
+      m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(SumOut, DigitConfig.Price)
+      m_grid(currItemIndex, 12).CellValue = Configuration.FormatToString(SumRemain, DigitConfig.Price)
 
     End Sub
 #End Region#Region "Shared"
