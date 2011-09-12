@@ -3187,7 +3187,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               sumMilestoneAmount += mi.RealMileStoneAmount
               sumBillissue += mi.Amount + mi.RetentionforReceiveSelection
-              sumRetention += mi.RetentionforReceiveSelection
+              sumRetention += item.ARretention
               sumTaxBase += mi.RealTaxBase
               sumAdvanceAmount += mi.Advance
               sumBeforeTax += mi.BeforeTax
@@ -3499,7 +3499,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               sumMilestoneAmount -= mi.RealMileStoneAmount
               sumBillissue -= mi.Amount - mi.RetentionforReceiveSelection
-              sumRetention -= mi.RetentionforReceiveSelection
+              'sumRetention -= mi.RetentionforReceiveSelection
+              sumRetention -= item.ARretention
               sumTaxBase -= mi.RealTaxBase
               sumAdvanceAmount -= mi.Advance
               sumBeforeTax -= mi.BeforeTax
