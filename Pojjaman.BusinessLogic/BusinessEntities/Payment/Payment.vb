@@ -3813,8 +3813,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'RefDocItem.UnpaidAmount
               dpi = New DocPrintingItem
               dpi.Mapping = "RefDocItem.UnpaidAmount"
+             
               If Not IsDBNull(dr("UnpaidAmount")) Then
-                dpi.Value = Configuration.FormatToString(CDec(dr("UnpaidAmount")), DigitConfig.UnitPrice)
+                Dim paysi_unpaidamt As Decimal = CDec(dr("UnpaidAmount"))
+                If stock_type = 46 Then
+                  paysi_unpaidamt = (-1) * paysi_unpaidamt
+                End If
+                dpi.Value = Configuration.FormatToString(paysi_unpaidamt, DigitConfig.UnitPrice)
               End If
               dpi.DataType = "System.String"
               dpi.Row = n + 1
