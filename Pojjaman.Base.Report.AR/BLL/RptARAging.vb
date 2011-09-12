@@ -290,8 +290,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trGL("col6") = Configuration.FormatToString(sumCol(6), DigitConfig.Price)
           trGL("col7") = Configuration.FormatToString(sumCol(7), DigitConfig.Price)
           trGL("col8") = Configuration.FormatToString(sumCol(8), DigitConfig.Price)
-          trGL("col8") = Configuration.FormatToString(sumCol(9), DigitConfig.Price)
-          trGL("col9") = Configuration.FormatToString(sumCol(10), DigitConfig.Price)
+          trGL("col9") = Configuration.FormatToString(sumCol(9), DigitConfig.Price)
+          trGL("col10") = Configuration.FormatToString(sumCol(10), DigitConfig.Price)
         Case 2 'Year
           trGL("col2") = Configuration.FormatToString(sumCol(2), DigitConfig.Price)
           trGL("col3") = Configuration.FormatToString(sumCol(3), DigitConfig.Price)
