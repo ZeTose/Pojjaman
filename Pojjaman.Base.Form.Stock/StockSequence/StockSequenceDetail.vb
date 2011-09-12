@@ -54,17 +54,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ProgressBar1 As System.Windows.Forms.ProgressBar
     Friend WithEvents lblProgress As System.Windows.Forms.Label
     Friend WithEvents btnReSave As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblItemCodeList As System.Windows.Forms.Label
+    Friend WithEvents txtItemCodeList As System.Windows.Forms.TextBox
     Friend WithEvents chkRecalUnitCost As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.txtDocDateStart = New System.Windows.Forms.TextBox()
       Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnReSave = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblProgress = New System.Windows.Forms.Label()
       Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
       Me.btnOK = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -75,7 +79,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
       Me.lblDateEnd = New System.Windows.Forms.Label()
       Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
-      Me.btnReSave = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtItemCodeList = New System.Windows.Forms.TextBox()
+      Me.lblItemCodeList = New System.Windows.Forms.Label()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
@@ -140,7 +147,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-      Me.txtDocDateEnd.Location = New System.Drawing.Point(112, 40)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(334, 16)
       Me.txtDocDateEnd.MaxLength = 20
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
@@ -189,9 +196,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
       Me.grbGeneral.Location = New System.Drawing.Point(8, 16)
       Me.grbGeneral.Name = "grbGeneral"
-      Me.grbGeneral.Size = New System.Drawing.Size(360, 168)
+      Me.grbGeneral.Size = New System.Drawing.Size(502, 168)
       Me.grbGeneral.TabIndex = 179
       Me.grbGeneral.TabStop = False
+      '
+      'btnReSave
+      '
+      Me.btnReSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnReSave.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnReSave.ForeColor = System.Drawing.Color.Black
+      Me.btnReSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.btnReSave.Location = New System.Drawing.Point(150, 136)
+      Me.btnReSave.Name = "btnReSave"
+      Me.btnReSave.Size = New System.Drawing.Size(72, 23)
+      Me.btnReSave.TabIndex = 336
+      Me.btnReSave.Text = "ReSave"
+      Me.btnReSave.ThemedImage = Nothing
       '
       'lblProgress
       '
@@ -217,7 +237,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnOK.ForeColor = System.Drawing.Color.Black
       Me.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnOK.Location = New System.Drawing.Point(280, 136)
+      Me.btnOK.Location = New System.Drawing.Point(422, 136)
       Me.btnOK.Name = "btnOK"
       Me.btnOK.Size = New System.Drawing.Size(72, 23)
       Me.btnOK.TabIndex = 333
@@ -230,7 +250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnPreview.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnPreview.ForeColor = System.Drawing.Color.Black
       Me.btnPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnPreview.Location = New System.Drawing.Point(200, 136)
+      Me.btnPreview.Location = New System.Drawing.Point(342, 136)
       Me.btnPreview.Name = "btnPreview"
       Me.btnPreview.Size = New System.Drawing.Size(72, 23)
       Me.btnPreview.TabIndex = 333
@@ -240,6 +260,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'FixedGroupBox1
       '
+      Me.FixedGroupBox1.Controls.Add(Me.lblItemCodeList)
+      Me.FixedGroupBox1.Controls.Add(Me.txtItemCodeList)
       Me.FixedGroupBox1.Controls.Add(Me.chkRecalUnitCost)
       Me.FixedGroupBox1.Controls.Add(Me.txtDocDateStart)
       Me.FixedGroupBox1.Controls.Add(Me.lblDateStart)
@@ -251,7 +273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.FixedGroupBox1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
       Me.FixedGroupBox1.Location = New System.Drawing.Point(8, 16)
       Me.FixedGroupBox1.Name = "FixedGroupBox1"
-      Me.FixedGroupBox1.Size = New System.Drawing.Size(344, 104)
+      Me.FixedGroupBox1.Size = New System.Drawing.Size(486, 104)
       Me.FixedGroupBox1.TabIndex = 179
       Me.FixedGroupBox1.TabStop = False
       '
@@ -291,9 +313,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDateEnd.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblDateEnd.Location = New System.Drawing.Point(16, 40)
+      Me.lblDateEnd.Location = New System.Drawing.Point(262, 16)
       Me.lblDateEnd.Name = "lblDateEnd"
-      Me.lblDateEnd.Size = New System.Drawing.Size(96, 18)
+      Me.lblDateEnd.Size = New System.Drawing.Size(72, 18)
       Me.lblDateEnd.TabIndex = 6
       Me.lblDateEnd.Text = "ถึงวันที่:"
       Me.lblDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -303,30 +325,44 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.CustomFormat = "dd/MM/yyyy"
       Me.dtpDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDateEnd.Location = New System.Drawing.Point(112, 40)
+      Me.dtpDocDateEnd.Location = New System.Drawing.Point(334, 16)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
       Me.dtpDocDateEnd.Size = New System.Drawing.Size(144, 21)
       Me.dtpDocDateEnd.TabIndex = 3
       Me.dtpDocDateEnd.TabStop = False
       '
-      'btnReSave
+      'txtItemCodeList
       '
-      Me.btnReSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnReSave.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReSave.ForeColor = System.Drawing.Color.Black
-      Me.btnReSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnReSave.Location = New System.Drawing.Point(8, 136)
-      Me.btnReSave.Name = "btnReSave"
-      Me.btnReSave.Size = New System.Drawing.Size(72, 23)
-      Me.btnReSave.TabIndex = 336
-      Me.btnReSave.Text = "ReSave"
-      Me.btnReSave.ThemedImage = Nothing
+      Me.Validator.SetDataType(Me.txtItemCodeList, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtItemCodeList, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtItemCodeList, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtItemCodeList, System.Drawing.Color.Empty)
+      Me.txtItemCodeList.Location = New System.Drawing.Point(112, 44)
+      Me.Validator.SetMinValue(Me.txtItemCodeList, "")
+      Me.txtItemCodeList.Name = "txtItemCodeList"
+      Me.Validator.SetRegularExpression(Me.txtItemCodeList, "")
+      Me.Validator.SetRequired(Me.txtItemCodeList, False)
+      Me.txtItemCodeList.Size = New System.Drawing.Size(366, 21)
+      Me.txtItemCodeList.TabIndex = 8
+      '
+      'lblItemCodeList
+      '
+      Me.lblItemCodeList.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblItemCodeList.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblItemCodeList.Location = New System.Drawing.Point(16, 44)
+      Me.lblItemCodeList.Name = "lblItemCodeList"
+      Me.lblItemCodeList.Size = New System.Drawing.Size(96, 18)
+      Me.lblItemCodeList.TabIndex = 9
+      Me.lblItemCodeList.Text = "ใส่รหัสวัสดุ"
+      Me.lblItemCodeList.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'StockSequenceDetail
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "StockSequenceDetail"
       Me.Size = New System.Drawing.Size(776, 464)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbGeneral.ResumeLayout(False)
       Me.FixedGroupBox1.ResumeLayout(False)
@@ -449,6 +485,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler chkRecalUnitCost.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler txtItemCodeList.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtItemCodeList.Validated, AddressOf Me.ChangeProperty
     End Sub
     'Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
     '  If Me.m_entity Is Nothing Or Not m_isInitialized Then
@@ -477,6 +515,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDocDateEnd.Text = MinDateToNull(Me.m_entity.DateEnd, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       dtpDocDateEnd.Value = MinDateToNow(Me.m_entity.DateEnd)
 
+      txtItemCodeList.Text = ""
       'Hack
       'Me.IsDirty = False
 
@@ -544,7 +583,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Else
             Me.m_entity.IsRecalUnitCost = 0
           End If
-
+        Case "txtitemcodelist"
+          m_entity.ItemCodeList = txtItemCodeList.Text
       End Select
       'Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       CheckFormEnable()

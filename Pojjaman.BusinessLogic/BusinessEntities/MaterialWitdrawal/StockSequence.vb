@@ -219,6 +219,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_IsRecalUnitCost = Value
       End Set
     End Property
+    Public Property ItemCodeList As String
+
     Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "StockSequence"
@@ -272,6 +274,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Sub GetPreReSequence()
       Try
+        
         m_dataset = New DataSet
         m_dataset = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _
@@ -317,7 +320,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Return 0
     'End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
-   
+      Dim icl As Object
+      If RTrim(LTrim(ItemCodeList)).Length = 0 Then
+        icl = DBNull.Value
+      Else
+        icl = RTrim(LTrim(ItemCodeList))
+      End If
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       Dim cmd As New SqlCommand
@@ -333,6 +342,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         cmd.Parameters.Add("@DateEnd", Me.DateEnd)
         cmd.Parameters.Add("@recalUnitCost", Me.IsRecalUnitCost)
         cmd.Parameters.Add("@requestor", currentUserId)
+        cmd.Parameters.Add("@ItemCodeList", icl)
 
         'cmd.ExecuteReader()
 
