@@ -790,14 +790,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Select        Dim amt As Decimal = Value * Me.Qty
         Me.m_mat = 0
         Me.m_lab = 0
-        Me.m_eq = 0        Select Case Me.ItemType.Value
+        Me.m_eq = 0        'Select Case Me.ItemType.Value
+        '  Case 0, 19, 28, 42
+        '    Me.m_mat = amt
+        '  Case 88, 289
+        '    Me.m_lab = amt
+        '  Case 89
+        '    Me.m_eq = amt
+        'End Select        m_unitPrice = Value        m_receiveAmount = amt
+        Select Case Me.ItemType.Value
           Case 0, 19, 28, 42
-            Me.m_mat = amt
+            Me.m_mat = Me.CostAmount
           Case 88, 289
-            Me.m_lab = amt
+            Me.m_lab = Me.CostAmount
           Case 89
-            Me.m_eq = amt
-        End Select        m_unitPrice = Value        m_receiveAmount = amt
+            Me.m_eq = Me.CostAmount
+        End Select
       End Set    End Property    Public Property Mat() As Decimal
       Get
         Return m_mat
@@ -808,7 +816,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
         End If
         Dim m_value As Decimal = Value + Me.Lab + Me.Eq
-        If m_value > Me.Amount Then
+        If m_value > Me.CostAmount Then ' Me.Amount Then
           Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
           New String() {Configuration.FormatToString(m_value, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
@@ -828,7 +836,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         Dim m_value As Decimal = Me.Mat + Value + Me.Eq
-        If m_value > Me.Amount Then
+        If m_value > Me.CostAmount Then ' Me.Amount Then
           Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
           New String() {Configuration.FormatToString(m_value, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
@@ -847,7 +855,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
         End If
         Dim m_value As Decimal = Me.Mat + Me.Lab + Value
-        If m_value > Me.Amount Then
+        If m_value > Me.CostAmount Then ' Me.Amount Then
           Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
           msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
           New String() {Configuration.FormatToString(m_value, DigitConfig.Price), Configuration.FormatToString(Me.Amount, DigitConfig.Price)})
@@ -859,7 +867,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public ReadOnly Property AmountWithDefaultUnit() As Decimal
       Get
         If StockQty > 0 Then
-          Return ((Me.UnitPrice / Me.Conversion) * StockQty) - (Me.Discount.Amount / Me.Conversion)
+          Return ((Me.UnitPrice / Me.Conversion) * StockQty) - (Me.Discount.Amount)
         Else
           Return 0
         End If
@@ -882,7 +890,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim tmpCost As Decimal = 0
           Dim tmpRealGrossNoVat As Decimal = 0
 
-          tmpRealGrossNoVat = Me.Pa.RealGross
+          tmpRealGrossNoVat = Me.Pa.RealGrossWithNoDeductItem ' Me.Pa.RealGross
 
           If tmpRealGrossNoVat = 0 Then
             Return 0
@@ -908,8 +916,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return 0
       End Get
-    End Property    Public ReadOnly Property CostAmount() As Decimal 'Implements IWBSAllocatableItem.ItemAmount      Get
-        Return Me.UnitCost * Me.StockQty
+    End Property    Public ReadOnly Property CostAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount      Get
+        'Return Me.UnitCost * Me.StockQty
+        Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
+        If tmpCost = 0 OrElse (Me.RefDocType = 290 AndAlso Me.Amount < 0) OrElse (Me.RefDocType = 291) Then
+          tmpCost = Me.ReceiveAmount
+        End If
+        Return tmpCost
       End Get
     End Property    Public ReadOnly Property BudgetConversion() As Decimal      Get
         Return m_budgetConversion
@@ -920,7 +933,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)
       End Get
     End Property
-    Public ReadOnly Property Amount() As Decimal Implements IWBSAllocatableItem.ItemAmount
+    Public ReadOnly Property Amount() As Decimal 'Implements IWBSAllocatableItem.ItemAmount
       Get
         'Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)
         'Return amtFormatted - Me.DiscountAmount
@@ -970,31 +983,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return True
     End Function
-    Private Sub RecalculateReceiveAmount()
+    Public Sub RecalculateReceiveAmount()
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        Select Case Me.ItemType.Value
-          Case 160, 162
-            'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
-            msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
-            Return
-        End Select
-        Select Case Me.ItemType.Value
-          Case 0, 19, 28, 42
-            Me.m_mat = m_receiveAmount
-            Me.m_lab = 0
-            Me.m_eq = 0
+      Select Case Me.ItemType.Value
+        Case 160, 162
+          'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
+          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
+          Return
+      End Select
+      Dim m_cost As Decimal = Me.CostAmount
+      Select Case Me.ItemType.Value
+        Case 0, 19, 28, 42
+          Me.m_mat = m_cost 'm_receiveAmount
+          Me.m_lab = 0
+          Me.m_eq = 0
         Case 88, 291
-            Me.m_mat = 0
-            Me.m_lab = m_receiveAmount
-            Me.m_eq = 0
-          Case 89
-            Me.m_mat = 0
-            Me.m_lab = 0
-            Me.m_eq = m_receiveAmount
-          Case 289
-            Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
-            Me.m_lab = (m_receiveAmount - amt2) + Me.Lab
-        End Select
+          Me.m_mat = 0
+          Me.m_lab = m_cost 'm_receiveAmount
+          Me.m_eq = 0
+        Case 89
+          Me.m_mat = 0
+          Me.m_lab = 0
+          Me.m_eq = m_cost 'm_receiveAmount
+        Case 289
+          Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
+          'Me.m_lab = (m_receiveAmount - amt2) + Me.Lab
+          Me.m_lab = (m_cost - amt2) + Me.Lab
+      End Select
     End Sub
     Public Property ReceiveAmount() As Decimal
       Get

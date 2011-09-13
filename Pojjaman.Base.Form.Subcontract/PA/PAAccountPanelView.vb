@@ -1393,7 +1393,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
 
       For Each item As PAItem In coll
-        If item.Amount <> 0 AndAlso item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+        If item.CostAmount <> 0 AndAlso item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
 
           Dim parentRow As TreeRow = CType(parentRowHash(item.Parent), TreeRow)
           If Not parentRow Is Nothing Then
@@ -1516,7 +1516,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Public Sub SetStatus()
-
+      MyBase.SetStatusBarMessage()
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As BusinessLogic.ISimpleEntity

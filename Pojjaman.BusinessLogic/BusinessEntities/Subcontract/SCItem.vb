@@ -549,8 +549,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetWRIOrigingQty(ByVal qty As Decimal)
       m_wriorginQty = qty
     End Sub
+    Public Sub RecalculateReceiveAmount()
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Select Case Me.ItemType.Value
+        Case 160, 162
+          'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
+          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
+          Return
+      End Select
 
-   Public Sub UpdateWBSQty()
+      Dim amt As Decimal = Me.CostAmount      Select Case Me.ItemType.Value
+        Case 0, 19, 28, 42
+          Me.m_mat = amt
+          Me.m_lab = 0
+          Me.m_eq = 0
+        Case 88
+          Me.m_mat = 0
+          Me.m_lab = amt
+          Me.m_eq = 0
+        Case 89
+          Me.m_mat = 0
+          Me.m_lab = 0
+          Me.m_eq = amt
+        Case 289
+          If amt <= Me.CostAmount Then
+            Me.m_mat = 0
+            Me.m_lab = amt
+            Me.m_eq = 0
+          Else
+            Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
+            m_lab = (amt - amt2) + Me.Lab
+          End If
+      End Select
+    End Sub
+    Public Sub UpdateWBSQty()
       Select Case Me.ItemType.Value
         Case 88, 89, 160, 162
           For Each wbsd As WBSDistribute In Me.WBSDistributeCollection
@@ -595,34 +627,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               ''End If
             End If
-        End Select        Dim amt As Decimal = Value * Me.UnitPrice
-
-        Select Case Me.ItemType.Value
-          Case 0, 19, 28, 42
-            Me.m_mat = amt
-            Me.m_lab = 0
-            Me.m_eq = 0
-          Case 88
-            Me.m_mat = 0
-            Me.m_lab = amt
-            Me.m_eq = 0
-          Case 89
-            Me.m_mat = 0
-            Me.m_lab = 0
-            Me.m_eq = amt
-          Case 289
-            If amt <= Me.Amount Then
-              Me.m_mat = 0
-              Me.m_lab = amt
-              Me.m_eq = 0
-            Else
-              Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
-              m_lab = (amt - amt2) + Me.Lab
-            End If
-        End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
+        End Select        'Dim amt As Decimal = Value * Me.UnitPrice
+        'Select Case Me.ItemType.Value
+        '  Case 0, 19, 28, 42
+        '    Me.m_mat = amt
+        '    Me.m_lab = 0
+        '    Me.m_eq = 0
+        '  Case 88
+        '    Me.m_mat = 0
+        '    Me.m_lab = amt
+        '    Me.m_eq = 0
+        '  Case 89
+        '    Me.m_mat = 0
+        '    Me.m_lab = 0
+        '    Me.m_eq = amt
+        '  Case 289
+        '    If amt <= Me.Amount Then
+        '      Me.m_mat = 0
+        '      Me.m_lab = amt
+        '      Me.m_eq = 0
+        '    Else
+        '      Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
+        '      m_lab = (amt - amt2) + Me.Lab
+        '    End If
+        'End Select        If IsNumeric(Value) Then          m_qty = Configuration.Format(Value, DigitConfig.Qty)
         Else
           m_qty = 0
-        End If        'UpdateWBSQty()      End Set    End Property
+        End If        Me.RecalculateReceiveAmount()        'UpdateWBSQty()      End Set    End Property
     Public Property UnitPrice() As Decimal      Get        Return m_unitprice      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
@@ -633,30 +664,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 160, 162
             msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
             Return
-        End Select        Dim amt As Decimal = Value * Me.Qty
-        Select Case Me.ItemType.Value
-          Case 0, 19, 28, 42
-            Me.m_mat = amt
-            Me.m_lab = 0
-            Me.m_eq = 0
-          Case 88
-            Me.m_mat = 0
-            Me.m_lab = amt
-            Me.m_eq = 0
-          Case 89
-            Me.m_mat = 0
-            Me.m_lab = 0
-            Me.m_eq = amt
-          Case 289
-            If amt <= Me.Amount Then
-              Me.m_mat = 0
-              Me.m_lab = amt
-              Me.m_eq = 0
-            Else
-              Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
-              m_lab = (amt - amt2) + Me.Lab
-            End If
-        End Select        m_unitprice = Value        'UpdateWBS()      End Set    End Property
+        End Select        'Dim amt As Decimal = Value * Me.Qty        'Select Case Me.ItemType.Value
+        '  Case 0, 19, 28, 42
+        '    Me.m_mat = amt
+        '    Me.m_lab = 0
+        '    Me.m_eq = 0
+        '  Case 88
+        '    Me.m_mat = 0
+        '    Me.m_lab = amt
+        '    Me.m_eq = 0
+        '  Case 89
+        '    Me.m_mat = 0
+        '    Me.m_lab = 0
+        '    Me.m_eq = amt
+        '  Case 289
+        '    If amt <= Me.Amount Then
+        '      Me.m_mat = 0
+        '      Me.m_lab = amt
+        '      Me.m_eq = 0
+        '    Else
+        '      Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
+        '      m_lab = (amt - amt2) + Me.Lab
+        '    End If
+        'End Select        m_unitprice = Value        Me.RecalculateReceiveAmount()        'UpdateWBS()      End Set    End Property
     Public Property Mat() As Decimal
       Get
         Return m_mat

@@ -911,6 +911,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshReceiveAmount()
+      For Each itm As SCItem In Me.ItemCollection
+        'itm.ReceiveAmount = itm.ReceiveAmount
+        itm.RecalculateReceiveAmount()
+      Next
+    End Sub
     Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
       m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
@@ -1385,7 +1391,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If sitem.Level = 0 Then
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
-          If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
+          If Configuration.Format(sitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
               Me.RecalculateAmount()
               Me.RefreshTaxBase()
@@ -1417,7 +1423,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Else
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
-          If Configuration.Format(sitem.Amount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
+          If Configuration.Format(sitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
             New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           End If

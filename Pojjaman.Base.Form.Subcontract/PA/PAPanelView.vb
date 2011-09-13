@@ -2960,7 +2960,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           forceUpdateTaxBase = True
           forceUpdateTaxAmount = True
           forceUpdateGross = True
-          UpdateAmount()
+          'UpdateAmount()
+
+          m_isInitialized = False
+          Me.m_entity.RefreshReceiveAmount()
+          Me.RefreshDocs()
+          m_isInitialized = True
           dirtyFlag = True
         Case "txtcostcentercode"
 
