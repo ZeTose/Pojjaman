@@ -1785,7 +1785,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ' กำหนดการคำนวณค่าเสื่อมราคา
             AssetCalcType.ListCodeDescriptionInComboBox(cmbCalcType, "asset_calctype")
             ' กำหนดอัตราค่าเช่าพื้นฐาน
-        End Sub
+    End Sub
+    Private Sub SetRequireAcct()
+      If Not m_entity.Type Is Nothing AndAlso Not m_entity.Type.DepreAble Then
+        Me.Validator.SetRequired(Me.txtDepreAcctCode, False)
+        Me.Validator.SetRequired(Me.txtDepreOpeningAcctCode, False)
+        Me.Validator.SetRequired(Me.txtDepreOpeningAcctName, False)
+        Me.Validator.SetRequired(Me.txtDepreAcctName, False)
+      Else
+        Me.Validator.SetRequired(Me.txtDepreAcctCode, True)
+        Me.Validator.SetRequired(Me.txtDepreOpeningAcctCode, True)
+      End If
+    End Sub
     ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
     Public Overrides Sub UpdateEntityProperties()
       Me.m_isInitialized = False
@@ -1793,6 +1804,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         ClearDetail()
         Return
       End If
+
+      
+     
+      SetRequireAcct()
 
       txtCode.Text = Me.m_entity.Code
       txtName.Text = Me.m_entity.Name
@@ -2001,39 +2016,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '    Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
         '    CheckFormEnable()
         'End Sub
-        Public Sub SetValueFromAssetType()
-            If Not Me.m_entity.Type Is Nothing _
-            AndAlso Not Me.m_entity.Type.DepreAble Then
-                'txtUnitCode.Enabled = False
-                'txtUnitName.Enabled = False
-                'btnUnitEdit.Enabled = False
-                'btnUnitFind.Enabled = False
-                'txtUnitCode.Text = Me.m_entity.Type.Unit.Code
-                'txtUnitName.Text = Me.m_entity.Type.Unit.Name
-            Else
-                ''txtUnitCode.Text = ""
-                ''txtUnitName.Text = ""
-                'txtUnitCode.Enabled = True
-                'txtUnitName.Enabled = True
-                'btnUnitEdit.Enabled = True
-                'btnUnitFind.Enabled = True
-            End If
-            Dim flag As Boolean = Me.m_isInitialized
-            Me.m_isInitialized = False
-            If Not Me.m_entity.Account Is Nothing Then
-                txtGLCode.Text = Me.m_entity.Account.Code
-                txtGLName.Text = Me.m_entity.Account.Name
-            End If
-            If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
-                txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
-                txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
-            End If
-            If Not Me.m_entity.DepreAccount Is Nothing Then
-                txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
-                txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
-            End If
-            Me.m_isInitialized = flag
-        End Sub
+    Public Sub SetValueFromAssetType()
+      If Not Me.m_entity.Type Is Nothing _
+      AndAlso Not Me.m_entity.Type.DepreAble Then
+        'txtUnitCode.Enabled = False
+        'txtUnitName.Enabled = False
+        'btnUnitEdit.Enabled = False
+        'btnUnitFind.Enabled = False
+        'txtUnitCode.Text = Me.m_entity.Type.Unit.Code
+        'txtUnitName.Text = Me.m_entity.Type.Unit.Name
+      Else
+        ''txtUnitCode.Text = ""
+        ''txtUnitName.Text = ""
+        'txtUnitCode.Enabled = True
+        'txtUnitName.Enabled = True
+        'btnUnitEdit.Enabled = True
+        'btnUnitFind.Enabled = True
+      End If
+      Dim flag As Boolean = Me.m_isInitialized
+      Me.m_isInitialized = False
+      If Not Me.m_entity.Account Is Nothing Then
+        txtGLCode.Text = Me.m_entity.Account.Code
+        txtGLName.Text = Me.m_entity.Account.Name
+      End If
+      If Not Me.m_entity.DepreOpeningAccount Is Nothing Then
+        txtDepreOpeningAcctCode.Text = Me.m_entity.DepreOpeningAccount.Code
+        txtDepreOpeningAcctName.Text = Me.m_entity.DepreOpeningAccount.Name
+      End If
+      If Not Me.m_entity.DepreAccount Is Nothing Then
+        txtDepreAcctCode.Text = Me.m_entity.DepreAccount.Code
+        txtDepreAcctName.Text = Me.m_entity.DepreAccount.Name
+      End If
+      SetRequireAcct()
+      Me.m_isInitialized = flag
+    End Sub
         Public Sub NumerberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
             If Me.m_entity Is Nothing Or Not Me.m_isInitialized Then
                 Return
