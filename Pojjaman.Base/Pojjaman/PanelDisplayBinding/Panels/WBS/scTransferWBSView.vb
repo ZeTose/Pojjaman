@@ -783,8 +783,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub WBStgToCCButtonClicked(ByVal e As ButtonColumnEventArgs)
       If e.Column = 2 Then
         Me.ToCCButtonClicked(e)
-      ElseIf e.Column = 4 Then
-
       Else
         Me.ToCCWBSButtonClicked(e)
       End If
