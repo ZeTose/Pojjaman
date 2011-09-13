@@ -591,6 +591,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Font = fn
         dpiColl.Add(dpi)
 
+        For colIndex As Integer = 12 To m_grid.ColCount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "col" & colIndex.ToString
+          dpi.Value = m_grid(rowIndex, colIndex + 1).CellValue
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpi.Font = fn
+          dpiColl.Add(dpi)
+        Next
+
         n += 1
       Next
 
