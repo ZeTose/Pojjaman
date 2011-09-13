@@ -10,7 +10,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.Gui.Panels
     Public Class MappingListDialog
-        Inherits AbstractEntityDetailPanelView
+    'Inherits UserControl
+    Inherits AbstractEntityDetailPanelView
 
 
 #Region " Windows Form Designer generated code "
@@ -57,7 +58,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             GridBaseStyle4.StyleInfo.Font.Facename = "Tahoma"
             Me.grdMapping.BaseStylesMap.AddRange(New Syncfusion.Windows.Forms.Grid.GridBaseStyle() {GridBaseStyle1, GridBaseStyle2, GridBaseStyle3, GridBaseStyle4})
             Me.grdMapping.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-            Me.grdMapping.ColCount = 4
+      Me.grdMapping.ColCount = 4
+      Me.grdMapping.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+               Or System.Windows.Forms.AnchorStyles.Left) _
+               Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.grdMapping.DefaultColWidth = 100
             Me.grdMapping.ForeColor = System.Drawing.SystemColors.ControlText
             Me.grdMapping.HorizontalThumbTrack = True
