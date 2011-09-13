@@ -681,6 +681,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.ItemCollection.Add(item)
           arr.Add(item)
         Next
+        If itemsToAdd.Count = 0 Then
+
+          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsClosed}", New String() {m_po.Code})
+          m_po = Nothing
+        End If
         Me.RefreshTaxBase()
         'For Each item As GoodsReceiptItem In arr
 
@@ -2099,6 +2105,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
           End If
 
+          If Not Me.m_po Is Nothing AndAlso Me.m_po.Originated AndAlso Not Me.ValidateItemRefPO Then
+            'ไม่มีรายการที่อ้างอิงกับเอกสาร
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            msgServ.ShowWarning("${res:Global.Error.NoItemRef}" & " " & m_po.Code)
+            m_po = Nothing
+          End If
+
         End If
 
         'If NoItem Then
@@ -2986,6 +2999,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return True
       End If
       Return False
+    End Function
+    Private Function ValidateItemRefPO() As Boolean
+      Dim ret As Boolean = False
+      For Each item As GoodsReceiptItem In Me.ItemCollection
+        If Not item.POitem Is Nothing AndAlso item.POitem.Po.Id = Me.Po.Id Then
+          ret = True
+          Return ret
+        End If
+      Next
+      Return ret
     End Function
 #End Region
 

@@ -3174,7 +3174,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ThisPOIsClosed}", New String() {newPo.Code})
               ElseIf msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangePO}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangePO}") Then
                 dirtyFlag = PO.GetPO(txtPOCode, Me.m_entity.Po)
-                Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
+                If Not Me.m_entity.Po Is Nothing Then
+                  Me.txtPODate.Text = MinDateToNull(Me.m_entity.Po.DocDate, "")
+                Else
+                  Me.txtPOCode.Text = ""
+                End If
                 Me.txtSupplierCode.Text = Me.m_entity.Supplier.Code
                 Me.txtSupplierName.Text = Me.m_entity.Supplier.Name
                 Me.txtToCostCenterCode.Text = Me.m_entity.ToCostCenter.Code

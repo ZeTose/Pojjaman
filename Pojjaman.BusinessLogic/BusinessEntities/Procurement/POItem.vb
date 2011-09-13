@@ -910,7 +910,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AddHandler Me.WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
 
         'Dim wbscoll As WBSDistributeCollection = newPritem.WBSDistributeCollection.Clone(Me)
-        
+
 
         If Me.ItemType.Value = 160 OrElse Me.ItemType.Value = 162 Then
           'Me.WBSDistributeCollection 
