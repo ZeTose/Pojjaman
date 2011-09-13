@@ -231,7 +231,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       If Not Me.Entity.Originated Then
         Me.StatusDescription = myStringParserService.Parse("${res:Global.Already}")
+        Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.normal"))
       Else
+        Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.normal"))
+
         If Not Me.Entity.CancelPerson Is Nothing Then
           cancelPersonName = Me.Entity.CancelPerson.Name
         End If
@@ -401,7 +404,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub AbstractEntityDetailPanelView_ParentChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.ParentChanged
       If Not Me.DesignMode Then
         Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-        Me.StatusColor = Color.FromArgb(0, Color.White)
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        Dim alpha As Byte = CByte(ConfigurationUser.GetConfig(currentUserId, "alpha.statusbar"))
+        Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.normal"))
         Me.StatusDescription = myStringParserService.Parse("${res:Global.Already}")
         Me.StatusBarService.SetMessage(Me.StatusDescription)
         Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
@@ -411,7 +416,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub AbstractEntityDetailPanelView_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
       If Not Me.DesignMode Then
         Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-        Me.StatusColor = Color.FromArgb(0, Color.White)
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        Dim alpha As Byte = CByte(ConfigurationUser.GetConfig(currentUserId, "alpha.statusbar"))
+        Me.StatusColor = Color.FromArgb(alpha, ConfigurationUser.GetColorConfiguration(currentUserId, "color.normal"))
         Me.StatusDescription = myStringParserService.Parse("${res:Global.Already}")
         Me.StatusBarService.SetMessage(Me.StatusDescription)
         Me.StatusBarService.SetStatusMessage(Me.StatusMessage, Me.StatusColor)
