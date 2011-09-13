@@ -238,14 +238,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Method"
-        Private Sub MakeConnection()
-            Try
-                m_ftp.Connect(m_server)
-                m_ftp.Login(m_username, m_password)
-            Catch ex As Exception
-                MessageBox.Show(ex.Message)
-            End Try
-        End Sub
+    Private Function MakeConnection() As Exception
+
+      Try
+        m_ftp.Connect(m_server)
+        m_ftp.Login(m_username, m_password)
+        Return New Exception("1")
+      Catch ex As Exception
+        Return ex
+      End Try
+    End Function
         Private Sub Disconnect()
             Try
                 m_ftp.Disconnect()
@@ -320,7 +322,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             Try
                 MakeConnection()
-                sFile = sPath & "/" & mySelected.FileNameInServer
+        sFile = sPath & "/" & mySelected.FileNameInServer
+        DisableButton()
                 Dim t As New Thread(AddressOf Delete)
                 Timer1.Interval = 1
                 Timer1.Enabled = True
@@ -356,7 +359,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         MessageBox.Show("Do not allow upload READONLY file!")
                         Return
                     End If
-                    sFileInServer = m_entity.EntityId & "_" & m_entity.Id & "_" & EncodeFileName(sFile)
+          sFileInServer = m_entity.EntityId & "_" & m_entity.Id & "_" & EncodeFileName(sFile)
+          DisableButton()
                     Dim t As New Thread(AddressOf Upload)
                     Timer1.Interval = 50
                     If sFileSize < 10485760 Then 'Less Interval for small file
@@ -392,7 +396,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 MakeConnection()
                 sFile = sPath & "/" & mySelected.FileNameInServer
                 sFileSize = mySelected.FileSize     'sFileSize = CLng(m_ftp.GetFileSize(sFile))
-                sLocalFile = dlgSave.FileName
+        sLocalFile = dlgSave.FileName
+        DisableButton()
                 Dim t As New Thread(AddressOf Download)
                 Timer1.Interval = 50
                 If sFileSize < 10485760 Then
@@ -401,23 +406,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Timer1.Enabled = True
                 t.Name = "Download"
                 t.Start()
-                tempThread = t
+        tempThread = t
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Download Error")
             End Try
         End Sub
         Private Sub Upload()
-            DisableButton()
             lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Uploading}")
             m_result = m_ftp.Upload(sFile, sFileInServer, sPath)
         End Sub
         Private Sub Download()
-            DisableButton()
             lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Downloading}")
             m_result = m_ftp.Download(sFile, sLocalFile)
-        End Sub
+      Process.Start(sLocalFile)
+    End Sub
         Private Sub Delete()
-            DisableButton()
             lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Deleting}")
             m_result = m_ftp.Delete(sFile)
         End Sub
