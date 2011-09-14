@@ -246,6 +246,78 @@ Namespace Longkong.Pojjaman.BusinessLogic
       BusinessLogic.Currency.SetCurrencyFromDB(Me)
       '==============CURRENCY=================================
     End Sub
+    Public Sub ConstructForPOitem(ByVal dr As System.Data.DataRow)
+      Dim drh As New DataRowHelper(dr)
+
+      With Me
+        .Id = drh.GetValue(Of Integer)("pr_id")
+        .Code = drh.GetValue(Of String)("pr_code")
+          .pr_docDate = drh.GetValue(Of Date)("pr_docDate")
+          .pr_olddocDate = drh.GetValue(Of Date)("pr_docDate")
+
+          .pr_note = drh.GetValue(Of String)("pr_note")
+
+       
+        .pr_cc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)("pr_cc"))
+          
+
+        'TermNote
+          .m_termNote = drh.GetValue(Of String)("pr_termnote")
+
+        'Delivery Time
+          .m_deliveryTime = drh.GetValue(Of String)("pr_deliverytime")
+
+        'Place Of Delivery
+          .m_placeOfDelivery = drh.GetValue(Of String)("pr_placeofdelivery")
+        .pr_receivingDate = drh.GetValue(Of Date)("pr_receivingDate")
+
+      
+      
+        .pr_requestor = Employee.GetEmployeeById(drh.GetValue(Of Integer)("pr_requestor"))
+           
+          .pr_approveDate = drh.GetValue(Of Date)("pr_approveDate")
+        
+        .pr_approvePerson = New User(drh.GetValue(Of Integer)("pr_approvePerson"))
+
+
+        .pr_approveStorePerson = New User(drh.GetValue(Of Integer)("pr_approveStorePerson"))
+         
+          .pr_approveStoreDate = drh.GetValue(Of Date)("pr_approveStoreDate")
+
+
+        .pr_status = New PRStatus(drh.GetValue(Of Integer)("pr_status"))
+
+        'Closing Status
+        If dr.Table.Columns.Contains("pr_closed") AndAlso Not dr.IsNull("pr_closed") Then
+          .m_closed = CBool(dr("pr_closed"))
+          .m_closedBefor = .m_closed
+        Else
+          .m_closed = False
+          .m_closedBefor = .m_closed
+        End If
+
+        'Special Condition
+          .m_specialCondition = drh.GetValue(Of String)("pr_specialCondition")
+        'Attachment
+          .m_attachment = drh.GetValue(Of String)("pr_attachment")
+
+
+        '---------------------------DECLARE---------------------------------------
+        If dr.Table.Columns.Contains("prdeclare_id") AndAlso Not dr.IsNull("prdeclare_id") Then
+          .pr_declareId = CInt(dr("prdeclare_id"))
+        End If
+        If dr.Table.Columns.Contains("prdeclare_code") AndAlso Not dr.IsNull("prdeclare_code") Then
+          .pr_declareCode = CStr(dr("prdeclare_code"))
+        End If
+        If dr.Table.Columns.Contains("prdeclare_note") AndAlso Not dr.IsNull("prdeclare_note") Then
+          .pr_declareNote = CStr(dr("prdeclare_note"))
+        End If
+        If dr.Table.Columns.Contains("pr_declarestatus") AndAlso Not dr.IsNull("pr_declarestatus") Then
+          .pr_declareStatusValue = CInt(dr("pr_declarestatus"))
+        End If
+      End With
+      
+    End Sub
 #End Region
 
 #Region "Properties"

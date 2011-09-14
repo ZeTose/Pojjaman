@@ -916,10 +916,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Me.WBSDistributeCollection 
         Else
           Dim newWbsd As New WBSDistribute
-          Me.WBSDistributeCollection.Add(newWbsd)
 
           'เพื่อให้ Handler ของการ Change WBS ทำงาน 
           For Each wbsd As WBSDistribute In newPritem.WBSDistributeCollection
+            newWbsd = New WBSDistribute
             newWbsd.CostCenter = wbsd.CostCenter
             newWbsd.WBS = wbsd.WBS
             newWbsd.Percent = wbsd.Percent
@@ -928,6 +928,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             newWbsd.BudgetAmount = wbsd.BudgetAmount
             newWbsd.BudgetQty = wbsd.BudgetQty
             newWbsd.CBS = wbsd.CBS
+            Me.WBSDistributeCollection.Add(newWbsd)
           Next
           Me.Qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
         End If
