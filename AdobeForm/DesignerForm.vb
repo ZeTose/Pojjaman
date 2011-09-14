@@ -636,6 +636,8 @@ Namespace Longkong.AdobeForm
                   Return Configuration.FormatToString(CDec(item.Value), dcfg)
                 End If
               End If
+            Else
+              Return ""
             End If
             Return s1
           End If
