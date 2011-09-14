@@ -1344,11 +1344,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  dpi.Table = "Item"
         '  dpiColl.Add(dpi)
 
-        '  n += 1
         'Next
         'If item.InternalChargeCollection.Count = 0 Then
         '  n += 1
         'End If
+        n += 1
       Next
 
       'ItemCount

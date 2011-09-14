@@ -239,7 +239,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property OwnerCostcenter As CostCenter      Get
         Return m_ownercc
       End Get
-    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public MustOverride Property Amount As Decimal    Public Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public MustOverride Property Amount As Decimal    Public Overridable Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Me.ItemType Is Nothing Then
         'ไม่มี Type
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -281,6 +281,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return
           Else
             Me.m_entityitem = myTool
+            Me.Unit = CType(myTool, IEqtItem).Unit
           End If
         Case Else
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")

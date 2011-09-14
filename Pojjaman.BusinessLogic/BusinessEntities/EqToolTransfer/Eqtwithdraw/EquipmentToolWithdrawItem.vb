@@ -341,6 +341,86 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.TransferAmount, oldVal))
       Next
     End Sub
+    Public Overrides Sub SetItemCode(ByVal theCode As String)      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.ItemType Is Nothing Then
+        'ไม่มี Type
+        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+        Return
+      End If
+      'If DupCode(theCode) Then
+      '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
+      '    Return
+      'End If
+      Select Case Me.ItemType.Value
+        Case 342 'F/A
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim myEquipment As New EquipmentItem(theCode)
+          If Not myEquipment.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoAsset}", New String() {theCode})
+            Return
+          Else
+            Me.Entity = myEquipment
+          End If
+          Me.m_qty = 1
+        Case 19 'Tool
+          If theCode Is Nothing OrElse theCode.Length = 0 Then
+            If Me.Entity.Code.Length <> 0 Then
+              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
+                Me.Clear()
+              End If
+            End If
+            Return
+          End If
+          Dim myTool As New Tool(theCode)
+          If Not myTool.Originated Then
+            msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+            Return
+          Else
+            Me.Entity = myTool
+            Me.Unit = CType(myTool, IEqtItem).Unit
+            Me.ToStatus = New EqtStatus(3)
+            Dim ds As DataSet = Me.GetToolRemainQty(myTool, Me.m_eqtWithdraw.FromCC)
+            If ds.Tables(0).Rows.Count > 0 Then
+              Dim dr As DataRow = ds.Tables(0).Rows(0)
+              Me.LimitQty = CInt(dr("tool_remaining"))
+              Me.Qty = CInt(dr("tool_remaining"))
+            Else
+              msgServ.ShowMessageFormatted("${res:Global.Error.NoToolQty}", New String() {theCode, Me.m_eqtWithdraw.FromCC.Code})
+              Me.Entity = Nothing
+              Me.Unit = Nothing
+              Return
+            End If
+            Me.RentalPerDay = CType(myTool, IEqtItem).RentalRate * Me.Qty
+            Me.RentalRate = CType(myTool, IEqtItem).RentalRate
+          End If
+        Case Else
+          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+          Return
+      End Select
+    End Sub
+
+    Private Function GetToolRemainQty(ByVal myTool As Tool, ByVal costCenter As CostCenter) As DataSet
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, "GetToolForSelectionList", _
+                                                                      New SqlParameter("@eqtstocki_id", Me.m_eqtWithdraw.Id), _
+                                                                      New SqlParameter("@tool_id", Me.Entity.Id), _
+                                                                      New SqlParameter("@fromCC", costCenter.Id), _
+                                                                       New SqlParameter("@EntityType", Me.Entity.EntityId))
+
+      Return ds
+
+      
+
+
+    End Function
 #End Region
 
 #Region "IWBSAllocatableItem"
@@ -384,6 +464,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
+
+    
 
   End Class
 
