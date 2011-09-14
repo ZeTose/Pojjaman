@@ -342,10 +342,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_approveDoc.EntityType = m_entity.EntityId
         End If
         Dim isapprove As Integer = 0
+        'ถ้าไม่ approve ก็ Reject อย่ามากั๊ก ไม่ให้ comment
         If commentType = ApproveType.approved Then
           isapprove = 1
-        ElseIf commentType = ApproveType.reject Then
-          isapprove = -1
+        Else
+          'ใน Database เป็น -1 แต่ในโปรแกรมใช้ ApproveType ไม่อยากแก้ใน database แล้ว ยาก
+          isapprove = commentType
         End If
         m_approveDoc.LineNumber = Me.m_itemCollection.Count + 1
         m_approveDoc.Comment = Me.txtComment.Text.Trim

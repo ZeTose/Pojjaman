@@ -45,9 +45,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If dr.Table.Columns.Contains("apvstore_approveType") AndAlso Not dr.IsNull("apvstore_approveType") Then
         Dim app As Integer = CInt(dr("apvstore_approveType"))
+        'เป็นการออกแบบที่ห่วย ที่มันขัดแย้งกัน ทำให้เกิด bug ที่ไม่จำเป็นเลย ที่ให้ค่าจำ db เป็น -1 ควรเหมือนกับ Enum ApproveType ไปเลย
+        'แต่ใน database ก็ใช้ไปแล้วเลยทำให้แก้อาจจะกระทบมาก ทัด ออกแบบเอง แก้บักเอง เลยรู้
         If app = 1 Then
           m_approveType = ApproveType.approved
-        ElseIf app = -1 Then
+        Else
           m_approveType = ApproveType.reject
         End If
       End If
@@ -305,11 +307,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         For Each myCom As ApprovalStoreComment In Me
           Dim drNew As DataRow = dt.NewRow
+          'เป็นการออกแบบที่ห่วย ที่มันขัดแย้งกัน ทำให้เกิด bug ที่ไม่จำเป็นเลย ที่ให้ค่าจำ db เป็น -1 ควรเหมือนกับ Enum ApproveType ไปเลย
+          'แต่ใน database ก็ใช้ไปแล้วเลยทำให้แก้อาจจะกระทบมาก ทัด ออกแบบเอง แก้บักเอง เลยรู้
+          Dim apt As Integer = 1
+          If myCom.Type = ApproveType.approved Then
+            apt = 1
+          Else
+            apt = -1
+          End If
           drNew("apvstore_entityId") = m_entityId
           drNew("apvstore_entitytype") = m_entityType
           drNew("apvstore_lineNumber") = myCom.LineNumber 'i   'file.LineNumber
           drNew("apvstore_comment") = myCom.Comment
-          drNew("apvstore_approveType") = myCom.Type
+          drNew("apvstore_approveType") = apt
           drNew("apvstore_originator") = myCom.Originator
           drNew("apvstore_originDate") = myCom.OriginDate
           drNew("apvstore_lastEditor") = myCom.LastEditor
