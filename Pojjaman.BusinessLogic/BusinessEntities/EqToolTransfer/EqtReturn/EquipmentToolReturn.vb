@@ -1358,6 +1358,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If item.InternalChargeCollection.Count = 0 Then
         '  n += 1
         'End If
+        n += 1
       Next
 
       'ItemCount
