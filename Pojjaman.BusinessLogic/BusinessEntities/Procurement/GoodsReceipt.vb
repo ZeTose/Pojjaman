@@ -3416,8 +3416,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji = New JournalEntryItem
           ji.Mapping = "PM1.10D"
           ji.Amount = avpi.AdvancePay.GetRemainExcludeVatAmount(avpi.Amount)
-          If Me.ToCostCenter.Originated Then
-            ji.CostCenter = Me.ToCostCenter
+          If Not avpi.AdvancePay.CostCenter Is Nothing AndAlso avpi.AdvancePay.CostCenter.Originated Then
+            ji.CostCenter = avpi.AdvancePay.CostCenter
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
@@ -3431,11 +3431,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
         Next
+        Dim advcc As New CostCenter
+        If Me.AdvancePayItemCollection.Count = 1 Then
+          If Not Me.AdvancePayItemCollection(0).AdvancePay Is Nothing AndAlso Not Me.AdvancePayItemCollection(0).AdvancePay.CostCenter Is Nothing Then
+            advcc = Me.AdvancePayItemCollection(0).AdvancePay.CostCenter
+          End If
+        ElseIf Me.AdvancePayItemCollection.Count > 1 Then
+          advcc = Me.ToCostCenter
+        End If
         ji = New JournalEntryItem
         ji.Mapping = "PM1.10"
         ji.Amount = Me.AdvancePayItemCollection.GetExcludeVATAmount
-        If Me.ToCostCenter.Originated Then
-          ji.CostCenter = Me.ToCostCenter
+        If advcc.Originated Then
+          ji.CostCenter = advcc
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
