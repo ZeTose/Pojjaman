@@ -144,6 +144,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblUnit2 As System.Windows.Forms.Label
     Friend WithEvents btnInverse As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtUnlocker2 As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents imAttachment As System.Windows.Forms.PictureBox
     'Friend WithEvents CachedCRptMatCountExpandedLciItem1 As CachedCRptMatCountExpandedLciItem
     Friend WithEvents ibtUnlocker As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
@@ -154,22 +155,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbReceive = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ibtnShowEquipment = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtEquipmentName = New System.Windows.Forms.TextBox()
+      Me.ibtnShowEquipmentDiaog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtEquipmentCode = New System.Windows.Forms.TextBox()
       Me.lblEquipment = New System.Windows.Forms.Label()
       Me.cmbDocType = New System.Windows.Forms.ComboBox()
       Me.lblDocType = New System.Windows.Forms.Label()
       Me.txtToCCPersonName = New System.Windows.Forms.TextBox()
       Me.txtToCCPersonCode = New System.Windows.Forms.TextBox()
+      Me.ibtShowToCostCenter = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtToCostCenterName = New System.Windows.Forms.TextBox()
+      Me.ibtnShowToCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtToCostCenterCode = New System.Windows.Forms.TextBox()
       Me.lblToCCPerson = New System.Windows.Forms.Label()
       Me.lblToCostCenter = New System.Windows.Forms.Label()
+      Me.ibtnShowToCCPerson = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowToCCPersonDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDelivery = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtDueDate = New System.Windows.Forms.TextBox()
       Me.dtpDueDate = New System.Windows.Forms.DateTimePicker()
       Me.lblDueDate = New System.Windows.Forms.Label()
+      Me.ibtnShowSupplier = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtSupplierName = New System.Windows.Forms.TextBox()
+      Me.ibtnShowSupplierDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblSupplier = New System.Windows.Forms.Label()
       Me.txtSupplierCode = New System.Windows.Forms.TextBox()
       Me.lblCreditPrd = New System.Windows.Forms.Label()
@@ -227,6 +236,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxBase = New System.Windows.Forms.Label()
       Me.lblPercent = New System.Windows.Forms.Label()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblRetention = New System.Windows.Forms.Label()
       Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.lblAdvancePay = New System.Windows.Forms.Label()
@@ -237,32 +247,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRate = New System.Windows.Forms.Label()
       Me.lblUnit2 = New System.Windows.Forms.Label()
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowSupplier = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowSupplierDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtUnlocker2 = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtUnlocker = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnInverse = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowEquipment = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowEquipmentDiaog = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtShowToCostCenter = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowToCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowToCCPerson = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnShowToCCPersonDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowPODialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnEnableVatInput = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetGross = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxAmount = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnResetTaxBase = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnShowAdvancePay = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.imAttachment = New System.Windows.Forms.PictureBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbReceive.SuspendLayout()
       Me.grbDelivery.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.FixedGroupBox1.SuspendLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'tgItem
@@ -345,6 +348,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbReceive.TabStop = False
       Me.grbReceive.Text = "รับของ"
       '
+      'ibtnShowEquipment
+      '
+      Me.ibtnShowEquipment.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowEquipment.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowEquipment.Location = New System.Drawing.Point(382, 86)
+      Me.ibtnShowEquipment.Name = "ibtnShowEquipment"
+      Me.ibtnShowEquipment.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowEquipment.TabIndex = 38
+      Me.ibtnShowEquipment.TabStop = False
+      Me.ibtnShowEquipment.ThemedImage = CType(resources.GetObject("ibtnShowEquipment.ThemedImage"), System.Drawing.Bitmap)
+      '
       'txtEquipmentName
       '
       Me.txtEquipmentName.BackColor = System.Drawing.SystemColors.Control
@@ -361,6 +375,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtEquipmentName.Size = New System.Drawing.Size(155, 20)
       Me.txtEquipmentName.TabIndex = 280
       Me.txtEquipmentName.TabStop = False
+      '
+      'ibtnShowEquipmentDiaog
+      '
+      Me.ibtnShowEquipmentDiaog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowEquipmentDiaog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowEquipmentDiaog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowEquipmentDiaog.Location = New System.Drawing.Point(358, 86)
+      Me.ibtnShowEquipmentDiaog.Name = "ibtnShowEquipmentDiaog"
+      Me.ibtnShowEquipmentDiaog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowEquipmentDiaog.TabIndex = 37
+      Me.ibtnShowEquipmentDiaog.TabStop = False
+      Me.ibtnShowEquipmentDiaog.ThemedImage = CType(resources.GetObject("ibtnShowEquipmentDiaog.ThemedImage"), System.Drawing.Bitmap)
       '
       'txtEquipmentCode
       '
@@ -435,6 +461,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCCPersonCode.Size = New System.Drawing.Size(112, 20)
       Me.txtToCCPersonCode.TabIndex = 12
       '
+      'ibtShowToCostCenter
+      '
+      Me.ibtShowToCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtShowToCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtShowToCostCenter.Location = New System.Drawing.Point(382, 12)
+      Me.ibtShowToCostCenter.Name = "ibtShowToCostCenter"
+      Me.ibtShowToCostCenter.Size = New System.Drawing.Size(24, 23)
+      Me.ibtShowToCostCenter.TabIndex = 34
+      Me.ibtShowToCostCenter.TabStop = False
+      Me.ibtShowToCostCenter.ThemedImage = CType(resources.GetObject("ibtShowToCostCenter.ThemedImage"), System.Drawing.Bitmap)
+      '
       'txtToCostCenterName
       '
       Me.Validator.SetDataType(Me.txtToCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
@@ -449,6 +486,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtToCostCenterName.Size = New System.Drawing.Size(155, 20)
       Me.txtToCostCenterName.TabIndex = 4
       Me.txtToCostCenterName.TabStop = False
+      '
+      'ibtnShowToCostCenterDialog
+      '
+      Me.ibtnShowToCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowToCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowToCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowToCostCenterDialog.Location = New System.Drawing.Point(358, 12)
+      Me.ibtnShowToCostCenterDialog.Name = "ibtnShowToCostCenterDialog"
+      Me.ibtnShowToCostCenterDialog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowToCostCenterDialog.TabIndex = 33
+      Me.ibtnShowToCostCenterDialog.TabStop = False
+      Me.ibtnShowToCostCenterDialog.ThemedImage = CType(resources.GetObject("ibtnShowToCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'txtToCostCenterCode
       '
@@ -483,6 +532,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblToCostCenter.TabIndex = 2
       Me.lblToCostCenter.Text = "คลัง:"
       Me.lblToCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'ibtnShowToCCPerson
+      '
+      Me.ibtnShowToCCPerson.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowToCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowToCCPerson.Location = New System.Drawing.Point(382, 36)
+      Me.ibtnShowToCCPerson.Name = "ibtnShowToCCPerson"
+      Me.ibtnShowToCCPerson.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowToCCPerson.TabIndex = 36
+      Me.ibtnShowToCCPerson.TabStop = False
+      Me.ibtnShowToCCPerson.ThemedImage = CType(resources.GetObject("ibtnShowToCCPerson.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnShowToCCPersonDialog
+      '
+      Me.ibtnShowToCCPersonDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowToCCPersonDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowToCCPersonDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowToCCPersonDialog.Location = New System.Drawing.Point(358, 36)
+      Me.ibtnShowToCCPersonDialog.Name = "ibtnShowToCCPersonDialog"
+      Me.ibtnShowToCCPersonDialog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowToCCPersonDialog.TabIndex = 35
+      Me.ibtnShowToCCPersonDialog.TabStop = False
+      Me.ibtnShowToCCPersonDialog.ThemedImage = CType(resources.GetObject("ibtnShowToCCPersonDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'grbDelivery
       '
@@ -541,6 +613,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDueDate.Text = "ครบกำหนด:"
       Me.lblDueDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'ibtnShowSupplier
+      '
+      Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowSupplier.Location = New System.Drawing.Point(401, 12)
+      Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
+      Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowSupplier.TabIndex = 31
+      Me.ibtnShowSupplier.TabStop = False
+      Me.ibtnShowSupplier.ThemedImage = CType(resources.GetObject("ibtnShowSupplier.ThemedImage"), System.Drawing.Bitmap)
+      '
       'txtSupplierName
       '
       Me.Validator.SetDataType(Me.txtSupplierName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
@@ -555,6 +638,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName.Size = New System.Drawing.Size(168, 20)
       Me.txtSupplierName.TabIndex = 8
       Me.txtSupplierName.TabStop = False
+      '
+      'ibtnShowSupplierDialog
+      '
+      Me.ibtnShowSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnShowSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnShowSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(377, 12)
+      Me.ibtnShowSupplierDialog.Name = "ibtnShowSupplierDialog"
+      Me.ibtnShowSupplierDialog.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnShowSupplierDialog.TabIndex = 30
+      Me.ibtnShowSupplierDialog.TabStop = False
+      Me.ibtnShowSupplierDialog.ThemedImage = CType(resources.GetObject("ibtnShowSupplierDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'lblSupplier
       '
@@ -1336,6 +1431,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent.Text = "%"
       Me.lblPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'chkAutorun
+      '
+      Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
+      Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
+      Me.chkAutorun.Location = New System.Drawing.Point(233, 7)
+      Me.chkAutorun.Name = "chkAutorun"
+      Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
+      Me.chkAutorun.TabIndex = 23
+      Me.ToolTip1.SetToolTip(Me.chkAutorun, "Autorun")
+      '
       'lblRetention
       '
       Me.lblRetention.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1457,29 +1562,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe.TabStop = False
       Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
       '
-      'ibtnShowSupplier
-      '
-      Me.ibtnShowSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowSupplier.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowSupplier.Location = New System.Drawing.Point(401, 12)
-      Me.ibtnShowSupplier.Name = "ibtnShowSupplier"
-      Me.ibtnShowSupplier.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowSupplier.TabIndex = 31
-      Me.ibtnShowSupplier.TabStop = False
-      Me.ibtnShowSupplier.ThemedImage = CType(resources.GetObject("ibtnShowSupplier.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowSupplierDialog
-      '
-      Me.ibtnShowSupplierDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowSupplierDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowSupplierDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowSupplierDialog.Location = New System.Drawing.Point(377, 12)
-      Me.ibtnShowSupplierDialog.Name = "ibtnShowSupplierDialog"
-      Me.ibtnShowSupplierDialog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowSupplierDialog.TabIndex = 30
-      Me.ibtnShowSupplierDialog.TabStop = False
-      Me.ibtnShowSupplierDialog.ThemedImage = CType(resources.GetObject("ibtnShowSupplierDialog.ThemedImage"), System.Drawing.Bitmap)
-      '
       'ibtUnlocker2
       '
       Me.ibtUnlocker2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1530,16 +1612,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
       '
-      'chkAutorun
-      '
-      Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
-      Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(233, 7)
-      Me.chkAutorun.Name = "chkAutorun"
-      Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
-      Me.chkAutorun.TabIndex = 23
-      Me.ToolTip1.SetToolTip(Me.chkAutorun, "Autorun")
-      '
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -1569,75 +1641,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnDelRow.TabIndex = 40
       Me.ibtnDelRow.TabStop = False
       Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowEquipment
-      '
-      Me.ibtnShowEquipment.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowEquipment.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowEquipment.Location = New System.Drawing.Point(382, 86)
-      Me.ibtnShowEquipment.Name = "ibtnShowEquipment"
-      Me.ibtnShowEquipment.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowEquipment.TabIndex = 38
-      Me.ibtnShowEquipment.TabStop = False
-      Me.ibtnShowEquipment.ThemedImage = CType(resources.GetObject("ibtnShowEquipment.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowEquipmentDiaog
-      '
-      Me.ibtnShowEquipmentDiaog.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowEquipmentDiaog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowEquipmentDiaog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowEquipmentDiaog.Location = New System.Drawing.Point(358, 86)
-      Me.ibtnShowEquipmentDiaog.Name = "ibtnShowEquipmentDiaog"
-      Me.ibtnShowEquipmentDiaog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowEquipmentDiaog.TabIndex = 37
-      Me.ibtnShowEquipmentDiaog.TabStop = False
-      Me.ibtnShowEquipmentDiaog.ThemedImage = CType(resources.GetObject("ibtnShowEquipmentDiaog.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtShowToCostCenter
-      '
-      Me.ibtShowToCostCenter.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtShowToCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtShowToCostCenter.Location = New System.Drawing.Point(382, 12)
-      Me.ibtShowToCostCenter.Name = "ibtShowToCostCenter"
-      Me.ibtShowToCostCenter.Size = New System.Drawing.Size(24, 23)
-      Me.ibtShowToCostCenter.TabIndex = 34
-      Me.ibtShowToCostCenter.TabStop = False
-      Me.ibtShowToCostCenter.ThemedImage = CType(resources.GetObject("ibtShowToCostCenter.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowToCostCenterDialog
-      '
-      Me.ibtnShowToCostCenterDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowToCostCenterDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowToCostCenterDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToCostCenterDialog.Location = New System.Drawing.Point(358, 12)
-      Me.ibtnShowToCostCenterDialog.Name = "ibtnShowToCostCenterDialog"
-      Me.ibtnShowToCostCenterDialog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowToCostCenterDialog.TabIndex = 33
-      Me.ibtnShowToCostCenterDialog.TabStop = False
-      Me.ibtnShowToCostCenterDialog.ThemedImage = CType(resources.GetObject("ibtnShowToCostCenterDialog.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowToCCPerson
-      '
-      Me.ibtnShowToCCPerson.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowToCCPerson.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowToCCPerson.Location = New System.Drawing.Point(382, 36)
-      Me.ibtnShowToCCPerson.Name = "ibtnShowToCCPerson"
-      Me.ibtnShowToCCPerson.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowToCCPerson.TabIndex = 36
-      Me.ibtnShowToCCPerson.TabStop = False
-      Me.ibtnShowToCCPerson.ThemedImage = CType(resources.GetObject("ibtnShowToCCPerson.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnShowToCCPersonDialog
-      '
-      Me.ibtnShowToCCPersonDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnShowToCCPersonDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowToCCPersonDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowToCCPersonDialog.Location = New System.Drawing.Point(358, 36)
-      Me.ibtnShowToCCPersonDialog.Name = "ibtnShowToCCPersonDialog"
-      Me.ibtnShowToCCPersonDialog.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnShowToCCPersonDialog.TabIndex = 35
-      Me.ibtnShowToCCPersonDialog.TabStop = False
-      Me.ibtnShowToCCPersonDialog.ThemedImage = CType(resources.GetObject("ibtnShowToCCPersonDialog.ThemedImage"), System.Drawing.Bitmap)
       '
       'ibtnShowPODialog
       '
@@ -1711,8 +1714,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowAdvancePay.Tag = "NotGigaSite"
       Me.ibtnShowAdvancePay.ThemedImage = CType(resources.GetObject("ibtnShowAdvancePay.ThemedImage"), System.Drawing.Bitmap)
       '
+      'imAttachment
+      '
+      Me.imAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.imAttachment.Location = New System.Drawing.Point(992, 10)
+      Me.imAttachment.Name = "imAttachment"
+      Me.imAttachment.Size = New System.Drawing.Size(29, 31)
+      Me.imAttachment.TabIndex = 346
+      Me.imAttachment.TabStop = False
+      '
       'GoodsReceiptDetail
       '
+      Me.Controls.Add(Me.imAttachment)
       Me.Controls.Add(Me.FixedGroupBox1)
       Me.Controls.Add(Me.ibtnCopyMe)
       Me.Controls.Add(Me.txtDeliveryDocDate)
@@ -1791,6 +1804,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.FixedGroupBox1.ResumeLayout(False)
       Me.FixedGroupBox1.PerformLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -1822,6 +1836,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       SaveEnableState()
       m_tableStyleEnable = New Hashtable
+
+      Me.imAttachment.Image = My.Resources.Attachment_24
 
       Dim dt As TreeTable = GoodsReceipt.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
@@ -2503,6 +2519,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       CheckWBSRight()
       DisableGigaSiteControl()
+
+      '---Check Attachment ----
+      If CType(Configuration.GetConfig("UseAttachment"), Boolean) AndAlso Me.m_entity.hasAttachment Then
+        Me.imAttachment.Visible = True
+        Me.imAttachment.Enabled = True
+      Else
+        Me.imAttachment.Visible = False
+      End If
     End Sub
     Private Sub VisibleApprovControl()
       'ถ้าไม่เปิดอนุมัติเอกสาร ให้ซ่อนปุ่ม
@@ -3672,6 +3696,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           'Hack:
           Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+          AddHandler m_entity.AttachIsChanges, AddressOf CheckFormEnable
         Else
         End If
 
@@ -4440,5 +4465,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     '==============CURRENCY=================================
 
+    Private Sub imAttachment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles imAttachment.Click
+      If m_entity Is Nothing OrElse Not m_entity.Originated Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim frm As New AttachmentForm(Me.m_entity)
+      Select Case frm.ShowDialog
+        Case DialogResult.OK
+          If Not frm.AttachmentColl Is Nothing Then
+            frm.AttachmentColl.Save()
+          End If
+        Case Else
+
+      End Select
+      Dim tmp As Boolean = Me.m_entity.hasAttachment(True)
+      'CheckFormEnable()
+    End Sub
   End Class
 End Namespace

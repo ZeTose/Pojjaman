@@ -105,6 +105,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtUnit1 As System.Windows.Forms.TextBox
     Friend WithEvents txtRate As System.Windows.Forms.TextBox
     Friend WithEvents FixedGroupBox1 As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents imAttachment As System.Windows.Forms.PictureBox
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -152,11 +153,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRealTaxAmount = New System.Windows.Forms.TextBox()
       Me.txtRealTaxBase = New System.Windows.Forms.TextBox()
       Me.txtCostCenterName = New System.Windows.Forms.TextBox()
+      Me.txtRate = New System.Windows.Forms.TextBox()
+      Me.txtUnit1 = New System.Windows.Forms.TextBox()
+      Me.txtUnit2 = New System.Windows.Forms.TextBox()
+      Me.txtLanguage = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.btnSupplierFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnSupplierEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblDay = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblRate = New System.Windows.Forms.Label()
+      Me.lblLanguage = New System.Windows.Forms.Label()
+      Me.lblUnit2 = New System.Windows.Forms.Label()
+      Me.lblUnit1 = New System.Windows.Forms.Label()
       Me.cmbContact = New System.Windows.Forms.ComboBox()
       Me.lblContact = New System.Windows.Forms.Label()
       Me.cmbPOPlaceDeli = New System.Windows.Forms.ComboBox()
@@ -187,20 +197,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkClosed = New System.Windows.Forms.CheckBox()
       Me.lblPercent = New System.Windows.Forms.Label()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.txtRate = New System.Windows.Forms.TextBox()
-      Me.lblRate = New System.Windows.Forms.Label()
-      Me.txtUnit1 = New System.Windows.Forms.TextBox()
-      Me.lblUnit1 = New System.Windows.Forms.Label()
-      Me.txtUnit2 = New System.Windows.Forms.TextBox()
-      Me.lblUnit2 = New System.Windows.Forms.Label()
-      Me.txtLanguage = New System.Windows.Forms.TextBox()
-      Me.lblLanguage = New System.Windows.Forms.Label()
-      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.imAttachment = New System.Windows.Forms.PictureBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
-      Me.grbRetention.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
+      Me.grbRetention.SuspendLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'tgItem
@@ -804,6 +807,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.TabIndex = 10
       Me.txtCostCenterName.TabStop = False
       '
+      'txtRate
+      '
+      Me.Validator.SetDataType(Me.txtRate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtRate, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
+      Me.txtRate.Location = New System.Drawing.Point(6, 34)
+      Me.Validator.SetMinValue(Me.txtRate, "")
+      Me.txtRate.Name = "txtRate"
+      Me.Validator.SetRegularExpression(Me.txtRate, "")
+      Me.Validator.SetRequired(Me.txtRate, False)
+      Me.txtRate.Size = New System.Drawing.Size(62, 21)
+      Me.txtRate.TabIndex = 341
+      '
+      'txtUnit1
+      '
+      Me.Validator.SetDataType(Me.txtUnit1, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtUnit1, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+      Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
+      Me.Validator.SetMinValue(Me.txtUnit1, "")
+      Me.txtUnit1.Name = "txtUnit1"
+      Me.Validator.SetRegularExpression(Me.txtUnit1, "")
+      Me.Validator.SetRequired(Me.txtUnit1, False)
+      Me.txtUnit1.Size = New System.Drawing.Size(62, 21)
+      Me.txtUnit1.TabIndex = 341
+      '
+      'txtUnit2
+      '
+      Me.Validator.SetDataType(Me.txtUnit2, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtUnit2, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+      Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
+      Me.Validator.SetMinValue(Me.txtUnit2, "")
+      Me.txtUnit2.Name = "txtUnit2"
+      Me.Validator.SetRegularExpression(Me.txtUnit2, "")
+      Me.Validator.SetRequired(Me.txtUnit2, False)
+      Me.txtUnit2.Size = New System.Drawing.Size(62, 21)
+      Me.txtUnit2.TabIndex = 341
+      '
+      'txtLanguage
+      '
+      Me.Validator.SetDataType(Me.txtLanguage, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtLanguage, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+      Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
+      Me.Validator.SetMinValue(Me.txtLanguage, "")
+      Me.txtLanguage.Name = "txtLanguage"
+      Me.Validator.SetRegularExpression(Me.txtLanguage, "")
+      Me.Validator.SetRequired(Me.txtLanguage, False)
+      Me.txtLanguage.Size = New System.Drawing.Size(62, 21)
+      Me.txtLanguage.TabIndex = 341
+      '
       'lblItem
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -854,6 +913,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.imAttachment)
       Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.cmbContact)
       Me.grbDetail.Controls.Add(Me.lblContact)
@@ -932,6 +992,71 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
+      '
+      'FixedGroupBox1
+      '
+      Me.FixedGroupBox1.Controls.Add(Me.lblRate)
+      Me.FixedGroupBox1.Controls.Add(Me.lblLanguage)
+      Me.FixedGroupBox1.Controls.Add(Me.txtRate)
+      Me.FixedGroupBox1.Controls.Add(Me.lblUnit2)
+      Me.FixedGroupBox1.Controls.Add(Me.txtUnit1)
+      Me.FixedGroupBox1.Controls.Add(Me.lblUnit1)
+      Me.FixedGroupBox1.Controls.Add(Me.txtUnit2)
+      Me.FixedGroupBox1.Controls.Add(Me.txtLanguage)
+      Me.FixedGroupBox1.Location = New System.Drawing.Point(560, 130)
+      Me.FixedGroupBox1.Name = "FixedGroupBox1"
+      Me.FixedGroupBox1.Size = New System.Drawing.Size(280, 64)
+      Me.FixedGroupBox1.TabIndex = 343
+      Me.FixedGroupBox1.TabStop = False
+      Me.FixedGroupBox1.Text = "Currency"
+      '
+      'lblRate
+      '
+      Me.lblRate.BackColor = System.Drawing.Color.Transparent
+      Me.lblRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblRate.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblRate.Location = New System.Drawing.Point(6, 14)
+      Me.lblRate.Name = "lblRate"
+      Me.lblRate.Size = New System.Drawing.Size(62, 18)
+      Me.lblRate.TabIndex = 342
+      Me.lblRate.Text = "Rate"
+      Me.lblRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'lblLanguage
+      '
+      Me.lblLanguage.BackColor = System.Drawing.Color.Transparent
+      Me.lblLanguage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblLanguage.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblLanguage.Location = New System.Drawing.Point(210, 15)
+      Me.lblLanguage.Name = "lblLanguage"
+      Me.lblLanguage.Size = New System.Drawing.Size(62, 18)
+      Me.lblLanguage.TabIndex = 342
+      Me.lblLanguage.Text = "Language"
+      Me.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'lblUnit2
+      '
+      Me.lblUnit2.BackColor = System.Drawing.Color.Transparent
+      Me.lblUnit2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUnit2.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblUnit2.Location = New System.Drawing.Point(142, 15)
+      Me.lblUnit2.Name = "lblUnit2"
+      Me.lblUnit2.Size = New System.Drawing.Size(62, 18)
+      Me.lblUnit2.TabIndex = 342
+      Me.lblUnit2.Text = "Unit2"
+      Me.lblUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'lblUnit1
+      '
+      Me.lblUnit1.BackColor = System.Drawing.Color.Transparent
+      Me.lblUnit1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblUnit1.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblUnit1.Location = New System.Drawing.Point(74, 15)
+      Me.lblUnit1.Name = "lblUnit1"
+      Me.lblUnit1.Size = New System.Drawing.Size(62, 18)
+      Me.lblUnit1.TabIndex = 342
+      Me.lblUnit1.Text = "Unit1"
+      Me.lblUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
       'cmbContact
       '
@@ -1259,126 +1384,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPercent.Text = "%"
       Me.lblPercent.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'txtRate
+      'imAttachment
       '
-      Me.Validator.SetDataType(Me.txtRate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
-      Me.txtRate.Location = New System.Drawing.Point(6, 34)
-      Me.Validator.SetMinValue(Me.txtRate, "")
-      Me.txtRate.Name = "txtRate"
-      Me.Validator.SetRegularExpression(Me.txtRate, "")
-      Me.Validator.SetRequired(Me.txtRate, False)
-      Me.txtRate.Size = New System.Drawing.Size(62, 21)
-      Me.txtRate.TabIndex = 341
-      '
-      'lblRate
-      '
-      Me.lblRate.BackColor = System.Drawing.Color.Transparent
-      Me.lblRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRate.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblRate.Location = New System.Drawing.Point(6, 14)
-      Me.lblRate.Name = "lblRate"
-      Me.lblRate.Size = New System.Drawing.Size(62, 18)
-      Me.lblRate.TabIndex = 342
-      Me.lblRate.Text = "Rate"
-      Me.lblRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtUnit1
-      '
-      Me.Validator.SetDataType(Me.txtUnit1, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtUnit1, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
-      Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
-      Me.Validator.SetMinValue(Me.txtUnit1, "")
-      Me.txtUnit1.Name = "txtUnit1"
-      Me.Validator.SetRegularExpression(Me.txtUnit1, "")
-      Me.Validator.SetRequired(Me.txtUnit1, False)
-      Me.txtUnit1.Size = New System.Drawing.Size(62, 21)
-      Me.txtUnit1.TabIndex = 341
-      '
-      'lblUnit1
-      '
-      Me.lblUnit1.BackColor = System.Drawing.Color.Transparent
-      Me.lblUnit1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblUnit1.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblUnit1.Location = New System.Drawing.Point(74, 15)
-      Me.lblUnit1.Name = "lblUnit1"
-      Me.lblUnit1.Size = New System.Drawing.Size(62, 18)
-      Me.lblUnit1.TabIndex = 342
-      Me.lblUnit1.Text = "Unit1"
-      Me.lblUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtUnit2
-      '
-      Me.Validator.SetDataType(Me.txtUnit2, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtUnit2, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
-      Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
-      Me.Validator.SetMinValue(Me.txtUnit2, "")
-      Me.txtUnit2.Name = "txtUnit2"
-      Me.Validator.SetRegularExpression(Me.txtUnit2, "")
-      Me.Validator.SetRequired(Me.txtUnit2, False)
-      Me.txtUnit2.Size = New System.Drawing.Size(62, 21)
-      Me.txtUnit2.TabIndex = 341
-      '
-      'lblUnit2
-      '
-      Me.lblUnit2.BackColor = System.Drawing.Color.Transparent
-      Me.lblUnit2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblUnit2.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblUnit2.Location = New System.Drawing.Point(142, 15)
-      Me.lblUnit2.Name = "lblUnit2"
-      Me.lblUnit2.Size = New System.Drawing.Size(62, 18)
-      Me.lblUnit2.TabIndex = 342
-      Me.lblUnit2.Text = "Unit2"
-      Me.lblUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtLanguage
-      '
-      Me.Validator.SetDataType(Me.txtLanguage, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtLanguage, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
-      Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
-      Me.Validator.SetMinValue(Me.txtLanguage, "")
-      Me.txtLanguage.Name = "txtLanguage"
-      Me.Validator.SetRegularExpression(Me.txtLanguage, "")
-      Me.Validator.SetRequired(Me.txtLanguage, False)
-      Me.txtLanguage.Size = New System.Drawing.Size(62, 21)
-      Me.txtLanguage.TabIndex = 341
-      '
-      'lblLanguage
-      '
-      Me.lblLanguage.BackColor = System.Drawing.Color.Transparent
-      Me.lblLanguage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblLanguage.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblLanguage.Location = New System.Drawing.Point(210, 15)
-      Me.lblLanguage.Name = "lblLanguage"
-      Me.lblLanguage.Size = New System.Drawing.Size(62, 18)
-      Me.lblLanguage.TabIndex = 342
-      Me.lblLanguage.Text = "Language"
-      Me.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'FixedGroupBox1
-      '
-      Me.FixedGroupBox1.Controls.Add(Me.lblRate)
-      Me.FixedGroupBox1.Controls.Add(Me.lblLanguage)
-      Me.FixedGroupBox1.Controls.Add(Me.txtRate)
-      Me.FixedGroupBox1.Controls.Add(Me.lblUnit2)
-      Me.FixedGroupBox1.Controls.Add(Me.txtUnit1)
-      Me.FixedGroupBox1.Controls.Add(Me.lblUnit1)
-      Me.FixedGroupBox1.Controls.Add(Me.txtUnit2)
-      Me.FixedGroupBox1.Controls.Add(Me.txtLanguage)
-      Me.FixedGroupBox1.Location = New System.Drawing.Point(560, 130)
-      Me.FixedGroupBox1.Name = "FixedGroupBox1"
-      Me.FixedGroupBox1.Size = New System.Drawing.Size(280, 64)
-      Me.FixedGroupBox1.TabIndex = 343
-      Me.FixedGroupBox1.TabStop = False
-      Me.FixedGroupBox1.Text = "Currency"
+      Me.imAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.imAttachment.Location = New System.Drawing.Point(774, 98)
+      Me.imAttachment.Name = "imAttachment"
+      Me.imAttachment.Size = New System.Drawing.Size(29, 31)
+      Me.imAttachment.TabIndex = 346
+      Me.imAttachment.TabStop = False
       '
       'POPanelView
       '
@@ -1390,10 +1403,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
-      Me.grbRetention.ResumeLayout(False)
-      Me.grbRetention.PerformLayout()
       Me.FixedGroupBox1.ResumeLayout(False)
       Me.FixedGroupBox1.PerformLayout()
+      Me.grbRetention.ResumeLayout(False)
+      Me.grbRetention.PerformLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1436,6 +1450,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim rs As ResourceService = CType(ServiceManager.Services.GetService(GetType(ResourceService)), ResourceService)
       Me.ibtnCopyMe.ThemedImage = rs.GetBitmap("Icons.16x16.Copy")
+      Me.imAttachment.Image = My.Resources.Attachment_24
 
       SaveEnableState()
 
@@ -1922,6 +1937,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.btnApprove.Enabled = True
       CheckWBSRight()
+
+      '---Check Attachment ----
+      If CType(Configuration.GetConfig("UseAttachment"), Boolean) AndAlso Me.m_entity.hasAttachment Then
+        Me.imAttachment.Visible = True
+        Me.imAttachment.Enabled = True
+      Else
+        Me.imAttachment.Visible = False
+      End If
     End Sub
     Private Sub CheckClosed()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -2723,6 +2746,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        AddHandler m_entity.AttachIsChanges, AddressOf CheckFormEnable
         UpdateEntityProperties()
       End Set
     End Property
@@ -3422,6 +3446,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
 #End Region
+
+    Private Sub imAttachment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles imAttachment.Click
+      If m_entity Is Nothing OrElse Not m_entity.Originated Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim frm As New AttachmentForm(Me.m_entity)
+      Select Case frm.ShowDialog
+        Case DialogResult.OK
+          If Not frm.AttachmentColl Is Nothing Then
+            frm.AttachmentColl.Save()
+          End If
+        Case Else
+
+      End Select
+      Dim tmp As Boolean = Me.m_entity.hasAttachment(True)
+      'CheckFormEnable()
+    End Sub
   End Class
 End Namespace
 
