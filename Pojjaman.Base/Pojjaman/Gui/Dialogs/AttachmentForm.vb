@@ -415,10 +415,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Uploading}")
             m_result = m_ftp.Upload(sFile, sFileInServer, sPath)
         End Sub
-        Private Sub Download()
-            lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Downloading}")
-            m_result = m_ftp.Download(sFile, sLocalFile)
-      Process.Start(sLocalFile)
+    Private Sub Download()
+      Try
+        lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Downloading}")
+        m_result = m_ftp.Download(sFile, sLocalFile)
+        Process.Start(sLocalFile)
+      Catch ex As Exception
+
+      End Try
     End Sub
         Private Sub Delete()
             lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Deleting}")
