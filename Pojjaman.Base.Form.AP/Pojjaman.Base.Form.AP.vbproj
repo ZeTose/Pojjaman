@@ -460,6 +460,12 @@
   <ItemGroup>
     <None Include="Resources\padlock-unlocked.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Alert.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Warn.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

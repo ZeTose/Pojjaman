@@ -8,7 +8,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
 	Public Interface IUnlockAble
-		Property Unlock() As Boolean
+    Property Unlock() As UnlockType
 	End Interface
 	Public Class UnlockDoc
 
@@ -17,7 +17,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 		Private m_entityType As Integer
 		Private m_comment As String
 		Private m_person As Integer
-		Private m_date As Date
+    Private m_date As Date
+    Private m_unlockType As UnlockType
 #End Region
 
 #Region "Constructors"
@@ -39,13 +40,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 			End If
 			If dr.Table.Columns.Contains("unlock_date") AndAlso Not dr.IsNull("unlock_date") Then
 				m_date = CDate(dr("unlock_date"))
-			End If
+      End If
+      If dr.Table.Columns.Contains("unlock_type") AndAlso Not dr.IsNull("unlock_type") Then
+        m_unlockType = CType(CInt(dr("unlock_type")), UnlockType)
+      End If
 		End Sub
 #End Region
 
 #Region "Properties"
 
-		Public Property Comment() As String			Get				Return m_comment			End Get			Set(ByVal Value As String)				m_comment = Value			End Set		End Property		Public Property Person() As Integer			Get				Return m_person			End Get			Set(ByVal Value As Integer)				m_person = Value			End Set		End Property		Public Property [Date]() As Date			Get				Return m_date			End Get			Set(ByVal Value As Date)				m_date = Value			End Set		End Property		Public Property EntityId() As Integer			Get				Return m_entityId			End Get			Set(ByVal Value As Integer)				m_entityId = Value			End Set		End Property		Public Property EntityType() As Integer			Get				Return m_entityType			End Get			Set(ByVal Value As Integer)				m_entityType = Value			End Set		End Property
+		Public Property Comment() As String			Get				Return m_comment			End Get			Set(ByVal Value As String)				m_comment = Value			End Set		End Property		Public Property Person() As Integer			Get				Return m_person			End Get			Set(ByVal Value As Integer)				m_person = Value			End Set		End Property		Public Property [Date]() As Date			Get				Return m_date			End Get			Set(ByVal Value As Date)				m_date = Value			End Set		End Property		Public Property EntityId() As Integer			Get				Return m_entityId			End Get			Set(ByVal Value As Integer)				m_entityId = Value			End Set		End Property		Public Property EntityType() As Integer			Get				Return m_entityType			End Get			Set(ByVal Value As Integer)				m_entityType = Value			End Set    End Property    Public Property UnlockType As UnlockType      Get
+        Return m_unlockType
+      End Get
+      Set(ByVal value As UnlockType)
+        m_unlockType = value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
@@ -125,7 +135,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					drNew("unlock_entityType") = m_entityType
 					drNew("unlock_comment") = myUnlockDoc.Comment
 					drNew("unlock_date") = myUnlockDoc.Date
-					drNew("unlock_person") = myUnlockDoc.Person
+          drNew("unlock_person") = myUnlockDoc.Person
+          drNew("unlock_type") = myUnlockDoc.UnlockType
 					dt.Rows.Add(drNew)
 				Next
 				' First process deletes.

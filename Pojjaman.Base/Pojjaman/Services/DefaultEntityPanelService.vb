@@ -394,7 +394,7 @@ Namespace Longkong.Pojjaman.Services
 
       Dim wrapper As New LoadEntityWrapper(myContent)
       Dim neod As New NamedEntityOperationDelegate(AddressOf wrapper.Invoke)
-
+      'Todo pui กำลังคิดว่าจะแก้ส่วนนี้ เรื่องของ Gigasite กับเรื่องสิทธิ์แสดง tab ต่าง ๆ
       If Me.m_entityUtilityService.ObservedLoad(neod, entity) = EntityOperationResult.OK Then
         Dim tabs As SecondaryViewContentCollection = GetTabsForEntity(entity)
         If Not tabs Is Nothing AndAlso tabs.Count > 0 Then

@@ -106,7 +106,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_approveDocColl As ApproveDocCollection
 
     Private m_asset As Asset
-    Private m_Unlock As Boolean = False
+    Private m_Unlock As UnlockType
 
     Public MatActualHash As Hashtable
     Public LabActualHash As Hashtable
@@ -175,6 +175,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_itemCollection = New GoodsReceiptItemCollection(Me)
       m_oldActualDataSet = New DataSet
       m_approveDocColl = New ApproveDocCollection(Me)
+      m_Unlock = UnlockType.Non
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -361,6 +362,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '==============CURRENCY=================================
       BusinessLogic.Currency.SetCurrencyFromDB(Me)
       '==============CURRENCY=================================
+      m_Unlock = UnlockType.Non
     End Sub
 #End Region
 
@@ -947,14 +949,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 
-    Public Property Unlock() As Boolean Implements IUnlockAble.Unlock
+    Public Property Unlock() As UnlockType Implements IUnlockAble.Unlock
       Get
         Return m_Unlock
       End Get
-      Set(ByVal Value As Boolean)
+      Set(ByVal Value As UnlockType)
         m_Unlock = Value
       End Set
     End Property
+    Public Property Locking As Boolean
     Public Overrides ReadOnly Property Columns() As ColumnCollection
       Get
         If m_columns Is Nothing OrElse m_columns.Count <= 0 Then
@@ -5934,5 +5937,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSMarkupStatusAfterGRSave", New SqlParameter("@stock_id", Me.Id))
     End Sub
   End Class
+
+  Public Enum UnlockType
+    Non
+    UnlockAll
+    UnlockLevel1
+    Locked
+  End Enum
+
 End Namespace
 
