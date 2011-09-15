@@ -2658,6 +2658,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    ''' <summary>
+    ''' มูลค่า Retention งวดงานที่ที่รับเงินแล้ว
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetTotalReceievRetention() As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If item.Status.Value = 5 Then
+          amt += item.Retention
+        End If
+      Next
+      Return amt
+    End Function
+    ''' <summary>
+    '''  มูลค่า Advance งวดงานที่ที่รับเงินแล้ว
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetTotalReceievAdvance() As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If item.Status.Value = 5 Then
+          amt += item.Advance
+        End If
+      Next
+      Return amt
+    End Function
     Public Function GetAmountForBillIssue(Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal = 0
       For Each Item As Milestone In Me

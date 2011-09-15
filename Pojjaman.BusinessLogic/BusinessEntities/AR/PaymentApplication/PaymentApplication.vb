@@ -1314,6 +1314,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      'TotalReceievRetention
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalReceievRetention"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTotalReceievRetention, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalReceievAdvance
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalReceievAdvance"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTotalReceievAdvance, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       Return dpiColl
     End Function
 #End Region
