@@ -84,8 +84,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Enum ApproveType
     comment
-    approved
-    reject
+    approved = 1
+    reject = -1
     onhold
   End Enum
 

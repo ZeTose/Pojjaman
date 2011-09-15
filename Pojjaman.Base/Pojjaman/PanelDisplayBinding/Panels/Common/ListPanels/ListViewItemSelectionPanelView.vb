@@ -287,7 +287,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldBasket As BasketItemCollection
 
     Private m_otherFilters As Filter()
-
+    Private m_imagelist As ImageList
 #End Region
 
 #Region "Constructors"
@@ -297,6 +297,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If TypeOf handler Is NamedEntityOperationDelegate Then
         mode = Selection.SingleSelect
       End If
+      m_imagelist = New ImageList
+      m_imagelist.Images.Add("Attachment", My.Resources.Attachment)
       Construct(entity, mode, basket, filters, entities)
     End Sub
     Private theBasket As BasketDialog
@@ -468,6 +470,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       lvItem.Items.Clear()
       Dim comparer As IComparer = lvItem.ListViewItemSorter
       lvItem.ListViewItemSorter = Nothing
+      lvItem.StateImageList = m_imagelist
       Dim filters As Filter() = Me.m_filterSubPanel.GetFilterArray
       Dim otherLength As Integer = 0
       If Not m_otherFilters Is Nothing AndAlso m_otherFilters.Length > 0 Then
@@ -525,7 +528,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           SumList(firstColumn) += deh.GetValue(Of Decimal)(firstColumn.Name, 0)
         End If
         '================FIRST COLUMN=======================================
-
+        '=== SET Attach Icon ==========='
+        If deh.GetValue(Of Boolean)("hasAttach") Then
+          litem.StateImageIndex = 0
+        End If
+        '======= Attach ===== 
         litem.Tag = row(Me.m_entity.Prefix & "_id")
         docStatusHs(litem.Tag) = deh.GetValue(Of String)("docstatus")
 
