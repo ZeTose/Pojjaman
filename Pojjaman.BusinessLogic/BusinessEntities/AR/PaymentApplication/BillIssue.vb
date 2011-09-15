@@ -1267,19 +1267,90 @@ Namespace Longkong.Pojjaman.BusinessLogic
         sumAdvance += item.Advance
 
         If Me.ShowDetail Then
+          Dim lineNumber As Integer = 0
+
           item.ReLoadItems()
           For Each miDetailRow As TreeRow In item.ItemTable.Childs
             n += 1
             y += 1
-            Dim childText As String = miDetailRow("milestonei_desc").ToString
-            'Item.Name
+
+            'Item.LineNumber
             dpi = New DocPrintingItem
-            dpi.Mapping = "Item.Name"
-            dpi.Value = childText
+            dpi.Mapping = "Item.LineNumber"
+            If Not miDetailRow.IsNull("milestonei_linenumber") Then
+              dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_linenumber")), DigitConfig.Qty)
+            End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
             dpi.Table = "Item"
             dpiColl.Add(dpi)
+
+            'Item.Name
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Name"
+            If Not miDetailRow.IsNull("milestonei_desc") Then
+              dpi.Value = miDetailRow("milestonei_desc").ToString
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Unit
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Unit"
+            If Not miDetailRow.IsNull("Unit") Then
+              dpi.Value = miDetailRow("Unit").ToString
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Qty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Qty"
+            If Not miDetailRow.IsNull("milestonei_qty") Then
+              dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty)
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.UnitPrice
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.UnitPrice"
+            If Not miDetailRow.IsNull("milestonei_unitprice") Then
+              dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_unitprice")), DigitConfig.Price)
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Amount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Amount"
+            If Not miDetailRow.IsNull("milestonei_amt") Then
+              dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_amt")), DigitConfig.Price)
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Note
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.Note"
+            If Not miDetailRow.IsNull("milestonei_note") Then
+              dpi.Value = miDetailRow("milestonei_note").ToString
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
           Next
         End If
         n += 1
@@ -2566,7 +2637,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If Not miDetailRow.IsNull("Unit") Then
                 unitText = " " & miDetailRow("Unit").ToString
               End If
-              childText &= (Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty) & unitText)
+              childText &= " " & (Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty) & unitText)
             End If
             childRow("billii_milestone") = childText
           Next
