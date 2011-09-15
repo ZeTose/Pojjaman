@@ -24,19 +24,22 @@ Namespace Longkong.Pojjaman.Commands
                 ShowAttachment()
             End If
         End Sub
-        Private Sub ShowAttachment()
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            Dim newEntity As ISimpleEntity = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ActiveViewContent, ISimpleEntityPanel).Entity
-            Dim frm As New AttachmentForm(newEntity)
-            Select Case frm.ShowDialog
-                Case DialogResult.OK
-                    If Not frm.AttachmentColl Is Nothing Then
-                        frm.AttachmentColl.Save()
-                    End If
-                Case Else
+    Private Sub ShowAttachment()
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim newEntity As ISimpleEntity = CType(WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ActiveViewContent, ISimpleEntityPanel).Entity
+      Dim frm As New AttachmentForm(newEntity)
+      Select Case frm.ShowDialog
+        Case DialogResult.OK
+          If Not frm.AttachmentColl Is Nothing Then
+            frm.AttachmentColl.Save()
+          End If
+        Case Else
 
-            End Select
-        End Sub
+      End Select
+      If TypeOf newEntity Is SimpleBusinessEntityBase Then
+        Dim tmp As Boolean = CType(newEntity, SimpleBusinessEntityBase).hasAttachment(True)
+      End If
+    End Sub
         Public Overrides Property IsEnabled() As Boolean
             Get
                 If WorkbenchSingleton.Workbench.ActiveWorkbenchWindow Is Nothing Then

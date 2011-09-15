@@ -198,7 +198,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_originDate = Date.MinValue
       m_edited = False
       m_lastEditDate = Date.MinValue
-
+      m_hasAttach = Nothing
       If Me.EntityIdHash.Count > 20 Then
         Me.EntityIdHash = New Hashtable
       End If
@@ -305,6 +305,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+        m_hasAttach = Nothing
 
       End With
     End Sub
@@ -643,6 +644,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Private m_hasAttach As Nullable(Of Boolean)
+    Property AttachIsChange As Boolean = False
+    Public Sub OnAttachChanged()
+      Me.AttachIsChange = True
+      RaiseEvent AttachIsChanges(Me, Nothing)
+    End Sub
+    Public Event AttachIsChanges(ByVal sender As Object, ByVal e As System.EventArgs)
+
+    Public ReadOnly Property hasAttachment(Optional ByVal force As Boolean = False) As Boolean
+      Get
+        If Not m_hasAttach.HasValue OrElse force Then
+          RefreshHasAttach()
+          If force Then
+            OnAttachChanged()
+          End If
+        End If
+        Return m_hasAttach.Value
+      End Get
+    End Property
+    Private Sub RefreshHasAttach()
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetHasAttach" _
+                , New SqlParameter("@entity_id", Me.Id) _
+                , New SqlParameter("@entity_type", Me.EntityId) _
+                )
+        If ds.Tables(0).Rows.Count > 0 Then
+          If Not ds.Tables(0).Rows(0).IsNull("hasAttach") Then
+            m_hasAttach = CBool(ds.Tables(0).Rows(0)("hasAttach"))
+          End If
+        Else
+          m_hasAttach = False
+        End If
+      Catch ex As Exception
+      End Try
+    End Sub
     Private m_AutoCodeFormat As AutoCodeFormat
     Public Property AutoCodeFormat() As AutoCodeFormat
       Get

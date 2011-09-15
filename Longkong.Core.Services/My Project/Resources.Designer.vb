@@ -60,17 +60,45 @@ Namespace My.Resources
             End Set
         End Property
         
-        Public ReadOnly Property Actions_go_down() As System.Drawing.Icon
+        Public ReadOnly Property Attachment_128() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Actions_go_down", resourceCulture)
-                Return CType(obj,System.Drawing.Icon)
+                Dim obj As Object = ResourceManager.GetObject("Attachment_128", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
-        Public ReadOnly Property Actions_go_up() As System.Drawing.Icon
+        Public ReadOnly Property Attachment_24() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Actions_go_up", resourceCulture)
-                Return CType(obj,System.Drawing.Icon)
+                Dim obj As Object = ResourceManager.GetObject("Attachment_24", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Attachment_256() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Attachment_256", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Attachment_32() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Attachment_32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Attachment_48() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Attachment_48", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Attachment_64() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Attachment_64", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
     End Module
