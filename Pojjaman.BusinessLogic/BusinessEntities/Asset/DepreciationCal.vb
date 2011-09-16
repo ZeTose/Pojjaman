@@ -1527,7 +1527,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           msgServ.ShowWarningFormatted("${res:Global.Error.NoAssetCostcenter}", Me.DepreciationCal.FromCostcenter.Name)
           Return
         End If
-        If oEntity.Status.Value <> 1 Then
+        If oEntity.Status.Value <> 1 AndAlso Me.DepreciationCal.IsTransfer Then
           ' เตือน Status
           msgServ.ShowWarningFormatted("${res:Global.Error.AssetEqNotAvaliable}", oEntity.Code, oEntity.Status.Description)
           Return
