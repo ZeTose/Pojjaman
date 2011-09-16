@@ -225,14 +225,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim sqlcmd As String
           sqlcmd = "select checkupdate.cqupdate_bankacct from checkupdate" _
           & " inner join checkupdateitem on checkupdate.cqupdate_id = checkupdateitem.cqupdatei_cqupdateid" _
-          & " where cqupdate_checktype = 27 and cqupdate_updatedstatus > 0" _
+          & " where cqupdate_checktype = 27 and cqupdate_updatedstatus = 3" _
           & " and cqupdate_canceled is null and checkupdateitem.cqupdatei_entity = " & Me.Id
           Dim BankAcctID As Object
           BankAcctID = SqlHelper.ExecuteScalar(Me.ConnectionString _
            , CommandType.Text _
            , sqlcmd _
            )
-          If Not BankAcctID Is Nothing Then
+          If Not BankAcctID Is Nothing AndAlso IsNumeric(BankAcctID) Then
             m_depositBankAcct = New BankAccount(CInt(BankAcctID))
           End If
         End If
