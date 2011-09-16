@@ -531,6 +531,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '=== SET Attach Icon ==========='
         If deh.GetValue(Of Boolean)("hasAttach") Then
           litem.StateImageIndex = 0
+        Else
+          litem.StateImageIndex = -1
         End If
         '======= Attach ===== 
         litem.Tag = row(Me.m_entity.Prefix & "_id")
