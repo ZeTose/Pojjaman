@@ -411,10 +411,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 MessageBox.Show(ex.Message, "Download Error")
             End Try
         End Sub
-        Private Sub Upload()
-            lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Uploading}")
-            m_result = m_ftp.Upload(sFile, sFileInServer, sPath)
-        End Sub
+    Private Sub Upload()
+      Try
+        lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Uploading}")
+        m_result = m_ftp.Upload(sFile, sFileInServer, sPath)
+      Catch ex As Exception
+
+      End Try
+    End Sub
     Private Sub Download()
       Try
         lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.AttachmentForm.Downloading}")

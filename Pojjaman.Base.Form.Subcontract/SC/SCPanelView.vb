@@ -98,6 +98,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnWRFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtWRCode As System.Windows.Forms.TextBox
     Friend WithEvents lblWRCode As System.Windows.Forms.Label
+    Friend WithEvents imAttachment As System.Windows.Forms.PictureBox
     Friend WithEvents ibtnBlankSubItem As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -148,6 +149,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem = New System.Windows.Forms.Label()
       Me.btnSubContractorFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.imAttachment = New System.Windows.Forms.PictureBox()
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnWRFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -189,6 +191,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbSubContractor.SuspendLayout()
       Me.grbCostCenter.SuspendLayout()
       Me.SuspendLayout()
@@ -834,6 +837,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.imAttachment)
       Me.grbDetail.Controls.Add(Me.ibtnCopyMe)
       Me.grbDetail.Controls.Add(Me.btnApprove)
       Me.grbDetail.Controls.Add(Me.btnWRFind)
@@ -899,6 +903,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
       '
+      'imAttachment
+      '
+      Me.imAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.imAttachment.Location = New System.Drawing.Point(629, 168)
+      Me.imAttachment.Name = "imAttachment"
+      Me.imAttachment.Size = New System.Drawing.Size(29, 31)
+      Me.imAttachment.TabIndex = 351
+      Me.imAttachment.TabStop = False
+      '
       'ibtnCopyMe
       '
       Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -917,7 +930,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ForeColor = System.Drawing.Color.Black
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(664, 174)
+      Me.btnApprove.Location = New System.Drawing.Point(664, 167)
       Me.btnApprove.Name = "btnApprove"
       Me.btnApprove.Size = New System.Drawing.Size(104, 23)
       Me.btnApprove.TabIndex = 334
@@ -1326,6 +1339,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSubContractor.ResumeLayout(False)
       Me.grbSubContractor.PerformLayout()
       Me.grbCostCenter.ResumeLayout(False)
@@ -1364,6 +1378,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.InitializeComponent()
       Me.SetLabelText()
       Initialize()
+
+      Me.imAttachment.Image = My.Resources.Attachment_24
 
       SaveEnableState()
 
@@ -1974,6 +1990,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Next
           'Me.btnApprove.Enabled = True
           Me.SetEnalbleGroupBox(True)
+          CheckFinalLine()
           Return
         Else
           For Each ctrl As Control In grbDetail.Controls
@@ -2043,9 +2060,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.SetEnalbleGroupBox()
       End If
 
+      CheckFinalLine()
+
+    End Sub
+    Private Sub CheckFinalLine()
       Me.ibtnCopyMe.Enabled = True
       Me.btnApprove.Enabled = True
 
+      '---Check Attachment ----
+      If CType(Configuration.GetConfig("UseAttachment"), Boolean) AndAlso Me.m_entity.hasAttachment Then
+        Me.imAttachment.Visible = True
+        Me.imAttachment.Enabled = True
+      Else
+        Me.imAttachment.Visible = False
+      End If
     End Sub
     Private Sub CheckClosed()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -2764,6 +2792,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         dirtyFlag = False
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        AddHandler m_entity.AttachIsChanges, AddressOf CheckFormEnable
         UpdateEntityProperties()
       End Set
     End Property
@@ -3410,6 +3439,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.RefreshWBS()
 
 
+    End Sub
+
+    Private Sub imAttachment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles imAttachment.Click
+      If m_entity Is Nothing OrElse Not m_entity.Originated Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim frm As New AttachmentForm(Me.m_entity)
+      Select Case frm.ShowDialog
+        Case DialogResult.OK
+          If Not frm.AttachmentColl Is Nothing Then
+            frm.AttachmentColl.Save()
+          End If
+        Case Else
+
+      End Select
+      Dim tmp As Boolean = Me.m_entity.hasAttachment(True)
+      'CheckFormEnable()
     End Sub
 
 #Region "Customization"

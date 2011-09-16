@@ -75,6 +75,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtAdvancePay As System.Windows.Forms.TextBox
     Friend WithEvents lblRetention As System.Windows.Forms.Label
     Friend WithEvents lblAdvancePay As System.Windows.Forms.Label
+    Friend WithEvents imAttachment As System.Windows.Forms.PictureBox
     Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -116,6 +117,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAdvancePay = New System.Windows.Forms.TextBox()
       Me.lblItem = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.imAttachment = New System.Windows.Forms.PictureBox()
       Me.lblRetention = New System.Windows.Forms.Label()
       Me.lblAdvancePay = New System.Windows.Forms.Label()
       Me.ibtnShowWR = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -143,6 +145,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'tgItem
@@ -671,6 +674,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.imAttachment)
       Me.grbDetail.Controls.Add(Me.txtRetention)
       Me.grbDetail.Controls.Add(Me.txtAdvancePay)
       Me.grbDetail.Controls.Add(Me.lblRetention)
@@ -736,6 +740,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "รายละเอียด"
       '
+      'imAttachment
+      '
+      Me.imAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.imAttachment.Location = New System.Drawing.Point(629, 110)
+      Me.imAttachment.Name = "imAttachment"
+      Me.imAttachment.Size = New System.Drawing.Size(29, 31)
+      Me.imAttachment.TabIndex = 352
+      Me.imAttachment.TabStop = False
+      '
       'lblRetention
       '
       Me.lblRetention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -777,7 +790,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnApprove.ForeColor = System.Drawing.Color.Black
       Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(664, 113)
+      Me.btnApprove.Location = New System.Drawing.Point(664, 109)
       Me.btnApprove.Name = "btnApprove"
       Me.btnApprove.Size = New System.Drawing.Size(104, 23)
       Me.btnApprove.TabIndex = 335
@@ -1011,6 +1024,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
+      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1046,6 +1060,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       '            Dim rs As ResourceService = CType(ServiceManager.Services.GetService(GetType(ResourceService)), ResourceService)
       '            Me.ibtnCopyMe.ThemedImage = rs.GetBitmap("Icons.16x16.Copy")
+      Me.imAttachment.Image = My.Resources.Attachment_24
 
       SaveEnableState()
 
@@ -1820,7 +1835,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = True
             Next
-            Me.btnApprove.Enabled = True
+            CheckFinalLine()
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
@@ -1850,7 +1865,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = True
             Next
-            Me.btnApprove.Enabled = True
+            CheckFinalLine()
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
@@ -1895,10 +1910,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
+      CheckFinalLine()
+    End Sub
+    Private Sub CheckFinalLine()
       ''Me.chkClosed.Enabled = True
       Me.ibtnCopyMe.Enabled = True
       Me.btnApprove.Enabled = True
       ''CheckWBSRight()
+
+      '---Check Attachment ----
+      If CType(Configuration.GetConfig("UseAttachment"), Boolean) AndAlso Me.m_entity.hasAttachment Then
+        Me.imAttachment.Visible = True
+        Me.imAttachment.Enabled = True
+      Else
+        Me.imAttachment.Visible = False
+      End If
     End Sub
     Private Sub CheckClosed()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -2518,6 +2544,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         'Hack:
         Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        AddHandler m_entity.AttachIsChanges, AddressOf CheckFormEnable
         UpdateEntityProperties()
       End Set
     End Property
@@ -3172,6 +3199,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxAmount = True
       forceUpdateGross = True
       Me.RefreshDocs()
+    End Sub
+
+    Private Sub imAttachment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles imAttachment.Click
+      If m_entity Is Nothing OrElse Not m_entity.Originated Then
+        Return
+      End If
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim frm As New AttachmentForm(Me.m_entity)
+      Select Case frm.ShowDialog
+        Case DialogResult.OK
+          If Not frm.AttachmentColl Is Nothing Then
+            frm.AttachmentColl.Save()
+          End If
+        Case Else
+
+      End Select
+      Dim tmp As Boolean = Me.m_entity.hasAttachment(True)
+      'CheckFormEnable()
     End Sub
 
 #Region "Customization"

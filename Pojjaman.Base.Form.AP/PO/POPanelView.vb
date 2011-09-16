@@ -1870,8 +1870,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = True
             Next
-            Me.btnApprove.Enabled = True
-            CheckWBSRight()
+            CheckFinalLine()
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
@@ -1893,8 +1892,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
               colStyle.ReadOnly = True
             Next
-            Me.btnApprove.Enabled = True
-            CheckWBSRight()
+            CheckFinalLine()
             Return
           Else
             For Each ctrl As Control In grbDetail.Controls
@@ -1933,11 +1931,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Me.chkClosed.Enabled = True
-      Me.ibtnCopyMe.Enabled = True
-
-      Me.btnApprove.Enabled = True
       CheckWBSRight()
 
+      CheckFinalLine()
+
+    End Sub
+    Private Sub CheckFinalLine()
+      Me.ibtnCopyMe.Enabled = True
+      Me.btnApprove.Enabled = True
       '---Check Attachment ----
       If CType(Configuration.GetConfig("UseAttachment"), Boolean) AndAlso Me.m_entity.hasAttachment Then
         Me.imAttachment.Visible = True
