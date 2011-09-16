@@ -700,6 +700,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
         Dim ReportPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "reports")
+        Dim isCrystal As Boolean = False
 
         If Not Me.Entity Is Nothing Then
           If TypeOf Me.Entity Is IPrintableEntity Then
@@ -728,7 +729,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Else
               Return Nothing
             End If
+            If thePath.EndsWith(".rpt") Then
+              isCrystal = True
+            End If
             If File.Exists(thePath) Then
+              If isCrystal Then
+                Dim crform As New CrystalForm(Me.Entity, thePath)
+                crform.ShowDialog()
+                Return Nothing
+              End If
               If TypeOf Me.Entity Is RptFinancialStatement Then
                 Dim fform As New FFormatForm(thePath, CType(Me.Entity, IPrintableEntity))
                 Return fform.PrintDocument

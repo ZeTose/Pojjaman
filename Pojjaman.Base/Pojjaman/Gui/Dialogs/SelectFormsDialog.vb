@@ -203,7 +203,9 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
           Exit For
         End If
       Next
-      txtPath.Text = Me.KeyValuePair.Value
+      If Not Me.KeyValuePair Is Nothing AndAlso Not Me.KeyValuePair.Value Is Nothing Then
+        txtPath.Text = Me.KeyValuePair.Value
+      End If
     End Sub
     Protected Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
       If Not m_isInit Then
@@ -219,7 +221,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
           Dim dlg As New System.Windows.Forms.OpenFileDialog
           With dlg
             .Title = Me.Text
-            .Filter = "XML Files, XDP Files|*.xml;*.xdp|XML Files|*.xml|XDP Files|*.xdp|All Files|*.*"
+            .Filter = "XML Files, XDP Files|*.xml;*.xdp|XML Files|*.xml|XDP Files|*.xdp|Crystal Report Files|*.rpt|All Files|*.*"
           End With
           If dlg.ShowDialog = DialogResult.OK Then
             Dim path As String = dlg.FileName()

@@ -1228,6 +1228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
         Dim thePath As String = ""
+        Dim isCrystal As Boolean = False
         If Not Me.Entity Is Nothing Then
           If TypeOf Me.Entity Is IPrintableEntity Then
             Dim fileName As String = "GeneralList"
@@ -1238,12 +1239,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
             paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
             Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
-            If dlg.ShowDialog() = DialogResult.OK Then
+            If dlg.ShowDialog() = DialogResult.OK AndAlso Not dlg.KeyValuePair Is Nothing AndAlso Not dlg.KeyValuePair.Value Is Nothing Then
               thePath = dlg.KeyValuePair.Value
             Else
               Return Nothing
             End If
+            If thePath.EndsWith(".rpt") Then
+              isCrystal = True
+            End If
             If File.Exists(thePath) Then
+              If isCrystal Then
+                Dim crform As New CrystalForm(Me.Entity, thePath)
+                crform.ShowDialog()
+                Return Nothing
+              End If
               Dim df As New DesignerForm(thePath, Me.lvItem)
               Return df.PrintDocument
             End If

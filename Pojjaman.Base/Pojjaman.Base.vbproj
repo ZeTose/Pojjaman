@@ -849,6 +849,12 @@
     <Compile Include="Pojjaman\Gui\Dialogs\AboutLicenseTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CrystalForm.Designer.vb">
+      <DependentUpon>CrystalForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CrystalForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\RefPrintDialog.Designer.vb">
       <DependentUpon>RefPrintDialog.vb</DependentUpon>
     </Compile>
@@ -1589,6 +1595,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AboutLicenseTabPage.resx">
       <DependentUpon>AboutLicenseTabPage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\CrystalForm.resx">
+      <DependentUpon>CrystalForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\RefPrintDialog.resx">
       <DependentUpon>RefPrintDialog.vb</DependentUpon>
