@@ -532,11 +532,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         '================FIRST COLUMN=======================================
         '=== SET Attach Icon ==========='
-        If deh.GetValue(Of Boolean)("hasAttach") Then 'AndAlso m_selectionMode = Selection.None Then
-          litem.StateImageIndex = 0
-        Else
-          litem.StateImageIndex = -1
-        End If
+           Select Case m_selectionMode
+          Case Selection.None, Selection.SingleSelect
+            If deh.GetValue(Of Boolean)("hasAttach") Then 'AndAlso m_selectionMode = Selection.None Then
+              litem.StateImageIndex = 0
+            Else
+              litem.StateImageIndex = -1
+            End If
+          Case Else
+
+        End Select
         '======= Attach ===== 
         litem.Tag = row(Me.m_entity.Prefix & "_id")
         docStatusHs(litem.Tag) = deh.GetValue(Of String)("docstatus")
@@ -1268,7 +1273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim idList As New ArrayList
       Dim idStringList As String = ""
       For Each litem As ListViewItem In Me.lvItem.Items
-        idList.Add(CInt(lvItem.SelectedItems(0).Tag))
+        idList.Add(CInt(litem.SubItems(0).Tag))
       Next
 
       If idList.Count > 0 Then
