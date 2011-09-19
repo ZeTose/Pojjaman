@@ -1251,7 +1251,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             If File.Exists(thePath) Then
               If isCrystal Then
-                Dim crform As New CrystalForm(Me.Entity, thePath)
+                Dim idList As String = Me.GetEntityIdList
+                Dim crform As New CrystalForm(Me.Entity, thePath, idList)
                 crform.ShowDialog()
                 Return Nothing
               End If
@@ -1262,6 +1263,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End Get
     End Property
+    Private Function GetEntityIdList() As String
+      Dim idList As New ArrayList
+      Dim idStringList As String = ""
+      For Each litem As ListViewItem In Me.lvItem.Items
+        idList.Add(CInt(lvItem.SelectedItems(0).Tag))
+      Next
+
+      If idList.Count > 0 Then
+        idStringList = String.Join(",", idList.ToArray)
+      End If
+
+      Return idStringList
+    End Function
 #End Region
     Private Sub chkHilight_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkHilightStatus.CheckedChanged
       SetStatusColor()

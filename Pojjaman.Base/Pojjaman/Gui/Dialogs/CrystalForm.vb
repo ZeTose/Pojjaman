@@ -50,7 +50,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  MyBase.ShowDialog()
     'End Function
 
-    Public Sub New(ByVal entity As ISimpleEntity, ByVal path As String)
+    Public Sub New(ByVal entity As ISimpleEntity, ByVal path As String, Optional ByVal entityIdList As String = "")
       Me.InitializeComponent()
       'Me.WindowState = FormWindowState.Maximized
 
@@ -63,6 +63,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.m_entity = entity
       Me.m_path = path
+      Me.m_entityIdList = entityIdList
 
       Me.CheckAccessRight()
       Me.RefreshReport()
@@ -108,6 +109,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         currValue = newReport.DataDefinition.ParameterFields("@EntityType").CurrentValues
         currValue.Add(paraValue)
         newReport.DataDefinition.ParameterFields("@EntityType").ApplyCurrentValues(currValue)
+
+        paraValue.Value = Me.m_entityIdList
+        currValue = newReport.DataDefinition.ParameterFields("@EntityListId").CurrentValues
+        currValue.Add(paraValue)
+        newReport.DataDefinition.ParameterFields("@EntityListId").ApplyCurrentValues(currValue)
         '  Next
         'End If
 
@@ -188,6 +194,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Member"
     Private m_entity As ISimpleEntity
     Private m_path As String
+    Private m_entityIdList As String
 #End Region
 
 #Region "Properties"
