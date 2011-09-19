@@ -370,6 +370,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case m_selectionMode
         Case Selection.None, Selection.SingleSelect
           Me.lvItem.CheckBoxes = False
+          Me.lvItem.StateImageList = m_imagelist
         Case Else
           Me.dlg = theBasket
           Me.lvItem.CheckBoxes = True
@@ -470,9 +471,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       lvItem.Items.Clear()
       Dim comparer As IComparer = lvItem.ListViewItemSorter
       lvItem.ListViewItemSorter = Nothing
-      If m_selectionMode = Selection.None Then
-        lvItem.StateImageList = m_imagelist
-      End If
+      'If m_selectionMode = Selection.None Then
+      '  lvItem.StateImageList = m_imagelist
+      'End If
       Dim filters As Filter() = Me.m_filterSubPanel.GetFilterArray
       Dim otherLength As Integer = 0
       If Not m_otherFilters Is Nothing AndAlso m_otherFilters.Length > 0 Then
@@ -531,7 +532,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         '================FIRST COLUMN=======================================
         '=== SET Attach Icon ==========='
-        If deh.GetValue(Of Boolean)("hasAttach") AndAlso m_selectionMode = Selection.None Then
+        If deh.GetValue(Of Boolean)("hasAttach") Then 'AndAlso m_selectionMode = Selection.None Then
           litem.StateImageIndex = 0
         Else
           litem.StateImageIndex = -1
