@@ -229,7 +229,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_withdrawperson = Value      End Set    End Property    Public Property WithdrawCostcenter() As CostCenter      Get        Return m_withdrawcc      End Get      Set(ByVal Value As CostCenter)        If Not m_withdrawcc Is Nothing AndAlso m_withdrawcc.Id <> Value.Id Then          For Each itm As EquipmentToolWithdrawItem In Me.ItemCollection
             itm.WBSDistributeCollection.Clear()
           Next
-        End If        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+        End If        m_withdrawcc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        If m_storecc IsNot Nothing AndAlso Value IsNot Nothing Then          If m_storecc.Id <> Value.Id Then
+            Me.ItemCollection.Clear()
+          End If
+        End If        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -400,7 +403,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status.Value = 2
         End If
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
         Me.AutoGen = False

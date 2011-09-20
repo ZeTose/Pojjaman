@@ -723,11 +723,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             CodeDescription.ComboSelect(Me.cmbStatus, entity.Status)
             Me.cmbStatus.Enabled = False
           End If
-          Me.SetCostCenter(CType(ent.Costcenter, CostCenter))
+          If Me.cmbStatus.Items.Count = 0 Then
+            Me.cmbStatus.Enabled = False
+          End If
+          Me.SetCostCenter(CType(ent.CC, CostCenter))
           Me.txtCostCenterCode.Enabled = False
           Me.txtCostCenterName.Enabled = False
           Me.btnCostCenterDialog.Enabled = False
           Me.btnCostCenterPanel.Enabled = False
+          Me.btnReset.Enabled = False
         End If
         'If TypeOf entity Is EqtStatus Then
         '  Dim ty As EqtStatus = CType(entity, EqtStatus)

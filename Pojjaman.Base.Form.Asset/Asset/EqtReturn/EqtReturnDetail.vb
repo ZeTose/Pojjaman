@@ -48,7 +48,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbGeneral As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Friend WithEvents txtDocDate As System.Windows.Forms.TextBox
-    Friend WithEvents txtCode As System.Windows.Forms.TextBox
     Friend WithEvents dtpDocDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblDocDate As System.Windows.Forms.Label
     Friend WithEvents lblCode As System.Windows.Forms.Label
@@ -62,6 +61,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnReturnCCEdit As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnReturnPersonEdit As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnEqtw As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
     Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -100,7 +100,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtReturnCCCode = New System.Windows.Forms.TextBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtDocDate = New System.Windows.Forms.TextBox()
-      Me.txtCode = New System.Windows.Forms.TextBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.txtNote = New System.Windows.Forms.TextBox()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -113,6 +112,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.btnEqtw = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.grbSummary.SuspendLayout()
       Me.grbReceive.SuspendLayout()
       Me.grbRequest.SuspendLayout()
@@ -139,7 +139,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtItemCount.Size = New System.Drawing.Size(64, 21)
       Me.txtItemCount.TabIndex = 1
       Me.txtItemCount.TabStop = False
-      Me.txtItemCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtItemCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblItemCount
       '
@@ -208,7 +208,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRentalAmt.Size = New System.Drawing.Size(93, 21)
       Me.txtRentalAmt.TabIndex = 4
       Me.txtRentalAmt.TabStop = False
-      Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblRentalAmt
       '
@@ -583,22 +583,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDate.Size = New System.Drawing.Size(82, 21)
       Me.txtDocDate.TabIndex = 2
       '
-      'txtCode
-      '
-      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
-      Me.txtCode.Location = New System.Drawing.Point(104, 16)
-      Me.txtCode.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtCode, "")
-      Me.txtCode.Name = "txtCode"
-      Me.Validator.SetRegularExpression(Me.txtCode, "")
-      Me.Validator.SetRequired(Me.txtCode, True)
-      Me.txtCode.Size = New System.Drawing.Size(112, 21)
-      Me.txtCode.TabIndex = 1
-      '
       'Validator
       '
       Me.Validator.BackcolorChanging = False
@@ -647,18 +631,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbGeneral
       '
+      Me.grbGeneral.Controls.Add(Me.cmbCode)
       Me.grbGeneral.Controls.Add(Me.txtNote)
       Me.grbGeneral.Controls.Add(Me.lblNote)
       Me.grbGeneral.Controls.Add(Me.chkAutorun)
       Me.grbGeneral.Controls.Add(Me.txtDocDate)
-      Me.grbGeneral.Controls.Add(Me.txtCode)
       Me.grbGeneral.Controls.Add(Me.dtpDocDate)
       Me.grbGeneral.Controls.Add(Me.lblDocDate)
       Me.grbGeneral.Controls.Add(Me.lblCode)
       Me.grbGeneral.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbGeneral.Location = New System.Drawing.Point(8, 2)
       Me.grbGeneral.Name = "grbGeneral"
-      Me.grbGeneral.Size = New System.Drawing.Size(736, 72)
+      Me.grbGeneral.Size = New System.Drawing.Size(747, 72)
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "เอกสารคืนเครื่องมือเครื่องจักร"
@@ -678,7 +662,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(216, 16)
+      Me.chkAutorun.Location = New System.Drawing.Point(251, 16)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 2
@@ -696,9 +680,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblDocDate
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDocDate.Location = New System.Drawing.Point(248, 16)
+      Me.lblDocDate.Location = New System.Drawing.Point(278, 16)
       Me.lblDocDate.Name = "lblDocDate"
-      Me.lblDocDate.Size = New System.Drawing.Size(112, 18)
+      Me.lblDocDate.Size = New System.Drawing.Size(82, 18)
       Me.lblDocDate.TabIndex = 3
       Me.lblDocDate.Text = "วันที่เอกสาร:"
       Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -753,6 +737,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnEqtw.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       Me.btnEqtw.ThemedImage = CType(resources.GetObject("btnEqtw.ThemedImage"), System.Drawing.Bitmap)
       '
+      'cmbCode
+      '
+      Me.cmbCode.Location = New System.Drawing.Point(104, 16)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(146, 21)
+      Me.cmbCode.TabIndex = 8
+      '
       'EqtReturnDetail
       '
       Me.Controls.Add(Me.btnEqtw)
@@ -799,7 +790,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblCode}")
-      Me.Validator.SetDisplayName(txtCode, lblCode.Text)
+      'Me.Validator.SetDisplayName(txtCode, lblCode.Text)
 
       Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblDocDate}")
       Me.Validator.SetDisplayName(txtDocDate, lblDocDate.Text)
@@ -1122,7 +1113,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     ' Addhandler events
     Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtDocDate.Validated, AddressOf Me.ChangeProperty
@@ -1142,7 +1134,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_entity Is Nothing Then
         Return
       End If
-      txtCode.Text = Me.m_entity.Code
+      cmbCode.Text = Me.m_entity.Code
       txtNote.Text = Me.m_entity.Note
 
       'autogencode
@@ -1206,9 +1198,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
-        Case "txtcode"
+        Case "cmbcode"
+          If m_entity.AutoGen Then
+            'เพิ่ม AutoCode
+            If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
+              Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
+              Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            End If
+          Else
+            Me.m_entity.Code = cmbCode.Text
+          End If
           dirtyFlag = True
-          Me.m_entity.Code = txtCode.Text
+          'Case "txtcode"
+          '  dirtyFlag = True
+          '  Me.m_entity.Code = txtCode.Text
 
         Case "txtnote"
           dirtyFlag = True
@@ -1252,13 +1255,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtreturncccode"
           dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
           ReturnCheckedChanged(sender)
-
+          Me.RefreshDocs()
         Case "txtstorepersoncode"
           dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
 
         Case "txtstorecccode"
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
           ReturnCheckedChanged(sender)
+          Me.RefreshDocs()
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
@@ -1695,6 +1699,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
       ReturnCheckedChanged(txtReturnCCCode)
+      Me.RefreshDocs()
     End Sub
 
     ' Store Person
@@ -1729,6 +1734,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       ReturnCheckedChanged(txtStoreCCCode)
+      Me.RefreshDocs()
     End Sub
 #End Region
 
@@ -1862,18 +1868,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-        'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
+        Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
+        BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
+        If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
+          If Me.cmbCode.Items.Count > 0 Then
+            Me.m_entity.Code = CType(Me.cmbCode.Items(0), AutoCodeFormat).Format
+            Me.cmbCode.SelectedIndex = 0
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.Items(0), AutoCodeFormat)
+          End If
+        Else
+          Me.cmbCode.SelectedIndex = Me.cmbCode.FindStringExact(Me.m_entity.Code)
+          If TypeOf Me.cmbCode.SelectedItem Is AutoCodeFormat Then
+            Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
+          End If
+        End If
+        m_oldCode = Me.cmbCode.Text
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
+        'Me.Validator.SetRequired(Me.txtCode, True)
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
+        Me.cmbCode.Items.Clear()
+        Me.cmbCode.Text = m_oldCode
+        Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = False
       End If
     End Sub

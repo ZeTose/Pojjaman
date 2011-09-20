@@ -222,7 +222,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return m_Returnperson
       End Get      Set(ByVal Value As Employee)
-        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter Implements IWBSAllocatable.ToCostCenter 'สับสนหน่อย แต่เป็นการคืนของ เป็น cc ที่ได้การจัดสรรไป      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter Implements IWBSAllocatable.FromCostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
+        m_Returnperson = Value      End Set    End Property    Public Property ReturnCostcenter() As CostCenter Implements IWBSAllocatable.ToCostCenter 'สับสนหน่อย แต่เป็นการคืนของ เป็น cc ที่ได้การจัดสรรไป      Get        Return m_Returncc      End Get      Set(ByVal Value As CostCenter)        If m_Returncc IsNot Nothing AndAlso Value IsNot Nothing Then          If m_Returncc.Id <> Value.Id Then
+            Me.ItemCollection.Clear()
+          End If
+        End If        m_Returncc = Value      End Set    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter Implements IWBSAllocatable.FromCostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        If m_storecc IsNot Nothing AndAlso Value IsNot Nothing Then          If m_storecc.Id <> Value.Id Then
+            Me.ItemCollection.Clear()
+          End If
+        End If        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    'Public Property Customer() As Customer
     '  Get
     '    Return m_customer
     '  End Get
@@ -409,7 +415,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         oldcode = Me.Code
         oldautogen = Me.AutoGen
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
+        If Me.AutoGen Then ' And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
         Me.AutoGen = False

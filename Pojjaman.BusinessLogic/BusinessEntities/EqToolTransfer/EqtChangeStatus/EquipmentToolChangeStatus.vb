@@ -170,7 +170,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property DocDate() As Date Implements ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
         Return m_olddocDate
       End Get
-    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public ReadOnly Property Gross As Decimal
+    End Property    Public Property Storeperson() As Employee      Get        Return m_storeperson      End Get      Set(ByVal Value As Employee)        m_storeperson = Value      End Set    End Property    Public Property StoreCostcenter() As CostCenter      Get        Return m_storecc      End Get      Set(ByVal Value As CostCenter)        If m_storecc IsNot Nothing AndAlso Value IsNot Nothing Then          If m_storecc.Id <> Value.Id Then
+            Me.ItemCollection.Clear()
+          End If
+        End If        m_storecc = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public ReadOnly Property Gross As Decimal
       Get
         Return ItemCollection.Gross
       End Get
@@ -330,7 +333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Status.Value = 2
         End If
 
-        If Me.AutoGen And Me.Code.Length = 0 Then
+        If Me.AutoGen Then 'And Me.Code.Length = 0 Then
           Me.Code = Me.GetNextCode
         End If
         Me.AutoGen = False
