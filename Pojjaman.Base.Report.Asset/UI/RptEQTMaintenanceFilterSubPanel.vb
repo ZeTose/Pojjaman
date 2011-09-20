@@ -485,7 +485,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblDocDateStart}")
       Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.lblCCStart}")
+      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Global.CostCenterText}")
       Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
       ' Global {ถึง}
@@ -884,7 +884,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Select
     End Sub
     ' CostCenter
-    Private Sub btnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub btnCCFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCCStartFind.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Select Case CType(sender, Control).Name.ToLower
         Case "btnccstartfind"

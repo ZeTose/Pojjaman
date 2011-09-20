@@ -1174,6 +1174,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'Item.ItemType
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ItemType"
+        dpi.Value = item.ItemType.Description
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.Code
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Code"
@@ -1205,10 +1214,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        If Not item.Unit Is Nothing Then
+          'Item.Unit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Unit"
+          dpi.Value = item.Unit.Name
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+        End If
+
+        'Item.RentalRate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RentalRate"
+        dpi.Value = Configuration.FormatToString(item.RentalRate, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.Qty
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Qty"
         dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.RentalPerDay
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RentalPerDay"
+        dpi.Value = Configuration.FormatToString(item.RentalPerDay, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.Amount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Amount"
+        dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
         dpi.DataType = "System.String"
         dpi.Row = n + 1
         dpi.Table = "Item"

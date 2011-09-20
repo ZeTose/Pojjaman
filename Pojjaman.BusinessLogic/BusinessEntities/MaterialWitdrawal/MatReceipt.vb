@@ -111,6 +111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_itemCollection = New MatReceiptItemCollection(Me, m_grouping)
       MatActualHashIn = New Hashtable
       MatActualHashOut = New Hashtable
+      m_approvalCollection = New ApprovalStoreCommentCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -224,7 +225,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MatActualHashOut = New Hashtable
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
-      Me.ApprovalCollection = New ApprovalStoreCommentCollection(Me)
+      Me.m_approvalCollection = New ApprovalStoreCommentCollection(Me)
     End Sub
 #End Region
 
@@ -1216,7 +1217,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
-        , New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+                                                                          , New SqlParameter("@refto_id", Me.Id) _
+                                                                          , New SqlParameter("@refto_type", Me.EntityId) _
+                                                                          , New SqlParameter("@IsApprove", m_approvalCollection.IsApproved))
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
         ', New SqlParameter("@refto_id", Me.Id))
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _

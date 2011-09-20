@@ -864,15 +864,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim sht1 As IWorksheet = wkbk.Worksheets(0)
 
 
-        wkbk.Worksheets(0).Name = "RptCBSMornitor"
+        wkbk.Worksheets(0).Name = "RptCBSMonitor"
 
 
         'add data to the first cell of each worksheet
         'sht1.Range("A1").Text = "Hello World"
         'sht2.Range("A1").Text = "Hello World 2"
 
-        For i As Integer = 2 To tgItem.RowCount
-          For j As Integer = 1 To tgItem.ColCount
+        For i As Integer = 1 To tgItem.RowCount
+          For j As Integer = 2 To tgItem.ColCount
             If tgItem(i, j).Text.Length > 0 AndAlso Configuration.IsFormatString(tgItem(i, j).Text, DigitConfig.Price) Then
               Replace(tgItem(i, j).Text, "(", "")
               Replace(tgItem(i, j).Text, ")", "")

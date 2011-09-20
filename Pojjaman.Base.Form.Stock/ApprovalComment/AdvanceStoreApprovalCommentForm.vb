@@ -184,11 +184,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity.Originated Then
         Return
       End If
-      If m_entity.ApprovalCollection Is Nothing Then
-      m_itemCollection = New ApprovalStoreCommentCollection(m_entity)
-      Else
-        m_itemCollection = m_entity.ApprovalCollection
-      End If
+      'If m_entity.ApprovalCollection Is Nothing Then
+      '  m_itemCollection = New ApprovalStoreCommentCollection(m_entity)
+      'Else
+      m_itemCollection = m_entity.ApprovalCollection
+      'End If
       'm_approveDocColl = New ApproveDocCollection(m_entity)
       mySService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
       'ApprovalDocLevel = New ApprovalDocLevelCollection(mySService.CurrentUser)

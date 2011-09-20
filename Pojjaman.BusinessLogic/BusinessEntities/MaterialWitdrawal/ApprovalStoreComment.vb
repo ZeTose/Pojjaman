@@ -142,8 +142,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         For Each app As ApprovalStoreComment In Me
           If app.Type = 1 Then
             appType = ApproveType.approved
-          ElseIf app.Type = 2 Then
+          ElseIf app.Type = -1 Then
             appType = ApproveType.reject
+          Else
+            appType = ApproveType.comment
           End If
         Next
         Return appType

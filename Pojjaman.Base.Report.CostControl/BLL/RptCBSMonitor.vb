@@ -41,8 +41,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csCBSCode.MappingName = "cbs_code"
       csCBSCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CBSCODEHeaderText}")
       csCBSCode.NullText = ""
-      csCBSCode.Width = 30
-      csCBSCode.DataAlignment = HorizontalAlignment.Center
+      csCBSCode.Width = 90
+      csCBSCode.DataAlignment = HorizontalAlignment.Left
       csCBSCode.ReadOnly = True
       csCBSCode.TextBox.Name = "cbs_code"
 
@@ -82,6 +82,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csBarrier0.HeaderText = ""
         csBarrier0.NullText = ""
         csBarrier0.ReadOnly = True
+
+        Dim csCostCenter As New TreeTextColumn
+        csCostCenter.MappingName = "CostCenter" & cc
+        csCostCenter.HeaderText = "Cost Center " & cc
+        csCostCenter.NullText = ""
+        csCostCenter.DataAlignment = HorizontalAlignment.Left
+        csCostCenter.TextBox.Name = "CostCenter" & cc
+        csCostCenter.Width = 0
+        csCostCenter.ReadOnly = True
 
         Dim csBudget As New TreeTextColumn
         csBudget.MappingName = "BudgetCost" & cc
@@ -166,6 +175,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csMWDiff.ReadOnly = True
 
         LcsBarrier.Add(csBarrier0)
+
         LcsBudget.Add(csBudget)
         LcsActualTotalPR.Add(csActualTotalPR)
         LcsPRDiff.Add(csPRDiff)
@@ -177,6 +187,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         LcsPRDiff.Add(csMWDiff)
 
         dst.GridColumnStyles.Add(csBarrier0)
+        dst.GridColumnStyles.Add(csCostCenter)
 
         dst.GridColumnStyles.Add(csBudget)
 
@@ -318,6 +329,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim cc As String = crh.GetValue(Of Integer)("ccid").ToString
         myDatatable.Columns.Add(New DataColumn("Barrier" & cc, GetType(String)))
 
+        myDatatable.Columns.Add(New DataColumn("CostCenter" & cc, GetType(String)))
+
         myDatatable.Columns.Add(New DataColumn("BudgetCost" & cc, GetType(String)))
         myDatatable.Columns.Add(New DataColumn("ActualPRCost" & cc, GetType(String)))
         myDatatable.Columns.Add(New DataColumn("PRDiff" & cc, GetType(String)))
@@ -355,17 +368,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                     {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 2, 2), _
                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 3, 2, 3)}) ' _
 
-
       Dim trDetail As TreeRow = dt.Childs.Add
       Dim i As Integer = 5
       ' 10 Col per cc
+      Dim GridRangeStyle1 As GridRangeStyle = New GridRangeStyle
 
       For Each ccrow As DataRow In dtcc.Rows
         Dim crh As New DataRowHelper(ccrow)
 
 
         Dim cc As String = crh.GetValue(Of Integer)("ccid").ToString
-        trcc("BudgetCost" & cc) = crh.GetValue(Of String)("cc_code") & ":" & crh.GetValue(Of String)("cc_name")
+        'trcc("BudgetCost" & cc) = crh.GetValue(Of String)("cc_code") & ":" & crh.GetValue(Of String)("cc_name")
+        trcc("CostCenter" & cc) = crh.GetValue(Of String)("cc_code") & ":" & crh.GetValue(Of String)("cc_name")
 
         trDetail("BudgetCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.BudgetCostHeaderText}")
         trDetail("ActualPRCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualPRCostHeaderText}")
@@ -382,11 +396,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'csBarrier0.NullText = ""
         'csBarrier0.ReadOnly = True
 
-        m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-                                    {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, i, 1, i + 8)}) ' _
+        'For r As Integer = 0 To m_grid.ColCount - 1
+        '  m_grid(1, r).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+        'Next
 
-        i += 10
+        m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                                    {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, i, 1, i + 9)}) ' 
+        'm_grid(2, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
+        i += 11
       Next
+
+      'For r As Integer = 0 To m_grid.ColCount - 1
+      '  m_grid(2, r).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      'Next
 
 
       'trcc("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.scBudget}")       '"SC Budget"
@@ -455,6 +478,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       lkg.TreeTableStyle = CreateCBSMonitorTableStyle(dtcc, CStr(Me.Filters(4).Value))
+      lkg.Model.Rows.Hidden(0) = True
+      'lkg.Model.ColWidths(5) = 0
       lkg.TreeTable = tm.Treetable
       lkg.Rows.HeaderCount = 2
       lkg.Rows.FrozenCount = 2
@@ -491,24 +516,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
-      Dim tr As Object = m_hashData(e.RowIndex)
-      If tr Is Nothing Then
-        Return
-      End If
+      'Dim tr As Object = m_hashData(e.RowIndex)
+      'If tr Is Nothing Then
+      '  Return
+      'End If
 
-      If TypeOf tr Is DataRow Then
-        Dim dr As DataRow = CType(tr, DataRow)
-        Dim drh As New DataRowHelper(dr)
+      'If TypeOf tr Is DataRow Then
+      '  Dim dr As DataRow = CType(tr, DataRow)
+      '  Dim drh As New DataRowHelper(dr)
 
-        Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
-        Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+      '  Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+      '  Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
 
-        If docId > 0 AndAlso docType > 0 Then
-          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
-          myEntityPanelService.OpenDetailPanel(en)
-        End If
-      End If
+      '  If docId > 0 AndAlso docType > 0 Then
+      '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      '    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+      '    myEntityPanelService.OpenDetailPanel(en)
+      '  End If
+      'End If
 
 
       'If IsNumeric(m_grid(e.RowIndex, m_grid.ColCount).CellValue) Then
