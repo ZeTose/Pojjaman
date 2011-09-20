@@ -439,13 +439,6 @@
     <Content Include="doc\help\HelpDescription.xml" />
     <Content Include="Externals\BalloonWindow.dll" />
     <Content Include="Externals\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="Externals\syncfusion.core.dll" />
-    <Content Include="Externals\syncfusion.grid.base.dll" />
-    <Content Include="Externals\syncfusion.grid.windows.dll" />
-    <Content Include="Externals\syncfusion.shared.base.dll" />
-    <Content Include="Externals\syncfusion.shared.windows.dll" />
-    <Content Include="Externals\syncfusion.tools.base.dll" />
-    <Content Include="Externals\syncfusion.tools.windows.dll" />
     <Content Include="Externals\Telerik.WinControls.dll" />
     <Content Include="Externals\Telerik.WinControls.GridView.dll" />
     <Content Include="Externals\Telerik.WinControls.UI.dll" />
