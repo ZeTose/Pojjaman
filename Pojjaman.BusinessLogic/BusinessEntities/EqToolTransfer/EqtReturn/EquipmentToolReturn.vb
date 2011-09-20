@@ -1258,6 +1258,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        'Item.RentalQty
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RentalQty"
+        dpi.Value = Configuration.FormatToString(item.RentalQty, DigitConfig.Qty)
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.Amount
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Amount"
@@ -1417,7 +1426,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'ItemCount
       dpi = New DocPrintingItem
       dpi.Mapping = "ItemCount"
-      dpi.Value = n
+      dpi.Value = Configuration.FormatToString(n, DigitConfig.Qty)
+      dpi.DataType = "System.Int32"
+      dpiColl.Add(dpi)
+
+      'ItemGross
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ItemGross"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.Gross, DigitConfig.Price)
       dpi.DataType = "System.Int32"
       dpiColl.Add(dpi)
 
