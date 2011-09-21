@@ -470,6 +470,6 @@
   <PropertyGroup>
     <PreBuildEvent />
     <PostBuildEvent>copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Forms\AP
-copy $(TargetPath) $(ProjectDir)..\Pojjaman\AddIns\Customizations\VArch</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
