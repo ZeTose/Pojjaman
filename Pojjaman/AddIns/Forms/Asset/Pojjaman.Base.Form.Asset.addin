@@ -29,7 +29,6 @@
 		</EntityTab>
     <EntityTab id="asset">
       <EntityTab id="AssetDetailView" view="Longkong.Pojjaman.Gui.Panels.AssetDetailView"/>
-      <!--<EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>-->
       <EntityTab id="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.EqRentalSummary"/>
     </EntityTab>
 		<EntityTab id="equipment">

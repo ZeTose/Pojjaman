@@ -40,5 +40,7 @@
   </Extension>
   <Extension path="/Pojjaman/Workbench/EntityTabs/asset">
     <EntityTab id="AssetWithdrawReturnView" insertafter="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.AssetWithdrawReturnView"/>
+    <EntityTab id="EqManagementView" insertafter="AssetWithdrawReturnView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>
+    <!--<EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>-->
   </Extension>  
 </AddIn>
