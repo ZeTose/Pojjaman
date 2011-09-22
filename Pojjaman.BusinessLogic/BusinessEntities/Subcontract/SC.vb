@@ -939,6 +939,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each wri As WRItem In Me.WR.AbleItemCollection
             lineNumber += 1
             sci = New SCItem
+            sci.SC = Me
             If Not wri.ItemType Is Nothing Then
               sci.ItemType = wri.ItemType
             End If
