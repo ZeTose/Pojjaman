@@ -867,6 +867,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public ReadOnly Property AmountWithDefaultUnit() As Decimal
       Get
         If StockQty > 0 Then
+          If Me.Conversion = 1 Then
+            Return m_receiveAmount - Me.Discount.Amount
+          End If
           Return ((Me.UnitPrice / Me.Conversion) * StockQty) - (Me.Discount.Amount)
         Else
           Return 0

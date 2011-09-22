@@ -911,6 +911,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub RefreshRealGross()
+      Dim gross As Decimal = 0
+      For Each item As SCItem In Me.ItemCollection
+        gross += item.Amount
+      Next
+      Me.m_realGross = gross
+    End Sub
     Public Sub RefreshReceiveAmount()
       For Each itm As SCItem In Me.ItemCollection
         'itm.ReceiveAmount = itm.ReceiveAmount
@@ -991,6 +998,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.ItemCollection.SetBudgetRemain(wbsd, sci)
             Next
 
+          Next
+
+          'Refresh Cost
+          For Each itm As SCItem In Me.ItemCollection
+            itm.RecalculateReceiveAmount()
           Next
         End If
       End If
@@ -2204,7 +2216,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumAmountWithVat As Decimal = 0
       For Each item As SCItem In Me.ItemCollection
         'If Not item.NewChild Then
-        If item.Level = 0 Then
+        If item.Level = 1 Then
           m_gross += item.Amount
           If Not item.Unvatable Then
 

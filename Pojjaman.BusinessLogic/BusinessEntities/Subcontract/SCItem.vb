@@ -686,7 +686,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '      Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
         '      m_lab = (amt - amt2) + Me.Lab
         '    End If
-        'End Select        m_unitprice = Value        Me.RecalculateReceiveAmount()        'UpdateWBS()      End Set    End Property
+        'End Select        m_unitprice = Value        Me.SC.RefreshRealGross()        Me.RecalculateReceiveAmount()        'UpdateWBS()      End Set    End Property
     Public Property Mat() As Decimal
       Get
         Return m_mat
