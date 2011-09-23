@@ -270,6 +270,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Try
           Else
             Me.Conversion = 1
+            If itemId > 0 Then
+              If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+                If Not dr.IsNull("lci_id") Then
+                  .m_conversion = CType(.m_entity, LCIItem).GetConversion(Me.Unit)
+                End If
+              End If
+            End If
           End If
         End If
 
@@ -1591,7 +1598,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Function
 #End Region
-    
+
     Public Sub WBSChangedHandler(ByVal sender As Object, ByVal e As PropertyChangedEventArgs) Implements IWBSAllocatableItem.WBSChangedHandler
       If TypeOf sender Is WBSDistribute Then
         Dim wbsd As WBSDistribute = CType(sender, WBSDistribute)
@@ -1739,7 +1746,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class VOItemCollection
+  Public Class VOItemCollection
     Inherits CollectionBase
 
 #Region "Members"
@@ -2333,8 +2340,8 @@ Public Class VOItemCollection
         'Dim newRow As TreeRow = dt.Childs.Add
         If voi.Level = 0 Then
 
-        If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
-          chkNoRefItem = True
+          If voi.Level = 0 AndAlso voi.RefSequence = 0 AndAlso Not chkNoRefItem Then
+            chkNoRefItem = True
             parentRow = dt.Childs.Add()
             parentRow.State = RowExpandState.Expanded
             'parentRow.FixLevel = 0

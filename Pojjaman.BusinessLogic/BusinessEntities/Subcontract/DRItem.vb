@@ -241,6 +241,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End Try
           Else
             Me.Conversion = 1
+            If itemId > 0 Then
+              If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
+                If Not dr.IsNull("lci_id") Then
+                  .m_conversion = CType(.m_entity, LCIItem).GetConversion(Me.Unit)
+                End If
+              End If
+            End If
           End If
         End If
 
