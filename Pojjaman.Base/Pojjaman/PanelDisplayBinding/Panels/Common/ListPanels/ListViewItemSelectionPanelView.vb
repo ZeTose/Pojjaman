@@ -1273,7 +1273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim idList As New ArrayList
       Dim idStringList As String = ""
       For Each litem As ListViewItem In Me.lvItem.Items
-        idList.Add(CInt(litem.SubItems(0).Tag))
+        idList.Add(CInt(litem.Tag))
       Next
 
       If idList.Count > 0 Then

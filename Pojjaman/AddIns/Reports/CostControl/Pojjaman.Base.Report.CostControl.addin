@@ -23,8 +23,9 @@
 				<MenuItem id="RptExpenseSummary" icon="Icons.16x16.RptExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptExpenseSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptExpenseSummary"/>					
 				<MenuItem id="RptCCExpenseSummary" icon="Icons.16x16.RptCCExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptCCExpenseSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCCExpenseSummary"/>	-->						
 				<MenuItem id="RptMatBudgetByCC" icon="Icons.16x16.RptMatBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptMatBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC"/>
-      <MenuItem id="RptACCBudgetByCC" icon="Icons.16x16.RptCCExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptACCBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptACCBudgetByCC"/>	
-			</MenuItem>
+      <MenuItem id="RptACCBudgetByCC" icon="Icons.16x16.RptCCExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptACCBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptACCBudgetByCC"/>
+      <MenuItem id="RptProjectRevenueExpense" icon="Icons.16x16.RptProjectRevenueExpense" label="${res:MainMenu.PurchaseMenu.RptProjectRevenueExpense.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptProjectRevenueExpense"/>
+    </MenuItem>
 		<!--</Conditional>-->
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
@@ -40,7 +41,7 @@
 		<EntityFilter id="rptwbsitemsmonitor" entity="rptwbsitemsmonitor" filter="Longkong.Pojjaman.Gui.Panels.RptWBSItemsMonitorFilterSubPanel"/>
 		<EntityFilter id="rptwbsmonitorbyitem" entity="rptwbsmonitorbyitem" filter="Longkong.Pojjaman.Gui.Panels.RptWBSMonitorByItemFilterSubPanel"/>
     <EntityFilter id="rptmatbudgetbycc" entity="rptmatbudgetbycc" filter="Longkong.Pojjaman.Gui.Panels.RptMatBudgetByCCFilterSubPanel"/>
-
+    <EntityFilter id="rptprojectrevenueexpense" entity="rptprojectrevenueexpense" filter="Longkong.Pojjaman.Gui.Panels.RptProjectRevenueExpenseFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
     <EntityTab id="cbs">
@@ -86,6 +87,9 @@
 		<EntityTab id="rptwbsmonitorbyitem">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
-	</Extension>
+    <EntityTab id="rptprojectrevenueexpense">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>    
+  </Extension>
 
 </AddIn>

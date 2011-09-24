@@ -52,7 +52,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Sub New(ByVal entity As ISimpleEntity, ByVal path As String, Optional ByVal entityIdList As String = "")
       Me.InitializeComponent()
-      'Me.WindowState = FormWindowState.Maximized
+      Me.WindowState = FormWindowState.Maximized
 
       For Each ctrl As Control In CrystalReportViewer1.Controls
         If TypeOf ctrl Is ToolStrip Then
@@ -111,9 +111,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         newReport.DataDefinition.ParameterFields("@EntityType").ApplyCurrentValues(currValue)
 
         paraValue.Value = Me.m_entityIdList
-        currValue = newReport.DataDefinition.ParameterFields("@EntityListId").CurrentValues
+        currValue = newReport.DataDefinition.ParameterFields("@EntityIdList").CurrentValues
         currValue.Add(paraValue)
-        newReport.DataDefinition.ParameterFields("@EntityListId").ApplyCurrentValues(currValue)
+        newReport.DataDefinition.ParameterFields("@EntityIdList").ApplyCurrentValues(currValue)
         '  Next
         'End If
 
@@ -184,7 +184,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         CrystalReportViewer1.Show()
 
-        CrystalReportViewer1.Zoom(1)
+        'CrystalReportViewer1.Zoom(1)
 
       Catch ex As System.Exception
         MsgBox(ex.Message)
