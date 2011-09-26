@@ -82,8 +82,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim indent As String = Space(3)
       m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.StockId}") '"รหัสวัสดุ"
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.StockName}") '"ชื่อสินค้า"
-      m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.ReceiveTotal}") '"ยอดรับ"
-      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.PayTotal}") '"ยอดจ่าย"
+      m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.ReceiveTotal}") '"ยอดรับ"
+      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.PayTotal}") '"ยอดจ่าย"
+      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.StatusTotal}") '"ยอดคงเหลือ" 
 
       m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.DocDate}")  '"วันที่เอกสาร"
       m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.DocID}")  '"เลขที่เอกสาร"
@@ -94,15 +95,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Num}")  '"จำนวน"
       m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Price/Unit}")  '"ราคา/หน่วย"
       m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Cost}")  '"มูลค่า"
-      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.StatusTotal}")  '"ยอดคงเหลือ"
+      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Num}")  '"ยอดคงเหลือ" StatusTotal
       m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Price/Unit}")  '"ราคา/หน่วย"
       m_grid(1, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Cost}")  '"มูลค่า"
       m_grid(1, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.Definnition}")  '"Relate CC"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-      m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      'm_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+      'm_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
 
       m_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -117,6 +118,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
+      m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                                    {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 4, 0, 6),
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 7, 0, 9),
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 10, 0, 12)
+                                   })
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
       Dim docId As Integer
