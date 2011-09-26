@@ -2562,7 +2562,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.ibtUnlocker2.Visible = False
       End If
       If Not Me.ibtUnlocker.Visible Then
+        Me.ibtUnlocker2.Tag = Me.ibtUnlocker2.Location
         Me.ibtUnlocker2.Location = New Point(Me.ibtUnlocker.Location.X, Me.ibtUnlocker.Location.Y)
+      Else
+        'Me.ibtUnlocker2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ibtUnlocker2.Location = New Point(Me.ibtUnlocker.Location.X, Me.ibtUnlocker.Location.Y + 24)
       End If
       '--ª≈¥≈ÍÕ§‡Õ° “√-- ===================================================<<
     End Sub
