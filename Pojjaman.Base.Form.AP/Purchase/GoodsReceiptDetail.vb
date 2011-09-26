@@ -2338,39 +2338,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtDeliveryDocDate.Enabled = True
       dtpDeliveryDocDate.Enabled = True
 
-      'grbDelivery
-      'lblSupplier
-      'txtSupplierCode
-      'txtSupplierName
-      'ibtnShowSupplierDialog
-      'ibtnShowSupplier
-      lblCreditPrd.Enabled = True
-      txtCreditPrd.Enabled = True
-      lblDay.Enabled = True
-      lblDueDate.Enabled = True
-      txtDueDate.Enabled = True
-      dtpDueDate.Enabled = True
-      lblDeliveryPerson.Enabled = True
-      txtDeliveryPerson.Enabled = True
+      grbDelivery.Enabled = True
+      lblSupplier.Enabled = False
+      txtSupplierCode.Enabled = False
+      txtSupplierName.Enabled = False
+      ibtnShowSupplierDialog.Enabled = False
+      ibtnShowSupplier.Enabled = False
+      ''lblCreditPrd.Enabled = True
+      ''txtCreditPrd.Enabled = True
+      ''lblDay.Enabled = True
+      ''lblDueDate.Enabled = True
+      ''txtDueDate.Enabled = True
+      ''dtpDueDate.Enabled = True
+      ''lblDeliveryPerson.Enabled = True
+      ''txtDeliveryPerson.Enabled = True
 
-      'grbReceive
-      'Me.ibtnShowEquipment
-      'Me.txtEquipmentName
-      'Me.ibtnShowEquipmentDiaog
-      'Me.txtEquipmentCode
-      'Me.lblEquipment
-      'Me.cmbDocType
-      'Me.lblDocType
-      Me.txtToCCPersonName.Enabled = True
-      Me.txtToCCPersonCode.Enabled = True
-      'Me.ibtShowToCostCenter
-      'Me.txtToCostCenterName
-      'Me.ibtnShowToCostCenterDialog
-      'Me.txtToCostCenterCode
-      Me.lblToCCPerson.Enabled = True
-      'Me.lblToCostCenter
-      Me.ibtnShowToCCPerson.Enabled = True
-      Me.ibtnShowToCCPersonDialog.Enabled = True
+      grbReceive.Enabled = True
+      Me.ibtnShowEquipment.Enabled = False
+      Me.txtEquipmentName.Enabled = False
+      Me.ibtnShowEquipmentDiaog.Enabled = False
+      Me.txtEquipmentCode.Enabled = False
+      Me.lblEquipment.Enabled = False
+      Me.cmbDocType.Enabled = False
+      Me.lblDocType.Enabled = False
+      ''Me.txtToCCPersonName.Enabled = True
+      ''Me.txtToCCPersonCode.Enabled = True
+      Me.ibtShowToCostCenter.Enabled = False
+      Me.txtToCostCenterName.Enabled = False
+      Me.ibtnShowToCostCenterDialog.Enabled = False
+      Me.txtToCostCenterCode.Enabled = False
+      ''Me.lblToCCPerson.Enabled = True
+      Me.lblToCostCenter.Enabled = False
+      ''Me.ibtnShowToCCPerson.Enabled = True
+      ''Me.ibtnShowToCCPersonDialog.Enabled = True
 
       lblNote.Enabled = True
       txtNote.Enabled = True
@@ -2410,6 +2410,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '--Check ที่ CheckForbiden--
       Else
         If CheckFormApproveControl() Then
+          CheckControlLastState()
           Return
         End If
       End If
@@ -2514,6 +2515,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
 
+      CheckControlLastState()
+    End Sub
+    Private Sub CheckControlLastState()
       CheckUnlock()
       CheckForbiden()
 
@@ -2651,15 +2655,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = False
         Next
-        btnApprove.Enabled = True
-        ibtnCopyMe.Enabled = True
-        ibtnShowAdvancePay.Enabled = True
+        'btnApprove.Enabled = True
+        'ibtnCopyMe.Enabled = True
+        'ibtnShowAdvancePay.Enabled = True
         tgItem.Enabled = True
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
         Me.m_entity.Locking = True
       End If
+      btnApprove.Enabled = True
+      ibtnCopyMe.Enabled = True
+      ibtnShowAdvancePay.Enabled = True
     End Sub
     Private Sub CheckUnlock()
       If Me.m_entity.Locking Then
