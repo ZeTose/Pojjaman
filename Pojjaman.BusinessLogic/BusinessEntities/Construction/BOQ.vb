@@ -9,6 +9,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Text.RegularExpressions
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Delegate Sub CountDelegate(ByVal i As Integer)
@@ -4215,11 +4216,77 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not IsNumeric(subsaveerror.Message) Then
             Return New SaveErrorException(" Save Incomplete Please Save Again")
           End If
-          Return New SaveErrorException("0")
+          'Return New SaveErrorException("0")
           'Complete Save
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         End Try
+
+        Try
+          Parallel.Invoke(Sub()
+                            SubSave0(conn)
+                          End Sub,
+                          Sub()
+                            SubSave1(conn)
+                          End Sub,
+                          Sub()
+                            SubSave2(conn)
+                          End Sub,
+                          Sub()
+                            SubSave3(conn)
+                          End Sub,
+                          Sub()
+                            SubSave4(conn)
+                          End Sub,
+                          Sub()
+                            SubSave5(conn)
+                          End Sub
+               )
+          Return New SaveErrorException("0")
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
+        'Try
+        '  Dim subsaveerror As SaveErrorException = SubSave2(conn)
+        '  If Not IsNumeric(subsaveerror.Message) Then
+        '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+        '  End If
+        '  Return New SaveErrorException("0")
+        '  'Complete Save
+        'Catch ex As Exception
+        '  Return New SaveErrorException(ex.ToString)
+        'End Try
+        'Try
+        '  Dim subsaveerror As SaveErrorException = SubSave3(conn)
+        '  If Not IsNumeric(subsaveerror.Message) Then
+        '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+        '  End If
+        '  Return New SaveErrorException("0")
+        '  'Complete Save
+        'Catch ex As Exception
+        '  Return New SaveErrorException(ex.ToString)
+        'End Try
+        'Try
+        '  Dim subsaveerror As SaveErrorException = SubSave4(conn)
+        '  If Not IsNumeric(subsaveerror.Message) Then
+        '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+        '  End If
+        '  Return New SaveErrorException("0")
+        '  'Complete Save
+        'Catch ex As Exception
+        '  Return New SaveErrorException(ex.ToString)
+        'End Try
+        'Try
+        '  Dim subsaveerror As SaveErrorException = SubSave5(conn)
+        '  If Not IsNumeric(subsaveerror.Message) Then
+        '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+        '  End If
+        '  Return New SaveErrorException("0")
+        '  'Complete Save
+        'Catch ex As Exception
+        '  Return New SaveErrorException(ex.ToString)
+        'End Try
         '--Sub Save Block-- ============================================================
 
       Catch ex As Exception
@@ -4235,13 +4302,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
+        ''=== Insert Update Budget and Actual ======================================================
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", Me.Id)})
 
-        ''=== Insert Update Budget and Actual ======================================================
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", Me.Id)})
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", Me.Id)})
         'If Not Me.Originated Then
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
         'End If
         ''=== Insert Update Budget and Actual ======================================================
       Catch ex As Exception
@@ -4250,6 +4315,121 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave0(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        ''=== Insert Update Budget and Actual ======================================================
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "DeleteSwang_WBSBudget", New SqlParameter() {New SqlParameter("@boq", Me.Id)})
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "InsertSwang_WBSBudget ", New SqlParameter() {New SqlParameter("@boq", Me.Id)})
+
+        'If Not Me.Originated Then
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+        'End If
+        ''=== Insert Update Budget and Actual ======================================================
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave1(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "InsertUpdateAllActual")
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave2(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave3(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave4(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSave5(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
       Return New SaveErrorException("0")
     End Function
     Private Sub LoopWbs(ByVal coll As WBSCollection, ByVal level As Integer, ByVal dtWbs As DataTable, ByVal drBoq As DataRow)
