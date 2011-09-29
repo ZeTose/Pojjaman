@@ -536,6 +536,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Overrides Function GetNextCode() As String
+      RefreshGLFormat()
+      Dim autoCodeFormat As String
+      If Not Me.AutoCodeFormat Is Nothing Then
+        If Me.AutoCodeFormat.Format.Length > 0 Then
+          autoCodeFormat = Me.AutoCodeFormat.Format
+        Else
+          autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+        End If
+      Else
+        autoCodeFormat = Entity.GetAutoCodeFormat(Me.EntityId)
+      End If
+
+      Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
+
+      pattern = CodeGenerator.GetPattern(pattern)
+
+      Dim lastCode As String = Me.GetLastCode(pattern)
+      Dim newCode As String = _
+      CodeGenerator.Generate(autoCodeFormat, lastCode, Me)
+      While DuplicateCode(newCode)
+        newCode = CodeGenerator.Generate(autoCodeFormat, newCode, Me)
+      End While
+      Return newCode
+    End Function
     Public Sub SetAccountBookFromEntity(ByVal entityId As Integer)
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetAccountBookFromEntity", New SqlParameter("@entity_id", entityId))
@@ -837,7 +862,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Dim theTime As Date = Now
         'Dim theUser As New User(currentUserId)
-       
+
 
         saveParamArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
         saveParamArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))
@@ -1471,7 +1496,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
         If unPosted Then
-         
+
           trans.Commit()
 
           Me.Status.Value = glUnPost
