@@ -879,7 +879,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub RefreshReceiveAmount()
       For Each itm As PAItem In Me.ItemCollection
         'itm.ReceiveAmount = itm.ReceiveAmount
-        itm.RecalculateReceiveAmount()
+        If Not itm.ItemType.Value = 162 AndAlso Not itm.ItemType.Value = 160 Then
+          itm.RecalculateReceiveAmount()
+        End If
       Next
     End Sub
     Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection

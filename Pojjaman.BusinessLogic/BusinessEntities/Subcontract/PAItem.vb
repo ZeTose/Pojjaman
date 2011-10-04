@@ -929,8 +929,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public ReadOnly Property CostAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount      Get
         'Return Me.UnitCost * Me.StockQty
         Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
-        If tmpCost = 0 OrElse (Me.RefDocType = 290 AndAlso Me.Amount < 0) OrElse (Me.RefDocType = 291) Then
+        If tmpCost = 0 OrElse (Me.RefDocType = 290 AndAlso Me.Amount < 0) OrElse (Me.RefDocType = 291) OrElse (Me.RefDocType = 289) Then
           tmpCost = Me.ReceiveAmount
+          Dim tmpRealGrossNoVat As Decimal = 0
+          tmpRealGrossNoVat = Me.Pa.RealGrossWithNoDeductItem
+
+          If tmpRealGrossNoVat = 0 Then
+            Return 0
+          End If
+          tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.Pa.Discount.Amount)
+
+          If Me.Pa.TaxType.Value = 2 Then
+            If Not Me.UnVatable Then
+              tmpCost = tmpCost * (100 / (100 + Me.Pa.TaxRate))
+            End If
+          End If
         End If
         Return tmpCost
       End Get
@@ -1381,17 +1394,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Public Sub SetQty(ByVal qty As Decimal)
-      Dim Value As Decimal = 0
-      Value = qty * Me.UnitPrice
+      If (Me.ItemType.Value <> 290) AndAlso (Me.ItemType.Value <> 291) AndAlso (Me.ItemType.Value <> 289) Then
+        Dim Value As Decimal = 0
+        Value = qty * Me.UnitPrice
 
-      If Not Me.ValidateReceiveAmount(Value) Then
-        Return
+        If Not Me.ValidateReceiveAmount(Value) Then
+          Return
+        End If
+
+        m_qty = qty
+        m_receiveAmount = Value
+
+        Me.RecalculateReceiveAmount()
+      Else
+        If ContractQtyCostAmount - m_receivedQty >= qty Then
+          m_qty = qty
+        End If
       End If
-
-      m_qty = qty
-      m_receiveAmount = Value
-
-      Me.RecalculateReceiveAmount()
     End Sub
     Public Sub SetReceiveAmount(ByVal receiveAmt As Decimal)
       m_receiveAmount = receiveAmt
