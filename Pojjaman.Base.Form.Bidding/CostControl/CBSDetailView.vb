@@ -358,14 +358,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub CheckFormEnable()
-            'cmbType.Enabled = False
-            'If Not Me.m_entity.Originated Then
-            '    If Me.m_entity.Parent Is Nothing OrElse Not Me.m_entity.Parent.Originated Then
-            '        cmbType.Enabled = True
-            '    End If
-            'End If
-        End Sub
+    Public Overrides Sub CheckFormEnable()
+
+      If Me.m_entity.Referenced OrElse Me.m_entity.Canceled Then
+        For Each ctl As Control In Me.Controls
+          ctl.Enabled = False
+        Next
+      Else
+        For Each ctl As Control In Me.Controls
+          ctl.Enabled = True
+        Next
+      End If
+
+      'cmbType.Enabled = False
+      'If Not Me.m_entity.Originated Then
+      '    If Me.m_entity.Parent Is Nothing OrElse Not Me.m_entity.Parent.Originated Then
+      '        cmbType.Enabled = True
+      '    End If
+      'End If
+    End Sub
         Public Overrides Property Entity() As ISimpleEntity
             Get
                 Return Me.m_entity

@@ -25,10 +25,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Member"
     Private m_note As String
     Private m_acct As Account
-    Private Shared m_idHash As Hashtable
-    Private Shared m_codeHash As Hashtable
+    Private Shared m_idCBSHash As Hashtable
+    Private Shared m_codeCBSHash As Hashtable
     Private Shared m_cbsSet As DataTable
+    Private m_Referenced As Boolean
 #End Region
+
 #Region "Shared"
 
     Public Shared ReadOnly Property Count As Integer
@@ -57,8 +59,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetCBSTree" _
       )
-      m_idHash = New Hashtable
-      m_codeHash = New Hashtable
+      m_idCBSHash = New Hashtable
+      m_codeCBSHash = New Hashtable
       Dim parentList As New Dictionary(Of Integer, CBS)
       Dim orphans As New List(Of CBS) 'ลูกกำพร้า
       For Each row As DataRow In ds.Tables(0).Rows
@@ -80,8 +82,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         CBSIdList.Add(c.Id, c)
         CBSCodeList.Add(c.Code, c)
 
-        m_idHash(c.Id) = c
-        m_codeHash(c.Code.ToLower) = c
+        m_idCBSHash(c.Id) = c
+        m_codeCBSHash(c.Code.ToLower) = c
       Next
       m_tree.AddRange(orphans)
     End Sub
@@ -109,6 +111,86 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "Delete"
+    Public Overrides ReadOnly Property CanDelete() As Boolean
+      Get
+        If Me.Originated Then
+          Return True
+        Else
+          Return False
+        End If
+      End Get
+    End Property
+    Public Overrides Function Delete() As SaveErrorException
+      If Not Me.Originated Then
+        Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      End If
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim format(0) As String
+      format(0) = Me.Code
+      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteCC}", format) Then
+        Return New SaveErrorException("${res:Global.CencelDelete}")
+      End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        ''--------------------------Delete EXTENDERS---------------------
+        'For Each extender As Object In Me.Extenders
+        '  If TypeOf extender Is IExtender Then
+        '    Dim deleteDetailError As SaveErrorException = CType(extender, IExtender).Delete(conn, trans)
+        '    If Not IsNumeric(deleteDetailError.Message) Then
+        '      trans.Rollback()
+        '      Return deleteDetailError
+        '    Else
+        '      Select Case CInt(deleteDetailError.Message)
+        '        Case -1, -2, -5
+        '          trans.Rollback()
+        '          Return deleteDetailError
+        '        Case Else
+        '      End Select
+        '    End If
+        '  End If
+        'Next
+        '--------------------------Delete SAVING EXTENDERS---------------------
+
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteCostCenter", New SqlParameter() {New SqlParameter("@cc_id", Me.Id), returnVal})
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              'Return New SaveErrorException("${res:Global.CostCenterIsReferencedCannotBeDeleted}")
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+
+        ''------------------------- อย่าลืม ทำลายทิ้งด้วยนะ -----------------------------
+        'CostCenter.DestroyCachCC()
+        ''------------------------- อย่าลืม ทำลายทิ้งด้วยนะ -----------------------------
+
+        trans.Commit()
+        Return New SaveErrorException("1")
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
+    End Function
+#End Region
+
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
@@ -122,16 +204,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetCBS" _
       )
-      m_idHash = New Hashtable
-      m_codeHash = New Hashtable
+      m_idCBSHash = New Hashtable
+      m_codeCBSHash = New Hashtable
       m_cbsSet = New DataTable
       Dim myTable As DataTable = ds.Tables(0)
       m_cbsSet = SetCBSSet(ds.Tables(0))
       For Each row As DataRow In myTable.Rows
         Dim cb As New CBS
         cb.Construct(row, "")
-        m_idHash(cb.Id) = cb
-        m_codeHash(cb.Code.ToLower) = cb
+        m_idCBSHash(cb.Id) = cb
+        m_codeCBSHash(cb.Code.ToLower) = cb
       Next
     End Sub
     Public Sub New(ByVal myParent As CBS)
@@ -142,10 +224,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If id = 0 Then
         Return
       End If
-      If m_idHash Is Nothing Then
+      If m_idCBSHash Is Nothing Then
         RefreshEntityTable()
       End If
-      Dim cb As CBS = CType(m_idHash(id), CBS)
+      Dim cb As CBS = CType(m_idCBSHash(id), CBS)
       If Not cb Is Nothing Then
         Me.Clone(cb)
       End If
@@ -155,10 +237,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If code = "" Then
         Return
       End If
-      If m_codeHash Is Nothing Then
+      If m_codeCBSHash Is Nothing Then
         RefreshEntityTable()
       End If
-      Dim cb As CBS = CType(m_codeHash(code.ToLower), CBS)
+      Dim cb As CBS = CType(m_codeCBSHash(code.ToLower), CBS)
       If Not cb Is Nothing Then
         Me.Clone(cb)
       End If
@@ -187,6 +269,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Note = cb.Note
       Me.Acct = cb.Acct
       Me.Status = cb.Status
+      Me.Referenced = cb.Referenced
       ' Me.Type = cb.Type
     End Sub
 
@@ -199,6 +282,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim drh As New DataRowHelper(dr)
       Note = drh.GetValue(Of String)("cbs_note")
       m_acct = New Account(drh.GetValue(Of String)("cbs_acct"))
+      m_Referenced = drh.GetValue(Of Boolean)("referenced")
     End Sub
 #End Region
 
@@ -211,6 +295,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '        MyBase.Parent = value
     '    End Set
     'End Property
+    Public Property Referenced As Boolean
+      Get
+        Return m_Referenced
+      End Get
+      Set(ByVal value As Boolean)
+        m_Referenced = value
+      End Set
+    End Property
     Public Overrides ReadOnly Property Prefix() As String
       Get
         Return "cbs"

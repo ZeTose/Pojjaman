@@ -135,6 +135,8 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptCBSMonitorDetail.vb" />
+    <Compile Include="BLL\RptProjectRevenueExpenseEnumerate.vb" />
     <Compile Include="BLL\RptProjectRevenueExpense.vb" />
     <Compile Include="BLL\RptCBSMonitor.vb" />
     <Compile Include="BLL\RptWBSMonitorAll.vb" />
@@ -191,6 +193,12 @@
     <Compile Include="UI\ComplexReport\ComplexReportValueView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\CostControl\RptCBSMonitorDetailFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\CostControl\RptProjectRevenueExpenseEnumerateFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\CostControl\RptProjectRevenueExpenseFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -243,6 +251,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\ComplexReport\ComplexReportValueView.resx">
       <DependentUpon>ComplexReportValueView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CostControl\RptCBSMonitorDetailFilterSubPanel.resx">
+      <DependentUpon>RptCBSMonitorDetailFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CostControl\RptProjectRevenueExpenseEnumerateFilterSubPanel.resx">
+      <DependentUpon>RptProjectRevenueExpenseEnumerateFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CostControl\RptProjectRevenueExpenseFilterSubPanel.resx">
       <DependentUpon>RptProjectRevenueExpenseFilterSubPanel.vb</DependentUpon>
