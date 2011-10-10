@@ -1160,6 +1160,57 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
+#Region "GetNewJournalEntries"
+    ''ยังไงก็ใช้ไม่ได้เพราะ mapping ไม่เหมือนกัน
+    'Public Function GetNewJournalEntries() As JournalEntryItemCollection
+    '  Dim jiColl As New JournalEntryItemCollection
+    '  Dim ji As JournalEntryItem
+
+    '  Dim reciptName As String = ""
+
+    '  If Me.Entity Is Nothing Then
+
+    '    reciptName = Me.Entity.Name
+
+    '  End If
+    '  For Each vi As VatItem In Me.ItemCollection
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "E3.5"
+    '    ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+    '    If vi.ToCC.Originated Then
+    '      ji.CostCenter = vi.ToCC
+    '    Else
+    '      ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    '    End If
+    '    ji.EntityItem = Me.Id
+    '    ji.EntityItemType = Me.EntityId
+    '    ji.table = Me.TableName
+
+    '    ji.Note = vi.Code & "/" & vi.PrintName & ":" & reciptName
+    '    ji.table = Me.TableName
+    '    jiColl.Add(ji)
+
+
+    '  Next
+
+    '  For Each vi As VatItem In Me.ItemCollection
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "I4.2"
+    '    ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+    '    If Me.ToCostCenter.Originated Then
+    '      ji.CostCenter = Me.ToCostCenter
+    '    Else
+    '      ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    '    End If
+    '    ji.Note = vi.Code & "/" & vi.PrintName
+    '    jiColl.Add(ji)
+
+    '  Next
+
+    '  Return jiColl
+    'End Function
+#End Region
+
 #Region "UI Validation Code"
     Public Sub CodeChanged(ByVal newCode As String)
       Dim vi As VatItem

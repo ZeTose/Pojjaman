@@ -76,6 +76,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnDown As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnUp As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnRefresh As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnShowGLAtomList As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtFormatCode As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -84,6 +85,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem = New System.Windows.Forms.Label()
       Me.lblGLFormat = New System.Windows.Forms.Label()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ibtnRefresh = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDown = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnUp = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnSort = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -124,15 +126,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnShowGLFormatDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnPost = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkUseRefCode = New System.Windows.Forms.CheckBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
-      Me.ibtnRefresh = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.btnShowGLAtomList = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
       Me.TabControl1.SuspendLayout()
       Me.TabPage1.SuspendLayout()
       Me.TabPage2.SuspendLayout()
+      CType(Me.tgItem2, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbRefDoc.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'tgItem
@@ -178,6 +183,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.btnShowGLAtomList)
       Me.grbDetail.Controls.Add(Me.ibtnRefresh)
       Me.grbDetail.Controls.Add(Me.ibtnDown)
       Me.grbDetail.Controls.Add(Me.ibtnUp)
@@ -221,6 +227,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "การผ่านบัญชี"
+      '
+      'ibtnRefresh
+      '
+      Me.ibtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnRefresh.Location = New System.Drawing.Point(336, 166)
+      Me.ibtnRefresh.Name = "ibtnRefresh"
+      Me.ibtnRefresh.Size = New System.Drawing.Size(32, 32)
+      Me.ibtnRefresh.TabIndex = 346
+      Me.ibtnRefresh.TabStop = False
+      Me.ibtnRefresh.ThemedImage = CType(resources.GetObject("ibtnRefresh.ThemedImage"), System.Drawing.Bitmap)
+      Me.ToolTip1.SetToolTip(Me.ibtnRefresh, "Refresh")
       '
       'ibtnDown
       '
@@ -745,29 +762,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'ibtnRefresh
+      'btnShowGLAtomList
       '
-      Me.ibtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnRefresh.Location = New System.Drawing.Point(336, 166)
-      Me.ibtnRefresh.Name = "ibtnRefresh"
-      Me.ibtnRefresh.Size = New System.Drawing.Size(32, 32)
-      Me.ibtnRefresh.TabIndex = 346
-      Me.ibtnRefresh.TabStop = False
-      Me.ibtnRefresh.ThemedImage = CType(resources.GetObject("ibtnRefresh.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnRefresh, "Refresh")
+      Me.btnShowGLAtomList.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnShowGLAtomList.Location = New System.Drawing.Point(663, 166)
+      Me.btnShowGLAtomList.Name = "btnShowGLAtomList"
+      Me.btnShowGLAtomList.Size = New System.Drawing.Size(42, 36)
+      Me.btnShowGLAtomList.TabIndex = 347
+      Me.btnShowGLAtomList.TabStop = False
+      Me.btnShowGLAtomList.ThemedImage = Global.My.Resources.Resources.App_katomic_atom_icon
+      Me.ToolTip1.SetToolTip(Me.btnShowGLAtomList, "GLAtomList")
       '
       'GLView
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "GLView"
       Me.Size = New System.Drawing.Size(744, 440)
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.TabControl1.ResumeLayout(False)
       Me.TabPage1.ResumeLayout(False)
       Me.TabPage2.ResumeLayout(False)
+      CType(Me.tgItem2, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbRefDoc.ResumeLayout(False)
       Me.grbRefDoc.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -910,6 +930,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csNote.TextBox.Name = "gli_note"
       csNote.ReadOnly = True
 
+      Dim csMapping As New TreeTextColumn
+      csMapping.MappingName = "gli_Mapping"
+      csMapping.HeaderText = myStringParserService.Parse("Mapping")
+      csMapping.NullText = ""
+      csMapping.Width = 20
+      csMapping.TextBox.Name = "gli_Mapping"
+      csMapping.ReadOnly = True
+
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csName)
@@ -918,6 +946,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csCCCode)
       dst.GridColumnStyles.Add(csCCName)
       dst.GridColumnStyles.Add(csNote)
+      dst.GridColumnStyles.Add(csMapping)
 
       Return dst
     End Function
@@ -1004,6 +1033,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csNote.Width = 100
       csNote.TextBox.Name = "gli_note"
 
+      Dim csMapping As New TreeTextColumn
+      csMapping.MappingName = "gli_Mapping"
+      csMapping.HeaderText = myStringParserService.Parse("Mapping")
+      csMapping.NullText = ""
+      csMapping.Width = 20
+      csMapping.TextBox.Name = "gli_Mapping"
+      csMapping.ReadOnly = True
+
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csCode)
       dst.GridColumnStyles.Add(csButton)
@@ -1014,6 +1051,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csCCButton)
       dst.GridColumnStyles.Add(csCCName)
       dst.GridColumnStyles.Add(csNote)
+      dst.GridColumnStyles.Add(csMapping)
 
       For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
         m_tableStyleEnable.Add(colStyle, colStyle.ReadOnly)
@@ -1155,6 +1193,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
+      End If
+      If TypeOf Me.m_je.RefDoc Is INewGLAble Then
+        Me.btnShowGLAtomList.Visible = True
+      Else
+        Me.btnShowGLAtomList.Visible = False
       End If
     End Sub
     Private Sub CheckGLRight()
@@ -1800,6 +1843,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
       Me.m_entity = Nothing
+    End Sub
+
+    Private Sub btnShowGLAtomList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowGLAtomList.Click
+      Dim frm As New GLAtomListForm2
+      frm.je = Me.m_je
+      frm.je.RefreshOnlyGLAtom()
+      frm.ShowDialog()
     End Sub
   End Class
 End Namespace

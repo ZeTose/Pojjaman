@@ -1,0 +1,15 @@
+<AddIn name="Pojjaman For Implementor " author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<!--<Import assembly="Pojjaman.Base.Form.AP.dll"/>-->
+		<Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
+    <MenuItem id="Separator3" insertafter="FFormat" label="-"/>
+    <MenuItem id="ReSaveGL"   label="ReSaveGL" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ReSaveGL">
+    </MenuItem>  
+  </Extension>
+
+  <Extension path="/Pojjaman/Workbench/EntityListViews">
+    <EntityListView id="resavegl" entity="resavegl" view="Longkong.Pojjaman.Gui.Panels.ReSaveGLDetail"/>
+  </Extension>
+</AddIn>

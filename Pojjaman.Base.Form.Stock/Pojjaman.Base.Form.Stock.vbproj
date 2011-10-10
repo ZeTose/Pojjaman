@@ -277,9 +277,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StockSequence\ReSaveStockDetail.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="StockSequence\StockSequenceDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -450,9 +447,6 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StockSequence\ReSaveStockDetail.resx">
-      <DependentUpon>ReSaveStockDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StockSequence\StockSequenceDetail.resx">
       <DependentUpon>StockSequenceDetail.vb</DependentUpon>

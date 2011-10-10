@@ -33,7 +33,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class MatWithdraw
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, INewGLAble
 
 #Region "Members"
     Private m_docDate As Date
@@ -1278,6 +1278,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '--JE Save Block-- ============================================================
 
           'Sub Save Block
+
+          Try
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
@@ -1967,6 +1977,120 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
+
+#Region "INewGLAble"
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      jiColl.AddRange(Me.NewGetItemJournalEntries)
+      Return jiColl
+    End Function
+    Private Function NewGetItemJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      'Dim itemColl As New MatWithdrawItemCollection(Me, False)
+      'If itemColl Is Nothing Then
+      '  Return jiColl
+      'End If
+      Dim map As String = ""
+      Dim newRealAccount As Account
+      Select Case Me.Type.Value
+        Case 3 'Store
+          map = "F1.1"
+        Case 1 'WIP
+          map = "F1.3"
+          newRealAccount = Me.ToCostCenter.WipAccount
+        Case 2 'Exp
+          map = "F1.2"
+          newRealAccount = Me.ToCostCenter.ExpenseAccount
+      End Select
+      Dim ji As New JournalEntryItem
+      For Each item As MatWithdrawItem In Me.ItemCollection 'itemColl
+        Dim lciMatched As Boolean = False
+        Dim lciNoAcctMatched As Boolean = False
+        Dim originMatched As Boolean = False
+        Dim newLci As LCIItem = CType(item.Entity, LCIItem)
+        Dim newEntityAcct As Account
+        If Not newLci.Account Is Nothing AndAlso newLci.Account.Originated Then
+          newEntityAcct = newLci.Account
+        End If
+        If Me.Type.Value = 3 Then
+          newRealAccount = newEntityAcct
+        End If
+       
+        Dim realAccount As Account
+        Dim entityAcct As Account
+        Dim lci As LCIItem = CType(item.Entity, LCIItem)
+        If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
+          entityAcct = lci.Account
+        End If
+        If Not entityAcct Is Nothing AndAlso entityAcct.Originated Then
+          'ใช้ acct ของ lci
+          realAccount = entityAcct
+        End If
+        If Not originMatched Then
+          'ฝั่งต้นทาง
+          ji = New JournalEntryItem
+          ji.Mapping = "F1.4"
+          ji.Amount = item.Amount
+          ji.Account = realAccount
+          ji.CostCenter = Me.FromCostCenter
+          ji.EntityItem = lci.Id
+          ji.EntityItemType = 42
+          ji.table = Me.TableName & "item"
+          ji.AtomNote = "ต้นทางเบิกออก CostCenter " & Me.Type.Description
+          jiColl.Add(ji)
+        End If
+        If Not newRealAccount Is Nothing AndAlso newRealAccount.Originated Then
+          If Not lciMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = map
+            ji.Amount = item.Amount
+            ji.Account = newRealAccount
+            ji.CostCenter = Me.ToCostCenter
+            ji.EntityItem = lci.Id
+            ji.EntityItemType = 42
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "รับเบิก CostCenter " & Me.Type.Description
+            jiColl.Add(ji)
+          End If
+        ElseIf newRealAccount Is Nothing OrElse Not newRealAccount.Originated Then
+          If Not lciNoAcctMatched Then
+            ji = New JournalEntryItem
+            ji.Mapping = map
+            ji.Amount = item.Amount
+            ji.CostCenter = Me.ToCostCenter
+            ji.EntityItem = lci.Id
+            ji.EntityItemType = 42
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "รับเบิก CostCenter " & Me.Type.Description
+            jiColl.Add(ji)
+          End If
+        End If
+      Next
+
+      
+
+      Return jiColl
+    End Function
+#End Region
+
 
 #Region "IPrintableEntity"
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath

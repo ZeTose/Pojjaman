@@ -6,8 +6,9 @@
 		<EntityFilter id="accountperiod" entity="accountperiod" filter="Longkong.Pojjaman.Gui.Panels.AccountPeriodFilterSubPanel"/>
 		<EntityFilter id="account" entity="account" filter="Longkong.Pojjaman.Gui.Panels.AccountFilterSubPanel"/>
 		<EntityFilter id="journalentry" entity="journalentry" filter="Longkong.Pojjaman.Gui.Panels.JournalEntryFilterSubPanel"/>
-		<EntityFilter id="vatgroup" entity="vatgroup" filter="Longkong.Pojjaman.Gui.Panels.VatGroupFilterSubPanel"/>	
-		<EntityFilter id="closeaccountperiod" entity="closeaccountperiod" filter="Longkong.Pojjaman.Gui.Panels.CloseAccountPeriodFilterSubPanel"/>
+		<EntityFilter id="vatgroup" entity="vatgroup" filter="Longkong.Pojjaman.Gui.Panels.VatGroupFilterSubPanel"/>
+    <EntityFilter id="calculatecost" entity="calculatecost" filter="Longkong.Pojjaman.Gui.Panels.CalcMatCostFilterSubPanel"/>
+    <EntityFilter id="closeaccountperiod" entity="closeaccountperiod" filter="Longkong.Pojjaman.Gui.Panels.CloseAccountPeriodFilterSubPanel"/>
 		<EntityFilter id="journalentryupdate" entity="journalentryupdate" filter="Longkong.Pojjaman.Gui.Panels.JournalEntryFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -26,6 +27,11 @@
 		<EntityTab id="vatgroup">
 			<EntityTab id="VatGroupDetailView" view="Longkong.Pojjaman.Gui.Panels.VatGroupDetailView"/>
 		</EntityTab>
+    <EntityTab id="calculatecost">
+      <EntityTab id="calculatecost" view="Longkong.Pojjaman.Gui.Panels.CalcMatCostView"/>
+      <EntityTab id="calculateprogresscost" view="Longkong.Pojjaman.Gui.Panels.CalcMatCostProgressView"/>
+      <EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
+    </EntityTab>
 		<EntityTab id="closeaccountperiod">
 			<EntityTab id="CloseAccountPeriod" view="Longkong.Pojjaman.Gui.Panels.CloseAccountPeriodView"/>
 		<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>

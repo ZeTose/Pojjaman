@@ -1272,6 +1272,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PayInterest")
         jiColl.Add(ji)
       End If
 
@@ -1285,6 +1287,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherExpense")
         jiColl.Add(ji)
       End If
 
@@ -1301,6 +1305,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherCredit")
           jiColl.Add(ji)
         Next
       End If
@@ -1315,6 +1321,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PayCharge")
         jiColl.Add(ji)
       End If
 
@@ -1328,6 +1336,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherIncome")
         jiColl.Add(ji)
       End If
 
@@ -1344,6 +1354,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherDebit")
           jiColl.Add(ji)
         Next
       End If
@@ -1358,6 +1370,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("DiscountReceive")
         jiColl.Add(ji)
       End If
 
@@ -1983,6 +1997,388 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.EntityItem = bto.BankAccount.Id
             ji.EntityItemType = bto.BankAccount.EntityId
             jiColl.Add(ji)
+          End If
+        End If
+      Next
+      Return jiColl
+    End Function
+#End Region
+
+#Region "GetNewJournalEntries"
+    Public Function GetNewJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+
+      'ดอกเบี้ย
+      Dim ji As JournalEntryItem
+      If Me.Interest > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "PM1.1"
+        ji.Amount = Me.Interest
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PayInterest")
+        ji.table = Me.TableName
+        ji.AtomNote = "ดอกเบี้ยจ่าย"
+        jiColl.Add(ji)
+      End If
+
+      'รายจ่ายอื่นๆ
+      If Me.OtherExpense > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "PM1.2"
+        ji.Amount = Me.OtherExpense
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherExpense")
+        ji.table = Me.TableName
+        ji.AtomNote = "รายจ่ายอื่นๆ"
+
+        jiColl.Add(ji)
+      End If
+
+      If Me.CreditCollection.Count > 0 Then
+        For Each item As PaymentAccountItem In Me.CreditCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "Through"
+          ji.Amount = item.Amount
+          ji.Account = item.Account
+          ji.IsDebit = True
+          ji.Note = StringParserService.Parse("${res:Global.OtherCredit}")
+          If Me.CostCenter.Originated Then
+            ji.CostCenter = Me.CostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherCredit")
+          ji.table = "paymentaccount"
+          ji.AtomNote = "ไม่มี GA"
+          jiColl.Add(ji)
+        Next
+      End If
+
+      'ค่าธรรมเนียมธนาคาร
+      If Me.BankCharge > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "PM1.3"
+        ji.Amount = Me.BankCharge
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PayCharge")
+        ji.table = Me.TableName
+        ji.AtomNote = "ค่าธรรมเนียมธนาคาร"
+        jiColl.Add(ji)
+      End If
+
+      'รายได้อื่นๆ
+      If Me.OtherRevenue > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "PM1.8"
+        ji.Amount = Me.OtherRevenue
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherIncome")
+        ji.table = Me.TableName
+        ji.AtomNote = "รายได้อื่นๆ"
+        jiColl.Add(ji)
+      End If
+
+      If Me.DebitCollection.Count > 0 Then
+        For Each item As PaymentAccountItem In Me.DebitCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "Through"
+          ji.Amount = item.Amount
+          ji.Account = item.Account
+          ji.IsDebit = False
+          ji.Note = StringParserService.Parse("${res:Global.OtherDebit}")
+          If Me.CostCenter.Originated Then
+            ji.CostCenter = Me.CostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherDebit")
+          ji.table = "paymentaccount"
+          ji.AtomNote = "ไม่มี GA"
+          jiColl.Add(ji)
+        Next
+      End If
+
+      'ส่วนลดรับ
+      If Me.DiscountAmount > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "PM1.9"
+        ji.Amount = Me.DiscountAmount
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("DiscountReceive")
+        ji.table = Me.TableName
+        ji.AtomNote = "ส่วนลดรับ"
+        jiColl.Add(ji)
+      End If
+
+      jiColl.AddRange(GetNewPettyCashDetailJournalEntries)
+      jiColl.AddRange(GetNewCashCheckDetailJournalEntries)
+      jiColl.AddRange(GetNewBankTransferDetailJournalEntries)
+      jiColl.AddRange(GetNewAdvanceMoneyDetailJournalEntries)
+      Return jiColl
+    End Function
+    
+    Private Function GetNewCashCheckDetailJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      Dim sumCheck As Decimal = 0
+      Dim sumAval As Decimal = 0
+      Dim sumCash As Decimal = 0
+      Dim sumAvp As Decimal = 0
+      Dim ji As JournalEntryItem
+
+      For Each item As PaymentItem In Me.ItemCollection
+        Select Case item.EntityType.Value
+          Case 22         'Check
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.5"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, OutgoingCheck).CqCode _
+            & " " & CType(item.Entity, OutgoingCheck).DueDate.ToShortDateString _
+            & " " & CType(item.Entity, OutgoingCheck).Bankacct.Code _
+            & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 22
+            ji.table = Me.TableName & "item"
+            ji.CustomRefstr = Me.Id.ToString
+            ji.CustomRefType = Me.ClassName
+            ji.AtomNote = "จ่ายด้วยเช็ค"
+            jiColl.Add(ji)
+            
+          Case 336         'Aval
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.5"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, OutgoingAval).CqCode _
+            & " " & CType(item.Entity, OutgoingAval).DueDate.ToShortDateString _
+            & " " & CType(item.Entity, OutgoingAval).Loan.Code _
+            & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 336
+            ji.table = Me.TableName & "item"
+            ji.CustomRefstr = Me.Id.ToString
+            ji.CustomRefType = Me.ClassName
+            ji.AtomNote = "จ่ายด้วย Aval"
+            jiColl.Add(ji)
+
+
+          Case 0          'Cash
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.4"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.EntityItemType = 421
+            ji.table = Me.TableName & "item"
+            ji.CustomRefstr = Me.Id.ToString
+            ji.CustomRefType = Me.ClassName
+            ji.AtomNote = "จ่ายด้วย เงินสด"
+            jiColl.Add(ji)
+
+           
+
+          Case 59         'AdvancePayment
+            ji = New JournalEntryItem
+            ji.Mapping = "PM1.10"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = CType(item.Entity, AdvancePayItem).AdvancePay.Code & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 59
+            ji.table = Me.TableName & "item"
+            ji.CustomRefstr = Me.Id.ToString
+            ji.CustomRefType = Me.ClassName
+            ji.AtomNote = "จ่ายด้วย มัดจำ"
+            jiColl.Add(ji)
+
+           
+
+        End Select
+      Next
+      Return jiColl
+    End Function
+    
+    Private Function GetNewAdvanceMoneyDetailJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As New JournalEntryItem
+      For Each item As PaymentItem In Me.ItemCollection
+        If TypeOf item.Entity Is AdvanceMoney Then
+          Dim advm As AdvanceMoney = CType(item.Entity, AdvanceMoney)
+          If Not advm Is Nothing Then
+            If Not advm.Account Is Nothing AndAlso advm.Account.Originated Then
+              ji = New JournalEntryItem
+              ji.Account = advm.Account
+              ji.Mapping = "PM1.11"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = advm.Name & "(" & advm.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
+              ji.table = Me.TableName & "item"
+              ji.CustomRefstr = Me.Id.ToString
+              ji.CustomRefType = Me.ClassName
+              ji.AtomNote = "จ่ายด้วย เงินทดลองจ่าย"
+              jiColl.Add(ji)
+
+             
+
+            Else
+              'ไม่มี Account --- ปล่อยว่างไปเพราะเป็นแบบ Mix
+              ji = New JournalEntryItem
+              ji.Mapping = "PM1.11"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = advm.Name & "(" & advm.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
+              ji.table = Me.TableName & "item"
+              ji.CustomRefstr = Me.Id.ToString
+              ji.CustomRefType = Me.ClassName
+              ji.AtomNote = "จ่ายด้วย เงินทดลองจ่าย"
+              jiColl.Add(ji)
+
+            End If
+          End If
+        End If
+      Next
+      Return jiColl
+    End Function
+    
+    Private Function GetNewPettyCashDetailJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+
+      Dim ji As New JournalEntryItem
+      For Each item As PaymentItem In Me.ItemCollection
+        If TypeOf item.Entity Is PettyCash Then
+          Dim ptc As PettyCash = CType(item.Entity, PettyCash)
+          If Not ptc Is Nothing Then
+            If Not ptc.Account Is Nothing AndAlso ptc.Account.Originated Then
+              ji = New JournalEntryItem
+              ji.Account = ptc.Account
+              ji.Mapping = "PM1.7"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = ptc.Name & "(" & ptc.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
+              ji.table = Me.TableName & "item"
+              ji.CustomRefstr = Me.Id.ToString
+              ji.CustomRefType = Me.ClassName
+              ji.AtomNote = "จ่ายด้วย เงินสดย่อย"
+              jiColl.Add(ji)
+
+
+            Else
+              'ไม่มี Account --- ปล่อยว่างไปเพราะเป็นแบบ Mix
+              ji = New JournalEntryItem
+              ji.Mapping = "PM1.7"
+              ji.Amount = item.Amount
+              If ptc.ToCC IsNot Nothing Then
+                ji.CostCenter = ptc.ToCC
+              Else
+                If Me.CostCenter.Originated Then
+                  ji.CostCenter = Me.CostCenter
+                Else
+                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
+              End If
+              ji.Note = ptc.Name & "(" & ptc.Code & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = item.EntityType.Value
+              ji.table = Me.TableName & "item"
+              ji.CustomRefstr = Me.Id.ToString
+              ji.CustomRefType = Me.ClassName
+              ji.AtomNote = "จ่ายด้วย เงินสดย่อย"
+              jiColl.Add(ji)
+              
+
+            End If
+          End If
+        End If
+      Next
+      Return jiColl
+    End Function
+   
+    Private Function GetNewBankTransferDetailJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As New JournalEntryItem
+      For Each item As PaymentItem In Me.ItemCollection
+        If TypeOf item.Entity Is BankTransferOut Then
+          Dim bto As BankTransferOut = CType(item.Entity, BankTransferOut)
+          If Not bto Is Nothing AndAlso Not bto.BankAccount Is Nothing _
+          AndAlso Not bto.BankAccount.Account Is Nothing AndAlso bto.BankAccount.Account.Originated Then
+            ji = New JournalEntryItem
+            ji.Account = bto.BankAccount.Account
+            ji.Mapping = "PM1.6"
+            ji.Amount = item.Amount
+            If Me.CostCenter.Originated Then
+              ji.CostCenter = Me.CostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = bto.DocDate.ToShortDateString & " " & bto.BankAccount.BankBranch.Bank.Name & "/" & Me.RefDoc.Recipient.Name
+            ji.EntityItem = bto.BankAccount.Id
+            ji.EntityItemType = Entity.GetIdFromClassName("BankAccount")
+            ji.table = Me.TableName & "item"
+            ji.CustomRefstr = Me.Id.ToString
+            ji.CustomRefType = Me.ClassName
+            ji.AtomNote = "จ่ายด้วย เงินโอน"
+            jiColl.Add(ji)
+           
           End If
         End If
       Next

@@ -15,6 +15,7 @@
 				<ToolbarItem id="NoteEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" tooltip="NoteEntity" class="Longkong.Pojjaman.Commands.NoteEntity"/>
       <ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.Info" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
       <ToolbarItem id="GLList" insertafter="MappingList" icon="Icons.16x16.Info" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLList"/>
+      <ToolbarItem id="GLAtomList" insertafter="MappingList" icon="Icons.16x16.Info" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLAtomList"/>
 		</Extension>			
 		<Extension path="/Pojjaman/Workbench/MainMenu">
 				<MenuItem id="Test" insertafter="Help" label="Test">

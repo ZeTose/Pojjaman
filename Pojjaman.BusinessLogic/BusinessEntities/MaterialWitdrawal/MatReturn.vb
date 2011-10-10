@@ -12,7 +12,8 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatReturn
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable
+    Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable _
+      , INewGLAble
 
 #Region "Members"
     Private m_docDate As Date
@@ -802,6 +803,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           '--Sub Save Block-- ============================================================
           Try
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
@@ -1499,6 +1508,156 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_je = Value
       End Set
     End Property
+#End Region
+
+#Region "INewGLAble"
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      jiColl.AddRange(Me.NewGetItemJournalEntries)
+      Return jiColl
+    End Function
+    Private Function NewGetItemJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      'Dim itemColl As New MatReturnItemCollection(Me, False)
+      'If itemColl Is Nothing Then
+      '  Return jiColl
+      'End If
+      Dim ji As New JournalEntryItem
+      For Each item As MatReturnItem In ItemCollection
+        Dim lciMatched As Boolean = False
+        Dim lciNoAcctMatched As Boolean = False
+        Dim originMatched As Boolean = False
+        
+        Dim realAccount As Account
+        Dim entityAcct As Account
+        Dim lci As LCIItem = CType(item.Entity, LCIItem)
+        If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
+          entityAcct = lci.Account
+        End If
+        If Not entityAcct Is Nothing AndAlso entityAcct.Originated Then
+          'ใช้ acct ของ lci
+          realAccount = entityAcct
+        End If
+        If Not originMatched Then
+          If item.InWbsdColl Is Nothing Then
+            ji = New JournalEntryItem
+            ji.Mapping = "F2.2"
+            ji.Amount += item.Amount
+            ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
+            ji.Account = Me.FromCostCenter.WipAccount
+            ji.CostCenter = Me.FromCostCenter
+            ji.EntityItem = lci.Id
+            ji.EntityItemType = 42
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "คืนล้าง WIP ออกไป CC "
+            jiColl.Add(ji)
+          Else
+            For Each iwbs As WBSDistribute In item.InWbsdColl
+              ji = New JournalEntryItem
+              ji.Mapping = "F2.2"
+              ji.Amount += iwbs.Amount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+              'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+              ji.EntityItem = item.Entity.Id
+              ji.EntityItemType = 42
+              ji.Account = Me.FromCostCenter.WipAccount
+              ji.CostCenter = Me.FromCostCenter
+              ji.EntityItem = lci.Id
+              ji.EntityItemType = 42
+              ji.table = Me.TableName & "item"
+              ji.AtomNote = "คืนล้าง WIP ออกไป CC "
+              jiColl.Add(ji)
+            Next
+          End If
+        End If
+        If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+          If Not lciMatched Then
+            If item.InWbsdColl Is Nothing Then
+              ji = New JournalEntryItem
+              ji.Mapping = "F2.1"
+              ji.Amount += item.Amount
+              ji.Account = realAccount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
+
+              ji.CostCenter = Me.ToCostCenter
+              ji.EntityItem = lci.Id
+              ji.EntityItemType = 42
+              ji.table = Me.TableName & "item"
+              ji.AtomNote = "รับคืน WIP ข้าม CC "
+              jiColl.Add(ji)
+            Else
+              For Each iwbs As WBSDistribute In item.InWbsdColl
+                ji = New JournalEntryItem
+                ji.Mapping = "F2.1"
+                ji.Amount += iwbs.Amount
+                ji.Account = realAccount
+                ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+
+                ji.CostCenter = Me.ToCostCenter
+                ji.EntityItem = lci.Id
+                ji.EntityItemType = 42
+                ji.table = Me.TableName & "item"
+                ji.AtomNote = "รับคืน WIP ข้าม CC"
+                jiColl.Add(ji)
+              Next
+            End If
+          End If
+        ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+          If Not lciNoAcctMatched Then
+            If item.InWbsdColl Is Nothing Then
+              ji = New JournalEntryItem
+              ji.Mapping = "F2.1"
+              ji.Amount = item.Amount
+              ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
+
+              ji.CostCenter = Me.ToCostCenter
+              ji.EntityItem = lci.Id
+              ji.EntityItemType = 42
+              ji.table = Me.TableName & "item"
+              ji.AtomNote = "รับคืน WIP ข้าม CC "
+              jiColl.Add(ji)
+            Else
+              For Each iwbs As WBSDistribute In item.InWbsdColl
+                ji = New JournalEntryItem
+                ji.Mapping = "F2.1"
+                ji.Amount += iwbs.Amount
+                ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
+                'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
+
+                ji.CostCenter = Me.ToCostCenter
+                ji.EntityItem = lci.Id
+                ji.EntityItemType = 42
+                ji.table = Me.TableName & "item"
+                ji.AtomNote = "รับคืน WIP ข้าม CC "
+                jiColl.Add(ji)
+              Next
+            End If
+          End If
+        End If
+      Next
+      Return jiColl
+    End Function
 #End Region
 
 #Region "IPrintableEntity"

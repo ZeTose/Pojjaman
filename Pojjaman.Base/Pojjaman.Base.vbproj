@@ -1448,6 +1448,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\CodeDescriptionDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLAtomListForm.Designer.vb">
+      <DependentUpon>GLAtomListForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLAtomListForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\EntityDebugPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1868,6 +1874,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\CodeDescriptionDialog.resx">
       <DependentUpon>CodeDescriptionDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLAtomListForm.resx">
+      <DependentUpon>GLAtomListForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\EntityDebugPanel.resx">
       <DependentUpon>EntityDebugPanel.vb</DependentUpon>

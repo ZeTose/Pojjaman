@@ -97,6 +97,14 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -133,14 +141,32 @@
     <Compile Include="GL\AccountPeriodView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GL\CalcMatCostFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\CalcMatCostMatDetailView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\CalcMatCostView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GL\CloseAccountPeriodFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\CloseAccountPeriodView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GL\CalcMatCostProgressView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GL\FinanacialStatmentDetail.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\GLAtomListForm2.Designer.vb">
+      <DependentUpon>GLAtomListForm2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GL\GLAtomListForm2.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="GL\GLView.vb">
       <SubType>UserControl</SubType>
@@ -164,6 +190,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\PostGLView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\ReSaveGLDetail.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\SumAccount.vb">
@@ -225,14 +254,29 @@
     <EmbeddedResource Include="GL\AccountPeriodView.resx">
       <DependentUpon>AccountPeriodView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GL\CalcMatCostFilterSubPanel.resx">
+      <DependentUpon>CalcMatCostFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\CalcMatCostMatDetailView.resx">
+      <DependentUpon>CalcMatCostMatDetailView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\CalcMatCostView.resx">
+      <DependentUpon>CalcMatCostView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\CloseAccountPeriodFilterSubPanel.resx">
       <DependentUpon>CloseAccountPeriodFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\CloseAccountPeriodView.resx">
       <DependentUpon>CloseAccountPeriodView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GL\CalcMatCostProgressView.resx">
+      <DependentUpon>CalcMatCostProgressView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\FinanacialStatmentDetail.resx">
       <DependentUpon>FinanacialStatmentDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\GLAtomListForm2.resx">
+      <DependentUpon>GLAtomListForm2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\GLView.resx">
       <DependentUpon>GLView.vb</DependentUpon>
@@ -257,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GL\PostGLView.resx">
       <DependentUpon>PostGLView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\ReSaveGLDetail.resx">
+      <DependentUpon>ReSaveGLDetail.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\SumAccount.resx">
       <DependentUpon>SumAccount.vb</DependentUpon>
@@ -297,7 +344,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Atom.bmp" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -353,6 +402,9 @@
       <Project>{1B192737-9099-4018-A30F-F1BC49EC97ED}</Project>
       <Name>Pojjaman.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\App-katomic-atom-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

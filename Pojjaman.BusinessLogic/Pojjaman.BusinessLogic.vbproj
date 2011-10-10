@@ -210,6 +210,7 @@
     <Compile Include="BusinessEntities\Accounting\OpenningBalance.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Accounting\ReSaveGL.vb" />
     <Compile Include="BusinessEntities\AP\AdvancePayClosed.vb" />
     <Compile Include="BusinessEntities\AP\AdvancePay.vb">
       <SubType>Code</SubType>
@@ -621,6 +622,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BusinessEntities\MaterialWitdrawal\ApprovalStoreComment.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\CalculateCost.vb" />
+    <Compile Include="BusinessEntities\MaterialWitdrawal\CalcMatCostItem.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatOperationWithdrawItem.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatOperationReturn.vb" />
     <Compile Include="BusinessEntities\MaterialWitdrawal\MatOperationWithdraw.vb" />

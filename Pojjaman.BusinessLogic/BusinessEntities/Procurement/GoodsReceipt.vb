@@ -54,7 +54,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillAcceptable, IPrintableEntity, IApprovAble _
     , ICancelable, IHasIBillablePerson, IHasToCostCenter, IAdvancePayItemAble, ICanDelayWHT, ICheckPeriod _
    , IUnlockAble, IGLCheckingBeforeRefresh, IWBSAllocatable, IDuplicable, IAbleHideCostByView, IHasCurrency _
-   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
+   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble, INewGLAble
+
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -2029,6 +2030,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
     Private m_DocMethod As SaveDocMultiApprovalMethod
+
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
+
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
 
       With Me
@@ -2530,8 +2539,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Try
 
           Try
-            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
-            If Not IsNumeric(subsaveerror.Message) Then
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror2 As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+            If Not IsNumeric(subsaveerror2.Message) Then
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
           Catch ex As Exception
@@ -2609,6 +2627,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException(ex.ToString)
       End Try
 
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
       trans.Commit()
       Return New SaveErrorException("0")
     End Function
@@ -3093,6 +3123,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return New GLFormat
     End Function
+
     Public Function GetJournalEntries() As JournalEntryItemCollection Implements IGLAble.GetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
@@ -4385,6 +4416,644 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 #End Region
+
+#Region "INewGLAble"
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As JournalEntryItem
+      Dim tmp As Object = Configuration.GetConfig("APRetentionPoint")
+
+      Dim apRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        apRetentionPoint = CInt(tmp)
+      End If
+      Dim retentionHere As Boolean = (apRetentionPoint = 0)
+      'ค่าใช้จ่ายซ่อม มายังไงวะ จะรู้ได้ไงว่าเป็น ค่าซ่อมบำรุงเครื่องจักร
+      Dim i41 As Decimal = 0
+      If Me.TaxType.Value = 2 Then
+        i41 = Me.RealTaxBase
+        i41 += Me.DiscountAmount
+      Else
+        i41 = Me.RealGross
+      End If
+      If i41 > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "I4.1"
+        If retentionHere Then
+          ji.Amount = i41 + Me.Retention
+        Else
+          ji.Amount = i41
+        End If
+        If Me.ToCostCenter.Originated Then
+          ji.CostCenter = Me.ToCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = 50
+        jiColl.Add(ji)
+      End If
+
+      'Retention
+      If (Me.Payment.Amount - Me.Payment.Gross = 0 OrElse retentionHere) AndAlso Me.Retention > 0 Then
+
+        ji = New JournalEntryItem
+        ji.Mapping = "E3.16"
+        ji.Amount = Me.Retention
+        If Me.ToCostCenter.Originated Then
+          ji.CostCenter = Me.ToCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.Note = Me.Recipient.Name
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PurchaseRetention")
+        ji.table = Me.TableName
+        ji.AtomNote = "GR ตั้ง Retention"
+        jiColl.Add(ji)
+      End If
+
+      'ภาษีซื้อ
+      If Me.Vat.Amount > 0 Then
+        'ต้อง referrence ถึง TaxInvoice แต่ละใบให้ได้ เพราะใช้กับ สรรพากร แน่ๆ
+        For Each vi As VatItem In Me.Vat.ItemCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.5"
+          ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          
+          ji.Note = vi.Code & "/" & vi.PrintName & ":" & Me.Recipient.Name
+          ji.EntityItem = Me.Vat.Id
+          ji.EntityItemType = 97 'ใช้ Incomingvat 
+          ji.table = Me.Vat.TableName & "item"
+          ji.CustomRefstr = vi.LineNumber.ToString
+          ji.CustomRefType = "vati_linenumber"
+          ji.AtomNote = "ภาษีซื้อ ได้ tax Invoice"
+          jiColl.Add(ji)
+
+
+        Next
+
+        For Each vi As VatItem In Me.Vat.ItemCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "I4.2"
+          ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.Note = vi.Code & "/" & vi.PrintName
+          ji.EntityItem = Me.Vat.Id
+          ji.EntityItemType = 97 'ใช้ Incomingvat 
+          ji.table = Me.Vat.TableName & "item"
+          ji.CustomRefstr = vi.LineNumber.ToString
+          ji.CustomRefType = "vati_linenumber"
+          ji.AtomNote = "ภาษีซื้อ ได้ tax Invoice"
+          jiColl.Add(ji)
+
+        Next
+
+      End If
+
+      'ภาษีซื้อไม่ถึงกำหนด
+      If (Me.RealTaxAmount * Me.Currency.Conversion) - Me.Vat.Amount > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "E3.5.1"
+        ji.Amount = Configuration.Format((Me.RealTaxAmount * Me.Currency.Conversion) - Me.Vat.Amount, DigitConfig.Price)
+        If Me.ToCostCenter.Originated Then
+          ji.CostCenter = Me.ToCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        
+        ji.Note = Me.Code & ":รับสินค้า:" & Me.Supplier.Name
+        'ตอนตั้งกับล้างอ้างอันเดียวกัน
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromFullClassName("Longkong.Pojjaman.BusinessLogic.VatInNotDue")
+        ji.table = Me.TableName
+        ji.CustomRefstr = Me.EntityId.ToString
+        ji.CustomRefType = "entity"
+        ji.AtomNote = "ตั้ง vat not due GR"
+        jiColl.Add(ji)
+
+        ji = New JournalEntryItem
+        ji.Mapping = "I4.2.1"
+        ji.Amount = Configuration.Format(Me.RealTaxAmount - Me.Vat.Amount, DigitConfig.Price)
+        If Me.ToCostCenter.Originated Then
+          ji.CostCenter = Me.ToCostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        'ตอนตั้งกับล้างอ้างอันเดียวกัน
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromFullClassName("Longkong.Pojjaman.BusinessLogic.VatInNotDue")
+        ji.table = Me.TableName
+        ji.CustomRefstr = Me.EntityId.ToString
+        ji.CustomRefType = "entity"
+        ji.AtomNote = "ตั้ง vat not due GR"
+        jiColl.Add(ji)
+      End If
+
+      'ภาษีหัก ณ ที่จ่าย
+      If Not Me.WitholdingTaxCollection.IsBeforePay Then
+        If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
+          'ji = New JournalEntryItem
+          'ji.Mapping = "E3.15"
+          'ji.Amount = Me.WitholdingTaxCollection.Amount
+          'If Me.ToCostCenter.Originated Then
+          '  ji.CostCenter = Me.ToCostCenter
+          'Else
+          '  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          'End If
+          'ji.Note = Me.Recipient.Name
+          'jiColl.Add(ji)
+
+
+          'ภาษีหัก ณ ที่จ่าย ภงด.อื่นๆ
+          For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+            ji = New JournalEntryItem
+            ji.Mapping = "E3.15"
+            ji.Amount = wht.Amount
+            If Me.ToCostCenter.Originated Then
+              ji.CostCenter = Me.ToCostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = wht.PrintName & "(" & wht.Code & ")"
+            ji.EntityItem = wht.Id
+            ji.EntityItemType = Entity.GetIdFromClassName("WitholdingTax")
+            ji.table = wht.TableName
+            jiColl.Add(ji)
+          Next
+
+
+         
+          Dim typeNum As String
+          'ภาษีหัก ณ ที่จ่าย
+          For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+            typeNum = CStr(wht.Type.Value)
+            If Not (typeNum.Length > 1) Then
+              typeNum = "0" & typeNum
+            End If
+            If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+              ji = New JournalEntryItem
+              ji.Mapping = "E3.18"
+              ji.Amount = wht.Amount
+              ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+              If Me.ToCostCenter.Originated Then
+                ji.CostCenter = Me.ToCostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = wht.PrintName & "(" & wht.Code & ")" & wht.Type.Description
+              ji.EntityItem = wht.Id
+              ji.EntityItemType = Entity.GetIdFromClassName("WitholdingTax")
+              ji.table = wht.TableName
+              ji.AtomNote = " WHT"
+              jiColl.Add(ji)
+            End If
+          Next
+          
+         
+          For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+            ji = New JournalEntryItem
+            ji.Mapping = "I4.4"
+            ji.Amount = wht.Amount
+            If Me.ToCostCenter.Originated Then
+              ji.CostCenter = Me.ToCostCenter
+            Else
+              ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            End If
+            ji.Note = wht.PrintName & "(" & wht.Code & ")"
+            ji.EntityItem = wht.Id
+            ji.EntityItemType = Entity.GetIdFromClassName("WitholdingTax")
+            ji.table = wht.TableName
+            jiColl.Add(ji)
+          Next
+
+          
+
+        End If
+      End If
+
+      ''-------------------------------------HACK------------------------------------
+      ''ส่วนลดการค้า
+      'If Me.DiscountAmount > 0 Then
+      'ji = New JournalEntryItem
+      'ji.Mapping = "Through"
+      'ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.TradeDiscount).Account
+      'ji.Note = Me.StringParserService.Parse("${res:Global.TradeDiscount}")
+      'ji.Amount = Me.DiscountAmount
+      'If Me.ToCostCenter.Originated Then
+      'ji.CostCenter = Me.ToCostCenter
+      'Else
+      'ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'End If
+      'jiColl.Add(ji)
+      'End If
+      ''-------------------------------------HACK------------------------------------
+
+      'เงินมัดจำจ่ายล่วงหน้า เป็นขาออกของ Advancepay
+      If Me.AdvancePayItemCollection.GetExcludeVATAmount > 0 Then
+        Dim pm110note As String = ""
+        For Each avpi As AdvancePayItem In Me.AdvancePayItemCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "PM1.10"
+          ji.Amount = avpi.AdvancePay.GetRemainExcludeVatAmount(avpi.Amount)
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.Note = avpi.AdvancePay.Code & "/" & Me.Recipient.Name
+
+          ji.EntityItem = avpi.AdvancePay.Id
+          ji.EntityItemType = avpi.AdvancePay.EntityId
+          ji.table = avpi.AdvancePay.TableName
+          ji.AtomNote = "ล้างมัดจำด้วย GR"
+          jiColl.Add(ji)
+
+          If pm110note = "" Then
+            pm110note = "ตัดมัดจำของ " & Me.Recipient.Code & "(" & avpi.AdvancePay.Code & ")"
+
+          Else
+            pm110note = pm110note & "," & Me.Recipient.Code & "(" & avpi.AdvancePay.Code & ")"
+          End If
+
+        Next
+        
+      End If
+
+      If Not Me.Payment Is Nothing Then
+        'ส่วนต่างระหว่างยอดจ่ายกับยอดจริง ---> เจ้าหนี้
+
+        Dim pmGross As Decimal = 0
+
+
+        pmGross = Me.Payment.Gross
+        'เจ้าหนี้การค้า
+        If Configuration.Compare(pmGross, Me.Payment.Amount) < 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.8"
+
+          If retentionHere Then
+            ji.Amount = Me.Payment.Amount - pmGross
+          Else
+            ji.Amount = (Me.Payment.Amount + Me.Retention) - pmGross
+          End If
+          If Not Me.Supplier.Account Is Nothing AndAlso Me.Supplier.Account.Originated Then
+            ji.Account = Me.Supplier.Account
+          End If
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.Note = Me.Recipient.Name
+          ''===== ใช้ตั้งหนี้ ไปอ้างกับล้างหนี้ =====
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Me.EntityId
+          ''===== อะไรคือ entity ของ ไอ้นี่ดี ถ้าใช้ Supplier ก็คือ เก็บหนี้ของเจ้านี้ =====
+          ji.table = Me.TableName
+          ji.AtomNote = "GR ตั้งหนี้"
+          jiColl.Add(ji)
+        End If
+
+        'ส่วนต่างระหว่างยอดจ่ายกับยอดจริง ---> เจ้าหนี้
+        If Configuration.Compare(pmGross, Me.Payment.Amount) < 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "I4.3"
+          If retentionHere Then
+            ji.Amount = Me.Payment.Amount - pmGross
+          Else
+            ji.Amount = (Me.Payment.Amount + Me.Retention) - pmGross
+          End If
+          If Not Me.Supplier.Account Is Nothing AndAlso Me.Supplier.Account.Originated Then
+            ji.Account = Me.Supplier.Account
+          End If
+          If Me.ToCostCenter.Originated Then
+            ji.CostCenter = Me.ToCostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ''===== อะไรคือ entity ของ ไอ้นี่ดี ถ้าใช้ Supplier ก็คือ เก็บหนี้ของเจ้านี้ =====
+          ji.EntityItem = Me.Supplier.Id
+          ji.EntityItemType = Me.Supplier.EntityId
+          ''===== อะไรคือ entity ของ ไอ้นี่ดี ถ้าใช้ Supplier ก็คือ เก็บหนี้ของเจ้านี้ =====
+          ji.table = Me.TableName
+          ji.AtomNote = "GR ตั้งหนี้"
+          jiColl.Add(ji)
+        End If
+
+        jiColl.AddRange(Me.Payment.GetNewJournalEntries)
+      End If
+      jiColl.AddRange(Me.GetItemNewDetailJournalEntries)
+      Return jiColl
+    End Function
+
+    Private Function GetItemNewDetailJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As New JournalEntryItem
+      Dim map As String = ""
+      Dim withdrawAccount As Account
+
+      Dim tmp2 As Object = Configuration.GetConfig("GRGLByPOCC")
+      Dim pocc As Integer = -1
+      If IsNumeric(tmp2) Then
+        pocc = CInt(tmp2)
+      End If
+      Dim PO_CC As CostCenter
+      If Me.Po IsNot Nothing Then
+        PO_CC = Po.ToCC
+      ElseIf Me.ToCostCenter.Originated Then
+        PO_CC = Me.ToCostCenter
+      Else
+        PO_CC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      End If
+
+      Select Case Me.ToAccountType.Value
+        Case 1    'WIP
+          map = "F1.3"
+          withdrawAccount = Me.ToCostCenter.WipAccount
+        Case 2    'Exp
+          map = "F1.2"
+          withdrawAccount = Me.ToCostCenter.ExpenseAccount
+      End Select
+
+      Dim ToCostCenter As CostCenter
+      If Me.ToCostCenter.Originated Then
+        ToCostCenter = Me.ToCostCenter
+      Else
+        ToCostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      End If
+      If Me.ToAccountType.Value = 1 Or Me.ToAccountType.Value = 2 Then
+        ToCostCenter = Me.ToCostCenter
+      End If
+
+      For Each item As GoodsReceiptItem In Me.ItemCollection
+        Dim itemType As Integer
+        Dim blankMatched As Boolean = False
+        Dim blankNoAcctMatched As Boolean = False
+        Dim lciToolMatched As Boolean = False
+        Dim lciToolNoAcctMatched As Boolean = False
+        Dim assetMatched As Boolean = False
+        Dim assetNoacctMatched As Boolean = False
+
+        Dim withdrawMatched As Boolean = False
+        Dim withdrawNoAcctMatched As Boolean = False
+        Dim originMatched As Boolean = False
+
+        Dim itemRemainAmount As Decimal
+        Dim itemAmount As Decimal
+
+        If ThereIsUnvatableItems() Then
+          Dim itemAmountPerGross As Decimal
+          If Me.TaxGross = 0 Then
+            itemAmountPerGross = 0
+          Else
+            itemAmountPerGross = item.Amount / Me.TaxGross
+          End If
+          itemRemainAmount = (Me.TaxGross - Me.RealTaxAmount) * itemAmountPerGross
+        Else
+          itemRemainAmount = item.TaxBase
+        End If
+
+
+        'If Me.TaxType.Value = 2 Then
+        itemRemainAmount += (item.DiscountFromParent - Vat.GetExcludedVatAmount(item.DiscountFromParent, Me.TaxRate))
+        'End If
+
+        If Me.TaxType.Value = 1 Then    'แยก
+          itemAmount = item.TaxBase 'item.Amount
+        ElseIf Me.TaxType.Value = 0 Then 'ไม่มี,ไม่มีภาษี
+          itemAmount = item.Amount - item.DiscountFromParent
+        ElseIf Me.TaxType.Value = 2 Then 'รวม
+          itemAmount = itemRemainAmount
+        End If
+
+        If item.UnVatable Then
+          itemAmount = item.Amount - item.DiscountFromParent
+        End If
+        '------------------------------------------------------------
+        If Not item.ItemType Is Nothing Then
+          Select Case item.ItemType.Value
+            Case 0, 88      'Blank  
+              Dim realAccount As Account
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not blankMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.4", realAccount, itemAmount, ToCostCenter)
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not blankNoAcctMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.4", itemAmount, ToCostCenter)
+                End If
+              End If
+            Case 89      'Blank  
+              Dim realAccount As Account
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not blankMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.6", realAccount, itemAmount, ToCostCenter)
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not blankNoAcctMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.6", itemAmount, ToCostCenter)
+                End If
+              End If
+            Case 28      'Asset
+              Dim realAccount As Account
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not assetMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.3", realAccount, itemAmount, ToCostCenter)
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not assetNoacctMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.3", itemAmount, ToCostCenter)
+                End If
+              End If
+            Case 42      'LCI
+              Dim realAccount As Account
+              Dim entityAcct As Account
+              Dim lci As LCIItem = CType(item.Entity, LCIItem)
+              Dim tmpCC As CostCenter
+              If pocc = 1 Then
+                tmpCC = PO_CC
+              Else
+                tmpCC = ToCostCenter
+              End If
+              If Not lci.Account Is Nothing AndAlso lci.Account.Originated Then
+                entityAcct = lci.Account
+              End If
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              ElseIf Not entityAcct Is Nothing AndAlso entityAcct.Originated Then
+                'ใช้ acct ของ lci
+                realAccount = entityAcct
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not lciToolMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.1", realAccount, itemAmount, tmpCC)
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not lciToolNoAcctMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.1", itemAmount, tmpCC)
+                End If
+              End If
+
+              '*********************เบิก*****************************************************
+              If Me.ToAccountType.Value = 1 Or Me.ToAccountType.Value = 2 Then
+                If Not originMatched Then
+                  'ฝั่งต้นทาง
+                  SetNewJournalEntryItem(item, jiColl, "F1.4", realAccount, itemAmount, tmpCC)
+                End If
+                If Not withdrawAccount Is Nothing AndAlso withdrawAccount.Originated Then
+                  If Not withdrawMatched Then
+                    SetNewJournalEntryItem(item, jiColl, map, withdrawAccount, itemAmount, tmpCC)
+                  End If
+                ElseIf withdrawAccount Is Nothing OrElse Not withdrawAccount.Originated Then
+                  If Not withdrawNoAcctMatched Then
+                    SetNewJournalEntryItem(item, jiColl, map, itemAmount, tmpCC)
+                  End If
+                End If
+              End If
+              '*********************เบิก*****************************************************
+
+            Case 19      'Tool
+              Dim realAccount As Account
+              If Not item.Account Is Nothing AndAlso item.Account.Originated Then
+                'ใช้ acct ในรายการ
+                realAccount = item.Account
+              End If
+              If Not realAccount Is Nothing AndAlso realAccount.Originated Then
+                If Not lciToolMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.2", realAccount, itemAmount, ToCostCenter)
+                End If
+              ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
+                If Not lciToolNoAcctMatched Then
+                  SetNewJournalEntryItem(item, jiColl, "E3.2", itemAmount, ToCostCenter)
+                End If
+              End If
+          End Select
+        End If
+
+      Next
+
+      For Each tmpJi As JournalEntryItem In jiColl
+        tmpJi.Amount = Configuration.Format(tmpJi.Amount, DigitConfig.Price)
+      Next
+      Return jiColl
+    End Function
+
+    Private Sub SetNewJournalEntryItem(ByRef item As GoodsReceiptItem, ByRef jiColl As JournalEntryItemCollection, ByVal jiMap As String, ByRef jiAccount As Account, ByVal jiAmount As Decimal, ByRef jiCoscenter As CostCenter)
+      Dim ji As JournalEntryItem
+      Dim unitName As String = ""
+      Dim itemname As String = ""
+      If item.Unit Is Nothing Then
+        unitName = ""
+      Else
+        unitName = " " & item.Unit.Name
+      End If
+      itemname = item.Entity.Name
+      If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+        If item.Entity.Name <> item.EntityName Then
+          itemname = item.EntityName & "<" & item.Entity.Name & ">"
+        End If
+      End If
+      
+      If item.WBSDistributeCollection.Count > 0 Then
+        For Each iwbs As WBSDistribute In item.WBSDistributeCollection
+          ji = New JournalEntryItem
+          ji.Mapping = jiMap
+          ji.Amount = iwbs.Amount     'jiAmount
+          ji.Account = jiAccount
+          ji.CostCenter = iwbs.CostCenter 'jiCoscenter
+          ji.Note = itemname & "(" & Configuration.Format(item.Qty * (iwbs.Percent / 100), DigitConfig.Qty) & unitName & ")" & " " & iwbs.CostCenter.Name & ":" & iwbs.WBS.Name
+          ji.EntityItem = item.Sequence
+          ji.EntityItemType = item.ItemType.Value
+          ji.table = Me.TableName & "item"
+          ji.CustomRefstr = iwbs.WBS.Id.ToString
+          ji.CustomRefType = "WBS"
+          ji.AtomNote = "ใช้เลข sequence จะอ้างไปถึง WBS ได้"
+          jiColl.Add(ji)
+        Next
+      Else
+        ji = New JournalEntryItem
+        ji.Mapping = jiMap
+        ji.Amount = jiAmount
+        ji.Account = jiAccount
+        ji.CostCenter = jiCoscenter
+        ji.Note = itemname & "(" & Configuration.Format(item.Qty, DigitConfig.Qty) & unitName & ")" & " " & jiCoscenter.Name
+        ji.EntityItem = item.Sequence
+        ji.EntityItemType = item.ItemType.Value
+        ji.table = Me.TableName & "item"
+        jiColl.Add(ji)
+      End If
+    End Sub
+    Private Sub SetNewJournalEntryItem(ByRef item As GoodsReceiptItem, ByRef jiColl As JournalEntryItemCollection, ByVal jiMap As String, ByVal jiAmount As Decimal, ByRef jiCoscenter As CostCenter)
+      Dim ji As JournalEntryItem
+      Dim unitName As String = ""
+      Dim itemname As String = ""
+      If item.Unit Is Nothing Then
+        unitName = ""
+      Else
+        unitName = " " & item.Unit.Name
+      End If
+      itemname = item.Entity.Name
+      If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+        If item.Entity.Name <> item.EntityName Then
+          itemname = item.EntityName & "<" & item.Entity.Name & ">"
+        End If
+      End If
+      
+      If item.WBSDistributeCollection.Count > 0 Then
+        For Each iwbs As WBSDistribute In item.WBSDistributeCollection
+          ji = New JournalEntryItem
+          ji.Mapping = jiMap
+          ji.Amount = iwbs.Amount     'jiAmount
+          ji.CostCenter = iwbs.CostCenter   'jiCoscenter
+          ji.Note = itemname & "(" & Configuration.Format(item.Qty * (iwbs.Percent / 100), DigitConfig.Qty) & unitName & ")" & " " & iwbs.CostCenter.Name & ":" & iwbs.WBS.Name
+          ji.EntityItem = item.Sequence
+          ji.EntityItemType = item.ItemType.Value
+          ji.table = Me.TableName & "item"
+          ji.CustomRefstr = iwbs.WBS.Id.ToString
+          ji.CustomRefType = "WBS"
+          ji.AtomNote = "ใช้เลข sequence จะอ้างไปถึง WBS ได้"
+          jiColl.Add(ji)
+        Next
+      Else
+        ji = New JournalEntryItem
+        ji.Mapping = jiMap
+        ji.Amount = jiAmount
+        ji.CostCenter = jiCoscenter
+        ji.Note = itemname & "(" & Configuration.Format(item.Qty, DigitConfig.Qty) & unitName & ")" & " " & jiCoscenter.Name
+        ji.EntityItem = item.Sequence
+        ji.EntityItemType = item.ItemType.Value
+        ji.table = Me.TableName & "item"
+        ji.AtomNote = "ใช้เลข sequence ไม่มี WBS"
+        jiColl.Add(ji)
+      End If
+    End Sub
+
+#End Region
+
+
 
 #Region "IVatable"
     Public Function GetMaximumTaxBase(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal trans As SqlTransaction = Nothing) As Decimal Implements IVatable.GetMaximumTaxBase

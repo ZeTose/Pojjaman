@@ -181,7 +181,8 @@
 				<MenuItem id="JournalEntryUpdate" label="${res:MainMenu.AccountingMenu.JournalEntryUpdate}"/>
 				<!-- class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntryUpdate"/-->
 				<MenuItem id="OpenningBalance" label="${res:MainMenu.AccountingMenu.BeginingBalance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OpenningBalance"/>
-				<MenuItem id="CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
+        <MenuItem id="CalculateCost" label="${res:MainMenu.AccountingMenu.CalculateCost}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CalculateCost"/>
+        <MenuItem id="CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
 				<MenuItem id="GLYearEnd" label="${res:MainMenu.AccountingMenu.GLYearEnd}"/>
 				<MenuItem id="Separator2" label="-"/>
 				<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.VatMenu}">

@@ -361,6 +361,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_mapping As String
         Private m_note As String
 
+    Private m_ga As GeneralAccount
         Private m_cc As CostCenter
 #End Region
 
@@ -370,35 +371,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
             Construct(dr, aliasPrefix)
         End Sub
-        Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            With Me
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "glfi_lineNumber") Then
-                    .m_lineNumber = CInt(dr(aliasPrefix & "glfi_lineNumber"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "acct_id") AndAlso Not dr.IsNull(aliasPrefix & "acct_id") Then
-                    If Not dr.IsNull("acct_id") Then
-                        .m_account = New Account(dr, "")
-                    End If
-                Else
-                    If dr.Table.Columns.Contains(aliasPrefix & "glfi_acct") AndAlso Not dr.IsNull(aliasPrefix & "glfi_acct") Then
-                        .m_account = New Account(CInt(dr(aliasPrefix & "glfi_acct")))
-                    End If
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_isdebit") AndAlso Not dr.IsNull(aliasPrefix & "glfi_isdebit") Then
-                    .m_isDebit = CBool(dr(aliasPrefix & "glfi_isdebit"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_fieldtype") AndAlso Not dr.IsNull(aliasPrefix & "glfi_fieldtype") Then
-                    .m_fieldType = New GLFormatItemType(CInt(dr(aliasPrefix & "glfi_fieldtype")))
-                End If
-                Dim fieldId As Integer
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_field") AndAlso Not dr.IsNull(aliasPrefix & "glfi_field") Then
-                    fieldId = CInt(dr(aliasPrefix & "glfi_field"))
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      With Me
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "glfi_lineNumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & "glfi_lineNumber"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "acct_id") AndAlso Not dr.IsNull(aliasPrefix & "acct_id") Then
+          If Not dr.IsNull("acct_id") Then
+            .m_account = New Account(dr, "")
+          End If
+        Else
+          If dr.Table.Columns.Contains(aliasPrefix & "glfi_acct") AndAlso Not dr.IsNull(aliasPrefix & "glfi_acct") Then
+            .m_account = New Account(CInt(dr(aliasPrefix & "glfi_acct")))
+          End If
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_isdebit") AndAlso Not dr.IsNull(aliasPrefix & "glfi_isdebit") Then
+          .m_isDebit = CBool(dr(aliasPrefix & "glfi_isdebit"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_fieldtype") AndAlso Not dr.IsNull(aliasPrefix & "glfi_fieldtype") Then
+          .m_fieldType = New GLFormatItemType(CInt(dr(aliasPrefix & "glfi_fieldtype")))
+        End If
+        Dim fieldId As Integer
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_field") AndAlso Not dr.IsNull(aliasPrefix & "glfi_field") Then
+          fieldId = CInt(dr(aliasPrefix & "glfi_field"))
         End If
         Dim fieldName As String = ""
         If dr.Table.Columns.Contains(aliasPrefix & "glfi_fieldName") AndAlso Not dr.IsNull(aliasPrefix & "glfi_fieldName") Then
           fieldName = CStr(dr(aliasPrefix & "glfi_fieldName"))
         End If
-                Select Case .m_fieldType.Description.ToLower
+        Select Case .m_fieldType.Description.ToLower
           Case "dynamic"
             If Not String.IsNullOrEmpty(fieldName) Then
               .m_field = New BlankItem(CStr(dr(aliasPrefix & "glfi_fieldName")))
@@ -410,45 +411,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               'Todo: Error
             End If
-                    Case "mix"
-                        .m_field = New GeneralAccount(fieldId)
+          Case "mix"
+            .m_field = New GeneralAccount(fieldId)
             If Not String.IsNullOrEmpty(fieldName) Then
               .m_field.Name = fieldName
             End If
-                        If dr.Table.Columns.Contains(aliasPrefix & "glfi_description") AndAlso Not dr.IsNull(aliasPrefix & "glfi_description") Then
-                            .m_fieldDescription = CStr(dr(aliasPrefix & "glfi_description"))
-                        Else
-                            'Todo: Error
-                        End If
-                    Case "generalaccount"
-                        .m_field = New GeneralAccount(fieldId)
+            If dr.Table.Columns.Contains(aliasPrefix & "glfi_description") AndAlso Not dr.IsNull(aliasPrefix & "glfi_description") Then
+              .m_fieldDescription = CStr(dr(aliasPrefix & "glfi_description"))
+            Else
+              'Todo: Error
+            End If
+          Case "generalaccount"
+            .m_field = New GeneralAccount(fieldId)
             If Not String.IsNullOrEmpty(fieldName) Then
               .m_field.Name = fieldName
             End If
-                        If m_account Is Nothing OrElse Not m_account.Originated Then
-                            m_account = CType(.m_field, GeneralAccount).Account
-                            m_account = New Account(m_account.Code)
-                            If Not m_account Is Nothing AndAlso m_account.Originated Then
-                                Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-                                m_account.Name &= " <" & myStringParserService.Parse("${res:Global.Default}") & ">"
-                            End If
-                            m_account.Id = 0
-                        End If
-                    Case Else
-                End Select
+            If m_account Is Nothing OrElse Not m_account.Originated Then
+              m_account = CType(.m_field, GeneralAccount).Account
+              m_account = New Account(m_account.Code)
+              If Not m_account Is Nothing AndAlso m_account.Originated Then
+                Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+                m_account.Name &= " <" & myStringParserService.Parse("${res:Global.Default}") & ">"
+              End If
+              m_account.Id = 0
+            End If
+          Case Else
+        End Select
+        .m_ga = New GeneralAccount(fieldId)
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_mapping") AndAlso Not dr.IsNull(aliasPrefix & "glfi_mapping") Then
+          .m_mapping = CStr(dr(aliasPrefix & "glfi_mapping"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_note") AndAlso Not dr.IsNull(aliasPrefix & "glfi_note") Then
+          .m_note = CStr(dr(aliasPrefix & "glfi_note"))
+        End If
 
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_mapping") AndAlso Not dr.IsNull(aliasPrefix & "glfi_mapping") Then
-                    .m_mapping = CStr(dr(aliasPrefix & "glfi_mapping"))
-                End If
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_note") AndAlso Not dr.IsNull(aliasPrefix & "glfi_note") Then
-                    .m_note = CStr(dr(aliasPrefix & "glfi_note"))
-                End If
-
-                If dr.Table.Columns.Contains(aliasPrefix & "glfi_cc") AndAlso Not dr.IsNull(aliasPrefix & "glfi_cc") Then
-                    .m_cc = New CostCenter(CInt(dr(aliasPrefix & "glfi_cc")))
-                End If
-            End With
-        End Sub
+        If dr.Table.Columns.Contains(aliasPrefix & "glfi_cc") AndAlso Not dr.IsNull(aliasPrefix & "glfi_cc") Then
+          .m_cc = New CostCenter(CInt(dr(aliasPrefix & "glfi_cc")))
+        End If
+      End With
+    End Sub
 #End Region
 
 #Region "Properties"
@@ -483,7 +484,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Set(ByVal Value As String)
                 m_note = Value
             End Set
-        End Property
+    End Property
+    Public Property GA As GeneralAccount
+      Get
+        Return m_ga
+      End Get
+      Set(ByVal value As GeneralAccount)
+        m_ga = value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"

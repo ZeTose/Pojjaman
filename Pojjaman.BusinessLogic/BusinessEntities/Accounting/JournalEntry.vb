@@ -75,6 +75,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_hasRefDoc As Boolean = False
     Private m_itemCollection As JournalEntryItemCollection
+    'Full Detail Automate JI
+    Private m_itemcollection2 As JournalEntryItemCollection
 #End Region
 
 #Region "Constructors"
@@ -140,6 +142,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_manualFormat = False
       End With
       m_itemCollection = New JournalEntryItemCollection(Me)
+      m_itemcollection2 = New JournalEntryItemCollection(Me)
       DBItemCollection = New JournalEntryItemCollection(Me)
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -293,6 +296,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal Value As JournalEntryItemCollection)
         m_itemCollection = Value
+      End Set
+    End Property
+    ''' <summary>
+    ''' Full Detail Automate JI
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Property ItemCollection2() As JournalEntryItemCollection
+      Get
+        Return m_itemcollection2
+      End Get
+      Set(ByVal Value As JournalEntryItemCollection)
+        m_itemcollection2 = Value
       End Set
     End Property
     Public Property GLFormat() As GLFormat      Get        Return m_glFormat      End Get      Set(ByVal Value As GLFormat)        m_glFormat = Value        If Not Me.Originated Then          m_glFormat = Value        ElseIf m_glFormat Is Nothing Then
@@ -531,6 +548,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("DebitAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("CreditAmount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("gli_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("gli_mapping", GetType(String)))
       Return myDatatable
     End Function
 #End Region
@@ -571,14 +589,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Try
     End Sub
+    Public Sub UpdateGLItemMapping()
+      If Me.RefDoc Is Nothing OrElse Me.ManualFormat = True Then
+        Return
+      End If
+
+      CType(Me.RefDoc, SimpleBusinessEntityBase).GLIsChanged = True
+      RefreshGLFormat()
+
+      Dim jiHash As New Dictionary(Of String, JournalEntryItem)
+
+      For Each ji As JournalEntryItem In Me.ItemCollection
+        Dim keys As New List(Of String)
+        keys.Add(ji.Account.Id.ToString)
+        keys.Add(ji.CostCenter.Id.ToString)
+        keys.Add(ji.IsDebit.ToString)
+
+        Dim key As String = String.Join(":", keys)
+        If key.Length > 0 AndAlso Not jiHash.ContainsKey(key) Then
+          jiHash.Add(key, ji)
+        End If
+
+      Next
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      For Each dbi As JournalEntryItem In DBItemCollection
+        Dim keys As New List(Of String)
+        keys.Add(dbi.Account.Id.ToString)
+        keys.Add(dbi.CostCenter.Id.ToString)
+        keys.Add(dbi.IsDebit.ToString)
+        Dim key As String = String.Join(":", keys)
+
+        If jiHash.ContainsKey(key) Then
+          If dbi.Amount = jiHash.Item(key).Amount Then
+            dbi.Mapping = jiHash.Item(key).Mapping
+            SqlHelper.ExecuteNonQuery(conn, CommandType.Text, "Update glitem set gli_mapping = '" & dbi.Mapping _
+                                      & "' where gli_gl =" & Me.Id & " and gli_linenumber =" & dbi.LineNumber)
+          End If
+        End If
+      Next
+      conn.Close()
+
+    End Sub
     Public Sub RefreshGLFormat()
+      Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
       If Not Me.ManualFormat Then
         'If Not TypeOf Me.RefDoc Is GoodsSold _
         'AndAlso Not TypeOf Me.RefDoc Is PurchaseCN Then
-        Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
         Me.SetGLFormat(Me.GLFormat)
         'End If
+      Else
+        Me.SetOnlyAutoMateItem(Me.GLFormat)
       End If
+    End Sub
+    Public Sub RefreshOnlyGLAtom()
+      Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
+      Me.SetOnlyAutoMateItem(Me.GLFormat)
     End Sub
     Public Function GetUnpostListTable(ByVal startDate As Date, ByVal endDate As Date) As DataTable
       Dim params(1) As SqlParameter
@@ -588,6 +654,86 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ds.Tables(0).TableName = Me.ClassName
       Return ds.Tables(0)
     End Function
+    ''' <summary>
+    ''' สำหรับ Manual Format
+    ''' </summary>
+    ''' <param name="glf"></param>
+    ''' <remarks></remarks>
+    Public Sub SetOnlyAutoMateItem(ByVal glf As GLFormat)
+      If Me.RefDoc Is Nothing Then
+        Return
+      End If
+      Dim entriesFromDoc2 As JournalEntryItemCollection
+      If TypeOf RefDoc Is INewGLAble Then
+        entriesFromDoc2 = CType(Me.RefDoc, INewGLAble).NewGetJournalEntries
+      End If
+      Me.ItemCollection2.Clear()
+      For Each glfi As GLFormatItem In glf.ItemCollection
+       
+        If TypeOf RefDoc Is INewGLAble Then
+          Dim matchDetailItems As JournalEntryItemCollection = entriesFromDoc2.NewGetMappingItems(glfi)
+          Me.ItemCollection2.AddRange(matchDetailItems)
+        End If
+      Next
+
+      '-------------------------------Bypass �ç��Ҩҡ Entity--------------------------------
+      Dim throughMatchItems As JournalEntryItemCollection = entriesFromDoc2.GetExactMappingItems("Through")
+      For Each matchItem As JournalEntryItem In throughMatchItems
+        If Not matchItem Is Nothing Then
+          Dim myItem As New JournalEntryItem
+          myItem.Account = matchItem.Account
+          myItem.Amount = matchItem.Amount
+          If myItem.Amount <> 0 Then
+            If myItem.Amount > 0 Then
+              myItem.IsDebit = matchItem.IsDebit
+            Else
+              myItem.Amount = -myItem.Amount
+              myItem.IsDebit = Not matchItem.IsDebit
+            End If
+            myItem.CostCenter = matchItem.CostCenter
+            myItem.Mapping = "Through"
+            myItem.Note = matchItem.Note
+
+            myItem.EntityItem = matchItem.EntityItem
+            myItem.EntityItemType = matchItem.EntityItemType
+            myItem.table = matchItem.table
+            myItem.ga = matchItem.ga
+            myItem.CustomRefstr = matchItem.CustomRefstr
+            myItem.CustomRefType = matchItem.CustomRefType
+
+            myItem.AtomNote = matchItem.AtomNote
+
+            Me.ItemCollection2.Add(myItem)
+          End If
+        Else
+          'Todo: Error
+        End If
+      Next
+      '-------------------------------Bypass �ç��Ҩҡ Entity--------------------------------
+
+      '-------------------------------ส่วนเกินจากการปัดเศษ--------------------------------
+      '��ûѴ��� ���������Թ 1 ���ҡ�����Թ �֧�� 1*�ӹǹ��ҹ debit (�ѧ�������䧵���)
+      Dim diff As Decimal = Me.DebitAmount - Me.CreditAmount
+      If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < entriesFromDoc2.Count Then
+        Dim ji As New JournalEntryItem
+        If TypeOf Me.RefDoc Is IHasToCostCenter Then
+          ji.CostCenter = CType(Me.RefDoc, IHasToCostCenter).ToCC
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.IsDebit = (diff < 0)
+        diff = Math.Abs(diff)
+        ji.Amount = Configuration.Format(diff, DigitConfig.Price)
+        ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.DiffFromDecimalPlace).Account
+
+        ji.EntityItemType = Entity.GetIdFromClassName("RoundDiff")
+        ji.table = "GLItem"
+        ji.AtomNote = "ส่วนเกินจากการปัดเศษ"
+        Me.ItemCollection2.Add(ji)
+      End If
+      '-------------------------------�Ѵ���--------------------------------
+
+    End Sub
     Public Sub SetGLFormat(ByVal glf As GLFormat)
       If Me.RefDoc Is Nothing Then
         Return
@@ -609,8 +755,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       '===================Check ��� GL ����¹��� ================================
 
+
+      ''==========เอาข้อมูลมาจาก Entity
       Me.RefDoctype = CType(Me.RefDoc, IObjectReflectable).EntityId
       Dim entriesFromDoc As JournalEntryItemCollection = Me.RefDoc.GetJournalEntries
+      Dim entriesFromDoc2 As JournalEntryItemCollection
+
+      If TypeOf RefDoc Is INewGLAble Then
+        entriesFromDoc2 = CType(Me.RefDoc, INewGLAble).NewGetJournalEntries
+      End If
+
       Me.AccountBook = glf.AccountBook
       Me.ItemCollection.Clear()
       If entriesFromDoc.Count = 0 Then
@@ -619,13 +773,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 
+
       '-------------------------------Basic-------------------------------
+      '=========== Map ข้อมูลจาก Entity และ GLformat และ group ด้วย 
       For Each glfi As GLFormatItem In glf.ItemCollection
         If glfi.Mapping.ToLower.IndexOf("sumdebit") < 0 AndAlso glfi.Mapping.ToLower.IndexOf("sumcredit") < 0 Then
           Dim matchItems As JournalEntryItemCollection = entriesFromDoc.GetMappingItems(glfi)
+
+
           For Each matchItem As JournalEntryItem In matchItems
             Me.ItemCollection.Add(matchItem)
           Next
+        End If
+        If TypeOf RefDoc Is INewGLAble Then
+          Dim matchDetailItems As JournalEntryItemCollection = entriesFromDoc2.NewGetMappingItems(glfi)
+          Me.ItemCollection2.AddRange(matchDetailItems)
         End If
       Next
       '-------------------------------Basic--------------------------------
@@ -640,13 +802,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If myItem.Amount <> 0 Then
             If myItem.Amount > 0 Then
               myItem.IsDebit = matchItem.IsDebit
+              'myItem.EntityItemType = Entity.GetIdFromClassName("OtherDebit")
             Else
               myItem.Amount = -myItem.Amount
               myItem.IsDebit = Not matchItem.IsDebit
+              'myItem.EntityItemType = Entity.GetIdFromClassName("OtherCredit")
             End If
             myItem.CostCenter = matchItem.CostCenter
+            myItem.Mapping = "Through"
             myItem.Note = matchItem.Note
+
+            'myitem.Entityitem ต้องส่ง paymentID มา
+            myItem.EntityItem = matchItem.EntityItem
+            myItem.EntityItemType = matchItem.EntityItemType
+            myItem.table = matchItem.table
+            myItem.ga = matchItem.ga
+            myItem.CustomRefstr = matchItem.CustomRefstr
+            myItem.CustomRefType = matchItem.CustomRefType
+            myItem.AtomNote = matchItem.AtomNote
+
             Me.ItemCollection.Add(myItem)
+            Me.ItemCollection2.Add(myItem)
           End If
         Else
           'Todo: Error
@@ -654,7 +830,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       '-------------------------------Bypass �ç��Ҩҡ Entity--------------------------------
 
-      '-------------------------------�Ѵ���--------------------------------
+      '-------------------------------ส่วนเกินจากการปัดเศษ--------------------------------
       '��ûѴ��� ���������Թ 1 ���ҡ�����Թ �֧�� 1*�ӹǹ��ҹ debit (�ѧ�������䧵���)
       Dim diff As Decimal = Me.DebitAmount - Me.CreditAmount
       If Math.Abs(diff) <> 0 AndAlso Math.Abs(diff) < entriesFromDoc.Count Then
@@ -670,11 +846,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         ji.Amount = Configuration.Format(diff, DigitConfig.Price)
         ji.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.DiffFromDecimalPlace).Account
+
+        ji.EntityItemType = Entity.GetIdFromClassName("RoundDiff")
+        ji.table = "GLItem"
+        ji.AtomNote = "ส่วนเกินจากการปัดเศษ"
         Me.ItemCollection.Add(ji)
+        Me.ItemCollection2.Add(ji)
       End If
       '-------------------------------�Ѵ���--------------------------------
 
       '-------------------------------Sumdebit/Sumcredit--------------------------------
+      'what da fuck
       'Loop �ա��������� Sum
       For Each glfi As GLFormatItem In glf.ItemCollection
         If glfi.Mapping.ToLower.IndexOf("sumdebit") >= 0 OrElse glfi.Mapping.ToLower.IndexOf("sumcredit") >= 0 Then
@@ -947,6 +1129,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(saveReturnVal.Value.ToString)
           End If
           Dim count As Integer = SaveDetail(Me.Id, conn, trans)
+          If TypeOf Me.RefDoc Is INewGLAble Then
+            SaveAutoMateDetail(Me.Id, conn, trans)
+          End If
           Dim verbose As Boolean = True
           If TypeOf Me.RefDoc Is SimpleBusinessEntityBase Then
             verbose = Not CType(Me.RefDoc, SimpleBusinessEntityBase).NoSaveMessage
@@ -1182,6 +1367,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           dr("gli_entity") = item.EntityItem
           dr("gli_entitytype") = item.EntityItemType
+          dr("gli_mapping") = item.Mapping
           .Rows.Add(dr)
         Next
       End With
@@ -1194,6 +1380,69 @@ Namespace Longkong.Pojjaman.BusinessLogic
       da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
       Return i
     End Function
+    Public Sub SaveAutoMateDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+
+      If DontSave Then
+        Return
+      End If
+
+      Dim da As New SqlDataAdapter("Select * from glatom where gla_gl=" & Me.Id, conn)
+      Dim cmdBuilder As New SqlCommandBuilder(da)
+
+      Dim ds As New DataSet
+
+      'da.SelectCommand.Transaction = trans
+
+      ''��ͧ�����ͨҡ da.SelectCommand.Transaction = trans
+      'cmdBuilder.GetDeleteCommand.Transaction = trans
+      'cmdBuilder.GetInsertCommand.Transaction = trans
+      'cmdBuilder.GetUpdateCommand.Transaction = trans
+
+      da.SelectCommand.Transaction = trans
+      da.DeleteCommand = cmdBuilder.GetDeleteCommand
+      da.DeleteCommand.Transaction = trans
+      da.InsertCommand = cmdBuilder.GetInsertCommand
+      da.InsertCommand.Transaction = trans
+      da.UpdateCommand = cmdBuilder.GetUpdateCommand
+      da.UpdateCommand.Transaction = trans
+
+      da.Fill(ds, "glatom")
+
+      Dim i As Integer = 0
+      With ds.Tables("glatom")
+        For Each row As DataRow In .Rows
+          row.Delete()
+        Next
+
+        'End If
+        For Each item As JournalEntryItem In Me.ItemCollection2
+          i += 1
+          Dim dr As DataRow = .NewRow
+          dr("gla_gl") = Me.Id
+          dr("gla_mapping") = item.Mapping
+          dr("gla_acct") = Me.ValidIdOrDBNull(item.Account)
+          dr("gla_cc") = Me.ValidIdOrDBNull(item.CostCenter)
+          dr("gla_isdebit") = item.IsDebit
+          dr("gla_amt") = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          dr("gla_note") = item.Note
+          dr("gla_entity") = item.EntityItem
+          dr("gla_entitytype") = item.EntityItemType
+          dr("gla_table") = item.table
+          dr("gla_ga") = GeneralAccount.ValidIdOrDBNull(item.ga)
+          dr("gla_custrefstr") = item.CustomRefstr
+          dr("gla_custrefType") = item.CustomRefType
+          dr("gla_atomnote") = item.AtomNote
+          .Rows.Add(dr)
+        Next
+      End With
+      Dim dt As DataTable = ds.Tables("glatom")
+      ' First process deletes.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+      ' Next process updates.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+      ' Finally process inserts.
+      da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+    End Sub
     Public Shared Function PostData(ByVal DocID As Integer, ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException
       Dim myGL As New JournalEntry(DocID)
       With myGL
@@ -2162,6 +2411,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.ItemCollection.Add(creditItem)
       Next
     End Sub
+
+   
+
   End Class
 
   Public Class JournalEntryUpdate

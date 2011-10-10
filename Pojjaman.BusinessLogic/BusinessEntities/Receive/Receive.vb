@@ -1902,6 +1902,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("ReceiveInterest")
+        ji.table = Me.TableName
         jiColl.Add(ji)
       End If
 
@@ -1915,6 +1918,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherExpense")
+        ji.table = Me.TableName
         jiColl.Add(ji)
       End If
 
@@ -1931,6 +1937,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherCredit")
+          ji.table = "receiveaccount"
           jiColl.Add(ji)
         Next
       End If
@@ -1945,6 +1954,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PayCharge")
+        ji.table = Me.TableName
         jiColl.Add(ji)
       End If
 
@@ -1958,6 +1970,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherIncome")
+        ji.table = Me.TableName
         jiColl.Add(ji)
       End If
 
@@ -1975,6 +1990,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Else
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherDebit")
+          ji.table = "ReceiveAccount"
           jiColl.Add(ji)
         Next
       End If
@@ -1989,6 +2007,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("DiscountReceive")
+        ji.table = Me.TableName
         jiColl.Add(ji)
       End If
 
@@ -2233,7 +2254,405 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return jiColl
     End Function
 #End Region
+#Region "GetNewJournalEntries"
+    Public Function GetNewJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
 
+      'ดอกเบี้ย
+      Dim ji As JournalEntryItem
+      If Me.Interest > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RV1.7"
+        ji.Amount = Me.Interest
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("ReceiveInterest")
+        ji.table = Me.TableName
+        jiColl.Add(ji)
+      End If
+
+      'รายจ่ายอื่นๆ
+      If Me.OtherExpense > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RV1.5"
+        ji.Amount = Me.OtherExpense
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherExpense")
+        ji.table = Me.TableName
+        jiColl.Add(ji)
+      End If
+
+      If Me.CreditCollection.Count > 0 Then
+        For Each item As ReceiveAccountItem In Me.CreditCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "Through"
+          ji.Amount = item.Amount
+          ji.Account = item.Account
+          ji.IsDebit = True
+          ji.Note = StringParserService.Parse("${res:Global.OtherCredit}")
+          If Me.CostCenter.Originated Then
+            ji.CostCenter = Me.CostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherCredit")
+          ji.table = "receiveaccount"
+          jiColl.Add(ji)
+        Next
+      End If
+
+      'ค่าธรรมเนียมธนาคาร
+      If Me.BankCharge > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RV1.6"
+        ji.Amount = Me.BankCharge
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("PayCharge")
+        ji.table = Me.TableName
+        jiColl.Add(ji)
+      End If
+
+      'รายได้อื่นๆ
+      If Me.OtherRevenue > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RV1.8"
+        ji.Amount = Me.OtherRevenue
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("OtherIncome")
+        ji.table = Me.TableName
+        jiColl.Add(ji)
+      End If
+
+      If Me.DebitCollection.Count > 0 Then
+        'Undone
+        For Each item As ReceiveAccountItem In Me.DebitCollection
+          ji = New JournalEntryItem
+          ji.Mapping = "Through"
+          ji.Amount = item.Amount
+          ji.Account = item.Account
+          ji.IsDebit = False
+          ji.Note = StringParserService.Parse("${res:Global.OtherDebit}")
+          If Me.CostCenter.Originated Then
+            ji.CostCenter = Me.CostCenter
+          Else
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          ji.EntityItem = Me.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("OtherDebit")
+          ji.table = "ReceiveAccount"
+          jiColl.Add(ji)
+        Next
+      End If
+
+      'ส่วนลดรับ
+      If Me.DiscountAmount > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RV1.4"
+        ji.Amount = Me.DiscountAmount
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItem = Me.Id
+        ji.EntityItemType = Entity.GetIdFromClassName("DiscountReceive")
+        ji.table = Me.TableName
+        jiColl.Add(ji)
+      End If
+
+      jiColl.AddRange(GetNewCashCheckJournalEntries)
+      jiColl.AddRange(GetNewBankTransferJournalEntries)
+      Return jiColl
+    End Function
+    Private Function GetNewCashCheckJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As JournalEntryItem
+      Dim sumCheck As Decimal = 0
+      Dim sumCash As Decimal = 0
+      Dim sumAvr As Decimal = 0
+      For i As Integer = 0 To Me.MaxRowIndex
+        If Not Me.ItemTable.Childs(i).IsNull("receivei_entityType") _
+        AndAlso IsNumeric(Me.ItemTable.Childs(i)("receivei_entityType")) _
+        Then
+          If Not Me.ItemTable.Childs(i).IsNull(("receivei_amt")) AndAlso IsNumeric(Me.ItemTable.Childs(i)("receivei_amt")) Then
+            Select Case CInt(Me.ItemTable.Childs(i)("receivei_entityType"))
+              Case 27       'Check
+                sumCheck += CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+                ji = New JournalEntryItem
+                ji.Mapping = "RV1.2"
+                ji.Amount = CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+                If Me.CostCenter.Originated Then
+                  ji.CostCenter = Me.CostCenter
+                Else
+                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
+                ji.EntityItem = CInt(Me.ItemTable.Childs(i)("receivei_entityid"))
+                ji.EntityItemType = 27
+                ji.table = Me.TableName & "item"
+
+                jiColl.Add(ji)
+
+              Case 0        'Cash
+                sumCash += CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+              Case 71       'AdvanceReceive
+                sumAvr += CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+                ji = New JournalEntryItem
+                ji.Mapping = "RV1.9"
+                ji.Amount = CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+                If Me.CostCenter.Originated Then
+                  ji.CostCenter = Me.CostCenter
+                Else
+                  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+                End If
+                ji.EntityItem = CInt(Me.ItemTable.Childs(i)("receivei_entityid"))
+                ji.EntityItemType = 71
+                ji.table = Me.TableName & "item"
+                jiColl.Add(ji)
+            End Select
+          End If
+        End If
+      Next
+      If sumCash > 0 Then
+        ji = New JournalEntryItem
+        ji.Mapping = "RV1.1"
+        ji.Amount = sumCash
+        If Me.CostCenter.Originated Then
+          ji.CostCenter = Me.CostCenter
+        Else
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        ji.EntityItemType = 421
+        ji.table = Me.TableName & "item"
+        jiColl.Add(ji)
+      End If
+      'If sumCheck > 0 Then
+      '  ji = New JournalEntryItem
+      '  ji.Mapping = "RV1.2"
+      '  ji.Amount = sumCheck
+      '  If Me.CostCenter.Originated Then
+      '    ji.CostCenter = Me.CostCenter
+      '  Else
+      '    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      '  End If
+      '  jiColl.Add(ji)
+      'End If
+      'If sumAvr > 0 Then
+      'ji = New JournalEntryItem
+      'ji.Mapping = "RV1.9"
+      'ji.Amount = sumAvr
+      'If Me.CostCenter.Originated Then
+      '  ji.CostCenter = Me.CostCenter
+      'Else
+      '  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+      'End If
+      'jiColl.Add(ji)
+      'End If
+      Return jiColl
+    End Function
+    Private Function GetNewBankTransferJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As New JournalEntryItem
+      For i As Integer = 0 To Me.MaxRowIndex
+        If Not Me.ItemTable.Childs(i).IsNull("receivei_entityType") _
+        AndAlso IsNumeric(Me.ItemTable.Childs(i)("receivei_entityType")) _
+        AndAlso CInt(Me.ItemTable.Childs(i)("receivei_entityType")) = 72 Then
+          Dim item As New ReceiveItem
+          item.CopyFromDataRow(Me.ItemTable.Childs(i))
+          Dim bto As BankTransferIn = CType(item.Entity, BankTransferIn)
+          If Not bto Is Nothing AndAlso Not bto.BankAccount Is Nothing _
+          AndAlso Not bto.BankAccount.Account Is Nothing AndAlso bto.BankAccount.Account.Originated Then
+            Dim matched As Boolean = False
+            For Each addedJi As JournalEntryItem In jiColl
+              If addedJi.Account.Id = bto.BankAccount.Account.Id And addedJi.Mapping = "RV1.3" Then
+                'เจอ Account เดียวกัน
+                addedJi.Amount += item.Amount
+                matched = True
+              End If
+            Next
+            If Not matched Then
+              ji = New JournalEntryItem
+              ji.Account = bto.BankAccount.Account
+              ji.Mapping = "RV1.3"
+              ji.Amount = item.Amount
+              If Me.CostCenter.Originated Then
+                ji.CostCenter = Me.CostCenter
+              Else
+                ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+              End If
+              ji.Note = bto.DocDate.ToShortDateString & " " & bto.BankAccount.BankBranch.Bank.Name
+              ji.EntityItem = bto.Id
+              ji.EntityItemType = Entity.GetIdFromClassName("BankAccount")
+              ji.table = Me.TableName & "item"
+              jiColl.Add(ji)
+            End If
+          End If
+        End If
+      Next
+      Return jiColl
+    End Function
+    '' Define Owner costcenter
+    'Public Function GetJournalEntries(ByVal CCOwner As CostCenter) As JournalEntryItemCollection
+    '  Dim jiColl As New JournalEntryItemCollection
+
+    '  'ดอกเบี้ย
+    '  If Not CCOwner Is Nothing AndAlso Not CCOwner.Originated Then
+    '    CCOwner = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    '  End If
+    '  Dim ji As JournalEntryItem
+    '  If Me.Interest > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.7"
+    '    ji.Amount = Me.Interest
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+
+    '  'รายจ่ายอื่นๆ
+    '  If Me.OtherExpense > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.5"
+    '    ji.Amount = Me.OtherExpense
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+
+
+    '  'ค่าธรรมเนียมธนาคาร
+    '  If Me.BankCharge > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.6"
+    '    ji.Amount = Me.BankCharge
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+
+    '  'รายได้อื่นๆ
+    '  If Me.OtherRevenue > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.8"
+    '    ji.Amount = Me.OtherRevenue
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+
+    '  'ส่วนลดรับ
+    '  If Me.DiscountAmount > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.4"
+    '    ji.Amount = Me.DiscountAmount
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+
+    '  jiColl.AddRange(GetCashCheckJournalEntries(CCOwner))
+    '  jiColl.AddRange(GetBankTransferJournalEntries(CCOwner))
+    '  Return jiColl
+    'End Function
+    'Private Function GetCashCheckJournalEntries(ByVal CCOwner As CostCenter) As JournalEntryItemCollection
+    '  If Not CCOwner Is Nothing AndAlso Not CCOwner.Originated Then
+    '    CCOwner = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    '  End If
+    '  Dim jiColl As New JournalEntryItemCollection
+    '  Dim sumCheck As Decimal = 0
+    '  Dim sumCash As Decimal = 0
+    '  Dim sumAvr As Decimal = 0
+    '  For i As Integer = 0 To Me.MaxRowIndex
+    '    If Not Me.ItemTable.Childs(i).IsNull("receivei_entityType") _
+    '    AndAlso IsNumeric(Me.ItemTable.Childs(i)("receivei_entityType")) _
+    '    Then
+    '      If Not Me.ItemTable.Childs(i).IsNull(("receivei_amt")) AndAlso IsNumeric(Me.ItemTable.Childs(i)("receivei_amt")) Then
+    '        Select Case CInt(Me.ItemTable.Childs(i)("receivei_entityType"))
+    '          Case 27       'Check
+    '            sumCheck += CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+    '          Case 0        'Cash
+    '            sumCash += CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+    '          Case 71       'AdvanceReceive
+    '            sumAvr += CDec(Me.ItemTable.Childs(i)(("receivei_amt")))
+    '        End Select
+    '      End If
+    '    End If
+    '  Next
+    '  Dim ji As JournalEntryItem
+    '  If sumCash > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.1"
+    '    ji.Amount = sumCash
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+    '  If sumCheck > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.2"
+    '    ji.Amount = sumCheck
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+    '  If sumAvr > 0 Then
+    '    ji = New JournalEntryItem
+    '    ji.Mapping = "RV1.9"
+    '    ji.Amount = sumAvr
+    '    ji.CostCenter = CCOwner
+    '    jiColl.Add(ji)
+    '  End If
+    '  Return jiColl
+    'End Function
+    'Private Function GetBankTransferJournalEntries(ByVal CCOwner As CostCenter) As JournalEntryItemCollection
+    '  If Not CCOwner Is Nothing AndAlso Not CCOwner.Originated Then
+    '    CCOwner = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+    '  End If
+    '  Dim jiColl As New JournalEntryItemCollection
+    '  Dim ji As New JournalEntryItem
+    '  For i As Integer = 0 To Me.MaxRowIndex
+    '    If Not Me.ItemTable.Childs(i).IsNull("receivei_entityType") _
+    '    AndAlso IsNumeric(Me.ItemTable.Childs(i)("receivei_entityType")) _
+    '    AndAlso CInt(Me.ItemTable.Childs(i)("receivei_entityType")) = 72 Then
+    '      Dim item As New ReceiveItem
+    '      item.CopyFromDataRow(Me.ItemTable.Childs(i))
+    '      Dim bto As BankTransferIn = CType(item.Entity, BankTransferIn)
+    '      If Not bto Is Nothing AndAlso Not bto.BankAccount Is Nothing _
+    '      AndAlso Not bto.BankAccount.Account Is Nothing AndAlso bto.BankAccount.Account.Originated Then
+    '        Dim matched As Boolean = False
+    '        For Each addedJi As JournalEntryItem In jiColl
+    '          If addedJi.Account.Id = bto.BankAccount.Account.Id And addedJi.Mapping = "RV1.3" Then
+    '            'เจอ Account เดียวกัน
+    '            addedJi.Amount += item.Amount
+    '            matched = True
+    '          End If
+    '        Next
+    '        If Not matched Then
+    '          ji = New JournalEntryItem
+    '          ji.Account = bto.BankAccount.Account
+    '          ji.Mapping = "RV1.3"
+    '          ji.Amount = item.Amount
+    '          ji.CostCenter = CCOwner
+    '          jiColl.Add(ji)
+    '        End If
+    '      End If
+    '    End If
+    '  Next
+    '  Return jiColl
+    'End Function
+#End Region
 #Region "IPrintableEntity"
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
       Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\PV.dfm"

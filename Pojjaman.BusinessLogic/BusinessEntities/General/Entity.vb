@@ -210,6 +210,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return dt
     End Function
+    Public Shared Function GetEntityTableForGLDoc() As DataTable
+      Dim dt As New DataTable
+      Dim rows() As DataRow = m_entityTable.Select("entity_hasGL = 1")
+      For Each col As DataColumn In m_entityTable.Columns
+        Dim c As New DataColumn(col.ColumnName)
+        dt.Columns.Add(c)
+      Next
+      For i As Integer = 0 To rows.Length - 1
+        Dim r As DataRow = dt.Rows.Add
+        For Each col As DataColumn In m_entityTable.Columns
+          r(col.ColumnName) = rows(i)(col.ColumnName)
+        Next
+
+      Next
+
+      Return dt
+    End Function
     Private Shared Function GetData(ByVal className As String, ByVal fieldName As String, Optional ByVal full As Boolean = False) As Object
       If Not className Is Nothing AndAlso className.Length <> 0 Then
         If m_entityTable Is Nothing OrElse m_entityTable.Rows.Count = 0 Then
@@ -239,6 +256,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Shared Function GetIdFromClassName(ByVal classname As String) As Integer
       Return CInt(GetData(classname, "entity_id"))
+    End Function
+    Public Shared Function GetIdFromFullClassName(ByVal classname As String) As Integer
+      Return CInt(GetData(classname, "entity_id", True))
     End Function
     Public Shared Function GetAccessIdFromFullClassName(ByVal classname As String) As Integer
       Dim o As Object = GetData(classname, "entity_access", True)

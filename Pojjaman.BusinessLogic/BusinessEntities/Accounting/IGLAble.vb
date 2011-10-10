@@ -16,6 +16,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Function GetJournalEntries() As JournalEntryItemCollection
         Property JournalEntry() As JournalEntry
   End Interface
+  Public Interface INewGLAble
+    Inherits IGLAble
+    Function NewGetJournalEntries() As JournalEntryItemCollection
+    Function OnlyGenGLAtom() As SaveErrorException
+    Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException
+  End Interface
   Public Interface IGlChangable
     Event GlChanged As EventHandler
   End Interface

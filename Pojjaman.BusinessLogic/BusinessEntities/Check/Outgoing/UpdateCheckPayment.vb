@@ -11,7 +11,7 @@ Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class UpdateCheckPayment
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble
+    Implements IGLAble, INewGLAble
 
 #Region "Member"
     Private m_docdate As Date
@@ -531,6 +531,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(" Save Incomplete Please Save Again")
             End If
 
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          Try
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
@@ -1166,10 +1174,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ' เจ้าหนี้การค้า {mix}
             SetCancelCreditor(jiColl)
           ElseIf Me.UpdatedStatus.Value = 2 Then    ' จ่ายผ่าน  { H2.1 , H2.2 }
-            ' เช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
+            ' ล้างเช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
             SetPassCheckOutgoing(jiColl)
-            ' เจ้าหนี้การค้า {mix}       ji.Mapping = "H2.2"
-            SetPassCreditor(jiColl)
+            ' หักบัญชีเงินฝาก {mix}       ji.Mapping = "H2.2"
+            SetPassBankAcct(jiColl)
+            
 
           End If
         End If
@@ -1177,8 +1186,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return jiColl
     End Function
-    ' เช็คจ่ายล่วงหน้า
-    Private Sub SetPassCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
+    ' หักเงินฝากธนาคาร 
+    Private Sub SetPassBankAcct(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
       Dim ht As New Hashtable
       'For Each trow As TreeRow In Me.ItemTable.Childs
@@ -1222,28 +1231,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
 
-      'For i As Integer = Me.MaxRowIndex To 0 Step -1
-      '  Dim row As TreeRow = Me.ItemTable.Childs(i)
-      '  If ValidateRow(row) Then
-      '    Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
-      '    ji = New JournalEntryItem
-      '    ji.Mapping = "H2.2D"
-      '    ji.Amount = CDec(row("check_amount"))
-      '    ji.Account = bankacct.Account
-      '    ji.Note = "" 'CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
-      '    If Not row.IsNull("check_cqcode") Then
-      '      ji.Note &= CStr(row("check_cqcode"))
-      '    End If
-      '    If Not row.IsNull("bankacct_name") Then
-      '      ji.Note &= ":" & CStr(row("bankacct_name"))
-      '    End If
-      '    If Not row.IsNull("check_recipient") Then
-      '      ji.Note &= "/" & CStr(row("check_recipient"))
-      '    End If
-      '    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-      '    jiColl.Add(ji)
-      '  End If
-      'Next
+
 
       For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
         If Not item.Entity Is Nothing AndAlso Not item.Entity.Bankacct Is Nothing Then
@@ -1270,16 +1258,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
     End Sub
-    ' เจ้าหนี้การค้า
-    Private Sub SetPassCreditor(ByVal jiColl As JournalEntryItemCollection)
+    ' ล้าง เช็คจ่ายล่วงหน้า 
+    Private Sub SetPassCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
       Dim ht As New Hashtable
-      'For Each trow As TreeRow In Me.ItemTable.Childs
-      '  If ValidateRow(trow) Then
-      '    Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
-      '    ht(ga.Account.Id) = ga.Account
-      '  End If
-      'Next
+      
       For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
         If Not item.Entity Is Nothing AndAlso Not item.Entity.Bankacct Is Nothing AndAlso Not item.Entity.Bankacct.Account Is Nothing Then
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
@@ -1288,33 +1271,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       For Each acct As Account In ht.Values
         Dim sumvalue As Decimal = 0
-        'For i As Integer = Me.MaxRowIndex To 0 Step -1
-        '  Dim row As TreeRow = Me.ItemTable.Childs(i)
-        '  If ValidateRow(row) Then
-        '    Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
-        '    If ga.Account.Id = acct.Id Then
-        '      sumvalue += CDec(row("check_amount"))
-        '    End If
-        '    ji = New JournalEntryItem
-        '    ji.Mapping = "H2.1D"
-        '    ji.Amount = CDec(row("check_amount"))
-        '    If acct.Originated Then
-        '      ji.Account = acct
-        '    End If
-        '    ji.Note = "" 'CStr(row("check_cqcode")) & ":" & CStr(row("bankacct_name")) & "/" & CStr(row("check_recipient"))
-        '    If Not row.IsNull("check_cqcode") Then
-        '      ji.Note &= CStr(row("check_cqcode"))
-        '    End If
-        '    If Not row.IsNull("bankacct_name") Then
-        '      ji.Note &= ":" & CStr(row("bankacct_name"))
-        '    End If
-        '    If Not row.IsNull("check_recipient") Then
-        '      ji.Note &= "/" & CStr(row("check_recipient"))
-        '    End If
-        '    ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-        '    jiColl.Add(ji)
-        '  End If
-        'Next
+        
         For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
           If Not item.Entity Is Nothing Then
             Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
@@ -1382,7 +1339,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
     End Sub
-    ' เช็คจ่ายล่วงหน้า กรณียกเลิก
+    ' ล้างเช็คจ่ายล่วงหน้า กรณียกเลิก
     Private Sub SetCancelCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
       Dim ht As New Hashtable
@@ -1486,7 +1443,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
     End Sub
-    ' เจ้าหนี้การค้า
+    ' เพิ่มเจ้าหนี้การค้า
     Private Sub SetCancelCreditor(ByVal jiColl As JournalEntryItemCollection)
       Dim ji As New JournalEntryItem
       'Dim ht As New Hashtable
@@ -1532,17 +1489,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
       Next
-      'If sumvalue > 0 Then
-      '  ji = New JournalEntryItem
-      '  ji.Mapping = "H2.4"
-      '  ji.Amount = sumvalue
-      '  If acct.Originated Then
-      '    ji.Account = acct
-      '  End If
-      '  ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-      '  jiColl.Add(ji)
-      'End If
-      'Next
+     
     End Sub
     ' เช็คจ่ายล่วงหน้า กรณียกเลิก สลับกับ เงินฝากธนาคาร
     Private Sub SetCancelCheckOutgoingAndBankAcct(ByVal jiColl As JournalEntryItemCollection)
@@ -1582,6 +1529,221 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
+#End Region
+
+#Region "INewGLAble"
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As JournalEntryItem
+      Dim notCombine As Boolean = False 'ถ้าไม่ต้องการรวมยอดเช็คใน GL
+      If Me.TotalAmount > 0 Then
+        If notCombine Then
+          If Me.UpdatedStatus.Value = 0 Then ' ยกเลิก { H2.3 , H2.4 }
+            ' เช็คจ่ายล่วงหน้า {mix} ji.Mapping = "H2.3" สลับกับ เจ้าหนี้การค้า {mix} ji.Mapping = "H2.4"
+            SetPassCheckOutgoingAndCreditor(jiColl)
+          ElseIf Me.UpdatedStatus.Value = 2 Then ' จ่ายผ่าน  { H2.1 , H2.2 }
+            ' เช็คจ่ายล่วงหน้า  {mix} ji.Mapping = "H2.1"  ตามเจ้าหนี้ สลับกับ เงินฝากธนาคาร {dynamic} ji.Mapping = "H2.2"
+            SetCancelCheckOutgoingAndBankAcct(jiColl)
+          End If
+        Else
+          If Me.UpdatedStatus.Value = 0 Then       ' ยกเลิก { H2.3 , H2.4 }
+            ' เช็คจ่ายล่วงหน้า {mix}           ji.Mapping = "H2.3"
+            NewSetCancelCheckOutgoing(jiColl)
+            ' เงินฝากธนาคาร {dynamic}            ji.Mapping = "H2.4"
+            'SetCancelBankAcct(jiColl)
+            ' เจ้าหนี้การค้า {mix}
+            NewSetCancelCreditor(jiColl)
+          ElseIf Me.UpdatedStatus.Value = 2 Then    ' จ่ายผ่าน  { H2.1 , H2.2 }
+            ' ล้างเช็คจ่ายล่วงหน้า  {mix}         ji.Mapping = "H2.1"  ตามเจ้าหนี้
+            NewSetPassCheckOutgoing(jiColl)
+            ' หักบัญชีเงินฝาก {mix}       ji.Mapping = "H2.2"
+            NewSetPassBankAcct(jiColl)
+
+          End If
+        End If
+      End If
+
+      Return jiColl
+    End Function
+
+    ' หักเงินฝากธนาคาร 
+    Private Sub NewSetPassBankAcct(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+
+
+      For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
+        If Not item.Entity Is Nothing AndAlso Not item.Entity.Bankacct Is Nothing Then
+          'Dim bankacct As New BankAccount(CStr(row("bankacct_code")))
+          ji = New JournalEntryItem
+          ji.Mapping = "H2.2"
+          ji.Amount = item.Entity.Amount ' CDec(row("check_amount"))
+          If Not item.Entity.Bankacct.Account Is Nothing Then
+            ji.Account = item.Entity.Bankacct.Account ' bankacct.Account
+          End If
+
+          If Not item.Entity.Note Is Nothing AndAlso item.Entity.Note.Length > 0 Then
+            ji.Note = item.Entity.Note
+          End If
+          If Not item.Entity.Bankacct Is Nothing Then
+            ji.Note &= ":" & item.Entity.Bankacct.Name
+          End If
+          If Not item.Entity.Recipient Is Nothing AndAlso item.Entity.Recipient.Length > 0 Then
+            ji.Note &= "/" & item.Entity.Recipient
+          End If
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          ji.EntityItem = item.Entity.Bankacct.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("bankaccount")
+          ji.table = Me.TableName
+          ji.CustomRefstr = item.Entity.Id.ToString
+          ji.CustomRefType = item.Entity.EntityId.ToString
+          ji.AtomNote = "หักบัญชีเงินฝากจากเช็ค"
+          jiColl.Add(ji)
+        End If
+      Next
+
+    End Sub
+    ' ล้าง เช็คจ่ายล่วงหน้า 
+    Private Sub NewSetPassCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+      Dim ht As New Hashtable
+
+      For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
+        If Not item.Entity Is Nothing AndAlso Not item.Entity.Bankacct Is Nothing AndAlso Not item.Entity.Bankacct.Account Is Nothing Then
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
+          ht(ga.Account.Id) = ga.Account
+        End If
+      Next
+      For Each acct As Account In ht.Values
+        Dim sumvalue As Decimal = 0
+
+        For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
+          If Not item.Entity Is Nothing Then
+            Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
+            ji = New JournalEntryItem
+            ji.Mapping = "H2.1"
+            ji.Amount = item.Entity.Amount
+            If acct.Originated Then
+              ji.Account = acct
+            End If
+            ji.Note = ""
+            If Not item.Entity.Note Is Nothing AndAlso item.Entity.Note.Length > 0 Then
+              ji.Note &= item.Entity.Note
+            End If
+            If Not item.Entity.Bankacct Is Nothing Then
+              ji.Note &= ":" & item.Entity.Bankacct.Name
+            End If
+            If Not item.Entity.Recipient Is Nothing AndAlso item.Entity.Recipient.Length > 0 Then
+              ji.Note &= "/" & item.Entity.Recipient
+            End If
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            ji.table = Me.TableName
+            ji.AtomNote = "ล้างเช็คจ่ายล่วงหน้า ผ่าน"
+            jiColl.Add(ji)
+          End If
+        Next
+        
+      Next
+    End Sub
+   
+   
+    ' เพิ่ม เจ้าหนี้การค้า
+    Private Sub NewSetCancelCreditor(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+      
+      For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem ' i As Integer = Me.MaxRowIndex To 0 Step -1
+        'Dim row As TreeRow = Me.ItemTable.Childs(i)
+        'Dim drh As New DataRowHelper(row)
+        If Not item.Entity Is Nothing Then
+          Dim supplieracct As New Supplier(item.Entity.Supplier.Id) ' New Supplier(CInt(row("check_supplier")))
+          Dim acct As Account = supplieracct.Account
+          ji = New JournalEntryItem
+          ji.Mapping = "H2.4"
+          ji.Amount = item.Entity.Amount ' drh.GetValue(Of Decimal)("check_amount", 0)
+          If acct.Originated Then
+            ji.Account = acct
+          End If
+          ji.Note = "ยกเลิกเช็ค "
+          If Not item.Entity.CqCode Is Nothing AndAlso item.Entity.CqCode.Length > 0 Then
+            ji.Note &= item.Entity.CqCode
+          End If
+          If Not supplieracct Is Nothing Then
+            ji.Note &= "/" & supplieracct.Name
+          End If
+          ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          ji.EntityItem = item.Entity.Supplier.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("Supplier")
+          ji.table = Me.TableName
+          ji.CustomRefstr = item.Entity.Id.ToString
+          ji.CustomRefType = item.Entity.EntityId.ToString
+          ji.AtomNote = "เพิ่มหนี้  ยกเลิก"
+          jiColl.Add(ji)
+        End If
+      Next
+
+    End Sub
+    ' เช็คจ่ายล่วงหน้า กรณียกเลิก
+    Private Sub NewSetCancelCheckOutgoing(ByVal jiColl As JournalEntryItemCollection)
+      Dim ji As New JournalEntryItem
+      Dim ht As New Hashtable
+      '
+      For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
+        If Not item.Entity Is Nothing AndAlso Not item.Entity.Bankacct Is Nothing AndAlso Not item.Entity.Bankacct.Account Is Nothing Then
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
+          ht(ga.Account.Id) = ga.Account
+        End If
+      Next
+      For Each acct As Account In ht.Values
+        Dim sumvalue As Decimal = 0
+        For Each item As UpdateCheckPaymentItem In Me.ListOfUpdateCheckPaymentItem
+          'Dim row As TreeRow = Me.ItemTable.Childs(i)
+          'Dim drh As New DataRowHelper(row)
+          If Not item.Entity Is Nothing Then
+            Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.CheckAdvence)
+            ji = New JournalEntryItem
+            ji.Mapping = "H2.3"
+            ji.Amount = item.Entity.Amount ' drh.GetValue(Of Decimal)("check_amount", 0)
+            ji.IsDebit = True
+            If acct.Originated Then
+              ji.Account = acct
+            End If
+            ji.Note = item.Entity.CqCode
+            If Not item.Entity.Bankacct Is Nothing Then
+              ji.Note &= ":" & item.Entity.Bankacct.Name
+            End If
+            If Not item.Entity.Recipient Is Nothing AndAlso item.Entity.Recipient.Length > 0 Then
+              ji.Note &= ":" & item.Entity.Recipient
+            End If
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = item.Entity.EntityId
+            ji.table = Me.TableName
+            ji.AtomNote = "ล้างเช็คจ่ายล่วงหน้า ยกเลิก"
+            jiColl.Add(ji)
+          End If
+        Next
+
+      Next
+    End Sub
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
 #End Region
 
 #Region "Delete"

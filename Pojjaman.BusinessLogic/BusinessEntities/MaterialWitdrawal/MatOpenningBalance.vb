@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class MatOpenningBalance
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IHasToCostCenter, ICheckPeriod, IPrintableEntity
+    Implements IGLAble, IHasToCostCenter, ICheckPeriod, IPrintableEntity, INewGLAble
 
 
 #Region "Members"
@@ -492,6 +492,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             Return New SaveErrorException(returnVal.Value.ToString)
             'Complete Save
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
@@ -990,6 +999,77 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ji2.Amount = Me.Gross
       ji2.CostCenter = Me.ToCostCenter
       jiColl.Add(ji2)
+
+      Return jiColl
+    End Function
+#End Region
+
+#Region "INewGLAble"
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      jiColl.AddRange(Me.NewGetItemJournalEntries)
+      Return jiColl
+    End Function
+    Private Function NewGetItemJournalEntries() As JournalEntryItemCollection
+      Dim jiColl As New JournalEntryItemCollection
+      'สินค้าคงคลัง
+      Dim ji As New JournalEntryItem
+      For i As Integer = 0 To Me.MaxRowIndex
+        Dim item As New MatOpenningBalanceItem
+        item.CopyFromDataRow(Me.ItemTable.Childs(i))
+        If TypeOf item.Entity Is IHasAccount Then
+          Dim acct As Account = CType(item.Entity, IHasAccount).Account
+          Dim match As Boolean = False
+          'For Each addedJi As JournalEntryItem In jiColl
+          '  If Not addedJi.Account Is Nothing AndAlso addedJi.Account.Id = acct.Id Then
+          '    addedJi.Amount += item.Amount
+          '    match = True
+          '  End If
+          'Next
+          If Not match Then
+            ji = New JournalEntryItem
+            ji.Account = acct
+            ji.Mapping = "F9.1"
+            ji.Amount = item.Amount
+            ji.CostCenter = Me.ToCostCenter
+            ji.EntityItem = item.Entity.Id
+            ji.EntityItemType = 42
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "Matopening "
+            jiColl.Add(ji)
+          End If
+        End If
+      Next
+
+
+      Me.RefreshGross()
+
+      'กำไรขาดทุนสะสม
+      Dim ji2 As New JournalEntryItem
+      ji2.Mapping = "F9.2"
+      ji2.Amount = Me.Gross
+      ji2.CostCenter = Me.ToCostCenter
+      jiColl.Add(ji2)
+
+
 
       Return jiColl
     End Function

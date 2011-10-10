@@ -9,6 +9,8 @@ Imports System.ComponentModel
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   ''' -----------------------------------------------------------------------------
   ''' Project	 : Pojjaman.BusinessLogic
@@ -1642,4 +1644,5 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+ 
 End Namespace

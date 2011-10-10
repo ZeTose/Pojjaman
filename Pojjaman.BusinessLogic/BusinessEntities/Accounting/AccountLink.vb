@@ -310,6 +310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_name As String
     Private m_accountType As AccountType
     Private m_account As Account
+    Private m_gaentity As Integer
 
     Private Shared m_gaHash As Hashtable
 #End Region
@@ -335,10 +336,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_accountType = New AccountType(1)
     End Sub
     Public Sub New(ByVal id As Integer)
-      Dim dr As Object = m_gaHash(id.ToString)
-      If TypeOf dr Is DataRow Then
-        Construct(CType(dr, DataRow), "")
+      If m_gaHash.ContainsKey(id.ToString) Then
+        Dim dr As Object = m_gaHash(id.ToString)
+        If TypeOf dr Is DataRow Then
+          Construct(CType(dr, DataRow), "")
+        End If
+      Else
+        Construct()
       End If
+     
     End Sub
     'Public Sub New(ByVal name As String)
     '    Dim drs As DataRow() = m_sharedGATable.Select("ga_name='" & name & "'")
@@ -346,6 +352,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '        Construct(drs(0), "")
     '    End If
     'End Sub
+    Protected Sub Construct()
+      Me.m_account = New Account
+      m_accountType = New AccountType(1)
+    End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
       Construct(dr, aliasPrefix)
     End Sub
@@ -375,6 +385,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "ga_name") AndAlso Not dr.IsNull(aliasPrefix & "ga_name") Then
           .m_name = CStr(dr(aliasPrefix & "ga_name"))
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "ga_entity") AndAlso Not dr.IsNull(aliasPrefix & "ga_entity") Then
+          .m_gaentity = CInt(dr(aliasPrefix & "ga_entity"))
+        End If
       End With
     End Sub
 #End Region
@@ -382,6 +395,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Properties"
     Public Property AccountLink() As AccountLink      Get        Return m_accountLink      End Get      Set(ByVal Value As AccountLink)        m_accountLink = Value      End Set    End Property
     Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Name() As String Implements IHasName.Name      Get        Return m_name      End Get      Set(ByVal Value As String)        m_name = Value      End Set    End Property    Public Property AccountType() As AccountType      Get        Return m_accountType      End Get      Set(ByVal Value As AccountType)        m_accountType = Value      End Set    End Property    Public Property Account() As Account      Get        Return m_account      End Get      Set(ByVal Value As Account)        m_account = Value      End Set    End Property
+    Public ReadOnly Property Entity As Integer
+      Get
+        Return m_gaentity
+      End Get
+    End Property
 #End Region
 
 #Region "Methods"
@@ -430,6 +448,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
     End Sub
+    
+    Public ReadOnly Property Valid() As Boolean
+      Get
+        Return Me.Id > 0
+      End Get
+    End Property
 #End Region
 
 #Region "IIdentifiable"
@@ -452,6 +476,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
+    Public Shared Function ValidIdOrDBNull(ByVal entity As GeneralAccount) As Object
+      If entity Is Nothing OrElse Not entity.Valid Then
+        Return DBNull.Value
+      End If
+      Return entity.Id
+    End Function
     Public Shared Function GetDefaultGA(ByVal type As DefaultGAType) As GeneralAccount
       Dim id As Integer = CInt(type)
       Return New GeneralAccount(id)
@@ -518,7 +548,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       SCPenalty = 60 'ค่าปรับผู้รับเหมาจากหน้า หัก DR
       AssetProfitLoss = 61 'กำไร/ขาดทุน จากการจำหน่ายสินทรัพย์
       CurrencyProfitLoss = 62 'กำไร/ขาดทุนจากอัตราแลกเปลี่ยน
-      RentEquipment = 63 'กำไร/ขาดทุนจากอัตราแลกเปลี่ยน
+      RentEquipment = 63 'ค่าเช่าเครื่องจักร
+      BankAccount = 64 'บัญชีเงินฝาก
+      AdvanceReceivePMA = 65 'เงินมัดจำรับงวดงาน
+      ProfitLoss = 66
+
+
     End Enum
 #End Region
 

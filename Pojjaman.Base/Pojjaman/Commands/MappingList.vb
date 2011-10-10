@@ -46,5 +46,22 @@ Namespace Longkong.Pojjaman.Commands
         End Sub
 #End Region
 
-    End Class
+  End Class
+
+  Public Class GLAtomList
+    Inherits AbstractMenuCommand
+
+#Region "Constructors"
+    Public Sub New()
+    End Sub
+#End Region
+
+#Region "Methods"
+    Public Overrides Sub Run()
+      Dim frm As New GLAtomListForm
+      frm.ShowDialog()
+    End Sub
+#End Region
+
+  End Class
 End Namespace
