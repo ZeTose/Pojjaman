@@ -718,14 +718,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.CostCenter = New CostCenter
       Me.Supplier = New Supplier
 
-      Me.dtpDocDateStart.Value = Now.Date
+      Me.dtpDocDateStart.Value = DateAdd(DateInterval.Day, -7, Now.Date)
       Me.dtpDocDateEnd.Value = Now.Date
 
-      Me.txtDocDateStart.Text = ""
-      Me.txtDocDateEnd.Text = ""
+      Me.txtDocDateStart.Text = DateAdd(DateInterval.Day, -7, Now.Date).ToShortDateString
+      Me.txtDocDateEnd.Text = Now.Date.ToShortDateString
 
-      Me.DocdateStart = Date.MinValue
-      Me.DocdateEnd = Date.MinValue
+      Me.DocdateStart = DateAdd(DateInterval.Day, -7, Now.Date)
+      Me.DocdateEnd = Now.Date
       'If Me.cmbStatus.Items.Count > 0 Then Me.cmbStatus.SelectedIndex = 0
       EntityRefresh()
     End Sub
