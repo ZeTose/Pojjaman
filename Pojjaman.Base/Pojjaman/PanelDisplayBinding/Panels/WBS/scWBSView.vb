@@ -1109,7 +1109,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               wbsRow.FixLevel = -1
               wbsRow("Description") = wbsd.CostCenter.Code & " : " & wbsd.CostCenter.Name
               wbsRow("CBS") = wbsd.CBS.Code & ":" & wbsd.CBS.Name
-              wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name
+              wbsRow("WBS") = wbsd.WBS.Code & " : " & wbsd.WBS.Name & "[" & wbsd.WBS.MatCBS.Code & " : " & wbsd.WBS.MatCBS.Name & "]"
               wbsRow("Percent") = Configuration.FormatToString(wbsd.Percent, DigitConfig.Price)
               wbsRow("Amount") = Configuration.FormatToString(wbsd.Amount, DigitConfig.Price)
               'wbsRow("CBSButton") = "invisible"

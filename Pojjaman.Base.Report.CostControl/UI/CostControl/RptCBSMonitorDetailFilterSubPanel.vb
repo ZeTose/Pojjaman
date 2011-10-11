@@ -2,12 +2,13 @@ Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Imports System.Collections.Generic
+Imports Syncfusion.XlsIO
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptCBSMonitorDetailFilterSubPanel
     'Inherits UserControl
     Inherits AbstractFilterSubPanel
-    Implements IReportFilterSubPanel
+    Implements IReportFilterSubPanel, IExcellExportAble
 
 #Region " Windows Form Designer generated code "
 
@@ -54,6 +55,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblDocStartDate As System.Windows.Forms.Label
     Friend WithEvents grbFilterDoc As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents btnDocTypeList As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtDoctypeList As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -86,6 +88,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbMaster.SuspendLayout()
       Me.grbFilterDoc.SuspendLayout()
       Me.grbPeriod.SuspendLayout()
@@ -98,6 +101,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.ibtnSaveAsExcel)
       Me.grbMaster.Controls.Add(Me.grbFilterDoc)
       Me.grbMaster.Controls.Add(Me.grbPeriod)
       Me.grbMaster.Controls.Add(Me.grbDetail)
@@ -438,6 +442,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'ibtnSaveAsExcel
+      '
+      Me.ibtnSaveAsExcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.ibtnSaveAsExcel.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnSaveAsExcel.Location = New System.Drawing.Point(471, 164)
+      Me.ibtnSaveAsExcel.Name = "ibtnSaveAsExcel"
+      Me.ibtnSaveAsExcel.Size = New System.Drawing.Size(24, 24)
+      Me.ibtnSaveAsExcel.TabIndex = 22
+      Me.ibtnSaveAsExcel.TabStop = False
+      Me.ibtnSaveAsExcel.ThemedImage = CType(resources.GetObject("ibtnSaveAsExcel.ThemedImage"), System.Drawing.Bitmap)
+      '
       'RptCBSMonitorDetailFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
@@ -599,18 +614,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         arr(0) = New Filter("cc_id", Me.ValidIdOrDBNull(m_cc))
       End If
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
-      'Dim type As BOQ.WBSReportType = BOQ.WBSReportType.GoodsReceipt
-      'Select Case cmbReportType.SelectedIndex
-      '  Case 0
-      '    type = BOQ.WBSReportType.PR
-      '  Case 1
-      '    type = BOQ.WBSReportType.PO
-      '  Case 2
-      '    type = BOQ.WBSReportType.GoodsReceipt
-      '  Case 3
-      '    type = BOQ.WBSReportType.MatWithdraw
-      'End Select
-      arr(2) = New Filter("ActualType", cmbReportType.SelectedIndex)
+      Dim type As BOQ.WBSReportType = BOQ.WBSReportType.GoodsReceipt
+      Select Case cmbReportType.SelectedIndex
+        Case 0
+          type = BOQ.WBSReportType.PR
+        Case 1
+          type = BOQ.WBSReportType.PO
+        Case 2
+          type = BOQ.WBSReportType.GoodsReceipt
+        Case 3
+          type = BOQ.WBSReportType.MatWithdraw
+      End Select
+      arr(2) = New Filter("ActualType", type) ' cmbReportType.SelectedIndex)
       arr(3) = New Filter("Detailed", cmbDetailed.SelectedIndex)
       arr(4) = New Filter("NoDigit", Me.chkNoDigit.Checked)
       arr(5) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
@@ -831,7 +846,73 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
 #End Region
+    Private m_tgItem As Gui.Components.LKGrid
+    Public Property tgItem As Components.LKGrid Implements IExcellExportAble.tgItem
+      Get
+        Return m_tgItem
+      End Get
+      Set(ByVal value As Components.LKGrid)
+        m_tgItem = value
+      End Set
+    End Property
 
+    Private Sub ibtnSaveAsExcel_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnSaveAsExcel.Click
+      Dim xl As ExcelEngine = New ExcelEngine()
+      Dim dialog1 As SaveFileDialog = New SaveFileDialog
+      Dim ctime As Date
+
+      ctime = CDate(IIf(Me.DocDateEnd.Equals(Date.MinValue), Date.Now, Me.DocDateEnd))
+      Dim filename As String = "Export " & "RptCBSMonitorDetail" & ctime.ToString("yyyyMMdd") & ".xls"
+      dialog1.OverwritePrompt = True
+      dialog1.AddExtension = True
+      dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
+      dialog1.FileName = filename
+      If dialog1.ShowDialog = DialogResult.OK Then
+        filename = dialog1.FileName
+      Else
+        Return
+      End If
+
+      Using xl
+        'instantiate excel application object
+        Dim xlApp As IApplication = xl.Excel
+
+
+        'create a new workbook with 2 worksheets
+        Dim wkbk As IWorkbook = xl.Excel.Workbooks.Create(1)
+
+
+        'get a reference to both worksheets
+        Dim sht1 As IWorksheet = wkbk.Worksheets(0)
+
+
+        wkbk.Worksheets(0).Name = "RptCBSMonitorDetail"
+
+
+        'add data to the first cell of each worksheet
+        'sht1.Range("A1").Text = "Hello World"
+        'sht2.Range("A1").Text = "Hello World 2"
+
+        For i As Integer = 0 To tgItem.RowCount
+          For j As Integer = 2 To tgItem.ColCount
+            If tgItem(i, j).Text.Length > 0 AndAlso Configuration.IsFormatString(tgItem(i, j).Text, DigitConfig.Price) Then
+              Replace(tgItem(i, j).Text, "(", "")
+              Replace(tgItem(i, j).Text, ")", "")
+              sht1.Range(i + 1, j).Value = CStr(CDec(tgItem(i, j).Text))
+            Else
+              sht1.Range(i + 1, j).Text = tgItem(i, j).Text
+
+            End If
+          Next
+        Next
+
+
+
+        wkbk.SaveAs(filename)
+        wkbk.Close()
+      End Using
+      MessageBox.Show("Finish!")
+    End Sub
   End Class
 
 End Namespace

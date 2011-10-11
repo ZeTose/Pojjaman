@@ -308,6 +308,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'End If
       Dim nodigit As Boolean = False
       Dim detailed As Integer = 0
+      If Me.Filters(0).Name.ToLower = "cc_id" Then
+        Me.m_cc = New CostCenter(CInt(Me.Filters(0).Value))
+      Else
+        Me.m_cc = New CostCenter
+      End If
       If Me.Filters(3).Name.ToLower = "detailed" Then
         detailed = CInt(Me.Filters(3).Value)
       End If
@@ -319,23 +324,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
-      'Dim tr As Object = m_hashData(e.RowIndex)
-      'If tr Is Nothing Then
-      '  Return
-      'End If
+      Dim doc As String = m_hashData(e.RowIndex)
+      If doc Is Nothing Then
+        Return
+      End If
 
       'If TypeOf tr Is DataRow Then
       '  Dim dr As DataRow = CType(tr, DataRow)
       '  Dim drh As New DataRowHelper(dr)
 
-      '  Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
-      '  Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+      Dim typeIdSpliteText() As String = doc.Split("|c")
 
-      '  If docId > 0 AndAlso docType > 0 Then
-      '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      '    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
-      '    myEntityPanelService.OpenDetailPanel(en)
-      '  End If
+      Dim docType As Integer
+      Dim docId As Integer
+      If IsNumeric(typeIdSpliteText(0)) Then
+        docType = CInt(typeIdSpliteText(0))
+      End If
+      If IsNumeric(typeIdSpliteText(1)) Then
+        docId = CInt(typeIdSpliteText(1))
+      End If
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
       'End If
 
 
@@ -375,6 +388,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If noDigit Then
         dgt = DigitConfig.Int
       End If
+
+      dt.Clear()
 
       ''Dim dtcc As DataTable = Me.DataSet.Tables(0)
       Dim dtcbs As DataTable = Me.DataSet.Tables(0)
@@ -436,13 +451,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             'แสดงแต่ละ wbs
             tr = parentNode
-            tr.Tag = cbsrow
+            'tr.Tag = cbsrow
             tr("cbs_code") = cbsh.GetValue(Of String)("cbs_code")
             tr("cbs_name") = cbsh.GetValue(Of String)("cbs_name")
 
-            tr("BudgetCost") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_budget"), DigitConfig.Price)
-            tr("ActualCost") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_actual"), DigitConfig.Price)
-            tr("Diff") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_budget") - cbsh.GetValue(Of Decimal)("cbs_actual"), DigitConfig.Price)
+            tr("BudgetCost") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_budget"), dgt)
+            tr("ActualCost") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_actual"), dgt)
+            tr("Diff") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_budget") - cbsh.GetValue(Of Decimal)("cbs_actual"), dgt)
             tr.State = RowExpandState.Expanded
           End If
           ' --CBS-- ============================================================================================<<
@@ -462,7 +477,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Doctr.State = RowExpandState.Expanded
                 Doctr("cbs_code") = doch.GetValue(Of Date)("docdate").ToString("dd/MM/yyyy")
                 Doctr("cbs_name") = "(" & doch.GetValue(Of String)("docdescription") & ") " & doch.GetValue(Of String)("code")
-                Doctr("ActualCost") = Configuration.FormatToString(doch.GetValue(Of Decimal)("actual"), DigitConfig.Price)
+                Doctr("ActualCost") = Configuration.FormatToString(doch.GetValue(Of Decimal)("actual"), dgt)
+                Doctr.Tag = doch.GetValue(Of String)("doctype") & "|" & doch.GetValue(Of String)("docid")
 
                 If detailed > 1 AndAlso Not dtitem Is Nothing Then
                   Dim DocItemTr As TreeRow = Nothing
@@ -472,9 +488,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                       DocItemTr = Doctr.Childs.Add
                       DocItemTr.State = RowExpandState.Expanded
 
-                      Doctr("cbs_code") = ""
-                      Doctr("cbs_name") = "(" & itemh.GetValue(Of String)("entitytype") & ") " & itemh.GetValue(Of String)("entitycode") & " : " & doch.GetValue(Of String)("entitydescription")
-                      Doctr("UnitCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("actual"), DigitConfig.Price)
+                      DocItemTr("cbs_code") = ""
+                      DocItemTr("cbs_name") = "(" & itemh.GetValue(Of String)("entitytype") & ") " & itemh.GetValue(Of String)("entitycode") & " : " & itemh.GetValue(Of String)("entitydescription")
+                      DocItemTr("UnitCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("actual"), dgt)
+                      DocItemTr("Unit") = itemh.GetValue(Of String)("unit_name")
+                      DocItemTr("QtyActualCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("qty"), dgt)
+                      DocItemTr("ActualCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("actual"), dgt)
+                      DocItemTr.Tag = itemh.GetValue(Of String)("doctype") & "|" & itemh.GetValue(Of String)("docid")
+
                     End If
                   Next
                 End If
@@ -763,19 +784,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''#######################################################################################################
 
 
-        'Dim i As Integer = 0
+        Dim i As Integer = 0
         ''For Each row As DataRow In dt.Rows
         ''  i += 1
         ''  row("boqi_linenumber") = i
         ''Next
-        'm_hashData = New Hashtable
-        'For Each row As TreeRow In dt.Rows
-        '  i += 1
-        '  row("boqi_linenumber") = i
-        '  If Not row.Tag Is Nothing Then
-        '    m_hashData(i) = row.Tag
-        '  End If
-        'Next
+        m_hashData = New Hashtable
+        For Each row As TreeRow In dt.Rows
+          i += 1
+          'row("boqi_linenumber") = i
+          If Not row.Tag Is Nothing Then
+            m_hashData(i) = row.Tag
+          End If
+        Next
         'If i > 0 Then
         dt.AcceptChanges()
         'End If
@@ -939,8 +960,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim typeString As String = ""
       Dim type As BOQ.WBSReportType
-      If TypeOf Me.Filters(3).Value Is BOQ.WBSReportType Then
-        type = CType(Me.Filters(3).Value, BOQ.WBSReportType)
+      If TypeOf Me.Filters(2).Value Is BOQ.WBSReportType Then
+        type = CType(Me.Filters(2).Value, BOQ.WBSReportType)
       End If
       Select Case type
         Case BOQ.WBSReportType.PR
@@ -958,13 +979,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-      dpi = New DocPrintingItem
-      dpi.Mapping = "Requester"
-      If Not IsDBNull(Me.Filters(6).Value) Then
-        dpi.Value = New Employee(CInt(Me.Filters(6).Value)).Name
-      End If
-      dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "Requester"
+      'If Not IsDBNull(Me.Filters(6).Value) Then
+      '  dpi.Value = New Employee(CInt(Me.Filters(6).Value)).Name
+      'End If
+      'dpi.DataType = "System.String"
+      'dpiColl.Add(dpi)
 
       Dim i As Integer = 0
       Dim r As Integer = 0
@@ -979,32 +1000,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpiColl.Add(dpi)
         Next
 
-        r = i + 1
-        Dim dr As Object = m_hashData(r)
-        If Not dr Is Nothing Then
-          If TypeOf dr Is DataRow Then
-            Dim row As DataRow = CType(dr, DataRow)
-            If row.Table.TableName = "Table0" Then
-              Dim drh As New DataRowHelper(row)
+        'r = i + 1
+        'Dim dr As Object = m_hashData(r)
+        'If Not dr Is Nothing Then
+        '  If TypeOf dr Is DataRow Then
+        '    Dim row As DataRow = CType(dr, DataRow)
+        '    If row.Table.TableName = "Table0" Then
+        '      Dim drh As New DataRowHelper(row)
 
-              dpi = New DocPrintingItem
-              dpi.Mapping = "col1.1"
-              dpi.Value = drh.GetValue(Of String)("wbs_code")
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+        '      dpi = New DocPrintingItem
+        '      dpi.Mapping = "col1.1"
+        '      dpi.Value = drh.GetValue(Of String)("wbs_code")
+        '      dpi.DataType = "System.String"
+        '      dpi.Row = i + 1
+        '      dpi.Table = "Item"
+        '      dpiColl.Add(dpi)
 
-              dpi = New DocPrintingItem
-              dpi.Mapping = "col1.2"
-              dpi.Value = drh.GetValue(Of String)("wbs_name")
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
-            End If
-          End If
-        End If
+        '      dpi = New DocPrintingItem
+        '      dpi.Mapping = "col1.2"
+        '      dpi.Value = drh.GetValue(Of String)("wbs_name")
+        '      dpi.DataType = "System.String"
+        '      dpi.Row = i + 1
+        '      dpi.Table = "Item"
+        '      dpiColl.Add(dpi)
+        '    End If
+        '  End If
+        'End If
 
         i += 1
       Next
