@@ -186,6 +186,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_sc.TaxType = New TaxType(drh.GetValue(Of Integer)("sc_taxtype"))
             .m_sc.AdvancePay = drh.GetValue(Of Decimal)("sc_advancepay")
             .m_sc.Retention = drh.GetValue(Of Decimal)("sc_retention")
+            .m_sc.StartDate = drh.GetValue(Of Date)("sc_startdate")
+            .m_sc.EndDate = drh.GetValue(Of Date)("sc_enddate")
 
             '.m_subcontractor = New Supplier(dr, "supplier.")
           End If
@@ -877,6 +879,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Structure ContractReceiveStruct
+      Dim SCContractAmount As Decimal
+      Dim VOContractAmount As Decimal
+      Dim SCReceivedAmount As Decimal
+      Dim VOReceivedAmount As Decimal
+    End Structure
+    Public Function GetContractReceived() As ContractReceiveStruct
+      Dim scr As New ContractReceiveStruct
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetContractReceived", New SqlParameter("@sc_id", Me.Sc.Id))
+      Dim drh As New DataRowHelper(ds.Tables(0).Rows(0))
+      scr.SCContractAmount = drh.GetValue(Of Decimal)("sc_contract")
+      scr.VOContractAmount = drh.GetValue(Of Decimal)("vo_contract")
+      scr.SCReceivedAmount = drh.GetValue(Of Decimal)("sc_receievd")
+      scr.VOReceivedAmount = drh.GetValue(Of Decimal)("vo_received")
+
+      Return scr
+    End Function
     Public Sub RefreshReceiveAmount()
       For Each itm As PAItem In Me.ItemCollection
         'itm.ReceiveAmount = itm.ReceiveAmount
@@ -2849,6 +2869,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = Me.Sc.DocDate.ToShortDateString
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
+
+        'SCStartDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCStartDate"
+        dpi.Value = Me.Sc.StartDate.ToShortDateString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SCEndDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCEndDate"
+        dpi.Value = Me.Sc.EndDate.ToShortDateString
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        Dim scr As ContractReceiveStruct = Me.GetContractReceived '--Contract Receieved-- ============
+        'SCContractAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCContractAmount"
+        dpi.Value = Configuration.FormatToString(scr.SCContractAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'VOContractAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "VOContractAmount"
+        dpi.Value = Configuration.FormatToString(scr.VOContractAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'SCReceivedAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCReceivedAmount"
+        dpi.Value = Configuration.FormatToString(scr.SCReceivedAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'VOReceivedAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "VOReceivedAmount"
+        dpi.Value = Configuration.FormatToString(scr.VOReceivedAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi) '--Contract Receieved-- =======================================================
 
         If Not Me.Sc.Director Is Nothing AndAlso Me.Sc.Director.Originated Then
           'RequestorId
