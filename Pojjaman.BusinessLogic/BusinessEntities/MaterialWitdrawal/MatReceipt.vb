@@ -2044,7 +2044,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           newRealAccount = Me.ToCostCenter.ExpenseAccount
       End Select
       Dim ji As New JournalEntryItem
-      For Each item As MatWithdrawItem In Me.ItemCollection 'itemColl
+      For Each item As MatReceiptItem In Me.ItemCollection 'itemColl
         Dim lciMatched As Boolean = False
         Dim lciNoAcctMatched As Boolean = False
         Dim originMatched As Boolean = False
