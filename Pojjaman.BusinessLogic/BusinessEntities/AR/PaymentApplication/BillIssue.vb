@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class BillIssue
     Inherits SimpleBusinessEntityBase
-		Implements IPrintableEntity, IGLAble, IVatable, IHasIBillablePerson, ICancelable, ICheckPeriod
+    Implements IPrintableEntity, IGLAble, IVatable, IHasIBillablePerson, ICancelable, ICheckPeriod, INewGLAble
 
 
 #Region "Members"
@@ -463,6 +463,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldVatId As Integer = Me.m_vat.Id
         Dim oldJeId As Integer = Me.m_je.Id
         Try
+
+        
+        Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
           If IsNumeric(returnVal.Value) Then
             Select Case CInt(returnVal.Value)
@@ -550,17 +553,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
           trans.Commit()
+          Catch ex As SqlException
+            trans.Rollback()
+            ResetId(oldId, oldVatId, oldJeId)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
+            ResetId(oldId, oldVatId, oldJeId)
+            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+            Return New SaveErrorException(ex.ToString)
+
+          End Try
+
+          'Sub Save Block-- =====================================
+          Try
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block-- =====================================
+
+
           Return New SaveErrorException(returnVal.Value.ToString)
-        Catch ex As SqlException
-          trans.Rollback()
-          ResetId(oldId, oldVatId, oldJeId)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
-          trans.Rollback()
-          ResetId(oldId, oldVatId, oldJeId)
-          ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-          Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
           m_saving = False
@@ -2400,6 +2419,433 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_je = Value
       End Set
     End Property
+#End Region
+
+#Region "INewGLAble"
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+      Dim jiColl As New JournalEntryItemCollection
+      Dim ji As JournalEntryItem
+      GetRidOfUnusedPMA()
+
+      For Each mi As Milestone In Me.ItemCollection
+        Dim cc As CostCenter = mi.CostCenter
+        Dim cust As Customer = Me.Customer
+        If cc.Originated AndAlso cust.Originated Then
+          Dim theCost As Decimal = 0
+          'For Each mi As Milestone In Me.ItemCollection
+          '  If Not TypeOf mi Is AdvanceMileStone AndAlso Not TypeOf mi Is Retention Then
+          '    If mi.Cost = Decimal.MinValue Then
+          '      mi.Cost = 0
+          '      Dim amt As Decimal = 0
+          '      If pma.IncludeThisItem(mi) Then
+          '        Dim itemAmount As Decimal = mi.ReceivableForBillIssue
+          '        itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          '        If TypeOf mi Is VariationOrderDe Then
+          '          amt = -itemAmount
+          '        Else
+          '          amt = itemAmount
+          '        End If
+          '      End If
+          '      Dim Pn As Decimal = amt / pma.ContractAmount
+          '      Dim E As Decimal = pma.Budget
+          '      Dim Bn As Decimal = Pn * E + (E * (GetMilestoneAmountWithoutThisBillIssue(pma.Id) / pma.ContractAmount) - GetMilestoneCostWithoutThisBillIssue(pma.Id))
+          '      'Dim str As String
+          '      'str = String.Format("{0} * {1} + ({2} * ({3} / {4}) - {5})", Pn, E, E, GetMilestoneAmountWithoutThisBillIssue(pma.Id), pma.ContractAmount, GetMilestoneCostWithoutThisBillIssue(pma.Id))
+          '      'MessageBox.Show(str)
+          '      mi.Cost = Bn
+          '    End If
+          '    theCost += mi.Cost
+          '  End If
+          'Next
+
+          If theCost <> 0 Then
+            'ต้นทุน C7.1
+            ji = New JournalEntryItem
+            ji.Amount = theCost
+            ji.Mapping = "C7.1"
+            ji.CostCenter = cc
+            jiColl.Add(ji)
+
+            'WIP C7.2
+            ji = New JournalEntryItem
+            ji.Amount = theCost
+            ji.Mapping = "C7.2"
+            ji.CostCenter = cc
+            If Not cc.WipAccount Is Nothing AndAlso cc.WipAccount.Originated Then
+              ji.Account = cc.WipAccount
+            End If
+            jiColl.Add(ji)
+          End If
+
+          Dim itemAmount As Decimal = mi.DiscountAmount
+
+          Dim discountVatAmount As Decimal = 0
+          'ส่วนลดจ่าย C7.8
+          Dim discount As Decimal
+          If TypeOf mi Is VariationOrderDe Then
+            discount -= Configuration.Format(itemAmount, DigitConfig.Price)
+          Else
+            discount += Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+          If discount <> 0 Then
+            Dim amt As Decimal
+            Select Case mi.TaxType.Value
+              Case 0       'ไม่มี
+                amt = discount
+                discountVatAmount = 0
+              Case 1       'แยก
+                amt = discount
+                discountVatAmount = BusinessLogic.Vat.GetVatAmount(amt)
+              Case 2       'รวม
+                amt = BusinessLogic.Vat.GetExcludedVatAmount(discount)
+                discountVatAmount = (discount) - amt
+            End Select
+            ji = New JournalEntryItem
+            ji.Amount = amt
+            ji.Mapping = "C7.8"
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ส่วนลดจ่าย"
+            jiColl.Add(ji)
+
+            'Vat ของส่วนลดจ่าย C7.9/C7.10
+            ji = New JournalEntryItem
+            ji.Amount = discountVatAmount
+            If mi.TaxPoint.Value = 1 Then
+              ji.Mapping = "C7.9"
+            Else
+              ji.Mapping = "C7.10"
+            End If
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "Vat ของส่วนลดจ่าย"
+            jiColl.Add(ji)
+
+            'ลูกหนี้การค้าของส่วนลด C7.11
+            ji = New JournalEntryItem
+            ji.Amount = amt + discountVatAmount
+            ji.Mapping = "C7.11"
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ลูกหนี้การค้าของส่วนลด"
+            jiColl.Add(ji)
+          End If
+
+          Dim advrCol As MilestoneCollection '= Me.ItemCollection.GetAdvanceCollection(mi)
+          Dim rtnCol As MilestoneCollection '= Me.ItemCollection.GetRetentionCollection(mi)
+          If mi.PaymentApplication.ContractAmount <> 0 Then
+            Dim amt As Decimal      'TaxBase
+            Dim vatAmt As Decimal      'ภาษี
+
+            Dim aAmt As Decimal = 0      'ยอดมัดจำ
+            'If Not advrCol Is Nothing Then
+            '  aAmt = advrCol.GetBeforeTax       'aAmt = advrCol.GetAmount
+            'End If
+            If TypeOf mi Is AdvanceMileStone Then
+              aAmt = mi.BeforeTax
+            End If
+            Dim sumAmt As Decimal      'ลูกหนี้
+
+            'sumAmt = Me.GetMilestoneAmountAftertax
+            'sumAmt = Me.ItemCollection.GetCanGetMilestoneAmountAfterTax(mi)
+            itemAmount = mi.MileStoneAmount
+            If mi.TaxType.Value = 1 Then
+              itemAmount += Vat.GetVatAmount(itemAmount)
+            End If
+              itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            If TypeOf mi Is VariationOrderDe Then
+              sumAmt -= itemAmount
+            Else
+              sumAmt += itemAmount
+            End If
+
+
+            'amt = Me.GetPseudoTaxBase(pma.Id) - pma.Retention
+
+            If mi.TaxType.Value <> 0 Then
+              If TypeOf mi Is VariationOrderDe Then
+                amt -= Configuration.Format(mi.TaxBase, DigitConfig.Price)
+              Else
+                amt += Configuration.Format(mi.TaxBase, DigitConfig.Price)
+              End If
+            Else
+              If TypeOf mi Is VariationOrderDe Then
+                amt -= Configuration.Format(mi.BeforeTax, DigitConfig.Price)
+              Else
+                amt += Configuration.Format(mi.BeforeTax, DigitConfig.Price)
+              End If
+            End If
+
+            amt += mi.PseudoOtherTaxBase()
+
+
+            'vatAmt = Me.GetPseudoTaxAmount(pma.Id) + Me.GetPseudoOtherTaxAmount(pma.Id)
+            'amt = sumAmt - vatAmt - aAmt
+            If mi.TaxType.Value <> 0 Then
+              vatAmt = sumAmt - amt       'sumAmt - amt - aAmt
+            End If
+
+            'กรณีเบิกมัดจำ
+            If aAmt <> 0 Then
+              ji = New JournalEntryItem
+              ji.Amount = aAmt
+              ji.Mapping = "C7.7"
+
+              ji.CostCenter = cc
+              ji.EntityItem = mi.Id
+              ji.EntityItemType = mi.EntityId
+              ji.table = Me.TableName & "item"
+              ji.AtomNote = "กรณีเบิกมัดจำ"
+              jiColl.Add(ji)
+            End If
+
+            Dim miType As Integer = mi.Type.Value
+            'For Each mi As Milestone In Me.ItemCollection
+            '  miType = mi.Type.Value
+            'Next
+            If miType = 75 OrElse miType = 78 OrElse miType = 79 Then
+              'รายได้จากงานก่อสร้าง C7.4
+              If mi.TaxType.Value = 0 Then
+                ji = New JournalEntryItem
+                ji.Amount = sumAmt
+                ji.Mapping = "C7.4"
+                ji.CostCenter = cc
+                ji.EntityItem = mi.Id
+                ji.EntityItemType = mi.EntityId
+                ji.table = Me.TableName & "item"
+                ji.AtomNote = "รายได้จากงานก่อสร้าง"
+                jiColl.Add(ji)
+              Else
+                ji = New JournalEntryItem
+                ji.Amount = amt
+                ji.Mapping = "C7.4"
+                ji.CostCenter = cc
+                ji.EntityItem = mi.Id
+                ji.EntityItemType = mi.EntityId
+                ji.table = Me.TableName & "item"
+                ji.AtomNote = "รายได้จากงานก่อสร้าง"
+                jiColl.Add(ji)
+              End If
+            End If
+            If vatAmt <> 0 Then
+              'Vat C7.5/C7.6
+              ji = New JournalEntryItem
+              ji.Amount = vatAmt
+              If mi.TaxPoint.Value = 1 Then
+                'Tax ที่นี่
+                ji.Mapping = "C7.5"
+              Else
+                'Tax ที่รับชำระหนี้
+                ji.Mapping = "C7.6"
+              End If
+              ji.CostCenter = cc
+              ji.EntityItem = mi.Id
+              ji.EntityItemType = mi.EntityId
+              ji.table = Me.TableName & "item"
+              ji.AtomNote = "Tax ที่รับชำระหนี้"
+              jiColl.Add(ji)
+            End If
+
+            'ลูกหนี้การค้า C7.3
+            ji = New JournalEntryItem
+            ji.Amount = sumAmt
+            ji.Mapping = "C7.3"
+            ji.CostCenter = cc
+            If Not cust.Account Is Nothing AndAlso cust.Originated Then
+              ji.Account = cust.Account
+            End If
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ลูกหนี้การค้า "
+            jiColl.Add(ji)
+          End If     'pma.ContractAmount <> 0
+
+          'ค่าปรับ C7.12
+          Dim penalty As Decimal = Configuration.Format(mi.Penalty, DigitConfig.Price)
+          If penalty <> 0 Then
+            ji = New JournalEntryItem
+            ji.Amount = penalty
+            ji.Mapping = "C7.12"
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ค่าปรับ "
+            jiColl.Add(ji)
+
+            'ลูกหนี้การค้าของค่าปรับ C7.13
+            ji = New JournalEntryItem
+            ji.Amount = penalty
+            ji.Mapping = "C7.13"
+            ji.CostCenter = cc
+            If Not cust.Account Is Nothing AndAlso cust.Originated Then
+              ji.Account = cust.Account
+            End If
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ลูกหนี้การค้าของค่าปรับ "
+            jiColl.Add(ji)
+          End If
+
+
+          'หักเงินมัดจำรับล่วงหน้า C7.14
+          Dim advrAmt As Decimal = Configuration.Format(mi.Advance, DigitConfig.Price)
+          If advrAmt <> 0 Then
+            Dim amt As Decimal
+            Dim vatAmt As Decimal
+            Select Case mi.TaxType.Value
+              Case 0       'ไม่มี
+                amt = advrAmt
+                vatAmt = 0
+              Case 1       'แยก
+                amt = advrAmt
+                vatAmt = BusinessLogic.Vat.GetVatAmount(amt)
+              Case 2       'รวม
+                amt = BusinessLogic.Vat.GetExcludedVatAmount(advrAmt)
+                vatAmt = (advrAmt) - amt
+
+                'Case 1 'แยก
+                '  amt = advrAmt
+                '  vatAmt = BusinessLogic.Vat.GetVatAmount(amt)
+                'Case 2 'รวม
+                '  amt = BusinessLogic.Vat.GetExcludedVatAmount(advrAmt)
+                '  vatAmt = (advrAmt) - amt
+            End Select
+            ji = New JournalEntryItem
+            ji.Amount = amt
+            ji.Mapping = "C7.14"
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "หักเงินมัดจำรับล่วงหน้า "
+            jiColl.Add(ji)
+
+            If mi.TaxType.Value > 0 Then
+              'ภาษีของหักเงินมัดจำรับล่วงหน้า C7.15/16
+              ji = New JournalEntryItem
+              ji.Amount = vatAmt
+              If mi.TaxPoint.Value = 1 Then
+                ji.Mapping = "C7.15"
+              Else
+                ji.Mapping = "C7.16"
+              End If
+              ji.CostCenter = cc
+              ji.EntityItem = mi.Id
+              ji.EntityItemType = mi.EntityId
+              ji.table = Me.TableName & "item"
+              ji.AtomNote = "ภาษีของหักเงินมัดจำรับล่วงหน้า "
+              jiColl.Add(ji)
+            End If
+
+            'ลูกหนี้การค้าของการหักเงินมัดจำรับล่วงหน้า C7.17
+            ji = New JournalEntryItem
+            ji.Amount = amt + vatAmt
+            ji.Mapping = "C7.17"
+            ji.CostCenter = cc
+            If Not cust.Account Is Nothing AndAlso cust.Originated Then
+              ji.Account = cust.Account
+            End If
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ลูกหนี้การค้าของการหักเงินมัดจำรับล่วงหน้า  "
+            jiColl.Add(ji)
+          End If
+
+          Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+          Dim apRetentionPoint As Integer = 0
+          If IsNumeric(tmp) Then
+            apRetentionPoint = CInt(tmp)
+          End If
+          Dim retentionHere As Boolean = (apRetentionPoint = 0)
+
+          'หักเงิน Retention C7.18
+          Dim rtnAmt As Decimal = Configuration.Format(mi.Retention, DigitConfig.Price)
+          If retentionHere AndAlso rtnAmt <> 0 Then
+            ji = New JournalEntryItem
+            ji.Amount = rtnAmt
+            ji.Mapping = "C7.18"
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "หักเงิน Retention "
+            jiColl.Add(ji)
+
+            'ลูกหนี้การค้าของการหักเงิน Retention C7.19
+            ji = New JournalEntryItem
+            ji.Amount = rtnAmt
+            ji.Mapping = "C7.19"
+            ji.CostCenter = cc
+            If Not cust.Account Is Nothing AndAlso cust.Originated Then
+              ji.Account = cust.Account
+            End If
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "ลูกหนี้การค้าของการหักเงิน Retention "
+            jiColl.Add(ji)
+          End If
+
+
+          'มีเบิก Retention
+          'Dim rtnCol As MilestoneCollection = Me.ItemCollection.GetRetentionCollection(pma)
+          If TypeOf mi Is Retention Then
+            Dim rtn As Decimal = mi.Amount
+            ''ลูกหนี้การค้าของการเบิกเงิน Retention C7.20
+            'ji = New JournalEntryItem
+            'ji.Amount = rtn
+            'ji.Mapping = "C7.20"
+            'ji.CostCenter = cc
+            'If Not cust.Account Is Nothing AndAlso cust.Originated Then
+            '    ji.Account = cust.Account
+            'End If
+            'jiColl.Add(ji)
+
+            'การเบิกเงิน Retention C7.21
+            ji = New JournalEntryItem
+            ji.Amount = rtn
+            ji.Mapping = "C7.21"
+            ji.CostCenter = cc
+            ji.EntityItem = mi.Id
+            ji.EntityItemType = mi.EntityId
+            ji.table = Me.TableName & "item"
+            ji.AtomNote = "มีเบิก Retention "
+            jiColl.Add(ji)
+          End If
+
+        End If
+      Next
+      Return jiColl
+    End Function
+   
 #End Region
 
 #Region "IVatable"

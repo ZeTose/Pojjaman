@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class ReceiveSelection
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IWitholdingTaxable, IReceivable, IVatable, IPrintableEntity, IHasIBillablePerson _
-    , ICancelable, ICheckPeriod
+    , ICancelable, ICheckPeriod, INewGLAble
 
 
 #Region "Members"
@@ -707,6 +707,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
+
+          'Sub Save Block-- =====================================
+          Try
+            Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
+            If Not IsNumeric(subsaveerror3.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          'Sub Save Block-- =====================================
 
           'Try
           '  Dim subsaveerror As SaveErrorException = SubSave3(conn, currentUserId)
@@ -1480,6 +1491,236 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_je = Value
       End Set
     End Property
+#End Region
+
+#Region "INewGLAble"
+    Public Function OnlyGenGlAtom() As SaveErrorException Implements INewGLAble.OnlyGenGLAtom
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      SubSaveJeAtom(conn)
+      conn.Close()
+    End Function
+    Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
+      Me.JournalEntry.RefreshOnlyGLAtom()
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Me.JournalEntry.SaveAutoMateDetail(Me.JournalEntry.Id, conn, trans)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      Return New SaveErrorException("0")
+    End Function
+    Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
+       Dim jiColl As New JournalEntryItemCollection
+      Dim ji As JournalEntryItem
+      Dim cc As CostCenter = GetAllCC()
+
+      Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
+      Dim arRetentionPoint As Integer = 0
+      If IsNumeric(tmp) Then
+        arRetentionPoint = CInt(tmp)
+      End If
+      Dim retentionHere As Boolean = (arRetentionPoint = 1)
+
+      For Each doc As SaleBillIssueItem In Me.ItemCollection
+        Dim docRetention As Decimal = 0
+        Dim itemCC As CostCenter
+        Dim itemType As String = ""
+        If doc.ParentType = 81 Then
+          'วางบิลงวด                   
+          Dim bi As BillIssue = CType(Me.m_billissues(doc.ParentId), BillIssue)
+          For Each mi As Milestone In bi.ItemCollection
+            If mi.Id = doc.Id AndAlso Not mi.TaxType.Value = 0 Then
+              itemCC = mi.CostCenter
+              itemType = mi.Type.Description
+            End If
+          Next
+          'docRetention = bi.ItemCollection.GetRetentionAmount(Nothing)
+        Else
+          Dim tmpcc As CostCenter = GetCCFromDocTypeAndId(doc.EntityId, doc.Id)
+          If tmpcc Is Nothing Then
+            tmpcc = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+          End If
+          If Not tmpcc Is Nothing Then
+            itemCC = tmpcc
+          End If
+          itemType = GetTypeNameFromDocType(doc.EntityId)
+        End If
+        If itemCC Is Nothing Then
+          itemCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+        Dim myGross As Decimal = doc.AmountForGL
+        docRetention = doc.ARretention
+        Dim myDebt As Decimal = myGross
+
+        If doc.AmountForGL <> 0 Then
+          'ลูกหนี้การค้า
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.2"
+          If retentionHere Then
+            ji.Amount = myDebt + docRetention
+          Else
+            ji.Amount = myDebt
+          End If
+          If Not Me.Customer.Account Is Nothing AndAlso Me.Customer.Account.Originated Then
+            ji.Account = Me.Customer.Account
+          End If
+          ji.CostCenter = itemCC
+          ji.Note = itemType & ":" & doc.Code.ToString
+          ji.EntityItem = doc.Id
+          ji.EntityItemType = doc.EntityId
+          ji.table = Me.TableName & "item"
+          ji.AtomNote = "ลูกหนี้การค้า"
+          jiColl.Add(ji)
+        End If
+
+      
+
+        'Retention หัก
+        If retentionHere AndAlso docRetention <> 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C7.18"
+          ji.Amount = docRetention
+          ji.CostCenter = itemCC
+          ji.Note = Me.Payer.Name
+          ji.EntityItem = doc.Id
+          ji.EntityItemType = doc.EntityId
+          ji.table = Me.TableName & "item"
+          ji.AtomNote = "Retention หัก"
+          jiColl.Add(ji)
+        End If
+
+       
+
+        If doc.VatAmt > 0 Then
+          ji = New JournalEntryItem
+          ji.Mapping = "C8.3"
+          ji.Amount = Configuration.Format(doc.VatAmt, DigitConfig.Price)
+          ji.CostCenter = itemCC
+          ji.Note = "ภาษีขายไม่ถึงกำหนด" & doc.Code
+          ji.EntityItem = doc.Id
+          ji.EntityItemType = doc.EntityId
+          ji.table = Me.TableName & "item"
+          ji.AtomNote = "ภาษีขายไม่ถึงกำหนด"
+          jiColl.Add(ji)
+        End If
+      Next
+
+      ''ภาษีหัก ณ ที่จ่าย
+      'If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount <> 0 Then
+      '  ji = New JournalEntryItem
+      '  ji.Mapping = "C8.1"
+      '  ji.Amount = Me.WitholdingTaxCollection.Amount
+      '  ji.CostCenter = cc
+      '  jiColl.Add(ji)
+      'End If
+      Dim WHTTypeSum As New Hashtable
+
+      Dim typeNum As String
+
+      For Each wht As WitholdingTax In Me.WitholdingTaxCollection
+        If WHTTypeSum.Contains(wht.Type.Value) Then
+          WHTTypeSum(wht.Type.Value) = CDec(WHTTypeSum(wht.Type.Value)) + wht.Amount
+        Else
+          WHTTypeSum(wht.Type.Value) = wht.Amount
+        End If
+        typeNum = CStr(wht.Type.Value)
+        If Not (typeNum.Length > 1) Then
+          typeNum = "0" & typeNum
+        End If
+        If Not IsDBNull(Configuration.GetConfig("WHTAcc" & typeNum)) Then
+          ji = New JournalEntryItem
+          ji.Mapping = "E3.18"
+          ji.Amount = wht.Amount
+          ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
+          ji.CostCenter = cc
+          ji.EntityItem = wht.Id
+          ji.EntityItemType = wht.EntityId
+          ji.table = "witholdingitem"
+          ji.AtomNote = "ภาษีหัก ณ ที่จ่าย"
+          jiColl.Add(ji)
+        End If
+      Next
+     
+      
+      
+      RefreshTaxBase()
+
+      'Dim jTaxBase As Decimal = 0
+      'Dim jVat As Decimal = 0
+      'For Each jVatItem As VatItem In Me.m_vat.ItemCollection
+      '  If IsNumeric(jVatItem.TaxBase) Then
+      '    jTaxBase += jVatItem.TaxBase
+      '    jVat += jVatItem.Amount
+      '  End If
+      'Next
+
+      ' ''--- Pui 20080422 เนื่องจาก รับชำระหน้าภาษี สามารถแบ่งรับชำระได้
+      ' ''ภาษีขาย-ไม่ถึงกำหนด 'ซับซ้อนมาก
+      'For Each i As SaleBillIssueItem In Me.ItemCollection
+      '  Dim itamt As Decimal = Vat.GetVatAmount(i.TaxBase * (i.Amount / i.UnreceivedAmount))
+      '  If itamt <> 0 Then
+      '    ji = New JournalEntryItem
+      '    ji.Mapping = "C8.3"
+      '    'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+      '    ji.Amount = Configuration.Format(itamt, DigitConfig.Price)
+      '    ji.CostCenter = cc   ' GetVatCC()
+      '    jiColl.Add(ji)
+
+      '    ji = New JournalEntryItem
+      '    ji.Mapping = "C8.3D"
+      '    'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+      '    ji.Amount = Configuration.Format(itamt, DigitConfig.Price)
+      '    ji.CostCenter = cc   ' GetVatCC()
+      '    ji.Note = i.Code
+      '    jiColl.Add(ji)
+      '  End If
+      'Next
+
+
+
+      ''ภาษีขาย 
+      'If jVat <> 0 Then
+      '  ji = New JournalEntryItem
+      '  ji.Mapping = "C8.4"
+      '  'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+      '  ji.Amount = Configuration.Format(jVat, DigitConfig.Price)
+      '  ji.CostCenter = cc   'GetVatCC()
+      '  jiColl.Add(ji)
+
+      '  ' ''ภาษีขาย-ไม่ถึงกำหนด
+      '  ji = New JournalEntryItem
+      '  ji.Mapping = "C8.3"
+      '  'ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+      '  ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
+      '  ji.CostCenter = cc   ' GetVatCC()
+      '  jiColl.Add(ji)
+      'End If
+
+
+
+      For Each vi As VatItem In Me.Vat.ItemCollection
+        ji = New JournalEntryItem
+        ji.Mapping = "C8.4"
+        ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
+        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        ji.Note = vi.Code & "/" & vi.PrintName
+        ji.EntityItem = vi.Id
+        ji.EntityItemType = vi.EntityId
+        ji.table = "vatitem"
+        ji.AtomNote = "ภาษีขาย"
+        jiColl.Add(ji)
+
+      Next
+
+      If Not Me.Receive Is Nothing Then
+        jiColl.AddRange(Me.Receive.GetNewJournalEntries)
+      End If
+      Return jiColl
+    End Function
+
 #End Region
 
 #Region "IWitholdingTaxable"
