@@ -16,7 +16,8 @@
           <MenuItem id="rptjournalentrybycc" icon="Icons.16x16.RptJournalEntryByCC" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCC"/>
           <MenuItem id="rptjournalentrybycclist" icon="Icons.16x16.RptJournalEntryByCCList" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCCList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList"/>
           <MenuItem id="rpttrialbalancebycc" icon="Icons.16x16.RptTrialBalanceByCC" label="${res:MainMenu.PurchaseMenu.RptTrialBalanceByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptTrialBalanceByCC"/>
-				</MenuItem>
+          <MenuItem id="rptglpaytype" icon="Icons.16x16.RptJournalEntry" label="${res:MainMenu.PurchaseMenu.RptGlpaytype.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLPaytype"/>
+        </MenuItem>
 				<!--<MenuItem id="rptlogfile" icon="Icons.16x16.RptLogFile" label="${res:MainMenu.PurchaseMenu.RptLogFile.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptLogFile"/>-->
 			</MenuItem>
 		</Conditional>
@@ -36,7 +37,8 @@
     <EntityFilter id="rptjournalentrybycc" entity="rptjournalentrybycc" filter="Longkong.Pojjaman.Gui.Panels.RptJournalEntryByCCFilterSubPanel"/>
     <EntityFilter id="rptjournalentrybycclist" entity="rptjournalentrybycclist" filter="Longkong.Pojjaman.Gui.Panels.RptJournalEntryByCCListFilterSubPanel"/>
     <EntityFilter id="rpttrialbalancebycc" entity="rpttrialbalancebycc" filter="Longkong.Pojjaman.Gui.Panels.RptTrialBalanceByCCFilterSubPanel"/>
-	</Extension>
+    <EntityFilter id="rptglpaytype" entity="rptglpaytype" filter="Longkong.Pojjaman.Gui.Panels.RptGLPayTypeFilterSubPanel"/>
+  </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="rptfinancialstatement">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
@@ -83,6 +85,9 @@
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
     <EntityTab id="rpttrialbalancebycc">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rptglpaytype">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
   </Extension>

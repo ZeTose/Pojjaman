@@ -316,6 +316,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ret
     End Function
+    Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As DigitConfig, ByVal NoZero As Boolean) As String
+      Dim lang As String = "th"
+      If config = DigitConfig.CurrencyText Then
+        Dim minusEgText As String
+        Dim minusThText As String
+        If number < 0 Then
+          minusEgText = "Minus"
+          minusThText = "ลบ"
+        End If
+        number = Math.Abs(number)
+        'Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        If lang = "th" AndAlso Configuration.GetConfig("BigMoney").ToString = "บาท" Then 'parser.Parse("${res:Global.BigMoney}") = "บาท" Then
+          Return minusThText & ToCurrenyText(number)
+        End If
+        Return minusEgText & " " & MoneyConverter.Convert(number)
+      End If
+      Dim digit As Integer = GetDigit(config)
+      If config = DigitConfig.CheckAmount AndAlso CInt(number) = number Then
+        digit = GetDigit(DigitConfig.Int)
+      End If
+      Dim formatString As String = "N" & CStr(digit)
+      Dim ret As String = number.ToString(formatString)
+      If CInt(Configuration.GetConfig("CompanyMinusSign")) = 1 Then 'ใช้ ()
+        If number < 0 Then
+          ret = "(" & ret.Substring(1, Len(ret) - 1) & ")"
+        End If
+      End If
+      If number = 0 AndAlso NoZero Then
+        ret = ""
+      End If
+      Return ret
+    End Function
     Public Shared Function FormatToString(ByVal number As Double, ByVal config As DigitConfig) As String
       If config = DigitConfig.CurrencyText Then
         'Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
