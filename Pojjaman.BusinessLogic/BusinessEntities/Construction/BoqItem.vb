@@ -6,6 +6,8 @@ Imports System.Configuration
 Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.Services
+Imports System.Threading.Tasks
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class BOQItemType
     Inherits CodeDescription
@@ -79,49 +81,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String, ByVal boq As BOQ)
       With Me
         Dim drh As New DataRowHelper(dr)
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_lineNumber") AndAlso Not dr.IsNull(aliasPrefix & "boqi_lineNumber") Then
-          .m_lineNumber = CInt(dr(aliasPrefix & "boqi_lineNumber"))
+
+        .m_lineNumber = drh.GetValue(Of Integer)(aliasPrefix & "boqi_lineNumber", 0)
+        .m_note = drh.GetValue(Of String)(aliasPrefix & "boqi_note", "")
+        .m_qty = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_qty")
+        .m_umc = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_umc")
+        .m_ulc = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_ulc")
+        .m_uec = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_uec")
+        .m_qtyPerWBS = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_qtyPerWBS")
+
+        Dim wbsId As Integer = drh.GetValue(Of Integer)(aliasPrefix & "boqi_wbs", 0)
+        If wbsId > 0 Then
+          .m_wbs = CType(boq.WBSCollectionHash(wbsId), WBS)
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_note") AndAlso Not dr.IsNull(aliasPrefix & "boqi_note") Then
-          .m_note = CStr(dr(aliasPrefix & "boqi_note"))
-        End If
-
-        If Not boq Is Nothing AndAlso boq.Originated Then
-          If dr.Table.Columns.Contains(aliasPrefix & "boqi_wbs") AndAlso Not dr.IsNull(aliasPrefix & "boqi_wbs") Then
-            Dim wbsId As Integer = CInt(dr(aliasPrefix & "boqi_wbs"))
-            For Each myWbs As WBS In boq.WBSCollection
-              If myWbs.Id = wbsId Then
-                .m_wbs = myWbs
-                Exit For
-              End If
-            Next
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & "wbs_id") AndAlso Not dr.IsNull(aliasPrefix & "wbs_id") Then
-            If Not dr.IsNull("wbs_id") Then
-              .m_wbs = New WBS(dr, "")
-            End If
-          Else
-            If dr.Table.Columns.Contains(aliasPrefix & "boqi_wbs") AndAlso Not dr.IsNull(aliasPrefix & "boqi_wbs") Then
-              .m_wbs = New WBS(CInt(dr(aliasPrefix & "boqi_wbs")))
-            End If
-          End If
-        End If
-
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_entityType") AndAlso Not dr.IsNull(aliasPrefix & "boqi_entityType") Then
-          .m_itemType = New BOQItemType(CInt(dr(aliasPrefix & "boqi_entityType")))
-        End If
+        .m_itemType = New BOQItemType(drh.GetValue(Of Integer)(aliasPrefix & "boqi_entityType"))
         Dim itemId As Integer
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_entity") AndAlso Not dr.IsNull(aliasPrefix & "boqi_entity") Then
-          itemId = CInt(dr(aliasPrefix & "boqi_entity"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_itemName") AndAlso Not dr.IsNull(aliasPrefix & "boqi_itemName") Then
-          .m_entityName = CStr(dr(aliasPrefix & "boqi_itemName"))
-        Else
-          .m_entityName = ""
-        End If
-
+        itemId = drh.GetValue(Of Integer)("boqi_entity", 0)
+        .m_entityName = drh.GetValue(Of String)(aliasPrefix & "boqi_itemName", "")
         Select Case .m_itemType.Value
           Case 0 'Blank
             .m_entity = New BlankItem(.m_entityName)
@@ -130,25 +107,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 20 'ค่าเครื่องจักร
             .m_entity = New EqCost(itemId)
           Case 42
-            If dr.Table.Columns.Contains("lci_id") AndAlso Not dr.IsNull("lci_id") Then
-              If Not dr.IsNull("lci_id") Then
-                .m_entity = New LCIItem(dr, "")
-              End If
-            Else
-              .m_entity = New LCIItem(itemId)
-            End If
+            .m_entity = LCIItem.GetLciItemById(itemId)
           Case Else
         End Select
-        If dr.Table.Columns.Contains(aliasPrefix & "unit_id") AndAlso Not dr.IsNull(aliasPrefix & "unit_id") Then
 
-          If Not dr.IsNull("unit_id") Then
-            .m_unit = New Unit(dr, "")
-          End If
-        Else
-          If dr.Table.Columns.Contains(aliasPrefix & "boqi_unit") AndAlso Not dr.IsNull(aliasPrefix & "boqi_unit") Then
-            .m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "boqi_unit")))
-            '.m_unit = New Unit(CInt(dr(aliasPrefix & "boqi_unit")))
-          End If
+        Dim unitId As Integer
+        unitId = drh.GetValue(Of Integer)(aliasPrefix & "boqi_unit", 0)
+        If unitId > 0 Then
+          .m_unit = Unit.GetUnitById(unitId)
         End If
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
@@ -164,27 +130,68 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_qty") AndAlso Not dr.IsNull(aliasPrefix & "boqi_qty") Then
-          .m_qty = CDec(dr(aliasPrefix & "boqi_qty"))
-        End If
-
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_umc") AndAlso Not dr.IsNull(aliasPrefix & "boqi_umc") Then
-          .m_umc = CDec(dr(aliasPrefix & "boqi_umc"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_ulc") AndAlso Not dr.IsNull(aliasPrefix & "boqi_ulc") Then
-          .m_ulc = CDec(dr(aliasPrefix & "boqi_ulc"))
-        End If
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_uec") AndAlso Not dr.IsNull(aliasPrefix & "boqi_uec") Then
-          .m_uec = CDec(dr(aliasPrefix & "boqi_uec"))
-        End If
-
-        If dr.Table.Columns.Contains(aliasPrefix & "boqi_qtyPerWBS") AndAlso Not dr.IsNull(aliasPrefix & "boqi_qtyPerWBS") Then
-          .m_qtyPerWBS = CDec(dr(aliasPrefix & "boqi_qtyPerWBS"))
-        End If
-
         .m_mcbs = New CBS(drh.GetValue(Of Integer)("boqi_mcbs"))
         .m_lcbs = New CBS(drh.GetValue(Of Integer)("boqi_lcbs"))
         .m_ecbs = New CBS(drh.GetValue(Of Integer)("boqi_ecbs"))
+
+        'Parallel.Invoke(Sub()
+        '                  .m_lineNumber = drh.GetValue(Of Integer)(aliasPrefix & "boqi_lineNumber", 0)
+        '                  .m_note = drh.GetValue(Of String)(aliasPrefix & "boqi_note", "")
+        '                  .m_qty = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_qty")
+        '                  .m_umc = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_umc")
+        '                  .m_ulc = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_ulc")
+        '                  .m_uec = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_uec")
+        '                  .m_qtyPerWBS = drh.GetValue(Of Decimal)(aliasPrefix & "boqi_qtyPerWBS")
+        '                End Sub,
+        '                Sub()
+        '                  Dim wbsId As Integer = drh.GetValue(Of Integer)(aliasPrefix & "boqi_wbs", 0)
+        '                  If wbsId > 0 Then
+        '                    .m_wbs = CType(boq.WBSCollectionHash(wbsId), WBS)
+        '                  End If
+        '                End Sub,
+        '                Sub()
+        '                  .m_itemType = New BOQItemType(drh.GetValue(Of Integer)(aliasPrefix & "boqi_entityType"))
+        '                  Dim itemId As Integer
+        '                  itemId = drh.GetValue(Of Integer)("boqi_entity", 0)
+        '                  .m_entityName = drh.GetValue(Of String)(aliasPrefix & "boqi_itemName", "")
+        '                  Select Case .m_itemType.Value
+        '                    Case 0 'Blank
+        '                      .m_entity = New BlankItem(.m_entityName)
+        '                    Case 18 'ค่าแรง
+        '                      .m_entity = New Labor(itemId)
+        '                    Case 20 'ค่าเครื่องจักร
+        '                      .m_entity = New EqCost(itemId)
+        '                    Case 42
+        '                      .m_entity = LCIItem.GetLciItemById(itemId)
+        '                    Case Else
+        '                  End Select
+        '                End Sub,
+        '                Sub()
+        '                  Dim unitId As Integer
+        '                  unitId = drh.GetValue(Of Integer)(aliasPrefix & "boqi_unit", 0)
+        '                  If unitId > 0 Then
+        '                    .m_unit = Unit.GetUnitById(unitId)
+        '                  End If
+
+        '                  If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
+        '                    If TypeOf Me.Entity Is LCIItem Then
+        '                      Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+        '                      Try
+        '                        Me.Conversion = lci.GetConversion(Me.Unit)
+        '                      Catch ex As Exception
+        '                        Me.Conversion = 1
+        '                      End Try
+        '                    Else
+        '                      Me.Conversion = 1
+        '                    End If
+        '                  End If
+        '                End Sub,
+        '                Sub()
+        '                  .m_mcbs = New CBS(drh.GetValue(Of Integer)("boqi_mcbs"))
+        '                  .m_lcbs = New CBS(drh.GetValue(Of Integer)("boqi_lcbs"))
+        '                  .m_ecbs = New CBS(drh.GetValue(Of Integer)("boqi_ecbs"))
+        '                End Sub)
+
 
       End With
     End Sub
@@ -198,7 +205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property BOQ() As BOQ      Get        Return m_boq      End Get      Set(ByVal Value As BOQ)        m_boq = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property WBS() As WBS      Get        Return m_wbs      End Get      Set(ByVal Value As WBS)        m_wbs = Value      End Set    End Property    Public Property ItemType() As BOQItemType      Get        Return m_itemType      End Get      Set(ByVal Value As BOQItemType)        m_itemType = Value      End Set    End Property    '--------------------ธวัชชัย----------------------------------    Public Property QtyPerWBS() As Decimal      Get        Return m_qtyPerWBS      End Get      Set(ByVal Value As Decimal)        m_qtyPerWBS = Value      End Set    End Property    Public ReadOnly Property TotalPerWBS() As Decimal      Get      
+    Public Property BOQ() As BOQ      Get        Return m_boq      End Get      Set(ByVal Value As BOQ)        m_boq = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property WBS() As WBS      Get        Return m_wbs      End Get      Set(ByVal Value As WBS)        m_wbs = Value      End Set    End Property    Public Property ItemType() As BOQItemType      Get        Return m_itemType      End Get      Set(ByVal Value As BOQItemType)        m_itemType = Value      End Set    End Property    '--------------------ธวัชชัย----------------------------------    Public Property QtyPerWBS() As Decimal      Get        Return m_qtyPerWBS      End Get      Set(ByVal Value As Decimal)        m_qtyPerWBS = Value      End Set    End Property    Public ReadOnly Property TotalPerWBS() As Decimal      Get
         Return Me.QtyPerWBS * (Me.UMC + Me.UEC + Me.ULC)
       End Get
     End Property    Public Property Qty() As Decimal      Get        Dim includeQtyPerWBS As Boolean = False
@@ -477,18 +484,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
   <Serializable(), DefaultMember("Item")> _
-Public Class BoqItemCollection
+  Public Class BoqItemCollection
     Inherits CollectionBase
     Implements IDisposable
 
 #Region "Members"
-    Private m_boq As Boq
+    Private m_boq As BOQ
 #End Region
 
 #Region "Constructors"
     Public Sub New()
     End Sub
-    Public Sub New(ByVal owner As Boq)
+    Public Sub New(ByVal owner As BOQ)
       Me.m_boq = owner
       If Not Me.m_boq.Originated Then
         Return
@@ -502,8 +509,9 @@ Public Class BoqItemCollection
       , New SqlParameter("@boq_id", Me.m_boq.Id) _
       )
 
+      Dim item As BoqItem
       For Each row As DataRow In ds.Tables(0).Rows
-        Dim item As New BoqItem(row, "", m_boq)
+        item = New BoqItem(row, "", m_boq)
         item.BOQ = m_boq
         Me.Add(item)
       Next
@@ -511,7 +519,7 @@ Public Class BoqItemCollection
 #End Region
 
 #Region "Properties"
-    Public Property Boq() As Boq      Get        Return m_boq      End Get      Set(ByVal Value As Boq)        m_boq = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As BoqItem
+    Public Property Boq() As BOQ      Get        Return m_boq      End Get      Set(ByVal Value As BOQ)        m_boq = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As BoqItem
       Get
         Return CType(MyBase.List.Item(index), BoqItem)
       End Get

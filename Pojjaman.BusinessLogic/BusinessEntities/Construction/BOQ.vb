@@ -100,6 +100,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_locked As Boolean
 
+    Private m_WBSCollectionHash As Hashtable
+
 #End Region
 
 #Region "Constructors"
@@ -130,6 +132,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         m_materialMarkupItems = New DistributedItemCollection(Me, 1)        m_laborMarkupItems = New DistributedItemCollection(Me, 2)        m_equipmentMarkupItems = New DistributedItemCollection(Me, 3)
         m_lvfgs = New ArrayList
+        m_WBSCollectionHash = New Hashtable
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
@@ -189,6 +192,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
 
       m_WBSCollection = New WBSCollection(Me)
+      m_WBSCollectionHash = New Hashtable
+      For Each hwbs As WBS In m_WBSCollection
+        m_WBSCollectionHash(hwbs.Id) = hwbs
+      Next
       m_itemCollection = New BoqItemCollection(Me)
       m_markupCollection = New MarkupCollection(Me)
 
@@ -679,7 +686,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return Me.FinalDirectCost + Me.FinalOverhead + Me.FinalProfit + Me.TaxAmount
       End Get
-    End Property    Public Property MarkupCollection() As MarkupCollection      Get        Return m_markupCollection      End Get      Set(ByVal Value As MarkupCollection)        m_markupCollection = Value      End Set    End Property    Public Property WBSCollection() As WBSCollection      Get        Return m_WBSCollection      End Get      Set(ByVal Value As WBSCollection)        m_WBSCollection = Value      End Set    End Property    Public Property ItemCollection() As BoqItemCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As BoqItemCollection)        m_itemCollection = Value      End Set    End Property    Public Property Locked() As Boolean      Get
+    End Property    Public Property MarkupCollection() As MarkupCollection      Get        Return m_markupCollection      End Get      Set(ByVal Value As MarkupCollection)        m_markupCollection = Value      End Set    End Property    Public ReadOnly Property WBSCollectionHash As Hashtable
+      Get
+        Return m_WBSCollectionHash
+      End Get
+    End Property
+    Public Property WBSCollection() As WBSCollection      Get        Return m_WBSCollection      End Get      Set(ByVal Value As WBSCollection)        m_WBSCollection = Value      End Set    End Property    Public Property ItemCollection() As BoqItemCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As BoqItemCollection)        m_itemCollection = Value      End Set    End Property    Public Property Locked() As Boolean      Get
         Return m_locked
       End Get
       Set(ByVal Value As Boolean)
@@ -821,6 +833,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Private Function GetItemCodeFromDB() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GETItemCodeFromDB")
+      Return ds
+    End Function
     Public Sub PopulateItemListing(ByVal tm As TreeManager, ByVal ditc As DistributedItemCollection, Optional ByVal SetWorkDone As CountDelegate = Nothing)
       Dim dt As TreeTable = CType(tm.Treetable.Clone, TreeTable)
       PopulateItemListing(dt, ditc, SetWorkDone)
@@ -3557,43 +3573,110 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Saving"
+    Private Sub ResetID(ByVal oldid As Integer)
+      Me.Id = oldid
+    End Sub
     Public Function BeforeSave(ByVal currentUserId As Integer) As SaveErrorException
 
       'Dim ValidateError As SaveErrorException
 
+      Dim lciHash As New Hashtable
+      Dim toolHash As New Hashtable
+      Dim larborHash As New Hashtable
+      Dim eqcostHash As New Hashtable
+      For Each item As BoqItem In Me.ItemCollection
+        Select Case item.ItemType.Value
+          Case 42
+            If Not lciHash.ContainsKey(item.Entity.Id) Then
+              lciHash(item.Entity.Id) = item
+            End If
+          Case 19
+            If Not toolHash.ContainsKey(item.Entity.Id) Then
+              toolHash(item.Entity.Id) = item
+            End If
+          Case 18
+            If Not larborHash.ContainsKey(item.Entity.Id) Then
+              larborHash(item.Entity.Id) = item
+            End If
+          Case 20
+            If Not eqcostHash.ContainsKey(item.Entity.Id) Then
+              eqcostHash(item.Entity.Id) = item
+            End If
+        End Select
+      Next
+
+      Dim ds As DataSet = Me.GetItemCodeFromDB
+
       Try
-        For Each item As BoqItem In Me.ItemCollection
-          Select Case item.ItemType.Value
-            Case 42
-              Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
-              If Not lci.Originated Then
-                Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-              ElseIf Not lci.ValidUnit(item.Unit) Then
-                Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
-              End If
-            Case 19
-              Dim myTool As New Tool(item.Entity.Id)
-              If Not myTool.Originated Then
-                Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-              ElseIf myTool.Unit.Id <> item.Unit.Id Then
-                Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
-              End If
-            Case 18
-              Dim myLabor As New Labor(item.Entity.Id)
-              If Not myLabor.Originated Then
-                Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
-              ElseIf myLabor.Unit.Id <> item.Unit.Id Then
-                Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
-              End If
-            Case 20
-              Dim myEqCost As New EqCost(item.Entity.Id)
-              If Not myEqCost.Originated Then
-                Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
-              ElseIf myEqCost.Unit.Id <> item.Unit.Id Then
-                Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
-              End If
-          End Select
+
+        For Each item As BoqItem In lciHash.Values
+          Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
+          If Not lci.Originated Then
+            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+          ElseIf Not lci.ValidUnit(item.Unit) Then
+            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+          End If
         Next
+        For Each item As BoqItem In toolHash.Values
+          Dim row As DataRow() = ds.Tables(0).Select("tool_id=" & item.Entity.Id.ToString)
+          Dim myTool As New Tool(row(0), "")
+          If Not myTool.Originated Then
+            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+          ElseIf Not myTool.Unit.Id <> item.Unit.Id Then
+            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+          End If
+        Next
+        For Each item As BoqItem In larborHash.Values
+          Dim row As DataRow() = ds.Tables(1).Select("labor_id=" & item.Entity.Id.ToString)
+          Dim myLabor As New Labor(row(0), "")
+          If Not myLabor.Originated Then
+            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+          ElseIf Not myLabor.Unit.Id <> item.Unit.Id Then
+            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
+          End If
+        Next
+        For Each item As BoqItem In eqcostHash.Values
+          Dim row As DataRow() = ds.Tables(2).Select("eqcostg_id=" & item.Entity.Id.ToString)
+          Dim myEqCost As New EqCost(row(0), "")
+          If Not myEqCost.Originated Then
+            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+          ElseIf Not myEqCost.Unit.Id <> item.Unit.Id Then
+            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
+          End If
+        Next
+
+        'For Each item As BoqItem In Me.ItemCollection
+        '  Select Case item.ItemType.Value
+        '    Case 42
+        '      Dim lci As LCIItem = LCIItem.GetLciItemById(item.Entity.Id)
+        '      If Not lci.Originated Then
+        '        Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
+        '      ElseIf Not lci.ValidUnit(item.Unit) Then
+        '        Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {lci.Code, item.Unit.Name})
+        '      End If
+        '    Case 19
+        '      Dim myTool As New Tool(item.Entity.Id)
+        '      If Not myTool.Originated Then
+        '        Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+        '      ElseIf myTool.Unit.Id <> item.Unit.Id Then
+        '        Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+        '      End If
+        '    Case 18
+        '      Dim myLabor As New Labor(item.Entity.Id)
+        '      If Not myLabor.Originated Then
+        '        Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
+        '      ElseIf myLabor.Unit.Id <> item.Unit.Id Then
+        '        Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
+        '      End If
+        '    Case 20
+        '      Dim myEqCost As New EqCost(item.Entity.Id)
+        '      If Not myEqCost.Originated Then
+        '        Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
+        '      ElseIf myEqCost.Unit.Id <> item.Unit.Id Then
+        '        Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
+        '      End If
+        '  End Select
+        'Next
 
       Catch ex As Exception
         Return New SaveErrorException(ex.Message)
@@ -3601,6 +3684,106 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return New SaveErrorException("0")
 
+    End Function
+    Public Function SaveBOQ(ByVal conn As SqlConnection, ByVal trans As SqlTransaction, ByVal currentUserId As Integer) As SaveErrorException
+      With Me
+
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+
+        ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+        Dim paramArrayList As New ArrayList
+
+        paramArrayList.Add(returnVal)
+        If Me.Originated Then
+          paramArrayList.Add(New SqlParameter("@boq_id", Me.Id))
+        End If
+
+        Dim theTime As Date = Now
+        Dim theUser As New User(currentUserId)
+        Dim oldcode As String
+
+        If Me.Status.Value = -1 Then
+          Me.Status.Value = 2
+        End If
+
+        'oldcode = Me.Code
+        'If Me.AutoGen Then     'And Me.Code.Length = 0 Then
+        '  Me.Code = Me.GetNextCode
+        'End If
+        'Me.AutoGen = False
+
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_project", Me.ValidIdOrDBNull(Me.Project)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_estimator", Me.ValidIdOrDBNull(Me.Estimator)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_materialMarkup", Me.MaterialMarkup))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_materialDmethod", Me.MaterialMarkupMethod.Value))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_laborMarkup", Me.LaborMarkup))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_laborDmethod", Me.LaborMarkupMethod.Value))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_equipmentMarkup", Me.EquipmentMarkup))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_equipmentDmethod", Me.EquipmentMarkupMethod.Value))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_taxamt", Me.TaxAmount))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_markupstate", Me.MarkupState))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_finalbidprice", Me.FinalBidPrice))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_totalbudget", Me.TotalBudget))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_locked", Me.Locked))
+
+        SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
+
+        ' สร้าง SqlParameter จาก ArrayList ...
+        Dim sqlparams() As SqlParameter
+        sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+        'Dim trans As SqlTransaction
+        'Dim conn As New SqlConnection(Me.ConnectionString)
+        'conn.Open()
+
+        'trans = conn.BeginTransaction()
+        Dim oldid As Integer = Me.Id
+        Dim oldautogen As Boolean
+        oldcode = Me.Code
+        'oldautogen = Me.AutoGen
+        Dim arr As New ArrayList
+
+        Try
+
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            Select Case CInt(returnVal.Value)
+              Case -1, -5
+                trans.Rollback()
+                ResetID(oldid)
+                'ResetCode(oldcode, oldautogen)
+                Return New SaveErrorException(returnVal.Value.ToString)
+            End Select
+
+            'trans.Commit()
+
+          Catch ex As SqlException
+            'trans.Rollback()
+            Me.ResetID(oldid)
+            'ResetCode(oldcode, oldautogen)
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            'trans.Rollback()
+            Me.ResetID(oldid)
+            'ResetCode(oldcode, oldautogen)
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Return New SaveErrorException(returnVal.Value.ToString)
+          'Complete Save
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        Finally
+          'conn.Close()
+        End Try
+
+      End With
     End Function
     Private Function InsertUpdate(ByVal currentUserId As Integer) As SaveErrorException
       If Me.DuplicateCode(Me.Code) Then
@@ -3624,7 +3807,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim theTime As Date = Now
           Dim theUserId As Integer = currentUserId
 
-          Dim daBoq As SqlDataAdapter
+          'Dim daBoq As SqlDataAdapter
           Dim daWbs As SqlDataAdapter
           Dim daBoqItem As SqlDataAdapter
           Dim daMarkup As SqlDataAdapter
@@ -3641,7 +3824,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'cmd.ExecuteNonQuery()
             ''----------------HACK------------------------------------
 
-            daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
+            'daBoq = New SqlDataAdapter("Select * from boq where boq_id=" & Me.Id, conn)
             daWbs = New SqlDataAdapter("select * from wbs where wbs_boq=" & Me.Id & " order by wbs_level desc", conn)
             daBoqItem = New SqlDataAdapter("select * from boqitem where boqi_boq=" & Me.Id, conn)
             daMarkup = New SqlDataAdapter("select * from markup where markup_boq=" & Me.Id, conn)
@@ -3649,7 +3832,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             daMarkupD = New SqlDataAdapter("select * from markupdistribution where markupd_markup in (select markup_id from markup where markup_boq=" & Me.Id & ")", conn)
             daBoqAD = New SqlDataAdapter("select * from boqadjdistribution where boqadj_boq=" & Me.Id, conn)
           Else
-            daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
+            'daBoq = New SqlDataAdapter("Select * from boq where 1=2", conn)
             daWbs = New SqlDataAdapter("select * from wbs where 1=2", conn)
             daBoqItem = New SqlDataAdapter("select * from boqitem where 1=2", conn)
             daMarkup = New SqlDataAdapter("select * from markup where 1=2", conn)
@@ -3660,29 +3843,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim ds As New DataSet
 
-          '***********----BOQ ----****************
-          Dim cb As New SqlCommandBuilder(daBoq)
-          daBoq.SelectCommand.Transaction = trans
+          '-- Save BOQ แบบ Storeprocedure ธรรมดา-- ====================================
+          Dim saveboqError As SaveErrorException = Me.SaveBOQ(conn, trans, theUserId)
+          If Not IsNumeric(saveboqError.Message) Then
+            trans.Rollback()
+            'ResetID(oldid)
+            'ResetCode(oldcode, oldautogen)
+            Return saveboqError
+          Else
+            Select Case CInt(saveboqError.Message)
+              Case -1, -2, -5
+                trans.Rollback()
+                'ResetID(oldid)
+                'ResetCode(oldcode, oldautogen)
+                Return saveboqError
+              Case Else
+            End Select
+          End If
+          Me.Id = CInt(saveboqError.Message)
+          '-- Save BOQ แบบ Storeprocedure ธรรมดา-- ====================================
 
-          daBoq.DeleteCommand = cb.GetDeleteCommand
-          daBoq.DeleteCommand.Transaction = trans
+          ''***********----BOQ ----****************
+          'Dim cb As New SqlCommandBuilder(daBoq)
+          'daBoq.SelectCommand.Transaction = trans
 
-          daBoq.InsertCommand = cb.GetInsertCommand
-          daBoq.InsertCommand.Transaction = trans
+          'daBoq.DeleteCommand = cb.GetDeleteCommand
+          'daBoq.DeleteCommand.Transaction = trans
 
-          daBoq.UpdateCommand = cb.GetUpdateCommand
-          daBoq.UpdateCommand.Transaction = trans
+          'daBoq.InsertCommand = cb.GetInsertCommand
+          'daBoq.InsertCommand.Transaction = trans
 
-          daBoq.InsertCommand.CommandText &= "; Select * From boq Where boq_id= @@IDENTITY"
-          daBoq.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
-          cb = Nothing
+          'daBoq.UpdateCommand = cb.GetUpdateCommand
+          'daBoq.UpdateCommand.Transaction = trans
 
-          daBoq.FillSchema(ds, SchemaType.Mapped, "boq")
-          daBoq.Fill(ds, "boq")
+          'daBoq.InsertCommand.CommandText &= "; Select * From boq Where boq_id= @@IDENTITY"
+          'daBoq.InsertCommand.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord
+          'cb = Nothing
+
+          'daBoq.FillSchema(ds, SchemaType.Mapped, "boq")
+          'daBoq.Fill(ds, "boq")
           '***********----BOQ ----****************
 
           '***********----WBS ----****************
-          cb = New SqlCommandBuilder(daWbs)
+          Dim cb As New SqlCommandBuilder(daWbs)
+          'cb = New SqlCommandBuilder(daWbs)
           daWbs.SelectCommand.Transaction = trans
 
           daWbs.DeleteCommand = cb.GetDeleteCommand
@@ -3704,7 +3908,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           daWbs.FillSchema(ds, SchemaType.Mapped, "wbs")
           daWbs.Fill(ds, "wbs")
-          ds.Relations.Add("boq_wbs", ds.Tables!boq.Columns!boq_id, ds.Tables!wbs.Columns!wbs_boq)
+          'ds.Relations.Add("boq_wbs", ds.Tables!boq.Columns!boq_id, ds.Tables!wbs.Columns!wbs_boq)
           ds.Relations.Add("wbsTree", ds.Tables!wbs.Columns!wbs_id, ds.Tables!wbs.Columns!wbs_parid)
           '***********----WBS ----****************
 
@@ -3727,7 +3931,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           daMarkup.FillSchema(ds, SchemaType.Mapped, "markup")
           daMarkup.Fill(ds, "markup")
-          ds.Relations.Add("boq_markup", ds.Tables!boq.Columns!boq_id, ds.Tables!markup.Columns!markup_boq)
+          'ds.Relations.Add("boq_markup", ds.Tables!boq.Columns!boq_id, ds.Tables!markup.Columns!markup_boq)
           '***********----Markup ----****************
 
           '***********----MarkupCondition ----****************
@@ -3766,7 +3970,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           daBoqItem.FillSchema(ds, SchemaType.Mapped, "boqitem")
           daBoqItem.Fill(ds, "boqitem")
-          ds.Relations.Add("boq_boqitem", ds.Tables!boq.Columns!boq_id, ds.Tables!boqitem.Columns!boqi_boq)
+          'ds.Relations.Add("boq_boqitem", ds.Tables!boq.Columns!boq_id, ds.Tables!boqitem.Columns!boqi_boq)
           ds.Relations.Add("wbs_boqitem", ds.Tables!wbs.Columns!wbs_id, ds.Tables!boqitem.Columns!boqi_wbs)
           '***********----Item ----****************
 
@@ -3786,7 +3990,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           daBoqAD.FillSchema(ds, SchemaType.Mapped, "boqadjdistribution")
           daBoqAD.Fill(ds, "boqadjdistribution")
-          ds.Relations.Add("boq_boqadjdistribution", ds.Tables!boq.Columns!boq_id, ds.Tables!boqadjdistribution.Columns!boqadj_boq)
+          'ds.Relations.Add("boq_boqadjdistribution", ds.Tables!boq.Columns!boq_id, ds.Tables!boqadjdistribution.Columns!boqadj_boq)
           '***********----BOQAdjDistribution ----****************
 
           '***********----MarkupDistribution ----****************
@@ -3808,7 +4012,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ds.Relations.Add("markup_markupdistribution", ds.Tables!markup.Columns!markup_id, ds.Tables!markupdistribution.Columns!markupd_markup)
           '***********----MarkupDistribution ----****************
 
-          Dim dtBoq As DataTable
+          'Dim dtBoq As DataTable
           Dim dtWbs As DataTable
           Dim dtMarkup As DataTable
           Dim dtBoqItem As DataTable
@@ -3817,11 +4021,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim dtMarkupD As DataTable
           Dim dc As DataColumn
 
-          dtBoq = ds.Tables("boq")
-          dc = dtBoq.Columns!boq_id
-          dc.AutoIncrement = True
-          dc.AutoIncrementSeed = -1
-          dc.AutoIncrementStep = -1
+          'dtBoq = ds.Tables("boq")
+          'dc = dtBoq.Columns!boq_id
+          'dc.AutoIncrement = True
+          'dc.AutoIncrementSeed = -1
+          'dc.AutoIncrementStep = -1
 
           dtWbs = ds.Tables("wbs")
           dc = dtWbs.Columns!wbs_id
@@ -3843,10 +4047,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           dtMarkupD = ds.Tables("markupdistribution")
 
-          Dim tmpBoqDa As New SqlDataAdapter
-          tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
-          tmpBoqDa.InsertCommand = daBoq.InsertCommand
-          tmpBoqDa.UpdateCommand = daBoq.UpdateCommand
+          'Dim tmpBoqDa As New SqlDataAdapter
+          'tmpBoqDa.DeleteCommand = daBoq.DeleteCommand
+          'tmpBoqDa.InsertCommand = daBoq.InsertCommand
+          'tmpBoqDa.UpdateCommand = daBoq.UpdateCommand
 
           Dim tmpwbsDa As New SqlDataAdapter
           tmpwbsDa.DeleteCommand = daWbs.DeleteCommand
@@ -3858,45 +4062,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
           tmpMarkupDa.InsertCommand = daMarkup.InsertCommand
           tmpMarkupDa.UpdateCommand = daMarkup.UpdateCommand
 
-          AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
+          'AddHandler tmpBoqDa.RowUpdated, AddressOf tmpDa_MyRowUpdated
           AddHandler tmpwbsDa.RowUpdated, AddressOf tmpwbsDa_MyRowUpdated
-          AddHandler tmpMarkupDa.RowUpdated, AddressOf tmpMarkupDa_MyRowUpdated
+          'AddHandler tmpMarkupDa.RowUpdated, AddressOf tmpMarkupDa_MyRowUpdated
           AddHandler daMarkupC.RowUpdated, AddressOf daMarkupC_MyRowUpdated
           AddHandler daBoqItem.RowUpdated, AddressOf daBoqitem_MyRowUpdated
-          AddHandler daBoqAD.RowUpdated, AddressOf daBoqAD_MyRowUpdated
+          'AddHandler daBoqAD.RowUpdated, AddressOf daBoqAD_MyRowUpdated
           AddHandler daMarkupD.RowUpdated, AddressOf daMarkupD_MyRowUpdated
 
           If Me.Status.Value = -1 Then
             Me.Status.Value = 2
           End If
 
-          Dim drBoq As DataRow
-          If Not Me.Originated Then
-            drBoq = dtBoq.NewRow
-          Else
-            drBoq = dtBoq.Rows(0)
-          End If
-          drBoq(Me.Prefix & "_code") = Me.Code
-          drBoq(Me.Prefix & "_project") = Me.ValidIdOrDBNull(Me.Project)
-          drBoq(Me.Prefix & "_estimator") = Me.ValidIdOrDBNull(Me.Estimator)
-          drBoq(Me.Prefix & "_materialMarkup") = Me.MaterialMarkup
-          drBoq(Me.Prefix & "_materialDmethod") = Me.MaterialMarkupMethod.Value
-          drBoq(Me.Prefix & "_laborMarkup") = Me.LaborMarkup
-          drBoq(Me.Prefix & "_laborDmethod") = Me.LaborMarkupMethod.Value
-          drBoq(Me.Prefix & "_equipmentMarkup") = Me.EquipmentMarkup
-          drBoq(Me.Prefix & "_equipmentDmethod") = Me.EquipmentMarkupMethod.Value
-          drBoq(Me.Prefix & "_status") = Me.Status.Value
-          drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
-          drBoq(Me.Prefix & "_markupstate") = Me.MarkupState
-          drBoq(Me.Prefix & "_finalbidprice") = Me.FinalBidPrice
-          drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
-          drBoq(Me.Prefix & "_locked") = Me.Locked
+          'Dim drBoq As DataRow
+          'If Not Me.Originated Then
+          '  drBoq = dtBoq.NewRow
+          'Else
+          '  drBoq = dtBoq.Rows(0)
+          'End If
+          'drBoq(Me.Prefix & "_code") = Me.Code
+          'drBoq(Me.Prefix & "_project") = Me.ValidIdOrDBNull(Me.Project)
+          'drBoq(Me.Prefix & "_estimator") = Me.ValidIdOrDBNull(Me.Estimator)
+          'drBoq(Me.Prefix & "_materialMarkup") = Me.MaterialMarkup
+          'drBoq(Me.Prefix & "_materialDmethod") = Me.MaterialMarkupMethod.Value
+          'drBoq(Me.Prefix & "_laborMarkup") = Me.LaborMarkup
+          'drBoq(Me.Prefix & "_laborDmethod") = Me.LaborMarkupMethod.Value
+          'drBoq(Me.Prefix & "_equipmentMarkup") = Me.EquipmentMarkup
+          'drBoq(Me.Prefix & "_equipmentDmethod") = Me.EquipmentMarkupMethod.Value
+          'drBoq(Me.Prefix & "_status") = Me.Status.Value
+          'drBoq(Me.Prefix & "_taxamt") = Me.TaxAmount
+          'drBoq(Me.Prefix & "_markupstate") = Me.MarkupState
+          'drBoq(Me.Prefix & "_finalbidprice") = Me.FinalBidPrice
+          'drBoq(Me.Prefix & "_totalbudget") = Me.TotalBudget
+          'drBoq(Me.Prefix & "_locked") = Me.Locked
 
-          Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
+          'Me.SetOriginEditCancelStatus(drBoq, theTime, currentUserId)
 
-          If Not Me.Originated Then
-            dtBoq.Rows.Add(drBoq)
-          End If
+          'If Not Me.Originated Then
+          '  dtBoq.Rows.Add(drBoq)
+          'End If
 
           Dim rowsToDelete As New ArrayList
           For Each dr As DataRow In dtWbs.Rows
@@ -3926,7 +4130,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               drWbs = drs(0)
             End If
             'drWbs("wbs_id") = ""
-            drWbs("wbs_boq") = drBoq(Me.Prefix & "_id")
+            drWbs("wbs_boq") = Me.Id ' drBoq(Me.Prefix & "_id")
             drWbs("wbs_level") = 0
             drWbs("wbs_code") = rootWbs.Code
             drWbs("wbs_name") = rootWbs.Name
@@ -3954,7 +4158,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.ItemCollection.UpdateWbsId(oldParId, rootWbs.Id)
             End If
             Dim collForRoot As WBSCollection = rootWbs.Childs
-            LoopWbs(collForRoot, 1, dtWbs, drBoq)
+            'LoopWbs(collForRoot, 1, dtWbs, drBoq)
+            LoopWbs(collForRoot, 1, dtWbs)
             collForRoot = Nothing
           End If
 
@@ -3988,7 +4193,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               drMarkup = drs(0)
             End If
             'drWbs("markup_id") = ""
-            drMarkup("markup_boq") = drBoq(Me.Prefix & "_id")
+            drMarkup("markup_boq") = Me.Id ' drBoq(Me.Prefix & "_id")
             drMarkup("markup_name") = mrkp.Name
             drMarkup("markup_note") = mrkp.Note
             drMarkup("markup_type") = mrkp.Type.Value
@@ -4025,7 +4230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim boqLine As Integer = 1
           For Each item As BoqItem In Me.ItemCollection
             Dim drItem As DataRow = dtBoqItem.NewRow
-            drItem("boqi_boq") = drBoq(Me.Prefix & "_id")
+            drItem("boqi_boq") = Me.Id ' drBoq(Me.Prefix & "_id")
             drItem("boqi_linenumber") = boqLine
             drItem("boqi_wbs") = item.WBS.Id
             drItem("boqi_entity") = item.Entity.Id
@@ -4091,7 +4296,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Next
           For Each dbi As BoqItem In Me.MaterialMarkupItems
             Dim drBoqAD As DataRow = dtBoqAD.NewRow
-            drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
+            drBoqAD("boqadj_boq") = Me.Id 'drBoq(Me.Prefix & "_id")
             drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
             drBoqAD("boqadj_type") = 1
             dtBoqAD.Rows.Add(drBoqAD)
@@ -4099,7 +4304,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           For Each dbi As BoqItem In Me.LaborMarkupItems
             Dim drBoqAD As DataRow = dtBoqAD.NewRow
-            drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
+            drBoqAD("boqadj_boq") = Me.Id 'drBoq(Me.Prefix & "_id")
             drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
             drBoqAD("boqadj_type") = 2
             dtBoqAD.Rows.Add(drBoqAD)
@@ -4107,7 +4312,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           For Each dbi As BoqItem In Me.EquipmentMarkupItems
             Dim drBoqAD As DataRow = dtBoqAD.NewRow
-            drBoqAD("boqadj_boq") = drBoq(Me.Prefix & "_id")
+            drBoqAD("boqadj_boq") = Me.Id 'drBoq(Me.Prefix & "_id")
             drBoqAD("boqadj_boqilinenumber") = dbi.LineNumber
             drBoqAD("boqadj_type") = 3
             dtBoqAD.Rows.Add(drBoqAD)
@@ -4155,9 +4360,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           daMarkupC.Update(GetDeletedRows(dtMarkupC))
           tmpMarkupDa.Update(GetDeletedRows(dtMarkup))
           tmpwbsDa.Update(GetDeletedRows(dtWbs))
-          tmpBoqDa.Update(GetDeletedRows(dtBoq))
+          'tmpBoqDa.Update(GetDeletedRows(dtBoq))
 
-          tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
+          'tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.ModifiedCurrent))
           tmpwbsDa.Update(dtWbs.Select("", "", DataViewRowState.ModifiedCurrent))
           tmpMarkupDa.Update(dtMarkup.Select("", "", DataViewRowState.ModifiedCurrent))
           daMarkupC.Update(dtMarkupC.Select("", "", DataViewRowState.ModifiedCurrent))
@@ -4165,7 +4370,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           daBoqAD.Update(dtBoqAD.Select("", "", DataViewRowState.ModifiedCurrent))
           daMarkupD.Update(dtMarkupD.Select("", "", DataViewRowState.ModifiedCurrent))
 
-          tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
+          'tmpBoqDa.Update(dtBoq.Select("", "", DataViewRowState.Added))
 
 
           ds.EnforceConstraints = False
@@ -4178,10 +4383,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           daMarkupD.Update(dtMarkupD.Select("", "", DataViewRowState.Added))
 
           ds.EnforceConstraints = True
-          Dim theId As Integer = Me.Id
-          If Not Me.Originated Then
-            theId = CInt(drBoq("boq_id"))
-          End If
+          'Dim theId As Integer = Me.Id
+          'If Not Me.Originated Then
+          '  theId = CInt(drBoq("boq_id"))
+          'End If
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "CleanWBs", New SqlParameter() {New SqlParameter("@boq_id", theId)})
 
           ' ''=== Insert Update Budget and Actual ======================================================
@@ -4194,9 +4399,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_InsertBOQProcedure", New SqlParameter() {New SqlParameter("@boq", theId)})
           trans.Commit()
-          If Not Me.Originated Then
-            Me.Id = CInt(drBoq("boq_id"))
-          End If
+          'If Not Me.Originated Then
+          '  Me.Id = CInt(drBoq("boq_id"))
+          'End If
 
           'Return New SaveErrorException("0")
         Catch ex As SqlException
@@ -4432,7 +4637,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       newcon.Close()
       Return New SaveErrorException("0")
     End Function
-    Private Sub LoopWbs(ByVal coll As WBSCollection, ByVal level As Integer, ByVal dtWbs As DataTable, ByVal drBoq As DataRow)
+    Private Sub LoopWbs(ByVal coll As WBSCollection, ByVal level As Integer, ByVal dtWbs As DataTable) ', ByVal drBoq As DataRow)
       Dim line As Integer = 1
       For Each myWbs As WBS In coll
         Dim drWbs As DataRow
@@ -4443,7 +4648,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           drWbs = drs(0)
         End If
         'drWbs("wbs_id") = ""
-        drWbs("wbs_boq") = drBoq(Me.Prefix & "_id")
+        drWbs("wbs_boq") = Me.Id ' drBoq(Me.Prefix & "_id")
         drWbs("wbs_parid") = myWbs.Parent.Id
         drWbs("wbs_level") = level
         drWbs("wbs_code") = myWbs.Code
@@ -4477,7 +4682,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         line += 1
         Dim childs As WBSCollection = myWbs.Childs
-        LoopWbs(childs, level + 1, dtWbs, drBoq)
+        'LoopWbs(childs, level + 1, dtWbs, drBoq)
+        LoopWbs(childs, level + 1, dtWbs)
         childs = Nothing
       Next
     End Sub
@@ -4492,9 +4698,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' on the client tier, instead of being merged with the original row that was added.
       If e.StatementType = StatementType.Insert Then
         e.Status = UpdateStatus.SkipCurrentRow
-        Dim currentkey As Object = e.Row("wbs_boq")
+        'Dim currentkey As Object = e.Row("wbs_boq")
         Dim currentInternalKey As Object = e.Row("wbs_parid")
-        e.Row!wbs_boq = e.Row.GetParentRow("boq_wbs")("boq_id", DataRowVersion.Original)
+        'e.Row!wbs_boq = e.Row.GetParentRow("boq_wbs")("boq_id", DataRowVersion.Original)
         If Not e.Row.GetParentRow("wbsTree") Is Nothing AndAlso e.Row.GetParentRow("wbsTree").HasVersion(DataRowVersion.Original) Then
           e.Row!wbs_parid = e.Row.GetParentRow("wbsTree")("wbs_id", DataRowVersion.Original)
         End If
@@ -4502,7 +4708,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '    e.Row!wbs_parid = e.Row!wbs_id
         'End If
         e.Row.AcceptChanges()
-        e.Row!wbs_boq = currentkey
+        'e.Row!wbs_boq = currentkey
         e.Row!wbs_parid = currentInternalKey
       End If
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow
@@ -4520,12 +4726,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub daBoqitem_MyRowUpdated(ByVal sender As Object, ByVal e As System.Data.SqlClient.SqlRowUpdatedEventArgs)
       If e.StatementType = StatementType.Insert Then
         e.Status = UpdateStatus.SkipCurrentRow
-        Dim currentkey As Object = e.Row("boqi_boq")
+        'Dim currentkey As Object = e.Row("boqi_boq")
         Dim currentWbsKey As Object = e.Row("boqi_wbs")
-        e.Row!boqi_boq = e.Row.GetParentRow("boq_boqitem")("boq_id", DataRowVersion.Original)
+        'e.Row!boqi_boq = e.Row.GetParentRow("boq_boqitem")("boq_id", DataRowVersion.Original)
         e.Row!boqi_wbs = e.Row.GetParentRow("wbs_boqitem")("wbs_id", DataRowVersion.Original)
         e.Row.AcceptChanges()
-        e.Row!boqi_boq = currentkey
+        'e.Row!boqi_boq = currentkey
         e.Row!boqi_wbs = currentWbsKey
       End If
       If e.StatementType = StatementType.Delete Then e.Status = UpdateStatus.SkipCurrentRow

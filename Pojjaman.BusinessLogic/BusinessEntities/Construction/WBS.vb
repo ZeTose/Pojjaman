@@ -471,11 +471,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "unit_id") AndAlso Not dr.IsNull(aliasPrefix & "unit_id") Then
         If Not dr.IsNull("unit_id") Then
-          m_unit = New Unit(dr, aliasPrefix)
+          'm_unit = New Unit(dr, aliasPrefix)
+          m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "unit_id")))
         End If
       Else
         If dr.Table.Columns.Contains(aliasPrefix & "wbs_unit") AndAlso Not dr.IsNull(aliasPrefix & "wbs_unit") Then
-          m_unit = New Unit(CInt(dr(aliasPrefix & "wbs_unit")))
+          'm_unit = New Unit(CInt(dr(aliasPrefix & "wbs_unit")))
+          m_unit = Unit.GetUnitById(CInt(dr(aliasPrefix & "wbs_unit")))
         End If
       End If
       If dr.Table.Columns.Contains(aliasPrefix & "wbs_number") AndAlso Not dr.IsNull(aliasPrefix & "wbs_number") Then
@@ -557,7 +559,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Return theQty
       End Get
-    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, WBSStatus)      End Set    End Property    Public Property State() As RowExpandState      Get        Return m_state      End Get      Set(ByVal Value As RowExpandState)        m_state = Value      End Set    End Property    Public Property Milestone() As Milestone      Get        Return m_milestone      End Get      Set(ByVal Value As Milestone)        m_milestone = Value      End Set    End Property    Public Property StartDate() As Date      Get
+    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, WBSStatus)      End Set    End Property    Public Property State() As RowExpandState      Get        Return m_state      End Get      Set(ByVal Value As RowExpandState)        m_state = Value      End Set    End Property    Public Property Milestone() As Milestone      Get        'If m_milestone Is Nothing Then        '  m_milestone = New Milestone
+        'End If        Return m_milestone      End Get      Set(ByVal Value As Milestone)        m_milestone = Value      End Set    End Property    Public Property StartDate() As Date      Get
         Return m_startdate
       End Get
       Set(ByVal Value As Date)
@@ -1965,6 +1968,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Private m_wbskeycontains As Hashtable
+    Public Property WBSKeyContains As Hashtable
+      Get
+        If m_wbskeycontains Is Nothing Then
+          m_wbskeycontains = New Hashtable
+        End If
+        Return m_wbskeycontains
+      End Get
+      Set(ByVal value As Hashtable)
+        m_wbskeycontains = value
+      End Set
+    End Property
     Public Property Boq() As BOQ      Get        Return m_boq      End Get      Set(ByVal Value As BOQ)        m_boq = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As WBS
       Get
         Return CType(MyBase.List.Item(index), WBS)
@@ -2263,6 +2278,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function Add(ByVal value As WBS) As Integer
       If Not Me.Contains(value) Then
         value.Boq = m_boq
+        WBSKeyContains(value.Id) = value
         Return MyBase.List.Add(value)
       End If
     End Function
@@ -2285,7 +2301,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Contains(value)
     End Function
     Public Function Contains(ByVal value As WBS) As Boolean
-      Return MyBase.List.Contains(value)
+      Return Me.WBSKeyContains.ContainsKey(value.Id)
+      'Return MyBase.List.Contains(value)
     End Function
     Public Sub CopyTo(ByVal array As WBS(), ByVal index As Integer)
       MyBase.List.CopyTo(array, index)
