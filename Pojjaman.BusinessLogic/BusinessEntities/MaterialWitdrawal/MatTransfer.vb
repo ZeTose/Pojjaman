@@ -1033,12 +1033,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
 
-            ''==============================DELETE STOCKCOST=========================================
-            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            'If Me.Originated AndAlso Not Me.IsReferenced Then
-            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
-            'End If
-            ''==============================DELETE STOCKCOST=========================================
+            '==============================DELETE STOCKCOST=========================================
+            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            If Me.Originated AndAlso Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockiCost", New SqlParameter("@stock_id", Me.Id))
+            End If
+            '==============================DELETE STOCKCOST=========================================
             Dim saveDetailError As SaveErrorException = SaveDetail(Me.Id, conn, trans)
             If Not IsNumeric(saveDetailError.Message) Then
               trans.Rollback()
@@ -1057,12 +1057,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
             '==============================STOCKCOSTFIFO=========================================
-            ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
-            'If Not Me.IsReferenced Then
-            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
-            '                                                                                        New SqlParameter("@stock_cc", Me.FromCostCenter.Id), _
-            '                                                                                        New SqlParameter("@stock_type", Me.EntityId))
-            'End If
+            'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
+            If Not Me.IsReferenced Then
+              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+                                                                                                    New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+            End If
             '==============================STOCKCOSTFIFO=========================================
 
             ''==============================UPDATE PRITEM=========================================
@@ -1285,8 +1284,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim da As New SqlDataAdapter("Select * from stockitem where stocki_stock=" & Me.Id, conn)
         Dim daWbs As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in " & _
-                                        "(select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ") " & _
-                                        "and stockiw_direction=1", conn)
+                                        "(select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ") ", conn)
 
         Dim ds As New DataSet
 

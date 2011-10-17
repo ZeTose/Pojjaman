@@ -113,9 +113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim unitId As Integer
         unitId = drh.GetValue(Of Integer)(aliasPrefix & "boqi_unit", 0)
-        If unitId > 0 Then
-          .m_unit = Unit.GetUnitById(unitId)
-        End If
+        .m_unit = Unit.GetUnitById(unitId)
 
         If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
           If TypeOf Me.Entity Is LCIItem Then

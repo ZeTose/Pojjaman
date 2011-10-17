@@ -2315,6 +2315,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Sub Insert(ByVal index As Integer, ByVal value As WBS)
       value.Boq = m_boq
+      WBSKeyContains(value.Id) = value
       MyBase.List.Insert(index, value)
     End Sub
     Public Sub Remove(ByVal value As WBS)
@@ -2332,6 +2333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           col = Nothing
         End If
       End If
+      WBSKeyContains.Remove(value.Id)
       MyBase.List.Remove(value)
     End Sub
     Public Sub Remove(ByVal value As WBSCollection)
@@ -2340,6 +2342,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
     Public Sub Remove(ByVal index As Integer)
+      Dim iwbs As WBS = Me(index)
+      WBSKeyContains.Remove(iwbs.Id)
       MyBase.List.RemoveAt(index)
     End Sub
 #End Region
