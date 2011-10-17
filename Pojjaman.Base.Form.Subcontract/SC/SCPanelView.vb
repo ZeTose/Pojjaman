@@ -1534,7 +1534,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csWRQty.DataAlignment = HorizontalAlignment.Right
       csWRQty.Format = "#,###.##"
       csWRQty.TextBox.Name = "sci_wriQty"
-      'csWRQty.ReadOnly = True
+      csWRQty.ReadOnly = True
       ''===============================================================================================================
 
       Dim csUnit As New TreeTextColumn
