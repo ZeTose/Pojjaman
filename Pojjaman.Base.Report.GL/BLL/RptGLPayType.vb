@@ -20,6 +20,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_reportColumns As ReportColumnCollection
     Private m_cc As CostCenter
     Private m_hashData As Hashtable
+    Public Shared m_hashDescription As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -39,7 +40,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csAcctCode As New TreeTextColumn
       csAcctCode.MappingName = "acct_code"
-      csAcctCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CBSCODEHeaderText}")
+      csAcctCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.AcctCodeHeaderText}")
       csAcctCode.NullText = ""
       csAcctCode.Width = 90
       csAcctCode.DataAlignment = HorizontalAlignment.Left
@@ -48,7 +49,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csAcctName As New PlusMinusTreeTextColumn
       csAcctName.MappingName = "acct_Name"
-      csAcctName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CNBHeaderText}")
+      csAcctName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.AcctNameHeaderText}")
       csAcctName.NullText = ""
       csAcctName.Width = 290
       csAcctName.TextBox.Name = "acct_name"
@@ -61,22 +62,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csBarrier0.NullText = ""
       csBarrier0.ReadOnly = True
 
-
-
-
-
-      Dim csGlCode As New PlusMinusTreeTextColumn
+      Dim csGlCode As New TreeTextColumn
       csGlCode.MappingName = "gl_code"
-      csGlCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CNBHeaderText}")
+      csGlCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.GLCodeHeaderText}")
       csGlCode.NullText = ""
       csGlCode.Width = 100
       csGlCode.TextBox.Name = "gl_code"
       csGlCode.DataAlignment = HorizontalAlignment.Left
       csGlCode.ReadOnly = True
 
-      Dim csGlNote As New PlusMinusTreeTextColumn
+      Dim csGlNote As New TreeTextColumn
       csGlNote.MappingName = "gli_note"
-      csGlNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CNBHeaderText}")
+      csGlNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.GLNoteHeaderText}")
       csGlNote.NullText = ""
       csGlNote.Width = 150
       csGlNote.TextBox.Name = "gli_note"
@@ -85,7 +82,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csDebit As New TreeTextColumn
       csDebit.MappingName = "Debit"
-      csDebit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitPriceHeaderText}")
+      csDebit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.DebitHeaderText}")
       csDebit.NullText = ""
       csDebit.DataAlignment = HorizontalAlignment.Right
       csDebit.TextBox.Name = "Debit"
@@ -94,16 +91,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csCredit As New TreeTextColumn
       csCredit.MappingName = "Credit"
-      csCredit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.UnitHeaderText}")
+      csCredit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.CreditHeaderText}")
       csCredit.NullText = ""
-      csCredit.DataAlignment = HorizontalAlignment.Left
+      csCredit.DataAlignment = HorizontalAlignment.Right
       csCredit.TextBox.Name = "Credit"
       csCredit.Width = 80
       csCredit.ReadOnly = True
 
       Dim csAmount As New TreeTextColumn
       csAmount.MappingName = "Amount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualQuantityHeaderText}")
+      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.BalanceHeaderText}")
       csAmount.NullText = ""
       csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Format = "#,###.##"
@@ -119,7 +116,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csCash As New TreeTextColumn
       csCash.MappingName = "Cash"
-      csCash.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.BudgetCostHeaderText}")
+      csCash.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CashHeaderText}")
       csCash.NullText = ""
       csCash.DataAlignment = HorizontalAlignment.Right
       csCash.Format = "#,###.##"
@@ -129,7 +126,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csBank As New TreeTextColumn
       csBank.MappingName = "Bank"
-      csBank.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualCostHeaderText}")
+      csBank.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.BankHeaderText}")
       csBank.NullText = ""
       csBank.DataAlignment = HorizontalAlignment.Right
       csBank.Format = "#,###.##"
@@ -139,7 +136,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csRemain As New TreeTextColumn
       csRemain.MappingName = "Remain"
-      csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualCostHeaderText}")
+      csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.RemainHeaderText}")
       csRemain.NullText = ""
       csRemain.DataAlignment = HorizontalAlignment.Right
       csRemain.Format = "#,###.##"
@@ -149,7 +146,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csAdjust As New TreeTextColumn
       csAdjust.MappingName = "Adjust"
-      csAdjust.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualCostHeaderText}")
+      csAdjust.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.AdjustHeaderText}")
       csAdjust.NullText = ""
       csAdjust.DataAlignment = HorizontalAlignment.Right
       csAdjust.Format = "#,###.##"
@@ -159,7 +156,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csOther As New TreeTextColumn
       csOther.MappingName = "Other"
-      csOther.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DifferenceHeaderText}")
+      csOther.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.OtherHeaderText}")
       csOther.NullText = ""
       csOther.DataAlignment = HorizontalAlignment.Right
       csOther.Format = "#,###.##"
@@ -169,7 +166,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim csSum As New TreeTextColumn
       csSum.MappingName = "Sum"
-      csSum.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DifferenceHeaderText}")
+      csSum.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.SumHeaderText}")
       csSum.NullText = ""
       csSum.DataAlignment = HorizontalAlignment.Right
       csSum.Format = "#,###.##"
@@ -323,6 +320,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
 
+      RemoveHandler m_grid.CellClick, AddressOf CellClick
+      AddHandler m_grid.CellClick, AddressOf CellClick
+
 
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
@@ -369,27 +369,101 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'CreateHeader(tm.Treetable)
       PopulateListing(detailed)
     End Sub
+    Dim dlgDetailForm As RptGLPayTypeDetailForm
+    Private Sub CellClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim amount As Decimal = 0
+      Select Case e.ColIndex
+        Case 7, 8, 9, 10, 11, 12, 13, 14
+          If IsNumeric(m_grid(e.RowIndex, e.ColIndex).CellValue) Then
+            amount = CDec(m_grid(e.RowIndex, e.ColIndex).CellValue)
+          Else
+            If Not dlgDetailForm Is Nothing Then
+              dlgDetailForm.Close()
+            End If
+            Return
+          End If
+        Case Else
+          If Not dlgDetailForm Is Nothing Then
+            dlgDetailForm.Close()
+          End If
+          Return
+      End Select
+      If Not dlgDetailForm Is Nothing Then
+        dlgDetailForm.Close()
+      End If
+      dlgDetailForm = New RptGLPayTypeDetailForm
+      dlgDetailForm.StartPosition = FormStartPosition.Manual
+
+      Dim wpX As Integer = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width
+      Dim wpY As Integer = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height
+      'Dim wpY As Integer System.Windows.Forms.Screen.PrimaryScreen.Bounds.Y
+
+      Dim mpX As Integer = System.Windows.Forms.Control.MousePosition.X
+      Dim mpY As Integer = System.Windows.Forms.Control.MousePosition.Y
+
+      If mpX + dlgDetailForm.Width > wpX Then
+        mpX -= dlgDetailForm.Width
+      End If
+      If mpY + dlgDetailForm.Height > wpY Then
+        mpY -= dlgDetailForm.Height
+      End If
+
+      Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
+      Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(e.RowIndex - 1)
+      If tr Is Nothing Then
+        Return
+      End If
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        Dim drh As New DataRowHelper(dr)
+
+        Dim docId As Integer = drh.GetValue(Of Integer)("DocId", 0)
+        Dim docType As Integer = drh.GetValue(Of Integer)("DocType", 0)
+
+        If docId > 0 AndAlso docType > 0 Then
+          dlgDetailForm.ColumnName = colName
+          dlgDetailForm.DocId = docId
+          dlgDetailForm.DocType = docType
+          dlgDetailForm.Amount = amount
+        Else
+          Return
+        End If
+      End If
+
+
+      'Dim x As Integer = m_grid.CurrentCellInfo.CellView.
+      ''Dim y As Integer = m_grid.CurrentCellInfo.GridView.Top
+      'dlg.Location = New Point(e.MouseEventArgs.X + 40, e.MouseEventArgs.Y - 55)
+      dlgDetailForm.Location = New Point(mpX, mpY)
+
+      'dlg.Location = New Point(x, y)
+      dlgDetailForm.Show()
+    End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
-      'Dim tr As Object = m_hashData(e.RowIndex)
-      'If tr Is Nothing Then
-      '  Return
-      'End If
+      Dim rowIndex As Integer = e.RowIndex
+      'm_grid(rowIndex,10).CellValue
 
-      'If TypeOf tr Is DataRow Then
-      '  Dim dr As DataRow = CType(tr, DataRow)
-      '  Dim drh As New DataRowHelper(dr)
+      Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(e.RowIndex - 1)
+      If tr Is Nothing Then
+        Return
+      End If
 
-      '  Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
-      '  Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        Dim drh As New DataRowHelper(dr)
 
-      '  If docId > 0 AndAlso docType > 0 Then
-      '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      '    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
-      '    myEntityPanelService.OpenDetailPanel(en)
-      '  End If
-      'End If
+        Dim docId As Integer = drh.GetValue(Of Integer)("DocId", 0)
+        Dim docType As Integer = drh.GetValue(Of Integer)("DocType", 0)
+        'Trace.WriteLine(docId.ToString)
+        'Trace.WriteLine(docType.ToString)
 
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
 
       'If IsNumeric(m_grid(e.RowIndex, m_grid.ColCount).CellValue) Then
       '  Dim docId As Integer
@@ -414,7 +488,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currentDoc As String = ""
       Dim currentLine As String = ""
 
-
+      '--Clear All Detail--===========
+      m_hashDescription = New Hashtable
 
       Dim i As Integer = 0
       For Each row As DataRow In dtacct.Rows
@@ -437,56 +512,245 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim theRow As TreeRow = parentNodes.Childs.Add
         theRow("acct_code") = rowCode
         theRow("acct_name") = Space(rowLevel) & rowName 'Space(rowLevel * 3) & rowName
-
         theRow.Tag = rowTag
+
         'Dim nr As TreeRow = theRow.Childs.Add
         'nr("acct_code") = "acct_code"
 
         Me.SetTransaction(rowTag, theRow)
-        'If detailed Then
         theRow.State = RowExpandState.Expanded
-        'End If
-      Next
-
-      ' ItemZone Zone
-      For Each row As DataRow In dtacct.Rows
-        Dim parnode As TreeRow = SearchTag(CInt(row("acct_id")))
-        If Not parnode Is Nothing AndAlso parnode.Childs.Count > 0 Then
-          Dim debit As Decimal = 0
-          Dim credit As Decimal = 0
-          Dim Amount As Decimal = 0
-          Dim Cash As Decimal = 0
-          Dim Bank As Decimal = 0
-          Dim Remain As Decimal = 0
-          Dim Adjust As Decimal = 0
-          Dim Other As Decimal = 0
-
-          Dim theRow As TreeRow = parnode.Childs.Add
-          theRow("gl_code") = "รวมยอด:" & Trim(CStr(parnode("acct_code")))
-
-          debit = SumChilds(debit, parnode, "Debit")
-          credit = SumChilds(credit, parnode, "Credit")
-          Amount = SumChilds(Amount, parnode, "Amount")
-          Cash = SumChilds(Cash, parnode, "cash")
-          Bank = SumChilds(Bank, parnode, "bank")
-          Remain = SumChilds(Remain, parnode, "Remain")
-          Adjust = SumChilds(Adjust, parnode, "adjust")
-          Other = SumChilds(Other, parnode, "other")
-
-          theRow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
-          theRow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
-          theRow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
-          theRow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price, True)
-          theRow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price, True)
-          theRow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price, True)
-          theRow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price, True)
-          theRow("other") = Configuration.FormatToString(Other, DigitConfig.Price, True)
-          theRow.Tag = "summary"
+        If theRow.Childs.Count > 0 Then
+          If detailed Then
+            theRow.State = RowExpandState.Expanded
+          Else
+            theRow.State = RowExpandState.Collapsed
+          End If
         End If
+
       Next
+
+      For Each row As TreeRow In Me.m_treemanager.Treetable.Childs
+        SumParentRow(row)
+      Next
+
+      '--Total Summary-- ========================================================
+      Dim debit As Decimal = 0
+      Dim credit As Decimal = 0
+      Dim Amount As Decimal = 0
+      Dim Cash As Decimal = 0
+      Dim Bank As Decimal = 0
+      Dim Remain As Decimal = 0
+      Dim Adjust As Decimal = 0
+      Dim Other As Decimal = 0
+      For Each childrow As TreeRow In Me.m_treemanager.Treetable.Childs
+        Dim dr As DataRow = CType(childrow, DataRow)
+        Dim drh As New DataRowHelper(dr)
+        debit += drh.GetValue(Of Decimal)("Debit", 0)
+        credit += drh.GetValue(Of Decimal)("Credit", 0)
+        Amount += drh.GetValue(Of Decimal)("amount", 0)
+        Cash += drh.GetValue(Of Decimal)("cash", 0)
+        Bank += drh.GetValue(Of Decimal)("bank", 0)
+        Remain += drh.GetValue(Of Decimal)("remain", 0)
+        Adjust += drh.GetValue(Of Decimal)("adjust", 0)
+        Other += drh.GetValue(Of Decimal)("other", 0)
+      Next
+      Dim parrow As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+      parrow.State = RowExpandState.Expanded
+
+      parrow("gl_code") = "รวมทั้งสิ้น"
+      parrow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
+      parrow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
+      parrow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+      parrow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
+      parrow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
+      parrow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price)
+      parrow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price)
+      parrow("other") = Configuration.FormatToString(Other, DigitConfig.Price)
+      '--Total Summary-- ========================================================
+
+
+      'Dim debit As Decimal = 0
+      'Dim credit As Decimal = 0
+      'Dim Amount As Decimal = 0
+      'Dim Cash As Decimal = 0
+      'Dim Bank As Decimal = 0
+      'Dim Remain As Decimal = 0
+      'Dim Adjust As Decimal = 0
+      'Dim Other As Decimal = 0
+
+      'For Each row As TreeRow In Me.m_treemanager.Treetable.Childs
+      '  debit = 0
+      '  credit = 0
+      '  Amount = 0
+      '  Cash = 0
+      '  Bank = 0
+      '  Remain = 0
+      '  Adjust = 0
+      '  Other = 0
+      '  Trace.WriteLine(row("acct_code").ToString)
+      '  For Each childrow As TreeRow In row.Childs
+      '    Dim dr As DataRow = CType(childrow, DataRow)
+      '    Dim drh As New DataRowHelper(dr)
+      '    debit += drh.GetValue(Of Decimal)("Debit", 0)
+      '    credit += drh.GetValue(Of Decimal)("Credit", 0)
+      '    Amount += drh.GetValue(Of Decimal)("amount", 0)
+      '    Cash += drh.GetValue(Of Decimal)("cash", 0)
+      '    Bank += drh.GetValue(Of Decimal)("bank", 0)
+      '    Remain += drh.GetValue(Of Decimal)("remain", 0)
+      '    Adjust += drh.GetValue(Of Decimal)("adjust", 0)
+      '    Other += drh.GetValue(Of Decimal)("other", 0)
+      '  Next
+      '  row("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
+      '  row("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
+      '  row("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+      '  row("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
+      '  row("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
+      '  row("remain") = Configuration.FormatToString(Remain, DigitConfig.Price)
+      '  row("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price)
+      '  row("other") = Configuration.FormatToString(Other, DigitConfig.Price)
+      'Next
+
       Me.m_treemanager.Treetable.AcceptChanges()
+      Return
+
+
+
+
+
+
+
+
+
+
+      '' ItemZone Zone
+      'For Each row As DataRow In dtacct.Rows
+      '  Dim parnode As TreeRow = SearchTag(CInt(row("acct_id")))
+      '  If Not parnode Is Nothing AndAlso parnode.Childs.Count > 0 Then
+      '    'Dim debit As Decimal = 0
+      '    'Dim credit As Decimal = 0
+      '    'Dim Amount As Decimal = 0
+      '    'Dim Cash As Decimal = 0
+      '    'Dim Bank As Decimal = 0
+      '    'Dim Remain As Decimal = 0
+      '    'Dim Adjust As Decimal = 0
+      '    'Dim Other As Decimal = 0
+
+      '    debit = 0
+      '    credit = 0
+      '    Amount = 0
+      '    Cash = 0
+      '    Bank = 0
+      '    Remain = 0
+      '    Adjust = 0
+      '    Other = 0
+
+      '    Dim theRow As TreeRow = parnode.Childs.Add
+      '    theRow("gl_code") = "รวมยอด:" & Trim(CStr(parnode("acct_code")))
+
+      '    debit = SumChilds(debit, parnode, "Debit")
+      '    credit = SumChilds(credit, parnode, "Credit")
+      '    Amount = SumChilds(Amount, parnode, "Amount")
+      '    Cash = SumChilds(Cash, parnode, "cash")
+      '    Bank = SumChilds(Bank, parnode, "bank")
+      '    Remain = SumChilds(Remain, parnode, "Remain")
+      '    Adjust = SumChilds(Adjust, parnode, "adjust")
+      '    Other = SumChilds(Other, parnode, "other")
+
+      '    theRow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
+      '    theRow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
+      '    theRow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+      '    theRow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price, True)
+      '    theRow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price, True)
+      '    theRow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price, True)
+      '    theRow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price, True)
+      '    theRow("other") = Configuration.FormatToString(Other, DigitConfig.Price, True)
+      '    'theRow.Tag = "summary"
+      '  End If
+      'Next
+      'Me.m_treemanager.Treetable.AcceptChanges()
+
+      ''Dim m As Integer = 0
+      ''m_hashData = New Hashtable
+      ''For Each row As TreeRow In Me.m_treemanager.Treetable.Rows
+      ''  m += 1
+      ''  If Not row.Tag Is Nothing Then
+      ''    m_hashData(m) = row.Tag
+      ''  End If
+      ''Next
 
     End Sub
+    Private Sub SumParentRow(ByVal parrow As TreeRow)
+      Dim debit As Decimal = 0
+      Dim credit As Decimal = 0
+      Dim Amount As Decimal = 0
+      Dim Cash As Decimal = 0
+      Dim Bank As Decimal = 0
+      Dim Remain As Decimal = 0
+      Dim Adjust As Decimal = 0
+      Dim Other As Decimal = 0
+
+      'Trace.WriteLine(parrow("acct_code").ToString)
+
+      For Each childrow As TreeRow In parrow.Childs
+
+        SumParentRow(childrow)
+
+        Dim dr As DataRow = CType(childrow, DataRow)
+        Dim drh As New DataRowHelper(dr)
+        debit += drh.GetValue(Of Decimal)("Debit", 0)
+        credit += drh.GetValue(Of Decimal)("Credit", 0)
+        Amount += drh.GetValue(Of Decimal)("amount", 0)
+        Cash += drh.GetValue(Of Decimal)("cash", 0)
+        Bank += drh.GetValue(Of Decimal)("bank", 0)
+        Remain += drh.GetValue(Of Decimal)("remain", 0)
+        Adjust += drh.GetValue(Of Decimal)("adjust", 0)
+        Other += drh.GetValue(Of Decimal)("other", 0)
+      Next
+      If parrow.Childs.Count > 0 Then
+        parrow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
+        parrow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
+        parrow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+        parrow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
+        parrow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
+        parrow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price)
+        parrow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price)
+        parrow("other") = Configuration.FormatToString(Other, DigitConfig.Price)
+      End If
+    End Sub
+    'Private Sub SumTotalRow(ByVal parrow As TreeRow)
+    '  Dim debit As Decimal = 0
+    '  Dim credit As Decimal = 0
+    '  Dim Amount As Decimal = 0
+    '  Dim Cash As Decimal = 0
+    '  Dim Bank As Decimal = 0
+    '  Dim Remain As Decimal = 0
+    '  Dim Adjust As Decimal = 0
+    '  Dim Other As Decimal = 0
+
+    '  For Each childrow As TreeRow In parrow.Childs
+
+    '    Dim dr As DataRow = CType(childrow, DataRow)
+    '    Dim drh As New DataRowHelper(dr)
+    '    debit += drh.GetValue(Of Decimal)("Debit", 0)
+    '    credit += drh.GetValue(Of Decimal)("Credit", 0)
+    '    Amount += drh.GetValue(Of Decimal)("amount", 0)
+    '    Cash += drh.GetValue(Of Decimal)("cash", 0)
+    '    Bank += drh.GetValue(Of Decimal)("bank", 0)
+    '    Remain += drh.GetValue(Of Decimal)("remain", 0)
+    '    Adjust += drh.GetValue(Of Decimal)("adjust", 0)
+    '    Other += drh.GetValue(Of Decimal)("other", 0)
+    '  Next
+    '  If parrow.Childs.Count > 0 Then
+    '    parrow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
+    '    parrow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
+    '    parrow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+    '    parrow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
+    '    parrow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
+    '    parrow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price)
+    '    parrow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price)
+    '    parrow("other") = Configuration.FormatToString(Other, DigitConfig.Price)
+    '  End If
+    'End Sub
     Private Function SumChilds(ByRef result As Decimal, ByVal parent As TreeRow, ByVal columnName As String) As Decimal
       If parent.Childs.Count > 0 Then
         For Each childs As TreeRow In parent.Childs
@@ -523,10 +787,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim totalRemain As Decimal = 0
         Dim totalAdjust As Decimal = 0
         Dim totalOther As Decimal = 0
+
         For Each row As DataRow In dt.Select("gli_acct = " & id.ToString)
           Dim drh As New DataRowHelper(row)
           If Not row.IsNull("gl_id") Then
             Dim theRow2 As TreeRow = tr.Childs.Add
+
+            'Dim m As Integer = m_treemanager.Treetable.Rows.IndexOf(theRow2)
+            'If m_hashData Is Nothing Then
+            '  m_hashData = New Hashtable
+            'End If
+            'm_hashData(m) = row("gl_refid") & "|" & row("gl_refDocType")
+            'MessageBox.Show(m.ToString)
+
+
             Dim isdebit As Boolean = CBool(row("gli_isdebit"))
             Dim gli_balanceamt As Decimal = CDec(IIf(row.IsNull("gli_balanceamt"), 0, row("gli_balanceamt")))
             Dim gli_debitamt As Decimal = CDec(IIf(row.IsNull("gli_debitamt"), 0, row("gli_debitamt")))
@@ -582,12 +856,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
             'theRow("col9") = row("cc_code")       ' Costcenter
-            theRow2("Docid") = row("gl_refid")
-            theRow2("DocType") = row("gl_refDocType")
+            theRow2("Docid") = drh.GetValue(Of Integer)("gl_refid", 0)
+            theRow2("DocType") = drh.GetValue(Of Integer)("gl_refDocType", 0)
 
-            theRow2.Tag = "glitem"
+            'theRow2.Tag = "glitem"
           End If
         Next
+
         'tr.AcceptChanges()
       End If
     End Sub
@@ -657,22 +932,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptCBSMonitorDetail.DetailLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptGLPayType.DetailLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.RptCBSMonitorDetail"
+        Return "Icons.16x16.RptGLPayType"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.RptCBSMonitorDetail"
+        Return "Icons.16x16.RptGLPayType"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.RptCBSMonitorDetail.ListLabel}"
+        Return "${res:Longkong.Pojjaman.BusinessLogic.RptGLPayType.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property TabPageText() As String
@@ -761,32 +1036,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpiColl.Add(dpi)
         Next
 
-        r = i + 1
-        Dim dr As Object = m_hashData(r)
-        If Not dr Is Nothing Then
-          If TypeOf dr Is DataRow Then
-            Dim row As DataRow = CType(dr, DataRow)
-            If row.Table.TableName = "Table0" Then
-              Dim drh As New DataRowHelper(row)
+        'r = i + 1
+        'Dim dr As Object = m_hashData(r)
+        'If Not dr Is Nothing Then
+        '  If TypeOf dr Is DataRow Then
+        '    Dim row As DataRow = CType(dr, DataRow)
+        '    If row.Table.TableName = "Table0" Then
+        '      Dim drh As New DataRowHelper(row)
 
-              dpi = New DocPrintingItem
-              dpi.Mapping = "col1.1"
-              dpi.Value = drh.GetValue(Of String)("wbs_code")
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+        '      dpi = New DocPrintingItem
+        '      dpi.Mapping = "col1.1"
+        '      dpi.Value = drh.GetValue(Of String)("wbs_code")
+        '      dpi.DataType = "System.String"
+        '      dpi.Row = i + 1
+        '      dpi.Table = "Item"
+        '      dpiColl.Add(dpi)
 
-              dpi = New DocPrintingItem
-              dpi.Mapping = "col1.2"
-              dpi.Value = drh.GetValue(Of String)("wbs_name")
-              dpi.DataType = "System.String"
-              dpi.Row = i + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
-            End If
-          End If
-        End If
+        '      dpi = New DocPrintingItem
+        '      dpi.Mapping = "col1.2"
+        '      dpi.Value = drh.GetValue(Of String)("wbs_name")
+        '      dpi.DataType = "System.String"
+        '      dpi.Row = i + 1
+        '      dpi.Table = "Item"
+        '      dpiColl.Add(dpi)
+        '    End If
+        '  End If
+        'End If
 
         i += 1
       Next

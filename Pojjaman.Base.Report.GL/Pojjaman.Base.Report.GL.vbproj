@@ -178,6 +178,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BLL\RptJournalEntryByCCList.vb" />
+    <Compile Include="GL\RptGLPayTypeDetailForm.Designer.vb">
+      <DependentUpon>RptGLPayTypeDetailForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GL\RptGLPayTypeDetailForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GL\RptGLPayTypeFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -226,6 +232,9 @@
     <Compile Include="GL\RptSpecialJournalEntryFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="GL\RptGLPayTypeDetailForm.resx">
+      <DependentUpon>RptGLPayTypeDetailForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\RptGLPayTypeFilterSubPanel.resx">
       <DependentUpon>RptGLPayTypeFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
