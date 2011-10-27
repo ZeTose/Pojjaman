@@ -2247,6 +2247,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      Dim itmArry As New ArrayList
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -4068,6 +4070,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Dim y As Integer = 0
         If Me.ItemCollection.ShowDetail Then
           Dim m_item As New Milestone(item.StockId)
+
           For Each miDetailRow As TreeRow In m_item.ItemTable.Childs
             n += 1
             'y += 1
@@ -4080,11 +4083,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Row = n + 1
             dpi.Table = "Item"
             dpiColl.Add(dpi)
+
+            Dim derow As Integer = dpi.Row
+            itmArry.Add(derow)
           Next
           'n = n - y
+
         End If
 
         n += 1
+      Next
+
+      For Each d As DocPrintingItem In dpiColl
+        If d.Mapping.ToLower = "item.amount" Then
+          For Each r As Object In itmArry
+            If d.Row = CInt(r) Then
+              d.Value = ""
+            End If
+          Next
+        End If
       Next
 
       'GrossItem
