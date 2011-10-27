@@ -964,8 +964,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtDoctypeList.Text = chkdlg.CheckedItemsString
         DocIdList = chkdlg.CheckedItemValuesString
         DocIndexList = chkdlg.CheckedValuesString
-        Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-        myContent.IsDirty = True
+        'Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+        'myContent.IsDirty = True
       End If
     End Sub
 #End Region
