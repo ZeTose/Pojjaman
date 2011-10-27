@@ -44,7 +44,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
-      m_grid.ColCount = 13
+      m_grid.ColCount = 14
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 100
@@ -52,13 +52,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(4) = 100
       m_grid.ColWidths(5) = 100
       m_grid.ColWidths(6) = 100
+
       m_grid.ColWidths(7) = 100
+
       m_grid.ColWidths(8) = 100
       m_grid.ColWidths(9) = 100
       m_grid.ColWidths(10) = 100
       m_grid.ColWidths(11) = 100
       m_grid.ColWidths(12) = 100
       m_grid.ColWidths(13) = 100
+      m_grid.ColWidths(14) = 100
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -66,13 +69,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
       m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+
       m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
       m_grid.Rows.HeaderCount = 0
       m_grid.Rows.FrozenCount = 0
@@ -83,13 +89,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.Rentalrate}") '"ค่าเช่าต่อวัน"
       m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}") '"หน่วย"
       m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Active}") '"Active"
-      m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Available}") '"ว่าง"
-      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Withdraw}") '"เบิก"
-      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Rent}") '"ให้เช่า"
-      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.WaitingForRepair}") '"รอซ่อม"
-      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.SendRepair}") '"ส่งซ่อม"
-      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Damaged}") '"ชำรุดพัง"
-      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Lost}") '"หาย"
+
+      m_grid(0, 7).Text = "Write-Off" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Active}") '"Active"
+
+      m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Available}") '"ว่าง"
+      m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Withdraw}") '"เบิก"
+      m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Rent}") '"ให้เช่า"
+      m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.WaitingForRepair}") '"รอซ่อม"
+      m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.SendRepair}") '"ส่งซ่อม"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Damaged}") '"ชำรุดพัง"
+      m_grid(0, 14).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Lost}") '"หาย"
       'm_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.currentCC}") '"CCที่อยู่"
 
       Dim indent As String = Space(1)
@@ -100,13 +109,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
       m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
       m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 14).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
     End Sub
     Private Sub PopulateData()
@@ -188,9 +200,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currCcIndex, 5).CellValue = drh.GetValue(Of String)("unit_name")
 
         Dim active As Integer = 0
+        Dim w_off As Integer = 0
         Dim id As String = drh.GetValue(Of Integer)("tool_id").ToString
 
-        Dim i As Integer = 7
+        Dim i As Integer = 8 '7
         For Each sr As DataRow In ct.Rows
           Dim key As String = id & "|" & CInt(sr("code_value")).ToString
           Dim val As Integer = 0
@@ -205,6 +218,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         
 
         m_grid(currCcIndex, 6).CellValue = Configuration.FormatToString(active, DigitConfig.Qty)
+
+        If qtystaus.ContainsKey(id & "|9") Then
+          w_off = qtystaus.Item(id & "|9")
+        End If
+
+
+        m_grid(currCcIndex, 7).CellValue = Configuration.FormatToString(w_off, DigitConfig.Qty)
 
       Next
 
