@@ -749,9 +749,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 stockitemRow("Code") = si.Entity.Code
                 stockitemRow("Description") = si.Itemname
                 stockitemRow("UnitName") = si.DefaultUnit.Name
-                stockitemRow("stockQty") = si.Stockqty
-                stockitemRow("UnitCost") = si.UnitCost
-                stockitemRow("Amount") = si.Amount
+                stockitemRow("stockQty") = Configuration.Format(si.Stockqty, DigitConfig.Qty)
+                stockitemRow("UnitCost") = Configuration.Format(si.UnitCost, DigitConfig.UnitPrice)
+                stockitemRow("Amount") = Configuration.Format(si.Amount, DigitConfig.Price)
                 stockitemRow.Tag = si
               Next
 
