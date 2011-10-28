@@ -348,7 +348,12 @@ Namespace Longkong.AdobeForm
         If Not item Is Nothing AndAlso Not item.Value Is Nothing Then
           data = item.Value.ToString
         Else
-          data = 0
+          If workTableRow > 0 Then
+            data = "[!]"
+          Else
+            data = "0"
+          End If
+          'data = 0
         End If
         If data.StartsWith("=") Then
           data = ""
@@ -554,7 +559,12 @@ Namespace Longkong.AdobeForm
         If Not item Is Nothing AndAlso Not item.Value Is Nothing Then
           data = item.Value.ToString
         Else
-          data = ""
+          If workTableRow > 0 Then
+            data = "[!]"
+          Else
+            data = ""
+          End If
+
         End If
         If data.StartsWith("=") Then
           data = ""
@@ -1989,6 +1999,14 @@ Namespace Longkong.AdobeForm
       workTable = tableName
       ret = Evaluate(dat)
       ret = Parse(ret)
+
+      Const Var As String = "(\[!\])"
+      Dim reVar As New Regex("\s*" & Var & "\s*", RegexOptions.IgnoreCase)
+
+      If reVar.IsMatch(ret) Then
+        ret = ""
+      End If
+
       Return ret
     End Function
     Protected Function GetObject(ByVal data As String) As Object
