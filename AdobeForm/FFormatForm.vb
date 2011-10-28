@@ -1,4 +1,6 @@
 Imports System.Xml
+Imports System.Xml.XPath
+Imports System.Xml.Xsl
 Imports System.Drawing.Printing
 Imports System.Reflection
 Imports System.IO
@@ -59,10 +61,25 @@ Namespace Longkong.AdobeForm
 			End If
 			m_filePath = Path.GetFullPath(fileName).Replace(Path.GetFileName(fileName), "").TrimEnd(Path.DirectorySeparatorChar)
 			Dim doc As New XmlDocument
-			doc.Load(fileName)
-			m_entity = CType(prinTableEntity, FFormat)
-			Me.Construct(doc.DocumentElement)
-			Init()
+      doc.Load(fileName)
+      m_entity = CType(prinTableEntity, FFormat)
+
+      Dim templateNode As XmlNode
+      templateNode = doc.SelectSingleNode("template")
+      If templateNode Is Nothing Then
+        Dim outputForm As New XmlDocument
+        outputForm.LoadXml(Transformer(doc))
+        'ProcessXmlNode(outputForm.SelectSingleNode("xdp/template"))
+        Me.Construct(outputForm.SelectSingleNode("xdp/template"))
+
+      Else
+        'ProcessXmlNode(templateNode)
+        Me.Construct(templateNode)
+
+      End If
+
+      'Me.Construct(doc.DocumentElement)
+      Init()
 		End Sub
 		Private Sub Construct(ByVal xmlNode As XmlNode)
 			ProcessXmlNode(xmlNode)
@@ -612,134 +629,149 @@ Namespace Longkong.AdobeForm
 #End Region
 
 #Region "Methods"
-		Private Sub ProcessXmlNode(ByVal xmlnode As XmlNode)
-			Dim noRecur As Boolean = False
-			Select Case xmlnode.NodeType
-				Case XmlNodeType.Element
-					Dim ctrl As AdobeControl
-					For Each xmlAttr As XmlAttribute In xmlnode.Attributes
-						If xmlAttr.Name.ToLower = "layout" Then
-							Select Case xmlAttr.Value.ToLower
-								Case "lr-tb", "tb", "rl-tb", "position"
-									'Form
-									Dim myNode As xmlnode = xmlnode.SelectSingleNode("descendant::contentArea")
-									If Not myNode Is Nothing Then
-										Dim x As String = myNode.Attributes("x").Value
-										Dim y As String = myNode.Attributes("y").Value
-										Me.m_hMargin = AnyThingToPixel(x)
-										Me.m_vMargin = AnyThingToPixel(y)
-									End If
-									Dim mediumNode As xmlnode = xmlnode.SelectSingleNode("descendant::medium")
-									If Not mediumNode Is Nothing Then
-										If Not mediumNode.Attributes("orientation") Is Nothing Then
-											Me.m_printerSettings.DefaultPageSettings.Landscape = True
-										End If
-										Dim thePaper As PaperSize = PJMPaper.Letter
-										If Not mediumNode.Attributes("stock") Is Nothing Then
-											Select Case mediumNode.Attributes("stock").Value.ToLower
-												Case "default"
-													thePaper = PJMPaper.Letter
-												Case "a3"
-													thePaper = PJMPaper.A4
-												Case "a4"
-													thePaper = PJMPaper.A4
-												Case "a5"
-													thePaper = PJMPaper.A5
-												Case "a4extra"
-													thePaper = PJMPaper.A4Extra
-											End Select
-										End If
-										Me.m_printerSettings.DefaultPageSettings.PaperSize = thePaper
-									End If
-									Exit For
-								Case "table"
-									'Table
-									noRecur = True
-									ctrl = New TableControl(xmlnode)
-									Exit For
-								Case Else
-									'subform
-									Exit For
-							End Select
-						End If
-					Next
-					Dim foundedNode As xmlnode = xmlnode.SelectSingleNode("assist")
-					If Not foundedNode Is Nothing Then
-						For Each attr As XmlAttribute In foundedNode.Attributes
-							If attr.Name.ToLower = "role" Then
-								Select Case attr.Value.ToLower
-									Case "th"
-									Case "tr"
-								End Select
-							End If
-						Next
-					Else
-						Dim foundedNodes As XmlNodeList = xmlnode.SelectNodes("ui/textEdit")
-						If foundedNodes.Count > 0 Then
-						End If
-					End If
-					foundedNode = xmlnode.SelectSingleNode("value/image")
-					If Not foundedNode Is Nothing Then
-						ctrl = New ImageControl(xmlnode)
-					End If
-					foundedNode = xmlnode.SelectSingleNode("ui/checkButton")
-					If Not foundedNode Is Nothing Then
-						ctrl = New CheckboxControl(xmlnode)
-					End If
-					foundedNode = xmlnode.SelectSingleNode("value/arc")
-					If Not foundedNode Is Nothing Then
-						ctrl = New CircleControl(xmlnode)
-					End If
-					foundedNode = xmlnode.SelectSingleNode("value/line")
-					If Not foundedNode Is Nothing Then
-						ctrl = New LineControl(xmlnode)
-					End If
-					foundedNode = xmlnode.SelectSingleNode("value/rectangle")
-					If Not foundedNode Is Nothing Then
-						ctrl = New RectangleControl(xmlnode)
-					End If
-					foundedNode = xmlnode.SelectSingleNode("ui/textEdit")
-					If Not foundedNode Is Nothing Then
-						foundedNode = xmlnode.SelectSingleNode("caption")
-						If Not foundedNode Is Nothing Then
-							noRecur = True
-							ctrl = New TextFieldControl(xmlnode)
-						Else
-							foundedNode = xmlnode.SelectSingleNode("value/text")
-							If Not foundedNode Is Nothing Then
-								ctrl = New TextControl(xmlnode)
-							Else
-								foundedNode = xmlnode.SelectSingleNode("value/exData/body")
-								If Not foundedNode Is Nothing Then
-									ctrl = New TextControl(xmlnode)
-								Else
-									ctrl = New TextControl(xmlnode)
-								End If
-							End If
-						End If
-					End If
-					If Not ctrl Is Nothing Then
-						If TypeOf ctrl Is IHasRootPath Then
-							CType(ctrl, IHasRootPath).RootPath = Me.FilePath
-						End If
-						Me.Controls.Add(ctrl)
-					End If
-				Case XmlNodeType.Text, XmlNodeType.CDATA
-				Case XmlNodeType.Comment
-				Case XmlNodeType.ProcessingInstruction, XmlNodeType.XmlDeclaration
-				Case Else
-					' Ignore other node types.
-			End Select
-			' Call this routine recursively for each child node.
-			If Not noRecur Then
-				Dim xmlChild As xmlnode = xmlnode.FirstChild
-				Do Until xmlChild Is Nothing
-					ProcessXmlNode(xmlChild)
-					' Continue with the next child node.
-					xmlChild = xmlChild.NextSibling
-				Loop
-			End If
-		End Sub
+
+    Public Function Transformer(ByVal doc As System.Xml.XmlDocument) As String
+      Dim xslt As New XslTransform
+      Dim fullpath As String
+      fullpath = Application.StartupPath()
+      fullpath = Strings.Replace(fullpath, "bin", "data\forms\")
+      xslt.Load(fullpath & "remove-namespace.xsl")
+
+      Dim fs As New StringWriter
+      Dim output As String
+      xslt.Transform(doc, Nothing, fs, Nothing)
+      output = fs.ToString
+      Return output
+    End Function
+
+    Private Sub ProcessXmlNode(ByVal xmlnode As XmlNode)
+      Dim noRecur As Boolean = False
+      Select Case xmlnode.NodeType
+        Case XmlNodeType.Element
+          Dim ctrl As AdobeControl
+          For Each xmlAttr As XmlAttribute In xmlnode.Attributes
+            If xmlAttr.Name.ToLower = "layout" Then
+              Select Case xmlAttr.Value.ToLower
+                Case "lr-tb", "tb", "rl-tb", "position"
+                  'Form
+                  Dim myNode As XmlNode = xmlnode.SelectSingleNode("descendant::contentArea")
+                  If Not myNode Is Nothing Then
+                    Dim x As String = myNode.Attributes("x").Value
+                    Dim y As String = myNode.Attributes("y").Value
+                    Me.m_hMargin = AnyThingToPixel(x)
+                    Me.m_vMargin = AnyThingToPixel(y)
+                  End If
+                  Dim mediumNode As XmlNode = xmlnode.SelectSingleNode("descendant::medium")
+                  If Not mediumNode Is Nothing Then
+                    If Not mediumNode.Attributes("orientation") Is Nothing Then
+                      Me.m_printerSettings.DefaultPageSettings.Landscape = True
+                    End If
+                    Dim thePaper As PaperSize = PJMPaper.Letter
+                    If Not mediumNode.Attributes("stock") Is Nothing Then
+                      Select Case mediumNode.Attributes("stock").Value.ToLower
+                        Case "default"
+                          thePaper = PJMPaper.Letter
+                        Case "a3"
+                          thePaper = PJMPaper.A4
+                        Case "a4"
+                          thePaper = PJMPaper.A4
+                        Case "a5"
+                          thePaper = PJMPaper.A5
+                        Case "a4extra"
+                          thePaper = PJMPaper.A4Extra
+                      End Select
+                    End If
+                    Me.m_printerSettings.DefaultPageSettings.PaperSize = thePaper
+                  End If
+                  Exit For
+                Case "table"
+                  'Table
+                  noRecur = True
+                  ctrl = New TableControl(xmlnode)
+                  Exit For
+                Case Else
+                  'subform
+                  Exit For
+              End Select
+            End If
+          Next
+          Dim foundedNode As XmlNode = xmlnode.SelectSingleNode("assist")
+          If Not foundedNode Is Nothing Then
+            For Each attr As XmlAttribute In foundedNode.Attributes
+              If attr.Name.ToLower = "role" Then
+                Select Case attr.Value.ToLower
+                  Case "th"
+                  Case "tr"
+                End Select
+              End If
+            Next
+          Else
+            Dim foundedNodes As XmlNodeList = xmlnode.SelectNodes("ui/textEdit")
+            If foundedNodes.Count > 0 Then
+            End If
+          End If
+          foundedNode = xmlnode.SelectSingleNode("value/image")
+          If Not foundedNode Is Nothing Then
+            ctrl = New ImageControl(xmlnode)
+          End If
+          foundedNode = xmlnode.SelectSingleNode("ui/checkButton")
+          If Not foundedNode Is Nothing Then
+            ctrl = New CheckboxControl(xmlnode)
+          End If
+          foundedNode = xmlnode.SelectSingleNode("value/arc")
+          If Not foundedNode Is Nothing Then
+            ctrl = New CircleControl(xmlnode)
+          End If
+          foundedNode = xmlnode.SelectSingleNode("value/line")
+          If Not foundedNode Is Nothing Then
+            ctrl = New LineControl(xmlnode)
+          End If
+          foundedNode = xmlnode.SelectSingleNode("value/rectangle")
+          If Not foundedNode Is Nothing Then
+            ctrl = New RectangleControl(xmlnode)
+          End If
+          foundedNode = xmlnode.SelectSingleNode("ui/textEdit")
+          If Not foundedNode Is Nothing Then
+            foundedNode = xmlnode.SelectSingleNode("caption")
+            If Not foundedNode Is Nothing Then
+              noRecur = True
+              ctrl = New TextFieldControl(xmlnode)
+            Else
+              foundedNode = xmlnode.SelectSingleNode("value/text")
+              If Not foundedNode Is Nothing Then
+                ctrl = New TextControl(xmlnode)
+              Else
+                foundedNode = xmlnode.SelectSingleNode("value/exData/body")
+                If Not foundedNode Is Nothing Then
+                  ctrl = New TextControl(xmlnode)
+                Else
+                  ctrl = New TextControl(xmlnode)
+                End If
+              End If
+            End If
+          End If
+          If Not ctrl Is Nothing Then
+            If TypeOf ctrl Is IHasRootPath Then
+              CType(ctrl, IHasRootPath).RootPath = Me.FilePath
+            End If
+            Me.Controls.Add(ctrl)
+          End If
+        Case XmlNodeType.Text, XmlNodeType.CDATA
+        Case XmlNodeType.Comment
+        Case XmlNodeType.ProcessingInstruction, XmlNodeType.XmlDeclaration
+        Case Else
+          ' Ignore other node types.
+      End Select
+      ' Call this routine recursively for each child node.
+      If Not noRecur Then
+        Dim xmlChild As XmlNode = xmlnode.FirstChild
+        Do Until xmlChild Is Nothing
+          ProcessXmlNode(xmlChild)
+          ' Continue with the next child node.
+          xmlChild = xmlChild.NextSibling
+        Loop
+      End If
+    End Sub
 #End Region
 
 #Region "Shared"
