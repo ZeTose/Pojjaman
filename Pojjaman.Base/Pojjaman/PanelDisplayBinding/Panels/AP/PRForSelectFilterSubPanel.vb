@@ -58,6 +58,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnRequestorPanel As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtCostCenterFrom As System.Windows.Forms.TextBox
     Friend WithEvents lblCostCenterFrom As System.Windows.Forms.Label
+    Friend WithEvents grbRecieveDate As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtReceivingdatestart As System.Windows.Forms.TextBox
+    Friend WithEvents txtReceivingdateend As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents dtpReceivingdatestart As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpReceivingdateend As System.Windows.Forms.DateTimePicker
     Friend WithEvents txtDocDateEnd As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -88,20 +95,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
       Me.txtRequestorName = New System.Windows.Forms.TextBox()
       Me.lblRequestor = New System.Windows.Forms.Label()
+      Me.txtCostCenterFrom = New System.Windows.Forms.TextBox()
       Me.txtCostCenterName = New System.Windows.Forms.TextBox()
       Me.btnCostCenterDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnRequestorPanel = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCostCenterFrom = New System.Windows.Forms.Label()
       Me.lblCC = New System.Windows.Forms.Label()
       Me.btnRequestorDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtCostCenterFrom = New System.Windows.Forms.TextBox()
-      Me.lblCostCenterFrom = New System.Windows.Forms.Label()
+      Me.grbRecieveDate = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtReceivingdatestart = New System.Windows.Forms.TextBox()
+      Me.txtReceivingdateend = New System.Windows.Forms.TextBox()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.Label2 = New System.Windows.Forms.Label()
+      Me.dtpReceivingdatestart = New System.Windows.Forms.DateTimePicker()
+      Me.dtpReceivingdateend = New System.Windows.Forms.DateTimePicker()
       Me.grbDetail.SuspendLayout()
       Me.grbDocDate.SuspendLayout()
       Me.grbItem.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+      Me.grbRecieveDate.SuspendLayout()
       Me.SuspendLayout()
       '
       'lblCode
@@ -135,6 +150,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                   Or System.Windows.Forms.AnchorStyles.Left) _
                   Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.grbRecieveDate)
       Me.grbDetail.Controls.Add(Me.grbDocDate)
       Me.grbDetail.Controls.Add(Me.btnSearch)
       Me.grbDetail.Controls.Add(Me.btnReset)
@@ -143,7 +159,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(7, 0)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(748, 154)
+      Me.grbDetail.Size = New System.Drawing.Size(748, 209)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
@@ -156,7 +172,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Controls.Add(Me.dtpDocDateStart)
       Me.grbDocDate.Controls.Add(Me.dtpDocDateEnd)
       Me.grbDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDocDate.Location = New System.Drawing.Point(399, 79)
+      Me.grbDocDate.Location = New System.Drawing.Point(399, 19)
       Me.grbDocDate.Name = "grbDocDate"
       Me.grbDocDate.Size = New System.Drawing.Size(252, 68)
       Me.grbDocDate.TabIndex = 3
@@ -235,7 +251,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(664, 123)
+      Me.btnSearch.Location = New System.Drawing.Point(664, 178)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 5
@@ -245,7 +261,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(664, 94)
+      Me.btnReset.Location = New System.Drawing.Point(664, 149)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 4
@@ -261,9 +277,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbItem.Controls.Add(Me.txtLCI)
       Me.grbItem.Controls.Add(Me.txtLCIName)
       Me.grbItem.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbItem.Location = New System.Drawing.Point(399, 11)
+      Me.grbItem.Location = New System.Drawing.Point(8, 131)
       Me.grbItem.Name = "grbItem"
-      Me.grbItem.Size = New System.Drawing.Size(340, 68)
+      Me.grbItem.Size = New System.Drawing.Size(385, 68)
       Me.grbItem.TabIndex = 1
       Me.grbItem.TabStop = False
       Me.grbItem.Text = "สิ่งที่ซื้อ"
@@ -450,6 +466,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRequestor.Text = "ผู้ขอ:"
       Me.lblRequestor.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'txtCostCenterFrom
+      '
+      Me.Validator.SetDataType(Me.txtCostCenterFrom, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCostCenterFrom, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtCostCenterFrom, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCostCenterFrom, System.Drawing.Color.Empty)
+      Me.txtCostCenterFrom.Location = New System.Drawing.Point(101, 87)
+      Me.Validator.SetMinValue(Me.txtCostCenterFrom, "")
+      Me.txtCostCenterFrom.Name = "txtCostCenterFrom"
+      Me.txtCostCenterFrom.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtCostCenterFrom, "")
+      Me.Validator.SetRequired(Me.txtCostCenterFrom, False)
+      Me.txtCostCenterFrom.Size = New System.Drawing.Size(275, 20)
+      Me.txtCostCenterFrom.TabIndex = 9
+      Me.txtCostCenterFrom.TabStop = False
+      '
       'txtCostCenterName
       '
       Me.Validator.SetDataType(Me.txtCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
@@ -489,6 +521,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnRequestorPanel.TabStop = False
       Me.btnRequestorPanel.ThemedImage = CType(resources.GetObject("btnRequestorPanel.ThemedImage"), System.Drawing.Bitmap)
       '
+      'lblCostCenterFrom
+      '
+      Me.lblCostCenterFrom.BackColor = System.Drawing.Color.Transparent
+      Me.lblCostCenterFrom.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCostCenterFrom.ForeColor = System.Drawing.SystemColors.WindowText
+      Me.lblCostCenterFrom.Location = New System.Drawing.Point(0, 87)
+      Me.lblCostCenterFrom.Name = "lblCostCenterFrom"
+      Me.lblCostCenterFrom.Size = New System.Drawing.Size(101, 18)
+      Me.lblCostCenterFrom.TabIndex = 6
+      Me.lblCostCenterFrom.Text = "CostCenter คลัง:"
+      Me.lblCostCenterFrom.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'lblCC
       '
       Me.lblCC.BackColor = System.Drawing.Color.Transparent
@@ -526,39 +570,95 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'txtCostCenterFrom
+      'grbRecieveDate
       '
-      Me.Validator.SetDataType(Me.txtCostCenterFrom, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCostCenterFrom, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCostCenterFrom, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCostCenterFrom, System.Drawing.Color.Empty)
-      Me.txtCostCenterFrom.Location = New System.Drawing.Point(101, 87)
-      Me.Validator.SetMinValue(Me.txtCostCenterFrom, "")
-      Me.txtCostCenterFrom.Name = "txtCostCenterFrom"
-      Me.txtCostCenterFrom.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtCostCenterFrom, "")
-      Me.Validator.SetRequired(Me.txtCostCenterFrom, False)
-      Me.txtCostCenterFrom.Size = New System.Drawing.Size(275, 20)
-      Me.txtCostCenterFrom.TabIndex = 9
-      Me.txtCostCenterFrom.TabStop = False
+      Me.grbRecieveDate.Controls.Add(Me.txtReceivingdatestart)
+      Me.grbRecieveDate.Controls.Add(Me.txtReceivingdateend)
+      Me.grbRecieveDate.Controls.Add(Me.Label1)
+      Me.grbRecieveDate.Controls.Add(Me.Label2)
+      Me.grbRecieveDate.Controls.Add(Me.dtpReceivingdatestart)
+      Me.grbRecieveDate.Controls.Add(Me.dtpReceivingdateend)
+      Me.grbRecieveDate.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbRecieveDate.Location = New System.Drawing.Point(399, 97)
+      Me.grbRecieveDate.Name = "grbRecieveDate"
+      Me.grbRecieveDate.Size = New System.Drawing.Size(252, 68)
+      Me.grbRecieveDate.TabIndex = 6
+      Me.grbRecieveDate.TabStop = False
+      Me.grbRecieveDate.Text = "วันที่รับของ"
       '
-      'lblCostCenterFrom
+      'txtReceivingdatestart
       '
-      Me.lblCostCenterFrom.BackColor = System.Drawing.Color.Transparent
-      Me.lblCostCenterFrom.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCostCenterFrom.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblCostCenterFrom.Location = New System.Drawing.Point(0, 87)
-      Me.lblCostCenterFrom.Name = "lblCostCenterFrom"
-      Me.lblCostCenterFrom.Size = New System.Drawing.Size(101, 18)
-      Me.lblCostCenterFrom.TabIndex = 6
-      Me.lblCostCenterFrom.Text = "CostCenter คลัง:"
-      Me.lblCostCenterFrom.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.txtReceivingdatestart.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReceivingdatestart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtReceivingdatestart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReceivingdatestart, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReceivingdatestart, System.Drawing.Color.Empty)
+      Me.txtReceivingdatestart.Location = New System.Drawing.Point(92, 16)
+      Me.Validator.SetMinValue(Me.txtReceivingdatestart, "")
+      Me.txtReceivingdatestart.Name = "txtReceivingdatestart"
+      Me.Validator.SetRegularExpression(Me.txtReceivingdatestart, "")
+      Me.Validator.SetRequired(Me.txtReceivingdatestart, False)
+      Me.txtReceivingdatestart.Size = New System.Drawing.Size(118, 20)
+      Me.txtReceivingdatestart.TabIndex = 1
+      '
+      'txtReceivingdateend
+      '
+      Me.txtReceivingdateend.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtReceivingdateend, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtReceivingdateend, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtReceivingdateend, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtReceivingdateend, System.Drawing.Color.Empty)
+      Me.txtReceivingdateend.Location = New System.Drawing.Point(92, 40)
+      Me.Validator.SetMinValue(Me.txtReceivingdateend, "")
+      Me.txtReceivingdateend.Name = "txtReceivingdateend"
+      Me.Validator.SetRegularExpression(Me.txtReceivingdateend, "")
+      Me.Validator.SetRequired(Me.txtReceivingdateend, False)
+      Me.txtReceivingdateend.Size = New System.Drawing.Size(118, 20)
+      Me.txtReceivingdateend.TabIndex = 2
+      '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.ForeColor = System.Drawing.Color.Black
+      Me.Label1.Location = New System.Drawing.Point(6, 17)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(86, 18)
+      Me.Label1.TabIndex = 2
+      Me.Label1.Text = "ตั้งแต่"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'Label2
+      '
+      Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label2.ForeColor = System.Drawing.Color.Black
+      Me.Label2.Location = New System.Drawing.Point(6, 41)
+      Me.Label2.Name = "Label2"
+      Me.Label2.Size = New System.Drawing.Size(86, 18)
+      Me.Label2.TabIndex = 3
+      Me.Label2.Text = "ถึง"
+      Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'dtpReceivingdatestart
+      '
+      Me.dtpReceivingdatestart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpReceivingdatestart.Location = New System.Drawing.Point(92, 16)
+      Me.dtpReceivingdatestart.Name = "dtpReceivingdatestart"
+      Me.dtpReceivingdatestart.Size = New System.Drawing.Size(136, 20)
+      Me.dtpReceivingdatestart.TabIndex = 4
+      '
+      'dtpReceivingdateend
+      '
+      Me.dtpReceivingdateend.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpReceivingdateend.Location = New System.Drawing.Point(92, 40)
+      Me.dtpReceivingdateend.Name = "dtpReceivingdateend"
+      Me.dtpReceivingdateend.Size = New System.Drawing.Size(136, 20)
+      Me.dtpReceivingdateend.TabIndex = 5
       '
       'PRForSelectFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "PRForSelectFilterSubPanel"
-      Me.Size = New System.Drawing.Size(764, 162)
+      Me.Size = New System.Drawing.Size(764, 217)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDocDate.ResumeLayout(False)
       Me.grbDocDate.PerformLayout()
@@ -567,6 +667,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.ResumeLayout(False)
       Me.grbMainDetail.PerformLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+      Me.grbRecieveDate.ResumeLayout(False)
+      Me.grbRecieveDate.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -593,6 +695,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private dummyLci As New LCIItem
     Private docDateStart As Date
     Private docDateEnd As Date
+
+    Private ReceivingDateStart As Date
+    Private ReceivingDateEnd As Date
 #End Region
 
 #Region "Methods"
@@ -602,6 +707,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
+      AddHandler txtReceivingdatestart.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpReceivingdatestart.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtReceivingdateend.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpReceivingdateend.ValueChanged, AddressOf Me.ChangeProperty
       ClearCriterias()
     End Sub
     Private m_dateSetting As Boolean
@@ -654,6 +763,52 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = True
           End If
           m_dateSetting = False
+        Case "dtpreceivingdatestart"
+          If Not Me.ReceivingDateStart.Equals(dtpReceivingdatestart.Value) Then
+            If Not m_dateSetting Then
+              Me.txtReceivingdatestart.Text = MinDateToNull(dtpReceivingdatestart.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.ReceivingDateStart = dtpReceivingdatestart.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtreceivingdatestart"
+          m_dateSetting = True
+          If Not Me.txtReceivingdatestart.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtReceivingdatestart) = "" Then
+            Dim theDate As Date = CDate(Me.txtReceivingdatestart.Text)
+            If Not Me.ReceivingDateStart.Equals(theDate) Then
+              dtpReceivingdatestart.Value = theDate
+              Me.ReceivingDateStart = dtpReceivingdatestart.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.dtpReceivingdatestart.Value = Date.Now
+            Me.ReceivingDateStart = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
+        Case "dtpreceivingdateend"
+          If Not Me.ReceivingDateEnd.Equals(dtpReceivingdateend.Value) Then
+            If Not m_dateSetting Then
+              Me.txtReceivingdateend.Text = MinDateToNull(dtpReceivingdateend.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.ReceivingDateEnd = dtpReceivingdateend.Value
+            End If
+            dirtyFlag = True
+          End If
+        Case "txtreceivingdateend"
+          m_dateSetting = True
+          If Not Me.txtReceivingdateend.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtReceivingdateend) = "" Then
+            Dim theDate As Date = CDate(Me.txtReceivingdateend.Text)
+            If Not Me.ReceivingDateEnd.Equals(theDate) Then
+              dtpReceivingdateend.Value = theDate
+              Me.ReceivingDateEnd = dtpReceivingdateend.Value
+              dirtyFlag = True
+            End If
+          Else
+            Me.dtpReceivingdateend.Value = Date.Now
+            Me.ReceivingDateEnd = Date.MinValue
+            dirtyFlag = True
+          End If
+          m_dateSetting = False
         Case Else
       End Select
     End Sub
@@ -703,7 +858,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCostCenterFrom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.CostCenterFrom}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(8) As Filter
+      Dim arr(10) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("requestor", IIf(Me.m_requestor.Valid, Me.m_requestor.Id, DBNull.Value))
       arr(2) = New Filter("cc_id", IIf(Me.m_cc.Valid, Me.m_cc.Id, DBNull.Value))
@@ -713,6 +868,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(6) = New Filter("pri_itemName", IIf(Me.txtBlank.Text.Length = 0, DBNull.Value, Me.txtBlank.Text))
       arr(7) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
       arr(8) = New Filter("fromCC_id", IIf(Me.m_ccFrom.Valid, Me.m_ccFrom.Id, DBNull.Value))
+      arr(9) = New Filter("receivingdatestart", ValidDateOrDBNull(ReceivingDateStart))
+      arr(10) = New Filter("receivingdateend", ValidDateOrDBNull(ReceivingDateEnd))
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button

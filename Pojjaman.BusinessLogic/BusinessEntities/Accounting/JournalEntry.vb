@@ -646,10 +646,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.GLFormat = Me.RefDoc.GetDefaultGLFormat
       Me.SetOnlyAutoMateItem(Me.GLFormat)
     End Sub
-    Public Function GetUnpostListTable(ByVal startDate As Date, ByVal endDate As Date) As DataTable
-      Dim params(1) As SqlParameter
+    Public Function GetUnpostListTable(ByVal startDate As Date, ByVal endDate As Date, ByVal code As String, ByVal startacctbook As String, ByVal endacctbook As String) As DataTable
+      Dim params(4) As SqlParameter
       params(0) = New SqlParameter("@docdatestart", startDate)
       params(1) = New SqlParameter("@docdateend", endDate)
+      params(2) = New SqlParameter("@Code", IIf(code.Length > 0, code, DBNull.Value))
+      params(3) = New SqlParameter("@AcctBookCodeStart", IIf(startacctbook.Length > 0, startacctbook, DBNull.Value))
+      params(4) = New SqlParameter("@AcctBookCodeEnd", IIf(endacctbook.Length > 0, endacctbook, DBNull.Value))
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, "GetUnPostGLList", params)
       ds.Tables(0).TableName = Me.ClassName
       Return ds.Tables(0)

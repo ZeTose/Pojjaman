@@ -859,7 +859,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       endDate = Me.m_entity.EndPeriod.EndDate
       Dim gl As New JournalEntry
-      Dim dt As DataTable = gl.GetUnpostListTable(startDate, endDate)
+      Dim dt As DataTable = gl.GetUnpostListTable(startDate, endDate, "", "", "")
       If dt.Rows.Count > 0 Then
         If msgServ.AskQuestionFormatted("${res:Global.Error.StillHaveUnPostGL}", New String() {dt.Rows.Count.ToString}) Then
           Dim view As New PostGLView(startDate, endDate)

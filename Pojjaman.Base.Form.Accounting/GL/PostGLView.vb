@@ -43,6 +43,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbSearch As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents btnCheckAll As System.Windows.Forms.Button
     Friend WithEvents btnShowRefDoc As System.Windows.Forms.Button
+    Friend WithEvents btnAcctBookEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtAcctBookEnd As System.Windows.Forms.TextBox
+    Friend WithEvents lblAcctBookEnd As System.Windows.Forms.Label
+    Friend WithEvents btnAcctBookStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtAcctBookStart As System.Windows.Forms.TextBox
+    Friend WithEvents lblAcctBookStart As System.Windows.Forms.Label
+    Friend WithEvents txtCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblCode As System.Windows.Forms.Label
     Friend WithEvents pgPosting As System.Windows.Forms.ProgressBar
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -62,6 +70,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCheckAll = New System.Windows.Forms.Button()
       Me.btnShowRefDoc = New System.Windows.Forms.Button()
       Me.pgPosting = New System.Windows.Forms.ProgressBar()
+      Me.btnAcctBookEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAcctBookEnd = New System.Windows.Forms.TextBox()
+      Me.lblAcctBookEnd = New System.Windows.Forms.Label()
+      Me.btnAcctBookStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtAcctBookStart = New System.Windows.Forms.TextBox()
+      Me.lblAcctBookStart = New System.Windows.Forms.Label()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.lblCode = New System.Windows.Forms.Label()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbSearch.SuspendLayout()
       Me.SuspendLayout()
@@ -89,10 +105,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lvItem.FullRowSelect = True
       Me.lvItem.GridLines = True
       Me.lvItem.HideSelection = False
-      Me.lvItem.Location = New System.Drawing.Point(32, 80)
+      Me.lvItem.Location = New System.Drawing.Point(32, 132)
       Me.lvItem.MultiSelect = False
       Me.lvItem.Name = "lvItem"
-      Me.lvItem.Size = New System.Drawing.Size(680, 312)
+      Me.lvItem.Size = New System.Drawing.Size(680, 303)
       Me.lvItem.SortIndex = -1
       Me.lvItem.SortOrder = System.Windows.Forms.SortOrder.None
       Me.lvItem.TabIndex = 1
@@ -158,7 +174,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(32, 64)
+      Me.lblItem.Location = New System.Drawing.Point(29, 111)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(168, 18)
       Me.lblItem.TabIndex = 4
@@ -177,6 +193,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbSearch
       '
+      Me.grbSearch.Controls.Add(Me.txtCode)
+      Me.grbSearch.Controls.Add(Me.lblCode)
+      Me.grbSearch.Controls.Add(Me.btnAcctBookEndFind)
+      Me.grbSearch.Controls.Add(Me.txtAcctBookEnd)
+      Me.grbSearch.Controls.Add(Me.lblAcctBookEnd)
+      Me.grbSearch.Controls.Add(Me.btnAcctBookStartFind)
+      Me.grbSearch.Controls.Add(Me.txtAcctBookStart)
+      Me.grbSearch.Controls.Add(Me.lblAcctBookStart)
       Me.grbSearch.Controls.Add(Me.dtpStartDate)
       Me.grbSearch.Controls.Add(Me.btnRefresh)
       Me.grbSearch.Controls.Add(Me.lblEndDate)
@@ -185,7 +209,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbSearch.Location = New System.Drawing.Point(32, 8)
       Me.grbSearch.Name = "grbSearch"
-      Me.grbSearch.Size = New System.Drawing.Size(472, 48)
+      Me.grbSearch.Size = New System.Drawing.Size(472, 89)
       Me.grbSearch.TabIndex = 0
       Me.grbSearch.TabStop = False
       Me.grbSearch.Text = "ค้นหารายการ"
@@ -194,7 +218,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnCheckAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnCheckAll.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnCheckAll.Location = New System.Drawing.Point(32, 400)
+      Me.btnCheckAll.Location = New System.Drawing.Point(32, 443)
       Me.btnCheckAll.Name = "btnCheckAll"
       Me.btnCheckAll.Size = New System.Drawing.Size(120, 23)
       Me.btnCheckAll.TabIndex = 3
@@ -205,7 +229,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnShowRefDoc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnShowRefDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnShowRefDoc.Location = New System.Drawing.Point(160, 400)
+      Me.btnShowRefDoc.Location = New System.Drawing.Point(160, 443)
       Me.btnShowRefDoc.Name = "btnShowRefDoc"
       Me.btnShowRefDoc.Size = New System.Drawing.Size(104, 23)
       Me.btnShowRefDoc.TabIndex = 219
@@ -221,6 +245,110 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.pgPosting.Size = New System.Drawing.Size(120, 23)
       Me.pgPosting.TabIndex = 220
       '
+      'btnAcctBookEndFind
+      '
+      Me.btnAcctBookEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAcctBookEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAcctBookEndFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAcctBookEndFind.Location = New System.Drawing.Point(376, 40)
+      Me.btnAcctBookEndFind.Name = "btnAcctBookEndFind"
+      Me.btnAcctBookEndFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAcctBookEndFind.TabIndex = 42
+      Me.btnAcctBookEndFind.TabStop = False
+      Me.btnAcctBookEndFind.ThemedImage = CType(resources.GetObject("btnAcctBookEndFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtAcctBookEnd
+      '
+      Me.Validator.SetDataType(Me.txtAcctBookEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAcctBookEnd, "")
+      Me.txtAcctBookEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAcctBookEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAcctBookEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAcctBookEnd, System.Drawing.Color.Empty)
+      Me.txtAcctBookEnd.Location = New System.Drawing.Point(280, 40)
+      Me.Validator.SetMinValue(Me.txtAcctBookEnd, "")
+      Me.txtAcctBookEnd.Name = "txtAcctBookEnd"
+      Me.Validator.SetRegularExpression(Me.txtAcctBookEnd, "")
+      Me.Validator.SetRequired(Me.txtAcctBookEnd, False)
+      Me.txtAcctBookEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtAcctBookEnd.TabIndex = 38
+      '
+      'lblAcctBookEnd
+      '
+      Me.lblAcctBookEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAcctBookEnd.ForeColor = System.Drawing.Color.Black
+      Me.lblAcctBookEnd.Location = New System.Drawing.Point(235, 40)
+      Me.lblAcctBookEnd.Name = "lblAcctBookEnd"
+      Me.lblAcctBookEnd.Size = New System.Drawing.Size(24, 18)
+      Me.lblAcctBookEnd.TabIndex = 41
+      Me.lblAcctBookEnd.Text = "ถึง"
+      Me.lblAcctBookEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'btnAcctBookStartFind
+      '
+      Me.btnAcctBookStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAcctBookStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAcctBookStartFind.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAcctBookStartFind.Location = New System.Drawing.Point(184, 40)
+      Me.btnAcctBookStartFind.Name = "btnAcctBookStartFind"
+      Me.btnAcctBookStartFind.Size = New System.Drawing.Size(24, 22)
+      Me.btnAcctBookStartFind.TabIndex = 40
+      Me.btnAcctBookStartFind.TabStop = False
+      Me.btnAcctBookStartFind.ThemedImage = CType(resources.GetObject("btnAcctBookStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'txtAcctBookStart
+      '
+      Me.Validator.SetDataType(Me.txtAcctBookStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtAcctBookStart, "")
+      Me.txtAcctBookStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtAcctBookStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtAcctBookStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtAcctBookStart, System.Drawing.Color.Empty)
+      Me.txtAcctBookStart.Location = New System.Drawing.Point(88, 40)
+      Me.Validator.SetMinValue(Me.txtAcctBookStart, "")
+      Me.txtAcctBookStart.Name = "txtAcctBookStart"
+      Me.Validator.SetRegularExpression(Me.txtAcctBookStart, "")
+      Me.Validator.SetRequired(Me.txtAcctBookStart, False)
+      Me.txtAcctBookStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtAcctBookStart.TabIndex = 37
+      '
+      'lblAcctBookStart
+      '
+      Me.lblAcctBookStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAcctBookStart.ForeColor = System.Drawing.Color.Black
+      Me.lblAcctBookStart.Location = New System.Drawing.Point(16, 40)
+      Me.lblAcctBookStart.Name = "lblAcctBookStart"
+      Me.lblAcctBookStart.Size = New System.Drawing.Size(62, 18)
+      Me.lblAcctBookStart.TabIndex = 39
+      Me.lblAcctBookStart.Text = "สมุดรายวัน"
+      Me.lblAcctBookStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtCode
+      '
+      Me.Validator.SetDataType(Me.txtCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCode, "")
+      Me.txtCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
+      Me.txtCode.Location = New System.Drawing.Point(88, 64)
+      Me.Validator.SetMinValue(Me.txtCode, "")
+      Me.txtCode.Name = "txtCode"
+      Me.Validator.SetRegularExpression(Me.txtCode, "")
+      Me.Validator.SetRequired(Me.txtCode, False)
+      Me.txtCode.Size = New System.Drawing.Size(275, 21)
+      Me.txtCode.TabIndex = 43
+      '
+      'lblCode
+      '
+      Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCode.ForeColor = System.Drawing.Color.Black
+      Me.lblCode.Location = New System.Drawing.Point(6, 64)
+      Me.lblCode.Name = "lblCode"
+      Me.lblCode.Size = New System.Drawing.Size(82, 18)
+      Me.lblCode.TabIndex = 44
+      Me.lblCode.Text = "รหัส:"
+      Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'PostGLView
       '
       Me.Controls.Add(Me.pgPosting)
@@ -231,9 +359,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblItem)
       Me.Controls.Add(Me.btnCheckAll)
       Me.Name = "PostGLView"
-      Me.Size = New System.Drawing.Size(744, 432)
+      Me.Size = New System.Drawing.Size(744, 475)
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSearch.ResumeLayout(False)
+      Me.grbSearch.PerformLayout()
       Me.ResumeLayout(False)
 
     End Sub
@@ -286,7 +415,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Methods"
     Public Sub RefreshList()
-      Dim dt As DataTable = m_gl.GetUnpostListTable(m_startDate, m_endDate)
+      Dim dt As DataTable = m_gl.GetUnpostListTable(m_startDate, m_endDate, txtCode.Text, txtAcctBookStart.Text, txtAcctBookEnd.Text)
       lvItem.Items.Clear()
       Dim comparer As IComparer = lvItem.ListViewItemSorter
       lvItem.ListViewItemSorter = Nothing
@@ -339,6 +468,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler dtpStartDate.ValueChanged, AddressOf Me.ChangeProperty
       AddHandler dtpStartDate.ValueChanged, AddressOf Me.ChangeProperty
 
+      AddHandler btnAcctBookStartFind.Click, AddressOf Me.btnAccountBookFind_Click
+      AddHandler btnAcctBookEndFind.Click, AddressOf Me.btnAccountBookFind_Click
       
     End Sub
     Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
@@ -546,6 +677,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       lists.Add(String.Join(",", sublist))
       Return lists
     End Function
+
+    Private Sub btnAccountBookFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      Select Case CType(sender, Control).Name.ToLower
+        Case "btnacctbookstartfind"
+          myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetAccountBookStartDialog)
+
+        Case "btnacctbookendfind"
+          myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetAccountBookEndDialog)
+
+      End Select
+    End Sub
+    Private Sub SetAccountBookStartDialog(ByVal e As ISimpleEntity)
+      Me.txtAcctBookStart.Text = e.Code
+    End Sub
+    Private Sub SetAccountBookEndDialog(ByVal e As ISimpleEntity)
+      Me.txtAcctBookEnd.Text = e.Code
+    End Sub
 #End Region
 
   End Class
