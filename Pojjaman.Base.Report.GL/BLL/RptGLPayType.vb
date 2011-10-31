@@ -197,6 +197,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim selectedCol As New DataColumn("Selected", GetType(Boolean))
       selectedCol.DefaultValue = False
       myDatatable.Columns.Add(selectedCol)
+      myDatatable.Columns.Add(New DataColumn("acct_id", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("acct_code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("acct_name", GetType(String)))
 
@@ -204,6 +205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       myDatatable.Columns.Add(New DataColumn("gl_code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("gli_note", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("gli_cc", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Debit", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Credit", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
@@ -419,12 +421,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Dim docId As Integer = drh.GetValue(Of Integer)("DocId", 0)
         Dim docType As Integer = drh.GetValue(Of Integer)("DocType", 0)
+        Dim glAccountId As Integer = drh.GetValue(Of Integer)("acct_id", 0)
+        Dim costcenterId As Integer = drh.GetValue(Of Integer)("gli_cc", 0)
+        Trace.WriteLine(glAccountId)
 
         If docId > 0 AndAlso docType > 0 Then
           dlgDetailForm.ColumnName = colName
           dlgDetailForm.DocId = docId
           dlgDetailForm.DocType = docType
           dlgDetailForm.Amount = amount
+          dlgDetailForm.GLAcountId = glAccountId
+          dlgDetailForm.CostCenterId = costcenterId
         Else
           Return
         End If
@@ -482,7 +489,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.m_treemanager Is Nothing Then
         Return
       End If
-      Dim dsh As New DataSetHelper
       Dim dtacct As DataTable = Me.DataSet.Tables(0)
       Dim currentAccountCode As String = ""
       Dim currentDoc As String = ""
@@ -510,6 +516,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         Dim theRow As TreeRow = parentNodes.Childs.Add
+        theRow("acct_id") = CInt(row("acct_id"))
         theRow("acct_code") = rowCode
         theRow("acct_name") = Space(rowLevel) & rowName 'Space(rowLevel * 3) & rowName
         theRow.Tag = rowTag
@@ -819,6 +826,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'If Not row.IsNull("gl_docdate") Then
             '  theRow("col0") = Space(2) & CDate(row("gl_docdate")).ToString("dd/MM/yyyy")
             'End If
+            theRow2("acct_id") = drh.GetValue(Of Integer)("gli_acct")
+            theRow2("gli_cc") = drh.GetValue(Of Integer)("gli_cc")
+
             If Not row.IsNull("gl_code") Then
               theRow2("gl_code") = CStr(row("gl_code")) 'Space(6) & CStr(row("gl_code"))
             End If
