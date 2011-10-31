@@ -198,6 +198,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         colIndex += 1
       Next
 
+      gridColumn = New GridViewTextBoxColumn("rowstotal")
+      gridColumn.Width = 150
+      gridColumn.TextAlignment = ContentAlignment.MiddleRight
+      gridColumn.HeaderText = "รวม" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentStatus.AccountName}")
+      gridColumn.ReadOnly = True
+      m_grid.Columns.Add(gridColumn)
+      colIndex += 1
+
     End Sub
     Private Function SetDataSourceFiltered(ByVal dt As DataTable, ByVal columnSource As String, ByVal codestart As String, ByVal codeend As String) As DataTable
       Dim newdt As New DataTable
@@ -315,32 +323,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ccrow As New DataRowHelper(row)
         newDt.Columns.Add(New DataColumn(ccrow.GetValue(Of String)("cc_id")))
       Next
+      newDt.Columns.Add(New DataColumn("rowstotal"))
+
+      Dim total As Decimal = 0
       For Each acctrow As DataRow In acctDataSourceStart.Rows
         Dim accth As New DataRowHelper(acctrow)
 
         Dim dr As DataRow = newDt.NewRow
-
         dr("LineNumber") = lineNumber
 
         For Each col As DataColumn In acctDataSourceStart.Columns
           dr(col.ColumnName) = acctrow(col.ColumnName)
         Next
 
+        '--Summary ผลรวมในแนวตั้ง-- ===========================
+        Dim rowtotal As Decimal = 0
         For Each ccrow As DataRow In costCenterDataSourceStart.Rows
           Dim cch As New DataRowHelper(ccrow)
           Dim ccid As String = cch.GetValue(Of String)("cc_id")
           Dim drf As DataRow() = sourceData.Select("gli_acct=" & accth.GetValue(Of String)("acct_id") & " and gli_cc=" & ccid)
           If drf.Length > 0 Then
-            dr(ccid) = Configuration.FormatToString(CDbl(drf(0)("amount")), DigitConfig.Price)
+            dr(ccid) = Configuration.FormatToString(CDec(drf(0)("amount")), DigitConfig.Price)
             'dr(ccid) = CDbl(drf(0)("amount"))
+            rowtotal += CDec(drf(0)("amount"))
+            total += CDec(drf(0)("amount"))
           End If
-
         Next
+        dr("rowstotal") = Configuration.FormatToString(rowtotal, DigitConfig.Price)
+        '--Summary ผลรวมในแนวตั้ง-- ===========================
 
         newDt.Rows.Add(dr)
-
         lineNumber += 1
       Next
+
+      '--Summary ผลรวมในแนวนอน-- ===========================
+      Dim drt As DataRow = newDt.NewRow
+      drt("acct_name") = "รวม"
+      For Each ccrow As DataRow In costCenterDataSourceStart.Rows
+        Dim cch As New DataRowHelper(ccrow)
+        Dim ccid As String = cch.GetValue(Of String)("cc_id")
+        Trace.WriteLine(ccid)
+        Dim coltotal As Decimal = 0
+        For Each drow As DataRow In sourceData.Select("gli_cc=" & ccid)
+          Dim drh As New DataRowHelper(drow)
+          coltotal += drh.GetValue(Of Decimal)("amount", 0)
+        Next
+        drt(ccid) = Configuration.FormatToString(coltotal, DigitConfig.Price)
+      Next
+      drt("rowstotal") = Configuration.FormatToString(total, DigitConfig.Price)
+      newDt.Rows.Add(drt)
+      '--Summary ผลรวมในแนวนอน-- ===========================
 
       Return newDt
     End Function
