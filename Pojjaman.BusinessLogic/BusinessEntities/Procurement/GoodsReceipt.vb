@@ -5904,29 +5904,81 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim WBSCodeAmount As String = ""
         Dim WBSRemainAmount As String = ""
         Dim WBSRemainQty As String = ""
+
+        Dim hashWBS As New Hashtable
+        Dim hashWBSItem As New Hashtable
+        Dim key As String = ""
+        Dim itemKey As String = ""
+
         If item.WBSDistributeCollection.Count > 0 Then
           'Populate ให้คำนวณคงเหลือแบบหลอกๆ
           'item.WBSDistributeCollection.Populate(WBSDistribute.GetSchemaTable, item, Me.EntityId)
           If item.WBSDistributeCollection.Count = 1 Then
+
+            key = item.WBSDistributeCollection.Item(0).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(0).CostCenter.Id.ToString & ":" & item.AllocationType
+            itemKey = item.WBSDistributeCollection.Item(0).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(0).CostCenter.Id.ToString & ":" & item.Description & ":" & item.AllocationType
+
+            'Amount -----------------------------------------------------
+            If Not hashWBS.Contains(key) Then
+              item.WBSDistributeCollection.Item(0).RemainSummary = item.WBSDistributeCollection.Item(0).BudgetRemain - (item.WBSDistributeCollection.Item(0).Amount + item.WBSDistributeCollection.Item(0).ChildAmount)
+              hashWBS(key) = item.WBSDistributeCollection.Item(0)
+            Else
+              Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
+              item.WBSDistributeCollection.Item(0).RemainSummary = parWBS.RemainSummary - (item.WBSDistributeCollection.Item(0).Amount + item.WBSDistributeCollection.Item(0).ChildAmount)
+              CType(hashWBS(key), WBSDistribute).RemainSummary = item.WBSDistributeCollection.Item(0).RemainSummary
+            End If
+            'Qty --------------------------------------------------------
+            If Not hashWBSItem.Contains(itemKey) Then
+              item.WBSDistributeCollection.Item(0).QtyRemainSummary = item.WBSDistributeCollection.Item(0).QtyRemain - item.WBSDistributeCollection.Item(0).Qty
+              hashWBSItem(itemKey) = item.WBSDistributeCollection.Item(0)
+            Else
+              Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+              item.WBSDistributeCollection.Item(0).QtyRemainSummary = parWBS.QtyRemainSummary - item.WBSDistributeCollection.Item(0).Qty
+              CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = item.WBSDistributeCollection.Item(0).QtyRemainSummary
+            End If
+
             WBSCCCode = item.WBSDistributeCollection.Item(0).CostCenter.Code
             WBSCCName = item.WBSDistributeCollection.Item(0).CostCenter.Name
             WBSCCInfo = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & item.WBSDistributeCollection.Item(0).CostCenter.Name
             WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
             WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
             WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price) & ")"
-            WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
-            WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
+            WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).RemainSummary, DigitConfig.Price)
+            WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemainSummary, DigitConfig.Price)
           Else
             Dim i As Integer
             For i = 0 To item.WBSDistributeCollection.Count - 1
+
+              key = item.WBSDistributeCollection.Item(i).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(i).CostCenter.Id.ToString & ":" & item.AllocationType
+              itemKey = item.WBSDistributeCollection.Item(i).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(i).CostCenter.Id.ToString & ":" & item.Description & ":" & item.AllocationType
+
+              'Amount -----------------------------------------------------
+              If Not hashWBS.Contains(key) Then
+                item.WBSDistributeCollection.Item(i).RemainSummary = item.WBSDistributeCollection.Item(i).BudgetRemain - (item.WBSDistributeCollection.Item(i).Amount + item.WBSDistributeCollection.Item(i).ChildAmount)
+                hashWBS(key) = item.WBSDistributeCollection.Item(i)
+              Else
+                Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
+                item.WBSDistributeCollection.Item(i).RemainSummary = parWBS.RemainSummary - (item.WBSDistributeCollection.Item(i).Amount + item.WBSDistributeCollection.Item(i).ChildAmount)
+                CType(hashWBS(key), WBSDistribute).RemainSummary = item.WBSDistributeCollection.Item(i).RemainSummary
+              End If
+              'Qty --------------------------------------------------------
+              If Not hashWBSItem.Contains(itemKey) Then
+                item.WBSDistributeCollection.Item(i).QtyRemainSummary = item.WBSDistributeCollection.Item(i).QtyRemain - item.WBSDistributeCollection.Item(i).Qty
+                hashWBSItem(itemKey) = item.WBSDistributeCollection.Item(i)
+              Else
+                Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+                item.WBSDistributeCollection.Item(i).QtyRemainSummary = parWBS.QtyRemainSummary - item.WBSDistributeCollection.Item(i).Qty
+                CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = item.WBSDistributeCollection.Item(i).QtyRemainSummary
+              End If
+
               WBSCCCode &= item.WBSDistributeCollection.Item(i).CostCenter.Code
               WBSCCName &= item.WBSDistributeCollection.Item(i).CostCenter.Name
               WBSCCInfo &= item.WBSDistributeCollection.Item(i).CostCenter.Code & ":" & item.WBSDistributeCollection.Item(i).CostCenter.Name
               WBSCode &= item.WBSDistributeCollection.Item(i).WBS.Code
               WBSCodePercent &= item.WBSDistributeCollection.Item(i).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(i).Percent, DigitConfig.Price) & "%)"
               WBSCodeAmount &= item.WBSDistributeCollection.Item(i).WBS.Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(i).Amount, DigitConfig.Price) & ")"
-              WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(i).BudgetRemain, DigitConfig.Price)
-              WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(i).QtyRemain, DigitConfig.Price)
+              WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(i).RemainSummary, DigitConfig.Price)
+              WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(i).QtyRemainSummary, DigitConfig.Price)
               If i < item.WBSDistributeCollection.Count - 1 Then
                 WBSCCCode &= ", "
                 WBSCCName &= ", "
