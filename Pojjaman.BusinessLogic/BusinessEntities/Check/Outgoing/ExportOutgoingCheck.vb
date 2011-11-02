@@ -359,7 +359,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Catch ex As Exception
         Return New SaveErrorException(ex.Message)
       Finally
-        dataStream.Close()
+        If Not dataStream Is Nothing Then
+          dataStream.Close()
+        End If
       End Try
 
       Dim response As WebResponse

@@ -2025,6 +2025,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Sub ExportPaymentTrack(ByVal p As IPaymentTrackExportable, ByVal writer As TextWriter)
       Dim culture As New CultureInfo("en-US", True)
 
+      Dim effectiveDate As Date = Date.MinValue
+      If TypeOf p Is ExportOutgoingCheck Then
+        effectiveDate = CType(p, ExportOutgoingCheck).EffectiveDate
+      End If
+
       Dim header As String = ""
       header &= "H".Pipe
       header &= p.PayerBuilkID.Pipe
@@ -2041,7 +2046,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         checkText &= check.CheckCode.Pipe
         checkText &= check.PayeeBuilkId.Pipe
         checkText &= check.CheckDescription.Pipe
-        checkText &= check.CheckIssueDate.Pipe
+        If effectiveDate = Date.MinValue Then
+          checkText &= check.CheckIssueDate.Pipe
+        Else
+          checkText &= effectiveDate.ToShortDateString.Pipe
+        End If
         checkText &= check.CheckAmount.Pipe
         checkText &= check.BeforeTax.Pipe
         checkText &= check.WitholdingTax.Pipe
@@ -2112,6 +2121,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Sub ExportPaymentTrack(ByVal p As IPaymentTrackExportable, ByRef writer As String)
       Dim culture As New CultureInfo("en-US", True)
 
+      Dim effectiveDate As Date = Date.MinValue
+      If TypeOf p Is ExportOutgoingCheck Then
+        effectiveDate = CType(p, ExportOutgoingCheck).EffectiveDate
+      End If
+
       Dim header As String = ""
       header &= "H".Pipe
       header &= p.PayerBuilkID.Pipe
@@ -2128,7 +2142,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         checkText &= check.CheckCode.Pipe
         checkText &= check.PayeeBuilkId.Pipe
         checkText &= check.CheckDescription.Pipe
-        checkText &= check.CheckIssueDate.Pipe
+        If effectiveDate = Date.MinValue Then
+          checkText &= check.CheckIssueDate.Pipe
+        Else
+          checkText &= effectiveDate.ToShortDateString.Pipe
+        End If
         checkText &= check.CheckAmount.Pipe
         checkText &= check.BeforeTax.Pipe
         checkText &= check.WitholdingTax.Pipe

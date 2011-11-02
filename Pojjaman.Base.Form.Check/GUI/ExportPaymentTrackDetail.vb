@@ -303,7 +303,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             checkTr("col2") = eoci.Entity.Supplier.Code & " : " & eoci.Entity.Supplier.Name
             checkTr("col3") = eoci.Detail 'drh.GetValue(Of String)("eochecki_detail")
             'If IsDate(drh.GetValue(Of String)("check_issuedate")) Then
-            checkTr("col4") = eoci.Entity.IssueDate.ToShortDateString
+            checkTr("col4") = m_entity.EffectiveDate.ToShortDateString 'eoci.Entity.IssueDate.ToShortDateString
             'End If
             checkTr("col5") = Configuration.FormatToString(eoci.Entity.Amount, DigitConfig.Price)
             checkTr("col6") = Configuration.FormatToString(eoci.WHTCollection.Amount, DigitConfig.Price)
@@ -329,7 +329,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               checkTr("col2") = eoci.Entity.Supplier.Code & " : " & eoci.Entity.Supplier.Name
               checkTr("col3") = eoci.Detail 'drh.GetValue(Of String)("eochecki_detail")
               'If IsDate(drh.GetValue(Of String)("check_issuedate")) Then
-              checkTr("col4") = eoci.Entity.IssueDate.ToShortDateString
+              checkTr("col4") = m_entity.EffectiveDate.ToShortDateString 'eoci.Entity.IssueDate.ToShortDateString
               'End If
               checkTr("col5") = Configuration.FormatToString(eoci.Entity.Amount, DigitConfig.Price)
               checkTr("col6") = Configuration.FormatToString(eoci.WHTCollection.Amount, DigitConfig.Price)
