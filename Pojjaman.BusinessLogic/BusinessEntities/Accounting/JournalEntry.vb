@@ -663,7 +663,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     ''' <param name="glf"></param>
     ''' <remarks></remarks>
     Public Sub SetOnlyAutoMateItem(ByVal glf As GLFormat)
-      If Me.RefDoc Is Nothing Then
+      If Me.RefDoc Is Nothing OrElse RefDoctype = 38 Then
         Return
       End If
       Dim entriesFromDoc2 As JournalEntryItemCollection
@@ -1200,7 +1200,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@gl_accountbook", IIf(Me.AccountBook.Originated, Me.AccountBook.Id, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@gl_debitamt", Me.DebitAmount))
         paramArrayList.Add(New SqlParameter("@gl_creditamt", Me.CreditAmount))
-        paramArrayList.Add(New SqlParameter("@gl_glFormat", IIf(Me.GLFormat.Originated, Me.GLFormat.Id, DBNull.Value)))
+        paramArrayList.Add(New SqlParameter("@gl_glFormat", IIf(Not Me.GLFormat Is Nothing OrElse Me.GLFormat.Originated, Me.GLFormat.Id, DBNull.Value)))
         paramArrayList.Add(New SqlParameter("@gl_manualformat", Me.ManualFormat))
         paramArrayList.Add(New SqlParameter("@gl_note", Me.Note))
         paramArrayList.Add(New SqlParameter("@gl_status", Me.Status.Value))
