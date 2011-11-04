@@ -1205,6 +1205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumDiscount As Decimal = 0
       Dim sumTaxAmount As Decimal = 0
       Dim sumAmount As Decimal = 0
+      Dim SumCol9 As Decimal = 0
 
       Dim n As Integer = 1
       Dim LineNumber As Integer = 0
@@ -1350,6 +1351,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Table = "BillItem"
             dpiColl.Add(dpi)
 
+            SumCol9 += docitem.Amount
+
             'ภาษีมูลค่าเพิ่ม
             dpi = New DocPrintingItem
             'dpi.Mapping = "BillAmount"
@@ -1423,6 +1426,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ElseIf item.EntityId = 50 Then 'ซ่อมบำรุงสินทรัพย์
 
           Dim doc As New EqMaintenance(item.Id)
+          doc.RefreshTaxBase()
           LineNumber += 1
 
           'ลำดับรายการวางบิล
@@ -1478,6 +1482,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each tritem As TreeRow In doc.ItemTable.Rows
 
             Dim docitem As New EqMaintenanceItem
+            docitem.EqMaintenance = doc
             docitem.CopyFromDataRow(tritem)
 
             ItemlineNumber += 1
@@ -1563,6 +1568,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Table = "BillItem"
             dpiColl.Add(dpi)
 
+            SumCol9 += docitem.Amount
+
+
             'ภาษีมูลค่าเพิ่ม
             dpi = New DocPrintingItem
             'dpi.Mapping = "BillAmount"
@@ -1590,19 +1598,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
             n += 1
           Next
 
-          'sumDiscount += doc.DiscountAmount
+          sumDiscount += doc.DiscountAmount
           'If doc.TaxType.Value = 0 OrElse doc.TaxType.Value = 1 Then
           '  sumDiscount += doc.AdvancePayItemCollection.GetExcludeVATAmount
           'Else
           '  sumDiscount += doc.AdvancePayItemCollection.GetAmount
           'End If
-          'sumTaxAmount += doc.TaxAmount
-          'sumAmount += doc.AfterTax
+          sumTaxAmount += doc.TaxAmount
+          sumAmount += doc.AfterTax
 
 
         ElseIf item.EntityId = 46 Then 'ลดหนี้เจ้าหนี้
 
           Dim doc As New PurchaseCN(item.Id)
+          doc.RefreshTaxBase()
           LineNumber += 1
 
           'ลำดับรายการวางบิล
@@ -1740,6 +1749,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Table = "BillItem"
             dpiColl.Add(dpi)
 
+            SumCol9 -= docitem.Amount
+
+
             'ภาษีมูลค่าเพิ่ม
             dpi = New DocPrintingItem
             'dpi.Mapping = "BillAmount"
@@ -1767,14 +1779,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             n += 1
           Next
 
-          'sumDiscount += doc.DiscountAmount
+          sumDiscount -= doc.DiscountAmount
           'If doc.TaxType.Value = 0 OrElse doc.TaxType.Value = 1 Then
           '  sumDiscount += doc.AdvancePayItemCollection.GetExcludeVATAmount
           'Else
           '  sumDiscount += doc.AdvancePayItemCollection.GetAmount
           'End If
-          'sumTaxAmount += doc.TaxAmount
-          'sumAmount += doc.AfterTax
+          sumTaxAmount -= doc.TaxAmount
+          sumAmount -= doc.AfterTax
 
 
         End If
@@ -1785,6 +1797,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "BillSumDiscount"
       dpi.Value = Configuration.FormatToString(sumDiscount, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'SumColAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BillSumColAmount"
+      dpi.Value = Configuration.FormatToString(SumCol9, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
