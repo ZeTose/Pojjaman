@@ -2374,7 +2374,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumMilestoneAmount As Decimal = 0
       Dim sumAdvanceWitdraw As Decimal = 0
       Dim sumRemainAmount As Decimal = 0
+      Dim rowNumber As Integer = 0
       For Each item As SaleBillIssueItem In Me.ItemCollection
+        rowNumber += 1
 
         '-------------------------------------DETAIL ITEM---------------------------------------
         Try
@@ -3886,7 +3888,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
-        dpi.Value = n + 1
+        dpi.Value = rowNumber 'n + 1
         dpi.DataType = "System.Int32"
         dpi.Row = n + 1
         dpi.Table = "Item"
@@ -4096,6 +4098,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       For Each d As DocPrintingItem In dpiColl
         If d.Mapping.ToLower = "item.amount" Then
+          For Each r As Object In itmArry
+            If d.Row = CInt(r) Then
+              d.Value = ""
+            End If
+          Next
+        End If
+        If d.Mapping.ToLower = "item.linenumber" Then
           For Each r As Object In itmArry
             If d.Row = CInt(r) Then
               d.Value = ""
