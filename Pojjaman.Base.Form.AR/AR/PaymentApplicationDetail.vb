@@ -3376,6 +3376,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "cmbtaxtype"
           Dim item As IdValuePair = CType(Me.cmbTaxType.SelectedItem, IdValuePair)
           Me.m_entity.TaxType.Value = item.Id
+          Me.m_entity.ItemCollection.ResetReal(True)
           Me.PopulateItemListing()
           UpdateAmount()
           dirtyFlag = True
@@ -3678,6 +3679,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
+
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
@@ -3873,6 +3875,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ret -= m_entity.ItemCollection.GetRetentionAmount
       ret += myItem.Retention
       myItem.Retention = ret
+      myItem.ResetReal(True)
       If Not Me.m_milestone Is Nothing Then
         Me.m_milestone.ResetReal(True) 'TODO
       End If
@@ -4100,5 +4103,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
 
+    'Private Sub cmbTaxType_SelectedValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmbTaxType.SelectedValueChanged
+    '  If m_entity Is Nothing Then
+    '    Return
+    '  End If
+    '  Me.m_entity.ItemCollection.ResetReal(True)
+    '  Me.PopulateItemListing()
+    '  UpdateAmount()
+    '  Me.WorkbenchWindow.ViewContent.IsDirty = True
+    'End Sub
   End Class
 End Namespace
