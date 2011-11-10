@@ -1259,7 +1259,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           'dpi.Mapping = "BillAmount"
           dpi.Mapping = "col12"
-          dpi.Value = item.Note
+          dpi.Value = doc.Note 'item.Note
           dpi.DataType = "System.String"
           dpi.Row = n
           dpi.Table = "BillItem"
@@ -1472,7 +1472,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           'dpi.Mapping = "BillAmount"
           dpi.Mapping = "col12"
-          dpi.Value = item.Note
+          dpi.Value = doc.Note 'item.Note
           dpi.DataType = "System.String"
           dpi.Row = n
           dpi.Table = "BillItem"
@@ -1657,7 +1657,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           'dpi.Mapping = "BillAmount"
           dpi.Mapping = "col12"
-          dpi.Value = item.Note
+          dpi.Value = doc.Note 'item.Note
           dpi.DataType = "System.String"
           dpi.Row = n
           dpi.Table = "BillItem"
