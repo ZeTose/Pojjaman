@@ -2406,7 +2406,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
                 End If
-                ji.EntityItem = CInt(Me.ItemTable.Childs(i)("receivei_entityid"))
+                ji.EntityItem = CInt(Me.ItemTable.Childs(i)("receivei_entity"))
                 ji.EntityItemType = 27
                 ji.table = Me.TableName & "item"
 
@@ -2424,7 +2424,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Else
                   ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
                 End If
-                ji.EntityItem = CInt(Me.ItemTable.Childs(i)("receivei_entityid"))
+                ji.EntityItem = CInt(Me.ItemTable.Childs(i)("receivei_entity"))
                 ji.EntityItemType = 71
                 ji.table = Me.TableName & "item"
                 jiColl.Add(ji)
