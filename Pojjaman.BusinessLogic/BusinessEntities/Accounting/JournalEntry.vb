@@ -666,6 +666,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.RefDoc Is Nothing OrElse RefDoctype = 38 Then
         Return
       End If
+      If Not TypeOf RefDoc Is INewGLAble Then
+        Return
+      End If
       Dim entriesFromDoc2 As JournalEntryItemCollection
       If TypeOf RefDoc Is INewGLAble Then
         entriesFromDoc2 = CType(Me.RefDoc, INewGLAble).NewGetJournalEntries
