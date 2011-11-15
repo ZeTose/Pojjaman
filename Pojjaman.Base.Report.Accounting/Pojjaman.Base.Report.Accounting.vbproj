@@ -117,6 +117,22 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\TelerikCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -145,6 +161,7 @@
     <Compile Include="BLL\Wht\RptIncomingWhtPND.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\Wht\RptIncomingWhtPND2.vb" />
     <Compile Include="BLL\Wht\RptOutgoinWht.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -164,6 +181,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Wht\RptIncomingWhtPNDFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Wht\RptIncomingWhtPND2FilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Wht\RptOutgoingWhtFilterSubPanel.vb">
@@ -186,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Wht\RptIncomingWhtPNDFilterSubPanel.resx">
       <DependentUpon>RptIncomingWhtPNDFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Wht\RptIncomingWhtPND2FilterSubPanel.resx">
+      <DependentUpon>RptIncomingWhtPND2FilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Wht\RptOutgoingWhtFilterSubPanel.resx">
       <DependentUpon>RptOutgoingWhtFilterSubPanel.vb</DependentUpon>

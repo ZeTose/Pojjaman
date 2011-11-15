@@ -81,7 +81,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Dim intCounter As Integer
       'Dim intCounter1 As Integer
 
-      CrystalReportViewer1.SetProductLocale("en-US")
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim currentUserName As String = secSrv.CurrentUser.Name
+
+      Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
+
+      CrystalReportViewer1.SetProductLocale(culture)
 
       'Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
       Dim ConInfo As New CrystalDecisions.Shared.TableLogOnInfo
@@ -114,6 +120,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         currValue = newReport.DataDefinition.ParameterFields("@EntityIdList").CurrentValues
         currValue.Add(paraValue)
         newReport.DataDefinition.ParameterFields("@EntityIdList").ApplyCurrentValues(currValue)
+
+        paraValue.Value = culture
+        currValue = newReport.DataDefinition.ParameterFields("@Culture").CurrentValues
+        currValue.Add(paraValue)
+        newReport.DataDefinition.ParameterFields("@Culture").ApplyCurrentValues(currValue)
+
+        paraValue.Value = currentUserName
+        currValue = newReport.DataDefinition.ParameterFields("@CurrentUserName").CurrentValues
+        currValue.Add(paraValue)
+        newReport.DataDefinition.ParameterFields("@CurrentUserName").ApplyCurrentValues(currValue)
         '  Next
         'End If
 

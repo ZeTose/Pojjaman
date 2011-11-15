@@ -83,7 +83,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Private Function GetReportList(ByVal entityId As Integer) As ArrayList
       Dim arr As New ArrayList
-
+      Trace.WriteLine(entityId)
       'Dim cmd As String = "select * from dbo.reportentity where report_unvisible is null order by report_ordinal"
       Dim dt As DataTable = GetAllReport() ' SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, cmd, Nothing)
       Dim rptAliasName As String = ""

@@ -40,6 +40,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared m_SupplierCollection As Hashtable '���� Datarow
 
     Private m_exportentity As ExportEntity
+    Private Shared m_allMinData As DataTable
 #End Region
 
 #Region "Constructors"
@@ -233,6 +234,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Shared ReadOnly Property AllMinData As DataTable
+      Get
+        If m_allMinData Is Nothing Then
+          Supplier.RefreshAllMinData()
+        End If
+        Return m_allMinData
+      End Get
+    End Property
     Public Property ContactCollection() As SupplierContactCollection
       Get
         'If m_contactCollection Is Nothing Then
@@ -434,6 +443,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Shared Sub RefreshAllMinData()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+   , CommandType.StoredProcedure _
+   , "GetAllSupplierMinDataCollection")
+      If ds.Tables(0).Rows.Count > 0 Then
+        m_allMinData = ds.Tables(0)
+      End If
+    End Sub
     Public Sub GetExportEntity()
       If m_exportentity Is Nothing OrElse m_exportentity.IsDirty = False Then
         m_exportentity = New ExportEntity(Me)
@@ -1165,6 +1182,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SupplierGroup
     Inherits TreeBaseEntity
 
+#Region "Member"
+    Private Shared m_allMinData As DataTable
+#End Region
+
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
@@ -1184,6 +1205,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Shared ReadOnly Property AllMinData As DataTable
+      Get
+        If m_allMinData Is Nothing Then
+          SupplierGroup.RefreshAllMinData()
+        End If
+        Return m_allMinData
+      End Get
+    End Property
     Public Overrides ReadOnly Property Prefix() As String
       Get
         Return "spg"
@@ -1222,6 +1251,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Shared Sub RefreshAllMinData()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+   , CommandType.StoredProcedure _
+   , "GetAllSupplierGroupMinDataCollection")
+      If ds.Tables(0).Rows.Count > 0 Then
+        m_allMinData = ds.Tables(0)
+      End If
+    End Sub
     Public Overloads Overrides Sub SetParent(ByVal parId As Integer)
       If parId <> Id Then
         Me.Parent = New SupplierGroup(parId)

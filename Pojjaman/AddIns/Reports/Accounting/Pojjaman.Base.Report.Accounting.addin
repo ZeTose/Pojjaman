@@ -14,7 +14,8 @@
 				<MenuItem id="WHTReport" label="${res:MainMenu.ReportMenu.WHTReport}">
 					<MenuItem id="rptincomingwht" icon="Icons.16x16.RptIncomingWht" label="${res:MainMenu.PurchaseMenu.RptIncomingWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWht"/>
 					<MenuItem id="rptoutgoinwht" icon="Icons.16x16.RptOutgoinWht" label="${res:MainMenu.PurchaseMenu.RptOutgoinWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinWht"/>
-					<MenuItem id="rptincomingwhtpnd" icon="Icons.16x16.RptIncomingWhtPND" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND"/>
+          <MenuItem id="rptincomingwhtpnd" icon="Icons.16x16.RptIncomingWhtPND" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND"/>
+          <MenuItem id="rptincomingwhtpnd2" icon="Icons.16x16.RptIncomingWhtPND2" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}(2)" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND2"/>
 					<MenuItem id="SpecialAccountWHTReport" icon="Icons.16x16.SpecialAccountWHTReport" label="${res:MainMenu.PurchaseMenu.SpecialAccountWHTReport.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialAccountWHT"/>										
 				</MenuItem>		
 		</MenuItem>
@@ -28,7 +29,8 @@
 		<EntityFilter id="rptincomingwht" entity="rptincomingwht" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingWhtFilterSubPanel"/>
 		<EntityFilter id="rptoutgoinwht" entity="rptoutgoinwht" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingWhtFilterSubPanel"/>
 		<EntityFilter id="rptincomingwhtpnd" entity="rptincomingwhtpnd" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPNDFilterSubPanel"/>
-	</Extension>
+    <EntityFilter id="rptincomingwhtpnd2" entity="rptincomingwhtpnd2" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPND2FilterSubPanel"/>
+  </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="rptincomingvat">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>

@@ -6,6 +6,8 @@ Imports Longkong.Pojjaman.Gui.Pads
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.DataAccessLayer
+Imports Longkong.Core.Properties
+
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class CrystalReportPanelView
     'Inherits UserControl
@@ -437,10 +439,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         MessageBox.Show("Report File '" & sReportName & "' not found")
       End If
 
-      'Dim intCounter As Integer
-      'Dim intCounter1 As Integer
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim currentUserName As String = secSrv.CurrentUser.Name
 
-      CrystalReportViewer1.SetProductLocale("en-US")
+      Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
+
+      CrystalReportViewer1.SetProductLocale(culture)
 
       'Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
       Dim ConInfo As New CrystalDecisions.Shared.TableLogOnInfo
@@ -463,7 +468,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             currValue = newReport.DataDefinition.ParameterFields(flr.Name).CurrentValues
             currValue.Add(paraValue)
             newReport.DataDefinition.ParameterFields(flr.Name).ApplyCurrentValues(currValue)
+
+            Trace.WriteLine(flr.Name & " : " & flr.Value.ToString)
           Next
+
+          paraValue.Value = culture
+          currValue = newReport.DataDefinition.ParameterFields("@Culture").CurrentValues
+          currValue.Add(paraValue)
+          newReport.DataDefinition.ParameterFields("@Culture").ApplyCurrentValues(currValue)
+
+          paraValue.Value = currentUserName
+          currValue = newReport.DataDefinition.ParameterFields("@CurrentUserName").CurrentValues
+          currValue.Add(paraValue)
+          newReport.DataDefinition.ParameterFields("@CurrentUserName").ApplyCurrentValues(currValue)
+
         End If
 
         'intCounter = newReport.DataDefinition.ParameterFields.Count
@@ -535,7 +553,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.TotalPageCount = newReport.ReportRequestStatus.NumberOfPages
         'MessageBox.Show(newReport.ReportRequestStatus.NumberOfPages.ToString)
 
-        CrystalReportViewer1.Zoom(1)
+        'CrystalReportViewer1.Zoom(1)
+        'CrystalReportViewer1.SetProductLocale("th-TH")
 
 
         'SetPageLabel()
