@@ -445,12 +445,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
-        , New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-        , New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+        'Me.DeleteRef(conn, trans)
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+        ', New SqlParameter("@refto_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateAssetStock_StockRef" _
         , New SqlParameter("@refto_id", Me.Id))
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)

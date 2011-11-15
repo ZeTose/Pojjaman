@@ -386,16 +386,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           SaveDetail(Me.Id, conn, trans)
 
-          Me.DeleteRef(conn, trans)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-          , New SqlParameter("@refto_id", Me.Id))
-          If Me.Status.Value = 0 Then
-            Me.CancelRef(conn, trans)
-          End If
+          'Me.DeleteRef(conn, trans)
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
+          ', New SqlParameter("@refto_id", Me.Id))
+          'If Me.Status.Value = 0 Then
+          '  Me.CancelRef(conn, trans)
+          'End If
 
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -503,10 +503,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim dt As DataTable = ds.Tables("stockitem")
-      Dim dc As DataColumn = dt.Columns!stocki_sequence
-      dc.AutoIncrement = True
-      dc.AutoIncrementSeed = -1
-      dc.AutoIncrementStep = -1
+      'Dim dc As DataColumn = dt.Columns!stocki_sequence
+      'dc.AutoIncrement = True
+      'dc.AutoIncrementSeed = -1
+      'dc.AutoIncrementStep = -1
 
       Dim dtWbs As DataTable = ds.Tables("stockiwbs")
       Dim dtItc As DataTable = ds.Tables("internalchargeitem")
@@ -533,6 +533,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
 
+      Dim rowsToDelete As ArrayList
+      '------------Checking if we have to delete some rows--------------------
+      rowsToDelete = New ArrayList
+      For Each dr As DataRow In dt.Rows
+        Dim found As Boolean = False
+        For Each testItem As AssetWithdrawItem In Me.ItemCollection
+          If testItem.Sequence = CInt(dr("stocki_sequence")) Then
+            found = True
+            Exit For
+          End If
+        Next
+        If Not found Then
+          If Not rowsToDelete.Contains(dr) Then
+            rowsToDelete.Add(dr)
+          End If
+        End If
+      Next
+      For Each dr As DataRow In rowsToDelete
+        dr.Delete()
+      Next
+      '------------End Checking--------------------
+
       For Each row As DataRow In ds.Tables("stockiwbs").Rows
         row.Delete()
       Next
@@ -540,16 +562,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row.Delete()
       Next
 
-      SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockItem", _
-          New SqlParameter("@stocki_stock", Me.Id))
+      'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteStockItem", _
+      '    New SqlParameter("@stocki_stock", Me.Id))
 
       Dim i As Integer = 0 'Line Running
+      Dim seq As Integer = -1
       With ds.Tables("stockitem")
-        For Each row As DataRow In .Rows
-          row.Delete()
-        Next
+        'For Each row As DataRow In .Rows
+        '  row.Delete()
+        'Next
         For Each item As AssetWithdrawItem In Me.ItemCollection
-          Dim dr As DataRow = .NewRow
+          'Dim dr As DataRow = .NewRow
+          '------------Checking if we have to add a new row or just update existing--------------------
+          Dim dr As DataRow
+          Dim drs As DataRow() = dt.Select("stocki_sequence=" & item.Sequence)
+          If drs.Length = 0 Then
+            dr = dt.NewRow
+            'dt.Rows.Add(dr)
+            seq = seq + (-1)
+            dr("stocki_sequence") = seq
+          Else
+            dr = drs(0)
+          End If
+          '------------End Checking--------------------
 
           dr("stocki_stock") = Me.Id
           dr("stocki_linenumber") = i
@@ -577,7 +612,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("stocki_note") = item.Note
           dr("stocki_type") = Me.EntityId
           dr("stocki_status") = Me.Status.Value
-          .Rows.Add(dr)
+          '.Rows.Add(dr)
+          '------------Checking if we have to add a new row or just update existing--------------------
+          If drs.Length = 0 Then
+            dt.Rows.Add(dr)
+          End If
+          '------------End Checking--------------------
 
           Dim itcLine As Integer = 0
           For Each itc As InternalCharge In item.InternalChargeCollection
@@ -605,10 +645,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'ยังไม่เต็ม 100 แต่มีหัวอยู่
                 wbsd.Percent += (100 - currentSum)
               End If
-              wbsd.BaseCost = item.Amount
+              wbsd.BaseCost = item.ChargeAmount
               'wbsd.TransferBaseCost = item.Amount
               Dim childDr As DataRow = dtWbs.NewRow
+              If wbsd.WBS Is Nothing OrElse wbsd.WBS.Id = 0 Then
+                childDr("stockiw_wbs") = rootWBS.Id
+              Else
               childDr("stockiw_wbs") = wbsd.WBS.Id
+              End If
               If wbsd.CostCenter Is Nothing Then
                 wbsd.CostCenter = Me.WithdrawCostcenter
               End If
@@ -617,10 +661,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               childDr("stockiw_sequence") = dr("stocki_sequence")
               childDr("stockiw_ismarkup") = wbsd.IsMarkup
               childDr("stockiw_direction") = 0 'in
-              'childDr("stockiw_baseCost") = wbsd.BaseCost
+
+              If Me.Originated Then
+                childDr("stockiw_baseCost") = wbsd.BaseCost
               'childDr("stockiw_transferbaseCost") = wbsd.TransferBaseCost
               'childDr("stockiw_transferamt") = wbsd.TransferAmount
-              'childDr("stockiw_amt") = wbsd.Amount
+                childDr("stockiw_amt") = wbsd.Amount
+              End If
+
               childDr("stockiw_toaccttype") = 3
               'Add เข้า stockiwbs
               dtWbs.Rows.Add(childDr)
@@ -634,7 +682,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 newWbsd.WBS = rootWBS
                 newWbsd.CostCenter = item.AssetWithdraw.WithdrawCostcenter
                 newWbsd.Percent = 100 - currentSum
-                newWbsd.BaseCost = item.Amount
+                newWbsd.BaseCost = item.ChargeAmount
                 'newWbsd.TransferBaseCost = item.Amount
                 Dim childDr As DataRow = dtWbs.NewRow
                 childDr("stockiw_wbs") = newWbsd.WBS.Id
@@ -643,11 +691,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 childDr("stockiw_sequence") = dr("stocki_sequence")
                 childDr("stockiw_ismarkup") = False
                 childDr("stockiw_direction") = 0 'in
-                'childDr("stockiw_baseCost") = newWbsd.BaseCost
+
+                If Me.Originated Then
+                  childDr("stockiw_baseCost") = newWbsd.BaseCost
                 'childDr("stockiw_transferbaseCost") = newWbsd.TransferBaseCost
                 'childDr("stockiw_transferamt") = newWbsd.TransferAmount
-                'childDr("stockiw_amt") = newWbsd.Amount
+                  childDr("stockiw_amt") = newWbsd.Amount
+                End If
+
                 childDr("stockiw_toaccttype") = 3
+
                 'Add เข้า stockiwbs
                 dtWbs.Rows.Add(childDr)
               Catch ex As Exception
@@ -1280,6 +1333,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_entity As IHasRentalRate
     Private m_note As String
     Private m_amount As Decimal
+    Private m_chargeamount As Decimal
 
     Private m_sequence As Integer
 
@@ -1357,6 +1411,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "stocki_amt") AndAlso Not dr.IsNull(aliasPrefix & "stocki_amt") Then
           m_amount = CDec(dr(aliasPrefix & "stocki_amt"))
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "stocki_chargeamt") AndAlso Not dr.IsNull(aliasPrefix & "stocki_chargeamt") Then
+          m_chargeamount = CDec(dr(aliasPrefix & "stocki_chargeamt"))
+        End If
       End With
     End Sub
     Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
@@ -1366,6 +1423,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property ChargeAmount As Decimal
+      Get
+        Return m_chargeamount
+      End Get
+      Set(ByVal value As Decimal)
+        m_chargeamount = value
+      End Set
+    End Property
     Public Property WBSDistributeCollection() As WBSDistributeCollection      Get        Return m_WBSDistributeCollection      End Get      Set(ByVal Value As WBSDistributeCollection)        m_WBSDistributeCollection = Value      End Set    End Property
     Public Property InternalChargeCollection() As InternalChargeCollection      Get        If m_internalChargeCollection Is Nothing Then          m_internalChargeCollection = New InternalChargeCollection(Me)
         End If        Return m_internalChargeCollection      End Get      Set(ByVal Value As InternalChargeCollection)        m_internalChargeCollection = Value      End Set    End Property
@@ -1555,6 +1620,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public ReadOnly Property IsReferencedByAssetReturn As Boolean
+      Get
+        Dim ref As Integer = 0
+        For Each itm As AssetWithdrawItem In Me
+          ref += itm.SequenceRefedto
+        Next
+
+        Return ref > 0
+      End Get
+    End Property
+
     Public Property AssetWithdraw() As AssetWithdraw      Get        Return m_assetWithdraw      End Get      Set(ByVal Value As AssetWithdraw)        m_assetWithdraw = Value      End Set    End Property    Default Public Property Item(ByVal index As Integer) As AssetWithdrawItem
       Get
         Return CType(MyBase.List.Item(index), AssetWithdrawItem)

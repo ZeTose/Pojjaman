@@ -1442,6 +1442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             m_updating = True
             item.Percent = value
+
             m_updating = False
         End Sub
         'Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
@@ -1623,7 +1624,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
                 Next
             End If
+
+      If Not m_entity.ItemCollection.IsReferencedByAssetReturn Then
             SetIsExternal()
+      End If
             CheckWBSRight()
         End Sub
         Private Sub CheckWBSRight()
@@ -1976,15 +1980,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If doc Is Nothing Then
                 Return
             End If
-            Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-            If wsdColl.Count > 0 Then
-                wsdColl.Remove(wsdColl.Count - 1)
+
+      Dim itm As AssetWithdrawItem = m_entity.ItemCollection(m_entity.ItemCollection.IndexOf(doc))
+      If itm.WBSDistributeCollection.Count > 0 Then
+        itm.WBSDistributeCollection.Remove(itm.WBSDistributeCollection.Count - 1)
                 Me.WorkbenchWindow.ViewContent.IsDirty = True
             End If
             Dim view As Integer = 45
             m_wbsdInitialized = False
-            wsdColl.Populate(dt, doc, view)
+      itm.WBSDistributeCollection.Populate(dt, doc, view)
             m_wbsdInitialized = True
+
+      'Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
+
+      'If wsdColl.Count > 0 Then
+      '  Dim itm As AssetWithdrawItem = m_entity.ItemCollection(m_entity.ItemCollection.IndexOf(doc))
+      '  itm.WBSDistributeCollection.Remove(itm.WBSDistributeCollection.Count - 1)
+      '  wsdColl.Remove(wsdColl.Count - 1)
+      '  Me.WorkbenchWindow.ViewContent.IsDirty = True
+      'End If
+      'Dim view As Integer = 45
+      'm_wbsdInitialized = False
+      'wsdColl.Populate(dt, doc, view)
+      'm_wbsdInitialized = True
         End Sub
         Private currentY As Integer
         Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
