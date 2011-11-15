@@ -444,6 +444,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
 
+      m_WBSCollectionHash = New Hashtable
+      'For Each hwbs As WBS In Me.WBSCollection
+      '  Trace.WriteLine(hwbs.Id)
+      '  m_WBSCollectionHash(hwbs.Id) = hwbs
+      'Next
+
       Dim newMissingImport As New List(Of ArrayList)
       newMissingImport.Add(LciMissingCode)
       newMissingImport.Add(UnitMissingCode)
