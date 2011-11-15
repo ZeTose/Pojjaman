@@ -2003,8 +2003,10 @@ Namespace Longkong.AdobeForm
       Const Var As String = "(\[!\])"
       Dim reVar As New Regex("\s*" & Var & "\s*", RegexOptions.IgnoreCase)
 
-      If reVar.IsMatch(ret) Then
-        ret = ""
+      If Not ret Is Nothing Then
+        If reVar.IsMatch(ret) Then
+          ret = ""
+        End If
       End If
 
       Return ret
