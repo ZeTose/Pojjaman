@@ -4212,7 +4212,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpiColl.Add(dpi)
 
                 'refRetention = ps.GetRetentionItem(stock_id, stock_type, retention_type)
-                refRetention = s.StockRetention
+                If stock_type <> 199 Then
+                  refRetention = s.StockRetention
+                Else
+                  refRetention = 0
+                End If
                 refDocRetention += refRetention
                 'RefDocItem.Retention
                 dpi = New DocPrintingItem

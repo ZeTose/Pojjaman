@@ -596,7 +596,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trans.Rollback()
                 Me.ResetID(oldid)
                 ResetCode(oldcode, oldautogen)
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateTaxId}"), New String() {Me.TaxId.ToString})
+                Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, CommandType.StoredProcedure _
+                   , "GetSupplierDupplicate" _
+                   , New SqlParameter("@supplier_taxId", Me.TaxId) _
+                   , New SqlParameter("@supplier_Id", Me.Id) _
+                   )
+                Dim dupcode As String
+                If ds.Tables(0).Rows.Count > 0 Then
+                  dupcode = CStr(ds.Tables(0).Rows(0)(0))
+                End If
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.DupplicateTaxId}"), New String() {Me.TaxId.ToString, dupcode})
               Case -13
                 trans.Rollback()
                 Me.ResetID(oldid)
