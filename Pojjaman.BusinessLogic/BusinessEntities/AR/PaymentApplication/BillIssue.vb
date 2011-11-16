@@ -1329,8 +1329,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.Qty
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.Qty"
-            If Not miDetailRow.IsNull("milestonei_qty") Then
+            If Not miDetailRow.IsNull("milestonei_qty") AndAlso IsNumeric(miDetailRow("milestonei_qty")) Then
               dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty)
+            Else
+              dpi.Value = ""
             End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
@@ -1340,8 +1342,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.UnitPrice
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.UnitPrice"
-            If Not miDetailRow.IsNull("milestonei_unitprice") Then
+            If Not miDetailRow.IsNull("milestonei_unitprice") AndAlso IsNumeric(miDetailRow("milestonei_unitprice")) Then
               dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_unitprice")), DigitConfig.Price)
+            Else
+              dpi.Value = ""
             End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
@@ -1351,8 +1355,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.Amount
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.Amount"
-            If Not miDetailRow.IsNull("milestonei_amt") Then
+            If Not miDetailRow.IsNull("milestonei_amt") AndAlso IsNumeric(miDetailRow("milestonei_amt")) Then
               dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_amt")), DigitConfig.Price)
+            Else
+              dpi.Value = ""
             End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
