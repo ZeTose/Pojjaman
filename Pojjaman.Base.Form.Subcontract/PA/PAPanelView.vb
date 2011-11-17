@@ -2562,7 +2562,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Me.cmbContact.Items.Add(Me.m_entity.SubContractor.Contact)
         For Each citem As SupplierContact In Me.m_entity.SubContractor.ContactCollection
-          Me.cmbContact.Items.Add(citem.Name)
+          If Not citem.Name Is Nothing Then
+            Me.cmbContact.Items.Add(citem.Name)
+          End If
         Next
       End If
       If Me.cmbContact.Items.Count > 0 Then
@@ -3655,7 +3657,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       m_isInitialized = flag
-
+      m_entity.RefreshReceiveAmount()
       RefreshDocs()
 
       UpdateAmount()
