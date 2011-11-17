@@ -1224,6 +1224,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             newWbs.Level = newWbs.Parent.Level + 1
           End If
         End If
+        CType(Me.tvWbs.SelectedNode.Tag, WBS).Childs.Add(newWbs)
         Me.m_entity.WBSCollection.Add(newWbs)
 
         'For Each item As BoqItem In Me.m_entity.ItemCollection.GetCollectionForWBS(myWbs)
