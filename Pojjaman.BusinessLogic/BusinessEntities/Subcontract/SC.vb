@@ -334,7 +334,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim realgross As Decimal = 0 'Me.RealGross
         For Each itm As SCItem In Me.ItemCollection
           If itm.Level = 1 Then
-              realgross += itm.Amount
+            realgross += itm.Amount
           End If
         Next
         Return realgross
@@ -929,7 +929,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Me.m_realGross = gross
     End Sub
-    
+
     Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
       m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
@@ -1209,7 +1209,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If item.Qty = 0 Then
             item.SetUnitPrice(0)
           Else
-            item.SetUnitPrice((item.Mat + item.Lab + item.Eq) / item.Qty)
+            newUnitPrice = item.ChildAmount
+            item.SetUnitPrice(newUnitPrice / item.Qty)
           End If
           'End If
         End If
