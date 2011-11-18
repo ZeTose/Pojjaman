@@ -329,6 +329,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_realGross = Value
       End Set
     End Property
+    Public ReadOnly Property RealGrossWithNoDeductItem As Decimal
+      Get
+        Dim realgross As Decimal = 0 'Me.RealGross
+        For Each itm As SCItem In Me.ItemCollection
+          If itm.Level = 1 Then
+              realgross += itm.Amount
+          End If
+        Next
+        Return realgross
+      End Get
+    End Property
     Public Property RealTaxAmount() As Decimal
       Get
         Return m_realTaxAmount
@@ -918,12 +929,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Me.m_realGross = gross
     End Sub
-    Public Sub RefreshReceiveAmount()
-      For Each itm As SCItem In Me.ItemCollection
-        'itm.ReceiveAmount = itm.ReceiveAmount
-        itm.RecalculateReceiveAmount()
-      Next
-    End Sub
+    
     Public Sub RefreshApproveDocCollection() Implements IApproveStatusAble.RefreshApproveDocCollection
       m_approveDocColl = New ApproveDocCollection(Me)
     End Sub
@@ -1186,6 +1192,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Next
     '    Return ret
     'End Function
+    Public Sub RefreshReceiveAmount()
+      For Each itm As SCItem In Me.ItemCollection
+        'itm.ReceiveAmount = itm.ReceiveAmount
+        If Not itm.ItemType.Value = 162 AndAlso Not itm.ItemType.Value = 160 Then
+          itm.RecalculateReceiveAmount()
+        End If
+      Next
+    End Sub
     Private Sub RecalculateAmount()
       Dim newUnitPrice As Decimal = 0
       For Each item As SCItem In Me.ItemCollection

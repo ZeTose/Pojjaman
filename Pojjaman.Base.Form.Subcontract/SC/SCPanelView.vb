@@ -2637,6 +2637,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           forceUpdateTaxBase = True
           forceUpdateTaxAmount = True
           forceUpdateGross = True
+          'Me.m_entity.RefreshReceiveAmount()
+          'Me.RefreshDocs()
           UpdateAmount()
           Me.m_entity.RefreshReceiveAmount()
           Me.RefreshDocs()

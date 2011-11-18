@@ -556,39 +556,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetWRIOrigingQty(ByVal qty As Decimal)
       m_wriorginQty = qty
     End Sub
-    Public Sub RecalculateReceiveAmount()
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      Select Case Me.ItemType.Value
-        Case 160, 162
-          'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
-          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
-          Return
-      End Select
-
-      Dim amt As Decimal = Me.CostAmount      Select Case Me.ItemType.Value
-        Case 0, 19, 28, 42
-          Me.m_mat = amt
-          Me.m_lab = 0
-          Me.m_eq = 0
-        Case 88
-          Me.m_mat = 0
-          Me.m_lab = amt
-          Me.m_eq = 0
-        Case 89
-          Me.m_mat = 0
-          Me.m_lab = 0
-          Me.m_eq = amt
-        Case 289
-          If amt <= Me.CostAmount Then
-            Me.m_mat = 0
-            Me.m_lab = amt
-            Me.m_eq = 0
-          Else
-            Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
-            m_lab = (amt - amt2) + Me.Lab
-          End If
-      End Select
-    End Sub
+  
     Public Sub UpdateWBSQty()
       Select Case Me.ItemType.Value
         Case 88, 89, 160, 162
@@ -819,12 +787,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return 0
       End Get
     End Property
+    Public Sub RecalculateReceiveAmount()
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Select Case Me.ItemType.Value
+        Case 160, 162
+          'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
+          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
+          Return
+      End Select
+      Dim m_cost As Decimal = Me.CostAmount
+      Select Case Me.ItemType.Value
+        Case 0, 19, 28, 42
+          Me.m_mat = m_cost 'm_receiveAmount
+          Me.m_lab = 0
+          Me.m_eq = 0
+        Case 88, 291
+          Me.m_mat = 0
+          Me.m_lab = m_cost 'm_receiveAmount
+          Me.m_eq = 0
+        Case 89
+          Me.m_mat = 0
+          Me.m_lab = 0
+          Me.m_eq = m_cost 'm_receiveAmount
+        Case 289
+          Dim amt2 As Decimal = Me.Mat + Me.Lab + Me.Eq
+          'Me.m_lab = (m_receiveAmount - amt2) + Me.Lab
+          Me.m_lab = (m_cost - amt2) + Me.Lab
+      End Select
+    End Sub
     Public ReadOnly Property CostAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount
       Get
         'If IsNewAllocate Then
         '  Return AllocateCostAmount
         'End If
-        Return UnitCost * Me.StockQty
+        'Return UnitCost * Me.StockQty
+        Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
+          tmpCost = Me.Amount
+          Dim tmpRealGrossNoVat As Decimal = 0
+          tmpRealGrossNoVat = Me.SC.RealGrossWithNoDeductItem
+
+          If tmpRealGrossNoVat = 0 Then
+            Return 0
+          End If
+          tmpCost = tmpCost - ((tmpCost / tmpRealGrossNoVat) * Me.SC.Discount.Amount)
+
+          If Me.SC.TaxType.Value = 2 Then
+            If Not Me.Unvatable Then
+              tmpCost = tmpCost * (100 / (100 + Me.SC.TaxRate))
+            End If
+          End If
+        Return tmpCost
       End Get
     End Property
     Public Property OldQty() As Decimal
