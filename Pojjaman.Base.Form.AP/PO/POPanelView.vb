@@ -2958,8 +2958,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim index As Integer = tgItem.CurrentRowIndex
       Me.m_entity.ItemCollection.SetItems(items, m_targetType)
 
-      Dim config As Object = Configuration.GetConfig("GetLowestPRReceiveDate")
+      Dim config As Object = Configuration.GetConfig("GetTopMostPRReceiveDate")
       If CBool(config) Then
+        Dim dd As Nullable(Of Date) = Me.m_entity.ItemCollection.GetTopMostPRReceiveDateFromPoitemColl
+        If dd.HasValue Then
+          Me.m_entity.ReceivingDate = dd
+        End If
+      Else
         Dim dd As Nullable(Of Date) = Me.m_entity.ItemCollection.GetLessPRReceiveDateFromPoitemColl
         If dd.HasValue Then
           Me.m_entity.ReceivingDate = dd

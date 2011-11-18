@@ -1505,6 +1505,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return currentDate
       End If
     End Function
+    Public Function GetTopMostPRReceiveDateFromPoitemColl() As Nullable(Of Date)
+      Dim arrDate As New ArrayList
+      For Each pitem As POItem In Me
+        If Not pitem Is Nothing AndAlso Not pitem.Pritem Is Nothing AndAlso Not pitem.Pritem.Pr Is Nothing Then
+          arrDate.Add(pitem.Pritem.Pr.ReceivingDate)
+        End If
+      Next
+      If arrDate.Count > 0 Then
+        Dim currentDate As Date = CType(arrDate(0), Date)
+        For Each dd As Date In arrDate
+          If dd > currentDate Then
+            currentDate = dd
+          End If
+        Next
+        Return currentDate
+      End If
+    End Function
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       Dim arr As New ArrayList
       For i As Integer = 0 To items.Count - 1
