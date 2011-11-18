@@ -211,11 +211,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 					Case 0		 '"ไม่มี"
 						Return 0
 					Case 1		 '"แยก"
-            Return Me.TotalAmount '- DiscountAmount ใน total amount มีส่วนลดอยู่แล้ว
+            Return Me.TotalAmountForTax '- DiscountAmount ใน total amount มีส่วนลดอยู่แล้ว
             'Return Me.ContractAmount - DiscountAmount   'ยอดนี้พอมีงานเพิ่มลด แล้วผิด
             'Return Me.TotalAmount
 					Case 2		 '"รวม"
-            Return (Me.TotalAmount) * (100 / (Me.TaxRate + 100))
+            Return (Me.TotalAmountForTax) * (100 / (Me.TaxRate + 100))
             'Return (Me.TotalAmount - DiscountAmount) * (100 / (Me.TaxRate + 100)) ใน total amount มีส่วนลดอยู่แล้ว
             'Return (Me.ContractAmount - DiscountAmount) * (100 / (Me.TaxRate + 100)) 'ยอดนี้พอมีงานเพิ่มลด แล้วผิด
             'Return Me.TotalAmount * (100 / (Me.TaxRate + 100))
@@ -286,6 +286,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return Me.ContractAmount + Me.VoInc - Me.VoDe - Me.DiscountAmount - Me.Penalty
       End Get
+    End Property    Public ReadOnly Property TotalAmountForTax() As Decimal
+      Get
+        Return Me.ContractAmount + Me.VoInc - Me.VoDe - Me.DiscountAmount 'ไม่มีค่าปรับด้วย
+      End Get
     End Property    Public ReadOnly Property Amount() As Decimal      Get
         Return AllMilestoneAmount '- Me.DiscountAmount - Me.Penalty
       End Get
@@ -296,7 +300,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_advance = Value
       End Set
-    End Property    Private m_retention As Decimal    Public Property Retention() As Decimal      Get
+    End Property       Private m_retention As Decimal    Public Property Retention() As Decimal      Get
         Return m_retention
       End Get
       Set(ByVal Value As Decimal)

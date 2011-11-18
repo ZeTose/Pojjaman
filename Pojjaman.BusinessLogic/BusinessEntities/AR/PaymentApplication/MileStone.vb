@@ -2174,6 +2174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Sub SetMilestoneAdvr()
       Me.MileStoneAmount = m_pma.Advance - m_pma.ItemCollection.GetMilestoneAdvrAmount + Me.MileStoneAmount
+      Me.ResetReal(True)
       Me.Amount = m_pma.Advance - m_pma.ItemCollection.GetMilestoneAdvrAmount + Me.Amount
     End Sub
 
