@@ -3200,7 +3200,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         If Not myVat.ItemCollection.Count <= 0 Then
           myVatitem = myVat.ItemCollection(0)
-          myVat.AutoGen = False
+          'myVat.AutoGen = False
           If myVat.AutoGen Then
             Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
           Else

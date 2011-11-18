@@ -2074,9 +2074,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        If Not m_novat.HasValue Then
-          SetNoVat()
-        End If
+        'If Not m_novat.HasValue Then
+        SetNoVat()
+        'End If
         Return m_novat.Value 'Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0
       End Get
     End Property

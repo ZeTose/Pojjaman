@@ -889,6 +889,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         Me.txtDocDate.Text = MinDateToNull(vi.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
       End If
+      'Trace.WriteLine(txtCode.Text)
+      'Trace.WriteLine(Me.m_vat.ItemCollection.Count)
+      'Trace.WriteLine(Me.m_vat.ItemCollection(0).AutoGen)
       Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
       Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
 
@@ -936,12 +939,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
       End If
 
-      If Me.m_vat.RefDoc Is Nothing OrElse Me.m_vat.RefDoc.NoVat Then
+      Dim noVatCode As Boolean = False
+      'Trace.WriteLine(Not Me.m_vat.ItemCollection(0).Code Is Nothing)
+      'If Not Me.m_vat.ItemCollection(0).Code Is Nothing Then
+      '  Trace.WriteLine(Me.m_vat.ItemCollection(0).Code.Length)
+      'End If
+
+      If Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Trim.Length = 0 Then
+        noVatCode = True
+      End If
+
+      If Me.m_vat.RefDoc Is Nothing OrElse Me.m_vat.RefDoc.NoVat OrElse noVatCode Then
         Me.Validator.SetRequired(txtCode, False)
         Me.Validator.SetRequired(txtDocDate, False)
         Me.Validator.SetRequired(txtPrintName, False)
         Me.Validator.SetRequired(txtPrintAddress, False)
-        Me.txtDocDate.Text = ""
+        'Me.txtDocDate.Text = ""
         Me.Validator.SetDataType(txtDocDate, DataTypeConstants.StringType)
         Me.ErrorProvider1.SetError(Me.txtDocDate, "")
         Me.ErrorProvider1.SetError(Me.txtPrintName, "")
@@ -1104,15 +1117,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not Me.m_vat Is Nothing Then
           Me.m_vat.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
-                If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) OrElse (TypeOf Me.m_entity Is AdvancePayClosed) Then
-                    If Not Me.m_vat.ItemCollection Is Nothing Then ' AndAlso Me.m_vat.ItemCollection.Count > 0 Then
-                        If Not Me.m_vat.AutoGen AndAlso Me.m_vat.ItemCollection.Count > 1 AndAlso (Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Length <= 0) Then
-                            allowBlankInvoice = True
-                        Else
-                            allowBlankInvoice = False
-                        End If
-                    End If
-                End If
+        If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) OrElse (TypeOf Me.m_entity Is AdvancePayClosed) Then
+          If Not Me.m_vat.ItemCollection Is Nothing Then ' AndAlso Me.m_vat.ItemCollection.Count > 0 Then
+            If Not Me.m_vat.AutoGen AndAlso Me.m_vat.ItemCollection.Count > 1 AndAlso (Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Length <= 0) Then
+              allowBlankInvoice = True
+            Else
+              allowBlankInvoice = False
+            End If
+          End If
+        End If
         UpdateEntityProperties()
         If m_vat.RefDoc.NoVat Then
           Me.m_vat.ItemCollection.Clear()
