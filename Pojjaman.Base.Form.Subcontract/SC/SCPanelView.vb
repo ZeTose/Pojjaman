@@ -2638,6 +2638,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           forceUpdateTaxAmount = True
           forceUpdateGross = True
           UpdateAmount()
+          Me.m_entity.RefreshReceiveAmount()
+          Me.RefreshDocs()
           dirtyFlag = True
         Case "txtdirectorcode"
           If directorCodeChanged Then
