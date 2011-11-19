@@ -6,6 +6,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptDRFilterSubPanel
     Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -71,6 +72,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblSCCode As System.Windows.Forms.Label
     Friend WithEvents txtSCCode As System.Windows.Forms.TextBox
     Friend WithEvents ibtnShowSCDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkOnlyNoSCCode As System.Windows.Forms.CheckBox
     Friend WithEvents txtSuContractCodeStart As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -122,6 +124,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.KeepKeyCombo1 = New Longkong.Pojjaman.Gui.Components.KeepKeyCombo()
+      Me.chkOnlyNoSCCode = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbMainDetail.SuspendLayout()
       Me.grbItem.SuspendLayout()
@@ -181,6 +184,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMainDetail.Controls.Add(Me.lblSCCode)
       Me.grbMainDetail.Controls.Add(Me.txtSCCode)
       Me.grbMainDetail.Controls.Add(Me.ibtnShowSCDialog)
+      Me.grbMainDetail.Controls.Add(Me.chkOnlyNoSCCode)
       Me.grbMainDetail.Controls.Add(Me.chkShowDetail)
       Me.grbMainDetail.Controls.Add(Me.btnDRCodeEndFind)
       Me.grbMainDetail.Controls.Add(Me.txtDRCodeEnd)
@@ -743,6 +747,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.KeepKeyCombo1.Size = New System.Drawing.Size(121, 21)
       Me.KeepKeyCombo1.TabIndex = 4
       '
+      'chkOnlyNoSCCode
+      '
+      Me.chkOnlyNoSCCode.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkOnlyNoSCCode.Location = New System.Drawing.Point(264, 161)
+      Me.chkOnlyNoSCCode.Name = "chkOnlyNoSCCode"
+      Me.chkOnlyNoSCCode.Size = New System.Drawing.Size(191, 24)
+      Me.chkOnlyNoSCCode.TabIndex = 9
+      Me.chkOnlyNoSCCode.Text = "แสดงเฉพาะเอกสารที่ไม่มีใบสั่งจ้าง"
+      '
       'RptDRFilterSubPanel
       '
       Me.Controls.Add(Me.KeepKeyCombo1)
@@ -773,6 +786,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSubcontractorEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptDRFilterSubPanel.chkIncludeChildren}")
       Me.lblStatus.Text = StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptDRFilterSubPanel.lblStatus}")
+      Me.chkOnlyNoSCCode.Text = StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptDRFilterSubPanel.chkOnlyNoSCCode}")
 
       Me.grbItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptDRFilterSubPanel.grbItem}")
       Me.lblFromCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptDRFilterSubPanel.lblFromCostCenter}")
@@ -923,16 +937,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFromCCPersonCode.Clear()
 
       Me.txtFromCCPersonName.Text = ""
-      If chkIncludeChildren.Checked Then
-        chkIncludeChildren.Checked = False
-      End If
+      'If chkIncludeChildren.Checked Then
+      Me.chkIncludeChildren.Checked = False
+      Me.chkShowDetail.Checked = False
+      Me.chkOnlyNoSCCode.Checked = False
+      'End If
 
     End Sub
     Public Overrides Function GetFilterString() As String
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(12) As Filter
+      Dim arr(13) As Filter
       arr(0) = New Filter("docdatestart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("docdateend", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("SubcontractorCodeStart", IIf(txtSuContractCodeStart.TextLength > 0, txtSuContractCodeStart.Text, DBNull.Value))
@@ -946,6 +962,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(10) = New Filter("DRCodeEnd", IIf(txtDRCodeEnd.TextLength > 0, txtDRCodeEnd.Text, DBNull.Value))
       arr(11) = New Filter("ShowDetail", Me.chkShowDetail.Checked)
       arr(12) = New Filter("SCCode", IIf(Me.txtSCCode.Text.Trim.Length = 0, DBNull.Value, Me.txtSCCode.Text.Trim))
+      arr(13) = New Filter("OnlyNoSC", Me.chkOnlyNoSCCode.Checked)
       'arr(8) = New Filter("SubcontractorGroupID", Me.ValidIdOrDBNull(m_subcontractorgroup))
       'arr(9) = New Filter("IncludeChildSubcontractorGroup", Me.chkIncludeChildSupplierGroup.Checked)
       Return arr
