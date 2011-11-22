@@ -100,6 +100,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csOther.TextBox.Name = "other"
       csOther.ReadOnly = True
 
+      Dim csBf As New TreeTextColumn
+      csBf.MappingName = "bf"
+      csBf.HeaderText = "BF" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csBf.NullText = ""
+      csBf.DataAlignment = HorizontalAlignment.Right
+      csBf.Format = "#,###.##"
+      csBf.Width = 109
+      csBf.TextBox.Name = "Bf"
+      csBf.ReadOnly = True
+
       Dim csPenalty As New TreeTextColumn
       csPenalty.MappingName = "penalty"
       csPenalty.HeaderText = "Penalty" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
@@ -443,6 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csMain)
       dst.GridColumnStyles.Add(csVO)
       dst.GridColumnStyles.Add(csOther)
+      dst.GridColumnStyles.Add(csBf)
       dst.GridColumnStyles.Add(csPenalty)
       dst.GridColumnStyles.Add(csTotal)
 
@@ -501,6 +512,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Main", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("VO", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Other", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Bf", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Penalty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Total", GetType(String)))
 
@@ -567,6 +579,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("main") = "Main" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("vo") = "VO" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("other") = "Other" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
+      tr("bf") = "bf" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("penalty") = "Penalty" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("total") = "Total" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("deliver") = "Deliver" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
@@ -603,11 +616,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                     {
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 3, 2),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 3, 3, 3),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 1, 10),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 12, 1, 16),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 18, 1, 23),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 25, 1, 42),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 44, 3, 44)
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 1, 11),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 13, 1, 17),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 19, 1, 24),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 26, 1, 43),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 45, 3, 45)
                                     })
       'Main, VO, Panalty, Total, Deliver, Bill, Received, Remain, Budget, PO Actual, Balance, GR Actual, Balance
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
@@ -617,22 +630,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 8, 3, 8),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 9, 3, 9),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 10, 3, 10),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 11, 3, 11),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 13, 3, 13),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 14, 3, 14),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 15, 3, 15),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 16, 3, 16),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 17, 3, 17),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 19, 3, 19),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 20, 3, 20),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 21, 3, 21),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 22, 3, 22),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 23, 3, 23)
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 23, 3, 23),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 24, 3, 24)
                                     })
       'Contract-Budget, Received-Actual, Received-Complete
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                    {
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 26, 2, 30),
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 32, 2, 36),
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 38, 2, 42)
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 27, 2, 31),
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 33, 2, 37),
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 39, 2, 43)
                                    })
 
       ',
@@ -856,6 +872,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trc("main") = Configuration.FormatToString(drh.GetValue(Of Decimal)("main"), DigitConfig.Price)
         trc("vo") = Configuration.FormatToString(drh.GetValue(Of Decimal)("vo"), DigitConfig.Price)
         trc("other") = Configuration.FormatToString(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
+        trc("bf") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bf"), DigitConfig.Price)
         trc("penalty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
         trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other")) - drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
 
@@ -903,6 +920,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_CCRvExp.Main += CDec(trc("main"))
         m_CCRvExp.Vo += CDec(trc("vo"))
         m_CCRvExp.Other += CDec(trc("other"))
+        m_CCRvExp.Bf += CDec(trc("bf"))
         m_CCRvExp.Penalty += CDec(trc("penalty"))
         m_CCRvExp.Total += CDec(trc("total"))
 
@@ -938,6 +956,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trsc("main") = Configuration.FormatToString(m_CCRvExp.Main, DigitConfig.Price)
       trsc("vo") = Configuration.FormatToString(m_CCRvExp.Vo, DigitConfig.Price)
       trsc("other") = Configuration.FormatToString(m_CCRvExp.Other, DigitConfig.Price)
+      trsc("bf") = Configuration.FormatToString(m_CCRvExp.Bf, DigitConfig.Price)
       trsc("penalty") = Configuration.FormatToString(m_CCRvExp.Penalty, DigitConfig.Price)
       trsc("total") = Configuration.FormatToString(m_CCRvExp.Total, DigitConfig.Price)
 
@@ -1553,6 +1572,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Public Property Main As Decimal
       Public Property Vo As Decimal
       Public Property Other As Decimal
+      Public Property Bf As Decimal
       Public Property Penalty As Decimal
       Public Property Total As Decimal
 

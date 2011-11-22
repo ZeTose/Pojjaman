@@ -335,6 +335,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim vo As Decimal = 0
       Dim penalty As Decimal = 0
       Dim other As Decimal = 0
+      Dim bf As Decimal = 0
       Dim totalprice As Decimal = 0
 
       Dim deliver As Decimal = 0
@@ -352,6 +353,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         vo = drh.GetValue(Of Decimal)("vo")
         penalty = drh.GetValue(Of Decimal)("penalty")
         other = drh.GetValue(Of Decimal)("other")
+        bf = drh.GetValue(Of Decimal)("bf")
 
         totalprice = (main + retention + advance + vo + other) - penalty
       End If
@@ -372,6 +374,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Child(tr, "VO", vo)
       Child(tr, "Penalty", penalty)
       Child(tr, "Other", other)
+      Child(tr, "BF", bf)
       Child(tr, "Total", totalprice)
       Blank(dt)
 
