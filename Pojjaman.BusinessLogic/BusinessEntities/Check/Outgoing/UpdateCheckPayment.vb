@@ -604,6 +604,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'UpdateOldItemStatus(conn, trans)
 
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure,
+          "UpdateCheck_PaymentRef",
+          New SqlParameter("@refto_id", Me.Id)
+          )
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure,
+                                  "UpdateCheck_ItemsStatus",
+                                  New SqlParameter("@listOfIds", Me.GetListIds),
+                                  New SqlParameter("@listOfOldIds", Me.GetListOldIds),
+                                  New SqlParameter("@docstatus", Me.UpdatedStatus.Value),
+                                  New SqlParameter("@cqupdate_id", Me.Id),
+                                  New SqlParameter("@isDeletingCase", 1)
+                                  )
+
         Dim i As Integer = 0
         With ds.Tables("CheckUpdateItem")
           For Each row As DataRow In .Rows
