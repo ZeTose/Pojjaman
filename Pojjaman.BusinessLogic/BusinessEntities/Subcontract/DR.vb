@@ -2097,6 +2097,169 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "RealItem"
         dpiColl.Add(dpi)
 
+        '--------------------- WBS Section ------------------
+        Dim WBSCostCenter As String = ""
+        Dim WBSCode As String = ""
+        Dim WBSName As String = ""
+        Dim WBSCodePercent As String = ""
+        Dim WBSCodeAmount As String = ""
+        Dim WBSRemainAmount As String = ""
+        Dim WBSRemainQty As String = ""
+
+        Dim hashWBS As New Hashtable
+        Dim hashWBSItem As New Hashtable
+        Dim key As String = ""
+        Dim itemKey As String = ""
+
+        If item.WBSDistributeCollection.Count > 0 Then
+          'Populate ให้คำนวณคงเหลือแบบหลอกๆ
+          'item.WBSDistributeCollection.Populate(WBSDistribute.GetSchemaTable, item, Me.EntityId)
+
+
+          If item.WBSDistributeCollection.Count = 1 Then
+
+            key = item.WBSDistributeCollection.Item(0).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(0).CostCenter.Id.ToString & ":" & item.AllocationType
+            itemKey = item.WBSDistributeCollection.Item(0).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(0).CostCenter.Id.ToString & ":" & item.Description & ":" & item.AllocationType
+
+            'Amount -----------------------------------------------------
+            If Not hashWBS.Contains(key) Then
+              item.WBSDistributeCollection.Item(0).RemainSummary = item.WBSDistributeCollection.Item(0).BudgetRemain - (item.WBSDistributeCollection.Item(0).Amount + item.WBSDistributeCollection.Item(0).ChildAmount)
+              hashWBS(key) = item.WBSDistributeCollection.Item(0)
+            Else
+              Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
+              item.WBSDistributeCollection.Item(0).RemainSummary = parWBS.RemainSummary - (item.WBSDistributeCollection.Item(0).Amount + item.WBSDistributeCollection.Item(0).ChildAmount)
+              CType(hashWBS(key), WBSDistribute).RemainSummary = item.WBSDistributeCollection.Item(0).RemainSummary
+            End If
+            'Qty --------------------------------------------------------
+            If Not hashWBSItem.Contains(itemKey) Then
+              item.WBSDistributeCollection.Item(0).QtyRemainSummary = item.WBSDistributeCollection.Item(0).QtyRemain - item.WBSDistributeCollection.Item(0).Qty
+              hashWBSItem(itemKey) = item.WBSDistributeCollection.Item(0)
+            Else
+              Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+              item.WBSDistributeCollection.Item(0).QtyRemainSummary = parWBS.QtyRemainSummary - item.WBSDistributeCollection.Item(0).Qty
+              CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = item.WBSDistributeCollection.Item(0).QtyRemainSummary
+            End If
+
+            WBSCostCenter = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & _
+            item.WBSDistributeCollection.Item(0).CostCenter.Name 'Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+            WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
+            WBSName = item.WBSDistributeCollection.Item(0).WBS.Name
+            WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%"
+            WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price)
+            WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
+            WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
+          Else
+            Dim j As Integer
+            For j = 0 To item.WBSDistributeCollection.Count - 1
+
+              key = item.WBSDistributeCollection.Item(j).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(j).CostCenter.Id.ToString & ":" & item.AllocationType
+              itemKey = item.WBSDistributeCollection.Item(j).WBS.Id.ToString & ":" & item.WBSDistributeCollection.Item(j).CostCenter.Id.ToString & ":" & item.Description & ":" & item.AllocationType
+
+              'Amount -----------------------------------------------------
+              If Not hashWBS.Contains(key) Then
+                item.WBSDistributeCollection.Item(j).RemainSummary = item.WBSDistributeCollection.Item(j).BudgetRemain - (item.WBSDistributeCollection.Item(j).Amount + item.WBSDistributeCollection.Item(j).ChildAmount)
+                hashWBS(key) = item.WBSDistributeCollection.Item(j)
+              Else
+                Dim parWBS As WBSDistribute = CType(hashWBS(key), WBSDistribute)
+                item.WBSDistributeCollection.Item(j).RemainSummary = parWBS.RemainSummary - (item.WBSDistributeCollection.Item(j).Amount + item.WBSDistributeCollection.Item(j).ChildAmount)
+                CType(hashWBS(key), WBSDistribute).RemainSummary = item.WBSDistributeCollection.Item(j).RemainSummary
+              End If
+              'Qty --------------------------------------------------------
+              If Not hashWBSItem.Contains(itemKey) Then
+                item.WBSDistributeCollection.Item(j).QtyRemainSummary = item.WBSDistributeCollection.Item(j).QtyRemain - item.WBSDistributeCollection.Item(j).Qty
+                hashWBSItem(itemKey) = item.WBSDistributeCollection.Item(j)
+              Else
+                Dim parWBS As WBSDistribute = CType(hashWBSItem(itemKey), WBSDistribute)
+                item.WBSDistributeCollection.Item(j).QtyRemainSummary = parWBS.QtyRemainSummary - item.WBSDistributeCollection.Item(j).Qty
+                CType(hashWBSItem(itemKey), WBSDistribute).QtyRemainSummary = item.WBSDistributeCollection.Item(j).QtyRemainSummary
+              End If
+
+              WBSCostCenter &= item.WBSDistributeCollection.Item(j).CostCenter.Code & ":" & _
+              item.WBSDistributeCollection.Item(j).CostCenter.Name ' & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+              WBSCode &= item.WBSDistributeCollection.Item(j).WBS.Code
+              WBSName &= item.WBSDistributeCollection.Item(j).WBS.Name
+              WBSCodePercent &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Percent, DigitConfig.Price)
+              WBSCodeAmount &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Amount, DigitConfig.Price)
+              WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).RemainSummary, DigitConfig.Price)
+              WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).QtyRemainSummary, DigitConfig.Price)
+              If j < item.WBSDistributeCollection.Count - 1 Then
+                WBSCostCenter &= ", "
+                'WBSCostCentern &= ", "
+                WBSCode &= ", "
+                WBSName &= ", "
+                WBSCodePercent &= ", "
+                WBSCodeAmount &= ", "
+                WBSRemainAmount &= ", "
+                WBSRemainQty &= ", "
+              End If
+            Next
+          End If
+        End If
+
+        'Item.WBSCostCenter
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCostCenter"
+        dpi.Value = WBSCostCenter
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCode"
+        dpi.Value = WBSCode
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSName
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSName"
+        dpi.Value = WBSName
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSCodePercent
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCodePercent"
+        dpi.Value = WBSCodePercent
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSCodeAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSCodeAmount"
+        dpi.Value = WBSCodeAmount
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSRemainAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSRemainAmount"
+        dpi.Value = WBSRemainAmount
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.WBSRemainQty
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.WBSRemainQty"
+        dpi.Value = WBSRemainQty
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+        '--------------------- WBS Section ------------------
+
         'Item.Unit
         dpi = New DocPrintingItem
         dpi.Mapping = "RealItem.Unit"
