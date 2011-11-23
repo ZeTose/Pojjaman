@@ -355,7 +355,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         other = drh.GetValue(Of Decimal)("other")
         bf = drh.GetValue(Of Decimal)("bf")
 
-        totalprice = (main + retention + advance + vo + other) - penalty
+        totalprice = (main + vo + other) - (penalty + retention + advance)
       End If
       If Me.DataSet.Tables(1).Rows.Count > 0 Then
         Dim drh As New DataRowHelper(Me.DataSet.Tables(1).Rows(0))
