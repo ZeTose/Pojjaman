@@ -1348,7 +1348,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If pitem.HasChild AndAlso Not pitem.IsHasChild Then
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.HasChild}", New String() {pitem.EntityName})
           End If
-          Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
+          'Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
+          Dim m_value As Decimal = pitem.GetChildCostAmount
           Trace.WriteLine("costamt:" & pitem.CostAmount.ToString)
           Trace.WriteLine("value:" & m_value.ToString)
           If Configuration.Format(pitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then

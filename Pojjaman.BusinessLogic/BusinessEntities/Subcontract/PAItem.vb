@@ -1743,6 +1743,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return False
 
     End Function
+    Public Function GetChildCostAmount() As Decimal
+      Dim doc As PAItem = Me
+      Dim m_childCostAmount As Decimal = 0
+      Dim parent As Decimal = doc.Parent
+
+      For Each itm As PAItem In Me.Pa.ItemCollection
+        If itm.Level = 1 AndAlso itm.Parent = parent Then
+          m_childCostAmount += itm.CostAmount
+        End If
+      Next
+
+      Return m_childCostAmount
+    End Function
     Public Function GetChildAmount() As Decimal
       Dim doc As PAItem = Me
       Dim m_childAmount As Decimal = 0
