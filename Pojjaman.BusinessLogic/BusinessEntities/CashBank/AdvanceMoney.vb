@@ -851,6 +851,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.string"
       dpiColl.Add(dpi)
 
+      Dim TotalAmount As Decimal = 0
+
       Dim n As Integer = 0
       For i As Integer = 0 To Me.m_itemTable.Rows.Count - 1
         Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
@@ -907,8 +909,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
+
+        If Not itemRow.IsNull("Amount") Then
+          TotalAmount += CDec(itemRow("Amount"))
+        End If
+
         n += 1
       Next
+
+      'TotalAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalAmount"
+      dpi.Value = Configuration.FormatToString(TotalAmount, DigitConfig.Price)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
 
       Return dpiColl
     End Function
