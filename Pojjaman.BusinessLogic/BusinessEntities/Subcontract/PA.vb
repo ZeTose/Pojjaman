@@ -478,7 +478,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1 '"แยก"
             Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetExcludeVATAmount - Me.Retention
           Case 2 '"รวม"
-            Return Me.AfterTax - Me.RealTaxAmount - Me.Retention
+            Return Me.AfterTax - Me.RealTaxAmount '- Me.Retention
         End Select
       End Get
     End Property
@@ -631,7 +631,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Case 1 '"แยก"
             Return Me.BeforeTax + Me.RealTaxAmount
           Case 2 '"รวม"
-            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetAmount
+            Return Me.RealGross - Me.DiscountAmount - Me.AdvancePayItemCollection.GetAmount - Me.Retention
         End Select
       End Get
     End Property
