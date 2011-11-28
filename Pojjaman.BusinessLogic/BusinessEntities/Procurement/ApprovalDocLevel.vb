@@ -628,6 +628,7 @@ Public Class ApproveDocCollection
     Public Property DocComment As String
     Public Property DocCCId As Integer
     Public Property DocSupplierId As Integer
+    Public Property RefDoc As IApprovAble
 
     Public Sub New(ByVal docid As Long,
                   ByVal doctype As Integer
@@ -644,7 +645,8 @@ Public Class ApproveDocCollection
                    ByVal docmethod As SaveDocMultiApprovalMethod,
                    ByVal doccomment As String,
                    ByVal docccid As Integer,
-                   ByVal docsupplierid As Integer
+                   ByVal docsupplierid As Integer,
+                   ByVal refdoc As IApprovAble
                    )
       Me.DocId = docid
       Me.DocType = doctype
@@ -657,6 +659,7 @@ Public Class ApproveDocCollection
       Me.DocComment = doccomment
       Me.DocCCId = docccid
       Me.DocSupplierId = docsupplierid
+      Me.RefDoc = refdoc
     End Sub
 
     Public Function UpdateApprove(ByVal UserId As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
@@ -686,7 +689,8 @@ Public Class ApproveDocCollection
                                   New SqlParameter("@MethodId", Me.DocMethod),
                                   New SqlParameter("@DocComment", Me.DocComment),
                                   New SqlParameter("@DocCCId", Me.DocCCId),
-                                  New SqlParameter("@DocSupplierId", Me.DocSupplierId)
+                                  New SqlParameter("@DocSupplierId", Me.DocSupplierId),
+                                  New SqlParameter("@IsApproved", Me.RefDoc.IsApproved)
                                   )
         End If
 

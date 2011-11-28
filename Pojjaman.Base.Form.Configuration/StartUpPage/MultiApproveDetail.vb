@@ -206,6 +206,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkShowDetail.TabIndex = 0
       Me.chkShowDetail.Text = "แสดงรายละเอียดทั้งหมด"
       Me.chkShowDetail.UseVisualStyleBackColor = True
+      Me.chkShowDetail.Visible = False
       '
       'chkSelectAll
       '
@@ -356,6 +357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAlwaysShowData.TabIndex = 0
       Me.chkAlwaysShowData.Text = "แสดงรายการเสมอตอนเปิดโปรแกรม"
       Me.chkAlwaysShowData.UseVisualStyleBackColor = True
+      Me.chkAlwaysShowData.Visible = False
       '
       'MultiApproveDetail
       '
