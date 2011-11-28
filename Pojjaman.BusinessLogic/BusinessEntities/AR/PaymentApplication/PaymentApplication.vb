@@ -1318,17 +1318,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-      'TotalReceievRetention
+      'TotalReceievRetention //Sum ประเภทงวดงานที่เป็น Retention ที่รับเงินแล้ว
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalReceievRetention"
-      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTotalReceievRetention, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTotalMilestoneReceiveAmount(Me.Id, 77), DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
-      'TotalReceievAdvance
+      'TotalReceievAdvance //Sum ประเภทงวดงานที่เป็น Advance ที่รับเงินแล้ว
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalReceievAdvance"
-      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTotalReceievAdvance, DigitConfig.Price)
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTotalMilestoneReceiveAmount(Me.Id, 86), DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalDeductRetention //Sum ประเภทงวดงานที่เป็น งวดงาน มีการหัก Retention ที่รับเงินแล้ว
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalDeductRetention"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.TotalDeductRetention, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'TotalDeductAdvance //Sum ประเภทงวดงานที่เป็น งวดงาน มีการหัก Advance ที่รับเงินแล้ว
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TotalDeductAdvance"
+      dpi.Value = Configuration.FormatToString(Me.ItemCollection.TotalDeductAdvance, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 

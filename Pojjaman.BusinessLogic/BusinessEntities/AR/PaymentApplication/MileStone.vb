@@ -2659,34 +2659,98 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+
+
+
+    ' ''' 
+    ' ''' <summary>
+    ' ''' มูลค่า Retention งวดงานที่ที่รับเงินแล้ว
+    ' ''' </summary>
+    ' ''' <returns></returns>
+    ' ''' <remarks></remarks>
+    'Public Function GetTotalReceievRetention() As Decimal
+    '  Dim amt As Decimal
+    '  For Each item As Milestone In Me
+    '    If item.Status.Value = 5 Then
+    '      amt += item.Retention
+    '    End If
+    '  Next
+    '  Return amt
+    'End Function
+    ' ''' <summary>
+    ' '''  มูลค่า Advance งวดงานที่ที่รับเงินแล้ว
+    ' ''' </summary>
+    ' ''' <returns></returns>
+    ' ''' <remarks></remarks>
+    'Public Function GetTotalReceievAdvance() As Decimal
+    '  Dim amt As Decimal
+    '  For Each item As Milestone In Me
+    '    If item.Status.Value = 5 Then
+    '      amt += item.Advance
+    '    End If
+    '  Next
+    '  Return amt
+    'End Function
+
     ''' <summary>
-    ''' มูลค่า Retention งวดงานที่ที่รับเงินแล้ว
+    '''  Sum ประเภทงวดงานที่เป็น Retention ที่รับเงินแล้ว || Sum ประเภทงวดงานที่เป็น Advance ที่รับเงินแล้ว
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function GetTotalReceievRetention() As Decimal
+    Public Function GetTotalMilestoneReceiveAmount(ByVal pmaId As Integer, ByVal milestoneType As Integer) As Decimal
+      Dim amt As Decimal
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetTotalMileStoneReceivedAmount",
+                                                   New SqlParameter("@pma_id", pmaId),
+                                                   New SqlParameter("@stock_type", milestoneType))
+      If ds.Tables(0).Rows.Count > 0 Then
+        amt = CDec(ds.Tables(0).Rows(0)(0))
+      End If
+
+      Return amt
+    End Function
+
+    ''' <summary>
+    '''  Sum ประเภทงวดงานที่เป็น งวดงาน มีการหัก Retention ที่รับเงินแล้ว
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function TotalDeductRetention() As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
-        If item.Status.Value = 5 Then
-          amt += item.Retention
+        If item.Type.Value = 77 OrElse item.Type.Value = 86 Then
+
+        Else
+          If item.Status.Value = 5 Then
+            amt += item.Retention
+          End If
         End If
       Next
       Return amt
     End Function
+
     ''' <summary>
-    '''  มูลค่า Advance งวดงานที่ที่รับเงินแล้ว
+    '''  Sum ประเภทงวดงานที่เป็น งวดงาน มีการหัก Advance ที่รับเงินแล้ว
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Function GetTotalReceievAdvance() As Decimal
+    Public Function TotalDeductAdvance() As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
-        If item.Status.Value = 5 Then
-          amt += item.Advance
+        If item.Type.Value = 77 OrElse item.Type.Value = 86 Then
+
+        Else
+          If item.Status.Value = 5 Then
+            amt += item.Advance
+          End If
         End If
       Next
       Return amt
     End Function
+
+
     Public Function GetAmountForBillIssue(Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal = 0
       For Each Item As Milestone In Me
