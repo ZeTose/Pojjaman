@@ -341,8 +341,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim deliver As Decimal = 0
       Dim bill As Decimal = 0
       Dim receievd As Decimal = 0
-      Dim deductretention As Decimal = 0
-      Dim deductadvance As Decimal = 0
+      Dim Recretention As Decimal = 0
+      Dim Recadvance As Decimal = 0
       Dim remain As Decimal = 0
 
       If Me.DataSet.Tables(0).Rows.Count > 0 Then
@@ -361,9 +361,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim drh As New DataRowHelper(Me.DataSet.Tables(1).Rows(0))
         deliver = drh.GetValue(Of Decimal)("deliver")
         bill = drh.GetValue(Of Decimal)("bill")
-        receievd = drh.GetValue(Of Decimal)("receievd")
-        deductretention = drh.GetValue(Of Decimal)("deductretention")
-        deductadvance = drh.GetValue(Of Decimal)("deductadvance")
+        receievd = drh.GetValue(Of Decimal)("received")
+        Recretention = drh.GetValue(Of Decimal)("Recretention")
+        Recadvance = drh.GetValue(Of Decimal)("Recadvance")
         remain = drh.GetValue(Of Decimal)("remain")
       End If
 
@@ -382,8 +382,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Child(tr, "Deliver", deliver)
       Child(tr, "Bill", bill)
       Child(tr, "Received", receievd)
-      Child(tr, "Retention", deductretention)
-      Child(tr, "Advance", deductadvance)
+      Child(tr, "Retention", Recretention)
+      Child(tr, "Advance", Recadvance)
       Child(tr, "Remain", remain)
       Blank(dt)
 
