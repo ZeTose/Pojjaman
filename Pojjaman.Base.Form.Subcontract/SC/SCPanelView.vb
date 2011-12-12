@@ -1364,7 +1364,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Members"
     Private m_entity As SC
     Private m_isInitialized As Boolean = False
-    Private m_treeManager As TreeManager
+    'Private m_treeManager As TreeManager
 
     Private m_enableState As Hashtable
     Private m_readOnlyState As Hashtable
@@ -1385,11 +1385,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim dt As TreeTable = SC.GetSchemaTable()
       Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-      m_treeManager = New TreeManager(dt, tgItem)
-      m_treeManager.SetTableStyle(dst)
-      m_treeManager.AllowSorting = False
-      m_treeManager.AllowDelete = False
-      Me.Validator.DataTable = m_treeManager.Treetable
+      SC.TreeManager = New TreeManager(dt, tgItem)
+      SC.TreeManager.SetTableStyle(dst)
+      SC.TreeManager.AllowSorting = False
+      SC.TreeManager.AllowDelete = False
+      Me.Validator.DataTable = SC.TreeManager.Treetable
 
       AddHandler dt.ColumnChanging, AddressOf ItemTreetable_ColumnChanging
       AddHandler dt.ColumnChanged, AddressOf ItemTreetable_ColumnChanged
@@ -1436,8 +1436,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'e.HilightValue = False
       'e.RedText = False
       'Dim i As Integer = 0
-      'For Each row As DataRow In Me.m_treeManager2.Treetable.Rows
-      '    For Each col As DataColumn In Me.m_treeManager2.Treetable.Columns
+      'For Each row As DataRow In sc.treemanager2.Treetable.Rows
+      '    For Each col As DataColumn In sc.treemanager2.Treetable.Columns
       '        If col.Ordinal > 0 Then
       '            If Not row.IsNull(col) AndAlso IsNumeric(row(col)) Then
       '                If CDec(row(col)) < 0 Then
@@ -1472,9 +1472,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If doc Is Nothing Then
       '    Return
       'End If
-      'Dim dt As TreeTable = Me.m_treeManager2.Treetable
+      'Dim dt As TreeTable = sc.treemanager2.Treetable
       'Dim wsdColl As WBSDistributeCollection = doc.WBSDistributeCollection
-      'Dim row As TreeRow = Me.m_treeManager2.SelectedRow
+      'Dim row As TreeRow = sc.treemanager2.SelectedRow
       'If TypeOf myEntity Is CostCenter Then
       '    CType(row.Tag, WBSDistribute).CostCenter = CType(myEntity, CostCenter)
       '    CType(row.Tag, WBSDistribute).WBS = New WBS
@@ -1675,7 +1675,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Properties"
     Private ReadOnly Property CurrentTagItem() As SCItem
       Get
-        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        Dim row As TreeRow = SC.TreeManager.SelectedRow
         If row Is Nothing Then
           Return Nothing
         End If
@@ -1687,7 +1687,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Private ReadOnly Property CurrentRealTagItem() As SCItem
       Get
-        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        Dim row As TreeRow = SC.TreeManager.SelectedRow
         If Not TypeOf row.Tag Is SCItem Then
           Return Nothing
         End If
@@ -1717,7 +1717,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
     Private ReadOnly Property LastChildTagItem As SCItem
       Get
-        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        Dim row As TreeRow = SC.TreeManager.SelectedRow
 
         Dim parentRow As TreeRow = Nothing
 
@@ -1752,7 +1752,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  If Not m_isInitialized Then
       '    Return
       '  End If
-      '  If Me.m_treeManager.SelectedRow Is Nothing Then
+      '  If sc.treemanager.SelectedRow Is Nothing Then
       '    Return
       '  End If
       '  Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -1773,6 +1773,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
+      Me.m_entity.RefreshReceiveAmount()
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
@@ -1780,7 +1781,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_isInitialized Then
         Return
       End If
-      If Me.m_treeManager.SelectedRow Is Nothing Then
+      If SC.TreeManager.SelectedRow Is Nothing Then
         Return
       End If
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -1791,7 +1792,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''If tick checkbox that not in the current hilight row
 
       'If e.Column.ColumnName.ToLower = "sci_unvatable" Then
-      '  Me.m_treeManager.SelectedRow = e.Row
+      '  sc.treemanager.SelectedRow = e.Row
       '  doc = Me.m_entity.ItemCollection.CurrentItem
       'End If
       If doc Is Nothing Then
@@ -1802,7 +1803,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not IsNumeric(obj) Then
           Return
         End If
-        'If CInt(obj) <> 289 AndAlso Me.m_entity.ItemCollection.IsFirstRowNotRefWR(Me.m_treeManager.Treetable) Then
+        'If CInt(obj) <> 289 AndAlso Me.m_entity.ItemCollection.IsFirstRowNotRefWR(sc.treemanager.Treetable) Then
         '  doc = New SCItem
         '  doc.Level = 1
         '  doc.ItemType = New SCIItemType(CInt(obj))
@@ -1985,7 +1986,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           Next
           tgItem.Enabled = True
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          For Each colStyle As DataGridColumnStyle In SC.TreeManager.GridTableStyle.GridColumnStyles
             colStyle.ReadOnly = True
           Next
           'Me.btnApprove.Enabled = True
@@ -2002,7 +2003,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           Next
-          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          For Each colStyle As DataGridColumnStyle In SC.TreeManager.GridTableStyle.GridColumnStyles
             colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
           Next
           If Not Me.m_entity.CostCenter.Originated Then
@@ -2035,7 +2036,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           btnApprove.Enabled = False
         End If
         tgItem.Enabled = True
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        For Each colStyle As DataGridColumnStyle In SC.TreeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
         Me.SetEnalbleGroupBox(True)
@@ -2049,7 +2050,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           End If
         Next
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        For Each colStyle As DataGridColumnStyle In SC.TreeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
         If Not Me.m_entity.CostCenter.Originated Then
@@ -2412,7 +2413,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtRetention.Text = Configuration.FormatToString(m_entity.Retention, DigitConfig.Price)
       txtAdvancePay.Text = Configuration.FormatToString(m_entity.AdvancePay, DigitConfig.Price)
       'txtWitholdingTax.Text = Configuration.FormatToString(m_entity.WitholdingTax, DigitConfig.Price)
-
+      'Me.m_entity.RefreshReceiveAmount()
       RefreshDocs()
 
       SetStatus()
@@ -2422,9 +2423,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, tgItem)
+      Me.m_entity.ItemCollection.Populate(SC.TreeManager.Treetable, tgItem)
       'RefreshBlankGrid()
-      Me.m_treeManager.Treetable.AcceptChanges()
+      SC.TreeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
       Me.m_isInitialized = True
     End Sub
@@ -2675,6 +2676,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               SetWRToNothing(wrCode)
             End If
             txtWRCodeChanged = False
+            Me.m_entity.RefreshReceiveAmount()
             RefreshDocs()
             UpdateEntityProperties()
             'UpdateAmount()
@@ -2890,7 +2892,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Private Sub SetUnit(ByVal unit As ISimpleEntity)
-      Me.m_treeManager.SelectedRow("Unit") = unit.Code
+      SC.TreeManager.SelectedRow("Unit") = unit.Code
     End Sub
     Private m_targetType As Integer
     Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
@@ -2937,6 +2939,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
+      Me.m_entity.RefreshReceiveAmount()
       RefreshDocs()
       tgItem.CurrentRowIndex = index
       Me.WorkbenchWindow.ViewContent.IsDirty = True
@@ -2993,7 +2996,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim arrList As New ArrayList
       Dim index As Integer = tgItem.CurrentRowIndex
 
-      For Each Obj As Object In Me.m_treeManager.SelectedRows
+      For Each Obj As Object In SC.TreeManager.SelectedRows
         If Not Obj Is Nothing Then
           Dim row As TreeRow = CType(Obj, TreeRow)
           If Not row Is Nothing Then
@@ -3026,6 +3029,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
+      Me.m_entity.RefreshReceiveAmount()
       RefreshDocs()
 
 
@@ -3117,7 +3121,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWRCode.Text = e.Code
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       Me.WorkbenchWindow.ViewContent.IsDirty = WR.Getwr(txtWRCode, Me.m_entity.WR)
-
+      Me.m_entity.RefreshReceiveAmount()
       RefreshDocs()
       'UpdateAmount()
       UpdateEntityProperties()
@@ -3374,32 +3378,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''tgItem.CurrentRowIndex = index + 1
       ''Me.WorkbenchWindow.ViewContent.IsDirty = True
 
-      'Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
+      'Do Until sc.treemanager.Treetable.Rows.Count > tgItem.VisibleRowCount
       '  'เพิ่มแถวจนเต็ม
-      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  'sc.treemanager.Treetable.Childs.Add()
       '  Dim newRow As TreeRow
-      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow = sc.treemanager.Treetable.Childs.Add()
       '  newRow("sci_level") = 0
       '  newRow("Button") = "invisible"
       'Loop
 
-      'If Me.m_entity.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+      'If Me.m_entity.ItemCollection.Count = sc.treemanager.Treetable.Childs.Count Then
       '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-      '  'Me.m_treeManager.Treetable.Childs.Add()
+      '  'sc.treemanager.Treetable.Childs.Add()
       '  Dim newRow As TreeRow
-      '  newRow = Me.m_treeManager.Treetable.Childs.Add()
+      '  newRow = sc.treemanager.Treetable.Childs.Add()
       '  newRow("sci_level") = 0
       '  newRow("Button") = "invisible"
       'End If
 
-      ''For rowIndex As Integer = 0 To Me.m_treeManager.Treetable.Rows.Count
-      ''  Dim n As TreeRow = Me.m_treeManager.Treetable.Childs(rowIndex)
+      ''For rowIndex As Integer = 0 To sc.treemanager.Treetable.Rows.Count
+      ''  Dim n As TreeRow = sc.treemanager.Treetable.Childs(rowIndex)
       ''  If n("sci_level") = 0 Then
       ''    Me.tgItem.TableStyles(0).GridColumnStyles(0).c()
       ''  End If
       ''Next
 
-      'Me.m_treeManager.Treetable.AcceptChanges()
+      'sc.treemanager.Treetable.AcceptChanges()
       'tgItem.CurrentRowIndex = Math.Max(0, index)
       'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
@@ -3439,6 +3443,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       forceUpdateTaxBase = True
       forceUpdateTaxAmount = True
       forceUpdateGross = True
+
+      '--กรณีการลดท้ายบิลเป็น % จะต้องRefresh เอายอด gross มาก่อน เพื่อจะสามารถหา cost ของแต่ละรายการได้ถูกต้อง--
+      UpdateAmount()
+      '--กรณีการลดท้ายบิลเป็น % จะต้องRefresh เอายอด gross มาก่อน เพื่อจะสามารถหา cost ของแต่ละรายการได้ถูกต้อง--
+      Me.m_entity.RecalculateChildAmount()
+      Me.m_entity.RefreshReceiveAmount()
       Me.RefreshDocs()
       'Me.RefreshWBS()
 

@@ -66,6 +66,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_approvePerson As User
     Private m_approveDate As DateTime
 
+    Private Shared m_treeManager As TreeManager
+
     'Public Group As Boolean = False
 
     Private m_note As String
@@ -304,6 +306,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Shared Property TreeManager As TreeManager
+      Get
+        Return m_treeManager
+      End Get
+      Set(ByVal value As TreeManager)
+        'If m_treeManager Is Nothing Then
+        '  m_treeManager = New TreeManager
+        'End If
+        m_treeManager = value
+      End Set
+    End Property
     Public Property ApproveDocColl As ApproveDocCollection
       Get
         Return m_approveDocColl
@@ -1192,11 +1205,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    Next
     '    Return ret
     'End Function
+
     Public Sub RefreshReceiveAmount()
       For Each itm As SCItem In Me.ItemCollection
         'itm.ReceiveAmount = itm.ReceiveAmount
         If Not itm.ItemType.Value = 162 AndAlso Not itm.ItemType.Value = 160 Then
           itm.RecalculateReceiveAmount()
+        End If
+      Next
+    End Sub
+    Public Sub RecalculateChildAmount()
+      If Me.TreeManager Is Nothing Then
+        Return
+      End If
+      For Each prow As TreeRow In Me.TreeManager.Treetable.Childs
+        If Not prow.Tag Is Nothing AndAlso TypeOf prow.Tag Is SCItem Then
+          Dim pamount As Decimal = 0
+          For Each crow As TreeRow In prow.Childs
+            If Not crow.Tag Is Nothing AndAlso TypeOf crow.Tag Is SCItem Then
+              pamount += CType(crow.Tag, SCItem).Amount
+            End If
+          Next
+          CType(prow.Tag, SCItem).ReceiptAmount = pamount
         End If
       Next
     End Sub
@@ -1414,11 +1444,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
         End If
       End If
+      '--ตรวจสอบ Cost ของรายการแม่กับ Cost ของรายการลูก แล้วปรับให้ทุกรายการจัดจ้างในคราวเดียว
       For Each sitem As SCItem In Me.ItemCollection
-        'If Not Me.Closing AndAlso Not sitem.NewChild Then
-
         If sitem.Level = 0 Then
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
+          Trace.WriteLine(m_value.ToString)
+          Trace.WriteLine(sitem.CostAmount.ToString)
           If Configuration.Format(sitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
               Me.RecalculateAmount()
@@ -1429,9 +1460,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Else
               Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
             End If
-            'Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
-            'New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
+            Exit For
           End If
+        End If
+      Next
+
+      For Each sitem As SCItem In Me.ItemCollection
+        'If Not Me.Closing AndAlso Not sitem.NewChild Then
+
+        If sitem.Level = 0 Then
+          'Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
+          'If Configuration.Format(sitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
+          '  If msgServ.AskQuestion("${res:Global.Question.SCAmountNotEqualAllocateAndReCalUnitPrice}") Then
+          '    Me.RecalculateAmount()
+          '    Me.RefreshTaxBase()
+          '    Me.m_realGross = Me.m_gross
+          '    Me.RealTaxBase = Me.TaxBase
+          '    Me.RealTaxAmount = Me.TaxAmount
+          '  Else
+          '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+          '  End If
+          '  'Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
+          '  'New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
+          'End If
           'If sitem.Amount <> sitem.ChildAmount Then
           '  Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverSCAmount}", _
           '  New String() {Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(sitem.ChildAmount, DigitConfig.Price)})
@@ -1451,6 +1502,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         Else
           Dim m_value As Decimal = sitem.Mat + sitem.Lab + sitem.Eq
+          'Trace.WriteLine(sitem.CostAmount.ToString)
+          'Trace.WriteLine(m_value.ToString)
           If Configuration.Format(sitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
             Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
             New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
@@ -1518,6 +1571,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 nsitem.Unit = sitem.Unit
                 nsitem.SetQty(sitem.Qty)
                 nsitem.SetUnitPrice(sitem.UnitPrice)
+
                 'nsitem.SetMat(sitem.Mat)
                 nsitem.SetLab(sitem.Lab)
                 'nsitem.SetEq(sitem.Eq)
@@ -1526,41 +1580,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(sitem) + 1, nsitem)
               Next
-            End If
+              '--Refresh Cost--============================
+              Me.RefreshTaxBase()
+              'Dim amtFormatted As Decimal = Configuration.Format((Me.UnitPrice * Me.Qty), DigitConfig.Price)              'Me.Discount.AmountBeforeDiscount = Me.Gross ' discount.AmountBeforeDiscount = amtFormatted
+              For Each sitem As SCItem In Me.ItemCollection
+                'If sitem.Level = 1 Then
+                sitem.RecalculateReceiveAmount()
+                'sitem.SetLab(sitem.CostAmount)
+                'End If
+              Next
+              Me.RefreshTaxBase()
+              Me.RealGross = Me.Gross
+              Me.RealTaxBase = Me.TaxBase
+              Me.RealTaxAmount = Me.TaxAmount
+            'Me.RefreshTaxBase()
+            '--Refresh Cost--============================
           End If
-          If Me.Closing Then
-            Dim codeList As String = Me.GetUnClosedContract
-            If codeList.Length > 0 Then
-              Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCItem.VODRUnClosed}"), New String() {codeList, Me.Code})
-            End If
-          End If
-          ''=============== Validate Over Budget ==================>>
-          Dim ValidateOverBudgetError As SaveErrorException
-          Dim config As Integer = CInt(Configuration.GetConfig("POOverBudget"))
-          Select Case config
-            Case 0   'Not allow
-              ValidateOverBudgetError = Me.ValidateOverBudget
-              If Not IsNumeric(ValidateOverBudgetError.Message) Then
-                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
-                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-                Return New SaveErrorException(msgString & vbCrLf & msgString2)
-              End If
-            Case 1   'Warn
-              ValidateOverBudgetError = Me.ValidateOverBudget
-              If Not IsNumeric(ValidateOverBudgetError.Message) Then
-                Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
-                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-                If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
-                  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-                End If
-              End If
-            Case 2   'Do Nothing
-          End Select
-          ''=============== Validate Over Budget ==================<<
         End If
+        If Me.Closing Then
+          Dim codeList As String = Me.GetUnClosedContract
+          If codeList.Length > 0 Then
+            Return New SaveErrorException(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCItem.VODRUnClosed}"), New String() {codeList, Me.Code})
+          End If
+        End If
+        ''=============== Validate Over Budget ==================>>
+        Dim ValidateOverBudgetError As SaveErrorException
+        Dim config As Integer = CInt(Configuration.GetConfig("POOverBudget"))
+        Select Case config
+          Case 0   'Not allow
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              Return New SaveErrorException(msgString & vbCrLf & msgString2)
+            End If
+          Case 1   'Warn
+            ValidateOverBudgetError = Me.ValidateOverBudget
+            If Not IsNumeric(ValidateOverBudgetError.Message) Then
+              Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+              End If
+            End If
+          Case 2   'Do Nothing
+        End Select
+        ''=============== Validate Over Budget ==================<<
+          End If
 
         Me.RefreshTaxBase()
         Dim tmpBoq As BOQ = Me.CostCenter.Boq
@@ -2241,6 +2310,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         'End If
       Next
+      Me.Discount.AmountBeforeDiscount = Me.Gross
       Select Case Me.TaxType.Value
         Case 0 '"ไม่มี"
           m_taxBase = 0

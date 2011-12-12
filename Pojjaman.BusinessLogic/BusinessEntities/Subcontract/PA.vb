@@ -729,15 +729,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property RealGrossWithNoDeductItem As Decimal
       Get
         Dim realgross As Decimal = 0 'Me.RealGross
+        'For Each itm As PAItem In Me.ItemCollection
+        '  If itm.Level = 1 Then
+        '    If itm.RefDocType = 290 AndAlso itm.Amount < 0 Then
+        '      'realgross -= Math.Abs(itm.Amount)
+        '    ElseIf itm.RefDocType = 291 Then
+        '      'realgross -= Math.Abs(itm.Amount)
+        '    Else
+        '      realgross += itm.Amount
+        '    End If
+        '  End If
+        'Next
         For Each itm As PAItem In Me.ItemCollection
-          If itm.Level = 1 Then
-            If itm.RefDocType = 290 AndAlso itm.Amount < 0 Then
-              'realgross -= Math.Abs(itm.Amount)
-            ElseIf itm.RefDocType = 291 Then
-              'realgross -= Math.Abs(itm.Amount)
-            Else
-              realgross += itm.Amount
-            End If
+          If itm.Level = 1 AndAlso itm.RefEntity.Id <> 291 Then
+            realgross += itm.Amount
           End If
         Next
         Return realgross
@@ -820,6 +825,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("pai_refDoc", GetType(String))) 'อ้างอิง
       myDatatable.Columns.Add(New DataColumn("pai_entity", GetType(Integer)))
       myDatatable.Columns.Add(New DataColumn("pai_entityType", GetType(Integer)))
+      myDatatable.Columns.Add(New DataColumn("pai_entityTypeDescription", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Code", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Button", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("EntityName", GetType(String)))
@@ -1339,23 +1345,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '  End If
         'End If
         If pitem.Level = 0 Then
-          If pitem.RefEntity.Id = 0 Then
-            If Configuration.Format(pitem.Amount, DigitConfig.Price) <> Configuration.Format(pitem.ChildAmount, DigitConfig.Price) Then
-              Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverSCAmount}", _
-              New String() {Configuration.FormatToString(pitem.Amount, DigitConfig.Price), Configuration.FormatToString(pitem.ChildAmount, DigitConfig.Price)})
-            End If
-          End If
-          If pitem.HasChild AndAlso Not pitem.IsHasChild Then
-            Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.HasChild}", New String() {pitem.EntityName})
-          End If
-          'Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
-          Dim m_value As Decimal = pitem.GetChildCostAmount
-          Trace.WriteLine("costamt:" & pitem.CostAmount.ToString)
-          Trace.WriteLine("value:" & m_value.ToString)
-          If Configuration.Format(pitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
-            Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
-             New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.CostAmount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
-          End If
+          'If pitem.RefEntity.Id = 0 Then
+          '  If Configuration.Format(pitem.Amount, DigitConfig.Price) <> Configuration.Format(pitem.ChildAmount, DigitConfig.Price) Then
+          '    Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverSCAmount}", _
+          '    New String() {Configuration.FormatToString(pitem.Amount, DigitConfig.Price), Configuration.FormatToString(pitem.ChildAmount, DigitConfig.Price)})
+          '  End If
+          'End If
+          'If pitem.HasChild AndAlso Not pitem.IsHasChild Then
+          '  Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.HasChild}", New String() {pitem.EntityName})
+          'End If
+          ''Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
+          'Dim m_value As Decimal = pitem.GetChildCostAmount
+          'Trace.WriteLine("costamt:" & pitem.CostAmount.ToString)
+          'Trace.WriteLine("value:" & m_value.ToString)
+          'If Configuration.Format(pitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
+          '  Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
+          '   New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.CostAmount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
+          'End If
         Else
           Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
           Trace.WriteLine("costamt:" & pitem.CostAmount.ToString)
@@ -2737,10 +2743,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim sumAmountWithVat As Decimal = 0
       For Each item As PAItem In Me.ItemCollection
-        m_gross += item.TotalProgressReceive
-        If Not item.UnVatable Then
-          m_taxGross += item.TotalProgressReceive
-          sumAmountWithVat += item.TotalProgressReceive
+        If item.Level = 1 Then 'OrElse (item.Level = 0 AndAlso item.RefEntity.Id = 291) Then
+          m_gross += item.Amount
+          If Not item.UnVatable Then
+            m_taxGross += item.Amount
+            sumAmountWithVat += item.Amount
+          End If
         End If
       Next      Select Case Me.TaxType.Value
         Case 0 '"ไม่มี"

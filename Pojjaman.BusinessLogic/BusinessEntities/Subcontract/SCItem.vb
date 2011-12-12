@@ -796,7 +796,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Dim m_cost As Decimal = Me.CostAmount
-      Select Case Me.ItemType.Value
+      Trace.WriteLine(m_cost.ToString)      Select Case Me.ItemType.Value
         Case 0, 19, 28, 42
           Me.m_mat = m_cost 'm_receiveAmount
           Me.m_lab = 0
@@ -1539,25 +1539,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim doc As SCItem = Me
 
       Dim m_childAmount As Decimal = 0
-      Dim lastIndex As Integer = Me.SC.ItemCollection.IndexOf(doc)
-      Dim startIndex As Integer = lastIndex
 
-      For i As Integer = startIndex To Me.SC.ItemCollection.Count - 1
-        'If Not Me.SC.ItemCollection(i).NewChild Then
-        If i > startIndex Then
-          Dim sci As SCItem = Me.SC.ItemCollection(i)
-          If sci.Level = 0 Then
-            Exit For
-          End If
-          lastIndex = i
-          m_childAmount += sci.Amount
-        End If
-        'End If
-      Next
 
-      If startIndex = lastIndex Then
-        Return Me.Amount
-      End If
+
+      'Dim lastIndex As Integer = Me.SC.ItemCollection.IndexOf(doc)
+      'Dim startIndex As Integer = lastIndex
+
+      'For i As Integer = startIndex To Me.SC.ItemCollection.Count - 1
+      '  'If Not Me.SC.ItemCollection(i).NewChild Then
+      '  If i > startIndex Then
+      '    Dim sci As SCItem = Me.SC.ItemCollection(i)
+      '    If sci.Level = 0 Then
+      '      Exit For
+      '    End If
+      '    lastIndex = i
+      '    m_childAmount += sci.Amount
+      '  End If
+      '  'End If
+      'Next
+
+      'If startIndex = lastIndex Then
+      '  Return Me.Amount
+      'End If
 
       Return m_childAmount
     End Function
@@ -2720,6 +2723,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       dt.Clear()
+
+      'Me.m_sc.TreeManager.Treetable = dt
+
       Dim currItem As SCItem
       Dim hsNew As New Hashtable
       Dim parentRow As TreeRow
@@ -2746,13 +2752,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Not sci.NewChild Then
         Me.CurrentItem = sci
 
-        '-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
-        If sci.Level = 0 AndAlso sci.IsHasChild Then
-          sci.SetMat(sci.ChildMat)
-          sci.SetLab(sci.ChildLab)
-          sci.SetEq(sci.ChildEq)
-        End If
-        '-- -- Summary MAT LAB EQ ----------------
+        ''-- Summary MAT LAB EQ ลูก ๆ ไปให้รายการจัดจ้าง --
+        'If sci.Level = 0 AndAlso sci.IsHasChild Then
+        '  sci.SetMat(sci.ChildMat)
+        '  sci.SetLab(sci.ChildLab)
+        '  sci.SetEq(sci.ChildEq)
+        'End If
+        ''-- -- Summary MAT LAB EQ ----------------
 
         If sci.Level = 0 Then
           'If (sci.WR Is Nothing OrElse sci.WR.Id = 0) AndAlso Not chkNoRefItem Then
@@ -2796,6 +2802,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'newRow.Tag = sci
         'End If
       Next
+
+      For Each prow As TreeRow In dt.Childs
+        If TypeOf prow.Tag Is SCItem AndAlso CType(prow.Tag, SCItem).Level = 0 Then
+          Dim pmat As Decimal = 0
+          Dim plab As Decimal = 0
+          Dim peq As Decimal = 0
+
+          For Each crow As TreeRow In prow.Childs
+            pmat += CType(crow.Tag, SCItem).Mat
+            plab += CType(crow.Tag, SCItem).Lab
+            peq += CType(crow.Tag, SCItem).Eq
+          Next
+
+          CType(prow.Tag, SCItem).SetMat(pmat)
+          CType(prow.Tag, SCItem).SetLab(plab)
+          CType(prow.Tag, SCItem).SetEq(peq)
+          CType(prow.Tag, SCItem).CopyToDataRow(prow)
+        End If
+      Next
+
 
       dt.AcceptChanges()
 

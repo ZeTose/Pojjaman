@@ -1506,19 +1506,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRefCode.TextBox.Name = "pai_refDoc"
 
       '"ประเภท"
-      Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("pai_entityType" _
-      , CodeDescription.GetCodeList("pai_entitytype") _
-      , "code_description", "code_value")
+      Dim csType As New TreeTextColumn
+      csType.MappingName = "pai_entityTypeDescription"
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
+      csType.NullText = ""
+      csType.Width = 85
       csType.ReadOnly = True
-      csType.NullText = String.Empty
+      csType.TextBox.Name = "pai_entityTypeDescription"
+
+      ''"ประเภท"
+      'Dim csType As DataGridComboColumn
+      'csType = New DataGridComboColumn("pai_entityType" _
+      ', CodeDescription.GetCodeList("pai_entitytype") _
+      ', "code_description", "code_value")
+      'csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
+      'csType.ReadOnly = True
+      'csType.NullText = String.Empty
 
       '"รหัส"
       Dim csCode As New TreeTextColumn
       csCode.MappingName = "Code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CodeHeaderText}")
       csCode.NullText = ""
+      csCode.Width = 100
       csCode.ReadOnly = True
       csCode.TextBox.Name = "Code"
 
@@ -1532,7 +1542,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csName.MappingName = "pai_itemName"
       csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.DescriptionHeaderText}")
       csName.NullText = ""
-      csName.Width = 210
+      csName.Width = 290
       csName.ReadOnly = True
       csName.TextBox.Name = "pai_itemName"
       'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
@@ -1542,7 +1552,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnit.MappingName = "Unit"
       csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.UnitHeaderText}")
       csUnit.NullText = ""
-      csUnit.Width = 60
+      csUnit.Width = 45
       csUnit.ReadOnly = True
       csUnit.TextBox.Name = "Unit"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
@@ -1575,7 +1585,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csSCQty.NullText = ""
       csSCQty.DataAlignment = HorizontalAlignment.Right
       csSCQty.Format = "#,###.##"
-      csSCQty.Width = 100
+      csSCQty.Width = 90
       csSCQty.ReadOnly = True
       csSCQty.TextBox.Name = "QtyCostAmount"
       'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
@@ -1606,7 +1616,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csSumSCQtyBofore.NullText = ""
       csSumSCQtyBofore.DataAlignment = HorizontalAlignment.Right
       csSumSCQtyBofore.Format = "#,###.##"
-      csSumSCQtyBofore.Width = 100
+      csSumSCQtyBofore.Width = 90
       csSumSCQtyBofore.ReadOnly = True
       csSumSCQtyBofore.TextBox.Name = "ReceivedQty"
       'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
@@ -1634,7 +1644,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.UnitPriceHeaderTextt}")            '"ราคาต่อหน่วย"
       csUnitPRice.NullText = ""
       csUnitPRice.DataAlignment = HorizontalAlignment.Right
-      'csUnitPRice.ReadOnly = True
+      csUnitPRice.ReadOnly = True
       csUnitPRice.TextBox.Name = "pai_unitprice"
       csUnitPRice.Width = 100
       csUnitPRice.Format = "#,###.##"

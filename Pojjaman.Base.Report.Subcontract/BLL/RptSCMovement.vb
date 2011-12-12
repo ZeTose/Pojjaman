@@ -209,7 +209,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           For Each scRow As DataRow In dt1.Select("supplier_id = " & ccDrh.GetValue(Of String)("supplier_id") & " and entityId = 289 and cc_id = " & ccDrh.GetValue(Of String)("cc_id")) 'ขึ้น SC ใบใหม่ใน SubContractor เดียวกัน
             Dim scDrh As New DataRowHelper(scRow)
 
-            DocAmount = scDrh.GetValue(Of Decimal)("sc") - scDrh.GetValue(Of Decimal)("advance") - scDrh.GetValue(Of Decimal)("retention") + scDrh.GetValue(Of Decimal)("dr")
+            DocAmount = scDrh.GetValue(Of Decimal)("sc") '- scDrh.GetValue(Of Decimal)("advance") - scDrh.GetValue(Of Decimal)("retention") + scDrh.GetValue(Of Decimal)("dr")
 
             scRemain = (scDrh.GetValue(Of Decimal)("sc") - scDrh.GetValue(Of Decimal)("sc_debit"))
             drRemain = (scDrh.GetValue(Of Decimal)("dr") - scDrh.GetValue(Of Decimal)("dr_debit"))
@@ -253,7 +253,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               advRemain += (newChildSCRow.GetValue(Of Decimal)("advance") - newChildSCRow.GetValue(Of Decimal)("advance_debit"))
               retRemain += (newChildSCRow.GetValue(Of Decimal)("retention") - newChildSCRow.GetValue(Of Decimal)("retention_debit"))
 
-              DocAmount = newChildSCRow.GetValue(Of Decimal)("sc") - newChildSCRow.GetValue(Of Decimal)("advance") - newChildSCRow.GetValue(Of Decimal)("retention") + newChildSCRow.GetValue(Of Decimal)("dr")
+              'DocAmount = newChildSCRow.GetValue(Of Decimal)("sc") - newChildSCRow.GetValue(Of Decimal)("advance") - newChildSCRow.GetValue(Of Decimal)("retention") + newChildSCRow.GetValue(Of Decimal)("dr")
 
               summarrySCDebt += (drRemain - advRemain)
               summarryRetDebt += retRemain
@@ -270,7 +270,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trDetail("col1") = newChildSCRow.GetValue(Of String)("Code")
               trDetail("col2") = newChildSCRow.GetValue(Of String)("sc_Type")
               trDetail("col3") = newChildSCRow.GetValue(Of String)("ccinfo")
-              trDetail("col4") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
+              'trDetail("col4") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
               trDetail("col5") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("sc"), DigitConfig.Price)
               trDetail("col8") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("advance"), DigitConfig.Price)
               trDetail("col11") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("retention"), DigitConfig.Price)
@@ -281,7 +281,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trDetail("col16") = Configuration.FormatToString(drRemain, DigitConfig.Price) '*************************
 
               If newChildSCRow.GetValue(Of Integer)("entityID") = 292 Then
-                DocAmount = newChildSCRow.GetValue(Of Decimal)("sc_debit") - newChildSCRow.GetValue(Of Decimal)("advance_debit") - newChildSCRow.GetValue(Of Decimal)("retention_debit") - newChildSCRow.GetValue(Of Decimal)("dr_debit")
+                DocAmount = newChildSCRow.GetValue(Of Decimal)("sc_debit") '- newChildSCRow.GetValue(Of Decimal)("advance_debit") - newChildSCRow.GetValue(Of Decimal)("retention_debit") - newChildSCRow.GetValue(Of Decimal)("dr_debit")
                 trDetail("col4") = Configuration.FormatToString(DocAmount, DigitConfig.Price)
                 trDetail("col6") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
                 trDetail("col9") = Configuration.FormatToString(newChildSCRow.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)

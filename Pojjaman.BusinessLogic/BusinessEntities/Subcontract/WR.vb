@@ -1040,7 +1040,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 nwitem.SetQty(witem.Qty)
                 nwitem.SetUnitPrice(witem.UnitPrice)
                 'nwitem.SetMat(witem.Mat)
-                nwitem.SetLab(witem.Lab)
+                nwitem.SetLab(witem.Amount)
                 'nwitem.SetEq(witem.Eq)
                 nwitem.WBSDistributeCollection = witem.WBSDistributeCollection
                 AddHandler nwitem.WBSDistributeCollection.PropertyChanged, AddressOf nwitem.WBSChangedHandler

@@ -495,15 +495,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.MappingName = "PA"
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      'PA Items
-      Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "pai_linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.LineNumberHeaderText}")   '"No."
-      csLineNumber.NullText = ""
-      csLineNumber.Width = 30
-      csLineNumber.DataAlignment = HorizontalAlignment.Center
-      csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "pai_linenumber"
+      ''PA Items
+      'Dim csLineNumber As New TreeTextColumn
+      'csLineNumber.MappingName = "pai_linenumber"
+      'csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.LineNumberHeaderText}")   '"No."
+      'csLineNumber.NullText = ""
+      'csLineNumber.Width = 30
+      'csLineNumber.DataAlignment = HorizontalAlignment.Center
+      'csLineNumber.ReadOnly = True
+      'csLineNumber.TextBox.Name = "pai_linenumber"
 
       'Dim csBarrier As New DataGridBarrierColumn
       'csBarrier.MappingName = "Barrier"
@@ -511,14 +511,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'csBarrier.NullText = ""
       'csBarrier.ReadOnly = True
 
-      '"รายการ sc"
-      Dim csPADesc As New TreeTextColumn
-      csPADesc.MappingName = "pai_paDesc"
-      csPADesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.DescriptionHeaderText}")
-      csPADesc.NullText = ""
-      csPADesc.Width = 175
-      csPADesc.TextBox.Name = "pai_paDesc"
-      csPADesc.ReadOnly = True
+      ''"รายการ sc"
+      'Dim csPADesc As New TreeTextColumn
+      'csPADesc.MappingName = "pai_paDesc"
+      'csPADesc.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.DescriptionHeaderText}")
+      'csPADesc.NullText = ""
+      'csPADesc.Width = 175
+      'csPADesc.TextBox.Name = "pai_paDesc"
+      'csPADesc.ReadOnly = True
 
       '"อ้างอิง"
       Dim csRefCode As New TreeTextColumn
@@ -529,13 +529,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csRefCode.ReadOnly = True
       csRefCode.TextBox.Name = "pai_refDoc"
 
+      ''"ประเภท"
+      'Dim csType As DataGridComboColumn
+      'csType = New DataGridComboColumn("pai_entityType" _
+      ', CodeDescription.GetCodeList("pai_entitytype") _
+      ', "code_description", "code_value")
+      'csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
+      'csType.NullText = String.Empty
+      'csType.ReadOnly = True
+
       '"ประเภท"
-      Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("pai_entityType" _
-      , CodeDescription.GetCodeList("pai_entitytype") _
-      , "code_description", "code_value")
-      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.TypeHeaderText}")
-      csType.NullText = String.Empty
+      Dim csType As New TreeTextColumn
+      csType.MappingName = "pai_entityTypeDescription"
+      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.TypeHeaderText}")
+      csType.NullText = ""
+      csType.Width = 90
+      csType.TextBox.Name = "pai_entityTypeDescription"
       csType.ReadOnly = True
 
       '"รหัส"
@@ -543,9 +552,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csCode.MappingName = "Code"
       csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CodeHeaderText}")
       csCode.NullText = ""
+      csCode.Width = 100
       csCode.TextBox.Name = "Code"
       csCode.ReadOnly = True
-
 
       '"รายการ"
       Dim csName As New TreeTextColumn
@@ -556,38 +565,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csName.TextBox.Name = "pai_itemName"
       csName.ReadOnly = True
 
-      Dim csUnit As New TreeTextColumn
-      csUnit.MappingName = "Unit"
-      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.UnitHeaderText}")
-      csUnit.NullText = ""
-      csUnit.Width = 60
-      csUnit.TextBox.Name = "Unit"
-      csUnit.ReadOnly = True
-
+      'Dim csUnit As New TreeTextColumn
+      'csUnit.MappingName = "Unit"
+      'csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCPanelView.UnitHeaderText}")
+      'csUnit.NullText = ""
+      'csUnit.Width = 60
+      'csUnit.TextBox.Name = "Unit"
+      'csUnit.ReadOnly = True
 
       '"มูลค่าตามสัญญา"
-      Dim csSCCost As New TreeTextColumn
-      csSCCost.MappingName = "CostAmount"
-      csSCCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCCostHeaderText}")   '"มูลค่าตามสัญญา"
-      csSCCost.NullText = ""
-      csSCCost.DataAlignment = HorizontalAlignment.Right
-      csSCCost.Format = "#,###.##"
-      csSCCost.Width = 100
-      csSCCost.ReadOnly = True
-      csSCCost.TextBox.Name = "CostAmount"
+      'Dim csSCCost As New TreeTextColumn
+      'csSCCost.MappingName = "CostAmount"
+      'csSCCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCCostHeaderText}")   '"มูลค่าตามสัญญา"
+      'csSCCost.NullText = ""
+      'csSCCost.DataAlignment = HorizontalAlignment.Right
+      'csSCCost.Format = "#,###.##"
+      'csSCCost.Width = 100
+      'csSCCost.ReadOnly = True
+      'csSCCost.TextBox.Name = "CostAmount"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
 
       '"ปริมาณตามสัญญา"
-      Dim csSCQty As New TreeTextColumn
-      csSCQty.MappingName = "QtyCostAmount"
-      csSCQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCQtyHeaderText}")   '"ปริมาณตามสัญญา"
-      csSCQty.NullText = ""
-      csSCQty.DataAlignment = HorizontalAlignment.Right
-      csSCQty.Format = "#,###.##"
-      csSCQty.Width = 100
-      csSCQty.ReadOnly = True
-      csSCQty.TextBox.Name = "QtyCostAmount"
+      'Dim csSCQty As New TreeTextColumn
+      'csSCQty.MappingName = "QtyCostAmount"
+      'csSCQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCQtyHeaderText}")   '"ปริมาณตามสัญญา"
+      'csSCQty.NullText = ""
+      'csSCQty.DataAlignment = HorizontalAlignment.Right
+      'csSCQty.Format = "#,###.##"
+      'csSCQty.Width = 100
+      'csSCQty.ReadOnly = True
+      'csSCQty.TextBox.Name = "QtyCostAmount"
       'AddHandler csQty.TextBox.TextChanged, AddressOf ChangeProperty
 
       Dim csBarrier1 As New DataGridBarrierColumn
@@ -596,11 +604,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csBarrier1.NullText = ""
       csBarrier1.ReadOnly = True
 
-
       '"รวม"
       Dim csAmount As New TreeTextColumn
       csAmount.MappingName = "Amount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.AmountHeaderText}")
+      csAmount.HeaderText = "ต้นทุน" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.AmountHeaderText}")
       csAmount.NullText = ""
       csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.TextBox.Name = "Amount"
@@ -610,45 +617,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
 
-      Dim csBarrier3 As New DataGridBarrierColumn
-      csBarrier3.MappingName = "Barrier3"
-      csBarrier3.HeaderText = ""
-      csBarrier3.NullText = ""
-      csBarrier3.ReadOnly = True
+      'Dim csBarrier3 As New DataGridBarrierColumn
+      'csBarrier3.MappingName = "Barrier3"
+      'csBarrier3.HeaderText = ""
+      'csBarrier3.NullText = ""
+      'csBarrier3.ReadOnly = True
 
-      Dim csMat As New TreeTextColumn
-      csMat.MappingName = "pai_mat"
-      csMat.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.MatHeaderText}")
-      csMat.NullText = ""
-      csMat.DataAlignment = HorizontalAlignment.Right
-      csMat.ReadOnly = True
-      csMat.TextBox.Name = "pai_mat"
-      csMat.Width = 100
-      csMat.Format = "#,###.##"
+      'Dim csMat As New TreeTextColumn
+      'csMat.MappingName = "pai_mat"
+      'csMat.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.MatHeaderText}")
+      'csMat.NullText = ""
+      'csMat.DataAlignment = HorizontalAlignment.Right
+      'csMat.ReadOnly = True
+      'csMat.TextBox.Name = "pai_mat"
+      'csMat.Width = 100
+      'csMat.Format = "#,###.##"
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
 
-      Dim csLab As New TreeTextColumn
-      csLab.MappingName = "pai_lab"
-      csLab.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.LABHeaderText}")
-      csLab.NullText = ""
-      csLab.DataAlignment = HorizontalAlignment.Right
-      csLab.ReadOnly = True
-      csLab.TextBox.Name = "pai_lab"
-      csLab.Width = 100
-      csLab.Format = "#,###.##"
+      'Dim csLab As New TreeTextColumn
+      'csLab.MappingName = "pai_lab"
+      'csLab.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.LABHeaderText}")
+      'csLab.NullText = ""
+      'csLab.DataAlignment = HorizontalAlignment.Right
+      'csLab.ReadOnly = True
+      'csLab.TextBox.Name = "pai_lab"
+      'csLab.Width = 100
+      'csLab.Format = "#,###.##"
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
 
-      Dim csEq As New TreeTextColumn
-      csEq.MappingName = "pai_eq"
-      csEq.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.EQHeaderText}")
-      csEq.NullText = ""
-      csEq.DataAlignment = HorizontalAlignment.Right
-      csEq.ReadOnly = True
-      csEq.TextBox.Name = "pai_eq"
-      csEq.Width = 100
-      csEq.Format = "#,###.##"
+      'Dim csEq As New TreeTextColumn
+      'csEq.MappingName = "pai_eq"
+      'csEq.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.EQHeaderText}")
+      'csEq.NullText = ""
+      'csEq.DataAlignment = HorizontalAlignment.Right
+      'csEq.ReadOnly = True
+      'csEq.TextBox.Name = "pai_eq"
+      'csEq.Width = 100
+      'csEq.Format = "#,###.##"
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
 
@@ -656,26 +663,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAccountCode.MappingName = "AccountCode"
       csAccountCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountCodeHeaderText}")
       csAccountCode.NullText = ""
+      csAccountCode.Width = 100
       csAccountCode.TextBox.Name = "AccountCode"
+
+      Dim csAccount As New TreeTextColumn
+      csAccount.MappingName = "Account"
+      csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountHeaderText}")
+      csAccount.NullText = ""
+      csAccount.Width = 210
+      csAccount.ReadOnly = True
+      csAccount.TextBox.Name = "Account"
 
       Dim csAccountButton As New DataGridButtonColumn
       csAccountButton.MappingName = "AccountButton"
       csAccountButton.HeaderText = ""
       csAccountButton.NullText = ""
       AddHandler csAccountButton.Click, AddressOf ButtonClicked
-
-      Dim csAccount As New TreeTextColumn
-      csAccount.MappingName = "Account"
-      csAccount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.AccountHeaderText}")
-      csAccount.NullText = ""
-      csAccount.ReadOnly = True
-      csAccount.TextBox.Name = "Account"
-
-      Dim csVatable As New DataGridCheckBoxColumn
-      csVatable.MappingName = "pai_unvatable"
-      csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.UnVatableHeaderText}")
-      csVatable.Width = 100
-      csVatable.InvisibleWhenUnspcified = True
+      'Dim csVatable As New DataGridCheckBoxColumn
+      'csVatable.MappingName = "pai_unvatable"
+      'csVatable.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.UnVatableHeaderText}")
+      'csVatable.Width = 100
+      'csVatable.InvisibleWhenUnspcified = True
 
 
 
@@ -685,6 +693,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       dst.GridColumnStyles.Add(csName)
       dst.GridColumnStyles.Add(csAmount)
       dst.GridColumnStyles.Add(csType)
+      dst.GridColumnStyles.Add(csBarrier1)
       dst.GridColumnStyles.Add(csAccountCode)
       dst.GridColumnStyles.Add(csAccount)
       dst.GridColumnStyles.Add(csAccountButton)
@@ -1373,7 +1382,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
 
-      Populate(m_entity.ItemCollection, m_treeManager.Treetable)
+      'Populate(m_entity.ItemCollection, m_treeManager.Treetable)
+      m_entity.ItemCollection.newPopulate2(m_treeManager.Treetable, tgItem)
 
       RefreshBlankGrid()
       Me.m_treeManager.Treetable.AcceptChanges()
@@ -1382,6 +1392,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub Populate(ByVal coll As PAItemCollection, ByVal dt As TreeTable)
       dt.Clear()
+
       Dim parentRowHash As New Hashtable
       For Each item As PAItem In coll
         If item.ItemType.Value = 289 Then 'Parent

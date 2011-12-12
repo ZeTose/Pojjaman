@@ -7,6 +7,7 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PAIItemType
     Inherits CodeDescription
@@ -896,6 +897,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Configuration.Format(Me.Conversion * Me.Qty, DigitConfig.Qty)      End Get    End Property    Public ReadOnly Property UnitCost() As Decimal
       Get
+        If Me.RefEntity.Id = 291 Then
+          If Me.StockQty <> 0 Then
+            Return Me.Amount / Me.StockQty
+          Else
+            Return 0
+          End If
+        End If
         If Me.StockQty <> 0 Then
           Dim tmpCost As Decimal = 0
           Dim tmpRealGrossNoVat As Decimal = 0
@@ -927,6 +935,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return 0
       End Get
     End Property    Public ReadOnly Property CostAmount() As Decimal Implements IWBSAllocatableItem.ItemAmount      Get
+        If Me.RefEntity.Id = 291 Then
+          Return Me.Amount
+        End If
         'Return Me.UnitCost * Me.StockQty
         Dim tmpCost As Decimal = Me.UnitCost * Me.StockQty
         If tmpCost = 0 OrElse (Me.RefDocType = 290 AndAlso Me.Amount < 0) OrElse (Me.RefDocType = 291) OrElse (Me.RefDocType = 289) Then
@@ -1414,6 +1425,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub SetReceiveAmount(ByVal receiveAmt As Decimal)
       m_receiveAmount = receiveAmt
+
+      If m_unitPrice <> 0 Then
+        m_qty = m_receiveAmount / m_unitPrice
+      Else
+        m_qty = 0
+      End If
+
+      'Trace.WriteLine(m_receiveAmount)
+      'Trace.WriteLine(m_unitPrice)
+      'Trace.WriteLine(m_qty)
+      If Not Me.ItemType Is Nothing Then
+        Me.RecalculateReceiveAmount()
+      End If
     End Sub
     Public Sub SetReceiveMat(ByVal receiveAmt As Decimal)
       m_mat = receiveAmt
@@ -1443,42 +1467,73 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_account = New Account
       Me.m_unvatable = False
     End Sub
-    Public Sub CopyToParentDataRow(ByVal row As TreeRow, Optional ByVal isBlankRow As Boolean = False, Optional ByVal noRefItem As Boolean = False)
+    Public Sub CopyToParentDataRowForNonRef(ByVal row As TreeRow)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      row("Button") = "invisible"
+      row("UnitButton") = "invisible"
+      row("AccountButton") = "invisible"
+      row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.NotRefItem}") '"รายการรับงานไม่ได้อ้างอิงจากสัญญา" 
+      row.FixLevel = 1
+    End Sub
+    Public Sub CopyToParentDataRowForDR(ByVal row As TreeRow)
+      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      row("Button") = "invisible"
+      row("UnitButton") = "invisible"
+      row("AccountButton") = "invisible"
+      row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.DRItemAmount}") '"รวมรายการหักค่าใช้จ่าย"  
+      row.FixLevel = 1
+    End Sub
+    'Public Sub CopyToSummaryDataRow(ByVal row As TreeRow)
+    '  Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    '  row("Button") = "invisible"
+    '  row("UnitButton") = "invisible"
+    '  row("AccountButton") = "invisible"
+    '  row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}") & "ทั้งสิ้น" '"รวม" 
+    '  row.FixLevel = 7
+    '  'row.CustomFontStyle = FontStyle.Bold
+    'End Sub
+    Public Sub CopyToParentDataRow(ByVal row As TreeRow, Optional ByVal rowType As String = "")
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      row("isSummaryRow") = True
+      'row("isSummaryRow") = True
 
-      If noRefItem Then
-        row.FixLevel = 0
-        row.CustomFontStyle = FontStyle.Bold
-        row("Button") = "invisible"
-        row("UnitButton") = "invisible"
-        row("AccountButton") = "invisible"
-        row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.NotRefItem}") '"รายการรับงานไม่ได้อ้างอิงจากสัญญา" 
-        Return
-      End If
+      'If noRefItem Then
+      '  row.FixLevel = 0
+      '  row.CustomFontStyle = FontStyle.Bold
+      '  row("Button") = "invisible"
+      '  row("UnitButton") = "invisible"
+      '  row("AccountButton") = "invisible"
+      '  row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.NotRefItem}") '"รายการรับงานไม่ได้อ้างอิงจากสัญญา" 
+      '  Return
+      'End If
 
-      row.FixLevel = -1
-      row.CustomFontStyle = FontStyle.Bold
+      'row.FixLevel = -1
+      'row.CustomFontStyle = FontStyle.Bold
       'row.CustomBackColor = Color.Gray
       'row.CustomForeColor = Color.Red
       row("Button") = "invisible"
       row("UnitButton") = "invisible"
       row("AccountButton") = "invisible"
 
-      If isBlankRow Then
-        row("pai_itemName") = ""
-        Return
+      'If isBlankRow Then
+      '  row("pai_itemName") = ""
+      '  Return
+      'End If
+      If rowType.Length > 0 AndAlso rowType.ToLower.Equals("summary") Then
+        row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}") & "ทั้งสิ้น" '"รวม" 
       End If
-
-      If Me.RefEntity.Id = 291 Then
-        row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.DRItemAmount}") '"รวมรายการหักค่าใช้จ่าย" 
+      'If Me.RefEntity.Id = 291 Then
+      '  row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.DRItemAmount}") '"รวมรายการหักค่าใช้จ่าย" 
+      'Else
+      '  row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}") '"รวม" 
+      '  'ElseIf Me.RefEntity.Id = 0 Then
+      '  '  row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.NotRefItem}") '"รายการรับงานไม่ได้อ้างอิงจากสัญญา" 
+      'End If
+      If Me.Qty = 0 Then
+        row("pai_qty") = ""
       Else
-        row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.SCItemAmount}") '"รวม" 
-        'ElseIf Me.RefEntity.Id = 0 Then
-        '  row("pai_itemName") = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.NotRefItem}") '"รายการรับงานไม่ได้อ้างอิงจากสัญญา" 
+        row("pai_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
       End If
-
       If Me.TotalBudget = 0 Then 'มูลค่าตามสัญญา
         row("CostAmount") = ""
       Else
@@ -1493,6 +1548,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("Amount") = ""
       Else
         row("Amount") = Configuration.FormatToString(Me.TotalProgressReceive, DigitConfig.Price)
+      End If
+
+      If Me.TotalMat <> 0 Then
+        row("pai_mat") = Configuration.FormatToString(Me.TotalMat, DigitConfig.Price)
+      Else
+        row("pai_mat") = ""
+      End If
+      If Me.TotalLab <> 0 Then
+        row("pai_lab") = Configuration.FormatToString(Me.TotalLab, DigitConfig.Price)
+      Else
+        row("pai_lab") = ""
+      End If
+      If Me.TotalEq <> 0 Then
+        row("pai_eq") = Configuration.FormatToString(Me.TotalEq, DigitConfig.Price)
+      Else
+        row("pai_eq") = ""
       End If
     End Sub
     Public Sub CopyToDataRow(ByVal row As TreeRow)
@@ -1525,6 +1596,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not Me.ItemType Is Nothing Then
           row("pai_entityType") = Me.ItemType.Value
+          row("pai_entityTypeDescription") = Me.ItemType.Description
           Select Case Me.ItemType.Value
             Case 19, 42
               If Not Me.Entity Is Nothing Then
@@ -1667,6 +1739,199 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.Pa.IsInitialized = True
       Catch ex As NoConversionException
         MessageBox.Show("วัสดุ '" & ex.Lci.Code & "' ไม่มีหน่วยนับ '" & ex.Unit.Name & "'")
+      Catch ex As Exception
+        MessageBox.Show(ex.Message & "::" & ex.StackTrace)
+      End Try
+    End Sub
+    Public Sub CopyToDataRowForAccountItem(ByVal row As TreeRow)
+
+      If row Is Nothing Then
+        Return
+      End If
+
+      Try
+        'Me.Pa.IsInitialized = False
+        If Me.Level = 0 Then
+          row("AccountButton") = "invisible"
+        End If
+        If Me.Level = 0 OrElse Me.RefEntity.Id <> 289 Then
+          row("pai_refdoc") = Me.RefEntity.Name
+          'row.CustomFontStyle = FontStyle.Bold
+        End If
+
+        'row("pai_linenumber") = Me.LineNumber
+        'row("pai_level") = Me.Level
+        If Me.Level = 1 Then
+          row.FixLevel = -1
+        Else
+          row.FixLevel = 1
+        End If
+
+        Dim m_Entity_Name As String = Space(5) & Trim(Me.Entity.Name)
+        Dim m_EntityName As String = Space(5) & Trim(Me.EntityName)
+
+        'Dim m_Entity_Name As String = Trim(Me.Entity.Name)
+        'Dim m_EntityName As String = Trim(Me.EntityName)
+
+        If Not Me.ItemType Is Nothing Then
+          row("pai_entityType") = Me.ItemType.Value
+          row("pai_entityTypeDescription") = Me.ItemType.Description
+          Select Case Me.ItemType.Value
+            Case 19, 42
+              If Not Me.Entity Is Nothing Then
+                row("pai_entity") = Me.Entity.Id
+                row("pai_itemName") = m_Entity_Name
+                row("EntityName") = m_Entity_Name
+                row("Code") = Me.Entity.Code
+                If Not Me.EntityName Is Nothing AndAlso Me.EntityName.Length > 0 Then
+                  If Me.Entity.Name <> Me.EntityName Then
+                    row("pai_itemName") = EntityName & "<" & Me.Entity.Name & ">"
+                  End If
+                End If
+              End If
+              'If Me.RefEntity.Id <> 0 Then
+              '  row("Button") = "invisible"
+              'Else
+              '  row("Button") = ""
+              'End If
+            Case 88, 89
+              If Not Me.Entity Is Nothing Then
+                If TypeOf (Me.Entity) Is LCIItem Then
+                  row("pai_entity") = Me.Entity.Id
+                  row("pai_itemName") = m_Entity_Name
+                  row("EntityName") = m_Entity_Name
+                  row("Code") = Me.Entity.Code
+                  If Not Me.EntityName Is Nothing AndAlso Me.EntityName.Length > 0 Then
+                    If Me.Entity.Name <> Me.EntityName Then
+                      row("pai_itemName") = m_EntityName & "<" & m_Entity_Name & ">"
+                    End If
+                  End If
+                Else
+                  'If Me.RefEntity.Id <> 0 Then
+                  '  row("Button") = "invisible"
+                  'Else
+                  '  row("Button") = ""
+                  'End If
+                  row("pai_itemName") = m_EntityName
+                End If
+              End If
+            Case 0, 291
+              'row("Button") = "invisible"
+              row("pai_itemName") = m_EntityName
+            Case 160, 162
+              'row("Button") = "invisible"
+              'row("UnitButton") = "invisible"
+              row("pai_itemName") = m_EntityName
+            Case 289
+              'row("Button") = "invisible"
+              row("pai_itemName") = Trim(m_EntityName)
+              row.CustomFontStyle = FontStyle.Bold
+          End Select
+        End If
+
+        'If Not Me.Unit Is Nothing Then
+        '  row("pai_unit") = Me.Unit.Id
+        '  row("Unit") = Me.Unit.Name
+        'End If
+
+        'Me.Conversion = 1
+        'If Not Me.Unit Is Nothing AndAlso Me.Unit.Originated Then
+        '  If TypeOf Me.Entity Is LCIItem Then
+        '    Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+        '    Me.Conversion = lci.GetConversion(Me.Unit)
+        '  Else
+        '    Me.Conversion = 1
+        '  End If
+        'End If
+        'If Me.Qty <> 0 Then
+        '  row("pai_qty") = Configuration.FormatToString(Me.Qty, DigitConfig.Qty)
+        'Else
+        '  row("pai_qty") = ""
+        'End If
+
+        'If Me.Mat <> 0 Then
+        '  row("pai_mat") = Configuration.FormatToString(Me.Mat, DigitConfig.Price)
+        'Else
+        '  row("pai_mat") = ""
+        'End If
+        'If Me.Lab <> 0 Then
+        '  row("pai_lab") = Configuration.FormatToString(Me.Lab, DigitConfig.Price)
+        'Else
+        '  row("pai_lab") = ""
+        'End If
+        'If Me.Eq <> 0 Then
+        '  row("pai_eq") = Configuration.FormatToString(Me.Eq, DigitConfig.Price)
+        'Else
+        '  row("pai_eq") = ""
+        'End If
+        'End Select
+
+        'If Me.UnitPrice <> 0 Then
+        '  row("pai_unitprice") = Configuration.FormatToString(Me.UnitPrice, DigitConfig.UnitPrice)
+        'Else
+        '  row("pai_unitprice") = ""
+        'End If
+
+        'row("pai_discrate") = Me.Discount.Rate
+        'If Me.Level = 0 AndAlso Me.HashSCChild Then
+        '  If Me.Amount <> 0 Then
+        '    row("Amount") = Configuration.FormatToString(Me.TotalChildAmount, DigitConfig.Price)
+        '  Else
+        '    row("Amount") = ""
+        '  End If
+        'Else
+        'If Me.Amount <> 0 Then
+        row("Amount") = Configuration.FormatToString(Me.CostAmount, DigitConfig.Price)
+        If Not Me.MatAccount Is Nothing Then
+          row("AccountCode") = Me.MatAccount.Code
+          row("Account") = Me.MatAccount.Name
+        End If
+        If Not Me.LabAccount Is Nothing Then
+          row("AccountCode") = Me.LabAccount.Code
+          row("Account") = Me.LabAccount.Name
+        End If
+        If Not Me.EqAccount Is Nothing Then
+          row("AccountCode") = Me.EqAccount.Code
+          row("Account") = Me.EqAccount.Name
+        End If
+
+
+        'Else
+        'row("Amount") = ""
+        'End If
+        'End If
+
+
+        'If Me.ContractCostAmount <> Decimal.MinValue AndAlso Me.ContractCostAmount <> 0 Then
+        '  row("CostAmount") = Configuration.FormatToString(Me.ContractCostAmount, DigitConfig.Price)
+        'Else
+        '  row("CostAmount") = DBNull.Value
+        'End If
+        'If Me.ContractQtyCostAmount <> Decimal.MinValue AndAlso Me.ContractQtyCostAmount <> 0 Then
+        '  row("QtyCostAmount") = Configuration.FormatToString(Me.ContractQtyCostAmount, DigitConfig.Qty)
+        'Else
+        '  row("QtyCostAmount") = DBNull.Value
+        'End If
+
+        'If Me.ReceivedAmount <> Decimal.MinValue AndAlso Me.ReceivedAmount <> 0 Then
+        '  row("ReceivedAmount") = Configuration.FormatToString(Me.ReceivedAmount, DigitConfig.Price)
+        'Else
+        '  row("ReceivedAmount") = DBNull.Value
+        'End If
+        'If Me.ReceivedQty <> Decimal.MinValue AndAlso Me.ReceivedQty <> 0 Then
+        '  row("ReceivedQty") = Configuration.FormatToString(Me.ReceivedQty, DigitConfig.Qty)
+        'Else
+        '  row("ReceivedQty") = DBNull.Value
+        'End If
+
+
+
+        'row("pai_note") = Me.Note
+        'row("pai_unvatable") = Me.UnVatable
+
+        'Me.Pa.IsInitialized = True
+      Catch ex As NoConversionException
+        'MessageBox.Show("วัสดุ '" & ex.Lci.Code & "' ไม่มีหน่วยนับ '" & ex.Unit.Name & "'")
       Catch ex As Exception
         MessageBox.Show(ex.Message & "::" & ex.StackTrace)
       End Try
@@ -2300,308 +2565,101 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       'RefreshBudget()
     End Sub
-    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
+
+    Public Sub newPopulate2(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
-      Dim i As Integer = 0
-      'Dim j As Integer = 0
 
-      Dim key As String = ""
-      'Dim parKey As String = ""
+      Dim paiChildList As New List(Of PAItem)
+      Dim paiDriList As New List(Of PAItem)
+      Dim paiNonRefiList As New List(Of PAItem)
 
-      Dim HashSCItem As New Hashtable
-      Dim CurrentParent As String = ""
-      Dim isDrItem As Boolean = False
-      Dim isSCItem As Boolean = False
-      Dim hasDrItem As Boolean = False
-      Dim hasNoRefItem As Boolean = False
-      Dim chkHasChild As New Hashtable
+      Dim blankPaitemForDR As New PAItem
+      blankPaitemForDR.RefEntity = New RefEntity
+      blankPaitemForDR.RefEntity.Id = 291
 
-      Dim sumRow As TreeRow
-      Dim newRow As TreeRow
-      Dim newitem As New PAItem
+      Dim blankPaitemForNonRef As PAItem
 
-      Dim newItemRef As New ArrayList
-      Dim newItemDRRef As New ArrayList
-      Dim newItemNotRef As New ArrayList
-
-      Dim newDrItem As New PAItem
-      newDrItem.RefEntity = New RefEntity
-      newDrItem.RefEntity.Id = 291
-
-      Dim parentRow As TreeRow
-      Dim childRow As TreeRow
-
+      '--สร้าง Parent SC และเก็บ ChildSC, Dr, และ NonReference ไว้ก่อน--
+      Dim paParentRow As TreeRow = Nothing
       For Each pai As PAItem In Me
-        key = pai.Parent.ToString
-        If pai.ItemType.Value = 289 Then
-          Me(Me.IndexOf(pai)).Level = 0
-          chkHasChild(key) = pai
+        If pai.ItemType.Value = 160 OrElse pai.ItemType.Value = 162 Then
+
         Else
-          Me(Me.IndexOf(pai)).Level = 1
-          If chkHasChild.Contains(key) Then
-            If pai.RefEntity.Id = 289 Then
-              CType(chkHasChild(key), PAItem).HashSCChild = True
+          If Not pai.RefEntity Is Nothing AndAlso pai.RefEntity.Id > 0 Then
+            If pai.RefEntity.Id = 291 Then
+              paiDriList.Add(pai)
+            Else
+              If pai.Level = 0 Then
+                paParentRow = dt.Childs.Add
+                paParentRow.State = RowExpandState.Expanded
+                pai.CopyToDataRowForAccountItem(paParentRow)
+                'pai.ItemValidateRow(paParentRow)
+                paParentRow.Tag = pai
+              Else
+                paiChildList.Add(pai)
+              End If
             End If
+          Else
+            paiNonRefiList.Add(pai)
           End If
-        End If
-        If pai.RefEntity.Id = 0 Then
-          newItemNotRef.Add(pai)
-        ElseIf pai.RefEntity.Id = 291 Then
-          newItemDRRef.Add(pai)
-        Else
-          newItemRef.Add(pai)
         End If
       Next
+      '--สร้าง Parent SC และเก็บ ChildSC, Dr, และ NonReference ไว้ก่อน--
+      '--สร้าง Parent NonReference --
+      Dim paNonRefParentRow As TreeRow = Nothing
+      If paiNonRefiList.Count > 0 Then
+        paNonRefParentRow = dt.Childs.Add
+        paNonRefParentRow.State = RowExpandState.Expanded
+        blankPaitemForDR.CopyToParentDataRowForNonRef(paNonRefParentRow)
+        'blankPaitemForDR.ItemValidateRow(paNonRefParentRow)
+        paNonRefParentRow.Tag = "NonrefParent"
+      End If
+      '--สร้าง Parent NonReference --
+      '--สร้าง Parent DR --
+      Dim paDrParentRow As TreeRow = Nothing
+      If paiDriList.Count > 0 Then
+        paDrParentRow = dt.Childs.Add
+        paDrParentRow.State = RowExpandState.Expanded
+        blankPaitemForDR.CopyToParentDataRowForDR(paDrParentRow)
+        'blankPaitemForDR.ItemValidateRow(paDrParentRow)
+        paDrParentRow.Tag = blankPaitemForDR
+      End If
+      '--สร้าง Parent DR --
 
-      ''== Summary Ref SC Item ==================================================
-      For Each pai As PAItem In newItemRef
-
-        CurrentParent = pai.Parent.ToString
-
-        If pai.Level = 0 Then
-          HashSCItem(CurrentParent) = pai
-          newitem = CType(HashSCItem(CurrentParent), PAItem)
-          If pai.HasChild Then
-
-            newitem.TotalBudget = 0
-            newitem.TotalReceived = 0
-            newitem.TotalProgressReceive = 0
-
-            newitem.TotalChildAmount = 0
-            newitem.TotalMat = 0
-            newitem.TotalLab = 0
-            newitem.TotalEq = 0
-
-          End If
-        ElseIf pai.Level = 1 Then
-          If HashSCItem.Contains(CurrentParent) Then
-            newitem = CType(HashSCItem(CurrentParent), PAItem)
-
-            newitem.TotalBudget += pai.ContractCostAmount
-            newitem.TotalReceived += pai.ReceivedAmount
-            newitem.TotalProgressReceive += Configuration.Format(pai.Amount, DigitConfig.Price)
-
-            If pai.RefEntity.Id <> 290 Then
-              newitem.TotalChildAmount += Configuration.Format(pai.Amount, DigitConfig.Price)
-              newitem.TotalMat += Configuration.Format(pai.Mat, DigitConfig.Price)
-              newitem.TotalLab += Configuration.Format(pai.Lab, DigitConfig.Price)
-              newitem.TotalEq += Configuration.Format(pai.Eq, DigitConfig.Price)
+      '--สร้าง Child Paitem--
+      Dim paChildRow As TreeRow = Nothing
+      For Each prow As TreeRow In dt.Childs
+        If TypeOf prow.Tag Is PAItem Then
+          For Each pai As PAItem In paiChildList
+            If (Me.PA.Originated AndAlso CType(prow.Tag, PAItem).Sequence.Equals(pai.Parent)) OrElse
+              (Not Me.PA.Originated AndAlso CType(prow.Tag, PAItem).RefSequence.Equals(pai.Parent)) Then
+              paChildRow = prow.Childs.Add
+              pai.CopyToDataRowForAccountItem(paChildRow)
+              'pai.ItemValidateRow(paChildRow)
+              paChildRow.Tag = pai
             End If
-
-          End If
-          'If pai.RefDocType = 290 AndAlso Not pai.IsReferenceSC Then
-          '  newitem.TotalBudget += pai.ContractCostAmount
-          '  newitem.TotalReceived += pai.ReceivedAmount
-          '  newitem.TotalProgressReceive += pai.Amount
-          'End If
+          Next
         End If
       Next
+      '--สร้าง Child Paitem--
+      '--สร้าง Child NonReference--
 
-      For Each pai As PAItem In HashSCItem.Values
-        If pai.HasChild Then
-          Me(Me.IndexOf(pai)).SetReceiveAmount(pai.TotalChildAmount)
-          Me(Me.IndexOf(pai)).SetReceiveMat(pai.TotalMat)
-          Me(Me.IndexOf(pai)).SetReceiveLab(pai.TotalLab)
-          Me(Me.IndexOf(pai)).SetReceiveEq(pai.TotalEq)
-        Else
-          Me(Me.IndexOf(pai)).TotalBudget = pai.ContractCostAmount
-          Me(Me.IndexOf(pai)).TotalReceived = pai.ReceivedAmount
-          Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
+      '--สร้าง Child NonReference--
+      '--สร้าง Child DR--
+      Dim drChildRow As TreeRow = Nothing
+      For Each prow As TreeRow In dt.Childs
+        If TypeOf prow.Tag Is PAItem AndAlso Not CType(prow.Tag, PAItem).RefEntity Is Nothing AndAlso CType(prow.Tag, PAItem).RefEntity.Id = 291 Then
+          For Each pai As PAItem In paiDriList
+            drChildRow = prow.Childs.Add
+            pai.CopyToDataRowForAccountItem(drChildRow)
+            'pai.ItemValidateRow(drChildRow)
+            drChildRow.Tag = pai
+          Next
         End If
       Next
-
-      ''== Summary Ref DR Item ==================================================
-      For Each pai As PAItem In newItemDRRef
-        newDrItem.TotalBudget += pai.ContractCostAmount
-        newDrItem.TotalReceived += pai.ReceivedAmount
-        newDrItem.TotalProgressReceive += pai.Amount
-        Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
-      Next
-
-      ''== Summay Not Ref SC Item ==============================================
-      For Each pai As PAItem In newItemNotRef
-        If pai.Level = 0 Then
-          CurrentParent = pai.EntityName & "-" & pai.Unit.Code & "-" & pai.UnitPrice.ToString
-          HashSCItem(CurrentParent) = pai
-          newitem = CType(HashSCItem(CurrentParent), PAItem)
-          If pai.IsHasChild(Nothing) Then
-
-            newitem.TotalBudget = 0
-            newitem.TotalReceived = 0
-            newitem.TotalProgressReceive = 0
-
-            newitem.TotalChildAmount = 0
-            newitem.TotalMat = 0
-            newitem.TotalLab = 0
-            newitem.TotalEq = 0
-
-          End If
-        ElseIf pai.Level = 1 Then
-          Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
-          If HashSCItem.Contains(CurrentParent) Then
-            newitem = CType(HashSCItem(CurrentParent), PAItem)
-
-            newitem.TotalBudget += pai.ContractCostAmount
-            newitem.TotalReceived += pai.ReceivedAmount
-            newitem.TotalProgressReceive += Configuration.Format(pai.Amount, DigitConfig.Price)
-
-            newitem.TotalChildAmount += Configuration.Format(pai.Amount, DigitConfig.Price)
-            newitem.TotalMat += Configuration.Format(pai.Mat, DigitConfig.Price)
-            newitem.TotalLab += Configuration.Format(pai.Lab, DigitConfig.Price)
-            newitem.TotalEq += Configuration.Format(pai.Eq, DigitConfig.Price)
-
-          End If
-        End If
-      Next
-
-      ''=== Ref SC Item =====================================================
-      newitem = Nothing
-      For Each pai As PAItem In newItemRef
-        If pai.Level = 0 Then
-          If Not newitem Is Nothing Then
-            sumRow = dt.Childs.Add()
-            'sumRow.State = RowExpandState.Expanded
-            'currRow = sumRow
-            newitem.CopyToParentDataRow(sumRow)
-          End If
-          newitem = pai
-        End If
-
-        '===================================
-        'If pai.Level = 0 Then
-        '  newRow = dt.Childs.Add
-        '  newRow.State = RowExpandState.Expanded
-        '  currRow = newRow
-        'Else
-        '  newRow = currRow.Childs.Add
-        'End If
-        If pai.Level = 0 Then
-          parentRow = dt.Childs.Add
-          parentRow.State = RowExpandState.Expanded
-          pai.CopyToDataRow(parentRow)
-          pai.ItemValidateRow(parentRow)
-          parentRow.Tag = pai
-        Else
-          If Not parentRow Is Nothing Then
-            childRow = parentRow.Childs.Add
-            pai.CopyToDataRow(childRow)
-            pai.ItemValidateRow(childRow)
-            childRow.Tag = pai
-          End If
-        End If
-        'newRow = dt.Childs.Add()
-        'pai.CopyToDataRow(newRow)
-        'pai.ItemValidateRow(newRow)
-        'newRow.Tag = pai
-        '===================================
-
-        Me.CurrentLastItem = pai
-      Next
-      If Not newitem Is Nothing Then
-        sumRow = dt.Childs.Add()
-        'newRow.State = RowExpandState.Expanded
-        'currRow = newRow
-        newitem.CopyToParentDataRow(sumRow)
-      End If
-
-      ''=== Ref DR Item =====================================================
-      newitem = Nothing
-      For Each pai As PAItem In newItemDRRef
-
-        '===================================
-        'If pai.Level = 0 Then
-        '  newRow = dt.Childs.Add
-        '  newRow.State = RowExpandState.Expanded
-        '  currRow = newRow
-        'Else
-        '  newRow = currRow.Childs.Add
-        'End If
-        If pai.Level = 0 Then
-          parentRow = dt.Childs.Add
-          parentRow.State = RowExpandState.Expanded
-          pai.CopyToDataRow(parentRow)
-          pai.ItemValidateRow(parentRow)
-          parentRow.Tag = pai
-        Else
-          If Not parentRow Is Nothing Then
-            childRow = parentRow.Childs.Add
-            pai.CopyToDataRow(childRow)
-            pai.ItemValidateRow(childRow)
-            childRow.Tag = pai
-          End If
-        End If
-        'newRow = dt.Childs.Add()
-        'pai.CopyToDataRow(newRow)
-        'pai.ItemValidateRow(newRow)
-        'newRow.Tag = pai
-        '===================================
-
-        Me.CurrentLastItem = pai
-      Next
-      If Not newDrItem Is Nothing AndAlso newDrItem.TotalProgressReceive <> 0 Then
-        sumRow = dt.Childs.Add()
-        newDrItem.CopyToParentDataRow(sumRow)
-      End If
-
-      ''=== Not Ref SC Item =====================================================
-      If newItemNotRef.Count > 0 Then
-        newitem = New PAItem
-        newitem.RefEntity = New RefEntity
-        newitem.RefEntity.Id = 0
-        sumRow = dt.Childs.Add
-        sumRow.State = RowExpandState.Expanded
-        newitem.CopyToParentDataRow(sumRow, , True)
-      End If
-
-      newitem = Nothing
-      For Each pai As PAItem In newItemNotRef
-        If pai.Level = 0 Then
-          If Not newitem Is Nothing Then
-            sumRow = dt.Childs.Add()
-            'sumRow.State = RowExpandState.Expanded
-            'currRow = sumRow
-            newitem.CopyToParentDataRow(sumRow)
-          End If
-          newitem = pai
-        End If
-
-        '===================================
-        'If pai.Level = 0 Then
-        '  newRow = dt.Childs.Add
-        '  newRow.State = RowExpandState.Expanded
-        '  currRow = newRow
-        'Else
-        '  newRow = currRow.Childs.Add
-        'End If
-        If pai.Level = 0 Then
-          parentRow = dt.Childs.Add
-          parentRow.State = RowExpandState.Expanded
-          pai.CopyToDataRow(parentRow)
-          pai.ItemValidateRow(parentRow)
-          parentRow.Tag = pai
-        Else
-          If Not parentRow Is Nothing Then
-            childRow = parentRow.Childs.Add
-            pai.CopyToDataRow(childRow)
-            pai.ItemValidateRow(childRow)
-            childRow.Tag = pai
-          End If
-        End If
-        'newRow = dt.Childs.Add()
-        'pai.CopyToDataRow(newRow)
-        'pai.ItemValidateRow(newRow)
-        'newRow.Tag = pai
-        '===================================
-
-        Me.CurrentLastItem = pai
-      Next
-      If Not newitem Is Nothing Then
-        sumRow = dt.Childs.Add()
-        newitem.CopyToParentDataRow(sumRow)
-      End If
+      '--สร้าง Child DR--
 
       dt.AcceptChanges()
-
       Do Until dt.Rows.Count > tg.VisibleRowCount
         'เพิ่มแถวจนเต็ม
         dt.Childs.Add()
@@ -2613,10 +2671,597 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dt.Childs.Add()
         End If
       Catch ex As Exception
-
       End Try
+      dt.AcceptChanges()
+
+    End Sub
+
+    Public Sub newPopulate(ByVal dt As TreeTable, ByVal tg As DataGrid)
+
+      Dim paiChildList As New List(Of PAItem)
+      Dim paiDriList As New List(Of PAItem)
+      Dim paiNonRefiList As New List(Of PAItem)
+
+      Dim blankPaitemForDR As New PAItem
+      blankPaitemForDR.RefEntity = New RefEntity
+      blankPaitemForDR.RefEntity.Id = 291
+
+      Dim blankPaitemForNonRef As PAItem
+
+      '--สร้าง Parent SC และเก็บ ChildSC, Dr, และ NonReference ไว้ก่อน--
+      Dim paParentRow As TreeRow = Nothing
+      For Each pai As PAItem In Me
+        If Not pai.RefEntity Is Nothing AndAlso pai.RefEntity.Id > 0 Then
+          If pai.RefEntity.Id = 291 Then
+            paiDriList.Add(pai)
+          Else
+            If pai.Level = 0 Then
+              paParentRow = dt.Childs.Add
+              paParentRow.State = RowExpandState.Expanded
+              pai.CopyToDataRow(paParentRow)
+              pai.ItemValidateRow(paParentRow)
+              paParentRow.Tag = pai
+            Else
+              paiChildList.Add(pai)
+            End If
+          End If
+        Else
+          paiNonRefiList.Add(pai)
+        End If
+      Next
+      '--สร้าง Parent SC และเก็บ ChildSC, Dr, และ NonReference ไว้ก่อน--
+      '--สร้าง Parent NonReference --
+      Dim paNonRefParentRow As TreeRow = Nothing
+      If paiNonRefiList.Count > 0 Then
+        paNonRefParentRow = dt.Childs.Add
+        paNonRefParentRow.State = RowExpandState.Expanded
+        blankPaitemForDR.CopyToParentDataRowForNonRef(paNonRefParentRow)
+        blankPaitemForDR.ItemValidateRow(paNonRefParentRow)
+        paNonRefParentRow.Tag = "NonrefParent"
+      End If
+      '--สร้าง Parent NonReference --
+      '--สร้าง Parent DR --
+      Dim paDrParentRow As TreeRow = Nothing
+      If paiDriList.Count > 0 Then
+        paDrParentRow = dt.Childs.Add
+        paDrParentRow.State = RowExpandState.Expanded
+        blankPaitemForDR.CopyToParentDataRowForDR(paDrParentRow)
+        blankPaitemForDR.ItemValidateRow(paDrParentRow)
+        paDrParentRow.Tag = blankPaitemForDR
+      End If
+      '--สร้าง Parent DR --
+
+      '--สร้าง Child Paitem--
+      Dim paChildRow As TreeRow = Nothing
+      For Each prow As TreeRow In dt.Childs
+        If TypeOf prow.Tag Is PAItem Then
+          For Each pai As PAItem In paiChildList
+            If (Me.PA.Originated AndAlso CType(prow.Tag, PAItem).Sequence.Equals(pai.Parent)) OrElse
+              (Not Me.PA.Originated AndAlso CType(prow.Tag, PAItem).RefSequence.Equals(pai.Parent)) Then
+              paChildRow = prow.Childs.Add
+              pai.CopyToDataRow(paChildRow)
+              pai.ItemValidateRow(paChildRow)
+              paChildRow.Tag = pai
+            End If
+          Next
+        End If
+      Next
+      '--สร้าง Child Paitem--
+      '--สร้าง Child NonReference--
+
+      '--สร้าง Child NonReference--
+      '--สร้าง Child DR--
+      Dim drChildRow As TreeRow = Nothing
+      For Each prow As TreeRow In dt.Childs
+        If TypeOf prow.Tag Is PAItem AndAlso Not CType(prow.Tag, PAItem).RefEntity Is Nothing AndAlso CType(prow.Tag, PAItem).RefEntity.Id = 291 Then
+          For Each pai As PAItem In paiDriList
+            drChildRow = prow.Childs.Add
+            pai.CopyToDataRow(drChildRow)
+            pai.ItemValidateRow(drChildRow)
+            drChildRow.Tag = pai
+          Next
+        End If
+      Next
+      '--สร้าง Child DR--
+
+      '--New Summary--=============
+      Dim totalBudget As Decimal = 0
+      Dim totalReceived As Decimal = 0
+      Dim totalProgressReceive As Decimal = 0
+      Dim totalMat As Decimal = 0
+      Dim totalLab As Decimal = 0
+      Dim totalEq As Decimal = 0
+      'Dim receiveAmount As Decimal = 0
+      For Each srow As TreeRow In dt.Childs
+        If TypeOf srow.Tag Is PAItem AndAlso CType(srow.Tag, PAItem).Level = 0 Then
+          'CType(srow.Tag, PAItem).ReceiveAmount = 0
+          CType(srow.Tag, PAItem).TotalBudget = 0
+          CType(srow.Tag, PAItem).TotalReceived = 0
+          CType(srow.Tag, PAItem).TotalProgressReceive = 0
+          CType(srow.Tag, PAItem).TotalMat = 0
+          CType(srow.Tag, PAItem).TotalLab = 0
+          CType(srow.Tag, PAItem).TotalEq = 0
+          'CType(srow.Tag, PAItem).ReceiveAmount = 0
+          'CType(srow.Tag, PAItem).SetReceiveAmount(0)
+          For Each crow As TreeRow In srow.Childs
+            If TypeOf crow.Tag Is PAItem Then
+              CType(srow.Tag, PAItem).TotalBudget += CType(crow.Tag, PAItem).ContractCostAmount
+              CType(srow.Tag, PAItem).TotalReceived += CType(crow.Tag, PAItem).ReceivedAmount
+              CType(srow.Tag, PAItem).TotalProgressReceive += Configuration.Format(CType(crow.Tag, PAItem).Amount, DigitConfig.Price)
+              CType(srow.Tag, PAItem).TotalMat += CType(crow.Tag, PAItem).Mat
+              CType(srow.Tag, PAItem).TotalLab += CType(crow.Tag, PAItem).Lab
+              CType(srow.Tag, PAItem).TotalEq += CType(crow.Tag, PAItem).Eq
+              'CType(srow.Tag, PAItem).ReceiveAmount += CType(crow.Tag, PAItem).ReceiveAmount
+              'receiveAmount += CType(crow.Tag, PAItem).ReceivedAmount
+            End If
+          Next
+          CType(srow.Tag, PAItem).SetReceiveAmount(CType(srow.Tag, PAItem).TotalProgressReceive)
+          totalBudget += CType(srow.Tag, PAItem).TotalBudget
+          totalReceived += CType(srow.Tag, PAItem).TotalReceived
+          totalProgressReceive += CType(srow.Tag, PAItem).TotalProgressReceive
+          totalMat += CType(srow.Tag, PAItem).TotalMat
+          totalLab += CType(srow.Tag, PAItem).TotalLab
+          totalEq += CType(srow.Tag, PAItem).TotalEq
+
+          CType(srow.Tag, PAItem).CopyToParentDataRow(srow)
+        End If
+      Next
+      '--New Summary--=============
+
+      '--Total Summary--===========
+      Dim blankPaItem As New PAItem
+      blankPaItem.TotalBudget = totalBudget
+      blankPaItem.TotalReceived = totalReceived
+      blankPaItem.TotalProgressReceive = totalProgressReceive
+      blankPaItem.TotalMat = totalMat
+      blankPaItem.TotalLab = totalLab
+      blankPaItem.TotalEq = totalEq
+
+      Dim summaryRow As TreeRow = dt.Childs.Add
+      summaryRow.State = RowExpandState.Expanded
+      blankPaItem.CopyToParentDataRow(summaryRow, "summary")
+      blankPaItem.ItemValidateRow(summaryRow)
+      '--Total Summary--===========
 
       dt.AcceptChanges()
+      Do Until dt.Rows.Count > tg.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        dt.Childs.Add()
+      Loop
+
+      Try
+        If (Not dt.Rows(dt.Rows.Count - 1).IsNull("pai_entityType")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+          '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+          dt.Childs.Add()
+        End If
+      Catch ex As Exception
+      End Try
+      dt.AcceptChanges()
+
+
+    End Sub
+
+    Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
+      dt.Clear()
+
+      newPopulate(dt, tg)
+
+      Return
+
+      ''Dim i As Integer = 0
+      ' ''Dim j As Integer = 0
+
+      ''Dim key As String = ""
+      ' ''Dim parKey As String = ""
+
+      ''Dim HashSCItem As New Hashtable
+      ''Dim CurrentParent As String = ""
+      ''Dim isDrItem As Boolean = False
+      ''Dim isSCItem As Boolean = False
+      ''Dim hasDrItem As Boolean = False
+      ''Dim hasNoRefItem As Boolean = False
+      ''Dim chkHasChild As New Hashtable
+
+      ' ''Dim sumRow As TreeRow
+      ' ''Dim newRow As TreeRow
+      ' ''Dim newitem As New PAItem
+
+      ''Dim newItemRef As New ArrayList
+      ''Dim newItemDRRef As New ArrayList
+      ''Dim newItemNotRef As New ArrayList
+
+
+
+      ''Dim parentRow As TreeRow
+      ''Dim childRow As TreeRow
+
+      ''For Each pai As PAItem In Me
+      ''  key = pai.Parent.ToString
+      ''  If pai.ItemType.Value = 289 Then
+      ''    Me(Me.IndexOf(pai)).Level = 0
+      ''    chkHasChild(key) = pai
+      ''  Else
+      ''    Me(Me.IndexOf(pai)).Level = 1
+      ''    If chkHasChild.Contains(key) Then
+      ''      If pai.RefEntity.Id = 289 Then
+      ''        CType(chkHasChild(key), PAItem).HashSCChild = True
+      ''      End If
+      ''    End If
+      ''  End If
+      ''  If pai.RefEntity.Id = 0 Then
+      ''    newItemNotRef.Add(pai)
+      ''  ElseIf pai.RefEntity.Id = 291 Then
+      ''    newItemDRRef.Add(pai)
+      ''  Else
+      ''    newItemRef.Add(pai)
+      ''  End If
+      ''Next
+
+      '' ''== Summary Ref SC Item ==================================================
+      ''For Each pai As PAItem In newItemRef
+
+      ''  CurrentParent = pai.Parent.ToString
+
+      ''  If pai.Level = 0 Then
+      ''    HashSCItem(CurrentParent) = pai
+      ''    newitem = CType(HashSCItem(CurrentParent), PAItem)
+      ''    If pai.HasChild Then
+
+      ''      newitem.TotalBudget = 0
+      ''      newitem.TotalReceived = 0
+      ''      newitem.TotalProgressReceive = 0
+
+      ''      newitem.TotalChildAmount = 0
+      ''      newitem.TotalMat = 0
+      ''      newitem.TotalLab = 0
+      ''      newitem.TotalEq = 0
+
+      ''    End If
+      ''  ElseIf pai.Level = 1 Then
+      ''    If HashSCItem.Contains(CurrentParent) Then
+      ''      newitem = CType(HashSCItem(CurrentParent), PAItem)
+
+      ''      newitem.TotalBudget += pai.ContractCostAmount
+      ''      newitem.TotalReceived += pai.ReceivedAmount
+      ''      newitem.TotalProgressReceive += Configuration.Format(pai.Amount, DigitConfig.Price)
+
+      ''      If pai.RefEntity.Id <> 290 Then
+      ''        newitem.TotalChildAmount += Configuration.Format(pai.Amount, DigitConfig.Price)
+      ''        newitem.TotalMat += Configuration.Format(pai.Mat, DigitConfig.Price)
+      ''        newitem.TotalLab += Configuration.Format(pai.Lab, DigitConfig.Price)
+      ''        newitem.TotalEq += Configuration.Format(pai.Eq, DigitConfig.Price)
+      ''      End If
+
+      ''    End If
+      ''    'If pai.RefDocType = 290 AndAlso Not pai.IsReferenceSC Then
+      ''    '  newitem.TotalBudget += pai.ContractCostAmount
+      ''    '  newitem.TotalReceived += pai.ReceivedAmount
+      ''    '  newitem.TotalProgressReceive += pai.Amount
+      ''    'End If
+      ''  End If
+      ''Next
+
+      ''For Each pai As PAItem In HashSCItem.Values
+      ''  If pai.HasChild Then
+      ''    Me(Me.IndexOf(pai)).SetReceiveAmount(pai.TotalChildAmount)
+      ''    Me(Me.IndexOf(pai)).SetReceiveMat(pai.TotalMat)
+      ''    Me(Me.IndexOf(pai)).SetReceiveLab(pai.TotalLab)
+      ''    Me(Me.IndexOf(pai)).SetReceiveEq(pai.TotalEq)
+      ''  Else
+      ''    Me(Me.IndexOf(pai)).TotalBudget = pai.ContractCostAmount
+      ''    Me(Me.IndexOf(pai)).TotalReceived = pai.ReceivedAmount
+      ''    Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
+      ''  End If
+      ''Next
+
+      '' ''== Summary Ref DR Item ==================================================
+      ''For Each pai As PAItem In newItemDRRef
+      ''  newDrItem.TotalBudget += pai.ContractCostAmount
+      ''  newDrItem.TotalReceived += pai.ReceivedAmount
+      ''  newDrItem.TotalProgressReceive += pai.Amount
+      ''  Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
+      ''Next
+
+      '' ''== Summay Not Ref SC Item ==============================================
+      ''For Each pai As PAItem In newItemNotRef
+      ''  If pai.Level = 0 Then
+      ''    CurrentParent = pai.EntityName & "-" & pai.Unit.Code & "-" & pai.UnitPrice.ToString
+      ''    HashSCItem(CurrentParent) = pai
+      ''    newitem = CType(HashSCItem(CurrentParent), PAItem)
+      ''    If pai.IsHasChild(Nothing) Then
+
+      ''      newitem.TotalBudget = 0
+      ''      newitem.TotalReceived = 0
+      ''      newitem.TotalProgressReceive = 0
+
+      ''      newitem.TotalChildAmount = 0
+      ''      newitem.TotalMat = 0
+      ''      newitem.TotalLab = 0
+      ''      newitem.TotalEq = 0
+
+      ''    End If
+      ''  ElseIf pai.Level = 1 Then
+      ''    Me(Me.IndexOf(pai)).TotalProgressReceive = pai.Amount
+      ''    If HashSCItem.Contains(CurrentParent) Then
+      ''      newitem = CType(HashSCItem(CurrentParent), PAItem)
+
+      ''      newitem.TotalBudget += pai.ContractCostAmount
+      ''      newitem.TotalReceived += pai.ReceivedAmount
+      ''      newitem.TotalProgressReceive += Configuration.Format(pai.Amount, DigitConfig.Price)
+
+      ''      newitem.TotalChildAmount += Configuration.Format(pai.Amount, DigitConfig.Price)
+      ''      newitem.TotalMat += Configuration.Format(pai.Mat, DigitConfig.Price)
+      ''      newitem.TotalLab += Configuration.Format(pai.Lab, DigitConfig.Price)
+      ''      newitem.TotalEq += Configuration.Format(pai.Eq, DigitConfig.Price)
+
+      ''    End If
+      ''  End If
+      ''Next
+
+      ''=== Ref SC Item =====================================================
+      'newitem = Nothing
+
+      ''For Each pai As PAItem In newItemRef
+      ''  'If pai.Level = 0 Then
+      ''  '  If Not newitem Is Nothing Then
+      ''  '    sumRow = dt.Childs.Add()
+      ''  '    'sumRow.State = RowExpandState.Expanded
+      ''  '    'currRow = sumRow
+      ''  '    newitem.CopyToParentDataRow(sumRow)
+      ''  '  End If
+      ''  '  newitem = pai
+      ''  'End If
+
+      ''  '===================================
+      ''  'If pai.Level = 0 Then
+      ''  '  newRow = dt.Childs.Add
+      ''  '  newRow.State = RowExpandState.Expanded
+      ''  '  currRow = newRow
+      ''  'Else
+      ''  '  newRow = currRow.Childs.Add
+      ''  'End If
+      ''  If pai.Level = 0 Then
+      ''    parentRow = dt.Childs.Add
+      ''    parentRow.State = RowExpandState.Expanded
+      ''    pai.CopyToDataRow(parentRow)
+      ''    pai.ItemValidateRow(parentRow)
+      ''    parentRow.Tag = pai
+      ''  Else
+      ''    If Not parentRow Is Nothing Then
+      ''      childRow = parentRow.Childs.Add
+      ''      pai.CopyToDataRow(childRow)
+      ''      pai.ItemValidateRow(childRow)
+      ''      childRow.Tag = pai
+      ''    End If
+      ''  End If
+      ''  'newRow = dt.Childs.Add()
+      ''  'pai.CopyToDataRow(newRow)
+      ''  'pai.ItemValidateRow(newRow)
+      ''  'newRow.Tag = pai
+      ''  '===================================
+
+      ''  Me.CurrentLastItem = pai
+      ''Next
+      'If Not newitem Is Nothing Then
+      '  sumRow = dt.Childs.Add()
+      '  'newRow.State = RowExpandState.Expanded
+      '  'currRow = newRow
+      '  newitem.CopyToParentDataRow(sumRow)
+      'End If
+
+      ' ''=== Ref DR Item =====================================================
+      'newitem = Nothing
+
+      'Dim DRParentItem As PAItem = Nothing
+      'Dim DRParentRow As TreeRow = Nothing
+      'For Each pai As PAItem In newItemDRRef
+      '  '===================================
+
+      '  If DRParentRow Is Nothing Then
+      '    DRParentRow = dt.Childs.Add
+      '    DRParentRow.State = RowExpandState.Expanded
+      '    pai.CopyToDataRow(DRParentRow)
+      '    pai.ItemValidateRow(DRParentRow)
+      '    DRParentRow.Tag = pai
+      '  End If
+
+
+      '  'For Each prow As TreeRow In dt.Childs
+      '  '  If TypeOf prow.Tag Is PAItem Then
+      '  '    If Not CType(prow.Tag, PAItem).RefEntity Is Nothing AndAlso CType(prow.Tag, PAItem).RefEntity.Id = 291 AndAlso CType(prow.Tag, PAItem).Level = 0 Then
+      '  '      DRParentItem = CType(prow.Tag, PAItem)
+      '  '      Exit For
+      '  '    End If
+      '  '  End If
+      '  'Next
+      '  'If Not checkIsItemHashParent Then
+      '  '  DRParentRow = dt.Childs.Add
+      '  '  DRParentRow.State = RowExpandState.Expanded
+      '  '  pai.CopyToDataRow(parentRow)
+      '  '  pai.ItemValidateRow(parentRow)
+      '  '  parentRow.Tag = pai
+      '  'Else
+      '  '  If Not DRParentRow Is Nothing Then
+      '  '    childRow = DRParentRow.Childs.Add
+      '  '    pai.CopyToDataRow(childRow)
+      '  '    pai.ItemValidateRow(childRow)
+      '  '    childRow.Tag = pai
+      '  '  End If
+      '  'End If
+
+
+      '  '===================================
+
+      '  '===================================
+      '  'If pai.Level = 0 Then
+      '  '  newRow = dt.Childs.Add
+      '  '  newRow.State = RowExpandState.Expanded
+      '  '  currRow = newRow
+      '  'Else
+      '  '  newRow = currRow.Childs.Add
+      '  'End If
+      '  ''If pai.Level = 0 Then
+      '  ''  parentRow = dt.Childs.Add
+      '  ''  parentRow.State = RowExpandState.Expanded
+      '  ''  pai.CopyToDataRow(parentRow)
+      '  ''  pai.ItemValidateRow(parentRow)
+      '  ''  parentRow.Tag = pai
+      '  ''Else
+      '  ''  If Not parentRow Is Nothing Then
+      '  ''    childRow = parentRow.Childs.Add
+      '  ''    pai.CopyToDataRow(childRow)
+      '  ''    pai.ItemValidateRow(childRow)
+      '  ''    childRow.Tag = pai
+      '  ''  End If
+      '  ''End If
+      '  'newRow = dt.Childs.Add()
+      '  'pai.CopyToDataRow(newRow)
+      '  'pai.ItemValidateRow(newRow)
+      '  'newRow.Tag = pai
+      '  '===================================
+
+      '  Me.CurrentLastItem = pai
+      'Next
+      'If Not newDrItem Is Nothing AndAlso newDrItem.TotalProgressReceive <> 0 Then
+      '  sumRow = dt.Childs.Add()
+      '  newDrItem.CopyToParentDataRow(sumRow)
+      'End If
+
+      ''=== Not Ref SC Item =====================================================
+      'If newItemNotRef.Count > 0 Then
+      '  newitem = New PAItem
+      '  newitem.RefEntity = New RefEntity
+      '  newitem.RefEntity.Id = 0
+      '  sumRow = dt.Childs.Add
+      '  sumRow.State = RowExpandState.Expanded
+      '  newitem.CopyToParentDataRow(sumRow, , True)
+      'End If
+
+      'newitem = Nothing
+      ''For Each pai As PAItem In newItemNotRef
+      ''  'If pai.Level = 0 Then
+      ''  '  If Not newitem Is Nothing Then
+      ''  '    sumRow = dt.Childs.Add()
+      ''  '    'sumRow.State = RowExpandState.Expanded
+      ''  '    'currRow = sumRow
+      ''  '    newitem.CopyToParentDataRow(sumRow)
+      ''  '  End If
+      ''  '  newitem = pai
+      ''  'End If
+
+      ''  '===================================
+      ''  'If pai.Level = 0 Then
+      ''  '  newRow = dt.Childs.Add
+      ''  '  newRow.State = RowExpandState.Expanded
+      ''  '  currRow = newRow
+      ''  'Else
+      ''  '  newRow = currRow.Childs.Add
+      ''  'End If
+      ''  If pai.Level = 0 Then
+      ''    parentRow = dt.Childs.Add
+      ''    parentRow.State = RowExpandState.Expanded
+      ''    pai.CopyToDataRow(parentRow)
+      ''    pai.ItemValidateRow(parentRow)
+      ''    parentRow.Tag = pai
+      ''  Else
+      ''    If Not parentRow Is Nothing Then
+      ''      childRow = parentRow.Childs.Add
+      ''      pai.CopyToDataRow(childRow)
+      ''      pai.ItemValidateRow(childRow)
+      ''      childRow.Tag = pai
+      ''    End If
+      ''  End If
+      ''  'newRow = dt.Childs.Add()
+      ''  'pai.CopyToDataRow(newRow)
+      ''  'pai.ItemValidateRow(newRow)
+      ''  'newRow.Tag = pai
+      ''  '===================================
+
+      ''  Me.CurrentLastItem = pai
+      ''Next
+      'If Not newitem Is Nothing Then
+      '  sumRow = dt.Childs.Add()
+      '  newitem.CopyToParentDataRow(sumRow)
+      'End If
+
+
+      ''=== Ref DR Item =====================================================
+      'newitem = Nothing
+
+      ''Dim DRParentItem As New PAItem
+      ''DRParentItem.RefEntity = New RefEntity
+      ''DRParentItem.RefEntity.Id = 291
+
+      ''Dim DRParentRow As TreeRow = Nothing
+      ''Dim DRChildRow As TreeRow = Nothing
+      ''For Each pai As PAItem In newItemDRRef
+      ''  '===================================
+
+      ''  If DRParentRow Is Nothing Then
+      ''    DRParentRow = dt.Childs.Add
+      ''    DRParentRow.State = RowExpandState.Expanded
+      ''    DRParentItem.CopyToParentDataRow(DRParentRow)
+      ''    DRParentItem.ItemValidateRow(DRParentRow)
+      ''    DRParentRow.Tag = pai
+
+      ''    DRChildRow = DRParentRow.Childs.Add
+      ''    pai.CopyToDataRow(DRChildRow)
+      ''    pai.ItemValidateRow(DRChildRow)
+      ''    DRChildRow.Tag = pai
+      ''  Else
+      ''    DRChildRow = DRParentRow.Childs.Add
+      ''    pai.CopyToDataRow(DRChildRow)
+      ''    pai.ItemValidateRow(DRChildRow)
+      ''    DRChildRow.Tag = pai
+      ''  End If
+
+      ''  Me.CurrentLastItem = pai
+      ''Next
+
+
+      ' ''--New Summary--=============
+      ''For Each srow As TreeRow In dt.Childs
+      ''  If TypeOf srow.Tag Is PAItem AndAlso CType(srow.Tag, PAItem).Level = 0 Then
+      ''    CType(srow.Tag, PAItem).TotalBudget = 0
+      ''    CType(srow.Tag, PAItem).TotalReceived = 0
+      ''    CType(srow.Tag, PAItem).TotalProgressReceive = 0
+      ''    CType(srow.Tag, PAItem).TotalMat = 0
+      ''    CType(srow.Tag, PAItem).TotalLab = 0
+      ''    CType(srow.Tag, PAItem).TotalEq = 0
+
+      ''    For Each crow As TreeRow In srow.Childs
+      ''      If TypeOf crow.Tag Is PAItem Then
+      ''        CType(srow.Tag, PAItem).TotalBudget += CType(crow.Tag, PAItem).ContractCostAmount
+      ''        CType(srow.Tag, PAItem).TotalReceived += CType(crow.Tag, PAItem).ReceivedAmount
+      ''        CType(srow.Tag, PAItem).TotalProgressReceive += Configuration.Format(CType(crow.Tag, PAItem).Amount, DigitConfig.Price)
+      ''        CType(srow.Tag, PAItem).TotalMat += CType(crow.Tag, PAItem).Mat
+      ''        CType(srow.Tag, PAItem).TotalLab += CType(crow.Tag, PAItem).Lab
+      ''        CType(srow.Tag, PAItem).TotalEq += CType(crow.Tag, PAItem).Eq
+      ''      End If
+      ''    Next
+
+      ''    CType(srow.Tag, PAItem).CopyToParentDataRow(srow)
+      ''  End If
+      ''Next
+      ' ''--New Summary--=============
+
+      ''dt.AcceptChanges()
+
+      ''Do Until dt.Rows.Count > tg.VisibleRowCount
+      ''  'เพิ่มแถวจนเต็ม
+      ''  dt.Childs.Add()
+      ''Loop
+
+      ''Try
+      ''  If (Not dt.Rows(dt.Rows.Count - 1).IsNull("pai_entityType")) OrElse (Not CType(dt.Rows(dt.Rows.Count - 1), TreeRow).Tag Is Nothing) Then
+      ''    '  'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      ''    dt.Childs.Add()
+      ''  End If
+      ''Catch ex As Exception
+
+      ''End Try
+
+      ''dt.AcceptChanges()
     End Sub
     Public Shared Function FindRow(ByVal dt As TreeTable, ByVal thePA As PA) As TreeRow
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
