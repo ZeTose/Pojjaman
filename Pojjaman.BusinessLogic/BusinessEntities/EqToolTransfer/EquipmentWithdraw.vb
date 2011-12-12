@@ -397,6 +397,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  Me.CancelRef(conn, trans)
           'End If
 
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMatWBSActual")
+
           trans.Commit()
           Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException

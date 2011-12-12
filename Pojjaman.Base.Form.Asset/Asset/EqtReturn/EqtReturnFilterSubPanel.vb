@@ -4,6 +4,7 @@ Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class EqtReturnFilterSubPanel
     Inherits AbstractFilterSubPanel
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -64,6 +65,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EqtReturnFilterSubPanel))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.lblDocDateStart = New System.Windows.Forms.Label()
       Me.lblDocDateEnd = New System.Windows.Forms.Label()
@@ -96,8 +99,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReturnCC = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
-      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
       Me.grbDetail.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
       Me.grbStock.SuspendLayout()
@@ -138,6 +139,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "วันที่เอกสาร"
+      '
+      'txtDocDateEnd
+      '
+      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(329, 40)
+      Me.txtDocDateEnd.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(107, 20)
+      Me.txtDocDateEnd.TabIndex = 6
+      '
+      'txtDocDateStart
+      '
+      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(112, 40)
+      Me.txtDocDateStart.MaxLength = 20
+      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
+      Me.Validator.SetRequired(Me.txtDocDateStart, False)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(107, 20)
+      Me.txtDocDateStart.TabIndex = 6
       '
       'txtCode
       '
@@ -540,36 +571,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
-      '
-      'txtDocDateStart
-      '
-      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-      Me.txtDocDateStart.Location = New System.Drawing.Point(112, 40)
-      Me.txtDocDateStart.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
-      Me.txtDocDateStart.Name = "txtDocDateStart"
-      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
-      Me.Validator.SetRequired(Me.txtDocDateStart, False)
-      Me.txtDocDateStart.Size = New System.Drawing.Size(107, 20)
-      Me.txtDocDateStart.TabIndex = 6
-      '
-      'txtDocDateEnd
-      '
-      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-      Me.txtDocDateEnd.Location = New System.Drawing.Point(329, 40)
-      Me.txtDocDateEnd.MaxLength = 20
-      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
-      Me.txtDocDateEnd.Name = "txtDocDateEnd"
-      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
-      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(107, 20)
-      Me.txtDocDateEnd.TabIndex = 6
       '
       'EqtReturnFilterSubPanel
       '
