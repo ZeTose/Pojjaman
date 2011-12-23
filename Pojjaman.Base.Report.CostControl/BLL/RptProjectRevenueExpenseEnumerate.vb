@@ -878,7 +878,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         trc("deliver") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver"), DigitConfig.Price)
         trc("bill") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bill"), DigitConfig.Price)
-        trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), DigitConfig.Price)
+        trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("receivedtaxbase"), DigitConfig.Price)
+        'trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), DigitConfig.Price)
         'trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver") - drh.GetValue(Of Decimal)("bill"), DigitConfig.Price)
         trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
 
