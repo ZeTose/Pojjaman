@@ -24,7 +24,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class AbstractEntityDetailPanelView
     Inherits UserControl
     Implements ISecondaryViewContent, ISimpleEntityPanel _
-    , IEditable, IClipboardHandler, IPrintable, IKeyReceiver, ISecurityValidatable
+    , IEditable, IClipboardHandler, IPrintable, IKeyReceiver, ISecurityValidatable, INewPrintable
 
 #Region "Members"
     Private m_view As PanelDisplayBinding.PanelView
@@ -583,6 +583,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+#Region "InewPrintable"
+    Public Sub ShowSelectSchemaDataDialog() Implements INewPrintable.ShowSelectSchemaDataDialog
+      If Not Me.Entity Is Nothing Then
+        If TypeOf Me.Entity Is ISimpleEntity Then
+          'Dim exdata As EntitySimpleSchema = CType(Me.Entity, INewPrintable).SimpleSchema
+          'If Not exdata Is Nothing AndAlso Not exdata.DataSet Is Nothing Then
+          If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+            'CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities = New SuperPrintableEntity
+            If TypeOf Me.Entity Is INewPrintableEntity Then
+              CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities = CType(Me.Entity, INewPrintableEntity)
+              Dim dialog As New SchemaDataExportDialog(CType(Me.Entity, INewPrintableEntity), Me.Entity) ', New SuperPrintableEntity)
+              dialog.StartPosition = FormStartPosition.CenterParent
+              dialog.ShowDialog()
+            End If
+          End If
+          'End If
+        End If
+      End If
+    End Sub
+#End Region
+
 #Region "Datetime"
     Public Overloads Function DateToString(ByVal dtp As DateTimePicker, ByVal txtdate As TextBox) As String
       txtdate.Text = String.Format("{0:dd\/MM\/yyyy}", dtp.Value)
@@ -695,12 +716,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "IPrintable"
     Private thePath As String = ""
+    Private Enum ReportExtentionType
+      CrystalReport
+      XtraReport
+      XMLReport
+    End Enum
     Public Overridable ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument Implements IPrintable.PrintDocument
       Get
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
         Dim ReportPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "reports")
-        Dim isCrystal As Boolean = False
+
+        Dim PrintingReportType As ReportExtentionType = ReportExtentionType.XMLReport
 
         If Not Me.Entity Is Nothing Then
           If TypeOf Me.Entity Is IPrintableEntity Then
@@ -730,14 +757,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Return Nothing
             End If
             If thePath.EndsWith(".rpt") Then
-              isCrystal = True
+              PrintingReportType = ReportExtentionType.CrystalReport
+            ElseIf thePath.EndsWith(".repx") Then
+              PrintingReportType = ReportExtentionType.XtraReport
             End If
             If File.Exists(thePath) Then
-              If isCrystal Then
+              '--Report form แบบใหม่--
+              If PrintingReportType = ReportExtentionType.CrystalReport Then
                 Dim crform As New CrystalForm(Me.Entity, thePath)
                 crform.ShowDialog()
                 Return Nothing
+              ElseIf PrintingReportType = ReportExtentionType.XtraReport Then
+                If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+                  '--เฉพาะรายงานเท่านั้นที่จะเข้าส่วนนี้--
+                  '--เพราะว่า Entity เป็นรายงานจริง แต่ว่า Schema และ Data อยากได้ข้อมูลที่มาจาก Grid ที่ Preview อยู่--
+                  '--ยัดค่ามาจาก GridReportPanelView เรียบร้อยแล้ว--
+                  If Not CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities Is Nothing AndAlso
+                    TypeOf CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities Is GridReportPanelView Then
+                    Dim xtform As New XtraForm(CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities, thePath, Me.Entity)
+                    xtform.ShowDialog()
+                    Return Nothing
+                  End If
+                End If
+
+                If TypeOf Me.Entity Is INewPrintableEntity Then
+                  Dim xtform As New XtraForm(CType(Me.Entity, INewPrintableEntity), thePath, Me.Entity)
+                  xtform.ShowDialog()
+                End If
+
+                'Dim xtform As New XtraForm(Me.Entity, thePath, New SuperPrintableEntity)
+
+                Return Nothing
               End If
+              '--ส่วนด้านล่างเป็น form แบบเดิม--
               If TypeOf Me.Entity Is RptFinancialStatement Then
                 Dim fform As New FFormatForm(thePath, CType(Me.Entity, IPrintableEntity))
                 Return fform.PrintDocument
@@ -808,13 +860,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
   End Class
+
   Public Class SuperPrintableEntity
-    Implements IPrintableEntity, IHasStatusString, IHasEntityList
+    Implements IPrintableEntity, IHasStatusString, IHasEntityList ', INewPrintableEntity
+
     Private m_entities As List(Of IPrintableEntity)
     Private m_entityNames As Dictionary(Of IPrintableEntity, String)
+
+    'Private m_newentities As List(Of INewPrintableEntity)
+    'Private m_newentityNames As Dictionary(Of INewPrintableEntity, String)
+
     Public Sub New()
       m_entities = New List(Of IPrintableEntity)
+      'm_newentities = New List(Of INewPrintableEntity)
       m_entityNames = New Dictionary(Of IPrintableEntity, String)
+      'm_newentityNames = New Dictionary(Of INewPrintableEntity, String)
+
       Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
       For Each myview As Object In window.SubViewContents
         If TypeOf myview Is IAuxTab Then
@@ -822,6 +883,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If aux Is Nothing Then
             aux = CType(myview, IAuxTabItem).AuxEntityItem
           End If
+
           If TypeOf aux Is IPrintableEntity Then
             Dim auxPrintable As IPrintableEntity = CType(aux, IPrintableEntity)
             If Not m_entityNames.ContainsKey(CType(auxPrintable, IPrintableEntity)) Then
@@ -836,7 +898,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           End If
+          'If TypeOf aux Is INewPrintableEntity Then
+          '  Dim auxPrintable As INewPrintableEntity = CType(aux, INewPrintableEntity)
+          '  If Not m_newentityNames.ContainsKey(CType(auxPrintable, INewPrintableEntity)) Then
+          '    m_newentityNames(CType(auxPrintable, INewPrintableEntity)) = myview.GetType.Name
+          '  End If
+          '  m_newentities.Add(CType(auxPrintable, INewPrintableEntity))
+          '  'If String.IsNullOrEmpty(m_StatusString) Then
+          '  '  If TypeOf aux Is IHasStatusString Then
+          '  '    If Not String.IsNullOrEmpty(CType(aux, IHasStatusString).StatusString) Then
+          '  '      m_StatusString = CType(aux, IHasStatusString).StatusString
+          '  '    End If
+          '  '  End If
+          '  'End If
+          'End If
+
         ElseIf Not TypeOf myview Is AbstractEntityPanelViewContent AndAlso TypeOf myview Is ISimpleEntityPanel Then
+
           Dim myentity As Object = CType(window.ActiveViewContent, ISimpleEntityPanel).Entity
           If TypeOf myentity Is IPrintableEntity Then
             Dim iprintable As IPrintableEntity = CType(myentity, IPrintableEntity)
@@ -852,6 +930,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
               End If
             End If
           End If
+
+          'If TypeOf myentity Is INewPrintableEntity Then
+          '  Dim iprintable As INewPrintableEntity = CType(myentity, INewPrintableEntity)
+          '  If Not m_newentityNames.ContainsKey(CType(iprintable, INewPrintableEntity)) Then
+          '    m_newentityNames(CType(iprintable, INewPrintableEntity)) = myview.GetType.Name
+          '  End If
+          '  m_newentities.Add(CType(iprintable, INewPrintableEntity))
+          '  'If String.IsNullOrEmpty(m_StatusString) Then
+          '  '  If TypeOf myentity Is IHasStatusString Then
+          '  '    If Not String.IsNullOrEmpty(CType(myentity, IHasStatusString).StatusString) Then
+          '  '      m_StatusString = CType(myentity, IHasStatusString).StatusString
+          '  '    End If
+          '  '  End If
+          '  'End If
+          'End If
+
         End If
       Next
       For Each e As IPrintableEntity In m_entities
@@ -860,6 +954,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
     End Sub
+
     Public Property Code As String Implements BusinessLogic.IIdentifiable.Code
       Get
 
@@ -907,6 +1002,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           tmpRet.Add(tmpDPI)
         Next
+
+        If Not entity.GetDocPrintingEntries.RelationList Is Nothing AndAlso entity.GetDocPrintingEntries.RelationList.Count > 0 Then
+          tmpRet.RelationList.AddRange(entity.GetDocPrintingEntries.RelationList)
+        End If
 
         '==============================CUSTOM NOTES=============================================
         If m_entityNames.ContainsKey(entity) AndAlso activeContent.GetType.Name = m_entityNames(entity) Then
@@ -1053,10 +1152,114 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
+      If Not tmpRet.RelationList Is Nothing AndAlso tmpRet.RelationList.Count > 0 Then
+        ret.RelationList.AddRange(tmpRet.RelationList)
+      End If
+      If Not myDpiColl.RelationList Is Nothing AndAlso myDpiColl.RelationList.Count > 0 Then
+        ret.RelationList.AddRange(myDpiColl.RelationList)
+      End If
+
       ret.AddRange(tmpRet)
       ret.AddRange(myDpiColl)
       Return ret
     End Function
+
+#Region "INewPrintableEntity"
+    'Public Function GetDocPrintingCollumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+    '  Dim ret As New DocPrintingItemCollection
+    '  Dim tmpRet As New DocPrintingItemCollection
+    '  Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
+    '  Dim activeContent As Object = window.ActiveViewContent
+    '  For Each entity As INewPrintableEntity In m_entities
+    '    For Each dpi As DocPrintingItem In entity.GetDocPrintingColumnsEntries
+    '      Dim tmpDPI As DocPrintingItem = dpi.Clone
+    '      If Not tmpDPI.Mapping Is Nothing Then
+    '        If m_newentityNames.ContainsKey(entity) Then
+    '          tmpDPI.Mapping = m_newentityNames(entity) & "." & tmpDPI.Mapping
+    '          If Not String.IsNullOrEmpty(tmpDPI.Table) Then
+    '            tmpDPI.Table = m_newentityNames(entity) & "." & tmpDPI.Table
+    '          End If
+    '          If activeContent.GetType.Name = m_newentityNames(entity) Then
+    '            ret.Add(dpi)
+    '          End If
+    '        End If
+    '      End If
+    '      tmpRet.Add(tmpDPI)
+    '    Next
+
+    '    If Not entity.GetDocPrintingColumnsEntries.RelationList Is Nothing AndAlso entity.GetDocPrintingColumnsEntries.RelationList.Count > 0 Then
+    '      tmpRet.RelationList.AddRange(entity.GetDocPrintingColumnsEntries.RelationList)
+    '    End If
+
+    '    '==============================CUSTOM NOTES=============================================
+    '    If m_newentityNames.ContainsKey(entity) AndAlso activeContent.GetType.Name = m_newentityNames(entity) Then
+    '      If TypeOf entity Is IHasCustomNote Then
+    '        Dim coll As CustomNoteCollection
+    '        If TypeOf entity Is IHasMainDoc Then
+    '          If Not (TypeOf (entity) Is JournalEntry) Then
+    '            coll = CType(CType(entity, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
+    '          Else
+    '            coll = CType(entity, IHasCustomNote).GetCustomNoteCollection
+    '          End If
+    '        Else
+    '          coll = CType(entity, IHasCustomNote).GetCustomNoteCollection
+    '        End If
+    '        For Each note As CustomNote In coll
+    '          Dim dpi As New DocPrintingItem
+    '          dpi.Mapping = "Note." & note.NoteName
+    '          If note.IsDropDown Then
+    '            dpi.Value = Boolean.Parse(CStr(note.Note))
+    '            dpi.DataType = "System.Boolean"
+    '          Else
+    '            dpi.Value = CStr(note.Note)
+    '            dpi.DataType = "System.String"
+    '          End If
+    '          ret.Add(dpi)
+    '        Next
+    '      End If
+    '    End If
+    '    '==============================END CUSTOM NOTES=============================================
+
+    '  Next
+
+    '  Dim myDpiColl As New DocPrintingItemCollection
+    '  Dim myDpi As DocPrintingItem
+    '  For Each entity As INewPrintableEntity In m_entities
+    '    If TypeOf entity Is ISimpleEntity Then
+    '      Dim myEntity As ISimpleEntity = CType(entity, ISimpleEntity)
+
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreatorId", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreatorName", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreatorCode", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreatorInfo", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreateDate", "System.DateTime"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditorId", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditorCode", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditorName", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditorInfo", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditDate", "System.DateTime"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UserId", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PrintBy", "System.String"))
+    '      myDpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PrintDate", "System.Datetime"))
+
+    '    End If
+    '  Next
+
+    '  If Not tmpRet.RelationList Is Nothing AndAlso tmpRet.RelationList.Count > 0 Then
+    '    ret.RelationList.AddRange(tmpRet.RelationList)
+    '  End If
+    '  If Not myDpiColl.RelationList Is Nothing AndAlso myDpiColl.RelationList.Count > 0 Then
+    '    ret.RelationList.AddRange(myDpiColl.RelationList)
+    '  End If
+
+    '  ret.AddRange(tmpRet)
+    '  ret.AddRange(myDpiColl)
+    '  Return ret
+    'End Function
+    'Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+    '  Return Me.GetDocPrintingEntries
+    'End Function
+#End Region
     
     Private m_StatusString As String
     Public ReadOnly Property StatusString As String Implements BusinessLogic.IHasStatusString.StatusString
@@ -1084,5 +1287,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Get
     End Property
   End Class
+
+
 End Namespace
 

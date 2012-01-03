@@ -646,6 +646,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    'Public Property SimpleSchema As EntitySimpleSchema
+    Public Property NewPrintableEntities As INewPrintableEntity
     Private m_hasAttach As Nullable(Of Boolean)
     Property AttachIsChange As Boolean = False
     Public Sub OnAttachChanged()

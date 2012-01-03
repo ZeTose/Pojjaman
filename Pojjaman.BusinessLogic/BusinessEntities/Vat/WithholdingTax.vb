@@ -2051,7 +2051,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi = New DocPrintingItem
           dpi.Mapping = "ItemWHT.Code"
           dpi.Value = w.Code
-          dpi.DataType = "System.Int32"
+          dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "ItemWHT"
           dpiColl.Add(dpi)

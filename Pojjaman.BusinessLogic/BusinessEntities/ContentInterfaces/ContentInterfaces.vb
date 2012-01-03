@@ -80,6 +80,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException
     ReadOnly Property CanCancel() As Boolean
   End Interface
+  Public Interface IDocStatus
+    ReadOnly Property DocStatus As String
+  End Interface
   Public Interface IDeletable
     Function Delete() As SaveErrorException
     ReadOnly Property CanDelete() As Boolean

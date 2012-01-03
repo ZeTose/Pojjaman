@@ -318,6 +318,7 @@
     <Compile Include="BusinessEntities\BaseCLasses\EntityFactory.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\BaseCLasses\EntitySimpleSchema.vb" />
     <Compile Include="BusinessEntities\BaseCLasses\Parameter.vb">
       <SubType>Code</SubType>
     </Compile>

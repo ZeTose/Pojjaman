@@ -10,7 +10,7 @@ Imports Syncfusion.Windows.Forms.Grid
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class GridReportPanelView
     Inherits AbstractEntityPanelViewContent
-    Implements ISimpleListPanel
+    Implements ISimpleListPanel, INewPrintable, IPrintableEntity, INewPrintableEntity
 
 #Region " Windows Form Designer generated code "
 
@@ -149,6 +149,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         CType(Me.m_filterSubPanel, IExcellExportAble).tgItem = tgItem
         CType(Me.m_filterSubPanel, IExcellExportAble).tgItem.Tag = m_entity.DataSet
       End If
+      If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+        '--เพราะว่า Entity เป็นรายงานจริง แต่ว่า Schema และ Data อยากได้ข้อมูลที่มาจาก Grid ที่ Preview อยู่--
+        CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities = Me
+      End If
     End Sub
     Private Sub RefreshEditableStatus()
       'WorkbenchSingleton.Workbench.RedrawAllComponents()
@@ -256,11 +260,177 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+#Region "InewPrintable"
+    Public Sub ShowSelectSchemaDataDialog() Implements INewPrintable.ShowSelectSchemaDataDialog
+      If Not Me.Entity Is Nothing Then
+        If TypeOf Me.Entity Is ISimpleEntity Then
+          'Dim exdata As EntitySimpleSchema = CType(Me.Entity, INewPrintable).SimpleSchema
+          'If Not exdata Is Nothing AndAlso Not exdata.DataSet Is Nothing Then
+          'If TypeOf Me.m_entity Is SimpleBusinessEntityBase Then
+          '  CType(Me.m_entity, SimpleBusinessEntityBase).NewPrintableEntities = Me
+          'End If
+          Dim dialog As New SchemaDataExportDialog(Me, Me.Entity)
+          dialog.StartPosition = FormStartPosition.CenterParent
+          dialog.ShowDialog()
+          'End If
+        End If
+      End If
+    End Sub
+#End Region
+
     Private Sub tgItem_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles tgItem.KeyDown
       If e.Control AndAlso e.KeyCode = Keys.A Then
         tgItem.Selections.SelectRange(GridRangeInfo.Cells(0, 0, tgItem.RowCount, tgItem.ColCount), True)
       End If
     End Sub
+
+#Region "IPrintableEntity"
+    Public Property Code As String Implements BusinessLogic.IIdentifiable.Code
+      Get
+
+      End Get
+      Set(ByVal value As String)
+
+      End Set
+    End Property
+
+    Public Property Id As Integer Implements BusinessLogic.IIdentifiable.Id
+      Get
+
+      End Get
+      Set(ByVal value As Integer)
+
+      End Set
+    End Property
+
+    Public Function GetDefaultForm() As String Implements BusinessLogic.IPrintableEntity.GetDefaultForm
+
+    End Function
+
+    Public Function GetDefaultFormPath() As String Implements BusinessLogic.IPrintableEntity.GetDefaultFormPath
+
+    End Function
+
+    Public Function GetDocPrintingEntries() As BusinessLogic.DocPrintingItemCollection Implements BusinessLogic.IPrintableEntity.GetDocPrintingEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      If tgItem Is Nothing Then
+        Return dpiColl
+      End If
+
+      Dim row As Integer = 1
+
+      Dim data As String = ""
+      For rowIndex As Integer = tgItem.Rows.HeaderCount + 1 To tgItem.RowCount
+        Dim col As Integer = 0
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RelationId"
+        dpi.Value = 1
+        dpi.Row = row
+        dpi.Table = "Item"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        data = row.ToString
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Col" & col.ToString 'col.Text
+        dpi.Value = data
+        dpi.Row = row
+        dpi.Table = "Item"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+        col += 1
+
+        For colIndex As Integer = 1 To tgItem.ColCount
+          If Not tgItem(rowIndex, colIndex).CellValue Is Nothing AndAlso Not tgItem(rowIndex, colIndex).CellValue Is DBNull.Value Then
+            data = CStr(tgItem(rowIndex, colIndex).CellValue)
+          Else
+            data = ""
+          End If
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Col" & col.ToString 'col.Text
+          dpi.Value = data
+          dpi.Row = row
+          dpi.Table = "Item"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+          col += 1
+        Next
+        row += 1
+      Next
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RelationId"
+      dpi.Value = 1
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim fixVals As DocPrintingItemCollection = Me.m_filterSubPanel.GetFixValueCollection
+      If Not fixVals Is Nothing Then
+        dpiColl.AddRange(fixVals)
+      End If
+
+      Return dpiColl
+
+    End Function
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingCollumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      Dim col As Integer = 0
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Item.RelationId"
+      dpi.Value = 1
+      dpi.Row = 1
+      dpi.Table = "Item"
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Item.Col" & col.ToString 'col.Text
+      dpi.Value = 1
+      dpi.Row = 1
+      dpi.Table = "Item"
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+      col += 1
+
+      For colIndex As Integer = 1 To tgItem.ColCount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Col" & col.ToString 'col.Text
+        dpi.Value = ""
+        dpi.Row = 1
+        dpi.Table = "Item"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+        col += 1
+      Next
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RelationId"
+      dpi.Value = 1
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Dim fixVals As DocPrintingItemCollection = Me.m_filterSubPanel.GetFixValueCollection
+      If Not fixVals Is Nothing Then
+        dpiColl.AddRange(fixVals)
+      End If
+
+      dpiColl.RelationList.Add("general>RelationId>Item>Item.RelationId")
+
+      Return dpiColl
+    End Function
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
   End Class
 End Namespace
 

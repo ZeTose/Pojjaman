@@ -5,6 +5,9 @@ Imports Longkong.Pojjaman.Gui
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
 Namespace Longkong.Pojjaman.Gui.Panels
+  Public Interface INewPrintable
+    Sub ShowSelectSchemaDataDialog()
+  End Interface
   Public Interface IPreAddView
     Property SelectedRow() As DataRow
   End Interface

@@ -106,6 +106,9 @@
 				<!--<ToolbarItem id="PrintManager" icon="Icons.16x16.PrintManager" tooltip="${res:MainMenu.FileMenu.PrintManager}" class="Longkong.Pojjaman.Commands.PrintManager"/>-->
 				<!--</Conditional>-->
 			</Conditional>
+      <Conditional activewindow="*"  action="Disable">
+        <ToolbarItem id="SchemaDataExport" icon="Icons.16x16.PrintManager" label="${res:XML.MainMenu.EditMenu.SchemaDataExport}" tooltip="${res:XML.MainMenu.EditMenu.SchemaDataExport}" class="Longkong.Pojjaman.Commands.SchemaDataExport"/>  
+      </Conditional>
 			<ToolbarItem id="TestSeparator" tooltip="-"/>
 		</ToolbarItem>
 	</Extension>

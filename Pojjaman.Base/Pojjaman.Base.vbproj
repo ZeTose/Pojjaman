@@ -194,6 +194,38 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Data.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraBars.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPrinting.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraRichEdit.v10.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraTreeList.v10.2.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
       <HintPath>External\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -450,6 +482,7 @@
     <Compile Include="Pojjaman\Commands\CloseFile.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Commands\SchemaDataExport.vb" />
     <Compile Include="Pojjaman\Commands\Copy.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -982,6 +1015,12 @@
     <Compile Include="Pojjaman\Gui\Dialogs\ResetPasswordDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\SchemaDataExportDialog.Designer.vb">
+      <DependentUpon>SchemaDataExportDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\SchemaDataExportDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\ScrollBox.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1010,6 +1049,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\WizardDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\XtraForm.Designer.vb">
+      <DependentUpon>XtraForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\XtraForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb">
@@ -1678,11 +1723,17 @@
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ResetPasswordDialog.resx">
       <DependentUpon>ResetPasswordDialog.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\SchemaDataExportDialog.resx">
+      <DependentUpon>SchemaDataExportDialog.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\SelectFormsDialog.resx">
       <DependentUpon>SelectFormsDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\WizardDialog.resx">
       <DependentUpon>WizardDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\XtraForm.resx">
+      <DependentUpon>XtraForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbench.resx">
       <DependentUpon>PojjamanWorkbench.vb</DependentUpon>

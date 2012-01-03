@@ -18,7 +18,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ListViewItemSelectionPanelView
     'Inherits UserControl
     Inherits AbstractEntityPanelViewContent
-    Implements ISimpleListPanel, ICanMove, IPrintableEntity
+    Implements ISimpleListPanel, ICanMove, IPrintableEntity, INewPrintable, INewPrintableEntity
 
 #Region " Windows Form Designer generated code "
 
@@ -1231,12 +1231,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Me.lvItem.Items.Count > 0
       End Get
     End Property
+    Private Enum ReportExtentionType
+      CrystalReport
+      XtraReport
+      XMLReport
+    End Enum
     Public Overrides ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument
       Get
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
         Dim thePath As String = ""
-        Dim isCrystal As Boolean = False
+        Dim PrintingReportType As ReportExtentionType = ReportExtentionType.XMLReport
         If Not Me.Entity Is Nothing Then
           If TypeOf Me.Entity Is IPrintableEntity Then
             Dim fileName As String = "GeneralList"
@@ -1253,15 +1258,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Return Nothing
             End If
             If thePath.EndsWith(".rpt") Then
-              isCrystal = True
+              PrintingReportType = ReportExtentionType.CrystalReport
+            ElseIf thePath.EndsWith(".repx") Then
+              PrintingReportType = ReportExtentionType.XtraReport
             End If
             If File.Exists(thePath) Then
-              If isCrystal Then
+              '--Report form แบบใหม่--
+              If PrintingReportType = ReportExtentionType.CrystalReport Then
                 Dim idList As String = Me.GetEntityIdList
                 Dim crform As New CrystalForm(Me.Entity, thePath, idList)
                 crform.ShowDialog()
                 Return Nothing
+              ElseIf PrintingReportType = ReportExtentionType.XtraReport Then
+                'Dim idList As String = Me.GetEntityIdList             
+                Dim xtform As New XtraForm(Me, thePath, Me.Entity)
+                xtform.ShowDialog()
+                Return Nothing
               End If
+              '--ส่วนด้านล่างเป็น form แบบเดิม--
               Dim df As New DesignerForm(thePath, Me.lvItem)
               Return df.PrintDocument
             End If
@@ -1283,6 +1297,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Return idStringList
     End Function
 #End Region
+
     Private Sub chkHilight_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkHilightStatus.CheckedChanged
       SetStatusColor()
       'chkHilightApproveStatus.Checked = False
@@ -1367,12 +1382,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Function GetDPICollFromListview() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim i As Integer = 0
+      Dim dpi As New DocPrintingItem
       For Each item As ListViewItem In lvItem.Items
         i += 1
         For Each col As ColumnHeader In lvItem.Columns
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.RelationId"
+          dpi.Value = 1
+          dpi.Row = i
+          dpi.Table = "Item"
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
           Dim data As String = item.SubItems(col.Index).Text
-          Dim dpi As New DocPrintingItem
-          dpi.Mapping = "Item." & col.Text
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Col" & col.Index.ToString 'col.Text
           dpi.Value = data
           dpi.Row = i
           dpi.Table = "Item"
@@ -1415,15 +1439,85 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      Dim newDpiColl As DocPrintingItemCollection = GetDPICollFromListview()
+      If Not newDpiColl Is Nothing Then
+        dpiColl.AddRange(newDpiColl)
+      End If
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RelationId"
+      dpi.Value = 1
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       If TypeOf m_filterSubPanel Is IHasPrintItem Then
         dpiColl.AddRange(CType(m_filterSubPanel, IHasPrintItem).GetDocPrintingEntries)
       End If
 
-      dpiColl.AddRange(GetDPICollFromListview())
-
       Return dpiColl
     End Function
 #End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingCollumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      For Each col As ColumnHeader In lvItem.Columns
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RelationId"
+        dpi.Value = 1
+        dpi.Row = 1
+        dpi.Table = "Item"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Col" & col.Index.ToString 'col.Text
+        dpi.Value = ""
+        dpi.Row = 1
+        dpi.Table = "Item"
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      Next
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RelationId"
+      dpi.Value = 1
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      If TypeOf m_filterSubPanel Is IHasPrintItem Then
+        dpiColl.AddRange(CType(m_filterSubPanel, IHasPrintItem).GetDocPrintingEntries)
+      End If
+
+      dpiColl.RelationList.Add("general>RelationId>Item>Item.RelationId")
+
+      Return dpiColl
+    End Function
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+#Region "InewPrintable"
+    Public Sub ShowSelectSchemaDataDialog() Implements INewPrintable.ShowSelectSchemaDataDialog
+      If Not Me.Entity Is Nothing Then
+        If TypeOf Me.Entity Is ISimpleEntity Then
+          'Dim exdata As EntitySimpleSchema = CType(Me.Entity, INewPrintable).SimpleSchema
+          'If Not exdata Is Nothing AndAlso Not exdata.DataSet Is Nothing Then
+          If TypeOf Me.m_entity Is SimpleBusinessEntityBase Then
+            CType(Me.m_entity, SimpleBusinessEntityBase).NewPrintableEntities = Me
+          End If
+          Dim dialog As New SchemaDataExportDialog(Me, Me.Entity)
+          dialog.StartPosition = FormStartPosition.CenterParent
+          dialog.ShowDialog()
+          'End If
+        End If
+      End If
+    End Sub
+#End Region
+
 
     Private Sub btnShowColorStatus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowColorStatus.Click, btnShowApproveColorStatus.Click
       Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id

@@ -221,7 +221,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
           Dim dlg As New System.Windows.Forms.OpenFileDialog
           With dlg
             .Title = Me.Text
-            .Filter = "XML Files, XDP Files|*.xml;*.xdp|XML Files|*.xml|XDP Files|*.xdp|Crystal Report Files|*.rpt|All Files|*.*"
+            .Filter = "Xtra Reports Files|*.repx|XML Files, XDP Files|*.xml;*.xdp|XML Files|*.xml|XDP Files|*.xdp|Crystal Report Files|*.rpt|All Files|*.*"
           End With
           If dlg.ShowDialog = DialogResult.OK Then
             Dim path As String = dlg.FileName()

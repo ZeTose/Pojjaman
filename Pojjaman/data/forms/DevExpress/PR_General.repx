@@ -1,0 +1,1309 @@
+/// <XRTypeInfo>
+///   <AssemblyFullName>DevExpress.XtraReports.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</AssemblyFullName>
+///   <AssemblyLocation>C:\Windows\assembly\GAC_MSIL\DevExpress.XtraReports.v10.2\10.2.6.0__b88d1754d700e49a\DevExpress.XtraReports.v10.2.dll</AssemblyLocation>
+///   <TypeName>DevExpress.XtraReports.UI.XtraReport</TypeName>
+///   <Localization>en-US</Localization>
+/// </XRTypeInfo>
+namespace XtraReportSerialization {
+    
+    public class PR_General : DevExpress.XtraReports.UI.XtraReport {
+        private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
+        private DevExpress.XtraReports.UI.DetailBand Detail;
+        private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
+        private DevExpress.XtraReports.UI.XRLabel label28;
+        private DevExpress.XtraReports.UI.XRPageInfo pageInfo1;
+        private DevExpress.XtraReports.UI.DetailReportBand DetailReport;
+        private DevExpress.XtraReports.UI.DetailBand Detail1;
+        private DevExpress.XtraReports.UI.XRLabel label13;
+        private DevExpress.XtraReports.UI.XRLine line2;
+        private DevExpress.XtraReports.UI.XRLabel label14;
+        private DevExpress.XtraReports.UI.XRLabel label12;
+        private DevExpress.XtraReports.UI.XRLabel label15;
+        private DevExpress.XtraReports.UI.XRLabel label16;
+        private DevExpress.XtraReports.UI.PageHeaderBand PageHeader;
+        private DevExpress.XtraReports.UI.XRPictureBox pictureBox1;
+        private DevExpress.XtraReports.UI.XRLabel label4;
+        private DevExpress.XtraReports.UI.XRLabel label3;
+        private DevExpress.XtraReports.UI.XRLabel label2;
+        private DevExpress.XtraReports.UI.XRLabel label1;
+        private DevExpress.XtraReports.UI.XRLabel label5;
+        private DevExpress.XtraReports.UI.XRLabel label6;
+        private DevExpress.XtraReports.UI.XRTable table1;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow1;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell1;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell2;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow2;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell3;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell4;
+        private DevExpress.XtraReports.UI.XRTableRow tableRow3;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell5;
+        private DevExpress.XtraReports.UI.XRTableCell tableCell6;
+        private DevExpress.XtraReports.UI.XRLabel label17;
+        private DevExpress.XtraReports.UI.XRLabel label18;
+        private DevExpress.XtraReports.UI.XRLabel label19;
+        private DevExpress.XtraReports.UI.XRLabel label20;
+        private DevExpress.XtraReports.UI.XRLabel label9;
+        private DevExpress.XtraReports.UI.XRLabel label7;
+        private DevExpress.XtraReports.UI.XRLabel label8;
+        private DevExpress.XtraReports.UI.XRLabel label10;
+        private DevExpress.XtraReports.UI.XRLabel label11;
+        private DevExpress.XtraReports.UI.XRLine line1;
+        private DevExpress.XtraReports.UI.PageFooterBand PageFooter;
+        private DevExpress.XtraReports.UI.ReportFooterBand ReportFooter;
+        private DevExpress.XtraReports.UI.XRLabel label23;
+        private DevExpress.XtraReports.UI.XRLine line4;
+        private DevExpress.XtraReports.UI.XRLine line5;
+        private DevExpress.XtraReports.UI.XRLabel label21;
+        private DevExpress.XtraReports.UI.XRLabel label25;
+        private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine4;
+        private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine3;
+        private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine2;
+        private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine1;
+        private DevExpress.XtraReports.UI.XRCrossBandBox crossBandBox1;
+        private DevExpress.XtraReports.UI.CalculatedField printed;
+        private DevExpress.XtraReports.UI.CalculatedField totalQuantity;
+        private System.Resources.ResourceManager _resources;
+        public PR_General() {
+            this.InitializeComponent();
+        }
+        private System.Resources.ResourceManager resources {
+            get {
+                if (_resources == null) {
+                    string resourceString = "zsrvvgEAAACRAAAAbFN5c3RlbS5SZXNvdXJjZXMuUmVzb3VyY2VSZWFkZXIsIG1zY29ybGliLCBWZXJza" +
+                        "W9uPTIuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4O" +
+                        "SNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAACAAAAAQAAAGhTeXN0ZW0uRHJhd" +
+                        "2luZy5CaXRtYXAsIFN5c3RlbS5EcmF3aW5nLCBWZXJzaW9uPTIuMC4wLjAsIEN1bHR1cmU9bmV1dHJhb" +
+                        "CwgUHVibGljS2V5VG9rZW49YjAzZjVmN2YxMWQ1MGEzYVBBRFBBRDXjWx7khuldAAAAADEAAACEAQAAL" +
+                        "CQAdABoAGkAcwAuAEQAYQB0AGEAUwBvAHUAcgBjAGUAUwBjAGgAZQBtAGEAAAAAACJwAGkAYwB0AHUAc" +
+                        "gBlAEIAbwB4ADEALgBJAG0AYQBnAGUAzjEAAAHLYzw/eG1sIHZlcnNpb249IjEuMCI/Pg0KPHhzOnNja" +
+                        "GVtYSBpZD0iR2V0X1BSX0dlbmVyYWwiIHhtbG5zPSIiIHhtbG5zOnhzPSJodHRwOi8vd3d3LnczLm9yZ" +
+                        "y8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6bXNkYXRhPSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOnhtb" +
+                        "C1tc2RhdGEiPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJHZXRfUFJfR2VuZXJhbCIgbXNkYXRhOklzRGF0Y" +
+                        "VNldD0idHJ1ZSIgbXNkYXRhOlVzZUN1cnJlbnRMb2NhbGU9InRydWUiIG1zZGF0YTpFbmZvcmNlQ29uc" +
+                        "3RyYWludHM9IkZhbHNlIj4NCiAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICA8eHM6Y2hvaWNlIG1pb" +
+                        "k9jY3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lP" +
+                        "SJnZW5lcmFsIj4NCiAgICAgICAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICAgICAgICA8eHM6c2Vxd" +
+                        "WVuY2U+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9InByX2lkIiB0eXBlPSJ4czpzdHJpb" +
+                        "mciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ29kZSIgd" +
+                        "HlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50I" +
+                        "G5hbWU9IkRvY0RhdGUiIHR5cGU9InhzOmRhdGVUaW1lIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgI" +
+                        "CAgICAgIDx4czplbGVtZW50IG5hbWU9IlJlY2VpdmluZ0RhdGUiIHR5cGU9InhzOmRhdGVUaW1lIiBta" +
+                        "W5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IlRlcm1Ob3RlIiB0e" +
+                        "XBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgb" +
+                        "mFtZT0iRGVsaXZlcnlUaW1lIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgI" +
+                        "CAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iUGxhY2VPZkRlbGl2ZXJ5IiB0eXBlPSJ4czpzdHJpbmciI" +
+                        "G1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQXR0YWNobWVud" +
+                        "CIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZ" +
+                        "W50IG5hbWU9IlNwZWNpYWwiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgI" +
+                        "CAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDb3N0Q2VudGVyIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY" +
+                        "3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ29zdENlbnRlckluZm8iI" +
+                        "HR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVud" +
+                        "CBuYW1lPSJDb3N0Q2VudGVyTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogI" +
+                        "CAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IkNvc3RDZW50ZXJDb2RlIiB0eXBlPSJ4czpzdHJpb" +
+                        "mciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ3VzdG9tZ" +
+                        "XIiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlb" +
+                        "WVudCBuYW1lPSJDdXN0b21lck5hbWUiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KI" +
+                        "CAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDdXN0b21lckNvZGUiIHR5cGU9InhzOnN0cmluZ" +
+                        "yIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJSZXF1ZXN0b" +
+                        "3JJZCIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplb" +
+                        "GVtZW50IG5hbWU9IlJlcXVlc3RvciIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogI" +
+                        "CAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IlJlcXVlc3RvckluZm8iIHR5cGU9InhzOnN0cmluZ" +
+                        "yIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJSZXF1ZXN0b" +
+                        "3JDb2RlIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzO" +
+                        "mVsZW1lbnQgbmFtZT0iUmVxdWVzdG9yTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiI" +
+                        "C8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ik5vdGUiIHR5cGU9InhzOnN0cmluZyIgb" +
+                        "WluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJUb3RhbFNlcXVlb" +
+                        "mNlIiB0eXBlPSJ4czppbnQiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lb" +
+                        "nQgbmFtZT0iU3VtSXRlbVF0eSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgI" +
+                        "CAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikxhc3RQYWdlR3Jvc3MiIHR5cGU9InhzOmRlY2ltYWwiI" +
+                        "G1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQXBwcm92ZVBlc" +
+                        "nNvbklkTGV2ZWwiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgI" +
+                        "CA8eHM6ZWxlbWVudCBuYW1lPSJBdXRob3JpemVJZCIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9I" +
+                        "jAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IkNyZWF0b3JJZCIgdHlwZT0ieHM6c" +
+                        "3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IkNyZ" +
+                        "WF0b3JOYW1lIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgP" +
+                        "HhzOmVsZW1lbnQgbmFtZT0iQ3JlYXRvckNvZGUiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwI" +
+                        "iAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDcmVhdG9ySW5mbyIgdHlwZT0ieHM6c" +
+                        "3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IkNyZ" +
+                        "WF0ZURhdGUiIHR5cGU9InhzOmRhdGVUaW1lIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgI" +
+                        "Dx4czplbGVtZW50IG5hbWU9Ikxhc3RFZGl0b3JJZCIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9I" +
+                        "jAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikxhc3RFZGl0b3JDb2RlIiB0eXBlP" +
+                        "SJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZ" +
+                        "T0iTGFzdEVkaXRvck5hbWUiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgI" +
+                        "CAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJMYXN0RWRpdG9ySW5mbyIgdHlwZT0ieHM6c3RyaW5nIiBta" +
+                        "W5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikxhc3RFZGl0RGF0Z" +
+                        "SIgdHlwZT0ieHM6ZGF0ZVRpbWUiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZ" +
+                        "W1lbnQgbmFtZT0iUHJpbnRCeSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgI" +
+                        "CAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IlByaW50RGF0ZSIgdHlwZT0ieHM6ZGF0ZVRpbWUiIG1pb" +
+                        "k9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iUHJpbnROdW1iZXIiI" +
+                        "HR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgPC94czpzZXF1ZW5jZ" +
+                        "T4NCiAgICAgICAgICA8L3hzOmNvbXBsZXhUeXBlPg0KICAgICAgICA8L3hzOmVsZW1lbnQ+DQogICAgI" +
+                        "CAgIDx4czplbGVtZW50IG5hbWU9ImFwcHJvdmUiPg0KICAgICAgICAgIDx4czpjb21wbGV4VHlwZT4NC" +
+                        "iAgICAgICAgICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ" +
+                        "XBwcm92ZVBlcnNvbkxldmVsTm8iIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgI" +
+                        "CAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJBcHByb3ZlUGVyc29uQ29kZUxldmVsIiB0eXBlPSJ4c" +
+                        "zpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ" +
+                        "XBwcm92ZVBlcnNvbk5hbWVMZXZlbCIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogI" +
+                        "CAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IkFwcHJvdmVQZXJzb25JbmZvTGV2ZWwiIHR5cGU9I" +
+                        "nhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lP" +
+                        "SJBcHByb3ZlUGVyc29uRGF0ZUxldmVsIiB0eXBlPSJ4czpkYXRlVGltZSIgbWluT2NjdXJzPSIwIiAvP" +
+                        "g0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJBcHByb3ZlUGVyc29uQ29tbWVudExldmVsI" +
+                        "iB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgIDwveHM6c2VxdWVuY" +
+                        "2U+DQogICAgICAgICAgPC94czpjb21wbGV4VHlwZT4NCiAgICAgICAgPC94czplbGVtZW50Pg0KICAgI" +
+                        "CAgICA8eHM6ZWxlbWVudCBuYW1lPSJpdGVtIj4NCiAgICAgICAgICA8eHM6Y29tcGxleFR5cGU+DQogI" +
+                        "CAgICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9InBya" +
+                        "V9wciIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplb" +
+                        "GVtZW50IG5hbWU9InByaV9saW5lbnVtYmVyIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgL" +
+                        "z4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5TZXF1ZW5jZSIgdHlwZT0ieHM6c" +
+                        "3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0Z" +
+                        "W0uQ29kZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4c" +
+                        "zplbGVtZW50IG5hbWU9Ikl0ZW0uTGluZU51bWJlciIgdHlwZT0ieHM6aW50IiBtaW5PY2N1cnM9IjAiI" +
+                        "C8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uVW5pdCIgdHlwZT0ieHM6c3Rya" +
+                        "W5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV" +
+                        "W5pdFByaWNlIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgP" +
+                        "HhzOmVsZW1lbnQgbmFtZT0iSXRlbS5BbW91bnQiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwI" +
+                        "iAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLlF0eSIgdHlwZT0ieHM6c3Rya" +
+                        "W5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uT" +
+                        "mFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplb" +
+                        "GVtZW50IG5hbWU9Ikl0ZW0uV0JTQ29zdENlbnRlciIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9I" +
+                        "jAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTQ29kZSIgdHlwZT0ie" +
+                        "HM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9I" +
+                        "kl0ZW0uV0JTTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgI" +
+                        "CAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTQ29kZVBlcmNlbnQiIHR5cGU9InhzOnN0cmluZyIgb" +
+                        "WluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLldCU0NvZ" +
+                        "GVBbW91bnQiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8e" +
+                        "HM6ZWxlbWVudCBuYW1lPSJJdGVtLldCU1JlbWFpbkFtb3VudCIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY" +
+                        "2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTUmVtYWluU" +
+                        "XR5IiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZ" +
+                        "W1lbnQgbmFtZT0iSXRlbS5Ob3RlIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgI" +
+                        "CAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5MY2lOb3RlIiB0eXBlPSJ4czpzdHJpbmciI" +
+                        "G1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5EZXNjc" +
+                        "mlwdGlvbiIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICA8L3hzO" +
+                        "nNlcXVlbmNlPg0KICAgICAgICAgIDwveHM6Y29tcGxleFR5cGU+DQogICAgICAgIDwveHM6ZWxlbWVud" +
+                        "D4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0idW5pdHByaWNlIj4NCiAgICAgICAgICA8eHM6Y29tc" +
+                        "GxleFR5cGU+DQogICAgICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgICAgIDx4czplbGVtZ" +
+                        "W50IG5hbWU9IlVuaXRQcmljZU5vIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgI" +
+                        "CAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5Vbml0UHJpY2UiIHR5cGU9InhzOnN0cmluZ" +
+                        "yIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgPC94czpzZXF1ZW5jZT4NCiAgICAgICAgICA8L" +
+                        "3hzOmNvbXBsZXhUeXBlPg0KICAgICAgICA8L3hzOmVsZW1lbnQ+DQogICAgICAgIDx4czplbGVtZW50I" +
+                        "G5hbWU9InVuaXQiPg0KICAgICAgICAgIDx4czpjb21wbGV4VHlwZT4NCiAgICAgICAgICAgIDx4czpzZ" +
+                        "XF1ZW5jZT4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iVW5pdE5vIiB0eXBlPSJ4czpzd" +
+                        "HJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlb" +
+                        "S5Vbml0IiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgIDwveHM6c" +
+                        "2VxdWVuY2U+DQogICAgICAgICAgPC94czpjb21wbGV4VHlwZT4NCiAgICAgICAgPC94czplbGVtZW50P" +
+                        "g0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJxdHkiPg0KICAgICAgICAgIDx4czpjb21wbGV4VHlwZ" +
+                        "T4NCiAgICAgICAgICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZ" +
+                        "T0iUXR5Tm8iIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8e" +
+                        "HM6ZWxlbWVudCBuYW1lPSJJdGVtLlF0eSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+D" +
+                        "QogICAgICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgICAgIDwveHM6Y29tcGxleFR5cGU+DQogI" +
+                        "CAgICAgIDwveHM6ZWxlbWVudD4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0ibmFtZSI+DQogICAgI" +
+                        "CAgICAgPHhzOmNvbXBsZXhUeXBlPg0KICAgICAgICAgICAgPHhzOnNlcXVlbmNlPg0KICAgICAgICAgI" +
+                        "CAgICA8eHM6ZWxlbWVudCBuYW1lPSJOYW1lTm8iIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwI" +
+                        "iAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLk5hbWUiIHR5cGU9InhzOnN0c" +
+                        "mluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgPC94czpzZXF1ZW5jZT4NCiAgICAgICAgI" +
+                        "CA8L3hzOmNvbXBsZXhUeXBlPg0KICAgICAgICA8L3hzOmVsZW1lbnQ+DQogICAgICAgIDx4czplbGVtZ" +
+                        "W50IG5hbWU9Im5vdGUiPg0KICAgICAgICAgIDx4czpjb21wbGV4VHlwZT4NCiAgICAgICAgICAgIDx4c" +
+                        "zpzZXF1ZW5jZT4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iTm90ZU5vIiB0eXBlPSJ4c" +
+                        "zpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iS" +
+                        "XRlbS5Ob3RlIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgIDwve" +
+                        "HM6c2VxdWVuY2U+DQogICAgICAgICAgPC94czpjb21wbGV4VHlwZT4NCiAgICAgICAgPC94czplbGVtZ" +
+                        "W50Pg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJhbGxvY2F0ZSI+DQogICAgICAgICAgPHhzOmNvb" +
+                        "XBsZXhUeXBlPg0KICAgICAgICAgICAgPHhzOnNlcXVlbmNlPg0KICAgICAgICAgICAgICA8eHM6ZWxlb" +
+                        "WVudCBuYW1lPSJwcml3X3ByaSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgI" +
+                        "CAgICAgICAgIDx4czplbGVtZW50IG5hbWU9InByaXdfcHJpbGluZW51bWJlciIgdHlwZT0ieHM6c3Rya" +
+                        "W5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uQ" +
+                        "29kZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplb" +
+                        "GVtZW50IG5hbWU9Ikl0ZW0uTGluZU51bWJlciIgdHlwZT0ieHM6aW50IiBtaW5PY2N1cnM9IjAiIC8+D" +
+                        "QogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uVW5pdCIgdHlwZT0ieHM6c3RyaW5nI" +
+                        "iBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uVW5pd" +
+                        "FByaWNlIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzO" +
+                        "mVsZW1lbnQgbmFtZT0iSXRlbS5BbW91bnQiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvP" +
+                        "g0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLlF0eSIgdHlwZT0ieHM6c3RyaW5nI" +
+                        "iBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uTmFtZ" +
+                        "SIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZ" +
+                        "W50IG5hbWU9Ikl0ZW0uV0JTQ29zdENlbnRlciIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiI" +
+                        "C8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTQ29kZSIgdHlwZT0ieHM6c" +
+                        "3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0Z" +
+                        "W0uV0JTTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgI" +
+                        "Dx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTSW5mbyIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9I" +
+                        "jAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uQ0JTQ29kZSIgdHlwZT0ie" +
+                        "HM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9I" +
+                        "kl0ZW0uQ0JTTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgI" +
+                        "CAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uQ0JTSW5mbyIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1c" +
+                        "nM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTQ29kZVBlcmNlb" +
+                        "nQiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlb" +
+                        "WVudCBuYW1lPSJJdGVtLlBlcmNlbnQiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KI" +
+                        "CAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLldCU0NvZGVBbW91bnQiIHR5cGU9InhzO" +
+                        "nN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJd" +
+                        "GVtLkJ1ZGdldEFtb3VudCIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgI" +
+                        "CAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uV0JTUmVtYWluQW1vdW50IiB0eXBlPSJ4czpzdHJpb" +
+                        "mciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5XQ" +
+                        "lNCdWRnZXRRdHkiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgI" +
+                        "CA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLldCU1JlbWFpblF0eSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY" +
+                        "2N1cnM9IjAiIC8+DQogICAgICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgICAgIDwveHM6Y29tc" +
+                        "GxleFR5cGU+DQogICAgICAgIDwveHM6ZWxlbWVudD4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iY" +
+                        "Wxsb2NhdGV1bml0cHJpY2UiPg0KICAgICAgICAgIDx4czpjb21wbGV4VHlwZT4NCiAgICAgICAgICAgI" +
+                        "Dx4czpzZXF1ZW5jZT4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5Vbml0UHJpY" +
+                        "2VObyIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgICAgIDx4czplb" +
+                        "GVtZW50IG5hbWU9Ikl0ZW0uVW5pdFByaWNlIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgL" +
+                        "z4NCiAgICAgICAgICAgIDwveHM6c2VxdWVuY2U+DQogICAgICAgICAgPC94czpjb21wbGV4VHlwZT4NC" +
+                        "iAgICAgICAgPC94czplbGVtZW50Pg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJhbGxvY2F0ZXVua" +
+                        "XQiPg0KICAgICAgICAgIDx4czpjb21wbGV4VHlwZT4NCiAgICAgICAgICAgIDx4czpzZXF1ZW5jZT4NC" +
+                        "iAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXRlbS5Vbml0Tm8iIHR5cGU9InhzOnN0cmluZ" +
+                        "yIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLlVua" +
+                        "XQiIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgICAgPC94czpzZXF1Z" +
+                        "W5jZT4NCiAgICAgICAgICA8L3hzOmNvbXBsZXhUeXBlPg0KICAgICAgICA8L3hzOmVsZW1lbnQ+DQogI" +
+                        "CAgICAgIDx4czplbGVtZW50IG5hbWU9ImFsbG9jYXRlcXR5Ij4NCiAgICAgICAgICA8eHM6Y29tcGxle" +
+                        "FR5cGU+DQogICAgICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgICAgIDx4czplbGVtZW50I" +
+                        "G5hbWU9Ikl0ZW0uUXR5Tm8iIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgI" +
+                        "CAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJJdGVtLlF0eSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1c" +
+                        "nM9IjAiIC8+DQogICAgICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgICAgIDwveHM6Y29tcGxle" +
+                        "FR5cGU+DQogICAgICAgIDwveHM6ZWxlbWVudD4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iYWxsb" +
+                        "2NhdGVuYW1lIj4NCiAgICAgICAgICA8eHM6Y29tcGxleFR5cGU+DQogICAgICAgICAgICA8eHM6c2Vxd" +
+                        "WVuY2U+DQogICAgICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9Ikl0ZW0uTmFtZU5vIiB0eXBlPSJ4c" +
+                        "zpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iS" +
+                        "XRlbS5OYW1lIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICAgIDwve" +
+                        "HM6c2VxdWVuY2U+DQogICAgICAgICAgPC94czpjb21wbGV4VHlwZT4NCiAgICAgICAgPC94czplbGVtZ" +
+                        "W50Pg0KICAgICAgPC94czpjaG9pY2U+DQogICAgPC94czpjb21wbGV4VHlwZT4NCiAgPC94czplbGVtZ" +
+                        "W50Pg0KICA8eHM6YW5ub3RhdGlvbj4NCiAgICA8eHM6YXBwaW5mbz4NCiAgICAgIDxtc2RhdGE6UmVsY" +
+                        "XRpb25zaGlwIG5hbWU9InJlbGF0aW9uX2l0ZW1fVW5pdFByaWNlIiBtc2RhdGE6cGFyZW50PSJpdGVtI" +
+                        "iBtc2RhdGE6Y2hpbGQ9InVuaXRwcmljZSIgbXNkYXRhOnBhcmVudGtleT0icHJpX2xpbmVudW1iZXIiI" +
+                        "G1zZGF0YTpjaGlsZGtleT0iVW5pdFByaWNlTm8iIC8+DQogICAgICA8bXNkYXRhOlJlbGF0aW9uc2hpc" +
+                        "CBuYW1lPSJyZWxhdGlvbl9nZW5lcmFsX0FwcHJvdmUiIG1zZGF0YTpwYXJlbnQ9ImdlbmVyYWwiIG1zZ" +
+                        "GF0YTpjaGlsZD0iYXBwcm92ZSIgbXNkYXRhOnBhcmVudGtleT0icHJfaWQiIG1zZGF0YTpjaGlsZGtle" +
+                        "T0iQXBwcm92ZVBlcnNvbkxldmVsTm8iIC8+DQogICAgICA8bXNkYXRhOlJlbGF0aW9uc2hpcCBuYW1lP" +
+                        "SJyZWxhdGlvbl9pdGVtX05hbWUiIG1zZGF0YTpwYXJlbnQ9Iml0ZW0iIG1zZGF0YTpjaGlsZD0ibmFtZ" +
+                        "SIgbXNkYXRhOnBhcmVudGtleT0icHJpX2xpbmVudW1iZXIiIG1zZGF0YTpjaGlsZGtleT0iTmFtZU5vI" +
+                        "iAvPg0KICAgICAgPG1zZGF0YTpSZWxhdGlvbnNoaXAgbmFtZT0icmVsYXRpb25faXRlbV9RdHkiIG1zZ" +
+                        "GF0YTpwYXJlbnQ9Iml0ZW0iIG1zZGF0YTpjaGlsZD0icXR5IiBtc2RhdGE6cGFyZW50a2V5PSJwcmlfb" +
+                        "GluZW51bWJlciIgbXNkYXRhOmNoaWxka2V5PSJRdHlObyIgLz4NCiAgICAgIDxtc2RhdGE6UmVsYXRpb" +
+                        "25zaGlwIG5hbWU9InJlbGF0aW9uX2l0ZW1fYWxsb2NhdGUiIG1zZGF0YTpwYXJlbnQ9Iml0ZW0iIG1zZ" +
+                        "GF0YTpjaGlsZD0iYWxsb2NhdGUiIG1zZGF0YTpwYXJlbnRrZXk9InByaV9wciIgbXNkYXRhOmNoaWxka" +
+                        "2V5PSJwcml3X3ByaSIgLz4NCiAgICAgIDxtc2RhdGE6UmVsYXRpb25zaGlwIG5hbWU9InJlbGF0aW9uX" +
+                        "2l0ZW1fTm90ZSIgbXNkYXRhOnBhcmVudD0iaXRlbSIgbXNkYXRhOmNoaWxkPSJub3RlIiBtc2RhdGE6c" +
+                        "GFyZW50a2V5PSJwcmlfbGluZW51bWJlciIgbXNkYXRhOmNoaWxka2V5PSJOb3RlTm8iIC8+DQogICAgI" +
+                        "CA8bXNkYXRhOlJlbGF0aW9uc2hpcCBuYW1lPSJyZWxhdGlvbl9nZW5lcmFsX2l0ZW0iIG1zZGF0YTpwY" +
+                        "XJlbnQ9ImdlbmVyYWwiIG1zZGF0YTpjaGlsZD0iaXRlbSIgbXNkYXRhOnBhcmVudGtleT0icHJfaWQiI" +
+                        "G1zZGF0YTpjaGlsZGtleT0icHJpX3ByIiAvPg0KICAgICAgPG1zZGF0YTpSZWxhdGlvbnNoaXAgbmFtZ" +
+                        "T0icmVsYXRpb25faXRlbV9Vbml0IiBtc2RhdGE6cGFyZW50PSJpdGVtIiBtc2RhdGE6Y2hpbGQ9InVua" +
+                        "XQiIG1zZGF0YTpwYXJlbnRrZXk9InByaV9saW5lbnVtYmVyIiBtc2RhdGE6Y2hpbGRrZXk9IlVuaXROb" +
+                        "yIgLz4NCiAgICA8L3hzOmFwcGluZm8+DQogIDwveHM6YW5ub3RhdGlvbj4NCjwveHM6c2NoZW1hPkAAA" +
+                        "QAAAP////8BAAAAAAAAAAwCAAAAUVN5c3RlbS5EcmF3aW5nLCBWZXJzaW9uPTIuMC4wLjAsIEN1bHR1c" +
+                        "mU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAzZjVmN2YxMWQ1MGEzYQUBAAAAFVN5c3RlbS5EcmF3a" +
+                        "W5nLkJpdG1hcAEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAjQAAAAv/Y/+AAEEpGSUYAAQEBASwBLAAA/" +
+                        "+EQ3EV4aWYAAE1NACoAAAAIAAQBOwACAAAABgAACEqHaQAEAAAAAQAACFCcnQABAAAADAAAEMjqHAAHA" +
+                        "AAIDAAAAD4AAAAAHOoAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQYXRhaQAABZADAAIAAAAUAAAQnpAEAAIAAAAUA" +
+                        "AAQspKRAAIAAAADNTUAAJKSAAIAAAADNTUAAOocAAcAAAgMAAAIkgAAAAAc6gAAAAgAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAADIwMTA6MDQ6MDMgMTY6MzQ6MDIAMjAxMDowNDowMyAxNjozNDowMgAAAFAAYQB0AGEAaQAAAP/iD" +
+                        "FhJQ0NfUFJPRklMRQABAQAADEhMaW5vAhAAAG1udHJSR0IgWFlaIAfOAAIACQAGADEAAGFjc3BNU0ZUA" +
+                        "AAAAElFQyBzUkdCAAAAAAAAAAAAAAAAAAD21gABAAAAANMtSFAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEWNwcnQAAAFQAAAAM2Rlc2MAAAGEAAAAbHd0cHQAAAHwA" +
+                        "AAAFGJrcHQAAAIEAAAAFHJYWVoAAAIYAAAAFGdYWVoAAAIsAAAAFGJYWVoAAAJAAAAAFGRtbmQAAAJUA" +
+                        "AAAcGRtZGQAAALEAAAAiHZ1ZWQAAANMAAAAhnZpZXcAAAPUAAAAJGx1bWkAAAP4AAAAFG1lYXMAAAQMA" +
+                        "AAAJHRlY2gAAAQwAAAADHJUUkMAAAQ8AAAIDGdUUkMAAAQ8AAAIDGJUUkMAAAQ8AAAIDHRleHQAAAAAQ" +
+                        "29weXJpZ2h0IChjKSAxOTk4IEhld2xldHQtUGFja2FyZCBDb21wYW55AABkZXNjAAAAAAAAABJzUkdCI" +
+                        "ElFQzYxOTY2LTIuMQAAAAAAAAAAAAAAEnNSR0IgSUVDNjE5NjYtMi4xAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYWVogAAAAAAAA81EAAQAAAAEWzFhZWiAAAAAAA" +
+                        "AAAAAAAAAAAAAAAWFlaIAAAAAAAAG+iAAA49QAAA5BYWVogAAAAAAAAYpkAALeFAAAY2lhZWiAAAAAAA" +
+                        "AAkoAAAD4QAALbPZGVzYwAAAAAAAAAWSUVDIGh0dHA6Ly93d3cuaWVjLmNoAAAAAAAAAAAAAAAWSUVDI" +
+                        "Gh0dHA6Ly93d3cuaWVjLmNoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AAAAGRlc2MAAAAAAAAALklFQyA2MTk2Ni0yLjEgRGVmYXVsdCBSR0IgY29sb3VyIHNwYWNlIC0gc1JHQ" +
+                        "gAAAAAAAAAAAAAALklFQyA2MTk2Ni0yLjEgRGVmYXVsdCBSR0IgY29sb3VyIHNwYWNlIC0gc1JHQgAAA" +
+                        "AAAAAAAAAAAAAAAAAAAAAAAAABkZXNjAAAAAAAAACxSZWZlcmVuY2UgVmlld2luZyBDb25kaXRpb24ga" +
+                        "W4gSUVDNjE5NjYtMi4xAAAAAAAAAAAAAAAsUmVmZXJlbmNlIFZpZXdpbmcgQ29uZGl0aW9uIGluIElFQ" +
+                        "zYxOTY2LTIuMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdmlldwAAAAAAE6T+ABRfLgAQzxQAA+3MA" +
+                        "AQTCwADXJ4AAAABWFlaIAAAAAAATAlWAFAAAABXH+dtZWFzAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA" +
+                        "AACjwAAAAJzaWcgAAAAAENSVCBjdXJ2AAAAAAAABAAAAAAFAAoADwAUABkAHgAjACgALQAyADcAOwBAA" +
+                        "EUASgBPAFQAWQBeAGMAaABtAHIAdwB8AIEAhgCLAJAAlQCaAJ8ApACpAK4AsgC3ALwAwQDGAMsA0ADVA" +
+                        "NsA4ADlAOsA8AD2APsBAQEHAQ0BEwEZAR8BJQErATIBOAE+AUUBTAFSAVkBYAFnAW4BdQF8AYMBiwGSA" +
+                        "ZoBoQGpAbEBuQHBAckB0QHZAeEB6QHyAfoCAwIMAhQCHQImAi8COAJBAksCVAJdAmcCcQJ6AoQCjgKYA" +
+                        "qICrAK2AsECywLVAuAC6wL1AwADCwMWAyEDLQM4A0MDTwNaA2YDcgN+A4oDlgOiA64DugPHA9MD4APsA" +
+                        "/kEBgQTBCAELQQ7BEgEVQRjBHEEfgSMBJoEqAS2BMQE0wThBPAE/gUNBRwFKwU6BUkFWAVnBXcFhgWWB" +
+                        "aYFtQXFBdUF5QX2BgYGFgYnBjcGSAZZBmoGewaMBp0GrwbABtEG4wb1BwcHGQcrBz0HTwdhB3QHhgeZB" +
+                        "6wHvwfSB+UH+AgLCB8IMghGCFoIbgiCCJYIqgi+CNII5wj7CRAJJQk6CU8JZAl5CY8JpAm6Cc8J5Qn7C" +
+                        "hEKJwo9ClQKagqBCpgKrgrFCtwK8wsLCyILOQtRC2kLgAuYC7ALyAvhC/kMEgwqDEMMXAx1DI4MpwzAD" +
+                        "NkM8w0NDSYNQA1aDXQNjg2pDcMN3g34DhMOLg5JDmQOfw6bDrYO0g7uDwkPJQ9BD14Peg+WD7MPzw/sE" +
+                        "AkQJhBDEGEQfhCbELkQ1xD1ERMRMRFPEW0RjBGqEckR6BIHEiYSRRJkEoQSoxLDEuMTAxMjE0MTYxODE" +
+                        "6QTxRPlFAYUJxRJFGoUixStFM4U8BUSFTQVVhV4FZsVvRXgFgMWJhZJFmwWjxayFtYW+hcdF0EXZReJF" +
+                        "64X0hf3GBsYQBhlGIoYrxjVGPoZIBlFGWsZkRm3Gd0aBBoqGlEadxqeGsUa7BsUGzsbYxuKG7Ib2hwCH" +
+                        "CocUhx7HKMczBz1HR4dRx1wHZkdwx3sHhYeQB5qHpQevh7pHxMfPh9pH5Qfvx/qIBUgQSBsIJggxCDwI" +
+                        "RwhSCF1IaEhziH7IiciVSKCIq8i3SMKIzgjZiOUI8Ij8CQfJE0kfCSrJNolCSU4JWgllyXHJfcmJyZXJ" +
+                        "ocmtyboJxgnSSd6J6sn3CgNKD8ocSiiKNQpBik4KWspnSnQKgIqNSpoKpsqzysCKzYraSudK9EsBSw5L" +
+                        "G4soizXLQwtQS12Last4S4WLkwugi63Lu4vJC9aL5Evxy/+MDUwbDCkMNsxEjFKMYIxujHyMioyYzKbM" +
+                        "tQzDTNGM38zuDPxNCs0ZTSeNNg1EzVNNYc1wjX9Njc2cjauNuk3JDdgN5w31zgUOFA4jDjIOQU5Qjl/O" +
+                        "bw5+To2OnQ6sjrvOy07azuqO+g8JzxlPKQ84z0iPWE9oT3gPiA+YD6gPuA/IT9hP6I/4kAjQGRApkDnQ" +
+                        "SlBakGsQe5CMEJyQrVC90M6Q31DwEQDREdEikTORRJFVUWaRd5GIkZnRqtG8Ec1R3tHwEgFSEtIkUjXS" +
+                        "R1JY0mpSfBKN0p9SsRLDEtTS5pL4kwqTHJMuk0CTUpNk03cTiVObk63TwBPSU+TT91QJ1BxULtRBlFQU" +
+                        "ZtR5lIxUnxSx1MTU19TqlP2VEJUj1TbVShVdVXCVg9WXFapVvdXRFeSV+BYL1h9WMtZGllpWbhaB1pWW" +
+                        "qZa9VtFW5Vb5Vw1XIZc1l0nXXhdyV4aXmxevV8PX2Ffs2AFYFdgqmD8YU9homH1YklinGLwY0Njl2PrZ" +
+                        "EBklGTpZT1lkmXnZj1mkmboZz1nk2fpaD9olmjsaUNpmmnxakhqn2r3a09rp2v/bFdsr20IbWBtuW4Sb" +
+                        "mtuxG8eb3hv0XArcIZw4HE6cZVx8HJLcqZzAXNdc7h0FHRwdMx1KHWFdeF2Pnabdvh3VnezeBF4bnjMe" +
+                        "Sp5iXnnekZ6pXsEe2N7wnwhfIF84X1BfaF+AX5ifsJ/I3+Ef+WAR4CogQqBa4HNgjCCkoL0g1eDuoQdh" +
+                        "ICE44VHhauGDoZyhteHO4efiASIaYjOiTOJmYn+imSKyoswi5aL/IxjjMqNMY2Yjf+OZo7OjzaPnpAGk" +
+                        "G6Q1pE/kaiSEZJ6kuOTTZO2lCCUipT0lV+VyZY0lp+XCpd1l+CYTJi4mSSZkJn8mmia1ZtCm6+cHJyJn" +
+                        "PedZJ3SnkCerp8dn4uf+qBpoNihR6G2oiailqMGo3aj5qRWpMelOKWpphqmi6b9p26n4KhSqMSpN6mpq" +
+                        "hyqj6sCq3Wr6axcrNCtRK24ri2uoa8Wr4uwALB1sOqxYLHWskuywrM4s660JbSctRO1irYBtnm28Ldot" +
+                        "+C4WbjRuUq5wro7urW7LrunvCG8m70VvY++Cr6Evv+/er/1wHDA7MFnwePCX8Lbw1jD1MRRxM7FS8XIx" +
+                        "kbGw8dBx7/IPci8yTrJuco4yrfLNsu2zDXMtc01zbXONs62zzfPuNA50LrRPNG+0j/SwdNE08bUSdTL1" +
+                        "U7V0dZV1tjXXNfg2GTY6Nls2fHadtr724DcBdyK3RDdlt4c3qLfKd+v4DbgveFE4cziU+Lb42Pj6+Rz5" +
+                        "PzlhOYN5pbnH+ep6DLovOlG6dDqW+rl63Dr++yG7RHtnO4o7rTvQO/M8Fjw5fFy8f/yjPMZ86f0NPTC9" +
+                        "VD13vZt9vv3ivgZ+Kj5OPnH+lf65/t3/Af8mP0p/br+S/7c/23////hCxhodHRwOi8vbnMuYWRvYmUuY" +
+                        "29tL3hhcC8xLjAvADw/eHBhY2tldCBiZWdpbj0n77u/JyBpZD0nVzVNME1wQ2VoaUh6cmVTek5UY3prY" +
+                        "zlkJz8+DQo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIj48cmRmOlJERiB4bWxuczpyZ" +
+                        "GY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPjxyZGY6RGVzY3Jpc" +
+                        "HRpb24gcmRmOmFib3V0PSJ1dWlkOmZhZjViZGQ1LWJhM2QtMTFkYS1hZDMxLWQzM2Q3NTE4MmYxYiIge" +
+                        "G1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIi8+PHJkZjpEZXNjcmlwdGlvb" +
+                        "iByZGY6YWJvdXQ9InV1aWQ6ZmFmNWJkZDUtYmEzZC0xMWRhLWFkMzEtZDMzZDc1MTgyZjFiIiB4bWxuc" +
+                        "zp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iPjx4bXA6Q3JlYXRlRGF0ZT4yMDEwLTA0L" +
+                        "TAzVDE2OjM0OjAyLjU1MjwveG1wOkNyZWF0ZURhdGU+PC9yZGY6RGVzY3JpcHRpb24+PHJkZjpEZXNjc" +
+                        "mlwdGlvbiByZGY6YWJvdXQ9InV1aWQ6ZmFmNWJkZDUtYmEzZC0xMWRhLWFkMzEtZDMzZDc1MTgyZjFiI" +
+                        "iB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iPjxkYzpjcmVhdG9yPjxyZ" +
+                        "GY6U2VxIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zI" +
+                        "yI+PHJkZjpsaT5QYXRhaTwvcmRmOmxpPjwvcmRmOlNlcT4NCgkJCTwvZGM6Y3JlYXRvcj48L3JkZjpEZ" +
+                        "XNjcmlwdGlvbj48L3JkZjpSREY+PC94OnhtcG1ldGE+DQogICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAg";
+                    resourceString += "ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI" +
+                        "CAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIDw/eHBhY2tldCBlbmQ9J3cnP" +
+                        "z7/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA" +
+                        "QEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA" +
+                        "QEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCAAsAIwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAA" +
+                        "AECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0Kxw" +
+                        "RVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4e" +
+                        "XqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5" +
+                        "ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDB" +
+                        "AcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpK" +
+                        "jU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkp" +
+                        "aanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRA" +
+                        "xEAPwD+IevtHV/+Cfv7Tfh/VdS0LXtK+DWh65o19daXrGi6z+1b+yjper6TqdjO9tfabqem33xrgvdP1" +
+                        "CyuYpLe8sruCG5triOSGeKORGUfF1fWX7en/J7/AO1//wBnMfHD/wBWR4joF1S8n+Fv8y//AMMKftC+n" +
+                        "wI/8S7/AGR//n4Uf8MKftC+nwI/8S7/AGR//n4V+3P/AATy/wCCU37Gup+Nf2TvhB+2r41tZP2l/wBtb" +
+                        "4K6t+0f4B8BeKfGGoeBvgz8D/gRc6bquo/DHWPiKfDHiDwR48+Kvxi+M8Gi3OueD/hh4Z+J/wALdP8AD" +
+                        "PgcXmv+Jdd1DVhpPh/UvJP+Cof/AARkX9naXxF8Wv2Z/F3wd+KPwPsPDPi/xHaeIPgl8SdT+IHg/Vbr4" +
+                        "ZXukL8V/CFppms6x458TfDrx/8ADrwxrlh8Q9S8EeJfin8UIvEHw/0nx/4p0/xppN74GvfB9yDPzB8Kf" +
+                        "8E5/wBq/wAeeJdE8GeBvDHwo8Z+MPEuo22j+HPCnhT9qL9lnxF4l8QateOIrTS9E0LR/jPeapquo3UhE" +
+                        "dtZWFrcXM7kJFEzHFfU/wDw4A/4LE/9GKfFD/wf/DP/AObqvLf+CMH/ACld/wCCfn/Z0nwq/wDUht6/1" +
+                        "E/+ClH7cniT9hTwn+yn4j8NeAtD8fzftE/tw/AX9k3VrXXNXv8AR4/DWh/GG28az3/jDTpLC2uWvtW0U" +
+                        "+FYFs9NuVis7oXcpmnjMabgD/M+/wCHAH/BYn/oxT4of+D/AOGf/wA3VH/DgD/gsT/0Yp8UP/B/8M//A" +
+                        "Juq/wBUb9sn9q/4X/sPfsy/F39qn4ySan/wr/4QeHIta1Ox0SCG513XtU1TVtO8N+FfC2hwXM9raNrPi" +
+                        "vxXrWi+HdMe9urTT7e71OK51G7tLCG5uYvxx+HP/BZb9sDwL8Sf2cZf+Cg3/BNjXP2Qv2bf2xPHvhf4Z" +
+                        "/BD42ad8bPDHxOvfB3jz4gwvc/Djwr8bvB2naVpur+DLjxZb7ZZrzWrfwrfaAkGovd+HLoaP4gXRAWvl" +
+                        "93/AAfX+lr/AAj/APDgD/gsT/0Yp8UP/B/8M/8A5uqP+HAH/BYn/oxT4of+D/4Z/wDzdV/ZZ+xj/wAHN" +
+                        "fg39qb9kn9sv4h+IfhV4S+G/wC1h+y18HfiF8cPC/wQuPGOo3fhD4y+A/B2hvqP9oeGPEdzp1pq6ahom" +
+                        "pRnT/GuhJZXN7p+m3WmeItKm1Gyn1mDw96c/wDwXR/aX+N9h4e0H9hf9iTwj8cfFfgD9mD9nn9oT9sX4" +
+                        "l/E74/+EvgZ+z5+z5rXx7+EugfFTT/hzaeNPHT6TbeJrzTNN1m5F7ql1rmjy6f/AGRqkEukXg0rW73Sg" +
+                        "NfL7v8Ag+v9LX+IX/hwB/wWJ/6MU+KH/g/+Gf8A83VH/DgD/gsT/wBGKfFD/wAH/wAM/wD5uq/tH8L/A" +
+                        "PBwf8Q/hN8Uvgj4a/b0+F/7LfwT+GnxHs/2mdf8XfEb4J/tOeFv2jtP8MeH/gd8KPC/jTwpY6befDDU/" +
+                        "FGi6h48+IHjLXZPBlj4DuNQg8STvc+HZtO06d9fsPP2dI/4Loftn+Mj8KfC/wAPf+CcUniX45/tjP4l8" +
+                        "dfsV/s8ap8UY/B/jWX9mTwvLetJ+0h+0p4n1/TYfCnwz0HxRbxRf8IJ4YspJv8AhI10/wAQ6jceKdH0o" +
+                        "eCrnx2Br5fd/wAH1/pa/wAT/wDw4A/4LE/9GKfFD/wf/DP/AObqj/hwB/wWJ/6MU+KH/g/+Gf8A83Vf2" +
+                        "UftBf8ABxt8Xv2Zfgf8bbD45/sQw/B/9ub9nH4m/B/w78Rf2c/FXxSh8ReBfFvwu+Lllr91pHxW+GXxR" +
+                        "8I6ReW+r2EU+kWNhfWSWWp2Ol3Gu6SsWt61PLqFrpX1H4l/4OBfgHdWf/BOf4pfDW00DWP2eP2wNJ/at" +
+                        "1n46eK/EOr3lv44/Zqb9lT4R+G/ij438M6v4Z0iC8iv/Felx6xe22oWM8scGpaVFo/iDwxNqukeINJvb" +
+                        "sDXy+7/AIPr/S1/g0/4cAf8Fif+jFPih/4P/hn/APN1R/w4A/4LE/8ARinxQ/8AB/8ADP8A+bqv7Sp/+" +
+                        "C13/BSfx74O8HfHn4Vf8E7v2dvhl+zZ8ZY9U1j9n3xN+13+3b8FPgZ4/wDin4J02W2WHxlb+EPF3iPwr" +
+                        "NZW2pWl/pmqLY2cerW1rY6tpl3Za5ruj6lpOuan/Th4K1fUvEHg3wlr2s2um2Wr634Z0HV9Vs9H1O21v" +
+                        "SLTUtS0q0vb610rWbOSa01fTbe6mlisdTtZpba/tkiuoJHilViBr5fd/wAH1/pa/wCLv+1f+wb+1x+w3" +
+                        "e+CNO/av+CniD4Mah8R7XXr3wVZeItV8K6hd67Z+GJdJg1y6ht/Dev63La29lPrmmQia/W0jupJ5Esmu" +
+                        "GtLwW/yLX9tn/B6P/yV79gr/sm/x1/9Sf4cV/EnQMK/Y34lfsp+Cvi3+1v+338df2h/jJF+zt+yx8J/2" +
+                        "rvij4b8W/ES28J3HxA+IHjv4g+J/H3jXU/Dfwd+CHw5g1TQV8bfEPV9I0XVda1a71PxBoHhDwB4ZtG8S" +
+                        "+Mtcs4bnRdN1z8cq/p08GeBv2d/2xvjf+3R+xR+0J8RJPgBpegftYfto/FXwZ+0pf6VZeIPAfwa+IfxO" +
+                        "+Kf7NujeGvEPxT0OTWtFnsPhz4g0n4FeLvhv4l+Jt/qOjeHfh5rHjjwJp2pa9pw8cfZ9UBdV6P84nyV+" +
+                        "0la/wDBOr9sX4e+M/in8Pv29/2qNB/aD+BPwf0HSvCvgP8Ab9+F3w/stN+Mfw/+Gmm22heGfhp8HvGv7" +
+                        "PGr+L7Pwz4n0zS2tbHwr4V8X6PcRahIxgn1uz0m01bxNpnWfsm/D34g/sV/sD/tCftQ/tHeMND8EfCn9" +
+                        "qr4JfEP4d/sdfAy48UaJrPjn48fFf4vfDP4o/szav8AHKw8FaTqGp6r4Z+GfwX+Evxf+MNx4k8Q+ILPR" +
+                        "X13xLJ4R0Sziv7yPSIZ/pzxL/wQk8Nfs0/t4fsJ+DPBv7U/wY/bN+D2tXlv+0L+1n4qtPDHh7Tfhp8Af" +
+                        "gH8E/FfhPxL8TPEvxjZvHfxF8KD4YeNfB767pXg6/8AFep6JB441fStY8L/ANkFpoTP8RWXwy+LHiH/A" +
+                        "IK8/D34u/Db9m25+HPwi8cftZ6d+1b+z14Q+MXgtfhX8ENO/ZQn+PL/ABG8D63eJ4stfD3grwz8CrHwd" +
+                        "NaxXf2FrHwzp+nyyaRpFulxLZWEgM+k/wBkP9hzR/2YP+Cpf/BKL4wfBb42aH+09+yb+0H+0t4Km+EPx" +
+                        "x0Lw3qvgnVLfxN4O8TaPD47+FHxU+H2tT3WsfDv4o+Cm1jR7q80W/uZ7XXdB1fS/EWiXEkFxfWOl/3Bf" +
+                        "8F0v2Z/jV+0b+zJ8B9a+BPjD4AeBPFv7Lv7ZnwX/a11DxL+0343v/h78HbLRfhF4d+JFrAninxJp9pPL" +
+                        "DaXPinxV4Zt7u2a+0IXOlyaiIdd0+8W1Mn4L/tV/ty/DP49f8Ft/wBj34U/DDTrm88I+If+CgP7Jnxd8" +
+                        "KeM10xdP0Pxzp3w8+GviH4Wa18VvDk0vlXWtaF8T9R8SWPhXw74pW2Fj4v8I/Avwz4p0W91Twjq/hHU7" +
+                        "v8Ab3/g4Y+FHw6+MP7Bmg+GfiJ+0p8Gf2aY9K/aM+FXjLwjqf7RN34hs/gZ8WfGPhPTfGmr2fwX+KMnh" +
+                        "W01HxA3hbxPosOveIZk0vS9TuRfeELGVLVfKNzbgH56+LPib+0d/wAFK/gf+0j+yf8A8FGP2xv+CIHgj" +
+                        "9mnxh8G21q8+JX7Hf7SGreJPiX8MviX4b+JXw4v/hD408RWfxD+MF/4WX4b2vxDOgaR4nhvZ9GuNdu9Y" +
+                        "0Xwpp+uadfeIYHfgdA034+/to+Pf2X/AIX/APBR/wD4Kvf8EhvE37Lv7IPxN8LfH57L9l/49+H7z40ft" +
+                        "NeKfgbpGp6r4a1v4ty+KNd03QfC+h6bo0Ws634/u/CMGiadBpz65P8A2BNNBpni3w78u/8ABMbXP2d/i" +
+                        "h+3T4c/Yi+KP7KH/BGn9o34f/tQfBj4it4t8ff8E7fBvxcurL4caV8K7/QPizp+k/G6X4p2lrp954W8S" +
+                        "+MfAPhJdF0/T9Oimg8ZQeE9Ql1hfLi0y92/2Gv+CbvwK+NP/BIv/gqH42+GX7M3w/8AE37WHhn40f8AB" +
+                        "QP4Y/Arxbpnhe3n+I2naPo3hi20fQ/h34Jv0Buojf6DquueFND0qDCzvrz2ClVumYADPiV/wb36Pc/8E" +
+                        "g/2Y7LxZ8ff2Xvgv+2t8MtU8daH8Pf2grf4xwaJ8A/jx8L/ANoX4h+MvE+g/CPVPirPpWjz+IbbxP4P8" +
+                        "bXeoeAr3TtG1k3VxqPiDwzaWep+GvF2oajaeqfBL9mL4y/s83sPg/8A4Jq/tt/8Ejf2jdY/aq/ZP/Zy+" +
+                        "BP7Zf7Fv7Q3xri+IfhbxF8VPgz8BdH+C/jDxD8JG+EPiO18a+JfD3i2wi8TR6zo+rf8I95setX0l7pOr" +
+                        "276LY+E+F+Of7cv7Of7eH/BOL/gkP8AsBfsw+ML34lftd3fxg/YY8LeMPgrpvhvxFD4n+F7fs8eE4dD+" +
+                        "LuvfEJrvS7fT9C8NeFb7SLi5bV3vHhvtAFx4mtVfQ9M1e9sPzF+DFx/wSIb/giz43sfH1t4GuP+Cp8/j" +
+                        "r4rR/AdPhhZeJn/AGqG+Lknxb1EfAn7DdeEoftv9irnSTcR6nP9kk8PCSHTEfxI2gxsAfeH7Iv/AAb+X" +
+                        "eufHu0P7a2vfsH61+z/APBH42/te/E79qn4H/AP9oLxPHp3wL0/49/BbwJafB7w1Hpt1a2Pij4faT4L8" +
+                        "XeA7jVdJ0/x94vsryw8I+HdMvbnVvFPl6lG/wBP/s3/APBN3/goLofiz4f/AB0/Yc/bh/Ys/aF8V/sIH" +
+                        "xn+z3+yv8S/E/xKvfi14N+Mn7G/jG/1PXNO/Z+/aTh+GWlX174E8afCW8vZpvB974T17VIdV0/W4/D8e" +
+                        "o+CtK8BeGb7VPx18Vw/FpPiR+0U/wC3QnxBuv2dLP8Abf8A+CX8n/BWdPBv9vSX7zJ+zPrC6/L8QB4KP" +
+                        "9vSfD5fih/wkp8T/wBkHe3iFvC50PHi0+EyP29/Ytk/Ylvf+C4/wTuf+CMMFhH+zpb/ALLHxOj/AOCgs" +
+                        "3wftvFtp+z68cthqJ+AULR69HDox+JI8dLoklydGjBfTUuzaltTh+IWwA2/jN/wQ8/b9/ad/wCEz/ak/" +
+                        "aZ+LP7OnjP9uL4q/H/9ljVdQ8LfDqXxn4T/AGffg9+zZ8A9ev8AXtU8D+CNT13w7qni7xJ4m16+fR7+W" +
+                        "LXdMEUN3pcyt4m1aXVLzUTH8cP+DZjS9V/4KS+H/jd8D9d8L+F/2F/ippXxyHx8+BR1/V/D+t/DDxJ8a" +
+                        "/g/40+FnjLUvgTotroGq+GhpniVfEmk61p9jc3WjN4PvdLl02wSfw1YeG9I03+u2igD+Lz9pn/gjr/wW" +
+                        "b+LH7IXhH/gnfrlx/wTJ/aL+AfwLsNP8L/s3ftD/EW0+OHgb9p/4f8Ag3w8bDTfDMdj/YqXvgLw5rNp4" +
+                        "P0qx8FX9odD8a2k/h1I4bvW9a1S2tNZtf6//hB4V1PwL8Jfhd4I1prV9Z8HfDrwT4V1Z7GV57J9T8PeG" +
+                        "tM0i/aznligkmtWurOU28skELyQlHeKNiUX0SkJABJIAAJJJwABySSeAAOST0oA/gD/AOD0dlPxg/YLU" +
+                        "MCy/Db46FlBG4BvE/w52kjqA21sEjB2nHQ1/EpX9CX/AAcq/t2aB+2j/wAFE/EWgfD7VH1X4XfsyaNcf" +
+                        "BXw9fbCltqnjDTtWubj4l6vYCazsrxLNvEEUGgLHdxys03hya6triWyurbb/PbQAV+sPxL1L4TXX7W3x" +
+                        "W/ak+Bn/BR3wJ8JPEHi74w/Eb4leCtb0TwJ+1/4a8ceGbHxv4j1rVI7GfVPDfwMYQ3TaTq8mla1bWeoX" +
+                        "WnX0Et5YyveWFxIsv5PUUB1v6/jb/I/ZD4v/tFfE747fDmX4QfEv/grv8OdT+Fd5eW2o6x8OvD3wg/aW" +
+                        "+H3gzxPqNnIk1pqPjLw58PP2YPCuleNdRtbiOO6tr7xZbazdwXcaXcUyXKLKO4+Ef7af7Q3wN+FmmfBP" +
+                        "4b/APBZnwNp3ws0DA8LeDfEXwd/aN+IOneCUVdkUXgCb4h/ss+KtQ8AwW+WktbfwZeaHBaTSS3FtHFPL" +
+                        "JI34b0UAftV+yD4++BPwi/4KC/AT9tj9oX/AIKH+D/jBe/D/wCOvhL4vfE3WZ/h/wDtc+LPib42GhanB" +
+                        "eajIur+MPgrZrq2uXUECw28ms65bQ4SKJ7qGGNAv9p3xN/4OQf+CDvxq0C18KfGTVLz4teF7HVrfX7Lw" +
+                        "38Tf2UvE/jzQLPXbS0vtPtdatdH8VeEdV0631a2sNU1Oyt9RitkvIbTUb62jmWG7uEk/wAweigD/TX+F" +
+                        "/8AwcJ/8G+XwPu9Uv8A4LaZpXwgv9ctorPWr34X/sc6t4Au9XtIJfOgtdUufCfgjSZtQtoZv3sUF280U" +
+                        "cv7xFV+a7LwP/wcs/8ABDT4ZabqGjfDbxRrvw90fV9d1PxRquleB/2YPGPhPTdT8S608b6z4i1Cx0Hwt" +
+                        "YWt7rurPDC+p6vcxS6hfvFG11cSmNSP8vaigXzf4f5f1d+Vv9PHw9/wcb/8EFPCPjXxD8SvCl3L4Y+I3" +
+                        "i5ZV8V+P/D37JviPRfGvidZ5kuJ18Q+KtN8H22u60s1xHHPKNSv7kSTRpK+XVWHBeCv+C8f/BuJ8NfE9" +
+                        "p43+HXgPwP4B8Z6fJNLYeLvBX7Dr+FfE9lLcKyzyWmv6F8PrDVbaSdXdZnhu0aRWYOWDHP+aXRQHzf4f" +
+                        "5f1d+Vv9Pqy/wCDkP8A4IP6be/EHUtO1a+sNR+LTQN8Vb+y/ZU8UWt78TWtrG40y2b4g3UHhKOfxm1vp" +
+                        "t5d6fAfEcmpGKxuri0jKwTyxsvw5/4ORf8AghD8HtHufD3wj1e/+FmgXl7JqV5ofw5/ZV8U+CNHutRlU" +
+                        "JLf3OmeGfCWmWU97Iiqsl1LA07qoVpCABX+YJRQHzf4f5f1d+Vv9Tz/AIin/wDgjt/0WT4of+GI+Jn/A" +
+                        "MpKP+Ip/wD4I7f9Fk+KH/hiPiZ/8pK/yw6KA+b/AA/y/q78rf6kmv8A/B1f/wAEiNL0i+v9J+I/xc8Ta" +
+                        "ja28ktroWn/AAU8cWF5qUyKWS1t7vWrHTtLgklYBFkvL23hUsC8iqCR/OH/AMFQf+Dqr40ftQeDPFXwP" +
+                        "/Yv8HeIf2bvhv4psH0bxF8VNU1uBvjRrWj3lukOsab4efQ2ex8Aw3pE9pHrumate+IX0q7kNsdA1QQ3V" +
+                        "t/IvRQP5/l/l/V/QKKKKAP/2Qs=";
+                    this._resources = new DevExpress.XtraReports.Serialization.XRResourceManager(resourceString);
+                }
+                return this._resources;
+            }
+        }
+        private void InitializeComponent() {
+            DevExpress.XtraReports.UI.XRSummary summary1 = new DevExpress.XtraReports.UI.XRSummary();
+            this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
+            this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+            this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
+            this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
+            this.PageFooter = new DevExpress.XtraReports.UI.PageFooterBand();
+            this.DetailReport = new DevExpress.XtraReports.UI.DetailReportBand();
+            this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
+            this.label28 = new DevExpress.XtraReports.UI.XRLabel();
+            this.pageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.pictureBox1 = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.label4 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label3 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label2 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label1 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label5 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label6 = new DevExpress.XtraReports.UI.XRLabel();
+            this.table1 = new DevExpress.XtraReports.UI.XRTable();
+            this.label17 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label18 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label19 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label20 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label9 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label7 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label8 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label10 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label11 = new DevExpress.XtraReports.UI.XRLabel();
+            this.line1 = new DevExpress.XtraReports.UI.XRLine();
+            this.tableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
+            this.tableRow2 = new DevExpress.XtraReports.UI.XRTableRow();
+            this.tableRow3 = new DevExpress.XtraReports.UI.XRTableRow();
+            this.tableCell1 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell2 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell3 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell4 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.Detail1 = new DevExpress.XtraReports.UI.DetailBand();
+            this.label13 = new DevExpress.XtraReports.UI.XRLabel();
+            this.line2 = new DevExpress.XtraReports.UI.XRLine();
+            this.label14 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label12 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label15 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label16 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label23 = new DevExpress.XtraReports.UI.XRLabel();
+            this.line4 = new DevExpress.XtraReports.UI.XRLine();
+            this.line5 = new DevExpress.XtraReports.UI.XRLine();
+            this.label21 = new DevExpress.XtraReports.UI.XRLabel();
+            this.label25 = new DevExpress.XtraReports.UI.XRLabel();
+            this.crossBandLine4 = new DevExpress.XtraReports.UI.XRCrossBandLine();
+            this.crossBandLine3 = new DevExpress.XtraReports.UI.XRCrossBandLine();
+            this.crossBandLine2 = new DevExpress.XtraReports.UI.XRCrossBandLine();
+            this.crossBandLine1 = new DevExpress.XtraReports.UI.XRCrossBandLine();
+            this.crossBandBox1 = new DevExpress.XtraReports.UI.XRCrossBandBox();
+            this.printed = new DevExpress.XtraReports.UI.CalculatedField();
+            this.totalQuantity = new DevExpress.XtraReports.UI.CalculatedField();
+            ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            // 
+            // TopMargin
+            // 
+            this.TopMargin.HeightF = 32.91666F;
+            this.TopMargin.Name = "TopMargin";
+            // 
+            // Detail
+            // 
+            this.Detail.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.Detail.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
+            this.Detail.HeightF = 0F;
+            this.Detail.KeepTogetherWithDetailReports = true;
+            this.Detail.Name = "Detail";
+            this.Detail.StylePriority.UseBorderColor = false;
+            this.Detail.StylePriority.UseBorderDashStyle = false;
+            this.Detail.Visible = false;
+            // 
+            // BottomMargin
+            // 
+            this.BottomMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.label28,
+                        this.pageInfo1});
+            this.BottomMargin.HeightF = 31.57053F;
+            this.BottomMargin.Name = "BottomMargin";
+            // 
+            // PageHeader
+            // 
+            this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.pictureBox1,
+                        this.label4,
+                        this.label3,
+                        this.label2,
+                        this.label1,
+                        this.label5,
+                        this.label6,
+                        this.table1,
+                        this.label17,
+                        this.label18,
+                        this.label19,
+                        this.label20,
+                        this.label9,
+                        this.label7,
+                        this.label8,
+                        this.label10,
+                        this.label11,
+                        this.line1});
+            this.PageHeader.HeightF = 286.4414F;
+            this.PageHeader.Name = "PageHeader";
+            // 
+            // PageFooter
+            // 
+            this.PageFooter.HeightF = 2F;
+            this.PageFooter.Name = "PageFooter";
+            // 
+            // DetailReport
+            // 
+            this.DetailReport.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+                        this.Detail1});
+            this.DetailReport.DataMember = "Item";
+            this.DetailReport.Level = 0;
+            this.DetailReport.Name = "DetailReport";
+            // 
+            // ReportFooter
+            // 
+            this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.label23,
+                        this.line4,
+                        this.line5,
+                        this.label21,
+                        this.label25});
+            this.ReportFooter.HeightF = 76.77239F;
+            this.ReportFooter.Name = "ReportFooter";
+            this.ReportFooter.PrintAtBottom = true;
+            // 
+            // label28
+            // 
+            this.label28.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "printed")});
+            this.label28.Font = new System.Drawing.Font("Times New Roman", 8F);
+            this.label28.LocationFloat = new DevExpress.Utils.PointFloat(9.999984F, 0F);
+            this.label28.Name = "label28";
+            this.label28.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label28.SizeF = new System.Drawing.SizeF(567.2436F, 22.99998F);
+            this.label28.StylePriority.UseFont = false;
+            this.label28.StylePriority.UsePadding = false;
+            this.label28.Text = "label28";
+            // 
+            // pageInfo1
+            // 
+            this.pageInfo1.Font = new System.Drawing.Font("Times New Roman", 8F);
+            this.pageInfo1.Format = "หน้า {0}/ {1}";
+            this.pageInfo1.LocationFloat = new DevExpress.Utils.PointFloat(615F, 0F);
+            this.pageInfo1.Name = "pageInfo1";
+            this.pageInfo1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.pageInfo1.RunningBand = this.DetailReport;
+            this.pageInfo1.SizeF = new System.Drawing.SizeF(164.7659F, 22.99998F);
+            this.pageInfo1.StylePriority.UseFont = false;
+            this.pageInfo1.StylePriority.UsePadding = false;
+            this.pageInfo1.StylePriority.UseTextAlignment = false;
+            this.pageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.LocationFloat = new DevExpress.Utils.PointFloat(9.999999F, 0F);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.SizeF = new System.Drawing.SizeF(123.723F, 43.49161F);
+            this.pictureBox1.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
+            // 
+            // label4
+            // 
+            this.label4.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Bold);
+            this.label4.LocationFloat = new DevExpress.Utils.PointFloat(144.9491F, 68.99999F);
+            this.label4.Name = "label4";
+            this.label4.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label4.SizeF = new System.Drawing.SizeF(634.8164F, 23F);
+            this.label4.StylePriority.UseBorders = false;
+            this.label4.StylePriority.UseFont = false;
+            this.label4.StylePriority.UsePadding = false;
+            this.label4.Text = "เลขประจำตัวผู้เสียภาษี 3333333333";
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 8F);
+            this.label3.LocationFloat = new DevExpress.Utils.PointFloat(144.949F, 46.00002F);
+            this.label3.Name = "label3";
+            this.label3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label3.SizeF = new System.Drawing.SizeF(405.0062F, 23F);
+            this.label3.StylePriority.UseFont = false;
+            this.label3.StylePriority.UsePadding = false;
+            this.label3.Text = "โทรศัพท์ 0-2982-8838 (อัตโนมัติ) โทรสาร 0-2573-1010";
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 8F);
+            this.label2.LocationFloat = new DevExpress.Utils.PointFloat(144.949F, 23.00001F);
+            this.label2.Name = "label2";
+            this.label2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label2.SizeF = new System.Drawing.SizeF(405.0062F, 23F);
+            this.label2.StylePriority.UseFont = false;
+            this.label2.StylePriority.UsePadding = false;
+            this.label2.Text = "299/307 หมู่ 4 ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพฯ 10210";
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
+            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(144.9491F, 0F);
+            this.label1.Name = "label1";
+            this.label1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label1.SizeF = new System.Drawing.SizeF(218.4053F, 23F);
+            this.label1.StylePriority.UseFont = false;
+            this.label1.StylePriority.UsePadding = false;
+            this.label1.Text = "บริษัท ลองกองสตูดิโอจำกัด";
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 11F, System.Drawing.FontStyle.Bold);
+            this.label5.LocationFloat = new DevExpress.Utils.PointFloat(289.8458F, 102.0833F);
+            this.label5.Name = "label5";
+            this.label5.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label5.SizeF = new System.Drawing.SizeF(218.4053F, 23F);
+            this.label5.StylePriority.UseFont = false;
+            this.label5.StylePriority.UsePadding = false;
+            this.label5.StylePriority.UseTextAlignment = false;
+            this.label5.Text = "ใบขอซื้อ";
+            this.label5.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Times New Roman", 10F, System.Drawing.FontStyle.Bold);
+            this.label6.LocationFloat = new DevExpress.Utils.PointFloat(289.8459F, 126.125F);
+            this.label6.Name = "label6";
+            this.label6.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label6.SizeF = new System.Drawing.SizeF(218.4053F, 23F);
+            this.label6.StylePriority.UseFont = false;
+            this.label6.StylePriority.UsePadding = false;
+            this.label6.StylePriority.UseTextAlignment = false;
+            this.label6.Text = "Purchase Request";
+            this.label6.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // table1
+            // 
+            this.table1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.table1.Borders = DevExpress.XtraPrinting.BorderSide.None;
+            this.table1.LocationFloat = new DevExpress.Utils.PointFloat(9.999984F, 159.563F);
+            this.table1.Name = "table1";
+            this.table1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 1, 1, 0, 100F);
+            this.table1.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
+                        this.tableRow1,
+                        this.tableRow2,
+                        this.tableRow3});
+            this.table1.SizeF = new System.Drawing.SizeF(769.7656F, 72.57114F);
+            this.table1.StylePriority.UseBorderColor = false;
+            this.table1.StylePriority.UseBorders = false;
+            this.table1.StylePriority.UsePadding = false;
+            // 
+            // label17
+            // 
+            this.label17.LocationFloat = new DevExpress.Utils.PointFloat(563.055F, 102.0833F);
+            this.label17.Name = "label17";
+            this.label17.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 4, 4, 0, 100F);
+            this.label17.SizeF = new System.Drawing.SizeF(79.16663F, 23F);
+            this.label17.StylePriority.UsePadding = false;
+            this.label17.StylePriority.UseTextAlignment = false;
+            this.label17.Text = "เลขที่ใบขอซื้อ";
+            this.label17.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // label18
+            // 
+            this.label18.LocationFloat = new DevExpress.Utils.PointFloat(563.055F, 126.125F);
+            this.label18.Name = "label18";
+            this.label18.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 4, 4, 0, 100F);
+            this.label18.SizeF = new System.Drawing.SizeF(79.16663F, 23F);
+            this.label18.StylePriority.UsePadding = false;
+            this.label18.StylePriority.UseTextAlignment = false;
+            this.label18.Text = "วันที่";
+            this.label18.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // label19
+            // 
+            this.label19.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.label19.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
+            this.label19.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
+            this.label19.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "General.Code")});
+            this.label19.LocationFloat = new DevExpress.Utils.PointFloat(643.2217F, 102.0833F);
+            this.label19.Name = "label19";
+            this.label19.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 2, 4, 0, 100F);
+            this.label19.SizeF = new System.Drawing.SizeF(136.5441F, 22.99998F);
+            this.label19.StylePriority.UseBorderColor = false;
+            this.label19.StylePriority.UseBorderDashStyle = false;
+            this.label19.StylePriority.UseBorders = false;
+            this.label19.StylePriority.UsePadding = false;
+            this.label19.Text = "label19";
+            // 
+            // label20
+            // 
+            this.label20.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.label20.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
+            this.label20.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
+            this.label20.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "General.DocDate")});
+            this.label20.LocationFloat = new DevExpress.Utils.PointFloat(643.2215F, 126.0833F);
+            this.label20.Name = "label20";
+            this.label20.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 2, 4, 0, 100F);
+            this.label20.SizeF = new System.Drawing.SizeF(136.5442F, 22.99998F);
+            this.label20.StylePriority.UseBorderColor = false;
+            this.label20.StylePriority.UseBorderDashStyle = false;
+            this.label20.StylePriority.UseBorders = false;
+            this.label20.StylePriority.UsePadding = false;
+            this.label20.Text = "label20";
+            // 
+            // label9
+            // 
+            this.label9.LocationFloat = new DevExpress.Utils.PointFloat(194.2569F, 245.8333F);
+            this.label9.Name = "label9";
+            this.label9.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label9.SizeF = new System.Drawing.SizeF(426.4096F, 23.00002F);
+            this.label9.StylePriority.UsePadding = false;
+            this.label9.StylePriority.UseTextAlignment = false;
+            this.label9.Text = "รายการ";
+            this.label9.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // label7
+            // 
+            this.label7.LocationFloat = new DevExpress.Utils.PointFloat(13.96932F, 245.8333F);
+            this.label7.Name = "label7";
+            this.label7.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label7.SizeF = new System.Drawing.SizeF(49.5772F, 22.99998F);
+            this.label7.StylePriority.UsePadding = false;
+            this.label7.StylePriority.UseTextAlignment = false;
+            this.label7.Text = "ลำดับ";
+            this.label7.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // label8
+            // 
+            this.label8.LocationFloat = new DevExpress.Utils.PointFloat(70.63528F, 245.8333F);
+            this.label8.Name = "label8";
+            this.label8.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label8.SizeF = new System.Drawing.SizeF(117.3077F, 23.00002F);
+            this.label8.StylePriority.UsePadding = false;
+            this.label8.StylePriority.UseTextAlignment = false;
+            this.label8.Text = "รหัส";
+            this.label8.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // label10
+            // 
+            this.label10.LocationFloat = new DevExpress.Utils.PointFloat(628.032F, 245.8333F);
+            this.label10.Name = "label10";
+            this.label10.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label10.SizeF = new System.Drawing.SizeF(54.96802F, 23.00002F);
+            this.label10.StylePriority.UsePadding = false;
+            this.label10.StylePriority.UseTextAlignment = false;
+            this.label10.Text = "หน่วย";
+            this.label10.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // label11
+            // 
+            this.label11.LocationFloat = new DevExpress.Utils.PointFloat(690.0224F, 245.8333F);
+            this.label11.Name = "label11";
+            this.label11.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label11.SizeF = new System.Drawing.SizeF(85.57697F, 23.00002F);
+            this.label11.StylePriority.UsePadding = false;
+            this.label11.StylePriority.UseTextAlignment = false;
+            this.label11.Text = "จำนวน";
+            this.label11.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // line1
+            // 
+            this.line1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line1.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.line1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line1.LocationFloat = new DevExpress.Utils.PointFloat(10.76546F, 273.8997F);
+            this.line1.Name = "line1";
+            this.line1.SizeF = new System.Drawing.SizeF(769F, 2F);
+            this.line1.StylePriority.UseBorderColor = false;
+            this.line1.StylePriority.UseBorderDashStyle = false;
+            this.line1.StylePriority.UseForeColor = false;
+            // 
+            // tableRow1
+            // 
+            this.tableRow1.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+                        this.tableCell1,
+                        this.tableCell2});
+            this.tableRow1.Name = "tableRow1";
+            this.tableRow1.Weight = 1;
+            // 
+            // tableRow2
+            // 
+            this.tableRow2.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+                        this.tableCell3,
+                        this.tableCell4});
+            this.tableRow2.Name = "tableRow2";
+            this.tableRow2.Weight = 1;
+            // 
+            // tableRow3
+            // 
+            this.tableRow3.Cells.AddRange(new DevExpress.XtraReports.UI.XRTableCell[] {
+                        this.tableCell5,
+                        this.tableCell6});
+            this.tableRow3.Name = "tableRow3";
+            this.tableRow3.Weight = 1;
+            // 
+            // tableCell1
+            // 
+            this.tableCell1.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.tableCell1.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+                        | DevExpress.XtraPrinting.BorderSide.Right)));
+            this.tableCell1.Name = "tableCell1";
+            this.tableCell1.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 1, 4, 0, 100F);
+            this.tableCell1.StylePriority.UseBorderDashStyle = false;
+            this.tableCell1.StylePriority.UseBorders = false;
+            this.tableCell1.StylePriority.UsePadding = false;
+            this.tableCell1.Text = "วันที่ส่งของ";
+            this.tableCell1.Weight = 0.27273016309648934;
+            // 
+            // tableCell2
+            // 
+            this.tableCell2.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.tableCell2.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Top | DevExpress.XtraPrinting.BorderSide.Right)));
+            this.tableCell2.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "General.ReceivingDate")});
+            this.tableCell2.Name = "tableCell2";
+            this.tableCell2.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 1, 4, 0, 100F);
+            this.tableCell2.StylePriority.UseBorderDashStyle = false;
+            this.tableCell2.StylePriority.UseBorders = false;
+            this.tableCell2.StylePriority.UsePadding = false;
+            summary1.FormatString = "{0:dd/MM/yyyy}";
+            this.tableCell2.Summary = summary1;
+            this.tableCell2.Text = "tableCell2";
+            this.tableCell2.Weight = 1.7272698369035109;
+            // 
+            // tableCell3
+            // 
+            this.tableCell3.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.tableCell3.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+                        | DevExpress.XtraPrinting.BorderSide.Right)));
+            this.tableCell3.Name = "tableCell3";
+            this.tableCell3.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 1, 4, 0, 100F);
+            this.tableCell3.StylePriority.UseBorderDashStyle = false;
+            this.tableCell3.StylePriority.UseBorders = false;
+            this.tableCell3.StylePriority.UsePadding = false;
+            this.tableCell3.Text = "ผู้ขอซื้อ";
+            this.tableCell3.Weight = 0.27273022011414227;
+            // 
+            // tableCell4
+            // 
+            this.tableCell4.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.tableCell4.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Top | DevExpress.XtraPrinting.BorderSide.Right)));
+            this.tableCell4.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "General.RequestorInfo")});
+            this.tableCell4.Name = "tableCell4";
+            this.tableCell4.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 1, 4, 0, 100F);
+            this.tableCell4.StylePriority.UseBorderDashStyle = false;
+            this.tableCell4.StylePriority.UseBorders = false;
+            this.tableCell4.StylePriority.UsePadding = false;
+            this.tableCell4.Text = "tableCell4";
+            this.tableCell4.Weight = 1.7272697798858576;
+            // 
+            // tableCell5
+            // 
+            this.tableCell5.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.tableCell5.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
+                        | DevExpress.XtraPrinting.BorderSide.Right) 
+                        | DevExpress.XtraPrinting.BorderSide.Bottom)));
+            this.tableCell5.Name = "tableCell5";
+            this.tableCell5.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 1, 4, 0, 100F);
+            this.tableCell5.StylePriority.UseBorderDashStyle = false;
+            this.tableCell5.StylePriority.UseBorders = false;
+            this.tableCell5.StylePriority.UsePadding = false;
+            this.tableCell5.Text = "Cost Center";
+            this.tableCell5.Weight = 0.27273016309648934;
+            // 
+            // tableCell6
+            // 
+            this.tableCell6.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.tableCell6.Borders = ((DevExpress.XtraPrinting.BorderSide)(((DevExpress.XtraPrinting.BorderSide.Top | DevExpress.XtraPrinting.BorderSide.Right) 
+                        | DevExpress.XtraPrinting.BorderSide.Bottom)));
+            this.tableCell6.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "General.CostCenterInfo")});
+            this.tableCell6.Name = "tableCell6";
+            this.tableCell6.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 1, 4, 0, 100F);
+            this.tableCell6.StylePriority.UseBorderDashStyle = false;
+            this.tableCell6.StylePriority.UseBorders = false;
+            this.tableCell6.StylePriority.UsePadding = false;
+            this.tableCell6.Text = "tableCell6";
+            this.tableCell6.Weight = 1.7272698369035109;
+            // 
+            // Detail1
+            // 
+            this.Detail1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.label13,
+                        this.line2,
+                        this.label14,
+                        this.label12,
+                        this.label15,
+                        this.label16});
+            this.Detail1.HeightF = 27.99772F;
+            this.Detail1.Name = "Detail1";
+            // 
+            // label13
+            // 
+            this.label13.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Item.Item.Sequence")});
+            this.label13.LocationFloat = new DevExpress.Utils.PointFloat(13.96932F, 0F);
+            this.label13.Name = "label13";
+            this.label13.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label13.SizeF = new System.Drawing.SizeF(49.57716F, 22.99998F);
+            this.label13.StylePriority.UsePadding = false;
+            this.label13.StylePriority.UseTextAlignment = false;
+            this.label13.Text = "label13";
+            this.label13.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // line2
+            // 
+            this.line2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line2.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.line2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line2.LineStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+            this.line2.LocationFloat = new DevExpress.Utils.PointFloat(10F, 24F);
+            this.line2.Name = "line2";
+            this.line2.SizeF = new System.Drawing.SizeF(769F, 2F);
+            this.line2.StylePriority.UseBorderColor = false;
+            this.line2.StylePriority.UseBorderDashStyle = false;
+            this.line2.StylePriority.UseForeColor = false;
+            // 
+            // label14
+            // 
+            this.label14.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Item.Item.Description")});
+            this.label14.LocationFloat = new DevExpress.Utils.PointFloat(194.2569F, 0F);
+            this.label14.Name = "label14";
+            this.label14.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label14.SizeF = new System.Drawing.SizeF(426.4096F, 23.00001F);
+            this.label14.StylePriority.UsePadding = false;
+            this.label14.Text = "label14";
+            // 
+            // label12
+            // 
+            this.label12.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Item.Item.Code")});
+            this.label12.LocationFloat = new DevExpress.Utils.PointFloat(70.63528F, 0F);
+            this.label12.Name = "label12";
+            this.label12.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label12.SizeF = new System.Drawing.SizeF(117.3077F, 23F);
+            this.label12.StylePriority.UsePadding = false;
+            this.label12.Text = "label12";
+            // 
+            // label15
+            // 
+            this.label15.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Item.Item.Unit")});
+            this.label15.LocationFloat = new DevExpress.Utils.PointFloat(628.032F, 0F);
+            this.label15.Name = "label15";
+            this.label15.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label15.SizeF = new System.Drawing.SizeF(54.96802F, 23F);
+            this.label15.StylePriority.UsePadding = false;
+            this.label15.StylePriority.UseTextAlignment = false;
+            this.label15.Text = "label15";
+            this.label15.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            // 
+            // label16
+            // 
+            this.label16.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Item.Item.Qty")});
+            this.label16.LocationFloat = new DevExpress.Utils.PointFloat(690.0222F, 0F);
+            this.label16.Name = "label16";
+            this.label16.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label16.SizeF = new System.Drawing.SizeF(85.57697F, 22.99999F);
+            this.label16.StylePriority.UsePadding = false;
+            this.label16.StylePriority.UseTextAlignment = false;
+            this.label16.Text = "label16";
+            this.label16.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // label23
+            // 
+            this.label23.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
+            this.label23.CanGrow = false;
+            this.label23.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "totalQuantity")});
+            this.label23.LocationFloat = new DevExpress.Utils.PointFloat(13.96932F, 14.70825F);
+            this.label23.Name = "label23";
+            this.label23.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label23.SizeF = new System.Drawing.SizeF(173.9736F, 21.99999F);
+            this.label23.StylePriority.UsePadding = false;
+            this.label23.Text = "label23";
+            // 
+            // line4
+            // 
+            this.line4.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
+            this.line4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line4.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.line4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line4.LocationFloat = new DevExpress.Utils.PointFloat(9.999984F, 36.70829F);
+            this.line4.Name = "line4";
+            this.line4.SizeF = new System.Drawing.SizeF(769F, 2F);
+            this.line4.StylePriority.UseBorderColor = false;
+            this.line4.StylePriority.UseBorderDashStyle = false;
+            this.line4.StylePriority.UseForeColor = false;
+            // 
+            // line5
+            // 
+            this.line5.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
+            this.line5.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line5.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Solid;
+            this.line5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.line5.LocationFloat = new DevExpress.Utils.PointFloat(9.999974F, 11.70831F);
+            this.line5.Name = "line5";
+            this.line5.SizeF = new System.Drawing.SizeF(769F, 2F);
+            this.line5.StylePriority.UseBorderColor = false;
+            this.line5.StylePriority.UseBorderDashStyle = false;
+            this.line5.StylePriority.UseForeColor = false;
+            // 
+            // label21
+            // 
+            this.label21.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
+            this.label21.CanGrow = false;
+            this.label21.LocationFloat = new DevExpress.Utils.PointFloat(13.96932F, 39.70829F);
+            this.label21.Name = "label21";
+            this.label21.Padding = new DevExpress.XtraPrinting.PaddingInfo(4, 2, 4, 0, 100F);
+            this.label21.SizeF = new System.Drawing.SizeF(60.66592F, 22.99999F);
+            this.label21.StylePriority.UsePadding = false;
+            this.label21.Text = "หมายเหตุ";
+            // 
+            // label25
+            // 
+            this.label25.AnchorVertical = DevExpress.XtraReports.UI.VerticalAnchorStyles.Bottom;
+            this.label25.CanGrow = false;
+            this.label25.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "General.Note")});
+            this.label25.LocationFloat = new DevExpress.Utils.PointFloat(74.63524F, 39.55122F);
+            this.label25.Multiline = true;
+            this.label25.Name = "label25";
+            this.label25.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 4, 0, 100F);
+            this.label25.SizeF = new System.Drawing.SizeF(700.9642F, 36.21473F);
+            this.label25.StylePriority.UsePadding = false;
+            this.label25.Text = "label25";
+            // 
+            // crossBandLine4
+            // 
+            this.crossBandLine4.EndBand = this.ReportFooter;
+            this.crossBandLine4.EndPointFloat = new DevExpress.Utils.PointFloat(686F, 14.02882F);
+            this.crossBandLine4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.crossBandLine4.LocationFloat = new DevExpress.Utils.PointFloat(686F, 236.4167F);
+            this.crossBandLine4.Name = "crossBandLine4";
+            this.crossBandLine4.StartBand = this.PageHeader;
+            this.crossBandLine4.StartPointFloat = new DevExpress.Utils.PointFloat(686F, 236.4167F);
+            this.crossBandLine4.WidthF = 1.041687F;
+            // 
+            // crossBandLine3
+            // 
+            this.crossBandLine3.EndBand = this.ReportFooter;
+            this.crossBandLine3.EndPointFloat = new DevExpress.Utils.PointFloat(624F, 14.02882F);
+            this.crossBandLine3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.crossBandLine3.LocationFloat = new DevExpress.Utils.PointFloat(624F, 236.4167F);
+            this.crossBandLine3.Name = "crossBandLine3";
+            this.crossBandLine3.StartBand = this.PageHeader;
+            this.crossBandLine3.StartPointFloat = new DevExpress.Utils.PointFloat(624F, 236.4167F);
+            this.crossBandLine3.WidthF = 1.041748F;
+            // 
+            // crossBandLine2
+            // 
+            this.crossBandLine2.EndBand = this.ReportFooter;
+            this.crossBandLine2.EndPointFloat = new DevExpress.Utils.PointFloat(190F, 14.02882F);
+            this.crossBandLine2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.crossBandLine2.LocationFloat = new DevExpress.Utils.PointFloat(190F, 236.4167F);
+            this.crossBandLine2.Name = "crossBandLine2";
+            this.crossBandLine2.StartBand = this.PageHeader;
+            this.crossBandLine2.StartPointFloat = new DevExpress.Utils.PointFloat(190F, 236.4167F);
+            this.crossBandLine2.WidthF = 1.041611F;
+            // 
+            // crossBandLine1
+            // 
+            this.crossBandLine1.EndBand = this.ReportFooter;
+            this.crossBandLine1.EndPointFloat = new DevExpress.Utils.PointFloat(67F, 14.0288F);
+            this.crossBandLine1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.crossBandLine1.LocationFloat = new DevExpress.Utils.PointFloat(67F, 236.789F);
+            this.crossBandLine1.Name = "crossBandLine1";
+            this.crossBandLine1.StartBand = this.PageHeader;
+            this.crossBandLine1.StartPointFloat = new DevExpress.Utils.PointFloat(67F, 236.789F);
+            this.crossBandLine1.WidthF = 1.04171F;
+            // 
+            // crossBandBox1
+            // 
+            this.crossBandBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.crossBandBox1.BorderWidth = 1;
+            this.crossBandBox1.EndBand = this.PageFooter;
+            this.crossBandBox1.EndPointFloat = new DevExpress.Utils.PointFloat(9.999974F, 2F);
+            this.crossBandBox1.LocationFloat = new DevExpress.Utils.PointFloat(9.999974F, 236.4583F);
+            this.crossBandBox1.Name = "crossBandBox1";
+            this.crossBandBox1.StartBand = this.PageHeader;
+            this.crossBandBox1.StartPointFloat = new DevExpress.Utils.PointFloat(9.999974F, 236.4583F);
+            this.crossBandBox1.WidthF = 769.7656F;
+            // 
+            // printed
+            // 
+            this.printed.Expression = "Concat(\'พิมพ์ \',[PrintDate], \' โดย \',[PrintBy])";
+            this.printed.Name = "printed";
+            // 
+            // totalQuantity
+            // 
+            this.totalQuantity.Expression = "Concat(\'รวม \', [TotalSequence] , \' รายการ\')";
+            this.totalQuantity.Name = "totalQuantity";
+            // 
+            // PR_General
+            // 
+            this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+                        this.TopMargin,
+                        this.Detail,
+                        this.BottomMargin,
+                        this.PageHeader,
+                        this.PageFooter,
+                        this.DetailReport,
+                        this.ReportFooter});
+            this.CalculatedFields.AddRange(new DevExpress.XtraReports.UI.CalculatedField[] {
+                        this.printed,
+                        this.totalQuantity});
+            this.CrossBandControls.AddRange(new DevExpress.XtraReports.UI.XRCrossBandControl[] {
+                        this.crossBandLine4,
+                        this.crossBandLine3,
+                        this.crossBandLine2,
+                        this.crossBandLine1,
+                        this.crossBandBox1});
+            this.DataSourceSchema = resources.GetString("$this.DataSourceSchema");
+            this.DetailPrintCountOnEmptyDataSource = 10;
+            this.Margins = new System.Drawing.Printing.Margins(23, 20, 33, 32);
+            this.Name = "PR_General";
+            this.PageHeight = 1169;
+            this.PageWidth = 827;
+            this.PaperKind = System.Drawing.Printing.PaperKind.A4;
+            this.SnapGridSize = 5F;
+            this.Version = "10.2";
+            ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+        }
+    }
+}

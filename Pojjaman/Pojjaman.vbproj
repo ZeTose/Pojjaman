@@ -191,9 +191,6 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="AddIns\Customizations\NotRecommended\NotRecommended.addin" />
-    <Content Include="AddIns\Customizations\TextExport\TextExport.addin">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin">
       <SubType>Designer</SubType>
     </Content>
@@ -917,6 +914,7 @@
     <EmbeddedResource Include="licenses.licx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AddIns\Customizations\TextExport\" />
     <Folder Include="bin\" />
     <Folder Include="data\resources\dialogs\UML Designer\" />
   </ItemGroup>
