@@ -18,7 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IApprovAble, ICancelable, IHasIBillablePerson, IHasToCostCenter _
       , IDuplicable, ICheckPeriod, IWBSAllocatable _
-      , IHasCurrency, IAbleExceptAccountPeriod, ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
+      , IHasCurrency, IAbleExceptAccountPeriod, ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -2097,6 +2097,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>po_id>Item>poi_po")
+
+      dpiColl.RelationList.Add("general>po_id>UngroupItem>poi_po")
+
+      dpiColl.RelationList.Add("general>po_id>Ungroup2Item>poi_po")
+
+      dpiColl.RelationList.Add("UngroupItem>poi_po>Allocate>poiw_po")
+      dpiColl.RelationList.Add("UngroupItem>poi_linenumber>Allocate>poiw_poilinenumber")
+
+      dpiColl.RelationList.Add("Ungroup2Item>poi_po>Allocate>poiw_po")
+      dpiColl.RelationList.Add("Ungroup2Item>poi_linenumber>Allocate>poiw_poilinenumber")
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      'po_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "po_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+
       Me.RefreshTaxBase()
       'Code
       dpi = New DocPrintingItem
@@ -2476,7 +2498,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "LastPageAfterTaxText"
       dpi.Value = Configuration.FormatToString(Me.AfterTax, DigitConfig.CurrencyText)
-      dpi.DataType = "System.Decimal"
+      dpi.DataType = "System.String"
       dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
       dpiColl.Add(dpi)
 
@@ -2562,6 +2584,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim totalQty As Decimal = 0
       Dim totalItem As Decimal = 0
       For Each item As POItem In cloned.ItemCollection
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+        'poi_po
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poi_po"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+
         'Item.Code
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Code"
@@ -2843,6 +2876,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       prArr = New ArrayList
       line = 0
       For Each item As POItem In Me.ItemCollection
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+        'poi_po
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poi_po"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "UngroupItem"
+        dpiColl.Add(dpi)
+
+        'poi_linenumber
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poi_linenumber"
+        dpi.Value = item.LineNumber
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "UngroupItem"
+        dpiColl.Add(dpi)
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+
         'Item.UngroupCode
         dpi = New DocPrintingItem
         dpi.Mapping = "UngroupItem.Code"
@@ -3212,6 +3265,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         AndAlso Not item.Pritem.Pr Is Nothing AndAlso item.Pritem.Pr.Originated Then
           HeaderPRCode = item.Pritem.Pr.Code
         End If
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+        'poi_po
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poi_po"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Ungroup2Item"
+        dpiColl.Add(dpi)
+
+        'poi_linenumber
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poi_linenumber"
+        dpi.Value = item.LineNumber
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Ungroup2Item"
+        dpiColl.Add(dpi)
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+
         If Not prHash.Contains(HeaderPRCode) Then
           'Item.Code = PRCode
           dpi = New DocPrintingItem
@@ -3569,6 +3642,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim counter As Integer = 0
       Dim i As Integer = 0
       For Each item As POItem In Me.ItemCollection
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+        'poiw_po
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poiw_po"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        'poiw_poilinenumber
+        dpi = New DocPrintingItem
+        dpi.Mapping = "poiw_poilinenumber"
+        dpi.Value = item.LineNumber
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+
         'Item.Code
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Code"
@@ -4328,7 +4421,253 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
     '==============CURRENCY=================================
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
+      dpiColl.RelationList.Add("general>po_id>Item>poi_po")
+
+      dpiColl.RelationList.Add("general>po_id>UngroupItem>poi_po")
+
+      dpiColl.RelationList.Add("general>po_id>Ungroup2Item>poi_po")
+
+      dpiColl.RelationList.Add("UngroupItem>poi_po>Allocate>poiw_po")
+      dpiColl.RelationList.Add("UngroupItem>poi_linenumber>Allocate>poiw_poilinenumber")
+
+      dpiColl.RelationList.Add("Ungroup2Item>poi_po>Allocate>poiw_po")
+      dpiColl.RelationList.Add("Ungroup2Item>poi_linenumber>Allocate>poiw_poilinenumber")
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("po_id", "System.String"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceivingDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.Int32"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TermNote", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryTime", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PlaceOfDelivery", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Attachment", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Special", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Contact", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierFax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierContact", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCurrentAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierNote", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAddress", "System.String"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAdminInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAdminCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAdminName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAdmin", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterFax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Customer", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxBase", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageGross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageDiscountRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageDiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageBeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageTaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageAfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageAfterTaxText", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonLastLevel", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AuthorizeId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefPRCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalItem", "System.Int32"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalQty", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroupPRCode", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroup2PRDocDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroup2PRCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroup2PRRequestor", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Retention", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RetentionNote", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonNo", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonLevel", "System.Int32", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonCode", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonName", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonInfo", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonDate", "System.DateTime", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonComment", "System.String", "ApprovePerson"))
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poi_po", "System.String", "Item"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Sequence", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitInfo", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitNet", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DiscountRate", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DiscountAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ZeroVat", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.NameWithNote", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodePercent", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodeAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainQty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LciNote", "System.String", "Item"))
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poi_po", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poi_linenumber", "System.String", "UngroupItem"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.Code", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.LineNumber", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UnitCode", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.Unit", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UnitInfo", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.Qty", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UnitPrice", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UnitNet", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.DiscountRate", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.DiscountAmount", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.Amount", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.ZeroVat", "System.Boolean", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.Name", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.NameWithNote", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UngroupWBSCode", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UngroupWBSCodePercent", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UngroupWBSCodeAmount", "System.Decimal", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UngroupWBSRemainAmount", "System.Decimal", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UngroupWBSRemainQty", "System.Decimal", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.Note", "System.String", "UngroupItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UngroupItem.UngroupLciNote", "System.String", "UngroupItem"))
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poi_po", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poi_linenumber", "System.String", "Ungroup2Item"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.PRCode", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Code", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.LineNumber", "System.Int32", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.UnitCode", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Unit", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.UnitInfo", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Qty", "System.Decimal", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.UnitPrice", "System.Decimal", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.UnitNet", "System.Decimal", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.DiscountRate", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.DiscountAmount", "System.Decimal", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Amount", "System.Decimal", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.ZeroVat", "System.Boolean", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Name", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.NameWithNote", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Ungroup2WBSCode", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Ungroup2WBSCodePercent", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Ungroup2WBSCodeAmount", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Ungroup2WBSRemainAmount", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Ungroup2WBSRemainQty", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Note", "System.String", "Ungroup2Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Ungroup2Item.Ungroup2LciNote", "System.String", "Ungroup2Item"))
+
+
+      dpiColl.AddRange(GetAllocateDocPrintingColumns)
+
+      Return dpiColl
+    End Function
+
+    Public Function GetAllocateDocPrintingColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poiw_po", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("poiw_poilinenumber", "System.String", "Allocate"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitNet", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCostCenter", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCode", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSName", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSInfo", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CBSCode", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CBSName", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CBSInfo", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodePercent", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Percent", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodeAmount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.BudgetAmount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainAmount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSBudgetQty", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainQty", "System.String", "Allocate"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemUnitPrice.UnitPriceNo", "System.String", "ItemUnitPrice"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemUnitPrice.UnitPrice", "System.String", "ItemUnitPrice"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemUnit.UnitNo", "System.String", "ItemUnit"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemUnit.Unit", "System.String", "ItemUnit"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemQty.QtyNo", "System.String", "ItemQty"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemQty.Qty", "System.String", "ItemQty"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName.NameNo", "System.String", "ItemName"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName.Name", "System.String", "ItemName"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          Dim obj As Object = Configuration.GetConfig("ApprovePO")
+          If CBool(obj) Then
+            If Me.IsAuthorized Then
+              Return "Authorized"
+            ElseIf Me.IsLevelApproved Then
+              Return "Approved"
+            End If
+          End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
 
   End Class
   Public Class POStatus
