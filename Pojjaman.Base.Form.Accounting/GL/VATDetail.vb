@@ -1385,7 +1385,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Get
 				Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
 				Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
-				Dim ReportPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "reports")
+        Dim ReportPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "reports")
+        Dim PrintingReportType As ReportExtentionType = ReportExtentionType.XMLReport
 				Dim thePath As String = ""
 				Dim fileName As String = (New VatItem).GetDefaultForm
 				If fileName Is Nothing OrElse fileName.Length = 0 Then
@@ -1403,23 +1404,57 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					thePath = dlg.KeyValuePair.Value
 				Else
 					Return Nothing
-				End If
-				If Not Me.m_vat Is Nothing Then
-					Dim arr As New ArrayList
-					For i As Integer = 0 To Me.m_vat.ItemCollection.Count - 1
-						If Not m_treeManager.Treetable.Rows(i).IsNull("Selected") Then
-							If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
-								Dim item As VatItem = Me.m_vat.ItemCollection(i)
+        End If
+        If thePath.EndsWith(".rpt") Then
+          PrintingReportType = ReportExtentionType.CrystalReport
+        ElseIf thePath.EndsWith(".repx") Then
+          PrintingReportType = ReportExtentionType.XtraReport
+        End If
+        If Not Me.m_vat Is Nothing Then
+          '--Report form แบบใหม่--
+          If PrintingReportType = ReportExtentionType.CrystalReport Then
+            Dim crform As New CrystalForm(Me.Entity, thePath)
+            crform.ShowDialog()
+            Return Nothing
+          ElseIf PrintingReportType = ReportExtentionType.XtraReport Then
+            If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              '--เฉพาะรายงานเท่านั้นที่จะเข้าส่วนนี้--
+              '--เพราะว่า Entity เป็นรายงานจริง แต่ว่า Schema และ Data อยากได้ข้อมูลที่มาจาก Grid ที่ Preview อยู่--
+              '--ยัดค่ามาจาก GridReportPanelView เรียบร้อยแล้ว--
+              If Not m_vat.NewPrintableEntities Is Nothing AndAlso
+                TypeOf m_vat.NewPrintableEntities Is GridReportPanelView Then
+                Dim xtform As New XtraForm(m_vat.NewPrintableEntities, thePath, m_vat)
+                xtform.ShowDialog()
+                Return Nothing
+              End If
+            End If
+
+            If TypeOf m_vat Is INewPrintableEntity Then
+              Dim xtform As New XtraForm(CType(m_vat, INewPrintableEntity), thePath, m_vat)
+              xtform.ShowDialog()
+            End If
+
+            'Dim xtform As New XtraForm(Me.Entity, thePath, New SuperPrintableEntity)
+
+            Return Nothing
+          End If
+
+          '--Report form แบบเดิม--
+          Dim arr As New ArrayList
+          For i As Integer = 0 To Me.m_vat.ItemCollection.Count - 1
+            If Not m_treeManager.Treetable.Rows(i).IsNull("Selected") Then
+              If CBool(m_treeManager.Treetable.Rows(i)("Selected")) Then
+                Dim item As VatItem = Me.m_vat.ItemCollection(i)
                 If File.Exists(thePath) Then
                   Dim newItem As New VatItemWithCustomNote(item)
                   Dim df As New DesignerForm(thePath, newItem)
                   arr.Add(df.PrintDocument)
                 End If
-							End If
-						End If
-					Next
-					Return arr
-				End If
+              End If
+            End If
+          Next
+          Return arr
+        End If
 			End Get
 		End Property
 		Public Overrides ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument
@@ -1435,32 +1470,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Grid Resizing"
-		Private Sub tgItem_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs)
-			If Me.m_vat Is Nothing Then
-				Return
-			End If
-			RefreshBlankGrid()
-		End Sub
-		Private Sub RefreshBlankGrid()
-			If Me.tgItem.Height = 0 Then
-				Return
-			End If
-			Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-			Dim index As Integer = tgItem.CurrentRowIndex
-			Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
-				'เพิ่มแถวจนเต็ม
-				Me.m_treeManager.Treetable.Childs.Add()
-			Loop
+    Private Sub tgItem_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      If Me.m_vat Is Nothing Then
+        Return
+      End If
+      RefreshBlankGrid()
+    End Sub
+    Private Sub RefreshBlankGrid()
+      If Me.tgItem.Height = 0 Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      Dim index As Integer = tgItem.CurrentRowIndex
+      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
+        'เพิ่มแถวจนเต็ม
+        Me.m_treeManager.Treetable.Childs.Add()
+      Loop
 
-			If Me.m_vat.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
-				'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-				Me.m_treeManager.Treetable.Childs.Add()
-			End If
+      If Me.m_vat.ItemCollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+        Me.m_treeManager.Treetable.Childs.Add()
+      End If
 
-			Me.m_treeManager.Treetable.AcceptChanges()
-			tgItem.CurrentRowIndex = Math.Max(0, index)
-			Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
-		End Sub
+      Me.m_treeManager.Treetable.AcceptChanges()
+      tgItem.CurrentRowIndex = Math.Max(0, index)
+      Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
+    End Sub
 #End Region
 
 #Region "After the main entity has been saved"
@@ -1511,6 +1546,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+    Public Overrides Sub ShowSelectSchemaDataDialog()
+      If Not Me.Entity Is Nothing Then
+        If TypeOf Me.Entity Is ISimpleEntity Then
+          If TypeOf Me.Entity Is IVatable Then
+            If Not CType(Me.Entity, IVatable).Vat Is Nothing Then
+              Dim m_newvat As Vat = CType(Me.Entity, IVatable).Vat
+
+              'If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              'If TypeOf Me.Entity Is INewPrintableEntity Then
+              m_newvat.NewPrintableEntities = CType(m_newvat, INewPrintableEntity)
+              Dim dialog As New SchemaDataExportDialog(CType(m_newvat, INewPrintableEntity), m_newvat) ', New SuperPrintableEntity)
+              dialog.StartPosition = FormStartPosition.CenterParent
+              dialog.ShowDialog()
+              'End If
+              'End If
+            End If
+          End If
+        End If
+      End If
+    End Sub
 
 	End Class
 End Namespace

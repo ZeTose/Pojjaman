@@ -2094,8 +2094,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
         Dim ReportPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "reports")
+        Dim PrintingReportType As ReportExtentionType = ReportExtentionType.XMLReport
         Dim thePath As String = ""
-
         If Not Me.m_wht Is Nothing Then
           If TypeOf Me.m_wht Is IPrintableEntity Then
             'thePath = Microsoft.VisualBasic.InputBox("เลือกฟอร์ม", "เลือกฟอร์ม", thePath)
@@ -2116,8 +2116,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Else
               Return Nothing
             End If
-
+            If thePath.EndsWith(".rpt") Then
+              PrintingReportType = ReportExtentionType.CrystalReport
+            ElseIf thePath.EndsWith(".repx") Then
+              PrintingReportType = ReportExtentionType.XtraReport
+            End If
             If File.Exists(thePath) Then
+              '--Report form แบบใหม่--
+              If PrintingReportType = ReportExtentionType.CrystalReport Then
+                Dim crform As New CrystalForm(Me.Entity, thePath)
+                crform.ShowDialog()
+                Return Nothing
+              ElseIf PrintingReportType = ReportExtentionType.XtraReport Then
+                If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+                  '--เฉพาะรายงานเท่านั้นที่จะเข้าส่วนนี้--
+                  '--เพราะว่า Entity เป็นรายงานจริง แต่ว่า Schema และ Data อยากได้ข้อมูลที่มาจาก Grid ที่ Preview อยู่--
+                  '--ยัดค่ามาจาก GridReportPanelView เรียบร้อยแล้ว--
+                  If Not m_wht.NewPrintableEntities Is Nothing AndAlso
+                    TypeOf m_wht.NewPrintableEntities Is GridReportPanelView Then
+                    Dim xtform As New XtraForm(m_wht.NewPrintableEntities, thePath, m_wht)
+                    xtform.ShowDialog()
+                    Return Nothing
+                  End If
+                End If
+
+                If TypeOf m_wht Is INewPrintableEntity Then
+                  Dim xtform As New XtraForm(CType(m_wht, INewPrintableEntity), thePath, m_wht)
+                  xtform.ShowDialog()
+                End If
+
+                'Dim xtform As New XtraForm(Me.Entity, thePath, New SuperPrintableEntity)
+
+                Return Nothing
+              End If
               'Dim df As New DesignerForm(thePath, CType(Me.m_wht, IPrintableEntity))
               Dim df As New DesignerForm(thePath, New SuperPrintableEntity)
               Return df.PrintDocument
@@ -2252,6 +2283,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Sub SetNothing() Implements ISetNothingEntity.SetNothing
       Me.m_entity = Nothing
+    End Sub
+
+    Public Overrides Sub ShowSelectSchemaDataDialog()
+      If Not Me.m_wht Is Nothing Then
+        Me.m_wht.NewPrintableEntities = CType(Me.m_wht, INewPrintableEntity)
+        Dim dialog As New SchemaDataExportDialog(CType(Me.m_wht, INewPrintableEntity), Me.m_wht) ', New SuperPrintableEntity)
+        dialog.StartPosition = FormStartPosition.CenterParent
+        dialog.ShowDialog()
+      End If
+      'If Not Me.Entity Is Nothing Then
+      '  If TypeOf Me.Entity Is ISimpleEntity Then
+      '    If TypeOf Me.Entity Is IWitholdingTaxable Then
+      '      If Not CType(Me.Entity, IWitholdingTaxable).WitholdingTaxCollection Is Nothing Then
+      '        Dim m_whtColl As WitholdingTaxCollection = CType(Me.Entity, IWitholdingTaxable).WitholdingTaxCollection
+
+      '        'If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+      '        'If TypeOf Me.Entity Is INewPrintableEntity Then
+      '        m_whtColl.NewPrintableEntities = CType(m_whtColl, INewPrintableEntity)
+      '        Dim dialog As New SchemaDataExportDialog(CType(m_newvat, INewPrintableEntity), m_newvat) ', New SuperPrintableEntity)
+      '        dialog.StartPosition = FormStartPosition.CenterParent
+      '        dialog.ShowDialog()
+      '        'End If
+      '        'End If
+      '      End If
+      '    End If
+      '  End If
+      'End If
     End Sub
 
   End Class

@@ -584,7 +584,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "InewPrintable"
-    Public Sub ShowSelectSchemaDataDialog() Implements INewPrintable.ShowSelectSchemaDataDialog
+    Public Overridable Sub ShowSelectSchemaDataDialog() Implements INewPrintable.ShowSelectSchemaDataDialog
       If Not Me.Entity Is Nothing Then
         If TypeOf Me.Entity Is ISimpleEntity Then
           'Dim exdata As EntitySimpleSchema = CType(Me.Entity, INewPrintable).SimpleSchema
@@ -716,11 +716,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "IPrintable"
     Private thePath As String = ""
-    Private Enum ReportExtentionType
-      CrystalReport
-      XtraReport
-      XMLReport
-    End Enum
     Public Overridable ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument Implements IPrintable.PrintDocument
       Get
         Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)

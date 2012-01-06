@@ -81,7 +81,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class WitholdingTax
     Inherits SimpleBusinessEntityBase
-		Implements IPrintableEntity, IHasMainDoc
+    Implements IPrintableEntity, IHasMainDoc, INewPrintableEntity
 
 #Region "Members"
     Private wht_bookNo As String
@@ -1518,6 +1518,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      'wht_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "wht_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -2047,6 +2054,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.RefDoc Is Nothing Then
         Dim n As Integer = 0
         For Each w As WitholdingTax In Me.RefDoc.WitholdingTaxCollection
+          'whti_wht
+          dpi = New DocPrintingItem
+          dpi.Mapping = "whti_wht"
+          dpi.Value = Me.Id
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "ItemWHT"
+          dpiColl.Add(dpi)
+
           'ItemWHT.Code
           dpi = New DocPrintingItem
           dpi.Mapping = "ItemWHT.Code"
@@ -2055,7 +2071,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Row = n + 1
           dpi.Table = "ItemWHT"
           dpiColl.Add(dpi)
-
 
           'ItemWHT.DocDate
           dpi = New DocPrintingItem
@@ -2102,6 +2117,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim n As Integer = 0
           For Each item As JournalEntryItem In je.ItemCollection
+            'whti_wht
+            dpi = New DocPrintingItem
+            dpi.Mapping = "whti_wht"
+            dpi.Value = Me.Id
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
             'Item.LineNumber
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.LineNumber"
@@ -2207,6 +2231,170 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Function ToString() As String
       Return Me.Code
     End Function
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+
+      dpiColl.RelationList.Add("general>wht_id>item>whti_wht")
+      dpiColl.RelationList.Add("general>wht_id>ItemWHT>whti_wht")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("wht_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BookNo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CodeRef", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDateRef", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SequenceNO", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PrintName", "System.String"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo", "System.String"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentTaxId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PrintAddress", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityIdNo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityIdNo1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityIdNo2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityIdNo3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityIdNo4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityIdNo5", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityTaxId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityTaxId1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityTaxId2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityTaxId3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EntityTaxId4", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxId1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxId2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxId3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxId4", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentIdNo5", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentTaxId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentTaxId1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentTaxId2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentTaxId3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentTaxId4", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RepresentAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHT", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EmployerAcct", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EmployeeSSN", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CompanySupport", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("License", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Cumulative", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PaymentType1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PaymentType2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PaymentType3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PaymentType4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("OtherPaymentType", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type5", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type6", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Type7", "System.String"))
+   
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate1", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName2", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate2", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName3", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate3", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName4", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate4", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount5", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang5", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount5", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang5", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName5", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate5", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount6", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang6", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount6", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang6", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName6", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate6", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount7", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Satang7", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTAmount7", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHTSatang7", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemName7", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemDocDate7", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("whti_wht", "System.String", "ItemWHT"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemWHT.Code", "System.String", "ItemWHT"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemWHT.DocDate", "System.DateTime", "ItemWHT"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemWHT.WHT", "System.String", "ItemWHT"))
+
+      dpiColl.AddRange(GetGLDocPrintingEntriesColumns)
+      dpiColl.AddRange(GetPVRVDocPrintingEntriesColumns)
+      Return dpiColl
+    End Function
+    Private Function GetGLDocPrintingEntriesColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountBook", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("whti_wht", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AccountCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AccountName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Debit", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Credit", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostCenter", "System.String", "Item"))
+
+      Return dpiColl
+    End Function
+    Private Function GetPVRVDocPrintingEntriesColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PVRVCode", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
 
   End Class
 

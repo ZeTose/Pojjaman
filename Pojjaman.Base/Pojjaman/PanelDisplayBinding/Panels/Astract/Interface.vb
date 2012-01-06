@@ -5,6 +5,11 @@ Imports Longkong.Pojjaman.Gui
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
 Namespace Longkong.Pojjaman.Gui.Panels
+  Public Enum ReportExtentionType
+    CrystalReport
+    XtraReport
+    XMLReport
+  End Enum
   Public Interface INewPrintable
     Sub ShowSelectSchemaDataDialog()
   End Interface
