@@ -31,7 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, ICancelable, IDuplicable, ICheckPeriod, IAdvancePayItemAble, IHasIBillablePerson, IVatable, IWitholdingTaxable _
      , IBillAcceptable, IWBSAllocatable, IApprovAble, ICanDelayWHT, IGLCheckingBeforeRefresh, IHasToCostCenter, INewGLAble _
-     , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
+     , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble, IDocStatus, INewPrintableEntity
 
 
 #Region "Members"
@@ -2803,9 +2803,225 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Property
 #End Region
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>pa_id>item>pai_pa")
+      dpiColl.RelationList.Add("general>pa_id>Approve>ApprovePersonLevelNo")
+
+      dpiColl.RelationList.Add("item>pai_pa>allocate>pai_pa")
+      dpiColl.RelationList.Add("item>pai_sequence>allocate>pai_sequence")
+
+      'dpiColl.RelationList.Add("item>pri_linenumber>UnitPrice>UnitPriceNo")
+      'dpiColl.RelationList.Add("item>pri_linenumber>Unit>UnitNo")
+      'dpiColl.RelationList.Add("item>pri_linenumber>Qty>QtyNo")
+      'dpiColl.RelationList.Add("item>pri_linenumber>Name>NameNo")
+      'dpiColl.RelationList.Add("item>pri_linenumber>Note>NoteNo")
+
+      'dpiColl.RelationList.Add("Allocate>priw_linenumber>AllocateUnitPrice>UnitPriceNo")
+      'dpiColl.RelationList.Add("Allocate>priw_linenumber>AllocateUnit>UnitNo")
+      'dpiColl.RelationList.Add("Allocate>priw_linenumber>AllocateQty>QtyNo")
+      'dpiColl.RelationList.Add("Allocate>priw_linenumber>AllocateName>NameNo")
+
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pa_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("OtherDocCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("OtherDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ContactPerson", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCDocDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCStartDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCEndDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCContractAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VOContractAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCReceivedAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VOReceivedAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorBillingAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorFax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorMobilePhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorEmail", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorHomePage", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceiverId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceiverCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceiverName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceiverInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealGross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("GrossWoDR", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ContractDiscount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountToDoc", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ContractAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceivedAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ContractAdvancePayAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VContractAdvancePayAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayAmountToDoc", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealTaxBase", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxBase", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxRate", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCTaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCTaxOutAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxType", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCWHTOutAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Contract Retention", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VContract Retention", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RetentionToDoc", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Retention", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTaxWithNoRetention", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WitholdingTax", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonIdLevel", "System.String")) '--Last Approved--
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AuthorizeId", "System.String")) '--Last Approved--
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pa_id", "System.String", "Approve"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonLevelNo", "System.String", "Approve"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonCodeLevel", "System.String", "Approve"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonNameLevel", "System.String", "Approve"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonInfoLevel", "System.String", "Approve"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonDateLevel", "System.DateTime", "Approve"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonCommentLevel", "System.String", "Approve"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pa_id", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ContractAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceivedAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RefDocItemTypeName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RefDocItemTypeDescription", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemType", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCostCenter", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodePercent", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodeAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainQty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ContractQty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ContractAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceivedQty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceivedAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RemainingAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ProgressReceivedAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AllocateCCList", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.MatAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LabAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.EqAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AccountCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AccountName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AccountInfo", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemNote", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildUnitCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildUnitName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildQty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildUnitPrice", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildMat", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildLab", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ChildEq", "System.String", "Item"))
+
+
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UnitPriceNo", "System.String", "UnitPrice"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "UnitPrice"))
+
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UnitNo", "System.String", "Unit"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Unit"))
+
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("QtyNo", "System.String", "Qty"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Qty"))
+
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("NameNo", "System.String", "Name"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Name"))
+
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("NoteNo", "System.String", "Note"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Note"))
+
+      dpiColl.AddRange(GetAllocateDocPrintingColumns)
+
+      Return dpiColl
+    End Function
+    Public Function GetAllocateDocPrintingColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_pa", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_sequence", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCostCenter", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCode", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSName", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSInfo", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CBSCode", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CBSName", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CBSInfo", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodePercent", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Percent", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodeAmount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.BudgetAmount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainAmount", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSBudgetQty", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainQty", "System.String", "Allocate"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPriceNo", "System.String", "AllocateUnitPrice"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "AllocateUnitPrice"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitNo", "System.String", "AllocateUnit"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "AllocateUnit"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.QtyNo", "System.String", "AllocateQty"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "AllocateQty"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.NameNo", "System.String", "AllocateName"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "AllocateName"))
+
+      Return dpiColl
+    End Function
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+
 #Region "IPrintableEntity"
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\PR.dfm"
+      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\PA.dfm"
     End Function
     Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
 
@@ -2815,6 +3031,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
       Me.RefreshTaxBase()
+
+      'pa_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "pa_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -3438,9 +3662,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
               newDRItem.TotalProgressReceive += item.Amount
             End If
           End If
+
+          'RowNumber += 1
+
+          ''pa
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "pa_id"
+          'dpi.Value = Me.Id
+          'dpi.DataType = "System.String"
+          'dpi.Table = "Item"
+          'dpi.Font = fnBold
+          'dpi.Row = RowNumber
+          'dpiColl.Add(dpi)
+
           If item.Level = 0 OrElse (item.Level = 1 AndAlso item.RefEntity.Id = 291) Then
             If Not newItem Is Nothing AndAlso newItem.RefEntity.Id <> 291 Then
               RowNumber += 1
+
+              dpi = New DocPrintingItem
+              dpi.Mapping = "pai_pa"
+              dpi.Value = Me.Id
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              dpi = New DocPrintingItem
+              dpi.Mapping = "pai_sequence"
+              dpi.Value = item.Sequence
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
 
               'ItemName
               dpi = New DocPrintingItem
@@ -4218,6 +4472,427 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return dpiColl
     End Function
+    Public Function GetAllocateDocPrinting() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      Dim line As Integer = 0
+      Dim counter As Integer = 0
+      Dim i As Integer = 0
+      For Each item As SCItem In Me.ItemCollection
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "pai_pa"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "pai_sequence"
+        dpi.Value = item.Sequence
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        'Item.Code
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Code"
+        dpi.Value = item.Entity.Code
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        Dim qtyText As String = ""
+        If (item.ItemType.Value <> 160 And item.ItemType.Value <> 162) Then
+          line += 1
+          'Item.LineNumber
+          '************** เอามาไว้เป็นอันที่ 2
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.LineNumber"
+          dpi.Value = line
+          dpi.DataType = "System.Int32"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.Unit
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Unit"
+          dpi.Value = item.Unit.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitPrice
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitPrice"
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitPriceN
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitPrice" & (i + 1).ToString
+          If item.UnitPrice = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.UnitPrice, DigitConfig.UnitPrice)
+          End If
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'Item.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Amount"
+          If item.Amount = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Amount, DigitConfig.Price)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.UnitN
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Unit" & (i + 1).ToString
+          dpi.Value = item.Unit.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          'Item.Qty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Qty"
+          If item.Qty = 0 Then
+            dpi.Value = ""
+          Else
+            dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          End If
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.QtyN
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Qty" & (i + 1).ToString
+          dpi.Value = Configuration.FormatToString(item.Qty, DigitConfig.Qty)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          qtyText = Configuration.FormatToString(item.Qty, DigitConfig.Qty) & " " & item.Unit.Name
+        End If
+
+
+
+        'Item.Name
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Name"
+        If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+          dpi.Value = item.EntityName
+        Else
+          dpi.Value = item.Entity.Name
+        End If
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Allocate"
+        dpiColl.Add(dpi)
+
+        'Item.NameN
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Name" & (i + 1).ToString
+        If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+          dpi.Value = item.EntityName
+        Else
+          dpi.Value = item.Entity.Name
+        End If
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        '--------------------- WBS Section ------------------
+        'Dim WBSCostCenter As String = ""
+        'Dim WBSCode As String = ""
+        'Dim WBSName As String = ""
+        'Dim WBSCodePercent As String = ""
+        'Dim WBSCodeAmount As String = ""
+        'Dim WBSRemainAmount As String = ""
+        'Dim WBSRemainQty As String = ""
+        'If item.WBSDistributeCollection.Count > 0 Then
+        '  'Populate ให้คำนวณคงเหลือแบบหลอกๆ
+        '  'item.WBSDistributeCollection.Populate(WBSDistribute.GetSchemaTable, item, Me.EntityId)
+        '  If item.WBSDistributeCollection.Count = 1 Then
+        '    WBSCostCenter = item.WBSDistributeCollection.Item(0).CostCenter.Code & ":" & _
+        '    item.WBSDistributeCollection.Item(0).CostCenter.Name 'Code & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+        '    WBSCode = item.WBSDistributeCollection.Item(0).WBS.Code
+        '    WBSName = item.WBSDistributeCollection.Item(0).WBS.Name
+        '    WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%"
+        '    WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price)
+        '    WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
+        '    WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
+        '  Else
+        '    Dim j As Integer
+        '    For j = 0 To item.WBSDistributeCollection.Count - 1
+        '      WBSCostCenter &= item.WBSDistributeCollection.Item(j).CostCenter.Code & ":" & _
+        '      item.WBSDistributeCollection.Item(j).CostCenter.Name ' & "(" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%)"
+        '      WBSCode &= item.WBSDistributeCollection.Item(j).WBS.Code
+        '      WBSName &= item.WBSDistributeCollection.Item(j).WBS.Name
+        '      WBSCodePercent &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Percent, DigitConfig.Price)
+        '      WBSCodeAmount &= item.WBSDistributeCollection.Item(j).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(j).Amount, DigitConfig.Price)
+        '      WBSRemainAmount &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).BudgetRemain, DigitConfig.Price)
+        '      WBSRemainQty &= Configuration.FormatToString(item.WBSDistributeCollection.Item(j).QtyRemain, DigitConfig.Price)
+        '      If j < item.WBSDistributeCollection.Count - 1 Then
+        '        WBSCostCenter &= ", "
+        '        'WBSCostCentern &= ", "
+        '        WBSCode &= ", "
+        '        WBSName &= ", "
+        '        WBSCodePercent &= ", "
+        '        WBSCodeAmount &= ", "
+        '        WBSRemainAmount &= ", "
+        '        WBSRemainQty &= ", "
+        '      End If
+        '    Next
+        '  End If
+        'End If
+
+        For Each dis As WBSDistribute In item.WBSDistributeCollection
+          line += 1
+
+          '--สำหรับไว้สร้าง relation ใน schema--=============
+          'sci_sc
+          dpi = New DocPrintingItem
+          dpi.Mapping = "sci_sc"
+          dpi.Value = Me.Id
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'sci_Sequence
+          dpi = New DocPrintingItem
+          dpi.Mapping = "sci_sequence"
+          dpi.Value = item.Sequence
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+          '--สำหรับไว้สร้าง relation ใน schema--=============
+
+          'Item.WBSCostCenter
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCostCenter"
+          dpi.Value = dis.CostCenter.Code & ":" & dis.CostCenter.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCode"
+          dpi.Value = dis.WBS.Code
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSName"
+          dpi.Value = dis.WBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSinfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSInfo"
+          dpi.Value = dis.WBS.Code & ":" & dis.WBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.CBSCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CBSCode"
+          dpi.Value = dis.CBS.Code
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.CBSName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CBSName"
+          dpi.Value = dis.CBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.CBSinfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.CBSInfo"
+          dpi.Value = dis.CBS.Code & ":" & dis.CBS.Name
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSCodePercent
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCodePercent"
+          dpi.Value = dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%"
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.Percent
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Percent"
+          dpi.Value = Configuration.FormatToString(dis.Percent, DigitConfig.Price) & "%"
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSCodeAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSCodeAmount"
+          dpi.Value = dis.WBS.Code & ":" & dis.CBS.Code & "=>" & Configuration.FormatToString(dis.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.Amount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.Amount"
+          dpi.Value = Configuration.FormatToString(dis.Amount, DigitConfig.Price)
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSRemainAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.BudgetAmount"
+          dpi.Value = dis.BudgetAmount
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSRemainAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSRemainAmount"
+          dpi.Value = dis.BudgetRemain
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          ''Item.WBSRemainAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "Item.AmountOverBudget"
+          'dpi.Value = dis.AmountOverBudget
+          'dpi.DataType = "System.String"
+          'dpi.Row = i + 1
+          'dpi.Table = "Allocate"
+          'dpiColl.Add(dpi)
+
+          'Item.WBSRemainQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSBudgetQty"
+          dpi.Value = dis.BudgetQty
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          'Item.WBSRemainQty
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.WBSRemainQty"
+          dpi.Value = dis.QtyRemain
+          dpi.DataType = "System.String"
+          dpi.Row = i + 1
+          dpi.Table = "Allocate"
+          dpiColl.Add(dpi)
+
+          ''Item.WBSRemainAmount
+          'dpi = New DocPrintingItem
+          'dpi.Mapping = "Item.QtyOverBudget"
+          'dpi.Value = dis.QtyRemain
+          'dpi.DataType = "System.String"
+          'dpi.Row = i + 1
+          'dpi.Table = "Allocate"
+          'dpiColl.Add(dpi)
+          '--------------------- WBS Section ------------------
+        Next
+
+
+        ''Item.Note
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "Item.Note"
+        'dpi.Value = item.Note
+        'dpi.DataType = "System.String"
+        'dpi.Row = i + 1
+        'dpi.Table = "Allocate"
+        'dpiColl.Add(dpi)
+
+        ''Item.LciNote
+        'If TypeOf item.Entity Is IHasNote Then
+        '  dpi = New DocPrintingItem
+        '  dpi.Mapping = "Item.LciNote"
+        '  dpi.Value = CType(item.Entity, IHasNote).Note
+        '  dpi.DataType = "System.String"
+        '  dpi.Row = i + 1
+        '  dpi.Table = "Allocate"
+        '  dpiColl.Add(dpi)
+        'End If
+
+        ''Item.NoteN
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "Item.Note" & (i + 1).ToString
+        'dpi.Value = item.Note
+        'dpi.DataType = "System.String"
+        'dpiColl.Add(dpi)
+
+
+        ''Item.Description '''For Sitem โดยเฉพาะ
+        'dpi = New DocPrintingItem
+        'dpi.Mapping = "Item.Description"
+        'If Not item.EntityName Is Nothing AndAlso item.EntityName.Length > 0 Then
+        '  dpi.Value = item.EntityName & vbCrLf & qtyText
+        'Else
+        '  dpi.Value = item.Entity.Name & vbCrLf & qtyText
+        'End If
+        'dpi.DataType = "System.String"
+        'dpi.Row = i + 1
+        'dpi.Table = "Allocate"
+        'dpiColl.Add(dpi)
+
+        i += 1
+
+      Next
+
+      Return dpiColl
+    End Function
+
 #End Region
 
 #Region "Delete"
@@ -5698,6 +6373,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          Dim obj As Object = Configuration.GetConfig("ApproveSC")
+          If CBool(obj) Then
+            If Me.IsAuthorized Then
+              Return "Authorized"
+            ElseIf Me.IsLevelApproved Then
+              Return "Approved"
+            End If
+          End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
 
 #Region "Event"
     Public Event AdvanceClick(ByVal sender As Object, ByVal e As System.EventArgs)

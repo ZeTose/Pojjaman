@@ -2625,7 +2625,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 #Region "IPrintableEntity"
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\PR.dfm"
+      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\SC.dfm"
     End Function
     Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
 
