@@ -13,7 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatOperationReturn
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable _
-      , INewGLAble
+      , INewGLAble, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_docDate As Date
@@ -1440,7 +1440,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               jiColl.Add(ji)
             Next
           End If
-         
+
 
         End If
         If Not realAccount Is Nothing AndAlso realAccount.Originated Then
@@ -1486,7 +1486,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 jiColl.Add(ji)
               Next
             End If
-           
+
           End If
         ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
           If Not lciNoAcctMatched Then
@@ -1527,7 +1527,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 jiColl.Add(ji)
               Next
             End If
-            
+
 
           End If
         End If
@@ -1581,7 +1581,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim lciMatched As Boolean = False
         Dim lciNoAcctMatched As Boolean = False
         Dim originMatched As Boolean = False
-        
+
         Dim realAccount As Account
         Dim entityAcct As Account
         Dim lci As LCIItem = CType(item.Entity, LCIItem)
@@ -1594,7 +1594,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If Not originMatched Then
           'ล้าง ฝั่งต้นทาง จาก WIP
-          
+
 
           If item.InWbsdColl Is Nothing Then
             ji = New JournalEntryItem
@@ -1633,7 +1633,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If Not realAccount Is Nothing AndAlso realAccount.Originated Then
           If Not lciMatched Then
-            
+
 
             If item.InWbsdColl Is Nothing Then
               ji = New JournalEntryItem
@@ -1641,7 +1641,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ji.Amount += item.Amount
               ji.Account = realAccount
               ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
-             
+
               ji.CostCenter = Me.CostCenter
               ji.EntityItem = lci.Id
               ji.EntityItemType = 42
@@ -1656,7 +1656,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Account = realAccount
                 ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
                 'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
-                
+
                 ji.CostCenter = Me.CostCenter
                 ji.EntityItem = lci.Id
                 ji.EntityItemType = 42
@@ -1669,14 +1669,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         ElseIf realAccount Is Nothing OrElse Not realAccount.Originated Then
           If Not lciNoAcctMatched Then
-            
+
 
             If item.InWbsdColl Is Nothing Then
               ji = New JournalEntryItem
               ji.Mapping = "F2.1"
               ji.Amount = item.Amount
               ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.Unit.Name & ")"
-             
+
               ji.CostCenter = Me.CostCenter
               ji.EntityItem = lci.Id
               ji.EntityItemType = 42
@@ -1690,7 +1690,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ji.Amount += iwbs.Amount
                 ji.Note = item.Entity.Code & ":" & item.Entity.Name & "/" & iwbs.WBS.Code & ":" & iwbs.Percent & "%"
                 'ji.Note = item.Entity.Code & ":" & item.Entity.Name & "(" & item.StockQty.ToString & " " & item.DefaultUnit.Name & ")"
-                
+
                 ji.CostCenter = Me.CostCenter
                 ji.EntityItem = lci.Id
                 ji.EntityItemType = 42
@@ -1718,6 +1718,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "stock_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
       'Code
       dpi = New DocPrintingItem
@@ -1819,6 +1825,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n As Integer = 0
       For Each item As MatOperationReturnItem In Me.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "stocki_stock"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -2045,6 +2059,64 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApprovePR")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+
+      dpiColl.RelationList.Add("general>stock_id>item>stocki_stock")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stock_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCPersonInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCPersonCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCPersonName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCCPersonInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCCPersonCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCCPersonName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCCInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCCCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCCName", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stocki_stock", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Total", "System.Int32", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
 
   End Class
 
