@@ -1798,15 +1798,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetExcludeVATAmount() As Decimal
       Dim ret As Decimal = 0
       For Each item As AdvancePayItem In Me
-        ret += item.AdvancePay.GetRemainExcludeVatAmount(item.Amount)
+        If item.Amount <> 0 Then
+          ret += item.AdvancePay.GetRemainExcludeVatAmount(item.Amount)
+        End If
       Next
       Return ret
     End Function
     Public Function GetExcludeVATAmountForCalculate() As Decimal
       Dim ret As Decimal = 0
       For Each item As AdvancePayItem In Me
-        If item.AdvancePay.TaxType.Value = 2 Then
-          ret += item.AdvancePay.GetRemainExcludeVatAmount(item.Amount)
+        If item.Amount <> 0 Then
+          If item.AdvancePay.TaxType.Value = 2 Then
+            ret += item.AdvancePay.GetRemainExcludeVatAmount(item.Amount)
+          End If
         End If
       Next
       Return ret
@@ -1814,7 +1818,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetVATAmount() As Decimal
       Dim ret As Decimal = 0
       For Each item As AdvancePayItem In Me
-        ret += item.AdvancePay.GetRemainVatAmount(item.Amount)
+        If item.Amount <> 0 Then
+          ret += item.AdvancePay.GetRemainVatAmount(item.Amount)
+        End If
       Next
       Return ret
     End Function
