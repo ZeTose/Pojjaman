@@ -31,7 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class Receive
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, IHasMainDoc, INewPrintableEntity
+    Implements IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, IHasMainDoc, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private receive_docDate As Date
@@ -4394,6 +4394,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
       Return Me.GetDocPrintingEntries()
     End Function
+
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApprovePR")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
   End Class
 
   Public Class ReceiveEntityType
