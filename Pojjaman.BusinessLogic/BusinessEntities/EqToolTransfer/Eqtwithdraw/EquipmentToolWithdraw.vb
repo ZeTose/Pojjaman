@@ -13,7 +13,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   
   Public Class EquipmentToolWithdraw
     Inherits SimpleBusinessEntityBase
-    Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod, IWBSAllocatable
+    Implements IHasToCostCenter, IHasFromCostCenter, ICancelable, IPrintableEntity, ICheckPeriod, IWBSAllocatable,  _
+    INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_docDate As Date
@@ -995,6 +996,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "eqt_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -1159,6 +1166,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n As Integer = 0
       For Each item As EquipmentToolWithdrawItem In Me.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "eqti_eqt"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -1471,8 +1486,86 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #End Region
 
-  End Class
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApprovePR")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
 
+      dpiColl.RelationList.Add("general>eqt_id>item>eqti_eqt")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("eqt_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPerson", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPersonInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPersonName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenter", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterFax", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromPerson", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromPersonInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromPersonCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromPersonName", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostCenter", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostcenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostcenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostcenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostcenterPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostcenterFax", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("eqti_eqt", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemType", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Type", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RentalRate", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RentalPerDay", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodePercent", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodeAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainQty", "System.String", "Item"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemCount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+  End Class
 
 
   

@@ -28,8 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class MatOpenningBalance
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IHasToCostCenter, ICheckPeriod, IPrintableEntity, INewGLAble
-
+    Implements IGLAble, IHasToCostCenter, ICheckPeriod, IPrintableEntity, INewGLAble, INewPrintableEntity, IDocStatus
 
 #Region "Members"
 
@@ -1154,6 +1153,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "stock_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -1202,6 +1207,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim item As New MatOpenningBalanceItem
           item.CopyFromDataRow(itemRow)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "stocki_stock"
+          dpi.Value = Me.Id
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.LineNumber
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.LineNumber"
@@ -1295,8 +1309,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return dpiColl
     End Function
+#End Region
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApprovePR")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
 
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+
+      dpiColl.RelationList.Add("general>stock_id>item>stocki_stock")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stock_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCCName", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stocki_stock", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitCost", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalItem", "System.Int32"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
 #End Region
 
   End Class
