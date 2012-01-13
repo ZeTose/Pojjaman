@@ -2802,34 +2802,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return Me.BeforeTax
     End Function
     Private m_novat As Boolean = False
-    Private m_RealNoVat As Nullable(Of Boolean)
-    Public Property RealNoVat As Boolean
-      Get
-        If Not m_RealNoVat.HasValue Then
-          SetNoVat()
-        End If
-        Return m_RealNoVat.Value
-      End Get
-      Set(ByVal value As Boolean)
+    'Private m_RealNoVat As Nullable(Of Boolean)
+    'Public Property RealNoVat As Boolean
+    '  Get
+    '    If Not m_RealNoVat.HasValue Then
+    '      SetNoVat()
+    '    End If
+    '    Return m_RealNoVat.Value
+    '  End Get
+    '  Set(ByVal value As Boolean)
 
-      End Set
-    End Property
+    '  End Set
+    'End Property
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        Return Me.TaxType.Value = 0 OrElse m_novat OrElse RealNoVat
+        Return Me.TaxType.Value = 0 OrElse m_novat 'OrElse RealNoVat
       End Get
     End Property
-    Public Sub SetNoVat(ByVal novat As Boolean)
-      m_novat = novat
-    End Sub
-    Public Sub SetNoVat()
-      If Me.TaxType.Value = 0 OrElse Me.RealTaxAmount - Me.Vat.Amount > 0 _
-        OrElse Me.Vat.ItemCollection.Count = 0 OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
-        OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+    Public Sub SetNoVat(Optional forceNovat As Boolean = False)
+      If Me.TaxType Is Nothing _
+        OrElse Me.TaxType.Value = 0 _
+          OrElse Me.Vat.ItemCollection.Count = 0 _
+           OrElse Me.Vat.ItemCollection(0).Code Is Nothing Then
+        'OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
         m_novat = True
-        m_RealNoVat = True
       Else
-        m_RealNoVat = False
+        m_novat = False
+      End If
+      If forceNovat Then
+        m_novat = True
       End If
     End Sub
 #End Region

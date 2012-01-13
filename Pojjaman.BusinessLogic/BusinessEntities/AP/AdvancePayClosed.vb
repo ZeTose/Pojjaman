@@ -998,15 +998,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.TaxType.Value = 0 OrElse m_novat.Value
       End Get
     End Property
-    Public Sub SetNoVat()
-      If Me.TaxType.Value = 0 OrElse Me.Vat.ItemCollection.Count = 0 _
-           OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
-           OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+    Public Sub SetNoVat(Optional forceNovat As Boolean = False)
+      If Me.TaxType Is Nothing _
+        OrElse Me.TaxType.Value = 0 _
+          OrElse Me.Vat.ItemCollection.Count = 0 _
+           OrElse Me.Vat.ItemCollection(0).Code Is Nothing Then
+        'OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
         m_novat = True
       Else
         m_novat = False
       End If
-
+      If forceNovat Then
+        m_novat = True
+      End If
     End Sub
     
 #End Region
@@ -1058,7 +1062,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '======= ว่าด้วยเรื่อง Vat  ===========
       'ภาษีซื้อลดหนี้ Vat
-      If Me.Amount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection.Count > 0 AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0)) Then
+      If Me.Amount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection.Count > 0 AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0)) AndAlso Me.Vat.Amount > 0 Then
         ji = New JournalEntryItem
         ji.Mapping = "B9.2"
         'ยอดภาษีที่ออกใบกำกับมาแล้ว เกินจาก ยอดมูลค่า vat ที่ใช้หักมัดจำไป
@@ -1323,28 +1327,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-    Public Sub GenVatAmount(Optional ByVal force As Boolean = False)
-      If (Not Me.Vat.ItemCollection Is Nothing AndAlso Not Me.Vat.Originated AndAlso Me.TaxType.Value <> 0) OrElse force Then
-        Dim remain As Decimal
-        remain = Vat.GetExcludedVatAmount(RemainAmount) - Me.AvpVatBaseNotDueRemain
-        If Me.Vat.ItemCollection.Count = 0 Then
-          Dim vi As New VatItem
-          Me.Vat.ItemCollection.Add(vi)
-        End If
-        If remain <= 0 Then
-          Me.TaxBase = 0
-          Me.m_novat = True
-        Else
-          Me.TaxBase = remain
-          Me.SetNoVat()
-        End If
+    'Public Sub GenVatAmount(Optional ByVal force As Boolean = False)
+    '  If (Not Me.Vat.ItemCollection Is Nothing AndAlso Not Me.Vat.Originated AndAlso Me.TaxType.Value <> 0) OrElse force Then
+    '    Dim remain As Decimal
+    '    remain = Vat.GetExcludedVatAmount(RemainAmount) - Me.AvpVatBaseNotDueRemain
+    '    If Me.Vat.ItemCollection.Count = 0 Then
+    '      Dim vi As New VatItem
+    '      Me.Vat.ItemCollection.Add(vi)
+    '    End If
+    '    If remain <= 0 Then
+    '      Me.TaxBase = 0
+    '      Me.m_novat = True
+    '    Else
+    '      Me.TaxBase = remain
+    '      Me.SetNoVat()
+    '    End If
 
-        Me.VatAmount = Vat.GetVatAmount(Me.TaxBase)
+    '    Me.VatAmount = Vat.GetVatAmount(Me.TaxBase)
 
-        Vat.ItemCollection.Item(0).Amount = Me.VatAmount
-        Vat.ItemCollection.Item(0).TaxBase = Me.TaxBase
-      End If
-    End Sub
+    '    Vat.ItemCollection.Item(0).Amount = Me.VatAmount
+    '    Vat.ItemCollection.Item(0).TaxBase = Me.TaxBase
+    '  End If
+    'End Sub
 
     Public Sub SetremainAVP()
       Dim dr As DataRow = Me.AdvancePay.GetRemainingAmountasDataRow()

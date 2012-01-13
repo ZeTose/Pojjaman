@@ -1806,11 +1806,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
       Return Me.BeforeTax
     End Function
+    Private m_novat As Boolean = False
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        Return Me.TaxType.Value = 0
+        Return Me.TaxType.Value = 0 OrElse m_novat 'OrElse RealNoVat
       End Get
     End Property
+    Public Sub SetNoVat(Optional forceNovat As Boolean = False)
+      If Me.TaxType Is Nothing _
+        OrElse Me.TaxType.Value = 0 _
+          OrElse Me.Vat.ItemCollection.Count = 0 _
+           OrElse Me.Vat.ItemCollection(0).Code Is Nothing Then
+        'OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+        m_novat = True
+      Else
+        m_novat = False
+      End If
+      If forceNovat Then
+        m_novat = True
+      End If
+    End Sub
 #End Region
 
 #Region "IWitholdingTaxable"

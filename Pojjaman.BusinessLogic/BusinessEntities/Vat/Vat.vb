@@ -811,7 +811,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim lastCode As String = vi.GetLastCode(pattern)
 
       For Each item As VatItem In Me.ItemCollection
-        If (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
+        If Me.AutoGen Then ' (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
           Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
           item.Code = newCode
           lastCode = newCode
@@ -1330,9 +1330,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '¡’ 1 „∫
           'Me.txtInvoiceCode.Text = vitem.Code
           UpdateVatAutogenStatus.Invoke()
-          txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, "")
+          'txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, "")
           'txtInvoiceDate.Text = MinDateToNull(vitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-          dtpInvoiceDate.Value = MinDateToNow(vitem.DocDate)
+          'dtpInvoiceDate.Value = MinDateToNow(vitem.DocDate)
         End If
         If Not vitem.UseCustomTaxAmount Then
           vitem.TaxBase = Me.RefDoc.TaxBase * Me.GetCurrencyConversion()     '¡—π®–Õ—ª‡¥∑ taxbase „π tab ¿“…’Õ—µ‚π¡—µ‘

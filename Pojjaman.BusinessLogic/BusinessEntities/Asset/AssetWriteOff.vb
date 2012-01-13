@@ -2345,7 +2345,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetBeforeTax() As Decimal Implements IVatable.GetBeforeTax
       Return Me.BeforeTax
     End Function
-    Private m_NoVat As Nullable(Of Boolean)
+    Private m_novat As Nullable(Of Boolean)
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
         If Not m_NoVat.HasValue Then
@@ -2354,19 +2354,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_NoVat.Value
       End Get
     End Property
-    Public Sub SetNoVat(ByVal novat As Boolean)
-      m_NoVat = novat
-    End Sub
-
-    Public Sub SetNoVat()
-      If Me.TaxType.Value = 0 OrElse Me.TaxAmount - Me.Vat.Amount > 0 _
-        OrElse Me.Vat.ItemCollection(0).Code Is Nothing _
-        OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
-        m_NoVat = True
+    Public Sub SetNoVat(Optional forceNovat As Boolean = False)
+      If Me.TaxType Is Nothing _
+        OrElse Me.TaxType.Value = 0 _
+          OrElse Me.Vat.ItemCollection.Count = 0 _
+           OrElse Me.Vat.ItemCollection(0).Code Is Nothing Then
+        'OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen) Then
+        m_novat = True
       Else
-        m_NoVat = False
+        m_novat = False
+      End If
+      If forceNovat Then
+        m_novat = True
       End If
     End Sub
+
     Public Shared Function GetTaxBase(ByVal id As Integer) As Decimal
       Dim ret As Decimal = 0
       If id <= 0 Then

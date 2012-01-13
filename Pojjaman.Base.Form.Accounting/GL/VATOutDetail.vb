@@ -797,12 +797,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IListDetail"
-    Private allowBlankInvoice As Boolean = False
+    'Private allowBlankInvoice As Boolean = False
     Public Overrides Sub CheckFormEnable()
       If (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value >= 4) _
       OrElse (Not Me.m_entity Is Nothing AndAlso Me.m_entity.Status.Value = 0) _
-      OrElse (TypeOf Me.m_entity Is IVatable _
-      AndAlso CType(Me.m_entity, IVatable).NoVat) _
+      OrElse (TypeOf Me.m_entity Is IVatable AndAlso CType(Me.m_entity, IVatable).NoVat) _
       Then
         For Each ctrl As Control In grbDetail.Controls
           ctrl.Enabled = False
@@ -813,13 +812,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) Then
-        'allowBlankInvoice = True
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.Validator.SetRequired(Me.txtDocDate, False)
-        Me.Validator.SetRequired(Me.txtPrintName, False)
-        Me.Validator.SetRequired(Me.txtPrintAddress, False)
-      End If
+      'If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) Then
+      '  'allowBlankInvoice = True
+      '  Me.Validator.SetRequired(Me.txtCode, False)
+      '  Me.Validator.SetRequired(Me.txtDocDate, False)
+      '  Me.Validator.SetRequired(Me.txtPrintName, False)
+      '  Me.Validator.SetRequired(Me.txtPrintAddress, False)
+      'End If
     End Sub
 
     Public Overrides Sub ClearDetail()
@@ -878,43 +877,80 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim vi As VatItem
-      If Me.m_vat.ItemCollection.Count <= 0 Then
-        vi = New VatItem
-        Me.m_vat.ItemCollection.Add(vi)
-      End If
-      vi = Me.m_vat.ItemCollection(0)
-      txtCode.Text = vi.Code
-      If allowBlankInvoice Then
-        Me.txtDocDate.Text = IIf(vi.Code Is Nothing OrElse vi.Code.Length = 0, "", MinDateToNull(vi.DocDate, ""))
+      'If Me.m_vat.ItemCollection.Count <= 0 Then
+      '  vi = New VatItem
+      '  Me.m_vat.ItemCollection.Add(vi)
+      'End If
+
+      Me.SetNoVatRequire()
+      If Me.m_vat.ItemCollection.Count > 0 Then
+        vi = Me.m_vat.ItemCollection(0)
+        txtCode.Text = vi.Code
+
+        Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
+        Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
+
+        Me.txtDocDate.Text = MinDateToNull(vi.DocDate, "")
+
+        'Trace.WriteLine(vi.DocDate)
+
+        Me.dtpDocDate.Value = MinDateToNow(vi.DocDate) ' MinDateToNow(vi.DocDate)
+        m_oldCode = vi.Code
+        Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
+        Me.txtPrintAddress.Text = vi.PrintAddress
+        Me.txtPrintName.Text = vi.PrintName
+        Me.txtNote.Text = vi.Note
+
+        Me.chkAutorun.Checked = Me.m_vat.AutoGen
+        Me.UpdateAutogenStatus()
+
+        AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+
+        UpdateAmount()
+        UpdateRefDoc()
+        m_tmpsubmitalDate = Me.m_vat.SubmitalDate
+        txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
+        dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
       Else
-        Me.txtDocDate.Text = MinDateToNull(vi.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+
       End If
+
+      SetStatus()
+      'SetLabelText()
+      CheckFormEnable()
+
+      'If allowBlankInvoice Then
+      '  Me.txtDocDate.Text = IIf(vi.Code Is Nothing OrElse vi.Code.Length = 0, "", MinDateToNull(vi.DocDate, ""))
+      'Else
+      '  Me.txtDocDate.Text = MinDateToNull(vi.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      'End If
       'Trace.WriteLine(txtCode.Text)
       'Trace.WriteLine(Me.m_vat.ItemCollection.Count)
       'Trace.WriteLine(Me.m_vat.ItemCollection(0).AutoGen)
-      Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
-      Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
 
-      Me.dtpDocDate.Value = MinDateToNow(vi.DocDate)
-      m_oldCode = vi.Code
-      Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
-      Me.txtPrintAddress.Text = vi.PrintAddress
-      Me.txtPrintName.Text = vi.PrintName
-      Me.txtNote.Text = vi.Note
+      'Me.txtVatGroupCode.Text = Me.m_vat.VatGroup.Code
+      'Me.txtVatGroupName.Text = Me.m_vat.VatGroup.Name
 
-      Me.chkAutorun.Checked = Me.m_vat.AutoGen
-      Me.UpdateAutogenStatus()
+      'Me.dtpDocDate.Value = MinDateToNow(vi.DocDate)
+      'm_oldCode = vi.Code
+      'Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
+      'Me.txtPrintAddress.Text = vi.PrintAddress
+      'Me.txtPrintName.Text = vi.PrintName
+      'Me.txtNote.Text = vi.Note
 
-      AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+      'Me.chkAutorun.Checked = Me.m_vat.AutoGen
+      'Me.UpdateAutogenStatus()
 
-      UpdateAmount()
-      UpdateRefDoc()
-      m_tmpsubmitalDate = Me.m_vat.SubmitalDate
-      txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
-      dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
-      SetStatus()
-      SetLabelText()
-      CheckFormEnable()
+      'AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+
+      'UpdateAmount()
+      'UpdateRefDoc()
+      'm_tmpsubmitalDate = Me.m_vat.SubmitalDate
+      'txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
+      'dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
+      'SetStatus()
+      'SetLabelText()
+      'CheckFormEnable()
       m_isInitialized = True
     End Sub
     Private Sub UpdateRefDoc()
@@ -929,27 +965,50 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
     Private Sub UpdateAmount()
-      If allowBlankInvoice Then
-        If Not Me.m_vat.ItemCollection(0).Code Is Nothing AndAlso Me.m_vat.ItemCollection(0).Code.Length > 0 Then
-          Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
-          Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
-        End If
-      Else
-        Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
-        Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
-      End If
-
-      Dim noVatCode As Boolean = False
-      'Trace.WriteLine(Not Me.m_vat.ItemCollection(0).Code Is Nothing)
-      'If Not Me.m_vat.ItemCollection(0).Code Is Nothing Then
-      '  Trace.WriteLine(Me.m_vat.ItemCollection(0).Code.Length)
+      'If allowBlankInvoice Then
+      '  If Not Me.m_vat.ItemCollection(0).Code Is Nothing AndAlso Me.m_vat.ItemCollection(0).Code.Length > 0 Then
+      '    Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
+      '    Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
+      '  End If
+      'Else
+      Me.txtAmount.Text = Configuration.FormatToString(Me.m_vat.Amount, DigitConfig.Price)
+      Me.txtTaxBase.Text = Configuration.FormatToString(Me.m_vat.TaxBase, DigitConfig.Price)
       'End If
 
-      If Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Trim.Length = 0 Then
-        noVatCode = True
-      End If
+      'Trace.WriteLine(Me.m_vat.Amount.ToString)
+      'Trace.WriteLine(Me.m_vat.TaxBase.ToString)
 
-      If Me.m_vat.RefDoc Is Nothing OrElse Me.m_vat.RefDoc.NoVat OrElse noVatCode Then
+      'Dim noVatCode As Boolean = False
+      ''Trace.WriteLine(Not Me.m_vat.ItemCollection(0).Code Is Nothing)
+      ''If Not Me.m_vat.ItemCollection(0).Code Is Nothing Then
+      ''  Trace.WriteLine(Me.m_vat.ItemCollection(0).Code.Length)
+      ''End If
+
+      'If Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Trim.Length = 0 Then
+      '  noVatCode = True
+      'End If
+
+      'If Me.m_vat.RefDoc Is Nothing OrElse Me.m_vat.RefDoc.NoVat OrElse noVatCode Then
+      '  Me.Validator.SetRequired(txtCode, False)
+      '  Me.Validator.SetRequired(txtDocDate, False)
+      '  Me.Validator.SetRequired(txtPrintName, False)
+      '  Me.Validator.SetRequired(txtPrintAddress, False)
+      '  'Me.txtDocDate.Text = ""
+      '  Me.Validator.SetDataType(txtDocDate, DataTypeConstants.StringType)
+      '  Me.ErrorProvider1.SetError(Me.txtDocDate, "")
+      '  Me.ErrorProvider1.SetError(Me.txtPrintName, "")
+      '  Me.ErrorProvider1.SetError(Me.txtCode, "")
+      '  Me.ErrorProvider1.SetError(Me.txtPrintAddress, "")
+      'Else
+      '  Me.Validator.SetDataType(txtDocDate, DataTypeConstants.DateTimeType)
+      '  Me.Validator.SetRequired(txtDocDate, True)
+      '  Me.Validator.SetRequired(txtPrintName, True)
+      '  Me.Validator.SetRequired(txtCode, True)
+      '  Me.Validator.SetRequired(txtPrintAddress, True)
+      'End If
+    End Sub
+    Private Sub SetNoVatRequire(Optional ByVal forceNorequire As Boolean = False)
+      If Me.m_vat.RefDoc Is Nothing OrElse Me.m_vat.RefDoc.NoVat OrElse forceNorequire Then
         Me.Validator.SetRequired(txtCode, False)
         Me.Validator.SetRequired(txtDocDate, False)
         Me.Validator.SetRequired(txtPrintName, False)
@@ -989,6 +1048,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Select Case CType(sender, Control).Name.ToLower
         Case "txtcode"
           vi.Code = Me.txtCode.Text
+
+          Dim flag As Boolean = m_isInitialized
+          m_isInitialized = False
+          If Me.txtCode.Text.Trim.Length = 0 Then
+
+            Me.ClearDetail()
+            Me.SetNoVatRequire(True)
+            Me.txtDocDate.Text = ""
+            Me.dtpDocDate.Value = Now
+            Me.m_vat.ItemCollection.Clear()
+          Else
+            Me.SetNoVatRequire()
+          End If
+          m_isInitialized = flag
+
           dirtyFlag = True
         Case "txtnote"
           vi.Note = Me.txtNote.Text
@@ -1114,22 +1188,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_vat.Entity = vatRefDoc.Person
           End If
         End If
+
+        'Me.m_entity = Nothing
+        'Me.m_entity = Value
+        'If Not m_vat Is Nothing Then
+        '  RemoveHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
+        '  Me.m_vat = Nothing
+        'End If
+        'If TypeOf m_entity Is IVatable Then
+        '  Dim vatRefDoc As IVatable = CType(m_entity, IVatable)
+        '  m_vat = vatRefDoc.Vat
+        '  If m_vat Is Nothing Then
+        '    m_vat = New Vat
+        '    m_vat.RefDoc.Vat = m_vat
+        '  End If
+        '  m_vat.RefDoc = vatRefDoc
+        '  m_vat.Entity = vatRefDoc.Person
+        'End If
+
         If Not Me.m_vat Is Nothing Then
           Me.m_vat.OnTabPageTextChanged(m_entity, EventArgs.Empty)
         End If
-        If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) OrElse (TypeOf Me.m_entity Is AdvancePayClosed) Then
-          If Not Me.m_vat.ItemCollection Is Nothing Then ' AndAlso Me.m_vat.ItemCollection.Count > 0 Then
-            If Not Me.m_vat.AutoGen AndAlso Me.m_vat.ItemCollection.Count > 1 AndAlso (Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Length <= 0) Then
-              allowBlankInvoice = True
-            Else
-              allowBlankInvoice = False
-            End If
-          End If
-        End If
+        'If (TypeOf Me.m_entity Is GoodsSold) OrElse (TypeOf Me.m_entity Is SaleCN) OrElse (TypeOf Me.m_entity Is PurchaseCN) OrElse (TypeOf Me.m_entity Is AdvancePayClosed) Then
+        '  If Not Me.m_vat.ItemCollection Is Nothing Then ' AndAlso Me.m_vat.ItemCollection.Count > 0 Then
+        '    If Not Me.m_vat.AutoGen AndAlso Me.m_vat.ItemCollection.Count > 1 AndAlso (Me.m_vat.ItemCollection(0).Code Is Nothing OrElse Me.m_vat.ItemCollection(0).Code.Length <= 0) Then
+        '      allowBlankInvoice = True
+        '    Else
+        '      allowBlankInvoice = False
+        '    End If
+        '  End If
+        'End If
         UpdateEntityProperties()
-        If m_vat.RefDoc.NoVat Then
-          Me.m_vat.ItemCollection.Clear()
-        End If
+        'If m_vat.RefDoc.NoVat Then
+        '  Me.m_vat.ItemCollection.Clear()
+        'End If
       End Set
     End Property
 
@@ -1154,6 +1246,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_vat.ItemCollection.Count <= 0 Then
         vi = New VatItem
         Me.m_vat.ItemCollection.Add(vi)
+
+        'Me.UpdateEntityProperties()
       End If
       vi = Me.m_vat.ItemCollection(0)
       If Me.chkAutorun.Checked Then
@@ -1163,7 +1257,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_oldCode = Me.txtCode.Text
         Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
         'Hack: set Code เป็น "" เอง
-        vi.Code = ""
+        'vi.Code = ""
         Me.m_vat.AutoGen = True
       Else
         Me.Validator.SetRequired(Me.txtCode, True)

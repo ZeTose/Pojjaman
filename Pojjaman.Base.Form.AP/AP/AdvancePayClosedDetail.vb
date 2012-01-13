@@ -8,6 +8,7 @@ Imports System.Text.RegularExpressions
 Namespace Longkong.Pojjaman.Gui.Panels
 
   Public Class AdvancePayClosedDetail
+    'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -1079,8 +1080,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       If Me.m_entity.AdvancePay Is Nothing OrElse Not Me.m_entity.AdvancePay.Originated Then
-        ClearAdvancePay()
-        Me.m_entity.Amount = Nothing
+        'ClearAdvancePay()
+        'Me.m_entity.Amount = Nothing
       Else
         txtADVPDate.Text = MinDateToNull(Me.m_entity.AdvancePay.DocDate, "")
         dtpADVPDate.Value = MinDateToNow(Me.m_entity.AdvancePay.DocDate)
@@ -1116,9 +1117,47 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.ADVPRemainingAmount, DigitConfig.Price)
 
-        SetVatToOneDoc()
+        For Each item As IdValuePair In Me.cmbTaxType.Items
+          If Me.m_entity.TaxType.Value = item.Id Then
+            Me.cmbTaxType.SelectedItem = item
+          End If
+        Next
+
+        'SetVatToOneDoc()
       End If
     End Sub
+    'Private Sub SetVatAutoCode()
+    '  If Not Me.m_entity.TaxType Is Nothing AndAlso Me.m_entity.TaxType.Value = 2 AndAlso Me.m_entity.AdvancePay.ADVPRemainingAmount <> 0 Then
+    '    Dim flag As Boolean = Me.m_isInitialized
+    '    Me.m_isInitialized = False
+
+    '    Me.EnableByTaxTypeAndRemaining(True)
+    '    Me.VatInputSetRequireDate(True)
+    '    If Me.txtInvoiceCode.Text.Trim.Length = 0 Then
+    '      Me.chkAVPCAutoRunVat.Checked = True
+    '      UpdateVatAutogenStatus()
+    '    End If
+
+    '    Me.m_isInitialized = flag
+    '  Else
+    '    Dim flag As Boolean = Me.m_isInitialized
+    '    Me.m_isInitialized = False
+
+    '    Me.EnableByTaxTypeAndRemaining(False)
+    '    Me.VatInputSetRequireDate(False)
+    '    Me.txtInvoiceCode.Text = ""
+    '    Me.txtInvoiceDate.Text = ""
+    '    Me.dtpInvoiceDate.Value = Date.Now
+
+    '    Me.m_isInitialized = flag
+    '  End If
+    'End Sub
+    'Private Sub EnableByTaxTypeAndRemaining(ByVal enable As Boolean)
+    '  Me.txtInvoiceCode.Enabled = enable
+    '  Me.chkAVPCAutoRunVat.Enabled = enable
+    '  Me.txtInvoiceDate.Enabled = enable
+    '  Me.dtpInvoiceDate.Enabled = enable
+    'End Sub
     Private Sub ClearAdvancePay()
       For Each grbCrtl As Control In grbAdvancePay.Controls
         If TypeOf grbCrtl Is TextBox Then
@@ -1236,14 +1275,37 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Dim OldAdvancePay As AdvancePay = Me.m_entity.AdvancePay
 
           dirtyFlag = AdvancePay.GetAdvancePay(txtADVPCode, Me.m_entity.AdvancePay)
-          If dirtyFlag AndAlso (OldAdvancePay.Id <> Me.m_entity.AdvancePay.Id AndAlso Me.m_entity.AdvancePay.Closed) Then
-            Dim myMsgService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            myMsgService.ShowWarningFormatted("${res:Global.Error.AdvancePayIsClosed}", Me.m_entity.AdvancePay.Code)
-            Me.m_entity.AdvancePay = OldAdvancePay
-            txtADVPCode.Text = OldAdvancePay.Code
-            'txtADVPName.Text = OldAdvancePay.Name
+          'If dirtyFlag Then 'AndAlso (OldAdvancePay.Id <> Me.m_entity.AdvancePay.Id AndAlso Me.m_entity.AdvancePay.Closed) Then
+          '  Dim myMsgService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          '  myMsgService.ShowWarningFormatted("${res:Global.Error.AdvancePayIsClosed}", Me.m_entity.AdvancePay.Code)
+          '  Me.m_entity.AdvancePay = OldAdvancePay
+          '  txtADVPCode.Text = OldAdvancePay.Code
+          '  'txtADVPName.Text = OldAdvancePay.Name
+          '  'If Me.m_entity.TaxType.Value = 2 AndAlso Me.m_entity.AdvancePay.ADVPRemainingAmount <> 0 Then
+          '  '  Me.chkAVPCAutoRunVat.Checked = True
+          '  '  UpdateVatAutogenStatus()
+          '  'End If
+
+          'End If
+          If dirtyFlag Then
+            Me.ClearAdvancePay()
+            'Me.m_entity.SetNoVat(True)
+            Me.SetAdvancePayData()
+
+            Me.m_entity.Vat.CodeChanged("")
+            VatInputSetRequireDate(False)
+            Me.txtInvoiceCode.Text = ""
+            Me.txtInvoiceDate.Text = ""
+            Me.dtpInvoiceDate.Value = Now
+            Me.txtInvoiceCode.ReadOnly = True
+            Me.txtInvoiceDate.ReadOnly = True
+            Me.dtpInvoiceDate.Enabled = False
+            Me.m_entity.Vat.AutoGen = False
+            Me.chkAutoRunVat.Checked = False
+            Me.m_entity.SetNoVat()
+
           End If
-          SetAdvancePayData()
+
 
         Case "txtnote"
           dirtyFlag = True
@@ -1286,8 +1348,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtinvoicecode"
           If m_invoicecodechange AndAlso m_oldInvoiceCode <> Me.txtInvoiceCode.Text Then
             Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
-            Me.m_entity.SetNoVat()
-            Me.m_entity.GenVatAmount(True)
+            'Me.m_entity.SetNoVat()
+            'Me.m_entity.GenVatAmount(True)
+            If Me.txtInvoiceCode.Text.Trim.Length = 0 Then
+              Me.m_entity.SetNoVat(True)
+              Me.VatInputSetRequireDate(False)
+              Me.txtInvoiceDate.Text = ""
+              Me.dtpInvoiceDate.Value = Now
+            Else
+              Me.VatInputSetRequireDate(True)
+              Me.m_entity.SetNoVat()
+            End If
+
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
             dirtyFlag = True
             m_invoicecodechange = False
@@ -1320,59 +1392,90 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtNote.Text = Me.m_entity.Note
 
-      ' vatcode ของ ปิดมัดจำจ่าย
-      Dim myVat As Vat = Me.m_entity.Vat
-      If Not myVat Is Nothing Then
-        Dim myVatitem As VatItem
-        If myVat.ItemCollection.Count <= 0 Then
-          Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-        End If
-        VatInputEnabled(True)
-        myVatitem = myVat.ItemCollection(0)
-        myVat.AutoGen = False
-        If myVat.AutoGen Then
-          Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
-        Else
-          Me.txtInvoiceCode.Text = myVatitem.Code
-        End If
-        Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-        Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
-      End If
-      '-----------------------------
-      ' vatcode ของมัดจำจ่าย 
-      Me.m_entity.Vat.Direction.Value = 1
-      Dim ds As DataSet = Me.m_entity.GetVatForADVPC(Me.m_entity.AdvancePay)
-      If ds.Tables(0).Rows.Count <= 0 Then
-        VatInputEnabled(True)
-        Me.txtADVPInvoiceCode.Text = ""
-        Me.txtADVPInvoiceDate.Text = ""
-        Me.dtpADVPInvoiceDate.Value = Now
-      ElseIf ds.Tables(0).Rows.Count = 1 Then
-        For Each row As DataRow In ds.Tables(0).Rows
-          VatInputEnabled(True)
-          If Not row.IsNull("vati_code") Then
-            Me.txtADVPInvoiceCode.Text = row("vati_code").ToString
-            txtADVPInvoiceCode.Enabled = False
-          End If
-          If Not row.IsNull("vati_docdate") And IsDate(row("vati_docdate")) Then
-            If Not row("vati_docdate").Equals(Date.MinValue) Then
-              Me.txtADVPInvoiceDate.Text = CDate(row("vati_docdate")).ToShortDateString
-              Me.dtpADVPInvoiceDate.Value = CDate(row("vati_docdate"))
-              txtADVPInvoiceDate.Enabled = False
-              dtpADVPInvoiceDate.Enabled = False
-            End If
-          End If
-        Next
+
+      If (Not Me.m_entity.Vat Is Nothing AndAlso Me.m_entity.Vat.ItemCollection.Count = 0) OrElse Me.m_entity.NoVat Then
+        VatInputSetRequireDate(False)
+        Me.txtInvoiceCode.Text = ""
+        Me.txtInvoiceDate.Text = ""
+        Me.dtpInvoiceDate.Value = Now
+        Me.txtInvoiceCode.ReadOnly = True
+        Me.txtInvoiceDate.ReadOnly = True
+        Me.dtpInvoiceDate.Enabled = False
       Else
-        VatInputEnabled(False)
-        Me.txtADVPInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-        Me.txtADVPInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
-        Me.dtpADVPInvoiceDate.Value = Now
+        VatInputSetRequireDate(True)
+        Dim myVat As Vat = Me.m_entity.Vat
+        If myVat.ItemCollection.Count > 0 Then
+          Dim myVatitem As VatItem = myVat.ItemCollection(0)
+          Me.txtInvoiceCode.Text = myVatitem.Code
+          Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+        End If
       End If
 
-      m_oldInvoiceCode = Me.txtInvoiceCode.Text
-      Me.chkAVPCAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
-      Me.UpdateVatAutogenStatus()
+      If Not Me.m_entity Is Nothing AndAlso Not Me.m_entity.AdvancePay Is Nothing Then
+        Dim myAdvVat As Vat = Me.m_entity.AdvancePay.Vat
+        If myAdvVat.ItemCollection.Count > 0 Then
+          Dim myVatitem As VatItem = myAdvVat.ItemCollection(0)
+          Me.txtADVPInvoiceCode.Text = myVatitem.Code
+          Me.txtADVPInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+          Me.dtpADVPInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+        End If
+
+      End If
+
+      '' vatcode ของ ปิดมัดจำจ่าย
+      'Dim myVat As Vat = Me.m_entity.Vat
+      'If Not myVat Is Nothing Then
+      '  Dim myVatitem As VatItem
+      '  If myVat.ItemCollection.Count <= 0 Then
+      '    Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+      '  End If
+      '  VatInputEnabled(True)
+      '  myVatitem = myVat.ItemCollection(0)
+      '  myVat.AutoGen = False
+      '  If myVat.AutoGen Then
+      '    Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
+      '  Else
+      '    Me.txtInvoiceCode.Text = myVatitem.Code
+      '  End If
+      '  Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+      '  Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+      'End If
+      '-----------------------------
+      ' vatcode ของมัดจำจ่าย 
+      'Me.m_entity.Vat.Direction.Value = 1
+      'Dim ds As DataSet = Me.m_entity.GetVatForADVPC(Me.m_entity.AdvancePay)
+      'If ds.Tables(0).Rows.Count <= 0 Then
+      '  VatInputEnabled(True)
+      '  Me.txtADVPInvoiceCode.Text = ""
+      '  Me.txtADVPInvoiceDate.Text = ""
+      '  Me.dtpADVPInvoiceDate.Value = Now
+      'ElseIf ds.Tables(0).Rows.Count = 1 Then
+      '  For Each row As DataRow In ds.Tables(0).Rows
+      '    VatInputEnabled(True)
+      '    If Not row.IsNull("vati_code") Then
+      '      Me.txtADVPInvoiceCode.Text = row("vati_code").ToString
+      '      txtADVPInvoiceCode.Enabled = False
+      '    End If
+      '    If Not row.IsNull("vati_docdate") And IsDate(row("vati_docdate")) Then
+      '      If Not row("vati_docdate").Equals(Date.MinValue) Then
+      '        Me.txtADVPInvoiceDate.Text = CDate(row("vati_docdate")).ToShortDateString
+      '        Me.dtpADVPInvoiceDate.Value = CDate(row("vati_docdate"))
+      '        txtADVPInvoiceDate.Enabled = False
+      '        dtpADVPInvoiceDate.Enabled = False
+      '      End If
+      '    End If
+      '  Next
+      'Else
+      '  VatInputEnabled(False)
+      '  Me.txtADVPInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+      '  Me.txtADVPInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.MultipleInvoiceText}")
+      '  Me.dtpADVPInvoiceDate.Value = Now
+      'End If
+
+      'm_oldInvoiceCode = Me.txtInvoiceCode.Text
+      'Me.chkAVPCAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
+      'Me.UpdateVatAutogenStatus()
 
       For Each item As IdValuePair In Me.cmbTaxType.Items
         If Me.m_entity.TaxType.Value = item.Id Then
@@ -1388,11 +1491,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtRemaining.Text = Configuration.FormatToString(Me.m_entity.AdvancePay.GetRemainingAmount, DigitConfig.Price)
       End If
 
+      'If Me.m_entity.Originated Then
       SetAdvancePayData()
+      'End If
+
       SetStatus()
-      SetLabelText()
+      'SetLabelText()
       CheckFormEnable()
       m_isInitialized = True
+    End Sub
+    Private Sub SetInvoiceCodeToBlank()
+
     End Sub
 
     Public Overrides Sub ClearDetail()
@@ -1402,10 +1511,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
-      SetAdvancePayData()
+      'SetAdvancePayData()
+      ClearAdvancePay()
 
-      dtpDocDate.Value = Date.Now
-      txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      'dtpDocDate.Value = Date.Now
+      'txtdocdate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
     End Sub
     Private m_entityRefed As Integer
     Public Overrides Property Entity() As ISimpleEntity
@@ -1444,6 +1554,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  lblStatus.Text = "ยังไม่ได้บันทึก"
       'End If
     End Sub
+    Private Sub VatInputSetRequireDate(ByVal require As Boolean)
+      If require Then
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
+        Me.Validator.SetRequired(Me.txtInvoiceDate, True)
+      Else
+        Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
+        Me.Validator.SetRequired(Me.txtInvoiceDate, False)
+      End If
+    End Sub
     Private Sub VatInputEnabled(ByVal enable As Boolean)
       Me.txtInvoiceCode.Enabled = enable
       Me.txtInvoiceDate.Enabled = enable
@@ -1451,38 +1570,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If enable Then
         Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
-        If Me.m_isInitialized Then
-          SetVatToOneDoc()
-        End If
+        'If Me.m_isInitialized Then
+        '  SetVatToOneDoc()
+        'End If
       Else
         Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.StringType)
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
       End If
     End Sub
-    Private Sub SetVatToNoDoc()
-      Dim flag As Boolean = Me.m_isInitialized
-      Me.m_isInitialized = False
-      Me.m_entity.AdvancePay.Vat.ItemCollection.Clear()
-      Me.txtInvoiceCode.Text = ""
-      Me.txtInvoiceDate.Text = ""
-      Me.dtpInvoiceDate.Value = Now
-      Me.m_isInitialized = flag
-    End Sub
-    Private Sub SetVatToOneDoc()
-      Dim flag As Boolean = Me.m_isInitialized
-      Me.m_isInitialized = False
-      If txtInvoiceCode.Text.Length > 0 Then
-        Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
-      , txtInvoiceDate _
-      , dtpInvoiceDate _
-      , AddressOf UpdateVatAutogenStatus)
-      Else
-        txtInvoiceDate.Text = txtdocdate.Text
-        dtpInvoiceDate.Value = dtpDocDate.Value
-      End If
-      m_entity.GenVatAmount()
-      Me.m_isInitialized = flag
-    End Sub
+    'Private Sub SetVatToNoDoc()
+    'Dim flag As Boolean = Me.m_isInitialized
+    'Me.m_isInitialized = False
+    'Me.m_entity.AdvancePay.Vat.ItemCollection.Clear()
+    'Me.txtInvoiceCode.Text = ""
+    'Me.txtInvoiceDate.Text = ""
+    'Me.dtpInvoiceDate.Value = Now
+    'Me.m_isInitialized = flag
+    'End Sub
+    'Private Sub SetVatToOneDoc()
+    'Dim flag As Boolean = Me.m_isInitialized
+    'Me.m_isInitialized = False
+    'If txtInvoiceCode.Text.Length > 0 Then
+    '  Me.m_entity.Vat.SetVatToOneDoc(txtInvoiceCode _
+    ', txtInvoiceDate _
+    ', dtpInvoiceDate _
+    ', AddressOf UpdateVatAutogenStatus)
+    'Else
+    '  txtInvoiceDate.Text = txtdocdate.Text
+    '  dtpInvoiceDate.Value = dtpDocDate.Value
+    'End If
+    'm_entity.GenVatAmount()
+    'Me.m_isInitialized = flag
+    'End Sub
     Private Sub chkAutoRunVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAVPCAutoRunVat.CheckedChanged
       UpdateVatAutogenStatus()
     End Sub
@@ -1490,11 +1609,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.Vat Is Nothing Then
         Return
       End If
-      Dim vi As New VatItem
+
       If Me.m_entity.Vat.ItemCollection.Count <= 0 Then
         Me.m_entity.Vat.ItemCollection.Add(New VatItem)
       End If
 
+      Dim vi As New VatItem
       vi = Me.m_entity.Vat.ItemCollection(0)
       If Me.chkAVPCAutoRunVat.Checked Then
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
@@ -1504,7 +1624,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
         'Me.txtInvoiceCode.Text = m_oldInvoiceCode
         'Hack: set Code เป็น "" เอง
-        vi.Code = ""
+        'vi.Code = ""
+        vi.Code = Me.txtInvoiceCode.Text
+        Me.txtInvoiceDate.Text = Now.ToShortDateString
+        Me.dtpInvoiceDate.Value = Now
+        vi.DocDate = Now
+        If Not Me.m_entity.AdvancePay Is Nothing Then
+          vi.TaxRate = Me.m_entity.AdvancePay.TaxRate
+          vi.TaxBase = Me.m_entity.AdvancePay.GetRemainExcludeVatAmount
+        End If
+        Me.txtInvoiceCode.ReadOnly = False
+        Me.txtInvoiceDate.ReadOnly = False
+        Me.dtpInvoiceDate.Enabled = True
         Me.m_entity.Vat.AutoGen = True
       Else
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
@@ -1512,6 +1643,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtInvoiceCode.ReadOnly = False
         Me.m_entity.Vat.AutoGen = False
       End If
+
+      Me.m_entity.SetNoVat()
     End Sub
 #End Region
 
@@ -1580,12 +1713,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenListDialog(New AdvancePayForClosed, AddressOf SetAdvancePayDialog, entity)
     End Sub
     Private Sub SetAdvancePayDialog(ByVal e As ISimpleEntity)
+      'Dim _eqADVPCode As Boolean = Me.txtADVPCode.Text.Trim.ToLower.Equals(e.Code.Trim.ToLower)
       Me.txtADVPCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
           Or AdvancePay.GetAdvancePay(txtADVPCode, Me.m_entity.AdvancePay)
       SetAdvancePayData()
-      UpdateEntityProperties()
+      'If Not _eqADVPCode Then
+      '  If Me.m_entity.TaxType.Value = 2 AndAlso Me.m_entity.AdvancePay.ADVPRemainingAmount <> 0 Then
+      '    Me.chkAVPCAutoRunVat.Checked = True
+      '    UpdateVatAutogenStatus()
+      '  End If
+      'End If
+      'UpdateEntityProperties()
     End Sub
 #End Region
 
