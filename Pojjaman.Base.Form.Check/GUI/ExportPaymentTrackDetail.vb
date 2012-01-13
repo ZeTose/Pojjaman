@@ -1204,6 +1204,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
     End Sub
 
+#Region "After the main entity has been saved"
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+      If Not successful Then
+        Return
+      End If
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+    Public Overrides Sub NotifyBeforeSave()
+      MyBase.NotifyBeforeSave()
+      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+    End Sub
+#End Region
+
+
   End Class
 
 End Namespace
