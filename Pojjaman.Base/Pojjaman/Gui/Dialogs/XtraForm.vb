@@ -113,19 +113,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'If strconfig.Length > 0 Then
 
           'End If
-        End If
-        If TypeOf m_printingEntity Is IDocStatus Then
-          Select Case CType(m_printingEntity, IDocStatus).DocStatus.ToLower
-            Case "approved"
-              newReport.Watermark.Text = "Approved" '"อนุมัติแล้ว"
-            Case "authorized"
-              newReport.Watermark.Text = "Authorized" '"อนุมัติสูงสุดแล้ว"
-            Case "canceled"
-              newReport.Watermark.Text = "Canceled" '"ยกเลิกแล้ว"
-          End Select
-        Else
 
+          If TypeOf m_printingEntity Is IDocStatus Then
+            Dim newWatermarkText As String = CType(m_printingEntity, IDocStatus).DocStatus
+            newReport.Watermark.Text = newWatermarkText
+          Else
+
+          End If
         End If
+
         '--Watermark-- 
 
         newReport.DataSource = ds
