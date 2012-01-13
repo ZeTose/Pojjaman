@@ -1556,11 +1556,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Sub GetCompleteCode()
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
                                                    CommandType.Text,
-                                                   "select distinct exportentity_street From exportentity; " & _
-                                                   "select distinct exportentity_titlename From exportentity; " & _
-                                                   "select distinct exportentity_district From exportentity; " & _
-                                                   "select distinct exportentity_province From exportentity union select province_name from province; " & _
-                                                   "select exportentity_postcode From exportentity;"
+                                                  "select distinct exportentity_street From exportentity where len(isnull(exportentity_street,'')) > 0; " & _
+                                                  "select distinct exportentity_titlename From exportentity where len(isnull(exportentity_titlename,'')) > 0; " & _
+                                                  "select distinct exportentity_district From exportentity where len(isnull(exportentity_district,'')) > 0; " & _
+                                                  "select distinct exportentity_province From exportentity where len(isnull(exportentity_province,'')) > 0 union select province_name from province where len(isnull(province_name,'')) > 0; " & _
+                                                  "select exportentity_postcode From exportentity where len(isnull(exportentity_postcode,'')) > 0; "
                                                    )
 
       AutoCompleteOfTitleName = New AutoCompleteStringCollection
