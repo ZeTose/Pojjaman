@@ -2103,27 +2103,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim theCost As Decimal = 0
           For Each mi As Milestone In Me.ItemCollection
             If Not TypeOf mi Is AdvanceMileStone AndAlso Not TypeOf mi Is Retention Then
-              If mi.Cost = Decimal.MinValue Then
-                mi.Cost = 0
-                Dim amt As Decimal = 0
-                If pma.IncludeThisItem(mi) Then
-                  Dim itemAmount As Decimal = mi.ReceivableForBillIssue
-                  itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
-                  If TypeOf mi Is VariationOrderDe Then
-                    amt = -itemAmount
-                  Else
-                    amt = itemAmount
-                  End If
-                End If
-                Dim Pn As Decimal = amt / pma.ContractAmount
-                Dim E As Decimal = pma.Budget
-                Dim Bn As Decimal = Pn * E + (E * (GetMilestoneAmountWithoutThisBillIssue(pma.Id) / pma.ContractAmount) - GetMilestoneCostWithoutThisBillIssue(pma.Id))
-                'Dim str As String
-                'str = String.Format("{0} * {1} + ({2} * ({3} / {4}) - {5})", Pn, E, E, GetMilestoneAmountWithoutThisBillIssue(pma.Id), pma.ContractAmount, GetMilestoneCostWithoutThisBillIssue(pma.Id))
-                'MessageBox.Show(str)
-                mi.Cost = Bn
-              End If
-              theCost += mi.Cost
+              'If mi.Cost = Decimal.MinValue Then
+              '  mi.Cost = 0
+              '  Dim amt As Decimal = 0
+              '  If pma.IncludeThisItem(mi) Then
+              '    Dim itemAmount As Decimal = mi.ReceivableForBillIssue
+              '    itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+              '    If TypeOf mi Is VariationOrderDe Then
+              '      amt = -itemAmount
+              '    Else
+              '      amt = itemAmount
+              '    End If
+              '  End If
+              '  Dim Pn As Decimal = amt / pma.ContractAmount
+              '  Dim E As Decimal = pma.Budget
+              '  Dim Bn As Decimal = Pn * E + (E * (GetMilestoneAmountWithoutThisBillIssue(pma.Id) / pma.ContractAmount) - GetMilestoneCostWithoutThisBillIssue(pma.Id))
+              '  'Dim str As String
+              '  'str = String.Format("{0} * {1} + ({2} * ({3} / {4}) - {5})", Pn, E, E, GetMilestoneAmountWithoutThisBillIssue(pma.Id), pma.ContractAmount, GetMilestoneCostWithoutThisBillIssue(pma.Id))
+              '  'MessageBox.Show(str)
+              '  mi.Cost = Bn
+              'End If
+              'theCost += mi.Cost
+              theCost += mi.BeforeTax
             End If
           Next
 
