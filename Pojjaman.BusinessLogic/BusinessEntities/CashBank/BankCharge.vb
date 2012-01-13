@@ -416,8 +416,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ValidateError
       End If
 
-
-
+      ValidateError = Me.WitholdingTaxCollection.BeforeSave(currentUserId)
+      If Not IsNumeric(ValidateError.Message) Then
+        Return ValidateError
+      End If
 
       Return New SaveErrorException("0")
 
