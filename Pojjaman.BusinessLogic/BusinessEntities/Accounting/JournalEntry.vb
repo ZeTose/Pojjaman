@@ -55,7 +55,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class JournalEntry
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IApprovAble, IHasAccountBook, ICancelable, ICheckPeriod, IHasMainDoc, IDuplicable
+    Implements IPrintableEntity, IApprovAble, IHasAccountBook, ICancelable, ICheckPeriod, IHasMainDoc, IDuplicable, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private gl_accountBook As AccountBook
@@ -675,7 +675,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Me.ItemCollection2.Clear()
       For Each glfi As GLFormatItem In glf.ItemCollection
-       
+
         If TypeOf RefDoc Is INewGLAble Then
           Dim matchDetailItems As JournalEntryItemCollection = entriesFromDoc2.NewGetMappingItems(glfi)
           Me.ItemCollection2.AddRange(matchDetailItems)
@@ -2418,8 +2418,82 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
 
-   
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      dpiColl.RelationList.Add("general>gl_id>Item>gli_gl")
+      dpiColl.RelationList.Add("general>gl_id>WBSItem>relation1")
 
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("gl_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDeliveryCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefRefCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefBankAccountCode", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefBankAccountName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefBankAccountCode:Name", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountBook", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VoucherName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SumDebit", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SumCredit", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditor", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCodeWithName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCodeWithName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("gli_gl", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AccountCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Account", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CCCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CCName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CCInfo", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Debit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Credit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      dpiColl.AddRange(GetWBSDocPrintingEntriesColumns)
+
+      Return dpiColl
+    End Function
+    Public Function GetWBSDocPrintingEntriesColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("relation1", "System.String", "WBSItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WBSItem.ItemDescription", "System.String", "WBSItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WBSItem.WBSDescription", "System.String", "WBSItem"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApprovePR")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
   End Class
 
   Public Class JournalEntryUpdate

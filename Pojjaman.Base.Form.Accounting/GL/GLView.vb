@@ -1851,5 +1851,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
       frm.je.RefreshOnlyGLAtom()
       frm.ShowDialog()
     End Sub
+
+    Public Overrides Sub ShowSelectSchemaDataDialog()
+      If Not Me.Entity Is Nothing Then
+        If TypeOf Me.Entity Is ISimpleEntity Then
+          If TypeOf Me.Entity Is IGLAble Then
+            If Not CType(Me.Entity, IGLAble).JournalEntry Is Nothing Then
+              Dim _je As JournalEntry = CType(Me.Entity, IGLAble).JournalEntry
+
+              'If TypeOf Me.Entity Is SimpleBusinessEntityBase Then
+              'If TypeOf Me.Entity Is INewPrintableEntity Then
+              _je.NewPrintableEntities = CType(_je, INewPrintableEntity)
+              Dim dialog As New SchemaDataExportDialog(CType(_je, INewPrintableEntity), _je) ', New SuperPrintableEntity)
+              dialog.StartPosition = FormStartPosition.CenterParent
+              dialog.ShowDialog()
+              'End If
+              'End If
+            End If
+          End If
+        End If
+      End If
+    End Sub
+
   End Class
 End Namespace
