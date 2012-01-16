@@ -1516,6 +1516,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPerson", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPersonInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPersonCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToPersonName", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenter", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterInfo", "System.String"))
