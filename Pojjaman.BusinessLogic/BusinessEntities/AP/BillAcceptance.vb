@@ -2005,6 +2005,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.BeforeTax = advancepay.BeforeTax
       Me.AfterTax = advancepay.AfterTax
       Me.TaxBase = advancepay.RealTaxBase
+      If Not advancepay.CostCenter Is Nothing Then
+        Me.CostCenterId = advancepay.CostCenter.Id
+      End If
 
       'Hack 
       Me.Amount = Me.TaxBase

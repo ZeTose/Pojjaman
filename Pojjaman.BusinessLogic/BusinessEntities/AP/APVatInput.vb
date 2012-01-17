@@ -320,9 +320,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim cc As CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
-      If Not cc Is Nothing Then
-        Me.m_vat.SetCCId(cc.Id)
-      End If
+      'If Not cc Is Nothing Then
+      '  Me.m_vat.SetCCId(cc.Id)
+      'End If
+      For Each vitem As VatItem In Me.m_vat.ItemCollection
+        If Not vitem Is Nothing AndAlso vitem.CcId = 0 Then
+          vitem.CcId = cc.Id
+        End If
+      Next
 
       Return New SaveErrorException("0")
 
@@ -811,7 +816,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji = New JournalEntryItem
           ji.Mapping = "B8.4D"
           ji.Amount = Configuration.Format(vati.Amount, DigitConfig.Price)
-          ji.CostCenter = myCC
+          If vati.CcId <= 0 Then
+            ji.CostCenter = myCC
+          Else
+            ji.CostCenter = vati.CostCenter
+          End If
           ji.EntityItem = Me.Id
           ji.EntityItemType = Me.EntityId
           ji.Note = vati.Code & ":" & vati.Runnumber & ":" & vati.PrintName
@@ -826,7 +835,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'ji.Amount = Configuration.Format(apvi.TaxAmountDeducted, DigitConfig.Price)
           'เปลี่ยนเป็นตรงเลย เพราะต้องใช้
           ji.Amount = Configuration.Format(apvi.VatAmt, DigitConfig.Price)
-          ji.CostCenter = myCC
+          If apvi.CostCenterId <= 0 Then
+            ji.CostCenter = myCC
+          Else
+            ji.CostCenter = New CostCenter(apvi.CostCenterId)
+          End If
           ji.EntityItem = apvi.Id
           ji.EntityItemType = apvi.EntityId
           ji.Note = apvi.Code & ":" & apvi.itemType & "/" & Me.Supplier.Name
