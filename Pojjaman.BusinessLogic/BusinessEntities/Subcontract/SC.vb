@@ -960,6 +960,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.EndDate = WR.EndDate
         Me.CostCenter = WR.CostCenter
         Me.Director = WR.Director
+        Me.Note = WR.Note
 
         If Not Me.WR.ItemCollection Is Nothing Then
           For Each wri As WRItem In Me.WR.AbleItemCollection
