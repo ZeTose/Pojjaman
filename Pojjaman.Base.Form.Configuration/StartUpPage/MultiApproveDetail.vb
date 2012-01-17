@@ -571,6 +571,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         docTypeString = "doca_entitytype = " & CType(chkSC.Tag, KeyValuePair).Key
         newDocList.Add(docTypeString)
         checkCal += 1
+
+        docTypeString = "doca_entitytype = 290"
+        newDocList.Add(docTypeString)
+        checkCal += 1
       End If
       If chkDR.Checked Then
         docTypeString = "doca_entitytype = " & CType(chkDR.Tag, KeyValuePair).Key
@@ -590,7 +594,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       If checkCal = 0 Then 'ไม่เลือกเลยสักตัว
         newDocList.Add("doca_entitytype = -1")
-      ElseIf checkCal = 7 Then 'เลือกทุกตัว
+      ElseIf checkCal = 8 Then 'เลือกทุกตัว
 
       End If
 
