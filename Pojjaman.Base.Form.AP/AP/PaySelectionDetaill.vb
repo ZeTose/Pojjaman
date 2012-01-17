@@ -1768,7 +1768,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbCode.Text = m_entity.Code
 
       txtNote.Text = m_entity.Note
-      Me.m_oldCode = Me.m_entity.Code
+      'Me.m_oldCode = Me.m_entity.Code
       Me.chkAutorun.Checked = Me.m_entity.AutoGen
       Me.UpdateAutogenStatus()
 
@@ -2012,12 +2012,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
-    Private m_oldCode As String = ""
+    'Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()
       If Me.chkAutorun.Checked Then
         'Me.Validator.SetRequired(Me.txtCode, False)
         'Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDown
+        Me.cmbCode.DropDownStyle = ComboBoxStyle.DropDownList
         Dim currentUserId As Integer = Me.SecurityService.CurrentUser.Id
         BusinessLogic.Entity.NewPopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId, currentUserId)
         If Me.m_entity.Code Is Nothing OrElse Me.m_entity.Code.Length = 0 Then
@@ -2032,14 +2032,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
           End If
         End If
-        m_oldCode = Me.cmbCode.Text
-        Me.m_entity.Code = m_oldCode
+        'm_oldCode = Me.cmbCode.Text
+        'Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
         'Me.Validator.SetRequired(Me.txtCode, True)
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
         Me.cmbCode.Items.Clear()
-        Me.cmbCode.Text = m_oldCode
+        Me.cmbCode.Text = m_entity.Code
         Me.m_entity.AutoGen = False
       End If
     End Sub
