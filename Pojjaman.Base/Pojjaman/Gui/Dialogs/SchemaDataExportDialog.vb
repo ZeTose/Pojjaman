@@ -53,20 +53,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       m_initialize = True
-      Dim listofschemaname As List(Of String)
+      Dim listofschemaname As List(Of KeyValuePair)
       If TypeOf m_printingEntity Is ISimpleListPanel Then
         listofschemaname = EntitySimpleSchema.GetListSchemaName(m_entity)
+        Me.cmbSchemaName.Enabled = False
       Else
         listofschemaname = EntitySimpleSchema.GetGeneralSchemaNameList(m_entity)
+        Me.cmbSchemaName.Enabled = True
       End If
 
-      For Each schemaname As String In listofschemaname
-        Dim item As New KeyValuePair(schemaname, schemaname)
-        Me.cmbSchemaName.Items.Add(item)
+      For Each schemaname As KeyValuePair In listofschemaname
+        Me.cmbSchemaName.Items.Add(schemaname)
       Next
 
       Me.cmbSchemaName.SelectedIndex = 0
-      Me.SchemaName = Me.cmbSchemaName.Text
+      Me.SchemaName = CType(Me.cmbSchemaName.SelectedItem, KeyValuePair).Value
 
       PreviewText()
       'Me.cmbSchemaName.Focus()
@@ -255,14 +256,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnExportSchema_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportSchema.Click
-      Me.SchemaName = Me.cmbSchemaName.Text
+      Me.SchemaName = CType(Me.cmbSchemaName.SelectedItem, KeyValuePair).Value
 
       PreviewText()
       ExportSchema()
     End Sub
 
     Private Sub cmbSchemaName_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmbSchemaName.SelectedIndexChanged
-      Me.SchemaName = Me.cmbSchemaName.Text
+      Me.SchemaName = CType(Me.cmbSchemaName.SelectedItem, KeyValuePair).Value
 
       If Not m_initialize Then
         PreviewText()
@@ -274,7 +275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents RadioButton2 As System.Windows.Forms.RadioButton
 
     Private Sub btnExportData_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportData.Click
-      Me.SchemaName = Me.cmbSchemaName.Text
+      Me.SchemaName = CType(Me.cmbSchemaName.SelectedItem, KeyValuePair).Value
 
       PreviewText()
       ExportData()

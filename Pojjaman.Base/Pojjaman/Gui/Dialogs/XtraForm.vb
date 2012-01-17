@@ -78,6 +78,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Try
         newReport = XtraReport.FromFile(Me.m_path, True)
 
+        'RemoveHandler newReport.AfterPrint, AddressOf newReport_AfterPrint
+        'AddHandler newReport.AfterPrint, AddressOf newReport_AfterPrint
+
         Dim ds As DataSet
         'If GetSchemaFromListView Then
         '  ds = GetDataFromEntityListView()
@@ -186,6 +189,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Me.CrystalReportViewer1.ShowExportButton = False
       'End If
     End Sub
+    'Private Sub newReport_AfterPrint(sender As Object, e As EventArgs)
+    '  MessageBox.Show("Yahoo")
+    'End Sub
 #End Region
 
 #Region "Member"

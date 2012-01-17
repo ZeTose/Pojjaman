@@ -89,7 +89,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim ds As DataSet
-      ds = GetNewListData(entity)
+      If IsDefaultSchema(entity, schemaId) Then
+        ds = GetNewListData(entity)
+      Else
+        ds = GetNewListSchemaFromDB(entity, schemaId)
+      End If
       ds.DataSetName = schemaId
 
       Return ds
@@ -100,10 +104,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim ds As DataSet
-      ds = GetNewListSchema(entity)
+      If IsDefaultSchema(entity, schemaId) Then
+        ds = GetNewListSchema(entity)
+      Else
+        ds = GetNewListOnlySchemaFromDB(entity, schemaId)
+      End If
       ds.DataSetName = schemaId
 
       Return ds
+    End Function
+    Private Shared Function IsDefaultSchema(ByVal entity As INewPrintableEntity, ByVal schemaId As String) As Boolean
+      If TypeOf entity Is ISimpleEntity Then
+        Dim en As ISimpleEntity = CType(entity, ISimpleEntity)
+
+        If schemaId.ToLower.Trim.Equals(String.Format("Get_{0}_List", en.ClassName).ToLower.Trim) OrElse _
+          schemaId.ToLower.Trim.Equals(String.Format("Get_{0}_General", en.ClassName).ToLower.Trim) Then
+          Return True
+        End If
+
+      End If
+
+      Return False
     End Function
     'Public Shared Function GetData(ByVal entity As ISimpleEntity, ByVal schemaId As String) As DataSet
     '  If entity Is Nothing Then
@@ -375,6 +396,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return ds
     End Function
+    Private Shared Function GetNewListSchemaFromDB(ByVal dpientity As INewPrintableEntity, ByVal schemaId As String) As DataSet
+      If Not TypeOf dpientity Is ISimpleEntity Then
+        Return New DataSet
+      End If
+
+      Dim _entity As ISimpleEntity = CType(dpientity, ISimpleEntity)
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(
+                                                    SimpleBusinessEntityBase.ConnectionString,
+                                                    CommandType.StoredProcedure,
+                                                    schemaId,
+                                                    New SqlParameter("@entityid", _entity.Id),
+                                                    New SqlParameter("@entitytype", _entity.EntityId)
+                                                )
+      If ds.Tables.Count > 0 Then
+        ds.Tables(0).TableName = _entity.ClassName
+      End If
+
+      Return ds
+    End Function
+    Private Shared Function GetNewListOnlySchemaFromDB(ByVal dpientity As INewPrintableEntity, ByVal schemaId As String) As DataSet
+      If Not TypeOf dpientity Is ISimpleEntity Then
+        Return New DataSet
+      End If
+
+      Dim _entity As ISimpleEntity = CType(dpientity, ISimpleEntity)
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(
+                                                    SimpleBusinessEntityBase.ConnectionString,
+                                                    CommandType.StoredProcedure,
+                                                    schemaId,
+                                                    New SqlParameter("@entityid", 0),
+                                                    New SqlParameter("@entitytype", _entity.EntityId)
+                                                )
+      If ds.Tables.Count > 0 Then
+        ds.Tables(0).TableName = _entity.ClassName
+      End If
+
+      Return ds
+    End Function
     Private Shared Function GetPrintingDetailOfEntity(ByVal entity As INewPrintableEntity, Optional ByVal schemaOnly As Boolean = True) As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim myDpi As DocPrintingItem
@@ -511,28 +572,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 
-    Public Shared Function GetListSchemaName(ByVal entity As ISimpleEntity) As List(Of String)
+    Public Shared Function GetListSchemaName(ByVal entity As ISimpleEntity) As List(Of KeyValuePair)
       Dim scname As String = String.Format("Get_{0}_List", entity.ClassName)
-      Dim sclist As New List(Of String)
-      sclist.Add(scname)
+      Dim scaliasname As String = scname
+      If TypeOf entity Is SimpleBusinessEntityBase Then
+
+        Dim m_stringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        scaliasname = CType(entity, SimpleBusinessEntityBase).DetailPanelTitle
+        scaliasname = String.Format("{0}(List)", m_stringParserService.Parse(scaliasname))
+      End If
+
+      Dim sclist As New List(Of KeyValuePair)
+      sclist.Add(New KeyValuePair(scaliasname, scname))
+
+      For Each li As KeyValuePair In GetSchemaFromDB(entity)
+        sclist.Add(li)
+      Next
+
       Return sclist
     End Function
-    Public Shared Function GetGeneralSchemaNameList(ByVal entity As ISimpleEntity) As List(Of String)
-      Dim scname As String = ""
+    Public Shared Function GetGeneralSchemaNameList(ByVal entity As ISimpleEntity) As List(Of KeyValuePair)
+      Dim scname As String = String.Format("Get_{0}_General", entity.ClassName)
+      Dim scaliasname As String = scname
+      If TypeOf entity Is SimpleBusinessEntityBase Then
 
-      Dim sclist As New List(Of String)
+        Dim m_stringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        scaliasname = CType(entity, SimpleBusinessEntityBase).DetailPanelTitle
+        scaliasname = m_stringParserService.Parse(scaliasname)
+      End If
 
+      Dim sclist As New List(Of KeyValuePair)
       scname = String.Format("Get_{0}_General", entity.ClassName)
-      sclist.Add(scname)
+      sclist.Add(New KeyValuePair(scaliasname, scname))
 
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
-                                                   CommandType.StoredProcedure,
-                                                   "GetSchemaNameList",
-                                                   New SqlParameter("@entity_id", entity.EntityId))
-      For Each row As DataRow In ds.Tables(0).Rows
-        Dim drh As New DataRowHelper(row)
-
-        sclist.Add(drh.GetValue(Of String)("name", ""))
+      For Each li As KeyValuePair In GetSchemaFromDB(entity)
+        sclist.Add(li)
       Next
 
       Return sclist
@@ -564,21 +638,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Return Nothing
     'End Function
 
-    Public Function GetDatabaseDataSchema() As DataSet
-      'If m_entity Is Nothing Then
-      '  Return Nothing
-      'End If
-      'Dim ds As DataSet = SqlHelper.ExecuteDataset(
-      '                                                SimpleBusinessEntityBase.ConnectionString,
-      '                                                CommandType.StoredProcedure,
-      '                                                Me.SchemaId,
-      '                                                New SqlParameter("@EntityId", Me.m_entity.Id),
-      '                                                New SqlParameter("@EntityType", Me.m_entity.EntityId)
-      '                                            )
-      'If ds.Tables.Count > 0 Then
-      '  Return ds
-      'End If
-      'Return Nothing
+    Private Shared Function GetSchemaFromDB(ByVal entity As ISimpleEntity) As List(Of KeyValuePair)
+      Dim sclist As New List(Of KeyValuePair)
+
+      If entity Is Nothing Then
+        Return sclist
+      End If
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(
+                                                      SimpleBusinessEntityBase.ConnectionString,
+                                                      CommandType.StoredProcedure,
+                                                      "GetSchemaName",
+                                                      New SqlParameter("@entity_id", entity.EntityId)
+                                                  )
+      For Each d As DataRow In ds.Tables(0).Rows
+        Dim dh As New DataRowHelper(d)
+        Dim k As New KeyValuePair(dh.GetValue(Of String)("schema_aliasname", ""), dh.GetValue(Of String)("schema_name", ""))
+        sclist.Add(k)
+      Next
+      Return sclist
     End Function
     'Public Function GetGeneralDataSchema() As DataSet
     '  If m_entity Is Nothing Then
