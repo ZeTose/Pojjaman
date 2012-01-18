@@ -2712,6 +2712,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim oldAmount As Decimal = item.ReceiveAmount
             item.ReceiveAmount = oldAmount  'ต้องการให้ MAT, LAB, EQ คำนวณแล้วเอาไปโชว์ด้วย
 
+            If item.ItemType.Value = 289 OrElse item.ItemType.Value = 160 OrElse item.ItemType.Value = 162 Then
+            Else
+              item.SetDefaulAccount()
+            End If
+
             Me.ItemCollection.Add(item)
             'For Each wbsd As WBSDistribute In item.WBSDistributeCollection
             '  Me.ItemCollection.SetBudgetRemain(wbsd, item)

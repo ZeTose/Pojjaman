@@ -314,21 +314,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property MatAccount() As Account      Get
-        If Me.Sequence = 0 Then
-        If TypeOf Me.Entity Is LCIItem Then
-          Dim lci As LCIItem = CType(Me.Entity, LCIItem)
-          Me.m_account = lci.Account
-        ElseIf TypeOf Me.Entity Is Tool Then
-          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.ToolAndOther)
-          Me.m_account = ga.Account
-            'ElseIf TypeOf Me.Entity Is BlankItem AndAlso Me.ItemType.Value = 0 Then
-            '  Return Me.m_account
-        Else
+    Public Sub SetDefaulAccount()
+
+      Dim acct As Account
+      Select Case Me.ItemType.Value
+        Case 88
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SalaryWage)
+          m_labaccount = ga.Account
+        Case 291
+          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SCPenalty)
+          m_labaccount = ga.Account
+        Case 89
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
-          Me.m_account = ga.Account
-        End If
-        End If
+          m_eqaccount = ga.Account
+        Case Else
+          If TypeOf Me.Entity Is LCIItem Then
+            Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+            Me.m_account = lci.Account
+          ElseIf TypeOf Me.Entity Is Tool Then
+            Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.ToolAndOther)
+            Me.m_account = ga.Account
+          Else
+            Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
+            Me.m_account = ga.Account
+          End If
+      End Select
+
+    End Sub
+    Public Property MatAccount() As Account      Get
+        'If Me.Sequence = 0 Then
+        'If TypeOf Me.Entity Is LCIItem Then
+        '  Dim lci As LCIItem = CType(Me.Entity, LCIItem)
+        '  Me.m_account = lci.Account
+        'ElseIf TypeOf Me.Entity Is Tool Then
+        '  Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.ToolAndOther)
+        '  Me.m_account = ga.Account
+        '  'ElseIf TypeOf Me.Entity Is BlankItem AndAlso Me.ItemType.Value = 0 Then
+        '  '  Return Me.m_account
+        'Else
+        '  Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
+        '  Me.m_account = ga.Account
+        'End If
+        'End If
 
         Return Me.m_account
       End Get
@@ -339,14 +366,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property LabAccount() As Account
       Get
-        If m_labaccount Is Nothing OrElse Not m_labaccount.Originated Then
-          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SalaryWage)
-          m_labaccount = ga.Account
-        End If
-        If Me.ItemType.Value = 291 Then
-          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SCPenalty)
-          m_labaccount = ga.Account
-        End If
+        'If m_labaccount Is Nothing OrElse Not m_labaccount.Originated Then
+        '  Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SalaryWage)
+        '  m_labaccount = ga.Account
+        'End If
+        'If Me.ItemType.Value = 291 Then
+        '  Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.SCPenalty)
+        '  m_labaccount = ga.Account
+        'End If
         Return m_labaccount
       End Get
       Set(ByVal Value As Account)
@@ -356,10 +383,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property EqAccount() As Account
       Get
-        If m_eqaccount Is Nothing OrElse Not m_eqaccount.Originated Then
-          Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
-          m_eqaccount = ga.Account
-        End If
+        'If m_eqaccount Is Nothing OrElse Not m_eqaccount.Originated Then
+        '  Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherExpense)
+        '  m_eqaccount = ga.Account
+        'End If
         Return m_eqaccount
       End Get
       Set(ByVal Value As Account)
@@ -975,11 +1002,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
     Private Function ValidateReceiveAmount(ByVal Value As Decimal) As Boolean
-        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If Not Me.RefEntity Is Nothing AndAlso Me.RefEntity.Id > 0 Then
-          If Me.HashSCChild Then            'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน            msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CanNotChangeContract}")
+        If Me.HashSCChild Then          'ไม่อนุญาติให้แก้มูลค่ารับงาน ถ้าสัญญานั้นมีรายละเอียด ให้แก้ที่รายละเอียดแทน          msgServ.ShowMessage("${res:Longkong.Pojjaman.Gui.Panels.PAPanelView.CanNotChangeContract}")
           Return False
-          End If          If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then          If Me.ContractCostAmount > 0 AndAlso (Value <= 0 OrElse Me.RemainingCost < Value) Then
+        End If        If Me.RefEntity.Id = 290 OrElse Me.RefEntity.Id = 291 Then          If Me.ContractCostAmount > 0 AndAlso (Value <= 0 OrElse Me.RemainingCost < Value) Then
             'สำหรับ VO+ มูลค่ารับงานต้องมากกว่าศูนย์เสมอ และห้ามมากกว่ามูลค่าค้างรับคงเหลือ
             If Value <= 0 Then
               msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AdditionValidAmount}")
@@ -995,25 +1022,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Value >= 0 Then
               msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidAmount}")
               Return False
-            End If              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
-                        New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
-                                      Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+            End If            msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+                      New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+                                    Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
             Return False
-            End If
-          Else
+          End If
+        Else
           If Value <= 0 Then
             msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.AdditionValidAmount}")
             Return False
           End If
-            If Me.RemainingCost < Value Then              'มูลค่ารับงานเกินมูลค่าตามสัญญา              msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
-                        New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
-                                      Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
+          If Me.RemainingCost < Value Then            'มูลค่ารับงานเกินมูลค่าตามสัญญา            msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.POPanelView.ValidBudgetAmount}", _
+                      New String() {Configuration.FormatToString(Value, DigitConfig.Price), _
+                                    Configuration.FormatToString(Me.RemainingCost, DigitConfig.Price)})
             Return False
           End If
         End If
       Else 'ถ้าเป็นรายการรับงานเองที่ไม่ได้ดึงมาจาก SC
 
-        End If
+      End If
 
       Return True
     End Function
@@ -1882,19 +1909,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Else
         'If Me.Amount <> 0 Then
         row("Amount") = Configuration.FormatToString(Me.CostAmount, DigitConfig.Price)
-        If Not Me.MatAccount Is Nothing Then
-          row("AccountCode") = Me.MatAccount.Code
-          row("Account") = Me.MatAccount.Name
-        End If
-        If Not Me.LabAccount Is Nothing Then
-          row("AccountCode") = Me.LabAccount.Code
-          row("Account") = Me.LabAccount.Name
-        End If
-        If Not Me.EqAccount Is Nothing Then
-          row("AccountCode") = Me.EqAccount.Code
-          row("Account") = Me.EqAccount.Name
-        End If
+        'If Not Me.MatAccount Is Nothing Then
+        '  row("AccountCode") = Me.MatAccount.Code
+        '  row("Account") = Me.MatAccount.Name
+        'End If
+        'If Not Me.LabAccount Is Nothing Then
+        '  row("AccountCode") = Me.LabAccount.Code
+        '  row("Account") = Me.LabAccount.Name
+        'End If
+        'If Not Me.EqAccount Is Nothing Then
+        '  row("AccountCode") = Me.EqAccount.Code
+        '  row("Account") = Me.EqAccount.Name
+        'End If
 
+        Dim acct As Account
+        Select Case Me.ItemType.Value
+          Case 88, 291
+            acct = Me.LabAccount
+          Case 89
+            acct = Me.EqAccount
+          Case Else
+            acct = Me.MatAccount
+        End Select
+        If Not acct Is Nothing Then
+          row("AccountCode") = acct.Code
+          row("Account") = acct.Name
+        End If
 
         'Else
         'row("Amount") = ""
