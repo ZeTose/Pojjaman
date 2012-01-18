@@ -2811,8 +2811,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.RelationList.Add("general>pa_id>item>pai_pa")
       dpiColl.RelationList.Add("general>pa_id>Approve>ApprovePersonLevelNo")
 
-      dpiColl.RelationList.Add("item>pai_pa>allocate>pai_pa")
-      dpiColl.RelationList.Add("item>pai_sequence>allocate>pai_sequence")
+      'dpiColl.RelationList.Add("item>pai_pa>allocate>pai_pa")
+      dpiColl.RelationList.Add("item>pai_sequence>allocate>paiw_sequence")
 
       'dpiColl.RelationList.Add("item>pri_linenumber>UnitPrice>UnitPriceNo")
       'dpiColl.RelationList.Add("item>pri_linenumber>Unit>UnitNo")
@@ -2893,11 +2893,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTaxWithNoRetention", "System.Decimal"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WitholdingTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummarySCAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryDRAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryVOAmount", "System.Decimal"))
 
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonIdLevel", "System.String")) '--Last Approved--
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AuthorizeId", "System.String")) '--Last Approved--
 
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pa_id", "System.String", "Approve"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pa_id", "System.String", "Approve"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonLevelNo", "System.String", "Approve"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonCodeLevel", "System.String", "Approve"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonNameLevel", "System.String", "Approve"))
@@ -2905,7 +2908,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonDateLevel", "System.DateTime", "Approve"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonCommentLevel", "System.String", "Approve"))
 
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pa_id", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_pa", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_sequence", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemName", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ContractAmount", "System.Decimal", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceivedAmount", "System.Decimal", "Item"))
@@ -2934,7 +2938,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RemainingAmount", "System.Decimal", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ProgressReceivedAmount", "System.Decimal", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostAmount", "System.Decimal", "Item"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AllocateCCList", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AllocateCCList", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.MatAmount", "System.Decimal", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LabAmount", "System.Decimal", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.EqAmount", "System.Decimal", "Item"))
@@ -2974,8 +2978,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetAllocateDocPrintingColumns() As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
 
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_pa", "System.String", "Allocate"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_sequence", "System.String", "Allocate"))
+      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_pa", "System.String", "Allocate"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pai_wsequence", "System.String", "Allocate"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Allocate"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Allocate"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Allocate"))
@@ -3590,7 +3594,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
+      'Dim ScRefItem As New ArrayList
+      'Dim DrRefItem As New ArrayList
+      'Dim VoRefItem As New ArrayList
+      'Dim NotRefItem As New ArrayList
+
+      Dim scAmount As Decimal
+      Dim drAmount As Decimal
+      Dim voAmount As Decimal
+      For Each item As PAItem In Me.ItemCollection
+        If item.ItemType.Value <> 160 AndAlso item.ItemType.Value <> 162 Then
+          If item.Level <> 0 Then
+            If item.RefEntity.Id = 0 Then
+
+            ElseIf item.RefEntity.Id = 291 Then
+              drAmount += item.Amount
+            ElseIf item.RefEntity.Id = 290 Then
+              voAmount += item.Amount
+            ElseIf item.RefEntity.Id = 289 Then
+              scAmount += item.Amount
+            End If
+          End If
+        End If
+      Next
+
+      'SummarySCAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SummarySCAmount"
+      dpi.Value = Configuration.FormatToString(scAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'SummaryDRAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SummaryDRAmount"
+      dpi.Value = Configuration.FormatToString(drAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'SummaryVOAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SummaryVOAmount"
+      dpi.Value = Configuration.FormatToString(voAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
       dpiColl.AddRange(GetDocPrintingItemsEntries)
+      dpiColl.AddRange(GetAllocateDocPrinting)
 
       Return dpiColl
     End Function
@@ -4479,7 +4529,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim line As Integer = 0
       Dim counter As Integer = 0
       Dim i As Integer = 0
-      For Each item As SCItem In Me.ItemCollection
+      For Each item As PAItem In Me.ItemCollection
 
         dpi = New DocPrintingItem
         dpi.Mapping = "pai_pa"
@@ -4490,7 +4540,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
 
         dpi = New DocPrintingItem
-        dpi.Mapping = "pai_sequence"
+        dpi.Mapping = "paiw_sequence"
         dpi.Value = item.Sequence
         dpi.DataType = "System.String"
         dpi.Row = i + 1
@@ -6379,7 +6429,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = 0 Then
           Return "Canceled"
         Else
-          Dim obj As Object = Configuration.GetConfig("ApproveSC")
+          Dim obj As Object = Configuration.GetConfig("ApprovePA")
           If CBool(obj) Then
             If Me.IsAuthorized Then
               Return "Authorized"
