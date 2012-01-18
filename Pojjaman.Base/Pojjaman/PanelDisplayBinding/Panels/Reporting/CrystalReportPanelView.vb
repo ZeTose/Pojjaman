@@ -342,7 +342,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_entity.PopupAvailableReport(cmbReportName)
 
       ''Load เลย
-      btnSearch_Click(Nothing, Nothing)
+      'btnSearch_Click(Nothing, Nothing)
     End Sub
     Private Sub CheckAccessRight()
       Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName)
@@ -437,6 +437,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       If Not IO.File.Exists(sReportName) Then
         MessageBox.Show("Report File '" & sReportName & "' not found")
+        Return
       End If
 
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -469,7 +470,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             currValue.Add(paraValue)
             newReport.DataDefinition.ParameterFields(flr.Name).ApplyCurrentValues(currValue)
 
-            Trace.WriteLine(flr.Name & " : " & flr.Value.ToString)
+            'Trace.WriteLine(flr.Name & " : " & flr.Value.ToString)
           Next
 
           paraValue.Value = culture
