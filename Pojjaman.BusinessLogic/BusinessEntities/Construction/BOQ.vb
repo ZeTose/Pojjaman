@@ -3625,29 +3625,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
         For Each item As BoqItem In toolHash.Values
           Dim row As DataRow() = ds.Tables(0).Select("tool_id=" & item.Entity.Id.ToString)
-          Dim myTool As New Tool(row(0), "")
-          If Not myTool.Originated Then
-            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-          ElseIf Not myTool.Unit.Id <> item.Unit.Id Then
-            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+          If row.Length > 0 Then
+            Dim myTool As New Tool(row(0), "")
+            If Not myTool.Originated Then
+              Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
+            ElseIf Not myTool.Unit Is Nothing AndAlso item.Unit.Valid AndAlso Not myTool.Unit.Id <> item.Unit.Id Then
+              Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
+            End If
           End If
         Next
         For Each item As BoqItem In larborHash.Values
           Dim row As DataRow() = ds.Tables(1).Select("labor_id=" & item.Entity.Id.ToString)
-          Dim myLabor As New Labor(row(0), "")
-          If Not myLabor.Originated Then
-            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-          ElseIf Not myLabor.Unit.Id <> item.Unit.Id Then
-            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
+          If row.Length > 0 Then
+            Dim myLabor As New Labor(row(0), "")
+            If Not myLabor.Originated Then
+              Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
+            ElseIf Not myLabor.Unit Is Nothing AndAlso myLabor.Unit.Valid AndAlso Not myLabor.Unit.Id <> item.Unit.Id Then
+              Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
+            End If
           End If
         Next
         For Each item As BoqItem In eqcostHash.Values
           Dim row As DataRow() = ds.Tables(2).Select("eqcostg_id=" & item.Entity.Id.ToString)
-          Dim myEqCost As New EqCost(row(0), "")
-          If Not myEqCost.Originated Then
-            Return New SaveErrorException("${res:Global.Error.LCIIsInvalid}", New String() {item.Entity.Name})
-          ElseIf Not myEqCost.Unit.Id <> item.Unit.Id Then
-            Return New SaveErrorException("${res:Global.Error.LCIInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
+          If row.Length > 0 Then
+            Dim myEqCost As New EqCost(row(0), "")
+            If Not myEqCost.Originated Then
+              Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
+            ElseIf Not myEqCost.Unit Is Nothing AndAlso myEqCost.Unit.Valid AndAlso Not myEqCost.Unit.Id <> item.Unit.Id Then
+              Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
+            End If
           End If
         Next
 

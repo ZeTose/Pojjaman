@@ -47,53 +47,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       MyBase.Construct(dr, aliasPrefix)
 
+      Dim drh As New DataRowHelper(dr)
+
       With Me
-        If Not dr.IsNull(aliasPrefix & "labor_name") Then
-          .labor_name = CStr(dr(aliasPrefix & "labor_name"))
-        End If
+
+
+        .labor_name = drh.GetValue(Of String)(aliasPrefix & "labor_name")
+
 
         If dr.Table.Columns.Contains(aliasPrefix & "laborg_id") AndAlso Not dr.IsNull(aliasPrefix & "laborg_id") Then
           .labor_group = New LaborGroup(dr, "")
         Else
-          If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_group") _
-          AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_group") Then
-            .labor_group = New LaborGroup(CInt(dr(aliasPrefix & Me.Prefix & "_group")))
-          End If
+          .labor_group = New LaborGroup(drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_group"))
         End If
 
-        If Not dr.IsNull(aliasPrefix & "labor_pjmid") Then
-          .labor_pjmid = CInt(dr(aliasPrefix & "labor_pjmid"))
-        End If
 
-        If Not dr.IsNull(aliasPrefix & "labor_altName") Then
-          .labor_alternateName = CStr(dr(aliasPrefix & "labor_altName"))
-        End If
-
-        If Not dr.IsNull(aliasPrefix & "labor_cost") Then
-          .labor_cost = CDec(dr(aliasPrefix & "labor_cost"))
-        End If
-
-        If Not dr.IsNull(aliasPrefix & "labor_costdate") Then
-          .labor_costdate = CDate(dr(aliasPrefix & "labor_costdate"))
-        End If
-
-        If Not dr.IsNull(aliasPrefix & "labor_type") Then
-          .labor_type = CStr(dr(aliasPrefix & "labor_type"))
-        End If
+        .labor_pjmid = drh.GetValue(Of Integer)(aliasPrefix & "labor_pjmid")
+        .labor_alternateName = drh.GetValue(Of String)(aliasPrefix & "labor_altName")
+        .labor_cost = drh.GetValue(Of Decimal)(aliasPrefix & "labor_cost")
+        .labor_costdate = drh.GetValue(Of Date)(aliasPrefix & "labor_costdate")
+        .labor_type = drh.GetValue(Of String)(aliasPrefix & "labor_type")
 
         If dr.Table.Columns.Contains("unit_id") Then
           If Not dr.IsNull("unit_id") Then
-            '.labor_unit = New Unit(dr, "")
-            Dim unitId As Integer = CInt(dr("unit_id"))
+            Dim unitId As Integer = drh.GetValue(Of Integer)("unit_id")
             .labor_unit = Unit.GetUnitById(unitId)
           End If
         Else
           If Not dr.IsNull(aliasPrefix & "labor_unit") Then
-            '.labor_unit = New Unit(CInt(dr(aliasPrefix & "labor_unit")))
-            Dim unitId As Integer = CInt(dr(aliasPrefix & "labor_unit"))
+            Dim unitId As Integer = drh.GetValue(Of Integer)(aliasPrefix & "labor_unit")
             .labor_unit = Unit.GetUnitById(unitId)
           End If
         End If
+
+        'If Not dr.IsNull(aliasPrefix & "labor_name") Then
+        '  .labor_name = CStr(dr(aliasPrefix & "labor_name"))
+        'End If
+
+        'If dr.Table.Columns.Contains(aliasPrefix & "laborg_id") AndAlso Not dr.IsNull(aliasPrefix & "laborg_id") Then
+        '  .labor_group = New LaborGroup(dr, "")
+        'Else
+        '  If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_group") _
+        '  AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_group") Then
+        '    .labor_group = New LaborGroup(CInt(dr(aliasPrefix & Me.Prefix & "_group")))
+        '  End If
+        'End If
+
+        'If Not dr.IsNull(aliasPrefix & "labor_pjmid") Then
+        '  .labor_pjmid = CInt(dr(aliasPrefix & "labor_pjmid"))
+        'End If
+
+        'If Not dr.IsNull(aliasPrefix & "labor_altName") Then
+        '  .labor_alternateName = CStr(dr(aliasPrefix & "labor_altName"))
+        'End If
+
+        'If Not dr.IsNull(aliasPrefix & "labor_cost") Then
+        '  .labor_cost = CDec(dr(aliasPrefix & "labor_cost"))
+        'End If
+
+        'If Not dr.IsNull(aliasPrefix & "labor_costdate") Then
+        '  .labor_costdate = CDate(dr(aliasPrefix & "labor_costdate"))
+        'End If
+
+        'If Not dr.IsNull(aliasPrefix & "labor_type") Then
+        '  .labor_type = CStr(dr(aliasPrefix & "labor_type"))
+        'End If
+
+        'If dr.Table.Columns.Contains("unit_id") Then
+        '  If Not dr.IsNull("unit_id") Then
+        '    '.labor_unit = New Unit(dr, "")
+        '    Dim unitId As Integer = CInt(dr("unit_id"))
+        '    .labor_unit = Unit.GetUnitById(unitId)
+        '  End If
+        'Else
+        '  If Not dr.IsNull(aliasPrefix & "labor_unit") Then
+        '    '.labor_unit = New Unit(CInt(dr(aliasPrefix & "labor_unit")))
+        '    Dim unitId As Integer = CInt(dr(aliasPrefix & "labor_unit"))
+        '    .labor_unit = Unit.GetUnitById(unitId)
+        '  End If
+        'End If
       End With
     End Sub
 #End Region
