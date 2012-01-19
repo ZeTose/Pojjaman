@@ -506,7 +506,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub CopyFromPRItem(ByVal prItem As PRItem)
       Me.m_pritem = prItem
       Me.m_entity = prItem.Entity
-      Me.m_unit = prItem.Unit
+      Me.m_unit = CType(prItem.Entity, LCIItem).DefaultUnit 'prItem.Unit
       'Me.m_qty = prItem.Qty
       'Me.m_qty = Math.Max(prItem.StockQty - prItem.WithdrawnQty, 0)
       'Me.m_qty = Math.Min(Me.MatTransfer.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
