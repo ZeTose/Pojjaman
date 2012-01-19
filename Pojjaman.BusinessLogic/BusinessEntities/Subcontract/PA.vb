@@ -1363,13 +1363,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '   New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.CostAmount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
           'End If
         Else
-          Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
-          Trace.WriteLine("costamt:" & pitem.CostAmount.ToString)
-          Trace.WriteLine("value:" & m_value.ToString)
-          If Configuration.Format(pitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
-            Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
-             New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.CostAmount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
-          End If
+          'Dim m_value As Decimal = pitem.Mat + pitem.Lab + pitem.Eq
+          'Trace.WriteLine("costamt:" & pitem.CostAmount.ToString)
+          'Trace.WriteLine("value:" & m_value.ToString)
+          'If Configuration.Format(pitem.CostAmount, DigitConfig.Price) <> Configuration.Format(m_value, DigitConfig.Price) Then
+          '  Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
+          '   New String() {pitem.ItemDescription, Configuration.FormatToString(pitem.CostAmount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
+          'End If
         End If
         Dim newHash As New Hashtable
         If pitem.WBSDistributeCollection.GetSumPercent > 100 Then

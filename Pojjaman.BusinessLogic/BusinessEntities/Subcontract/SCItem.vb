@@ -86,10 +86,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
+      If m_sc Is Nothing Then
+        m_sc = New SC
+      End If
       m_WBSDistributeCollection = New WBSDistributeCollection
       AddHandler m_WBSDistributeCollection.PropertyChanged, AddressOf Me.WBSChangedHandler
     End Sub
     Public Sub New(ByVal id As Integer, ByVal line As Integer)
+      If m_sc Is Nothing Then
+        m_sc = New SC
+      End If
       Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
       , CommandType.StoredProcedure _
@@ -109,13 +115,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      If m_sc Is Nothing Then
+        m_sc = New SC
+      End If
       Me.Construct(ds, aliasPrefix)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      If m_sc Is Nothing Then
+        m_sc = New SC
+      End If
       Me.Construct(dr, aliasPrefix)
     End Sub
     Public Sub New(ByVal dr As DataRow, ByVal sc As SC)
-      Me.SC = sc
+      If m_sc Is Nothing Then
+        m_sc = New SC
+      End If
       Me.Construct(dr, "")
     End Sub
     Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
@@ -333,6 +347,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Sub
     Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      If m_sc Is Nothing Then
+        m_sc = New SC
+      End If
+
       Dim dr As DataRow = ds.Tables(0).Rows(0)
       Me.Construct(dr, aliasPrefix)
     End Sub
