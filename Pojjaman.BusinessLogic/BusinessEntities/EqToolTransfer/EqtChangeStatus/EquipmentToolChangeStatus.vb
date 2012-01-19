@@ -1001,6 +1001,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
+        If Not item.Unit Is Nothing Then
+          'Item.UnitCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitCode"
+          dpi.Value = item.Unit.Code
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.UnitName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitName"
+          dpi.Value = item.Unit.Name
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
+          'Item.UnitInfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "Item.UnitInfo"
+          dpi.Value = String.Format("{0}:{1}", item.Unit.Code, item.Unit.Name)
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+        End If
+
         'Item.Qty
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.Qty"
@@ -1233,7 +1262,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Type", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
-      'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitInfo", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Item"))
       'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RentalRate", "System.String", "Item"))
       'dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RentalPerDay", "System.String", "Item"))
