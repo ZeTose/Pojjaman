@@ -64,6 +64,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtAccountCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblAccountStart As System.Windows.Forms.Label
     Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents chkOnlyRemain As System.Windows.Forms.CheckBox
     Friend WithEvents chkIncludeChildSupplierGroup As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -105,6 +106,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.chkOnlyRemain = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,8 +115,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.ibtnSaveAsExcel)
       Me.grbMaster.Controls.Add(Me.txtTemp)
       Me.grbMaster.Controls.Add(Me.grbDetail)
@@ -148,6 +150,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
       Me.txtTemp.Location = New System.Drawing.Point(432, 32)
       Me.txtTemp.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtTemp, "")
       Me.Validator.SetMinValue(Me.txtTemp, "")
       Me.txtTemp.Name = "txtTemp"
       Me.txtTemp.ReadOnly = True
@@ -159,6 +162,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.chkOnlyRemain)
       Me.grbDetail.Controls.Add(Me.btnAccountEndFind)
       Me.grbDetail.Controls.Add(Me.txtAccountCodeEnd)
       Me.grbDetail.Controls.Add(Me.lblAccountEnd)
@@ -217,6 +221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAccountCodeEnd, System.Drawing.Color.Empty)
       Me.txtAccountCodeEnd.Location = New System.Drawing.Point(264, 183)
+      Me.Validator.SetMaxValue(Me.txtAccountCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtAccountCodeEnd, "")
       Me.txtAccountCodeEnd.Name = "txtAccountCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtAccountCodeEnd, "")
@@ -256,6 +261,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAccountCodeStart, System.Drawing.Color.Empty)
       Me.txtAccountCodeStart.Location = New System.Drawing.Point(104, 183)
+      Me.Validator.SetMaxValue(Me.txtAccountCodeStart, "")
       Me.Validator.SetMinValue(Me.txtAccountCodeStart, "")
       Me.txtAccountCodeStart.Name = "txtAccountCodeStart"
       Me.Validator.SetRegularExpression(Me.txtAccountCodeStart, "")
@@ -276,12 +282,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'chkShowRemainRet
       '
+      Me.chkShowRemainRet.Checked = True
+      Me.chkShowRemainRet.CheckState = System.Windows.Forms.CheckState.Checked
       Me.chkShowRemainRet.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.chkShowRemainRet.Location = New System.Drawing.Point(104, 13)
       Me.chkShowRemainRet.Name = "chkShowRemainRet"
       Me.chkShowRemainRet.Size = New System.Drawing.Size(154, 24)
       Me.chkShowRemainRet.TabIndex = 34
-      Me.chkShowRemainRet.Checked = True
       Me.chkShowRemainRet.Text = "แสดง Retention ทั้งหมด"
       '
       'chkIncludeChildCC
@@ -324,6 +331,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSpgCodeStart, System.Drawing.Color.Empty)
       Me.txtSpgCodeStart.Location = New System.Drawing.Point(104, 63)
       Me.txtSpgCodeStart.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtSpgCodeStart, "")
       Me.Validator.SetMinValue(Me.txtSpgCodeStart, "")
       Me.txtSpgCodeStart.Name = "txtSpgCodeStart"
       Me.Validator.SetRegularExpression(Me.txtSpgCodeStart, "")
@@ -352,6 +360,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSupplierGroupName, System.Drawing.Color.Empty)
       Me.txtSupplierGroupName.Location = New System.Drawing.Point(224, 63)
       Me.txtSupplierGroupName.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtSupplierGroupName, "")
       Me.Validator.SetMinValue(Me.txtSupplierGroupName, "")
       Me.txtSupplierGroupName.Name = "txtSupplierGroupName"
       Me.txtSupplierGroupName.ReadOnly = True
@@ -382,6 +391,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
       Me.txtCCCodeStart.Location = New System.Drawing.Point(104, 135)
       Me.txtCCCodeStart.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
       Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
       Me.txtCCCodeStart.Name = "txtCCCodeStart"
       Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
@@ -410,6 +420,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(224, 134)
       Me.txtCostCenterName.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -439,6 +450,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSuppliCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSuppliCodeEnd, System.Drawing.Color.Empty)
       Me.txtSuppliCodeEnd.Location = New System.Drawing.Point(264, 111)
+      Me.Validator.SetMaxValue(Me.txtSuppliCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtSuppliCodeEnd, "")
       Me.txtSuppliCodeEnd.Name = "txtSuppliCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtSuppliCodeEnd, "")
@@ -478,6 +490,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSuppliCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSuppliCodeStart, System.Drawing.Color.Empty)
       Me.txtSuppliCodeStart.Location = New System.Drawing.Point(104, 111)
+      Me.Validator.SetMaxValue(Me.txtSuppliCodeStart, "")
       Me.Validator.SetMinValue(Me.txtSuppliCodeStart, "")
       Me.txtSuppliCodeStart.Name = "txtSuppliCodeStart"
       Me.Validator.SetRegularExpression(Me.txtSuppliCodeStart, "")
@@ -505,6 +518,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(264, 39)
       Me.txtDocDateEnd.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
@@ -521,6 +535,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.txtDocDateStart.Location = New System.Drawing.Point(104, 39)
       Me.txtDocDateStart.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
@@ -601,6 +616,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
+      '
+      'chkOnlyRemain
+      '
+      Me.chkOnlyRemain.Checked = True
+      Me.chkOnlyRemain.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkOnlyRemain.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkOnlyRemain.Location = New System.Drawing.Point(242, 14)
+      Me.chkOnlyRemain.Name = "chkOnlyRemain"
+      Me.chkOnlyRemain.Size = New System.Drawing.Size(154, 24)
+      Me.chkOnlyRemain.TabIndex = 55
+      Me.chkOnlyRemain.Text = "แสดงที่เหลือเท่านั้น"
       '
       'RptRetentionFilterSubPanel
       '
@@ -797,7 +823,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(12) As Filter
+      Dim arr(13) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("SupplierGroupCode", IIf(txtSpgCodeStart.TextLength > 0, txtSpgCodeStart.Text, DBNull.Value))
@@ -811,6 +837,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(10) = New Filter("ShowAllRemain", Me.chkShowRemainRet.Checked)
       arr(11) = New Filter("accountbookfrom", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
       arr(12) = New Filter("accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
+      arr(13) = New Filter("ShowOnlyRemain", Me.chkOnlyRemain.Checked)
       Return arr
     End Function
     Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -1211,6 +1238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtDocDateStart.Text = ""
         Me.txtDocDateStart.Enabled = False
         Me.dtpDocDateStart.Enabled = False
+        Me.DocDateStart = Date.MinValue
       Else
         Me.txtDocDateStart.Enabled = True
         Me.dtpDocDateStart.Enabled = True
@@ -1220,7 +1248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.dtpDocDateStart.Value = Me.DocDateStart
       End If
     End Sub
-
+    
   End Class
 End Namespace
 

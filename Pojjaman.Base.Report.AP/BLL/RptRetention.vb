@@ -7,6 +7,9 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptRetention
     Inherits Report
@@ -14,6 +17,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -39,8 +43,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Sub
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-      'RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
-      'AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
@@ -60,6 +64,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'End If
 
       lkg.Refresh()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim dr As DataRow = CType(m_hashData(e.RowIndex), DataRow)
+      If dr Is Nothing Then
+        Return
+      End If
+
+      Dim drh As New DataRowHelper(dr)
+
+      Dim docId As Integer = drh.GetValue(Of Integer)("stock_id")
+      Dim docType As Integer = drh.GetValue(Of Integer)("stock_type")
+
+      Trace.WriteLine(docId.ToString & ":" & docType.ToString)
+
+      If docId > 0 AndAlso docType > 0 Then
+        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+        Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+        myEntityPanelService.OpenDetailPanel(en)
+      End If
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
@@ -206,9 +229,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'm_grid(2, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       'm_grid(2, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
+    Private Class PaysRet
+      Public Property paymentcode As String
+      Public Property payscode As String
+      Public Property gross As Decimal
+      Public Property paysdate As String
+      Public Property ID As Decimal
+      Public Property type As Decimal
+      Sub New()
+        With Me
+          .ID = -1
+          .type = -1
+          .payscode = ""
+          .paymentcode = ""
+          .gross = 0
+          .paysdate = ""
+        End With
+      End Sub
+      Sub New(ByRef drh As DataRowHelper)
+        With Me
+          .ID = drh.GetValue(Of Decimal)("stock_id")
+          .type = drh.GetValue(Of Decimal)("retentiontype")
+          .payscode = drh.GetValue(Of String)("Pays_Code", "")
+          .paymentcode = drh.GetValue(Of String)("Payment_Code", "")
+          .gross = drh.GetValue(Of Decimal)("Pays_Gross")
+          .paysdate = drh.GetValue(Of Date)("Pays_DocDate").ToShortDateString
+        End With
+      End Sub
+      Public Sub Clone(ByVal pr As PaysRet)
+        With Me
+          .ID = pr.ID
+          .type = pr.type
+          .payscode = pr.payscode
+          .paymentcode = pr.paymentcode
+          .gross = pr.gross
+          .paysdate = pr.paysdate
+        End With
+      End Sub
+    End Class
     Private Sub PopulateData()
       Dim dtOnRet As DataTable = Me.DataSet.Tables(0)  'Table ที่หัก Retention ไว้
       Dim dtRelRet As DataTable = Me.DataSet.Tables(1) 'Table ที่จ่าย Retention 
+      Dim ShowOnlyRemain As Boolean = CBool(Me.DataSet.Tables(2).Rows(0)(0))
+
+      m_hashData = New Hashtable
+
+
+      Dim DicPaysRet As New Dictionary(Of String, PaysRet)
+
+      For Each drowRelRet As DataRow In dtRelRet.Rows
+        Dim drh As New DataRowHelper(drowRelRet)
+
+        Dim key As String = drh.GetValue(Of Decimal)("stock_id").ToString + "|" + drh.GetValue(Of Decimal)("retentiontype").ToString
+
+        If Not DicPaysRet.ContainsKey(key) Then
+          Dim pr As New PaysRet(drh)
+
+          DicPaysRet.Add(key, pr)
+        Else
+          'DicPaysRet(key).ID = drh.GetValue(Of Decimal)("stock_id")
+          'DicPaysRet(key).type = drh.GetValue(Of Decimal)("retentiontype")
+          DicPaysRet(key).payscode += "," + drh.GetValue(Of String)("Pays_Code")
+          DicPaysRet(key).paymentcode += "," + drh.GetValue(Of String)("Payment_Code")
+          DicPaysRet(key).gross += drh.GetValue(Of Decimal)("Pays_Gross")
+          DicPaysRet(key).paysdate += "," + drh.GetValue(Of Date)("Pays_DocDate").ToShortDateString
+        End If
+        'If IsNumeric(drowRelRet("Pays_Gross")) Then
+        '  tmpSumPaysItem += CDec(drowRelRet("Pays_Gross"))
+        'End If
+        'If Not drowRelRet.IsNull("Pays_DocDate") Then
+        '  tmpPaysDate &= "," & CDate(drowRelRet("Pays_DocDate")).ToShortDateString
+        'End If
+        'If Not drowRelRet.IsNull("Pays_Code") Then
+        '  tmpPaysCode &= "," & drowRelRet("Pays_Code").ToString
+        'End If
+        'If Not drowRelRet.IsNull("Payment_Code") Then
+        '  tmpPaymentCode &= "," & drowRelRet("Payment_Code").ToString
+        'End If
+      Next
+
 
       Dim currSupplierCode As String = ""
       Dim currCostCenterCode As String = ""
@@ -289,88 +388,104 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
 
-          'PUR Items
-          trDoc = trCostCenter.Childs.Add
-          'trDoc.State = RowExpandState.Expanded
-          If Not drowOnRet.IsNull("Stock_DocDate") Then
-            trDoc(0) = indent & indent & CDate(drowOnRet("Stock_DocDate")).ToShortDateString
+          '------ trdoc pre ---
+          Dim tmpPr As New PaysRet
+          Dim key As String = drowOnRet("Stock_id").ToString + "|" + drowOnRet("Stock_type").ToString
+          If DicPaysRet.ContainsKey(key) Then
+            tmpPr.Clone(DicPaysRet(key))
           End If
-          If Not drowOnRet.IsNull("Retention_Code") Then
-            trDoc(1) = indent & indent & drowOnRet("Retention_Code").ToString
+
+          If IsNumeric(drowOnRet("Ret")) Then
+            tmpRetention = CDec(drowOnRet("Ret"))
           End If
-          If Not drowOnRet.IsNull("DueDate") Then
-            trDoc(2) = indent & indent & CDate(drowOnRet("DueDate")).ToShortDateString
-          End If
-          If Not drowOnRet.IsNull("Stock_pvrv") Then
-            trDoc(3) = indent & indent & drowOnRet("Stock_pvrv").ToString
-          End If
-          If IsNumeric(drowOnRet("Stock_Aftertax")) Then
-            trDoc(4) = Configuration.FormatToString(CDec(drowOnRet("Stock_Aftertax")), DigitConfig.Price)
-            sumGrossAmt_Supplier += CDec(drowOnRet("Stock_Aftertax"))
-            sumGrossAmt_Costcenter += CDec(drowOnRet("Stock_Aftertax"))
-          End If
-          If IsNumeric(drowOnRet("Stock_Retention")) Then
-            tmpRetention = CDec(drowOnRet("Stock_Retention"))
-            sumRetention_Supplier += tmpRetention
-            sumRetention_Costcenter += tmpRetention
-            sumRetention += tmpRetention
-          End If
-          If tmpRetention <> 0 Then
-            trDoc(5) = Configuration.FormatToString(tmpRetention, DigitConfig.Price)
-          End If
+          
           If IsNumeric(drowOnRet("opbRet")) Then
             tmpOpbRetention = CDec(drowOnRet("opbRet"))
-            sumOpbRetention_Supplier += tmpOpbRetention
-            sumOpbRetention_Costcenter += tmpOpbRetention
-            sumOpbRetention += tmpOpbRetention
+            
           End If
-          If tmpOpbRetention <> 0 Then
-            trDoc(5) = Configuration.FormatToString(tmpOpbRetention, DigitConfig.Price)
-          End If
+          
 
-          Dim tmpSumPaysItem As Decimal = 0
-          Dim tmpPaysDate As String = ""
-          Dim tmpPaysCode As String = ""
-          Dim tmpPaymentCode As String = ""
-          For Each drowRelRet As DataRow In dtRelRet.Select("Supplier_Code='" & drowOnRet("Supplier_Code").ToString & _
-                                                  "' And Stock_id='" & drowOnRet("Stock_id").ToString & "'")
-            If IsNumeric(drowRelRet("Pays_Gross")) Then
-              tmpSumPaysItem += CDec(drowRelRet("Pays_Gross"))
-            End If
-            If Not drowRelRet.IsNull("Pays_DocDate") Then
-              tmpPaysDate &= "," & CDate(drowRelRet("Pays_DocDate")).ToShortDateString
-            End If
-            If Not drowRelRet.IsNull("Pays_Code") Then
-              tmpPaysCode &= "," & drowRelRet("Pays_Code").ToString
-            End If
-            If Not drowRelRet.IsNull("Payment_Code") Then
-              tmpPaymentCode &= "," & drowRelRet("Payment_Code").ToString
-            End If
-          Next
+          Dim tmpSumPaysItem As Decimal = tmpPr.gross
+          Dim tmpPaysDate As String = tmpPr.paysdate
+          Dim tmpPaysCode As String = tmpPr.payscode
+          Dim tmpPaymentCode As String = tmpPr.paymentcode
 
-          If tmpSumPaysItem > 0 Then
-            trDoc(7) = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
-            sumRetentionPays_Supplier += tmpSumPaysItem
-            sumRetentionPays_Costcenter += tmpSumPaysItem
-            sumRetentionPays += tmpSumPaysItem
-          End If
 
-          If tmpPaysDate.Length > 1 Then
-            trDoc(9) = tmpPaysDate.Substring(1)
-          End If
-          If tmpPaysCode.Length > 1 Then
-            trDoc(10) = tmpPaysCode.Substring(1)
-          End If
-          If tmpPaymentCode.Length > 1 Then
-            trDoc(11) = tmpPaymentCode.Substring(1)
-          End If
+          'For Each drowRelRet As DataRow In dtRelRet.Select("Supplier_Code='" & drowOnRet("Supplier_Code").ToString & _
+          '                                        "' And Stock_id='" & drowOnRet("Stock_id").ToString & "'")
+          '  If IsNumeric(drowRelRet("Pays_Gross")) Then
+          '    tmpSumPaysItem += CDec(drowRelRet("Pays_Gross"))
+          '  End If
+          '  If Not drowRelRet.IsNull("Pays_DocDate") Then
+          '    tmpPaysDate &= "," & CDate(drowRelRet("Pays_DocDate")).ToShortDateString
+          '  End If
+          '  If Not drowRelRet.IsNull("Pays_Code") Then
+          '    tmpPaysCode &= "," & drowRelRet("Pays_Code").ToString
+          '  End If
+          '  If Not drowRelRet.IsNull("Payment_Code") Then
+          '    tmpPaymentCode &= "," & drowRelRet("Payment_Code").ToString
+          '  End If
+          'Next
 
-          tmpPaysBalance = tmpOpbRetention - tmpSumPaysItem
-          If tmpPaysBalance <> 0 Then
+          
+
+          tmpPaysBalance = tmpOpbRetention + tmpRetention - tmpSumPaysItem
+          If tmpPaysBalance <> 0 OrElse Not ShowOnlyRemain Then
+            'PUR Items
+            trDoc = trCostCenter.Childs.Add
+            trDoc.Tag = drowOnRet
+            'trDoc.State = RowExpandState.Expanded
+            If Not drowOnRet.IsNull("Stock_DocDate") Then
+              trDoc(0) = indent & indent & CDate(drowOnRet("Stock_DocDate")).ToShortDateString
+            End If
+            If Not drowOnRet.IsNull("Retention_Code") Then
+              trDoc(1) = indent & indent & drowOnRet("Retention_Code").ToString
+            End If
+            If Not drowOnRet.IsNull("DueDate") Then
+              trDoc(2) = indent & indent & CDate(drowOnRet("DueDate")).ToShortDateString
+            End If
+            If Not drowOnRet.IsNull("Stock_pvrv") Then
+              trDoc(3) = indent & indent & drowOnRet("Stock_pvrv").ToString
+            End If
+            If IsNumeric(drowOnRet("Stock_gross")) Then
+              trDoc(4) = Configuration.FormatToString(CDec(drowOnRet("Stock_gross")), DigitConfig.Price)
+              sumGrossAmt_Supplier += CDec(drowOnRet("Stock_gross"))
+              sumGrossAmt_Costcenter += CDec(drowOnRet("Stock_gross"))
+            End If
+            If tmpRetention <> 0 Then
+              sumRetention_Supplier += tmpRetention
+              sumRetention_Costcenter += tmpRetention
+              sumRetention += tmpRetention
+              trDoc(5) = Configuration.FormatToString(tmpRetention, DigitConfig.Price)
+            End If
+            If tmpOpbRetention <> 0 Then
+              sumOpbRetention_Supplier += tmpOpbRetention
+              sumOpbRetention_Costcenter += tmpOpbRetention
+              sumOpbRetention += tmpOpbRetention
+              trDoc(6) = Configuration.FormatToString(tmpOpbRetention, DigitConfig.Price)
+            End If
+
             trDoc(8) = Configuration.FormatToString(tmpPaysBalance, DigitConfig.Price)
             sumPaysBalance_Supplier += tmpPaysBalance
             sumPaysBalance_Costcenter += tmpPaysBalance
             sumPaysBalance += tmpPaysBalance
+
+            If tmpSumPaysItem > 0 Then
+              trDoc(7) = Configuration.FormatToString(tmpSumPaysItem, DigitConfig.Price)
+              sumRetentionPays_Supplier += tmpSumPaysItem
+              sumRetentionPays_Costcenter += tmpSumPaysItem
+              sumRetentionPays += tmpSumPaysItem
+            End If
+
+            If tmpPaysDate.Length > 0 Then
+              trDoc(9) = tmpPaysDate
+            End If
+            If tmpPaysCode.Length > 0 Then
+              trDoc(10) = tmpPaysCode
+            End If
+            If tmpPaymentCode.Length > 0 Then
+              trDoc(11) = tmpPaymentCode
+            End If
           End If
 
           If sumGrossAmt_Supplier <> 0 Then
@@ -419,6 +534,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trSupplier(6) = Configuration.FormatToString(sumOpbRetention, DigitConfig.Price)
       trSupplier(7) = Configuration.FormatToString(sumRetentionPays, DigitConfig.Price)
       trSupplier(8) = Configuration.FormatToString(sumPaysBalance, DigitConfig.Price)
+
+      Dim lineNumber As Integer = 1
+      For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+        If Not tr.Tag Is Nothing AndAlso TypeOf tr.Tag Is DataRow Then
+          m_hashData(lineNumber) = CType(tr.Tag, DataRow)
+        End If
+
+        lineNumber += 1
+      Next
 
     End Sub
     Private Sub PopulateData1()
@@ -528,13 +652,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not drowOnRet.IsNull("Stock_pvrv") Then
             m_grid(currItemIndex, 4).CellValue = indent & indent & drowOnRet("Stock_pvrv").ToString
           End If
-          If IsNumeric(drowOnRet("Stock_Aftertax")) Then
-            m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(drowOnRet("Stock_Aftertax")), DigitConfig.Price)
-            sumGrossAmt_Supplier += CDec(drowOnRet("Stock_Aftertax"))
-            sumGrossAmt_Costcenter += CDec(drowOnRet("Stock_Aftertax"))
+          If IsNumeric(drowOnRet("Stock_gross")) Then
+            m_grid(currItemIndex, 5).CellValue = Configuration.FormatToString(CDec(drowOnRet("Stock_gross")), DigitConfig.Price)
+            sumGrossAmt_Supplier += CDec(drowOnRet("Stock_gross"))
+            sumGrossAmt_Costcenter += CDec(drowOnRet("Stock_gross"))
           End If
-          If IsNumeric(drowOnRet("Stock_Retention")) Then
-            tmpRetention = CDec(drowOnRet("Stock_Retention"))
+          If IsNumeric(drowOnRet("Ret")) Then
+            tmpRetention = CDec(drowOnRet("Ret"))
             sumRetention_Supplier += tmpRetention
             sumRetention_Costcenter += tmpRetention
             sumRetention += tmpRetention
@@ -549,7 +673,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sumOpbRetention += tmpOpbRetention
           End If
           If tmpOpbRetention <> 0 Then
-            m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(tmpOpbRetention, DigitConfig.Price)
+            m_grid(currItemIndex, 7).CellValue = Configuration.FormatToString(tmpOpbRetention, DigitConfig.Price)
           End If
 
           Dim tmpSumPaysItem As Decimal = 0
