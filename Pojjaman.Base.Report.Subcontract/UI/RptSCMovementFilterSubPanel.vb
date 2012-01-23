@@ -1045,41 +1045,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     End If
                     m_dateSetting = False
 
-                Case "txtscstart"
-                    SC.GetSC(txtSCStart, Me.SCStart)
-                Case "txtscend"
-                    SC.GetSC(txtSCEnd, Me.SCEnd)
-                Case "txtccstart"
-                    Dim txtName As New TextBox
-                    CostCenter.GetCostCenter(Me.txtCCStart, txtName, m_ccStart, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-                Case "txtccend"
-                    Dim txtName As New TextBox
-                    CostCenter.GetCostCenter(Me.txtCCEnd, txtName, m_ccEnd, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-                Case "txtsupplicodestart"
-                    Dim txtName As New TextBox
-                    Supplier.GetSupplier(txtSuppliCodeStart, txtName, SubContractorStart)
-                Case "txtsupplicodeend"
-                    Dim txtName As New TextBox
-                    Supplier.GetSupplier(txtSuppliCodeEnd, txtName, SubContractorEnd)
-                Case "txtspgcodestart"
-                    SupplierGroup.GetSupplierGroup(txtSpgCodeStart, Me.txtSupplierGroupName, m_subcontractorgroup)
-                    'Case "cmbdocstatus"
-                    'If Not Me.cmbDocStatus.SelectedItem Is Nothing Then
-                    'Me.Status = CType(cmbDocStatus.SelectedItem, IdValuePair).Id
-                    'End If
-                Case "chkissum"
-                    If Me.chkIsSum.Checked Then
-                        Me.IsPreveiewSummary = True
-                    Else
-                        Me.IsPreveiewSummary = False
-                    End If
-                Case "chkincludechildsuppliergroup"
-                    If Me.chkIncludeChildSupplierGroup.Checked Then
-                        Me.IsIncludeChildSupplierGroup = True
-                    Else
-                        Me.IsIncludeChildSupplierGroup = False
-                    End If
-            End Select
+        Case "txtscstart"
+          If txtSCStart.Text.Length > 0 Then
+            SC.GetSC(txtSCStart, Me.SCStart)
+          Else
+            Me.SCStart = New SC
+          End If
+        Case "txtscend"
+          If txtSCStart.Text.Length > 0 Then
+            SC.GetSC(txtSCEnd, Me.SCEnd)
+          Else
+            Me.SCEnd = New SC
+          End If
+        Case "txtccstart"
+          Dim txtName As New TextBox
+          CostCenter.GetCostCenter(Me.txtCCStart, txtName, m_ccStart, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+        Case "txtccend"
+          Dim txtName As New TextBox
+          CostCenter.GetCostCenter(Me.txtCCEnd, txtName, m_ccEnd, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+        Case "txtsupplicodestart"
+          Dim txtName As New TextBox
+          Supplier.GetSupplier(txtSuppliCodeStart, txtName, SubContractorStart)
+        Case "txtsupplicodeend"
+          Dim txtName As New TextBox
+          Supplier.GetSupplier(txtSuppliCodeEnd, txtName, SubContractorEnd)
+        Case "txtspgcodestart"
+          SupplierGroup.GetSupplierGroup(txtSpgCodeStart, Me.txtSupplierGroupName, m_subcontractorgroup)
+          'Case "cmbdocstatus"
+          'If Not Me.cmbDocStatus.SelectedItem Is Nothing Then
+          'Me.Status = CType(cmbDocStatus.SelectedItem, IdValuePair).Id
+          'End If
+        Case "chkissum"
+          If Me.chkIsSum.Checked Then
+            Me.IsPreveiewSummary = True
+          Else
+            Me.IsPreveiewSummary = False
+          End If
+        Case "chkincludechildsuppliergroup"
+          If Me.chkIncludeChildSupplierGroup.Checked Then
+            Me.IsIncludeChildSupplierGroup = True
+          Else
+            Me.IsIncludeChildSupplierGroup = False
+          End If
+      End Select
         End Sub
 #End Region
 

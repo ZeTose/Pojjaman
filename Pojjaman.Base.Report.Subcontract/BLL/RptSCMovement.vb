@@ -308,15 +308,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trSummary("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.SCTotal}") '"รวมตามใบสั่งจ้าง"
                 trSummary("col5") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("sc"), DigitConfig.Price)
                 trSummary("col6") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
-                'trSummary("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
+                trSummary("col7") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("sc") - sumSCDrh.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
+
                 trSummary("col14") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("dr"), DigitConfig.Price)
                 trSummary("col15") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+                trSummary("col16") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("dr") - sumSCDrh.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
                 'trSummary("col10") = Configuration.FormatToString(drRemain, DigitConfig.Price)
                 trSummary("col8") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("advance"), DigitConfig.Price)
                 trSummary("col9") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+                trSummary("col10") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("advance") - sumSCDrh.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
                 'trSummary("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
                 trSummary("col11") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("retention"), DigitConfig.Price)
                 trSummary("col12") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+                trSummary("col13") = Configuration.FormatToString(sumSCDrh.GetValue(Of Decimal)("retention") - sumSCDrh.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
                 'trSummary.State = RowExpandState.Expanded
               Next
             End If
@@ -337,15 +341,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trSummary("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CostCenterTotal}") '"รวมตาม CostCenter"
               trSummary("col5") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("sc"), DigitConfig.Price)
               trSummary("col6") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
+              trSummary("col7") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("sc") - sumCCDrh.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
               'trSummary("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
               trSummary("col14") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("dr"), DigitConfig.Price)
               trSummary("col15") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+              trSummary("col16") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("dr") - sumCCDrh.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
               'trSummary("col10") = Configuration.FormatToString(drRemain, DigitConfig.Price)
               trSummary("col8") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("advance"), DigitConfig.Price)
               trSummary("col9") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+              trSummary("col10") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("advance") - sumCCDrh.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
               'trSummary("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
               trSummary("col11") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("retention"), DigitConfig.Price)
               trSummary("col12") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+              trSummary("col13") = Configuration.FormatToString(sumCCDrh.GetValue(Of Decimal)("retention") - sumCCDrh.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
               'trSummary.State = RowExpandState.Expanded
             Next
           End If
@@ -371,15 +379,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
             trSummary("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.SupplierTotal}") '"รวมตาม SubContractor"
             trSummary("col5") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("sc"), DigitConfig.Price)
             trSummary("col6") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
+            trSummary("col7") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("sc") - sumSupplierDrh.GetValue(Of Decimal)("sc_debit"), DigitConfig.Price)
             'trSummary("col6") = Configuration.FormatToString(scRemain, DigitConfig.Price)
             trSummary("col14") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("dr"), DigitConfig.Price)
             trSummary("col15") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
+            trSummary("col16") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("dr") - sumSupplierDrh.GetValue(Of Decimal)("dr_debit"), DigitConfig.Price)
             'trSummary("col10") = Configuration.FormatToString(drRemain, DigitConfig.Price)
             trSummary("col8") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("advance"), DigitConfig.Price)
             trSummary("col9") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
+            trSummary("col10") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("advance") - sumSupplierDrh.GetValue(Of Decimal)("advance_debit"), DigitConfig.Price)
             'trSummary("col12") = Configuration.FormatToString(advRemain, DigitConfig.Price)
             trSummary("col11") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("retention"), DigitConfig.Price)
             trSummary("col12") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
+            trSummary("col13") = Configuration.FormatToString(sumSupplierDrh.GetValue(Of Decimal)("retention") - sumSupplierDrh.GetValue(Of Decimal)("retention_debit"), DigitConfig.Price)
             'trSummary.State = RowExpandState.Expanded
           Next
         Next
