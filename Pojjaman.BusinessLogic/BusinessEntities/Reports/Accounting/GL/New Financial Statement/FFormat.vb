@@ -1881,6 +1881,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Const ColumnFormulaWSignPettern As String = "([+-/*^]?[A-Z]{1,2})(\d+)"
     Public Const ColumnDigitFormulaPettern As String = "(\d+)"
     Public Const ColumnStrFormulaWSignPettern As String = "([-+/*]?[A-Za-z]+)"
+    Public Const ColumnSignFormulaPettern As String = "([-+/*])"
+    Public Const ColumnStrFormulaPettern As String = "([A-Za-z]+)"
 #End Region
 
 #Region "Constructors"
@@ -2039,12 +2041,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Dim redigit As New Regex(ColumnDigitFormulaPettern)
         Dim restr As New Regex(ColumnStrFormulaWSignPettern)
+        Dim resign As New Regex(ColumnSignFormulaPettern)
+        Dim reonlystr As New Regex(ColumnStrFormulaPettern)
         Dim list As New List(Of String)
         Dim ShiftList As New List(Of String)
         list = Me.GetVariable
         For Each strv As String In list
           Dim n As Integer = CInt(redigit.Match(strv).ToString)
           Dim str As String = CStr(restr.Match(strv).ToString)
+          Dim strsign As String = ""
+          If resign.IsMatch(strv) Then
+            str = reonlystr.Match(strv).ToString
+            strsign = resign.Match(strv).ToString
+          End If
           If isRow Then
             'Index จะมาลดจาก linenumber 1 จาก Insert นะ
             If n > index Then
@@ -2069,7 +2078,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
             End If
-            str = TextHelper.StringHelper.GetExcelColumnString(i)
+            str = strsign + TextHelper.StringHelper.GetExcelColumnString(i)
           End If
           
           ShiftList.Add(str + n.ToString)
