@@ -297,14 +297,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "BankAccountCode"
       dpi.Value = Me.Bankacct.Code
-      dpi.DataType = "System.DateTime"
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'txtBankAccountCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BankAccountCodeCode"
+      dpi.Value = Me.Bankacct.BankCode
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
       'txtBankAccountName
       dpi = New DocPrintingItem
       dpi.Mapping = "BankAccountName"
       dpi.Value = Me.Bankacct.Name
-      dpi.DataType = "System.DateTime"
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
 
@@ -312,9 +319,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "BankAccountCode:Name"
       dpi.Value = Me.Bankacct.Code & ":" & Me.Bankacct.Name
-      dpi.DataType = "System.DateTime"
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      'txtBankBranchCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BankAccountBankBranch"
+      dpi.Value = Me.Bankacct.BankBranch.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
       Dim n As Integer = 0
       Dim jiColl As DocPrintingItemCollection = Me.JournalEntry.GetDocPrintingEntries
