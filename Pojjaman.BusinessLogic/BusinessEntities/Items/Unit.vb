@@ -154,6 +154,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Public Shared Function GetUnitById(ByVal id As Integer) As Unit
+      If id = 0 Then
+        Return New Unit
+      End If
       Dim key As String = id.ToString
       Dim row As DataRow = CType(AllUnits(key), DataRow)
       If row Is Nothing Then
