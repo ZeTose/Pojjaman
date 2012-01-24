@@ -1773,6 +1773,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LciNote", "System.String", "Item"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Description", "System.String", "Item")) '--For Sitem โดยเฉพาะ--
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceivingDate", "System.String", "Item"))
 
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UnitPriceNo", "System.String", "UnitPrice"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "UnitPrice"))
@@ -2441,6 +2442,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = item.EntityName & vbCrLf & qtyText
         Else
           dpi.Value = item.Entity.Name & vbCrLf & qtyText
+        End If
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.ReceivingDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.ReceivingDate"
+        If Not Date.MinValue.Equals(item.ReceivingDate) Then
+          dpi.Value = item.ReceivingDate.ToShortDateString
         End If
         dpi.DataType = "System.String"
         dpi.Row = i + 1
