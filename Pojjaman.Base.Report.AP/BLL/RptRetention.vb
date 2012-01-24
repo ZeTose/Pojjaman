@@ -427,7 +427,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  End If
           'Next
 
-          
+          If tmpSumPaysItem > tmpOpbRetention + tmpRetention Then
+            tmpSumPaysItem = tmpOpbRetention + tmpRetention
+          End If
 
           tmpPaysBalance = tmpOpbRetention + tmpRetention - tmpSumPaysItem
           If tmpPaysBalance <> 0 OrElse Not ShowOnlyRemain Then
