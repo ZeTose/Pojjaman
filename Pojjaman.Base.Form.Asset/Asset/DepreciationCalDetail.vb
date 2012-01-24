@@ -1031,15 +1031,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim oldDate As DateTime = Me.m_entity.DepreDate
-      If oldDate <> CDate(txtDepreDate.Text) OrElse oldDate <> dtpDepreDate.Value Then
+      If IsDate(txtDepreDate.Text) Then
+        If oldDate <> CDate(txtDepreDate.Text) OrElse oldDate <> dtpDepreDate.Value Then
 
-        Dim flag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
-        Me.m_entity.ReCalculationAll()
-        Dim index As Integer = tgItem.CurrentRowIndex
-        RefreshDocs()
-        tgItem.CurrentRowIndex = index
-        Me.WorkbenchWindow.ViewContent.IsDirty = flag
-        RefreshBlankGrid()
+          Dim flag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+          Me.m_entity.ReCalculationAll()
+          Dim index As Integer = tgItem.CurrentRowIndex
+          RefreshDocs()
+          tgItem.CurrentRowIndex = index
+          Me.WorkbenchWindow.ViewContent.IsDirty = flag
+          RefreshBlankGrid()
+        End If
       End If
     End Sub
     Private m_dateSetting As Boolean = False
@@ -1108,6 +1110,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
               dtpDepreDate.Value = theDate
               Me.m_entity.DepreDate = dtpDepreDate.Value
               Me.dtpDepreDate.Value = MaxDtpDate(Me.m_entity.DepreDate)
+              Me.m_entity.ReCalculationAll()
+              RefreshDocs()
               dirtyFlag = True
             End If
           Else

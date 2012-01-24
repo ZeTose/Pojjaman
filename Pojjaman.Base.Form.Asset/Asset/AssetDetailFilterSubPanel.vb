@@ -4,6 +4,7 @@ Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class AssetDetailFilterSubPanel
+    'Inherits UserControl
     Inherits AbstractFilterSubPanel
 
 #Region " Windows Form Designer generated code "
@@ -56,46 +57,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtAssettypeCode As System.Windows.Forms.TextBox
     Friend WithEvents grbGeneral As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents cmbStatus As System.Windows.Forms.ComboBox
+    Friend WithEvents chkOnlyCalcEndedStillRemaining As System.Windows.Forms.CheckBox
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(AssetDetailFilterSubPanel))
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnSearch = New System.Windows.Forms.Button
-      Me.btnReset = New System.Windows.Forms.Button
-      Me.grbGroup = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.btnAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnAccountEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblAccount = New System.Windows.Forms.Label
-      Me.txtAccountCode = New System.Windows.Forms.TextBox
-      Me.txtAccountName = New System.Windows.Forms.TextBox
-      Me.txtUnitName = New System.Windows.Forms.TextBox
-      Me.btnUnitEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblUnit = New System.Windows.Forms.Label
-      Me.btnUnitFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtUnitCode = New System.Windows.Forms.TextBox
-      Me.txtAssettypeName = New System.Windows.Forms.TextBox
-      Me.txtCostcenterName = New System.Windows.Forms.TextBox
-      Me.btnCostcenterEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblCostcenter = New System.Windows.Forms.Label
-      Me.btnCostcenterFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtCostcenterCode = New System.Windows.Forms.TextBox
-      Me.btnAssettypeFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.btnAssettypeEdit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblAssettype = New System.Windows.Forms.Label
-      Me.txtAssettypeCode = New System.Windows.Forms.TextBox
-      Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.cmbCalcType = New System.Windows.Forms.ComboBox
-      Me.lblCalcType = New System.Windows.Forms.Label
-      Me.cmbStatus = New System.Windows.Forms.ComboBox
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AssetDetailFilterSubPanel))
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.btnReset = New System.Windows.Forms.Button()
+      Me.grbGroup = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnAccountFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnAccountEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAccount = New System.Windows.Forms.Label()
+      Me.txtAccountCode = New System.Windows.Forms.TextBox()
+      Me.txtAccountName = New System.Windows.Forms.TextBox()
+      Me.txtUnitName = New System.Windows.Forms.TextBox()
+      Me.btnUnitEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblUnit = New System.Windows.Forms.Label()
+      Me.btnUnitFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtUnitCode = New System.Windows.Forms.TextBox()
+      Me.txtAssettypeName = New System.Windows.Forms.TextBox()
+      Me.txtCostcenterName = New System.Windows.Forms.TextBox()
+      Me.btnCostcenterEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCostcenter = New System.Windows.Forms.Label()
+      Me.btnCostcenterFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtCostcenterCode = New System.Windows.Forms.TextBox()
+      Me.btnAssettypeFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.btnAssettypeEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAssettype = New System.Windows.Forms.Label()
+      Me.txtAssettypeCode = New System.Windows.Forms.TextBox()
+      Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCalcType = New System.Windows.Forms.ComboBox()
+      Me.lblCalcType = New System.Windows.Forms.Label()
+      Me.cmbStatus = New System.Windows.Forms.ComboBox()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.chkOnlyCalcEndedStillRemaining = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       Me.grbGroup.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'lblCode
@@ -124,12 +128,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtCode, False)
       Me.txtCode.Size = New System.Drawing.Size(144, 21)
       Me.txtCode.TabIndex = 0
-      Me.txtCode.Text = ""
       '
       'grbDetail
       '
       Me.grbDetail.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.chkOnlyCalcEndedStillRemaining)
       Me.grbDetail.Controls.Add(Me.btnSearch)
       Me.grbDetail.Controls.Add(Me.btnReset)
       Me.grbDetail.Controls.Add(Me.grbGroup)
@@ -137,7 +141,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(712, 208)
+      Me.grbDetail.Size = New System.Drawing.Size(712, 202)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
@@ -145,8 +149,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(624, 176)
+      Me.btnSearch.Location = New System.Drawing.Point(624, 173)
       Me.btnSearch.Name = "btnSearch"
+      Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 5
       Me.btnSearch.Text = "Search"
       '
@@ -154,8 +159,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(536, 176)
+      Me.btnReset.Location = New System.Drawing.Point(536, 173)
       Me.btnReset.Name = "btnReset"
+      Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 4
       Me.btnReset.Text = "Reset"
       '
@@ -182,19 +188,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGroup.Controls.Add(Me.lblAssettype)
       Me.grbGroup.Controls.Add(Me.txtAssettypeCode)
       Me.grbGroup.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbGroup.Location = New System.Drawing.Point(8, 96)
+      Me.grbGroup.Location = New System.Drawing.Point(8, 94)
       Me.grbGroup.Name = "grbGroup"
-      Me.grbGroup.Size = New System.Drawing.Size(688, 72)
+      Me.grbGroup.Size = New System.Drawing.Size(691, 72)
       Me.grbGroup.TabIndex = 1
       Me.grbGroup.TabStop = False
       Me.grbGroup.Text = "สิ่งที่สั่งซื้อ"
       '
       'btnAccountFind
       '
+      Me.btnAccountFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAccountFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAccountFind.Image = CType(resources.GetObject("btnAccountFind.Image"), System.Drawing.Image)
-      Me.btnAccountFind.Location = New System.Drawing.Point(288, 16)
+      Me.btnAccountFind.Location = New System.Drawing.Point(300, 16)
       Me.btnAccountFind.Name = "btnAccountFind"
       Me.btnAccountFind.Size = New System.Drawing.Size(24, 23)
       Me.btnAccountFind.TabIndex = 206
@@ -203,9 +209,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnAccountEdit
       '
+      Me.btnAccountEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAccountEdit.Image = CType(resources.GetObject("btnAccountEdit.Image"), System.Drawing.Image)
-      Me.btnAccountEdit.Location = New System.Drawing.Point(312, 16)
+      Me.btnAccountEdit.Location = New System.Drawing.Point(324, 16)
       Me.btnAccountEdit.Name = "btnAccountEdit"
       Me.btnAccountEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnAccountEdit.TabIndex = 205
@@ -238,7 +244,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAccountCode, False)
       Me.txtAccountCode.Size = New System.Drawing.Size(80, 20)
       Me.txtAccountCode.TabIndex = 0
-      Me.txtAccountCode.Text = ""
       '
       'txtAccountName
       '
@@ -253,10 +258,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccountName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtAccountName, "")
       Me.Validator.SetRequired(Me.txtAccountName, False)
-      Me.txtAccountName.Size = New System.Drawing.Size(96, 20)
+      Me.txtAccountName.Size = New System.Drawing.Size(111, 20)
       Me.txtAccountName.TabIndex = 204
       Me.txtAccountName.TabStop = False
-      Me.txtAccountName.Text = ""
       '
       'txtUnitName
       '
@@ -271,16 +275,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtUnitName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtUnitName, "")
       Me.Validator.SetRequired(Me.txtUnitName, False)
-      Me.txtUnitName.Size = New System.Drawing.Size(96, 20)
+      Me.txtUnitName.Size = New System.Drawing.Size(111, 20)
       Me.txtUnitName.TabIndex = 204
       Me.txtUnitName.TabStop = False
-      Me.txtUnitName.Text = ""
       '
       'btnUnitEdit
       '
+      Me.btnUnitEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnUnitEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnUnitEdit.Image = CType(resources.GetObject("btnUnitEdit.Image"), System.Drawing.Image)
-      Me.btnUnitEdit.Location = New System.Drawing.Point(312, 40)
+      Me.btnUnitEdit.Location = New System.Drawing.Point(324, 40)
       Me.btnUnitEdit.Name = "btnUnitEdit"
       Me.btnUnitEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnUnitEdit.TabIndex = 205
@@ -301,10 +304,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnUnitFind
       '
+      Me.btnUnitFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnUnitFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnUnitFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnUnitFind.Image = CType(resources.GetObject("btnUnitFind.Image"), System.Drawing.Image)
-      Me.btnUnitFind.Location = New System.Drawing.Point(288, 40)
+      Me.btnUnitFind.Location = New System.Drawing.Point(300, 40)
       Me.btnUnitFind.Name = "btnUnitFind"
       Me.btnUnitFind.Size = New System.Drawing.Size(24, 23)
       Me.btnUnitFind.TabIndex = 206
@@ -325,7 +328,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtUnitCode, False)
       Me.txtUnitCode.Size = New System.Drawing.Size(80, 20)
       Me.txtUnitCode.TabIndex = 1
-      Me.txtUnitCode.Text = ""
       '
       'txtAssettypeName
       '
@@ -340,10 +342,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAssettypeName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtAssettypeName, "")
       Me.Validator.SetRequired(Me.txtAssettypeName, False)
-      Me.txtAssettypeName.Size = New System.Drawing.Size(96, 20)
+      Me.txtAssettypeName.Size = New System.Drawing.Size(111, 20)
       Me.txtAssettypeName.TabIndex = 204
       Me.txtAssettypeName.TabStop = False
-      Me.txtAssettypeName.Text = ""
       '
       'txtCostcenterName
       '
@@ -358,16 +359,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostcenterName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCostcenterName, "")
       Me.Validator.SetRequired(Me.txtCostcenterName, False)
-      Me.txtCostcenterName.Size = New System.Drawing.Size(96, 20)
+      Me.txtCostcenterName.Size = New System.Drawing.Size(111, 20)
       Me.txtCostcenterName.TabIndex = 204
       Me.txtCostcenterName.TabStop = False
-      Me.txtCostcenterName.Text = ""
       '
       'btnCostcenterEdit
       '
+      Me.btnCostcenterEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCostcenterEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCostcenterEdit.Image = CType(resources.GetObject("btnCostcenterEdit.Image"), System.Drawing.Image)
-      Me.btnCostcenterEdit.Location = New System.Drawing.Point(648, 40)
+      Me.btnCostcenterEdit.Location = New System.Drawing.Point(661, 40)
       Me.btnCostcenterEdit.Name = "btnCostcenterEdit"
       Me.btnCostcenterEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnCostcenterEdit.TabIndex = 205
@@ -388,10 +388,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnCostcenterFind
       '
+      Me.btnCostcenterFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCostcenterFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCostcenterFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCostcenterFind.Image = CType(resources.GetObject("btnCostcenterFind.Image"), System.Drawing.Image)
-      Me.btnCostcenterFind.Location = New System.Drawing.Point(624, 40)
+      Me.btnCostcenterFind.Location = New System.Drawing.Point(637, 40)
       Me.btnCostcenterFind.Name = "btnCostcenterFind"
       Me.btnCostcenterFind.Size = New System.Drawing.Size(24, 23)
       Me.btnCostcenterFind.TabIndex = 206
@@ -412,14 +412,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtCostcenterCode, False)
       Me.txtCostcenterCode.Size = New System.Drawing.Size(80, 20)
       Me.txtCostcenterCode.TabIndex = 1
-      Me.txtCostcenterCode.Text = ""
       '
       'btnAssettypeFind
       '
+      Me.btnAssettypeFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAssettypeFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAssettypeFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAssettypeFind.Image = CType(resources.GetObject("btnAssettypeFind.Image"), System.Drawing.Image)
-      Me.btnAssettypeFind.Location = New System.Drawing.Point(624, 16)
+      Me.btnAssettypeFind.Location = New System.Drawing.Point(637, 16)
       Me.btnAssettypeFind.Name = "btnAssettypeFind"
       Me.btnAssettypeFind.Size = New System.Drawing.Size(24, 23)
       Me.btnAssettypeFind.TabIndex = 206
@@ -428,9 +427,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnAssettypeEdit
       '
+      Me.btnAssettypeEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAssettypeEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAssettypeEdit.Image = CType(resources.GetObject("btnAssettypeEdit.Image"), System.Drawing.Image)
-      Me.btnAssettypeEdit.Location = New System.Drawing.Point(648, 16)
+      Me.btnAssettypeEdit.Location = New System.Drawing.Point(661, 16)
       Me.btnAssettypeEdit.Name = "btnAssettypeEdit"
       Me.btnAssettypeEdit.Size = New System.Drawing.Size(24, 23)
       Me.btnAssettypeEdit.TabIndex = 205
@@ -463,7 +462,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAssettypeCode, False)
       Me.txtAssettypeCode.Size = New System.Drawing.Size(80, 20)
       Me.txtAssettypeCode.TabIndex = 0
-      Me.txtAssettypeCode.Text = ""
       '
       'grbGeneral
       '
@@ -476,7 +474,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbGeneral.Location = New System.Drawing.Point(8, 16)
       Me.grbGeneral.Name = "grbGeneral"
-      Me.grbGeneral.Size = New System.Drawing.Size(488, 72)
+      Me.grbGeneral.Size = New System.Drawing.Size(495, 72)
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "รายละเอียดทั่วไป"
@@ -484,7 +482,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbCalcType
       '
       Me.cmbCalcType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbCalcType.Location = New System.Drawing.Point(112, 40)
+      Me.cmbCalcType.Location = New System.Drawing.Point(111, 41)
       Me.cmbCalcType.Name = "cmbCalcType"
       Me.cmbCalcType.Size = New System.Drawing.Size(144, 21)
       Me.cmbCalcType.TabIndex = 3
@@ -494,7 +492,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCalcType.BackColor = System.Drawing.Color.Transparent
       Me.lblCalcType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCalcType.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblCalcType.Location = New System.Drawing.Point(8, 40)
+      Me.lblCalcType.Location = New System.Drawing.Point(8, 41)
       Me.lblCalcType.Name = "lblCalcType"
       Me.lblCalcType.Size = New System.Drawing.Size(104, 18)
       Me.lblCalcType.TabIndex = 197
@@ -530,18 +528,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+      '
+      'chkOnlyCalcEndedStillRemaining
+      '
+      Me.chkOnlyCalcEndedStillRemaining.AutoSize = True
+      Me.chkOnlyCalcEndedStillRemaining.Location = New System.Drawing.Point(8, 173)
+      Me.chkOnlyCalcEndedStillRemaining.Name = "chkOnlyCalcEndedStillRemaining"
+      Me.chkOnlyCalcEndedStillRemaining.Size = New System.Drawing.Size(290, 17)
+      Me.chkOnlyCalcEndedStillRemaining.TabIndex = 6
+      Me.chkOnlyCalcEndedStillRemaining.Text = "เฉพาะสินทรัพย์มูลค่ายังคงเหลือ แต่สิ้นสุดอายุคำนวณแล้ว"
+      Me.chkOnlyCalcEndedStillRemaining.UseVisualStyleBackColor = True
       '
       'AssetDetailFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "AssetDetailFilterSubPanel"
-      Me.Size = New System.Drawing.Size(728, 224)
+      Me.Size = New System.Drawing.Size(728, 218)
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
       Me.grbGroup.ResumeLayout(False)
+      Me.grbGroup.PerformLayout()
       Me.grbGeneral.ResumeLayout(False)
+      Me.grbGeneral.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -601,6 +613,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostcenterName.Text = ""
       Me.m_cc = New CostCenter
 
+      Me.chkOnlyCalcEndedStillRemaining.Checked = False
+
       EntityRefresh()
     End Sub
 
@@ -616,9 +630,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.grbGeneral}")
       Me.grbGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.grbGroup}")
       Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.lblStatus}")
+      Me.chkOnlyCalcEndedStillRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkOnlyCalcEndedStillRemaining}")
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(6) As Filter
+      Dim arr(7) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
       arr(2) = New Filter("account", IIf(Me.m_account.Originated, Me.m_account.Id, DBNull.Value))
@@ -626,6 +641,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(4) = New Filter("assettype", IIf(Me.m_assettype.Originated, Me.m_assettype.Id, DBNull.Value))
       arr(5) = New Filter("costcenter ", IIf(Me.m_cc.Originated, Me.m_cc.Id, DBNull.Value))
       arr(6) = New Filter("calctype", IIf(Me.cmbCalcType.SelectedIndex = -1, DBNull.Value, Me.cmbCalcType.SelectedIndex))
+      arr(7) = New Filter("isCalEndedStillRemaining", IIf(Me.chkOnlyCalcEndedStillRemaining.Checked, 1, DBNull.Value))
       Return arr
     End Function
 

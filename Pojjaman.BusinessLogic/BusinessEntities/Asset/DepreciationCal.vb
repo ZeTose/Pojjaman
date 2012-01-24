@@ -614,11 +614,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return saveRtn
     End Function
 #End Region
+    Public Function GetListIdOfAssetRemaing() As Hashtable
+      Dim hs As New Hashtable
 
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetAssetEndedCalcDateStillRemaining")
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        hs(drh.GetValue(Of String)("asset_id")) = row
+      Next
+
+      Return hs
+    End Function
     Public Sub ReCalculationAll()
+      Dim hs As Hashtable = Me.GetListIdOfAssetRemaing
+
+      Dim existsId As Boolean = False
       For Each item As DepreciationCalItem In Me.ItemCollection
         If Me.DepreDate > item.Entity.StartCalcDate Then
-          item.GetDepreciationFromDB(Me, item.Entity)
+          If hs.ContainsKey(item.Entity.Id.ToString) Then
+            existsId = True
+          End If
+
+          item.GetDepreciationFromDB(Me, item.Entity, existsId)
         End If
       Next
     End Sub
@@ -1603,7 +1620,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_remainingamnt
       End Get
     End Property
-    Public Sub GetDepreciationFromDB(ByVal Depre As DepreciationCal, ByVal myAsset As Asset)
+    Public Sub GetDepreciationFromDB(ByVal Depre As DepreciationCal, ByVal myAsset As Asset, isRemainWithEndedCalc As Boolean)
       If myAsset Is Nothing OrElse Not myAsset.Originated Then
         Return
       End If
@@ -1618,7 +1635,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         , "AssetDepreciation" _
         , New SqlParameter("@DepreId", Depre.Id) _
         , New SqlParameter("@AssetId", myAsset.Id) _
-        , New SqlParameter("@DocDateEnd", Depre.DepreDate))
+        , New SqlParameter("@DocDateEnd", Depre.DepreDate) _
+        , New SqlParameter("@isRemainWithEndedCalc", isRemainWithEndedCalc))
 
         If ds.Tables(0).Rows.Count > 0 Then
           m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))
