@@ -404,6 +404,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         MessageBox.Show(ex.Message)
       End Try
     End Function
+    Public Function GetCurrentCheckStatus(Optional ByVal conn As SqlConnection = Nothing, Optional ByVal tran As SqlTransaction = Nothing) As Decimal
+      Try
+        Dim ds As DataSet
+        If conn Is Nothing Then
+          ds = SqlHelper.ExecuteDataset( _
+               Me.ConnectionString _
+               , CommandType.StoredProcedure _
+               , "GetCurrentOutGoingCheckStatus" _
+               , New SqlParameter("@check_id", Me.Id) _
+               )
+        ElseIf tran IsNot Nothing Then
+          ds = SqlHelper.ExecuteDataset( _
+                conn, tran, CommandType.StoredProcedure _
+                , "GetCurrentOutGoingCheckStatus" _
+               , New SqlParameter("@check_id", Me.Id) _
+               )
+        Else
+          Return 1
+        End If
+       
+        If ds.Tables(0).Rows.Count > 0 Then
+          Return CDec(ds.Tables(0).Rows(0)(0))
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.Message)
+      End Try
+    End Function
 #End Region
 
 #Region "Items"
@@ -747,6 +774,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
       End If
+      'สถานะเช็คไม่ตรงกับสถานะปัจจุบันไม่สามารถบันทึกได้
+      If Me.Originated AndAlso Me.DocStatus.Value <> Me.GetCurrentCheckStatus Then
+        Return New SaveErrorException("${res:Longkong.Pojjaman.OutgoingCheck.Error.DifferentDocstatus}")
+      End If
       ' กำหนด SqlParameter เพื่อ return ค่าการ Execute procedure ...
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
       returnVal.ParameterName = "RETURN_VALUE"
@@ -950,6 +981,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
       If Me.Amount <= 0 AndAlso (Me.DocStatus.Value <> 5 OrElse Me.Originated) Then
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", "${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblAmount}")
+      End If
+      'สถานะเช็คไม่ตรงกับสถานะปัจจุบันไม่สามารถบันทึกได้
+      If Me.Originated AndAlso Me.DocStatus.Value <> Me.GetCurrentCheckStatus(conn, trans) Then
+        Return New SaveErrorException("${res:Longkong.Pojjaman.OutgoingCheck.Error.DifferentDocstatus}")
       End If
       ' กำหนด SqlParameter เพื่อ return ค่าการ Execute procedure ...
       Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
