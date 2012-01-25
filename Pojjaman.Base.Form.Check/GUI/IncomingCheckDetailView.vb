@@ -824,7 +824,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           OrElse Me.m_entity.Status.Value = 0 _
           OrElse Me.m_entity.Status.Value > 3 _
           OrElse Me.m_entity.DocStatus.Value = 0 _
-          OrElse Me.m_entity.DocStatus.Value >= 2 Then
+          OrElse Me.m_entity.DocStatus.Value = 2 _
+OrElse Me.m_entity.DocStatus.Value > 3 Then
         'OrElse Me.m_entity.DocStatus.Value > 3 Then
         For Each crlt As Control In grbIncomingCheck.Controls
           crlt.Enabled = False
@@ -848,9 +849,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtDueDate.Enabled = True
         dtpDueDate.Enabled = True
         txtNote.Enabled = True
-
-      Else
-        If Me.m_entity.DocStatus.Value = 3 Then
+        If Me.m_entity.DocStatus.Value = 3 OrElse Me.m_entity.DocStatus.Value = 1 Then
           txtCode.Enabled = False
           chkAutorun.Enabled = False
           txtReceiveDate.Enabled = False
@@ -870,14 +869,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
           btnBankEdit.Enabled = True
           txtCustBankBranch.Enabled = True
           txtNote.Enabled = True
-        Else
-          For Each crlt As Control In grbIncomingCheck.Controls
-            crlt.Enabled = True
-          Next
         End If
-      End If
-      cmbCheckStatus.Enabled = False
-      Me.RadGridView2.Enabled = True
+        Else
+          If Me.m_entity.DocStatus.Value = 3 Then
+            txtCode.Enabled = False
+            chkAutorun.Enabled = False
+            txtReceiveDate.Enabled = False
+            dtpReceiveDate.Enabled = False
+            txtDueDate.Enabled = False
+            dtpDueDate.Enabled = False
+            txtCustomerCode.Enabled = False
+            btnCustomerFind.Enabled = False
+            btnCustomerEdit.Enabled = False
+            txtAmount.Enabled = False
+
+            txtReceivePersonCode.Enabled = True
+            btntxtReceivePersonFind.Enabled = True
+            btntxtReceivePersonEdit.Enabled = True
+            txtBankCode.Enabled = True
+            btnBankFind.Enabled = True
+            btnBankEdit.Enabled = True
+            txtCustBankBranch.Enabled = True
+            txtNote.Enabled = True
+          Else
+            For Each crlt As Control In grbIncomingCheck.Controls
+              crlt.Enabled = True
+            Next
+          End If
+        End If
+        cmbCheckStatus.Enabled = False
+        Me.RadGridView2.Enabled = True
     End Sub
 
     ' เคลียร์ข้อมูลใน control
