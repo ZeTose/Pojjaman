@@ -142,7 +142,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim drh As New DataRowHelper(row)
           key = CStr(drh.GetValue(Of Integer)("unit_id"))
           name = drh.GetValue(Of String)("unit_name")
-          If name <> "<Reserved>" Then
+          If name <> "<Reserved>" AndAlso Not name Is Nothing Then
             Unit.m_AllUnits(key) = row
             If Unit.m_unitNameIds.ContainsKey(name) Then
               MessageBox.Show("Dupplicate Unit Name :" & name)
