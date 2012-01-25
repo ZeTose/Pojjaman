@@ -594,7 +594,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("deprei_entity") = Me.ValidIdOrDBNull(item.Entity)
           dr("deprei_lastestcalcdate") = Me.ValidDateOrDBNull(item.LastestCalcDate.Date)
           dr("deprei_depredate") = Me.ValidDateOrDBNull(Me.DepreDate.Date)
-          dr("deprei_depreamnt") = Configuration.Format(item.Depreamnt, DigitConfig.Price)
+          dr("deprei_depreamnt") = item.Depreamnt 'Configuration.Format(item.Depreamnt, DigitConfig.Price)
           dr("deprei_note") = item.Note
           dr("deprei_status") = Me.Status.Value
           dr("deprei_depreopening") = Configuration.Format(item.DepreOpeningBalanceamnt, DigitConfig.Price)
@@ -1738,6 +1738,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not Me.CurrentItem Is Nothing Then
           doc = Me.CurrentItem
           Me.CurrentItem = Nothing
+          If Me.Count = 0 Then
+            Me.Add(doc)
+          End If
         Else
           Me.Add(doc)
         End If
