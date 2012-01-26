@@ -83,37 +83,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shrard"
-    Public Shared Function GetData(ByVal entity As INewPrintableEntity, ByVal schemaId As String) As DataSet
-      If entity Is Nothing Then
+    Public Shared Function GetData(entity As ISimpleEntity, ByVal printingEntity As INewPrintableEntity, ByVal schemaId As String) As DataSet
+      If printingEntity Is Nothing Then
         Return Nothing
       End If
 
       Dim ds As DataSet
       If IsDefaultSchema(entity, schemaId) Then
-        ds = GetNewListData(entity)
+        ds = GetNewListData(printingEntity)
       Else
-        ds = GetNewListSchemaFromDB(entity, schemaId)
+        ds = GetNewListSchemaFromDB(printingEntity, schemaId)
       End If
       ds.DataSetName = schemaId
 
       Return ds
     End Function
-    Public Shared Function GetSchema(ByVal entity As INewPrintableEntity, ByVal schemaId As String) As DataSet
-      If entity Is Nothing OrElse schemaId Is Nothing OrElse schemaId.Trim.Length = 0 Then
+    Public Shared Function GetSchema(entity As ISimpleEntity, ByVal printingEntity As INewPrintableEntity, ByVal schemaId As String) As DataSet
+      If printingEntity Is Nothing OrElse schemaId Is Nothing OrElse schemaId.Trim.Length = 0 Then
         Return Nothing
       End If
 
       Dim ds As DataSet
       If IsDefaultSchema(entity, schemaId) Then
-        ds = GetNewListSchema(entity)
+        ds = GetNewListSchema(printingEntity)
       Else
-        ds = GetNewListOnlySchemaFromDB(entity, schemaId)
+        ds = GetNewListOnlySchemaFromDB(printingEntity, schemaId)
       End If
       ds.DataSetName = schemaId
 
       Return ds
     End Function
-    Private Shared Function IsDefaultSchema(ByVal entity As INewPrintableEntity, ByVal schemaId As String) As Boolean
+    Private Shared Function IsDefaultSchema(entity As ISimpleEntity, ByVal schemaId As String) As Boolean
       If TypeOf entity Is ISimpleEntity Then
         Dim en As ISimpleEntity = CType(entity, ISimpleEntity)
 
@@ -583,7 +583,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim sclist As New List(Of KeyValuePair)
-      sclist.Add(New KeyValuePair(scaliasname, scname))
+      Dim kv As New KeyValuePair(scaliasname, scname)
+      sclist.Add(kv)
 
       For Each li As KeyValuePair In GetSchemaFromDB(entity)
         sclist.Add(li)
@@ -602,8 +603,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim sclist As New List(Of KeyValuePair)
-      scname = String.Format("Get_{0}_General", entity.ClassName)
-      sclist.Add(New KeyValuePair(scaliasname, scname))
+      Dim kv As New KeyValuePair(scaliasname, scname)
+      sclist.Add(kv)
 
       For Each li As KeyValuePair In GetSchemaFromDB(entity)
         sclist.Add(li)

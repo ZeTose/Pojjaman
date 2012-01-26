@@ -982,7 +982,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
       Dim activeContent As Object = window.ActiveViewContent
       For Each entity As IPrintableEntity In m_entities
-        For Each dpi As DocPrintingItem In entity.GetDocPrintingEntries
+        Dim dpiColl As DocPrintingItemCollection = entity.GetDocPrintingEntries
+        For Each dpi As DocPrintingItem In dpiColl 'entity.GetDocPrintingEntries
           Dim tmpDPI As DocPrintingItem = dpi.Clone
           If Not tmpDPI.Mapping Is Nothing Then
             If m_entityNames.ContainsKey(entity) Then
@@ -998,8 +999,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
           tmpRet.Add(tmpDPI)
         Next
 
-        If Not entity.GetDocPrintingEntries.RelationList Is Nothing AndAlso entity.GetDocPrintingEntries.RelationList.Count > 0 Then
-          tmpRet.RelationList.AddRange(entity.GetDocPrintingEntries.RelationList)
+        If Not dpiColl.RelationList Is Nothing AndAlso dpiColl.RelationList.Count > 0 Then
+          tmpRet.RelationList.AddRange(dpiColl.RelationList)
         End If
 
         '==============================CUSTOM NOTES=============================================

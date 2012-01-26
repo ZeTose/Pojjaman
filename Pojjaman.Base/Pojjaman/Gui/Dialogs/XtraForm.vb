@@ -150,7 +150,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim xn As XmlNode = doc.DocumentElement.Attributes("id")
       Dim schemaid As String = xn.InnerText
 
-      Dim ds As DataSet = EntitySimpleSchema.GetData(m_printingEntity, schemaid)
+      Dim ds As DataSet = EntitySimpleSchema.GetData(m_entity, m_printingEntity, schemaid)
       If Not ds Is Nothing Then
         Return ds
       End If

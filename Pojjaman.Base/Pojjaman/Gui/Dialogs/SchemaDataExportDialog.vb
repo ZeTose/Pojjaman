@@ -81,10 +81,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim ds As DataSet
 
       If Me.IsSchemaPreview Then
-        ds = EntitySimpleSchema.GetSchema(Me.m_printingEntity, Me.SchemaName)
+        ds = EntitySimpleSchema.GetSchema(m_entity, Me.m_printingEntity, Me.SchemaName)
         Me.txtPreview.Text = ds.GetXmlSchema()
       Else
-        ds = EntitySimpleSchema.GetData(Me.m_printingEntity, Me.SchemaName)
+        ds = EntitySimpleSchema.GetData(m_entity, Me.m_printingEntity, Me.SchemaName)
         Me.txtPreview.Text = ds.GetXml
       End If
 
@@ -92,7 +92,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ExportSchema()
       Me.RadioButton1.Checked = True
 
-      Dim ds As DataSet = EntitySimpleSchema.GetSchema(Me.m_printingEntity, Me.SchemaName)
+      Dim ds As DataSet = EntitySimpleSchema.GetSchema(m_entity, Me.m_printingEntity, Me.SchemaName)
 
       'ds = entitysc.DataSet
       If Not ds Is Nothing AndAlso Not ds.Tables.Count = 0 Then
@@ -116,7 +116,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ExportData()
       Me.RadioButton2.Checked = True
 
-      Dim ds As DataSet = EntitySimpleSchema.GetData(Me.m_printingEntity, Me.SchemaName)
+      Dim ds As DataSet = EntitySimpleSchema.GetData(m_entity, Me.m_printingEntity, Me.SchemaName)
 
       'ds = entitysc.DataSet
       If Not ds Is Nothing AndAlso Not ds.Tables.Count = 0 Then
