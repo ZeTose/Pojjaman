@@ -2098,17 +2098,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
-      dpiColl.RelationList.Add("general>po_id>Item>poi_po")
+      'dpiColl.RelationList.Add("general>po_id>Item>poi_po")
 
-      dpiColl.RelationList.Add("general>po_id>UngroupItem>poi_po")
+      'dpiColl.RelationList.Add("general>po_id>UngroupItem>poi_po")
 
-      dpiColl.RelationList.Add("general>po_id>Ungroup2Item>poi_po")
+      'dpiColl.RelationList.Add("general>po_id>Ungroup2Item>poi_po")
 
-      dpiColl.RelationList.Add("UngroupItem>poi_po>Allocate>poiw_po")
-      dpiColl.RelationList.Add("UngroupItem>poi_linenumber>Allocate>poiw_poilinenumber")
+      'dpiColl.RelationList.Add("UngroupItem>poi_po>Allocate>poiw_po")
+      'dpiColl.RelationList.Add("UngroupItem>poi_linenumber>Allocate>poiw_poilinenumber")
 
-      dpiColl.RelationList.Add("Ungroup2Item>poi_po>Allocate>poiw_po")
-      dpiColl.RelationList.Add("Ungroup2Item>poi_linenumber>Allocate>poiw_poilinenumber")
+      'dpiColl.RelationList.Add("Ungroup2Item>poi_po>Allocate>poiw_po")
+      'dpiColl.RelationList.Add("Ungroup2Item>poi_linenumber>Allocate>poiw_poilinenumber")
 
       '--สำหรับไว้สร้าง relation ใน schema--=============
       'po_id
@@ -3549,7 +3549,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = CType(item.Entity, IHasNote).Note
           dpi.DataType = "System.String"
           dpi.Row = n + 1
-          dpi.Table = "Item"
+          dpi.Table = "Ungroup2Item"
           dpiColl.Add(dpi)
         End If
 
@@ -4498,7 +4498,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefPRCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalItem", "System.Int32"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalQty", "System.Decimal"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroupPRCode", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroupPRCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroup2PRDocDate", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroup2PRCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefUngroup2PRRequestor", "System.String"))
