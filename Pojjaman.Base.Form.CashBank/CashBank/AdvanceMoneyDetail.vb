@@ -1008,12 +1008,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
+          Me.m_entity.Code = cmbCode.Text
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
             Me.m_entity.OnGlChanged()
-          Else
-            Me.m_entity.Code = cmbCode.Text
+            'Else
+            '  Me.m_entity.Code = cmbCode.Text
           End If
           dirtyFlag = True
         Case "txtname"
@@ -1260,16 +1261,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_entity.AutoCodeFormat = CType(Me.cmbCode.SelectedItem, AutoCodeFormat)
           End If
         End If
-        m_oldCode = Me.cmbCode.Text
+        'm_oldCode = Me.cmbCode.Text
         'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
         'Hack: set Code เป็น "" เอง
         'Me.m_entity.Code = ""
-        Me.m_entity.Code = m_oldCode
+        'Me.m_entity.Code = m_oldCode
         Me.m_entity.AutoGen = True
       Else
         ' Me.Validator.SetRequired(Me.txtCode, True)
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
-        Me.cmbCode.Text = m_oldCode
+        Me.cmbCode.Items.Clear()
+        Me.cmbCode.Text = m_entity.Code
+        'Me.cmbCode.Text = m_oldCode
         'Me.txtCode.ReadOnly = False
         Me.m_entity.AutoGen = False
       End If
