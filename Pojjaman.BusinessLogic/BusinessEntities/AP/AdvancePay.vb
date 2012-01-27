@@ -51,7 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable _
     , IPayable, IPaymentItem, IPrintableEntity, IHasIBillablePerson, IHasToCostCenter, IHasFromCostCenter, ICancelable _
-    , IHasName
+    , IHasName, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_name As String
@@ -1305,25 +1305,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
-      '            �Ţ����͡���(Code)
-      '            �ѹ����͡���(DocDate)
-      '            �Ţ���㺡ӡѺ����(RefDoc)
-      '            �ѹ���(RefDate)
-      '            �����(SupplierInfo)
-      '            ���ʼ����(SupplierCode)
-      '            ���ͼ����(SupplierName)
-      '            CostCenter(CostCenterInfo)
-      '���� CostCenter	CostCenterCode
-      '���� CostCenter	CostCenterName
-      '            �ôԵ(CreditPeriod)
-      '            ������(TaxType)
-      '            �ѵ������(TaxRate)
-      '            �ú��˹�(DueDate)
-      '            �ӹǹ�Թ��͹����(BeforeTax)
-      '            ������Ť������(TaxAmount)
-      '            ��Ť���������(AfterTax)
-      '            �ʹ�Թ�Ѵ�Ӥ������(Amount)
-      '            �����˵�(Note)
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      'advp_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "advp_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+      '--สำหรับไว้สร้าง relation ใน schema--=============
 
       'Code
       dpi = New DocPrintingItem
@@ -1462,6 +1451,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim n As Integer = 0
       For i As Integer = 0 To Me.m_itemTable.Rows.Count - 1
         Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+        'advpi_advp
+        dpi = New DocPrintingItem
+        dpi.Mapping = "advpi_advp"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+        '--สำหรับไว้สร้าง relation ใน schema--=============
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -1633,6 +1631,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.JournalEntry.Status.Value = 0
       Return Me.Save(currentUserId)
     End Function
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+   Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>advp_id>item>advpi_advp")
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("advp_id", "System.String"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDoc", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxType", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.TotalAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.TotalRemainingAmount", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("advpi_advp", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RemainingAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApproveDO")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
 #End Region
 
   End Class

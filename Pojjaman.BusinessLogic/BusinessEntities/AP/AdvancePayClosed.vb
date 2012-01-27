@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class AdvancePayClosed
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IReceivable, ICheckPeriod, IVatable, IWitholdingTaxable, ICancelable, IAdvancePayItemAble
+    Implements IGLAble, IReceivable, ICheckPeriod, IVatable, IWitholdingTaxable, ICancelable, IAdvancePayItemAble, IPrintableEntity, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_docdate As Date
@@ -294,7 +294,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Property avpcTaxbase As Decimal
-      
+
     Public Property TaxbaseForIVatable As Decimal Implements IVatable.TaxBase
       Get
         If Me.NoVat Then
@@ -1012,7 +1012,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_novat = True
       End If
     End Sub
-    
+
 #End Region
 #Region "IWitholdingTaxable"
     Public Function GetMaximumWitholdingTaxBase() As Decimal Implements IWitholdingTaxable.GetMaximumWitholdingTaxBase
@@ -1371,5 +1371,121 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_taxbase = remain
       End If
     End Sub
+
+#Region "IPrintableEntity"
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+      Return "C:\Documents and Settings\Administrator\Desktop\Forms\Documents\AdvancePayClosed.dfm"
+    End Function
+
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+
+    End Function
+
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      'advpclose_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "advpclose_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+
+      'AdvancePayClosedCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AdvancePayClosedCode"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'AdvancePayClosedDocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AdvancePayClosedDocDate"
+      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
+      If Not Vat Is Nothing Then
+        'AdvancePayClosedVatCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AdvancePayClosedVatCode"
+        dpi.Value = Me.Vat.GetVatItemCodes
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'AdvancePayClosedVatDocDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AdvancePayClosedVatDocDate"
+        dpi.Value = Me.Vat.GetVatItemDates
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
+      End If
+
+      If Not Me.AdvancePay Is Nothing Then
+        Me.AdvancePay.ReLoadItems()
+        dpiColl.AddRange(Me.AdvancePay.GetDocPrintingEntries)
+      End If
+
+      'AdvancePayClosedNote
+      dpi = New DocPrintingItem
+      dpi.Mapping = "AdvancePayClosedNote"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      Return dpiColl
+    End Function
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("advpclose_id", "System.String"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayClosedCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayClosedDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayClosedVatCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayClosedVatDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvancePayClosedNote", "System.String"))
+
+      If Me.AdvancePay Is Nothing Then
+        Me.AdvancePay = New AdvancePay
+      End If
+      dpiColl.AddRange(Me.AdvancePay.GetDocPrintingColumnsEntries)
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          'Dim obj As Object = Configuration.GetConfig("ApproveDO")
+          'If CBool(obj) Then
+          '  If Me.IsAuthorized Then
+          '    Return "Authorized"
+          '  ElseIf Me.IsLevelApproved Then
+          '    Return "Approved"
+          '  End If
+          'End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
+#End Region
+
   End Class
 End Namespace
