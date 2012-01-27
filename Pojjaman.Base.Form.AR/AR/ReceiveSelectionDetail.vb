@@ -1492,6 +1492,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = True
         Next
+        tgItem.Enabled = True
+        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+          colStyle.ReadOnly = False
+        Next
       End If
     End Sub
     Public Overrides Sub ClearDetail()
