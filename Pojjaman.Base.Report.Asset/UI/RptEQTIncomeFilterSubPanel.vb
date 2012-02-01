@@ -596,10 +596,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
-      Me.CostCenter = New CostCenter
 
-      Me.equipmentstart = New Equipment
-      Me.EquipmentEnd = New Equipment
+      Me.m_equipmentstart = New Equipment
+      Me.m_equipmentend = New Equipment
+
+      Me.m_toolstart = New Tool
+      Me.m_toolend = New Tool
+
+      Me.m_toolgroup = New ToolGroup
+
+      Me.m_cc = New CostCenter
 
 
       Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
