@@ -1595,6 +1595,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      
+
 
       If Not Me.RefDoc Is Nothing _
       AndAlso Not Me.RefDoc.Person Is Nothing Then
@@ -1644,7 +1646,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dpi.Value = Me.EntityIdNo.Replace("-", "").Substring(12, 1)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
-        ElseIf EntityTaxId.Replace("-", "").Length = 10 Then
+        ElseIf EntityTaxId.Replace("-", "").Length = 13 Then
           'EntityTaxId
           dpi = New DocPrintingItem
           dpi.Mapping = "EntityTaxId"
@@ -1672,14 +1674,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           dpi = New DocPrintingItem
           dpi.Mapping = "EntityTaxId4"
-          dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(9, 1)
+          dpi.Value = InsertSpace(Me.EntityTaxId.Replace("-", "").Substring(9, 3))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "EntityTaxId5"
+          dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(13, 1)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
         End If
       End If
 
       Dim taxId As String = CStr(Configuration.GetConfig("CompanyTaxId"))
-      If taxId.Replace("-", "").Length = 10 Then
+      If taxId.Replace("-", "").Length = 13 Then
         'TaxId
         dpi = New DocPrintingItem
         dpi.Mapping = "TaxId"
@@ -1707,7 +1715,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         dpi = New DocPrintingItem
         dpi.Mapping = "TaxId4"
-        dpi.Value = taxId.Replace("-", "").Substring(9, 1)
+        dpi.Value = InsertSpace(taxId.Replace("-", "").Substring(9, 3))
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "TaxId5"
+        dpi.Value = taxId.Replace("-", "").Substring(13, 1)
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -1754,7 +1768,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       If Not Me.RepresentTaxId Is Nothing AndAlso Me.RepresentTaxId.Length > 0 Then
-        If RepresentTaxId.Replace("-", "").Length = 10 Then
+        If RepresentTaxId.Replace("-", "").Length = 13 Then
           'RepresentTaxId
           dpi = New DocPrintingItem
           dpi.Mapping = "RepresentTaxId"
@@ -1782,7 +1796,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           dpi = New DocPrintingItem
           dpi.Mapping = "RepresentTaxId4"
-          dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(9, 1)
+          dpi.Value = InsertSpace(Me.RepresentTaxId.Replace("-", "").Substring(9, 3))
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RepresentTaxId5"
+          dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(13, 1)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
         End If
