@@ -935,6 +935,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function GetOldSCBeforeClosed() As SC
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetOldSCBeforeClosed" _
+        , New SqlParameter("@sc_id", Me.Id) _
+        )
+        If ds.Tables(0).Rows.Count > 0 Then
+          Return New SC(ds, "")
+        End If
+      Catch ex As Exception
+
+      End Try
+
+      Return New SC
+    End Function
     Public Sub RefreshRealGross()
       Dim gross As Decimal = 0
       For Each item As SCItem In Me.ItemCollection
@@ -1548,10 +1564,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       Next
 
-      'If hashCostErrorMessage.Count > 0 Then
-      '  Return New SaveErrorException("3")
-      'End If
-
       Return New SaveErrorException("0")
     End Function
     Private m_DocMethod As SaveDocMultiApprovalMethod
@@ -1621,10 +1633,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Me.RealTaxAmount = Me.TaxAmount
               'Me.RefreshTaxBase()
               '--Refresh Cost--============================
-
-              'ElseIf CInt(ValidateError.Message) = 3 Then
-              'Return New SaveErrorException("${res:Longkong.Pojjaman.Gui.Panels.SCItem.OverAmount}", _
-              'New String() {sitem.ItemDescription, Configuration.FormatToString(sitem.Amount, DigitConfig.Price), Configuration.FormatToString(m_value, DigitConfig.Price)})
             End If
           End If
           If Me.Closing Then
@@ -2910,13 +2918,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      'RealGross
-      dpi = New DocPrintingItem
-      dpi.Mapping = "RealGross"
-      dpi.Value = Configuration.FormatToString(Me.RealGross, DigitConfig.Price)
-      dpi.DataType = "System.Decimal"
-      dpiColl.Add(dpi)
-
       'DiscountRate
       dpi = New DocPrintingItem
       dpi.Mapping = "DiscountRate"
@@ -2931,13 +2932,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      'RealDiscountAmount
-      dpi = New DocPrintingItem
-      dpi.Mapping = "RealDiscountAmount"
-      dpi.Value = Configuration.FormatToString(Me.RealDiscountAmount, DigitConfig.Price)
-      dpi.DataType = "System.Decimal"
-      dpiColl.Add(dpi)
-
       'BeforeTax
       dpi = New DocPrintingItem
       dpi.Mapping = "BeforeTax"
@@ -2945,12 +2939,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      'RealBeforeTax
-      dpi = New DocPrintingItem
-      dpi.Mapping = "RealBeforeTax"
-      dpi.Value = Configuration.FormatToString(Me.RealBeforeTax, DigitConfig.Price)
-      dpi.DataType = "System.Decimal"
-      dpiColl.Add(dpi)
+
 
       'อัตราภาษี
       'TaxRate
@@ -2967,13 +2956,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      'RealTaxAmount
-      dpi = New DocPrintingItem
-      dpi.Mapping = "RealTaxAmount"
-      dpi.Value = Configuration.FormatToString(Me.RealTaxAmount, DigitConfig.Price)
-      dpi.DataType = "System.Decimal"
-      dpiColl.Add(dpi)
-
       'AfterTax
       dpi = New DocPrintingItem
       dpi.Mapping = "AfterTax"
@@ -2981,12 +2963,83 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      'RealAfterTax
-      dpi = New DocPrintingItem
-      dpi.Mapping = "RealAfterTax"
-      dpi.Value = Configuration.FormatToString(Me.RealAfterTax, DigitConfig.Price)
-      dpi.DataType = "System.Decimal"
-      dpiColl.Add(dpi)
+      '--==============>>
+      If Me.Closed Then
+        Dim sco As SC = Me.GetOldSCBeforeClosed
+        If Not sco Is Nothing Then
+          sco.RefreshTaxBase()
+          'RealGross
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealGross"
+          dpi.Value = Configuration.FormatToString(sco.RealGross, DigitConfig.Price)
+          dpi.DataType = "System.Decimal"
+          dpiColl.Add(dpi)
+
+          'RealDiscountAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealDiscountAmount"
+          dpi.Value = Configuration.FormatToString(sco.RealDiscountAmount, DigitConfig.Price)
+          dpi.DataType = "System.Decimal"
+          dpiColl.Add(dpi)
+
+          'RealBeforeTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealBeforeTax"
+          dpi.Value = Configuration.FormatToString(sco.RealBeforeTax, DigitConfig.Price)
+          dpi.DataType = "System.Decimal"
+          dpiColl.Add(dpi)
+
+          'RealTaxAmount
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealTaxAmount"
+          dpi.Value = Configuration.FormatToString(sco.RealTaxAmount, DigitConfig.Price)
+          dpi.DataType = "System.Decimal"
+          dpiColl.Add(dpi)
+
+          'RealAfterTax
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RealAfterTax"
+          dpi.Value = Configuration.FormatToString(sco.RealAfterTax, DigitConfig.Price)
+          dpi.DataType = "System.Decimal"
+          dpiColl.Add(dpi)
+        End If
+      Else
+        'RealGross
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealGross"
+        dpi.Value = Configuration.FormatToString(Me.RealGross, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'RealDiscountAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealDiscountAmount"
+        dpi.Value = Configuration.FormatToString(Me.RealDiscountAmount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'RealBeforeTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealBeforeTax"
+        dpi.Value = Configuration.FormatToString(Me.RealBeforeTax, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'RealTaxAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealTaxAmount"
+        dpi.Value = Configuration.FormatToString(Me.RealTaxAmount, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+
+        'RealAfterTax
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RealAfterTax"
+        dpi.Value = Configuration.FormatToString(Me.RealAfterTax, DigitConfig.Price)
+        dpi.DataType = "System.Decimal"
+        dpiColl.Add(dpi)
+      End If
+      '--==============<<
 
       'Mapping การอนุมัติ #917
       Dim appTable As DataTable = BusinessEntity.GetApprovePersonListfromDoc(Me.Id, Me.EntityId)
