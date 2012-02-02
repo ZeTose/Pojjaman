@@ -2326,7 +2326,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.BuyPrice <= 0 Then
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", _
         "${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblBuyPrice}")
-      ElseIf Me.Age <= 0 Then
+      ElseIf Me.Age <= 0 AndAlso Me.Type.DepreAble Then
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", _
         "${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblAge}")
       End If

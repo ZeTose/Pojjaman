@@ -454,8 +454,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity = Nothing
         Me.m_entity = CType(Value, Asset)
         'Hack:
-        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-        UpdateEntityProperties()
+        If Not m_entity Is Nothing Then
+          Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+          UpdateEntityProperties()
+        End If
+
       End Set
     End Property
 #End Region
