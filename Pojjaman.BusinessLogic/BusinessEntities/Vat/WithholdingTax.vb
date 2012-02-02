@@ -1680,7 +1680,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           dpi = New DocPrintingItem
           dpi.Mapping = "EntityTaxId5"
-          dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(13, 1)
+          dpi.Value = Me.EntityTaxId.Replace("-", "").Substring(12, 1)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
         End If
@@ -1721,7 +1721,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         dpi = New DocPrintingItem
         dpi.Mapping = "TaxId5"
-        dpi.Value = taxId.Replace("-", "").Substring(13, 1)
+        dpi.Value = taxId.Replace("-", "").Substring(12, 1)
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -1802,7 +1802,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           dpi = New DocPrintingItem
           dpi.Mapping = "RepresentTaxId5"
-          dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(13, 1)
+          dpi.Value = Me.RepresentTaxId.Replace("-", "").Substring(12, 1)
           dpi.DataType = "System.String"
           dpiColl.Add(dpi)
         End If
