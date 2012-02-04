@@ -31,7 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillIssuable _
     , IPrintableEntity, IHasIBillablePerson, IHasFromCostCenter, ICancelable, IAdvanceReceiveItemAble, ICheckPeriod, IHasVat _
-    , INewGLAble
+    , INewGLAble, IDuplicable
 
 #Region "Members"
     Private m_customer As Customer
@@ -540,7 +540,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         ''=============================================
 
-        
+
 
         '---- AutoCode Format --------
         Dim oldcode As String
@@ -870,9 +870,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             trans.Commit()
 
-            
 
-           
+
+
 
             'Return New SaveErrorException(returnVal.Value.ToString)
           Catch ex As SqlException
@@ -2233,7 +2233,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
         End If
-        
+
         jiColl.Add(ji)
       End If
       Dim WHTTypeSum As New Hashtable
@@ -2246,7 +2246,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Dim typeNum As String
-      
+
       For Each wht As WitholdingTax In Me.WitholdingTaxCollection
         typeNum = CStr(wht.Type.Value)
         If Not (typeNum.Length > 1) Then
@@ -2268,7 +2268,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
       Next
-      
+
       '-------------------------------------HACK------------------------------------
       ''ส่วนลดการค้า
       'If Me.DiscountAmount > 0 Then
@@ -2302,7 +2302,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji.AtomNote = "ล้างมัดจำด้วย GS"
           jiColl.Add(ji)
         Next
-        
+
       End If
 
       If Not Me.Receive Is Nothing Then
@@ -3475,6 +3475,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.FromCostCenter = Value
       End Set
     End Property
+#End Region
+
+#Region "IDuplicable"
+    Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
+      End If
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.Canceled = False
+      Me.CancelPerson = New User
+      MyBase.ClearReference()
+
+      Me.m_whtcol = New WitholdingTaxCollection(Me)
+      Me.m_whtcol.Direction = New WitholdingTaxDirection(1)
+
+      Me.m_vat = New Vat(Me)
+      Me.m_vat.Direction.Value = 0
+
+      Me.m_je = New JournalEntry(Me)
+      Me.m_je.DocDate = Me.m_docDate
+
+      Me.m_receive = New Receive(Me)
+      Me.m_receive.DocDate = Me.m_je.DocDate
+      '----------------------------End Tab Entities-----------------------------------------
+
+      'Dim wbsdummy As WBS
+      'For Each item As GoodsReceiptItem In Me.ItemCollection
+      '  If item.ItemType.Value <> 160 Or item.ItemType.Value <> 162 Then
+      '    For Each wbsd As WBSDistribute In item.WBSDistributeCollection
+      '      wbsdummy = wbsd.WBS
+      '      wbsd.WBS = wbsdummy
+      '    Next
+
+      '    'Not Reference PO =============================================
+      '    item.POitem = New POItem
+      '    item.POitem = Nothing
+      '  End If
+      'Next
+      Return Me
+    End Function
 #End Region
 
   End Class
