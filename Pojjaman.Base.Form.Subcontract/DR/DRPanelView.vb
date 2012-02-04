@@ -1195,6 +1195,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.UnitPriceHeaderTextt}") '"ราคาต่อหน่วย"
       csUnitPRice.NullText = ""
       csUnitPRice.TextBox.Name = "dri_unitprice"
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
       AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       csUnit.DataAlignment = HorizontalAlignment.Center
 
@@ -1209,6 +1210,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csMat.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.MatHeaderText}")
       csMat.NullText = ""
       csMat.TextBox.Name = "dri_mat"
+      csMat.DataAlignment = HorizontalAlignment.Right
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
 
@@ -1217,6 +1219,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLab.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.LABHeaderText}")
       csLab.NullText = ""
       csLab.TextBox.Name = "dri_lab"
+      csLab.DataAlignment = HorizontalAlignment.Right
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
 
@@ -1225,6 +1228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csEq.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.EQHeaderText}")
       csEq.NullText = ""
       csEq.TextBox.Name = "dri_eq"
+      csEq.DataAlignment = HorizontalAlignment.Right
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
 
@@ -1234,6 +1238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.AmountHeaderText}")
       csAmount.NullText = ""
       csAmount.TextBox.Name = "Amount"
+      csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.ReadOnly = True
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
@@ -1243,6 +1248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csReceivedAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.ReceivedAmountHeaderText}")
       csReceivedAmount.NullText = ""
       csReceivedAmount.TextBox.Name = "ReceivedAmount"
+      csReceivedAmount.DataAlignment = HorizontalAlignment.Right
       csReceivedAmount.ReadOnly = True
 
       '"หมายเหตุ"

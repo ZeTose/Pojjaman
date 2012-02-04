@@ -255,6 +255,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtRate, False)
       Me.txtRate.Size = New System.Drawing.Size(62, 21)
       Me.txtRate.TabIndex = 341
+      Me.txtRate.TextAlign = HorizontalAlignment.Right
       '
       'lblUnit2
       '
