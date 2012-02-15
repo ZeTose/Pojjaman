@@ -117,9 +117,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , CommandType.StoredProcedure _
       , "GetGL" _
       , New SqlParameter("@gl_refid", refId), New SqlParameter("@gl_type", refType))
-      If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count = 1 Then
+      If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+        Me.DontSave = False
         m_hasRefDoc = True
         Construct(ds.Tables(0).Rows(0), "")
+      Else
+        Me.DontSave = True
       End If
       Me.gl_reftype = refType
     End Sub

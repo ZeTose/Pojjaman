@@ -506,6 +506,7 @@ Public Class ApproveDocCollection
           Return approveDoc
         End If
       End If
+      Return New ApproveDoc
     End Function
 #End Region
 
