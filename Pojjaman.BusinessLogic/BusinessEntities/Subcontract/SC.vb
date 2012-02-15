@@ -1909,7 +1909,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, "", Me.CostCenter.Id, Me.SubContractor.Id, Me)
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.CostCenter.Id, Me.SubContractor.Id, Me)
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
@@ -3545,8 +3545,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'Item.LineNumber
         '************** เอามาไว้เป็นอันที่ 2
         dpi = New DocPrintingItem
-
-
+        dpi.Mapping = "RealItem.LineNumber"
+        If item.Level = 0 Then
+          dpi.Value = parentLine
+        Else
+          If item.ItemType.Value <> 162 Then
+            dpi.Value = parentLine.ToString & "." & childLine.ToString
+          End If
+        End If
+        dpi.Font = fn
+        dpi.DataType = "System.string"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
 
         dpi = New DocPrintingItem
         dpi.Mapping = "sci_sc"
@@ -3562,20 +3573,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = item.Sequence
         dpi.Font = fn
         dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "RealItem"
-        dpiColl.Add(dpi)
-
-        dpi.Mapping = "RealItem.LineNumber"
-        If item.Level = 0 Then
-          dpi.Value = parentLine
-        Else
-          If item.ItemType.Value <> 162 Then
-            dpi.Value = parentLine.ToString & "." & childLine.ToString
-          End If
-        End If
-        dpi.Font = fn
-        dpi.DataType = "System.string"
         dpi.Row = i + 1
         dpi.Table = "RealItem"
         dpiColl.Add(dpi)

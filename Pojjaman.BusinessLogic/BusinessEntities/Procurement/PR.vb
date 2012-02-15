@@ -1395,7 +1395,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, "", Me.CostCenter.Id, 0, Me)
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.CostCenter.Id, 0, Me)
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()

@@ -499,6 +499,14 @@ Public Class ApproveDocCollection
       End If
       Return Approved
     End Function
+    Public Function GetLastedApproveDoc() As ApproveDoc
+      If Me.Count > 0 Then
+        Dim approveDoc As ApproveDoc = Me(Me.Count - 1)
+        If Not approveDoc Is Nothing Then
+          Return approveDoc
+        End If
+      End If
+    End Function
 #End Region
 
 #Region "Collection Methods"

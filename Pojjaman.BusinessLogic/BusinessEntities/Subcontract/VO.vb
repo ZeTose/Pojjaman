@@ -1134,7 +1134,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, "", Me.CostCenter.Id, Me.SubContractor.Id, Me)
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.CostCenter.Id, Me.SubContractor.Id, Me)
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
