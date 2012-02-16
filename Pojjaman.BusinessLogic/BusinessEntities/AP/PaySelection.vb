@@ -64,11 +64,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PaySelection
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IWitholdingTaxable, IPrintableEntity, IPayable, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh, IHasCurrency, IPurchaseCNItemAble _
-      , INewGLAble
+      , INewGLAble, ICheckPeriod
 
 #Region "Members"
     Private m_supplier As Supplier
     Private m_docDate As Date
+    Private m_olddocDate As Date
 
     Private m_note As String
     Private m_creditPeriod As Long
@@ -120,6 +121,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_creditPeriod = 0
         .m_note = ""
         .m_docDate = Date.Now.Date
+        .m_olddocDate = Date.Now.Date
         .m_status = New PaySelectionStatus(-1)
         .m_payment = New Payment(Me)
 
@@ -162,6 +164,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If dr.Table.Columns.Contains("pays_docDate") AndAlso Not dr.IsNull(aliasPrefix & "pays_docDate") Then
           .m_docDate = CDate(dr(aliasPrefix & "pays_docDate"))
+          .m_olddocDate = CDate(dr(aliasPrefix & "pays_docDate"))
         End If
 
         If dr.Table.Columns.Contains("pays_note") AndAlso Not dr.IsNull(aliasPrefix & "pays_note") Then
@@ -269,7 +272,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_supplier = Value
       End Set
     End Property
-    Public Property DocDate() As Date Implements IPayable.Date, IGLAble.Date, IWitholdingTaxable.Date, IVatable.Date, IPurchaseCNItemAble.Docdate
+    Public Property DocDate() As Date Implements IPayable.Date, IGLAble.Date, IWitholdingTaxable.Date, IVatable.Date, IPurchaseCNItemAble.Docdate, ICheckPeriod.DocDate
       Get
         Return m_docDate
       End Get
@@ -277,6 +280,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docDate = Value
         Me.m_je.DocDate = Value
       End Set
+    End Property
+    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate
+      Get
+        Return m_olddocDate
+      End Get
     End Property
     Public Property Note() As String Implements IPayable.Note, IGLAble.Note, IPurchaseCNItemAble.Note
       Get
@@ -975,7 +983,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Try
           '--Sub Save Block-- ============================================================
 
-          
+
 
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
@@ -1644,9 +1652,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
-       
 
-       
+
+
 
         If myRetention <> 0 Then
           'เจ้าหนี้เงินประกันผลงาน W
@@ -1665,7 +1673,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
-       
+
 
         '===CURRENCY===
         Dim myGrossPaysCurrency As Decimal = doc.AmountPaysConversionForGL
@@ -1690,7 +1698,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         '===CURRENCY===
 
-        
+
 
         'Retention หัก
         If retentionHere AndAlso doc.Retention <> 0 Then
@@ -1709,7 +1717,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
-        
+
 
       Next
 
@@ -1721,7 +1729,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.Amount = Configuration.Format(vi.Amount, DigitConfig.Price)
         'อาจต้องระบุ Cc ของภาษีให้ได้
         ji.CostCenter = myCC
-        
+
         ji.Note = vi.Code & "/" & vi.PrintName
         ji.EntityItem = Me.Vat.Id
         ji.EntityItemType = 97 'ใช้ Incomingvat 
@@ -1734,7 +1742,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'ภาษีซื้อไม่ถึงกำหนด
       If Me.GetVatAmt <> 0 Then
-        
+
 
         'ล้างภาษีซื้อไม่ถึงกำหนด
         For Each pi As BillAcceptanceItem In Me.ItemCollection
@@ -1764,16 +1772,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
 
         For Each wht As WitholdingTax In Me.WitholdingTaxCollection
-          
-            ji = New JournalEntryItem
+
+          ji = New JournalEntryItem
           ji.Mapping = "B8.2"
-            ji.Amount = wht.Amount
-            ji.CostCenter = myCC
-            ji.Note = wht.Code & ":" & Me.Recipient.Name
-            ji.EntityItem = wht.Id
-            ji.EntityItemType = Entity.GetIdFromClassName("WitholdingTax")
-            ji.table = wht.TableName
-            jiColl.Add(ji)
+          ji.Amount = wht.Amount
+          ji.CostCenter = myCC
+          ji.Note = wht.Code & ":" & Me.Recipient.Name
+          ji.EntityItem = wht.Id
+          ji.EntityItemType = Entity.GetIdFromClassName("WitholdingTax")
+          ji.table = wht.TableName
+          jiColl.Add(ji)
         Next
       End If
 
@@ -1820,7 +1828,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
       Next
-      
+
       Me.Payment.CCId = myCC.Id
 
       If Not Me.Payment Is Nothing Then
@@ -2050,7 +2058,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             amt -= item.TaxBaseDeducted
           End If
         End If
-        
+
         'If item.TaxType.Value <> 0 AndAlso item.EntityId <> 46 AndAlso item.EntityId <> 199 Then
         '  amt += (item.TaxBase - item.DeductTaxBase(conn, trans))
         'ElseIf item.EntityId = 46 Then
