@@ -604,6 +604,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property    Public Property OwnerMatBudgetAmount As Decimal    Public Property OwnerLabBudgetAmount As Decimal    Public Property OwnerEqBudgetAmount As Decimal    'ใช้ MAtCbs
     Public Property MatCBS As CBS
       Get
+        If m_mcbs Is Nothing Then
+          m_mcbs = New CBS
+        End If
         Return m_mcbs
       End Get
       Set(ByVal value As CBS)
