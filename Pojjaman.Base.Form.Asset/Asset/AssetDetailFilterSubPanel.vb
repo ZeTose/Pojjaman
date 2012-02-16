@@ -58,6 +58,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbGeneral As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents cmbStatus As System.Windows.Forms.ComboBox
     Friend WithEvents chkOnlyCalcEndedStillRemaining As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowRemainingOnly As System.Windows.Forms.CheckBox
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -65,6 +66,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode = New System.Windows.Forms.Label()
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkOnlyCalcEndedStillRemaining = New System.Windows.Forms.CheckBox()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
       Me.grbGroup = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -95,7 +97,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.chkOnlyCalcEndedStillRemaining = New System.Windows.Forms.CheckBox()
+      Me.chkShowRemainingOnly = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       Me.grbGroup.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
@@ -145,6 +147,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
+      'chkOnlyCalcEndedStillRemaining
+      '
+      Me.chkOnlyCalcEndedStillRemaining.AutoSize = True
+      Me.chkOnlyCalcEndedStillRemaining.Location = New System.Drawing.Point(8, 173)
+      Me.chkOnlyCalcEndedStillRemaining.Name = "chkOnlyCalcEndedStillRemaining"
+      Me.chkOnlyCalcEndedStillRemaining.Size = New System.Drawing.Size(290, 17)
+      Me.chkOnlyCalcEndedStillRemaining.TabIndex = 6
+      Me.chkOnlyCalcEndedStillRemaining.Text = "เฉพาะสินทรัพย์มูลค่ายังคงเหลือ แต่สิ้นสุดอายุคำนวณแล้ว"
+      Me.chkOnlyCalcEndedStillRemaining.UseVisualStyleBackColor = True
+      '
       'btnSearch
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -159,7 +171,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(536, 173)
+      Me.btnReset.Location = New System.Drawing.Point(543, 173)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 4
@@ -188,7 +200,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGroup.Controls.Add(Me.lblAssettype)
       Me.grbGroup.Controls.Add(Me.txtAssettypeCode)
       Me.grbGroup.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbGroup.Location = New System.Drawing.Point(8, 94)
+      Me.grbGroup.Location = New System.Drawing.Point(8, 92)
       Me.grbGroup.Name = "grbGroup"
       Me.grbGroup.Size = New System.Drawing.Size(691, 72)
       Me.grbGroup.TabIndex = 1
@@ -465,6 +477,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbGeneral
       '
+      Me.grbGeneral.Controls.Add(Me.chkShowRemainingOnly)
       Me.grbGeneral.Controls.Add(Me.cmbCalcType)
       Me.grbGeneral.Controls.Add(Me.lblCalcType)
       Me.grbGeneral.Controls.Add(Me.txtCode)
@@ -474,7 +487,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbGeneral.Location = New System.Drawing.Point(8, 16)
       Me.grbGeneral.Name = "grbGeneral"
-      Me.grbGeneral.Size = New System.Drawing.Size(495, 72)
+      Me.grbGeneral.Size = New System.Drawing.Size(691, 72)
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "รายละเอียดทั่วไป"
@@ -532,15 +545,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'chkOnlyCalcEndedStillRemaining
+      'chkShowRemainingOnly
       '
-      Me.chkOnlyCalcEndedStillRemaining.AutoSize = True
-      Me.chkOnlyCalcEndedStillRemaining.Location = New System.Drawing.Point(8, 173)
-      Me.chkOnlyCalcEndedStillRemaining.Name = "chkOnlyCalcEndedStillRemaining"
-      Me.chkOnlyCalcEndedStillRemaining.Size = New System.Drawing.Size(290, 17)
-      Me.chkOnlyCalcEndedStillRemaining.TabIndex = 6
-      Me.chkOnlyCalcEndedStillRemaining.Text = "เฉพาะสินทรัพย์มูลค่ายังคงเหลือ แต่สิ้นสุดอายุคำนวณแล้ว"
-      Me.chkOnlyCalcEndedStillRemaining.UseVisualStyleBackColor = True
+      Me.chkShowRemainingOnly.AutoSize = True
+      Me.chkShowRemainingOnly.Location = New System.Drawing.Point(336, 45)
+      Me.chkShowRemainingOnly.Name = "chkShowRemainingOnly"
+      Me.chkShowRemainingOnly.Size = New System.Drawing.Size(200, 17)
+      Me.chkShowRemainingOnly.TabIndex = 6
+      Me.chkShowRemainingOnly.Text = "แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ"
+      Me.chkShowRemainingOnly.UseVisualStyleBackColor = True
       '
       'AssetDetailFilterSubPanel
       '
@@ -583,6 +596,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Methods"
     Public Sub Initialize()
+      Me.chkOnlyCalcEndedStillRemaining.Visible = Not CBool(Configuration.GetConfig("HideChkOnlyCalcEndedStillRemaining"))
+
       PupolateCalctype()
       ClearCriterias()
     End Sub
@@ -630,10 +645,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.grbGeneral}")
       Me.grbGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.grbGroup}")
       Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.lblStatus}")
-      Me.chkOnlyCalcEndedStillRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkOnlyCalcEndedStillRemaining}")
+      Me.chkOnlyCalcEndedStillRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkOnlyCalcEndedStillRemaining}") 'เฉพาะสินทรัพย์มูลค่ายังคงเหลือ แต่สิ้นสุดอายุคำนวณแล้ว
+      Me.chkShowRemainingOnly.Text = "แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkShowRemainingOnly}") 'แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(7) As Filter
+      Dim arr(8) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
       arr(2) = New Filter("account", IIf(Me.m_account.Originated, Me.m_account.Id, DBNull.Value))
@@ -642,6 +658,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(5) = New Filter("costcenter ", IIf(Me.m_cc.Originated, Me.m_cc.Id, DBNull.Value))
       arr(6) = New Filter("calctype", IIf(Me.cmbCalcType.SelectedIndex = -1, DBNull.Value, Me.cmbCalcType.SelectedIndex))
       arr(7) = New Filter("isCalEndedStillRemaining", IIf(Me.chkOnlyCalcEndedStillRemaining.Checked, 1, DBNull.Value))
+      arr(8) = New Filter("showRemainingOnly", IIf(Me.chkShowRemainingOnly.Checked, 1, DBNull.Value))
       Return arr
     End Function
 
@@ -819,9 +836,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Entities Is Nothing Then
         Return
       End If
-      For Each entity As ISimpleEntity In Entities
+      For Each entity As Object In Entities
 
-        If TypeOf entity Is Asset Then
+        If TypeOf entity Is ISimpleEntity AndAlso TypeOf entity Is Asset Then
           Dim obj As Asset
           obj = CType(entity, Asset)
           ' Account ...
@@ -868,7 +885,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnCostcenterEdit.Enabled = False
             Me.btnCostcenterFind.Enabled = False
           End If
+
+        ElseIf TypeOf entity Is CheckBox Then
+          Me.chkShowRemainingOnly.Checked = CType(entity, CheckBox).Checked
         End If
+
       Next
     End Sub
 

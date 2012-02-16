@@ -1212,7 +1212,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If m_entity.IsTransfer Then
         obj.Costcenter = Me.m_entity.FromCostcenter
       End If
+      Dim chkRemainingOnly As New CheckBox
+      chkRemainingOnly.Checked = True
+
       entities.Add(obj)
+      entities.Add(chkRemainingOnly)
 
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenListDialog(New Asset, AddressOf SetAssetItems, arr, entities)
