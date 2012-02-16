@@ -9,6 +9,8 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PAStatus
     Inherits CodeDescription
@@ -3360,32 +3362,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
 
-      Dim LastLevelApprove As New Hashtable
+      Dim LastLevelApprove As New List(Of ApproveDoc)
       For Each ap As ApproveDoc In Me.ApproveDocColl
-        If ap.Level > 0 AndAlso Not ap.Reject Then
-          LastLevelApprove(ap.Level) = ap
+        'If ap.Level > 0 AndAlso Not ap.Reject Then
+        If ap.Level > 0 Then
+          LastLevelApprove.Add(ap)
         End If
       Next
-      For Each ap As ApproveDoc In LastLevelApprove.Values
-        dpi = New DocPrintingItem
-        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
-        dpi.Value = ap.Originator
-        dpi.DataType = "System.String"
-        dpi.SignatureType = SignatureType.ApprovePerson
-        dpiColl.Add(dpi)
-      Next
+      If Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+        For Each ap As ApproveDoc In LastLevelApprove
+          If Not ap.Reject Then
+            dpi = New DocPrintingItem
+            dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+            dpi.Value = ap.Originator
+            dpi.DataType = "System.String"
+            dpi.SignatureType = SignatureType.ApprovePerson
+            dpiColl.Add(dpi)
+          End If
+        Next
 
-      'Authorizeid
-      dpi = New DocPrintingItem
-      dpi.Mapping = "AuthorizeId"
-      If Me.IsApproved Then
-        dpi.Value = Me.ApprovePerson.Id
-      Else
-        dpi.Value = 0
+        'Authorizeid
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AuthorizeId"
+        If Me.IsApproved Then
+          dpi.Value = Me.ApprovePerson.Id
+        Else
+          dpi.Value = 0
+        End If
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.AuthorizedPerson
+        dpiColl.Add(dpi)
       End If
-      dpi.DataType = "System.String"
-      dpi.SignatureType = SignatureType.AuthorizedPerson
-      dpiColl.Add(dpi)
 
       'RealGross
       dpi = New DocPrintingItem
@@ -5273,7 +5280,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         apRetentionPoint = CInt(tmp)
       End If
       Dim retentionHere As Boolean = (apRetentionPoint = 0)
-      
+
 
       'Retention
       If (Me.Payment.Amount - Me.Payment.Gross = 0 OrElse retentionHere) AndAlso Me.Retention > 0 Then
@@ -5314,7 +5321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         Next
 
-        
+
       End If
 
       'ภาษีซื้อไม่ถึงกำหนด
@@ -5329,7 +5336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         jiColl.Add(ji)
 
-      
+
       End If
 
       'ภาษีหัก ณ ที่จ่าย
@@ -5424,7 +5431,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               jiColl.Add(ji)
             End If
           Next
-          
+
 
         End If
       End If
@@ -5503,7 +5510,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
-       
+
 
         jiColl.AddRange(Me.Payment.GetJournalEntries)
       End If
@@ -5810,7 +5817,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "INewGLAble"
-    
+
     Public Function NewGetJournalEntries() As JournalEntryItemCollection Implements INewGLAble.NewGetJournalEntries
       Dim jiColl As New JournalEntryItemCollection
       Dim ji As JournalEntryItem
@@ -5820,7 +5827,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         apRetentionPoint = CInt(tmp)
       End If
       Dim retentionHere As Boolean = (apRetentionPoint = 0)
-   
+
 
       'Retention
       If (Me.Payment.Amount - Me.Payment.Gross = 0 OrElse retentionHere) AndAlso Me.Retention > 0 Then
@@ -5842,7 +5849,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'ภาษีซื้อ
       If Me.Vat.Amount > 0 Then
-        
+
         For Each vi As VatItem In Me.Vat.ItemCollection
           ji = New JournalEntryItem
           ji.Mapping = "E3.5"
@@ -5862,7 +5869,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         Next
 
-        
+
       End If
 
       'ภาษีซื้อไม่ถึงกำหนด
@@ -5885,13 +5892,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.AtomNote = "ตั้ง vat not due PA"
         jiColl.Add(ji)
 
-        
+
       End If
 
       'ภาษีหัก ณ ที่จ่าย
       If Not Me.WitholdingTaxCollection.IsBeforePay Then
         If Not Me.WitholdingTaxCollection Is Nothing AndAlso Me.WitholdingTaxCollection.Amount > 0 Then
-          
+
           For Each wht As WitholdingTax In Me.WitholdingTaxCollection
             ji = New JournalEntryItem
             ji.Mapping = "E3.15"
@@ -5917,7 +5924,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Next
           Dim typeNum As String
-          
+
           For Each wht As WitholdingTax In Me.WitholdingTaxCollection
             typeNum = CStr(wht.Type.Value)
             If Not (typeNum.Length > 1) Then
@@ -5943,8 +5950,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               jiColl.Add(ji)
             End If
           Next
-          
-          
+
+
 
         End If
       End If
@@ -5994,7 +6001,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
         Next
-        
+
       End If
 
       If Not Me.Payment Is Nothing Then
@@ -6025,14 +6032,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           jiColl.Add(ji)
         End If
 
-       
+
 
         jiColl.AddRange(Me.Payment.GetNewJournalEntries)
       End If
       jiColl.AddRange(Me.NewGetItemJournalEntries)
       Return jiColl
     End Function
-    
+
     Private Function NewGetItemJournalEntries() As JournalEntryItemCollection
       Dim jiColl As New JournalEntryItemCollection
 
@@ -6103,7 +6110,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.MatAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 'NewSetJournalEntryItem(jiColl, realAccount, realAmount, Me.CostCenter, "E3.4")
                 If item.WBSDistributeCollection.Count > 0 Then
@@ -6115,7 +6122,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   NewSetJournalEntryItem(jiColl, item, Nothing, realAccount, itemAmount, Me.CostCenter, "E4.4", note)
 
                 End If
-                
+
 
                 '==========================LAB==============================================================
                 realAccount = Nothing
@@ -6123,7 +6130,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.LabAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6140,7 +6147,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.EqAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6160,7 +6167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.LabAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6177,7 +6184,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.MatAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6194,7 +6201,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.LabAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6211,7 +6218,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.EqAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6227,7 +6234,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.MatAccount
                 End If
-              
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6242,7 +6249,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   'ใช้ acct ในรายการ
                   realAccount = item.MatAccount
                 End If
-                
+
                 note = item.ItemDescription & ":" & item.ItemType.Description
                 If item.WBSDistributeCollection.Count > 0 Then
                   For Each wbsd As WBSDistribute In item.WBSDistributeCollection
@@ -6287,10 +6294,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ji.CustomRefType = "WBS"
         ji.AtomNote = "ใช้เลข sequence จะอ้างไปถึง WBS ได้"
       End If
-      
+
       jiColl.Add(ji)
     End Sub
-    
+
 #End Region
 
 #Region "IWBSAllocatable"

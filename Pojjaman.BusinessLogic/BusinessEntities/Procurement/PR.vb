@@ -6,6 +6,7 @@ Imports System.Configuration
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PRStatus
@@ -2055,39 +2056,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
 
-      Dim LastLevelApprove As New Hashtable
+      Dim LastLevelApprove As New List(Of ApproveDoc)
       For Each ap As ApproveDoc In Me.ApproveDocColl
-        If ap.Level > 0 AndAlso Not ap.Reject Then
-          LastLevelApprove(ap.Level) = ap
+        'If ap.Level > 0 AndAlso Not ap.Reject Then
+        If ap.Level > 0 Then
+          LastLevelApprove.Add(ap)
         End If
       Next
-      For Each ap As ApproveDoc In LastLevelApprove.Values
-        dpi = New DocPrintingItem
-        dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
-        dpi.Value = ap.Originator
-        dpi.DataType = "System.String"
-        dpi.SignatureType = SignatureType.ApprovePerson
-        dpiColl.Add(dpi)
-      Next
+      If Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+        For Each ap As ApproveDoc In LastLevelApprove
+          If Not ap.Reject Then
+            dpi = New DocPrintingItem
+            dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
+            dpi.Value = ap.Originator
+            dpi.DataType = "System.String"
+            dpi.SignatureType = SignatureType.ApprovePerson
+            dpiColl.Add(dpi)
+          End If
+        Next
 
-      'Authorizeid
-      dpi = New DocPrintingItem
-      dpi.Mapping = "AuthorizeId"
-      If Me.IsApproved Then
-        dpi.Value = Me.ApprovePerson.Id
-      Else
-        dpi.Value = 0
+        'Authorizeid
+        dpi = New DocPrintingItem
+        dpi.Mapping = "AuthorizeId"
+        If Me.IsApproved Then
+          dpi.Value = Me.ApprovePerson.Id
+        Else
+          dpi.Value = 0
+        End If
+        dpi.DataType = "System.String"
+        dpi.SignatureType = SignatureType.AuthorizedPerson
+        dpiColl.Add(dpi)
       End If
-      dpi.DataType = "System.String"
-      dpi.SignatureType = SignatureType.AuthorizedPerson
-      dpiColl.Add(dpi)
 
       Dim line As Integer = 0
       Dim counter As Integer = 0
       Dim i As Integer = 0
       Dim sequence As Integer = 0
       For Each item As PRItem In Me.ItemCollection
-
         '--สำหรับไว้สร้าง relation ใน schema--=============
         'pri_pr
         dpi = New DocPrintingItem
