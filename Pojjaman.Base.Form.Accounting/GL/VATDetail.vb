@@ -315,7 +315,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.Validator.SetRequired(Me.txtRefTaxBase, False)
 			Me.txtRefTaxBase.Size = New System.Drawing.Size(144, 21)
 			Me.txtRefTaxBase.TabIndex = 189
-			Me.txtRefTaxBase.TabStop = False
+      Me.txtRefTaxBase.TabStop = False
+      Me.txtRefTaxBase.TextAlign = HorizontalAlignment.Right
 			Me.txtRefTaxBase.Text = ""
 			'
 			'txtRefDocDate
@@ -523,7 +524,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.Validator.SetRequired(Me.txtTaxBase, False)
 			Me.txtTaxBase.Size = New System.Drawing.Size(104, 21)
 			Me.txtTaxBase.TabIndex = 189
-			Me.txtTaxBase.TabStop = False
+      Me.txtTaxBase.TabStop = False
+      Me.txtTaxBase.TextAlign = HorizontalAlignment.Right
 			Me.txtTaxBase.Text = ""
 			'
 			'lblAmount
@@ -553,7 +555,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.Validator.SetRequired(Me.txtAmount, False)
 			Me.txtAmount.Size = New System.Drawing.Size(104, 21)
 			Me.txtAmount.TabIndex = 189
-			Me.txtAmount.TabStop = False
+      Me.txtAmount.TabStop = False
+      Me.txtAmount.TextAlign = HorizontalAlignment.Right
 			Me.txtAmount.Text = ""
 			'
 			'lblBaht

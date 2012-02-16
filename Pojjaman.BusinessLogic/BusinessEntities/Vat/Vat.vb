@@ -811,7 +811,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim lastCode As String = vi.GetLastCode(pattern)
 
       For Each item As VatItem In Me.ItemCollection
-        If Me.AutoGen Then ' (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
+        If Me.AutoGen AndAlso ((Not item.Code Is Nothing AndAlso item.Code.Trim = ptn.Trim) OrElse (item.Code Is Nothing OrElse item.Code.Trim.Length = 0)) Then ' (Me.AutoGen AndAlso ((item.Code Is Nothing) OrElse (item.Code.Length = 0))) Then
           Dim newCode As String = CodeGenerator.Generate(ptn, lastCode, Me.RefDoc)
           item.Code = newCode
           lastCode = newCode
