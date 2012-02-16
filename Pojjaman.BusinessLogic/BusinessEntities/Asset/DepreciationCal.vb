@@ -628,8 +628,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub ReCalculationAll()
       Dim hs As Hashtable = Me.GetListIdOfAssetRemaing
 
-      Dim existsId As Boolean = False
+      'Dim existsId As Boolean = False
       For Each item As DepreciationCalItem In Me.ItemCollection
+
+        Dim existsId As Boolean = False
         If Me.DepreDate > item.Entity.StartCalcDate Then
           If hs.ContainsKey(item.Entity.Id.ToString) Then
             existsId = True
