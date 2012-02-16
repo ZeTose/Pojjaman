@@ -222,6 +222,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
           With dlg
             .Title = Me.Text
             .Filter = "Xtra Reports Files|*.repx|XML Files, XDP Files|*.xml;*.xdp|XML Files|*.xml|XDP Files|*.xdp|Crystal Report Files|*.rpt|All Files|*.*"
+            .FilterIndex = 6
           End With
           If dlg.ShowDialog = DialogResult.OK Then
             Dim path As String = dlg.FileName()
