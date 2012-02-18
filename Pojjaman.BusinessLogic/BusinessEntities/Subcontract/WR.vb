@@ -2169,7 +2169,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           LastLevelApprove.Add(ap)
         End If
       Next
-      If Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+      If LastLevelApprove.Count > 0 AndAlso Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
         For Each ap As ApproveDoc In LastLevelApprove
           If Not ap.Reject Then
             dpi = New DocPrintingItem
