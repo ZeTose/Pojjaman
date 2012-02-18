@@ -427,6 +427,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim parentNode As TreeRow = Nothing
       Dim myTempId As Integer = 0
 
+      Dim totalBudget As Decimal = 0
+      Dim totalActual As Decimal = 0
+      Dim totalDiff As Decimal = 0
+
       Dim tr As TreeRow
       Dim stage As String = ""
       Try
@@ -458,6 +462,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tr("BudgetCost") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_budget"), dgt)
             tr("ActualCost") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_actual"), dgt)
             tr("Diff") = Configuration.FormatToString(cbsh.GetValue(Of Decimal)("cbs_budget") - cbsh.GetValue(Of Decimal)("cbs_actual"), dgt)
+
+            If cbsh.GetValue(Of Integer)("cbs_level") = 0 Then
+              totalBudget += cbsh.GetValue(Of Decimal)("cbs_budget")
+              totalActual += cbsh.GetValue(Of Decimal)("cbs_actual")
+              totalDiff += cbsh.GetValue(Of Decimal)("cbs_budget") - cbsh.GetValue(Of Decimal)("cbs_actual")
+            End If
             tr.State = RowExpandState.Expanded
           End If
           ' --CBS-- ============================================================================================<<
@@ -555,6 +565,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '  End If
           End If
         Next
+
+
+        Dim totalNode As TreeRow = dt.Childs.Add
+
+        totalNode("cbs_name") = "total"
+        totalNode("BudgetCost") = Configuration.FormatToString(totalBudget, dgt)
+        totalNode("ActualCost") = Configuration.FormatToString(totalActual, dgt)
+        totalNode("Diff") = Configuration.FormatToString(totalDiff, dgt)
 
         ''#######################################################################################################
 

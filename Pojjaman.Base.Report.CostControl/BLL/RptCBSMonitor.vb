@@ -550,6 +550,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private dicdata As Dictionary(Of String, CBSAmount)
     Private Class CBSAmount
+      Sub New(ByVal cc As Integer)
+        CCID = cc
+        CBS = -1
+        Budget = 0
+        PRActual = 0
+        POActual = 0
+        GRActual = 0
+        MWActual = 0
+      End Sub
       Sub New(ByVal drh As DataRowHelper)
         CCID = drh.GetValue(Of Integer)("ccid")
         CBS = drh.GetValue(Of Integer)("cbs")
@@ -558,6 +567,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         POActual = drh.GetValue(Of Decimal)("poactual")
         GRActual = drh.GetValue(Of Decimal)("gractual")
         MWActual = drh.GetValue(Of Decimal)("mwactual")
+      End Sub
+      Sub Sum(ByVal cbs As CBSAmount)
+        With Me
+          .Budget += cbs.Budget
+          .PRActual += cbs.PRActual
+          .POActual += cbs.POActual
+          .GRActual += cbs.GRActual
+          .MWActual += cbs.MWActual
+        End With
       End Sub
       Public Property CCID As Integer
       Public Property CBS As Integer
@@ -584,14 +602,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       dicdata = New Dictionary(Of String, CBSAmount)
-
       For Each row As DataRow In dtdata.Rows
         Dim drh As New DataRowHelper(row)
         Dim key As String = drh.GetValue(Of Integer)("ccid").ToString & "|" & drh.GetValue(Of Integer)("cbs").ToString
         Dim ca As New CBSAmount(drh)
         dicdata.Add(key, ca)
-      Next
 
+
+        ''total data
+        Dim totalkey As String = drh.GetValue(Of Integer)("ccid").ToString & "|Total"
+        If Not dicdata.ContainsKey(totalkey) Then
+          Dim tca As New CBSAmount(drh.GetValue(Of Integer)("ccid"))
+          dicdata.Add(totalkey, tca)
+        End If
+        If drh.GetValue(Of Integer)("cbslevel") = 0 Then
+          dicdata.Item(totalkey).Sum(ca)
+        End If
+      Next
 
 
       ' Cbs ##################################################################################################
@@ -603,6 +630,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim tr As TreeRow
       Dim stage As String = ""
+
+      
       Try
         'แบบไม่เลือก Option WBS 
         For Each cbsrow As DataRow In dtcbs.Rows
@@ -634,20 +663,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim ccrh As New DataRowHelper(ccrow)
 
               Dim cc As String = ccrh.GetValue(Of Integer)("ccid")
-
+              Dim tmp As Decimal = 0
               If dicdata.ContainsKey(cc & "|" & cbs) Then
                 tr("BudgetCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).Budget, dgt)
+                tmp = dicdata(cc & "|" & cbs).Budget
                 tr("ActualPRCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).PRActual, dgt)
                 tr("PRDiff" & cc) = 0
+                tmp = dicdata(cc & "|" & cbs).PRActual
 
                 tr("ActualPOCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).POActual, dgt)
                 tr("PODiff" & cc) = 0
+                tmp = dicdata(cc & "|" & cbs).POActual
 
                 tr("ActualGRCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).GRActual, dgt)
                 tr("GRDiff" & cc) = 0
+                tmp = dicdata(cc & "|" & cbs).GRActual
 
                 tr("ActualMWCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).MWActual, dgt)
                 tr("MWDiff" & cc) = 0
+                tmp = dicdata(cc & "|" & cbs).MWActual
+
               End If
 
             Next
@@ -723,6 +758,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  End If
           'End If
         Next
+
+        Dim totalNode As TreeRow = dt.Childs.Add
+
+        totalNode("cbs_name") = "total"
+
+        For Each ccrow As DataRow In dtcc.Rows
+          Dim ccrh As New DataRowHelper(ccrow)
+
+          Dim cc As String = ccrh.GetValue(Of Integer)("ccid")
+          Dim totalkey As String = cc & "|Total"
+          If dicdata.ContainsKey(totalkey) Then
+            totalNode("BudgetCost" & cc) = Configuration.FormatToString(dicdata(totalkey).Budget, dgt)
+
+            totalNode("ActualPRCost" & cc) = Configuration.FormatToString(dicdata(totalkey).PRActual, dgt)
+            totalNode("PRDiff" & cc) = 0
+
+            totalNode("ActualPOCost" & cc) = Configuration.FormatToString(dicdata(totalkey).POActual, dgt)
+            totalNode("PODiff" & cc) = 0
+
+            totalNode("ActualGRCost" & cc) = Configuration.FormatToString(dicdata(totalkey).GRActual, dgt)
+            totalNode("GRDiff" & cc) = 0
+
+            totalNode("ActualMWCost" & cc) = Configuration.FormatToString(dicdata(totalkey).MWActual, dgt)
+            totalNode("MWDiff" & cc) = 0
+
+          End If
+
+        Next
+        
 
         ''#######################################################################################################
 
