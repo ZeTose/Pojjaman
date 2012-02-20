@@ -98,15 +98,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csCredit.Width = 80
       csCredit.ReadOnly = True
 
-      Dim csAmount As New TreeTextColumn
-      csAmount.MappingName = "Amount"
-      csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.BalanceHeaderText}")
-      csAmount.NullText = ""
-      csAmount.DataAlignment = HorizontalAlignment.Right
-      csAmount.Format = "#,###.##"
-      csAmount.TextBox.Name = "Amount"
-      csAmount.Width = 90
-      csAmount.ReadOnly = True
+      Dim csBalance As New TreeTextColumn
+      csBalance.MappingName = "Balance"
+      csBalance.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.BalanceHeaderText}")
+      csBalance.NullText = ""
+      csBalance.DataAlignment = HorizontalAlignment.Right
+      csBalance.Format = "#,###.##"
+      csBalance.TextBox.Name = "Balance"
+      csBalance.Width = 90
+      csBalance.ReadOnly = True
 
       Dim csBarrier1 As New DataGridBarrierColumn
       csBarrier1.MappingName = "Barrier1"
@@ -144,15 +144,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemain.Width = 80
       csRemain.ReadOnly = True
 
-      Dim csAdjust As New TreeTextColumn
-      csAdjust.MappingName = "Adjust"
-      csAdjust.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.AdjustHeaderText}")
-      csAdjust.NullText = ""
-      csAdjust.DataAlignment = HorizontalAlignment.Right
-      csAdjust.Format = "#,###.##"
-      csAdjust.TextBox.Name = "Adjust"
-      csAdjust.Width = 80
-      csAdjust.ReadOnly = True
+      'Dim csAdjust As New TreeTextColumn
+      'csAdjust.MappingName = "Adjust"
+      'csAdjust.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.AdjustHeaderText}")
+      'csAdjust.NullText = ""
+      'csAdjust.DataAlignment = HorizontalAlignment.Right
+      'csAdjust.Format = "#,###.##"
+      'csAdjust.TextBox.Name = "Adjust"
+      'csAdjust.Width = 80
+      'csAdjust.ReadOnly = True
 
       Dim csOther As New TreeTextColumn
       csOther.MappingName = "Other"
@@ -181,14 +181,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csGlNote)
       dst.GridColumnStyles.Add(csDebit)
       dst.GridColumnStyles.Add(csCredit)
-      dst.GridColumnStyles.Add(csAmount)
+      dst.GridColumnStyles.Add(csBalance)
       dst.GridColumnStyles.Add(csBarrier1)
       dst.GridColumnStyles.Add(csCash)
       dst.GridColumnStyles.Add(csBank)
       dst.GridColumnStyles.Add(csRemain)
-      dst.GridColumnStyles.Add(csAdjust)
+      'dst.GridColumnStyles.Add(csAdjust)
       dst.GridColumnStyles.Add(csOther)
-      'dst.GridColumnStyles.Add(csSum)
+      dst.GridColumnStyles.Add(csSum)
 
       Return dst
     End Function
@@ -208,15 +208,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("gli_cc", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Debit", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Credit", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Balance", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Amount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Cash", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Bank", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Remain", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Adjust", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("Adjust", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Other", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Sum", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("DocId", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("DocType", GetType(String)))
-      'myDatatable.Columns.Add(New DataColumn("Sum", GetType(String)))
 
 
       Return myDatatable
@@ -253,12 +254,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trDetail("gli_note") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.ItemNote}")
       trDetail("Debit") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Debit}")
       trDetail("Credit") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Credit}")
-      trDetail("Amount") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Balance}")
+      trDetail("Balance") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Balance}")
       trDetail("Cash") = Me.StringParserService.Parse("${res:Cash}")
       trDetail("Bank") = Me.StringParserService.Parse("${res:Bank}")
       trDetail("Remain") = Me.StringParserService.Parse("${res:Remain}")
-      trDetail("Adjust") = Me.StringParserService.Parse("${res:Adjust}")
+      'trDetail("Adjust") = Me.StringParserService.Parse("${res:Adjust}")
       trDetail("Other") = Me.StringParserService.Parse("${res:Other}")
+      trDetail("Sum") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptJournalEntry.Sum}")
 
 
 
@@ -547,7 +549,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim Cash As Decimal = 0
       Dim Bank As Decimal = 0
       Dim Remain As Decimal = 0
-      Dim Adjust As Decimal = 0
       Dim Other As Decimal = 0
       For Each childrow As TreeRow In Me.m_treemanager.Treetable.Childs
         Dim dr As DataRow = CType(childrow, DataRow)
@@ -558,7 +559,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Cash += drh.GetValue(Of Decimal)("cash", 0)
         Bank += drh.GetValue(Of Decimal)("bank", 0)
         Remain += drh.GetValue(Of Decimal)("remain", 0)
-        Adjust += drh.GetValue(Of Decimal)("adjust", 0)
         Other += drh.GetValue(Of Decimal)("other", 0)
       Next
       Dim parrow As TreeRow = Me.m_treemanager.Treetable.Childs.Add
@@ -567,12 +567,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       parrow("gl_code") = "รวมทั้งสิ้น"
       parrow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
       parrow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
-      parrow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+      parrow("Balance") = Configuration.FormatToString(Amount, DigitConfig.Price)
       parrow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
       parrow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
       parrow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price)
-      parrow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price)
       parrow("other") = Configuration.FormatToString(Other, DigitConfig.Price)
+      parrow("sum") = Configuration.FormatToString(Cash + Bank + Remain + Other, DigitConfig.Price)
       '--Total Summary-- ========================================================
 
 
@@ -693,7 +693,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim Cash As Decimal = 0
       Dim Bank As Decimal = 0
       Dim Remain As Decimal = 0
-      Dim Adjust As Decimal = 0
       Dim Other As Decimal = 0
 
       'Trace.WriteLine(parrow("acct_code").ToString)
@@ -706,22 +705,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim drh As New DataRowHelper(dr)
         debit += drh.GetValue(Of Decimal)("Debit", 0)
         credit += drh.GetValue(Of Decimal)("Credit", 0)
-        Amount += drh.GetValue(Of Decimal)("amount", 0)
+        Amount += drh.GetValue(Of Decimal)("Amount", 0)
         Cash += drh.GetValue(Of Decimal)("cash", 0)
         Bank += drh.GetValue(Of Decimal)("bank", 0)
         Remain += drh.GetValue(Of Decimal)("remain", 0)
-        Adjust += drh.GetValue(Of Decimal)("adjust", 0)
         Other += drh.GetValue(Of Decimal)("other", 0)
       Next
       If parrow.Childs.Count > 0 Then
         parrow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
         parrow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
-        parrow("amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
+        parrow("Balance") = Configuration.FormatToString(Amount, DigitConfig.Price)
         parrow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
         parrow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
         parrow("remain") = Configuration.FormatToString(Remain, DigitConfig.Price)
-        parrow("adjust") = Configuration.FormatToString(Adjust, DigitConfig.Price)
         parrow("other") = Configuration.FormatToString(Other, DigitConfig.Price)
+        parrow("sum") = Configuration.FormatToString(Cash + Bank + Remain + Other, DigitConfig.Price)
       End If
     End Sub
     'Private Sub SumTotalRow(ByVal parrow As TreeRow)
@@ -792,7 +790,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim totalCash As Decimal = 0
         Dim totalBank As Decimal = 0
         Dim totalRemain As Decimal = 0
-        Dim totalAdjust As Decimal = 0
         Dim totalOther As Decimal = 0
 
         For Each row As DataRow In dt.Select("gli_acct = " & id.ToString)
@@ -843,10 +840,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             theRow2("Debit") = Configuration.FormatToString(gli_debitamt, DigitConfig.Price)      ' เดบิต
             theRow2("Credit") = Configuration.FormatToString(gli_creditamt, DigitConfig.Price)      ' เครบิต
+            theRow2("Amount") = Configuration.FormatToString(gli_balanceamt, DigitConfig.Price)      ' เครบิต
 
             totalbalance += gli_balanceamt
 
-            theRow2("Amount") = Configuration.FormatToString(totalbalance, DigitConfig.Price)      ' ยอดคงเหลือ
+            theRow2("balance") = Configuration.FormatToString(totalbalance, DigitConfig.Price)      ' ยอดคงเหลือ
 
             Dim cash As Decimal = drh.GetValue(Of Decimal)("Cash")
             totalCash += cash
@@ -854,14 +852,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             totalBank += bank
             Dim remain As Decimal = drh.GetValue(Of Decimal)("remain")
             totalRemain += remain
-            Dim adjust As Decimal = drh.GetValue(Of Decimal)("adjust")
-            totalAdjust += adjust
             Dim Other As Decimal = drh.GetValue(Of Decimal)("Other")
             totalOther += Other
             theRow2("Cash") = Configuration.FormatToString(cash, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Bank") = Configuration.FormatToString(bank, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Remain") = Configuration.FormatToString(remain, DigitConfig.Price, True)      ' ยอดคงเหลือ
-            theRow2("Adjust") = Configuration.FormatToString(adjust, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Other") = Configuration.FormatToString(Other, DigitConfig.Price, True)      ' ยอดคงเหลือ
 
 
