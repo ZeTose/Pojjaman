@@ -300,7 +300,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr.State = expand
       Return tr
     End Function
-    Private Function Child(ByVal dr As TreeRow, ByVal codedesc As String, ByVal valuedese As Decimal, Optional ByVal expand As RowExpandState = RowExpandState.Expanded) As TreeRow
+    Private Function Child(ByVal dr As TreeRow, ByVal codedesc As String, ByVal codename As String, ByVal valuedese As Decimal, Optional ByVal expand As RowExpandState = RowExpandState.Expanded) As TreeRow
       Dim dgt As DigitConfig = DigitConfig.Price
       If NoDigit Then
         dgt = DigitConfig.Int
@@ -309,6 +309,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tr As TreeRow = dr.Childs.Add
       If codedesc.Length > 0 Then
         tr("cbs_code") = codedesc
+        tr("cbs_name") = codename
         tr("budgetcost") = Configuration.FormatToString(valuedese, dgt)
       End If
       tr.State = expand
@@ -355,7 +356,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         other = drh.GetValue(Of Decimal)("other")
         bf = drh.GetValue(Of Decimal)("bf")
 
-        totalprice = (main + vo + other) - (penalty + retention + advance)
+        totalprice = (main + vo + other) - (penalty)
+        'totalprice = (main + vo + other) - (penalty + retention + advance)
       End If
       If Me.DataSet.Tables(1).Rows.Count > 0 Then
         Dim drh As New DataRowHelper(Me.DataSet.Tables(1).Rows(0))
@@ -369,23 +371,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim tr As TreeRow = Parent(dt, "Price")
-      Child(tr, "Main", main)
-      Child(tr, "Retention", retention)
-      Child(tr, "Advance", advance)
-      Child(tr, "VO", vo)
-      Child(tr, "Penalty", penalty)
-      Child(tr, "Other", other)
-      Child(tr, "BF", bf)
-      Child(tr, "Total", totalprice)
+      Child(tr, "Main", "มูลค่าตามสัญญา", main)
+      Child(tr, "Retention", "เงินประกันผลงาน", retention)
+      Child(tr, "Advance", "เงินรับล่วงหน้า", advance)
+      Child(tr, "VO", "เปลี่ยนแปลงงาน", vo)
+      Child(tr, "Penalty", "ค่าปรับ/ส่วนลด", penalty)
+      Child(tr, "Other", "รายได้อื่นๆ", other)
+      Child(tr, "BF", "รายได้ที่ไม่ออกบิล", bf)
+      Child(tr, "Total", "Main+VO-Penalty+other", totalprice)
       Blank(dt)
 
       tr = Parent(dt, "Received")
-      Child(tr, "Deliver", deliver)
-      Child(tr, "Bill", bill)
-      Child(tr, "Received", receievd)
-      Child(tr, "Retention", Recretention)
-      Child(tr, "Advance", Recadvance)
-      Child(tr, "Remain", remain)
+      Child(tr, "Deliver", "ส่งงวดงาน", deliver)
+      Child(tr, "Bill", "วางบิล", bill)
+      Child(tr, "Received", "รับเงิน", receievd)
+      Child(tr, "Retention", "เงินประกันผลงาน", Recretention)
+      Child(tr, "Advance", "เงินรับล่วงหน้า", Recadvance)
+      Child(tr, "Remain", "ยอดคงค้าง", remain)
       Blank(dt)
 
       Dim headertr As TreeRow = Me.CreateHeader(dt)
@@ -437,9 +439,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             tr("ActualGRCost") = Configuration.FormatToString(cbrh.GetValue(Of Decimal)("gractual"), dgt)
             tr("GRDiff") = Configuration.FormatToString(cbrh.GetValue(Of Decimal)("budgetamt") - cbrh.GetValue(Of Decimal)("gractual"), dgt)
 
-            sbudget += cbrh.GetValue(Of Decimal)("budgetamt")
-            spoactual += cbrh.GetValue(Of Decimal)("poactual")
-            sgractual += cbrh.GetValue(Of Decimal)("gractual")
+
+            'cbs รวมยอดมาแล้ว เลยเอาเฉพาะ level 0 คือ ราก cbs กับ ไม่มี cbs
+            If cbrh.GetValue(Of Integer)("cbs_level") = 0 Then
+              sbudget += cbrh.GetValue(Of Decimal)("budgetamt")
+              spoactual += cbrh.GetValue(Of Decimal)("poactual")
+              sgractual += cbrh.GetValue(Of Decimal)("gractual")
+            End If
+           
 
             tr.State = RowExpandState.Expanded
           End If
@@ -458,11 +465,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Blank(dt)
 
         tr = Parent(dt, "Profit")
-        Child(tr, "Contract - Budget", Configuration.FormatToString(totalprice - sbudget, dgt))
-        Child(tr, "Received - PO Actual", Configuration.FormatToString(totalprice - spoactual, dgt))
-        Child(tr, "Received - PO Actual", Configuration.FormatToString(receievd - spoactual, dgt))
-        Child(tr, "Received - GR Actual", Configuration.FormatToString(totalprice - sgractual, dgt))
-        Child(tr, "Received - GR Actual", Configuration.FormatToString(receievd - sgractual, dgt))
+        Child(tr, "Contract - Budget", "", Configuration.FormatToString(totalprice - sbudget, dgt))
+        Child(tr, "Received - PO Actual", "", Configuration.FormatToString(totalprice - spoactual, dgt))
+        Child(tr, "Received - PO Actual", "", Configuration.FormatToString(receievd - spoactual, dgt))
+        Child(tr, "Received - GR Actual", "", Configuration.FormatToString(totalprice - sgractual, dgt))
+        Child(tr, "Received - GR Actual", "", Configuration.FormatToString(receievd - sgractual, dgt))
         Blank(dt)
 
         MargeHeaderRows()
