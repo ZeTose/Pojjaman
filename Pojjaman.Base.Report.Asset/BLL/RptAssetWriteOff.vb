@@ -252,6 +252,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currDocIndex, 1).Tag = DocRow
         DocId = DocH.GetValue(Of Decimal)("DocId")
 
+        DocAsAmt = 0
+        DocAccDepre = 0
+        DocAsRemain = 0
+        DocAsWf = 0
+        DocAccDepreWf = 0
+        DocCostAmt = 0
+        DocSellAmt = 0
+        DocPL = 0
+
         For Each itemRow As DataRow In dtItem.Select("eqtstocki_eqtstock =" & DocId & " and eqtstocki_entityType = 28")
           Dim IH As New DataRowHelper(itemRow)
           Dim HasChilds As Boolean = IH.GetValue(Of Boolean)("haschilds")
@@ -264,14 +273,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currItemIndex, 2).CellValue = indent & IH.GetValue(Of String)("eqtcode")
           m_grid(currItemIndex, 3).CellValue = indent & IH.GetValue(Of String)("eqtName")
 
-          DocAsAmt = 0
-          DocAccDepre = 0
-          DocAsRemain = 0
-          DocAsWf = 0
-          DocAccDepreWf = 0
-          DocCostAmt = 0
-          DocSellAmt = 0
-          DocPL = 0
+          
 
           Dim astID As Decimal = IH.GetValue(Of Decimal)("eqtstocki_entity")
 
