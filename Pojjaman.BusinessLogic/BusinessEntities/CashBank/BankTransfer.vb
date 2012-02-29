@@ -694,7 +694,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Me.Check.DueDate = Me.WitholdingTaxCollection(0).DocDate
               End If
             End If
-            Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
+            Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans, True)
             If Not IsNumeric(checkSaveError.Message) Then
               trans.Rollback()
               Me.ResetID(oldid, oldje)
@@ -725,7 +725,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Me.Check.DocStatus = New OutgoingCheckDocStatus(2)
           End If
 
-          Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans)
+          Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans, True)
           If Not IsNumeric(checkSaveError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldje)

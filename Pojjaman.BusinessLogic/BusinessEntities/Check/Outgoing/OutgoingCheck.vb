@@ -978,12 +978,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End Try
     End Function
-    Public Overloads Overrides Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+    'Save จาก Payment และ BankTransfer 
+    Public Overloads Function Save(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, _
+                                             ByVal trans As System.Data.SqlClient.SqlTransaction, Optional ByVal isTransfer As Boolean = False) As SaveErrorException
       If Me.Amount <= 0 AndAlso (Me.DocStatus.Value <> 5 OrElse Me.Originated) Then
         Return New SaveErrorException("${res:Global.Error.ZeroValueMiss}", "${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblAmount}")
       End If
       'สถานะเช็คไม่ตรงกับสถานะปัจจุบันไม่สามารถบันทึกได้
-      If Me.Originated AndAlso Me.DocStatus.Value <> Me.GetCurrentCheckStatus(conn, trans) Then
+      If Me.Originated AndAlso Me.DocStatus.Value <> Me.GetCurrentCheckStatus(conn, trans) AndAlso Not isTransfer Then
         Return New SaveErrorException("${res:Longkong.Pojjaman.OutgoingCheck.Error.DifferentDocstatus}")
       End If
       ' กำหนด SqlParameter เพื่อ return ค่าการ Execute procedure ...
