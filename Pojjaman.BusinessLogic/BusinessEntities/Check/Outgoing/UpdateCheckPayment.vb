@@ -1255,15 +1255,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not item.Entity.Bankacct.Account Is Nothing Then
             ji.Account = item.Entity.Bankacct.Account ' bankacct.Account
           End If
+          ji.Note = item.Entity.CqCode
 
-          If Not item.Entity.Note Is Nothing AndAlso item.Entity.Note.Length > 0 Then
-            ji.Note = item.Entity.Note
-          End If
+          
           If Not item.Entity.Bankacct Is Nothing Then
             ji.Note &= ":" & item.Entity.Bankacct.Name
           End If
           If Not item.Entity.Recipient Is Nothing AndAlso item.Entity.Recipient.Length > 0 Then
             ji.Note &= "/" & item.Entity.Recipient
+          End If
+          If Not item.Entity.Note Is Nothing AndAlso item.Entity.Note.Length > 0 Then
+            ji.Note &= " " & item.Entity.Note
           End If
           ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
           jiColl.Add(ji)
@@ -1297,15 +1299,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If acct.Originated Then
               ji.Account = acct
             End If
-            ji.Note = ""
-            If Not item.Entity.Note Is Nothing AndAlso item.Entity.Note.Length > 0 Then
-              ji.Note &= item.Entity.Note
-            End If
+            ji.Note = item.Entity.CqCode
+           
             If Not item.Entity.Bankacct Is Nothing Then
               ji.Note &= ":" & item.Entity.Bankacct.Name
             End If
             If Not item.Entity.Recipient Is Nothing AndAlso item.Entity.Recipient.Length > 0 Then
               ji.Note &= "/" & item.Entity.Recipient
+            End If
+            If Not item.Entity.Note Is Nothing AndAlso item.Entity.Note.Length > 0 Then
+              ji.Note &= " " & item.Entity.Note
             End If
             ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jiColl.Add(ji)
