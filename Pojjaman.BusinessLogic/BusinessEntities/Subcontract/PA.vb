@@ -1640,12 +1640,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Me.Code = Me.GetNextCode
               End If
               Me.m_je.Code = Me.Code
+              Me.m_je.DontSave = False
             Case 2
               'ตาม gl
               If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
               End If
               Me.Code = Me.m_je.Code
+              Me.m_je.DontSave = False
             Case Else
               'แยก
               If Me.AutoGen Then 'And Me.Code.Length = 0 Then
@@ -1654,6 +1656,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If Me.m_je.AutoGen Then
                 Me.m_je.Code = m_je.GetNextCode
               End If
+              Me.m_je.DontSave = False
           End Select
         Else
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
