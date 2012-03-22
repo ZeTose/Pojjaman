@@ -465,11 +465,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Blank(dt)
 
         tr = Parent(dt, "Profit")
-        Child(tr, "Contract - Budget", "", Configuration.FormatToString(totalprice - sbudget, dgt))
-        Child(tr, "Received - PO Actual", "", Configuration.FormatToString(totalprice - spoactual, dgt))
-        Child(tr, "Received - PO Actual", "", Configuration.FormatToString(receievd - spoactual, dgt))
-        Child(tr, "Received - GR Actual", "", Configuration.FormatToString(totalprice - sgractual, dgt))
-        Child(tr, "Received - GR Actual", "", Configuration.FormatToString(receievd - sgractual, dgt))
+        Child(tr, "Contract - Budget", "มูลค่าตามสัญญาหัก Budget", Configuration.FormatToString(totalprice - sbudget, dgt))
+        Child(tr, "Contract - PO Actual", "มูลค่าตามสัญญาเทียบกับ PO Actual", Configuration.FormatToString(totalprice - spoactual, dgt))
+        Child(tr, "Received - PO Actual", "รับเงินเทียบกับ PO Actual", Configuration.FormatToString(receievd - spoactual, dgt))
+        Child(tr, "Contract - GR Actual", "มูลค่าตามสัญญาเทียบกับ GR Actual", Configuration.FormatToString(totalprice - sgractual, dgt))
+        Child(tr, "Received - GR Actual", "รับเงินเทียบกับ GR Actual", Configuration.FormatToString(receievd - sgractual, dgt))
         Blank(dt)
 
         MargeHeaderRows()
