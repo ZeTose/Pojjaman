@@ -642,7 +642,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '------------------------Save Old Check-------------------------------
         If Me.OldCheck.Originated Then
           Me.OldCheck.DocStatus = New OutgoingCheckDocStatus(1)
-          Dim checkSaveError As SaveErrorException = Me.OldCheck.Save(theUser.Id, conn, trans)
+          Dim checkSaveError As SaveErrorException = Me.OldCheck.Save(theUser.Id, conn, trans, True)
           If Not IsNumeric(checkSaveError.Message) Then
             trans.Rollback()
             Me.ResetID(oldid, oldje)
@@ -806,6 +806,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteBankTransfer}", format) Then
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
+
+      Dim theTime As Date = Now
+      Dim theUser As New User(1)
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
@@ -828,6 +832,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trans.Rollback()
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
+
+        '------------------------Save Check-------------------------------
+        If Me.Check IsNot Nothing Then
+          If Not Me.Check.Originated Then 'And Not (CBool(Configuration.GetConfig("OneCheckPerPV"))) 
+            If Not (Me.CqCode = Nothing OrElse Me.CqCode.Trim = "") Then
+
+              Me.Check.IssueDate = Me.Docdate
+              Me.Check.DueDate = Me.Docdate
+              If Not (Me.Check.Originated) Then
+                Me.Check.CqCode = Me.CqCode
+              End If
+              Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
+
+              Me.Check.Amount = Me.Amount + Me.BankCharge
+              Me.Check.Bankacct = Me.Bankacct
+              Me.Check.Note = Me.Note + "(ลบรายการโอนเงิน)"
+              Me.Check.BankCharge = Me.BankCharge
+              Me.Check.WHT = Me.WHT
+
+              Dim o As Object = Configuration.GetConfig("CheckDateFromWHT")
+              If Not o Is Nothing AndAlso CBool(o) Then
+                'CheckDateFromWHT
+                If Me.WitholdingTaxCollection.Count >= 1 Then
+                  Me.Check.DueDate = Me.WitholdingTaxCollection(0).DocDate
+                End If
+              End If
+              Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans, True)
+              If Not IsNumeric(checkSaveError.Message) Then
+                trans.Rollback()
+                Return checkSaveError
+              Else
+                Select Case CInt(checkSaveError.Message)
+                  Case -1, -5
+                    trans.Rollback()
+                    Return checkSaveError
+                  Case -2
+                    trans.Rollback()
+                    Return checkSaveError
+                  Case Else
+                End Select
+              End If
+            End If
+          Else
+
+            Me.Check.WHT = Me.WHT
+            Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
+
+
+            Dim checkSaveError As SaveErrorException = Me.Check.Save(theUser.Id, conn, trans, True)
+            If Not IsNumeric(checkSaveError.Message) Then
+              trans.Rollback()
+              Return checkSaveError
+            Else
+              Select Case CInt(checkSaveError.Message)
+                Case -1, -5
+                  trans.Rollback()
+                  Return checkSaveError
+                Case -2
+                  trans.Rollback()
+                  Return checkSaveError
+                Case Else
+              End Select
+            End If
+          End If
+        End If
+        
+        '------------------------End Save Check---------------------------
+
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException
@@ -861,7 +933,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Me.Check.DocStatus = New OutgoingCheckDocStatus(1)
 
-          Dim checkSaveError As SaveErrorException = Me.Check.Save(currentUserId, conn, trans)
+          Dim checkSaveError As SaveErrorException = Me.Check.Save(currentUserId, conn, trans, True)
           If Not IsNumeric(checkSaveError.Message) Then
             Return checkSaveError
           Else
