@@ -863,6 +863,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
               e.ProposedValue = ""
             End If
             doc.SetEntityCode(CStr(e.ProposedValue))
+            Me.m_entity.ReCalculationAll()
           Case "deprei_note"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
