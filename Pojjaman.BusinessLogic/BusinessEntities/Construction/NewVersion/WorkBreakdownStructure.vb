@@ -535,69 +535,73 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property
 #End Region
 
-        Private m_plan As List(Of CBSValue)
-        Public Function GetPlannedValue(ByVal boqId As Integer) As Decimal
-            Dim ret As Decimal = 0
-            For Each p As CBSValue In Plan(boqId)
-                ret += p.Amount
-            Next
-            Return ret
-        End Function
-        Public Function Plan(ByVal boqId As Integer) As List(Of CBSValue)
-            RefreshPlan(boqId)
-            Return m_plan
-        End Function
-        Private m_CachedPlanDataTables As Dictionary(Of Integer, DataTable)
-        Private ReadOnly Property CachedPlanDataTables As Dictionary(Of Integer, DataTable)
-            Get
-                If m_CachedPlanDataTables Is Nothing Then
-                    m_CachedPlanDataTables = New Dictionary(Of Integer, DataTable)
-                End If
-                Return m_CachedPlanDataTables
-            End Get
-        End Property
-        Private Sub RefreshPlan(ByVal boqId As Integer)
-            m_plan = New List(Of CBSValue)
-            If boqId <> 0 Then
+#Region "Method"
 
-                If Not CachedPlanDataTables.ContainsKey(boqId) Then
-                    Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-                    Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
-                    , CommandType.Text _
-                    , "SELECT cbs_id,year,month,number,sum(wbs_amount) [Budget],SUM(amount) [amount] " & _
-          " FROM wbs " & _
-          " INNER JOIN cbs ON cbs_id = wbs_cbs" & _
-          " INNER JOIN plans ON plan_wbs = wbs_id" & _
-          " WHERE wbs_boq = 11" & _
-          " GROUP BY cbs_id,year,month,number" _
-                    )
-                    Dim dt As DataTable = ds.Tables(0)
-                    CachedPlanDataTables(boqId) = dt
-                End If
-                For Each dr As DataRow In CachedPlanDataTables(boqId).Select("cbs_id = " & Me.Id.ToString)
-                    Dim deh As New DataRowHelper(dr)
-                    Dim y As Integer = deh.GetValue(Of Integer)("year")
-                    Dim m As Integer = deh.GetValue(Of Integer)("month")
-                    Dim n As Integer = deh.GetValue(Of Integer)("number")
-                    Dim amount As Decimal = deh.GetValue(Of Decimal)("amount")
-                    Dim budget As Decimal = deh.GetValue(Of Decimal)("budget")
-                    Dim cbv As New CBSValue
-                    cbv.Amount = amount
-                    cbv.Budget = budget
-                    cbv.Week = New Week(n, m, y)
-                    m_plan.Add(cbv)
-                Next
+      Private m_plan As List(Of CBSValue)
+      Public Function GetPlannedValue(ByVal boqId As Integer) As Decimal
+         Dim ret As Decimal = 0
+         For Each p As CBSValue In Plan(boqId)
+            ret += p.Amount
+         Next
+         Return ret
+      End Function
+      Public Function Plan(ByVal boqId As Integer) As List(Of CBSValue)
+         RefreshPlan(boqId)
+         Return m_plan
+      End Function
+      Private m_CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+      Private ReadOnly Property CachedPlanDataTables As Dictionary(Of Integer, DataTable)
+         Get
+            If m_CachedPlanDataTables Is Nothing Then
+               m_CachedPlanDataTables = New Dictionary(Of Integer, DataTable)
             End If
-        End Sub
+            Return m_CachedPlanDataTables
+         End Get
+      End Property
+      Private Sub RefreshPlan(ByVal boqId As Integer)
+         m_plan = New List(Of CBSValue)
+         If boqId <> 0 Then
 
-        Public ReadOnly Property ControlMessage As String Implements IControlItem.ControlMessage
-            Get
-                Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-                Dim myString As String = myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.CBS.ControlMessage}")   '"ไม่สามารถเลือก CBS " + Me.Code + " - " + Me.Name + " เนื่องจากเป็น CBS คุม"
-                myString = String.Format(myString, Me.Code + " - " + Me.Name)
-                Return myString
-            End Get
-        End Property
+            If Not CachedPlanDataTables.ContainsKey(boqId) Then
+               Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+               Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+               , CommandType.Text _
+               , "SELECT cbs_id,year,month,number,sum(wbs_amount) [Budget],SUM(amount) [amount] " & _
+     " FROM wbs " & _
+     " INNER JOIN cbs ON cbs_id = wbs_cbs" & _
+     " INNER JOIN plans ON plan_wbs = wbs_id" & _
+     " WHERE wbs_boq = 11" & _
+     " GROUP BY cbs_id,year,month,number" _
+               )
+               Dim dt As DataTable = ds.Tables(0)
+               CachedPlanDataTables(boqId) = dt
+            End If
+            For Each dr As DataRow In CachedPlanDataTables(boqId).Select("cbs_id = " & Me.Id.ToString)
+               Dim deh As New DataRowHelper(dr)
+               Dim y As Integer = deh.GetValue(Of Integer)("year")
+               Dim m As Integer = deh.GetValue(Of Integer)("month")
+               Dim n As Integer = deh.GetValue(Of Integer)("number")
+               Dim amount As Decimal = deh.GetValue(Of Decimal)("amount")
+               Dim budget As Decimal = deh.GetValue(Of Decimal)("budget")
+               Dim cbv As New CBSValue
+               cbv.Amount = amount
+               cbv.Budget = budget
+               cbv.Week = New Week(n, m, y)
+               m_plan.Add(cbv)
+            Next
+         End If
+      End Sub
+
+      Public ReadOnly Property ControlMessage As String Implements IControlItem.ControlMessage
+         Get
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim myString As String = myStringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.CBS.ControlMessage}")   '"ไม่สามารถเลือก CBS " + Me.Code + " - " + Me.Name + " เนื่องจากเป็น CBS คุม"
+            myString = String.Format(myString, Me.Code + " - " + Me.Name)
+            Return myString
+         End Get
+      End Property
+#End Region
+       
     End Class
 
     Public Class WorkBreakdownStructure
