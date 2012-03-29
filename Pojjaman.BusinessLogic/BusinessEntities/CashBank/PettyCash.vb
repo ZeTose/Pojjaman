@@ -687,7 +687,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Name
       dpi = New DocPrintingItem
       dpi.Mapping = "Name"
-      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.Value = Me.Name
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
