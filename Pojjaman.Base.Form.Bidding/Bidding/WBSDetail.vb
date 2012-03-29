@@ -1478,7 +1478,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         txtCBS.Text = m_wbs.MatCBS.Code & ":" & m_wbs.MatCBS.Name
       End If
-
+            UpdateNode()
 
       Dim flag As Boolean = m_isInitialized
       m_isInitialized = False
