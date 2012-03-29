@@ -691,7 +691,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public ReadOnly Property Payer() As IBillablePerson Implements IReceivable.Payer
       Get
-
+        Return Supplier.GetDefaultSupplier(Supplier.DefaultSupplierType.AdvanceMoney)
       End Get
     End Property
 
