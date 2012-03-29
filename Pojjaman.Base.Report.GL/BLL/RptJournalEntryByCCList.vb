@@ -372,10 +372,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     docNode("Cr") = Configuration.FormatToString(coeff * Bal, DigitConfig.Price)
                   End If
                   docNode("rowType") = "document"
+                  docNode("Bal") = Configuration.FormatToString(coeff * Bal, DigitConfig.Price)
                 End If
 
-                Bal = coeff * Bal
-                docNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
+                'Bal = coeff * Bal
+                'docNode("Bal") = Configuration.FormatToString(Bal, DigitConfig.Price)
 
                 For Each docrow As DataRow In dtdoc.Select("key= '" & key & "'")
                   Dim docrh As New DataRowHelper(docrow)
