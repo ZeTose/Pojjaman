@@ -46,15 +46,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
+      lkg.HideRows(0) = True
       If CInt(Me.Filters(10).Value) <> 0 Then
-        lkg.Rows.HeaderCount = 3
-        lkg.Rows.FrozenCount = 3
+        If CInt(Me.Filters(20).Value) <> 0 Then
+          lkg.Rows.HeaderCount = 4
+          lkg.Rows.FrozenCount = 4
+        Else
+          lkg.Rows.HeaderCount = 3
+          lkg.Rows.FrozenCount = 3
+        End If
       Else
         lkg.Rows.HeaderCount = 1
         lkg.Rows.FrozenCount = 1
       End If
 
       lkg.Refresh()
+
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
       Dim tr As Object = m_hashData(e.RowIndex)
@@ -130,6 +137,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.PayAmount}")      '"จ่ายชำระ"
         tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.GlNote}")  '"หมายเหตุ"
 
+        If CInt(Me.Filters(20).Value) <> 0 Then
+          tr = Me.m_treemanager.Treetable.Childs.Add
+          tr.Tag = "bankdetail"
+          tr("col1") = indent & indent & indent & "Account Number"
+          tr("col2") = indent & indent & indent & "MC Account"
+          tr("col3") = indent & indent & indent & "Account Name"
+          tr("col4") = indent & indent & indent & "Bank Name"
+          tr("col5") = "Branch Code"
+          tr("col6") = "E-mail Address"
+          tr("col7") = "Fax No."
+          tr("col8") = "Mobile No."
+        End If
       End If
 
     End Sub
@@ -137,6 +156,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dt As DataTable = Me.DataSet.Tables(0)
       Dim dt2 As DataTable = Me.DataSet.Tables(1)
       Dim dt3 As DataTable = Me.DataSet.Tables(2)
+      'Dim dt4 As DataTable = Me.DataSet.Tables(3)
 
       If dt.Rows.Count = 0 Then
         Return
@@ -154,6 +174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trDoc As TreeRow
       Dim trPayitem As TreeRow
       Dim trRefDocitem As TreeRow
+      Dim trBankDetail As TreeRow
 
       Dim sumStockAmt As Decimal = 0
       Dim sumBilledAmt As Decimal = 0
@@ -288,6 +309,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If IsNumeric(prow("EntityPayAmt")) Then
               trPayitem("col10") = Configuration.FormatToString(CDec(prow("EntityPayAmt")), DigitConfig.Price)
             End If
+
+            'For Each bankDetailRow As DataRow In dt4.Select("paymenti_payment=" & row("payment_id").ToString & " and ")
+
+            'Next
+            If CInt(Me.Filters(20).Value) <> 0 Then
+              trBankDetail = trPayitem.Childs.Add
+              trBankDetail.Tag = "bankdetail"
+              'trBankDetail.State = RowExpandState.Expanded
+              trBankDetail("col1") = prow("supplier_KbankDCAccount")
+              trBankDetail("col2") = prow("supplier_KbankMCAccount")
+              trBankDetail("col3") = prow("supplier_altName")
+              trBankDetail("col4") = prow("supplier_KbankDCBank")
+              trBankDetail("col5") = prow("supplier_KbankMCBank")
+              trBankDetail("col6") = prow("supplier_emailAddress")
+              trBankDetail("col7") = prow("supplier_fax")
+              trBankDetail("col8") = prow("supplier_mobile")
+            End If
           Next
 
           'nRefindex = 0
@@ -365,6 +403,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'trPay("col9") = Configuration.FormatToString(sumInCreaseAmt, DigitConfig.Price)
       trPay("col10") = Configuration.FormatToString(sumPaymentAmt, DigitConfig.Price)
 
+      'For Each crow As TreeRow In m_treemanager.Treetable.Childs
+      '  If Not crow.Tag Is Nothing AndAlso CStr(crow.Tag) = "bankdetail" Then
+      '    m_grid(crow.Index, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      '    m_grid(crow.Index, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      '    m_grid(crow.Index, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      '    m_grid(crow.Index, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+
+      '    m_grid(crow.Index, 5).TextAlign = Syncfusion.Windows.Forms.Grid.GridTextAlign.Left
+      '    m_grid(crow.Index, 6).TextAlign = Syncfusion.Windows.Forms.Grid.GridTextAlign.Left
+      '    m_grid(crow.Index, 7).TextAlign = Syncfusion.Windows.Forms.Grid.GridTextAlign.Left
+      '    m_grid(crow.Index, 8).TextAlign = Syncfusion.Windows.Forms.Grid.GridTextAlign.Left
+      '  End If
+      'Next
+
+      'If CInt(Me.Filters(20).Value) <> 0 Then
+      '  m_grid(3, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      '  m_grid(3, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      '  m_grid(3, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      '  m_grid(3, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      'End If
+
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
@@ -405,10 +464,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(170)
       widths.Add(150)
       widths.Add(120)
-      widths.Add(105)
-      widths.Add(105)
-      widths.Add(105)
-      widths.Add(105)
+
+      widths.Add(125)
+      widths.Add(125)
+      widths.Add(125)
+      widths.Add(125)
+
       widths.Add(105)
       widths.Add(105)
       widths.Add(180)
@@ -592,7 +653,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If CInt(Me.Filters(10).Value) = 0 Then
         nStart = 2
       Else
-        nStart = 4
+        If CInt(Me.Filters(20).Value) = 0 Then
+          nStart = 4
+        Else
+          nStart = 5
+        End If
       End If
       For rowIndex As Integer = nStart To m_grid.RowCount
         If Not CType(Me.Treemanager.Treetable.Rows(rowIndex - 1), TreeRow).Tag Is Nothing Then
