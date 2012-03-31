@@ -874,12 +874,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trc("other") = Configuration.FormatToString(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
         trc("bf") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bf"), DigitConfig.Price)
         trc("penalty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
-        trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other")) - drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
+        trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) - drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
+        'trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) _
+        '- (drh.GetValue(Of Decimal)("penalty") + drh.GetValue(Of Decimal)("retention") + drh.GetValue(Of Decimal)("advance")), DigitConfig.Price)
 
         trc("deliver") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver"), DigitConfig.Price)
         trc("bill") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bill"), DigitConfig.Price)
-        trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("receivedtaxbase"), DigitConfig.Price)
-        'trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), DigitConfig.Price)
+        'trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("receivedtaxbase"), DigitConfig.Price)
+        trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), DigitConfig.Price)
         'trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver") - drh.GetValue(Of Decimal)("bill"), DigitConfig.Price)
         trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
 
@@ -944,7 +946,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_CCRvExp.ReceivedActualPrice += CDec(trc("ReceivedActualPrice"))
         m_CCRvExp.ReceivedActual_GRActual += CDec(trc("ReceivedActual_GRActual"))
         m_CCRvExp.ReceivedActualBalance += CDec(trc("ReceivedActualBalance"))
-     
+
         m_CCRvExp.RemainCompleteReceived += CDec(trc("RemainCompleteReceived"))
         m_CCRvExp.RemainComplete_GRActual += CDec(trc("RemainComplete_GRActual"))
         m_CCRvExp.RemainCompleteBalance += CDec(trc("RemainCompleteBalance"))
@@ -954,7 +956,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trsc As TreeRow = dt.Childs.Add
       trsc.State = RowExpandState.Expanded
       trsc("cc_name") = "Total Cost"
-   
+
       trsc("main") = Configuration.FormatToString(m_CCRvExp.Main, DigitConfig.Price)
       trsc("vo") = Configuration.FormatToString(m_CCRvExp.Vo, DigitConfig.Price)
       trsc("other") = Configuration.FormatToString(m_CCRvExp.Other, DigitConfig.Price)

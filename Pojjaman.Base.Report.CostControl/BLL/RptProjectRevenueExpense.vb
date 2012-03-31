@@ -356,15 +356,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         other = drh.GetValue(Of Decimal)("other")
         bf = drh.GetValue(Of Decimal)("bf")
 
-        totalprice = (main + vo + other) - (penalty)
-        'totalprice = (main + vo + other) - (penalty + retention + advance)
+        totalprice = (main + vo + other + bf) - (penalty)
+        'totalprice = (main + vo + other + bf) - (penalty + retention + advance)
       End If
       If Me.DataSet.Tables(1).Rows.Count > 0 Then
         Dim drh As New DataRowHelper(Me.DataSet.Tables(1).Rows(0))
         deliver = drh.GetValue(Of Decimal)("deliver")
         bill = drh.GetValue(Of Decimal)("bill")
-        receievd = drh.GetValue(Of Decimal)("receivedtaxbase")
-        'receievd = drh.GetValue(Of Decimal)("received")
+        'receievd = drh.GetValue(Of Decimal)("receivedtaxbase")
+        receievd = drh.GetValue(Of Decimal)("received")
         Recretention = drh.GetValue(Of Decimal)("Recretention")
         Recadvance = drh.GetValue(Of Decimal)("Recadvance")
         remain = drh.GetValue(Of Decimal)("remain")
@@ -378,7 +378,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Child(tr, "Penalty", "ค่าปรับ/ส่วนลด", penalty)
       Child(tr, "Other", "รายได้อื่นๆ", other)
       Child(tr, "BF", "รายได้ที่ไม่ออกบิล", bf)
-      Child(tr, "Total", "Main+VO-Penalty+other", totalprice)
+      Child(tr, "Total", "Main+VO-Penalty+other+bf", totalprice)
       Blank(dt)
 
       tr = Parent(dt, "Received")
@@ -446,7 +446,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               spoactual += cbrh.GetValue(Of Decimal)("poactual")
               sgractual += cbrh.GetValue(Of Decimal)("gractual")
             End If
-           
+
 
             tr.State = RowExpandState.Expanded
           End If
