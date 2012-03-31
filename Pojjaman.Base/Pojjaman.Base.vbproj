@@ -194,37 +194,69 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Charts.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Data.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Charts.v11.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Utils.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Data.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Data.v11.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraBars.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.PivotGrid.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraBars.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.PivotGrid.v11.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Printing.v11.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraPrinting.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Reports.v11.2.Designer, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPrinting.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Reports.v11.2.Designer.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.RichEdit.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.RichEdit.v11.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraRichEdit.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraRichEdit.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v11.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraTreeList.v10.2, Version=10.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraBars.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraTreeList.v10.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraBars.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraCharts.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPivotGrid.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPrinting.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v11.2.Extensions, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v11.2.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraRichEdit.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraTreeList.v11.2.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
@@ -558,9 +590,7 @@
     <Compile Include="Pojjaman\Commands\NoteEntity.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb" />
     <Compile Include="Pojjaman\Commands\OpenFile.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -577,9 +607,7 @@
     <Compile Include="Pojjaman\Commands\Paste.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb" />
     <Compile Include="Pojjaman\Commands\Print.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -748,21 +776,11 @@
     <Compile Include="Pojjaman\Gui\Components\MyBalloonWindow.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb" />
     <Compile Include="Pojjaman\Gui\Components\PJMMessageBox.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -841,12 +859,8 @@
     <Compile Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\ActionDialog.Designer.vb">
       <DependentUpon>ActionDialog.vb</DependentUpon>
     </Compile>
@@ -871,9 +885,7 @@
     <Compile Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\ContactForm.Designer.vb">
       <DependentUpon>ContactForm.vb</DependentUpon>
     </Compile>
@@ -916,15 +928,11 @@
     <Compile Include="Pojjaman\Gui\Dialogs\GraphDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\LoginDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\NotAvailableInDemoForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -934,24 +942,14 @@
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\BaseClasses\BaseWizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LineTerminatorStyle.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\Base\WizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1033,18 +1031,14 @@
     <Compile Include="Pojjaman\Gui\Dialogs\StatusPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayDialog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\VersionInformationTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1057,9 +1051,7 @@
     <Compile Include="Pojjaman\Gui\Dialogs\XtraForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb" />
     <Compile Include="Pojjaman\Gui\ErrorDialogs\LoadingError.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -1127,18 +1119,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbenchLayout.vb" />
-    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb" />
     <Compile Include="Pojjaman\Gui\Workbench\WorkbenchMemento.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb" />
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb" />
     <Compile Include="Pojjaman\Gui\XmlForms\PojjamanObjectCreator.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1463,9 +1449,7 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\TelerikReportPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb" />
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\GridReportPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
