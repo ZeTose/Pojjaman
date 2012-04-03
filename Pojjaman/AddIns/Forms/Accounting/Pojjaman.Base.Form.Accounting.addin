@@ -2,6 +2,11 @@
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Form.Accounting.dll"/>
 	</Runtime>
+
+  <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
+    <MenuItem id="EntityAutoGen"   insertafter="ReSaveGL" label="Set Entity AutoGen" class="Longkong.Pojjaman.Commands.OpenPanel" entity="Longkong.Pojjaman.BusinessLogic.EntityAutoGen" panel="Longkong.Pojjaman.Gui.Panels.EntityAutoGenView"/>
+  </Extension>
+  
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="accountperiod" entity="accountperiod" filter="Longkong.Pojjaman.Gui.Panels.AccountPeriodFilterSubPanel"/>
 		<EntityFilter id="account" entity="account" filter="Longkong.Pojjaman.Gui.Panels.AccountFilterSubPanel"/>

@@ -206,6 +206,7 @@
     <Compile Include="BusinessEntities\Accounting\AccountPeriod.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Accounting\EntityAutoGen.vb" />
     <Compile Include="BusinessEntities\Accounting\CloseAccountPeriod.vb">
       <SubType>Code</SubType>
     </Compile>
