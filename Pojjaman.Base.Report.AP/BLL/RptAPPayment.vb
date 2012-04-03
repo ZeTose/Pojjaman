@@ -20,6 +20,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_reportColumns As ReportColumnCollection
     Private m_hashData As Hashtable
     'Private ShowDetailInGrid As Integer
+    Private m_showDetail As Boolean
+    Private m_showBankDetail As Boolean
 #End Region
 
 #Region "Constructors"
@@ -47,14 +49,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
       lkg.HideRows(0) = True
-      If CInt(Me.Filters(10).Value) <> 0 Then
-        If CInt(Me.Filters(20).Value) <> 0 Then
-          lkg.Rows.HeaderCount = 4
-          lkg.Rows.FrozenCount = 4
-        Else
-          lkg.Rows.HeaderCount = 3
-          lkg.Rows.FrozenCount = 3
-        End If
+
+      If m_showDetail Then
+        lkg.Rows.HeaderCount = 3
+        lkg.Rows.FrozenCount = 3
       Else
         lkg.Rows.HeaderCount = 1
         lkg.Rows.FrozenCount = 1
@@ -93,7 +91,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
-      'ShowDetailInGrid = CInt(Me.DataSet.Tables(0).Rows(0)("ShowDetail"))
+
+      m_showDetail = CBool(IIf(CInt(Me.Filters(10).Value) <> 0, True, False))
+      m_showBankDetail = CBool(IIf(CInt(Me.Filters(20).Value) <> 0, True, False))
+
       CreateHeader()
       PopulateData()
     End Sub
@@ -121,7 +122,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.Amount}")      '"ยอดจ่ายชำระ"
       tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.GlNote}")  '"หมายเหตุ"
 
-      If CInt(Me.Filters(10).Value) <> 0 Then
+      If Me.m_showBankDetail Then
+        'tr = Me.m_treemanager.Treetable.Childs.Add
+        'tr.Tag = "bankdetail"
+        tr("col12") = "Account Number"
+        tr("col13") = "MC Account"
+        tr("col14") = "Account Name"
+        tr("col15") = "Bank Name"
+        tr("col16") = "Branch Code"
+        tr("col17") = "E-mail Address"
+        tr("col18") = "Fax No."
+        tr("col19") = "Mobile No."
+      End If
+
+      If Me.m_showDetail Then
         ' Level 2.
         tr = Me.m_treemanager.Treetable.Childs.Add
         tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.ReciveType}")    '"หมวดการแสดง"
@@ -136,19 +150,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.DocGross}")       '"ยอดเงิน"
         tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.PayAmount}")      '"จ่ายชำระ"
         tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.GlNote}")  '"หมายเหตุ"
-
-        If CInt(Me.Filters(20).Value) <> 0 Then
-          tr = Me.m_treemanager.Treetable.Childs.Add
-          tr.Tag = "bankdetail"
-          tr("col1") = indent & indent & indent & "Account Number"
-          tr("col2") = indent & indent & indent & "MC Account"
-          tr("col3") = indent & indent & indent & "Account Name"
-          tr("col4") = indent & indent & indent & "Bank Name"
-          tr("col5") = "Branch Code"
-          tr("col6") = "E-mail Address"
-          tr("col7") = "Fax No."
-          tr("col8") = "Mobile No."
-        End If
       End If
 
     End Sub
@@ -271,8 +272,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not row.IsNull("Note") Then
           trPay("col11") = row("Note")
         End If
+
+        If m_showBankDetail Then
+          trPay("col12") = row("supplier_KbankDCAccount")
+          trPay("col13") = row("supplier_KbankMCAccount")
+          trPay("col14") = row("supplier_altName")
+          trPay("col15") = row("supplier_KbankDCBank")
+          trPay("col16") = row("supplier_KbankMCBank")
+          trPay("col17") = row("supplier_emailAddress")
+          trPay("col18") = row("supplier_fax")
+          trPay("col19") = row("supplier_mobile")
+        End If
+
         '================================================================================================================================================
-        If CInt(Me.Filters(10).Value) <> 0 Then
+        If m_showDetail Then
           trPay.State = RowExpandState.Expanded
 
           trPayType = trPay.Childs.Add
@@ -310,22 +323,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trPayitem("col10") = Configuration.FormatToString(CDec(prow("EntityPayAmt")), DigitConfig.Price)
             End If
 
-            'For Each bankDetailRow As DataRow In dt4.Select("paymenti_payment=" & row("payment_id").ToString & " and ")
-
-            'Next
-            If CInt(Me.Filters(20).Value) <> 0 Then
-              trBankDetail = trPayitem.Childs.Add
-              trBankDetail.Tag = "bankdetail"
-              'trBankDetail.State = RowExpandState.Expanded
-              trBankDetail("col1") = prow("supplier_KbankDCAccount")
-              trBankDetail("col2") = prow("supplier_KbankMCAccount")
-              trBankDetail("col3") = prow("supplier_altName")
-              trBankDetail("col4") = prow("supplier_KbankDCBank")
-              trBankDetail("col5") = prow("supplier_KbankMCBank")
-              trBankDetail("col6") = prow("supplier_emailAddress")
-              trBankDetail("col7") = prow("supplier_fax")
-              trBankDetail("col8") = prow("supplier_mobile")
-            End If
           Next
 
           'nRefindex = 0
@@ -452,12 +449,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
 
+      myDatatable.Columns.Add(New DataColumn("col12", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col13", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col14", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col17", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col19", GetType(String)))
+
       Return myDatatable
     End Function
     Public Overrides Function CreateSimpleTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
+      Dim maxColNumber As Integer
 
       widths.Add(80)
       widths.Add(205)
@@ -474,9 +481,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(105)
       widths.Add(180)
 
-      For i As Integer = 0 To 11
+      widths.Add(120)
+      widths.Add(120)
+      widths.Add(120)
+      widths.Add(120)
+      widths.Add(120)
+      widths.Add(120)
+      widths.Add(120)
+      widths.Add(120)
+
+      If Me.m_showBankDetail Then
+        maxColNumber = 19
+      Else
+        maxColNumber = 11
+      End If
+
+      For i As Integer = 0 To maxColNumber
+        Trace.WriteLine(i.ToString)
         If i = 1 Then
-          If CInt(Me.Filters(10).Value) <> 0 Then
+          If m_showDetail Then
             Dim cs As New PlusMinusTreeTextColumn
             cs.MappingName = "col" & i
             cs.HeaderText = ""
@@ -507,8 +530,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Width = CInt(widths(i))
           cs.NullText = ""
           cs.Alignment = HorizontalAlignment.Left
+          cs.DataAlignment = HorizontalAlignment.Left
           Select Case i
-            Case 0, 1, 2, 3, 4, 11
+            Case 0, 1, 2, 3, 4, 11, 12, 13, 14, 15, 16, 17, 18, 19
               cs.Alignment = HorizontalAlignment.Left
               cs.DataAlignment = HorizontalAlignment.Left
               cs.Format = "s"
