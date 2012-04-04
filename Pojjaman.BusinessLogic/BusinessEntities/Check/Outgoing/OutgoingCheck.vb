@@ -2060,7 +2060,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return exportList
     End Function
     Public Shared Sub ExportPaymentTrack(ByVal p As IPaymentTrackExportable, ByVal writer As TextWriter)
-      Dim culture As New CultureInfo("en-US", True)
+      'Dim culture As New CultureInfo("en-US", True)
 
       Dim effectiveDate As Date = Date.MinValue
       If TypeOf p Is ExportOutgoingCheck Then
@@ -2074,6 +2074,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= p.PaymentTrackStatus.Pipe
       header &= p.CheckQty.ToString.Pipe
       header &= p.CheckAmount.ToString("####.00").Pipe
+      header &= CultureInfo.CurrentCulture.Name.Pipe
       writer.WriteLine(header)
 
       For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
@@ -2156,7 +2157,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Sub
     Public Shared Sub ExportPaymentTrack(ByVal p As IPaymentTrackExportable, ByRef writer As String)
-      Dim culture As New CultureInfo("en-US", True)
+      'Dim culture As New CultureInfo("en-US", True)
 
       Dim effectiveDate As Date = Date.MinValue
       If TypeOf p Is ExportOutgoingCheck Then
@@ -2170,6 +2171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       header &= p.PaymentTrackStatus.Pipe
       header &= p.CheckQty.ToString.Pipe
       header &= p.CheckAmount.ToString("####.00").Pipe
+      header &= CultureInfo.CurrentCulture.Name.Pipe
       writer += header & "{newline}"
 
       For Each check As PaymentTrackCheckDetail In p.PaymenTrackCheckDetailList
