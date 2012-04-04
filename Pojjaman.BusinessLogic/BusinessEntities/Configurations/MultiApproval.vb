@@ -35,6 +35,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_docTypefilter As MultiApproveType
     Private m_unitType As Hashtable
+    Private m_advanceFilter As MultiApproveAdvanceFilter
 #End Region
 
 #Region "Constructors"
@@ -91,13 +92,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Function RefreshData(ByVal UserId As Integer, ByVal approveType As Integer, ByVal DateRank As Integer, Optional ByVal ShowData As Boolean = True) As DataSet
 
+      Dim codePreFix As Object = DBNull.Value
+      Dim docDateStart As Object = DBNull.Value
+      Dim docDateEnd As Object = DBNull.Value
+      Dim costCenterCodeList As Object = DBNull.Value
+
+      If Not m_advanceFilter Is Nothing AndAlso m_advanceFilter.IsAdvanceFiltering Then
+        If Not Me.m_advanceFilter.CodePrefix Is Nothing AndAlso Me.m_advanceFilter.CodePrefix.Length > 0 Then
+          codePreFix = Me.m_advanceFilter.CodePrefix
+        End If
+        If Not Me.m_advanceFilter.DocDateStart.Equals(Date.MinValue) Then
+          docDateStart = Me.m_advanceFilter.DocDateStart
+        End If
+        If Not Me.m_advanceFilter.DocDateEnd.Equals(Date.MinValue) Then
+          docDateEnd = Me.m_advanceFilter.DocDateEnd
+        End If
+        If Not Me.m_advanceFilter.CostCenterCodeList Is Nothing AndAlso Me.m_advanceFilter.CostCenterCodeList.Length > 0 Then
+          costCenterCodeList = Me.m_advanceFilter.CostCenterCodeList
+        End If
+      End If
+
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, _
                                                    CommandType.StoredProcedure, _
                                                    "GetMultiApprovalList", _
                                                    New SqlParameter("@userRight", UserId), _
                                                    New SqlParameter("@ShowData", ShowData), _
                                                    New SqlParameter("@ApproveType", approveType), _
-                                                   New SqlParameter("@DateRank", DateRank) _
+                                                   New SqlParameter("@DateRank", DateRank), _
+                                                   New SqlParameter("@CodePreFix", codePreFix), _
+                                                   New SqlParameter("@DocDateStart", docDateStart), _
+                                                   New SqlParameter("@DocDateEnd", docDateEnd), _
+                                                   New SqlParameter("@CostCenterCodeList", costCenterCodeList) _
                                                    )
       m_ListData = ds
 
@@ -246,6 +271,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property AdvanceFilter As MultiApproveAdvanceFilter
+      Get
+        If m_advanceFilter Is Nothing Then
+          m_advanceFilter = New MultiApproveAdvanceFilter
+          m_advanceFilter.CostCenterCodeCollection = New ArrayList
+        End If
+        Return m_advanceFilter
+      End Get
+      Set(value As MultiApproveAdvanceFilter)
+        m_advanceFilter = value
+      End Set
+    End Property
     Public Property TotalQty As Integer
     Public Property TotalAmount As Decimal
     Private m_listSelected As ArrayList
@@ -274,7 +311,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_docTypefilter = value
       End Set
     End Property
-  
+
     Public Property ListData As DataSet
       Get
         Return m_ListData
@@ -284,7 +321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
     Public Property CurrentUserId As Integer
-  
+
     Public Property AlwaysShowPage As Boolean
       Get
         'Dim config As Boolean = CBool(ConfigurationUser.GetConfig(CurrentUserId, "AlwaysShowMultiApprovePage"))
@@ -454,6 +491,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
 
 End Namespace
+
+Public Class MultiApproveAdvanceFilter
+  Public Sub New()
+    CodePrefix = ""
+    DocDateStart = Date.MinValue
+    DocDateEnd = Date.MinValue
+    CostCenterCodeCollection = New ArrayList
+  End Sub
+
+  Public Property CodePrefix As String
+  Private m_costCenterCodeCollection As ArrayList
+  Public Property CostCenterCodeCollection As ArrayList
+    Get
+      Return m_costCenterCodeCollection
+    End Get
+    Set(value As ArrayList)
+      m_costCenterCodeCollection = value
+    End Set
+  End Property
+  Public Property DocDateStart As Date
+  Public Property DocDateEnd As Date
+  Public ReadOnly Property CostCenterCodeList As String
+    Get
+      Return String.Join(",", CostCenterCodeCollection.ToArray)
+    End Get
+  End Property
+  Public ReadOnly Property IsAdvanceFiltering As Boolean
+    Get
+      Return (CodePrefix.Trim.Length > 0) OrElse _
+        (CostCenterCodeList.Trim.Length > 0) OrElse _
+        (Not DocDateStart.Equals(Date.MinValue)) OrElse _
+        (Not DocDateEnd.Equals(Date.MinValue))
+    End Get
+  End Property
+  Public ReadOnly Property CostCenterCodeHashTable As Hashtable
+    Get
+      Dim newHash As New Hashtable
+      For Each obj As Object In CostCenterCodeCollection
+        newHash(obj.ToString) = obj.ToString
+      Next
+      Return newHash
+    End Get
+  End Property
+
+End Class
 
 Public Class UnApproveDoc
 

@@ -187,6 +187,12 @@
     <Compile Include="StartUpPage\BrowserPageView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="StartUpPage\AdvanceFilterForm.Designer.vb">
+      <DependentUpon>AdvanceFilterForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StartUpPage\AdvanceFilterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StartUpPage\MultiApprovalCommentForm.Designer.vb">
       <DependentUpon>MultiApprovalCommentForm.vb</DependentUpon>
     </Compile>
@@ -286,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StartUpPage\BrowserPageView.resx">
       <DependentUpon>BrowserPageView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartUpPage\AdvanceFilterForm.resx">
+      <DependentUpon>AdvanceFilterForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StartUpPage\MultiApprovalCommentForm.resx">
       <DependentUpon>MultiApprovalCommentForm.vb</DependentUpon>

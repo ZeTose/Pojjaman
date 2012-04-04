@@ -792,6 +792,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '    End If
     '  End If
     'End Function
+
+    Public Shared Function GetConfigurationUserMulltiApproveCollumnsList(ByVal UserId As Integer) As ArrayList
+      Dim myArrayList As New ArrayList
+      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, _
+                                                   CommandType.StoredProcedure, _
+                                                   "GetConfigurationUserMulltiApproveCollumnsList", _
+                                                   New SqlParameter("@UserId", UserId) _
+                                                   )
+      Dim myTable As DataTable = ds.Tables(0)
+      For Each row As DataRow In myTable.Rows
+        Dim drh As New DataRowHelper(row)
+        Dim collName() As String = drh.GetValue(Of String)("config_name").Split("."c)
+        myArrayList.Add(collName(1))
+      Next
+
+      Return myArrayList
+    End Function
     Public Shared Sub RefreshConfigurationList(ByVal UserId As Integer)
       m_hashData = New Hashtable
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString

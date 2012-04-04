@@ -53,13 +53,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents chkSelectAll As System.Windows.Forms.CheckBox
     Friend WithEvents chkAlwaysShow As System.Windows.Forms.CheckBox
-    Friend WithEvents chkAlwaysShowData As System.Windows.Forms.CheckBox
     Friend WithEvents btnRefresh As System.Windows.Forms.Button
-    Friend WithEvents chkShowDetail As System.Windows.Forms.CheckBox
     Friend WithEvents cmbApprovalType As System.Windows.Forms.ComboBox
     Friend WithEvents cmbDateRank As System.Windows.Forms.ComboBox
     Friend WithEvents BreezeTheme As Telerik.WinControls.Themes.BreezeTheme
     Friend WithEvents VistaTheme As Telerik.WinControls.Themes.VistaTheme
+    Friend WithEvents btnAdvance As System.Windows.Forms.Button
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -72,9 +71,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.cmbApprovalType = New System.Windows.Forms.ComboBox()
       Me.cmbDateRank = New System.Windows.Forms.ComboBox()
+      Me.btnAdvance = New System.Windows.Forms.Button()
       Me.btnRefresh = New System.Windows.Forms.Button()
       Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-      Me.chkShowDetail = New System.Windows.Forms.CheckBox()
       Me.chkSelectAll = New System.Windows.Forms.CheckBox()
       Me.rGrid = New Telerik.WinControls.UI.RadGridView()
       Me.rgbDocumentType = New Telerik.WinControls.UI.RadGroupBox()
@@ -85,7 +84,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPO = New System.Windows.Forms.CheckBox()
       Me.chkWR = New System.Windows.Forms.CheckBox()
       Me.chkPR = New System.Windows.Forms.CheckBox()
-      Me.chkAlwaysShowData = New System.Windows.Forms.CheckBox()
       Me.BreezeTheme = New Telerik.WinControls.Themes.BreezeTheme()
       Me.VistaTheme = New Telerik.WinControls.Themes.VistaTheme()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,10 +109,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnApprove
       '
-      Me.ibtnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.ibtnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.ibtnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnApprove.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnApprove.Location = New System.Drawing.Point(25, 414)
+      Me.ibtnApprove.Location = New System.Drawing.Point(512, 17)
       Me.ibtnApprove.Name = "ibtnApprove"
       Me.ibtnApprove.Size = New System.Drawing.Size(72, 64)
       Me.ibtnApprove.TabIndex = 334
@@ -138,10 +136,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbDetail.Controls.Add(Me.cmbApprovalType)
       Me.grbDetail.Controls.Add(Me.cmbDateRank)
+      Me.grbDetail.Controls.Add(Me.btnAdvance)
       Me.grbDetail.Controls.Add(Me.btnRefresh)
       Me.grbDetail.Controls.Add(Me.GroupBox2)
       Me.grbDetail.Controls.Add(Me.rgbDocumentType)
@@ -173,10 +172,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbDateRank.Size = New System.Drawing.Size(236, 21)
       Me.cmbDateRank.TabIndex = 341
       '
+      'btnAdvance
+      '
+      Me.btnAdvance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.btnAdvance.Location = New System.Drawing.Point(512, 346)
+      Me.btnAdvance.Name = "btnAdvance"
+      Me.btnAdvance.Size = New System.Drawing.Size(70, 23)
+      Me.btnAdvance.TabIndex = 336
+      Me.btnAdvance.Text = "Advance..."
+      Me.btnAdvance.UseVisualStyleBackColor = True
+      '
       'btnRefresh
       '
       Me.btnRefresh.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnRefresh.Location = New System.Drawing.Point(512, 344)
+      Me.btnRefresh.Location = New System.Drawing.Point(512, 375)
       Me.btnRefresh.Name = "btnRefresh"
       Me.btnRefresh.Size = New System.Drawing.Size(70, 23)
       Me.btnRefresh.TabIndex = 336
@@ -186,27 +195,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'GroupBox2
       '
       Me.GroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.GroupBox2.Controls.Add(Me.chkShowDetail)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.GroupBox2.Controls.Add(Me.chkSelectAll)
       Me.GroupBox2.Controls.Add(Me.rGrid)
-      Me.GroupBox2.Location = New System.Drawing.Point(25, 60)
+      Me.GroupBox2.Location = New System.Drawing.Point(25, 12)
       Me.GroupBox2.Name = "GroupBox2"
-      Me.GroupBox2.Size = New System.Drawing.Size(465, 348)
+      Me.GroupBox2.Size = New System.Drawing.Size(465, 478)
       Me.GroupBox2.TabIndex = 340
       Me.GroupBox2.TabStop = False
-      '
-      'chkShowDetail
-      '
-      Me.chkShowDetail.AutoSize = True
-      Me.chkShowDetail.Location = New System.Drawing.Point(104, 19)
-      Me.chkShowDetail.Name = "chkShowDetail"
-      Me.chkShowDetail.Size = New System.Drawing.Size(139, 17)
-      Me.chkShowDetail.TabIndex = 0
-      Me.chkShowDetail.Text = "แสดงรายละเอียดทั้งหมด"
-      Me.chkShowDetail.UseVisualStyleBackColor = True
-      Me.chkShowDetail.Visible = False
       '
       'chkSelectAll
       '
@@ -221,8 +218,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'rGrid
       '
       Me.rGrid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.rGrid.Location = New System.Drawing.Point(0, 42)
       '
       '
@@ -231,7 +228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rGrid.MultiSelect = True
       Me.rGrid.Name = "rGrid"
       Me.rGrid.ShowGroupPanel = False
-      Me.rGrid.Size = New System.Drawing.Size(465, 306)
+      Me.rGrid.Size = New System.Drawing.Size(465, 436)
       Me.rGrid.TabIndex = 335
       Me.rGrid.ThemeName = "Vista"
       '
@@ -346,24 +343,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPR.Text = "ขอซื้อ"
       Me.chkPR.UseVisualStyleBackColor = True
       '
-      'chkAlwaysShowData
-      '
-      Me.chkAlwaysShowData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.chkAlwaysShowData.Checked = True
-      Me.chkAlwaysShowData.CheckState = System.Windows.Forms.CheckState.Checked
-      Me.chkAlwaysShowData.Location = New System.Drawing.Point(204, 515)
-      Me.chkAlwaysShowData.Name = "chkAlwaysShowData"
-      Me.chkAlwaysShowData.Size = New System.Drawing.Size(236, 19)
-      Me.chkAlwaysShowData.TabIndex = 0
-      Me.chkAlwaysShowData.Text = "แสดงรายการเสมอตอนเปิดโปรแกรม"
-      Me.chkAlwaysShowData.UseVisualStyleBackColor = True
-      Me.chkAlwaysShowData.Visible = False
-      '
       'MultiApproveDetail
       '
       Me.Controls.Add(Me.chkAlwaysShow)
       Me.Controls.Add(Me.grbDetail)
-      Me.Controls.Add(Me.chkAlwaysShowData)
       Me.Name = "MultiApproveDetail"
       Me.Size = New System.Drawing.Size(776, 538)
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -492,8 +475,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Protected Sub EventWiring()
       AddHandler chkSelectAll.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler chkAlwaysShow.CheckedChanged, AddressOf Me.ChangeProperty
-      AddHandler chkAlwaysShowData.CheckedChanged, AddressOf Me.ChangeProperty
-      AddHandler chkShowDetail.CheckedChanged, AddressOf Me.ChangeProperty
+      'AddHandler chkAlwaysShowData.CheckedChanged, AddressOf Me.ChangeProperty
+      'AddHandler chkShowDetail.CheckedChanged, AddressOf Me.ChangeProperty
       AddHandler rGrid.CellDoubleClick, AddressOf CellDoubleClick
       AddHandler btnRefresh.Click, AddressOf ButtonClick
 
@@ -516,7 +499,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       Me.chkAlwaysShow.Checked = Me.m_entity.AlwaysShowPage
-      Me.chkAlwaysShowData.Checked = Me.m_entity.AlwaysShowData
+      'Me.chkAlwaysShowData.Checked = Me.m_entity.AlwaysShowData
 
       RefreshData(False)
 
@@ -536,16 +519,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.ToggleSelection(sender)
         Case chkAlwaysShow.Name.ToLower
           Me.m_entity.AlwaysShowPage = chkAlwaysShow.Checked
-        Case chkAlwaysShowData.Name.ToLower
-          Me.m_entity.AlwaysShowData = chkAlwaysShowData.Checked
+          'Case chkAlwaysShowData.Name.ToLower
+          '  Me.m_entity.AlwaysShowData = chkAlwaysShowData.Checked
         Case chkPR.Name.ToLower, chkWR.Name.ToLower, chkPO.Name.ToLower, chkSC.Name.ToLower, chkDR.Name.ToLower, chkGR.Name.ToLower, chkPA.Name.ToLower
           ', _
           'rdbWaitforApprove.Name.ToLower, rdbApproved.Name.ToLower, rdbReject.Name.ToLower, rdbNotApprove.Name.ToLower
           Me.m_entity.RefreshDataSource(User.CurrentUser.Id, rGrid, Me.GetListOfDocument, Me.GetListOfApproveType, Me.GetListOfDateRank)
           Me.SetSummaryColumnHeader()
-        Case chkShowDetail.Name.ToLower
-          Dim isExpand As Boolean = chkShowDetail.Checked
-          Me.ExpandAllRows(rGrid, isExpand)
+          'Case chkShowDetail.Name.ToLower
+          '  Dim isExpand As Boolean = chkShowDetail.Checked
+          '  Me.ExpandAllRows(rGrid, isExpand)
       End Select
     End Sub
     Private Function GetListOfDocument() As ArrayList
@@ -849,7 +832,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"
+    Dim CollumnHash As New Hashtable
     Private Sub CreateHeaderGridStyle()
+      CollumnHash = New Hashtable
+
       rGrid.MasterGridViewTemplate.Caption = Me.MasterCaptionName
 
       'Visible Column =================================================================================
@@ -932,6 +918,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       chkColumn.TextAlignment = ContentAlignment.MiddleCenter
       chkColumn.HeaderText = ""
       chkColumn.ReadOnly = False
+      'chkColumn.IsPinned = True
+      'chkColumn.SortOrder = 0
       rGrid.Columns.Add(chkColumn)
 
       gridColumn = New GridViewTextBoxColumn("lineNumber")
@@ -940,6 +928,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.ReadOnly = True
+      'gridColumn.IsPinned = True
+      'gridColumn.SortOrder = 1
       rGrid.Columns.Add(gridColumn)
 
       gridColumn = New GridViewTextBoxColumn("entity_description")
@@ -948,7 +938,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Document}") '"เอกสาร" 
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'gridColumn.SortOrder = 3
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("entity_description") = gridColumn
 
       gridColumn = New GridViewTextBoxColumn("doca_code")
       gridColumn.Width = 135
@@ -956,7 +948,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"เลขที่"
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'gridColumn.SortOrder = 2
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("doca_code") = gridColumn
 
       gridColumn = New GridViewTextBoxColumn("doca_docdate")
       gridColumn.Width = 75
@@ -966,7 +960,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'gridColumn.DataType = GetType(DateTime)
       'gridColumn.FormatString = "{0:d}"
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("doca_docdate") = gridColumn
 
       'gridColumn = New GridViewTextBoxColumn("cccode")
       'gridColumn.Width = 145
@@ -984,7 +979,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'gridColumn.DataType = GetType(Decimal)
       'gridColumn.FormatString = "{0:N}"
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("doca_amount") = gridColumn
 
       gridColumn = New GridViewTextBoxColumn("supplier")
       gridColumn.Width = 90
@@ -992,7 +988,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = " ผู้ขาย/ผู้รับเหมา" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Supplier"
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("supplier") = gridColumn
 
       gridColumn = New GridViewTextBoxColumn("costcenter")
       gridColumn.Width = 90
@@ -1000,7 +997,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = " Cost Center" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Supplier"
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("costcenter") = gridColumn
 
       gridColumn = New GridViewTextBoxColumn("approveperson")
       gridColumn.Width = 200
@@ -1008,7 +1006,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = " ผู้อนุมัติ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastEditor}") '"ผู้ปรับปรุงสถานะล่าสุด" 
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("approveperson") = gridColumn
 
       gridColumn = New GridViewTextBoxColumn("doca_comment")
       gridColumn.Width = 135
@@ -1016,7 +1015,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = " " & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Comment}") '"ความคิดเห็น" 
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("doca_comment") = gridColumn
 
       'gridColumn = New GridViewTextBoxColumn("editor")
       'gridColumn.Width = 135
@@ -1032,7 +1032,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderText = " " & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastStatus}") '"สถานะล่าสุด"
       gridColumn.ReadOnly = True
-      rGrid.Columns.Add(gridColumn)
+      'rGrid.Columns.Add(gridColumn)
+      CollumnHash("laststatus") = gridColumn
 
       'gridColumn = New GridViewTextBoxColumn("lasteditDocDate")
       'gridColumn.Width = 0
@@ -1045,6 +1046,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ''gridColumn.IsVisible = False
       'rGrid.Columns.Add(gridColumn)
 
+      Dim UserCollumns As ArrayList = ConfigurationUser.GetConfigurationUserMulltiApproveCollumnsList(User.CurrentUser.Id)
+      For Each colName As String In UserCollumns
+        If CollumnHash.ContainsKey(colName) Then
+          gridColumn = CType(CollumnHash(colName), GridViewTextBoxColumn)
+          rGrid.Columns.Add(gridColumn)
+        End If
+      Next
 
 
       'Dim grNewCol As New DataGridViewButtonColumn
@@ -1673,7 +1681,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Function
 #End Region
 
-
     Private Sub btnReSave_Click(ByVal sender As Object, ByVal e As System.EventArgs)
       'Dim resaveStock As New ReSaveStock
       ''resaveStock.DateStart = txtDocDateStart.Text
@@ -1762,5 +1769,42 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
+    Private Sub btnAdvance_Click(sender As System.Object, e As System.EventArgs) Handles btnAdvance.Click
+      Dim dlg As New AdvanceFilterForm(Me.m_entity)
+      dlg.StartPosition = FormStartPosition.CenterParent
+      'dlg.StartPosition = FormStartPosition.WindowsDefaultBounds
+      Dim resoult As DialogResult
+      resoult = dlg.ShowDialog()
+      'If resoult = DialogResult.OK Then
+      '  Me.RefreshData(True)
+      'End If
+      Me.cmbDateRank.Enabled = True
+      If Me.m_entity.AdvanceFilter.IsAdvanceFiltering Then
+        Me.btnAdvance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+        If Not Me.m_entity.AdvanceFilter.DocDateStart.Equals(Date.MinValue) OrElse Not Me.m_entity.AdvanceFilter.DocDateEnd.Equals(Date.MinValue) Then
+          Me.cmbDateRank.SelectedIndex = 0
+          Me.cmbDateRank.Enabled = False
+        End If
+      Else
+        Me.btnAdvance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      End If
+    End Sub
+
+    Private Sub rGrid_ColumnIndexChanged(sender As Object, e As Telerik.WinControls.UI.ColumnIndexChangedEventArgs) Handles rGrid.ColumnIndexChanged
+      Dim colIndex As Integer = 0
+      Dim configName As String
+      Dim newSortList As New ArrayList
+      Dim col As GridViewTextBoxColumn
+      For Each obj As Object In rGrid.Columns
+        If TypeOf obj Is GridViewTextBoxColumn Then
+          col = CType(obj, GridViewTextBoxColumn)
+          If CollumnHash.ContainsKey(col.FieldName) Then
+            configName = "MultiApprove." & col.FieldName
+            ConfigurationUser.Save(User.CurrentUser.Id, configName, colIndex)
+            colIndex += 1
+          End If
+        End If
+      Next
+    End Sub
   End Class
 End Namespace
