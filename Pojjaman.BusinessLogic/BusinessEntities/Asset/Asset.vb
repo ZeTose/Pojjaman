@@ -62,6 +62,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_canBeRented As Boolean
     Private m_depreAble As Boolean
+    Private Shared m_assetTypeSet As DataTable
 #End Region
 
 #Region "Constructors"
@@ -440,6 +441,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+    Public Shared Sub RefreshAllMinData()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetAssetTypeMinDataCollection" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        m_assetTypeSet = New DataTable
+        m_assetTypeSet = ds.Tables(0)
+      End If
+    End Sub
+
+    Shared Function GetAssetTypeSet() As DataTable
+      If m_assetTypeSet Is Nothing Then
+        AssetType.RefreshAllMinData()
+      End If
+      Return m_assetTypeSet
+    End Function
+
   End Class
 
   ' สินทรัพย์
@@ -519,10 +538,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_Deprebase As Decimal
     Private m_writeoffamt As Decimal
+    Private m_writeoffaccdepre As Decimal
     Private m_eqt As EquipmentTool
 
     Private m_depreamnt As Decimal
     Private m_assetremainvalue As Decimal
+
+    Private Shared m_assetSet As DataTable
 
 #End Region
 
@@ -921,12 +943,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_rentalrate = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_rentalrate")
         .m_startCalcAmt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_startCalcAmt")
         .m_writeoffamt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_writeoffamt")
+        .m_writeoffaccdepre = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_writeoffaccdepre")
         .m_age = drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_age")
         .m_Deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
 
-        If m_status.Value <> 5 Then
-          .m_depreopening = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
-        End If
+        'If m_status.Value <> 5 Then
+        .m_depreopening = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
+        'End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_calcType") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_calcType") Then
           .m_calcType = New AssetCalcType(CInt(dr(aliasPrefix & Me.Prefix & "_calcType")))
@@ -1281,6 +1304,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property DepreOpening() As Decimal 'ค่าเสื่อมยกมา
       Get
+        'If m_writeoffamt > 0 Then
+        '  Return 0
+        'End If
         Return m_depreopening
       End Get
       Set(ByVal Value As Decimal)
@@ -1310,7 +1336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Property StartCalcAmt() As Decimal 'ค่าเสื่อมเบื้องต้น
       Get
-        Return m_startCalcAmt
+        Return m_startCalcAmt + WriteOffDepreAmount
       End Get
       Set(ByVal Value As Decimal)
         m_startCalcAmt = Value
@@ -1322,7 +1348,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return Math.Max(Me.DepreBase - Me.DepreOpening, 0)
         End If
         'มูลค่าคงเหลือยกมา = ราคาซื้อ - ค่าเสื่อมเบื้องต้น  - ค่าเสื่อมยกมา
-        Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.DepreOpening, 0)
+        Return Math.Max(Me.DepreBase - Me.StartCalcAmt - Me.DepreOpening - Me.WriteOffAmnt, 0)
       End Get
     End Property
     Public ReadOnly Property CalculatingValue() As Decimal 'มูลค่าคำนวณค่าเสื่อม
@@ -1416,6 +1442,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
+    Public ReadOnly Property SystemDepreAmount As Decimal
+      Get
+        'If m_writeoffamt > 0 Then
+        '  Return 0
+        'End If
+        Return GetDepreAmntfromDB()
+      End Get
+    End Property
     Public ReadOnly Property DepreAmnt As Decimal
       Get
         Return Me.GetDepreAmntfromDB + Me.DepreOpening
@@ -1427,17 +1461,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_writeoffamt
       End Get
     End Property
+    Public ReadOnly Property WriteOffDepreAmount As Decimal
+      Get
+        If GetWriteOffAmoutfromDB() > 0 Then
+          'Return Math.Round((Me.GetDepreAmntfromDB + m_depreopening) - m_writeoffaccdepre, 2)
+          Return Math.Round(Me.GetDepreAmntfromDB - GetWriteOffAmoutfromDB(), 2)
+
+          'GetWriteOffAmoutfromDB
+        End If
+        Return 0
+      End Get
+    End Property
     Public ReadOnly Property AssetRemainValue As Decimal
       Get
         m_assetremainvalue = DeprebaseBal - Me.DepreAmnt
         Return m_assetremainvalue
       End Get
     End Property
+
     Public ReadOnly Property DeprebaseBal As Decimal
       Get
         'มูลค่าคงเหลือยกมา = ราคาซื้อ -  ค่าwriteoff (บางส่วน)
         If m_buyPrice > 0 Then
-          Return Math.Max(Me.DepreBase * (1 - (m_writeoffamt / m_buyPrice)), 0)
+          Return Math.Max((Me.DepreBase * (1 - (m_writeoffamt / m_buyPrice))) - WriteOffDepreAmount, 0)
         Else
           Return 0
         End If
@@ -1939,6 +1985,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End Try
       Return m_assetdepre.Value
+    End Function
+    Public Function GetWriteOffAmoutfromDB() As Decimal
+      Try
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+        , CommandType.StoredProcedure _
+        , "GetWriteOffAmoutfromDB" _
+        , New SqlParameter("@AssetId", Me.Id))
+
+        If ds.Tables(0).Rows.Count > 0 Then
+          m_assetdepre = CDec(ds.Tables(0).Rows(0)("WriteOffAmount"))
+        Else
+          Return 0
+        End If
+      Catch ex As Exception
+
+      End Try
     End Function
 #End Region
 
@@ -3111,6 +3174,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'Private Shared Sub Items()
     '  Throw New NotImplementedException
     'End Sub
+
+    Public Shared Sub RefreshAllMinData()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+    , CommandType.StoredProcedure _
+    , "GetAssetMinDataCollection" _
+    , Nothing)
+      If ds.Tables(0).Rows.Count >= 1 Then
+        m_assetSet = New DataTable
+        m_assetSet = ds.Tables(0)
+      End If
+    End Sub
+
+    Shared Function GetAssetSet() As DataTable
+      If m_assetSet Is Nothing Then
+        Asset.RefreshAllMinData()
+      End If
+      Return m_assetSet
+    End Function
+
 
   End Class
 

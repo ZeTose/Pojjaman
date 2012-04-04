@@ -82,6 +82,14 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v11.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v11.2.dll</HintPath>
+    </Reference>
     <Reference Include="syncfusion.core, Version=9.104.0.20, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
@@ -152,6 +160,7 @@
     <Compile Include="BLL\RptAssetDepreciationFromDoc.vb" />
     <Compile Include="BLL\RptAssetWriteOff2.vb" />
     <Compile Include="BLL\RptAssetProfitLoss.vb" />
+    <Compile Include="BLL\RptAssetExpenditureByCostCenter.vb" />
     <Compile Include="BLL\RptToolMovement2.vb" />
     <Compile Include="BLL\RptEquipmentMovement.vb" />
     <Compile Include="BLL\RptEQTIncome.vb" />
@@ -215,6 +224,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptAssetProfitLossFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\RptAssetExpenditureByCostCenterFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptToolMovementFilterSubPanel.vb">
@@ -288,6 +300,9 @@
     <EmbeddedResource Include="UI\RptAssetProfitLossFilterSubPanel.resx">
       <DependentUpon>RptAssetProfitLossFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\RptAssetExpenditureByCostCenterFilterSubPanel.resx">
+      <DependentUpon>RptAssetExpenditureByCostCenterFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptToolMovementFilterSubPanel.resx">
       <DependentUpon>RptToolMovementFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -343,7 +358,9 @@
       <DependentUpon>RptEQTIncomeFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>

@@ -20,6 +20,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IVisibleButtonShowColorListAble
 
   End Interface
+  Public Interface IDocumentPersonAble
+    ReadOnly Property Employee As Employee
+    ReadOnly Property User As User
+    ReadOnly Property CanceledUser As User
+    ReadOnly Property CreatedUser As User
+    ReadOnly Property EditedUser As User
+    ReadOnly Property ApprovedUser As User
+    ReadOnly Property AutherizedUser As User
+    ReadOnly Property RejectUser As User
+  End Interface
   Public Interface IApproveStatusAble
     ReadOnly Property IsAuthorized As Boolean
     ReadOnly Property IsLevelApproved As Boolean

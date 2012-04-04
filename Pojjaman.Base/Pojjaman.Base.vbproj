@@ -514,6 +514,7 @@
     <Compile Include="Pojjaman\Commands\CloseFile.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Commands\SchemaExport.vb" />
     <Compile Include="Pojjaman\Commands\SchemaDataExport.vb" />
     <Compile Include="Pojjaman\Commands\Copy.vb">
       <SubType>Code</SubType>
@@ -919,6 +920,9 @@
       <DependentUpon>CrystalForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\CrystalForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\GeneralSchemaDataExportDialog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\RefPrintDialog.Designer.vb">
@@ -1486,6 +1490,9 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\XtrasReportPanelView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\CrystalReportPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1682,6 +1689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\CrystalForm.resx">
       <DependentUpon>CrystalForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\GeneralSchemaDataExportDialog.resx">
+      <DependentUpon>GeneralSchemaDataExportDialog.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\RefPrintDialog.resx">
       <DependentUpon>RefPrintDialog.vb</DependentUpon>
@@ -1921,6 +1931,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\ProjectSetup\WBSSetup.resx">
       <DependentUpon>WBSSetup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\XtrasReportPanelView.resx">
+      <DependentUpon>XtrasReportPanelView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\CrystalReportPanelView.resx">
       <DependentUpon>CrystalReportPanelView.vb</DependentUpon>

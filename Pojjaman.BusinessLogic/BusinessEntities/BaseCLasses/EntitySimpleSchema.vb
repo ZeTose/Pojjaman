@@ -414,6 +414,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ds.Tables(0).TableName = _entity.ClassName
       End If
 
+      'Dim dt As DataTable = GetCompanyConfigSchemaFromDB()
+      'If Not dt Is Nothing AndAlso dt.Rows.Count > 0 Then
+      '  ds.Tables.Add(dt)
+      'End If
+
       Return ds
     End Function
     Private Shared Function GetNewListOnlySchemaFromDB(ByVal dpientity As INewPrintableEntity, ByVal schemaId As String) As DataSet
@@ -434,8 +439,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ds.Tables(0).TableName = _entity.ClassName
       End If
 
+      'Dim dt As DataTable = GetCompanyConfigSchemaFromDB()
+      'If Not dt Is Nothing AndAlso dt.Rows.Count > 0 Then
+      '  ds.Tables.Add(dt)
+      'End If
+
       Return ds
     End Function
+    'Private Shared Function GetCompanyConfigSchemaFromDB() As DataTable
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(
+    '                                                SimpleBusinessEntityBase.ConnectionString,
+    '                                                CommandType.Text,
+    '                                                "select * from dbo.CompanyConfigView"
+    '                                            )
+    '  If ds.Tables.Count > 0 Then
+    '    ds.Tables(0).TableName = "CompanyConfigView"
+    '    Return ds.Tables(0)
+    '  End If
+
+    '  Return New DataTable
+    'End Function
     Private Shared Function GetPrintingDetailOfEntity(ByVal entity As INewPrintableEntity, Optional ByVal schemaOnly As Boolean = True) As DocPrintingItemCollection
       Dim dpiColl As New DocPrintingItemCollection
       Dim myDpi As DocPrintingItem
@@ -921,7 +944,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     End Function
 #End Region
+    Public Shared Function GetCompanyConfig() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                               CommandType.StoredProcedure,
+                                               "GetCompanyConfigView")
+      Return ds
+    End Function
 
+    Public Shared Function LoadImageFromReader(ByVal reader As IDataReader, ByVal imageFieldName As String) As System.Drawing.Image
+      Return Field.GetImage(reader, imageFieldName)
+    End Function
+    Public Shared Function GetCompanyConfigLogo() As System.Drawing.Image
+      Dim conn As New SqlConnection(RecentCompanies.CurrentCompany.SiteConnectionString)
+      Dim reader As SqlDataReader
+      Try
+        conn.Open()
+        Dim cmd As SqlCommand = conn.CreateCommand
+        cmd.CommandType = CommandType.StoredProcedure
+        cmd.CommandText = "GetCompanyConfigLogoView"
+        reader = cmd.ExecuteReader((CommandBehavior.KeyInfo Or CommandBehavior.CloseConnection))
+        If reader.Read Then
+          Return LoadImageFromReader(reader, "CompanyLogo")
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      Finally
+        conn.Close()
+        reader = Nothing
+        conn = Nothing
+      End Try
+      Return Nothing
+    End Function
   End Class
 
 End Namespace

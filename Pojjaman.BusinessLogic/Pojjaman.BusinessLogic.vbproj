@@ -785,6 +785,7 @@
     <Compile Include="BusinessEntities\Reports\ComplexReport.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Reports\XReport.vb" />
     <Compile Include="BusinessEntities\Reports\CrystalReport.vb" />
     <Compile Include="BusinessEntities\Reports\Report.vb">
       <SubType>Code</SubType>

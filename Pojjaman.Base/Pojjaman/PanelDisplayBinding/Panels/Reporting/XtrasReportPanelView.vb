@@ -1,391 +1,43 @@
-ï»¿Imports System.Windows.Forms
-Imports System.ComponentModel
-Imports System.ComponentModel.Design
-Imports Longkong.Core.Services
-Imports Longkong.Core.Properties
-Imports System.Drawing
 Imports Longkong.Pojjaman.Services
-Imports System.IO
-Imports System.Reflection
-Imports System.Xml
-Imports Microsoft.Win32
-Imports System.Text
-Imports System.Threading
-Imports Longkong.Pojjaman.FormDisplayBinding
+Imports Longkong.Core.Services
+Imports Longkong.Pojjaman.PanelDisplayBinding
+Imports Longkong.Pojjaman.Gui
+'Imports Longkong.Pojjaman.Gui.Pads
+Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Pojjaman.BusinessLogic
 Imports Longkong.Pojjaman.DataAccessLayer
-Imports Longkong.Pojjaman.Gui.ReportsAndDocs
-Imports Longkong.Pojjaman.Commands
-Imports Longkong.Pojjaman.Gui.Components
-Imports Longkong.AdobeForm
-Imports System.Collections.Generic
+Imports Longkong.Core.Properties
 Imports DevExpress.XtraReports.UI
-Imports DevExpress.XtraPrinting.Drawing
+Imports DevExpress
 
 Namespace Longkong.Pojjaman.Gui.Panels
+  Public Class XtrasReportPanelView
+    'Inherits UserControl
+    Inherits AbstractEntityPanelViewContent
+    Implements ISimpleListPanel
 
-  Public Class XtraForm
-    Inherits System.Windows.Forms.Form
+#Region " Windows Form Designer generated code "
 
-#Region "Contructor"
-    Public Sub New(ByVal printingEntity As INewPrintableEntity, ByVal path As String, ByVal entity As ISimpleEntity)
-      Me.InitializeComponent()
-      Me.WindowState = FormWindowState.Maximized
-
-      Me.m_printingEntity = printingEntity
-      Me.m_path = path
-      Me.m_entity = entity
-
-      'If TypeOf entity Is IPrintableEntity Then
-      '  If Not CType(entity, IPrintableEntity).GetDocPrintingEntries Is Nothing AndAlso
-      '    CType(entity, IPrintableEntity).GetDocPrintingEntries.RelationList Is Nothing Then
-
-      '    Me.m_printTableEntity.GetDocPrintingEntries.RelationList.AddRange(CType(entity, IPrintableEntity).GetDocPrintingEntries.RelationList)
-
-      '  End If
-
-      'End If
-
-      Me.CheckAccessRight()
-      Me.RefreshReport()
-    End Sub
-    'Public Sub New(ByVal entity As ISimpleEntity, ByVal path As String, ByVal docPrintingItemColl As DocPrintingItemCollection)
-    '  Me.InitializeComponent()
-    '  Me.WindowState = FormWindowState.Maximized
-
-    '  Me.m_entity = entity
-    '  Me.m_path = path
-    '  Me.m_docPrintingItemColl = docPrintingItemColl
-
-    '  Me.CheckAccessRight()
-    '  Me.RefreshReport(True)
-    'End Sub
-#End Region
-
-#Region "Method"
-    Public Overridable Sub RefreshReport(Optional ByVal GetSchemaFromListView As Boolean = False)
-      If Me.m_printingEntity Is Nothing Then
-        Return
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
       End If
-
-      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-      Dim currentUserName As String = secSrv.CurrentUser.Name
-
-      Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-      Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
-
-      newReport = New XtraReport
-      Try
-        newReport = XtraReport.FromFile(Me.m_path, True)
-
-        'RemoveHandler newReport.AfterPrint, AddressOf newReport_AfterPrint
-        'AddHandler newReport.AfterPrint, AddressOf newReport_AfterPrint
-
-        Dim ds As DataSet
-        'If GetSchemaFromListView Then
-        '  ds = GetDataFromEntityListView()
-        'Else
-        ds = GetDataFromEntitySchemaId(newReport.DataSourceSchema)
-        'End If
-
-        'If ds Is Nothing Then
-        '  Return
-        'End If
-
-        '--Watermark-- 
-        Dim config As Boolean = CBool(Configuration.GetConfig("ShowWaterMarkInExtraReports"))
-        If config Then
-          newReport.Watermark.Text = ""
-          newReport.Watermark.TextDirection = DirectionMode.ForwardDiagonal
-          newReport.Watermark.Font = New Font("Times New Roman", 72)
-          newReport.Watermark.ForeColor = Color.Red
-          'newReport.Watermark.Transparency = 150
-          newReport.Watermark.TextTransparency = 180
-          newReport.Watermark.ShowBehind = True
-          'newReport.Watermark.PageRange = "1,3-5"
-
-          'newReport.Watermark.Image = Bitmap.FromFile("D:\SVN\BuiLKSource\BuilkCostControl\trunk\BuilkMvc\Images\companyprofile\longkong_logo.jpg")
-          'newReport.Watermark.ImageAlign = ContentAlignment.TopCenter
-          'newReport.Watermark.ImageTiling = False
-          'newReport.Watermark.ImageViewMode = ImageViewMode.Clip
-          'newReport.Watermark.ImageTransparency = 100
-
-          'Dim strconfig As String = Configuration.GetConfigurationObjectByName("XtraReportWaterMark")
-          'If strconfig.Length > 0 Then
-
-          'End If
-
-          If TypeOf m_printingEntity Is IDocStatus Then
-            Dim newWatermarkText As String = CType(m_printingEntity, IDocStatus).DocStatus
-            newReport.Watermark.Text = newWatermarkText
-          Else
-
-          End If
-        End If
-        '--Watermark-- 
-
-        '--Data Source Data--
-        newReport.DataSource = ds
-        '--Data Source Data--
-
-        '--Company Logo--
-        Dim xrLogoPictureBox As Object = newReport.FindControl("CompanyLogo", True)
-        If Not xrLogoPictureBox Is Nothing AndAlso TypeOf xrLogoPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-          Dim logoImage As Image = EntitySimpleSchema.GetCompanyConfigLogo
-          CType(xrLogoPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = logoImage
-        End If
-        '--Company Logo--
-
-        '--Company Config--
-        Dim dsConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
-        Dim rows As New DataRowHelper(dsConfig.Tables(0).Rows(0))
-        Dim xrCompanyNameRichText As Object = newReport.FindControl("CompanyName", True)
-        If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyName", "")
-        End If
-        Dim xrCompanyAddressRichText As Object = newReport.FindControl("CompanyAddress", True)
-        If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyAddress", "")
-        End If
-        Dim xrCompanyBillingAddressRichText As Object = newReport.FindControl("CompanyBillingAddress", True)
-        If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
-        End If
-        Dim xrCompanyPhoneFaxRichText As Object = newReport.FindControl("CompanyPhoneCompanyFax", True)
-        If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("à¹‚à¸—à¸£à¸¨à¸±à¸žà¸—à¹Œ {0} à¹‚à¸—à¸£à¸ªà¸²à¸£ {1}", rows.GetValue(Of String)("CompanyPhoneCompanyFax", ""), rows.GetValue(Of String)("CompanyFax", ""))
-        End If
-        Dim xrCompanyPhoneRichText As Object = newReport.FindControl("CompanyPhone", True)
-        If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyPhone", "")
-        End If
-        Dim xrCompanyFaxRichText As Object = newReport.FindControl("CompanyFax", True)
-        If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyFax", "")
-        End If
-        Dim xrCompanyTaxIdRichText As Object = newReport.FindControl("CompanyTaxId", True)
-        If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("à¹€à¸¥à¸‚à¸›à¸£à¸°à¸ˆà¸³à¸•à¸±à¸§à¸œà¸¹à¹‰à¹€à¸ªà¸µà¸¢à¸ à¸²à¸©à¸µ {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
-        End If
-        '--Company Config--
-
-        '--Signature Image--
-        If TypeOf Me.m_entity Is IDocumentPersonAble Then
-          Dim docPerson As IDocumentPersonAble = CType(Me.m_entity, IDocumentPersonAble)
-          If Not docPerson.Employee Is Nothing AndAlso docPerson.Employee.Originated Then
-            Dim xrEmployeePictureBox As Object = newReport.FindControl("EmployeeSignature", True)
-            If Not xrEmployeePictureBox Is Nothing AndAlso TypeOf xrEmployeePictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(Employee.GetSignator(CStr(docPerson.Employee.Id)), Image)
-              CType(xrEmployeePictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.User Is Nothing AndAlso docPerson.User.Originated Then
-            Dim xrUserPictureBox As Object = newReport.FindControl("UserSignature", True)
-            If Not xrUserPictureBox Is Nothing AndAlso TypeOf xrUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetSignator(CStr(docPerson.User.Id)), Image)
-              CType(xrUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.CanceledUser Is Nothing AndAlso docPerson.CanceledUser.Originated Then
-            Dim xrCanceledUserPictureBox As Object = newReport.FindControl("CanceledUserSignature", True)
-            If Not xrCanceledUserPictureBox Is Nothing AndAlso TypeOf xrCanceledUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetSignator(CStr(docPerson.CanceledUser.Id)), Image)
-              CType(xrCanceledUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.CreatedUser Is Nothing AndAlso docPerson.CreatedUser.Originated Then
-            Dim xrCreatedUserPictureBox As Object = newReport.FindControl("CreatedUserSignature", True)
-            If Not xrCreatedUserPictureBox Is Nothing AndAlso TypeOf xrCreatedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetSignator(CStr(docPerson.CreatedUser.Id)), Image)
-              CType(xrCreatedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.EditedUser Is Nothing AndAlso docPerson.EditedUser.Originated Then
-            Dim xrEditedUserPictureBox As Object = newReport.FindControl("EditedUserSignature", True)
-            If Not xrEditedUserPictureBox Is Nothing AndAlso TypeOf xrEditedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetSignator(CStr(docPerson.EditedUser.Id)), Image)
-              CType(xrEditedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.ApprovedUser Is Nothing AndAlso docPerson.ApprovedUser.Originated Then
-            Dim xrApprovedUserPictureBox As Object = newReport.FindControl("ApprovedUserSignature", True)
-            If Not xrApprovedUserPictureBox Is Nothing AndAlso TypeOf xrApprovedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetSignator(CStr(docPerson.ApprovedUser.Id)), Image)
-              CType(xrApprovedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.AutherizedUser Is Nothing AndAlso docPerson.AutherizedUser.Originated Then
-            Dim xrAutherizedUserPictureBox As Object = newReport.FindControl("AutherizedUserSignature", True)
-            If Not xrAutherizedUserPictureBox Is Nothing AndAlso TypeOf xrAutherizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetAuthorizeSignator(CStr(docPerson.AutherizedUser.Id)), Image)
-              CType(xrAutherizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-          If Not docPerson.RejectUser Is Nothing AndAlso docPerson.RejectUser.Originated Then
-            Dim xrRejectUserPictureBox As Object = newReport.FindControl("RejectUserSignature", True)
-            If Not xrRejectUserPictureBox Is Nothing AndAlso TypeOf xrRejectUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-              Dim img As Image = CType(User.GetSignator(CStr(docPerson.RejectUser.Id)), Image)
-              CType(xrRejectUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
-            End If
-          End If
-        End If
-        '--Signature Image--
-
-        '--CUSTOM NOTES--
-        'If m_entityNames.ContainsKey(Entity) AndAlso activeContent.GetType.Name = m_entityNames(Entity) Then
-        If TypeOf m_printingEntity Is IHasCustomNote Then
-          Dim coll As CustomNoteCollection        ' = CType(m_entity, IHasCustomNote).GetCustomNoteCollection
-          If TypeOf m_printingEntity Is IHasMainDoc Then
-            If Not (TypeOf (m_printingEntity) Is JournalEntry) Then
-              coll = CType(CType(m_printingEntity, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
-            Else
-              coll = CType(m_printingEntity, IHasCustomNote).GetCustomNoteCollection
-            End If
-          Else
-            coll = CType(m_printingEntity, IHasCustomNote).GetCustomNoteCollection
-          End If
-          Dim hsNote As New Hashtable
-          For Each note As CustomNote In coll
-            hsNote(note.NoteName.ToLower) = note
-          Next
-          Dim parameterName As String
-          For index As Integer = 0 To newReport.Parameters.Count - 1
-            parameterName = newReport.Parameters(index).Name.ToLower
-            If hsNote.ContainsKey(parameterName) Then
-              newReport.Parameters(index).Value = CType(hsNote(parameterName), CustomNote).Note
-            End If
-          Next
-        End If
-        'End If
-        '--END CUSTOM NOTES--
-
-        'Dim xrLabel As New DevExpress.XtraReports.UI.XRLabel
-        'xrLabel.Name = "xrLabel"
-        'xrLabel.Text = "Longkongstudio co., ltd. "
-        'xrLabel.AutoWidth = True
-        'newReport.Bands(BandKind.BottomMargin).Controls.Add(xrLabel)
-
-        ''--Company Config Parameter--
-        'If newReport.Parameters.Count > 0 Then
-        '  Dim dsConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
-        '  Dim rows As New DataRowHelper(dsCon.Tables(0).Rows(0))
-        '  If dsCon.Tables(0).Rows.Count > 0 Then
-
-
-        'Dim parameterName As String
-        'For index As Integer = 0 To newReport.Parameters.Count - 1
-        '  parameterName = newReport.Parameters(index).Name.ToLower
-        '  newReport.Parameters(index).Value = rows.GetValue(Of String)(parameterName, "")
-
-        '  If newReport.Parameters(index).Name.ToLower = "companyname" Then
-        '    newReport.Parameters(index).Value = rows.GetValue(Of String)("companyname")
-        '  End If
-        '  If newReport.Parameters(index).Name.ToLower = "companyaddress" Then
-        '    newReport.Parameters(index).Value = rows.GetValue(Of String)("companyaddress")
-        '  End If
-        '  If newReport.Parameters(index).Name.ToLower = "companybillingaddress" Then
-        '    newReport.Parameters(index).Value = rows.GetValue(Of String)("companybillingaddress")
-        '  End If
-        '  If newReport.Parameters(index).Name.ToLower = "companyphone" Then
-        '    newReport.Parameters(index).Value = rows.GetValue(Of String)("companyphone")
-        '  End If
-        '  If newReport.Parameters(index).Name.ToLower = "companyfax" Then
-        '    newReport.Parameters(index).Value = rows.GetValue(Of String)("companyfax")
-        '  End If
-        '  If newReport.Parameters(index).Name.ToLower = "companytaxid" Then
-        '    newReport.Parameters(index).Value = rows.GetValue(Of String)("companytaxid")
-        '  End If
-        '  'If newReport.Parameters(index).Name.ToLower = "companylogo" Then
-        '  '  newReport.Parameters(index).Value = rows.GetValue(Of String)("companylogo")
-        '  '  Trace.WriteLine(rows.GetValue(Of String)("companylogo"))
-        '  'End If
-        'Next
-        '  End If
-        'End If
-        For Each param As DevExpress.XtraReports.Parameters.Parameter In newReport.Parameters
-          param.Visible = False
-        Next
-
-        ''--Company Config Parameter--
-
-        PrintControl1.PrintingSystem = newReport.PrintingSystem
-
-        PrintControl1.ShowPageMargins = False
-
-        PrintControl1.Refresh()
-
-        newReport.CreateDocument()
-        'newReport.ShowPreviewMarginLines = False
-      Catch ex As Exception
-        Throw New Exception("Load form .repx failed")
-      End Try
-
+      MyBase.Dispose(disposing)
     End Sub
-   
-    Private Function GetDataFromEntitySchemaId(ByVal dataSourceSchema As String) As DataSet
-      If dataSourceSchema.Length = 0 Then
-        Return Nothing
-      End If
 
-      Dim doc As New XmlDocument
-      doc.LoadXml(dataSourceSchema)
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-      Dim xn As XmlNode = doc.DocumentElement.Attributes("id")
-      Dim schemaid As String = xn.InnerText
-
-      Dim ds As DataSet = EntitySimpleSchema.GetData(m_entity, m_printingEntity, schemaid)
-      If Not ds Is Nothing Then
-        Return ds
-      End If
-      'Dim entitySchema As New EntitySimpleSchema(m_entity, schemaid, m_printTableEntity)
-      'If Not entitySchema.DataSet Is Nothing OrElse
-      '   Not entitySchema.DataSet.Tables.Count = 0 Then
-      '  Return entitySchema.DataSet
-      'End If
-
-      Return New DataSet
-    End Function
-    'Private Function GetDataFromEntityListView() As DataSet
-    '  Dim entitySchema As New EntitySimpleSchema(m_entity, m_docPrintingItemColl)
-    '  If Not entitySchema.DataSet Is Nothing OrElse
-    '     Not entitySchema.DataSet.Tables.Count = 0 Then
-    '    Return entitySchema.DataSet
-    '  End If
-
-    '  Return New DataSet
-    'End Function
-    Private Sub CheckAccessRight()
-      Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName)
-
-      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-      Dim accessId As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(simpleentity.FullClassName)
-
-      Dim level As Integer = secSrv.GetAccess(accessId)
-      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
-      checkString = BinaryHelper.RevertString(checkString)
-      'Trace.WriteLine(checkString)
-      'If CBool(checkString.Substring(3, 1)) Then
-      '  Me.CrystalReportViewer1.ShowPrintButton = True
-      '  Me.CrystalReportViewer1.ShowExportButton = True
-      'Else
-      '  Me.CrystalReportViewer1.ShowPrintButton = False
-      '  Me.CrystalReportViewer1.ShowExportButton = False
-      'End If
-    End Sub
-    'Private Sub newReport_AfterPrint(sender As Object, e As EventArgs)
-    '  MessageBox.Show("Yahoo")
-    'End Sub
-#End Region
-
-#Region "Member"
-    Private m_printingEntity As INewPrintableEntity
-    Private m_entity As ISimpleEntity
-    'Private m_newPrintingEntity As INewPrintableEntity
-    Private m_path As String
-    'Private m_printTableEntity As IPrintableEntity
-    'Private m_docPrintingItemColl As DocPrintingItemCollection
-    Private newReport As DevExpress.XtraReports.UI.XtraReport
-
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents Splitter2 As System.Windows.Forms.Splitter
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents PrintControl1 As DevExpress.XtraPrinting.Control.PrintControl
     Friend WithEvents PrintBarManager1 As DevExpress.XtraPrinting.Preview.PrintBarManager
     Friend WithEvents PreviewBar1 As DevExpress.XtraPrinting.Preview.PreviewBar
     Friend WithEvents PrintPreviewBarItem2 As DevExpress.XtraPrinting.Preview.PrintPreviewBarItem
@@ -425,7 +77,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents PrintPreviewStaticItem2 As DevExpress.XtraPrinting.Preview.PrintPreviewStaticItem
     Friend WithEvents ZoomTrackBarEditItem1 As DevExpress.XtraPrinting.Preview.ZoomTrackBarEditItem
     Friend WithEvents RepositoryItemZoomTrackBar1 As DevExpress.XtraEditors.Repository.RepositoryItemZoomTrackBar
-    Friend WithEvents PreviewBar3 As DevExpress.XtraPrinting.Preview.PreviewBar
+    Friend WithEvents barDockControlTop As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents barDockControlBottom As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents barDockControlLeft As DevExpress.XtraBars.BarDockControl
+    Friend WithEvents barDockControlRight As DevExpress.XtraBars.BarDockControl
     Friend WithEvents PrintPreviewSubItem1 As DevExpress.XtraPrinting.Preview.PrintPreviewSubItem
     Friend WithEvents PrintPreviewSubItem2 As DevExpress.XtraPrinting.Preview.PrintPreviewSubItem
     Friend WithEvents PrintPreviewSubItem4 As DevExpress.XtraPrinting.Preview.PrintPreviewSubItem
@@ -433,11 +88,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents PrintPreviewBarItem28 As DevExpress.XtraPrinting.Preview.PrintPreviewBarItem
     Friend WithEvents BarToolbarsListItem1 As DevExpress.XtraBars.BarToolbarsListItem
     Friend WithEvents PrintPreviewSubItem3 As DevExpress.XtraPrinting.Preview.PrintPreviewSubItem
-    Friend WithEvents barDockControlTop As DevExpress.XtraBars.BarDockControl
-    Friend WithEvents barDockControlBottom As DevExpress.XtraBars.BarDockControl
-    Friend WithEvents barDockControlLeft As DevExpress.XtraBars.BarDockControl
-    Friend WithEvents barDockControlRight As DevExpress.XtraBars.BarDockControl
-    Friend WithEvents PrintControl1 As DevExpress.XtraPrinting.Control.PrintControl
     Friend WithEvents PrintPreviewBarCheckItem1 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
     Friend WithEvents PrintPreviewBarCheckItem2 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
     Friend WithEvents PrintPreviewBarCheckItem3 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
@@ -452,13 +102,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents PrintPreviewBarCheckItem12 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
     Friend WithEvents PrintPreviewBarCheckItem13 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
     Friend WithEvents PrintPreviewBarCheckItem14 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
-#End Region
-
-    Friend WithEvents PrintPreviewBarCheckItem17 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
-    Friend WithEvents PrintPreviewBarCheckItem16 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
     Friend WithEvents PrintPreviewBarCheckItem15 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
-    Private Sub InitializeComponent()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(XtraForm))
+    Friend WithEvents PrintPreviewBarCheckItem16 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
+    Friend WithEvents PrintPreviewBarCheckItem17 As DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem
+    Friend WithEvents pnlFilter As System.Windows.Forms.Panel
+    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(XtrasReportPanelView))
+      Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+      Me.Panel2 = New System.Windows.Forms.Panel()
+      Me.PrintControl1 = New DevExpress.XtraPrinting.Control.PrintControl()
+      Me.Splitter2 = New System.Windows.Forms.Splitter()
+      Me.pnlFilter = New System.Windows.Forms.Panel()
       Me.PrintBarManager1 = New DevExpress.XtraPrinting.Preview.PrintBarManager()
       Me.PreviewBar1 = New DevExpress.XtraPrinting.Preview.PreviewBar()
       Me.PrintPreviewBarItem2 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarItem()
@@ -498,7 +152,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrintPreviewStaticItem2 = New DevExpress.XtraPrinting.Preview.PrintPreviewStaticItem()
       Me.ZoomTrackBarEditItem1 = New DevExpress.XtraPrinting.Preview.ZoomTrackBarEditItem()
       Me.RepositoryItemZoomTrackBar1 = New DevExpress.XtraEditors.Repository.RepositoryItemZoomTrackBar()
-      Me.PreviewBar3 = New DevExpress.XtraPrinting.Preview.PreviewBar()
+      Me.barDockControlTop = New DevExpress.XtraBars.BarDockControl()
+      Me.barDockControlBottom = New DevExpress.XtraBars.BarDockControl()
+      Me.barDockControlLeft = New DevExpress.XtraBars.BarDockControl()
+      Me.barDockControlRight = New DevExpress.XtraBars.BarDockControl()
       Me.PrintPreviewSubItem1 = New DevExpress.XtraPrinting.Preview.PrintPreviewSubItem()
       Me.PrintPreviewSubItem2 = New DevExpress.XtraPrinting.Preview.PrintPreviewSubItem()
       Me.PrintPreviewSubItem4 = New DevExpress.XtraPrinting.Preview.PrintPreviewSubItem()
@@ -506,10 +163,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrintPreviewBarItem28 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarItem()
       Me.BarToolbarsListItem1 = New DevExpress.XtraBars.BarToolbarsListItem()
       Me.PrintPreviewSubItem3 = New DevExpress.XtraPrinting.Preview.PrintPreviewSubItem()
-      Me.barDockControlTop = New DevExpress.XtraBars.BarDockControl()
-      Me.barDockControlBottom = New DevExpress.XtraBars.BarDockControl()
-      Me.barDockControlLeft = New DevExpress.XtraBars.BarDockControl()
-      Me.barDockControlRight = New DevExpress.XtraBars.BarDockControl()
       Me.PrintPreviewBarCheckItem1 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem()
       Me.PrintPreviewBarCheckItem2 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem()
       Me.PrintPreviewBarCheckItem3 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem()
@@ -527,16 +180,69 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrintPreviewBarCheckItem15 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem()
       Me.PrintPreviewBarCheckItem16 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem()
       Me.PrintPreviewBarCheckItem17 = New DevExpress.XtraPrinting.Preview.PrintPreviewBarCheckItem()
-      Me.PrintControl1 = New DevExpress.XtraPrinting.Control.PrintControl()
+      Me.GroupBox1.SuspendLayout()
+      Me.Panel2.SuspendLayout()
       CType(Me.PrintBarManager1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.PrintPreviewRepositoryItemComboBox1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.RepositoryItemProgressBar1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.RepositoryItemZoomTrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
+      'GroupBox1
+      '
+      Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.GroupBox1.Controls.Add(Me.Panel2)
+      Me.GroupBox1.Controls.Add(Me.Splitter2)
+      Me.GroupBox1.Controls.Add(Me.pnlFilter)
+      Me.GroupBox1.Location = New System.Drawing.Point(3, 33)
+      Me.GroupBox1.Name = "GroupBox1"
+      Me.GroupBox1.Size = New System.Drawing.Size(890, 421)
+      Me.GroupBox1.TabIndex = 3
+      Me.GroupBox1.TabStop = False
+      '
+      'Panel2
+      '
+      Me.Panel2.Controls.Add(Me.PrintControl1)
+      Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
+      Me.Panel2.Location = New System.Drawing.Point(3, 16)
+      Me.Panel2.Name = "Panel2"
+      Me.Panel2.Size = New System.Drawing.Size(756, 402)
+      Me.Panel2.TabIndex = 3
+      '
+      'PrintControl1
+      '
+      Me.PrintControl1.BackColor = System.Drawing.Color.Empty
+      Me.PrintControl1.Dock = System.Windows.Forms.DockStyle.Fill
+      Me.PrintControl1.ForeColor = System.Drawing.Color.Empty
+      Me.PrintControl1.IsMetric = False
+      Me.PrintControl1.Location = New System.Drawing.Point(0, 0)
+      Me.PrintControl1.Name = "PrintControl1"
+      Me.PrintControl1.Size = New System.Drawing.Size(756, 402)
+      Me.PrintControl1.TabIndex = 0
+      Me.PrintControl1.TooltipFont = New System.Drawing.Font("Tahoma", 8.25!)
+      '
+      'Splitter2
+      '
+      Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Right
+      Me.Splitter2.Location = New System.Drawing.Point(759, 16)
+      Me.Splitter2.Name = "Splitter2"
+      Me.Splitter2.Size = New System.Drawing.Size(3, 402)
+      Me.Splitter2.TabIndex = 1
+      Me.Splitter2.TabStop = False
+      '
+      'pnlFilter
+      '
+      Me.pnlFilter.Dock = System.Windows.Forms.DockStyle.Right
+      Me.pnlFilter.Location = New System.Drawing.Point(762, 16)
+      Me.pnlFilter.Name = "pnlFilter"
+      Me.pnlFilter.Size = New System.Drawing.Size(125, 402)
+      Me.pnlFilter.TabIndex = 0
+      '
       'PrintBarManager1
       '
-      Me.PrintBarManager1.Bars.AddRange(New DevExpress.XtraBars.Bar() {Me.PreviewBar1, Me.PreviewBar2, Me.PreviewBar3})
+      Me.PrintBarManager1.Bars.AddRange(New DevExpress.XtraBars.Bar() {Me.PreviewBar1, Me.PreviewBar2})
       Me.PrintBarManager1.DockControls.Add(Me.barDockControlTop)
       Me.PrintBarManager1.DockControls.Add(Me.barDockControlBottom)
       Me.PrintBarManager1.DockControls.Add(Me.barDockControlLeft)
@@ -544,7 +250,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrintBarManager1.Form = Me
       Me.PrintBarManager1.ImageStream = CType(resources.GetObject("PrintBarManager1.ImageStream"), DevExpress.Utils.ImageCollectionStreamer)
       Me.PrintBarManager1.Items.AddRange(New DevExpress.XtraBars.BarItem() {Me.PrintPreviewStaticItem1, Me.BarStaticItem1, Me.ProgressBarEditItem1, Me.PrintPreviewBarItem1, Me.BarButtonItem1, Me.PrintPreviewStaticItem2, Me.ZoomTrackBarEditItem1, Me.PrintPreviewBarItem2, Me.PrintPreviewBarItem3, Me.PrintPreviewBarItem4, Me.PrintPreviewBarItem5, Me.PrintPreviewBarItem6, Me.PrintPreviewBarItem7, Me.PrintPreviewBarItem8, Me.PrintPreviewBarItem9, Me.PrintPreviewBarItem10, Me.PrintPreviewBarItem11, Me.PrintPreviewBarItem12, Me.PrintPreviewBarItem13, Me.PrintPreviewBarItem14, Me.PrintPreviewBarItem15, Me.ZoomBarEditItem1, Me.PrintPreviewBarItem16, Me.PrintPreviewBarItem17, Me.PrintPreviewBarItem18, Me.PrintPreviewBarItem19, Me.PrintPreviewBarItem20, Me.PrintPreviewBarItem21, Me.PrintPreviewBarItem22, Me.PrintPreviewBarItem23, Me.PrintPreviewBarItem24, Me.PrintPreviewBarItem25, Me.PrintPreviewBarItem26, Me.PrintPreviewSubItem1, Me.PrintPreviewSubItem2, Me.PrintPreviewSubItem3, Me.PrintPreviewSubItem4, Me.PrintPreviewBarItem27, Me.PrintPreviewBarItem28, Me.BarToolbarsListItem1, Me.PrintPreviewBarCheckItem1, Me.PrintPreviewBarCheckItem2, Me.PrintPreviewBarCheckItem3, Me.PrintPreviewBarCheckItem4, Me.PrintPreviewBarCheckItem5, Me.PrintPreviewBarCheckItem6, Me.PrintPreviewBarCheckItem7, Me.PrintPreviewBarCheckItem8, Me.PrintPreviewBarCheckItem9, Me.PrintPreviewBarCheckItem10, Me.PrintPreviewBarCheckItem11, Me.PrintPreviewBarCheckItem12, Me.PrintPreviewBarCheckItem13, Me.PrintPreviewBarCheckItem14, Me.PrintPreviewBarCheckItem15, Me.PrintPreviewBarCheckItem16, Me.PrintPreviewBarCheckItem17})
-      Me.PrintBarManager1.MainMenu = Me.PreviewBar3
       Me.PrintBarManager1.MaxItemId = 57
       Me.PrintBarManager1.PreviewBar = Me.PreviewBar1
       Me.PrintBarManager1.PrintControl = Me.PrintControl1
@@ -556,9 +261,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.PreviewBar1.BarName = "Toolbar"
       Me.PreviewBar1.DockCol = 0
-      Me.PreviewBar1.DockRow = 1
+      Me.PreviewBar1.DockRow = 0
       Me.PreviewBar1.DockStyle = DevExpress.XtraBars.BarDockStyle.Top
+      Me.PreviewBar1.FloatLocation = New System.Drawing.Point(-1601, -157)
+      Me.PreviewBar1.FloatSize = New System.Drawing.Size(679, 62)
       Me.PreviewBar1.LinksPersistInfo.AddRange(New DevExpress.XtraBars.LinkPersistInfo() {New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem2), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem3), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem4), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem5, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem6, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem7), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem8, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem9), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem10), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem11), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem12), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem13, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem14), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem15, True), New DevExpress.XtraBars.LinkPersistInfo(Me.ZoomBarEditItem1), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem16), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem17, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem18), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem19), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem20), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem21, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem22), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem23), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem24, True), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem25), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem26, True)})
+      Me.PreviewBar1.Offset = 3
       Me.PreviewBar1.Text = "Toolbar"
       '
       'PrintPreviewBarItem2
@@ -936,16 +644,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.RepositoryItemZoomTrackBar1.ScrollThumbStyle = DevExpress.XtraEditors.Repository.ScrollThumbStyle.ArrowDownRight
       Me.RepositoryItemZoomTrackBar1.UseParentBackground = True
       '
-      'PreviewBar3
+      'barDockControlTop
       '
-      Me.PreviewBar3.BarName = "Main Menu"
-      Me.PreviewBar3.DockCol = 0
-      Me.PreviewBar3.DockRow = 0
-      Me.PreviewBar3.DockStyle = DevExpress.XtraBars.BarDockStyle.Top
-      Me.PreviewBar3.LinksPersistInfo.AddRange(New DevExpress.XtraBars.LinkPersistInfo() {New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewSubItem1), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewSubItem2), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewSubItem3)})
-      Me.PreviewBar3.OptionsBar.MultiLine = True
-      Me.PreviewBar3.OptionsBar.UseWholeRow = True
-      Me.PreviewBar3.Text = "Main Menu"
+      Me.barDockControlTop.CausesValidation = False
+      Me.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top
+      Me.barDockControlTop.Location = New System.Drawing.Point(0, 0)
+      Me.barDockControlTop.Size = New System.Drawing.Size(900, 31)
+      '
+      'barDockControlBottom
+      '
+      Me.barDockControlBottom.CausesValidation = False
+      Me.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom
+      Me.barDockControlBottom.Location = New System.Drawing.Point(0, 460)
+      Me.barDockControlBottom.Size = New System.Drawing.Size(900, 28)
+      '
+      'barDockControlLeft
+      '
+      Me.barDockControlLeft.CausesValidation = False
+      Me.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left
+      Me.barDockControlLeft.Location = New System.Drawing.Point(0, 31)
+      Me.barDockControlLeft.Size = New System.Drawing.Size(0, 429)
+      '
+      'barDockControlRight
+      '
+      Me.barDockControlRight.CausesValidation = False
+      Me.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right
+      Me.barDockControlRight.Location = New System.Drawing.Point(900, 31)
+      Me.barDockControlRight.Size = New System.Drawing.Size(0, 429)
       '
       'PrintPreviewSubItem1
       '
@@ -1004,34 +729,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrintPreviewSubItem3.Id = 35
       Me.PrintPreviewSubItem3.LinksPersistInfo.AddRange(New DevExpress.XtraBars.LinkPersistInfo() {New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem22), New DevExpress.XtraBars.LinkPersistInfo(Me.PrintPreviewBarItem23)})
       Me.PrintPreviewSubItem3.Name = "PrintPreviewSubItem3"
-      '
-      'barDockControlTop
-      '
-      Me.barDockControlTop.CausesValidation = False
-      Me.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top
-      Me.barDockControlTop.Location = New System.Drawing.Point(0, 0)
-      Me.barDockControlTop.Size = New System.Drawing.Size(898, 53)
-      '
-      'barDockControlBottom
-      '
-      Me.barDockControlBottom.CausesValidation = False
-      Me.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom
-      Me.barDockControlBottom.Location = New System.Drawing.Point(0, 443)
-      Me.barDockControlBottom.Size = New System.Drawing.Size(898, 28)
-      '
-      'barDockControlLeft
-      '
-      Me.barDockControlLeft.CausesValidation = False
-      Me.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left
-      Me.barDockControlLeft.Location = New System.Drawing.Point(0, 53)
-      Me.barDockControlLeft.Size = New System.Drawing.Size(0, 390)
-      '
-      'barDockControlRight
-      '
-      Me.barDockControlRight.CausesValidation = False
-      Me.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right
-      Me.barDockControlRight.Location = New System.Drawing.Point(898, 53)
-      Me.barDockControlRight.Size = New System.Drawing.Size(0, 390)
       '
       'PrintPreviewBarCheckItem1
       '
@@ -1205,27 +902,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrintPreviewBarCheckItem17.Id = 56
       Me.PrintPreviewBarCheckItem17.Name = "PrintPreviewBarCheckItem17"
       '
-      'PrintControl1
+      'ExtrasReportPanelView
       '
-      Me.PrintControl1.BackColor = System.Drawing.Color.Empty
-      Me.PrintControl1.Dock = System.Windows.Forms.DockStyle.Fill
-      Me.PrintControl1.ForeColor = System.Drawing.Color.Empty
-      Me.PrintControl1.IsMetric = True
-      Me.PrintControl1.Location = New System.Drawing.Point(0, 53)
-      Me.PrintControl1.Name = "PrintControl1"
-      Me.PrintControl1.Size = New System.Drawing.Size(898, 390)
-      Me.PrintControl1.TabIndex = 4
-      Me.PrintControl1.TooltipFont = New System.Drawing.Font("Tahoma", 8.25!)
-      '
-      'XtraForm
-      '
-      Me.ClientSize = New System.Drawing.Size(898, 471)
-      Me.Controls.Add(Me.PrintControl1)
+      Me.Controls.Add(Me.GroupBox1)
       Me.Controls.Add(Me.barDockControlLeft)
       Me.Controls.Add(Me.barDockControlRight)
       Me.Controls.Add(Me.barDockControlBottom)
       Me.Controls.Add(Me.barDockControlTop)
-      Me.Name = "XtraForm"
+      Me.Name = "ExtrasReportPanelView"
+      Me.Size = New System.Drawing.Size(900, 488)
+      Me.GroupBox1.ResumeLayout(False)
+      Me.Panel2.ResumeLayout(False)
       CType(Me.PrintBarManager1, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.PrintPreviewRepositoryItemComboBox1, System.ComponentModel.ISupportInitialize).EndInit()
       CType(Me.RepositoryItemProgressBar1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1233,5 +920,694 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ResumeLayout(False)
 
     End Sub
+
+#End Region
+
+#Region "Members"
+    Private m_filterSubPanel As IReportFilterSubPanel
+    Private m_entity As XReport
+
+    Private m_treeManager As TreeManager
+    Private m_pageCount As Integer
+    Private WithEvents newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+#End Region
+
+#Region "Constructors"
+    Public Sub New(ByVal entity As ISimpleEntity, ByVal handler As Object, ByVal basket As BasketDialog, ByVal filters As Filter(), ByVal entities As ArrayList)
+      MyBase.New()
+
+      InitializeComponent()
+      m_entity = CType(entity, XReport)
+
+      Me.CheckAccessRight()
+
+      Me.SetLabelText()
+      Me.TitleName = Me.StringParserService.Parse(m_entity.ListPanelTitle)
+      Me.PanelName = Me.Name
+
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      m_filterSubPanel = myEntityPanelService.GetReportFilterSubPanel(m_entity)
+
+      Dim filterControl As UserControl = CType(Me.m_filterSubPanel, UserControl)
+      Me.pnlFilter.Controls.Add(filterControl)
+      'Me.pnlFilter.Height = filterControl.Height
+      Me.pnlFilter.Width = filterControl.Width
+      AddHandler Me.m_filterSubPanel.SearchButton.Click, AddressOf btnSearch_Click
+
+      'AddHandler trZoom.ValueChanged, AddressOf trZoom_ValueChanged
+
+      'AddHandler txtCurrentPage.Validated, AddressOf txtCurrentPage_Validated
+      'AddHandler txtSearch.Validated, AddressOf txtSearch_Validated
+
+      'AddHandler newReport.AfterFormatPage, AddressOf ReportDocument_AfterFormatPage
+
+      'Dim dt As TreeTable = m_entity.GetSimpleSchemaTable
+      'Dim dst As DataGridTableStyle = m_entity.CreateSimpleTableStyle
+      'm_treeManager = New TreeManager(dt, tgItem)
+      'm_treeManager.SetTableStyle(dst)
+      'm_treeManager.AllowSorting = False
+      'm_treeManager.AllowDelete = False
+
+      ''Load All Report
+
+      'm_entity.PopupAvailableReport(cmbReportName)
+
+      ''Load àÅÂ
+      'btnSearch_Click(Nothing, Nothing)
+    End Sub
+    Private Sub CheckAccessRight()
+      Dim simpleentity As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName)
+
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim accessId As Integer = Longkong.Pojjaman.BusinessLogic.Entity.GetAccessIdFromFullClassName(simpleentity.FullClassName)
+
+      Dim level As Integer = secSrv.GetAccess(accessId)
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)
+      checkString = BinaryHelper.RevertString(checkString)
+      'Trace.WriteLine(checkString)
+      If CBool(checkString.Substring(3, 1)) Then
+        'btnPrint.Enabled = True
+        'btnExport.Enabled = True
+      Else
+        'btnPrint.Enabled = False
+        'btnExport.Enabled = False
+      End If
+
+    End Sub
+#End Region
+
+#Region "Properties"
+    'Public Property TotalPageCount As Integer
+    '  Get
+    '    Return m_pageCount
+    '  End Get
+    '  Set(ByVal value As Integer)
+    '    m_pageCount = value
+    '    If m_pageCount > 0 Then
+    '      SetPageLabel()
+    '    End If
+    '  End Set
+    'End Property
+    'Public Property SearchLooPCout As Integer
+    'Public Property PercentZoom As String
+    'Public Property ReportName As String
+#End Region
+
+#Region "Methods"
+    Public Sub ChangeTitle(ByVal sender As Object, ByVal e As EventArgs) Implements ISimpleListPanel.ChangeTitle
+      If Me.WorkbenchWindow.ActiveViewContent Is Me Then
+        Me.TitleName = Me.StringParserService.Parse(m_entity.ListPanelTitle)
+        Return
+      End If
+      'If Not m_selectedEntity Is Nothing Then
+      '    Me.TitleName = m_selectedEntity.TabPageText
+      'End If
+    End Sub
+    Public Sub OnEntityPropertyChanged(ByVal sender As Object, ByVal e As EventArgs)
+      RaiseEvent EntityPropertyChanged(sender, e)
+    End Sub
+#End Region
+
+#Region "Event Handlers"
+    Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+      Dim filters As Filter() = Me.m_filterSubPanel.GetFilterArray
+      'Dim fixVals As DocPrintingItemCollection = Me.m_filterSubPanel.GetFixValueCollection
+      m_entity.Filters = filters
+      'm_entity.FixValueCollection = fixVals
+      'm_entity.RefreshDataSet()
+      'm_entity.ListInGrid(m_treeManager)
+
+      RefreshReport()
+      'btnFirst.Enabled = False
+      'btnBack.Enabled = False
+    End Sub
+    Private Sub RefreshEditableStatus()
+      'WorkbenchSingleton.Workbench.RedrawAllComponents()
+    End Sub
+
+    Public Overridable Sub RefreshReport()
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+
+      Dim reportName As String = Me.m_entity.FullReportName
+      'If cmbReportName.Items.Count = 0 Then
+      '  Return
+      '  'reportName = Me.m_entity.FullReportName
+      'Else
+      '  reportName = Me.m_entity.GetSelectedFullReportName(cmbReportName)
+      'End If
+
+      Me.RefreshReport(reportName)
+
+      'Me.RefreshReport(m_entity.FullReportName, m_entity.Filters)
+    End Sub
+    Public Overridable Sub RefreshReport(ByVal sReportName As String)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+
+      If Not IO.File.Exists(sReportName) Then
+        MessageBox.Show("Report File '" & sReportName & "' not found")
+        Return
+      End If
+
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim currentUserName As String = secSrv.CurrentUser.Name
+
+      Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
+
+      Dim newReport As New XtraReport()
+      Dim paraMeter As XtraReports.Parameters.Parameter
+
+      'CrystalReportViewer1.SetProductLocale(culture)
+
+      'Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+      'Dim ConInfo As New CrystalDecisions.Shared.TableLogOnInfo
+      'Dim paraValue As New CrystalDecisions.Shared.ParameterDiscreteValue
+      'Dim currValue As New CrystalDecisions.Shared.ParameterValues
+
+      'Dim newSubReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+      'Dim mySubReportObject As CrystalDecisions.CrystalReports.Engine.SubreportObject
+
+      'Dim strParValPair() As String
+      'Dim strVal() As String
+      'Dim index As Integer
+
+      Try
+        newReport = XtraReport.FromFile(sReportName, True)
+
+
+
+
+        newReport.DataSource = Me.m_entity.GetDataSource()
+
+        '--Company Logo--
+        Dim xrLogoPictureBox As Object = newReport.FindControl("CompanyLogo", True)
+        If Not xrLogoPictureBox Is Nothing AndAlso TypeOf xrLogoPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+          Dim logoImage As Image = EntitySimpleSchema.GetCompanyConfigLogo
+          CType(xrLogoPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = logoImage
+        End If
+        '--Company Logo--
+
+        '--Company Config--
+        Dim dsConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
+        Dim rows As New DataRowHelper(dsConfig.Tables(0).Rows(0))
+        Dim xrCompanyNameRichText As Object = newReport.FindControl("CompanyName", True)
+        If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyName", "")
+        End If
+        Dim xrCompanyAddressRichText As Object = newReport.FindControl("CompanyAddress", True)
+        If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyAddress", "")
+        End If
+        Dim xrCompanyBillingAddressRichText As Object = newReport.FindControl("CompanyBillingAddress", True)
+        If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
+        End If
+        Dim xrCompanyPhoneFaxRichText As Object = newReport.FindControl("CompanyPhoneCompanyFax", True)
+        If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("â·ÃÈÑ¾·ì {0} â·ÃÊÒÃ {1}", rows.GetValue(Of String)("CompanyPhoneCompanyFax", ""), rows.GetValue(Of String)("CompanyFax", ""))
+        End If
+        Dim xrCompanyPhoneRichText As Object = newReport.FindControl("CompanyPhone", True)
+        If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyPhone", "")
+        End If
+        Dim xrCompanyFaxRichText As Object = newReport.FindControl("CompanyFax", True)
+        If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyFax", "")
+        End If
+        Dim xrCompanyTaxIdRichText As Object = newReport.FindControl("CompanyTaxId", True)
+        If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRRichText Then
+          CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("àÅ¢»ÃÐ¨ÓµÑÇ¼ÙéàÊÕÂÀÒÉÕ {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
+        End If
+        '--Company Config--
+
+        'paraMeter = New XtraReports.Parameters.Parameter()
+        'paraMeter.Name = "DocDateStart"
+        'paraMeter.Type = GetType(System.DateTime)
+        'paraMeter.Value = "2011-01-01"
+        ''paraMeter.Description = "DocDate Start"
+        'newReport.Parameters.Add(paraMeter)
+
+        'Parameter = New XtraReports.Parameters.Parameter()
+        'paraMeter.Name = "ChkDetailDoc"
+        'paraMeter.Type = GetType(System.Boolean)
+        'paraMeter.Value = True
+        ''paraMeter.Description = "DocDate End"
+        'newReport.Parameters.Add(Parameter)
+
+        'newReport.RequestParameters = True
+
+        For i As Integer = 0 To newReport.Parameters.Count - 1
+          'If newReport.Parameters(i).Name.ToLower = "ChkDetailDoc".ToLower Then
+          '  newReport.Parameters(i).Value = 1
+          'ElseIf newReport.Parameters(i).Name.ToLower = "ChkOpb".ToLower Then
+          '  newReport.Parameters(i).Value = True
+          'Else
+          For Each _filter As Filter In m_entity.Filters
+            If newReport.Parameters(i).Name.ToLower = _filter.Name.ToLower Then
+              newReport.Parameters(i).Value = _filter.Value
+            End If
+          Next
+          'End If
+
+
+          newReport.Parameters(i).Visible = False
+        Next
+
+        'CompanyName
+        'CompanyAddress
+        'CompanyBillingAddress
+        'CompanyPhone
+        'companyFax
+        'CompanyTaxId
+        'CompanyLogo
+
+        'newReport.ShowPreviewMarginLines = False
+
+        PrintControl1.PrintingSystem = newReport.PrintingSystem
+
+        PrintControl1.ShowPageMargins = False
+
+        PrintControl1.Refresh()
+
+        newReport.CreateDocument()
+
+
+        'Show the Document Map button. 
+        newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.DocumentMap, XtraPrinting.CommandVisibility.All)
+        newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Watermark, XtraPrinting.CommandVisibility.None)
+        newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Customize, XtraPrinting.CommandVisibility.None)
+        newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.SendFile, XtraPrinting.CommandVisibility.None)
+
+        '    newReport.PrintingSystem.doc()
+
+        '    newReport.PrintingSystem.PreviewForm.PrintControl.ExecCommand()
+        '(PrintingSystemCommand.DocumentMap, new object[] {false})
+
+        'newReport.Load(sReportName)
+
+        'If Not filters Is Nothing Then
+        '  For Each flr As Filter In filters
+        '    paraValue.Value = flr.Value
+        '    currValue = newReport.DataDefinition.ParameterFields(flr.Name).CurrentValues
+        '    currValue.Add(paraValue)
+        '    newReport.DataDefinition.ParameterFields(flr.Name).ApplyCurrentValues(currValue)
+
+        '    'Trace.WriteLine(flr.Name & " : " & flr.Value.ToString)
+        '  Next
+
+        '  paraValue.Value = culture
+        '  currValue = newReport.DataDefinition.ParameterFields("@Culture").CurrentValues
+        '  currValue.Add(paraValue)
+        '  newReport.DataDefinition.ParameterFields("@Culture").ApplyCurrentValues(currValue)
+
+        '  paraValue.Value = currentUserName
+        '  currValue = newReport.DataDefinition.ParameterFields("@CurrentUserName").CurrentValues
+        '  currValue.Add(paraValue)
+        '  newReport.DataDefinition.ParameterFields("@CurrentUserName").ApplyCurrentValues(currValue)
+
+        'End If
+
+        'intCounter = newReport.DataDefinition.ParameterFields.Count
+
+        'If intCounter = 1 Then
+        '  If InStr(newReport.DataDefinition.ParameterFields(0).ParameterFieldName, ".", CompareMethod.Text) > 0 Then
+        '    intCounter = 0
+        '  End If
+        'End If
+
+        'If intCounter > 0 And Trim(param) <> "" Then
+        '  strParValPair = param.Split("&")
+
+        '  For index = 0 To UBound(strParValPair)
+        '    If InStr(strParValPair(index), "=") > 0 Then
+        '      strVal = strParValPair(index).Split("=")
+        '      paraValue.Value = strVal(1)
+        '      currValue = newReport.DataDefinition.ParameterFields(strVal(0)).CurrentValues
+        '      currValue.Add(paraValue)
+        '      newReport.DataDefinition.ParameterFields(strVal(0)).ApplyCurrentValues(currValue)
+        '    End If
+        '  Next
+        'End If
+
+        'ConInfo.ConnectionInfo.UserID = SqlHelper.GetUserID(Me.m_entity.RealConnectionString)
+        'ConInfo.ConnectionInfo.Password = SqlHelper.GetPassword(Me.m_entity.RealConnectionString)
+        'ConInfo.ConnectionInfo.ServerName = SqlHelper.GetInstanceName(Me.m_entity.RealConnectionString)
+        'ConInfo.ConnectionInfo.DatabaseName = SqlHelper.GetDBName(Me.m_entity.RealConnectionString)
+
+        'For intCounter = 0 To newReport.Database.Tables.Count - 1
+        '  newReport.Database.Tables(intCounter).ApplyLogOnInfo(ConInfo)
+        'Next
+
+        'For index = 0 To newReport.ReportDefinition.Sections.Count - 1
+        '  For intCounter = 0 To newReport.ReportDefinition.Sections(index).ReportObjects.Count - 1
+        '    With newReport.ReportDefinition.Sections(index)
+        '      If .ReportObjects(intCounter).Kind = CrystalDecisions.Shared.ReportObjectKind.SubreportObject Then
+        '        mySubReportObject = CType(.ReportObjects(intCounter), CrystalDecisions.CrystalReports.Engine.SubreportObject)
+        '        mySubRepDoc = mySubReportObject.OpenSubreport(mySubReportObject.SubreportName)
+        '        For intCounter1 = 0 To mySubRepDoc.Database.Tables.Count - 1
+        '          mySubRepDoc.Database.Tables(intCounter1).ApplyLogOnInfo(ConInfo)
+        '          mySubRepDoc.Database.Tables(intCounter1).ApplyLogOnInfo(ConInfo)
+        '        Next
+        '      End If
+        '    End With
+        '  Next
+        'Next
+
+        'For Each crTable As CrystalDecisions.CrystalReports.Engine.Table In newReport.Database.Tables
+        '  crTable.ApplyLogOnInfo(ConInfo)
+        'Next
+        'For Each subReport As CrystalDecisions.CrystalReports.Engine.ReportDocument In newReport.Subreports
+        '  For Each crTable As CrystalDecisions.CrystalReports.Engine.Table In subReport.Database.Tables
+        '    crTable.ApplyLogOnInfo(ConInfo)
+        '  Next
+        'Next
+
+        'If sSelectionFormula.Length > 0 Then
+        '  newReport.RecordSelectionFormula = sSelectionFormula
+        'End If
+        'Re setting control 
+        'CrystalReportViewer1.ReportSource = Nothing
+
+        'Set the current report object to report.
+        'CrystalReportViewer1.ReportSource = newReport
+
+        'CrystalReportViewer1.Show()
+
+        'Me.TotalPageCount = newReport.ReportRequestStatus.NumberOfPages
+        'MessageBox.Show(newReport.ReportRequestStatus.NumberOfPages.ToString)
+
+        'CrystalReportViewer1.Zoom(1)
+        'CrystalReportViewer1.SetProductLocale("th-TH")
+
+        'SetPageLabel()
+        'TotalPageCount = newReport.ReportRequestStatus.NumberOfPages
+        'MessageBox.Show(newReport.ReportRequestStatus.NumberOfPages.ToString)
+      Catch ex As System.Exception
+        MsgBox(ex.Message)
+      End Try
+    End Sub
+#End Region
+
+#Region "ISimpleListPanel"
+    Public Event EntitySelected(ByVal e As ISimpleEntity) Implements ISimpleListPanel.EntitySelected
+    Public Event EntityPropertyChanged(ByVal sender As Object, ByVal e As System.EventArgs) Implements ISimpleEntityPanel.EntityPropertyChanged
+
+    Public Sub CheckFormEnable() Implements ISimpleEntityPanel.CheckFormEnable
+
+    End Sub
+    Public Sub ClearDetail() Implements ISimpleEntityPanel.ClearDetail
+
+    End Sub
+
+    Public Property Entity() As BusinessLogic.ISimpleEntity Implements ISimpleEntityPanel.Entity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = CType(Value, XReport)
+      End Set
+    End Property
+    Public Sub Initialize() Implements ISimpleEntityPanel.Initialize
+
+    End Sub
+    Public Sub SetLabelText() Implements ISimpleEntityPanel.SetLabelText
+      If Not m_entity Is Nothing Then
+        Me.Text = Me.StringParserService.Parse(m_entity.ListPanelTitle)
+      End If
+    End Sub
+    Public Sub UpdateEntityProperties() Implements ISimpleEntityPanel.UpdateEntityProperties
+
+    End Sub
+    Private Sub CloseHandler(ByVal sender As Object, ByVal e As EventArgs)
+      'Dim dlg As Longkong.Pojjaman.Gui.Dialogs.PanelDialog = CType(sender, Longkong.Pojjaman.Gui.Dialogs.PanelDialog)
+      'Dim row As DataRow = CType(dlg.Control, AssetSelectionView).SelectedRow
+      'If dlg.DialogResult <> DialogResult.OK OrElse row Is Nothing Then
+      '    Return
+      'End If
+      'm_selectedEntity = New Asset(row)
+      'If Not m_selectedEntity Is Nothing Then
+      '    AddHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+      'End If
+      'If TypeOf Me.WorkbenchWindow.ActiveViewContent Is ISecondaryViewContent Then
+      '    For Each view As ISimpleEntityPanel In Me.WorkbenchWindow.SubViewContents
+      '        view.Entity = m_selectedEntity
+      '    Next
+      'End If
+      'If Not TypeOf Me.WorkbenchWindow.ActiveViewContent Is ISecondaryViewContent Then
+      '    Me.WorkbenchWindow.SwitchView(1)
+      'End If
+    End Sub
+    Public Sub AddNew() Implements ISimpleListPanel.AddNew
+
+    End Sub
+    Public Sub RefreshData(ByVal id As String) Implements ISimpleListPanel.RefreshData
+
+    End Sub
+    Public Property SelectedEntity() As BusinessLogic.ISimpleEntity Implements ISimpleListPanel.SelectedEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As BusinessLogic.ISimpleEntity)
+        Me.m_entity = CType(Value, XReport)
+      End Set
+    End Property
+    Public ReadOnly Property Icon() As String Implements ISimplePanel.Icon
+      Get
+        Return Me.m_entity.ListPanelIcon
+      End Get
+    End Property
+    Public Sub ShowInPad() Implements ISimplePanel.ShowInPad
+      Return
+    End Sub
+    Public ReadOnly Property Title() As String Implements ISimplePanel.Title
+      Get
+        Return Me.m_entity.ListPanelTitle
+      End Get
+    End Property
+#End Region
+
+#Region "Overrides"
+    Public Overrides ReadOnly Property TabPageText() As String
+      Get
+        Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExtrasReportPanelView.TabPageText}")
+      End Get
+    End Property
+#End Region
+
+#Region "IClipboardHandler"
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        If Not Me.m_filterSubPanel Is Nothing Then
+          Return Me.m_filterSubPanel.EnablePaste
+        End If
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      If Not Me.m_filterSubPanel Is Nothing AndAlso Me.m_filterSubPanel.EnablePaste Then
+        Me.m_filterSubPanel.Paste(sender, e)
+      End If
+    End Sub
+#End Region
+
+    'Private Sub ReportDocument_AfterFormatPage(ByVal e As CrystalDecisions.CrystalReports.Engine.FormatPageEventArgs)
+    '  'TotalPageCount = newReport.ReportRequestStatus.NumberOfPages
+    '  Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+    '  'MessageBox.Show(newReport.ReportRequestStatus.NumberOfPages.ToString)
+
+    'End Sub
+
+    'Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  CrystalReportViewer1.PrintReport()
+    'End Sub
+
+    'Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  CrystalReportViewer1.AllowedExportFormats = ExportReportFormats()
+    '  CrystalReportViewer1.ExportReport()
+    'End Sub
+    'Private Function ExportReportFormats() As Integer
+    '  Dim myExpf As Integer = CrystalDecisions.Shared.ViewerExportFormats.PdfFormat Or CrystalDecisions.Shared.ViewerExportFormats.CsvFormat Or _
+    '                          CrystalDecisions.Shared.ViewerExportFormats.ExcelFormat Or CrystalDecisions.Shared.ViewerExportFormats.XLSXFormat Or _
+    '                          CrystalDecisions.Shared.ViewerExportFormats.XmlFormat
+    '  Return myExpf
+    '  'myExpf = CrystalDecisions.Shared.ViewerExportFormats.PdfFormat
+    '  'myExpf = CrystalDecisions.Shared.ViewerExportFormats.RptFormat
+    '  'myExpf = CrystalDecisions.Shared.ViewerExportFormats.RptFormat
+    '  'myExpf = CrystalDecisions.Shared.ViewerExportFormats.RptFormat
+    '  'myExpf = CrystalDecisions.Shared.ViewerExportFormats.RptFormat
+
+    '  'int myFOpts = (int)(CrystalDecisions.Shared.ViewerExportFormats.RptFormat | CrystalDecisions.Shared.ViewerExportFormats.PdfFormat | CrystalDecisions.Shared.ViewerExportFormats.RptrFormat | CrystalDecisions.Shared.ViewerExportFormats.XLSXFormat );
+    'End Function
+
+    'Private Sub btnMove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  Select Case CType(sender, Button).Name
+    '    Case btnFirst.Name
+    '      CrystalReportViewer1.ShowFirstPage()
+    '    Case btnBack.Name
+    '      CrystalReportViewer1.ShowPreviousPage()
+    '    Case btnNext.Name
+    '      CrystalReportViewer1.ShowNextPage()
+    '    Case btnLast.Name
+    '      CrystalReportViewer1.ShowLastPage()
+    '    Case btnFit.Name
+    '      CrystalReportViewer1.Zoom(1)
+
+    '      RemoveHandler trZoom.ValueChanged, AddressOf trZoom_ValueChanged
+    '      trZoom.Value = 4
+    '      AddHandler trZoom.ValueChanged, AddressOf trZoom_ValueChanged
+    '  End Select
+    '  SetPageLabel()
+    '  SetEnableButton()
+    'End Sub
+    'Private Sub btnSelectReport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSelectReport.Click
+    '  'Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView
+    '  'myAuxPanel.Entity = Me.m_entity
+    '  'Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
+    '  'If myDialog.ShowDialog() = DialogResult.Cancel Then
+    '  '  Me.WorkbenchWindow.ViewContent.IsDirty = False
+    '  'End If
+    'End Sub
+    'Private Sub SetPageLabel()
+    '  If Me.TotalPageCount > 0 Then
+    '    RemoveHandler txtCurrentPage.Validated, AddressOf txtCurrentPage_Validated
+    '    If CrystalReportViewer1.GetCurrentPageNumber = -1 Then
+    '      Me.txtCurrentPage.Text = "1"
+    '    Else
+    '      Me.txtCurrentPage.Text = CrystalReportViewer1.GetCurrentPageNumber.ToString
+    '    End If
+
+    '    AddHandler txtCurrentPage.Validated, AddressOf txtCurrentPage_Validated
+    '  End If
+
+    '  Me.lblPage.Text = "/" & Me.TotalPageCount.ToString
+    'End Sub
+    'Private Sub SetEnableButton()
+
+    '  If Me.TotalPageCount = 1 Then
+    '    btnFirst.Enabled = False
+    '    btnBack.Enabled = False
+    '    btnNext.Enabled = False
+    '    btnLast.Enabled = False
+    '  ElseIf CrystalReportViewer1.GetCurrentPageNumber = 1 Then
+    '    btnFirst.Enabled = False
+    '    btnBack.Enabled = False
+    '    btnNext.Enabled = True
+    '    btnLast.Enabled = True
+    '  ElseIf CrystalReportViewer1.GetCurrentPageNumber = Me.TotalPageCount Then
+    '    btnFirst.Enabled = True
+    '    btnBack.Enabled = True
+    '    btnNext.Enabled = False
+    '    btnLast.Enabled = False
+    '  Else
+    '    btnFirst.Enabled = True
+    '    btnBack.Enabled = True
+    '    btnNext.Enabled = True
+    '    btnLast.Enabled = True
+    '  End If
+    'End Sub
+
+    'Private Sub trZoom_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    '  Dim direction As Int16
+    '  Select Case trZoom.Value
+    '    Case Is = 4
+    '      direction = 0
+    '    Case Is < 4
+    '      direction = -1
+    '    Case Is > 4
+    '      direction = 1
+    '  End Select
+    '  Dim x As Integer = (Math.Abs(4 - trZoom.Value) * 2) - 1
+    '  x = (x * 15) * direction
+    '  x = 100 + x
+
+    '  If x < 0 Then
+    '    PercentZoom = ""
+    '  Else
+    '    PercentZoom = x.ToString & " %"
+    '    CrystalReportViewer1.Zoom(x)
+    '  End If
+
+    'End Sub
+
+    'Private Sub CrystalReportViewer1_ReportRefresh(ByVal source As Object, ByVal e As CrystalDecisions.Windows.Forms.ViewerEventArgs) Handles CrystalReportViewer1.ReportRefresh
+    '  Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+    '  newReport = CType(CrystalReportViewer1.ReportSource, CrystalDecisions.CrystalReports.Engine.ReportDocument)
+    '  MessageBox.Show(newReport.ReportRequestStatus.NumberOfPages.ToString)
+    'End Sub
+
+    'Private Sub CrystalReportViewer1_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs)
+    '  If CrystalReportViewer1.ReportSource Is Nothing Then
+    '    Return
+    '  End If
+    '  Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+    '  newReport = CType(CrystalReportViewer1.ReportSource, CrystalDecisions.CrystalReports.Engine.ReportDocument)
+    '  Me.TotalPageCount = newReport.ReportRequestStatus.NumberOfPages
+    'End Sub
+
+    'Private Sub CrystalReportViewer1_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles CrystalReportViewer1.Validated
+    '  If CrystalReportViewer1.ReportSource Is Nothing Then
+    '    Return
+    '  End If
+    '  Dim newReport As New CrystalDecisions.CrystalReports.Engine.ReportDocument
+    '  newReport = CType(CrystalReportViewer1.ReportSource, CrystalDecisions.CrystalReports.Engine.ReportDocument)
+    '  Me.TotalPageCount = newReport.ReportRequestStatus.NumberOfPages
+    'End Sub
+
+    'Private Sub txtSearch_Validated(ByVal sender As Object, ByVal e As System.EventArgs)
+    '  Me.SearchForText(CType(sender, TextBox).Text)
+    'End Sub
+    'Private Sub txtCurrentPage_Validated(ByVal sender As Object, ByVal e As System.EventArgs)
+    '  If IsNumeric(CType(sender, TextBox).Text) Then
+    '    Dim val As Integer = CInt(CType(sender, TextBox).Text)
+    '    If val > Me.TotalPageCount Then
+    '      val = Me.TotalPageCount
+    '    ElseIf val <= 0 Then
+    '      val = 1
+    '    End If
+    '    Try
+    '      CrystalReportViewer1.ShowNthPage(val)
+    '    Catch ex As Exception
+
+    '    End Try
+    '  End If
+    '  Me.SetPageLabel()
+    'End Sub
+
+    'Private Sub btnSearch_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '  Me.SearchForText(txtSearch.Text)
+    'End Sub
+    'Private Function SearchForText(ByVal text As String) As Boolean
+    '  If Me.CrystalReportViewer1.SearchForText(text) Then
+    '    Me.SetPageLabel()
+    '    Me.SetEnableButton()
+    '    Me.SearchLooPCout = 0
+    '    Return True
+    '  Else
+    '    If Me.SearchLooPCout >= 1 Then
+    '      Me.SetPageLabel()
+    '      Me.SetEnableButton()
+    '      Me.SearchLooPCout = 0
+    '      MessageBox.Show("Not found '" & text.Trim & "'")
+    '      Return False
+    '    Else
+    '      Me.SearchLooPCout += 1
+    '      Me.CrystalReportViewer1.ShowFirstPage()
+    '      Me.SearchForText(text)
+    '    End If
+    '  End If
+    'End Function
+
+    'Private Sub trZoom_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs)
+    '  btnFit.Text = "Fit"
+    'End Sub
+
+    'Private Sub trZoom_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
+    '  btnFit.Text = Me.PercentZoom
+    'End Sub
+
   End Class
 End Namespace
+

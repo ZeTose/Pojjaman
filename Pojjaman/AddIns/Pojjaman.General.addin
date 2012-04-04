@@ -96,7 +96,8 @@
 			<MenuItem id="OptionSeparator" label="-"/>
 			<MenuItem id="Options" label="${res:MainMenu.ToolMenu.Options}" icon="Icons.16x16.Options" description="${res:MainMenu.ToolMenu.Options.Description}" class="Longkong.Pojjaman.Commands.OptionsCommand"/>
 			<MenuItem id="DBTool" label="DBTool" icon="Icons.16x16.Options" description="DBTool" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
-			<MenuItem id="Backup" label="Backup" icon="Icons.16x16.Options" description="Backup" class="Longkong.Pojjaman.Commands.Backup"/>
+      <MenuItem id="Backup" label="Backup" icon="Icons.16x16.Options" description="Backup" class="Longkong.Pojjaman.Commands.Backup"/>
+      <MenuItem id="SchemaExport" label="Schema Export" icon="Icons.16x16.Options" description="Schema Export" class="Longkong.Pojjaman.Commands.SchemaExport"/>
 		</MenuItem>
 		
 		<MenuItem id="Window" insertafter="GeneralSetting" insertbefore="Help" label="${res:MainMenu.WindowMenu}">

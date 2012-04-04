@@ -22,6 +22,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IUseCrystalReport
 
   End Interface
+  Public Interface IUseXtrasReport
+
+  End Interface
   Public Class Report
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity
