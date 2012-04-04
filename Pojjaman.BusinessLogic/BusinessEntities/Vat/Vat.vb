@@ -1065,6 +1065,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If TypeOf Me.RefDoc Is ISimpleEntity Then
         refDocType = CType(Me.RefDoc, ISimpleEntity).EntityId
       End If
+
+      Dim myCC As CostCenter
+      Dim hasCC As Boolean = False
+      If TypeOf Me.RefDoc Is APVatInput Then
+        hasCC = True
+        myCC = CType(Me.RefDoc, APVatInput).GetCCFromItem()
+        If myCC Is Nothing OrElse Not myCC.Originated Then
+          myCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        End If
+      End If
+
+
       With ds.Tables("Vatitem")
         For Each row As DataRow In .Rows
           row.Delete()
@@ -1098,7 +1110,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           dr("vati_amt") = Configuration.Format(item.Amount, DigitConfig.Price)
           dr("vati_note") = item.Note
           dr("vati_direction") = myDirection
-          dr("vati_cc") = item.CcId
+          If hasCC Then
+            dr("vati_cc") = myCC.Id
+          Else
+            dr("vati_cc") = item.CcId
+          End If
           dr("vati_submitaldate") = ValidDateOrDBNull(item.SubmitalDate)
           dr("vati_group") = ValidIdOrDBNull(item.VatGroup)
           If item.Refdoc = 0 Then

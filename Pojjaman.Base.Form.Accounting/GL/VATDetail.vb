@@ -867,6 +867,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				Return
 			End If
 
+
+
 			Dim doc As VatItem = Me.CurrentItem
 
 			If TypeOf m_entity Is ReceiveSelection Then
@@ -900,13 +902,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
 					End If
 
 					Me.m_treeManager.SelectedRow.Tag = doc
-				End If
-			Else
-				If doc Is Nothing Then
-					doc = New VatItem
-					Me.m_vat.ItemCollection.Add(doc)
-					Me.m_treeManager.SelectedRow.Tag = doc
-				End If
+        End If
+        'ElseIf TypeOf m_entity Is APVatInput Then
+        '  If doc Is Nothing Then
+
+        '    'Dim myCC As CostCenter = CType(m_entity, APVatInput).GetCCFromItem()
+        '    'If myCC Is Nothing OrElse Not myCC.Originated Then
+        '    '  myCC = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+        '    'End If
+
+        '    doc = New VatItem
+
+        '    'doc.CcId = myCC.Id
+
+        '    Me.m_vat.ItemCollection.Add(doc)
+        '    Me.m_treeManager.SelectedRow.Tag = doc
+
+        '  End If
+      Else
+        If doc Is Nothing Then
+          doc = New VatItem
+          Me.m_vat.ItemCollection.Add(doc)
+          Me.m_treeManager.SelectedRow.Tag = doc
+        End If
 			End If
 
 			Try

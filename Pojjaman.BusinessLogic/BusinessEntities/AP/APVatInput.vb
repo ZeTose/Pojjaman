@@ -816,11 +816,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           ji = New JournalEntryItem
           ji.Mapping = "B8.4D"
           ji.Amount = Configuration.Format(vati.Amount, DigitConfig.Price)
-          If vati.CcId <= 0 Then
-            ji.CostCenter = myCC
-          Else
-            ji.CostCenter = vati.CostCenter
-          End If
+          'If vati.CcId <= 0 Then
+          ji.CostCenter = myCC
+          'Else
+          '  ji.CostCenter = vati.CostCenter
+          'End If
           ji.EntityItem = Me.Id
           ji.EntityItemType = Me.EntityId
           ji.Note = vati.Code & ":" & vati.Runnumber & ":" & vati.PrintName
@@ -835,11 +835,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'ji.Amount = Configuration.Format(apvi.TaxAmountDeducted, DigitConfig.Price)
           'เปลี่ยนเป็นตรงเลย เพราะต้องใช้
           ji.Amount = Configuration.Format(apvi.VatAmt, DigitConfig.Price)
-          If apvi.CostCenterId <= 0 Then
-            ji.CostCenter = myCC
-          Else
-            ji.CostCenter = New CostCenter(apvi.CostCenterId)
-          End If
+          'If apvi.CostCenterId <= 0 Then
+          ji.CostCenter = myCC
+          'Else
+          '  ji.CostCenter = New CostCenter(apvi.CostCenterId)
+          'End If
           ji.EntityItem = apvi.Id
           ji.EntityItemType = apvi.EntityId
           ji.Note = apvi.Code & ":" & apvi.itemType & "/" & Me.Supplier.Name
