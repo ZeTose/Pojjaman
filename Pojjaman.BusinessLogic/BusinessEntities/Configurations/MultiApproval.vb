@@ -97,7 +97,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim docDateEnd As Object = DBNull.Value
       Dim costCenterCodeList As Object = DBNull.Value
 
-      If Not m_advanceFilter Is Nothing AndAlso m_advanceFilter.IsAdvanceFiltering Then
+      If Not m_advanceFilter Is Nothing Then
         If Not Me.m_advanceFilter.CodePrefix Is Nothing AndAlso Me.m_advanceFilter.CodePrefix.Length > 0 Then
           codePreFix = Me.m_advanceFilter.CodePrefix
         End If
@@ -107,8 +107,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not Me.m_advanceFilter.DocDateEnd.Equals(Date.MinValue) Then
           docDateEnd = Me.m_advanceFilter.DocDateEnd
         End If
-        If Not Me.m_advanceFilter.CostCenterCodeList Is Nothing AndAlso Me.m_advanceFilter.CostCenterCodeList.Length > 0 Then
-          costCenterCodeList = Me.m_advanceFilter.CostCenterCodeList
+        If m_advanceFilter.IsAdvanceFiltering Then
+          If Not Me.m_advanceFilter.CostCenterCodeList Is Nothing AndAlso Me.m_advanceFilter.CostCenterCodeList.Length > 0 Then
+            costCenterCodeList = Me.m_advanceFilter.CostCenterCodeList
+          End If
         End If
       End If
 
@@ -275,7 +277,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         If m_advanceFilter Is Nothing Then
           m_advanceFilter = New MultiApproveAdvanceFilter
-          m_advanceFilter.CostCenterCodeCollection = New ArrayList
+          'm_advanceFilter.CostCenterCodeCollection = New ArrayList
         End If
         Return m_advanceFilter
       End Get
@@ -497,18 +499,27 @@ Public Class MultiApproveAdvanceFilter
     CodePrefix = ""
     DocDateStart = Date.MinValue
     DocDateEnd = Date.MinValue
-    CostCenterCodeCollection = New ArrayList
+    CostCenterCollection = New ArrayList
+    m_costCenterCodeCollection = New ArrayList
   End Sub
 
   Public Property CodePrefix As String
   Private m_costCenterCodeCollection As ArrayList
-  Public Property CostCenterCodeCollection As ArrayList
+  Public Property CostCenterCollection As ArrayList
+  Public ReadOnly Property CostCenterCodeCollection As ArrayList
     Get
+      Dim ccItem As String
+      For Each item As String In CostCenterCollection
+        ccItem = item.ToString.Split(":"c)(0).Trim
+
+        m_costCenterCodeCollection.Add(ccItem)
+
+      Next
       Return m_costCenterCodeCollection
     End Get
-    Set(value As ArrayList)
-      m_costCenterCodeCollection = value
-    End Set
+    'Set(value As ArrayList)
+    '  m_costCenterCodeCollection = value
+    'End Set
   End Property
   Public Property DocDateStart As Date
   Public Property DocDateEnd As Date
@@ -519,10 +530,11 @@ Public Class MultiApproveAdvanceFilter
   End Property
   Public ReadOnly Property IsAdvanceFiltering As Boolean
     Get
-      Return (CodePrefix.Trim.Length > 0) OrElse _
-        (CostCenterCodeList.Trim.Length > 0) OrElse _
-        (Not DocDateStart.Equals(Date.MinValue)) OrElse _
-        (Not DocDateEnd.Equals(Date.MinValue))
+      'Return (CodePrefix.Trim.Length > 0) OrElse _
+      '  (CostCenterCodeList.Trim.Length > 0) OrElse _
+      '  (Not DocDateStart.Equals(Date.MinValue)) OrElse _
+      '  (Not DocDateEnd.Equals(Date.MinValue))
+      Return CostCenterCodeList.Trim.Length > 0
     End Get
   End Property
   Public ReadOnly Property CostCenterCodeHashTable As Hashtable

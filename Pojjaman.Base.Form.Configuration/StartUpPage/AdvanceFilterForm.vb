@@ -35,9 +35,9 @@ Public Class AdvanceFilterForm
     chkCostCenterList.Sorted = True
 
     If Not Me.m_entity Is Nothing AndAlso Not Me.m_entity.AdvanceFilter Is Nothing Then
-      Me.txtCodePrefix.Text = Me.m_entity.AdvanceFilter.CodePrefix
-      Me.txtDocDateStart.Text = IIf(Me.m_entity.AdvanceFilter.DocDateStart.Equals(Date.MinValue), "", Me.m_entity.AdvanceFilter.DocDateStart.ToShortDateString)
-      Me.txtDocDateEnd.Text = IIf(Me.m_entity.AdvanceFilter.DocDateEnd.Equals(Date.MinValue), "", Me.m_entity.AdvanceFilter.DocDateEnd.ToShortDateString)
+      ''Me.txtCodePrefix.Text = Me.m_entity.AdvanceFilter.CodePrefix
+      ''Me.txtDocDateStart.Text = IIf(Me.m_entity.AdvanceFilter.DocDateStart.Equals(Date.MinValue), "", Me.m_entity.AdvanceFilter.DocDateStart.ToShortDateString)
+      ''Me.txtDocDateEnd.Text = IIf(Me.m_entity.AdvanceFilter.DocDateEnd.Equals(Date.MinValue), "", Me.m_entity.AdvanceFilter.DocDateEnd.ToShortDateString)
     End If
   End Sub
 
@@ -46,15 +46,17 @@ Public Class AdvanceFilterForm
       Me.m_entity.AdvanceFilter = New MultiApproveAdvanceFilter
     End If
 
-    Me.m_entity.AdvanceFilter.CodePrefix = Me.txtCodePrefix.Text.Trim
-    Me.m_entity.AdvanceFilter.DocDateStart = IIf(Me.txtDocDateStart.Text.Trim.Length > 0, Me.txtDocDateStart.Text, Date.MinValue)
-    Me.m_entity.AdvanceFilter.DocDateEnd = IIf(Me.txtDocDateEnd.Text.Trim.Length > 0, Me.txtDocDateEnd.Text, Date.MinValue)
+    ''Me.m_entity.AdvanceFilter.CodePrefix = Me.txtCodePrefix.Text.Trim
+    ''Me.m_entity.AdvanceFilter.DocDateStart = IIf(Me.txtDocDateStart.Text.Trim.Length > 0, Me.txtDocDateStart.Text, Date.MinValue)
+    ''Me.m_entity.AdvanceFilter.DocDateEnd = IIf(Me.txtDocDateEnd.Text.Trim.Length > 0, Me.txtDocDateEnd.Text, Date.MinValue)
 
     Dim ccItem As String
     For Each item As String In Me.chkCostCenterList.CheckedItems
       ccItem = item.ToString.Split(":"c)(0).Trim
 
       Me.m_entity.AdvanceFilter.CostCenterCodeCollection.Add(ccItem)
+
+      Me.m_entity.AdvanceFilter.CostCenterCollection.Add(item)
     Next
   End Sub
 

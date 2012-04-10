@@ -59,16 +59,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents BreezeTheme As Telerik.WinControls.Themes.BreezeTheme
     Friend WithEvents VistaTheme As Telerik.WinControls.Themes.VistaTheme
     Friend WithEvents btnAdvance As System.Windows.Forms.Button
+    Friend WithEvents txtCodePrefix As System.Windows.Forms.TextBox
+    Friend WithEvents txtDocDateEnd As DevExpress.XtraEditors.DateEdit
+    Friend WithEvents txtDocDateStart As DevExpress.XtraEditors.DateEdit
+    Friend WithEvents ListView1 As System.Windows.Forms.ListView
     Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MultiApproveDetail))
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.txtCodePrefix = New System.Windows.Forms.TextBox()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.ibtnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkAlwaysShow = New System.Windows.Forms.CheckBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtDocDateEnd = New DevExpress.XtraEditors.DateEdit()
+      Me.txtDocDateStart = New DevExpress.XtraEditors.DateEdit()
       Me.cmbApprovalType = New System.Windows.Forms.ComboBox()
       Me.cmbDateRank = New System.Windows.Forms.ComboBox()
       Me.btnAdvance = New System.Windows.Forms.Button()
@@ -86,8 +93,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPR = New System.Windows.Forms.CheckBox()
       Me.BreezeTheme = New Telerik.WinControls.Themes.BreezeTheme()
       Me.VistaTheme = New Telerik.WinControls.Themes.VistaTheme()
+      Me.ListView1 = New System.Windows.Forms.ListView()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
+      CType(Me.txtDocDateEnd.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.txtDocDateEnd.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.txtDocDateStart.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.txtDocDateStart.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.GroupBox2.SuspendLayout()
       CType(Me.rGrid, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.rgbDocumentType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,6 +118,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+      '
+      'txtCodePrefix
+      '
+      Me.txtCodePrefix.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.Validator.SetDataType(Me.txtCodePrefix, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCodePrefix, "")
+      Me.txtCodePrefix.ForeColor = System.Drawing.Color.Silver
+      Me.Validator.SetGotFocusBackColor(Me.txtCodePrefix, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCodePrefix, System.Drawing.Color.Empty)
+      Me.txtCodePrefix.Location = New System.Drawing.Point(512, 346)
+      Me.txtCodePrefix.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtCodePrefix, "")
+      Me.Validator.SetMinValue(Me.txtCodePrefix, "")
+      Me.txtCodePrefix.Name = "txtCodePrefix"
+      Me.Validator.SetRegularExpression(Me.txtCodePrefix, "")
+      Me.Validator.SetRequired(Me.txtCodePrefix, False)
+      Me.txtCodePrefix.Size = New System.Drawing.Size(151, 20)
+      Me.txtCodePrefix.TabIndex = 342
+      Me.txtCodePrefix.Text = "รหัสเอกสาร..."
       '
       'ibtnApprove
       '
@@ -126,7 +157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkAlwaysShow.AutoSize = True
       Me.chkAlwaysShow.Checked = True
       Me.chkAlwaysShow.CheckState = System.Windows.Forms.CheckState.Checked
-      Me.chkAlwaysShow.Location = New System.Drawing.Point(8, 516)
+      Me.chkAlwaysShow.Location = New System.Drawing.Point(8, 612)
       Me.chkAlwaysShow.Name = "chkAlwaysShow"
       Me.chkAlwaysShow.Size = New System.Drawing.Size(190, 17)
       Me.chkAlwaysShow.TabIndex = 0
@@ -138,6 +169,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
               Or System.Windows.Forms.AnchorStyles.Left) _
               Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.ListView1)
+      Me.grbDetail.Controls.Add(Me.txtDocDateEnd)
+      Me.grbDetail.Controls.Add(Me.txtDocDateStart)
+      Me.grbDetail.Controls.Add(Me.txtCodePrefix)
       Me.grbDetail.Controls.Add(Me.cmbApprovalType)
       Me.grbDetail.Controls.Add(Me.cmbDateRank)
       Me.grbDetail.Controls.Add(Me.btnAdvance)
@@ -148,9 +183,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(757, 502)
+      Me.grbDetail.Size = New System.Drawing.Size(757, 598)
       Me.grbDetail.TabIndex = 179
       Me.grbDetail.TabStop = False
+      '
+      'txtDocDateEnd
+      '
+      Me.txtDocDateEnd.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtDocDateEnd.EditValue = "วันที่เอกสารจนถึง..."
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(512, 398)
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.txtDocDateEnd.Properties.Appearance.ForeColor = System.Drawing.Color.Silver
+      Me.txtDocDateEnd.Properties.Appearance.Options.UseForeColor = True
+      Me.txtDocDateEnd.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+      Me.txtDocDateEnd.Properties.VistaTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton()})
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(151, 20)
+      Me.txtDocDateEnd.TabIndex = 344
+      '
+      'txtDocDateStart
+      '
+      Me.txtDocDateStart.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.txtDocDateStart.EditValue = "วันที่เอกสารตั้งแต่..."
+      Me.txtDocDateStart.Location = New System.Drawing.Point(512, 372)
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.txtDocDateStart.Properties.Appearance.ForeColor = System.Drawing.Color.Silver
+      Me.txtDocDateStart.Properties.Appearance.Options.UseForeColor = True
+      Me.txtDocDateStart.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+      Me.txtDocDateStart.Properties.VistaTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton()})
+      Me.txtDocDateStart.Size = New System.Drawing.Size(151, 20)
+      Me.txtDocDateStart.TabIndex = 343
       '
       'cmbApprovalType
       '
@@ -175,19 +236,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'btnAdvance
       '
       Me.btnAdvance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnAdvance.Location = New System.Drawing.Point(512, 346)
+      Me.btnAdvance.ForeColor = System.Drawing.Color.Silver
+      Me.btnAdvance.Location = New System.Drawing.Point(512, 424)
       Me.btnAdvance.Name = "btnAdvance"
-      Me.btnAdvance.Size = New System.Drawing.Size(70, 23)
+      Me.btnAdvance.Size = New System.Drawing.Size(108, 23)
       Me.btnAdvance.TabIndex = 336
-      Me.btnAdvance.Text = "Advance..."
+      Me.btnAdvance.Text = "Cost Center..."
       Me.btnAdvance.UseVisualStyleBackColor = True
       '
       'btnRefresh
       '
       Me.btnRefresh.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnRefresh.Location = New System.Drawing.Point(512, 375)
+      Me.btnRefresh.Location = New System.Drawing.Point(512, 465)
       Me.btnRefresh.Name = "btnRefresh"
-      Me.btnRefresh.Size = New System.Drawing.Size(70, 23)
+      Me.btnRefresh.Size = New System.Drawing.Size(72, 64)
       Me.btnRefresh.TabIndex = 336
       Me.btnRefresh.Text = "Refresh"
       Me.btnRefresh.UseVisualStyleBackColor = True
@@ -201,7 +263,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox2.Controls.Add(Me.rGrid)
       Me.GroupBox2.Location = New System.Drawing.Point(25, 12)
       Me.GroupBox2.Name = "GroupBox2"
-      Me.GroupBox2.Size = New System.Drawing.Size(465, 478)
+      Me.GroupBox2.Size = New System.Drawing.Size(465, 574)
       Me.GroupBox2.TabIndex = 340
       Me.GroupBox2.TabStop = False
       '
@@ -228,7 +290,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rGrid.MultiSelect = True
       Me.rGrid.Name = "rGrid"
       Me.rGrid.ShowGroupPanel = False
-      Me.rGrid.Size = New System.Drawing.Size(465, 436)
+      Me.rGrid.Size = New System.Drawing.Size(465, 532)
       Me.rGrid.TabIndex = 335
       Me.rGrid.ThemeName = "Vista"
       '
@@ -343,14 +405,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkPR.Text = "ขอซื้อ"
       Me.chkPR.UseVisualStyleBackColor = True
       '
+      'ListView1
+      '
+      Me.ListView1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.ListView1.BackColor = System.Drawing.SystemColors.Control
+      Me.ListView1.BorderStyle = System.Windows.Forms.BorderStyle.None
+      Me.ListView1.Location = New System.Drawing.Point(512, 540)
+      Me.ListView1.Name = "ListView1"
+      Me.ListView1.Size = New System.Drawing.Size(236, 46)
+      Me.ListView1.TabIndex = 345
+      Me.ListView1.UseCompatibleStateImageBehavior = False
+      Me.ListView1.View = System.Windows.Forms.View.Details
+      '
       'MultiApproveDetail
       '
       Me.Controls.Add(Me.chkAlwaysShow)
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "MultiApproveDetail"
-      Me.Size = New System.Drawing.Size(776, 538)
+      Me.Size = New System.Drawing.Size(776, 634)
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
+      CType(Me.txtDocDateEnd.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.txtDocDateEnd.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.txtDocDateStart.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.txtDocDateStart.Properties, System.ComponentModel.ISupportInitialize).EndInit()
       Me.GroupBox2.ResumeLayout(False)
       Me.GroupBox2.PerformLayout()
       CType(Me.rGrid, System.ComponentModel.ISupportInitialize).EndInit()
@@ -400,7 +480,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.UpdateEntityProperties()
 
       'Me.TitleName = m_entity.TabPageText
-
     End Sub
 #End Region
 
@@ -443,6 +522,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "ISimpleListPanel"
     Public Sub RefreshData(Optional ByVal ForceRefresh As Boolean = False)
       If Not m_entity Is Nothing Then
+
+        If Me.m_entity.AdvanceFilter Is Nothing Then
+          Me.m_entity.AdvanceFilter = New MultiApproveAdvanceFilter
+        End If
+        Me.m_entity.AdvanceFilter.CodePrefix = IIf(Me.txtCodePrefix.Text.Trim = "รหัสเอกสาร...", "", Me.txtCodePrefix.Text.Trim)
+        Me.m_entity.AdvanceFilter.DocDateStart = IIf(Me.txtDocDateStart.Text.Trim.Length > 0 AndAlso TypeOf Me.txtDocDateStart.EditValue Is DateTime, Me.txtDocDateStart.Text, Date.MinValue)
+        Me.m_entity.AdvanceFilter.DocDateEnd = IIf(Me.txtDocDateEnd.Text.Trim.Length > 0 AndAlso TypeOf Me.txtDocDateEnd.EditValue Is DateTime, Me.txtDocDateEnd.Text, Date.MinValue)
+
+        'If CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารตั้งแต่..." OrElse CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารจนถึง..." Then
 
         Me.m_entity.RefreshDataSource(User.CurrentUser.Id, rGrid, Me.GetListOfDocument, Me.GetListOfApproveType, Me.GetListOfDateRank, ForceRefresh)
         Me.SetSummaryColumnHeader()
@@ -1778,15 +1866,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If resoult = DialogResult.OK Then
       '  Me.RefreshData(True)
       'End If
+
+      Me.ListView1.Clear()
+      Me.ListView1.Items.Clear()
+
       Me.cmbDateRank.Enabled = True
       If Me.m_entity.AdvanceFilter.IsAdvanceFiltering Then
         Me.btnAdvance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-        If Not Me.m_entity.AdvanceFilter.DocDateStart.Equals(Date.MinValue) OrElse Not Me.m_entity.AdvanceFilter.DocDateEnd.Equals(Date.MinValue) Then
-          Me.cmbDateRank.SelectedIndex = 0
-          Me.cmbDateRank.Enabled = False
-        End If
+        'If Not Me.m_entity.AdvanceFilter.DocDateStart.Equals(Date.MinValue) OrElse Not Me.m_entity.AdvanceFilter.DocDateEnd.Equals(Date.MinValue) Then
+        '  Me.cmbDateRank.SelectedIndex = 0
+        '  Me.cmbDateRank.Enabled = False
+        'End If
+        Me.btnAdvance.ForeColor = Color.Black
+        'Me.txtCostCenterList.Text = Me.m_entity.AdvanceFilter.CostCenterCodeList
+
+        ListView1.Columns.Add("Cost Center", 230, HorizontalAlignment.Left)
+        For Each obj As Object In Me.m_entity.AdvanceFilter.CostCenterCollection
+          Dim item As New ListViewItem(obj.ToString)
+          ListView1.Items.Add(item)
+        Next
       Else
         Me.btnAdvance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+        Me.btnAdvance.ForeColor = Color.Silver
       End If
     End Sub
 
@@ -1806,5 +1907,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
     End Sub
+
+    Private Sub txtCodePrefix_Click(sender As Object, e As System.EventArgs) Handles txtCodePrefix.Click
+      If CType(sender, TextBox).Text.Trim = "รหัสเอกสาร..." Then
+        CType(sender, TextBox).Clear()
+        CType(sender, TextBox).ForeColor = Color.Black
+      End If
+    End Sub
+
+    Private Sub txtCodePrefix_LostFocus(sender As Object, e As System.EventArgs) Handles txtCodePrefix.LostFocus
+      If CType(sender, TextBox).Text.Trim.Length = 0 Then
+        CType(sender, TextBox).Text = "รหัสเอกสาร..."
+        CType(sender, TextBox).ForeColor = System.Drawing.Color.Silver
+      Else
+        CType(sender, TextBox).ForeColor = Color.Black
+      End If
+    End Sub
+
+    Private Sub txtDocDateStart_Click(sender As Object, e As System.EventArgs) Handles txtDocDateStart.Click, txtDocDateEnd.Click
+      'If Not CType(sender, DevExpress.XtraEditors.DateEdit).EditValue Is Nothing Then
+      CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = Color.Black
+      'End If
+      'If CType(sender, DevExpress.XtraEditors.DateEdit).Text.Trim = "วันที่เอกสารตั้งแต่..." Then
+      '  CType(sender, DevExpress.XtraEditors.DateEdit).EditValue = ""
+      '  CType(sender, DevExpress.XtraEditors.DateEdit).Text = ""
+      '  CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = Color.Black
+      'End If
+      If TypeOf CType(sender, DevExpress.XtraEditors.DateEdit).EditValue Is Date Then
+        Me.cmbDateRank.SelectedIndex = 0
+        Me.cmbDateRank.Enabled = False
+      End If
+    End Sub
+
+    Private Sub txtDocDateStart_LostFocus(sender As Object, e As System.EventArgs) Handles txtDocDateStart.LostFocus, txtDocDateEnd.LostFocus
+      If CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารตั้งแต่..." OrElse CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารจนถึง..." Then
+        CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = System.Drawing.Color.Silver
+      Else
+        CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = Color.Black
+      End If
+      'If CType(sender, DevExpress.XtraEditors.DateEdit).Text.Trim = "" Then
+      '  CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารตั้งแต่..."
+      'End If
+    End Sub
+
+    Private Sub txtDocDateEnd_TextChanged(sender As Object, e As System.EventArgs) Handles txtDocDateEnd.TextChanged, txtDocDateStart.TextChanged
+      If Me.txtDocDateStart.Text.Trim.Length = 0 AndAlso Me.txtDocDateEnd.Text.Trim.Length = 0 Then
+        Me.cmbDateRank.Enabled = True
+      End If
+      'If Me.txtDocDateStart.Text.Trim.Length = 0 Then
+      '  Me.txtDocDateStart.EditValue = "วันที่เอกสารตั้งแต่..."
+      '  Me.txtDocDateStart.Refresh()
+      'End If
+      'If Me.txtDocDateEnd.Text.Trim.Length = 0 Then
+      '  Me.txtDocDateEnd.EditValue = "วันที่เอกสารจนถึง..."
+      '  Me.txtDocDateEnd.Refresh()
+      'End If
+    End Sub
+
   End Class
 End Namespace
