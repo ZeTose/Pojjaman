@@ -1683,6 +1683,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
       Me.chkShowDiscountInRow.Enabled = True
+      Me.ibtnCopyMe.Enabled = True
     End Sub
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")
