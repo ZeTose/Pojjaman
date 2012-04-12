@@ -236,7 +236,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'btnAdvance
       '
       Me.btnAdvance.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnAdvance.ForeColor = System.Drawing.Color.Silver
+      'Me.btnAdvance.ForeColor = System.Drawing.Color.Silver
       Me.btnAdvance.Location = New System.Drawing.Point(512, 424)
       Me.btnAdvance.Name = "btnAdvance"
       Me.btnAdvance.Size = New System.Drawing.Size(108, 23)
@@ -1877,7 +1877,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '  Me.cmbDateRank.SelectedIndex = 0
         '  Me.cmbDateRank.Enabled = False
         'End If
-        Me.btnAdvance.ForeColor = Color.Black
+        'Me.btnAdvance.ForeColor = Color.Black
         'Me.txtCostCenterList.Text = Me.m_entity.AdvanceFilter.CostCenterCodeList
 
         ListView1.Columns.Add("Cost Center", 230, HorizontalAlignment.Left)
@@ -1887,7 +1887,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       Else
         Me.btnAdvance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-        Me.btnAdvance.ForeColor = Color.Silver
+        'Me.btnAdvance.ForeColor = Color.Silver
       End If
     End Sub
 
@@ -1940,11 +1940,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub txtDocDateStart_LostFocus(sender As Object, e As System.EventArgs) Handles txtDocDateStart.LostFocus, txtDocDateEnd.LostFocus
-      If CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารตั้งแต่..." OrElse CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารจนถึง..." Then
-        CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = System.Drawing.Color.Silver
-      Else
-        CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = Color.Black
+      CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = Color.Black
+
+      If Not TypeOf CType(sender, DevExpress.XtraEditors.DateEdit).EditValue Is DateTime Then
+        If CType(sender, DevExpress.XtraEditors.DateEdit).EditValue = "วันที่เอกสารตั้งแต่..." OrElse CType(sender, DevExpress.XtraEditors.DateEdit).EditValue = "วันที่เอกสารจนถึง..." Then
+          CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = System.Drawing.Color.Silver
+          'Else
+          '  CType(sender, DevExpress.XtraEditors.DateEdit).ForeColor = Color.Black
+        End If
       End If
+
       'If CType(sender, DevExpress.XtraEditors.DateEdit).Text.Trim = "" Then
       '  CType(sender, DevExpress.XtraEditors.DateEdit).EditValue.Trim = "วันที่เอกสารตั้งแต่..."
       'End If
