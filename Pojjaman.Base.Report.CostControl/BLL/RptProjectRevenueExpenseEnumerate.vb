@@ -891,11 +891,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trc("GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("GRActual"), DigitConfig.Price)
         trc("GRActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), DigitConfig.Price)
 
-        trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("total")), DigitConfig.Price)
+        'trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("total")), DigitConfig.Price)
+        trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("main")), DigitConfig.Price)
         trc("estimatebudget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
-        trc("profitloss") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
+        trc("profitloss") = Configuration.FormatToString(CDec(trc("main")) - drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
+        'trc("profitloss") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
         If drh.GetValue(Of Decimal)("budget") > 0 Then
-          trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("total")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, DigitConfig.Price) & "%"
+          trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("main")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, DigitConfig.Price) & "%"
+          'trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("total")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, DigitConfig.Price) & "%"
         Else
           trc("contractbudgetpercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
         End If
