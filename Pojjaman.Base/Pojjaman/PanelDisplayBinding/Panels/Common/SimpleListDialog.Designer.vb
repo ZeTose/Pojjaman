@@ -22,15 +22,20 @@ Partial Class SimpleListDialog
   'Do not modify it using the code editor.
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
+    Me.components = New System.ComponentModel.Container()
     Me.lbTheList = New System.Windows.Forms.ListBox()
     Me.lblSimpleListName = New System.Windows.Forms.Label()
+    Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+    Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+    Me.ContextMenuStrip1.SuspendLayout()
     Me.SuspendLayout()
     '
     'lbTheList
     '
     Me.lbTheList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+    Me.lbTheList.ContextMenuStrip = Me.ContextMenuStrip1
     Me.lbTheList.FormattingEnabled = True
     Me.lbTheList.Location = New System.Drawing.Point(13, 28)
     Me.lbTheList.Name = "lbTheList"
@@ -46,6 +51,18 @@ Partial Class SimpleListDialog
     Me.lblSimpleListName.TabIndex = 1
     Me.lblSimpleListName.Text = "Label1"
     '
+    'ContextMenuStrip1
+    '
+    Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyToolStripMenuItem})
+    Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+    Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 48)
+    '
+    'CopyToolStripMenuItem
+    '
+    Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+    Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+    Me.CopyToolStripMenuItem.Text = "Copy"
+    '
     'SimpleListDialog
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -54,11 +71,14 @@ Partial Class SimpleListDialog
     Me.Controls.Add(Me.lbTheList)
     Me.Name = "SimpleListDialog"
     Me.Size = New System.Drawing.Size(230, 433)
+    Me.ContextMenuStrip1.ResumeLayout(False)
     Me.ResumeLayout(False)
     Me.PerformLayout()
 
   End Sub
   Friend WithEvents lbTheList As System.Windows.Forms.ListBox
   Friend WithEvents lblSimpleListName As System.Windows.Forms.Label
+  Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
+  Friend WithEvents CopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
