@@ -2536,8 +2536,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       '******************************************************************************
+      m_item.LastItemTypeId = m_item.ItemType.Value
       m_item.ItemType.Value = CInt(e.ProposedValue)
-      ClearRow(e)
+
+      'ClearRow(e)
       'If msgServ.AskQuestion("${res:Global.Question.ChangeBOQItemEntityType}") Then
       '    m_item.ItemType.Value = CInt(e.ProposedValue)
       '    ClearRow(e)
@@ -2780,7 +2782,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim myUnit As Unit = lci.DefaultUnit
             e.Row("boqi_entity") = lci.Id
             e.ProposedValue = lci.Code
-            e.Row("boqi_itemName") = lci.Name
+            If m_item.LastItemTypeId = 0 Then
+              e.Row("boqi_itemName") = m_item.EntityName & "<" & lci.Name & ">"
+            Else
+              e.Row("boqi_itemName") = lci.Name
+            End If
+
             If Not myUnit Is Nothing AndAlso myUnit.Originated Then
               e.Row("boqi_unit") = myUnit.Id
               e.Row("Unit") = myUnit.Name

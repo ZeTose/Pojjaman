@@ -65,6 +65,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_entity = New BlankItem("")
       Me.m_unit = New Unit
       Me.m_itemType = New BOQItemType(42)
+      LastItemTypeId = -1
       Me.m_mcbs = New CBS
       Me.m_lcbs = New CBS
       Me.m_ecbs = New CBS
@@ -110,6 +111,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_entity = LCIItem.GetLciItemById(itemId)
           Case Else
         End Select
+        LastItemTypeId = -1
 
         Dim unitId As Integer
         unitId = drh.GetValue(Of Integer)(aliasPrefix & "boqi_unit", 0)
@@ -203,6 +205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property LastItemTypeId As Integer
     Public Property BOQ() As BOQ      Get        Return m_boq      End Get      Set(ByVal Value As BOQ)        m_boq = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property WBS() As WBS      Get        Return m_wbs      End Get      Set(ByVal Value As WBS)        m_wbs = Value      End Set    End Property    Public Property ItemType() As BOQItemType      Get        Return m_itemType      End Get      Set(ByVal Value As BOQItemType)        m_itemType = Value      End Set    End Property    '--------------------¸ÇÑªªÑÂ----------------------------------    Public Property QtyPerWBS() As Decimal      Get        Return m_qtyPerWBS      End Get      Set(ByVal Value As Decimal)        m_qtyPerWBS = Value      End Set    End Property    Public ReadOnly Property TotalPerWBS() As Decimal      Get
         Return Me.QtyPerWBS * (Me.UMC + Me.UEC + Me.ULC)
       End Get
