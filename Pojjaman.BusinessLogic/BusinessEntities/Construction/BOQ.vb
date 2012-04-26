@@ -255,6 +255,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   newWbs = New WBS
                   newWbs.Parent = newWbs
                   newWbs.Level = 0
+                  Me.WBSCollection.Remove(currWBS)
                 ElseIf newLevel = currLevel + 1 Then 'เป็นลูกอันก่อน
                   newWbs = New WBS(currWBS)
                 ElseIf newLevel = currLevel Then 'เป็นพี่น้อง

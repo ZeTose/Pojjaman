@@ -10,6 +10,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Longkong.Core.Properties
 Imports System.IO
+Imports Syncfusion.XlsIO
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ItemListing
     Inherits AbstractEntityDetailPanelView
@@ -246,6 +247,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemQty, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemQty, System.Drawing.Color.Empty)
       Me.txtItemQty.Location = New System.Drawing.Point(104, 56)
+      Me.Validator.SetMaxValue(Me.txtItemQty, "")
       Me.Validator.SetMinValue(Me.txtItemQty, "")
       Me.txtItemQty.Name = "txtItemQty"
       Me.Validator.SetRegularExpression(Me.txtItemQty, "")
@@ -285,6 +287,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemUnitName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemUnitName, System.Drawing.Color.Empty)
       Me.txtItemUnitName.Location = New System.Drawing.Point(336, 56)
+      Me.Validator.SetMaxValue(Me.txtItemUnitName, "")
       Me.Validator.SetMinValue(Me.txtItemUnitName, "")
       Me.txtItemUnitName.Name = "txtItemUnitName"
       Me.txtItemUnitName.ReadOnly = True
@@ -314,6 +317,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemUnitCode, System.Drawing.Color.Empty)
       Me.txtItemUnitCode.Location = New System.Drawing.Point(280, 56)
       Me.txtItemUnitCode.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtItemUnitCode, "")
       Me.Validator.SetMinValue(Me.txtItemUnitCode, "")
       Me.txtItemUnitCode.Name = "txtItemUnitCode"
       Me.Validator.SetRegularExpression(Me.txtItemUnitCode, "")
@@ -330,6 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemDescription, System.Drawing.Color.Empty)
       Me.txtItemDescription.Location = New System.Drawing.Point(104, 32)
       Me.txtItemDescription.MaxLength = 1000
+      Me.Validator.SetMaxValue(Me.txtItemDescription, "")
       Me.Validator.SetMinValue(Me.txtItemDescription, "")
       Me.txtItemDescription.Name = "txtItemDescription"
       Me.Validator.SetRegularExpression(Me.txtItemDescription, "")
@@ -357,6 +362,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemNote, System.Drawing.Color.Empty)
       Me.txtItemNote.Location = New System.Drawing.Point(104, 152)
       Me.txtItemNote.MaxLength = 2000
+      Me.Validator.SetMaxValue(Me.txtItemNote, "")
       Me.Validator.SetMinValue(Me.txtItemNote, "")
       Me.txtItemNote.Multiline = True
       Me.txtItemNote.Name = "txtItemNote"
@@ -385,6 +391,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemName, System.Drawing.Color.Empty)
       Me.txtItemName.Location = New System.Drawing.Point(320, 8)
+      Me.Validator.SetMaxValue(Me.txtItemName, "")
       Me.Validator.SetMinValue(Me.txtItemName, "")
       Me.txtItemName.Name = "txtItemName"
       Me.txtItemName.ReadOnly = True
@@ -414,6 +421,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtItemCode, System.Drawing.Color.Empty)
       Me.txtItemCode.Location = New System.Drawing.Point(216, 8)
       Me.txtItemCode.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtItemCode, "")
       Me.Validator.SetMinValue(Me.txtItemCode, "")
       Me.txtItemCode.Name = "txtItemCode"
       Me.Validator.SetRegularExpression(Me.txtItemCode, "")
@@ -477,6 +485,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemMatUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemMatUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemMatUnitPrice.Location = New System.Drawing.Point(88, 24)
+      Me.Validator.SetMaxValue(Me.txtItemMatUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemMatUnitPrice, "")
       Me.txtItemMatUnitPrice.Name = "txtItemMatUnitPrice"
       Me.Validator.SetRegularExpression(Me.txtItemMatUnitPrice, "")
@@ -493,6 +502,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalLaborPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalLaborPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalLaborPrice.Location = New System.Drawing.Point(216, 48)
+      Me.Validator.SetMaxValue(Me.txtItemTotalLaborPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalLaborPrice, "")
       Me.txtItemTotalLaborPrice.Name = "txtItemTotalLaborPrice"
       Me.Validator.SetRegularExpression(Me.txtItemTotalLaborPrice, "")
@@ -509,6 +519,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalUnitPrice.Location = New System.Drawing.Point(440, 24)
+      Me.Validator.SetMaxValue(Me.txtItemTotalUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalUnitPrice, "")
       Me.txtItemTotalUnitPrice.Name = "txtItemTotalUnitPrice"
       Me.txtItemTotalUnitPrice.ReadOnly = True
@@ -549,6 +560,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalPrice.Location = New System.Drawing.Point(440, 48)
+      Me.Validator.SetMaxValue(Me.txtItemTotalPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalPrice, "")
       Me.txtItemTotalPrice.Name = "txtItemTotalPrice"
       Me.txtItemTotalPrice.ReadOnly = True
@@ -567,6 +579,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalEqPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalEqPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalEqPrice.Location = New System.Drawing.Point(328, 48)
+      Me.Validator.SetMaxValue(Me.txtItemTotalEqPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalEqPrice, "")
       Me.txtItemTotalEqPrice.Name = "txtItemTotalEqPrice"
       Me.Validator.SetRegularExpression(Me.txtItemTotalEqPrice, "")
@@ -583,6 +596,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemTotalMatPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemTotalMatPrice, System.Drawing.Color.Empty)
       Me.txtItemTotalMatPrice.Location = New System.Drawing.Point(88, 48)
+      Me.Validator.SetMaxValue(Me.txtItemTotalMatPrice, "")
       Me.Validator.SetMinValue(Me.txtItemTotalMatPrice, "")
       Me.txtItemTotalMatPrice.Name = "txtItemTotalMatPrice"
       Me.Validator.SetRegularExpression(Me.txtItemTotalMatPrice, "")
@@ -599,6 +613,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemEqUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemEqUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemEqUnitPrice.Location = New System.Drawing.Point(328, 24)
+      Me.Validator.SetMaxValue(Me.txtItemEqUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemEqUnitPrice, "")
       Me.txtItemEqUnitPrice.Name = "txtItemEqUnitPrice"
       Me.Validator.SetRegularExpression(Me.txtItemEqUnitPrice, "")
@@ -615,6 +630,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtItemLaborUnitPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtItemLaborUnitPrice, System.Drawing.Color.Empty)
       Me.txtItemLaborUnitPrice.Location = New System.Drawing.Point(216, 24)
+      Me.Validator.SetMaxValue(Me.txtItemLaborUnitPrice, "")
       Me.Validator.SetMinValue(Me.txtItemLaborUnitPrice, "")
       Me.txtItemLaborUnitPrice.Name = "txtItemLaborUnitPrice"
       Me.Validator.SetRegularExpression(Me.txtItemLaborUnitPrice, "")
@@ -702,14 +718,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'tbDetail
       '
       Me.tbDetail.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.tbDetail.Controls.Add(Me.tpItemDetail)
       Me.tbDetail.Controls.Add(Me.tpUnitPrice)
       Me.tbDetail.Controls.Add(Me.tpLaborEq)
       Me.tbDetail.Location = New System.Drawing.Point(8, 320)
       Me.tbDetail.Name = "tbDetail"
       Me.tbDetail.SelectedIndex = 0
-      Me.tbDetail.Size = New System.Drawing.Size(712, 232)
+      Me.tbDetail.Size = New System.Drawing.Size(712, 234)
       Me.tbDetail.TabIndex = 9
       '
       'tpItemDetail
@@ -735,7 +751,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tpItemDetail.Controls.Add(Me.lblEntityType)
       Me.tpItemDetail.Location = New System.Drawing.Point(4, 22)
       Me.tpItemDetail.Name = "tpItemDetail"
-      Me.tpItemDetail.Size = New System.Drawing.Size(704, 206)
+      Me.tpItemDetail.Size = New System.Drawing.Size(704, 208)
       Me.tpItemDetail.TabIndex = 0
       Me.tpItemDetail.Text = "รายละเอียดรายการ"
       '
@@ -771,7 +787,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbUnitPrice
       '
       Me.grbUnitPrice.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.grbUnitPrice.Controls.Add(Me.txtMonthPeriod)
       Me.grbUnitPrice.Controls.Add(Me.lblCurrentPrice)
       Me.grbUnitPrice.Controls.Add(Me.txtCurrentPrice)
@@ -814,6 +830,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCurrentPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCurrentPrice, System.Drawing.Color.Empty)
       Me.txtCurrentPrice.Location = New System.Drawing.Point(88, 16)
+      Me.Validator.SetMaxValue(Me.txtCurrentPrice, "")
       Me.Validator.SetMinValue(Me.txtCurrentPrice, "")
       Me.txtCurrentPrice.Name = "txtCurrentPrice"
       Me.txtCurrentPrice.ReadOnly = True
@@ -840,7 +857,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgLCIUnitPrice.AllowNew = False
       Me.tgLCIUnitPrice.AllowSorting = False
       Me.tgLCIUnitPrice.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.tgLCIUnitPrice.AutoColumnResize = True
       Me.tgLCIUnitPrice.CaptionVisible = False
       Me.tgLCIUnitPrice.Cellchanged = False
@@ -889,8 +906,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbSupplier
       '
       Me.grbSupplier.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbSupplier.Controls.Add(Me.tgLCISupplier)
       Me.grbSupplier.Controls.Add(Me.btnSupplierDetail)
       Me.grbSupplier.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -906,8 +923,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgLCISupplier.AllowNew = False
       Me.tgLCISupplier.AllowSorting = False
       Me.tgLCISupplier.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgLCISupplier.AutoColumnResize = True
       Me.tgLCISupplier.CaptionVisible = False
       Me.tgLCISupplier.Cellchanged = False
@@ -975,6 +992,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCurrentEq, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCurrentEq, System.Drawing.Color.Empty)
       Me.txtCurrentEq.Location = New System.Drawing.Point(88, 16)
+      Me.Validator.SetMaxValue(Me.txtCurrentEq, "")
       Me.Validator.SetMinValue(Me.txtCurrentEq, "")
       Me.txtCurrentEq.Name = "txtCurrentEq"
       Me.txtCurrentEq.ReadOnly = True
@@ -1056,6 +1074,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCurrentLabor, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCurrentLabor, System.Drawing.Color.Empty)
       Me.txtCurrentLabor.Location = New System.Drawing.Point(96, 16)
+      Me.Validator.SetMaxValue(Me.txtCurrentLabor, "")
       Me.Validator.SetMinValue(Me.txtCurrentLabor, "")
       Me.txtCurrentLabor.Name = "txtCurrentLabor"
       Me.txtCurrentLabor.ReadOnly = True
@@ -1122,6 +1141,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBOQCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBOQCode, System.Drawing.Color.Empty)
       Me.txtBOQCode.Location = New System.Drawing.Point(96, 0)
+      Me.Validator.SetMaxValue(Me.txtBOQCode, "")
       Me.Validator.SetMinValue(Me.txtBOQCode, "")
       Me.txtBOQCode.Name = "txtBOQCode"
       Me.txtBOQCode.ReadOnly = True
@@ -1139,6 +1159,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectName, System.Drawing.Color.Empty)
       Me.txtProjectName.Location = New System.Drawing.Point(192, 24)
+      Me.Validator.SetMaxValue(Me.txtProjectName, "")
       Me.Validator.SetMinValue(Me.txtProjectName, "")
       Me.txtProjectName.Name = "txtProjectName"
       Me.txtProjectName.ReadOnly = True
@@ -1167,6 +1188,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtProjectCode, System.Drawing.Color.Empty)
       Me.txtProjectCode.Location = New System.Drawing.Point(96, 24)
+      Me.Validator.SetMaxValue(Me.txtProjectCode, "")
       Me.Validator.SetMinValue(Me.txtProjectCode, "")
       Me.txtProjectCode.Name = "txtProjectCode"
       Me.txtProjectCode.ReadOnly = True
@@ -1181,7 +1203,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = False
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -1191,7 +1213,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(8, 88)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(704, 232)
+      Me.tgItem.Size = New System.Drawing.Size(712, 232)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 8
       Me.tgItem.TreeManager = Nothing
@@ -1363,7 +1385,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.tbDetail)
       Me.Controls.Add(Me.lblWorkBreakdown)
       Me.Name = "ItemListing"
-      Me.Size = New System.Drawing.Size(720, 552)
+      Me.Size = New System.Drawing.Size(728, 554)
       Me.grbPrice.ResumeLayout(False)
       Me.grbPrice.PerformLayout()
       Me.tbDetail.ResumeLayout(False)
@@ -3995,70 +4017,288 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub ibtnSaveAsExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnSaveAsExcel.Click
       Try
-        Dim Excel As Object = CreateObject("Excel.Application")
-        If Excel Is Nothing Then
-          MessageBox.Show("It appears that Excel is not installed on this machine. This operation requires MS Excel to be installed on this machine.")
-          Return
-        End If
-        Dim locale As String = "en-US"
-        Dim obj As Object = Configuration.GetConfig("ExcelLocale")
-        If IsDBNull(obj) AndAlso obj <> Nothing Then
-          locale = obj.ToString()
-        End If
-        Dim oldCI As System.Globalization.CultureInfo = _
-        System.Threading.Thread.CurrentThread.CurrentCulture
-        System.Threading.Thread.CurrentThread.CurrentCulture = _
-            New System.Globalization.CultureInfo(locale)
+        'Dim Excel As Object = CreateObject("Excel.Application")
+        'If Excel Is Nothing Then
+        '  MessageBox.Show("It appears that Excel is not installed on this machine. This operation requires MS Excel to be installed on this machine.")
+        '  Return
+        'End If
 
-        Dim ext As String = ".xlsx"
-        If CInt(Excel.Version) < 12 Then
-          ext = ".xls"
-        End If
+        'Dim locale As String = "en-US"
+        'Dim obj As Object = Configuration.GetConfig("ExcelLocale")
+        'If IsDBNull(obj) AndAlso obj <> Nothing Then
+        '  locale = obj.ToString()
+        'End If
+        'Dim oldCI As System.Globalization.CultureInfo = _
+        'System.Threading.Thread.CurrentThread.CurrentCulture
+        'System.Threading.Thread.CurrentThread.CurrentCulture = _
+        '    New System.Globalization.CultureInfo(locale)
 
-        Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+        Dim ext As String = ".xls"
+        'If CInt(Excel.Version) < 12 Then
+        '  ext = ".xls"
+        'End If
+
+        'Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim thePath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
         thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
         If thePath.Length = 0 Then
           thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
         End If
 
-        With Excel
-          .SheetsInNewWorkbook = 1
-          Dim oDoc As Object = .Workbooks.Add()
-          .Worksheets(1).Select()
+        Dim xl As ExcelEngine = New ExcelEngine()
 
-          Dim i As Integer = 1
-          For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-            .cells(1, i).value = col.HeaderText.Replace("@", "UnitPrice")
-            .cells(1, i).EntireRow.Font.Bold = True
-            i += 1
+        Using xl
+
+
+          'instantiate excel application object
+          Dim xlApp As IApplication = xl.Excel
+
+
+          'create a new workbook with 2 worksheets
+          Dim wkbk As IWorkbook = xl.Excel.Workbooks.Create(1)
+
+
+          'get a reference to both worksheets
+          Dim sht1 As IWorksheet = wkbk.Worksheets(0)
+
+          wkbk.Worksheets(0).Name = "BOQ"
+
+          sht1.Range(1, 1).Text = "Type"
+          sht1.Range(1, 1).EntireColumn.ColumnWidth = 7
+          sht1.Range(1, 1).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+
+          sht1.Range(1, 2).Text = "Level"
+          sht1.Range(1, 2).EntireColumn.ColumnWidth = 7
+          sht1.Range(1, 2).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+
+          sht1.Range(1, 3).Text = "EntityType"
+          sht1.Range(1, 3).EntireColumn.ColumnWidth = 11
+          sht1.Range(1, 3).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+
+          sht1.Range(1, 4).Text = "Code"
+          sht1.Range(1, 4).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 5).Text = "Description"
+          sht1.Range(1, 5).EntireColumn.ColumnWidth = 70
+
+          sht1.Range(1, 6).Text = "Qty"
+          sht1.Range(1, 6).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 7).Text = "Unit"
+          sht1.Range(1, 7).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 8).Text = "UMC"
+          sht1.Range(1, 8).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 9).Text = "MC"
+          sht1.Range(1, 9).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 10).Text = "ULC"
+          sht1.Range(1, 10).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 11).Text = "LC"
+          sht1.Range(1, 11).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 12).Text = "UEC"
+          sht1.Range(1, 12).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 13).Text = "EC"
+          sht1.Range(1, 13).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 14).Text = "Total"
+          sht1.Range(1, 14).EntireColumn.ColumnWidth = 15
+
+          sht1.Range(1, 15).Text = "Note"
+          sht1.Range(1, 15).EntireColumn.ColumnWidth = 40
+
+          Dim c As Integer
+
+          For c = 1 To 15
+            sht1.Range(1, c).CellStyle.Font.Bold = True
+            sht1.Range(1, c).CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+            sht1.Range(1, c).CellStyle.Color = Color.FromArgb(255, 153, 0)
+            sht1.Range(1, c).Borders(ExcelBordersIndex.EdgeBottom).LineStyle = ExcelLineStyle.Thin
           Next
-          i = 2
+
+
+          sht1.Range(2, 6).Text = "จำนวน"
+          sht1.Range(2, 7).Text = "หน่วย"
+          sht1.Range(2, 8).Text = "ค่าวัสดุต่อหน่วย"
+          sht1.Range(2, 9).Text = "ราคาวัสดุ"
+          sht1.Range(2, 10).Text = "ค่าแรงต่อหน่วย"
+          sht1.Range(2, 11).Text = "ราคาค่าแรง"
+          sht1.Range(2, 12).Text = "ค่าเช่าต่อหน่วย"
+          sht1.Range(2, 13).Text = "ราคาค่าเช่า"
+          sht1.Range(2, 14).Text = "รวม"
+          sht1.Range(2, 15).Text = "หมายเหตุ"
+
+          For c = 1 To 15
+            sht1.Range(2, c).CellStyle.Font.Bold = True
+            sht1.Range(2, c).CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+            sht1.Range(2, c).CellStyle.Color = Color.FromArgb(255, 153, 0)
+            'sht1.Range(2, c).Borders(ExcelBordersIndex.EdgeBottom).LineStyle = ExcelLineStyle.Thin
+          Next
+
+          Dim i As Integer = 3
+          Dim itemWBS As WBS
+          Dim itemBOQ As BoqItem
+
           For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
-            Dim j As Integer = 1
-            For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-              If Not row.IsNull(col.MappingName) Then
-                If TypeOf col Is DataGridComboColumn Then
-                  .Cells(i, j).Value = New BOQItemType(row(col.MappingName)).Description
-                Else
-                  .Cells(i, j).Value = row(col.MappingName).ToString()
-                End If
-              End If
-              j += 1
-            Next
-            i += 1
-          Next
-          .ActiveCell.Worksheet.SaveAs(thePath)
 
-          oDoc.Close()
-          .Quit()
-          oDoc = Nothing
-          Excel = Nothing
-        End With
+            If TypeOf (row.Tag) Is WBS Then
+
+              itemWBS = CType(row.Tag, WBS)
+
+
+
+              sht1.Range(i, 1).Value = "WBS"
+
+
+
+              sht1.Range(i, 2).Value = (itemWBS.Level).ToString
+              sht1.Range(i, 3).Value = ""   'EntityType
+              sht1.Range(i, 4).Text = If(String.IsNullOrEmpty(itemWBS.Code), "", itemWBS.Code)
+              sht1.Range(i, 5).Text = If(String.IsNullOrEmpty(itemWBS.Name), "", itemWBS.Name)
+
+              If Not itemWBS.Unit Is Nothing Then
+                If itemWBS.Qty <> 0 Then
+                  sht1.Range(i, 6).Value = itemWBS.Qty
+                Else
+                  sht1.Range(i, 6).Value = ""
+                End If
+                'sht1.Range(i, 6).Value = itemWBS.Qty
+                sht1.Range(i, 7).Value = itemWBS.Unit.Name
+              Else
+                sht1.Range(i, 6).Value = ""
+                sht1.Range(i, 7).Value = ""
+              End If
+              sht1.Range(i, 8).Value = ""   'UMC
+              sht1.Range(i, 9).Value = ""   'MC
+              sht1.Range(i, 10).Value = ""  'ULC
+              sht1.Range(i, 11).Value = ""  'LC
+              sht1.Range(i, 12).Value = ""  'UEC
+              sht1.Range(i, 13).Value = ""  'EC
+              sht1.Range(i, 14).Value = ""  'Total
+              sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemWBS.Note), "", itemWBS.Note)
+
+              For c = 1 To 15
+
+                If itemWBS.Level = 0 Then
+                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(218, 83, 8)
+                ElseIf itemWBS.Level >= 3 AndAlso itemWBS.Level Mod 3 = 0 Then
+                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(216, 228, 188)
+                ElseIf itemWBS.Level >= 2 AndAlso itemWBS.Level Mod 2 = 0 Then
+                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(218, 238, 243)
+                Else
+                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(250, 191, 143)
+                End If
+
+              Next
+
+              i += 1
+
+
+            Else
+
+            itemBOQ = CType(row.Tag, BoqItem)
+
+            sht1.Range(i, 1).Text = "item"
+            sht1.Range(i, 2).Text = ""
+            Select Case itemBOQ.ItemType.Value
+              Case 0
+                sht1.Range(i, 3).Text = "other"
+              Case 18
+                sht1.Range(i, 3).Text = "lab"
+              Case 20
+                sht1.Range(i, 3).Text = "eq"
+              Case 42
+                sht1.Range(i, 3).Text = "lci"
+            End Select
+
+            If Not itemBOQ.Entity Is Nothing Then
+              sht1.Range(i, 4).Text = itemBOQ.Entity.Code
+            Else
+              sht1.Range(i, 4).Text = ""
+            End If
+
+            sht1.Range(i, 5).Text = If(String.IsNullOrEmpty(itemBOQ.EntityName), "", itemBOQ.EntityName)
+            sht1.Range(i, 6).Value = itemBOQ.Qty
+            If Not itemBOQ.Unit Is Nothing Then
+                sht1.Range(i, 7).Text = If(String.IsNullOrEmpty(itemBOQ.Unit.Name), "", itemBOQ.Unit.Name)
+                sht1.Range(i, 8).Value = itemBOQ.UMC
+                sht1.Range(i, 9).Value = itemBOQ.TotalMaterialCost
+                sht1.Range(i, 10).Value = itemBOQ.ULC
+                sht1.Range(i, 11).Value = itemBOQ.TotalLaborCost
+                sht1.Range(i, 12).Value = itemBOQ.UEC
+                sht1.Range(i, 13).Value = itemBOQ.TotalEquipmentCost
+                sht1.Range(i, 14).Value = itemBOQ.TotalCost
+            Else
+                sht1.Range(i, 7).Text = ""
+                sht1.Range(i, 8).Value = ""
+                sht1.Range(i, 9).Value = ""
+                sht1.Range(i, 10).Value = ""
+                sht1.Range(i, 11).Value = ""
+                sht1.Range(i, 12).Value = ""
+                sht1.Range(i, 13).Value = ""
+                sht1.Range(i, 14).Value = ""
+            End If
+
+            sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemBOQ.Note), "", itemBOQ.Unit.Name)
+            i += 1
+            End If
+
+
+
+
+          Next
+
+
+          wkbk.SaveAs(thePath, ExcelSaveType.SaveAsXLS)
+          wkbk.Close()
+
+        End Using
+
+        'With Excel
+        '.SheetsInNewWorkbook = 1
+        'Dim oDoc As Object = .Workbooks.Add()
+        '.Worksheets(1).Select()
+
+        'Dim i As Integer = 1
+        'For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        '  .cells(1, i).value = col.HeaderText.Replace("@", "UnitPrice")
+        '  .cells(1, i).EntireRow.Font.Bold = True
+        '  i += 1
+        'Next
+
+
+
+        'i = 2
+        'For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+        'Dim j As Integer = 1
+        'For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        'If Not row.IsNull(col.MappingName) Then
+        '  If TypeOf col Is DataGridComboColumn Then
+        '    .Cells(i, j).Value = New BOQItemType(row(col.MappingName)).Description
+        '  Else
+        '.Cells(i, j).Value = row(col.MappingName).ToString()
+        '  End If
+        'End If
+        'j += 1
+        'Next
+
+
+        'Next
+        '.ActiveCell.Worksheet.SaveAs(thePath)
+
+        'oDoc.Close()
+        '.Quit()
+        'oDoc = Nothing
+        'Excel = Nothing
+        'End With
 
 
         MessageBox.Show("Items are exported to Excel Succesfully in '" & thePath & "'")
-        System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
+        'System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
       Catch ex As Exception
         MessageBox.Show(ex.Message)
       End Try
