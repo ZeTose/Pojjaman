@@ -2829,16 +2829,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_updating = False
           Return
       End Select
-      e.Row("boqi_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
-      m_item.Qty = 1
 
-      e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
-      e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-      e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
-      e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-      e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
-      e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-      e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+      If Not (m_item.LastItemTypeId = 0 And m_item.ItemType.Value = 42) Then
+        e.Row("boqi_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
+        m_item.Qty = 1
+
+        e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
+        e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+        e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
+        e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+        e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
+        e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+        e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+      End If
+
       m_updating = False
     End Sub
     Public Sub SetUnitForWBS(ByVal e As System.Data.DataColumnChangeEventArgs)
