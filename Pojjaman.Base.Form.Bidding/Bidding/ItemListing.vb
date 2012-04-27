@@ -2560,8 +2560,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '******************************************************************************
       m_item.LastItemTypeId = m_item.ItemType.Value
       m_item.ItemType.Value = CInt(e.ProposedValue)
+      m_item.Entity = New BlankItem("")
+      e.Row("code") = DBNull.Value
+      'If Not (m_item.LastItemTypeId = 0 And m_item.ItemType.Value = 42) Then
+      '  ClearRow(e)
+      'End If
 
-      'ClearRow(e)
       'If msgServ.AskQuestion("${res:Global.Question.ChangeBOQItemEntityType}") Then
       '    m_item.ItemType.Value = CInt(e.ProposedValue)
       '    ClearRow(e)
