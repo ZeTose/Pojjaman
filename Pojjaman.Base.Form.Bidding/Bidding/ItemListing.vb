@@ -4047,10 +4047,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'End If
 
         'Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        Dim thePath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+        Dim thePath As String
+        If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
+          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+
+        Else
+          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & Me.m_entity.Code & ext
+
+        End If
         thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
         If thePath.Length = 0 Then
-          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+          If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
+            thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+
+          Else
+            thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & Me.m_entity.Code & ext
+
+          End If
         End If
 
         Dim xl As ExcelEngine = New ExcelEngine()
