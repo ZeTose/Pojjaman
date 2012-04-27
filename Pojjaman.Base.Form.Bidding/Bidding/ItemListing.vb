@@ -4048,23 +4048,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         'Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
         Dim thePath As String
+        Dim filename As String
         If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
           thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
-
+          filename = "BOQItems" & ext
         Else
-          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & Me.m_entity.Code & ext
-
+          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQ_" & Me.m_entity.Code & ext
+          filename = "BOQ_" & Me.m_entity.Code & ext
         End If
-        thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
-        If thePath.Length = 0 Then
-          If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
-            thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
 
-          Else
-            thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & Me.m_entity.Code & ext
+        'thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
 
-          End If
+        Dim dialog1 As SaveFileDialog = New SaveFileDialog
+
+        dialog1.OverwritePrompt = True
+        dialog1.AddExtension = True
+        dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
+        dialog1.FileName = filename
+        dialog1.InitialDirectory = thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar
+        If dialog1.ShowDialog = DialogResult.OK Then
+          filename = dialog1.FileName
+        Else
+          Return
         End If
+
+        'If thePath.Length = 0 Then
+        '  If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
+        '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+
+        '  Else
+        '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQ_" & Me.m_entity.Code & ext
+
+        '  End If
+        'End If
 
         Dim xl As ExcelEngine = New ExcelEngine()
 
