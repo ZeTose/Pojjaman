@@ -384,10 +384,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Return 0
     'End Function
     Public Function AllowWithdrawFromPR() As Decimal
-      Dim qty As Decimal = Math.Max(Pritem.Qty - Pritem.WithdrawnQty, 0)
+      Dim qty As Decimal = Pritem.StockQty - Pritem.WithdrawnQty
       Dim remainstock As Decimal = Me.MatReceipt.GetRemainLCIItem(Me.m_entity.Id)
       Dim allowWithdrawn As Decimal = Math.Min(remainstock, qty * Pritem.Conversion)
-      Return remainstock
+      Return allowWithdrawn
     End Function
     Public Sub CopyFromPRItem(ByVal prItem As PRItem, ByVal cumWithdrawn As Decimal)
       Me.m_pritem = prItem

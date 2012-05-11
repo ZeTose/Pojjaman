@@ -1767,9 +1767,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class LCIForSelection
     Inherits LCIItem
+    Implements IHaveItemEntity
     Public CC As New CostCenter
     Public FromWip As Boolean = False
     Private m_refEntityId As Integer
+    Public Property ItemEntity As Hashtable Implements IHaveItemEntity.ItemEntity
     Public Property IDList As String
     Public Property StokId As Integer
     Public Property refEntityId() As Integer

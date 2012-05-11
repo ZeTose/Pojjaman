@@ -414,6 +414,73 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Methods"
+    Public Sub PrintDocumentList()
+      Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      'Dim FormPath As String = (myPropertyService.DataDirectory & Path.DirectorySeparatorChar & "forms" & Path.DirectorySeparatorChar & "Adobe" & Path.DirectorySeparatorChar & "documents")
+      Dim thePath As String = ""
+      Dim paths As FormPaths
+      Dim nameForPath As String
+      nameForPath = Entity.FullClassName & ".List"
+      Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
+      Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
+      If dlg.ShowDialog() = DialogResult.OK AndAlso Not dlg.KeyValuePair Is Nothing AndAlso Not dlg.KeyValuePair.Value Is Nothing Then
+        thePath = dlg.KeyValuePair.Value
+      Else
+        Return
+      End If
+      Dim entityList As New List(Of ISimpleEntity)
+      Dim _id As Integer
+      For Each item As ListViewItem In lvItem.Items
+        _id = CInt(item.Tag)
+        Dim entity As ISimpleEntity = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName, _id)
+        entityList.Add(entity)
+      Next
+      Dim xtform As New XtraForm(CType(entityList(0), INewPrintableEntity), thePath, entityList)
+      xtform.ShowDialog()
+
+      'Dim PrintingReportType As ReportExtentionType = ReportExtentionType.XMLReport
+      'If Not Me.Entity Is Nothing Then
+      '  If TypeOf Me.Entity Is IPrintableEntity Then
+      '    Dim fileName As String = "GeneralList"
+      '    thePath = FormPath & Path.DirectorySeparatorChar & fileName & ".xml"
+      '    Dim paths As FormPaths
+      '    Dim nameForPath As String
+      '    nameForPath = Entity.FullClassName & ".List"
+      '    Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      '    paths = CType(myProperties.GetProperty(nameForPath, New FormPaths(nameForPath, Entity.ClassName, thePath)), FormPaths)
+      '    Dim dlg As New Longkong.Pojjaman.Gui.Dialogs.SelectFormsDialog(paths)
+      '    If dlg.ShowDialog() = DialogResult.OK AndAlso Not dlg.KeyValuePair Is Nothing AndAlso Not dlg.KeyValuePair.Value Is Nothing Then
+      '      thePath = dlg.KeyValuePair.Value
+      '    Else
+      '      Return Nothing
+      '    End If
+      '    If thePath.EndsWith(".rpt") Then
+      '      PrintingReportType = ReportExtentionType.CrystalReport
+      '    ElseIf thePath.EndsWith(".repx") Then
+      '      PrintingReportType = ReportExtentionType.XtraReport
+      '    End If
+      '    If File.Exists(thePath) Then
+      '      '--Report form แบบใหม่--
+      '      If PrintingReportType = ReportExtentionType.CrystalReport Then
+      '        Dim idList As String = Me.GetEntityIdList
+      '        Dim crform As New CrystalForm(Me.Entity, thePath, idList)
+      '        crform.ShowDialog()
+      '        Return Nothing
+      '      ElseIf PrintingReportType = ReportExtentionType.XtraReport Then
+      '        'Dim idList As String = Me.GetEntityIdList             
+      '        Dim xtform As New XtraForm(Me, thePath, Me.Entity)
+      '        xtform.ShowDialog()
+      '        Return Nothing
+      '      End If
+      '      '--ส่วนด้านล่างเป็น form แบบเดิม--
+      '      Dim df As New DesignerForm(thePath, Me.lvItem)
+      '      Return df.PrintDocument
+      '    End If
+      '  End If
+      'End If
+    End Sub
+
     Public Sub ChangeTitle(ByVal sender As Object, ByVal e As EventArgs) Implements ISimpleListPanel.ChangeTitle
       If Me.WorkbenchWindow.ActiveViewContent Is Me Then
         Me.TitleName = Me.StringParserService.Parse(m_entity.ListPanelTitle)
@@ -532,7 +599,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         '================FIRST COLUMN=======================================
         '=== SET Attach Icon ==========='
-           Select Case m_selectionMode
+        Select Case m_selectionMode
           Case Selection.None, Selection.SingleSelect
             If deh.GetValue(Of Boolean)("hasAttach") Then 'AndAlso m_selectionMode = Selection.None Then
               litem.StateImageIndex = 0

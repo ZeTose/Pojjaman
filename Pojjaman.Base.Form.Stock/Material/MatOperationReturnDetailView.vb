@@ -1178,25 +1178,85 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim myUnit As New Unit(e.ProposedValue.ToString)
             doc.Unit = myUnit
           Case "stocki_qty"
+            Dim value As Decimal = 0
+            Dim remaining As Decimal
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
-            Dim qty As Decimal = CDec(e.ProposedValue)
-            'MessageBox.Show(doc.Conversion.ToString)
-            If (qty * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
-              If doc.OldQty > 0 Then
-                'เทจากตะกร้า
-                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
-              Else
-                'คีย์โค้ดเองแล้ว enter
-                msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
-              End If
-              Return
-            End If
             If IsNumeric(e.ProposedValue.ToString) Then
-              Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+              value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+
+              'If Not (doc.Pritem Is Nothing) Then
+              remaining = doc.AllowWithdraw(value)
+              'Else
+              '  remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.CostCenter.Id)
+              'End If
+
+              ''เผื่อว่าในรายการอาจมาจาก PR หลาย ๆ ใบแล้วเป็น Lci เดียวกัน
+              'remaining = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+
+              Dim config As Boolean = CBool(Configuration.GetConfig("AllowOverWithdrawStock"))
+              config = False
+
+              Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
+              Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
+              'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
+              If value > (remaining / doc.Conversion) Then
+                If Not config Then
+                  Dim str As String = My.Resources.MatWithdrawDetailView_WidrawOverStock
+                  str = String.Format(str, xCompare, yCompare)
+                  msgServ.ShowWarning(str)
+                  e.ProposedValue = (remaining / doc.Conversion)
+                  doc.Qty = e.ProposedValue
+                  Return
+                Else
+                  If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                    e.ProposedValue = (remaining / doc.Conversion)
+                    doc.Qty = e.ProposedValue
+                    Return
+                  End If
+                End If
+              End If
+              'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
+              '  If doc.OldQty > 0 Then
+              '    'เทจากตะกร้า
+              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
+              '  Else
+              '    'คีย์โค้ดเองแล้ว enter
+              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
+              '  End If
+              '  Return
+              'End If
+
+              'If Not (doc.Pritem Is Nothing) Then
+              'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
+              'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
+              'Else
+              'doc.Qty = value
+              'End If
+              'Else
               doc.Qty = value
+              'End If
             End If
+            'If IsDBNull(e.ProposedValue) Then
+            '  e.ProposedValue = ""
+            'End If
+            'Dim qty As Decimal = CDec(e.ProposedValue)
+            ''MessageBox.Show(doc.Conversion.ToString)
+            'If (qty * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
+            '  If doc.OldQty > 0 Then
+            '    'เทจากตะกร้า
+            '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
+            '  Else
+            '    'คีย์โค้ดเองแล้ว enter
+            '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
+            '  End If
+            '  Return
+            'End If
+            'If IsNumeric(e.ProposedValue.ToString) Then
+            '  Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            '  doc.Qty = value
+            'End If
           Case "stocki_transferunitprice"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
@@ -2024,6 +2084,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        entity.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
       entity.CC = Me.m_entity.CostCenter
       entity.FromWip = True
       entity.refEntityId = Me.Entity.EntityId
@@ -2047,6 +2110,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim item As BasketItem = CType(items(i), BasketItem)
         Dim newItem As IHasName
         Dim newType As Integer = -1
+
+        Dim remaining As Decimal = 0
+
         Select Case item.FullClassName.ToLower
           Case "longkong.pojjaman.businesslogic.lciitem"
             newItem = LCIItem.GetLciitem(item.Id)
@@ -2061,34 +2127,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If i = items.Count - 1 Then
             If Me.m_entity.ItemCollection.Count = 0 Then
               Dim doc As New MatOperationReturnItem
+              doc.Entity = newItem
               Me.m_entity.ItemCollection.Add(doc)
               If newType = 42 Then
-                doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
+                remaining = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id, Me.m_entity.Id)
+                remaining = remaining - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+                doc.Qty = remaining
                 doc.OldQty = doc.Qty
               End If
-              doc.Entity = newItem
+
             Else
               Dim doc As New MatOperationReturnItem
+              doc.Entity = newItem
               If Not Me.CurrentItem Is Nothing Then
                 doc = Me.CurrentItem
               Else
                 Me.m_entity.ItemCollection.Add(doc)
               End If
               If newType = 42 Then
-
-                doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
+                remaining = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id, Me.m_entity.Id)
+                remaining = remaining - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+                doc.Qty = remaining
                 doc.OldQty = doc.Qty
               End If
-              doc.Entity = newItem
             End If
           Else
             Dim doc As New MatOperationReturnItem
+            doc.Entity = newItem
             Me.m_entity.ItemCollection.Insert(index, doc)
             If newType = 42 Then
-              doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
+              remaining = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id, Me.m_entity.Id)
+              remaining = remaining - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
+              doc.Qty = remaining
               doc.OldQty = doc.Qty
             End If
-            doc.Entity = newItem
           End If
         End If
       Next

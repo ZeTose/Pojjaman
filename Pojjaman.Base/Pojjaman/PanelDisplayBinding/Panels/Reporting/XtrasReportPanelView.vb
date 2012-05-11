@@ -9,6 +9,7 @@ Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Core.Properties
 Imports DevExpress.XtraReports.UI
 Imports DevExpress
+Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class XtrasReportPanelView
@@ -937,6 +938,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       MyBase.New()
 
       InitializeComponent()
+
+      Dim newReport As New XtraReport
+      PrintControl1.PrintingSystem = newReport.PrintingSystem
+      PrintControl1.ShowPageMargins = False
+      PrintControl1.Refresh()
+      newReport.CreateDocument()
+      'Show the Document Map button. 
+      newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.DocumentMap, XtraPrinting.CommandVisibility.All)
+      newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Watermark, XtraPrinting.CommandVisibility.None)
+      newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Customize, XtraPrinting.CommandVisibility.None)
+      newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.SendFile, XtraPrinting.CommandVisibility.None)
+
       m_entity = CType(entity, XReport)
 
       Me.CheckAccessRight()
@@ -1128,7 +1141,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         Dim xrCompanyPhoneFaxRichText As Object = newReport.FindControl("CompanyPhoneCompanyFax", True)
         If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("‚∑√»—æ∑Ï {0} ‚∑√ “√ {1}", rows.GetValue(Of String)("CompanyPhoneCompanyFax", ""), rows.GetValue(Of String)("CompanyFax", ""))
+          CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("‚∑√»—æ∑Ï {0} ‚∑√ “√ {1}", rows.GetValue(Of String)("CompanyPhone", ""), rows.GetValue(Of String)("CompanyFax", ""))
         End If
         Dim xrCompanyPhoneRichText As Object = newReport.FindControl("CompanyPhone", True)
         If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRRichText Then
@@ -1159,6 +1172,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'newReport.Parameters.Add(Parameter)
 
         'newReport.RequestParameters = True
+
+        Dim newCtl As Object = CalculateFields(newReport)
 
         For i As Integer = 0 To newReport.Parameters.Count - 1
           'If newReport.Parameters(i).Name.ToLower = "ChkDetailDoc".ToLower Then
@@ -1310,6 +1325,56 @@ Namespace Longkong.Pojjaman.Gui.Panels
         MsgBox(ex.Message)
       End Try
     End Sub
+    Private Function CalculateFields(xr As XtraReport) As Object
+      Dim calColl As CalculatedFieldCollection = xr.CalculatedFields
+
+      Dim _expr As String = ""
+      'Dim _reg As New RegularExpressions.Regex("ctext([\d{n}],[th],[\{n}],[\{n}],[\{n}])")
+      For Each cal As CalculatedField In calColl
+        _expr = cal.Expression
+        cal.Expression = "'" & Me.MatchFunction(_expr, xr) & "'"
+      Next
+
+      Return calColl
+    End Function
+
+    Private Function MatchFunction(expr As String, ByRef xr As XtraReport) As String
+      'Dim expr As String = "ctext(12345678,th,baht,stang,only)"
+      'Dim Num As String = "(\-?\d+\.?\d*)"
+      Const Var As String = "([^\(\),]*)"
+      Dim ctextFunc As New Regex("ctext" &
+      "\(\s*" & Var & _
+      "\s*,\s*" & Var & _
+      "\s*,\s*" & Var & _
+      "\s*,\s*" & Var & _
+      "\s*,\s*" & Var & _
+      "\s*\)", RegexOptions.IgnoreCase)
+      If ctextFunc.IsMatch(expr) Then
+        Dim m As Match = ctextFunc.Match(expr)
+
+        Dim value1 As String = m.Groups(1).Value.Replace("'", "")
+        Dim value2 As String = m.Groups(2).Value.Replace("'", "")
+        Dim value3 As String = m.Groups(3).Value.Replace("'", "")
+        Dim value4 As String = m.Groups(4).Value.Replace("'", "")
+        Dim value5 As String = m.Groups(5).Value.Replace("'", "")
+
+        Return Configuration.FormatToString(CDec(value1), DigitConfig.CurrencyText, value2.ToLower.Trim())
+
+        'If value2.ToLower.Trim.Equals("th") Then
+        '  Return Me.SplitValueText(value1, value3, value4, value5)
+        'Else
+        'End If
+      End If
+
+      'Dim calcFunc As New Regex("calc\(\s*\)", RegexOptions.IgnoreCase)
+      'If calcFunc.IsMatch(expr) Then
+      '  Dim patturn As String = expr.Substring(5, Len(expr) - 1)
+      '  Dim g1() As String = patturn.Split("
+      'End If
+
+      Return expr
+
+    End Function
 #End Region
 
 #Region "ISimpleListPanel"

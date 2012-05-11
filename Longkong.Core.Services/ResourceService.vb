@@ -111,6 +111,13 @@ Namespace Longkong.Core.Services
           End If
         Next
       End If
+      If iconobj Is Nothing Then
+        iconobj = My.Resources.ResourceManager.GetObject(name)
+        If TypeOf iconobj Is Icon Then
+          Return Bitmap.FromHicon(CType(iconobj, Icon).Handle)
+        End If
+      End If
+
       Return iconobj
     End Function
     Public Overrides Sub InitializeService()

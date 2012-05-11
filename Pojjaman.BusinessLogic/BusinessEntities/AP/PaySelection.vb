@@ -64,7 +64,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PaySelection
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IWitholdingTaxable, IPrintableEntity, IPayable, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh, IHasCurrency, IPurchaseCNItemAble _
-      , INewGLAble, ICheckPeriod
+      , INewGLAble, ICheckPeriod, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -2153,6 +2153,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
     '==============CURRENCY=================================
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+
+      End Get
+    End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
 
   End Class
 

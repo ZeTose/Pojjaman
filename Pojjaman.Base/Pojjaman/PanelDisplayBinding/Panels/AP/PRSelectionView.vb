@@ -112,6 +112,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       InitializeComponent()
       m_entity = entity
+      'm_itemEntity = _itemEntity
       Me.SetLabelText()
       Me.TitleName = Me.StringParserService.Parse(m_entity.ListPanelTitle)
       Me.PanelName = Me.Name
@@ -140,6 +141,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Properties"
+    Private ReadOnly Property ItemEntity As Hashtable
+      Get
+        If TypeOf m_entity Is IHaveItemEntity Then
+          Dim ih As IHaveItemEntity = CType(m_entity, IHaveItemEntity)
+          If ih.ItemEntity Is Nothing Then
+            Return New Hashtable
+          End If
+
+          Return ih.ItemEntity
+        End If
+      End Get
+    End Property
     Public Enum Selection
       None
       MultiSelect
@@ -203,7 +216,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       If TypeOf m_entity Is IWithdrawAble Then
-        Dim filterdt As DataTable = Nothing
+        Dim filterdt As DataSet = Nothing
         Dim procName As String = "Get" & m_entity.ClassName & "List"
         filterdt = PRItem.GetListDatatableForMatWithDraw(procName, newfilters)
         PopDataStyle2(filterdt)
@@ -276,53 +289,79 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_treeManager.AllowSorting = False
       m_treeManager.AllowDelete = False
     End Sub
-    Private Sub PopDataStyle2(ByVal filterdt As DataTable)
+    Private Sub PopDataStyle2(ByVal filterdt As DataSet)
       Dim dt As TreeTable = GetSchemaTable2()
       dt.Clear()
       Dim parRow As TreeRow
       Dim currentPR As Integer = -1
 
-      For Each filteredRow As DataRow In filterdt.Rows
+      Dim stockItemHs As New Hashtable
+      For Each row As DataRow In filterdt.Tables(1).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim itemEntity As Integer = drh.GetValue(Of Integer)("stocki_entity")
+        Dim itemRemain As Decimal = drh.GetValue(Of Decimal)("remain")
+        stockItemHs(itemEntity) = itemRemain
+      Next
+
+      Dim newHs As Hashtable = Me.ItemEntity
+      For Each key As Integer In newHs.Keys
+        stockItemHs(key) = CType(stockItemHs(key), Decimal) - CType(newHs(key), Decimal)
+      Next
+      'For Each row As DataRow In dt.Rows
+      '  Dim itemEntityId As Integer = CInt(row("stocki_entity"))
+      '  row("remain") = CDec(row("remain")) - CType(newHs(itemEntityId), Decimal)
+      '  newHs(itemEntityId) = CDec(row("remain"))
+      'Next
+
+      For Each filteredRow As DataRow In filterdt.Tables(0).Rows
+
         Dim drh As New DataRowHelper(filteredRow)
         Dim prId As Integer = drh.GetValue(Of Integer)("pr_id")
         Dim prCode As String = drh.GetValue(Of String)("pr_code")
         Dim Material As String = drh.GetValue(Of String)("lciinfo")
         Dim Unit As String = drh.GetValue(Of String)("unit_name")
         Dim PRQty As Decimal = drh.GetValue(Of Decimal)("PRQty")
-        Dim StockQty As Decimal = drh.GetValue(Of Decimal)("StockQty")
+        'Dim StockQty As Decimal = drh.GetValue(Of Decimal)("StockQty")
         Dim WithdrawQty As Decimal = drh.GetValue(Of Decimal)("WithdrawQty")
-        Dim RemainingQty As Decimal = drh.GetValue(Of Decimal)("RemainingQty")
+        'Dim RemainingQty As Decimal = drh.GetValue(Of Decimal)("RemainingQty")
         Dim LineNumber As Integer = drh.GetValue(Of Integer)("pri_linenumber")
+        Dim itemEntity As Integer = drh.GetValue(Of Integer)("pri_entity")
 
-        If currentPR <> prId Then
-          parRow = dt.Childs.Add
-          parRow("Selected") = False
-          parRow("Code") = prCode
-          parRow("Material") = prCode
-          parRow("Qty") = ""
-          parRow("StockQty") = ""
-          parRow("WithdrawQty") = ""
-          parRow("RemainingQty") = ""
-          currentPR = prId
+        Dim StockQty As Decimal = CDec(stockItemHs(itemEntity))
+        Dim RemainingQty As Decimal = Math.Min(StockQty, PRQty - WithdrawQty)
+        stockItemHs(itemEntity) = StockQty - (PRQty - WithdrawQty) '/*เผื่อ pr ใบอื่นๆ ที่มี item entity เดียวกัน*/
+        If RemainingQty > 0 Then
+          If currentPR <> prId Then
+            parRow = dt.Childs.Add
+            parRow("Selected") = False
+            parRow("Code") = prCode
+            parRow("Material") = prCode
+            parRow("Qty") = ""
+            parRow("StockQty") = ""
+            parRow("WithdrawQty") = ""
+            parRow("RemainingQty") = ""
+            currentPR = prId
+          End If
+          If Not parRow Is Nothing Then
+            Dim childRow As TreeRow = parRow.Childs.Add
+            childRow("Selected") = False
+            childRow("Code") = prCode
+            childRow("Material") = Space(3) & Material
+            childRow("Unit") = Unit
+            childRow("Qty") = Configuration.FormatToString(PRQty, DigitConfig.Price)
+            childRow("StockQty") = Configuration.FormatToString(StockQty, DigitConfig.Price)
+            childRow("WithdrawQty") = Configuration.FormatToString(WithdrawQty, DigitConfig.Price)
+            childRow("RemainingQty") = Configuration.FormatToString(RemainingQty, DigitConfig.Price)
+            childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
+            Dim pritem As New PRItem(filteredRow, "")
+            pritem.Pr = New PR
+            pritem.Pr.Id = prId
+            pritem.Pr.Code = prCode
+            pritem.LineNumber = LineNumber
+            childRow.Tag = pritem
+          End If
         End If
-        If Not parRow Is Nothing Then
-          Dim childRow As TreeRow = parRow.Childs.Add
-          childRow("Selected") = False
-          childRow("Code") = prCode
-          childRow("Material") = Space(3) & Material
-          childRow("Unit") = Unit
-          childRow("Qty") = Configuration.FormatToString(PRQty, DigitConfig.Price)
-          childRow("StockQty") = Configuration.FormatToString(StockQty, DigitConfig.Price)
-          childRow("WithdrawQty") = Configuration.FormatToString(WithdrawQty, DigitConfig.Price)
-          childRow("RemainingQty") = Configuration.FormatToString(RemainingQty, DigitConfig.Price)
-          childRow("Linenumber") = Configuration.FormatToString(LineNumber, DigitConfig.Int)
-          Dim pritem As New PRItem(filteredRow, "")
-          pritem.Pr = New PR
-          pritem.Pr.Id = prId
-          pritem.Pr.Code = prCode
-          pritem.LineNumber = LineNumber
-          childRow.Tag = pritem
-        End If
+
       Next
       dt.AcceptChanges()
 

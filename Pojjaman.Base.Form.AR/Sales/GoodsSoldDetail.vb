@@ -1555,6 +1555,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshDocs()
       tgItem.CurrentRowIndex = index
     End Sub
+    Dim value As Decimal = 0
+    Dim remaining As Decimal = 0
     Private Sub ItemTreetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
       If Not m_isInitialized Then
         Return
@@ -1591,13 +1593,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim myUnit As New Unit(e.ProposedValue.ToString)
             doc.Unit = myUnit
           Case "stocki_qty"
-            If IsDBNull(e.ProposedValue) Then
-              e.ProposedValue = ""
-            End If
-            If IsNumeric(e.ProposedValue.ToString) Then
-              Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-              doc.Qty = value
-            End If
+            'If IsDBNull(e.ProposedValue) Then
+            '  e.ProposedValue = ""
+            'End If
+            'If IsNumeric(e.ProposedValue.ToString) Then
+            '  Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+            '  doc.Qty = value
+            'End If
+            'If IsDBNull(e.ProposedValue) Then
+            '  e.ProposedValue = ""
+            'End IfPo
+            'If IsNumeric(e.ProposedValue.ToString) Then
+            '  value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+
+
+            '  remaining = doc.AllowWithdrawFromPR(value)
+
+
+            '  Dim config As Boolean = CBool(Configuration.GetConfig("AllowOverWithdrawStock"))
+
+            '  Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
+            '  Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
+            '  'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
+            '  If value > (remaining / doc.Conversion) Then
+            '    If Not config Then
+            '      Dim str As String = My.Resources.MatWithdrawDetailView_WidrawOverStock
+            '      str = String.Format(str, xCompare, yCompare)
+            '      msgServ.ShowWarning(str)
+            '      e.ProposedValue = (remaining / doc.Conversion)
+            '      doc.Qty = e.ProposedValue
+            '      Return
+            '    Else
+            '      If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+            '        e.ProposedValue = (remaining / doc.Conversion)
+            '        doc.Qty = e.ProposedValue
+            '        Return
+            '      End If
+            '    End If
+            '  End If
+
+            '  doc.Qty = value
+
+            'End If
           Case "accountcode"
               If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
                 e.ProposedValue = ""
@@ -2387,6 +2424,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If noDoc Then
         Dim entities(3) As ISimpleEntity
         Dim lci As New LCIForSelection
+        If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+          lci.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+        End If
         lci.CC = Me.m_entity.FromCostCenter
         lci.FromWip = False
         entities(0) = lci

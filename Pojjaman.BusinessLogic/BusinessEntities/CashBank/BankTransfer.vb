@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class BankTransfer
     Inherits Banking
-    Implements IWitholdingTaxable, IPrintableEntity
+    Implements IWitholdingTaxable, IPrintableEntity, INewPrintableEntity
 
 #Region "Member"
 
@@ -230,7 +230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "E3.18"
             ji.Amount = CDec(WHTTypeSum(obj))
             ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jicoll.Add(ji)
           End If
         Next
@@ -244,7 +244,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "E3.18D"
             ji.Amount = wht.Amount
             ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jicoll.Add(ji)
           End If
         Next
@@ -258,7 +258,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ji.Mapping = "E3.18W"
             ji.Amount = wht.Amount
             ji.Account = New Account(CStr(Configuration.GetConfig("WHTAcc" & typeNum)))
-        ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
+            ji.CostCenter = CostCenter.GetDefaultCostCenter(CostCenter.DefaultCostCenterType.HQ)
             jicoll.Add(ji)
           End If
         Next
@@ -587,7 +587,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
 
-       
+
 
         If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
           Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
@@ -897,7 +897,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           End If
         End If
-        
+
         '------------------------End Save Check---------------------------
 
         trans.Commit()
@@ -1095,6 +1095,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
 
       Return dpiColl
+    End Function
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromBankbranch", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromBankAccount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromBankAccountCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("NOTE", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FEE", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("WHT", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Originator", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditor", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToBankbrance", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToBankAccount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToBankAccountCode", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
     End Function
 #End Region
 

@@ -31,8 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable _
     , IBillAcceptable, IPrintableEntity, IHasIBillablePerson _
-    , IHasToCostCenter, ICancelable, IAdvancePayItemAble, ICheckPeriod
-
+    , IHasToCostCenter, ICancelable, IAdvancePayItemAble, ICheckPeriod, INewPrintableEntity
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -131,7 +130,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_whtcol = New WitholdingTaxCollection
         .m_whtcol.Direction = New WitholdingTaxDirection(1)
         .m_vat.Direction.Value = 1
-                .m_je = New JournalEntry(Me)
+        .m_je = New JournalEntry(Me)
         .m_supplier = New Supplier
         .m_creditPeriod = 0
         .m_taxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
@@ -296,7 +295,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_supplier = Value      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.docdate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+        End If        m_supplier = Value      End Set    End Property    Public Property DeliveryPerson() As String      Get        Return m_deliveryPerson      End Get      Set(ByVal Value As String)        m_deliveryPerson = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IWitholdingTaxable.Date, IPayable.Date, IGLAble.Date, IAdvancePayItemAble.DocDate, ICheckPeriod.DocDate      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
         Return m_olddocDate
       End Get
     End Property    Public Property ToCostCenter() As CostCenter      Get        Return m_toCostCenter      End Get      Set(ByVal Value As CostCenter)        m_toCostCenter = Value      End Set    End Property    Public Property ToCostCenterPerson() As Employee      Get        Return m_toCostCenterPerson      End Get      Set(ByVal Value As Employee)        m_toCostCenterPerson = Value      End Set    End Property    Public ReadOnly Property ToAccount() As Account      Get        If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then          Return Me.ToCostCenter.StoreAccount
@@ -307,7 +306,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As WitholdingTaxCollection)
         m_whtcol = Value
       End Set
-    End Property    Public Property Note() As String Implements IPayable.Note, IGLAble.note, IAdvancePayItemAble.note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Long      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Long)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, EqMaintenanceStatus)      End Set    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public ReadOnly Property TaxGross() As Decimal      Get        Return m_taxGross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.RealGross        Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
+    End Property    Public Property Note() As String Implements IPayable.Note, IGLAble.Note, IAdvancePayItemAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Long      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Long)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, EqMaintenanceStatus)      End Set    End Property    Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Return m_gross      End Get    End Property    Public ReadOnly Property TaxGross() As Decimal      Get        Return m_taxGross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.RealGross        Return Configuration.Format(Me.Discount.Amount, DigitConfig.Price)      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         'Select Case Me.TaxType.Value
         '    Case 0 '"ไม่มี"
@@ -457,7 +456,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return ValidateError
       End If
 
-     
+
 
 
       Return New SaveErrorException("0")
@@ -568,134 +567,134 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldje As Integer = Me.m_je.Id
         Try
 
-        
-        Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -2
-                trans.Rollback()
-                Me.ResetID(oldid, oldpay, oldvat, oldje)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            Me.ResetID(oldid, oldpay, oldvat, oldje)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
 
-          SaveDetail(Me.Id, conn, trans)
-
-          If Not Me.m_advancePayItemColl Is Nothing Then
-            If Me.m_advancePayItemColl.RefDoc Is Nothing Then
-              Me.m_advancePayItemColl.RefDoc = Me
-            End If
-            Dim saveAdvancePayError As SaveErrorException = Me.m_advancePayItemColl.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveAdvancePayError.Message) Then
-              trans.Rollback()
-              ResetID(oldid, oldpay, oldvat, oldje)
-              Return saveAdvancePayError
-            Else
-              Select Case CInt(saveAdvancePayError.Message)
-                Case -1, -2, -5
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -2
                   trans.Rollback()
-                  ResetID(oldid, oldpay, oldvat, oldje)
-                  Return saveAdvancePayError
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+              trans.Rollback()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+
+            SaveDetail(Me.Id, conn, trans)
+
+            If Not Me.m_advancePayItemColl Is Nothing Then
+              If Me.m_advancePayItemColl.RefDoc Is Nothing Then
+                Me.m_advancePayItemColl.RefDoc = Me
+              End If
+              Dim saveAdvancePayError As SaveErrorException = Me.m_advancePayItemColl.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveAdvancePayError.Message) Then
+                trans.Rollback()
+                ResetID(oldid, oldpay, oldvat, oldje)
+                Return saveAdvancePayError
+              Else
+                Select Case CInt(saveAdvancePayError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    ResetID(oldid, oldpay, oldvat, oldje)
+                    Return saveAdvancePayError
+                  Case Else
+                End Select
+              End If
+            End If
+
+
+            Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
+            If Not IsNumeric(savePaymentError.Message) Then
+              trans.Rollback()
+              Me.Payment.ResetDetail()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Return savePaymentError
+            Else
+              Select Case CInt(savePaymentError.Message)
+                Case -1, -2
+                  trans.Rollback()
+                  Me.Payment.ResetDetail()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Return savePaymentError
                 Case Else
               End Select
             End If
-          End If
-
-         
-          Dim savePaymentError As SaveErrorException = Me.m_payment.Save(currentUserId, conn, trans)
-          If Not IsNumeric(savePaymentError.Message) Then
-            trans.Rollback()
-              Me.Payment.ResetDetail()
-              Me.ResetID(oldid, oldpay, oldvat, oldje)
-            Return savePaymentError
-          Else
-            Select Case CInt(savePaymentError.Message)
-              Case -1, -2
-                trans.Rollback()
-                  Me.Payment.ResetDetail()
-                  Me.ResetID(oldid, oldpay, oldvat, oldje)
-                Return savePaymentError
-              Case Else
-            End Select
-          End If
-          Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveVatError.Message) Then
-            trans.Rollback()
-              Me.Payment.ResetDetail()
-              Me.ResetID(oldid, oldpay, oldvat, oldje)
-            Return saveVatError
-          Else
-            Select Case CInt(saveVatError.Message)
-              Case -1, -2
-                trans.Rollback()
-                  Me.Payment.ResetDetail()
-                  Me.ResetID(oldid, oldpay, oldvat, oldje)
-                Return saveVatError
-              Case Else
-            End Select
-          End If
-
-          If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
-            Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveWhtError.Message) Then
+            Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveVatError.Message) Then
               trans.Rollback()
+              Me.Payment.ResetDetail()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Return saveVatError
+            Else
+              Select Case CInt(saveVatError.Message)
+                Case -1, -2
+                  trans.Rollback()
+                  Me.Payment.ResetDetail()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Return saveVatError
+                Case Else
+              End Select
+            End If
+
+            If Not Me.m_whtcol Is Nothing AndAlso Me.m_whtcol.Count >= 0 Then
+              Dim saveWhtError As SaveErrorException = Me.m_whtcol.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveWhtError.Message) Then
+                trans.Rollback()
                 Me.Payment.ResetDetail()
                 ResetID(oldid, oldpay, oldvat, oldje)
-              Return saveWhtError
-            Else
-              Select Case CInt(saveWhtError.Message)
-                Case -1, -2, -5
-                  trans.Rollback()
+                Return saveWhtError
+              Else
+                Select Case CInt(saveWhtError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
                     Me.Payment.ResetDetail()
                     ResetID(oldid, oldpay, oldvat, oldje)
-                  Return saveWhtError
+                    Return saveWhtError
+                  Case Else
+                End Select
+              End If
+            End If
+
+
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              Me.Payment.ResetDetail()
+              Me.ResetID(oldid, oldpay, oldvat, oldje)
+              Return saveJeError
+            Else
+              Select Case CInt(saveJeError.Message)
+                Case -1
+                  trans.Rollback()
+                  Me.Payment.ResetDetail()
+                  Me.ResetID(oldid, oldpay, oldvat, oldje)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
                 Case Else
               End Select
             End If
-          End If
 
 
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
+            trans.Commit()
+          Catch ex As SqlException
             trans.Rollback()
-              Me.Payment.ResetDetail()
-              Me.ResetID(oldid, oldpay, oldvat, oldje)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1
-                trans.Rollback()
-                  Me.Payment.ResetDetail()
-                  Me.ResetID(oldid, oldpay, oldvat, oldje)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-
-         
-          trans.Commit()
-        Catch ex As SqlException
-          trans.Rollback()
             Me.Payment.ResetDetail()
             Me.ResetID(oldid, oldpay, oldvat, oldje)
-          Return New SaveErrorException(ex.ToString)
-        Catch ex As Exception
-          trans.Rollback()
+            Return New SaveErrorException(ex.ToString)
+          Catch ex As Exception
+            trans.Rollback()
             Me.Payment.ResetDetail()
             Me.ResetID(oldid, oldpay, oldvat, oldje)
-          Return New SaveErrorException(ex.ToString)
+            Return New SaveErrorException(ex.ToString)
           End Try
 
           'Sub Save Block
@@ -722,7 +721,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
-    
+
 
       Try
         Me.DeleteRef(conn, trans)
@@ -1283,7 +1282,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return jiColl
     End Function
-    Public Property JournalEntry() As JournalEntry Implements IGLAble.journalEntry
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
       Get
         Return Me.m_je
       End Get
@@ -1420,6 +1419,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
+      dpi = New DocPrintingItem
+      dpi.Mapping = "stock_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
 
       'Code
       dpi = New DocPrintingItem
@@ -1586,6 +1590,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If ValidateRow(itemRow) Then
           Dim item As New EqMaintenanceItem
           item.CopyFromDataRow(itemRow)
+
+          dpi = New DocPrintingItem
+          dpi.Mapping = "stocki_stock"
+          dpi.Value = Me.Id
+          dpi.DataType = "System.String"
+          dpi.Row = n + 1
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+
           'Item.LineNumber
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.LineNumber"
@@ -1786,7 +1799,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
-   
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>stock_id>item>stocki_stock")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stock_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("InvoiceCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("InvoiceDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryDocCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCurrentAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EquipmentInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.Int32"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryPerson", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stocki_stock", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DiscountRate", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DiscountAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ZeroVat", "System.Boolean", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
   End Class
   Public Class EqMaintenanceItem
 

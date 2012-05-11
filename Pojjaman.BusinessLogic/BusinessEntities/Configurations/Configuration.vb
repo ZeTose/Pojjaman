@@ -61,6 +61,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
 #Region "BathText"
+    Public Shared Function FormatToString(number As String, lang As String, bigEng As String, smallEng As String) As String
+      If Not IsNumeric(number) Then
+        Return ""
+      End If
+      Dim minusSign As Integer = CInt(Configuration.GetConfig("CompanyMinusSign")) ' 1:ใช้ ()
+      Dim minusText As String = ""
+      Dim formatValue As String = ""
+      If lang.ToLower.Trim = "th" Then
+        minusText = "ลบ"
+        formatValue = BahtText(number)
+      Else
+        minusText = "Minus "
+        formatValue = EngText(number, bigEng, smallEng)
+      End If
+
+      If CInt(minusSign) = 1 Then 'ใช้ ()
+        Return String.Format("({0})", formatValue)
+      Else
+        Return String.Format("{0}{1}", minusText, formatValue)
+      End If
+
+    End Function
+    Public Shared Function EngText(number As String, bigEng As String, smallEng As String) As String
+      If IsNumeric(number) Then
+        Return MoneyConverter.Convert(CDec(number), bigEng, smallEng)
+      End If
+      Return ""
+    End Function
     Public Shared Function BahtText(ByVal number As String) As String
       Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim OnlyText As String = parser.Parse("${res:Global.OnlyMoney}") 'Only
@@ -288,6 +316,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ret
     End Function
+    'Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As DigitConfig, ByVal lang As String = "th") As String
+    '  If config = DigitConfig.CurrencyText Then
+    '    Dim minusEgText As String
+    '    Dim minusThText As String
+    '    If number < 0 Then
+    '      minusEgText = "Minus"
+    '      minusThText = "ลบ"
+    '    End If
+    '    number = Math.Abs(number)
+    '    'Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+    '    If lang = "th" AndAlso Configuration.GetConfig("BigMoney").ToString = "บาท" Then 'parser.Parse("${res:Global.BigMoney}") = "บาท" Then
+    '      Return minusThText & ToCurrenyText(number)
+    '    End If
+    '    Return minusEgText & " " & MoneyConverter.Convert(number)
+    '  End If
+    '  Dim digit As Integer = GetDigit(config)
+    '  If config = DigitConfig.CheckAmount AndAlso CInt(number) = number Then
+    '    digit = GetDigit(DigitConfig.Int)
+    '  End If
+    '  Dim formatString As String = "N" & CStr(digit)
+    '  Dim ret As String = number.ToString(formatString)
+    '  If CInt(Configuration.GetConfig("CompanyMinusSign")) = 1 Then 'ใช้ ()
+    '    If number < 0 Then
+    '      ret = "(" & ret.Substring(1, Len(ret) - 1) & ")"
+    '    End If
+    '  End If
+    '  Return ret
+    'End Function
     Public Shared Function FormatToString(ByVal number As Decimal, ByVal config As DigitConfig, Optional ByVal lang As String = "th") As String
       If config = DigitConfig.CurrencyText Then
         Dim minusEgText As String
@@ -624,6 +680,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Shared tens() As String
     Private Shared BigUnit As String
     Private Shared SmallUnit As String
+    Private Shared BigMoneyEng As String
+    Private Shared SmallMoneyEng As String
     Private Shared OnlyText As String
     Shared Sub New()
       Dim parser As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -636,10 +694,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       BigUnit = Configuration.GetConfig("BigMoney").ToString 'parser.Parse("${res:Global.BigMoney}")
       SmallUnit = Configuration.GetConfig("SmallMoney").ToString 'parser.Parse("${res:Global.SmallMoney}")
+      BigMoneyEng = Configuration.GetConfig("BigMoneyEng").ToString 'parser.Parse("${res:Global.BigMoney}")
+      SmallMoneyEng = Configuration.GetConfig("SmallMoneyEng").ToString 'parser.Parse("${res:Global.SmallMoney}")
     End Sub
 
     Public Shared Function Convert(ByVal inputDec As Decimal) As String
       Return Convert(inputDec, BigUnit, SmallUnit, OnlyText)
+    End Function
+
+    Public Shared Function Convert(ByVal inputDec As Decimal, _bigEng As String, _smallEng As String) As String
+      Dim bEng As String = BigMoneyEng
+      Dim sEng As String = SmallMoneyEng
+      If _bigEng.Length > 0 Then
+        bEng = _bigEng
+      End If
+      If _smallEng.Length > 0 Then
+        sEng = _smallEng
+      End If
+      Return Convert(inputDec, bEng, sEng, OnlyText)
     End Function
 
     Public Shared Function Convert(ByVal inputDec As Decimal, ByVal bigU As String, ByVal smallU As String, ByVal onlyT As String) As String

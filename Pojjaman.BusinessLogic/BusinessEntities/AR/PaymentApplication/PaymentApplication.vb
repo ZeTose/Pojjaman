@@ -47,8 +47,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PaymentApplication
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IHasIBillablePerson, IHasToCostCenter, IDuplicable
-
+    Implements IPrintableEntity, IHasIBillablePerson, IHasToCostCenter, IDuplicable, INewPrintableEntity
 
 #Region "Members"
     Private m_cc As CostCenter 'CostCenter
@@ -207,28 +206,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub    Public Property TaxPoint() As TaxPoint      Get        Return m_taxPoint      End Get      Set(ByVal Value As TaxPoint)        m_taxPoint = Value      End Set    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value      End Set    End Property    Public ReadOnly Property TaxBase() As Decimal
       Get
-				Select Case Me.TaxType.Value
-					Case 0		 '"ไม่มี"
-						Return 0
-					Case 1		 '"แยก"
+        Select Case Me.TaxType.Value
+          Case 0     '"ไม่มี"
+            Return 0
+          Case 1     '"แยก"
             Return Me.TotalAmountForTax '- DiscountAmount ใน total amount มีส่วนลดอยู่แล้ว
             'Return Me.ContractAmount - DiscountAmount   'ยอดนี้พอมีงานเพิ่มลด แล้วผิด
             'Return Me.TotalAmount
-					Case 2		 '"รวม"
+          Case 2     '"รวม"
             Return (Me.TotalAmountForTax) * (100 / (Me.TaxRate + 100))
             'Return (Me.TotalAmount - DiscountAmount) * (100 / (Me.TaxRate + 100)) ใน total amount มีส่วนลดอยู่แล้ว
             'Return (Me.ContractAmount - DiscountAmount) * (100 / (Me.TaxRate + 100)) 'ยอดนี้พอมีงานเพิ่มลด แล้วผิด
             'Return Me.TotalAmount * (100 / (Me.TaxRate + 100))
-				End Select
+        End Select
       End Get
-    End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Return (Me.TaxRate * Me.TaxBase) / 100      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get				Select Case Me.TaxType.Value
-					Case 0			'"ไม่มี"
-						Return Me.TotalAmount
-					Case 1		 '"แยก"
-						Return Me.TotalAmount
-					Case 2		 '"รวม"
-						Return Me.TotalAmount - Me.TaxAmount
-				End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal      Get        Select Case Me.TaxType.Value
+    End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Return (Me.TaxRate * Me.TaxBase) / 100      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get        Select Case Me.TaxType.Value
+          Case 0      '"ไม่มี"
+            Return Me.TotalAmount
+          Case 1     '"แยก"
+            Return Me.TotalAmount
+          Case 2     '"รวม"
+            Return Me.TotalAmount - Me.TaxAmount
+        End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal      Get        Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
             Return Me.BeforeTax
           Case 1, 2 'แยก,'รวม
@@ -300,7 +299,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_advance = Value
       End Set
-    End Property       Private m_retention As Decimal    Public Property Retention() As Decimal      Get
+    End Property    Private m_retention As Decimal    Public Property Retention() As Decimal      Get
         Return m_retention
       End Get
       Set(ByVal Value As Decimal)
@@ -671,7 +670,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                   New SqlParameter("@pma_id", Me.Id), _
                                   New SqlParameter("@excludeList", excludeList) _
                                   )
-       
+
         trans.Commit()
         Return New SaveErrorException("1")
       Catch ex As SqlException
@@ -913,6 +912,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "pma_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'CostCenterInfo
       If Me.CostCenter.Valid Then
         dpi = New DocPrintingItem
@@ -1030,6 +1035,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim n As Integer = 0
       Dim SumAmount As Decimal = 0
       For Each item As Milestone In Me.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "pmai_pma"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -1445,6 +1458,79 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>pma_id>item>pmai_pma")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pma_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefBOQ", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("StartDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Period", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueComplete", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Budget", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxPoint", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxType", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Advance", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ContractAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("HandedCount", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("HandedAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillingCount", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillingAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BilledCount", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BilledAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceivedCount", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceivedAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalCount", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalDiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalPenaltyAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DecAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("IncAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AllAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalAdvance", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalRetention", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalPenalty", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalDiscount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalFinal", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalReceievRetention", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalReceievAdvance", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalDeductRetention", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalDeductAdvance", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pmai_pma", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Type", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Advance", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Retention", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Penalty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Discount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Final", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Status", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.TotalName", "System.String", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
 
   End Class
 

@@ -32,7 +32,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PettyCashClaim
     Inherits SimpleBusinessEntityBase
-    Implements IPayable, IGLAble, IPrintableEntity, ICancelable, ICheckPeriod
+    Implements IPayable, IGLAble, IPrintableEntity, ICancelable, ICheckPeriod, INewPrintableEntity
 
 #Region "Members"
     Private pcc_docDate As Date
@@ -1206,7 +1206,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PettyCashInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PettyCashCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PettyCashName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
 
   End Class
   Public Class PettyCashClaimEntityType

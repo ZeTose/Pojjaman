@@ -34,7 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatTransfer
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, IAllowWBSAllocatableItem, IHasAppStoreColl,  _
-    INewPrintableEntity, IDocStatus
+    INewPrintableEntity, IDocStatus, IAbleValidateItemQuantity
 
 #Region "Members"
     Private m_docDate As Date
@@ -2434,6 +2434,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IAbleValidateItemQuantity"
+    Public ReadOnly Property ItemEntityHashTable As System.Collections.Hashtable Implements IAbleValidateItemQuantity.ItemEntityHashTable
+      Get
+        Dim newhs As New Hashtable
+        Dim entityId As Integer
+        For Each item As MatTransferItem In ItemCollection
+          entityId = item.Entity.Id
+          If Not newhs.ContainsKey(entityId) Then
+            newhs(entityId) = item.StockQty
+          Else
+            newhs(entityId) = CDec(newhs(entityId)) + item.StockQty
+          End If
+        Next
+        Return newhs
+      End Get
+    End Property
+#End Region
   End Class
   Public Class StoreCostCenter
     Inherits CostCenter

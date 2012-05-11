@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IAbleConvertibleUnit
     Property Qty As Decimal
@@ -21,14 +23,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Interface
   Public Interface IDocumentPersonAble
-    ReadOnly Property Employee As Employee
-    ReadOnly Property User As User
-    ReadOnly Property CanceledUser As User
-    ReadOnly Property CreatedUser As User
-    ReadOnly Property EditedUser As User
-    ReadOnly Property ApprovedUser As User
-    ReadOnly Property AutherizedUser As User
-    ReadOnly Property RejectUser As User
+    ReadOnly Property DocumentEditedUser As DocumentEditedUser
+    'ReadOnly Property Employee As Employee
+    'ReadOnly Property User As User
+    'ReadOnly Property CanceledUser As User
+    'ReadOnly Property CreatedUser As User
+    'ReadOnly Property EditedUser As User
+    'ReadOnly Property ApprovedUser As User
+    'ReadOnly Property AutherizedUser As User
+    'ReadOnly Property RejectUser As User
+    'ReadOnly Property ApprovedUserList As List(Of ApproveDoc)
   End Interface
   Public Interface IApproveStatusAble
     ReadOnly Property IsAuthorized As Boolean
@@ -85,6 +89,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
     AllocationToOnly
     AllocationFromAndTo
   End Enum
+  Public Class EditedUser
+    Public Sub New()
+
+    End Sub
+    Public Property UserId As Integer
+    Public Property UserName As String
+    Public Property EditedDate As DateTime
+  End Class
+  Public Class DocumentEditedUser
+    Public Sub New()
+      Employee = New Employee
+      CanceledUser = New EditedUser
+      CreatedUser = New EditedUser
+      EditedUser = New EditedUser
+      ApprovedUser = New EditedUser
+      AutherizedUser = New EditedUser
+      RejectUser = New EditedUser
+      ApprovedUserList = New List(Of ApproveDoc)
+    End Sub
+    Public Property Employee As Employee
+    Public Property CanceledUser As EditedUser
+    Public Property CreatedUser As EditedUser
+    Public Property EditedUser As EditedUser
+    Public Property ApprovedUser As EditedUser
+    Public Property AutherizedUser As EditedUser
+    Public Property RejectUser As EditedUser
+    Public Property ApprovedUserList As List(Of ApproveDoc)
+  End Class
 
   <Serializable(), DefaultMember("Item")> _
   Public Class WBSAllocatableItemCollection

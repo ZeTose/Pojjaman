@@ -190,6 +190,12 @@
   <ItemGroup>
     <None Include="Resources\Attachment-24.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReportDesignerDemoIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SearchLookUpEditDemo.Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

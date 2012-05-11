@@ -464,7 +464,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   ' สินทรัพย์
   Public Class Asset
     Inherits SimpleBusinessEntityBase
-    Implements IHasImage, IHasRentalRate, IPrintableEntity, IHasGroup, IHasToCostCenter, IEqtItem
+    Implements IHasImage, IHasRentalRate, IPrintableEntity, IHasGroup, IHasToCostCenter, IEqtItem, INewPrintableEntity
 
 #Region "Members"
     Private m_refsequence As Integer
@@ -501,7 +501,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_balance As Decimal
 
     Private m_rentalrate As Decimal
-    Private m_dateintervalunit As DateinterValUnit
+    Private m_dateintervalunit As DateIntervalUnit
 
     Private m_salvage As Decimal
     Private m_startBalance As Decimal
@@ -528,7 +528,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_depreopening As Decimal
     Private m_firstYearRate As Decimal
 
-    Private m_cc As Costcenter
+    Private m_cc As CostCenter
     Private m_project As Project
     Private m_lci As LCIItem
     Private m_status As AssetStatus
@@ -597,7 +597,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
         End If
-        
+
         If Not dr.IsNull("stock_Code") Then
           .m_buyDocCode = CStr(dr("stock_Code"))
         End If
@@ -748,8 +748,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_lci = New LCIItem
         .m_status = New AssetStatus(-1)
         .m_calcType = New AssetCalcType(0)
-        .m_dateintervalunit = New DateinterValUnit(0)
-        .m_cc = New Costcenter
+        .m_dateintervalunit = New DateIntervalUnit(0)
+        .m_cc = New CostCenter
         .m_project = New Project
 
         .m_salvage = 1
@@ -2580,15 +2580,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 #Region "Items VArc Customize"
     Public Overloads Sub VReLoadItems()
-      Me.VIsInitialized = False
+      Me.VisInitialized = False
       m_VitemTable = VGetSchemaTable()
       VLoadItems()
-      Me.VIsInitialized = True
+      Me.VisInitialized = True
     End Sub
     Public Overloads Sub VReloadItems(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-      Me.VIsInitialized = False
+      Me.VisInitialized = False
       m_VitemTable = VGetSchemaTable()
-      Me.VIsInitialized = True
+      Me.VisInitialized = True
     End Sub
     Private Sub VLoadItems()
       If Not Me.Originated Then
@@ -2700,9 +2700,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
       Return "AssetInfo"
     End Function
-
-
-
 
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
@@ -3193,6 +3190,72 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return m_assetSet
     End Function
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetDetail", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetStatus", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UnitInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UnitCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("UnitName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetTypeInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetTypeCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AssetTypeName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RentalRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreOpeningAccountInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreOpeningAccountCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreOpeningAccountName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreAccountInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreAccountCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreAccountName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostcenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostcenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostcenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Location", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CalcType", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Age", "System.Int32"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("StartCalcDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EndCalcDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CalcRate", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("StartCalcAmt", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Salvage", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DepreOpenningAmt", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RemainingValue", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BuyDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BuyPrice", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BuyFrom", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BuyDocCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BuyDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TransferDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("YTDDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("YTDInnerIncome", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("YTDOutterIncome", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("YTDMantTotal", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("YTDDepre", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("YTDProfit", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LTDDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LTDInnerIncome", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LTDOutterIncome", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LTDMantTotal", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LTDDepre", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LTDProfit", "System.Decimal"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
 
   End Class
 
@@ -4445,8 +4508,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-
-
     Public Property FromCC() As CostCenter Implements IHasFromCostCenter.FromCC
       Get
         Return Me.FromCostcenter
@@ -4940,7 +5001,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MyBase.List.RemoveAt(index)
     End Sub
 #End Region
-
 
     Public Class DepreItemEnumerator
       Implements IEnumerator

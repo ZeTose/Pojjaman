@@ -34,7 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatWithdraw
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable, INewGLAble,  _
-    INewPrintableEntity, IDocStatus
+    INewPrintableEntity, IDocStatus, IAbleValidateItemQuantity
 
 #Region "Members"
     Private m_docDate As Date
@@ -1316,7 +1316,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Try
         '==============================UPDATE PRITEM=========================================
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
         '==============================UPDATE PRITEM=========================================
 
         Me.DeleteRef(conn, trans)
@@ -2636,6 +2636,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IAbleValidateItemQuantity"
+    Public ReadOnly Property ItemEntityHashTable As System.Collections.Hashtable Implements IAbleValidateItemQuantity.ItemEntityHashTable
+      Get
+        Dim newhs As New Hashtable
+        Dim entityId As Integer
+        For Each item As MatWithdrawItem In ItemCollection
+          entityId = item.Entity.Id
+          If Not newhs.ContainsKey(entityId) Then
+            newhs(entityId) = item.StockQty
+          Else
+            newhs(entityId) = CDec(newhs(entityId)) + item.StockQty
+          End If
+        Next
+        Return newhs
+      End Get
+    End Property
+#End Region
   End Class
 
 

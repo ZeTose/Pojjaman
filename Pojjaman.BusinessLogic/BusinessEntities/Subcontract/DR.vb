@@ -34,7 +34,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, ICancelable, IHasToCostCenter, IDuplicable,  _
       ICheckPeriod, IWBSAllocatable, IApprovAble, IAbleExceptAccountPeriod _
-   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble
+   , ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble, INewPrintableEntity, IDocStatus, IDocumentPersonAble
 
 #Region "Members"
 
@@ -1765,6 +1765,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpi As DocPrintingItem
       Me.RefreshTaxBase()
 
+      'dr_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "dr_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -2068,6 +2075,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim indent As String = ""
       For Each item As DRItem In Me.ItemCollection
         line += 1
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "dri_dr"
+        dpi.Value = Me.Id
+        dpi.Font = fn
+        dpi.DataType = "System.Int32"
+        dpi.Row = i + 1
+        dpi.Table = "RealItem"
+        dpiColl.Add(dpi)
 
         'Item.LineNumber
         '************** เอามาไว้เป็นอันที่ 2
@@ -2403,6 +2419,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim indent As String = ""
       For Each item As DRItem In Me.ItemCollection
         line += 1
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "dri_dr"
+        dpi.Value = Me.Id
+        dpi.Font = fn
+        dpi.DataType = "System.Int32"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         'Item.LineNumber
         '************** เอามาไว้เป็นอันที่ 2
@@ -2866,6 +2891,262 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return False
       End Get
     End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      Me.RefreshTaxBase()
+
+      dpiColl.RelationList.Add("general>dr_id>Item>dri_dr")
+
+      dpiColl.RelationList.Add("general>dr_id>RealItem>dri_dr")
+
+      dpiColl.RelationList.Add("general>dr_id>ApprovePerson>ApprovePersonNo")
+
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("dr_id", "System.String"))
+      '--สำหรับไว้สร้าง relation ใน schema--=============
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SCCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorId", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RequestorName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubcontractorInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubContractorBillingAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToCostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SubcontractorInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromEmployeeCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromEmployeeName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("FromCostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxRate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonNo", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonLevel", "System.Int32", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonCode", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonName", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonInfo", "System.String", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonDate", "System.DateTime", "ApprovePerson"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ApprovePersonComment", "System.String", "ApprovePerson"))
+
+      dpiColl.AddRange(GetRealItemCollDocPrintingEntriesColumns)
+      dpiColl.AddRange(GetItemCollDocPrintingEntriesColumns)
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+
+    Public Function GetRealItemCollDocPrintingEntriesColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("dri_dr", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.LineNumber", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Code", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Name", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Unit", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Qty", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.UnitPrice", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Amount", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.ReceivedAmount", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Mat", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Lab", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Eq", "System.String", "RealItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealItem.Note", "System.String", "RealItem"))
+
+      Return dpiColl
+    End Function
+    Public Function GetItemCollDocPrintingEntriesColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("dri_dr", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCostCenter", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodePercent", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSCodeAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.WBSRemainQty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceivedAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Mat", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Lab", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Eq", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      Return dpiColl
+    End Function
+#End Region
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+          Dim obj As Object = Configuration.GetConfig("ApproveDR")
+          If CBool(obj) Then
+            If Me.IsAuthorized Then
+              Return "Authorized"
+            ElseIf Me.IsLevelApproved Then
+              Return "Approved"
+            ElseIf Me.IsReject Then
+              Return "Reject"
+            End If
+          End If
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
+
+#Region "IDocumentPersonAble"
+
+    ReadOnly Property DocumentEditedUser As DocumentEditedUser Implements IDocumentPersonAble.DocumentEditedUser
+      Get
+        Dim m_documentEditedUser As New DocumentEditedUser
+
+        m_documentEditedUser.ApprovedUserList = Me.GetApprovedUserList
+        m_documentEditedUser.ApprovedUser = Me.GetApprovedUser
+        m_documentEditedUser.AutherizedUser = Me.GetAutherizedUser
+        m_documentEditedUser.CanceledUser = Me.GetCanceledUser
+        m_documentEditedUser.CreatedUser = Me.GetCreatedUser
+        m_documentEditedUser.EditedUser = Me.GetEditedUser
+        m_documentEditedUser.EditedUser = Me.GetRejectUser
+        m_documentEditedUser.Employee = Me.FromEmployee
+
+        Return m_documentEditedUser
+      End Get
+    End Property
+
+    Private Function GetApprovedUserList() As List(Of ApproveDoc)
+      Dim LastLevelApprove As New List(Of ApproveDoc)
+      Dim aProvePerson As New List(Of ApproveDoc)
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 Then
+          LastLevelApprove.Add(ap)
+        End If
+      Next
+      If LastLevelApprove.Count > 0 AndAlso Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+        For Each ap As ApproveDoc In LastLevelApprove
+          If Not ap.Reject Then
+            aProvePerson.Add(ap)
+          End If
+        Next
+      End If
+
+      Return aProvePerson
+    End Function
+
+    Public Function GetApprovedUser() As EditedUser
+      Dim aplist As List(Of ApproveDoc) = Me.GetApprovedUserList
+      Dim editeduser As New EditedUser
+      If aplist.Count > 1 Then
+        Dim userHs As New Hashtable
+        Dim maxLevel As Integer = 0
+        For Each doc As ApproveDoc In aplist
+          userHs(doc.Level) = doc
+          maxLevel = Math.Max(maxLevel, doc.Level)
+        Next
+        'Return New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator)
+        editeduser.UserId = CType(userHs(maxLevel - 1), ApproveDoc).Originator
+        editeduser.UserName = New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator).Name
+        editeduser.EditedDate = CType(userHs(maxLevel - 1), ApproveDoc).OriginDate
+      ElseIf aplist.Count > 0 Then
+        'Return New User(aplist.Item(aplist.Count - 1).Originator)
+        editeduser.UserId = aplist.Item(aplist.Count - 1).Originator
+        editeduser.UserName = New User(aplist.Item(aplist.Count - 1).Originator).Name
+        editeduser.EditedDate = aplist.Item(aplist.Count - 1).OriginDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetAutherizedUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not Me.ApprovePerson Is Nothing Then
+        editeduser.UserId = Me.ApprovePerson.Id
+        editeduser.UserName = Me.ApprovePerson.Name
+        editeduser.EditedDate = Me.ApproveDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetCanceledUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not Me.CancelPerson Is Nothing Then
+        editeduser.UserId = Me.CancelPerson.Id
+        editeduser.UserName = Me.CancelPerson.Name
+        editeduser.EditedDate = Me.CancelDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetCreatedUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not Originator Is Nothing Then
+        editeduser.UserId = Me.Originator.Id
+        editeduser.UserName = Me.Originator.Name
+        editeduser.EditedDate = Me.OriginDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetEditedUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not LastEditor Is Nothing Then
+        editeduser.UserId = Me.LastEditor.Id
+        editeduser.UserName = Me.LastEditor.Name
+        editeduser.EditedDate = Me.LastEditDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetRejectUser() As EditedUser
+      Dim editeduser As New EditedUser
+      Dim LastLevelApprove As New List(Of ApproveDoc)
+      Dim aProvePerson As New List(Of ApproveDoc)
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 Then
+          LastLevelApprove.Add(ap)
+        End If
+      Next
+      If LastLevelApprove.Count > 0 AndAlso LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+        editeduser.UserId = LastLevelApprove.Item(LastLevelApprove.Count - 1).Originator
+        editeduser.UserName = New User(LastLevelApprove.Item(LastLevelApprove.Count - 1).Originator).Name
+        editeduser.EditedDate = LastLevelApprove.Item(LastLevelApprove.Count - 1).OriginDate
+      End If
+      Return editeduser
+    End Function
+
 #End Region
 
   End Class

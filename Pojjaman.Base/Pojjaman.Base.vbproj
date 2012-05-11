@@ -516,6 +516,7 @@
     <Compile Include="Pojjaman\Commands\CloseFile.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Commands\PrintPreviewList.vb" />
     <Compile Include="Pojjaman\Commands\SchemaExport.vb" />
     <Compile Include="Pojjaman\Commands\SchemaDataExport.vb" />
     <Compile Include="Pojjaman\Commands\Copy.vb">

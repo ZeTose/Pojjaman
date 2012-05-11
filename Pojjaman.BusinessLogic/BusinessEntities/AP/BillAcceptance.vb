@@ -53,7 +53,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class BillAcceptance
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IHasIBillablePerson, ICancelable
+    Implements IPrintableEntity, IHasIBillablePerson, ICancelable, INewPrintableEntity, IDocStatus
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -745,6 +745,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "billa_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -881,6 +887,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim listOfCostCenter As New ArrayList
       Dim n As Integer = 0
       For Each item As BillAcceptanceItem In Me.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "billai_billa"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -1210,6 +1224,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim n As Integer = 1
       Dim LineNumber As Integer = 0
       For Each item As BillAcceptanceItem In Me.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "billai_billa"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n
+        dpi.Table = "BillItem"
+        dpiColl.Add(dpi)
+
+
         'ซื้อสินค้า/บริการ
         If item.EntityId = 45 Then
 
@@ -1900,6 +1923,112 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.Supplier = CType(Value, Supplier)
         End If
       End Set
+    End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>billa_id>item>billai_billa")
+      dpiColl.RelationList.Add("general>billa_id>BillItem>billai_billa")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("billa_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupBillCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupBillDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCurrentAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditor", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocCostCenterList", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("billai_billa", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostCenterCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.BillType", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DueDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Retention", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.PlusRetention", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocAmount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AmountBaht", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AmountSatang", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.POCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.PODueDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Vatcode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.VatDocDate", "System.String", "Item"))
+
+      ''Check สำหรับ Customize ของวีสถาปัตต์ วีคอนกรึต ===========================================>>>
+      dpiColl.AddRange(GetDocVPCustomizePrintingEntriesColumns)
+      ''Check สำหรับ Customize ของวีสถาปัตต์ วีคอนกรึต ===========================================<<<
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+
+    Public Function GetDocVPCustomizePrintingEntriesColumns() As DocPrintingItemCollection
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillDocDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillDocCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillSupplierCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillSupplierBillingAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillCreditPeriod", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillDueDate", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillGross", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillNote", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillSumDiscount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillSumColAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillSumTaxAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillSumAmount", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("billai_billa", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col0", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col1", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col2", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col3", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col4", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col5", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col6", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col7", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col8", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col9", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col10", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col11", "System.String", "BillItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("col12", "System.String", "BillItem"))
+
+      Return dpiColl
+    End Function
+#End Region
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+       
+        End If
+        Return ""
+      End Get
     End Property
 #End Region
 

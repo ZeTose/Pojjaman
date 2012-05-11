@@ -255,6 +255,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not cc = 0 Then
           Dim remainQty As Decimal = 0
           remainQty = GetAmountFromSproc(lci.Id, cc)
+
+          Dim newHs As New Hashtable
+          For Each key As Integer In Me.MatOperationWithdraw.ItemEntityHashTable.Keys
+            remainQty = remainQty - CType(Me.MatOperationWithdraw.ItemEntityHashTable(key), Decimal)
+            Me.MatOperationWithdraw.ItemEntityHashTable(key) = remainQty
+          Next
+
           If remainQty > 0 Then
             Me.m_qty = remainQty
             Me.OldQty2 = Me.m_qty
@@ -393,16 +400,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim arrPRwithLineNumberList As New ArrayList
         Dim key As String = ""
         'Dim key1 As String = ""
-        'Dim priRemainingStockQty As Decimal = 0
-        'Dim matStockQty As Decimal = 0
+        Dim priRemainingStockQty As Decimal = 0
+        Dim matStockQty As Decimal = 0
         Dim currentPriRemainning As Decimal = 0
 
         'Dim hashCurrentQty As New Hashtable
         'Dim hashItemRemaining As New Hashtable
 
         For Each mitem As MatOperationWithdrawItem In Me.MatOperationWithdraw.ItemCollection
-          If mitem.Entity.Id = Me.Entity.Id Then 'เฉพาะวัสดุ Code เดียวกันเท่านั้น
+          If mitem.Entity.Id = Me.Entity.Id AndAlso Not mitem.Pritem Is Nothing Then 'เฉพาะวัสดุ Code เดียวกันเท่านั้น
+            'Trace.WriteLine(mitem.Pritem Is Nothing)
+            'Trace.WriteLine(mitem.Pritem.Pr Is Nothing)
+            'Trace.WriteLine(mitem.Pritem.Pr.Id.ToString)
+            'Trace.WriteLine(mitem.Pritem.LineNumber.ToString)
+
             key = mitem.Pritem.Pr.Id.ToString & ":" & mitem.Pritem.LineNumber.ToString
+
             arrPRwithLineNumberList.Add(key)
             'key1 = mitem.Entity.Id.ToString
             'If Me.MatOperationWithdraw.ItemCollection.IndexOf(Me) <> Me.MatOperationWithdraw.ItemCollection.IndexOf(mitem) Then 'ไม่รวมรายการมันเอง
@@ -486,7 +499,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub CopyFromPRItem(ByVal prItem As PRItem)
       Me.m_pritem = prItem
       Me.m_entity = prItem.Entity
-      Me.m_unit = prItem.Unit
+      If TypeOf prItem.Entity Is LCIItem Then
+        Me.m_unit = CType(prItem.Entity, LCIItem).DefaultUnit 'prItem.Unit
+        Me.m_defaultunit = CType(prItem.Entity, LCIItem).DefaultUnit
+      End If
+
       'Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
       'Me.m_qty = Math.Min(Me.MatOperationWithdraw.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
       Me.m_note = prItem.Note
@@ -538,7 +555,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row.SetColumnError("stocki_itemName", "")
         End If
 
-        If IsDBNull(proposedQty) OrElse Not IsNumeric(proposedQty) OrElse CDec(proposedQty) = 0 Then
+        If IsDBNull(proposedQty) OrElse Not IsNumeric(proposedQty) OrElse CDec(proposedQty) <= 0 Then
           row.SetColumnError("stocki_qty", myStringParserService.Parse("${res:Global.Error.QtyMissing}"))
         Else
           row.SetColumnError("stocki_qty", "")
@@ -578,9 +595,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("Code") = Me.Entity.Code
         row("stocki_itemName") = Me.Entity.Name
       End If
-      If Not Me.DefaultUnit Is Nothing Then
-        row("defaultunit") = Me.DefaultUnit.Name
-      End If
+      'If Not Me.DefaultUnit Is Nothing Then
+      '  row("defaultunit") = Me.DefaultUnit.Name
+      'End If
       If Not Me.Unit Is Nothing Then
         row("stocki_unit") = Me.Unit.Id
         row("Unit") = Me.Unit.Name
@@ -887,12 +904,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim summarryQty As Decimal = 0
       For Each Item As MatOperationWithdrawItem In Me
         If Item.Entity.Id = doc.Entity.Id AndAlso Me.IndexOf(Item) <> Me.IndexOf(doc) Then
-          summarryQty += Item.Qty
+          summarryQty += Item.StockQty
         End If
       Next
 
       Return summarryQty
-     
+
     End Function
     'Public Sub CheckPRForStoreApprove()
     '  Dim approveHash As New Hashtable

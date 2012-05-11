@@ -330,12 +330,15 @@
     </Compile>
     <EmbeddedResource Include="ApprovalComment\AdvanceStoreApprovalCommentForm.resx">
       <DependentUpon>AdvanceStoreApprovalCommentForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ApprovalComment\ApprovalCommentForm.resx">
       <DependentUpon>ApprovalCommentForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CostCenter\CashFlowForm.resx">
       <DependentUpon>CashFlowForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CostCenter\CashFlowView.resx">
       <DependentUpon>CashFlowView.vb</DependentUpon>
@@ -445,7 +448,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <Generator>PublicVbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StockSequence\StockSequenceDetail.resx">

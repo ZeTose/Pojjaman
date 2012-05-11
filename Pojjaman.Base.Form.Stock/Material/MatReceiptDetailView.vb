@@ -1154,37 +1154,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
               End If
 
+              Dim config As Boolean = CBool(Configuration.GetConfig("AllowOverWithdrawStock"))
+
               Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
               'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
               If value > (remaining / doc.Conversion) Then
-                If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                If Not config Then
+                  Dim str As String = My.Resources.MatWithdrawDetailView_WidrawOverStock
+                  str = String.Format(str, xCompare, yCompare)
+                  msgServ.ShowWarning(str)
                   e.ProposedValue = (remaining / doc.Conversion)
                   doc.Qty = e.ProposedValue
                   Return
+                Else
+                  If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                    e.ProposedValue = (remaining / doc.Conversion)
+                    doc.Qty = e.ProposedValue
+                    Return
+                  End If
                 End If
               End If
-              'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
-              '  If doc.OldQty > 0 Then
-              '    'เทจากตะกร้า
-              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
-              '  Else
-              '    'คีย์โค้ดเองแล้ว enter
-              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
-              '  End If
-              '  Return
-              'End If
+                'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
+                '  If doc.OldQty > 0 Then
+                '    'เทจากตะกร้า
+                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
+                '  Else
+                '    'คีย์โค้ดเองแล้ว enter
+                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
+                '  End If
+                '  Return
+                'End If
 
-              'If Not (doc.Pritem Is Nothing) Then
-              'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
-              'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
-              'Else
-              'doc.Qty = value
-              'End If
-              'Else
-              doc.Qty = value
-              'End If
-            End If
+                'If Not (doc.Pritem Is Nothing) Then
+                'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
+                'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
+                'Else
+                'doc.Qty = value
+                'End If
+                'Else
+                doc.Qty = value
+                'End If
+              End If
           Case "stocki_transferunitprice"
             'If IsDBNull(e.ProposedValue) Then
             '  e.ProposedValue = ""
@@ -1287,7 +1298,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.chkShowCost.Enabled = False
       End If
 
-      ToggleStyle(Me.m_treeManager.GridTableStyle)
+      'ToggleStyle(Me.m_treeManager.GridTableStyle)
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckWBSRight()
     End Sub
@@ -1744,6 +1755,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        entity.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
       entity.CC = Me.m_entity.FromCostCenter
       entity.FromWip = False
       entity.refEntityId = Me.Entity.EntityId

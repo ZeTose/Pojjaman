@@ -30,8 +30,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PettyCash
     Inherits SimpleBusinessEntityBase
-    Implements IPaymentItem, IPayable, IPrintableEntity, IHasToCostCenter, IHasName, ICheckPeriod
-
+    Implements IPaymentItem, IPayable, IPrintableEntity, IHasToCostCenter, IHasName, ICheckPeriod, INewPrintableEntity
 
 #Region "Members"
     Private m_name As String
@@ -39,7 +38,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_olddocdate As Date
     Private m_account As Account
     Private m_employee As Employee
-    Private m_costcenter As Costcenter
+    Private m_costcenter As CostCenter
     Private m_amount As Decimal
     Private m_remainingamount As Decimal
     Private m_isforemployee As Boolean
@@ -142,12 +141,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' costcenter
         If dr.Table.Columns.Contains("costcenter.cc_id") Then
           If Not dr.IsNull("costcenter.cc_id") Then
-            .m_costcenter = New Costcenter(dr, "")
+            .m_costcenter = New CostCenter(dr, "")
           End If
         Else
           If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_cc") _
               AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_cc") Then
-            .m_costcenter = New Costcenter(CInt(dr(aliasPrefix & Me.Prefix & "_cc")))
+            .m_costcenter = New CostCenter(CInt(dr(aliasPrefix & Me.Prefix & "_cc")))
           End If
         End If
         ' amount
@@ -260,7 +259,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return DocDate
       End Get
-    End Property    Public Property Account() As Account      Get        Return m_account      End Get      Set(ByVal Value As Account)        m_account = Value      End Set    End Property    Public Property Employee() As Employee      Get        Return m_employee      End Get      Set(ByVal Value As Employee)        m_employee = Value      End Set    End Property    Public Property Costcenter() As Costcenter      Get        Return m_costcenter      End Get      Set(ByVal Value As Costcenter)        m_costcenter = Value      End Set    End Property    Public Property Amount() As Decimal Implements IHasAmount.Amount      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property RemainingWithdraw() As Decimal      Get        Return m_remainingwithdraw      End Get      Set(ByVal Value As Decimal)        m_remainingwithdraw = Value      End Set    End Property    Public Property RemainingAmount() As Decimal      Get        Return m_remainingamount      End Get      Set(ByVal Value As Decimal)        m_remainingamount = Value      End Set    End Property    Public Property IsForEmployee() As Boolean      Get
+    End Property    Public Property Account() As Account      Get        Return m_account      End Get      Set(ByVal Value As Account)        m_account = Value      End Set    End Property    Public Property Employee() As Employee      Get        Return m_employee      End Get      Set(ByVal Value As Employee)        m_employee = Value      End Set    End Property    Public Property Costcenter() As CostCenter      Get        Return m_costcenter      End Get      Set(ByVal Value As CostCenter)        m_costcenter = Value      End Set    End Property    Public Property Amount() As Decimal Implements IHasAmount.Amount      Get        Return m_amount      End Get      Set(ByVal Value As Decimal)        m_amount = Value      End Set    End Property    Public Property RemainingWithdraw() As Decimal      Get        Return m_remainingwithdraw      End Get      Set(ByVal Value As Decimal)        m_remainingwithdraw = Value      End Set    End Property    Public Property RemainingAmount() As Decimal      Get        Return m_remainingamount      End Get      Set(ByVal Value As Decimal)        m_remainingamount = Value      End Set    End Property    Public Property IsForEmployee() As Boolean      Get
         Return m_isforemployee
       End Get
       Set(ByVal Value As Boolean)
@@ -454,7 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim ValidateError As SaveErrorException
 
-      
+
 
       'ValidateError = Me.Payment.BeforeSave(currentUserId)
       'If Not IsNumeric(ValidateError.Message) Then
@@ -670,6 +669,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "pettycash_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -787,6 +792,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim n As Integer = 0
       For i As Integer = 0 To Me.m_itemTable.Rows.Count - 1
         Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
+
+        'pettycashi_pettycash
+        dpi = New DocPrintingItem
+        dpi.Mapping = "pettycashi_pettycash"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.LineNumber"
@@ -942,15 +957,56 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
-    Public Property ToCC() As Costcenter Implements IHasToCostCenter.ToCC
+    Public Property ToCC() As CostCenter Implements IHasToCostCenter.ToCC
       Get
         Return Me.Costcenter
       End Get
-      Set(ByVal Value As Costcenter)
+      Set(ByVal Value As CostCenter)
         Me.Costcenter = Value
       End Set
     End Property
 
-    
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>pettycash_id>item>pettycashi_pettycash")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pettycash_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Name", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("EmployeeInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CCInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Remain", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ClaimRecDays", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ClaimRecDates", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ClaimRecWeeks", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("NoLimit", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AllowNotOver", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AllowNotOverAmount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("NotAllow", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pettycashi_pettycash", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RemainingWithdraw", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RemainingAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
   End Class
 End Namespace

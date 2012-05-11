@@ -859,6 +859,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
 
     End Function
+    Public Function ValidateItems() As SaveErrorException
+
+      Dim config As Boolean = CBool(Configuration.GetConfig("AllowOverWithdrawStock"))
+
+      Dim remaining As Decimal = 0
+      For Each item As MatReceiptItem In Me.ItemCollection
+        If Not config Then
+          If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing AndAlso item.Pritem.Pr.Originated Then
+            remaining = item.AllowWithdrawFromPR()
+          Else
+            remaining = item.MatReceipt.GetRemainLCIItem(item.Entity.Id) 'item.GetAmountFromSproc(item.Entity.Id, Me.FromCC.Id)
+          End If
+          remaining = remaining / item.Conversion 'หน่วยปัจจุบัน
+
+          Dim xCompare As String = Configuration.FormatToString(item.Qty, DigitConfig.Price)
+          Dim yCompare As String = Configuration.FormatToString(remaining, DigitConfig.Price)
+
+          If item.Qty > remaining Then
+            Dim str As String = My.Resources.MatReceipt_OverStock
+            str = String.Format(str, xCompare, yCompare)
+            Return New SaveErrorException(str)
+          End If
+        Else
+          'If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+          '  e.ProposedValue = (remaining / doc.Conversion)
+          '  doc.Qty = e.ProposedValue
+          '  Return
+          'End If
+        End If
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
 
@@ -930,6 +963,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
           Case 2 'Do Nothing
         End Select
+
+        If Me.m_approvalCollection.IsApproved Then
+          Dim ValidItemsError As SaveErrorException = Me.ValidateItems
+          If Not IsNumeric(ValidItemsError.Message) Then
+            Return ValidItemsError
+          End If
+        End If
 
         '---- AutoCode Format --------
         Dim oldcode As String
@@ -1105,9 +1145,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'End If
             ''==============================Journal Entries=======================================
 
-            ''==============================UPDATE PRITEM=========================================
-            'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-            ''==============================UPDATE PRITEM=========================================
+            '==============================UPDATE PRITEM=========================================
+            'If Me.m_approvalCollection.IsApproved Then
+            '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
+            'End If
+            '==============================UPDATE PRITEM=========================================
 
             ''Me.DeleteRef(conn, trans)
             'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
@@ -1223,8 +1265,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
+        '==============================UPDATE Old PRITEM=========================================
+        'If Me.Originated AndAlso Not Me.IsReferenced Then
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+        'End If
+        '==============================UPDATE Old PRITEM=========================================
         '==============================UPDATE PRITEM=========================================
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
+        If Me.m_approvalCollection.IsApproved Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
+        End If
         '==============================UPDATE PRITEM=========================================
 
         'Me.DeleteRef(conn, trans)

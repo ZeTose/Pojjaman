@@ -37,7 +37,8 @@
 			<MenuItem id="PrintSeparator" label="-"/>
 			<Conditional activewindow="*" action="Disable">
 				<MenuItem id="Print" label="${res:MainMenu.FileMenu.Print}" icon="Icons.16x16.Print" description="${res:MainMenu.FileMenu.Print.Description}" shortcut="Control|P" class="Longkong.Pojjaman.Commands.Print"/>
-				<MenuItem id="PrintPreview" label="${res:MainMenu.FileMenu.PrintPreview}" icon="Icons.16x16.PreView" description="${res:MainMenu.FileMenu.PrintPreview.Description}" class="Longkong.Pojjaman.Commands.PrintPreview"/>
+        <MenuItem id="PrintPreview" label="${res:MainMenu.FileMenu.PrintPreview}" icon="Icons.16x16.PreView" description="${res:MainMenu.FileMenu.PrintPreview.Description}" class="Longkong.Pojjaman.Commands.PrintPreview"/>
+        <!--<MenuItem id="PrintPreviewList" label="${res:MainMenu.FileMenu.PrintPreviewList}" icon="Icons.16x16.PreViewList" description="${res:MainMenu.FileMenu.PrintPreviewList.Description}" class="Longkong.Pojjaman.Commands.PrintPreviewList"/>-->
 				<MenuItem id="PrintManager" label="${res:MainMenu.FileMenu.PrintManager}" icon="Icons.16x16.PrintManager" description="${res:MainMenu.FileMenu.PrintManager.Description}" class="Longkong.Pojjaman.Commands.PrintManager"/>
 			</Conditional>
 			<MenuItem id="RecentSeparator" label="-"/>

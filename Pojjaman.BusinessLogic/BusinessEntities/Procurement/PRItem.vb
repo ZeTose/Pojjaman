@@ -1092,7 +1092,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return myDatatable
     End Function
-    Public Shared Function GetListDatatableForMatWithDraw(ByVal procName As String, ByVal ParamArray filters() As Filter) As DataTable
+    Public Shared Function GetListDatatableForMatWithDraw(ByVal procName As String, ByVal ParamArray filters() As Filter) As DataSet
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim params() As SqlParameter
       If Not filters Is Nothing AndAlso filters.Length > 0 Then
@@ -1102,7 +1102,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
       End If
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.StoredProcedure, procName, params)
-      Return ds.Tables(0)
+      Return ds '.Tables(0)
     End Function
     Private Shared Function GetPRIdWithOnlyNoteItem(ByVal dt As DataTable) As ArrayList
       Dim arr As New ArrayList

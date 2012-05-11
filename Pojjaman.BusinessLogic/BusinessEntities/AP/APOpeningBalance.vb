@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class APOpeningBalance
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IBillAcceptable, IPrintableEntity, IHasIBillablePerson, ICancelable, IVatable, IHasAmount, IHasToCostCenter
+    Implements IGLAble, IBillAcceptable, IPrintableEntity, IHasIBillablePerson, ICancelable, IVatable, IHasAmount, IHasToCostCenter, INewPrintableEntity
 
 #Region "Members"
     Private stock_supplier As Supplier 'entity
@@ -1037,6 +1037,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.TaxType.Value = 0
       End Get
     End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterFax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Credit", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
 #End Region
 
   End Class

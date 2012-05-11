@@ -107,7 +107,8 @@
 				<!--</Conditional>-->
 			</Conditional>
       <Conditional activewindow="*"  action="Disable">
-        <ToolbarItem id="SchemaDataExport" icon="Icons.16x16.PrintManager" label="${res:XML.MainMenu.EditMenu.SchemaDataExport}" tooltip="${res:XML.MainMenu.EditMenu.SchemaDataExport}" class="Longkong.Pojjaman.Commands.SchemaDataExport"/>  
+        <ToolbarItem id="PrintPreviewList" icon="Icons_16x16_PrintPreviewList" tooltip="${res:MainMenu.FileMenu.PrintPreviewList}" class="Longkong.Pojjaman.Commands.PrintPreviewList"/>
+        <ToolbarItem id="SchemaDataExport" icon="Icons_16x16_SchemaDataExport" label="${res:XML.MainMenu.EditMenu.SchemaDataExport}" tooltip="${res:XML.MainMenu.EditMenu.SchemaDataExport}" class="Longkong.Pojjaman.Commands.SchemaDataExport"/>  
       </Conditional>
 			<ToolbarItem id="TestSeparator" tooltip="-"/>
 		</ToolbarItem>

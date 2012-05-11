@@ -31,7 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SaleCN
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, ISaleBillIssuable, IPrintableEntity,  _
-    IApprovAble, IHasIBillablePerson, IPayable, IWitholdingTaxable, ICancelable
+    IApprovAble, IHasIBillablePerson, IPayable, IWitholdingTaxable, ICancelable, IDocStatus, INewPrintableEntity
 
 #Region "Members"
     Private m_customer As Customer
@@ -2528,7 +2528,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return jiColl
     End Function
-    Public Property JournalEntry() As JournalEntry Implements IGLAble.journalEntry
+    Public Property JournalEntry() As JournalEntry Implements IGLAble.JournalEntry
       Get
         Return Me.m_je
       End Get
@@ -2675,9 +2675,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
-
       Dim dpi As DocPrintingItem
+
       Me.RefreshTaxBase()
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "stock_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
@@ -2808,32 +2815,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "DiscountAmount"
       dpi.Value = Me.DiscountAmount
-      dpi.DataType = "System.Integer"
+      dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
       'CostCenterCode
       dpi = New DocPrintingItem
       dpi.Mapping = "CostCenterCode"
       dpi.Value = Me.ToCostCenter.Code
-      dpi.DataType = "System.Integer"
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
       'CostCenterName
       dpi = New DocPrintingItem
       dpi.Mapping = "CostCenterName"
       dpi.Value = Me.ToCostCenter.Name
-      dpi.DataType = "System.Integer"
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
       'CostCenter
       dpi = New DocPrintingItem
       dpi.Mapping = "CostCenter"
       dpi.Value = Me.ToCostCenter.Code & " : " & Me.ToCostCenter.Name
-      dpi.DataType = "System.Integer"
+      dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
       Dim n As Integer = 0
       For Each refdocitem As SaleCNRefDoc In Me.m_refDocCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "stocki_stock"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         dpi = New DocPrintingItem
         dpi.Mapping = "docItem.Vatitem.Code"
         dpi.Value = refdocitem.Vatitem.Code
@@ -3163,6 +3178,72 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function CancelEntity(ByVal currentUserId As Integer, ByVal theTime As Date) As SaveErrorException Implements ICancelable.CancelEntity
       Me.Status.Value = 0
       Return Me.Save(currentUserId)
+    End Function
+#End Region
+
+#Region "IDocStatus"
+    Public ReadOnly Property DocStatus As String Implements IDocStatus.DocStatus
+      Get
+        If Me.Status.Value = 0 Then
+          Return "Canceled"
+        Else
+
+        End If
+        Return ""
+      End Get
+    End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>stock_id>item>stocki_stock")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stock_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Customer", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Address", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RealAmt", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmt", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VatCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VatDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenter", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("stocki_stock", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("docItem.Vatitem.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("docItem.RefDocCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("docItem.RealAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("docItem.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("docItem.Note", "System.String", "Item"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ItemType", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Description", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Decimal", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
     End Function
 #End Region
 

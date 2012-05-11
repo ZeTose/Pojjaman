@@ -3919,6 +3919,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Return
             End If
             Dim entity As New LCIForSelection
+            If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+              entity.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+            End If
             entity.CC = Me.m_entity.FromCostCenter
             entity.FromWip = False
             myEntityPanelService.OpenListDialog(entity, AddressOf SetItems)

@@ -13,7 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatOperationReturn
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable _
-      , INewGLAble, INewPrintableEntity, IDocStatus
+      , INewGLAble, INewPrintableEntity, IDocStatus, IAbleValidateItemQuantity
 
 #Region "Members"
     Private m_docDate As Date
@@ -853,7 +853,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Me.DeleteRef(conn, trans)
+        'Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
         , New SqlParameter("@refto_id", Me.Id))
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
@@ -2118,6 +2118,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IAbleValidateItemQuantity"
+    Public ReadOnly Property ItemEntityHashTable As System.Collections.Hashtable Implements IAbleValidateItemQuantity.ItemEntityHashTable
+      Get
+        Dim newhs As New Hashtable
+        Dim entityId As Integer
+        For Each item As MatOperationReturnItem In ItemCollection
+          If Not item.Entity Is Nothing Then
+            entityId = item.Entity.Id
+            If Not newhs.ContainsKey(entityId) Then
+              newhs(entityId) = item.StockQty
+            Else
+              newhs(entityId) = CDec(newhs(entityId)) + item.StockQty
+            End If
+          End If
+        Next
+        Return newhs
+      End Get
+    End Property
+#End Region
   End Class
 
   Public Class MatOperationReturnItem
@@ -2295,7 +2314,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_matreturnId = Value.Id      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value        If TypeOf m_entity Is IHasUnit Then
           Me.m_unit = CType(m_entity, IHasUnit).DefaultUnit
           Me.m_defaultUnit = CType(m_entity, IHasUnit).DefaultUnit
-        End If      End Set    End Property    Public Function GetAmountFromSproc(ByVal lci_id As Integer, ByVal cc As Integer) As Decimal
+        End If      End Set    End Property    Public Function GetAmountFromSproc(ByVal lci_id As Integer, ByVal cc As Integer, stock_id As Integer) As Decimal
       Try
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
@@ -2303,6 +2322,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , "GetMatReturnQtyWip" _
                 , New SqlParameter("@lci_id", lci_id) _
                 , New SqlParameter("@cc_id", cc) _
+                , New SqlParameter("@stock_id", stock_id) _
                 )
         If ds.Tables(0).Rows(0).IsNull(0) Then
           Return 0
@@ -2310,7 +2330,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CDec(ds.Tables(0).Rows(0)(0))
       Catch ex As Exception
       End Try
-    End Function    Public Sub SetItemCode(ByVal theCode As String, Optional ByVal cc As Integer = 0)
+    End Function    'Public Function GetAmountFromSproc(ByVal lci_id As Integer, ByVal cc As Integer) As Decimal
+    '  Try
+    '    Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+    '            RecentCompanies.CurrentCompany.SiteConnectionString _
+    '            , CommandType.StoredProcedure _
+    '            , "GetRemainLCIItemListForCC" _
+    '            , New SqlParameter("@cc_id", cc) _
+    '            , New SqlParameter("@FromacctType", 3) _
+    '            , New SqlParameter("@EntityId", 31) _
+    '            , New SqlParameter("@lci_id", lci_id) _
+    '            , New SqlParameter("@stock_id", Me.MatOperationWithdraw.Id) _
+    '            )
+    '    If ds.Tables(0).Rows(0).IsNull("remain") Then
+    '      Return 0
+    '    End If
+    '    Return CDec(ds.Tables(0).Rows(0)("remain"))
+    '  Catch ex As Exception
+    '  End Try
+    'End Function    Public Sub SetItemCode(ByVal theCode As String, Optional ByVal cc As Integer = 0)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If theCode Is Nothing OrElse theCode.Length = 0 Then
@@ -2327,8 +2365,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       Else
         If Not cc = 0 Then
-          If GetAmountFromSproc(lci.Id, cc) > 0 Then
-            Me.m_qty = GetAmountFromSproc(lci.Id, cc)
+          Dim remaining As Decimal = Me.GetAmountFromSproc(lci.Id, cc, Me.MatReturn.Id)
+          Dim docDummy As New MatOperationReturnItem
+          docDummy.Entity = lci
+          remaining = remaining - Me.MatReturn.ItemCollection.GetThisEnittyRemainingQtyFromCollection(docDummy)
+
+          If remaining > 0 Then
+            Me.m_qty = remaining
             Me.OldQty2 = Me.m_qty
             Dim myUnit As Unit = lci.DefaultUnit
             Me.m_unit = myUnit
@@ -2429,6 +2472,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function AllowWithdraw(ByVal rval As Decimal) As Decimal
+      Dim remainning As Decimal = 0
+
+      remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.MatReturn.CostCenter.Id, Me.MatReturn.Id)
+      remainning = remainning - Me.MatReturn.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
+      'rval = rval * Me.Conversion
+      'remainning = Math.Min(rval, remainning)
+
+      Return remainning
+    End Function
     Public Sub Clear()
       Me.m_entity = New BlankItem("")
       Me.m_qty = 0
@@ -2742,6 +2795,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Function GetThisEnittyRemainingQtyFromCollection(ByVal doc As MatOperationReturnItem) As Decimal
+      Dim summarryQty As Decimal = 0
+      For Each Item As MatOperationReturnItem In Me
+        If Not Item.Entity Is Nothing AndAlso Not doc.Entity Is Nothing Then
+          If Item.Entity.Id = doc.Entity.Id AndAlso Me.IndexOf(Item) <> Me.IndexOf(doc) Then
+            summarryQty += Item.StockQty
+          End If
+        End If
+      Next
+
+      Return summarryQty
+
+    End Function
     Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       dt.Clear()
       Dim i As Integer = 0

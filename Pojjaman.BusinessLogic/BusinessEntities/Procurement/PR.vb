@@ -30,7 +30,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PR
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, IApprovAble, ICancelable, IHasToCostCenter,  _
-      IDuplicable, ICheckPeriod, IWBSAllocatable, IHasCurrency, IAbleExceptAccountPeriod, ICloseStatusAble, IApproveStatusAble, IShowStatusColorAble, IDocStatus, INewPrintableEntity
+      IDuplicable, ICheckPeriod, IWBSAllocatable, IHasCurrency, IAbleExceptAccountPeriod, ICloseStatusAble,  _
+      IApproveStatusAble, IShowStatusColorAble, IDocStatus, INewPrintableEntity, IDocumentPersonAble
 
 #Region "Members"
     Private pr_docDate As Date
@@ -3028,6 +3029,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Return "Authorized"
             ElseIf Me.IsLevelApproved Then
               Return "Approved"
+            ElseIf Me.IsReject Then
+              Return "Reject"
             End If
           End If
         End If
@@ -3035,6 +3038,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
 #End Region
+
 #Region "ICancelable"
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
@@ -3253,6 +3257,126 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
     '==============CURRENCY=================================
 
+#Region "IDocumentPersonAble"
+
+    ReadOnly Property DocumentEditedUser As DocumentEditedUser Implements IDocumentPersonAble.DocumentEditedUser
+      Get
+        Dim m_documentEditedUser As New DocumentEditedUser
+
+        m_documentEditedUser.ApprovedUserList = Me.GetApprovedUserList
+        m_documentEditedUser.ApprovedUser = Me.GetApprovedUser
+        m_documentEditedUser.AutherizedUser = Me.GetAutherizedUser
+        m_documentEditedUser.CanceledUser = Me.GetCanceledUser
+        m_documentEditedUser.CreatedUser = Me.GetCreatedUser
+        m_documentEditedUser.EditedUser = Me.GetEditedUser
+        m_documentEditedUser.EditedUser = Me.GetRejectUser
+        m_documentEditedUser.Employee = Me.Requestor
+
+        Return m_documentEditedUser
+      End Get
+    End Property
+
+    Private Function GetApprovedUserList() As List(Of ApproveDoc)
+      Dim LastLevelApprove As New List(Of ApproveDoc)
+      Dim aProvePerson As New List(Of ApproveDoc)
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 Then
+          LastLevelApprove.Add(ap)
+        End If
+      Next
+      If LastLevelApprove.Count > 0 AndAlso Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+        For Each ap As ApproveDoc In LastLevelApprove
+          If Not ap.Reject Then
+            aProvePerson.Add(ap)
+          End If
+        Next
+      End If
+
+      Return aProvePerson
+    End Function
+
+    Public Function GetApprovedUser() As EditedUser
+      Dim aplist As List(Of ApproveDoc) = Me.GetApprovedUserList
+      Dim editeduser As New EditedUser
+      If aplist.Count > 1 Then
+        Dim userHs As New Hashtable
+        Dim maxLevel As Integer = 0
+        For Each doc As ApproveDoc In aplist
+          userHs(doc.Level) = doc
+          maxLevel = Math.Max(maxLevel, doc.Level)
+        Next
+        'Return New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator)
+        editeduser.UserId = CType(userHs(maxLevel - 1), ApproveDoc).Originator
+        editeduser.UserName = New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator).Name
+        editeduser.EditedDate = CType(userHs(maxLevel - 1), ApproveDoc).OriginDate
+      ElseIf aplist.Count > 0 Then
+        'Return New User(aplist.Item(aplist.Count - 1).Originator)
+        editeduser.UserId = aplist.Item(aplist.Count - 1).Originator
+        editeduser.UserName = New User(aplist.Item(aplist.Count - 1).Originator).Name
+        editeduser.EditedDate = aplist.Item(aplist.Count - 1).OriginDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetAutherizedUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not Me.ApprovePerson Is Nothing Then
+        editeduser.UserId = Me.ApprovePerson.Id
+        editeduser.UserName = Me.ApprovePerson.Name
+        editeduser.EditedDate = Me.ApproveDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetCanceledUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not Me.CancelPerson Is Nothing Then
+        editeduser.UserId = Me.CancelPerson.Id
+        editeduser.UserName = Me.CancelPerson.Name
+        editeduser.EditedDate = Me.CancelDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetCreatedUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not Originator Is Nothing Then
+        editeduser.UserId = Me.Originator.Id
+        editeduser.UserName = Me.Originator.Name
+        editeduser.EditedDate = Me.OriginDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetEditedUser() As EditedUser
+      Dim editeduser As New EditedUser
+      If Not LastEditor Is Nothing Then
+        editeduser.UserId = Me.LastEditor.Id
+        editeduser.UserName = Me.LastEditor.Name
+        editeduser.EditedDate = Me.LastEditDate
+      End If
+      Return editeduser
+    End Function
+
+    Public Function GetRejectUser() As EditedUser
+      Dim editeduser As New EditedUser
+      Dim LastLevelApprove As New List(Of ApproveDoc)
+      Dim aProvePerson As New List(Of ApproveDoc)
+      For Each ap As ApproveDoc In Me.ApproveDocColl
+        If ap.Level > 0 Then
+          LastLevelApprove.Add(ap)
+        End If
+      Next
+      If LastLevelApprove.Count > 0 AndAlso LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
+        editeduser.UserId = LastLevelApprove.Item(LastLevelApprove.Count - 1).Originator
+        editeduser.UserName = New User(LastLevelApprove.Item(LastLevelApprove.Count - 1).Originator).Name
+        editeduser.EditedDate = LastLevelApprove.Item(LastLevelApprove.Count - 1).OriginDate
+      End If
+      Return editeduser
+    End Function
+
+#End Region
+
   End Class
 
   Public Class PRForApprove
@@ -3266,7 +3390,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PRForMatTransfer
     Inherits PR
-    Implements IWithdrawAble, IVisibleButtonShowColorListAble
+    Implements IWithdrawAble, IVisibleButtonShowColorListAble, IHaveItemEntity
+    Public Property ItemEntity As Hashtable Implements IHaveItemEntity.ItemEntity
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatTransfer"
@@ -3280,7 +3405,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class PRForMatOperationWithdraw
     Inherits PR
-    Implements IWithdrawAble, IVisibleButtonShowColorListAble
+    Implements IWithdrawAble, IVisibleButtonShowColorListAble, IHaveItemEntity
+    Public Property ItemEntity As Hashtable Implements IHaveItemEntity.ItemEntity
     Public Overrides ReadOnly Property CodonName() As String
       Get
         Return "PRForMatOperationWithdraw"

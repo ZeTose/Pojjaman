@@ -10,7 +10,7 @@ Imports System.Collections.Generic
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Supplier
     Inherits PersonEntityBase
-    Implements IPJMUpdatable, IPrintableEntity, IHasGroup, IExportEntityDetail
+    Implements IPJMUpdatable, IPrintableEntity, IHasGroup, IExportEntityDetail, INewPrintableEntity
 
 #Region "Members"
     Private m_creditAmount As Decimal
@@ -1186,6 +1186,43 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_exportentity = value
       End Set
     End Property
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AltName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Address", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CurrentAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Phone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Mobile", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Fax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Email", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PersonType", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupCatgInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupCatgCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupCatgName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AccountName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Fund", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxID", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ID", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Contact", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
   End Class
 
   Public Class SupplierGroup

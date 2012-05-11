@@ -1914,7 +1914,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'G ฐานคิดค่าเสื่อมคงเหลือ เป็นตัวเลขมูลค่าสินทรัพย์ ในผังบัญชีสินทรัพย์ที่เหลืออยู่  A-F
       txtDepreBaseBal.Text = Configuration.FormatToString(Me.m_entity.DeprebaseBal, DigitConfig.Price)
       'H ค่าเสื่อมราคา ที่มีการคิดในโปรแกรม พจมานสะสม 
-      txtAssetDepre.Text = Configuration.FormatToString(Me.m_entity.GetDepreAmntfromDB, DigitConfig.Price)
+      txtAssetDepre.Text = Configuration.FormatToString(Me.m_entity.SystemDepreAmount, DigitConfig.Price)
       'I ค่าเสื่อมราคาสะสม = H + D - F คือตัวเลขที่ยังอยู่ในผังบัญชีค่าเสื่อมสะสม
       txtDepreAmt.Text = Configuration.FormatToString(Me.m_entity.DepreAmnt, DigitConfig.Price)
       'J มูลค่าสินทรัพย์คงเหลือ  G - I หรือ จากผังบัญชี asset- accu. asset

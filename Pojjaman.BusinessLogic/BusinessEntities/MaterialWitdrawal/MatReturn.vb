@@ -13,7 +13,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatReturn
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable _
-      , INewGLAble, INewPrintableEntity, IDocStatus
+      , INewGLAble, INewPrintableEntity, IDocStatus, IAbleValidateItemQuantity
 
 #Region "Members"
     Private m_docDate As Date
@@ -254,6 +254,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function GetRemainLCIItem(ByVal lci_id As Integer) As Decimal
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                Me.ConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetRemainLCIItemForCC" _
+                , New SqlParameter("@lci_id", lci_id) _
+                , New SqlParameter("@cc_id", Me.ValidIdOrDBNull(Me.FromCC)) _
+                , New SqlParameter("@doc_id", Me.Id) _
+                )
+        Dim tableIndex As Integer = 0
+        If ds.Tables.Count > tableIndex Then
+          If ds.Tables(tableIndex).Rows.Count > 0 Then
+            If ds.Tables(tableIndex).Rows(0).IsNull(0) Then
+              Return 0
+            End If
+            Return CDec(ds.Tables(tableIndex).Rows(0)("remain"))
+          End If
+        End If
+      Catch ex As Exception
+        MessageBox.Show(ex.ToString)
+      End Try
+      Return 0
+    End Function
     Public Function GetCurrentAmountForWBS(ByVal myWbs As WBS, ByVal isOut As Boolean) As Decimal
       Dim ret As Decimal = 0
       For Each item As MatReturnItem In Me.ItemCollection
@@ -2077,6 +2101,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IAbleValidateItemQuantity"
+    Public ReadOnly Property ItemEntityHashTable As System.Collections.Hashtable Implements IAbleValidateItemQuantity.ItemEntityHashTable
+      Get
+        Dim newhs As New Hashtable
+        Dim entityId As Integer
+        For Each item As MatReturnItem In ItemCollection
+          If Not item.Entity Is Nothing Then
+            entityId = item.Entity.Id
+            If Not newhs.ContainsKey(entityId) Then
+              newhs(entityId) = item.StockQty
+            Else
+              newhs(entityId) = CDec(newhs(entityId)) + item.StockQty
+            End If
+          End If
+        Next
+        Return newhs
+      End Get
+    End Property
+#End Region
   End Class
 
   Public Class MatReturnForOperation
@@ -2274,6 +2317,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , "GetMatreturnQtyWip" _
                 , New SqlParameter("@lci_id", lci_id) _
                 , New SqlParameter("@cc_id", cc) _
+                , New SqlParameter("@stock_id", Me.MatReturn.Id) _
                 )
         If ds.Tables(0).Rows(0).IsNull(0) Then
           Return 0
@@ -2281,6 +2325,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return CDec(ds.Tables(0).Rows(0)(0))
       Catch ex As Exception
       End Try
+      'Return Me.MatReturn.GetRemainLCIItem(lci_id)
     End Function    Public Sub SetItemCode(ByVal theCode As String, Optional ByVal cc As Integer = 0)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -2298,8 +2343,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       Else
         If Not cc = 0 Then
-          If GetAmountFromSproc(lci.Id, cc) > 0 Then
-            Me.m_qty = GetAmountFromSproc(lci.Id, cc)
+          Dim remainQty As Decimal = 0
+          remainQty = GetAmountFromSproc(lci.Id, cc)
+
+          Dim newHs As New Hashtable
+          For Each key As Integer In Me.MatReturn.ItemEntityHashTable.Keys
+            remainQty = remainQty - CType(Me.MatReturn.ItemEntityHashTable(key), Decimal)
+            Me.MatReturn.ItemEntityHashTable(key) = remainQty
+          Next
+
+          If remainQty > 0 Then
+            Me.m_qty = remainQty
             Me.OldQty2 = Me.m_qty
             Dim myUnit As Unit = lci.DefaultUnit
             Me.m_unit = myUnit
@@ -2387,6 +2441,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function AllowWithdraw(ByVal rval As Decimal) As Decimal
+      Dim remainning As Decimal = 0
+
+      remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.MatReturn.FromCC.Id)
+      remainning = remainning - Me.MatReturn.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
+      'rval = rval * Me.Conversion
+      'remainning = Math.Min(rval, remainning)
+
+      Return remainning
+    End Function
     Public Sub Clear()
       Me.m_entity = New BlankItem("")
       Me.m_qty = 0
@@ -2685,6 +2749,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Function GetThisEnittyRemainingQtyFromCollection(ByVal doc As MatReturnItem) As Decimal
+      Dim summarryQty As Decimal = 0
+      For Each Item As MatReturnItem In Me
+        If Item.Entity.Id = doc.Entity.Id AndAlso Me.IndexOf(Item) <> Me.IndexOf(doc) Then 'Item.LineNumber <> doc.LineNumber Then
+          summarryQty += Item.Qty
+        End If
+      Next
+
+      Return summarryQty
+
+    End Function
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0

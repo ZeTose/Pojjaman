@@ -2424,6 +2424,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        entity.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
       entity.CC = Me.m_entity.FromCostCenter
       entity.FromWip = False
       entity.RefEntityId = Me.Entity.EntityId

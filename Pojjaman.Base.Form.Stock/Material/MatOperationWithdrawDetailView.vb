@@ -1237,37 +1237,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
               ''เผื่อว่าในรายการอาจมาจาก PR หลาย ๆ ใบแล้วเป็น Lci เดียวกัน
               'remaining = Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
 
+              Dim config As Boolean = CBool(Configuration.GetConfig("AllowOverWithdrawStock"))
+
               Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
               'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
               If value > (remaining / doc.Conversion) Then
-                If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                If Not config Then
+                  Dim str As String = My.Resources.MatWithdrawDetailView_WidrawOverStock
+                  str = String.Format(str, xCompare, yCompare)
+                  msgServ.ShowWarning(str)
                   e.ProposedValue = (remaining / doc.Conversion)
                   doc.Qty = e.ProposedValue
                   Return
+                Else
+                  If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                    e.ProposedValue = (remaining / doc.Conversion)
+                    doc.Qty = e.ProposedValue
+                    Return
+                  End If
                 End If
               End If
-              'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
-              '  If doc.OldQty > 0 Then
-              '    'เทจากตะกร้า
-              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
-              '  Else
-              '    'คีย์โค้ดเองแล้ว enter
-              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
-              '  End If
-              '  Return
-              'End If
+                'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
+                '  If doc.OldQty > 0 Then
+                '    'เทจากตะกร้า
+                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
+                '  Else
+                '    'คีย์โค้ดเองแล้ว enter
+                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
+                '  End If
+                '  Return
+                'End If
 
-              'If Not (doc.Pritem Is Nothing) Then
-              'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
-              'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
-              'Else
-              'doc.Qty = value
-              'End If
-              'Else
-              doc.Qty = value
-              'End If
-            End If
+                'If Not (doc.Pritem Is Nothing) Then
+                'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
+                'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
+                'Else
+                'doc.Qty = value
+                'End If
+                'Else
+                doc.Qty = value
+                'End If
+              End If
           Case "stocki_transferunitprice"
             'If IsDBNull(e.ProposedValue) Then
             '  e.ProposedValue = ""
@@ -1296,6 +1307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       CheckApproveStore()
+      Dim m_entityStatus As Integer = -1
       If Me.m_entity.Canceled _
       OrElse Me.m_entity.Status.Value = 0 _
       OrElse m_entityRefed = 1 _
@@ -1320,6 +1332,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = True
         Next
+        m_entityStatus = 0
       Else
         For Each ctrl As Control In Me.grbDetail.Controls
           ctrl.Enabled = CBool(m_enableState(ctrl))
@@ -1336,25 +1349,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each ctrl As Control In Me.Controls
           ctrl.Enabled = CBool(m_enableState(ctrl))
         Next
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
-        Next
+        'For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+        '  colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+        'Next
 
         'If CBool(Configuration.GetConfig("PRNeedStoreApprove")) Then
         '  Me.btnApprove.Visible = True
         'End If
       End If
-      tgItem.Enabled = True
-      If Not Me.m_entity.Grouping Then
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = True
-        Next
-      Else
-        For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = False
-        Next
+      If m_entityStatus <> 0 Then
+        tgItem.Enabled = True
+        If Not Me.m_entity.Grouping Then
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
+        Else
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          Next
+        End If
+        ToggleStyle(Me.m_treeManager.GridTableStyle)
       End If
-      ToggleStyle(Me.m_treeManager.GridTableStyle)
+
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckWBSRight()
       DisableGigaSiteControl()
@@ -1775,6 +1791,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        entity.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
       entity.CC = Me.m_entity.CostCenter
       entity.FromWip = False
       entity.refEntityId = Me.Entity.EntityId
@@ -2064,8 +2083,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'If Not Me.m_entity.ToCostCenter Is Nothing AndAlso Me.m_entity.ToCostCenter.Originated Then
       '  Entities.Add(Me.m_entity.ToCostCenter)
       'End If
-
-      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PRForMatOperationWithdraw, New BasketDialog, filters, Entities)
+      Dim _prForMatOperationWithdraw As New PRForMatOperationWithdraw
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        _prForMatOperationWithdraw.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
+      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(_prForMatOperationWithdraw, New BasketDialog, filters, Entities)
       dlg.Lists.Add(view)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()
@@ -2238,10 +2260,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
 
-
-
   End Class
-
 
 End Namespace
 

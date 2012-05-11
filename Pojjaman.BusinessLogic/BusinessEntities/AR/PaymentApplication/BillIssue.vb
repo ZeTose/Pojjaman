@@ -27,8 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class BillIssue
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IGLAble, IVatable, IHasIBillablePerson, ICancelable, ICheckPeriod, INewGLAble
-
+    Implements IPrintableEntity, IGLAble, IVatable, IHasIBillablePerson, ICancelable, ICheckPeriod, INewGLAble, INewPrintableEntity
 
 #Region "Members"
     Private m_docdate As Date
@@ -47,9 +46,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_singleVat As Boolean
 
     Private m_pmas As Hashtable
-		Private m_showDetail As Boolean
-		Public m_currentConnection As SqlConnection = Nothing
-		Public m_currentTransaction As SqlTransaction = Nothing
+    Private m_showDetail As Boolean
+    Public m_currentConnection As SqlConnection = Nothing
+    Public m_currentTransaction As SqlTransaction = Nothing
 #End Region
 
 #Region "Constructors"
@@ -464,95 +463,95 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim oldJeId As Integer = Me.m_je.Id
         Try
 
-        
-        Try
-          Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
-          If IsNumeric(returnVal.Value) Then
-            Select Case CInt(returnVal.Value)
-              Case -1, -5
-                trans.Rollback()
-                ResetId(oldId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case -2
-                trans.Rollback()
-                ResetId(oldId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return New SaveErrorException(returnVal.Value.ToString)
-              Case Else
-            End Select
-          ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
-            trans.Rollback()
-            ResetId(oldId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return New SaveErrorException(returnVal.Value.ToString)
-          End If
-          SaveDetail(Me.Id, conn, trans)
 
-          If Not Me.NoVat Then
-            Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
-            If Not IsNumeric(saveVatError.Message) Then
+          Try
+            Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+            If IsNumeric(returnVal.Value) Then
+              Select Case CInt(returnVal.Value)
+                Case -1, -5
+                  trans.Rollback()
+                  ResetId(oldId, oldVatId, oldJeId)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case -2
+                  trans.Rollback()
+                  ResetId(oldId, oldVatId, oldJeId)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return New SaveErrorException(returnVal.Value.ToString)
+                Case Else
+              End Select
+            ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
               trans.Rollback()
               ResetId(oldId, oldVatId, oldJeId)
               ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-              Return saveVatError
+              Return New SaveErrorException(returnVal.Value.ToString)
+            End If
+            SaveDetail(Me.Id, conn, trans)
+
+            If Not Me.NoVat Then
+              Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
+              If Not IsNumeric(saveVatError.Message) Then
+                trans.Rollback()
+                ResetId(oldId, oldVatId, oldJeId)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return saveVatError
+              Else
+                Select Case CInt(saveVatError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    ResetId(oldId, oldVatId, oldJeId)
+                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                    Return saveVatError
+                  Case Else
+                End Select
+              End If
+            End If
+
+
+            If Me.m_je.Status.Value = -1 Then
+              m_je.Status.Value = 3
+            End If
+            Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
+            If Not IsNumeric(saveJeError.Message) Then
+              trans.Rollback()
+              ResetId(oldId, oldVatId, oldJeId)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveJeError
             Else
-              Select Case CInt(saveVatError.Message)
+              Select Case CInt(saveJeError.Message)
+                Case -1, -5
+                  trans.Rollback()
+                  ResetId(oldId, oldVatId, oldJeId)
+                  ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                  Return saveJeError
+                Case -2
+                  'Post ไปแล้ว
+                  Return saveJeError
+                Case Else
+              End Select
+            End If
+
+            '==============================AUTOGEN==========================================
+            Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
+            If Not IsNumeric(saveAutoCodeError.Message) Then
+              trans.Rollback()
+              ResetId(oldId, oldVatId, oldJeId)
+              ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+              Return saveAutoCodeError
+            Else
+              Select Case CInt(saveAutoCodeError.Message)
                 Case -1, -2, -5
                   trans.Rollback()
                   ResetId(oldId, oldVatId, oldJeId)
                   ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                  Return saveVatError
+                  Return saveAutoCodeError
                 Case Else
               End Select
             End If
-          End If
+            '==============================AUTOGEN==========================================
 
 
-          If Me.m_je.Status.Value = -1 Then
-            m_je.Status.Value = 3
-          End If
-          Dim saveJeError As SaveErrorException = Me.m_je.Save(currentUserId, conn, trans)
-          If Not IsNumeric(saveJeError.Message) Then
-            trans.Rollback()
-            ResetId(oldId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveJeError
-          Else
-            Select Case CInt(saveJeError.Message)
-              Case -1, -5
-                trans.Rollback()
-                ResetId(oldId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveJeError
-              Case -2
-                'Post ไปแล้ว
-                Return saveJeError
-              Case Else
-            End Select
-          End If
-
-          '==============================AUTOGEN==========================================
-          Dim saveAutoCodeError As SaveErrorException = SaveAutoCode(conn, trans)
-          If Not IsNumeric(saveAutoCodeError.Message) Then
-            trans.Rollback()
-            ResetId(oldId, oldVatId, oldJeId)
-            ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-            Return saveAutoCodeError
-          Else
-            Select Case CInt(saveAutoCodeError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                ResetId(oldId, oldVatId, oldJeId)
-                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
-                Return saveAutoCodeError
-              Case Else
-            End Select
-          End If
-          '==============================AUTOGEN==========================================
-
-
-          trans.Commit()
+            trans.Commit()
           Catch ex As SqlException
             trans.Rollback()
             ResetId(oldId, oldVatId, oldJeId)
@@ -585,8 +584,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_saving = False
         End Try
       End With
-			Me.m_currentConnection = Nothing
-			Me.m_currentTransaction = Nothing
+      Me.m_currentConnection = Nothing
+      Me.m_currentTransaction = Nothing
     End Function
     Private Function GetRefIdString() As String
       Dim ret As String = ""
@@ -647,12 +646,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("milestone_status") AndAlso IsNumeric(row("milestone_status")) Then
             If CInt(row("milestone_status")) = 3 Then
               row("milestone_status") = 4
-							row("milestone_billIssueDate") = Now.Date
-						ElseIf CInt(row("milestone_status")) = 4 AndAlso Me.Status.Value = 0 Then
-							row("milestone_status") = 3
-							row("milestone_billIssueDate") = DBNull.Value
-						End If
-					End If
+              row("milestone_billIssueDate") = Now.Date
+            ElseIf CInt(row("milestone_status")) = 4 AndAlso Me.Status.Value = 0 Then
+              row("milestone_status") = 3
+              row("milestone_billIssueDate") = DBNull.Value
+            End If
+          End If
         Next
       End If
 
@@ -674,7 +673,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("milestone_status") AndAlso IsNumeric(row("milestone_status")) Then
             If CInt(row("milestone_status")) = 4 Then
               row("milestone_status") = 3
-							row("milestone_billIssueDate") = DBNull.Value
+              row("milestone_billIssueDate") = DBNull.Value
             End If
           End If
         End If
@@ -831,6 +830,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim dpi As DocPrintingItem
 
+      dpi = New DocPrintingItem
+      dpi.Mapping = "billi_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
       'Gross
       dpi = New DocPrintingItem
       dpi.Mapping = "Gross"
@@ -950,6 +955,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumReceivebleForBillissue As Decimal = 0
       Dim sumVat As Decimal = 0
       For Each item As Milestone In Me.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "billii_billi"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.string"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         If Not tempCC = item.CostCenter.Id Then
           Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
           Dim ccName As String = CStr(IIf(item.CostCenter.Id = 0 OrElse item.CostCenter Is Nothing, myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueDetail.BlankParentText}"), item.CostCenter.Code & ":" & item.CostCenter.Name))
@@ -1704,6 +1717,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n1 As Integer = 0
       For Each item As JournalEntryItem In m_je.ItemCollection
+        dpi = New DocPrintingItem
+        dpi.Mapping = "billii_billi"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.string"
+        dpi.Row = n1 + 1
+        dpi.Table = "RefDocItem"
+        dpiColl.Add(dpi)
+
         'Item.LineNumber
         dpi = New DocPrintingItem
         dpi.Mapping = "RefDocItem.LineNumber"
@@ -2583,7 +2604,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If mi.TaxType.Value = 1 Then
               itemAmount += Vat.GetVatAmount(itemAmount)
             End If
-              itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
             If TypeOf mi Is VariationOrderDe Then
               sumAmt -= itemAmount
             Else
@@ -2852,7 +2873,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return jiColl
     End Function
-   
+
 #End Region
 
 #Region "IVatable"
@@ -3124,18 +3145,137 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IHasIBillablePerson"
-		Public Property BillablePerson() As IBillablePerson Implements IHasIBillablePerson.BillablePerson
-			Get
-				Return Me.Customer
-			End Get
-			Set(ByVal Value As IBillablePerson)
-				If TypeOf Value Is Customer Then
-					Me.Customer = CType(Value, Customer)
-				End If
-			End Set
-		End Property
+    Public Property BillablePerson() As IBillablePerson Implements IHasIBillablePerson.BillablePerson
+      Get
+        Return Me.Customer
+      End Get
+      Set(ByVal Value As IBillablePerson)
+        If TypeOf Value Is Customer Then
+          Me.Customer = CType(Value, Customer)
+        End If
+      End Set
+    End Property
 #End Region
 
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
 
-	End Class
+
+      dpiColl.RelationList.Add("general>billi_id>item>billii_billi")
+      dpiColl.RelationList.Add("general>billi_id>RefDocItem>billii_billi")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("billi_id", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("InvoiceCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("InvoiceDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Customer", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCurrentAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerFax", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerMobile", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerContact", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditor", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.Datetime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BillIssueAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("BeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageGross", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageBillIssueAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageBeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageTaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageAfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("MileStoneAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TaxBase", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AdvanceAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RetentionAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PenaltyAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ReceivableForBillissue", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryMileStoneAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryDiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterDiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryAdvanceAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterAdvanceAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryRetentionAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("AfterRetentionAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryGoodsReceiptAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryGoodsReceiptAmountIncludedVat", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("GrossIncludeAddedTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageMileStoneAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageBeforeTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageTaxBase", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageTaxAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageAdvanceAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageRetentionAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageDiscountAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPagePenaltyAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageReceivableForBillissue", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageAfterTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageSummaryAdvanceAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageSummaryGoodsReceiptAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageSummaryGoodsReceiptAmountIncludedVat", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastPageGrossIncludeAddedTax", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefCodeGL", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocDateGL", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SumDebitGL", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SumCreditGL", "System.Decimal"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("billii_billi", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Name", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CodeAndName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Int32", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Type", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostCenterInfo", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostCenterCode", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.CostCenterName", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.MilestoneAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.ReceiveAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Amount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.AfterTax", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Advance", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Retention", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Discount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Penalty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DiscountAndPenalty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.BeforeTax", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.TaxBase", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Qty", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Unit", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Vat", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.UnitPrice", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("billii_billi", "System.String", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.LineNumber", "System.Int32", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.AccountCode", "System.String", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.Account", "System.String", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.CCCode", "System.String", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.CCName", "System.String", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.CCInfo", "System.String", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.Debit", "System.Decimal", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.Credit", "System.Decimal", "RefDocItem"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RefDocItem.Note", "System.String", "RefDocItem"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
+#End Region
+
+  End Class
 End Namespace

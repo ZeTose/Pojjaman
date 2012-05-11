@@ -344,6 +344,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_refEntityId As Integer
     Private m_idList As String
     Private m_stockid As Integer
+    Private m_itemEntityHs As Hashtable
 
 #End Region
 
@@ -381,6 +382,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         Me.lvItem.CheckBoxes = False
       End If
+
+      m_itemEntityHs = CType(entity, LCIForSelection).ItemEntity
+      If m_itemEntityHs Is Nothing Then
+        m_itemEntityHs = New Hashtable
+      End If
+
     End Sub
     Private Sub EnableCC()
       Me.txtCostCenterCode.Text = Me.m_cc.Code
@@ -479,12 +486,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       lvItem.ListViewItemSorter = Nothing
       Dim filters As Filter() = Me.GetFilterArray
       Dim dt As DataTable = LCIItem.GetAvailabilityInCC(filters)
+
+      Dim newHs As New Hashtable
+      'Dim key As Integer
+      For Each key As Integer In m_itemEntityHs.Keys
+        newHs(key) = m_itemEntityHs(key)
+      Next
       For Each row As DataRow In dt.Rows
-        Dim litem As ListViewItem = Me.lvItem.Items.Add(row(m_entity.Columns(0).Name).ToString)
-        litem.Tag = row(Me.m_entity.Prefix & "_id")
-        For i As Integer = 1 To m_entity.Columns.Count - 1
-          litem.SubItems.Add(row(m_entity.Columns(i).Name).ToString)
-        Next
+        Dim itemEntityId As Integer = CInt(row("stocki_entity"))
+        row("remain") = CDec(row("remain")) - CType(newHs(itemEntityId), Decimal)
+        newHs(itemEntityId) = CDec(row("remain"))
+      Next
+
+      For Each row As DataRow In dt.Rows
+        If CDec(row("remain")) > 0 Then
+          Dim litem As ListViewItem = Me.lvItem.Items.Add(row(m_entity.Columns(0).Name).ToString)
+          litem.Tag = row(Me.m_entity.Prefix & "_id")
+          For i As Integer = 1 To m_entity.Columns.Count - 1
+            litem.SubItems.Add(row(m_entity.Columns(i).Name).ToString)
+          Next
+        End If
       Next
       lvItem.ListViewItemSorter = comparer
       If Not lvItem.ListViewItemSorter Is Nothing Then

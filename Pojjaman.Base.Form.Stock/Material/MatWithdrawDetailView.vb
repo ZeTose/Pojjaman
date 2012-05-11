@@ -1336,43 +1336,54 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
               Dim remaining As Decimal = 0
 
-              If Not (doc.Pritem Is Nothing) Then
-                remaining = doc.AllowWithdrawFromPR
-              Else
-                remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
-              End If
+              'If Not (doc.Pritem Is Nothing) AndAlso Not (doc.Pritem.Pr Is Nothing) Then
+              remaining = doc.AllowWithdrawFromPR(value)
+              'Else
+              '  remaining = doc.GetAmountFromSproc(doc.Entity.Id, Me.m_entity.FromCC.Id)
+              'End If
+
+              Dim config As Boolean = CBool(Configuration.GetConfig("AllowOverWithdrawStock"))
 
               Dim xCompare As String = Configuration.FormatToString(value, DigitConfig.Price)
               Dim yCompare As String = Configuration.FormatToString((remaining / doc.Conversion), DigitConfig.Price)
               'MessageBox.Show(doc.OldRemainingQty.ToString & vbCrLf & doc.Conversion.ToString)
               If value > (remaining / doc.Conversion) Then
-                If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                If Not config Then
+                  Dim str As String = My.Resources.MatWithdrawDetailView_WidrawOverStock
+                  str = String.Format(str, xCompare, yCompare)
+                  msgServ.ShowWarning(str)
                   e.ProposedValue = (remaining / doc.Conversion)
                   doc.Qty = e.ProposedValue
                   Return
+                Else
+                  If Not msgServ.AskQuestionFormatted("", "${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.InvalidQty}", New String() {xCompare, yCompare}) Then
+                    e.ProposedValue = (remaining / doc.Conversion)
+                    doc.Qty = e.ProposedValue
+                    Return
+                  End If
                 End If
               End If
-              'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
-              '  If doc.OldQty > 0 Then
-              '    'เทจากตะกร้า
-              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
-              '  Else
-              '    'คีย์โค้ดเองแล้ว enter
-              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
-              '  End If
-              '  Return
-              'End If
+                'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
+                '  If doc.OldQty > 0 Then
+                '    'เทจากตะกร้า
+                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
+                '  Else
+                '    'คีย์โค้ดเองแล้ว enter
+                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
+                '  End If
+                '  Return
+                'End If
 
-              'If Not (doc.Pritem Is Nothing) Then
-              'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
-              'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
-              'Else
-              'doc.Qty = value
-              'End If
-              'Else
-              doc.Qty = value
-              'End If
-            End If
+                'If Not (doc.Pritem Is Nothing) Then
+                'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
+                'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
+                'Else
+                'doc.Qty = value
+                'End If
+                'Else
+                doc.Qty = value
+                'End If
+              End If
           Case "stocki_transferunitprice"
             'If IsDBNull(e.ProposedValue) Then
             '  e.ProposedValue = ""
@@ -1875,6 +1886,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim entity As New LCIForSelection
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        entity.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
       entity.CC = Me.m_entity.FromCostCenter
       entity.FromWip = False
       entity.refEntityId = Me.Entity.EntityId
@@ -1920,8 +1934,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
               'doc.Qty = Me.m_entity.GetRemainLCIItem(newItem.Id) / doc.Conversion
               Me.m_entity.ItemCollection.Add(doc)
             End If
+            doc.Entity = newItem
+            doc.DefaultUnit = CType(newItem, LCIItem).DefaultUnit
             If newType = 42 Then
               doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
+              doc.Qty = doc.Qty - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
               doc.OldQty = doc.Qty
             End If
             doc.Entity = newItem
@@ -2059,14 +2076,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Entity = m_entity
     End Sub
     Private Sub ibtnShowPR_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowPR.Click
-      If Me.m_entity.ValidIdOrDBNull(Me.m_entity.ToCostCenter) Is DBNull.Value Then     '_
-        'OrElse Me.m_entity.ValidIdOrDBNull(Me.m_entity.FromCostCenter) Is DBNull.Value Then
+      'If Me.m_entity.ValidIdOrDBNull(Me.m_entity.ToCostCenter) Is DBNull.Value Then     '_
+      '  'OrElse Me.m_entity.ValidIdOrDBNull(Me.m_entity.FromCostCenter) Is DBNull.Value Then
+      '  Return
+      'End If
+      'Dim dlg As New BasketDialog
+      'AddHandler dlg.EmptyBasket, AddressOf SetItems
+
+      'Dim filters(5) As Filter
+      'Dim excludeList As Object = ""
+      'excludeList = GetPRExcludeList()
+      'If excludeList.ToString.Length = 0 Then
+      '  excludeList = DBNull.Value
+      'End If
+      'Dim prNeedsApproval As Boolean = False
+      'Dim prNeedsStoreApproval As Boolean = False
+
+      'Dim tmp As Object
+      'Dim tmp2 As Object
+      'tmp = Configuration.GetConfig("MWPRFull")
+      'tmp2 = Configuration.GetConfig("MWPRremainPO")
+
+      'prNeedsApproval = CBool(Configuration.GetConfig("ApprovePR"))
+      ''prNeedsStoreApproval = CBool(Configuration.GetConfig("PRNeedStoreApprove"))
+      'filters(0) = New Filter("excludeList", excludeList)
+      'filters(1) = New Filter("prNeedsApproval", prNeedsApproval)
+      'filters(2) = New Filter("excludeCanceled", True)
+      'filters(3) = New Filter("PRNeedStoreApprove", prNeedsStoreApproval)
+      'filters(4) = New Filter("formEntity", Me.m_entity.EntityId)
+      'If CBool(tmp) Then
+      '  filters(5) = New Filter("MWPRMode", 1)
+      'ElseIf CBool(tmp2) Then
+      '  filters(5) = New Filter("MWPRMode", 2)
+      'Else
+      '  filters(5) = New Filter("MWPRMode", 0)
+      'End If
+      'Dim Entities As New ArrayList
+      'If Not Me.m_entity.ToCostCenter Is Nothing AndAlso Me.m_entity.ToCostCenter.Originated Then
+      '  Entities.Add(Me.m_entity.ToCostCenter)
+      'End If
+
+      'Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PR, New BasketDialog, filters, Entities)
+      'dlg.Lists.Add(view)
+      'Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
+      'myDialog.ShowDialog()
+
+      If Me.m_entity.ToCostCenter Is Nothing OrElse Not Me.m_entity.ToCostCenter.Originated _
+    OrElse Me.m_entity.FromCostCenter Is Nothing OrElse Not Me.m_entity.FromCostCenter.Originated Then
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+        Dim myPars As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        msgServ.ShowMessage(myPars.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatTransferDetailView.SpecifiCCFromANDCCTOFirst}"))
         Return
       End If
       Dim dlg As New BasketDialog
       AddHandler dlg.EmptyBasket, AddressOf SetItems
 
-      Dim filters(5) As Filter
+      Dim filters(6) As Filter
       Dim excludeList As Object = ""
       excludeList = GetPRExcludeList()
       If excludeList.ToString.Length = 0 Then
@@ -2081,7 +2146,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tmp2 = Configuration.GetConfig("MWPRremainPO")
 
       prNeedsApproval = CBool(Configuration.GetConfig("ApprovePR"))
-      'prNeedsStoreApproval = CBool(Configuration.GetConfig("PRNeedStoreApprove"))
+      prNeedsStoreApproval = CBool(Configuration.GetConfig("PRNeedStoreApprove"))
+
       filters(0) = New Filter("excludeList", excludeList)
       filters(1) = New Filter("prNeedsApproval", prNeedsApproval)
       filters(2) = New Filter("excludeCanceled", True)
@@ -2094,12 +2160,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         filters(5) = New Filter("MWPRMode", 0)
       End If
+      filters(6) = New Filter("stock_id", Me.m_entity.Id)
       Dim Entities As New ArrayList
       If Not Me.m_entity.ToCostCenter Is Nothing AndAlso Me.m_entity.ToCostCenter.Originated Then
-        Entities.Add(Me.m_entity.ToCostCenter)
+        Dim requestCostCenter As New RequestCostCenter(Me.m_entity.ToCostCenter.Id)
+        Entities.Add(requestCostCenter)
       End If
-
-      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(New PR, New BasketDialog, filters, Entities)
+      If Not Me.m_entity.FromCostCenter Is Nothing AndAlso Me.m_entity.FromCostCenter.Originated Then
+        Dim storeCostCenter As New StoreCostCenter(Me.m_entity.FromCostCenter.Id)
+        Entities.Add(storeCostCenter)
+      End If
+      Dim _prForMatTransfer As New PRForMatTransfer
+      If TypeOf Me.m_entity Is IAbleValidateItemQuantity Then
+        _prForMatTransfer.ItemEntity = CType(Me.m_entity, IAbleValidateItemQuantity).ItemEntityHashTable
+      End If
+      Dim view As AbstractEntityPanelViewContent = New PRSelectionView(_prForMatTransfer, New BasketDialog, filters, Entities)
       dlg.Lists.Add(view)
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDockingDialog(view, dlg)
       myDialog.ShowDialog()

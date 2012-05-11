@@ -446,6 +446,7 @@
     <Content Include="Externals\Telerik.WinControls.UI.dll" />
     <Content Include="Externals\TelerikCommon.dll" />
     <Content Include="PojjamanIcon.ico" />
+    <None Include="data\forms\DevExpress\XtraReportTemplate1.repx" />
     <None Include="Resources\Action-gp-up.bmp" />
     <None Include="Resources\Action-go-up.bmp" />
     <None Include="Resources\Actions-go-down.ico" />

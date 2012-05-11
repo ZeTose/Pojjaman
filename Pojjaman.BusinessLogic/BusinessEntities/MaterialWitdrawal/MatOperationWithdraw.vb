@@ -36,7 +36,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class MatOperationWithdraw
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IPrintableEntity, IHasToCostCenter, IHasFromCostCenter, ICancelable, ICheckPeriod, IWBSAllocatable _
-      , INewGLAble, INewPrintableEntity, IDocStatus
+      , INewGLAble, INewPrintableEntity, IDocStatus, IAbleValidateItemQuantity
 
 #Region "Members"
     Private m_docDate As Date
@@ -3151,6 +3151,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'End If
         End If
         Return ""
+      End Get
+    End Property
+#End Region
+
+#Region "IAbleValidateItemQuantity"
+    Public ReadOnly Property ItemEntityHashTable As System.Collections.Hashtable Implements IAbleValidateItemQuantity.ItemEntityHashTable
+      Get
+        Dim newhs As New Hashtable
+        Dim entityId As Integer
+        For Each item As MatOperationWithdrawItem In ItemCollection
+          entityId = item.Entity.Id
+          If Not newhs.ContainsKey(entityId) Then
+            newhs(entityId) = item.StockQty
+          Else
+            newhs(entityId) = CDec(newhs(entityId)) + item.StockQty
+          End If
+        Next
+        Return newhs
       End Get
     End Property
 #End Region

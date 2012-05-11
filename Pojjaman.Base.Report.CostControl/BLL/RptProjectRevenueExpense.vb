@@ -486,10 +486,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Sub MargeHeaderRows()
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                   {
-                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 8, 2),
-                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(10, 2, 16, 2),
-                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(18, 2, 20 + Me.CBSNumber, 2),
-                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(22 + Me.CBSNumber, 2, 27 + Me.CBSNumber, 2)
+                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 9, 2),
+                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(11, 2, 17, 2),
+                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(19, 2, 21 + Me.CBSNumber, 2),
+                                   Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(23 + Me.CBSNumber, 2, 28 + Me.CBSNumber, 2)
                                   }) ' _
     End Sub
     'Private Function SumValueInDataTable(ByVal dr() As DataRow, ByVal field As String) As Decimal

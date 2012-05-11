@@ -16,8 +16,7 @@ Imports System.Runtime.CompilerServices
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class OutgoingCheck
     Inherits SimpleBusinessEntityBase
-    Implements IPaymentItem, IPrintableEntity, IHasBankAccount, IHasIBillablePerson, ICheckPeriod, IExportable
-
+    Implements IPaymentItem, IPrintableEntity, IHasBankAccount, IHasIBillablePerson, ICheckPeriod, IExportable, INewPrintableEntity
 
 #Region "Members"
     Private m_cqcode As String
@@ -423,7 +422,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           Return 1
         End If
-       
+
         If ds.Tables(0).Rows.Count > 0 Then
           Return CDec(ds.Tables(0).Rows(0)(0))
         End If
@@ -1305,6 +1304,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Set
     End Property
+#End Region
+
+#Region "INewPrintableEntity"
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Amount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Recipient", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ACPayeeOnly", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Unbearer", "System.String"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
 #End Region
 
   End Class
