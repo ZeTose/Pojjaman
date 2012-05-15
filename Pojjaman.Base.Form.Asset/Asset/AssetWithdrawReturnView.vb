@@ -483,5 +483,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
+#Region " Overrides "
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.AssetWithdrawReturnView"
+      End Get
+    End Property
+#End Region
+
   End Class
 End Namespace

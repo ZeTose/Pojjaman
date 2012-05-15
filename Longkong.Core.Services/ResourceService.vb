@@ -112,6 +112,11 @@ Namespace Longkong.Core.Services
         Next
       End If
       If iconobj Is Nothing Then
+        If name.Trim.StartsWith("${res:") Then
+          Dim m_stringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+          name = m_stringParserService.Parse(name)
+        End If
+        name = name.Replace(".", "_")
         iconobj = My.Resources.ResourceManager.GetObject(name)
         If TypeOf iconobj Is Icon Then
           Return Bitmap.FromHicon(CType(iconobj, Icon).Handle)

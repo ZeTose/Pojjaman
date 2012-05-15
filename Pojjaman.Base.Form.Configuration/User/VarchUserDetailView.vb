@@ -303,5 +303,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_entity.CanSeeAllDocType0 = chkDocType0.Checked
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
+
+#Region " Overrides "
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.VarchUserDetailView"
+      End Get
+    End Property
+#End Region
+
   End Class
 End Namespace

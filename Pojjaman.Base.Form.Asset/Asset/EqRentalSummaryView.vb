@@ -3,40 +3,40 @@ Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class EqRentalSummary
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class EqRentalSummary
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-        Friend WithEvents lblTool As System.Windows.Forms.Label
-        Friend WithEvents lblItem As System.Windows.Forms.Label
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents lblTool As System.Windows.Forms.Label
+    Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
     Friend WithEvents lblDate As System.Windows.Forms.Label
     Friend WithEvents lblPrice As System.Windows.Forms.Label
-        Friend WithEvents lblBaht As System.Windows.Forms.Label
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents lblBaht As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
     Friend WithEvents txtAssetCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtAssetName As System.Windows.Forms.TextBox
-        Friend WithEvents txtBuyDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtBuyPrice As System.Windows.Forms.TextBox
+    Friend WithEvents txtAssetName As System.Windows.Forms.TextBox
+    Friend WithEvents txtBuyDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtBuyPrice As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
@@ -243,131 +243,131 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "SetLabelText"
-        Public Overrides Sub SetLabelText()
-            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.lblTool.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblTool}")
-            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblItem}")
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.grbDetail}")
-            Me.lblDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblDate}")
-            Me.lblPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblPrice}")
-            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
-        End Sub
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.lblTool.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblTool}")
+      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblItem}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.grbDetail}")
+      Me.lblDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblDate}")
+      Me.lblPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqRentalSummary.lblPrice}")
+      Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+    End Sub
 #End Region
 
 #Region "Members"
-        Private m_entity As Asset
-        Private m_isInitialized As Boolean = False
-        Private m_treeManager As TreeManager
+    Private m_entity As Asset
+    Private m_isInitialized As Boolean = False
+    Private m_treeManager As TreeManager
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
 
-            Dim dt As TreeTable = Asset.GetSchemaTable()
-            Dim dst As DataGridTableStyle = Asset.CreateTableStyle()
-            m_treeManager = New TreeManager(dt, tgItem)
-            m_treeManager.SetTableStyle(dst)
-            m_treeManager.AllowSorting = False
-            m_treeManager.AllowDelete = False
-            tgItem.AllowNew = False
+      Dim dt As TreeTable = Asset.GetSchemaTable()
+      Dim dst As DataGridTableStyle = Asset.CreateTableStyle()
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
+      tgItem.AllowNew = False
 
-            EventWiring()
-        End Sub
+      EventWiring()
+    End Sub
 #End Region
 
 #Region "ISimpleListPanel"
-        ' Initialize
-        Public Overrides Sub Initialize()
-        End Sub
-        ' CheckFormEnable
-        Public Overrides Sub CheckFormEnable()
+    ' Initialize
+    Public Overrides Sub Initialize()
+    End Sub
+    ' CheckFormEnable
+    Public Overrides Sub CheckFormEnable()
 
-        End Sub
-        ' ClearDetail
-        Public Overrides Sub ClearDetail()
-            For Each grbCtrl As Control In Me.Controls
-                If TypeOf grbCtrl Is FixedGroupBox Then
-                    For Each Ctrl As Control In grbCtrl.Controls
-                        If TypeOf Ctrl Is TextBox Then
-                            Ctrl.Text = ""
-                        End If
-                    Next
-                End If
-            Next
-        End Sub
-        ' EventWiring
-        Protected Overrides Sub EventWiring()
-        End Sub
-        ' UpdateEntityProperties
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
+    End Sub
+    ' ClearDetail
+    Public Overrides Sub ClearDetail()
+      For Each grbCtrl As Control In Me.Controls
+        If TypeOf grbCtrl Is FixedGroupBox Then
+          For Each Ctrl As Control In grbCtrl.Controls
+            If TypeOf Ctrl Is TextBox Then
+              Ctrl.Text = ""
             End If
+          Next
+        End If
+      Next
+    End Sub
+    ' EventWiring
+    Protected Overrides Sub EventWiring()
+    End Sub
+    ' UpdateEntityProperties
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
 
-            If Not m_entity Is Nothing Then
+      If Not m_entity Is Nothing Then
 
-                txtAssetCode.Text = m_entity.Code
-                txtAssetName.Text = m_entity.Name
+        txtAssetCode.Text = m_entity.Code
+        txtAssetName.Text = m_entity.Name
 
 
 
-                txtBuyDate.Text = MinDateToNull(Me.m_entity.BuyDate, "")
+        txtBuyDate.Text = MinDateToNull(Me.m_entity.BuyDate, "")
 
-                txtBuyDate.Text = Me.MinDateToNull(m_entity.BuyDate, "")
+        txtBuyDate.Text = Me.MinDateToNull(m_entity.BuyDate, "")
 
-                txtBuyPrice.Text = Configuration.FormatToString(m_entity.BuyPrice, DigitConfig.Price)
-            End If
+        txtBuyPrice.Text = Configuration.FormatToString(m_entity.BuyPrice, DigitConfig.Price)
+      End If
 
-            'Load Items**********************************************************
-            Me.m_entity.ReLoadItems()
-            Me.m_treeManager.Treetable = Me.m_entity.ItemTable
-            Me.Validator.DataTable = m_treeManager.Treetable
-            '********************************************************************
+      'Load Items**********************************************************
+      Me.m_entity.ReLoadItems()
+      Me.m_treeManager.Treetable = Me.m_entity.ItemTable
+      Me.Validator.DataTable = m_treeManager.Treetable
+      '********************************************************************
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
-        End Sub
-        ' ChangeProperty  (ไม่ได้ใช้งาน)
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
-                Case ""
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
+    ' ChangeProperty  (ไม่ได้ใช้งาน)
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
+        Case ""
 
-            End Select
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-            CheckFormEnable()
-        End Sub
-        ' SetStatus
-        Public Sub SetStatus()
-            ' TODO : Check for entity status
-        End Sub
-        ' Entity
-        Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
+      End Select
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    ' SetStatus
+    Public Sub SetStatus()
+      ' TODO : Check for entity status
+    End Sub
+    ' Entity
+    Public Overrides Property Entity() As BusinessLogic.ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = Nothing
         Me.m_entity = CType(Value, Asset)
         If m_entity Is Nothing Then
           m_entity = New Asset
         End If
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
 #End Region
 
 #Region "Event Handlers"
@@ -375,20 +375,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region " Buttons Envent "
 
 #End Region
 
-        Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
 
-        End Sub
+    End Sub
 
     Private Sub lblItem_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblItem.TextChanged
 
@@ -397,5 +397,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Protected Overrides Sub Finalize()
       MyBase.Finalize()
     End Sub
+
+#Region " Overrides "
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.EqRentalSummary"
+      End Get
+    End Property
+#End Region
+
   End Class
 End Namespace

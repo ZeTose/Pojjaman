@@ -1977,9 +1977,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Set
     End Property
 
-
-
-    '#End Region
+#Region " Overrides "
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.ToolLotDetailView"
+      End Get
+    End Property
+#End Region
 
 #Region " IValidatable "
     Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator

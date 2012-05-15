@@ -705,7 +705,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Overrides"
         Public Overrides ReadOnly Property TabPageIcon() As String
             Get
-                Return (New WitholdingTax).DetailPanelIcon
+        Return "Icons.16x16.MatSupDetail"
             End Get
         End Property
 #End Region
@@ -754,5 +754,5 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 #End Region
 
-    End Class
+  End Class
 End Namespace

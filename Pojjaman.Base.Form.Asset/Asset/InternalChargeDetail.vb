@@ -906,7 +906,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New AssetWithdraw).DetailPanelIcon
+        Return "Icons.16x16.InternalChargeDetail"
       End Get
     End Property
 #End Region

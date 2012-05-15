@@ -1209,6 +1209,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
 
-        End Sub
+    End Sub
+
+#Region " Overrides "
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.EqManagementView"
+      End Get
+    End Property
+#End Region
+
     End Class
 End Namespace
