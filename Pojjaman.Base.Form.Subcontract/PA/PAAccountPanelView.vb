@@ -1881,7 +1881,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Overrides"
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New PA).DetailPanelIcon
+        Return "Icons.16x16.PAAccountPanelView"
       End Get
     End Property
 #End Region
