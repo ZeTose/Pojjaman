@@ -20,7 +20,7 @@
         <MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
         <MenuItem id="rptassetprofitloss" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetProfitLoss.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss"/>
         <MenuItem id="rptassetwriteoff" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetWriteOff.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetWriteOff"/>
-        <MenuItem id="rptassetexpenditurebycostcenter" icon="Icons.16x16.RptAssetExpenditureByCostCenter" label="${res:MainMenu.PurchaseMenu.RptAssetExpenditureByCostCenter.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetExpenditureByCostCenter"/>
+        <!--<MenuItem id="rptassetexpenditurebycostcenter" icon="Icons.16x16.RptAssetExpenditureByCostCenter" label="${res:MainMenu.PurchaseMenu.RptAssetExpenditureByCostCenter.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetExpenditureByCostCenter"/>-->
 			</MenuItem>
       
       <MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport">

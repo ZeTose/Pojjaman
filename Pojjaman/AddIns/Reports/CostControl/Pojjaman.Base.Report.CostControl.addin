@@ -8,7 +8,7 @@
 		<!--<Conditional applicationmode="CostControl" action="Exclude">-->
 		<!--<MenuItem id="CostControlReport" label="${res:MainMenu.ReportMenu.CostControlReport}" insertafter="Item">-->
   	<MenuItem id="CostControlReport" label="${res:MainMenu.ReportMenu.CostControlReport}" insertafter="Accounting" insertbefore="Reports">
-        <MenuItem id="cbs" icon="Icons.16x16.CBSMenuIcon" label="${res:MainMenu.PurchaseMenu.CBS.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CBS"/>
+        <MenuItem id="cbs" icon="Icons.16x16.CBS" label="${res:MainMenu.PurchaseMenu.CBS.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CBS"/>
         <MenuItem id="WBSAdjust" icon="Icons.16x16.WBSAdjust" label="${res:MainMenu.PurchaseMenu.WBSAdjust.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WBSAdjust"/>
         <MenuItem id="CostControlSeparate1" label="-"/>
       <MenuItem id="RptWBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitor"/>

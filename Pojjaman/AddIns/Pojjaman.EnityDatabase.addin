@@ -6,9 +6,9 @@
 		<!--<Conditional applicationmode="Accounting" action="Exclude">-->
 			<MenuItem id="Bidding" insertafter="File" insertbefere="Supplier" label="${res:MainMenu.BiddingMenu}">
 				<MenuItem id="CostCenter" label="${res:MainMenu.CostCenterMenu}" icon="Icons.16x16.CostCenter" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CostCenter"/>
-				<MenuItem id="BOQ" label="${res:MainMenu.BiddingMenu.BOQ.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BOQ"/>
+				<MenuItem id="BOQ" label="${res:MainMenu.BiddingMenu.BOQ.Description}" icon="Icons.16x16.BOQ" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BOQ"/>
 				<!--<MenuItem id="Budget" label="${res:MainMenu.BiddingMenu.Budget.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Budget"/>-->
-				<MenuItem id="project" label="${res:MainMenu.BiddingMenu.Project.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Project"/>
+				<MenuItem id="project" label="${res:MainMenu.BiddingMenu.Project.Description}" icon="Icons.16x16.Project" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Project"/>
 			</MenuItem>
 			<!--<MenuItem id="CostCenter" insertafter="File" insertbefore="Supplier" label="CostCenter">
 				--><!--<Conditional accessid="13" acesslevel="0" action="Exclude">--><!--
@@ -69,7 +69,7 @@
 			</MenuItem>
 			
 			<MenuItem id="Subcontract" insertafter="Purchase" insertbefore="Stock" label="${res:MainMenu.SubcontractMenu}">
-        <MenuItem id="wr" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.WR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WR"/>
+        <MenuItem id="wr" icon="Icons.16x16.WR" label="${res:MainMenu.SubcontractMenu.WR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WR"/>
         <MenuItem id="WRSeparator" label="-"/>
         <MenuItem id="sc" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.SC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SC"/>
 				<MenuItem id="vo" icon="Icons.16x16.VO" label="${res:MainMenu.SubcontractMenu.VO.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VO"/>
@@ -134,7 +134,7 @@
 				<MenuItem id="Separator1" label="-"/>
 				<MenuItem id="CashWithdraw" label="${res:MainMenu.CashBankMenu.CashWithdraw}" icon="Icons.16x16.CashWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CashWithdraw"/>
 				<MenuItem id="CashDeposite" label="${res:MainMenu.CashBankMenu.CashDeposite}" icon="Icons.16x16.CashDeposite" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CashDeposite"/>
-				<MenuItem id="BankTransfer" label="${res:MainMenu.CashBankMenu.BankTransfer}" icon="Icons.16x16.CashTransfer" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransfer"/>
+				<MenuItem id="BankTransfer" label="${res:MainMenu.CashBankMenu.BankTransfer}" icon="Icons.16x16.BankTransfer" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransfer"/>
 				<MenuItem id="BankCharge" icon="Icons.16x16.BankCharge" label="${res:MainMenu.CashBankMenu.BankCharge}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankCharge"/>
 				<MenuItem id="BankInterest" icon="Icons.16x16.BankInterest" label="${res:MainMenu.CashBankMenu.BankInterest}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankInterest"/>
 				<MenuItem id="Separator2" label="-"/>
@@ -142,7 +142,7 @@
 				<MenuItem id="PettyCashClaim" icon="Icons.16x16.PettyCashClaim" label="${res:MainMenu.CashBankMenu.PettyCashClaim}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCashClaim"/>
 				<MenuItem id="PettyCashClosed" icon="Icons.16x16.PettyCashClosed" label="${res:MainMenu.CashBankMenu.PettyCashClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCashClosed"/>
 				<MenuItem id="Separator3" label="-"/>
-				<MenuItem id="AdvanceMoney" icon="Icons.16x16.AdvanceMoneySet" label="${res:MainMenu.CashBankMenu.AdvanceMoneySet}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoney"/>
+				<MenuItem id="AdvanceMoney" icon="Icons.16x16.AdvanceMoney" label="${res:MainMenu.CashBankMenu.AdvanceMoneySet}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoney"/>
 				<MenuItem id="AdvanceMoneyClosed" icon="Icons.16x16.AdvanceMoneyClosed" label="${res:MainMenu.CashBankMenu.AdvanceMoneyClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoneyClosed"/>
 			</MenuItem>
 			<MenuItem id="Check" insertafter="CashBank" insertbefore="Asset" label="${res:MainMenu.CheckMenu}">
@@ -167,29 +167,29 @@
 				<MenuItem id="DepreciationCal" icon="Icons.16x16.DepreciationCal" label="${res:MainMenu.AssetMenu.DepreciationCal}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DepreciationCal"/>
 				<MenuItem id="Separator3" label="-"/>
 				<!--<MenuItem id="AssetSold" icon="Icons.16x16.AssetSold" label="${res:MainMenu.AssetMenu.AssetSold}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetSold"/>-->
-				<MenuItem id="AssetWriteOff" icon="Icons.16x16.AssetSold" label="${res:MainMenu.AssetMenu.AssetWriteOff}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWriteOff"/>
+				<MenuItem id="AssetWriteOff" icon="Icons.16x16.AssetWriteOff" label="${res:MainMenu.AssetMenu.AssetWriteOff}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWriteOff"/>
 			</MenuItem>
 			<MenuItem id="Accounting" insertafter="Asset" insertbefore="CostControlReport" label="${res:MainMenu.AccountingMenu}">
 				<MenuItem id="AccountChart" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.AccountChart.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Account"/>
 				<MenuItem id="AccountPeriod" icon="Icons.16x16.AccountPeriodMenuIcon" label="${res:MainMenu.AccountingMenu.AccountPeriod.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountPeriod"/>
 				<!--<MenuItem id="JournalType" label="${res:MainMenu.AccountingMenu.JournalType}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalType"/>-->
 				<MenuItem id="AccountBook" icon="Icons.16x16.AccountBookMenuIcon" label="${res:MainMenu.AccountingMenu.AccountBook.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountBook"/>
-				<MenuItem id="AccountLink" label="${res:MainMenu.AccountingMenu.AccountLink}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountLink"/>
-				<MenuItem id="LinkGL" label="${res:MainMenu.AccountingMenu.LinkGL}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkGL"/>
+				<MenuItem id="AccountLink" icon="Icons.16x16.AccountLink" label="${res:MainMenu.AccountingMenu.AccountLink}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountLink"/>
+				<MenuItem id="LinkGL" icon="Icons.16x16.GLFormat" label="${res:MainMenu.AccountingMenu.LinkGL}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkGL"/>
 				<MenuItem id="Separator1" label="-"/>
-				<MenuItem id="JournalEntry" label="${res:MainMenu.AccountingMenu.JournalEntry}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntry"/>
+				<MenuItem id="JournalEntry" icon="Icons.16x16.JournalEntry" label="${res:MainMenu.AccountingMenu.JournalEntry}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntry"/>
 				<MenuItem id="JournalEntryUpdate" label="${res:MainMenu.AccountingMenu.JournalEntryUpdate}"/>
 				<!-- class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntryUpdate"/-->
-				<MenuItem id="OpenningBalance" label="${res:MainMenu.AccountingMenu.BeginingBalance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OpenningBalance"/>
-        <MenuItem id="CalculateCost" label="${res:MainMenu.AccountingMenu.CalculateCost}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CalculateCost"/>
-        <MenuItem id="CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
+				<MenuItem id="OpenningBalance" icon="Icons.16x16.OpenningBalance" label="${res:MainMenu.AccountingMenu.BeginingBalance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OpenningBalance"/>
+        <MenuItem id="CalculateCost" icon="Icons.16x16.CalcMatCost" label="${res:MainMenu.AccountingMenu.CalculateCost}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CalculateCost"/>
+        <MenuItem id="CloseAccountPeriod" icon="Icons.16x16.CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
 				<MenuItem id="GLYearEnd" label="${res:MainMenu.AccountingMenu.GLYearEnd}"/>
 				<MenuItem id="Separator2" label="-"/>
 				<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.VatMenu}">
 					<MenuItem id="VatGroup" icon="Icons.16x16.VatGroup" label="${res:MainMenu.AccountingMenu.VatGroup}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VatGroup"/>
 					<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.Vat}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Vat"/>
 				</MenuItem>
-				<MenuItem id="FFormat" icon="Icons.16x16.LinkFinancialStatement" label="${res:MainMenu.AccountingMenu.LinkFinancialStatement}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.FFormat"/>
+				<MenuItem id="FFormat" icon="Icons.16x16.FFormat" label="${res:MainMenu.AccountingMenu.LinkFinancialStatement}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.FFormat"/>
 				<!--<MenuItem id="Country" icon="Icons.16x16.Country" label="${res:MainMenu.AccountingMenu.Country}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Country"/>-->
 			</MenuItem>
 		

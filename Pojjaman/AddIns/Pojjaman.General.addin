@@ -9,7 +9,7 @@
 				<MenuItem id="CostCenter" label="${res:MainMenu.FileMenu.New.Project}" icon="Icons.16x16.NewProjectIcon" description="${res:MainMenu.FileMenu.New.Project.Description}" shortcut="Control|Shift|N" class="Longkong.Pojjaman.Commands.CreateNewProject"/>
 				<MenuItem id="Project" label="${res:MainMenu.FileMenu.New.CostCenter}" icon="Icons.16x16.CostCenter" description="${res:MainMenu.FileMenu.New.CostCenter.Description}" shortcut="Control|Alt|N" class="Longkong.Pojjaman.Commands.CreateNewCostCenter"/>        
 			</MenuItem>
-      <MenuItem id="MultiApproval" label="${res:MainMenu.FileMenu.New.MultiApproval}" icon="Icons.16x16.Multiapprove" description="${res:MainMenu.FileMenu.New.Multiapprove.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MultiApproval" />
+      <MenuItem id="MultiApproval" label="${res:MainMenu.FileMenu.New.MultiApproval}" icon="Icons.16x16.MultiApproval" description="${res:MainMenu.FileMenu.New.Multiapprove.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MultiApproval" />
       <!--<MenuItem id="BrowserPage" label="${res:MainMenu.FileMenu.BrowserPage}" icon="Icons.16x16.BrowserPage" description="${res:MainMenu.FileMenu.BrowserPage.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BrowserPage" />-->        
      	<!--<MenuItem id="Open" label="${res:MainMenu.FileMenu.Open}">
 				<MenuItem id="File" label="${res:MainMenu.FileMenu.Open.File}" icon="Icons.16x16.OpenFileIcon" description="D:\PerforceWorkSpace\Project\Pojjaman\AddIns\StartPage.addinx${res:MainMenu.FileMenu.Open.File.Description}" shortcut="Control|O" class="Longkong.Pojjaman.Commands.OpenFile"/>
@@ -29,7 +29,7 @@
 				<MenuItem id="Save" label="${res:MainMenu.FileMenu.Save}" icon="Icons.16x16.SaveIcon" description="${res:MainMenu.FileMenu.Save.Description}" shortcut="Control|S" class="Longkong.Pojjaman.Commands.SaveFile"/>
 			</Conditional>
 			<Conditional windowstate="None" nowindowstate="ViewOnly" action="Disable">
-				<MenuItem id="SaveAs" label="${res:MainMenu.FileMenu.SaveAs}" description="${res:MainMenu.FileMenu.SaveAs.Description}" class="Longkong.Pojjaman.Commands.SaveFileAs"/>
+				<MenuItem id="SaveAs" label="${res:MainMenu.FileMenu.SaveAs}" icon="Icons.16x16.SaveAsIcon" description="${res:MainMenu.FileMenu.SaveAs.Description}" class="Longkong.Pojjaman.Commands.SaveFileAs"/>
 			</Conditional>			
 			<!--<Conditional openwindowstate="Dirty" action="Disable">
 				<MenuItem id="SaveAll" label="${res:MainMenu.FileMenu.SaveAll}" icon="Icons.16x16.SaveAllIcon" shortcut="Control|Shift|S" description="${res:MainMenu.FileMenu.SaveAll.Description}" class="Longkong.Pojjaman.Commands.SaveAllFiles"/>
@@ -53,7 +53,7 @@
 				<MenuItem id="ClearRecentEntities" label="${res:MainMenu.FileMenu.ClearRecentEntities}" description="${res:MainMenu.FileMenu.ClearRecentEntities.Description}" class="Longkong.Pojjaman.Commands.ClearRecentEntities"/>
 			</MenuItem>
 			<MenuItem id="ExitSeparator" label="-"/>
-			<MenuItem id="LogOff" label="${res:MainMenu.FileMenu.LogOff}" shortcut="Control|Alt|F4" icon="Icons.16x16.LogOff" description="${res:MainMenu.FileMenu.LogOff.Description}" class="Longkong.Pojjaman.Commands.LogOff"/>
+			<MenuItem id="LogOff" label="${res:MainMenu.FileMenu.LogOff}" shortcut="Control|Alt|F4" icon="Icons.16x16.LogOffIcon" description="${res:MainMenu.FileMenu.LogOff.Description}" class="Longkong.Pojjaman.Commands.LogOff"/>
 			<MenuItem id="Exit" label="${res:MainMenu.FileMenu.Exit}" icon="Icons.16x16.CancelIcon" description="${res:MainMenu.FileMenu.Exit.Description}" class="Longkong.Pojjaman.Commands.ExitWorkbenchCommand"/>
 		</MenuItem>	
 	  <!--<MenuItem id="Edit" label="${res:XML.MainMenu.EditMenu}" insertafter="File" insertbefore="Supplier">
@@ -87,13 +87,13 @@
 		</MenuItem>-->
 
 		<MenuItem id="GeneralSetting" insertafter="Reports" insertbefore="Window" label="${res:MainMenu.GeneralSettingMenu}">
-      <MenuItem id="Unit" label="${res:MainMenu.MaterialMenu.UnitList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Unit"/>
-      <MenuItem id="POPlaceOfDelivery" label="${res:MainMenu.MaterialMenu.POPlaceOfDeliveryList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery"/>
+      <MenuItem id="Unit" icon="Icons.16x16.Unit" label="${res:MainMenu.MaterialMenu.UnitList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Unit"/>
+      <MenuItem id="POPlaceOfDelivery" icon="Icons.16x16.POPlaceOfDelivery" label="${res:MainMenu.MaterialMenu.POPlaceOfDeliveryList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery"/>
 			<MenuItem id="EmployeeSeparator" label="-"/>
 			<MenuItem id="Employee" label="${res:MainMenu.AdminMenu.EmployeeList}" icon="Icons.16x16.Employee" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Employee"/>
 			<MenuItem id="User" label="${res:MainMenu.AdminMenu.User}" icon="Icons.16x16.User" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.User"/>
 			<MenuItem id="Role" label="${res:MainMenu.AdminMenu.Role}" icon="Icons.16x16.Lock" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Role"/>
-			<MenuItem id="ChangePassword" label="${res:MainMenu.AdminMenu.ChangePassword}" class="Longkong.Pojjaman.Commands.ChangePassword"/>
+			<MenuItem id="ChangePassword" icon="Icons.16x16.ChangePasswordIcon" label="${res:MainMenu.AdminMenu.ChangePassword}" class="Longkong.Pojjaman.Commands.ChangePassword"/>
 			<MenuItem id="OptionSeparator" label="-"/>
 			<MenuItem id="Options" label="${res:MainMenu.ToolMenu.Options}" icon="Icons.16x16.Options" description="${res:MainMenu.ToolMenu.Options.Description}" class="Longkong.Pojjaman.Commands.OptionsCommand"/>
 			<MenuItem id="DBTool" label="DBTool" icon="Icons.16x16.Options" description="DBTool" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>

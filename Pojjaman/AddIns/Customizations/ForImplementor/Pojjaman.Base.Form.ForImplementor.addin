@@ -5,7 +5,7 @@
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
     <MenuItem id="Separator3" insertafter="FFormat" label="-"/>
-    <MenuItem id="ReSaveGL"   label="ReSaveGL" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ReSaveGL">
+    <MenuItem id="ReSaveGL" icon="Icons.16x16.ReSaveGL" label="ReSaveGL" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ReSaveGL">
     </MenuItem>  
   </Extension>
 
