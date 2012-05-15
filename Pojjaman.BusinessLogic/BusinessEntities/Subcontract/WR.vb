@@ -501,7 +501,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property Prefix() As String
       Get
-        Return "wr"
+        Return "WR"
       End Get
     End Property
 
@@ -512,12 +512,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.wr"
+        Return "Icons.16x16.WR"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.wr"
+        Return "Icons.16x16.WR"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
