@@ -1110,6 +1110,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 #End Region
 
+#Region "Overrides"
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.BOQPreview"
+      End Get
+    End Property
+#End Region
+
     Private Sub chkWysiwyg_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkWysiwyg.CheckedChanged, _
       chkShowWbsAmount.CheckedChanged, _
       chkShowItemCode.CheckedChanged, _
