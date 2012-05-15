@@ -31,7 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, IWitholdingTaxable, IBillIssuable _
     , IPrintableEntity, IHasIBillablePerson, IHasFromCostCenter, ICancelable, IAdvanceReceiveItemAble, ICheckPeriod, IHasVat _
-    , INewGLAble, IDuplicable, INewPrintableEntity, IDocStatus
+    , INewGLAble, IDuplicable, INewPrintableEntity, IDocStatus, IAbleValidateItemQuantity
 
 #Region "Members"
     Private m_customer As Customer
@@ -3609,6 +3609,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End If
         Return ""
+      End Get
+    End Property
+#End Region
+
+#Region "IAbleValidateItemQuantity"
+    Public ReadOnly Property ItemEntityHashTable As System.Collections.Hashtable Implements IAbleValidateItemQuantity.ItemEntityHashTable
+      Get
+        Dim newhs As New Hashtable
+        Dim entityId As Integer
+        For Each item As GoodsSoldItem In Me.ItemCollection
+          entityId = item.Entity.Id
+          If Not newhs.ContainsKey(entityId) Then
+            newhs(entityId) = item.StockQty
+          Else
+            newhs(entityId) = CDec(newhs(entityId)) + item.StockQty
+          End If
+        Next
+        Return newhs
       End Get
     End Property
 #End Region

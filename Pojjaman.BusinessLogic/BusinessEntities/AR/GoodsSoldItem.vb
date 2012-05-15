@@ -394,12 +394,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
             msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
             Return
           Else
-            Dim myUnit As Unit = lci.DefaultUnit
-            Me.m_unit = myUnit
-            Me.m_entity = lci
-            If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then              Dim stockQty As Decimal = Me.m_qty * Me.Conversion              Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
+            Dim remainQty As Decimal = 0
+            remainQty = GetAmountFromSproc(lci.Id, Me.GoodsSold.FromCostCenter.Id)
+
+            Dim newHs As New Hashtable
+            For Each key As Integer In Me.GoodsSold.ItemEntityHashTable.Keys
+              remainQty = remainQty - CType(Me.GoodsSold.ItemEntityHashTable(key), Decimal)
+              Me.GoodsSold.ItemEntityHashTable(key) = remainQty
+            Next
+
+            If remainQty > 0 Then
+              Me.m_qty = remainQty
+              'Me.OldQty2 = Me.m_qty
+              Dim myUnit As Unit = lci.DefaultUnit
+              Me.m_unit = myUnit
+              Me.m_entity = lci
+
+              If Not Me.GoodsSold Is Nothing AndAlso Not Me.GoodsSold.FromCostCenter Is Nothing Then                Dim stockQty As Decimal = Me.m_qty * Me.Conversion                Me.ItemCollectionPrePareCost = New StockCostItemCollection(m_entity, Me.GoodsSold.FromCostCenter, stockQty)
+              End If
+              gaType = GeneralAccount.DefaultGAType.ToolAndOtherIncome
+            Else
+              msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {theCode})
+              Return
             End If
-            gaType = GeneralAccount.DefaultGAType.ToolAndOtherIncome
+
+            'Dim myUnit As Unit = lci.DefaultUnit
+            'Me.m_unit = myUnit
+            'Me.m_entity = lci
           End If
         Case Else
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")
@@ -762,6 +783,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function AllowWithdraw(ByVal rval As Decimal) As Decimal
+      Dim remainning As Decimal = 0
+
+      remainning = Me.GetAmountFromSproc(Me.Entity.Id, Me.GoodsSold.FromCostCenter.Id)
+      remainning = remainning - Me.GoodsSold.ItemCollection.GetThisEnittyRemainingQtyFromCollection(Me)
+      'rval = rval * Me.Conversion
+      'remainning = Math.Min(rval, remainning)
+
+      Return remainning
+    End Function
+    Public Function GetAmountFromSproc(ByVal lci_id As Integer, ByVal cc As Integer) As Decimal
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset( _
+                RecentCompanies.CurrentCompany.SiteConnectionString _
+                , CommandType.StoredProcedure _
+                , "GetRemainLCIItemListForCC" _
+                , New SqlParameter("@cc_id", cc) _
+                , New SqlParameter("@FromacctType", 3) _
+                , New SqlParameter("@EntityId", 31) _
+                , New SqlParameter("@lci_id", lci_id) _
+                , New SqlParameter("@stock_id", Me.GoodsSold.Id) _
+                )
+        If ds.Tables(0).Rows(0).IsNull("remain") Then
+          Return 0
+        End If
+        Return CDec(ds.Tables(0).Rows(0)("remain"))
+      Catch ex As Exception
+      End Try
+    End Function
     Public Sub Clear()
       Me.m_entity = New BlankItem("")
       Me.m_entityName = ""
@@ -1095,6 +1145,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Function GetThisEnittyRemainingQtyFromCollection(ByVal doc As GoodsSoldItem) As Decimal
+      Dim summarryQty As Decimal = 0
+      For Each Item As GoodsSoldItem In Me
+        If Item.Entity.Id = doc.Entity.Id AndAlso Me.IndexOf(Item) <> Me.IndexOf(doc) Then 'Item.LineNumber <> doc.LineNumber Then
+          summarryQty += Item.Qty
+        End If
+      Next
+
+      Return summarryQty
+
+    End Function
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
       Dim i As Integer = 0
