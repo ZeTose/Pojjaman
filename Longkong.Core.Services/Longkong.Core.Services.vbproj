@@ -196,6 +196,12 @@
   <ItemGroup>
     <None Include="Resources\SearchLookUpEditDemo.Icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PojjamanData.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PojjamanIcon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
