@@ -118,16 +118,16 @@
 		</MenuItem>
 		<MenuItem id="Help" insertafter="Window" label="${res:MainMenu.HelpMenu}">
 			<MenuItem id="MainViewBuilder" label="" class="Longkong.Pojjaman.Commands.MainSelectionMenuBuilder"/>
-			<MenuItem id="Tools" label="${res:MainMenu.ViewMenu.FormMenu}">
-				<MenuItem id="ViewBuilder" label="" class="Longkong.Pojjaman.Commands.SelectionMenuBuilder"/>
+			<MenuItem id="Tools" label="${res:MainMenu.ViewMenu.FormMenu}" icon="Icons.16x16.ToolsIcon">
+				<MenuItem id="ViewBuilder" icon="Icons.16x16.ViewBuilder" label="" class="Longkong.Pojjaman.Commands.SelectionMenuBuilder"/>
 			</MenuItem>
 			<MenuItem id="Separator2" label="-"/>
-			<MenuItem id="Help" label="${res:MainMenu.HelpMenu.Topics}" description="${res:MainMenu.HelpMenu.Topics.Description}" shortcut="Alt|F1"/>
-			<MenuItem id="Flow" label="${res:MainMenu.HelpMenu.Flow}" description="${res:MainMenu.HelpMenu.Flow.Description}" class="Longkong.Pojjaman.Commands.ShowFlow"/>
+			<MenuItem id="Help" icon="Icons.16x16.Help" label="${res:MainMenu.HelpMenu.Topics}" description="${res:MainMenu.HelpMenu.Topics.Description}" shortcut="Alt|F1"/>
+			<MenuItem id="Flow" icon="Icons.16x16.Flow" label="${res:MainMenu.HelpMenu.Flow}" description="${res:MainMenu.HelpMenu.Flow.Description}" class="Longkong.Pojjaman.Commands.ShowFlow"/>
 			<MenuItem id="TipOfTheDay" label="${res:MainMenu.HelpMenu.Tips}" icon="Icons.16x16.TipOfTheDay" description="${res:MainMenu.HelpMenu.Tips.Description}" class="Longkong.Pojjaman.Commands.ViewTipOfTheDay"/>
 			<MenuItem id="Separator3" label="-"/>
-			ContactUs
-			<MenuItem id="ContactUs" label="Contact Us" icon="Icons.16x16.ContactIcon" description="Contact Us" class="Longkong.Pojjaman.Commands.ContactUs"/>
+		
+			<MenuItem id="ContactUs" label="Contact Us" icon="Icons.16x16.ContactUsIcon" description="Contact Us" class="Longkong.Pojjaman.Commands.ContactUs"/>
 			<MenuItem id="About" label="${res:MainMenu.HelpMenu.About}" icon="Icons.16x16.AboutIcon" description="${res:MainMenu.HelpMenu.About.Description}" class="Longkong.Pojjaman.Commands.AboutPojjaman"/>
 			<MenuItem id="LKWeb" label="${res:MainMenu.HelpMenu.LKWeb}" icon="Icons.16x16.LKIcon" description="${res:MainMenu.HelpMenu.LKWeb.Description}" link="www.longkongstudio.com"/>
 		</MenuItem>

@@ -196,6 +196,225 @@
   <ItemGroup>
     <None Include="Resources\SearchLookUpEditDemo.Icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Approval.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\service&amp;sale.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editeork.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\write-off-.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Format.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Unit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delivery.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save-as.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOQ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bankwhat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jadren.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Money.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\closetestmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\closemoneytestchan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Autogen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\linkfolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Saveday.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pasee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MaccMa-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CloseBA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\papertax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\K1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\K2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\K3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\V1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\V2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\V3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\V4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logolongkong.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\contact-us.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flowchart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\form.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Formfomat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Reportfomat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Testform.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\db_selection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\test_error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\closemoneymadjom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KpaperTax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\passmontmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Editstatus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Debug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Entity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gllist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mappinglist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\showcode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AdvanceReceive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chickP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\closeB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KJ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Itemlist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Markup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Saloop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOQ1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Kmak.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\listatom.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

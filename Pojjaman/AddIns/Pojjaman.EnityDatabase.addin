@@ -167,7 +167,7 @@
 				<MenuItem id="DepreciationCal" icon="Icons.16x16.DepreciationCal" label="${res:MainMenu.AssetMenu.DepreciationCal}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DepreciationCal"/>
 				<MenuItem id="Separator3" label="-"/>
 				<!--<MenuItem id="AssetSold" icon="Icons.16x16.AssetSold" label="${res:MainMenu.AssetMenu.AssetSold}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetSold"/>-->
-				<MenuItem id="AssetWriteOff" icon="Icons.16x16.AssetWriteOff" label="${res:MainMenu.AssetMenu.AssetWriteOff}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWriteOff"/>
+				<MenuItem id="AssetWriteOff" icon="Icons.16x16.AssetWriteoff" label="${res:MainMenu.AssetMenu.AssetWriteOff}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWriteOff"/>
 			</MenuItem>
 			<MenuItem id="Accounting" insertafter="Asset" insertbefore="CostControlReport" label="${res:MainMenu.AccountingMenu}">
 				<MenuItem id="AccountChart" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.AccountChart.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Account"/>
@@ -178,12 +178,12 @@
 				<MenuItem id="LinkGL" icon="Icons.16x16.GLFormat" label="${res:MainMenu.AccountingMenu.LinkGL}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkGL"/>
 				<MenuItem id="Separator1" label="-"/>
 				<MenuItem id="JournalEntry" icon="Icons.16x16.JournalEntry" label="${res:MainMenu.AccountingMenu.JournalEntry}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntry"/>
-				<MenuItem id="JournalEntryUpdate" label="${res:MainMenu.AccountingMenu.JournalEntryUpdate}"/>
+				<MenuItem id="JournalEntryUpdate" icon="Icons.16x16.JournalEntryUpdate" label="${res:MainMenu.AccountingMenu.JournalEntryUpdate}"/>
 				<!-- class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntryUpdate"/-->
 				<MenuItem id="OpenningBalance" icon="Icons.16x16.OpenningBalance" label="${res:MainMenu.AccountingMenu.BeginingBalance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OpenningBalance"/>
         <MenuItem id="CalculateCost" icon="Icons.16x16.CalcMatCost" label="${res:MainMenu.AccountingMenu.CalculateCost}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CalculateCost"/>
         <MenuItem id="CloseAccountPeriod" icon="Icons.16x16.CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
-				<MenuItem id="GLYearEnd" label="${res:MainMenu.AccountingMenu.GLYearEnd}"/>
+				<MenuItem id="GLYearEnd" icon="Icons.16x16.GLYearEnd" label="${res:MainMenu.AccountingMenu.GLYearEnd}"/>
 				<MenuItem id="Separator2" label="-"/>
 				<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.VatMenu}">
 					<MenuItem id="VatGroup" icon="Icons.16x16.VatGroup" label="${res:MainMenu.AccountingMenu.VatGroup}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VatGroup"/>

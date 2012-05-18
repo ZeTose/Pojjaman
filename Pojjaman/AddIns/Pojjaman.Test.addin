@@ -8,23 +8,23 @@
 		</Extension>-->	
 		<Extension path="/Pojjaman/Workbench/ToolBar/Dynamic">
 				<ToolbarItem id="Refresh" insertafter="TestSeparator" icon="Icons.16x16.ILDasm" tooltip="Refresh Codedescription" class="Longkong.Pojjaman.Commands.RefreshCodeList"/>
-				<ToolbarItem id="ShowCodeDescription" insertafter="Refresh" icon="Icons.16x16.Info" tooltip="ShowCodeDescription" class="Longkong.Pojjaman.Commands.ShowCodeDescription"/>
+				<ToolbarItem id="ShowCodeDescription" insertafter="Refresh" icon="Icons.16x16.ShowCode" tooltip="ShowCodeDescription" class="Longkong.Pojjaman.Commands.ShowCodeDescription"/>
 				<Conditional activewindow="*" action="Disable">
-					<ToolbarItem id="DebugEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" tooltip="Debug" class="Longkong.Pojjaman.Commands.DebugEntity"/>					
+					<ToolbarItem id="DebugEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.DebugIcon" tooltip="Debug" class="Longkong.Pojjaman.Commands.DebugEntity"/>					
 				</Conditional>		
-				<ToolbarItem id="NoteEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.Info" tooltip="NoteEntity" class="Longkong.Pojjaman.Commands.NoteEntity"/>
-      <ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.Info" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
-      <ToolbarItem id="GLList" insertafter="MappingList" icon="Icons.16x16.Info" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLList"/>
-      <ToolbarItem id="GLAtomList" insertafter="MappingList" icon="Icons.16x16.Info" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLAtomList"/>
+				<ToolbarItem id="NoteEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.NoteEntityIcon" tooltip="NoteEntity" class="Longkong.Pojjaman.Commands.NoteEntity"/>
+      <ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.MappingListIcon" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
+      <ToolbarItem id="GLList" insertafter="MappingList" icon="Icons.16x16.GLListIcon" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLList"/>
+      <ToolbarItem id="GLAtomList" insertafter="MappingList" icon="Icons.16x16.GlAtomListIcon" tooltip="GL AtomList" class="Longkong.Pojjaman.Commands.GLAtomList"/>
 		</Extension>			
 		<Extension path="/Pojjaman/Workbench/MainMenu">
 				<MenuItem id="Test" insertafter="Help" label="Test">
-						<MenuItem id="LinkForm" label="Form Format" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkForm"/>		
-						<MenuItem id="LinkReport" label="Report Format" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkReport"/>	
-						<MenuItem id="Test" label="Test" class="Longkong.Pojjaman.Commands.Test"/>
-						<MenuItem id="FormTester" label="FormTester" class="Longkong.Pojjaman.Commands.FormTester"/>
-						<MenuItem id="DatabaseSelection" label="DatabaseSelection" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
-						<MenuItem id="ErrorTest" label="Test Error" class="Longkong.Pojjaman.Commands.ErrorTest"/>
+						<MenuItem id="LinkForm" icon="Icons.16x16.LinkFormIcon" label="Form Format" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkForm"/>		
+						<MenuItem id="LinkReport" icon="Icons.16x16.LinkrepostIcon" label="Report Format" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkReport"/>	
+						<MenuItem id="Test" icon="Icons.16x16.TestIcon" label="Test" class="Longkong.Pojjaman.Commands.Test"/>
+						<MenuItem id="FormTester" icon="Icons.16x16.FormTesterIcon" label="FormTester" class="Longkong.Pojjaman.Commands.FormTester"/>
+						<MenuItem id="DatabaseSelection" icon="Icons.16x16.DatabaseSelectionIcon" label="DatabaseSelection" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
+						<MenuItem id="ErrorTest" icon="Icons.16x16.ErrorTestIcon" label="Test Error" class="Longkong.Pojjaman.Commands.ErrorTest"/>
 				</MenuItem>
 		</Extension>
 </AddIn>
