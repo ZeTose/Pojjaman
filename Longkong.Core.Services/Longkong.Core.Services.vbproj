@@ -245,9 +245,6 @@
     <None Include="Resources\BOQ.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Bankwhat.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Exmoney.png" />
   </ItemGroup>
   <ItemGroup>
@@ -312,9 +309,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\V4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\gmoney.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\help.png" />
@@ -414,6 +408,63 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\listatom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\camraa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ccar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\listtool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\customnoth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon-price.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Karag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Komoopoan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rajraaee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\singsam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bankwhat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bankkkk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bud.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pankbank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\savemoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Car.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cittii.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document-print-preview-icone-9309-64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\harry-potter-icone-8765-128-%281%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
