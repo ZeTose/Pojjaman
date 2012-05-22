@@ -81,13 +81,13 @@
 				<ToolbarItem id="ShowRef" icon="Icons.16x16.Link" tooltip="${res:XML.MainMenu.FileMenu.ShowRef.Description}" class="Longkong.Pojjaman.Commands.ShowRef"/>
 			</Conditional>
 			<Conditional activewindow="*" action="Disable">
-				<ToolbarItem id="ShowPrintLog" icon="Icons.16x16.Link" tooltip="${res:XML.MainMenu.FileMenu.ShowPrintLog.Description}" class="Longkong.Pojjaman.Commands.ShowPrintLog"/>
+				<ToolbarItem id="ShowPrintLog" icon="Icons.16x16.ShowPrintLog" tooltip="${res:XML.MainMenu.FileMenu.ShowPrintLog.Description}" class="Longkong.Pojjaman.Commands.ShowPrintLog"/>
 			</Conditional>
 			<Conditional canbeattached="True" action="Disable">
 				<ToolbarItem id="AttachmentShow" icon="Icons.16x16.Attach" tooltip="${res:XML.MainMenu.FileMenu.Attachment.Description}" class="Longkong.Pojjaman.Commands.AttachmentShow"/>
 			</Conditional>
 			<Conditional activewindow="*"  action="Disable">
-				<ToolbarItem id="NoteEntity2" icon="Icons.16x16.Info" tooltip="${res:XML.MainMenu.FileMenu.NoteEntity.Description}" class="Longkong.Pojjaman.Commands.NoteEntity"/>	
+				<ToolbarItem id="NoteEntity2" icon="Icons.16x16.NoteEntity2" tooltip="${res:XML.MainMenu.FileMenu.NoteEntity.Description}" class="Longkong.Pojjaman.Commands.NoteEntity"/>	
 			</Conditional>		
 			<ToolbarItem id="AcctSeparator" tooltip="-"/>
 			<ToolbarItem id="Cut" icon="Icons.16x16.CutIcon" shortcut="Control|X" label="${res:XML.MainMenu.EditMenu.Cut}" tooltip="${res:XML.MainMenu.EditMenu.Cut.Description}" class="Longkong.Pojjaman.Commands.Cut"/>

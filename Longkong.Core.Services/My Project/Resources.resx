@@ -163,9 +163,6 @@
   <data name="Icons_16x16_AssetWriteoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\write-off-.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Icons_16x16_BankBranch" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Bankwhat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Icons_16x16_BankTransfer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Exmoney.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -357,5 +354,53 @@
   </data>
   <data name="VC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\VC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_Asset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Car.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ccar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ccar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_NoteEntity2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\customnoth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_MatEquipmentDetail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\singsam.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_MaterialDetailView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Komoopoan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_MatSupDetail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon-price.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_Receive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\camraa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_ToolDetailView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rajraaee.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_ToolLotDetailView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\listtool.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_MatLabDetail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Karag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_AssetReturn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\savemoney.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_BankBranch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bankkkk.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_CostCenterBudgetDetailView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bud.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_PAAccountPanelView" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pankbank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_Role" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\harry-potter-icone-8765-128-(1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icons_16x16_ShowPrintLog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\document-print-preview-icone-9309-64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
