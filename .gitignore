@@ -1,5 +1,3 @@
-
-
 #ignore thumbnails created by windows
 Thumbs.db
 #Ignore files build by Visual Studio
@@ -8,6 +6,7 @@ Thumbs.db
 *.pdb
 *.user
 *.aps
+*.licx
 *.pch
 *.vspscc
 *_i.c
@@ -28,12 +27,12 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-Pojjaman/AddIns/Customizations/Loan/Pojjaman.Base.Loan.dll
 
-*.licx
-Pojjaman/AddIns/Customizations/Loan/Pojjaman.Base.Loan.dll
-Pojjaman/AddIns/Customizations/Loan/Pojjaman.Base.Loan.dll
-Pojjaman/AddIns/Forms/Accounting/Pojjaman.Base.Form.Accounting.dll
-Pojjaman/AddIns/Forms/Accounting/Pojjaman.Base.Form.Accounting.dll
-Pojjaman/AddIns/Forms/AP/Pojjaman.Base.Form.AP.dll
-Pojjaman/AddIns/Customizations/Loan/Pojjaman.Base.Loan.dll
+Pojjaman/AddIns/*/*/*.dll
+_ReSharper.Pojjaman/*/*
+_ReSharper.Pojjaman/*
+Pojjaman/data/MdiLayoutConfig3.xml
+Pojjaman/data/PojjamanProperties.xml
+Pojjaman/Pojjaman.rar
+Pojjaman/CopyMe.rar
+Pojjaman.ContentInterface/Pojjaman.ContentInterface.sln
