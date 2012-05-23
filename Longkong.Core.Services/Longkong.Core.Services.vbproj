@@ -470,9 +470,6 @@
     <None Include="Resources\budgetttt.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\passana.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Tarvon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -507,6 +504,54 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\payment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ckangjuk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sinsum.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tukab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Resave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\passana.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-group-icone-5429-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\forum-user-group-people-icone-4894-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rajraaee1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\102493_78299_stock_new-formula_36x36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images-%2814%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play-Pressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repair_costs-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\repair_costs-icon2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images-%2817%29.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

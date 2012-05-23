@@ -102,23 +102,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Public ReadOnly Property buntuk() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("buntuk", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Public ReadOnly Property Ccar() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Ccar", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Public ReadOnly Property edit() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("edit", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -200,6 +186,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_AssetSold() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AssetSold", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_AssetType() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AssetType", resourceCulture)
@@ -207,9 +200,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Public ReadOnly Property Icons_16x16_AssetTypeCut() As System.Drawing.Bitmap
+        Public ReadOnly Property Icons_16x16_AssetType_Cut() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AssetTypeCut", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AssetType_Cut", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -217,6 +210,13 @@ Namespace My.Resources
         Public ReadOnly Property Icons_16x16_AssetWithdraw() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AssetWithdraw", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_AssetWithdrawReturnView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AssetWithdrawReturnView", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -291,6 +291,27 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_CalcMatCostProgressView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_CalcMatCostProgressView", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_CBS() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_CBS", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_CBS_Cut() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_CBS_Cut", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_ChangePasswordIcon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_ChangePasswordIcon", resourceCulture)
@@ -347,6 +368,20 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_EqManagementView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_EqManagementView", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_EqRentalSummary() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_EqRentalSummary", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_ErrorTestIcon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_ErrorTestIcon", resourceCulture)
@@ -378,6 +413,27 @@ Namespace My.Resources
         Public ReadOnly Property Icons_16x16_FFormat() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_FFormat", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_FFormatItemView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_FFormatItemView", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_FFormatPreview() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_FFormatPreview", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_FFormatValueView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_FFormatValueView", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -613,6 +669,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_OutgoingAval() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_OutgoingAval", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_OutgoingCheck() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_OutgoingCheck", resourceCulture)
@@ -665,6 +728,27 @@ Namespace My.Resources
         Public ReadOnly Property Icons_16x16_Receive() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_Receive", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_RefundLoan() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_RefundLoan", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_ReSaveGL() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_ReSaveGL", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_Role() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_Role", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -760,6 +844,20 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_UpdateOutgoingAval() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_UpdateOutgoingAval", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_VarchUserDetailView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_VarchUserDetailView", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_Vat() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_Vat", resourceCulture)
@@ -781,6 +879,20 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_WBSAdjust() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_WBSAdjust", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_WithdrawLoan() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_WithdrawLoan", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_WitholdingTax() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_WitholdingTax", resourceCulture)
@@ -795,23 +907,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Public ReadOnly Property juraa() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("juraa", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Public ReadOnly Property KJ() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("KJ", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Public ReadOnly Property rabkug() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("rabkug", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
