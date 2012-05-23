@@ -1352,8 +1352,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       End If
 
-      If TypeOf Me.m_entity Is GoodsReceipt Then
-        Dim gr As GoodsReceipt = CType(Me.m_entity, GoodsReceipt)
+      'If TypeOf Me.m_entity Is GoodsReceipt Then
+      '  Dim gr As GoodsReceipt = CType(Me.m_entity, GoodsReceipt)
+      '  If gr.Status.Value = 0 OrElse gr.IsReferenced = True Then
+      '    For Each ctrl As Control In grbDetail.Controls
+      '      ctrl.Enabled = False
+      '    Next
+      '    tgItem.Enabled = True
+      '    For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+      '      colStyle.ReadOnly = True
+      '    Next
+      '  End If
+      'End If
+
+      If TypeOf Me.m_entity Is IPayable AndAlso TypeOf Me.m_entity Is SimpleBusinessEntityBase Then
+        Dim gr As SimpleBusinessEntityBase = CType(Me.m_entity, SimpleBusinessEntityBase)
         If gr.Status.Value = 0 OrElse gr.IsReferenced = True Then
           For Each ctrl As Control In grbDetail.Controls
             ctrl.Enabled = False

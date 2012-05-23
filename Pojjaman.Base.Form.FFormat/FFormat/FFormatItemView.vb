@@ -820,7 +820,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New PR).DetailPanelIcon
+        Return "Icons.16x16.FFormatItemView" '(New PR).DetailPanelIcon
       End Get
     End Property
 #End Region

@@ -1297,7 +1297,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New AssetReturn).DetailPanelIcon
+        Return (New DepreciationCal).DetailPanelIcon
       End Get
     End Property
 #End Region

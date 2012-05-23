@@ -3615,7 +3615,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Overrides"
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New AdvancePay).DetailPanelIcon
+        Return (New PaymentApplication).DetailPanelIcon
       End Get
     End Property
 #End Region

@@ -2276,7 +2276,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     'End Sub
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New PR).DetailPanelIcon
+        Return (New BillAcceptance).DetailPanelIcon
       End Get
     End Property
 #End Region

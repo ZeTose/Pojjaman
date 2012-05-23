@@ -2355,7 +2355,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Overrides"
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New MatReturn).DetailPanelIcon
+        Return (New MatOperationReturn).DetailPanelIcon
       End Get
     End Property
 #End Region
