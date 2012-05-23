@@ -256,12 +256,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
       Get
-        Return "Icons.16x16.UpdateCheckDiscount"
+        Return "Icons.16x16.CheckDiscount"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelIcon() As String
       Get
-        Return "Icons.16x16.UpdateCheckDiscount"
+        Return "Icons.16x16.CheckDiscount"
       End Get
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String

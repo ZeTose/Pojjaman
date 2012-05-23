@@ -2816,6 +2816,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Property
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
+        Me.SetNoVat()
         Return Me.TaxType.Value = 0 OrElse m_novat 'OrElse RealNoVat
       End Get
     End Property

@@ -92,7 +92,7 @@
 			<MenuItem id="EmployeeSeparator" label="-"/>
 			<MenuItem id="Employee" label="${res:MainMenu.AdminMenu.EmployeeList}" icon="Icons.16x16.Employee" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Employee"/>
 			<MenuItem id="User" label="${res:MainMenu.AdminMenu.User}" icon="Icons.16x16.User" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.User"/>
-			<MenuItem id="Role" label="${res:MainMenu.AdminMenu.Role}" icon="Icons.16x16.Lock" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Role"/>
+			<MenuItem id="Role" label="${res:MainMenu.AdminMenu.Role}" icon="Icons.16x16.Role" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Role"/>
 			<MenuItem id="ChangePassword" icon="Icons.16x16.ChangePasswordIcon" label="${res:MainMenu.AdminMenu.ChangePassword}" class="Longkong.Pojjaman.Commands.ChangePassword"/>
 			<MenuItem id="OptionSeparator" label="-"/>
 			<MenuItem id="Options" label="${res:MainMenu.ToolMenu.Options}" icon="Icons.16x16.Options" description="${res:MainMenu.ToolMenu.Options.Description}" class="Longkong.Pojjaman.Commands.OptionsCommand"/>

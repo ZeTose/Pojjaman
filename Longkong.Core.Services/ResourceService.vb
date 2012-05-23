@@ -97,6 +97,10 @@ Namespace Longkong.Core.Services
       If ((Not Me.m_localIcons Is Nothing) AndAlso (Not Me.m_localIcons.Item(name) Is Nothing)) Then
         Return Me.m_localIcons.Item(name)
       End If
+      If name.Trim.StartsWith("${res:") Then
+        Dim m_stringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        name = m_stringParserService.Parse(name)
+      End If
       For Each myResourceManager As ResourceManager In Me.m_localIconsResMgrs
         iconobj = myResourceManager.GetObject(name)
         If (Not iconobj Is Nothing) Then
@@ -111,17 +115,33 @@ Namespace Longkong.Core.Services
           End If
         Next
       End If
+      'If iconobj Is Nothing Then
+      '  If name.Trim.StartsWith("${res:") Then
+      '    Dim m_stringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+      '    name = m_stringParserService.Parse(name)
+      '    For Each myResourceManager As ResourceManager In Me.m_localIconsResMgrs
+      '      iconobj = myResourceManager.GetObject(name)
+      '      If (Not iconobj Is Nothing) Then
+      '        Return iconobj
+      '      End If
+      '    Next
+      '    If (iconobj Is Nothing) Then
+      '      For Each myResourceManager As ResourceManager In Me.m_icon
+      '        iconobj = myResourceManager.GetObject(name)
+      '        If (Not iconobj Is Nothing) Then
+      '          Return iconobj
+      '        End If
+      '      Next
+      '    End If
+      '  End If
       If iconobj Is Nothing Then
-        If name.Trim.StartsWith("${res:") Then
-          Dim m_stringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-          name = m_stringParserService.Parse(name)
-        End If
         name = name.Replace(".", "_")
         iconobj = My.Resources.ResourceManager.GetObject(name)
         If TypeOf iconobj Is Icon Then
           Return Bitmap.FromHicon(CType(iconobj, Icon).Handle)
         End If
       End If
+      'End If
 
       Return iconobj
     End Function

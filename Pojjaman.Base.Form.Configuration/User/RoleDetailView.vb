@@ -1074,6 +1074,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
+#Region "Overrides"
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.Role"
+      End Get
+    End Property
+#End Region
+
 #Region "IListDetail"
 
     ' ตรวจสอบสถานะของฟอร์ม
