@@ -466,6 +466,48 @@
   <ItemGroup>
     <None Include="Resources\harry-potter-icone-8765-128-%281%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\budgetttt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\passana.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tarvon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add-layout-icone-7889-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow-recycle-recharge-rotate-icone-5776-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\_kunguu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buntuk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\juraa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rabkug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\aonmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exportmoney.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\payment.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
