@@ -109,6 +109,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property EquipmentToolChangeStatus() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("EquipmentToolChangeStatus", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_AccessDetailView() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_AccessDetailView", resourceCulture)
@@ -382,6 +389,20 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_EQTExpView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_EQTExpView", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_EquipmentToolChangeStatus() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_EquipmentToolChangeStatus", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_ErrorTestIcon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_ErrorTestIcon", resourceCulture)
@@ -627,6 +648,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_MatReturnForOperation() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_MatReturnForOperation", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_MatSupDetail() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_MatSupDetail", resourceCulture)
@@ -637,6 +665,13 @@ Namespace My.Resources
         Public ReadOnly Property Icons_16x16_MatTransfer() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_MatTransfer", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_MatWithdrawForOperation() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_MatWithdrawForOperation", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -778,6 +813,13 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_SchemaDataExport", resourceCulture)
                 Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_16x16_scTransferWBSView() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_scTransferWBSView", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         

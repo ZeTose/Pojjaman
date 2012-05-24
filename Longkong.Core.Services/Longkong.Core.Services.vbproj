@@ -553,6 +553,24 @@
   <ItemGroup>
     <None Include="Resources\images-%2817%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images-%2818%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images-%2819%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TinkerTool_Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder-tools-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\windows-tools.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder-with-file-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />
