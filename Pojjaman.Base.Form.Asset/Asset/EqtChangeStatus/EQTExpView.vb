@@ -1155,13 +1155,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
-    '#Region "Overrides"
-    '        Public Overrides ReadOnly Property TabPageIcon() As String
-    '            Get
-    '                Return (New Payment).DetailPanelIcon
-    '            End Get
-    '        End Property
-    '#End Region
+#Region "Overrides"
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "Icons.16x16.EQTExpView" '(New Payment).DetailPanelIcon
+      End Get
+    End Property
+#End Region
 
     '#Region "IPrintable"
     '        Public Overrides ReadOnly Property PrintDocument() As System.Drawing.Printing.PrintDocument
