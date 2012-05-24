@@ -1967,6 +1967,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Me.m_entity.Vat.ItemCollection.Clear()
       'End If
 
+      'Me.m_entity.SetNoVat()
+
       SetStatus()
       SetLabelText()
       CheckFormEnable()

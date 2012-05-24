@@ -79,70 +79,71 @@ Public Class PettyCashCloseDetail
         Friend WithEvents lblCurrencyUnit1 As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(PettyCashCloseDetail))
-      Me.grbPettyCash = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.grbBillRec = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtBillRecWeeks = New System.Windows.Forms.TextBox
-      Me.txtBillRecDates = New System.Windows.Forms.TextBox
-      Me.lblBillRecWeek = New System.Windows.Forms.Label
-      Me.lblBillRecDate = New System.Windows.Forms.Label
-      Me.lblBillRecDay = New System.Windows.Forms.Label
-      Me.txtBillRecDays = New System.Windows.Forms.TextBox
-      Me.grbLocation = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtCCCode = New System.Windows.Forms.TextBox
-      Me.rdIsEmployee = New System.Windows.Forms.RadioButton
-      Me.txtEmployeeCode = New System.Windows.Forms.TextBox
-      Me.txtEmployeeName = New System.Windows.Forms.TextBox
-      Me.rdIsCC = New System.Windows.Forms.RadioButton
-      Me.txtCCName = New System.Windows.Forms.TextBox
-      Me.txtAccountCode = New System.Windows.Forms.TextBox
-      Me.lblAccount = New System.Windows.Forms.Label
-      Me.txtAccountName = New System.Windows.Forms.TextBox
-      Me.txtAmount = New System.Windows.Forms.TextBox
-      Me.lblAmount = New System.Windows.Forms.Label
-      Me.lblCurrencyUnit2 = New System.Windows.Forms.Label
-      Me.grbWithdraw = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtlimit = New System.Windows.Forms.TextBox
-      Me.rdNotAllow = New System.Windows.Forms.RadioButton
-      Me.rdLimited = New System.Windows.Forms.RadioButton
-      Me.lblCurrencyUnit3 = New System.Windows.Forms.Label
-      Me.rdAllow = New System.Windows.Forms.RadioButton
-      Me.txtPCNote = New Longkong.Pojjaman.Gui.Components.MultiLineTextBox
-      Me.lblPCNote = New System.Windows.Forms.Label
-      Me.Label1 = New System.Windows.Forms.Label
-      Me.txtPCDate = New System.Windows.Forms.TextBox
-      Me.dtpPCDate = New System.Windows.Forms.DateTimePicker
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.grbHeader = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.txtRemaining = New System.Windows.Forms.TextBox
-      Me.lblCurrencyUnit1 = New System.Windows.Forms.Label
-      Me.lblRemaining = New System.Windows.Forms.Label
-      Me.txtPCCode = New System.Windows.Forms.TextBox
-      Me.lblPCCode = New System.Windows.Forms.Label
-      Me.txtPCName = New System.Windows.Forms.TextBox
-      Me.btnPettyCashFind = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.txtdocdate = New System.Windows.Forms.TextBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PettyCashCloseDetail))
+      Me.grbPettyCash = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbBillRec = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtBillRecWeeks = New System.Windows.Forms.TextBox()
+      Me.txtBillRecDates = New System.Windows.Forms.TextBox()
+      Me.lblBillRecWeek = New System.Windows.Forms.Label()
+      Me.lblBillRecDate = New System.Windows.Forms.Label()
+      Me.lblBillRecDay = New System.Windows.Forms.Label()
+      Me.txtBillRecDays = New System.Windows.Forms.TextBox()
+      Me.grbLocation = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtCCCode = New System.Windows.Forms.TextBox()
+      Me.rdIsEmployee = New System.Windows.Forms.RadioButton()
+      Me.txtEmployeeCode = New System.Windows.Forms.TextBox()
+      Me.txtEmployeeName = New System.Windows.Forms.TextBox()
+      Me.rdIsCC = New System.Windows.Forms.RadioButton()
+      Me.txtCCName = New System.Windows.Forms.TextBox()
+      Me.txtAccountCode = New System.Windows.Forms.TextBox()
+      Me.lblAccount = New System.Windows.Forms.Label()
+      Me.txtAccountName = New System.Windows.Forms.TextBox()
+      Me.txtAmount = New System.Windows.Forms.TextBox()
+      Me.lblAmount = New System.Windows.Forms.Label()
+      Me.lblCurrencyUnit2 = New System.Windows.Forms.Label()
+      Me.grbWithdraw = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtlimit = New System.Windows.Forms.TextBox()
+      Me.rdNotAllow = New System.Windows.Forms.RadioButton()
+      Me.rdLimited = New System.Windows.Forms.RadioButton()
+      Me.lblCurrencyUnit3 = New System.Windows.Forms.Label()
+      Me.rdAllow = New System.Windows.Forms.RadioButton()
+      Me.txtPCNote = New Longkong.Pojjaman.Gui.Components.MultiLineTextBox()
+      Me.lblPCNote = New System.Windows.Forms.Label()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.txtPCDate = New System.Windows.Forms.TextBox()
+      Me.dtpPCDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.grbHeader = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.txtRemaining = New System.Windows.Forms.TextBox()
+      Me.lblCurrencyUnit1 = New System.Windows.Forms.Label()
+      Me.lblRemaining = New System.Windows.Forms.Label()
+      Me.txtPCCode = New System.Windows.Forms.TextBox()
+      Me.lblPCCode = New System.Windows.Forms.Label()
+      Me.txtPCName = New System.Windows.Forms.TextBox()
+      Me.btnPettyCashFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.txtdocdate = New System.Windows.Forms.TextBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.cmbCode = New System.Windows.Forms.ComboBox
       Me.grbPettyCash.SuspendLayout()
       Me.grbBillRec.SuspendLayout()
       Me.grbLocation.SuspendLayout()
       Me.grbWithdraw.SuspendLayout()
       Me.grbHeader.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbPettyCash
       '
       Me.grbPettyCash.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.grbPettyCash.Controls.Add(Me.grbBillRec)
       Me.grbPettyCash.Controls.Add(Me.grbLocation)
       Me.grbPettyCash.Controls.Add(Me.txtAccountCode)
@@ -203,7 +204,6 @@ Public Class PettyCashCloseDetail
       Me.txtBillRecWeeks.Size = New System.Drawing.Size(168, 21)
       Me.txtBillRecWeeks.TabIndex = 7
       Me.txtBillRecWeeks.TabStop = False
-      Me.txtBillRecWeeks.Text = ""
       '
       'txtBillRecDates
       '
@@ -225,7 +225,6 @@ Public Class PettyCashCloseDetail
       Me.txtBillRecDates.Size = New System.Drawing.Size(168, 21)
       Me.txtBillRecDates.TabIndex = 4
       Me.txtBillRecDates.TabStop = False
-      Me.txtBillRecDates.Text = ""
       '
       'lblBillRecWeek
       '
@@ -280,7 +279,6 @@ Public Class PettyCashCloseDetail
       Me.txtBillRecDays.Size = New System.Drawing.Size(168, 21)
       Me.txtBillRecDays.TabIndex = 1
       Me.txtBillRecDays.TabStop = False
-      Me.txtBillRecDays.Text = ""
       '
       'grbLocation
       '
@@ -315,7 +313,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtCCCode, False)
       Me.txtCCCode.Size = New System.Drawing.Size(128, 21)
       Me.txtCCCode.TabIndex = 1
-      Me.txtCCCode.Text = ""
       '
       'rdIsEmployee
       '
@@ -344,7 +341,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtEmployeeCode, False)
       Me.txtEmployeeCode.Size = New System.Drawing.Size(128, 21)
       Me.txtEmployeeCode.TabIndex = 0
-      Me.txtEmployeeCode.Text = ""
       '
       'txtEmployeeName
       '
@@ -366,7 +362,6 @@ Public Class PettyCashCloseDetail
       Me.txtEmployeeName.Size = New System.Drawing.Size(296, 21)
       Me.txtEmployeeName.TabIndex = 4
       Me.txtEmployeeName.TabStop = False
-      Me.txtEmployeeName.Text = ""
       '
       'rdIsCC
       '
@@ -396,7 +391,6 @@ Public Class PettyCashCloseDetail
       Me.txtCCName.Size = New System.Drawing.Size(296, 21)
       Me.txtCCName.TabIndex = 5
       Me.txtCCName.TabStop = False
-      Me.txtCCName.Text = ""
       '
       'txtAccountCode
       '
@@ -415,7 +409,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtAccountCode, False)
       Me.txtAccountCode.Size = New System.Drawing.Size(128, 21)
       Me.txtAccountCode.TabIndex = 5
-      Me.txtAccountCode.Text = ""
       '
       'lblAccount
       '
@@ -447,7 +440,6 @@ Public Class PettyCashCloseDetail
       Me.txtAccountName.Size = New System.Drawing.Size(296, 21)
       Me.txtAccountName.TabIndex = 16
       Me.txtAccountName.TabStop = False
-      Me.txtAccountName.Text = ""
       '
       'txtAmount
       '
@@ -466,7 +458,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtAmount, False)
       Me.txtAmount.Size = New System.Drawing.Size(128, 21)
       Me.txtAmount.TabIndex = 4
-      Me.txtAmount.Text = ""
       Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblAmount
@@ -487,7 +478,7 @@ Public Class PettyCashCloseDetail
       Me.lblCurrencyUnit2.ForeColor = System.Drawing.Color.Black
       Me.lblCurrencyUnit2.Location = New System.Drawing.Point(256, 128)
       Me.lblCurrencyUnit2.Name = "lblCurrencyUnit2"
-      Me.lblCurrencyUnit2.Size = New System.Drawing.Size(25, 17)
+      Me.lblCurrencyUnit2.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrencyUnit2.TabIndex = 14
       Me.lblCurrencyUnit2.Text = "บาท"
       Me.lblCurrencyUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -524,7 +515,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtlimit, False)
       Me.txtlimit.Size = New System.Drawing.Size(128, 21)
       Me.txtlimit.TabIndex = 0
-      Me.txtlimit.Text = ""
       Me.txtlimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'rdNotAllow
@@ -541,6 +531,7 @@ Public Class PettyCashCloseDetail
       '
       Me.rdLimited.Location = New System.Drawing.Point(8, 40)
       Me.rdLimited.Name = "rdLimited"
+      Me.rdLimited.Size = New System.Drawing.Size(104, 24)
       Me.rdLimited.TabIndex = 2
       Me.rdLimited.Text = "อนุญาติให้ไม่เกิน"
       '
@@ -551,7 +542,7 @@ Public Class PettyCashCloseDetail
       Me.lblCurrencyUnit3.ForeColor = System.Drawing.Color.Black
       Me.lblCurrencyUnit3.Location = New System.Drawing.Point(240, 40)
       Me.lblCurrencyUnit3.Name = "lblCurrencyUnit3"
-      Me.lblCurrencyUnit3.Size = New System.Drawing.Size(25, 17)
+      Me.lblCurrencyUnit3.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrencyUnit3.TabIndex = 4
       Me.lblCurrencyUnit3.Text = "บาท"
       Me.lblCurrencyUnit3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -581,7 +572,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtPCNote, False)
       Me.txtPCNote.Size = New System.Drawing.Size(424, 21)
       Me.txtPCNote.TabIndex = 6
-      Me.txtPCNote.Text = ""
       '
       'lblPCNote
       '
@@ -622,7 +612,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtPCDate, False)
       Me.txtPCDate.Size = New System.Drawing.Size(110, 21)
       Me.txtPCDate.TabIndex = 1
-      Me.txtPCDate.Text = ""
       '
       'dtpPCDate
       '
@@ -642,9 +631,10 @@ Public Class PettyCashCloseDetail
       Me.lblStatus.AutoSize = True
       Me.lblStatus.Location = New System.Drawing.Point(8, 448)
       Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(48, 16)
+      Me.lblStatus.Size = New System.Drawing.Size(47, 13)
       Me.lblStatus.TabIndex = 20
       Me.lblStatus.Text = "lblStatus"
+      Me.lblStatus.Visible = False
       '
       'grbHeader
       '
@@ -670,6 +660,15 @@ Public Class PettyCashCloseDetail
       Me.grbHeader.TabIndex = 23
       Me.grbHeader.TabStop = False
       Me.grbHeader.Text = "รายละเอียดการยกเลิก"
+      '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(112, 16)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(128, 21)
+      Me.cmbCode.TabIndex = 38
       '
       'chkAutorun
       '
@@ -722,7 +721,6 @@ Public Class PettyCashCloseDetail
       Me.txtRemaining.Size = New System.Drawing.Size(128, 21)
       Me.txtRemaining.TabIndex = 23
       Me.txtRemaining.TabStop = False
-      Me.txtRemaining.Text = ""
       Me.txtRemaining.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblCurrencyUnit1
@@ -732,7 +730,7 @@ Public Class PettyCashCloseDetail
       Me.lblCurrencyUnit1.ForeColor = System.Drawing.Color.Black
       Me.lblCurrencyUnit1.Location = New System.Drawing.Point(248, 62)
       Me.lblCurrencyUnit1.Name = "lblCurrencyUnit1"
-      Me.lblCurrencyUnit1.Size = New System.Drawing.Size(25, 17)
+      Me.lblCurrencyUnit1.Size = New System.Drawing.Size(27, 13)
       Me.lblCurrencyUnit1.TabIndex = 29
       Me.lblCurrencyUnit1.Text = "บาท"
       Me.lblCurrencyUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -765,7 +763,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtPCCode, False)
       Me.txtPCCode.Size = New System.Drawing.Size(128, 21)
       Me.txtPCCode.TabIndex = 24
-      Me.txtPCCode.Text = ""
       '
       'lblPCCode
       '
@@ -797,13 +794,12 @@ Public Class PettyCashCloseDetail
       Me.txtPCName.Size = New System.Drawing.Size(304, 21)
       Me.txtPCName.TabIndex = 27
       Me.txtPCName.TabStop = False
-      Me.txtPCName.Text = ""
       '
       'btnPettyCashFind
       '
+      Me.btnPettyCashFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnPettyCashFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnPettyCashFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnPettyCashFind.Image = CType(resources.GetObject("btnPettyCashFind.Image"), System.Drawing.Image)
       Me.btnPettyCashFind.Location = New System.Drawing.Point(544, 38)
       Me.btnPettyCashFind.Name = "btnPettyCashFind"
       Me.btnPettyCashFind.Size = New System.Drawing.Size(24, 23)
@@ -828,7 +824,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtNote, False)
       Me.txtNote.Size = New System.Drawing.Size(432, 21)
       Me.txtNote.TabIndex = 28
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -858,7 +853,6 @@ Public Class PettyCashCloseDetail
       Me.Validator.SetRequired(Me.txtdocdate, False)
       Me.txtdocdate.Size = New System.Drawing.Size(110, 21)
       Me.txtdocdate.TabIndex = 26
-      Me.txtdocdate.Text = ""
       '
       'dtpDocDate
       '
@@ -881,18 +875,9 @@ Public Class PettyCashCloseDetail
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
-      '
-      'cmbCode
-      '
-      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-      Me.cmbCode.Location = New System.Drawing.Point(112, 16)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(128, 21)
-      Me.cmbCode.TabIndex = 38
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'PettyCashCloseDetail
       '
@@ -902,11 +887,18 @@ Public Class PettyCashCloseDetail
       Me.Name = "PettyCashCloseDetail"
       Me.Size = New System.Drawing.Size(608, 472)
       Me.grbPettyCash.ResumeLayout(False)
+      Me.grbPettyCash.PerformLayout()
       Me.grbBillRec.ResumeLayout(False)
+      Me.grbBillRec.PerformLayout()
       Me.grbLocation.ResumeLayout(False)
+      Me.grbLocation.PerformLayout()
       Me.grbWithdraw.ResumeLayout(False)
+      Me.grbWithdraw.PerformLayout()
       Me.grbHeader.ResumeLayout(False)
+      Me.grbHeader.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 
@@ -1199,21 +1191,22 @@ Public Class PettyCashCloseDetail
     End Property
 
     Public Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
     End Sub
 #End Region
 

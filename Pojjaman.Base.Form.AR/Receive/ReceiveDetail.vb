@@ -96,78 +96,79 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(ReceiveDetail))
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.cmbCode = New System.Windows.Forms.ComboBox
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtRefAmount = New System.Windows.Forms.TextBox
-      Me.txtRefDocDate = New System.Windows.Forms.TextBox
-      Me.lblRefAmount = New System.Windows.Forms.Label
-      Me.lblRefDocDate = New System.Windows.Forms.Label
-      Me.dtpRefDocDate = New System.Windows.Forms.DateTimePicker
-      Me.txtRefDocCode = New System.Windows.Forms.TextBox
-      Me.lblRefDoc = New System.Windows.Forms.Label
-      Me.lblRefAmountUnit = New System.Windows.Forms.Label
-      Me.txtTotalCreditAmount = New System.Windows.Forms.TextBox
-      Me.txtTotalDebitAmount = New System.Windows.Forms.TextBox
-      Me.grbCredit = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblDiscountAmount = New System.Windows.Forms.Label
-      Me.txtDiscountAmount = New System.Windows.Forms.TextBox
-      Me.txtWHT = New System.Windows.Forms.TextBox
-      Me.lblWHT = New System.Windows.Forms.Label
-      Me.txtDiscountUnit = New System.Windows.Forms.Label
-      Me.txtWHTUnit = New System.Windows.Forms.Label
-      Me.txtOtherExpenseUnit = New System.Windows.Forms.Label
-      Me.txtOtherExpense = New System.Windows.Forms.TextBox
-      Me.lblOtherExpense = New System.Windows.Forms.Label
-      Me.lblBankCharge = New System.Windows.Forms.Label
-      Me.txtBankCharge = New System.Windows.Forms.TextBox
-      Me.txtBankChargeUnit = New System.Windows.Forms.Label
-      Me.lblCreditAmount = New System.Windows.Forms.Label
-      Me.txtCreditAmount = New System.Windows.Forms.TextBox
-      Me.ibtnOtherCredit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.lblAmount = New System.Windows.Forms.Label
-      Me.txtAmount = New System.Windows.Forms.TextBox
-      Me.lblGross = New System.Windows.Forms.Label
-      Me.txtGross = New System.Windows.Forms.TextBox
-      Me.grbDebit = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.txtInterest = New System.Windows.Forms.TextBox
-      Me.lblInterest = New System.Windows.Forms.Label
-      Me.txtInterestUnit = New System.Windows.Forms.Label
-      Me.txtOtherRevenue = New System.Windows.Forms.TextBox
-      Me.lblOtherRev = New System.Windows.Forms.Label
-      Me.txtOtherRevUnit = New System.Windows.Forms.Label
-      Me.txtDebitAmount = New System.Windows.Forms.TextBox
-      Me.ibtnOtherDebit = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblDebitAmount = New System.Windows.Forms.Label
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.txtGrossUnit = New System.Windows.Forms.Label
-      Me.lblAmountUnit = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ReceiveDetail))
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.grbRefDoc = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtRefAmount = New System.Windows.Forms.TextBox()
+      Me.txtRefDocDate = New System.Windows.Forms.TextBox()
+      Me.lblRefAmount = New System.Windows.Forms.Label()
+      Me.lblRefDocDate = New System.Windows.Forms.Label()
+      Me.dtpRefDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.txtRefDocCode = New System.Windows.Forms.TextBox()
+      Me.lblRefDoc = New System.Windows.Forms.Label()
+      Me.lblRefAmountUnit = New System.Windows.Forms.Label()
+      Me.txtTotalCreditAmount = New System.Windows.Forms.TextBox()
+      Me.txtTotalDebitAmount = New System.Windows.Forms.TextBox()
+      Me.grbCredit = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblDiscountAmount = New System.Windows.Forms.Label()
+      Me.txtDiscountAmount = New System.Windows.Forms.TextBox()
+      Me.txtWHT = New System.Windows.Forms.TextBox()
+      Me.lblWHT = New System.Windows.Forms.Label()
+      Me.txtDiscountUnit = New System.Windows.Forms.Label()
+      Me.txtWHTUnit = New System.Windows.Forms.Label()
+      Me.txtOtherExpenseUnit = New System.Windows.Forms.Label()
+      Me.txtOtherExpense = New System.Windows.Forms.TextBox()
+      Me.lblOtherExpense = New System.Windows.Forms.Label()
+      Me.lblBankCharge = New System.Windows.Forms.Label()
+      Me.txtBankCharge = New System.Windows.Forms.TextBox()
+      Me.txtBankChargeUnit = New System.Windows.Forms.Label()
+      Me.lblCreditAmount = New System.Windows.Forms.Label()
+      Me.txtCreditAmount = New System.Windows.Forms.TextBox()
+      Me.ibtnOtherCredit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.lblAmount = New System.Windows.Forms.Label()
+      Me.txtAmount = New System.Windows.Forms.TextBox()
+      Me.lblGross = New System.Windows.Forms.Label()
+      Me.txtGross = New System.Windows.Forms.TextBox()
+      Me.grbDebit = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtInterest = New System.Windows.Forms.TextBox()
+      Me.lblInterest = New System.Windows.Forms.Label()
+      Me.txtInterestUnit = New System.Windows.Forms.Label()
+      Me.txtOtherRevenue = New System.Windows.Forms.TextBox()
+      Me.lblOtherRev = New System.Windows.Forms.Label()
+      Me.txtOtherRevUnit = New System.Windows.Forms.Label()
+      Me.txtDebitAmount = New System.Windows.Forms.TextBox()
+      Me.ibtnOtherDebit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblDebitAmount = New System.Windows.Forms.Label()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.txtGrossUnit = New System.Windows.Forms.Label()
+      Me.lblAmountUnit = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.grbDetail.SuspendLayout()
       Me.grbRefDoc.SuspendLayout()
       Me.grbCredit.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDebit.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbDetail.Controls.Add(Me.cmbCode)
       Me.grbDetail.Controls.Add(Me.chkAutorun)
       Me.grbDetail.Controls.Add(Me.ibtnBlank)
@@ -196,7 +197,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.ForeColor = System.Drawing.SystemColors.ControlText
       Me.grbDetail.Location = New System.Drawing.Point(8, 8)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(736, 576)
+      Me.grbDetail.Size = New System.Drawing.Size(737, 576)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "∫—π∑÷°®Ë“¬‡ß‘π"
@@ -220,8 +221,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
-      Me.ibtnBlank.Location = New System.Drawing.Point(72, 72)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnBlank.Location = New System.Drawing.Point(88, 72)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 26
@@ -230,8 +231,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
-      Me.ibtnDelRow.Location = New System.Drawing.Point(96, 72)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnDelRow.Location = New System.Drawing.Point(112, 72)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 27
@@ -275,7 +276,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtDocDate, True)
       Me.txtDocDate.Size = New System.Drawing.Size(124, 21)
       Me.txtDocDate.TabIndex = 2
-      Me.txtDocDate.Text = ""
       '
       'dtpDocDate
       '
@@ -324,7 +324,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefAmount.Size = New System.Drawing.Size(104, 21)
       Me.txtRefAmount.TabIndex = 6
       Me.txtRefAmount.TabStop = False
-      Me.txtRefAmount.Text = ""
+      Me.txtRefAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtRefDocDate
       '
@@ -344,7 +344,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocDate.Size = New System.Drawing.Size(96, 21)
       Me.txtRefDocDate.TabIndex = 3
       Me.txtRefDocDate.TabStop = False
-      Me.txtRefDocDate.Text = ""
       '
       'lblRefAmount
       '
@@ -397,7 +396,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtRefDocCode.Size = New System.Drawing.Size(104, 21)
       Me.txtRefDocCode.TabIndex = 1
       Me.txtRefDocCode.TabStop = False
-      Me.txtRefDocCode.Text = ""
       '
       'lblRefDoc
       '
@@ -439,7 +437,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotalCreditAmount.Size = New System.Drawing.Size(136, 21)
       Me.txtTotalCreditAmount.TabIndex = 16
       Me.txtTotalCreditAmount.TabStop = False
-      Me.txtTotalCreditAmount.Text = ""
+      Me.txtTotalCreditAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtTotalDebitAmount
       '
@@ -460,7 +458,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTotalDebitAmount.Size = New System.Drawing.Size(136, 21)
       Me.txtTotalDebitAmount.TabIndex = 15
       Me.txtTotalDebitAmount.TabStop = False
-      Me.txtTotalDebitAmount.Text = ""
+      Me.txtTotalDebitAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'grbCredit
       '
@@ -514,7 +512,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtDiscountAmount, False)
       Me.txtDiscountAmount.Size = New System.Drawing.Size(136, 21)
       Me.txtDiscountAmount.TabIndex = 0
-      Me.txtDiscountAmount.Text = ""
+      Me.txtDiscountAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtWHT
       '
@@ -534,7 +532,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWHT.Size = New System.Drawing.Size(136, 21)
       Me.txtWHT.TabIndex = 5
       Me.txtWHT.TabStop = False
-      Me.txtWHT.Text = ""
+      Me.txtWHT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblWHT
       '
@@ -595,7 +593,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtOtherExpense, False)
       Me.txtOtherExpense.Size = New System.Drawing.Size(136, 21)
       Me.txtOtherExpense.TabIndex = 2
-      Me.txtOtherExpense.Text = ""
+      Me.txtOtherExpense.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblOtherExpense
       '
@@ -634,7 +632,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtBankCharge, False)
       Me.txtBankCharge.Size = New System.Drawing.Size(136, 21)
       Me.txtBankCharge.TabIndex = 1
-      Me.txtBankCharge.Text = ""
+      Me.txtBankCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtBankChargeUnit
       '
@@ -675,12 +673,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCreditAmount.Size = New System.Drawing.Size(136, 21)
       Me.txtCreditAmount.TabIndex = 10
       Me.txtCreditAmount.TabStop = False
-      Me.txtCreditAmount.Text = ""
+      Me.txtCreditAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'ibtnOtherCredit
       '
+      Me.ibtnOtherCredit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnOtherCredit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnOtherCredit.Image = CType(resources.GetObject("ibtnOtherCredit.Image"), System.Drawing.Image)
       Me.ibtnOtherCredit.Location = New System.Drawing.Point(288, 98)
       Me.ibtnOtherCredit.Name = "ibtnOtherCredit"
       Me.ibtnOtherCredit.Size = New System.Drawing.Size(24, 23)
@@ -693,16 +691,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(16, 96)
+      Me.tgItem.Location = New System.Drawing.Point(10, 96)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(768, 272)
+      Me.tgItem.Size = New System.Drawing.Size(718, 272)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 4
       Me.tgItem.TreeManager = Nothing
@@ -727,7 +725,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtNote.Size = New System.Drawing.Size(264, 42)
       Me.txtNote.TabIndex = 3
       Me.txtNote.TabStop = False
-      Me.txtNote.Text = ""
       '
       'lblNote
       '
@@ -772,7 +769,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAmount.Size = New System.Drawing.Size(136, 33)
       Me.txtAmount.TabIndex = 18
       Me.txtAmount.TabStop = False
-      Me.txtAmount.Text = ""
       Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblGross
@@ -805,7 +801,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtGross.Size = New System.Drawing.Size(136, 33)
       Me.txtGross.TabIndex = 13
       Me.txtGross.TabStop = False
-      Me.txtGross.Text = ""
+      Me.txtGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'grbDebit
       '
@@ -842,7 +838,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtInterest, False)
       Me.txtInterest.Size = New System.Drawing.Size(136, 21)
       Me.txtInterest.TabIndex = 0
-      Me.txtInterest.Text = ""
+      Me.txtInterest.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblInterest
       '
@@ -881,7 +877,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtOtherRevenue, False)
       Me.txtOtherRevenue.Size = New System.Drawing.Size(136, 21)
       Me.txtOtherRevenue.TabIndex = 1
-      Me.txtOtherRevenue.Text = ""
+      Me.txtOtherRevenue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblOtherRev
       '
@@ -922,12 +918,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDebitAmount.Size = New System.Drawing.Size(136, 21)
       Me.txtDebitAmount.TabIndex = 7
       Me.txtDebitAmount.TabStop = False
-      Me.txtDebitAmount.Text = ""
+      Me.txtDebitAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'ibtnOtherDebit
       '
+      Me.ibtnOtherDebit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnOtherDebit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnOtherDebit.Image = CType(resources.GetObject("ibtnOtherDebit.Image"), System.Drawing.Image)
       Me.ibtnOtherDebit.Location = New System.Drawing.Point(288, 56)
       Me.ibtnOtherDebit.Name = "ibtnOtherDebit"
       Me.ibtnOtherDebit.Size = New System.Drawing.Size(24, 23)
@@ -950,7 +946,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(16, 80)
+      Me.lblItem.Location = New System.Drawing.Point(32, 76)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(56, 18)
       Me.lblItem.TabIndex = 11
@@ -990,20 +986,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ReceiveDetail
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "ReceiveDetail"
-      Me.Size = New System.Drawing.Size(744, 592)
+      Me.Size = New System.Drawing.Size(757, 592)
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
       Me.grbRefDoc.ResumeLayout(False)
+      Me.grbRefDoc.PerformLayout()
       Me.grbCredit.ResumeLayout(False)
+      Me.grbCredit.PerformLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDebit.ResumeLayout(False)
+      Me.grbDebit.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub

@@ -912,7 +912,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         txtSubmitalDate.Text = MinDateToNull(m_tmpsubmitalDate, "")
         dtpSubmitalDate.Value = MinDateToNow(m_tmpsubmitalDate)
       Else
-
+        'SetNoVatRequire(True)
       End If
 
       SetStatus()
@@ -1009,17 +1009,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetNoVatRequire(Optional ByVal forceNorequire As Boolean = False)
       If Me.m_vat.RefDoc Is Nothing OrElse Me.m_vat.RefDoc.NoVat OrElse forceNorequire Then
+        Trace.WriteLine(Me.m_vat.RefDoc Is Nothing)
+        Trace.WriteLine(Me.m_vat.RefDoc.NoVat)
         Me.Validator.SetRequired(txtCode, False)
         Me.Validator.SetRequired(txtDocDate, False)
         Me.Validator.SetRequired(txtPrintName, False)
         Me.Validator.SetRequired(txtPrintAddress, False)
+        'Me.Validator.SetRequired(txtVatGroupCode, False)
         'Me.txtDocDate.Text = ""
         Me.Validator.SetDataType(txtDocDate, DataTypeConstants.StringType)
         Me.ErrorProvider1.SetError(Me.txtDocDate, "")
         Me.ErrorProvider1.SetError(Me.txtPrintName, "")
         Me.ErrorProvider1.SetError(Me.txtCode, "")
         Me.ErrorProvider1.SetError(Me.txtPrintAddress, "")
+        Me.ErrorProvider1.SetError(Me.txtVatGroupCode, "")
       Else
+        Trace.WriteLine(Me.m_vat.RefDoc Is Nothing)
+        Trace.WriteLine(Me.m_vat.RefDoc.NoVat)
         Me.Validator.SetDataType(txtDocDate, DataTypeConstants.DateTimeType)
         Me.Validator.SetRequired(txtDocDate, True)
         Me.Validator.SetRequired(txtPrintName, True)
@@ -1251,8 +1257,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       vi = Me.m_vat.ItemCollection(0)
       If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
+        'Me.Validator.SetRequired(Me.txtCode, False)
+        'Me.ErrorProvider1.SetError(Me.txtCode, "")
         Me.txtCode.ReadOnly = True
         m_oldCode = Me.txtCode.Text
         Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
@@ -1260,7 +1266,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'vi.Code = ""
         Me.m_vat.AutoGen = True
       Else
-        Me.Validator.SetRequired(Me.txtCode, True)
+        'Me.Validator.SetRequired(Me.txtCode, True)
         Me.txtCode.Text = m_oldCode
         Me.txtCode.ReadOnly = False
         Me.m_vat.AutoGen = False

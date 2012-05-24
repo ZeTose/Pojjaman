@@ -49,6 +49,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     Friend WithEvents lblCurrencyUnit As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(CashDepositDetail))
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
       Me.lblCode = New System.Windows.Forms.Label()
@@ -61,6 +62,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAmount = New System.Windows.Forms.TextBox()
       Me.lblAmount = New System.Windows.Forms.Label()
       Me.grbMain = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.txtDocDate = New System.Windows.Forms.TextBox()
       Me.lblStatus = New System.Windows.Forms.Label()
@@ -69,10 +71,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBankAccountCode = New System.Windows.Forms.TextBox()
       Me.txtBankAccountName = New System.Windows.Forms.TextBox()
       Me.lblCurrencyUnit = New System.Windows.Forms.Label()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbMain.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'dtpDocDate
@@ -137,6 +139,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(136, 120)
       Me.txtNote.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
@@ -165,6 +168,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankBranch, System.Drawing.Color.Empty)
       Me.txtBankBranch.Location = New System.Drawing.Point(136, 96)
       Me.txtBankBranch.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtBankBranch, "")
       Me.Validator.SetMinValue(Me.txtBankBranch, "")
       Me.txtBankBranch.Name = "txtBankBranch"
       Me.txtBankBranch.ReadOnly = True
@@ -183,6 +187,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.txtAmount.Location = New System.Drawing.Point(136, 48)
       Me.txtAmount.MaxLength = 15
+      Me.Validator.SetMaxValue(Me.txtAmount, "")
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
       Me.Validator.SetRegularExpression(Me.txtAmount, "")
@@ -206,8 +211,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbMain
       '
       Me.grbMain.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMain.Controls.Add(Me.cmbCode)
       Me.grbMain.Controls.Add(Me.chkAutorun)
       Me.grbMain.Controls.Add(Me.txtDocDate)
@@ -235,6 +240,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMain.TabStop = False
       Me.grbMain.Text = "นำฝากเงินสด"
       '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(136, 25)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(144, 21)
+      Me.cmbCode.TabIndex = 215
+      '
       'chkAutorun
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
@@ -255,6 +269,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(400, 24)
       Me.txtDocDate.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -273,12 +288,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Size = New System.Drawing.Size(48, 13)
       Me.lblStatus.TabIndex = 18
       Me.lblStatus.Text = "lblStatus"
+      Me.lblStatus.Visible = False
       '
       'btnBankAccountFind
       '
+      Me.btnBankAccountFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnBankAccountFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnBankAccountFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnBankAccountFind.Image = CType(resources.GetObject("btnBankAccountFind.Image"), System.Drawing.Image)
       Me.btnBankAccountFind.Location = New System.Drawing.Point(496, 72)
       Me.btnBankAccountFind.Name = "btnBankAccountFind"
       Me.btnBankAccountFind.Size = New System.Drawing.Size(24, 23)
@@ -288,7 +304,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnBankAccountEdit
       '
-      Me.btnBankAccountEdit.Image = CType(resources.GetObject("btnBankAccountEdit.Image"), System.Drawing.Image)
+      Me.btnBankAccountEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnBankAccountEdit.Location = New System.Drawing.Point(520, 72)
       Me.btnBankAccountEdit.Name = "btnBankAccountEdit"
       Me.btnBankAccountEdit.Size = New System.Drawing.Size(24, 23)
@@ -305,6 +321,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAccountCode, System.Drawing.Color.Empty)
       Me.txtBankAccountCode.Location = New System.Drawing.Point(136, 72)
       Me.txtBankAccountCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtBankAccountCode, "")
       Me.Validator.SetMinValue(Me.txtBankAccountCode, "")
       Me.txtBankAccountCode.Name = "txtBankAccountCode"
       Me.Validator.SetRegularExpression(Me.txtBankAccountCode, "")
@@ -322,6 +339,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAccountName, System.Drawing.Color.Empty)
       Me.txtBankAccountName.Location = New System.Drawing.Point(280, 72)
       Me.txtBankAccountName.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtBankAccountName, "")
       Me.Validator.SetMinValue(Me.txtBankAccountName, "")
       Me.txtBankAccountName.Name = "txtBankAccountName"
       Me.txtBankAccountName.ReadOnly = True
@@ -355,15 +373,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'cmbCode
-      '
-      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-      Me.cmbCode.Location = New System.Drawing.Point(136, 25)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(144, 21)
-      Me.cmbCode.TabIndex = 215
-      '
       'CashDepositDetail
       '
       Me.Controls.Add(Me.grbMain)
@@ -371,6 +380,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(688, 232)
       Me.grbMain.ResumeLayout(False)
       Me.grbMain.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -580,21 +590,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 
     Public Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
     End Sub
 #End Region
 

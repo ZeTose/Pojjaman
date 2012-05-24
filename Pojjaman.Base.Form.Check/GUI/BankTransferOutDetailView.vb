@@ -110,8 +110,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbBankTransferOut
       '
       Me.grbBankTransferOut.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbBankTransferOut.Controls.Add(Me.cmbExportType)
       Me.grbBankTransferOut.Controls.Add(Me.btnExport)
       Me.grbBankTransferOut.Controls.Add(Me.ibtnDelRow)
@@ -157,7 +157,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbExportType.FormattingEnabled = True
       Me.cmbExportType.Items.AddRange(New Object() {"MCL", "DCT", "PCT", "COC"})
-      Me.cmbExportType.Location = New System.Drawing.Point(300, 164)
+      Me.cmbExportType.Location = New System.Drawing.Point(286, 164)
       Me.cmbExportType.Name = "cmbExportType"
       Me.cmbExportType.Size = New System.Drawing.Size(82, 21)
       Me.cmbExportType.TabIndex = 209
@@ -165,7 +165,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnExport
       '
-      Me.btnExport.Location = New System.Drawing.Point(219, 162)
+      Me.btnExport.Location = New System.Drawing.Point(209, 162)
       Me.btnExport.Name = "btnExport"
       Me.btnExport.Size = New System.Drawing.Size(75, 23)
       Me.btnExport.TabIndex = 208
@@ -176,7 +176,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(189, 162)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(176, 162)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 207
@@ -186,8 +186,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'RadGridView2
       '
       Me.RadGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.RadGridView2.Location = New System.Drawing.Point(19, 189)
       Me.RadGridView2.Name = "RadGridView2"
       Me.RadGridView2.Size = New System.Drawing.Size(668, 304)
@@ -196,7 +196,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(161, 162)
+      Me.ibtnBlank.Location = New System.Drawing.Point(152, 162)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 205
@@ -210,6 +210,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtTotal, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotal, System.Drawing.Color.Empty)
       Me.txtTotal.Location = New System.Drawing.Point(509, 162)
+      Me.Validator.SetMaxValue(Me.txtTotal, "")
       Me.Validator.SetMinValue(Me.txtTotal, "")
       Me.txtTotal.Name = "txtTotal"
       Me.txtTotal.ReadOnly = True
@@ -217,6 +218,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTotal, False)
       Me.txtTotal.Size = New System.Drawing.Size(136, 21)
       Me.txtTotal.TabIndex = 201
+      Me.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblBaht3
       '
@@ -233,9 +235,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblTotal.ForeColor = System.Drawing.Color.Black
-      Me.lblTotal.Location = New System.Drawing.Point(413, 162)
+      Me.lblTotal.Location = New System.Drawing.Point(374, 164)
       Me.lblTotal.Name = "lblTotal"
-      Me.lblTotal.Size = New System.Drawing.Size(88, 18)
+      Me.lblTotal.Size = New System.Drawing.Size(127, 18)
       Me.lblTotal.TabIndex = 200
       Me.lblTotal.Text = "ยอดเงินโอนคงเหลือ:"
       Me.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -244,12 +246,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.Color.Black
-      Me.lblItem.Location = New System.Drawing.Point(19, 170)
+      Me.lblItem.Location = New System.Drawing.Point(11, 166)
       Me.lblItem.Name = "lblItem"
-      Me.lblItem.Size = New System.Drawing.Size(136, 18)
+      Me.lblItem.Size = New System.Drawing.Size(144, 18)
       Me.lblItem.TabIndex = 199
       Me.lblItem.Text = "บันทีกยอดตัดจ่ายเงินโอน"
-      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'chkAutorun
       '
@@ -294,6 +296,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtIssueDate, -15)
       Me.Validator.SetInvalidBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
       Me.txtIssueDate.Location = New System.Drawing.Point(400, 24)
+      Me.Validator.SetMaxValue(Me.txtIssueDate, "")
       Me.Validator.SetMinValue(Me.txtIssueDate, "")
       Me.txtIssueDate.Name = "txtIssueDate"
       Me.Validator.SetRegularExpression(Me.txtIssueDate, "")
@@ -310,6 +313,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSupplierCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.txtSupplierCode.Location = New System.Drawing.Point(144, 51)
+      Me.Validator.SetMaxValue(Me.txtSupplierCode, "")
       Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
@@ -326,6 +330,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAmount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.txtAmount.Location = New System.Drawing.Point(144, 132)
+      Me.Validator.SetMaxValue(Me.txtAmount, "")
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
       Me.Validator.SetRegularExpression(Me.txtAmount, "")
@@ -465,6 +470,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtbankbranch, -15)
       Me.Validator.SetInvalidBackColor(Me.txtbankbranch, System.Drawing.Color.Empty)
       Me.txtbankbranch.Location = New System.Drawing.Point(144, 105)
+      Me.Validator.SetMaxValue(Me.txtbankbranch, "")
       Me.Validator.SetMinValue(Me.txtbankbranch, "")
       Me.txtbankbranch.Name = "txtbankbranch"
       Me.txtbankbranch.ReadOnly = True
@@ -483,6 +489,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankAccountCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankAccountCode, System.Drawing.Color.Empty)
       Me.txtBankAccountCode.Location = New System.Drawing.Point(144, 78)
+      Me.Validator.SetMaxValue(Me.txtBankAccountCode, "")
       Me.Validator.SetMinValue(Me.txtBankAccountCode, "")
       Me.txtBankAccountCode.Name = "txtBankAccountCode"
       Me.Validator.SetRegularExpression(Me.txtBankAccountCode, "")
@@ -500,6 +507,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSupplierName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.txtSupplierName.Location = New System.Drawing.Point(272, 51)
+      Me.Validator.SetMaxValue(Me.txtSupplierName, "")
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.txtSupplierName.ReadOnly = True
@@ -519,6 +527,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankAccountName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankAccountName, System.Drawing.Color.Empty)
       Me.txtBankAccountName.Location = New System.Drawing.Point(272, 78)
+      Me.Validator.SetMaxValue(Me.txtBankAccountName, "")
       Me.Validator.SetMinValue(Me.txtBankAccountName, "")
       Me.txtBankAccountName.Name = "txtBankAccountName"
       Me.txtBankAccountName.ReadOnly = True
@@ -538,6 +547,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(144, 24)
+      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")

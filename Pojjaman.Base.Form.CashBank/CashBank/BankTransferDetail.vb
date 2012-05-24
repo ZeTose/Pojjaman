@@ -73,8 +73,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
 
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BankTransferDetail))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.lblSum = New System.Windows.Forms.Label()
       Me.lblBaht3 = New System.Windows.Forms.Label()
       Me.txtSum = New System.Windows.Forms.TextBox()
@@ -116,19 +118,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode = New System.Windows.Forms.Label()
       Me.lblDocDate = New System.Windows.Forms.Label()
       Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.grbMaster.SuspendLayout()
       Me.grbDestination.SuspendLayout()
       Me.grbSource.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.cmbCode)
       Me.grbMaster.Controls.Add(Me.lblSum)
       Me.grbMaster.Controls.Add(Me.lblBaht3)
@@ -164,6 +166,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "รายละเอียดโอนเงิน"
       '
+      'cmbCode
+      '
+      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
+      Me.cmbCode.Location = New System.Drawing.Point(136, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(128, 21)
+      Me.cmbCode.TabIndex = 213
+      '
       'lblSum
       '
       Me.lblSum.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -198,6 +209,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSum, System.Drawing.Color.Empty)
       Me.txtSum.Location = New System.Drawing.Point(384, 352)
       Me.txtSum.MaxLength = 13
+      Me.Validator.SetMaxValue(Me.txtSum, "")
       Me.Validator.SetMinValue(Me.txtSum, "")
       Me.txtSum.Name = "txtSum"
       Me.txtSum.ReadOnly = True
@@ -210,9 +222,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowCheckDialog
       '
+      Me.ibtnShowCheckDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowCheckDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowCheckDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowCheckDialog.Image = CType(resources.GetObject("ibtnShowCheckDialog.Image"), System.Drawing.Image)
       Me.ibtnShowCheckDialog.Location = New System.Drawing.Point(265, 47)
       Me.ibtnShowCheckDialog.Name = "ibtnShowCheckDialog"
       Me.ibtnShowCheckDialog.Size = New System.Drawing.Size(24, 23)
@@ -239,6 +251,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Size = New System.Drawing.Size(48, 13)
       Me.lblStatus.TabIndex = 37
       Me.lblStatus.Text = "lblStatus"
+      Me.lblStatus.Visible = False
       '
       'txtDocDate
       '
@@ -250,6 +263,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(384, 24)
       Me.txtDocDate.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -290,6 +304,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.txtAmount.Location = New System.Drawing.Point(384, 280)
       Me.txtAmount.MaxLength = 13
+      Me.Validator.SetMaxValue(Me.txtAmount, "")
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
       Me.Validator.SetRegularExpression(Me.txtAmount, "")
@@ -319,6 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankcharge, System.Drawing.Color.Empty)
       Me.txtBankcharge.Location = New System.Drawing.Point(384, 304)
       Me.txtBankcharge.MaxLength = 13
+      Me.Validator.SetMaxValue(Me.txtBankcharge, "")
       Me.Validator.SetMinValue(Me.txtBankcharge, "")
       Me.txtBankcharge.Name = "txtBankcharge"
       Me.Validator.SetRegularExpression(Me.txtBankcharge, "")
@@ -360,6 +376,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtWHT, System.Drawing.Color.Empty)
       Me.txtWHT.Location = New System.Drawing.Point(384, 328)
       Me.txtWHT.MaxLength = 13
+      Me.Validator.SetMaxValue(Me.txtWHT, "")
       Me.Validator.SetMinValue(Me.txtWHT, "")
       Me.txtWHT.Name = "txtWHT"
       Me.txtWHT.ReadOnly = True
@@ -401,9 +418,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnDestinationFind
       '
+      Me.btnDestinationFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnDestinationFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnDestinationFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnDestinationFind.Image = CType(resources.GetObject("btnDestinationFind.Image"), System.Drawing.Image)
       Me.btnDestinationFind.Location = New System.Drawing.Point(472, 16)
       Me.btnDestinationFind.Name = "btnDestinationFind"
       Me.btnDestinationFind.Size = New System.Drawing.Size(24, 23)
@@ -420,6 +437,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDestinationBranch, System.Drawing.Color.Empty)
       Me.txtDestinationBranch.Location = New System.Drawing.Point(128, 40)
       Me.txtDestinationBranch.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtDestinationBranch, "")
       Me.Validator.SetMinValue(Me.txtDestinationBranch, "")
       Me.txtDestinationBranch.Name = "txtDestinationBranch"
       Me.txtDestinationBranch.ReadOnly = True
@@ -453,8 +471,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnDestinationEdit
       '
+      Me.btnDestinationEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnDestinationEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnDestinationEdit.Image = CType(resources.GetObject("btnDestinationEdit.Image"), System.Drawing.Image)
       Me.btnDestinationEdit.Location = New System.Drawing.Point(496, 16)
       Me.btnDestinationEdit.Name = "btnDestinationEdit"
       Me.btnDestinationEdit.Size = New System.Drawing.Size(24, 23)
@@ -472,6 +490,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDestinationCode, System.Drawing.Color.Empty)
       Me.txtDestinationCode.Location = New System.Drawing.Point(128, 16)
       Me.txtDestinationCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtDestinationCode, "")
       Me.Validator.SetMinValue(Me.txtDestinationCode, "")
       Me.txtDestinationCode.Name = "txtDestinationCode"
       Me.Validator.SetRegularExpression(Me.txtDestinationCode, "")
@@ -488,6 +507,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDestinationName, System.Drawing.Color.Empty)
       Me.txtDestinationName.Location = New System.Drawing.Point(256, 16)
       Me.txtDestinationName.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtDestinationName, "")
       Me.Validator.SetMinValue(Me.txtDestinationName, "")
       Me.txtDestinationName.Name = "txtDestinationName"
       Me.txtDestinationName.ReadOnly = True
@@ -539,9 +559,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSourceFind
       '
+      Me.btnSourceFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSourceFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnSourceFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnSourceFind.Image = CType(resources.GetObject("btnSourceFind.Image"), System.Drawing.Image)
       Me.btnSourceFind.Location = New System.Drawing.Point(472, 16)
       Me.btnSourceFind.Name = "btnSourceFind"
       Me.btnSourceFind.Size = New System.Drawing.Size(24, 23)
@@ -558,6 +578,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSourceBranch, System.Drawing.Color.Empty)
       Me.txtSourceBranch.Location = New System.Drawing.Point(128, 40)
       Me.txtSourceBranch.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtSourceBranch, "")
       Me.Validator.SetMinValue(Me.txtSourceBranch, "")
       Me.txtSourceBranch.Name = "txtSourceBranch"
       Me.txtSourceBranch.ReadOnly = True
@@ -580,7 +601,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'btnSourceEdit
       '
-      Me.btnSourceEdit.Image = CType(resources.GetObject("btnSourceEdit.Image"), System.Drawing.Image)
+      Me.btnSourceEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnSourceEdit.Location = New System.Drawing.Point(496, 16)
       Me.btnSourceEdit.Name = "btnSourceEdit"
       Me.btnSourceEdit.Size = New System.Drawing.Size(24, 23)
@@ -608,6 +629,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSourceName, System.Drawing.Color.Empty)
       Me.txtSourceName.Location = New System.Drawing.Point(256, 16)
       Me.txtSourceName.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtSourceName, "")
       Me.Validator.SetMinValue(Me.txtSourceName, "")
       Me.txtSourceName.Name = "txtSourceName"
       Me.txtSourceName.ReadOnly = True
@@ -627,6 +649,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSourceCode, System.Drawing.Color.Empty)
       Me.txtSourceCode.Location = New System.Drawing.Point(128, 16)
       Me.txtSourceCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtSourceCode, "")
       Me.Validator.SetMinValue(Me.txtSourceCode, "")
       Me.txtSourceCode.Name = "txtSourceCode"
       Me.Validator.SetRegularExpression(Me.txtSourceCode, "")
@@ -655,6 +678,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(136, 72)
       Me.txtNote.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
@@ -683,6 +707,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCqCode, System.Drawing.Color.Empty)
       Me.txtCqCode.Location = New System.Drawing.Point(136, 48)
       Me.txtCqCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtCqCode, "")
       Me.Validator.SetMinValue(Me.txtCqCode, "")
       Me.txtCqCode.Name = "txtCqCode"
       Me.Validator.SetRegularExpression(Me.txtCqCode, "")
@@ -734,15 +759,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'cmbCode
-      '
-      Me.cmbCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.ErrorProvider1.SetIconPadding(Me.cmbCode, -15)
-      Me.cmbCode.Location = New System.Drawing.Point(136, 24)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(128, 21)
-      Me.cmbCode.TabIndex = 213
-      '
       'BankTransferDetail
       '
       Me.Controls.Add(Me.grbMaster)
@@ -754,6 +770,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDestination.PerformLayout()
       Me.grbSource.ResumeLayout(False)
       Me.grbSource.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1120,21 +1137,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 
     Public Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
+      MyBase.SetStatusBarMessage()
+      'If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+      '  " " & m_entity.CancelDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.CancelPerson.Name
+      'ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+      '  " " & m_entity.LastEditDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.LastEditor.Name
+      'ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+      '  lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+      '  " " & m_entity.OriginDate.ToShortTimeString & _
+      '  "  โดย:" & m_entity.Originator.Name
+      'Else
+      '  lblStatus.Text = "ยังไม่ได้บันทึก"
+      'End If
     End Sub
 #End Region
 

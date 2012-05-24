@@ -1616,11 +1616,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public ReadOnly Property CanCancel() As Boolean Implements ICancelable.CanCancel
       Get
         Dim refAmt As Decimal = 0
-        For Each row As DataRow In Me.ItemTable.Rows
-          If Not row.IsNull("Amount") Then
-            refAmt += CDec(row("Amount"))
-          End If
-        Next
+        If Not Me.ItemTable Is Nothing Then
+          For Each row As DataRow In Me.ItemTable.Rows
+            If Not row.IsNull("Amount") Then
+              refAmt += CDec(row("Amount"))
+            End If
+          Next
+        End If
         Return Me.Status.Value > 1 AndAlso Me.IsCancelable AndAlso refAmt = 0 AndAlso Not Me.Closed
       End Get
     End Property

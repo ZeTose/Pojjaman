@@ -72,48 +72,49 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents ibtnShowEmployeeDialog As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblEmployee As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(SaleBillIssueDetail))
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SaleBillIssueDetail))
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
-      Me.txtDocDate = New System.Windows.Forms.TextBox
-      Me.txtCode = New System.Windows.Forms.TextBox
-      Me.txtNote = New System.Windows.Forms.TextBox
-      Me.txtcreditperiod = New System.Windows.Forms.TextBox
-      Me.txtCustomerName = New System.Windows.Forms.TextBox
-      Me.txtCustomerCode = New System.Windows.Forms.TextBox
-      Me.txtRemaining = New System.Windows.Forms.TextBox
-      Me.txtItemCount = New System.Windows.Forms.TextBox
-      Me.txtGross = New System.Windows.Forms.TextBox
-      Me.txtEmployeeName = New System.Windows.Forms.TextBox
-      Me.txtEmployeeCode = New System.Windows.Forms.TextBox
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.grbCustomer = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblCredit = New System.Windows.Forms.Label
-      Me.lblDueDate = New System.Windows.Forms.Label
-      Me.dtpDueDate = New System.Windows.Forms.DateTimePicker
-      Me.ibtnShowCustomer = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowCustomerDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblCustomer = New System.Windows.Forms.Label
-      Me.lblDay = New System.Windows.Forms.Label
-      Me.chkAutorun = New System.Windows.Forms.CheckBox
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker
-      Me.lblCode = New System.Windows.Forms.Label
-      Me.lblDocDate = New System.Windows.Forms.Label
-      Me.grbSummary = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.lblRemaining = New System.Windows.Forms.Label
-      Me.lblRemainingUnit = New System.Windows.Forms.Label
-      Me.lblItemCount = New System.Windows.Forms.Label
-      Me.lblItemCountUnit = New System.Windows.Forms.Label
-      Me.lblGrossUnit = New System.Windows.Forms.Label
-      Me.lblGross = New System.Windows.Forms.Label
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblNote = New System.Windows.Forms.Label
-      Me.ibtnShowEmployee = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.ibtnShowEmployeeDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.lblEmployee = New System.Windows.Forms.Label
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.txtDocDate = New System.Windows.Forms.TextBox()
+      Me.txtCode = New System.Windows.Forms.TextBox()
+      Me.txtNote = New System.Windows.Forms.TextBox()
+      Me.txtcreditperiod = New System.Windows.Forms.TextBox()
+      Me.txtCustomerName = New System.Windows.Forms.TextBox()
+      Me.txtCustomerCode = New System.Windows.Forms.TextBox()
+      Me.txtRemaining = New System.Windows.Forms.TextBox()
+      Me.txtItemCount = New System.Windows.Forms.TextBox()
+      Me.txtGross = New System.Windows.Forms.TextBox()
+      Me.txtEmployeeName = New System.Windows.Forms.TextBox()
+      Me.txtEmployeeCode = New System.Windows.Forms.TextBox()
+      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.grbCustomer = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblCredit = New System.Windows.Forms.Label()
+      Me.lblDueDate = New System.Windows.Forms.Label()
+      Me.dtpDueDate = New System.Windows.Forms.DateTimePicker()
+      Me.ibtnShowCustomer = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowCustomerDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblCustomer = New System.Windows.Forms.Label()
+      Me.lblDay = New System.Windows.Forms.Label()
+      Me.chkAutorun = New System.Windows.Forms.CheckBox()
+      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+      Me.lblCode = New System.Windows.Forms.Label()
+      Me.lblDocDate = New System.Windows.Forms.Label()
+      Me.grbSummary = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblRemaining = New System.Windows.Forms.Label()
+      Me.lblRemainingUnit = New System.Windows.Forms.Label()
+      Me.lblItemCount = New System.Windows.Forms.Label()
+      Me.lblItemCountUnit = New System.Windows.Forms.Label()
+      Me.lblGrossUnit = New System.Windows.Forms.Label()
+      Me.lblGross = New System.Windows.Forms.Label()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblNote = New System.Windows.Forms.Label()
+      Me.ibtnShowEmployee = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnShowEmployeeDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblEmployee = New System.Windows.Forms.Label()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbCustomer.SuspendLayout()
       Me.grbSummary.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,9 +125,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'ErrorProvider1
       '
@@ -138,7 +139,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtDocDate, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.txtDocDate.Location = New System.Drawing.Point(240, 15)
+      Me.txtDocDate.Location = New System.Drawing.Point(276, 15)
       Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
@@ -146,7 +147,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtDocDate, False)
       Me.txtDocDate.Size = New System.Drawing.Size(78, 20)
       Me.txtDocDate.TabIndex = 1
-      Me.txtDocDate.Text = ""
       '
       'txtCode
       '
@@ -161,10 +161,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
       Me.Validator.SetRequired(Me.txtCode, False)
-      Me.txtCode.Size = New System.Drawing.Size(88, 21)
+      Me.txtCode.Size = New System.Drawing.Size(105, 21)
       Me.txtCode.TabIndex = 0
       Me.txtCode.TabStop = False
-      Me.txtCode.Text = ""
       '
       'txtNote
       '
@@ -173,15 +172,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtNote, "")
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
-      Me.txtNote.Location = New System.Drawing.Point(336, 80)
+      Me.txtNote.Location = New System.Drawing.Point(336, 83)
       Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
       Me.Validator.SetRequired(Me.txtNote, False)
-      Me.txtNote.Size = New System.Drawing.Size(416, 20)
+      Me.txtNote.Size = New System.Drawing.Size(456, 20)
       Me.txtNote.TabIndex = 4
-      Me.txtNote.Text = ""
       '
       'txtcreditperiod
       '
@@ -198,7 +196,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtcreditperiod, True)
       Me.txtcreditperiod.Size = New System.Drawing.Size(64, 20)
       Me.txtcreditperiod.TabIndex = 1
-      Me.txtcreditperiod.Text = ""
       '
       'txtCustomerName
       '
@@ -207,17 +204,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtCustomerName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCustomerName, System.Drawing.Color.Empty)
-      Me.txtCustomerName.Location = New System.Drawing.Point(152, 16)
+      Me.txtCustomerName.Location = New System.Drawing.Point(193, 16)
       Me.Validator.SetMaxValue(Me.txtCustomerName, "")
       Me.Validator.SetMinValue(Me.txtCustomerName, "")
       Me.txtCustomerName.Name = "txtCustomerName"
       Me.txtCustomerName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtCustomerName, "")
       Me.Validator.SetRequired(Me.txtCustomerName, False)
-      Me.txtCustomerName.Size = New System.Drawing.Size(168, 20)
+      Me.txtCustomerName.Size = New System.Drawing.Size(171, 20)
       Me.txtCustomerName.TabIndex = 4
       Me.txtCustomerName.TabStop = False
-      Me.txtCustomerName.Text = ""
       '
       'txtCustomerCode
       '
@@ -232,9 +228,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCustomerCode.Name = "txtCustomerCode"
       Me.Validator.SetRegularExpression(Me.txtCustomerCode, "")
       Me.Validator.SetRequired(Me.txtCustomerCode, True)
-      Me.txtCustomerCode.Size = New System.Drawing.Size(64, 20)
+      Me.txtCustomerCode.Size = New System.Drawing.Size(105, 20)
       Me.txtCustomerCode.TabIndex = 0
-      Me.txtCustomerCode.Text = ""
       '
       'txtRemaining
       '
@@ -253,7 +248,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtRemaining, False)
       Me.txtRemaining.Size = New System.Drawing.Size(112, 20)
       Me.txtRemaining.TabIndex = 7
-      Me.txtRemaining.Text = ""
+      Me.txtRemaining.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtItemCount
       '
@@ -272,7 +267,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtItemCount, False)
       Me.txtItemCount.Size = New System.Drawing.Size(56, 20)
       Me.txtItemCount.TabIndex = 1
-      Me.txtItemCount.Text = ""
+      Me.txtItemCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtGross
       '
@@ -291,7 +286,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtGross, False)
       Me.txtGross.Size = New System.Drawing.Size(112, 20)
       Me.txtGross.TabIndex = 4
-      Me.txtGross.Text = ""
+      Me.txtGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'txtEmployeeName
       '
@@ -300,17 +295,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtEmployeeName, "")
       Me.Validator.SetGotFocusBackColor(Me.txtEmployeeName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtEmployeeName, System.Drawing.Color.Empty)
-      Me.txtEmployeeName.Location = New System.Drawing.Point(160, 40)
+      Me.txtEmployeeName.Location = New System.Drawing.Point(203, 40)
       Me.Validator.SetMaxValue(Me.txtEmployeeName, "")
       Me.Validator.SetMinValue(Me.txtEmployeeName, "")
       Me.txtEmployeeName.Name = "txtEmployeeName"
       Me.txtEmployeeName.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtEmployeeName, "")
       Me.Validator.SetRequired(Me.txtEmployeeName, False)
-      Me.txtEmployeeName.Size = New System.Drawing.Size(168, 20)
+      Me.txtEmployeeName.Size = New System.Drawing.Size(172, 20)
       Me.txtEmployeeName.TabIndex = 12
       Me.txtEmployeeName.TabStop = False
-      Me.txtEmployeeName.Text = ""
       '
       'txtEmployeeCode
       '
@@ -325,13 +319,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtEmployeeCode.Name = "txtEmployeeCode"
       Me.Validator.SetRegularExpression(Me.txtEmployeeCode, "")
       Me.Validator.SetRequired(Me.txtEmployeeCode, True)
-      Me.txtEmployeeCode.Size = New System.Drawing.Size(64, 20)
+      Me.txtEmployeeCode.Size = New System.Drawing.Size(105, 20)
       Me.txtEmployeeCode.TabIndex = 2
-      Me.txtEmployeeCode.Text = ""
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Image = CType(resources.GetObject("ibtnBlank.Image"), System.Drawing.Image)
+      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnBlank.Location = New System.Drawing.Point(144, 80)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
@@ -341,7 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Image = CType(resources.GetObject("ibtnDelRow.Image"), System.Drawing.Image)
+      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnDelRow.Location = New System.Drawing.Point(168, 80)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
@@ -362,9 +355,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbCustomer.Controls.Add(Me.lblCustomer)
       Me.grbCustomer.Controls.Add(Me.lblDay)
       Me.grbCustomer.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbCustomer.Location = New System.Drawing.Point(376, 0)
+      Me.grbCustomer.Location = New System.Drawing.Point(428, 0)
       Me.grbCustomer.Name = "grbCustomer"
-      Me.grbCustomer.Size = New System.Drawing.Size(384, 72)
+      Me.grbCustomer.Size = New System.Drawing.Size(416, 72)
       Me.grbCustomer.TabIndex = 3
       Me.grbCustomer.TabStop = False
       Me.grbCustomer.Text = "ลูกค้า"
@@ -397,15 +390,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
       Me.dtpDueDate.Location = New System.Drawing.Point(272, 40)
       Me.dtpDueDate.Name = "dtpDueDate"
-      Me.dtpDueDate.Size = New System.Drawing.Size(96, 21)
+      Me.dtpDueDate.Size = New System.Drawing.Size(104, 21)
       Me.dtpDueDate.TabIndex = 7
       Me.dtpDueDate.TabStop = False
       '
       'ibtnShowCustomer
       '
+      Me.ibtnShowCustomer.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowCustomer.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowCustomer.Image = CType(resources.GetObject("ibtnShowCustomer.Image"), System.Drawing.Image)
-      Me.ibtnShowCustomer.Location = New System.Drawing.Point(344, 16)
+      Me.ibtnShowCustomer.Location = New System.Drawing.Point(386, 16)
       Me.ibtnShowCustomer.Name = "ibtnShowCustomer"
       Me.ibtnShowCustomer.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowCustomer.TabIndex = 9
@@ -414,10 +407,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowCustomerDialog
       '
+      Me.ibtnShowCustomerDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowCustomerDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowCustomerDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowCustomerDialog.Image = CType(resources.GetObject("ibtnShowCustomerDialog.Image"), System.Drawing.Image)
-      Me.ibtnShowCustomerDialog.Location = New System.Drawing.Point(320, 16)
+      Me.ibtnShowCustomerDialog.Location = New System.Drawing.Point(362, 16)
       Me.ibtnShowCustomerDialog.Name = "ibtnShowCustomerDialog"
       Me.ibtnShowCustomerDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowCustomerDialog.TabIndex = 8
@@ -448,7 +441,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
       Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(184, 15)
+      Me.chkAutorun.Location = New System.Drawing.Point(203, 15)
       Me.chkAutorun.Name = "chkAutorun"
       Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
       Me.chkAutorun.TabIndex = 9
@@ -458,7 +451,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
       Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDate.Location = New System.Drawing.Point(240, 15)
+      Me.dtpDocDate.Location = New System.Drawing.Point(276, 15)
       Me.dtpDocDate.Name = "dtpDocDate"
       Me.dtpDocDate.Size = New System.Drawing.Size(96, 21)
       Me.dtpDocDate.TabIndex = 11
@@ -479,7 +472,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDate.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDate.Location = New System.Drawing.Point(200, 16)
+      Me.lblDocDate.Location = New System.Drawing.Point(236, 16)
       Me.lblDocDate.Name = "lblDocDate"
       Me.lblDocDate.Size = New System.Drawing.Size(40, 18)
       Me.lblDocDate.TabIndex = 10
@@ -499,9 +492,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.Controls.Add(Me.txtGross)
       Me.grbSummary.Controls.Add(Me.lblGross)
       Me.grbSummary.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSummary.Location = New System.Drawing.Point(112, 344)
+      Me.grbSummary.Location = New System.Drawing.Point(156, 351)
       Me.grbSummary.Name = "grbSummary"
-      Me.grbSummary.Size = New System.Drawing.Size(688, 45)
+      Me.grbSummary.Size = New System.Drawing.Size(688, 46)
       Me.grbSummary.TabIndex = 6
       Me.grbSummary.TabStop = False
       Me.grbSummary.Text = "สรุปรายการรับวางบิล"
@@ -570,28 +563,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(8, 88)
+      Me.lblItem.Location = New System.Drawing.Point(8, 84)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(136, 18)
       Me.lblItem.TabIndex = 15
       Me.lblItem.Text = "รายการรับวางบิล:"
-      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'tgItem
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 104)
+      Me.tgItem.Location = New System.Drawing.Point(8, 107)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(784, 232)
+      Me.tgItem.Size = New System.Drawing.Size(836, 238)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 5
       Me.tgItem.TreeManager = Nothing
@@ -600,7 +593,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblNote.BackColor = System.Drawing.Color.Transparent
       Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblNote.Location = New System.Drawing.Point(240, 80)
+      Me.lblNote.Location = New System.Drawing.Point(240, 83)
       Me.lblNote.Name = "lblNote"
       Me.lblNote.Size = New System.Drawing.Size(96, 18)
       Me.lblNote.TabIndex = 18
@@ -609,9 +602,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowEmployee
       '
+      Me.ibtnShowEmployee.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEmployee.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnShowEmployee.Image = CType(resources.GetObject("ibtnShowEmployee.Image"), System.Drawing.Image)
-      Me.ibtnShowEmployee.Location = New System.Drawing.Point(352, 40)
+      Me.ibtnShowEmployee.Location = New System.Drawing.Point(397, 40)
       Me.ibtnShowEmployee.Name = "ibtnShowEmployee"
       Me.ibtnShowEmployee.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowEmployee.TabIndex = 14
@@ -620,10 +613,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnShowEmployeeDialog
       '
+      Me.ibtnShowEmployeeDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowEmployeeDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowEmployeeDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowEmployeeDialog.Image = CType(resources.GetObject("ibtnShowEmployeeDialog.Image"), System.Drawing.Image)
-      Me.ibtnShowEmployeeDialog.Location = New System.Drawing.Point(328, 40)
+      Me.ibtnShowEmployeeDialog.Location = New System.Drawing.Point(373, 40)
       Me.ibtnShowEmployeeDialog.Name = "ibtnShowEmployeeDialog"
       Me.ibtnShowEmployeeDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowEmployeeDialog.TabIndex = 13
@@ -662,11 +655,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.lblNote)
       Me.Controls.Add(Me.ibtnBlank)
       Me.Name = "SaleBillIssueDetail"
-      Me.Size = New System.Drawing.Size(808, 400)
+      Me.Size = New System.Drawing.Size(852, 400)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbCustomer.ResumeLayout(False)
+      Me.grbCustomer.PerformLayout()
       Me.grbSummary.ResumeLayout(False)
+      Me.grbSummary.PerformLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
+      Me.PerformLayout()
 
     End Sub
 

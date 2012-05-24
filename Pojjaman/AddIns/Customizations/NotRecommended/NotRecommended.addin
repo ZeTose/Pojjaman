@@ -13,8 +13,8 @@
   <Extension path="/Pojjaman/Workbench/MainMenu/Stock">
     <MenuItem id="Separator[NotRec1]" insertafter="LaborGroup" label="-"/>
     <MenuItem id="Asset[NotRec1]" insertafter="Separator[NotRec1]" label="${res:MainMenu.AssetMenu}">
-      <MenuItem id="AssetWithdraw" label="${res:MainMenu.StockMenu.AssetWithdraw}" icon="Icons.16x16.EqipmentWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWithdraw"/>
-      <MenuItem id="AssetReturn" label="${res:MainMenu.StockMenu.AssetReturn}" icon="Icons.16x16.EquipmentReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetReturn"/>
+      <MenuItem id="AssetWithdraw" label="${res:MainMenu.StockMenu.AssetWithdraw}" icon="Icons.16x16.AssetWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWithdraw"/>
+      <MenuItem id="AssetReturn" label="${res:MainMenu.StockMenu.AssetReturn}" icon="Icons.16x16.AssetReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetReturn"/>
     </MenuItem>
   </Extension>
   <Extension path="/Pojjaman/Workbench/MainMenu/Stock/MatetialStock">
