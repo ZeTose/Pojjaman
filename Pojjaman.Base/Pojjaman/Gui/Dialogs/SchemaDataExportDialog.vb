@@ -9,6 +9,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports System.Collections.Generic
 Imports DevExpress.XtraReports.UI
 Imports System.Reflection
+Imports DevExpress.LookAndFeel
 
 Namespace Longkong.Pojjaman.Gui.Panels
 
@@ -181,7 +182,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
               newReport.DisplayName = IO.Path.GetFileName(dlg.FileName).Replace(".repx", "")
               newReport.SaveLayout(path)
 
-              MessageBox.Show("Export Template Complete")
+              Dim msg As String = "Export Template เรียบร้อยแล้ว" & vbCrLf & "ต้องการเปิด Pojjaman Form Designer เลยหรือไม่"
+              If MessageBox.Show(msg, "", MessageBoxButtons.YesNo, MessageBoxIcon.Information) = Windows.Forms.DialogResult.Yes Then
+                Dim userLookAndFeel_ As New UserLookAndFeel(newReport)
+                userLookAndFeel_.UseDefaultLookAndFeel = False
+                userLookAndFeel_.UseWindowsXPTheme = False
+                userLookAndFeel_.Style = LookAndFeelStyle.Skin
+                userLookAndFeel_.SkinName = "Metropolis"
+                newReport.ShowRibbonDesigner(userLookAndFeel_)
+              End If
+
+              'newReport.ShowDesigner()
+              'Process.Start(path)
+              'Shell("C:\Program Files (x86)\Longkong Studio\Pojjaman Form Designer\PojjamanFormDesigner.exe", AppWinStyle.MaximizedFocus)
+
+
 
               'dsc.WriteXmlSchema(path)
               'If MessageBox.Show("Export Template Complete, เปิดเลยป่าว??", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
