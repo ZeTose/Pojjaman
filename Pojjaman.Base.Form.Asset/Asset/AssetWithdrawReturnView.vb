@@ -6,6 +6,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class AssetWithdrawReturnView
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -43,27 +44,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtBuyPrice As System.Windows.Forms.TextBox
     Friend WithEvents txtLocation1 As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.cmbStatus = New System.Windows.Forms.ComboBox
-      Me.lblTool = New System.Windows.Forms.Label
-      Me.txtAssetCode = New System.Windows.Forms.TextBox
-      Me.txtAssetName = New System.Windows.Forms.TextBox
-      Me.lblStatus = New System.Windows.Forms.Label
-      Me.lblLocation = New System.Windows.Forms.Label
-      Me.txtBuyDate = New System.Windows.Forms.TextBox
-      Me.lblDate = New System.Windows.Forms.Label
-      Me.txtLocation = New System.Windows.Forms.TextBox
-      Me.txtLocation1 = New System.Windows.Forms.TextBox
-      Me.txtBuyPrice = New System.Windows.Forms.TextBox
-      Me.lblPrice = New System.Windows.Forms.Label
-      Me.lblBaht = New System.Windows.Forms.Label
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider
+      Me.components = New System.ComponentModel.Container()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbStatus = New System.Windows.Forms.ComboBox()
+      Me.lblTool = New System.Windows.Forms.Label()
+      Me.txtAssetCode = New System.Windows.Forms.TextBox()
+      Me.txtAssetName = New System.Windows.Forms.TextBox()
+      Me.lblStatus = New System.Windows.Forms.Label()
+      Me.lblLocation = New System.Windows.Forms.Label()
+      Me.txtBuyDate = New System.Windows.Forms.TextBox()
+      Me.lblDate = New System.Windows.Forms.Label()
+      Me.txtLocation = New System.Windows.Forms.TextBox()
+      Me.txtLocation1 = New System.Windows.Forms.TextBox()
+      Me.txtBuyPrice = New System.Windows.Forms.TextBox()
+      Me.lblPrice = New System.Windows.Forms.Label()
+      Me.lblBaht = New System.Windows.Forms.Label()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'tgItem
@@ -71,8 +73,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = True
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -154,7 +156,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAssetCode, False)
       Me.txtAssetCode.Size = New System.Drawing.Size(96, 22)
       Me.txtAssetCode.TabIndex = 199
-      Me.txtAssetCode.Text = ""
       '
       'txtAssetName
       '
@@ -172,7 +173,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtAssetName, False)
       Me.txtAssetName.Size = New System.Drawing.Size(264, 22)
       Me.txtAssetName.TabIndex = 199
-      Me.txtAssetName.Text = ""
       '
       'lblStatus
       '
@@ -212,7 +212,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtBuyDate, False)
       Me.txtBuyDate.Size = New System.Drawing.Size(96, 22)
       Me.txtBuyDate.TabIndex = 199
-      Me.txtBuyDate.Text = ""
       '
       'lblDate
       '
@@ -241,7 +240,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtLocation, False)
       Me.txtLocation.Size = New System.Drawing.Size(96, 22)
       Me.txtLocation.TabIndex = 199
-      Me.txtLocation.Text = ""
       '
       'txtLocation1
       '
@@ -259,7 +257,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtLocation1, False)
       Me.txtLocation1.Size = New System.Drawing.Size(264, 22)
       Me.txtLocation1.TabIndex = 199
-      Me.txtLocation1.Text = ""
       '
       'txtBuyPrice
       '
@@ -277,7 +274,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtBuyPrice, False)
       Me.txtBuyPrice.Size = New System.Drawing.Size(120, 22)
       Me.txtBuyPrice.TabIndex = 199
-      Me.txtBuyPrice.Text = ""
+      Me.txtBuyPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblPrice
       '
@@ -310,9 +307,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.BackcolorChanging = False
       Me.Validator.DataTable = Nothing
       Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
       Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(255, Byte), CType(128, Byte), CType(0, Byte))
+      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
       'AssetWithdrawReturnView
       '
@@ -323,6 +320,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(656, 432)
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbDetail.ResumeLayout(False)
+      Me.grbDetail.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub

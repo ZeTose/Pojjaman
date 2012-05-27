@@ -6,6 +6,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class EqRentalSummary
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
     'UserControl overrides dispose to clean up the component list.
@@ -62,8 +63,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = True
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -123,6 +124,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAssetCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAssetCode, System.Drawing.Color.Empty)
       Me.txtAssetCode.Location = New System.Drawing.Point(88, 16)
+      Me.Validator.SetMaxValue(Me.txtAssetCode, "")
       Me.Validator.SetMinValue(Me.txtAssetCode, "")
       Me.txtAssetCode.Name = "txtAssetCode"
       Me.txtAssetCode.ReadOnly = True
@@ -139,6 +141,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAssetName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAssetName, System.Drawing.Color.Empty)
       Me.txtAssetName.Location = New System.Drawing.Point(184, 16)
+      Me.Validator.SetMaxValue(Me.txtAssetName, "")
       Me.Validator.SetMinValue(Me.txtAssetName, "")
       Me.txtAssetName.Name = "txtAssetName"
       Me.txtAssetName.ReadOnly = True
@@ -155,6 +158,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBuyDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBuyDate, System.Drawing.Color.Empty)
       Me.txtBuyDate.Location = New System.Drawing.Point(88, 44)
+      Me.Validator.SetMaxValue(Me.txtBuyDate, "")
       Me.Validator.SetMinValue(Me.txtBuyDate, "")
       Me.txtBuyDate.Name = "txtBuyDate"
       Me.txtBuyDate.ReadOnly = True
@@ -182,6 +186,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBuyPrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBuyPrice, System.Drawing.Color.Empty)
       Me.txtBuyPrice.Location = New System.Drawing.Point(296, 44)
+      Me.Validator.SetMaxValue(Me.txtBuyPrice, "")
       Me.Validator.SetMinValue(Me.txtBuyPrice, "")
       Me.txtBuyPrice.Name = "txtBuyPrice"
       Me.txtBuyPrice.ReadOnly = True
@@ -189,6 +194,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtBuyPrice, False)
       Me.txtBuyPrice.Size = New System.Drawing.Size(120, 22)
       Me.txtBuyPrice.TabIndex = 199
+      Me.txtBuyPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblPrice
       '

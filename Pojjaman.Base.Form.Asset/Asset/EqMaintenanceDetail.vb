@@ -11,6 +11,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class EqMaintenanceDetail
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
+    'Inherits UserControl
 
 #Region " Windows Form Designer generated code "
 
@@ -1687,6 +1688,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.MappingName = "stocki_unitprice"
       csUnitPRice.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.UnitpriceHeaderText}")
       csUnitPRice.NullText = ""
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
       csUnitPRice.TextBox.Name = "stocki_unitprice"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
@@ -1695,6 +1697,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csDiscount.MappingName = "stocki_discrate"
       csDiscount.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.DiscountHeaderText}")
       csDiscount.NullText = ""
+      csDiscount.DataAlignment = HorizontalAlignment.Right
       csDiscount.TextBox.Name = "stocki_discrate"
       'AddHandler csDiscount.TextBox.TextChanged, AddressOf ChangeProperty
       'csDiscount.DataAlignment = HorizontalAlignment.Center
@@ -1705,6 +1708,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.NullText = ""
       csAmount.TextBox.Name = "Amount"
       csAmount.ReadOnly = True
+      csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Format = "#,###.##"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center

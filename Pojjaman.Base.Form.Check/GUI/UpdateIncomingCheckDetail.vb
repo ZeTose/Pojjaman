@@ -64,6 +64,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UpdateIncomingCheckDetail))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -91,19 +92,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWht = New System.Windows.Forms.TextBox()
       Me.lblCurrency2 = New System.Windows.Forms.Label()
       Me.lblItem = New System.Windows.Forms.Label()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
-      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.grbMaster.SuspendLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbSum.SuspendLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.cmbCode)
       Me.grbMaster.Controls.Add(Me.chkAutorun)
       Me.grbMaster.Controls.Add(Me.ibtnBlank)
@@ -127,6 +129,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "ปรับปรุงสถานะเช็ค : "
+      '
+      'cmbCode
+      '
+      Me.cmbCode.FormattingEnabled = True
+      Me.cmbCode.Location = New System.Drawing.Point(144, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(144, 21)
+      Me.cmbCode.TabIndex = 0
       '
       'chkAutorun
       '
@@ -178,6 +188,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtIssueDate, -15)
       Me.Validator.SetInvalidBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
       Me.txtIssueDate.Location = New System.Drawing.Point(432, 24)
+      Me.Validator.SetMaxValue(Me.txtIssueDate, "")
       Me.Validator.SetMinValue(Me.txtIssueDate, "")
       Me.txtIssueDate.Name = "txtIssueDate"
       Me.Validator.SetRegularExpression(Me.txtIssueDate, "")
@@ -235,6 +246,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(144, 72)
       Me.txtNote.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
@@ -259,8 +271,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = True
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -268,7 +280,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(8, 120)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(688, 112)
+      Me.tgItem.Size = New System.Drawing.Size(688, 126)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 11
       Me.tgItem.TreeManager = Nothing
@@ -286,10 +298,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.TabIndex = 15
       Me.lblStatus.Text = "lblStatus"
       Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblStatus.Visible = False
       '
       'grbSum
       '
-      Me.grbSum.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.grbSum.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbSum.Controls.Add(Me.txtSumCheck)
       Me.grbSum.Controls.Add(Me.TxtSumTotal)
       Me.grbSum.Controls.Add(Me.lblSumCheck)
@@ -303,7 +316,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSum.Controls.Add(Me.txtWht)
       Me.grbSum.Controls.Add(Me.lblCurrency2)
       Me.grbSum.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSum.Location = New System.Drawing.Point(88, 240)
+      Me.grbSum.Location = New System.Drawing.Point(88, 252)
       Me.grbSum.Name = "grbSum"
       Me.grbSum.Size = New System.Drawing.Size(608, 72)
       Me.grbSum.TabIndex = 14
@@ -313,7 +326,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtSumCheck
       '
       Me.txtSumCheck.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Validator.SetDataType(Me.txtSumCheck, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int64Type)
       Me.Validator.SetDisplayName(Me.txtSumCheck, "")
       Me.txtSumCheck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -321,6 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSumCheck, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSumCheck, System.Drawing.Color.Empty)
       Me.txtSumCheck.Location = New System.Drawing.Point(440, 16)
+      Me.Validator.SetMaxValue(Me.txtSumCheck, "")
       Me.Validator.SetMinValue(Me.txtSumCheck, "")
       Me.txtSumCheck.Name = "txtSumCheck"
       Me.txtSumCheck.ReadOnly = True
@@ -329,12 +343,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSumCheck.Size = New System.Drawing.Size(104, 21)
       Me.txtSumCheck.TabIndex = 7
       Me.txtSumCheck.TabStop = False
-      Me.txtSumCheck.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtSumCheck.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'TxtSumTotal
       '
       Me.TxtSumTotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Validator.SetDataType(Me.TxtSumTotal, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
       Me.Validator.SetDisplayName(Me.TxtSumTotal, "")
       Me.TxtSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -342,6 +356,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.TxtSumTotal, -15)
       Me.Validator.SetInvalidBackColor(Me.TxtSumTotal, System.Drawing.Color.Empty)
       Me.TxtSumTotal.Location = New System.Drawing.Point(440, 40)
+      Me.Validator.SetMaxValue(Me.TxtSumTotal, "")
       Me.Validator.SetMinValue(Me.TxtSumTotal, "")
       Me.TxtSumTotal.Name = "TxtSumTotal"
       Me.TxtSumTotal.ReadOnly = True
@@ -350,12 +365,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.TxtSumTotal.Size = New System.Drawing.Size(104, 21)
       Me.TxtSumTotal.TabIndex = 10
       Me.TxtSumTotal.TabStop = False
-      Me.TxtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.TxtSumTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblSumCheck
       '
       Me.lblSumCheck.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblSumCheck.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSumCheck.ForeColor = System.Drawing.Color.Black
       Me.lblSumCheck.Location = New System.Drawing.Point(288, 16)
@@ -368,7 +383,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblSumTotal
       '
       Me.lblSumTotal.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblSumTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSumTotal.ForeColor = System.Drawing.Color.Black
       Me.lblSumTotal.Location = New System.Drawing.Point(288, 40)
@@ -381,7 +396,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblSumCheckUnit
       '
       Me.lblSumCheckUnit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblSumCheckUnit.AutoSize = True
       Me.lblSumCheckUnit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSumCheckUnit.ForeColor = System.Drawing.Color.Black
@@ -395,7 +410,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblCurrency3
       '
       Me.lblCurrency3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblCurrency3.AutoSize = True
       Me.lblCurrency3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency3.ForeColor = System.Drawing.Color.Black
@@ -409,7 +424,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBankcharge
       '
       Me.lblBankcharge.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblBankcharge.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBankcharge.ForeColor = System.Drawing.Color.Black
       Me.lblBankcharge.Location = New System.Drawing.Point(8, 16)
@@ -422,7 +437,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtBankcharge
       '
       Me.txtBankcharge.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Validator.SetDataType(Me.txtBankcharge, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
       Me.Validator.SetDisplayName(Me.txtBankcharge, "")
       Me.txtBankcharge.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -430,6 +445,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankcharge, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankcharge, System.Drawing.Color.Empty)
       Me.txtBankcharge.Location = New System.Drawing.Point(136, 16)
+      Me.Validator.SetMaxValue(Me.txtBankcharge, "")
       Me.Validator.SetMinValue(Me.txtBankcharge, "")
       Me.txtBankcharge.Name = "txtBankcharge"
       Me.txtBankcharge.ReadOnly = True
@@ -438,12 +454,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBankcharge.Size = New System.Drawing.Size(104, 21)
       Me.txtBankcharge.TabIndex = 1
       Me.txtBankcharge.TabStop = False
-      Me.txtBankcharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtBankcharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblWht
       '
       Me.lblWht.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblWht.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblWht.ForeColor = System.Drawing.Color.Black
       Me.lblWht.Location = New System.Drawing.Point(8, 40)
@@ -456,7 +472,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblCurrency1
       '
       Me.lblCurrency1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblCurrency1.AutoSize = True
       Me.lblCurrency1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency1.ForeColor = System.Drawing.Color.Black
@@ -470,7 +486,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtWht
       '
       Me.txtWht.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Validator.SetDataType(Me.txtWht, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DecimalType)
       Me.Validator.SetDisplayName(Me.txtWht, "")
       Me.txtWht.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -478,6 +494,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtWht, -15)
       Me.Validator.SetInvalidBackColor(Me.txtWht, System.Drawing.Color.Empty)
       Me.txtWht.Location = New System.Drawing.Point(136, 40)
+      Me.Validator.SetMaxValue(Me.txtWht, "")
       Me.Validator.SetMinValue(Me.txtWht, "")
       Me.txtWht.Name = "txtWht"
       Me.txtWht.ReadOnly = True
@@ -486,12 +503,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtWht.Size = New System.Drawing.Size(104, 21)
       Me.txtWht.TabIndex = 4
       Me.txtWht.TabStop = False
-      Me.txtWht.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+      Me.txtWht.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblCurrency2
       '
       Me.lblCurrency2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lblCurrency2.AutoSize = True
       Me.lblCurrency2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCurrency2.ForeColor = System.Drawing.Color.Black
@@ -527,14 +544,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
-      'cmbCode
-      '
-      Me.cmbCode.FormattingEnabled = True
-      Me.cmbCode.Location = New System.Drawing.Point(144, 24)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(144, 21)
-      Me.cmbCode.TabIndex = 0
-      '
       'UpdateIncomingCheckDetail
       '
       Me.Controls.Add(Me.grbMaster)
@@ -542,8 +551,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Size = New System.Drawing.Size(728, 352)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbSum.ResumeLayout(False)
       Me.grbSum.PerformLayout()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub

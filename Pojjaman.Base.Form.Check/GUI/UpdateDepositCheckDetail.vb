@@ -63,6 +63,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UpdateDepositCheckDetail))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.cmbCode = New System.Windows.Forms.ComboBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.txtIssuedate = New System.Windows.Forms.TextBox()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -89,19 +90,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBankName = New System.Windows.Forms.TextBox()
       Me.btnBankAcctFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtBankAcctName = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
-      Me.cmbCode = New System.Windows.Forms.ComboBox()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
       Me.grbMaster.SuspendLayout()
       Me.grbSum.SuspendLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.cmbCode)
       Me.grbMaster.Controls.Add(Me.chkAutorun)
       Me.grbMaster.Controls.Add(Me.txtIssuedate)
@@ -133,6 +135,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "¹Ó½Ò¡àªç¤ : "
       '
+      'cmbCode
+      '
+      Me.cmbCode.FormattingEnabled = True
+      Me.cmbCode.Location = New System.Drawing.Point(152, 24)
+      Me.cmbCode.Name = "cmbCode"
+      Me.cmbCode.Size = New System.Drawing.Size(145, 21)
+      Me.cmbCode.TabIndex = 0
+      '
       'chkAutorun
       '
       Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
@@ -152,6 +162,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtIssuedate, System.Drawing.Color.Empty)
       Me.txtIssuedate.Location = New System.Drawing.Point(424, 24)
       Me.txtIssuedate.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtIssuedate, "")
       Me.Validator.SetMinValue(Me.txtIssuedate, "")
       Me.txtIssuedate.Name = "txtIssuedate"
       Me.Validator.SetRegularExpression(Me.txtIssuedate, "")
@@ -161,9 +172,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnBlank
       '
-      Me.ibtnBlank.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(8, 256)
+      Me.ibtnBlank.Location = New System.Drawing.Point(187, 120)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(32, 32)
       Me.ibtnBlank.TabIndex = 17
@@ -172,9 +182,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'ibtnDelRow
       '
-      Me.ibtnDelRow.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(40, 256)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(219, 120)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(32, 32)
       Me.ibtnDelRow.TabIndex = 18
@@ -205,7 +214,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSum.Controls.Add(Me.lblSumTotal)
       Me.grbSum.Controls.Add(Me.lblCurrency2)
       Me.grbSum.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbSum.Location = New System.Drawing.Point(312, 264)
+      Me.grbSum.Location = New System.Drawing.Point(312, 276)
       Me.grbSum.Name = "grbSum"
       Me.grbSum.Size = New System.Drawing.Size(384, 72)
       Me.grbSum.TabIndex = 19
@@ -236,6 +245,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtSumCheck, System.Drawing.Color.Empty)
       Me.txtSumCheck.Location = New System.Drawing.Point(184, 16)
       Me.txtSumCheck.MaxLength = 13
+      Me.Validator.SetMaxValue(Me.txtSumCheck, "")
       Me.Validator.SetMinValue(Me.txtSumCheck, "")
       Me.txtSumCheck.Name = "txtSumCheck"
       Me.txtSumCheck.ReadOnly = True
@@ -257,6 +267,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.TxtSumTotal, System.Drawing.Color.Empty)
       Me.TxtSumTotal.Location = New System.Drawing.Point(184, 40)
       Me.TxtSumTotal.MaxLength = 13
+      Me.Validator.SetMaxValue(Me.TxtSumTotal, "")
       Me.Validator.SetMinValue(Me.TxtSumTotal, "")
       Me.TxtSumTotal.Name = "TxtSumTotal"
       Me.TxtSumTotal.ReadOnly = True
@@ -309,8 +320,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = True
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -318,7 +329,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(8, 152)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(696, 104)
+      Me.tgItem.Size = New System.Drawing.Size(696, 118)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 16
       Me.tgItem.TreeManager = Nothing
@@ -345,6 +356,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBankAcctCode, System.Drawing.Color.Empty)
       Me.txtBankAcctCode.Location = New System.Drawing.Point(152, 48)
       Me.txtBankAcctCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtBankAcctCode, "")
       Me.Validator.SetMinValue(Me.txtBankAcctCode, "")
       Me.txtBankAcctCode.Name = "txtBankAcctCode"
       Me.Validator.SetRegularExpression(Me.txtBankAcctCode, "")
@@ -415,6 +427,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(152, 96)
       Me.txtNote.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Multiline = True
       Me.txtNote.Name = "txtNote"
@@ -453,6 +466,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankName, System.Drawing.Color.Empty)
       Me.txtBankName.Location = New System.Drawing.Point(152, 72)
+      Me.Validator.SetMaxValue(Me.txtBankName, "")
       Me.Validator.SetMinValue(Me.txtBankName, "")
       Me.txtBankName.Name = "txtBankName"
       Me.txtBankName.ReadOnly = True
@@ -483,6 +497,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankAcctName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankAcctName, System.Drawing.Color.Empty)
       Me.txtBankAcctName.Location = New System.Drawing.Point(296, 48)
+      Me.Validator.SetMaxValue(Me.txtBankAcctName, "")
       Me.Validator.SetMinValue(Me.txtBankAcctName, "")
       Me.txtBankAcctName.Name = "txtBankAcctName"
       Me.Validator.SetRegularExpression(Me.txtBankAcctName, "")
@@ -504,14 +519,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'cmbCode
-      '
-      Me.cmbCode.FormattingEnabled = True
-      Me.cmbCode.Location = New System.Drawing.Point(152, 24)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(145, 21)
-      Me.cmbCode.TabIndex = 0
-      '
       'UpdateDepositCheckDetail
       '
       Me.Controls.Add(Me.grbMaster)
@@ -521,6 +528,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.PerformLayout()
       Me.grbSum.ResumeLayout(False)
       Me.grbSum.PerformLayout()
+      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
