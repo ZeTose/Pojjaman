@@ -104,7 +104,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CreatedUser = New EditedUser
       EditedUser = New EditedUser
       ApprovedUser = New EditedUser
-      AutherizedUser = New EditedUser
+      AuthorizedUser = New EditedUser
       RejectUser = New EditedUser
       ApprovedUserList = New List(Of ApproveDoc)
     End Sub
@@ -113,7 +113,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property CreatedUser As EditedUser
     Public Property EditedUser As EditedUser
     Public Property ApprovedUser As EditedUser
-    Public Property AutherizedUser As EditedUser
+    Public Property AuthorizedUser As EditedUser
     Public Property RejectUser As EditedUser
     Public Property ApprovedUserList As List(Of ApproveDoc)
   End Class

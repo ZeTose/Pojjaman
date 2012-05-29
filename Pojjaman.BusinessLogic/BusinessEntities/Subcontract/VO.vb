@@ -3791,7 +3791,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 
         m_documentEditedUser.ApprovedUserList = Me.GetApprovedUserList
         m_documentEditedUser.ApprovedUser = Me.GetApprovedUser
-        m_documentEditedUser.AutherizedUser = Me.GetAutherizedUser
+        m_documentEditedUser.AuthorizedUser = Me.GetAutherizedUser
         m_documentEditedUser.CanceledUser = Me.GetCanceledUser
         m_documentEditedUser.CreatedUser = Me.GetCreatedUser
         m_documentEditedUser.EditedUser = Me.GetEditedUser
