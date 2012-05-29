@@ -29,6 +29,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class XtraForm
     Inherits System.Windows.Forms.Form
 
+    Private m_userHash As Hashtable
+    Private m_employeeHash As Hashtable
+
 #Region "Contructor"
     Public Sub New(ByVal printingEntity As INewPrintableEntity, ByVal path As String, ByVal entity As ISimpleEntity)
       Me.InitializeComponent()
@@ -63,6 +66,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.CheckAccessRight()
       Me.RefreshReportList(entityList)
     End Sub
+    Public Sub New(ByVal myEntity As ISimpleEntity, ByVal path As String, ByVal idList As List(Of Integer))
+      Me.InitializeComponent()
+      Me.WindowState = FormWindowState.Maximized
+
+      Me.m_printingEntity = Nothing
+      Me.m_path = path
+
+      Me.m_entity = myEntity
+
+      Me.CheckAccessRight()
+      Me.RefreshReportList(idList)
+    End Sub
     'Public Sub New(ByVal entity As ISimpleEntity, ByVal path As String, ByVal docPrintingItemColl As DocPrintingItemCollection)
     '  Me.InitializeComponent()
     '  Me.WindowState = FormWindowState.Maximized
@@ -88,9 +103,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
       Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
 
+      Dim companyLogo As Image = EntitySimpleSchema.GetCompanyConfigLogo
+      Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
+
       Dim newReport As XtraReport
+
+      m_userHash = New Hashtable
+      m_employeeHash = New Hashtable
+
       Try
-        newReport = Me.CreateNewReport
+
+        newReport = Me.CreateNewReport(companyLogo, companyConfig)
 
         PrintControl1.PrintingSystem = newReport.PrintingSystem
 
@@ -108,34 +131,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         'newReport.ShowPreviewMarginLines = False
       Catch ex As Exception
-        Throw New Exception("Load form .repx failed")
+        MessageBox.Show("Load form .repx failed", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
       End Try
 
     End Sub
 
-    Private Function CreateNewReport() As XtraReport
+    Private Function CreateNewReport(ByVal companyLogo As Image, ByVal companyConfig As DataSet) As XtraReport
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
       Dim newReport As DevExpress.XtraReports.UI.XtraReport
       'newReport = New XtraReport
       Try
         newReport = XtraReport.FromFile(Me.m_path, True)
 
-        'RemoveHandler newReport.AfterPrint, AddressOf newReport_AfterPrint
-        'AddHandler newReport.AfterPrint, AddressOf newReport_AfterPrint
-
         Dim ds As DataSet
-        'If GetSchemaFromListView Then
-        '  ds = GetDataFromEntityListView()
-        'Else
         ds = GetDataFromEntitySchemaId(newReport.DataSourceSchema)
-        'End If
 
-        'If ds Is Nothing Then
-        '  Return
-        'End If
-
-        'Trace.WriteLine(ds.Tables(0).Rows.Count)
-        'Trace.WriteLine(ds.Tables(0).Columns.Count)
         '--Watermark-- 
         Dim config As Boolean = CBool(Configuration.GetConfig("ShowWaterMarkInExtraReports"))
         If config Then
@@ -147,18 +157,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           newReport.Watermark.TextTransparency = 180
           newReport.Watermark.ShowBehind = True
           'newReport.Watermark.PageRange = "1,3-5"
-
           'newReport.Watermark.Image = Bitmap.FromFile("D:\SVN\BuiLKSource\BuilkCostControl\trunk\BuilkMvc\Images\companyprofile\longkong_logo.jpg")
           'newReport.Watermark.ImageAlign = ContentAlignment.TopCenter
           'newReport.Watermark.ImageTiling = False
           'newReport.Watermark.ImageViewMode = ImageViewMode.Clip
           'newReport.Watermark.ImageTransparency = 100
-
-          'Dim strconfig As String = Configuration.GetConfigurationObjectByName("XtraReportWaterMark")
-          'If strconfig.Length > 0 Then
-
-          'End If
-
           If TypeOf m_printingEntity Is IDocStatus Then
             Dim newWatermarkText As String = CType(m_printingEntity, IDocStatus).DocStatus
             newReport.Watermark.Text = newWatermarkText
@@ -175,14 +178,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '--Company Logo--
         Dim xrLogoPictureBox As Object = newReport.FindControl("CompanyLogo", True)
         If Not xrLogoPictureBox Is Nothing AndAlso TypeOf xrLogoPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-          Dim logoImage As Image = EntitySimpleSchema.GetCompanyConfigLogo
-          CType(xrLogoPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = logoImage
+          'Dim companyLogo As Image = EntitySimpleSchema.GetCompanyConfigLogo
+          CType(xrLogoPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = companyLogo
         End If
         '--Company Logo--
 
         '--Company Config--
-        Dim dsConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
-        Dim rows As New DataRowHelper(dsConfig.Tables(0).Rows(0))
+        'Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
+        Dim rows As New DataRowHelper(companyConfig.Tables(0).Rows(0))
         Dim xrCompanyNameRichText As Object = newReport.FindControl("CompanyName", True)
         If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
           CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyName", "")
@@ -221,7 +224,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not docPerson.DocumentEditedUser.Employee Is Nothing AndAlso docPerson.DocumentEditedUser.Employee.Originated Then
               Dim xrEmployeePictureBox As Object = newReport.FindControl("Employee", True)
               If Not xrEmployeePictureBox Is Nothing AndAlso TypeOf xrEmployeePictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(Employee.GetSignator(CStr(docPerson.DocumentEditedUser.Employee.Id)), Image)
+                Dim img As Image
+                If Not m_employeeHash.ContainsKey(CStr(docPerson.DocumentEditedUser.Employee.Id)) Then
+                  img = CType(Employee.GetSignator(CStr(docPerson.DocumentEditedUser.Employee.Id)), Image)
+                  m_employeeHash.Add(CStr(docPerson.DocumentEditedUser.Employee.Id), img)
+                Else
+                  img = CType(m_employeeHash(CStr(docPerson.DocumentEditedUser.Employee.Id)), Image)
+                End If
                 CType(xrEmployeePictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrEmployeeRichText As Object = newReport.FindControl("EmployeeName", True)
@@ -232,7 +241,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not _docEditedUser.CanceledUser Is Nothing Then
               Dim xrCanceledUserPictureBox As Object = newReport.FindControl("Cancel", True)
               If Not xrCanceledUserPictureBox Is Nothing AndAlso TypeOf xrCanceledUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.CanceledUser.UserId)), Image)
+                Dim img As Image
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.CanceledUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.CanceledUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.CanceledUser.UserId), img)
+                Else
+                  img = CType(m_userHash(CStr(_docEditedUser.CanceledUser.UserId)), Image)
+                End If
                 CType(xrCanceledUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrCanceledUserRichText As Object = newReport.FindControl("CancelName", True)
@@ -247,7 +262,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not _docEditedUser.CreatedUser Is Nothing Then
               Dim xrCreatedUserPictureBox As Object = newReport.FindControl("Create", True)
               If Not xrCreatedUserPictureBox Is Nothing AndAlso TypeOf xrCreatedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.CreatedUser.UserId)), Image)
+                Dim img As Image
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.CreatedUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.CreatedUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.CreatedUser.UserId), img)
+                Else
+                  img = CType(m_userHash(CStr(_docEditedUser.CreatedUser.UserId)), Image)
+                End If
                 CType(xrCreatedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrCreatedUserRichText As Object = newReport.FindControl("CreateName", True)
@@ -262,7 +283,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not _docEditedUser.EditedUser Is Nothing Then
               Dim xrEditedUserPictureBox As Object = newReport.FindControl("Edite", True)
               If Not xrEditedUserPictureBox Is Nothing AndAlso TypeOf xrEditedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.EditedUser.UserId)), Image)
+                Dim img As Image
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.EditedUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.EditedUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.EditedUser.UserId), img)
+                Else
+                  img = CType(m_userHash(CStr(_docEditedUser.EditedUser.UserId)), Image)
+                End If
                 CType(xrEditedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrEditedUserRichText As Object = newReport.FindControl("EditeName", True)
@@ -277,7 +304,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not _docEditedUser.ApprovedUser Is Nothing Then
               Dim xrApprovedUserPictureBox As Object = newReport.FindControl("Approve", True)
               If Not xrApprovedUserPictureBox Is Nothing AndAlso TypeOf xrApprovedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.ApprovedUser.UserId)), Image)
+                Dim img As Image
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.ApprovedUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.ApprovedUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.ApprovedUser.UserId), img)
+                Else
+                  img = CType(m_userHash(CStr(_docEditedUser.ApprovedUser.UserId)), Image)
+                End If
                 CType(xrApprovedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrApprovedUserRichText As Object = newReport.FindControl("ApproveName", True)
@@ -292,7 +325,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not _docEditedUser.AutherizedUser Is Nothing Then
               Dim xrAutherizedUserPictureBox As Object = newReport.FindControl("Autherize", True)
               If Not xrAutherizedUserPictureBox Is Nothing AndAlso TypeOf xrAutherizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(User.GetAuthorizeSignator(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
+                Dim img As Image
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.AutherizedUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.AutherizedUser.UserId), img)
+                Else
+                  img = CType(m_userHash(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
+                End If
                 CType(xrAutherizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrAutherizedUserRichText As Object = newReport.FindControl("AutherizeName", True)
@@ -307,7 +346,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not _docEditedUser.RejectUser Is Nothing Then
               Dim xrRejectUserPictureBox As Object = newReport.FindControl("Reject", True)
               If Not xrRejectUserPictureBox Is Nothing AndAlso TypeOf xrRejectUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.RejectUser.UserId)), Image)
+                Dim img As Image
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.RejectUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.RejectUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.RejectUser.UserId), img)
+                Else
+                  img = CType(m_userHash(CStr(_docEditedUser.RejectUser.UserId)), Image)
+                End If
                 CType(xrRejectUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrRejectUserRichText As Object = newReport.FindControl("RejectName", True)
@@ -327,7 +372,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 ctlSignatureName = String.Format("ApproveLevel{0}", ap.Level)
                 Dim xrApproveUserLevelPictureBox As Object = newReport.FindControl(ctlSignatureName, True)
                 If Not xrApproveUserLevelPictureBox Is Nothing AndAlso TypeOf xrApproveUserLevelPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-                  Dim img As Image = CType(User.GetSignator(CStr(ap.Originator)), Image)
+                  Dim img As Image
+                  If Not m_userHash.ContainsKey(CStr(ap.Originator)) Then
+                    img = CType(User.GetSignator(CStr(ap.Originator)), Image)
+                    m_userHash.Add(CStr(ap.Originator), img)
+                  Else
+                    img = CType(m_userHash(CStr(ap.Originator)), Image)
+                  End If
                   CType(xrApproveUserLevelPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
                 End If
                 ctlName = String.Format("ApproveLevel{0}Name", ap.Level)
@@ -347,7 +398,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Dim xrUserPictureBox As Object = newReport.FindControl("User", True)
         If Not xrUserPictureBox Is Nothing AndAlso TypeOf xrUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-          Dim img As Image = CType(User.GetSignator(CStr(secSrv.CurrentUser.Id)), Image)
+          Dim img As Image
+          If Not m_userHash.ContainsKey(CStr(secSrv.CurrentUser.Id)) Then
+            img = CType(User.GetSignator(CStr(secSrv.CurrentUser.Id)), Image)
+            m_userHash.Add(CStr(secSrv.CurrentUser.Id), img)
+          Else
+            img = CType(m_userHash(CStr(secSrv.CurrentUser.Id)), Image)
+          End If
           CType(xrUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
         End If
         Dim xrUserRichText As Object = newReport.FindControl("UserName", True)
@@ -421,6 +478,266 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Catch ex As Exception
         Return New XtraReport
       End Try
+    End Function
+
+    Private Function CreateNewReportByStore(_docId As Integer, ByVal companyLogo As Image, ByVal companyConfig As DataSet) As XtraReport
+      'Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      'Dim newReport As DevExpress.XtraReports.UI.XtraReport
+      'Try
+      '  newReport = XtraReport.FromFile(Me.m_path, True)
+
+      '  Dim ds As DataSet
+      '  ds = GetDataFromEntitySchemaId(newReport.DataSourceSchema)
+
+      '  '--Watermark-- 
+      '  Dim config As Boolean = CBool(Configuration.GetConfig("ShowWaterMarkInExtraReports"))
+      '  If config Then
+      '    newReport.Watermark.Text = ""
+      '    newReport.Watermark.TextDirection = DirectionMode.ForwardDiagonal
+      '    newReport.Watermark.Font = New Font("Times New Roman", 72)
+      '    newReport.Watermark.ForeColor = Color.Red
+      '    'newReport.Watermark.Transparency = 150
+      '    newReport.Watermark.TextTransparency = 180
+      '    newReport.Watermark.ShowBehind = True
+      '    'newReport.Watermark.PageRange = "1,3-5"
+      '    'newReport.Watermark.Image = Bitmap.FromFile("D:\SVN\BuiLKSource\BuilkCostControl\trunk\BuilkMvc\Images\companyprofile\longkong_logo.jpg")
+      '    'newReport.Watermark.ImageAlign = ContentAlignment.TopCenter
+      '    'newReport.Watermark.ImageTiling = False
+      '    'newReport.Watermark.ImageViewMode = ImageViewMode.Clip
+      '    'newReport.Watermark.ImageTransparency = 100
+
+      '    If TypeOf m_printingEntity Is IDocStatus Then
+      '      Dim newWatermarkText As String = CType(m_printingEntity, IDocStatus).DocStatus
+      '      newReport.Watermark.Text = newWatermarkText
+      '    Else
+
+      '    End If
+      '  End If
+      '  '--Watermark-- 
+
+      '  '--Data Source Data--
+      '  newReport.DataSource = ds
+      '  '--Data Source Data--
+
+      '  '--Company Logo--
+      '  Dim xrLogoPictureBox As Object = newReport.FindControl("CompanyLogo", True)
+      '  If Not xrLogoPictureBox Is Nothing AndAlso TypeOf xrLogoPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    'Dim companyLogo As Image = EntitySimpleSchema.GetCompanyConfigLogo
+      '    CType(xrLogoPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = companyLogo
+      '  End If
+      '  '--Company Logo--
+
+      '  '--Company Config--
+      '  'Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
+      '  Dim rows As New DataRowHelper(companyConfig.Tables(0).Rows(0))
+      '  Dim xrCompanyNameRichText As Object = newReport.FindControl("CompanyName", True)
+      '  If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyName", "")
+      '  End If
+      '  Dim xrCompanyAddressRichText As Object = newReport.FindControl("CompanyAddress", True)
+      '  If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyAddress", "")
+      '  End If
+      '  Dim xrCompanyBillingAddressRichText As Object = newReport.FindControl("CompanyBillingAddress", True)
+      '  If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
+      '  End If
+      '  Dim xrCompanyPhoneFaxRichText As Object = newReport.FindControl("CompanyPhoneCompanyFax", True)
+      '  If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("โทรศัพท์ {0} โทรสาร {1}", rows.GetValue(Of String)("CompanyPhone", ""), rows.GetValue(Of String)("CompanyFax", ""))
+      '  End If
+      '  Dim xrCompanyPhoneRichText As Object = newReport.FindControl("CompanyPhone", True)
+      '  If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyPhone", "")
+      '  End If
+      '  Dim xrCompanyFaxRichText As Object = newReport.FindControl("CompanyFax", True)
+      '  If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyFax", "")
+      '  End If
+      '  Dim xrCompanyTaxIdRichText As Object = newReport.FindControl("CompanyTaxId", True)
+      '  If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("เลขประจำตัวผู้เสียภาษี {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
+      '  End If
+      '  '--Company Config--
+
+      '  '--Signature Image Name and Date--
+      '  Dim xrEmployeePictureBox As Object = newReport.FindControl("Employee", True)
+      '  If Not xrEmployeePictureBox Is Nothing AndAlso TypeOf xrEmployeePictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(Employee.GetSignator(CStr(docPerson.DocumentEditedUser.Employee.Id)), Image)
+      '    CType(xrEmployeePictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrEmployeeRichText As Object = newReport.FindControl("EmployeeName", True)
+      '  If Not xrEmployeeRichText Is Nothing AndAlso TypeOf xrEmployeeRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrEmployeeRichText, DevExpress.XtraReports.UI.XRRichText).Text = docPerson.DocumentEditedUser.Employee.Name
+      '  End If
+
+
+      '  Dim xrCanceledUserPictureBox As Object = newReport.FindControl("Cancel", True)
+      '  If Not xrCanceledUserPictureBox Is Nothing AndAlso TypeOf xrCanceledUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.CanceledUser.UserId)), Image)
+      '    CType(xrCanceledUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrCanceledUserRichText As Object = newReport.FindControl("CancelName", True)
+      '  If Not xrCanceledUserRichText Is Nothing AndAlso TypeOf xrCanceledUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCanceledUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CanceledUser.UserName
+      '  End If
+      '  Dim xrCanceledUserDateRichText As Object = newReport.FindControl("CancelDate", True)
+      '  If Not xrCanceledUserDateRichText Is Nothing AndAlso TypeOf xrCanceledUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCanceledUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CanceledUser.EditedDate.ToShortDateString
+      '  End If
+
+      '  Dim xrCreatedUserPictureBox As Object = newReport.FindControl("Create", True)
+      '  If Not xrCreatedUserPictureBox Is Nothing AndAlso TypeOf xrCreatedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.CreatedUser.UserId)), Image)
+      '    CType(xrCreatedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrCreatedUserRichText As Object = newReport.FindControl("CreateName", True)
+      '  If Not xrCreatedUserRichText Is Nothing AndAlso TypeOf xrCreatedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCreatedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CreatedUser.UserName
+      '  End If
+      '  Dim xrCreatedUserDateRichText As Object = newReport.FindControl("CreateDate", True)
+      '  If Not xrCreatedUserDateRichText Is Nothing AndAlso TypeOf xrCreatedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrCreatedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CreatedUser.EditedDate.ToShortDateString
+      '  End If
+
+      '  Dim xrEditedUserPictureBox As Object = newReport.FindControl("Edite", True)
+      '  If Not xrEditedUserPictureBox Is Nothing AndAlso TypeOf xrEditedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.EditedUser.UserId)), Image)
+      '    CType(xrEditedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrEditedUserRichText As Object = newReport.FindControl("EditeName", True)
+      '  If Not xrEditedUserRichText Is Nothing AndAlso TypeOf xrEditedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrEditedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.EditedUser.UserName
+      '  End If
+      '  Dim xrEditedUserDateRichText As Object = newReport.FindControl("EditeDate", True)
+      '  If Not xrEditedUserDateRichText Is Nothing AndAlso TypeOf xrEditedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrEditedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.EditedUser.EditedDate.ToShortDateString
+      '  End If
+
+      '  Dim xrApprovedUserPictureBox As Object = newReport.FindControl("Approve", True)
+      '  If Not xrApprovedUserPictureBox Is Nothing AndAlso TypeOf xrApprovedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.ApprovedUser.UserId)), Image)
+      '    CType(xrApprovedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrApprovedUserRichText As Object = newReport.FindControl("ApproveName", True)
+      '  If Not xrApprovedUserRichText Is Nothing AndAlso TypeOf xrApprovedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrApprovedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.ApprovedUser.UserName
+      '  End If
+      '  Dim xrApproveUserDateRichText As Object = newReport.FindControl("ApproveDate", True)
+      '  If Not xrApproveUserDateRichText Is Nothing AndAlso TypeOf xrApproveUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrApproveUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.ApprovedUser.EditedDate.ToShortDateString
+      '  End If
+
+      '  Dim xrAutherizedUserPictureBox As Object = newReport.FindControl("Autherize", True)
+      '  If Not xrAutherizedUserPictureBox Is Nothing AndAlso TypeOf xrAutherizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetAuthorizeSignator(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
+      '    CType(xrAutherizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrAutherizedUserRichText As Object = newReport.FindControl("AutherizeName", True)
+      '  If Not xrAutherizedUserRichText Is Nothing AndAlso TypeOf xrAutherizedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrAutherizedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.AutherizedUser.UserName
+      '  End If
+      '  Dim xrAutherizedUserDateRichText As Object = newReport.FindControl("AutherizeDate", True)
+      '  If Not xrAutherizedUserDateRichText Is Nothing AndAlso TypeOf xrAutherizedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrAutherizedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.AutherizedUser.EditedDate.ToShortDateString
+      '  End If
+
+      '  Dim xrRejectUserPictureBox As Object = newReport.FindControl("Reject", True)
+      '  If Not xrRejectUserPictureBox Is Nothing AndAlso TypeOf xrRejectUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetSignator(CStr(_docEditedUser.RejectUser.UserId)), Image)
+      '    CType(xrRejectUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrRejectUserRichText As Object = newReport.FindControl("RejectName", True)
+      '  If Not xrRejectUserRichText Is Nothing AndAlso TypeOf xrRejectUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrRejectUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.RejectUser.UserName
+      '  End If
+      '  Dim xrRejectUserDateRichText As Object = newReport.FindControl("RejectDate", True)
+      '  If Not xrRejectUserDateRichText Is Nothing AndAlso TypeOf xrRejectUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrRejectUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.RejectUser.EditedDate.ToShortDateString
+      '  End If
+
+      '  Dim ctlSignatureName As String = ""
+      '  Dim ctlName As String = ""
+      '  Dim ctlApproveDate As String = ""
+      '  For Each ap As ApproveDoc In _docEditedUser.ApprovedUserList
+      '    ctlSignatureName = String.Format("ApproveLevel{0}", ap.Level)
+      '    Dim xrApproveUserLevelPictureBox As Object = newReport.FindControl(ctlSignatureName, True)
+      '    If Not xrApproveUserLevelPictureBox Is Nothing AndAlso TypeOf xrApproveUserLevelPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '      Dim img As Image = CType(User.GetSignator(CStr(ap.Originator)), Image)
+      '      CType(xrApproveUserLevelPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '    End If
+      '    ctlName = String.Format("ApproveLevel{0}Name", ap.Level)
+      '    Dim xrctlNameRichText As Object = newReport.FindControl(ctlName, True)
+      '    If Not xrctlNameRichText Is Nothing AndAlso TypeOf xrctlNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '      CType(xrctlNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = New User(ap.Originator).Name
+      '    End If
+      '    ctlApproveDate = String.Format("ApproveLevel{0}Date", ap.Level)
+      '    Dim xrctlApproveDateRichText As Object = newReport.FindControl(ctlName, True)
+      '    If Not xrctlApproveDateRichText Is Nothing AndAlso TypeOf xrctlApproveDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '      CType(xrctlApproveDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = ap.OriginDate.ToShortDateString
+      '    End If
+      '  Next
+
+      '  Dim xrUserPictureBox As Object = newReport.FindControl("User", True)
+      '  If Not xrUserPictureBox Is Nothing AndAlso TypeOf xrUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetSignator(CStr(secSrv.CurrentUser.Id)), Image)
+      '    CType(xrUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  End If
+      '  Dim xrUserRichText As Object = newReport.FindControl("UserName", True)
+      '  If Not xrUserRichText Is Nothing AndAlso TypeOf xrUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = secSrv.CurrentUser.Name
+      '  End If
+      '  Dim xrUserDateRichText As Object = newReport.FindControl("UserDate", True)
+      '  If Not xrUserDateRichText Is Nothing AndAlso TypeOf xrUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '    CType(xrUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = Now.ToShortDateString
+      '  End If
+      '  '--Signature Image--
+
+      '  '--CUSTOM NOTES--
+      '  If TypeOf m_printingEntity Is IHasCustomNote Then
+      '    Dim coll As CustomNoteCollection        ' = CType(m_entity, IHasCustomNote).GetCustomNoteCollection
+      '    If TypeOf m_printingEntity Is IHasMainDoc Then
+      '      If Not (TypeOf (m_printingEntity) Is JournalEntry) Then
+      '        coll = CType(CType(m_printingEntity, IHasMainDoc).MainDoc, IHasCustomNote).GetCustomNoteCollection
+      '      Else
+      '        coll = CType(m_printingEntity, IHasCustomNote).GetCustomNoteCollection
+      '      End If
+      '    Else
+      '      coll = CType(m_printingEntity, IHasCustomNote).GetCustomNoteCollection
+      '    End If
+      '    Dim hsNote As New Hashtable
+      '    For Each note As CustomNote In coll
+      '      hsNote(note.NoteName.ToLower) = note
+      '    Next
+
+      '    For Each cName As String In hsNote.Keys
+      '      Dim xrcNoteRichText As Object = newReport.FindControl(cName, True)
+      '      If Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRRichText Then
+      '        CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRRichText).Text = ""
+      '        If Not CType(hsNote(cName.ToLower), CustomNote) Is Nothing AndAlso Not CType(hsNote(cName.ToLower), CustomNote).Note Is Nothing Then
+      '          CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRRichText).Text = CType(hsNote(cName.ToLower), CustomNote).Note.ToString
+      '        End If
+      '      ElseIf Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRCheckBox Then
+      '        If Not CType(hsNote(cName.ToLower), CustomNote) Is Nothing AndAlso Not CType(hsNote(cName.ToLower), CustomNote).Note Is Nothing Then
+      '          CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRCheckBox).Checked = CBool(CType(hsNote(cName), CustomNote).Note)
+      '        End If
+      '      End If
+      '    Next
+
+      '  End If
+      '  '--END CUSTOM NOTES--
+
+      '  Dim newCtl As Object = CalculateFields(newReport)
+
+      '  For Each param As DevExpress.XtraReports.Parameters.Parameter In newReport.Parameters
+      '    param.Visible = False
+      '  Next
+
+      '  Return newReport
+
+      'Catch ex As Exception
+      '  Return New XtraReport
+      'End Try
     End Function
 
     Private Function CalculateFields(xr As XtraReport) As Object
@@ -620,6 +937,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  Return _text
     'End Function
 
+    'Private Function IsDefaultSchema(entity_ As ISimpleEntity) As Boolean
+    '  Dim newReport As DevExpress.XtraReports.UI.XtraReport
+    '  If IO.File.Exists(Me.m_path) Then
+    '    newReport = XtraReport.FromFile(Me.m_path, True)
+    '    Dim schemaId As String = CType(newReport.DataSource, DataSet).DataSetName
+    '    If EntitySimpleSchema.IsDefaultSchema(entity_, schemaId) Then
+    '      Return True
+    '    Else
+    '      Return False
+    '    End If
+    '  End If
+    '  Return True
+    'End Function
+
     Public Overridable Sub RefreshReportList(ByVal entityList As List(Of ISimpleEntity))
       If Me.m_printingEntity Is Nothing Then
         Return
@@ -631,11 +962,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
       Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
 
+      Dim companyLogo As Image = EntitySimpleSchema.GetCompanyConfigLogo
+      Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
+
       Dim newReport As XtraReport
       Dim newOtherReport As XtraReport
+
+      m_userHash = New Hashtable
+      m_employeeHash = New Hashtable
+
       Try
         Me.m_entity = entityList(0)
-        newReport = Me.CreateNewReport
+        newReport = Me.CreateNewReport(companyLogo, companyConfig)
 
         PrintControl1.PrintingSystem = newReport.PrintingSystem
 
@@ -654,8 +992,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.m_printingEntity = CType(_entity, INewPrintableEntity)
             Me.m_entity = _entity
-            newOtherReport = Me.CreateNewReport
-
+            newOtherReport = Me.CreateNewReport(companyLogo, companyConfig)
+          
             'PrintControl1.PrintingSystem = newOtherReport.PrintingSystem
 
             'PrintControl1.ShowPageMargins = False
@@ -693,6 +1031,87 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
+    Public Overridable Sub RefreshReportList(ByVal idList As List(Of Integer))
+      'If Me.m_printingEntity Is Nothing Then
+      '  Return
+      'End If
+
+      'Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      'Dim currentUserName As String = secSrv.CurrentUser.Name
+
+      'Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+      'Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String)
+
+      'Dim companyLogo As Image = EntitySimpleSchema.GetCompanyConfigLogo
+      'Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
+
+      'Dim newReport As XtraReport
+      'Dim newOtherReport As XtraReport
+      'Try
+      '  'Me.m_entity = entityList(0)
+
+      '  newReport = Me.CreateNewReportByStore(0, companyLogo, companyConfig))
+
+      '  PrintControl1.PrintingSystem = newReport.PrintingSystem
+
+      '  PrintControl1.ShowPageMargins = False
+
+      '  newReport.CreateDocument()
+
+      '  'newReport.ShowPreviewMarginLines = False
+      'Catch ex As Exception
+      '  Throw New Exception("Load form .repx failed")
+      'End Try
+
+      'For Each _entity As ISimpleEntity In entityList
+      '  Try
+      '    If Not Me.m_entity.Equals(_entity) Then
+
+      '      Me.m_printingEntity = CType(_entity, INewPrintableEntity)
+      '      Me.m_entity = _entity
+      '      If Me.IsDefaultSchema(_entity) Then
+      '        newOtherReport = Me.CreateNewReport
+      '      Else
+      '        newOtherReport = Me.CreateNewReportByStore
+      '      End If
+
+      '      'PrintControl1.PrintingSystem = newOtherReport.PrintingSystem
+
+      '      'PrintControl1.ShowPageMargins = False
+
+      '      'PrintControl1.Refresh()
+
+      '      newOtherReport.CreateDocument()
+
+      '      'Show the Document Map button. 
+      '      'newOtherReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.DocumentMap, XtraPrinting.CommandVisibility.All)
+      '      'newOtherReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Watermark, XtraPrinting.CommandVisibility.None)
+      '      'newOtherReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Customize, XtraPrinting.CommandVisibility.None)
+      '      'newOtherReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.SendFile, XtraPrinting.CommandVisibility.None)
+
+      '      newReport.Pages.AddRange(newOtherReport.Pages)
+
+      '      'newReport.ShowPreviewDialog()
+      '    End If
+
+      '    'newReport.ShowPreviewMarginLines = False
+      '  Catch ex As Exception
+      '    Throw New Exception("Load form .repx failed")
+      '  End Try
+      'Next
+
+      'PrintControl1.Refresh()
+
+      'newReport.PrintingSystem.ContinuousPageNumbering = False
+
+      ''Show the Document Map button. 
+      'newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.DocumentMap, XtraPrinting.CommandVisibility.All)
+      'newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Watermark, XtraPrinting.CommandVisibility.None)
+      'newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Customize, XtraPrinting.CommandVisibility.None)
+      'newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.SendFile, XtraPrinting.CommandVisibility.None)
+
+    End Sub
+
     Private Function GetDataFromEntitySchemaId(ByVal dataSourceSchema As String) As DataSet
       If dataSourceSchema.Length = 0 Then
         Return Nothing
@@ -716,6 +1135,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Return New DataSet
     End Function
+
     'Private Function GetDataFromEntityListView() As DataSet
     '  Dim entitySchema As New EntitySimpleSchema(m_entity, m_docPrintingItemColl)
     '  If Not entitySchema.DataSet Is Nothing OrElse

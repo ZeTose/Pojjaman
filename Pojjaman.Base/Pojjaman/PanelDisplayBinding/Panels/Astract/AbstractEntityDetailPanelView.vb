@@ -18,6 +18,9 @@ Imports Longkong.Pojjaman.Commands
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.AdobeForm
 Imports System.Collections.Generic
+Imports DevExpress.LookAndFeel
+Imports DevExpress.XtraReports.UserDesigner
+Imports DevExpress.XtraReports.UI
 
 Namespace Longkong.Pojjaman.Gui.Panels
   'มีไว้เพื่อเป็นแม่ของหน้า Detail ต่างๆ มี methods และ properties ที่จำเป็น
@@ -594,8 +597,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If TypeOf Me.Entity Is INewPrintableEntity Then
               CType(Me.Entity, SimpleBusinessEntityBase).NewPrintableEntities = CType(Me.Entity, INewPrintableEntity)
               Dim dialog As New SchemaDataExportDialog(CType(Me.Entity, INewPrintableEntity), Me.Entity) ', New SuperPrintableEntity)
+              'Dim filePath As String = ""
               dialog.StartPosition = FormStartPosition.CenterParent
               dialog.ShowDialog()
+              If dialog.IsOpenFormDesigner Then
+                Dim newReport As New XtraReport
+                newReport = XtraReport.FromFile(dialog.FilePath, True)
+                Dim userLookAndFeel_ As New UserLookAndFeel(newReport)
+                userLookAndFeel_.UseDefaultLookAndFeel = False
+                userLookAndFeel_.UseWindowsXPTheme = False
+                userLookAndFeel_.Style = LookAndFeelStyle.Skin
+                userLookAndFeel_.SkinName = "Metropolis"
+                'newReport.ShowRibbonDesigner(userLookAndFeel_)
+                newReport.ShowRibbonDesigner(userLookAndFeel_)
+              End If
+
+              'dialog.Show()
             End If
           End If
           'End If
@@ -1256,7 +1273,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  Return Me.GetDocPrintingEntries
     'End Function
 #End Region
-    
+
     Private m_StatusString As String
     Public ReadOnly Property StatusString As String Implements BusinessLogic.IHasStatusString.StatusString
       Get

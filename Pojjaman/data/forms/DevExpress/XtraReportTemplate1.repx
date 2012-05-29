@@ -2,7 +2,7 @@
 ///   <AssemblyFullName>DevExpress.XtraReports.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</AssemblyFullName>
 ///   <AssemblyLocation>C:\Windows\assembly\GAC_MSIL\DevExpress.XtraReports.v11.2\11.2.5.0__b88d1754d700e49a\DevExpress.XtraReports.v11.2.dll</AssemblyLocation>
 ///   <TypeName>DevExpress.XtraReports.UI.XtraReport</TypeName>
-///   <Localization>en-US</Localization>
+///   <Localization>th-TH</Localization>
 /// </XRTypeInfo>
 namespace XtraReportSerialization {
     
@@ -52,8 +52,8 @@ namespace XtraReportSerialization {
         private DevExpress.XtraReports.UI.XRLabel label1;
         private DevExpress.XtraReports.UI.XRRichText CompanyTaxId;
         private DevExpress.XtraReports.UI.XRRichText CompanyPhoneCompanyFax;
-        private DevExpress.XtraReports.UI.XRRichText CopanyBillingAddress;
-        private DevExpress.XtraReports.UI.XRRichText CopanyName;
+        private DevExpress.XtraReports.UI.XRRichText CompanyBillingAddress;
+        private DevExpress.XtraReports.UI.XRRichText CompanyName;
         private DevExpress.XtraReports.UI.XRPictureBox CompanyLogo;
         private DevExpress.XtraReports.UI.ReportFooterBand ReportFooter;
         private DevExpress.XtraReports.UI.XRTable table6;
@@ -104,50 +104,50 @@ namespace XtraReportSerialization {
                 if (_resources == null) {
                     string resourceString = "zsrvvgEAAACRAAAAbFN5c3RlbS5SZXNvdXJjZXMuUmVzb3VyY2VSZWFkZXIsIG1zY29ybGliLCBWZXJza" +
                         "W9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4O" +
-                        "SNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAAEAAAAAAAAAFBBRFBBRFCEvOHKE" +
-                        "Cok2qqBVD9AhOtrAAAAAKYAAAD/AAAAXQAAABgCAABYQwBvAG0AcABhAG4AeQBQAGgAbwBuAGUAQwBvA" +
-                        "G0AcABhAG4AeQBGAGEAeAAuAFMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAdAByAGkAbgBnA" +
-                        "AAAAABEQwBvAG0AcABhAG4AeQBUAGEAeABJAGQALgBTAGUAcgBpAGEAbABpAHoAYQBiAGwAZQBSAHQAZ" +
-                        "gBTAHQAcgBpAG4AZwAzAgAAVEMAbwBwAGEAbgB5AEIAaQBsAGwAaQBuAGcAQQBkAGQAcgBlAHMAcwAuA" +
-                        "FMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAdAByAGkAbgBnAE4EAABAQwBvAHAAYQBuAHkAT" +
-                        "gBhAG0AZQAuAFMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAdAByAGkAbgBnAH0GAAABsARld" +
-                        "0JjQUhJQWRBQm1BREVBWEFCaEFHNEFjd0JwQUdNQWNBQm5BRGdBTndBMEFBMEFDZ0I3QUEwQUNnQmNBR" +
-                        "1lBYndCdUFIUUFkQUJpQUd3QURRQUtBSHNBWEFCbUFEQUFJQUJVQUdrQWJRQmxBSE1BSUFCT0FHVUFkd" +
-                        "0FnQUZJQWJ3QnRBR0VBYmdBN0FIMEFEUUFLQUhzQVhBQm1BREVBSUFCREFHOEFjZ0JrQUdrQVlRQlZBR" +
-                        "kFBUXdBN0FIMEFEUUFLQUgwQURRQUtBSHNBRFFBS0FGd0FZd0J2QUd3QWJ3QnlBSFFBWWdCc0FBMEFDZ" +
-                        "0E3QUEwQUNnQmNBSElBWlFCa0FEQUFYQUJuQUhJQVpRQmxBRzRBTUFCY0FHSUFiQUIxQUdVQU1BQTdBQ" +
-                        "TBBQ2dCY0FISUFaUUJrQURBQVhBQm5BSElBWlFCbEFHNEFNQUJjQUdJQWJBQjFBR1VBTWdBMUFEVUFPd" +
-                        "0FOQUFvQWZRQU5BQW9BZXdCY0FITUFaUUJqQUhRQVpBQmNBSEFBWVFCeUFHUUFYQUJ3QUd3QVlRQnBBR" +
-                        "zRBWEFCeEFHd0Fld0JjQUdZQU1RQmNBR1lBY3dBeEFEWUFYQUJqQUdZQU1RQWdBRU1BYndCdEFIQUFZU" +
-                        "UJ1QUhrQVVBQm9BRzhBYmdCbEFFTUFid0J0QUhBQVlRQnVBSGtBUmdCaEFIZ0FmUUJjQUhBQVlRQnlBS" +
-                        "DBBRFFBS0FIMEFEUUFLQUE9PQGYBGV3QmNBSElBZEFCbUFERUFYQUJoQUc0QWN3QnBBR01BY0FCbkFEZ" +
+                        "SNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAAEAAAAAAAAAFBBRFBBRFAnM4qBh" +
+                        "Lzhyp3b/TxAhOtrWwAAAKIAAAAAAAAA/wAAABwCAABWQwBvAG0AcABhAG4AeQBCAGkAbABsAGkAbgBnA" +
+                        "EEAZABkAHIAZQBzAHMALgBTAGUAcgBpAGEAbABpAHoAYQBiAGwAZQBSAHQAZgBTAHQAcgBpAG4AZwAAA" +
+                        "AAAQkMAbwBtAHAAYQBuAHkATgBhAG0AZQAuAFMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAd" +
+                        "AByAGkAbgBnAC8CAABYQwBvAG0AcABhAG4AeQBQAGgAbwBuAGUAQwBvAG0AcABhAG4AeQBGAGEAeAAuA" +
+                        "FMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAdAByAGkAbgBnAEIEAABEQwBvAG0AcABhAG4Ae" +
+                        "QBUAGEAeABJAGQALgBTAGUAcgBpAGEAbABpAHoAYQBiAGwAZQBSAHQAZgBTAHQAcgBpAG4AZwB1BgAAA" +
+                        "awEZXdCY0FISUFkQUJtQURFQVhBQmhBRzRBY3dCcEFHTUFjQUJuQURnQU53QTBBQTBBQ2dCN0FBMEFDZ" +
+                        "0JjQUdZQWJ3QnVBSFFBZEFCaUFHd0FEUUFLQUhzQVhBQm1BREFBSUFCVUFHa0FiUUJsQUhNQUlBQk9BR" +
+                        "1VBZHdBZ0FGSUFid0J0QUdFQWJnQTdBSDBBRFFBS0FIc0FYQUJtQURFQUlBQkRBRzhBY2dCa0FHa0FZU" +
+                        "UJWQUZBQVF3QTdBSDBBRFFBS0FIMEFEUUFLQUhzQURRQUtBRndBWXdCdkFHd0Fid0J5QUhRQVlnQnNBQ" +
+                        "TBBQ2dBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCMUFHVUFNQ" +
+                        "UE3QUEwQUNnQmNBSElBWlFCa0FEQUFYQUJuQUhJQVpRQmxBRzRBTUFCY0FHSUFiQUIxQUdVQU1nQTFBR" +
+                        "FVBT3dBTkFBb0FmUUFOQUFvQWV3QmNBSE1BWlFCakFIUUFaQUJjQUhBQVlRQnlBR1FBWEFCd0FHd0FZU" +
+                        "UJwQUc0QVhBQnhBR3dBZXdCY0FHWUFNUUJjQUdZQWN3QXhBRFlBWEFCakFHWUFNUUFnQUVNQWJ3QnRBS" +
+                        "EFBWVFCdUFIa0FRZ0JwQUd3QWJBQnBBRzRBWndCQkFHUUFaQUJ5QUdVQWN3QnpBSDBBWEFCd0FHRUFjZ" +
+                        "0I5QUEwQUNnQjlBQTBBQ2dBPQGQBGV3QmNBSElBZEFCbUFERUFYQUJoQUc0QWN3QnBBR01BY0FCbkFEZ" +
                         "0FOd0EwQUEwQUNnQjdBQTBBQ2dCY0FHWUFid0J1QUhRQWRBQmlBR3dBRFFBS0FIc0FYQUJtQURBQUlBQ" +
                         "lVBR2tBYlFCbEFITUFJQUJPQUdVQWR3QWdBRklBYndCdEFHRUFiZ0E3QUgwQURRQUtBSHNBWEFCbUFER" +
                         "UFJQUJEQUc4QWNnQmtBR2tBWVFCVkFGQUFRd0E3QUgwQURRQUtBSDBBRFFBS0FIc0FEUUFLQUZ3QVl3Q" +
                         "nZBR3dBYndCeUFIUUFZZ0JzQUEwQUNnQTdBQTBBQ2dCY0FISUFaUUJrQURBQVhBQm5BSElBWlFCbEFHN" +
                         "EFNQUJjQUdJQWJBQjFBR1VBTUFBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0QU1BQ" +
                         "mNBR0lBYkFCMUFHVUFNZ0ExQURVQU93QU5BQW9BZlFBTkFBb0Fld0JjQUhNQVpRQmpBSFFBWkFCY0FIQ" +
-                        "UFZUUJ5QUdRQVhBQndBR3dBWVFCcEFHNEFYQUJ4QUd3QWV3QmNBR0lBWEFCbUFERUFYQUJtQUhNQU1RQ" +
-                        "TJBRndBWXdCbUFERUFJQUJEQUc4QWJRQndBR0VBYmdCNUFGUUFZUUI0QUVrQVpBQjlBRndBY0FCaEFIS" +
-                        "UFmUUFOQUFvQWZRQU5BQW9BAawEZXdCY0FISUFkQUJtQURFQVhBQmhBRzRBY3dCcEFHTUFjQUJuQURnQ" +
-                        "U53QTBBQTBBQ2dCN0FBMEFDZ0JjQUdZQWJ3QnVBSFFBZEFCaUFHd0FEUUFLQUhzQVhBQm1BREFBSUFCV" +
-                        "UFHa0FiUUJsQUhNQUlBQk9BR1VBZHdBZ0FGSUFid0J0QUdFQWJnQTdBSDBBRFFBS0FIc0FYQUJtQURFQ" +
-                        "UlBQkRBRzhBY2dCa0FHa0FZUUJWQUZBQVF3QTdBSDBBRFFBS0FIMEFEUUFLQUhzQURRQUtBRndBWXdCd" +
-                        "kFHd0Fid0J5QUhRQVlnQnNBQTBBQ2dBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0Q" +
-                        "U1BQmNBR0lBYkFCMUFHVUFNQUE3QUEwQUNnQmNBSElBWlFCa0FEQUFYQUJuQUhJQVpRQmxBRzRBTUFCY" +
-                        "0FHSUFiQUIxQUdVQU1nQTFBRFVBT3dBTkFBb0FmUUFOQUFvQWV3QmNBSE1BWlFCakFIUUFaQUJjQUhBQ" +
-                        "VlRQnlBR1FBWEFCd0FHd0FZUUJwQUc0QVhBQnhBR3dBZXdCY0FHWUFNUUJjQUdZQWN3QXhBRFlBWEFCa" +
-                        "kFHWUFNUUFnQUVNQWJ3QnRBSEFBWVFCdUFIa0FRZ0JwQUd3QWJBQnBBRzRBWndCQkFHUUFaQUJ5QUdVQ" +
-                        "WN3QnpBSDBBWEFCd0FHRUFjZ0I5QUEwQUNnQjlBQTBBQ2dBPQGQBGV3QmNBSElBZEFCbUFERUFYQUJoQ" +
-                        "Uc0QWN3QnBBR01BY0FCbkFEZ0FOd0EwQUEwQUNnQjdBQTBBQ2dCY0FHWUFid0J1QUhRQWRBQmlBR3dBR" +
-                        "FFBS0FIc0FYQUJtQURBQUlBQlVBR2tBYlFCbEFITUFJQUJPQUdVQWR3QWdBRklBYndCdEFHRUFiZ0E3Q" +
-                        "UgwQURRQUtBSHNBWEFCbUFERUFJQUJEQUc4QWNnQmtBR2tBWVFCVkFGQUFRd0E3QUgwQURRQUtBSDBBR" +
-                        "FFBS0FIc0FEUUFLQUZ3QVl3QnZBR3dBYndCeUFIUUFZZ0JzQUEwQUNnQTdBQTBBQ2dCY0FISUFaUUJrQ" +
-                        "URBQVhBQm5BSElBWlFCbEFHNEFNQUJjQUdJQWJBQjFBR1VBTUFBN0FBMEFDZ0JjQUhJQVpRQmtBREFBW" +
-                        "EFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCMUFHVUFNZ0ExQURVQU93QU5BQW9BZlFBTkFBb0Fld0JjQ" +
-                        "UhNQVpRQmpBSFFBWkFCY0FIQUFZUUJ5QUdRQVhBQndBR3dBWVFCcEFHNEFYQUJ4QUd3QWV3QmNBR1lBT" +
-                        "VFCY0FHWUFjd0F5QURBQVhBQmpBR1lBTVFBZ0FFTUFid0J3QUdFQWJnQjVBRTRBWVFCdEFHVUFmUUJjQ" +
-                        "UhBQVlRQnlBSDBBRFFBS0FIMEFEUUFLQUE9PQ==";
+                        "UFZUUJ5QUdRQVhBQndBR3dBWVFCcEFHNEFYQUJ4QUd3QWV3QmNBR1lBTVFCY0FHWUFjd0F5QURBQVhBQ" +
+                        "mpBR1lBTVFBZ0FFTUFid0J0QUhBQVlRQnVBSGtBVGdCaEFHMEFaUUI5QUZ3QWNBQmhBSElBZlFBTkFBb" +
+                        "0FmUUFOQUFvQQGwBGV3QmNBSElBZEFCbUFERUFYQUJoQUc0QWN3QnBBR01BY0FCbkFEZ0FOd0EwQUEwQ" +
+                        "UNnQjdBQTBBQ2dCY0FHWUFid0J1QUhRQWRBQmlBR3dBRFFBS0FIc0FYQUJtQURBQUlBQlVBR2tBYlFCb" +
+                        "EFITUFJQUJPQUdVQWR3QWdBRklBYndCdEFHRUFiZ0E3QUgwQURRQUtBSHNBWEFCbUFERUFJQUJEQUc4Q" +
+                        "WNnQmtBR2tBWVFCVkFGQUFRd0E3QUgwQURRQUtBSDBBRFFBS0FIc0FEUUFLQUZ3QVl3QnZBR3dBYndCe" +
+                        "UFIUUFZZ0JzQUEwQUNnQTdBQTBBQ2dCY0FISUFaUUJrQURBQVhBQm5BSElBWlFCbEFHNEFNQUJjQUdJQ" +
+                        "WJBQjFBR1VBTUFBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCM" +
+                        "UFHVUFNZ0ExQURVQU93QU5BQW9BZlFBTkFBb0Fld0JjQUhNQVpRQmpBSFFBWkFCY0FIQUFZUUJ5QUdRQ" +
+                        "VhBQndBR3dBWVFCcEFHNEFYQUJ4QUd3QWV3QmNBR1lBTVFCY0FHWUFjd0F4QURZQVhBQmpBR1lBTVFBZ" +
+                        "0FFTUFid0J0QUhBQVlRQnVBSGtBVUFCb0FHOEFiZ0JsQUVNQWJ3QnRBSEFBWVFCdUFIa0FSZ0JoQUhnQ" +
+                        "WZRQmNBSEFBWVFCeUFIMEFEUUFLQUgwQURRQUtBQT09AZgEZXdCY0FISUFkQUJtQURFQVhBQmhBRzRBY" +
+                        "3dCcEFHTUFjQUJuQURnQU53QTBBQTBBQ2dCN0FBMEFDZ0JjQUdZQWJ3QnVBSFFBZEFCaUFHd0FEUUFLQ" +
+                        "UhzQVhBQm1BREFBSUFCVUFHa0FiUUJsQUhNQUlBQk9BR1VBZHdBZ0FGSUFid0J0QUdFQWJnQTdBSDBBR" +
+                        "FFBS0FIc0FYQUJtQURFQUlBQkRBRzhBY2dCa0FHa0FZUUJWQUZBQVF3QTdBSDBBRFFBS0FIMEFEUUFLQ" +
+                        "UhzQURRQUtBRndBWXdCdkFHd0Fid0J5QUhRQVlnQnNBQTBBQ2dBN0FBMEFDZ0JjQUhJQVpRQmtBREFBW" +
+                        "EFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCMUFHVUFNQUE3QUEwQUNnQmNBSElBWlFCa0FEQUFYQUJuQ" +
+                        "UhJQVpRQmxBRzRBTUFCY0FHSUFiQUIxQUdVQU1nQTFBRFVBT3dBTkFBb0FmUUFOQUFvQWV3QmNBSE1BW" +
+                        "lFCakFIUUFaQUJjQUhBQVlRQnlBR1FBWEFCd0FHd0FZUUJwQUc0QVhBQnhBR3dBZXdCY0FHSUFYQUJtQ" +
+                        "URFQVhBQm1BSE1BTVFBMkFGd0FZd0JtQURFQUlBQkRBRzhBYlFCd0FHRUFiZ0I1QUZRQVlRQjRBRWtBW" +
+                        "kFCOUFGd0FjQUJoQUhJQWZRQU5BQW9BZlFBTkFBb0E=";
                     this._resources = new DevExpress.XtraReports.Serialization.XRResourceManager(resourceString);
                 }
                 return this._resources;
@@ -169,8 +169,8 @@ namespace XtraReportSerialization {
             this.label1 = new DevExpress.XtraReports.UI.XRLabel();
             this.CompanyTaxId = new DevExpress.XtraReports.UI.XRRichText();
             this.CompanyPhoneCompanyFax = new DevExpress.XtraReports.UI.XRRichText();
-            this.CopanyBillingAddress = new DevExpress.XtraReports.UI.XRRichText();
-            this.CopanyName = new DevExpress.XtraReports.UI.XRRichText();
+            this.CompanyBillingAddress = new DevExpress.XtraReports.UI.XRRichText();
+            this.CompanyName = new DevExpress.XtraReports.UI.XRRichText();
             this.CompanyLogo = new DevExpress.XtraReports.UI.XRPictureBox();
             this.tableRow7 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -247,8 +247,8 @@ namespace XtraReportSerialization {
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CompanyTaxId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CompanyPhoneCompanyFax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CopanyBillingAddress)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CopanyName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CompanyBillingAddress)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CompanyName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table4)).BeginInit();
@@ -286,8 +286,8 @@ namespace XtraReportSerialization {
                         this.label1,
                         this.CompanyTaxId,
                         this.CompanyPhoneCompanyFax,
-                        this.CopanyBillingAddress,
-                        this.CopanyName,
+                        this.CompanyBillingAddress,
+                        this.CompanyName,
                         this.CompanyLogo});
             this.PageHeader.Dpi = 254F;
             this.PageHeader.HeightF = 859.733F;
@@ -418,29 +418,29 @@ namespace XtraReportSerialization {
             this.CompanyPhoneCompanyFax.StylePriority.UseFont = false;
             this.CompanyPhoneCompanyFax.StylePriority.UsePadding = false;
             // 
-            // CopanyBillingAddress
+            // CompanyBillingAddress
             // 
-            this.CopanyBillingAddress.Dpi = 254F;
-            this.CopanyBillingAddress.Font = new System.Drawing.Font("CordiaUPC", 8F);
-            this.CopanyBillingAddress.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 58.42F);
-            this.CopanyBillingAddress.Name = "CopanyBillingAddress";
-            this.CopanyBillingAddress.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
-            this.CopanyBillingAddress.SerializableRtfString = resources.GetString("CopanyBillingAddress.SerializableRtfString");
-            this.CopanyBillingAddress.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
-            this.CopanyBillingAddress.StylePriority.UseFont = false;
-            this.CopanyBillingAddress.StylePriority.UsePadding = false;
+            this.CompanyBillingAddress.Dpi = 254F;
+            this.CompanyBillingAddress.Font = new System.Drawing.Font("CordiaUPC", 8F);
+            this.CompanyBillingAddress.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 58.42F);
+            this.CompanyBillingAddress.Name = "CompanyBillingAddress";
+            this.CompanyBillingAddress.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
+            this.CompanyBillingAddress.SerializableRtfString = resources.GetString("CompanyBillingAddress.SerializableRtfString");
+            this.CompanyBillingAddress.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
+            this.CompanyBillingAddress.StylePriority.UseFont = false;
+            this.CompanyBillingAddress.StylePriority.UsePadding = false;
             // 
-            // CopanyName
+            // CompanyName
             // 
-            this.CopanyName.Dpi = 254F;
-            this.CopanyName.Font = new System.Drawing.Font("CordiaUPC", 9.75F);
-            this.CopanyName.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 0F);
-            this.CopanyName.Name = "CopanyName";
-            this.CopanyName.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
-            this.CopanyName.SerializableRtfString = resources.GetString("CopanyName.SerializableRtfString");
-            this.CopanyName.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
-            this.CopanyName.StylePriority.UseFont = false;
-            this.CopanyName.StylePriority.UsePadding = false;
+            this.CompanyName.Dpi = 254F;
+            this.CompanyName.Font = new System.Drawing.Font("CordiaUPC", 9.75F);
+            this.CompanyName.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 0F);
+            this.CompanyName.Name = "CompanyName";
+            this.CompanyName.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
+            this.CompanyName.SerializableRtfString = resources.GetString("CompanyName.SerializableRtfString");
+            this.CompanyName.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
+            this.CompanyName.StylePriority.UseFont = false;
+            this.CompanyName.StylePriority.UsePadding = false;
             // 
             // CompanyLogo
             // 
@@ -1199,8 +1199,8 @@ namespace XtraReportSerialization {
             ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CompanyTaxId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CompanyPhoneCompanyFax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CopanyBillingAddress)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CopanyName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CompanyBillingAddress)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CompanyName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table4)).EndInit();

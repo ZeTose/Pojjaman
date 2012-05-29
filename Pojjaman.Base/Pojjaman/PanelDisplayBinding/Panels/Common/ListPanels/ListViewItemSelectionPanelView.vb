@@ -429,15 +429,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         Return
       End If
-      Dim entityList As New List(Of ISimpleEntity)
-      Dim _id As Integer
-      For Each item As ListViewItem In lvItem.Items
-        _id = CInt(item.Tag)
-        Dim entity As ISimpleEntity = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName, _id)
-        entityList.Add(entity)
-      Next
-      Dim xtform As New XtraForm(CType(entityList(0), INewPrintableEntity), thePath, entityList)
-      xtform.ShowDialog()
+      If IO.File.Exists(thePath) Then
+        Dim newReport As DevExpress.XtraReports.UI.XtraReport
+        newReport = DevExpress.XtraReports.UI.XtraReport.FromFile(thePath, True)
+        If Not EntitySimpleSchema.IsDefaultSchemaByDataSource(m_entity, newReport.DataSourceSchema) Then
+          Dim idList As New List(Of Integer)
+          Dim _id As Integer
+          For Each item As ListViewItem In lvItem.Items
+            _id = CInt(item.Tag)
+            idList.Add(_id)
+          Next
+          Dim xtform As New XtraForm(m_entity, thePath, idList)
+          xtform.ShowDialog()
+        Else
+          Dim entityList As New List(Of ISimpleEntity)
+          Dim _id As Integer
+          For Each item As ListViewItem In lvItem.Items
+            _id = CInt(item.Tag)
+            Dim entity As ISimpleEntity = SimpleBusinessEntityBase.GetEntity(Me.m_entity.FullClassName, _id)
+            entityList.Add(entity)
+          Next
+          Dim xtform As New XtraForm(CType(entityList(0), INewPrintableEntity), thePath, entityList)
+          xtform.ShowDialog()
+        End If
+      End If
+
 
       'Dim PrintingReportType As ReportExtentionType = ReportExtentionType.XMLReport
       'If Not Me.Entity Is Nothing Then

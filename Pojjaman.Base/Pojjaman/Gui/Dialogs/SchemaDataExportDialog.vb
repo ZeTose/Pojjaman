@@ -10,6 +10,7 @@ Imports System.Collections.Generic
 Imports DevExpress.XtraReports.UI
 Imports System.Reflection
 Imports DevExpress.LookAndFeel
+Imports DevExpress.XtraReports.UserDesigner
 
 Namespace Longkong.Pojjaman.Gui.Panels
 
@@ -58,6 +59,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return Me.DefaultReportPath & "XtraReportTemplate1.repx"
       End Get
     End Property
+    Public Property FilePath As String
+    Public Property IsOpenFormDesigner As Boolean
 #End Region
 
 #Region "Method"
@@ -153,7 +156,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     '  End If
 
     'End Sub
-    Private Sub ExportTemplate()
+    Private Function ExportTemplate() As SaveErrorException
       'Me.RadioButton1.Checked = True
 
       Dim dsc As DataSet = EntitySimpleSchema.GetSchema(m_entity, Me.m_printingEntity, Me.SchemaName)
@@ -165,8 +168,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
         newReport = XtraReport.FromFile(Me.FullReportTemplateName, True)
       End If
 
-      newReport.Name = m_entity.ClassName & "General"
-      newReport.DisplayName = m_entity.ClassName & "General"
+      newReport.Name = dsc.DataSetName ' m_entity.ClassName & "General"
+      newReport.DisplayName = dsc.DataSetName ' m_entity.ClassName & "General"
       newReport.DataSourceSchema = dsc.GetXmlSchema
 
       'ds = entitysc.DataSet
@@ -176,20 +179,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dlg.Filter = "Report File (*.repx)|*.repx"
           dlg.FileName = m_entity.ClassName & "General"
           If dlg.ShowDialog = DialogResult.OK Then
-            Dim path As String = dlg.FileName()
+            'Dim path As String = dlg.FileName()
+            Me.FilePath = dlg.FileName
             Try
               newReport.Name = IO.Path.GetFileName(dlg.FileName).Replace(".repx", "")
               newReport.DisplayName = IO.Path.GetFileName(dlg.FileName).Replace(".repx", "")
-              newReport.SaveLayout(path)
+              newReport.SaveLayout(Me.FilePath)
+
+              'Try
+              '  newReport = New XtraReport
+              '  'newReport = newReport.FromFile(path, True)
+              '  newReport.LoadLayout(path)
+              'Catch ex As Exception
+
+              'End Try
 
               Dim msg As String = "Export Template เรียบร้อยแล้ว" & vbCrLf & "ต้องการเปิด Pojjaman Form Designer เลยหรือไม่"
               If MessageBox.Show(msg, "", MessageBoxButtons.YesNo, MessageBoxIcon.Information) = Windows.Forms.DialogResult.Yes Then
-                Dim userLookAndFeel_ As New UserLookAndFeel(newReport)
-                userLookAndFeel_.UseDefaultLookAndFeel = False
-                userLookAndFeel_.UseWindowsXPTheme = False
-                userLookAndFeel_.Style = LookAndFeelStyle.Skin
-                userLookAndFeel_.SkinName = "Metropolis"
-                newReport.ShowRibbonDesigner(userLookAndFeel_)
+                'Dim userLookAndFeel_ As New UserLookAndFeel(newReport)
+                'userLookAndFeel_.UseDefaultLookAndFeel = False
+                'userLookAndFeel_.UseWindowsXPTheme = False
+                'userLookAndFeel_.Style = LookAndFeelStyle.Skin
+                'userLookAndFeel_.SkinName = "Metropolis"
+                ''newReport.ShowRibbonDesigner(userLookAndFeel_)
+                'newReport.ShowRibbonDesignerDialog(userLookAndFeel_, DesignDockPanelType.PropertyGrid)
+                Return New SaveErrorException("1")
+              Else
+                Return New SaveErrorException("-1")
               End If
 
               'newReport.ShowDesigner()
@@ -206,12 +222,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
               'End If
 
             Catch ex As Exception
-              Throw New Exception("Export Failed.")
+              Throw New SaveErrorException("Export Failed.")
             End Try
           End If
         End Using
       End If
-    End Sub
+    End Function
 
     Private Sub ExportSchema()
       'Me.RadioButton1.Checked = True
@@ -294,7 +310,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox1.Controls.Add(Me.lbListTableName)
       Me.GroupBox1.Location = New System.Drawing.Point(12, 55)
       Me.GroupBox1.Name = "GroupBox1"
-      Me.GroupBox1.Size = New System.Drawing.Size(674, 528)
+      Me.GroupBox1.Size = New System.Drawing.Size(674, 544)
       Me.GroupBox1.TabIndex = 0
       Me.GroupBox1.TabStop = False
       '
@@ -324,7 +340,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dgSchema.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
       Me.dgSchema.Location = New System.Drawing.Point(9, 157)
       Me.dgSchema.Name = "dgSchema"
-      Me.dgSchema.Size = New System.Drawing.Size(659, 365)
+      Me.dgSchema.Size = New System.Drawing.Size(659, 381)
       Me.dgSchema.TabIndex = 3
       '
       'lbListTableName
@@ -332,7 +348,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lbListTableName.FormattingEnabled = True
       Me.lbListTableName.Location = New System.Drawing.Point(7, 32)
       Me.lbListTableName.Name = "lbListTableName"
-      Me.lbListTableName.Size = New System.Drawing.Size(249, 95)
+      Me.lbListTableName.Size = New System.Drawing.Size(305, 95)
       Me.lbListTableName.TabIndex = 2
       '
       'cmbSchemaName
@@ -341,15 +357,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbSchemaName.FormattingEnabled = True
       Me.cmbSchemaName.Location = New System.Drawing.Point(12, 25)
       Me.cmbSchemaName.Name = "cmbSchemaName"
-      Me.cmbSchemaName.Size = New System.Drawing.Size(249, 21)
+      Me.cmbSchemaName.Size = New System.Drawing.Size(312, 21)
       Me.cmbSchemaName.TabIndex = 1
       '
       'btnExportSchema
       '
       Me.btnExportSchema.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.btnExportSchema.Location = New System.Drawing.Point(141, 589)
+      Me.btnExportSchema.Location = New System.Drawing.Point(159, 605)
       Me.btnExportSchema.Name = "btnExportSchema"
-      Me.btnExportSchema.Size = New System.Drawing.Size(116, 49)
+      Me.btnExportSchema.Size = New System.Drawing.Size(127, 33)
       Me.btnExportSchema.TabIndex = 1
       Me.btnExportSchema.Text = "Export Schema"
       Me.btnExportSchema.UseVisualStyleBackColor = True
@@ -368,9 +384,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'btnExportTemplate
       '
       Me.btnExportTemplate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.btnExportTemplate.Location = New System.Drawing.Point(19, 589)
+      Me.btnExportTemplate.Location = New System.Drawing.Point(19, 605)
       Me.btnExportTemplate.Name = "btnExportTemplate"
-      Me.btnExportTemplate.Size = New System.Drawing.Size(116, 49)
+      Me.btnExportTemplate.Size = New System.Drawing.Size(134, 33)
       Me.btnExportTemplate.TabIndex = 1
       Me.btnExportTemplate.Text = "Export Template"
       Me.btnExportTemplate.UseVisualStyleBackColor = True
@@ -418,7 +434,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SchemaName = CType(Me.cmbSchemaName.SelectedItem, KeyValuePair).Value
 
       'PreviewText()
-      ExportTemplate()
+      Dim saveerr As SaveErrorException = ExportTemplate()
+      If IsNumeric(saveerr.Message) Then
+        If CInt(saveerr.Message) = 1 Then
+          IsOpenFormDesigner = True
+        Else
+          IsOpenFormDesigner = False
+        End If
+      Else
+        IsOpenFormDesigner = False
+      End If
       Me.Close()
 
     End Sub

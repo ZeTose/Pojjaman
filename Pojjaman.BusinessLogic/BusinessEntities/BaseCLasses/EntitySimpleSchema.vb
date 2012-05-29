@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.AddIns
 Imports System.Collections.Generic
+Imports System.Xml
 
 Namespace Longkong.Pojjaman.BusinessLogic
 
@@ -113,7 +114,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return ds
     End Function
-    Private Shared Function IsDefaultSchema(entity As ISimpleEntity, ByVal schemaId As String) As Boolean
+    Public Shared Function IsDefaultSchema(entity As ISimpleEntity, ByVal schemaId As String) As Boolean
       If TypeOf entity Is ISimpleEntity Then
         Dim en As ISimpleEntity = CType(entity, ISimpleEntity)
 
@@ -126,6 +127,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Return False
     End Function
+    Public Shared Function IsDefaultSchemaByDataSource(entity As ISimpleEntity, ByVal dataSourceSchema As String) As Boolean
+      If TypeOf entity Is ISimpleEntity Then
+        Dim en As ISimpleEntity = CType(entity, ISimpleEntity)
+        Dim schemaId As String = EntitySimpleSchema.GetEntitySchemaId(dataSourceSchema)
+
+        If schemaId.ToLower.Trim.Equals(String.Format("Get_{0}_List", en.ClassName).ToLower.Trim) OrElse _
+          schemaId.ToLower.Trim.Equals(String.Format("Get_{0}_General", en.ClassName).ToLower.Trim) Then
+          Return True
+        End If
+
+      End If
+
+      Return False
+    End Function
+    Public Shared Function GetEntitySchemaId(ByVal dataSourceSchema As String) As String
+      If dataSourceSchema.Length = 0 Then
+        Return Nothing
+      End If
+
+      Dim doc As New XmlDocument
+      doc.LoadXml(dataSourceSchema)
+
+      Dim xn As XmlNode = doc.DocumentElement.Attributes("id")
+      Dim schemaid As String = xn.InnerText
+
+      Return schemaid
+    End Function
+
     'Public Shared Function GetData(ByVal entity As ISimpleEntity, ByVal schemaId As String) As DataSet
     '  If entity Is Nothing Then
     '    Return Nothing
@@ -292,7 +321,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Return ds
-   
+
     End Function
     Private Shared Function GetNewListSchema(ByVal dpientity As INewPrintableEntity) As DataSet
       Dim ds As New DataSet

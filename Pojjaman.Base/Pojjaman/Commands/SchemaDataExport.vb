@@ -43,7 +43,7 @@ Namespace Longkong.Pojjaman.Commands
         If TypeOf window.ActiveViewContent Is INewPrintable Then
           CType(window.ActiveViewContent, INewPrintable).ShowSelectSchemaDataDialog()
         End If
-        Trace.WriteLine(window.ActiveViewContent)
+        'Trace.WriteLine(window.ActiveViewContent)
         'Dim dialog As New SchemaDataExportDialog
         'dialog.StartPosition = FormStartPosition.CenterParent
         'dialog.ShowDialog()

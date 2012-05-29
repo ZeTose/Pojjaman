@@ -76,11 +76,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         formatValue = EngText(number, bigEng, smallEng)
       End If
 
-      If CInt(minusSign) = 1 Then 'ใช้ ()
-        Return String.Format("({0})", formatValue)
+      If CDec(number) >= 0 Then
+        Return String.Format("{0}", formatValue)
       Else
-        Return String.Format("{0}{1}", minusText, formatValue)
+        If CInt(minusSign) = 1 Then 'ใช้ ()
+          Return String.Format("({0})", formatValue)
+        Else
+          Return String.Format("{0}{1}", minusText, formatValue)
+        End If
       End If
+
+
 
     End Function
     Public Shared Function EngText(number As String, bigEng As String, smallEng As String) As String
