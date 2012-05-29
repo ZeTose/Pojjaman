@@ -3836,10 +3836,15 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
           maxLevel = Math.Max(maxLevel, doc.Level)
         Next
         'Return New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator)
-        editeduser.UserId = CType(userHs(maxLevel - 1), ApproveDoc).Originator
-        editeduser.UserName = New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator).Name
-        editeduser.EditedDate = CType(userHs(maxLevel - 1), ApproveDoc).OriginDate
-      ElseIf aplist.Count > 0 Then
+        If Not userHs(maxLevel - 1) Is Nothing Then
+          editeduser.UserId = CType(userHs(maxLevel - 1), ApproveDoc).Originator
+          editeduser.UserName = New User(CType(userHs(maxLevel - 1), ApproveDoc).Originator).Name
+          editeduser.EditedDate = CType(userHs(maxLevel - 1), ApproveDoc).OriginDate
+          Return editeduser
+        End If
+
+      End If
+      If aplist.Count > 0 Then
         'Return New User(aplist.Item(aplist.Count - 1).Originator)
         editeduser.UserId = aplist.Item(aplist.Count - 1).Originator
         editeduser.UserName = New User(aplist.Item(aplist.Count - 1).Originator).Name
