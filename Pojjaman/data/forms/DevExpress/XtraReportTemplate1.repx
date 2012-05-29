@@ -12,6 +12,10 @@ namespace XtraReportSerialization {
         private DevExpress.XtraReports.UI.DetailBand Detail;
         private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
         private DevExpress.XtraReports.UI.PageHeaderBand PageHeader;
+        private DevExpress.XtraReports.UI.XRLabel CompanyTaxId;
+        private DevExpress.XtraReports.UI.XRLabel CompanyPhoneCompanyFax;
+        private DevExpress.XtraReports.UI.XRLabel CompanyBillingAddress;
+        private DevExpress.XtraReports.UI.XRLabel CompanyName;
         private DevExpress.XtraReports.UI.XRLine line2;
         private DevExpress.XtraReports.UI.XRTable table3;
         private DevExpress.XtraReports.UI.XRTableRow tableRow7;
@@ -50,30 +54,30 @@ namespace XtraReportSerialization {
         private DevExpress.XtraReports.UI.XRLabel label2;
         private DevExpress.XtraReports.UI.XRLine line1;
         private DevExpress.XtraReports.UI.XRLabel label1;
-        private DevExpress.XtraReports.UI.XRRichText CompanyTaxId;
-        private DevExpress.XtraReports.UI.XRRichText CompanyPhoneCompanyFax;
-        private DevExpress.XtraReports.UI.XRRichText CompanyBillingAddress;
-        private DevExpress.XtraReports.UI.XRRichText CompanyName;
         private DevExpress.XtraReports.UI.XRPictureBox CompanyLogo;
         private DevExpress.XtraReports.UI.ReportFooterBand ReportFooter;
         private DevExpress.XtraReports.UI.XRTable table6;
         private DevExpress.XtraReports.UI.XRTableRow tableRow10;
         private DevExpress.XtraReports.UI.XRTableCell tableCell40;
         private DevExpress.XtraReports.UI.XRTableCell tableCell41;
+        private DevExpress.XtraReports.UI.XRLabel AuthorizeName;
         private DevExpress.XtraReports.UI.XRTableCell tableCell42;
         private DevExpress.XtraReports.UI.XRTableRow tableRow13;
         private DevExpress.XtraReports.UI.XRTableCell tableCell43;
         private DevExpress.XtraReports.UI.XRTableCell tableCell44;
+        private DevExpress.XtraReports.UI.XRLabel AuthorizeDate;
         private DevExpress.XtraReports.UI.XRTableCell tableCell45;
-        private DevExpress.XtraReports.UI.XRPictureBox Autherize;
+        private DevExpress.XtraReports.UI.XRPictureBox Authorize;
         private DevExpress.XtraReports.UI.XRTable table5;
         private DevExpress.XtraReports.UI.XRTableRow tableRow11;
         private DevExpress.XtraReports.UI.XRTableCell tableCell37;
         private DevExpress.XtraReports.UI.XRTableCell tableCell38;
+        private DevExpress.XtraReports.UI.XRLabel UserName;
         private DevExpress.XtraReports.UI.XRTableCell tableCell35;
         private DevExpress.XtraReports.UI.XRTableRow tableRow12;
         private DevExpress.XtraReports.UI.XRTableCell tableCell39;
         private DevExpress.XtraReports.UI.XRTableCell tableCell34;
+        private DevExpress.XtraReports.UI.XRLabel UserDate;
         private DevExpress.XtraReports.UI.XRTableCell tableCell36;
         private DevExpress.XtraReports.UI.XRLine line4;
         private DevExpress.XtraReports.UI.XRLine line3;
@@ -87,7 +91,7 @@ namespace XtraReportSerialization {
         private DevExpress.XtraReports.UI.XRTableRow tableRow9;
         private DevExpress.XtraReports.UI.XRTableCell tableCell28;
         private DevExpress.XtraReports.UI.XRTableCell tableCell29;
-        private DevExpress.XtraReports.UI.XRPictureBox Employee;
+        private DevExpress.XtraReports.UI.XRPictureBox User;
         private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine6;
         private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine5;
         private DevExpress.XtraReports.UI.XRCrossBandLine crossBandLine4;
@@ -104,50 +108,7 @@ namespace XtraReportSerialization {
                 if (_resources == null) {
                     string resourceString = "zsrvvgEAAACRAAAAbFN5c3RlbS5SZXNvdXJjZXMuUmVzb3VyY2VSZWFkZXIsIG1zY29ybGliLCBWZXJza" +
                         "W9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4O" +
-                        "SNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAAEAAAAAAAAAFBBRFBBRFAnM4qBh" +
-                        "Lzhyp3b/TxAhOtrWwAAAKIAAAAAAAAA/wAAABwCAABWQwBvAG0AcABhAG4AeQBCAGkAbABsAGkAbgBnA" +
-                        "EEAZABkAHIAZQBzAHMALgBTAGUAcgBpAGEAbABpAHoAYQBiAGwAZQBSAHQAZgBTAHQAcgBpAG4AZwAAA" +
-                        "AAAQkMAbwBtAHAAYQBuAHkATgBhAG0AZQAuAFMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAd" +
-                        "AByAGkAbgBnAC8CAABYQwBvAG0AcABhAG4AeQBQAGgAbwBuAGUAQwBvAG0AcABhAG4AeQBGAGEAeAAuA" +
-                        "FMAZQByAGkAYQBsAGkAegBhAGIAbABlAFIAdABmAFMAdAByAGkAbgBnAEIEAABEQwBvAG0AcABhAG4Ae" +
-                        "QBUAGEAeABJAGQALgBTAGUAcgBpAGEAbABpAHoAYQBiAGwAZQBSAHQAZgBTAHQAcgBpAG4AZwB1BgAAA" +
-                        "awEZXdCY0FISUFkQUJtQURFQVhBQmhBRzRBY3dCcEFHTUFjQUJuQURnQU53QTBBQTBBQ2dCN0FBMEFDZ" +
-                        "0JjQUdZQWJ3QnVBSFFBZEFCaUFHd0FEUUFLQUhzQVhBQm1BREFBSUFCVUFHa0FiUUJsQUhNQUlBQk9BR" +
-                        "1VBZHdBZ0FGSUFid0J0QUdFQWJnQTdBSDBBRFFBS0FIc0FYQUJtQURFQUlBQkRBRzhBY2dCa0FHa0FZU" +
-                        "UJWQUZBQVF3QTdBSDBBRFFBS0FIMEFEUUFLQUhzQURRQUtBRndBWXdCdkFHd0Fid0J5QUhRQVlnQnNBQ" +
-                        "TBBQ2dBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCMUFHVUFNQ" +
-                        "UE3QUEwQUNnQmNBSElBWlFCa0FEQUFYQUJuQUhJQVpRQmxBRzRBTUFCY0FHSUFiQUIxQUdVQU1nQTFBR" +
-                        "FVBT3dBTkFBb0FmUUFOQUFvQWV3QmNBSE1BWlFCakFIUUFaQUJjQUhBQVlRQnlBR1FBWEFCd0FHd0FZU" +
-                        "UJwQUc0QVhBQnhBR3dBZXdCY0FHWUFNUUJjQUdZQWN3QXhBRFlBWEFCakFHWUFNUUFnQUVNQWJ3QnRBS" +
-                        "EFBWVFCdUFIa0FRZ0JwQUd3QWJBQnBBRzRBWndCQkFHUUFaQUJ5QUdVQWN3QnpBSDBBWEFCd0FHRUFjZ" +
-                        "0I5QUEwQUNnQjlBQTBBQ2dBPQGQBGV3QmNBSElBZEFCbUFERUFYQUJoQUc0QWN3QnBBR01BY0FCbkFEZ" +
-                        "0FOd0EwQUEwQUNnQjdBQTBBQ2dCY0FHWUFid0J1QUhRQWRBQmlBR3dBRFFBS0FIc0FYQUJtQURBQUlBQ" +
-                        "lVBR2tBYlFCbEFITUFJQUJPQUdVQWR3QWdBRklBYndCdEFHRUFiZ0E3QUgwQURRQUtBSHNBWEFCbUFER" +
-                        "UFJQUJEQUc4QWNnQmtBR2tBWVFCVkFGQUFRd0E3QUgwQURRQUtBSDBBRFFBS0FIc0FEUUFLQUZ3QVl3Q" +
-                        "nZBR3dBYndCeUFIUUFZZ0JzQUEwQUNnQTdBQTBBQ2dCY0FISUFaUUJrQURBQVhBQm5BSElBWlFCbEFHN" +
-                        "EFNQUJjQUdJQWJBQjFBR1VBTUFBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0QU1BQ" +
-                        "mNBR0lBYkFCMUFHVUFNZ0ExQURVQU93QU5BQW9BZlFBTkFBb0Fld0JjQUhNQVpRQmpBSFFBWkFCY0FIQ" +
-                        "UFZUUJ5QUdRQVhBQndBR3dBWVFCcEFHNEFYQUJ4QUd3QWV3QmNBR1lBTVFCY0FHWUFjd0F5QURBQVhBQ" +
-                        "mpBR1lBTVFBZ0FFTUFid0J0QUhBQVlRQnVBSGtBVGdCaEFHMEFaUUI5QUZ3QWNBQmhBSElBZlFBTkFBb" +
-                        "0FmUUFOQUFvQQGwBGV3QmNBSElBZEFCbUFERUFYQUJoQUc0QWN3QnBBR01BY0FCbkFEZ0FOd0EwQUEwQ" +
-                        "UNnQjdBQTBBQ2dCY0FHWUFid0J1QUhRQWRBQmlBR3dBRFFBS0FIc0FYQUJtQURBQUlBQlVBR2tBYlFCb" +
-                        "EFITUFJQUJPQUdVQWR3QWdBRklBYndCdEFHRUFiZ0E3QUgwQURRQUtBSHNBWEFCbUFERUFJQUJEQUc4Q" +
-                        "WNnQmtBR2tBWVFCVkFGQUFRd0E3QUgwQURRQUtBSDBBRFFBS0FIc0FEUUFLQUZ3QVl3QnZBR3dBYndCe" +
-                        "UFIUUFZZ0JzQUEwQUNnQTdBQTBBQ2dCY0FISUFaUUJrQURBQVhBQm5BSElBWlFCbEFHNEFNQUJjQUdJQ" +
-                        "WJBQjFBR1VBTUFBN0FBMEFDZ0JjQUhJQVpRQmtBREFBWEFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCM" +
-                        "UFHVUFNZ0ExQURVQU93QU5BQW9BZlFBTkFBb0Fld0JjQUhNQVpRQmpBSFFBWkFCY0FIQUFZUUJ5QUdRQ" +
-                        "VhBQndBR3dBWVFCcEFHNEFYQUJ4QUd3QWV3QmNBR1lBTVFCY0FHWUFjd0F4QURZQVhBQmpBR1lBTVFBZ" +
-                        "0FFTUFid0J0QUhBQVlRQnVBSGtBVUFCb0FHOEFiZ0JsQUVNQWJ3QnRBSEFBWVFCdUFIa0FSZ0JoQUhnQ" +
-                        "WZRQmNBSEFBWVFCeUFIMEFEUUFLQUgwQURRQUtBQT09AZgEZXdCY0FISUFkQUJtQURFQVhBQmhBRzRBY" +
-                        "3dCcEFHTUFjQUJuQURnQU53QTBBQTBBQ2dCN0FBMEFDZ0JjQUdZQWJ3QnVBSFFBZEFCaUFHd0FEUUFLQ" +
-                        "UhzQVhBQm1BREFBSUFCVUFHa0FiUUJsQUhNQUlBQk9BR1VBZHdBZ0FGSUFid0J0QUdFQWJnQTdBSDBBR" +
-                        "FFBS0FIc0FYQUJtQURFQUlBQkRBRzhBY2dCa0FHa0FZUUJWQUZBQVF3QTdBSDBBRFFBS0FIMEFEUUFLQ" +
-                        "UhzQURRQUtBRndBWXdCdkFHd0Fid0J5QUhRQVlnQnNBQTBBQ2dBN0FBMEFDZ0JjQUhJQVpRQmtBREFBW" +
-                        "EFCbkFISUFaUUJsQUc0QU1BQmNBR0lBYkFCMUFHVUFNQUE3QUEwQUNnQmNBSElBWlFCa0FEQUFYQUJuQ" +
-                        "UhJQVpRQmxBRzRBTUFCY0FHSUFiQUIxQUdVQU1nQTFBRFVBT3dBTkFBb0FmUUFOQUFvQWV3QmNBSE1BW" +
-                        "lFCakFIUUFaQUJjQUhBQVlRQnlBR1FBWEFCd0FHd0FZUUJwQUc0QVhBQnhBR3dBZXdCY0FHSUFYQUJtQ" +
-                        "URFQVhBQm1BSE1BTVFBMkFGd0FZd0JtQURFQUlBQkRBRzhBYlFCd0FHRUFiZ0I1QUZRQVlRQjRBRWtBW" +
-                        "kFCOUFGd0FjQUJoQUhJQWZRQU5BQW9BZlFBTkFBb0E=";
+                        "SNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAAAAAAAAAAAAFBBRFBBRFC0AAAA";
                     this._resources = new DevExpress.XtraReports.Serialization.XRResourceManager(resourceString);
                 }
                 return this._resources;
@@ -160,6 +121,10 @@ namespace XtraReportSerialization {
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
             this.pageInfo1 = new DevExpress.XtraReports.UI.XRPageInfo();
+            this.CompanyTaxId = new DevExpress.XtraReports.UI.XRLabel();
+            this.CompanyPhoneCompanyFax = new DevExpress.XtraReports.UI.XRLabel();
+            this.CompanyBillingAddress = new DevExpress.XtraReports.UI.XRLabel();
+            this.CompanyName = new DevExpress.XtraReports.UI.XRLabel();
             this.line2 = new DevExpress.XtraReports.UI.XRLine();
             this.table3 = new DevExpress.XtraReports.UI.XRTable();
             this.table2 = new DevExpress.XtraReports.UI.XRTable();
@@ -167,10 +132,6 @@ namespace XtraReportSerialization {
             this.label2 = new DevExpress.XtraReports.UI.XRLabel();
             this.line1 = new DevExpress.XtraReports.UI.XRLine();
             this.label1 = new DevExpress.XtraReports.UI.XRLabel();
-            this.CompanyTaxId = new DevExpress.XtraReports.UI.XRRichText();
-            this.CompanyPhoneCompanyFax = new DevExpress.XtraReports.UI.XRRichText();
-            this.CompanyBillingAddress = new DevExpress.XtraReports.UI.XRRichText();
-            this.CompanyName = new DevExpress.XtraReports.UI.XRRichText();
             this.CompanyLogo = new DevExpress.XtraReports.UI.XRPictureBox();
             this.tableRow7 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell8 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -204,28 +165,32 @@ namespace XtraReportSerialization {
             this.tableCell5 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell6 = new DevExpress.XtraReports.UI.XRTableCell();
             this.table6 = new DevExpress.XtraReports.UI.XRTable();
-            this.Autherize = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.Authorize = new DevExpress.XtraReports.UI.XRPictureBox();
             this.table5 = new DevExpress.XtraReports.UI.XRTable();
             this.line4 = new DevExpress.XtraReports.UI.XRLine();
             this.line3 = new DevExpress.XtraReports.UI.XRLine();
             this.table4 = new DevExpress.XtraReports.UI.XRTable();
-            this.Employee = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.User = new DevExpress.XtraReports.UI.XRPictureBox();
             this.tableRow10 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableRow13 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell40 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell41 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell42 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.AuthorizeName = new DevExpress.XtraReports.UI.XRLabel();
             this.tableCell43 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell44 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell45 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.AuthorizeDate = new DevExpress.XtraReports.UI.XRLabel();
             this.tableRow11 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableRow12 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell37 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell38 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell35 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.UserName = new DevExpress.XtraReports.UI.XRLabel();
             this.tableCell39 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell34 = new DevExpress.XtraReports.UI.XRTableCell();
             this.tableCell36 = new DevExpress.XtraReports.UI.XRTableCell();
+            this.UserDate = new DevExpress.XtraReports.UI.XRLabel();
             this.tableRow8 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableRow9 = new DevExpress.XtraReports.UI.XRTableRow();
             this.tableCell25 = new DevExpress.XtraReports.UI.XRTableCell();
@@ -245,10 +210,6 @@ namespace XtraReportSerialization {
             ((System.ComponentModel.ISupportInitialize)(this.table3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyTaxId)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyPhoneCompanyFax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyBillingAddress)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.table4)).BeginInit();
@@ -277,6 +238,10 @@ namespace XtraReportSerialization {
             // PageHeader
             // 
             this.PageHeader.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.CompanyTaxId,
+                        this.CompanyPhoneCompanyFax,
+                        this.CompanyBillingAddress,
+                        this.CompanyName,
                         this.line2,
                         this.table3,
                         this.table2,
@@ -284,10 +249,6 @@ namespace XtraReportSerialization {
                         this.label2,
                         this.line1,
                         this.label1,
-                        this.CompanyTaxId,
-                        this.CompanyPhoneCompanyFax,
-                        this.CompanyBillingAddress,
-                        this.CompanyName,
                         this.CompanyLogo});
             this.PageHeader.Dpi = 254F;
             this.PageHeader.HeightF = 859.733F;
@@ -297,12 +258,12 @@ namespace XtraReportSerialization {
             // 
             this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
                         this.table6,
-                        this.Autherize,
+                        this.Authorize,
                         this.table5,
                         this.line4,
                         this.line3,
                         this.table4,
-                        this.Employee});
+                        this.User});
             this.ReportFooter.Dpi = 254F;
             this.ReportFooter.HeightF = 423.3975F;
             this.ReportFooter.Name = "ReportFooter";
@@ -319,6 +280,52 @@ namespace XtraReportSerialization {
             this.pageInfo1.StylePriority.UsePadding = false;
             this.pageInfo1.StylePriority.UseTextAlignment = false;
             this.pageInfo1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopRight;
+            // 
+            // CompanyTaxId
+            // 
+            this.CompanyTaxId.Dpi = 254F;
+            this.CompanyTaxId.Font = new System.Drawing.Font("CordiaUPC", 8F, System.Drawing.FontStyle.Bold);
+            this.CompanyTaxId.LocationFloat = new DevExpress.Utils.PointFloat(304.8546F, 175.26F);
+            this.CompanyTaxId.Name = "CompanyTaxId";
+            this.CompanyTaxId.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.CompanyTaxId.SizeF = new System.Drawing.SizeF(1219.145F, 58.42F);
+            this.CompanyTaxId.StylePriority.UseFont = false;
+            this.CompanyTaxId.StylePriority.UsePadding = false;
+            this.CompanyTaxId.Text = "CompanyName";
+            // 
+            // CompanyPhoneCompanyFax
+            // 
+            this.CompanyPhoneCompanyFax.Dpi = 254F;
+            this.CompanyPhoneCompanyFax.Font = new System.Drawing.Font("CordiaUPC", 8F);
+            this.CompanyPhoneCompanyFax.LocationFloat = new DevExpress.Utils.PointFloat(304.8546F, 116.84F);
+            this.CompanyPhoneCompanyFax.Name = "CompanyPhoneCompanyFax";
+            this.CompanyPhoneCompanyFax.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.CompanyPhoneCompanyFax.SizeF = new System.Drawing.SizeF(1219.145F, 58.42F);
+            this.CompanyPhoneCompanyFax.StylePriority.UseFont = false;
+            this.CompanyPhoneCompanyFax.StylePriority.UsePadding = false;
+            this.CompanyPhoneCompanyFax.Text = "CompanyName";
+            // 
+            // CompanyBillingAddress
+            // 
+            this.CompanyBillingAddress.Dpi = 254F;
+            this.CompanyBillingAddress.Font = new System.Drawing.Font("CordiaUPC", 8F);
+            this.CompanyBillingAddress.LocationFloat = new DevExpress.Utils.PointFloat(304.8546F, 58.41996F);
+            this.CompanyBillingAddress.Name = "CompanyBillingAddress";
+            this.CompanyBillingAddress.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.CompanyBillingAddress.SizeF = new System.Drawing.SizeF(1219.145F, 58.42F);
+            this.CompanyBillingAddress.StylePriority.UseFont = false;
+            this.CompanyBillingAddress.StylePriority.UsePadding = false;
+            this.CompanyBillingAddress.Text = "CompanyName";
+            // 
+            // CompanyName
+            // 
+            this.CompanyName.Dpi = 254F;
+            this.CompanyName.LocationFloat = new DevExpress.Utils.PointFloat(304.8546F, 0F);
+            this.CompanyName.Name = "CompanyName";
+            this.CompanyName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.CompanyName.SizeF = new System.Drawing.SizeF(1219.145F, 58.42001F);
+            this.CompanyName.StylePriority.UsePadding = false;
+            this.CompanyName.Text = "CompanyName";
             // 
             // line2
             // 
@@ -393,54 +400,6 @@ namespace XtraReportSerialization {
             this.label1.StylePriority.UseTextAlignment = false;
             this.label1.Text = "เอกสารตัวอย่าง";
             this.label1.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
-            // 
-            // CompanyTaxId
-            // 
-            this.CompanyTaxId.Dpi = 254F;
-            this.CompanyTaxId.Font = new System.Drawing.Font("CordiaUPC", 8F, System.Drawing.FontStyle.Bold);
-            this.CompanyTaxId.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 175.26F);
-            this.CompanyTaxId.Name = "CompanyTaxId";
-            this.CompanyTaxId.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
-            this.CompanyTaxId.SerializableRtfString = resources.GetString("CompanyTaxId.SerializableRtfString");
-            this.CompanyTaxId.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
-            this.CompanyTaxId.StylePriority.UseFont = false;
-            this.CompanyTaxId.StylePriority.UsePadding = false;
-            // 
-            // CompanyPhoneCompanyFax
-            // 
-            this.CompanyPhoneCompanyFax.Dpi = 254F;
-            this.CompanyPhoneCompanyFax.Font = new System.Drawing.Font("CordiaUPC", 8F);
-            this.CompanyPhoneCompanyFax.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 116.84F);
-            this.CompanyPhoneCompanyFax.Name = "CompanyPhoneCompanyFax";
-            this.CompanyPhoneCompanyFax.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
-            this.CompanyPhoneCompanyFax.SerializableRtfString = resources.GetString("CompanyPhoneCompanyFax.SerializableRtfString");
-            this.CompanyPhoneCompanyFax.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
-            this.CompanyPhoneCompanyFax.StylePriority.UseFont = false;
-            this.CompanyPhoneCompanyFax.StylePriority.UsePadding = false;
-            // 
-            // CompanyBillingAddress
-            // 
-            this.CompanyBillingAddress.Dpi = 254F;
-            this.CompanyBillingAddress.Font = new System.Drawing.Font("CordiaUPC", 8F);
-            this.CompanyBillingAddress.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 58.42F);
-            this.CompanyBillingAddress.Name = "CompanyBillingAddress";
-            this.CompanyBillingAddress.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
-            this.CompanyBillingAddress.SerializableRtfString = resources.GetString("CompanyBillingAddress.SerializableRtfString");
-            this.CompanyBillingAddress.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
-            this.CompanyBillingAddress.StylePriority.UseFont = false;
-            this.CompanyBillingAddress.StylePriority.UsePadding = false;
-            // 
-            // CompanyName
-            // 
-            this.CompanyName.Dpi = 254F;
-            this.CompanyName.Font = new System.Drawing.Font("CordiaUPC", 9.75F);
-            this.CompanyName.LocationFloat = new DevExpress.Utils.PointFloat(309.5625F, 0F);
-            this.CompanyName.Name = "CompanyName";
-            this.CompanyName.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
-            this.CompanyName.SerializableRtfString = resources.GetString("CompanyName.SerializableRtfString");
-            this.CompanyName.SizeF = new System.Drawing.SizeF(1341.438F, 58.42F);
-            this.CompanyName.StylePriority.UseFont = false;
-            this.CompanyName.StylePriority.UsePadding = false;
             // 
             // CompanyLogo
             // 
@@ -785,13 +744,13 @@ namespace XtraReportSerialization {
                         this.tableRow13});
             this.table6.SizeF = new System.Drawing.SizeF(526.4879F, 117.745F);
             // 
-            // Autherize
+            // Authorize
             // 
-            this.Autherize.Dpi = 254F;
-            this.Autherize.LocationFloat = new DevExpress.Utils.PointFloat(1510.428F, 165.5781F);
-            this.Autherize.Name = "Autherize";
-            this.Autherize.SizeF = new System.Drawing.SizeF(349.9909F, 127.196F);
-            this.Autherize.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
+            this.Authorize.Dpi = 254F;
+            this.Authorize.LocationFloat = new DevExpress.Utils.PointFloat(1510.428F, 165.5781F);
+            this.Authorize.Name = "Authorize";
+            this.Authorize.SizeF = new System.Drawing.SizeF(349.9909F, 127.196F);
+            this.Authorize.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
             // 
             // table5
             // 
@@ -829,13 +788,13 @@ namespace XtraReportSerialization {
                         this.tableRow9});
             this.table4.SizeF = new System.Drawing.SizeF(1852.6F, 136.7994F);
             // 
-            // Employee
+            // User
             // 
-            this.Employee.Dpi = 254F;
-            this.Employee.LocationFloat = new DevExpress.Utils.PointFloat(159.2033F, 165.5781F);
-            this.Employee.Name = "Employee";
-            this.Employee.SizeF = new System.Drawing.SizeF(349.9909F, 127.196F);
-            this.Employee.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
+            this.User.Dpi = 254F;
+            this.User.LocationFloat = new DevExpress.Utils.PointFloat(159.2033F, 165.5781F);
+            this.User.Name = "User";
+            this.User.SizeF = new System.Drawing.SizeF(349.9909F, 127.196F);
+            this.User.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
             // 
             // tableRow10
             // 
@@ -872,6 +831,8 @@ namespace XtraReportSerialization {
             // 
             this.tableCell41.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
             this.tableCell41.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Top | DevExpress.XtraPrinting.BorderSide.Bottom)));
+            this.tableCell41.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.AuthorizeName});
             this.tableCell41.Dpi = 254F;
             this.tableCell41.Name = "tableCell41";
             this.tableCell41.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
@@ -889,6 +850,15 @@ namespace XtraReportSerialization {
             this.tableCell42.Text = ")";
             this.tableCell42.Weight = 0.194468180290923D;
             // 
+            // AuthorizeName
+            // 
+            this.AuthorizeName.Dpi = 254F;
+            this.AuthorizeName.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0.4524918F);
+            this.AuthorizeName.Name = "AuthorizeName";
+            this.AuthorizeName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.AuthorizeName.SizeF = new System.Drawing.SizeF(349.9909F, 58.42004F);
+            this.AuthorizeName.StylePriority.UsePadding = false;
+            // 
             // tableCell43
             // 
             this.tableCell43.Dpi = 254F;
@@ -904,6 +874,8 @@ namespace XtraReportSerialization {
             // 
             this.tableCell44.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
             this.tableCell44.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
+            this.tableCell44.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.AuthorizeDate});
             this.tableCell44.Dpi = 254F;
             this.tableCell44.Name = "tableCell44";
             this.tableCell44.StylePriority.UseBorderDashStyle = false;
@@ -917,6 +889,15 @@ namespace XtraReportSerialization {
             this.tableCell45.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
             this.tableCell45.StylePriority.UsePadding = false;
             this.tableCell45.Weight = 0.19446825357666386D;
+            // 
+            // AuthorizeDate
+            // 
+            this.AuthorizeDate.Dpi = 254F;
+            this.AuthorizeDate.LocationFloat = new DevExpress.Utils.PointFloat(1.537858F, 8.074442E-05F);
+            this.AuthorizeDate.Name = "AuthorizeDate";
+            this.AuthorizeDate.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.AuthorizeDate.SizeF = new System.Drawing.SizeF(349.9909F, 58.42004F);
+            this.AuthorizeDate.StylePriority.UsePadding = false;
             // 
             // tableRow11
             // 
@@ -953,6 +934,8 @@ namespace XtraReportSerialization {
             // 
             this.tableCell38.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
             this.tableCell38.Borders = ((DevExpress.XtraPrinting.BorderSide)((DevExpress.XtraPrinting.BorderSide.Top | DevExpress.XtraPrinting.BorderSide.Bottom)));
+            this.tableCell38.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.UserName});
             this.tableCell38.Dpi = 254F;
             this.tableCell38.Name = "tableCell38";
             this.tableCell38.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
@@ -970,6 +953,15 @@ namespace XtraReportSerialization {
             this.tableCell35.Text = ")";
             this.tableCell35.Weight = 0.194468180290923D;
             // 
+            // UserName
+            // 
+            this.UserName.Dpi = 254F;
+            this.UserName.LocationFloat = new DevExpress.Utils.PointFloat(1.537819F, 0.4525146F);
+            this.UserName.Name = "UserName";
+            this.UserName.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.UserName.SizeF = new System.Drawing.SizeF(349.9909F, 58.42004F);
+            this.UserName.StylePriority.UsePadding = false;
+            // 
             // tableCell39
             // 
             this.tableCell39.Dpi = 254F;
@@ -985,6 +977,8 @@ namespace XtraReportSerialization {
             // 
             this.tableCell34.BorderDashStyle = DevExpress.XtraPrinting.BorderDashStyle.Dot;
             this.tableCell34.Borders = DevExpress.XtraPrinting.BorderSide.Bottom;
+            this.tableCell34.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.UserDate});
             this.tableCell34.Dpi = 254F;
             this.tableCell34.Name = "tableCell34";
             this.tableCell34.StylePriority.UseBorderDashStyle = false;
@@ -998,6 +992,15 @@ namespace XtraReportSerialization {
             this.tableCell36.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 8, 0, 254F);
             this.tableCell36.StylePriority.UsePadding = false;
             this.tableCell36.Weight = 0.19446825357666386D;
+            // 
+            // UserDate
+            // 
+            this.UserDate.Dpi = 254F;
+            this.UserDate.LocationFloat = new DevExpress.Utils.PointFloat(1.537858F, 0.4525725F);
+            this.UserDate.Name = "UserDate";
+            this.UserDate.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 7, 0, 254F);
+            this.UserDate.SizeF = new System.Drawing.SizeF(349.9909F, 58.42004F);
+            this.UserDate.StylePriority.UsePadding = false;
             // 
             // tableRow8
             // 
@@ -1197,10 +1200,6 @@ namespace XtraReportSerialization {
             ((System.ComponentModel.ISupportInitialize)(this.table3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyTaxId)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyPhoneCompanyFax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyBillingAddress)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CompanyName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.table4)).EndInit();

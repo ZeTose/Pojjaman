@@ -187,32 +187,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
         Dim rows As New DataRowHelper(companyConfig.Tables(0).Rows(0))
         Dim xrCompanyNameRichText As Object = newReport.FindControl("CompanyName", True)
-        If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyName", "")
+        If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyName", "")
         End If
         Dim xrCompanyAddressRichText As Object = newReport.FindControl("CompanyAddress", True)
-        If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyAddress", "")
+        If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyAddress", "")
         End If
         Dim xrCompanyBillingAddressRichText As Object = newReport.FindControl("CompanyBillingAddress", True)
-        If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
+        If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
         End If
         Dim xrCompanyPhoneFaxRichText As Object = newReport.FindControl("CompanyPhoneCompanyFax", True)
-        If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("โทรศัพท์ {0} โทรสาร {1}", rows.GetValue(Of String)("CompanyPhone", ""), rows.GetValue(Of String)("CompanyFax", ""))
+        If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRLabel).Text = String.Format("โทรศัพท์ {0} โทรสาร {1}", rows.GetValue(Of String)("CompanyPhone", ""), rows.GetValue(Of String)("CompanyFax", ""))
         End If
         Dim xrCompanyPhoneRichText As Object = newReport.FindControl("CompanyPhone", True)
-        If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyPhone", "")
+        If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyPhone", "")
         End If
         Dim xrCompanyFaxRichText As Object = newReport.FindControl("CompanyFax", True)
-        If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyFax", "")
+        If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyFax", "")
         End If
         Dim xrCompanyTaxIdRichText As Object = newReport.FindControl("CompanyTaxId", True)
-        If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("เลขประจำตัวผู้เสียภาษี {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
+        If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRLabel).Text = String.Format("เลขประจำตัวผู้เสียภาษี {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
         End If
         '--Company Config--
 
@@ -234,8 +234,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(xrEmployeePictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrEmployeeRichText As Object = newReport.FindControl("EmployeeName", True)
-              If Not xrEmployeeRichText Is Nothing AndAlso TypeOf xrEmployeeRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrEmployeeRichText, DevExpress.XtraReports.UI.XRRichText).Text = docPerson.DocumentEditedUser.Employee.Name
+              If Not xrEmployeeRichText Is Nothing AndAlso TypeOf xrEmployeeRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrEmployeeRichText, DevExpress.XtraReports.UI.XRLabel).Text = docPerson.DocumentEditedUser.Employee.Name
               End If
             End If
             If Not _docEditedUser.CanceledUser Is Nothing Then
@@ -251,12 +251,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(xrCanceledUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrCanceledUserRichText As Object = newReport.FindControl("CancelName", True)
-              If Not xrCanceledUserRichText Is Nothing AndAlso TypeOf xrCanceledUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrCanceledUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CanceledUser.UserName
+              If Not xrCanceledUserRichText Is Nothing AndAlso TypeOf xrCanceledUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrCanceledUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CanceledUser.UserName
               End If
               Dim xrCanceledUserDateRichText As Object = newReport.FindControl("CancelDate", True)
-              If Not xrCanceledUserDateRichText Is Nothing AndAlso TypeOf xrCanceledUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrCanceledUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CanceledUser.EditedDate.ToShortDateString
+              If Not xrCanceledUserDateRichText Is Nothing AndAlso TypeOf xrCanceledUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrCanceledUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CanceledUser.EditedDate.ToShortDateString
               End If
             End If
             If Not _docEditedUser.CreatedUser Is Nothing Then
@@ -272,12 +272,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(xrCreatedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrCreatedUserRichText As Object = newReport.FindControl("CreateName", True)
-              If Not xrCreatedUserRichText Is Nothing AndAlso TypeOf xrCreatedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrCreatedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CreatedUser.UserName
+              If Not xrCreatedUserRichText Is Nothing AndAlso TypeOf xrCreatedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrCreatedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CreatedUser.UserName
               End If
               Dim xrCreatedUserDateRichText As Object = newReport.FindControl("CreateDate", True)
-              If Not xrCreatedUserDateRichText Is Nothing AndAlso TypeOf xrCreatedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrCreatedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CreatedUser.EditedDate.ToShortDateString
+              If Not xrCreatedUserDateRichText Is Nothing AndAlso TypeOf xrCreatedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrCreatedUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CreatedUser.EditedDate.ToShortDateString
               End If
             End If
             If Not _docEditedUser.EditedUser Is Nothing Then
@@ -293,12 +293,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(xrEditedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrEditedUserRichText As Object = newReport.FindControl("EditeName", True)
-              If Not xrEditedUserRichText Is Nothing AndAlso TypeOf xrEditedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrEditedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.EditedUser.UserName
+              If Not xrEditedUserRichText Is Nothing AndAlso TypeOf xrEditedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrEditedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.EditedUser.UserName
               End If
               Dim xrEditedUserDateRichText As Object = newReport.FindControl("EditeDate", True)
-              If Not xrEditedUserDateRichText Is Nothing AndAlso TypeOf xrEditedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrEditedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.EditedUser.EditedDate.ToShortDateString
+              If Not xrEditedUserDateRichText Is Nothing AndAlso TypeOf xrEditedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrEditedUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.EditedUser.EditedDate.ToShortDateString
               End If
             End If
             If Not _docEditedUser.ApprovedUser Is Nothing Then
@@ -314,33 +314,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(xrApprovedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrApprovedUserRichText As Object = newReport.FindControl("ApproveName", True)
-              If Not xrApprovedUserRichText Is Nothing AndAlso TypeOf xrApprovedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrApprovedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.ApprovedUser.UserName
+              If Not xrApprovedUserRichText Is Nothing AndAlso TypeOf xrApprovedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrApprovedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.ApprovedUser.UserName
               End If
               Dim xrApproveUserDateRichText As Object = newReport.FindControl("ApproveDate", True)
-              If Not xrApproveUserDateRichText Is Nothing AndAlso TypeOf xrApproveUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrApproveUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.ApprovedUser.EditedDate.ToShortDateString
+              If Not xrApproveUserDateRichText Is Nothing AndAlso TypeOf xrApproveUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrApproveUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.ApprovedUser.EditedDate.ToShortDateString
               End If
             End If
-            If Not _docEditedUser.AutherizedUser Is Nothing Then
-              Dim xrAutherizedUserPictureBox As Object = newReport.FindControl("Autherize", True)
-              If Not xrAutherizedUserPictureBox Is Nothing AndAlso TypeOf xrAutherizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+            If Not _docEditedUser.AuthorizedUser Is Nothing Then
+              Dim xrAuthorizedUserPictureBox As Object = newReport.FindControl("Authorize", True)
+              If Not xrAuthorizedUserPictureBox Is Nothing AndAlso TypeOf xrAuthorizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
                 Dim img As Image
-                If Not m_userHash.ContainsKey(CStr(_docEditedUser.AutherizedUser.UserId)) Then
-                  img = CType(User.GetSignator(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
-                  m_userHash.Add(CStr(_docEditedUser.AutherizedUser.UserId), img)
+                If Not m_userHash.ContainsKey(CStr(_docEditedUser.AuthorizedUser.UserId)) Then
+                  img = CType(User.GetSignator(CStr(_docEditedUser.AuthorizedUser.UserId)), Image)
+                  m_userHash.Add(CStr(_docEditedUser.AuthorizedUser.UserId), img)
                 Else
-                  img = CType(m_userHash(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
+                  img = CType(m_userHash(CStr(_docEditedUser.AuthorizedUser.UserId)), Image)
                 End If
-                CType(xrAutherizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+                CType(xrAuthorizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
-              Dim xrAutherizedUserRichText As Object = newReport.FindControl("AutherizeName", True)
-              If Not xrAutherizedUserRichText Is Nothing AndAlso TypeOf xrAutherizedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrAutherizedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.AutherizedUser.UserName
+              Dim xrAuthorizedUserRichText As Object = newReport.FindControl("AuthorizeName", True)
+              If Not xrAuthorizedUserRichText Is Nothing AndAlso TypeOf xrAuthorizedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrAuthorizedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.AuthorizedUser.UserName
               End If
-              Dim xrAutherizedUserDateRichText As Object = newReport.FindControl("AutherizeDate", True)
-              If Not xrAutherizedUserDateRichText Is Nothing AndAlso TypeOf xrAutherizedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrAutherizedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.AutherizedUser.EditedDate.ToShortDateString
+              Dim xrAuthorizedUserDateRichText As Object = newReport.FindControl("AuthorizeDate", True)
+              Trace.WriteLine((Not xrAuthorizedUserDateRichText Is Nothing).ToString)
+              Trace.WriteLine((TypeOf xrAuthorizedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel).ToString)
+              If Not xrAuthorizedUserDateRichText Is Nothing AndAlso TypeOf xrAuthorizedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrAuthorizedUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.AuthorizedUser.EditedDate.ToShortDateString
               End If
             End If
             If Not _docEditedUser.RejectUser Is Nothing Then
@@ -356,12 +358,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 CType(xrRejectUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
               End If
               Dim xrRejectUserRichText As Object = newReport.FindControl("RejectName", True)
-              If Not xrRejectUserRichText Is Nothing AndAlso TypeOf xrRejectUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrRejectUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.RejectUser.UserName
+              If Not xrRejectUserRichText Is Nothing AndAlso TypeOf xrRejectUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrRejectUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.RejectUser.UserName
               End If
               Dim xrRejectUserDateRichText As Object = newReport.FindControl("RejectDate", True)
-              If Not xrRejectUserDateRichText Is Nothing AndAlso TypeOf xrRejectUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                CType(xrRejectUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.RejectUser.EditedDate.ToShortDateString
+              If Not xrRejectUserDateRichText Is Nothing AndAlso TypeOf xrRejectUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                CType(xrRejectUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.RejectUser.EditedDate.ToShortDateString
               End If
             End If
             If Not _docEditedUser.ApprovedUserList Is Nothing AndAlso _docEditedUser.ApprovedUserList.Count > 0 Then
@@ -383,13 +385,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 End If
                 ctlName = String.Format("ApproveLevel{0}Name", ap.Level)
                 Dim xrctlNameRichText As Object = newReport.FindControl(ctlName, True)
-                If Not xrctlNameRichText Is Nothing AndAlso TypeOf xrctlNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                  CType(xrctlNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = New User(ap.Originator).Name
+                If Not xrctlNameRichText Is Nothing AndAlso TypeOf xrctlNameRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                  CType(xrctlNameRichText, DevExpress.XtraReports.UI.XRLabel).Text = New User(ap.Originator).Name
                 End If
                 ctlApproveDate = String.Format("ApproveLevel{0}Date", ap.Level)
                 Dim xrctlApproveDateRichText As Object = newReport.FindControl(ctlName, True)
-                If Not xrctlApproveDateRichText Is Nothing AndAlso TypeOf xrctlApproveDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-                  CType(xrctlApproveDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = ap.OriginDate.ToShortDateString
+                If Not xrctlApproveDateRichText Is Nothing AndAlso TypeOf xrctlApproveDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+                  CType(xrctlApproveDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = ap.OriginDate.ToShortDateString
                 End If
               Next
             End If
@@ -408,12 +410,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           CType(xrUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
         End If
         Dim xrUserRichText As Object = newReport.FindControl("UserName", True)
-        If Not xrUserRichText Is Nothing AndAlso TypeOf xrUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = secSrv.CurrentUser.Name
+        If Not xrUserRichText Is Nothing AndAlso TypeOf xrUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = secSrv.CurrentUser.Name
         End If
         Dim xrUserDateRichText As Object = newReport.FindControl("UserDate", True)
-        If Not xrUserDateRichText Is Nothing AndAlso TypeOf xrUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-          CType(xrUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = Now.ToShortDateString
+        If Not xrUserDateRichText Is Nothing AndAlso TypeOf xrUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+          CType(xrUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = Now.ToShortDateString
         End If
         '--Signature Image--
 
@@ -437,10 +439,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           For Each cName As String In hsNote.Keys
             Dim xrcNoteRichText As Object = newReport.FindControl(cName, True)
-            If Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRRichText Then
-              CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRRichText).Text = ""
+            If Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRLabel Then
+              CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRLabel).Text = ""
               If Not CType(hsNote(cName.ToLower), CustomNote) Is Nothing AndAlso Not CType(hsNote(cName.ToLower), CustomNote).Note Is Nothing Then
-                CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRRichText).Text = CType(hsNote(cName.ToLower), CustomNote).Note.ToString
+                CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRLabel).Text = CType(hsNote(cName.ToLower), CustomNote).Note.ToString
               End If
             ElseIf Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRCheckBox Then
               If Not CType(hsNote(cName.ToLower), CustomNote) Is Nothing AndAlso Not CType(hsNote(cName.ToLower), CustomNote).Note Is Nothing Then
@@ -531,32 +533,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  'Dim companyConfig As DataSet = EntitySimpleSchema.GetCompanyConfig()
       '  Dim rows As New DataRowHelper(companyConfig.Tables(0).Rows(0))
       '  Dim xrCompanyNameRichText As Object = newReport.FindControl("CompanyName", True)
-      '  If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyName", "")
+      '  If Not xrCompanyNameRichText Is Nothing AndAlso TypeOf xrCompanyNameRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyNameRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyName", "")
       '  End If
       '  Dim xrCompanyAddressRichText As Object = newReport.FindControl("CompanyAddress", True)
-      '  If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyAddress", "")
+      '  If Not xrCompanyAddressRichText Is Nothing AndAlso TypeOf xrCompanyAddressRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyAddressRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyAddress", "")
       '  End If
       '  Dim xrCompanyBillingAddressRichText As Object = newReport.FindControl("CompanyBillingAddress", True)
-      '  If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
+      '  If Not xrCompanyBillingAddressRichText Is Nothing AndAlso TypeOf xrCompanyBillingAddressRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyBillingAddressRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyBillingAddress", "")
       '  End If
       '  Dim xrCompanyPhoneFaxRichText As Object = newReport.FindControl("CompanyPhoneCompanyFax", True)
-      '  If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("โทรศัพท์ {0} โทรสาร {1}", rows.GetValue(Of String)("CompanyPhone", ""), rows.GetValue(Of String)("CompanyFax", ""))
+      '  If Not xrCompanyPhoneFaxRichText Is Nothing AndAlso TypeOf xrCompanyPhoneFaxRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyPhoneFaxRichText, DevExpress.XtraReports.UI.XRLabel).Text = String.Format("โทรศัพท์ {0} โทรสาร {1}", rows.GetValue(Of String)("CompanyPhone", ""), rows.GetValue(Of String)("CompanyFax", ""))
       '  End If
       '  Dim xrCompanyPhoneRichText As Object = newReport.FindControl("CompanyPhone", True)
-      '  If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyPhone", "")
+      '  If Not xrCompanyPhoneRichText Is Nothing AndAlso TypeOf xrCompanyPhoneRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyPhoneRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyPhone", "")
       '  End If
       '  Dim xrCompanyFaxRichText As Object = newReport.FindControl("CompanyFax", True)
-      '  If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRRichText).Text = rows.GetValue(Of String)("CompanyFax", "")
+      '  If Not xrCompanyFaxRichText Is Nothing AndAlso TypeOf xrCompanyFaxRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyFaxRichText, DevExpress.XtraReports.UI.XRLabel).Text = rows.GetValue(Of String)("CompanyFax", "")
       '  End If
       '  Dim xrCompanyTaxIdRichText As Object = newReport.FindControl("CompanyTaxId", True)
-      '  If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRRichText).Text = String.Format("เลขประจำตัวผู้เสียภาษี {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
+      '  If Not xrCompanyTaxIdRichText Is Nothing AndAlso TypeOf xrCompanyTaxIdRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCompanyTaxIdRichText, DevExpress.XtraReports.UI.XRLabel).Text = String.Format("เลขประจำตัวผู้เสียภาษี {0}", rows.GetValue(Of String)("CompanyTaxId", ""))
       '  End If
       '  '--Company Config--
 
@@ -567,8 +569,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrEmployeePictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrEmployeeRichText As Object = newReport.FindControl("EmployeeName", True)
-      '  If Not xrEmployeeRichText Is Nothing AndAlso TypeOf xrEmployeeRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrEmployeeRichText, DevExpress.XtraReports.UI.XRRichText).Text = docPerson.DocumentEditedUser.Employee.Name
+      '  If Not xrEmployeeRichText Is Nothing AndAlso TypeOf xrEmployeeRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrEmployeeRichText, DevExpress.XtraReports.UI.XRLabel).Text = docPerson.DocumentEditedUser.Employee.Name
       '  End If
 
 
@@ -578,12 +580,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrCanceledUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrCanceledUserRichText As Object = newReport.FindControl("CancelName", True)
-      '  If Not xrCanceledUserRichText Is Nothing AndAlso TypeOf xrCanceledUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCanceledUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CanceledUser.UserName
+      '  If Not xrCanceledUserRichText Is Nothing AndAlso TypeOf xrCanceledUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCanceledUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CanceledUser.UserName
       '  End If
       '  Dim xrCanceledUserDateRichText As Object = newReport.FindControl("CancelDate", True)
-      '  If Not xrCanceledUserDateRichText Is Nothing AndAlso TypeOf xrCanceledUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCanceledUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CanceledUser.EditedDate.ToShortDateString
+      '  If Not xrCanceledUserDateRichText Is Nothing AndAlso TypeOf xrCanceledUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCanceledUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CanceledUser.EditedDate.ToShortDateString
       '  End If
 
       '  Dim xrCreatedUserPictureBox As Object = newReport.FindControl("Create", True)
@@ -592,12 +594,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrCreatedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrCreatedUserRichText As Object = newReport.FindControl("CreateName", True)
-      '  If Not xrCreatedUserRichText Is Nothing AndAlso TypeOf xrCreatedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCreatedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CreatedUser.UserName
+      '  If Not xrCreatedUserRichText Is Nothing AndAlso TypeOf xrCreatedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCreatedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CreatedUser.UserName
       '  End If
       '  Dim xrCreatedUserDateRichText As Object = newReport.FindControl("CreateDate", True)
-      '  If Not xrCreatedUserDateRichText Is Nothing AndAlso TypeOf xrCreatedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrCreatedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.CreatedUser.EditedDate.ToShortDateString
+      '  If Not xrCreatedUserDateRichText Is Nothing AndAlso TypeOf xrCreatedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrCreatedUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.CreatedUser.EditedDate.ToShortDateString
       '  End If
 
       '  Dim xrEditedUserPictureBox As Object = newReport.FindControl("Edite", True)
@@ -606,12 +608,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrEditedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrEditedUserRichText As Object = newReport.FindControl("EditeName", True)
-      '  If Not xrEditedUserRichText Is Nothing AndAlso TypeOf xrEditedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrEditedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.EditedUser.UserName
+      '  If Not xrEditedUserRichText Is Nothing AndAlso TypeOf xrEditedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrEditedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.EditedUser.UserName
       '  End If
       '  Dim xrEditedUserDateRichText As Object = newReport.FindControl("EditeDate", True)
-      '  If Not xrEditedUserDateRichText Is Nothing AndAlso TypeOf xrEditedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrEditedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.EditedUser.EditedDate.ToShortDateString
+      '  If Not xrEditedUserDateRichText Is Nothing AndAlso TypeOf xrEditedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrEditedUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.EditedUser.EditedDate.ToShortDateString
       '  End If
 
       '  Dim xrApprovedUserPictureBox As Object = newReport.FindControl("Approve", True)
@@ -620,26 +622,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrApprovedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrApprovedUserRichText As Object = newReport.FindControl("ApproveName", True)
-      '  If Not xrApprovedUserRichText Is Nothing AndAlso TypeOf xrApprovedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrApprovedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.ApprovedUser.UserName
+      '  If Not xrApprovedUserRichText Is Nothing AndAlso TypeOf xrApprovedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrApprovedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.ApprovedUser.UserName
       '  End If
       '  Dim xrApproveUserDateRichText As Object = newReport.FindControl("ApproveDate", True)
-      '  If Not xrApproveUserDateRichText Is Nothing AndAlso TypeOf xrApproveUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrApproveUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.ApprovedUser.EditedDate.ToShortDateString
+      '  If Not xrApproveUserDateRichText Is Nothing AndAlso TypeOf xrApproveUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrApproveUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.ApprovedUser.EditedDate.ToShortDateString
       '  End If
 
-      '  Dim xrAutherizedUserPictureBox As Object = newReport.FindControl("Autherize", True)
-      '  If Not xrAutherizedUserPictureBox Is Nothing AndAlso TypeOf xrAutherizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
-      '    Dim img As Image = CType(User.GetAuthorizeSignator(CStr(_docEditedUser.AutherizedUser.UserId)), Image)
-      '    CType(xrAutherizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
+      '  Dim xrAuthorizedUserPictureBox As Object = newReport.FindControl("Authorize", True)
+      '  If Not xrAuthorizedUserPictureBox Is Nothing AndAlso TypeOf xrAuthorizedUserPictureBox Is DevExpress.XtraReports.UI.XRPictureBox Then
+      '    Dim img As Image = CType(User.GetAuthorizeSignator(CStr(_docEditedUser.AuthorizedUser.UserId)), Image)
+      '    CType(xrAuthorizedUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
-      '  Dim xrAutherizedUserRichText As Object = newReport.FindControl("AutherizeName", True)
-      '  If Not xrAutherizedUserRichText Is Nothing AndAlso TypeOf xrAutherizedUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrAutherizedUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.AutherizedUser.UserName
+      '  Dim xrAuthorizedUserRichText As Object = newReport.FindControl("AuthorizeName", True)
+      '  If Not xrAuthorizedUserRichText Is Nothing AndAlso TypeOf xrAuthorizedUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrAuthorizedUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.AuthorizedUser.UserName
       '  End If
-      '  Dim xrAutherizedUserDateRichText As Object = newReport.FindControl("AutherizeDate", True)
-      '  If Not xrAutherizedUserDateRichText Is Nothing AndAlso TypeOf xrAutherizedUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrAutherizedUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.AutherizedUser.EditedDate.ToShortDateString
+      '  Dim xrAuthorizedUserDateRichText As Object = newReport.FindControl("AuthorizeDate", True)
+      '  If Not xrAuthorizedUserDateRichText Is Nothing AndAlso TypeOf xrAuthorizedUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrAuthorizedUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.AuthorizedUser.EditedDate.ToShortDateString
       '  End If
 
       '  Dim xrRejectUserPictureBox As Object = newReport.FindControl("Reject", True)
@@ -648,12 +650,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrRejectUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrRejectUserRichText As Object = newReport.FindControl("RejectName", True)
-      '  If Not xrRejectUserRichText Is Nothing AndAlso TypeOf xrRejectUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrRejectUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.RejectUser.UserName
+      '  If Not xrRejectUserRichText Is Nothing AndAlso TypeOf xrRejectUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrRejectUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.RejectUser.UserName
       '  End If
       '  Dim xrRejectUserDateRichText As Object = newReport.FindControl("RejectDate", True)
-      '  If Not xrRejectUserDateRichText Is Nothing AndAlso TypeOf xrRejectUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrRejectUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = _docEditedUser.RejectUser.EditedDate.ToShortDateString
+      '  If Not xrRejectUserDateRichText Is Nothing AndAlso TypeOf xrRejectUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrRejectUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = _docEditedUser.RejectUser.EditedDate.ToShortDateString
       '  End If
 
       '  Dim ctlSignatureName As String = ""
@@ -668,13 +670,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    End If
       '    ctlName = String.Format("ApproveLevel{0}Name", ap.Level)
       '    Dim xrctlNameRichText As Object = newReport.FindControl(ctlName, True)
-      '    If Not xrctlNameRichText Is Nothing AndAlso TypeOf xrctlNameRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '      CType(xrctlNameRichText, DevExpress.XtraReports.UI.XRRichText).Text = New User(ap.Originator).Name
+      '    If Not xrctlNameRichText Is Nothing AndAlso TypeOf xrctlNameRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '      CType(xrctlNameRichText, DevExpress.XtraReports.UI.XRLabel).Text = New User(ap.Originator).Name
       '    End If
       '    ctlApproveDate = String.Format("ApproveLevel{0}Date", ap.Level)
       '    Dim xrctlApproveDateRichText As Object = newReport.FindControl(ctlName, True)
-      '    If Not xrctlApproveDateRichText Is Nothing AndAlso TypeOf xrctlApproveDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '      CType(xrctlApproveDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = ap.OriginDate.ToShortDateString
+      '    If Not xrctlApproveDateRichText Is Nothing AndAlso TypeOf xrctlApproveDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '      CType(xrctlApproveDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = ap.OriginDate.ToShortDateString
       '    End If
       '  Next
 
@@ -684,12 +686,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '    CType(xrUserPictureBox, DevExpress.XtraReports.UI.XRPictureBox).Image = img
       '  End If
       '  Dim xrUserRichText As Object = newReport.FindControl("UserName", True)
-      '  If Not xrUserRichText Is Nothing AndAlso TypeOf xrUserRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrUserRichText, DevExpress.XtraReports.UI.XRRichText).Text = secSrv.CurrentUser.Name
+      '  If Not xrUserRichText Is Nothing AndAlso TypeOf xrUserRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrUserRichText, DevExpress.XtraReports.UI.XRLabel).Text = secSrv.CurrentUser.Name
       '  End If
       '  Dim xrUserDateRichText As Object = newReport.FindControl("UserDate", True)
-      '  If Not xrUserDateRichText Is Nothing AndAlso TypeOf xrUserDateRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '    CType(xrUserDateRichText, DevExpress.XtraReports.UI.XRRichText).Text = Now.ToShortDateString
+      '  If Not xrUserDateRichText Is Nothing AndAlso TypeOf xrUserDateRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '    CType(xrUserDateRichText, DevExpress.XtraReports.UI.XRLabel).Text = Now.ToShortDateString
       '  End If
       '  '--Signature Image--
 
@@ -712,10 +714,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       '    For Each cName As String In hsNote.Keys
       '      Dim xrcNoteRichText As Object = newReport.FindControl(cName, True)
-      '      If Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRRichText Then
-      '        CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRRichText).Text = ""
+      '      If Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRLabel Then
+      '        CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRLabel).Text = ""
       '        If Not CType(hsNote(cName.ToLower), CustomNote) Is Nothing AndAlso Not CType(hsNote(cName.ToLower), CustomNote).Note Is Nothing Then
-      '          CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRRichText).Text = CType(hsNote(cName.ToLower), CustomNote).Note.ToString
+      '          CType(xrcNoteRichText, DevExpress.XtraReports.UI.XRLabel).Text = CType(hsNote(cName.ToLower), CustomNote).Note.ToString
       '        End If
       '      ElseIf Not xrcNoteRichText Is Nothing AndAlso TypeOf xrcNoteRichText Is DevExpress.XtraReports.UI.XRCheckBox Then
       '        If Not CType(hsNote(cName.ToLower), CustomNote) Is Nothing AndAlso Not CType(hsNote(cName.ToLower), CustomNote).Note Is Nothing Then

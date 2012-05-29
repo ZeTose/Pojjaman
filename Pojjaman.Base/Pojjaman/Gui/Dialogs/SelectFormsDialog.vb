@@ -159,17 +159,21 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       m_paths = paths
       m_keyvaluepairList = New ArrayList
       StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim keys(paths.FormPaths.Count - 1) As KeyValuePair
-      Dim i As Integer = 0
-      For Each fp As FormPath In paths.FormPaths
-        keys(i) = New KeyValuePair(fp.Name, fp.Path)
-        m_keyvaluepairList.Add(keys(i))
-        i += 1
-      Next
-      Initialize()
-      SetLabelText()
-      EventWiring()
-      UpdateEntityProperties()
+      Try
+        Dim keys(paths.FormPaths.Count - 1) As KeyValuePair
+        Dim i As Integer = 0
+        For Each fp As FormPath In paths.FormPaths
+          keys(i) = New KeyValuePair(fp.Name, fp.Path)
+          m_keyvaluepairList.Add(keys(i))
+          i += 1
+        Next
+        Initialize()
+        SetLabelText()
+        EventWiring()
+        UpdateEntityProperties()
+      Catch ex As Exception
+
+      End Try
     End Sub
 #End Region
 
