@@ -432,23 +432,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim _entity As ISimpleEntity = CType(dpientity, ISimpleEntity)
 
+      If EntitySimpleSchema.CheckExistDatabaseSchema(schemaId) Then
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(
+                                                            SimpleBusinessEntityBase.ConnectionString,
+                                                            CommandType.StoredProcedure,
+                                                            schemaId,
+                                                            New SqlParameter("@entityid", _entity.Id),
+                                                            New SqlParameter("@entitytype", _entity.EntityId)
+                                                        )
+        If ds.Tables.Count > 0 Then
+          ds.Tables(0).TableName = _entity.ClassName
+        End If
+
+        Return ds
+      End If
+     
+      Return New DataSet
+
+    End Function
+    Private Shared Function CheckExistDatabaseSchema(schemaId As String) As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(
-                                                    SimpleBusinessEntityBase.ConnectionString,
-                                                    CommandType.StoredProcedure,
-                                                    schemaId,
-                                                    New SqlParameter("@entityid", _entity.Id),
-                                                    New SqlParameter("@entitytype", _entity.EntityId)
-                                                )
+                                                   SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.Text,
+                                                   "if exists (select * from sysobjects where name = '" & schemaId.Trim & "') begin select '1' end else begin select '0' end"
+                                                  )
       If ds.Tables.Count > 0 Then
-        ds.Tables(0).TableName = _entity.ClassName
+        If CStr(ds.Tables(0).Rows(0)(0)) = "1" Then
+          Return True
+        End If
       End If
 
-      'Dim dt As DataTable = GetCompanyConfigSchemaFromDB()
-      'If Not dt Is Nothing AndAlso dt.Rows.Count > 0 Then
-      '  ds.Tables.Add(dt)
-      'End If
-
-      Return ds
+      Return False
     End Function
     Private Shared Function GetNewListOnlySchemaFromDB(ByVal dpientity As INewPrintableEntity, ByVal schemaId As String) As DataSet
       If Not TypeOf dpientity Is ISimpleEntity Then
