@@ -314,7 +314,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csContractBudgetPercent.NullText = ""
       csContractBudgetPercent.DataAlignment = HorizontalAlignment.Right
       csContractBudgetPercent.Format = "#,###.##"
-      csContractBudgetPercent.Width = 109
+      csContractBudgetPercent.Width = 0
       csContractBudgetPercent.TextBox.Name = "contractbudgetpercent"
       csContractBudgetPercent.ReadOnly = True
 
@@ -370,7 +370,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceivedActualPercent.NullText = ""
       csReceivedActualPercent.DataAlignment = HorizontalAlignment.Right
       csReceivedActualPercent.Format = "#,###.##"
-      csReceivedActualPercent.Width = 109
+      csReceivedActualPercent.Width = 0
       csReceivedActualPercent.TextBox.Name = "ReceivedActualPercent"
       csReceivedActualPercent.ReadOnly = True
 
@@ -426,7 +426,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemainCompletePercent.NullText = ""
       csRemainCompletePercent.DataAlignment = HorizontalAlignment.Right
       csRemainCompletePercent.Format = "#,###.##"
-      csRemainCompletePercent.Width = 109
+      csRemainCompletePercent.Width = 0
       csRemainCompletePercent.TextBox.Name = "RemainCompletePercent"
       csRemainCompletePercent.ReadOnly = True
 
