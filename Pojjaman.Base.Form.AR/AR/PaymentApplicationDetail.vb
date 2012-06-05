@@ -511,7 +511,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'txtDuration
       '
-      Me.Validator.SetDataType(Me.txtDuration, Longkong.Pojjaman.Gui.Components.DataTypeConstants.Int32Type)
+      Me.Validator.SetDataType(Me.txtDuration, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtDuration, "")
       Me.Validator.SetGotFocusBackColor(Me.txtDuration, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDuration, System.Drawing.Color.Empty)
@@ -3348,7 +3348,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           m_dateSetting = False
         Case "txtduration"
-          If Me.txtDuration.TextLength > 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDuration) = "" Then
+          If Me.txtDuration.TextLength > 0 AndAlso Me.Validator.GetErrorMessage(Me.txtDuration) = "" AndAlso IsNumeric(Me.txtDuration.Text) Then
             Me.m_entity.Duration = CInt(Me.txtDuration.Text)
           Else
             Me.m_entity.Duration = 0
