@@ -12,6 +12,7 @@ Imports Longkong.Pojjaman.Gui.ReportsAndDocs
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class MatOperationWithdrawDetailView
+    'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -881,6 +882,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       EventWiring()
     End Sub
+    Private Sub CheckRoleToChangDocumnentDate()
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(387)       'ตรวจสอบ สิทธิในการเปลี่ยนวันที่เอกสาร
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
+      If CBool(checkString.Substring(0, 1)) Then
+        Me.txtDocDate.ReadOnly = False
+        Me.dtpDocDate.Enabled = True
+      Else
+        Me.txtDocDate.ReadOnly = True
+        Me.dtpDocDate.Enabled = False
+      End If
+    End Sub
     Private Sub DisableGigaSiteControl()
       If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
         Me.lblEquipment.Enabled = False
@@ -1258,27 +1272,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
                   End If
                 End If
               End If
-                'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
-                '  If doc.OldQty > 0 Then
-                '    'เทจากตะกร้า
-                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
-                '  Else
-                '    'คีย์โค้ดเองแล้ว enter
-                '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
-                '  End If
-                '  Return
-                'End If
+              'If (value * doc.Conversion) > (doc.OldQty Or doc.OldQty2) Then
+              '  If doc.OldQty > 0 Then
+              '    'เทจากตะกร้า
+              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty / doc.Conversion).ToString})
+              '  Else
+              '    'คีย์โค้ดเองแล้ว enter
+              '    msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Error.MatReturnDetailView.Remain}", New String() {(doc.OldQty2 / doc.Conversion).ToString})
+              '  End If
+              '  Return
+              'End If
 
-                'If Not (doc.Pritem Is Nothing) Then
-                'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
-                'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
-                'Else
-                'doc.Qty = value
-                'End If
-                'Else
-                doc.Qty = value
-                'End If
-              End If
+              'If Not (doc.Pritem Is Nothing) Then
+              'If value > (((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion) Then
+              'doc.Qty = ((doc.Pritem.Qty - doc.Pritem.WithdrawnQty) * doc.Pritem.Conversion) / doc.Conversion
+              'Else
+              'doc.Qty = value
+              'End If
+              'Else
+              doc.Qty = value
+              'End If
+            End If
           Case "stocki_transferunitprice"
             'If IsDBNull(e.ProposedValue) Then
             '  e.ProposedValue = ""
@@ -1374,6 +1388,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckWBSRight()
       DisableGigaSiteControl()
+      CheckRoleToChangDocumnentDate()
     End Sub
     Private Sub CheckWBSRight()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -1723,7 +1738,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_isInitialized = flag
     End Sub
     Public Sub SetStatus()
-   MyBase.SetStatusBarMessage()
+      MyBase.SetStatusBarMessage()
     End Sub
     Private m_entityRefed As Integer = -1
     Public Overrides Property Entity() As ISimpleEntity

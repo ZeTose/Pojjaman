@@ -830,6 +830,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_enableState.Add(ctrl, ctrl.Enabled)
       Next
     End Sub
+    Private Sub CheckRoleToChangDocumnentDate()
+      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+      Dim level As Integer = secSrv.GetAccess(387)       'ตรวจสอบ สิทธิในการเปลี่ยนวันที่เอกสาร
+      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+      checkString = BinaryHelper.RevertString(checkString)
+      If CBool(checkString.Substring(0, 1)) Then
+        Me.txtDocDate.ReadOnly = False
+        Me.dtpDocDate.Enabled = True
+      Else
+        Me.txtDocDate.Text = Now.ToShortDateString
+        'Me.dtpDocDate.Value = Now
+        Me.txtDocDate.ReadOnly = True
+        Me.dtpDocDate.Enabled = False
+      End If
+    End Sub
 #End Region
 
 #Region "Style"
@@ -1301,6 +1316,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ToggleStyle(Me.m_treeManager.GridTableStyle)
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
       CheckWBSRight()
+      CheckRoleToChangDocumnentDate()
     End Sub
     Private Sub CheckWBSRight()
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
