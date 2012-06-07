@@ -41,6 +41,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbFilter As System.Windows.Forms.GroupBox
     Friend WithEvents chkSupplier As System.Windows.Forms.CheckBox
     Friend WithEvents m_grid As Longkong.Pojjaman.Gui.Components.LKGrid
+    Friend WithEvents btnConfirm As System.Windows.Forms.Button
     Friend WithEvents btnExport As System.Windows.Forms.Button
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -50,6 +51,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkSupplier = New System.Windows.Forms.CheckBox()
       Me.btnExport = New System.Windows.Forms.Button()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.btnConfirm = New System.Windows.Forms.Button()
       CType(Me.m_grid, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbMaster.SuspendLayout()
       Me.grbFilter.SuspendLayout()
@@ -58,8 +60,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'm_grid
       '
       Me.m_grid.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.m_grid.AutoColumnResize = False
       Me.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
       Me.m_grid.ColCount = 0
@@ -85,9 +87,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.grbFilter)
+      Me.grbMaster.Controls.Add(Me.btnConfirm)
       Me.grbMaster.Controls.Add(Me.btnExport)
       Me.grbMaster.Controls.Add(Me.m_grid)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -101,7 +104,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbFilter
       '
       Me.grbFilter.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbFilter.Controls.Add(Me.chkSupplier)
       Me.grbFilter.Location = New System.Drawing.Point(471, 10)
       Me.grbFilter.Name = "grbFilter"
@@ -129,6 +132,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnExport.Size = New System.Drawing.Size(135, 38)
       Me.btnExport.TabIndex = 6
       Me.btnExport.Text = "Export to Builk.com"
+      '
+      'btnConfirm
+      '
+      Me.btnConfirm.Location = New System.Drawing.Point(147, 19)
+      Me.btnConfirm.Name = "btnConfirm"
+      Me.btnConfirm.Size = New System.Drawing.Size(138, 38)
+      Me.btnConfirm.TabIndex = 6
+      Me.btnConfirm.Text = "ตอบรับจาก Builk.com แล้ว"
       '
       'ExportPaymentTrackDetail
       '
@@ -242,6 +253,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.ExportPaymentTrackDetail.Retention}") ' "ยอด Retention"
       tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.ExportPaymentTrackDetail.POSC}") ' "เลขที่ PO/SC"
     
+    End Sub
+    Private Sub CheckFormEnable()
+      If Me.m_entity.IsResponseFromBuilk Then
+        Me.btnConfirm.Visible = True
+      Else
+        Me.btnConfirm.Visible = False
+      End If
     End Sub
     Private Function SetKeyValuePair(ByVal doctype As String, ByVal docId As String) As KeyValuePair
       Return New KeyValuePair(doctype, docId)
@@ -1018,9 +1036,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
 
       RefreshDocs()
-      'CheckFormEnable()
+      CheckFormEnable()
       'SetStatus()
       SetLabelText()
+
 
       m_isInitialized = True
     End Sub
@@ -1108,6 +1127,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
       End If
+
+      Me.m_entity.GetIsResponseFromBuilkFromDB()
+
+    End Sub
+    Private Sub btnConfirm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnConfirm.Click
+
+      Dim dlg As New ResponseForm(Me.m_entity)
+      dlg.StartPosition = FormStartPosition.CenterScreen
+      dlg.ShowDialog()
+
+      'If Me.m_entity.Originated Then
+      '  Dim CurrentUserId As Integer = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id
+      '  Dim newStatus As String = Me.m_entity.CheckExportPaymentTrackStatus
+      '  If newStatus.Trim.ToLower = "" Then
+      '    Me.m_entity.SaveExportPaymentTrackStatus("N", CurrentUserId)
+      '    Me.m_entity.PaymentTrackStatus = "N"
+      '  Else
+      '    Me.m_entity.SaveExportPaymentTrackStatus("U", CurrentUserId)
+      '    Me.m_entity.PaymentTrackStatus = newStatus
+      '  End If
+      '  'Me.m_entity.ExportPaymentTrackFile()
+      '  'Me.m_entity.ExportPaymentTrackOnLine()
+      '  Dim saveerr As SaveErrorException = Me.m_entity.ExportPaymentTrack
+      '  If Not IsNumeric(saveerr.Message) Then
+      '    MessageBox.Show("Failed to export. " & vbCrLf & saveerr.Message)
+      '  Else
+      '    If CInt(saveerr.Message) = -2 Then
+      '      Return
+      '    End If
+      '    If CInt(saveerr.Message) = 0 Then
+      '      MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.ExportCompleted}"))
+      '    End If
+      '  End If
+      'End If
 
     End Sub
 

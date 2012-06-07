@@ -1623,6 +1623,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         i += 1
       Next
+
+    End Sub
+    Private Shared Sub InsertExportLog(ei As String, li As ArrayList)
+      Try
+        If li.Count > 0 Then
+          Dim cmdLog As String = ""
+          cmdLog &= "delete from ExportOutgoingCheckLog where eocheckl_eocheck =" & ei & " and eocheckl_exportType ='0';"
+          cmdLog &= "insert into ExportOutgoingCheckLog ( eocheckl_eocheck ,eocheckl_exportType ,eocheckl_exportDate ,eocheckl_checkCode ,eocheckl_checkSupplier ,eocheckl_checkAmount ) values "
+          cmdLog &= String.Join(",", li.ToArray)
+          cmdLog &= ";"
+
+          SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, cmdLog, Nothing)
+        End If
+
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetExportOutgoingCheckLog", New SqlParameter("@entity_id", ei))
+        ds.DataSetName = "GetExportOutgoingCheckLog"
+        ds.WriteXmlSchema("d:\GetExportOutgoingCheckLog.xml")
+
+      Catch ex As Exception
+
+      End Try
     End Sub
     'Public Const COMPANY_NAME As String = "บริษัท วิศวภัทร์ จำกัด"
     Private Shared Sub ExportDCP(ByVal c As IExportable, ByVal t As String, ByVal writer As TextWriter)
@@ -1846,6 +1867,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         DebitAmount += cqritem.Amount
       Next
 
+      Dim cmdLog As String = ""
+      Dim cmdDate As String = Now.ToString("yyyy-MM-dd")
+      Dim cmdEntity As String = ""
+      If TypeOf c Is ExportOutgoingCheck Then
+        cmdEntity = CType(c, ExportOutgoingCheck).Id.ToString
+      End If
+      Dim cmdList As New ArrayList
+
       Dim culture As New CultureInfo("en-US", True)
 
 
@@ -1890,6 +1919,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0:000}", cqritem.ChequePaymentVatList.Count) 'Tax Info Count
 
         writer.WriteLine(creditText)
+
+        cmdLog = "("
+        cmdLog &= cmdEntity & ","
+        cmdLog &= "'0'" & ","
+        cmdLog &= "'" & cmdDate & "',"
+        cmdLog &= "'" & String.Format("{0,-10}", cqritem.TnxReferenceNo).Substring(cqritem.TnxReferenceNo.Length - 10, 10).Trim & "'," 'Txn. Reference No.poj
+        cmdLog &= "'" & String.Format("{0,-120}", cqritem.Payee).Substring(0, 120).Trim & "'," 'Payee
+        cmdLog &= String.Format("{0:0000000000.00}", cqritem.Amount) 'Amount
+        cmdLog &= ")"
+        cmdList.Add(cmdLog)
 
         Dim taxIndex As Integer = 1
         For Each cqrVatitem As ChequePaymentVat In cqritem.ChequePaymentVatList
@@ -1941,6 +1980,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Next
 
       Next
+
+      'Insert Export Log --=============
+      InsertExportLog(cmdEntity, cmdList)
 
     End Sub
     Public Shared Function SetDigitOnly(ByVal val As String) As String

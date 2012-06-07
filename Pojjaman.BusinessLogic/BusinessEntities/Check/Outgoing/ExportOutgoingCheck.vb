@@ -13,6 +13,7 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Net
 Imports System.Text
+Imports Newtonsoft.Json
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Interface IAbleSelectDocPickup
@@ -114,11 +115,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemCollection = New ExportOutgoingCheckItemCollection(Me)
 
         ExportOutgoingCheck.OutGoingCheckPaymentDataSet = Nothing
+
+        GetIsResponseFromBuilkFromDB()
       End With
     End Sub
 #End Region
 
 #Region "Properties"
+    Public IsResponseFromBuilk As Boolean
+
     Public Property TreeManager As TreeManager
     Public Shared Property OutGoingCheckPaymentDataSet As DataSet
     Public ReadOnly Property PaymentTrackDataSet As DataSet
@@ -275,6 +280,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function GetResponseFromBuilkData() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, "select * from ExportOutgoingCheckLog where eocheckl_eocheck = " & Me.Id.ToString)
+      Return ds
+    End Function
+    Public Sub GetIsResponseFromBuilkFromDB()
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, "select count(*) from ExportOutgoingCheckLog where eocheckl_eocheck = " & Me.Id.ToString & " and eocheckl_exportType = '1'")
+      If ds.Tables(0).Rows.Count > 0 AndAlso IsNumeric(ds.Tables(0).Rows(0)(0)) AndAlso CInt(ds.Tables(0).Rows(0)(0)) > 0 Then
+        IsResponseFromBuilk = True
+      Else
+        IsResponseFromBuilk = False
+      End If
+    End Sub
     Public Function ExportPaymentTrack() As SaveErrorException
       Dim saveerr1 As SaveErrorException = ExportPaymentTrackFile()
       Dim saveerr2 As SaveErrorException = ExportPaymentTrackOnLine()
@@ -388,6 +405,80 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
 
     End Function
+
+    Public Sub GetBuilkExportResponseRequest()
+
+      Dim blist As New List(Of BuilkExportConfirmInfo)
+      Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+
+      If BuilkID = "" Then
+        Return
+      End If
+
+      ' Create a request for the URL. 
+      Dim request As WebRequest = _
+        WebRequest.Create("http://www.builk.com/paymenttrack/requestbuilkexportconfirm/?bid=" & BuilkID & "&pid=" & Me.Id.ToString)
+      ' If required by the server, set the credentials.
+      request.Credentials = CredentialCache.DefaultCredentials
+      ' Get the response.
+      Dim response As WebResponse = request.GetResponse()
+      ' Display the status.
+      'Console.WriteLine(CType(response, HttpWebResponse).StatusDescription)
+      ' Get the stream containing content returned by the server.
+      Dim dataStream As Stream = response.GetResponseStream()
+      ' Open the stream using a StreamReader for easy access.
+      Dim reader As New StreamReader(dataStream)
+      ' Read the content.
+      Dim responseFromServer As String = reader.ReadToEnd()
+      ' Display the content.
+      'Console.WriteLine(responseFromServer)
+      ' Clean up the streams and the response.
+      reader.Close()
+      response.Close()
+
+
+
+      blist = JsonConvert.DeserializeObject(Of List(Of BuilkExportConfirmInfo))(responseFromServer)
+
+      Dim cmdLog As String = ""
+      Dim cmdDate As String = Now.ToString("yyyy-MM-dd")
+      Dim cmdList As New ArrayList
+
+      For Each bi As BuilkExportConfirmInfo In blist
+
+        cmdLog = "("
+        cmdLog &= Me.Id.ToString & ","
+        cmdLog &= "'1'" & ","
+        cmdLog &= cmdDate & ","
+        cmdLog &= "'" & bi.CheckCode.Trim & "'," 'Txn. Reference No.poj
+        cmdLog &= "'" & bi.SupplierName.Trim & "'," 'Payee
+        cmdLog &= bi.CheckAmount 'Amount
+        cmdLog &= ")"
+        cmdList.Add(cmdLog)
+
+      Next
+
+      InsertExportLog(cmdList)
+
+    End Sub
+
+    Private Sub InsertExportLog(li As ArrayList)
+      Try
+        If li.Count > 0 Then
+          Dim cmdLog As String = ""
+          cmdLog &= "delete from ExportOutgoingCheckLog where eocheckl_eocheck =" & Me.Id.ToString & " and eocheckl_exportType ='1';"
+          cmdLog &= "insert into ExportOutgoingCheckLog ( eocheckl_eocheck ,eocheckl_exportType ,eocheckl_exportDate ,eocheckl_checkCode ,eocheckl_checkSupplier ,eocheckl_checkAmount ) values "
+          cmdLog &= String.Join(",", li.ToArray)
+          cmdLog &= ";"
+
+          SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, cmdLog, Nothing)
+        End If
+
+
+      Catch ex As Exception
+
+      End Try
+    End Sub
 
     Private Sub ResetID(ByVal oldid As Integer)
       Me.Id = oldid
@@ -1928,6 +2019,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Sub
 
     End Class
+  End Class
+
+  Public Class BuilkExportConfirmInfo
+    Public CheckCode As String
+    Public SupplierName As String
+    Public CheckAmount As String
   End Class
 
 End Namespace
