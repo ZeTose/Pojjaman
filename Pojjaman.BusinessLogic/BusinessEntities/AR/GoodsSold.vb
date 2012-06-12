@@ -960,7 +960,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Try
             Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
             If Not IsNumeric(subsaveerror3.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
@@ -969,7 +969,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (2)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
@@ -979,7 +979,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '--Generate Check--==================================================
             Dim subsaveerror As SaveErrorException = SubSave2(conn, currentUserId)
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
