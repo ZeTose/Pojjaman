@@ -232,6 +232,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grdProperties(0, 2).Text = "Property"
       Me.grdProperties(0, 3).Text = "Value"
 
+      Dim propertyList As New ArrayList
+      Dim propertyHash As New Hashtable
+
       Dim i As Integer = 0
       Dim ty As Type = Me.m_entity.GetType
       For Each pi As PropertyInfo In ty.GetProperties(BindingFlags.FlattenHierarchy Or BindingFlags.IgnoreCase Or BindingFlags.Instance Or BindingFlags.NonPublic Or BindingFlags.Public Or BindingFlags.Static)
@@ -240,16 +243,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If Not pi Is Nothing AndAlso Not pi.GetValue(Me.m_entity, Nothing) Is Nothing Then
             'Dim pi2 As PropertyInfo = ty.GetProperty(pi.Name, BindingFlags.FlattenHierarchy Or BindingFlags.IgnoreCase Or BindingFlags.Instance Or BindingFlags.NonPublic Or BindingFlags.Public Or BindingFlags.Static)
 
-            i += 1
-            Me.grdProperties.RowCount = i + 1
-            Me.grdProperties(i, 1).Text = "" 'i.ToString
-            Me.grdProperties(i, 2).Text = pi.Name
-            Me.grdProperties(i, 3).Text = pi.GetValue(Me.m_entity, Nothing).ToString
+            'Dim prop As New KeyValuePair(pi.Name, pi.GetValue(Me.m_entity, Nothing).ToString)
+            propertyList.Add(pi.Name.Trim)
+            propertyHash.Add(pi.Name.Trim, pi.GetValue(Me.m_entity, Nothing).ToString)
+
+            'i += 1
+            'Me.grdProperties.RowCount = i + 1
+            'Me.grdProperties(i, 1).Text = "" 'i.ToString
+            'Me.grdProperties(i, 2).Text = pi.Name
+            'Me.grdProperties(i, 3).Text = pi.GetValue(Me.m_entity, Nothing).ToString
 
           End If
         Catch ex As Exception
 
         End Try
+      Next
+
+      propertyList.Sort()
+
+      For Each prop As String In propertyList
+        i += 1
+        Me.grdProperties.RowCount = i + 1
+        Me.grdProperties(i, 1).Text = "" 'i.ToString
+        Me.grdProperties(i, 2).Text = prop
+        Me.grdProperties(i, 3).Text = CType(propertyHash(prop), String)
       Next
 
 
