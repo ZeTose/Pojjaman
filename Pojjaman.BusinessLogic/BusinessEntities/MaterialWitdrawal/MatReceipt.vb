@@ -982,6 +982,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         oldjecode = Me.m_je.Code
         oldjeautogen = Me.m_je.AutoGen
 
+        If m_approvalCollection.IsApproved Then
+          Me.m_je.DontSave = False
+        Else
+          Me.m_je.DontSave = True
+        End If
         Me.m_je.RefreshGLFormat()
         If Not AutoCodeFormat Is Nothing AndAlso Not AutoCodeFormat.Format Is Nothing Then
 
@@ -1212,7 +1217,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             '********************************************
           Catch ex As Exception
-            Return New SaveErrorException(" Save Incomplete Please Save Again")
+            Return New SaveErrorException(" Save Incomplete Please Save Again (JE)")
           End Try
 
           Dim transJe As SqlTransaction = conn.BeginTransaction()
@@ -1251,6 +1256,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
             Return New SaveErrorException(ex.ToString)
           End Try
+        Else
+          DeleteGL()
         End If
         '--JE Save Block-- ============================================================
 
@@ -1611,6 +1618,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return Rows
     End Function
+    Private Sub DeleteGL()
+      SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "DeleteGL", _
+           New SqlParameter() {New SqlParameter("@gl_id", Me.m_je.Id), New SqlParameter("@gl_docdate", Now)})
+    End Sub
     'Private Function SaveWBSDetail(ByVal parentID As Integer, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As SaveErrorException
     '  Try
     '    Dim da As New SqlDataAdapter("Select * from stockiwbs where stockiw_sequence in (select stocki_sequence from stockitem where stocki_stock=" & Me.Id & ")", conn)
