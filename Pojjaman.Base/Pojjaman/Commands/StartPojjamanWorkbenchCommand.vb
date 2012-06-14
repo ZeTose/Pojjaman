@@ -49,7 +49,7 @@ Namespace Longkong.Pojjaman.Commands
         MessageBox.Show(myResourceService.GetString("MainWindow.WelcomeMessage") & " " & loginUser.Name)
         workBenchForm.Text = myResourceService.GetString("MainWindow.DialogName") & " (" & mySecurityService.CurrentUser.Name & ": " & Configuration.GetConfig("CompanyName").ToString & ")"
         Dim pjmVersion As Version = [Assembly].GetEntryAssembly.GetName.Version
-        Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000"), ".", clsAssInfo.RealVersion}
+        Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000")} ', ".", clsAssInfo.RealVersion}
         Dim version As String = String.Concat(pjmVersionArray)
         workBenchForm.Text = myResourceService.GetString("MainWindow.DialogName") & " (" & loginUser.Name & ": " & Configuration.GetConfig("CompanyName").ToString & ")"
         Dim dbVersion As String = SqlHelper.GetRealVersion 'SqlHelper.GetVersion
@@ -71,7 +71,7 @@ Namespace Longkong.Pojjaman.Commands
 
         Dim pjmVersion As Version = [Assembly].GetEntryAssembly.GetName.Version
         Dim pjmRealVersion As String = clsAssInfo.RealVersion
-        Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000"), ".", pjmRealVersion}
+        Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", pjmVersion.Minor.ToString("00"), ".", pjmVersion.Build.ToString("0000")} ', ".", pjmRealVersion}
         Dim version As String = String.Concat(pjmVersionArray)
 
         If version = dbVersion Then
