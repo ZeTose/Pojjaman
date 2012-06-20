@@ -1003,7 +1003,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               'If Me.AutoGen Then 'And Me.Code.Length = 0 Then
               '  Me.Code = Me.GetNextCode
               'End If
-              Me.m_je.Code = AutoCodeFormat.Format
+              Me.m_je.Code = Me.Code 'AutoCodeFormat.Format
             Case 2
               'ตาม gl
               If Me.m_je.AutoGen Then
