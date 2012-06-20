@@ -8,8 +8,9 @@ Imports Syncfusion.XlsIO
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptProjectRevenueExpenseEnumerateFilterSubPanel
     Inherits AbstractFilterSubPanel
-    Implements IReportFilterSubPanel, IExcellExportAble
     'Inherits UserControl
+    Implements IReportFilterSubPanel, IExcellExportAble
+
 
 #Region " Windows Form Designer generated code "
 
@@ -51,12 +52,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents grbViews As System.Windows.Forms.GroupBox
     Friend WithEvents clbDataViews As System.Windows.Forms.CheckedListBox
     Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnSearchProject As System.Windows.Forms.Button
+    Friend WithEvents txtSearchProject As System.Windows.Forms.TextBox
     Friend WithEvents lblDocStartDate As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptProjectRevenueExpenseEnumerateFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkNoDigit = New System.Windows.Forms.CheckBox()
       Me.grbViews = New System.Windows.Forms.GroupBox()
       Me.clbDataViews = New System.Windows.Forms.CheckedListBox()
@@ -70,14 +72,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbProject = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.chkAll = New System.Windows.Forms.CheckBox()
       Me.chkIncClose = New System.Windows.Forms.CheckBox()
-      Me.ibtnDown = New System.Windows.Forms.Button()
       Me.chkOnlyChecked = New System.Windows.Forms.CheckBox()
       Me.clbCostCenter = New System.Windows.Forms.CheckedListBox()
-      Me.ibtnUp = New System.Windows.Forms.Button()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.ibtnDown = New System.Windows.Forms.Button()
+      Me.ibtnUp = New System.Windows.Forms.Button()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.txtSearchProject = New System.Windows.Forms.TextBox()
+      Me.btnSearchProject = New System.Windows.Forms.Button()
       Me.grbMaster.SuspendLayout()
       Me.grbViews.SuspendLayout()
       Me.grbPeriod.SuspendLayout()
@@ -88,8 +93,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbMaster
       '
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbMaster.Controls.Add(Me.ibtnSaveAsExcel)
       Me.grbMaster.Controls.Add(Me.chkNoDigit)
       Me.grbMaster.Controls.Add(Me.grbViews)
@@ -99,29 +104,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Controls.Add(Me.btnReset)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbMaster.Location = New System.Drawing.Point(8, 8)
+      Me.grbMaster.Location = New System.Drawing.Point(8, -1)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(618, 224)
+      Me.grbMaster.Size = New System.Drawing.Size(618, 232)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
-      Me.grbMaster.Text = "ค้นหา"
-      '
-      'ibtnSaveAsExcel
-      '
-      Me.ibtnSaveAsExcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-      Me.ibtnSaveAsExcel.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnSaveAsExcel.Location = New System.Drawing.Point(117, 191)
-      Me.ibtnSaveAsExcel.Name = "ibtnSaveAsExcel"
-      Me.ibtnSaveAsExcel.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnSaveAsExcel.TabIndex = 20
-      Me.ibtnSaveAsExcel.TabStop = False
-      Me.ibtnSaveAsExcel.ThemedImage = CType(resources.GetObject("ibtnSaveAsExcel.ThemedImage"), System.Drawing.Bitmap)
       '
       'chkNoDigit
       '
       Me.chkNoDigit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.chkNoDigit.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkNoDigit.Location = New System.Drawing.Point(23, 192)
+      Me.chkNoDigit.Location = New System.Drawing.Point(451, 30)
       Me.chkNoDigit.Name = "chkNoDigit"
       Me.chkNoDigit.Size = New System.Drawing.Size(100, 24)
       Me.chkNoDigit.TabIndex = 6
@@ -130,9 +123,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbViews
       '
       Me.grbViews.Controls.Add(Me.clbDataViews)
-      Me.grbViews.Location = New System.Drawing.Point(399, 95)
+      Me.grbViews.Location = New System.Drawing.Point(522, 85)
       Me.grbViews.Name = "grbViews"
-      Me.grbViews.Size = New System.Drawing.Size(214, 89)
+      Me.grbViews.Size = New System.Drawing.Size(184, 59)
       Me.grbViews.TabIndex = 7
       Me.grbViews.TabStop = False
       Me.grbViews.Text = "แสดงข้อมูล"
@@ -143,7 +136,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.clbDataViews.FormattingEnabled = True
       Me.clbDataViews.Location = New System.Drawing.Point(6, 15)
       Me.clbDataViews.Name = "clbDataViews"
-      Me.clbDataViews.Size = New System.Drawing.Size(194, 68)
+      Me.clbDataViews.Size = New System.Drawing.Size(162, 36)
       Me.clbDataViews.TabIndex = 0
       '
       'grbPeriod
@@ -154,9 +147,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbPeriod.Controls.Add(Me.lblDocStartDate)
       Me.grbPeriod.Controls.Add(Me.txtDocDateEnd)
       Me.grbPeriod.Controls.Add(Me.dtpDocDateEnd)
-      Me.grbPeriod.Location = New System.Drawing.Point(399, 20)
+      Me.grbPeriod.Location = New System.Drawing.Point(522, 10)
       Me.grbPeriod.Name = "grbPeriod"
-      Me.grbPeriod.Size = New System.Drawing.Size(214, 69)
+      Me.grbPeriod.Size = New System.Drawing.Size(184, 69)
       Me.grbPeriod.TabIndex = 3
       Me.grbPeriod.TabStop = False
       Me.grbPeriod.Text = "ต้องการเป็นช่วงเวลา"
@@ -182,11 +175,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocStartDate, System.Drawing.Color.Empty)
       Me.txtDocStartDate.Location = New System.Drawing.Point(87, 18)
       Me.txtDocStartDate.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocStartDate, "")
       Me.Validator.SetMinValue(Me.txtDocStartDate, "")
       Me.txtDocStartDate.Name = "txtDocStartDate"
       Me.Validator.SetRegularExpression(Me.txtDocStartDate, "")
       Me.Validator.SetRequired(Me.txtDocStartDate, False)
-      Me.txtDocStartDate.Size = New System.Drawing.Size(99, 21)
+      Me.txtDocStartDate.Size = New System.Drawing.Size(67, 21)
       Me.txtDocStartDate.TabIndex = 20
       '
       'dtpDocStartDate
@@ -194,7 +188,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocStartDate.Location = New System.Drawing.Point(86, 18)
       Me.dtpDocStartDate.Name = "dtpDocStartDate"
-      Me.dtpDocStartDate.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocStartDate.Size = New System.Drawing.Size(88, 21)
       Me.dtpDocStartDate.TabIndex = 22
       Me.dtpDocStartDate.TabStop = False
       '
@@ -218,11 +212,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(86, 40)
       Me.txtDocDateEnd.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
       Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(99, 21)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(67, 21)
       Me.txtDocDateEnd.TabIndex = 2
       '
       'dtpDocDateEnd
@@ -230,12 +225,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
       Me.dtpDocDateEnd.Location = New System.Drawing.Point(86, 40)
       Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-      Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+      Me.dtpDocDateEnd.Size = New System.Drawing.Size(88, 21)
       Me.dtpDocDateEnd.TabIndex = 17
       Me.dtpDocDateEnd.TabStop = False
       '
       'grbProject
       '
+      Me.grbProject.Controls.Add(Me.btnSearchProject)
+      Me.grbProject.Controls.Add(Me.txtSearchProject)
       Me.grbProject.Controls.Add(Me.chkAll)
       Me.grbProject.Controls.Add(Me.chkIncClose)
       Me.grbProject.Controls.Add(Me.ibtnDown)
@@ -243,9 +240,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbProject.Controls.Add(Me.clbCostCenter)
       Me.grbProject.Controls.Add(Me.ibtnUp)
       Me.grbProject.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbProject.Location = New System.Drawing.Point(16, 16)
+      Me.grbProject.Location = New System.Drawing.Point(16, 11)
       Me.grbProject.Name = "grbProject"
-      Me.grbProject.Size = New System.Drawing.Size(377, 168)
+      Me.grbProject.Size = New System.Drawing.Size(429, 211)
       Me.grbProject.TabIndex = 0
       Me.grbProject.TabStop = False
       Me.grbProject.Text = "โครงการ"
@@ -253,7 +250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkAll
       '
       Me.chkAll.AutoSize = True
-      Me.chkAll.Location = New System.Drawing.Point(251, 104)
+      Me.chkAll.Location = New System.Drawing.Point(10, 191)
       Me.chkAll.Name = "chkAll"
       Me.chkAll.Size = New System.Drawing.Size(85, 17)
       Me.chkAll.TabIndex = 24
@@ -264,26 +261,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkIncClose
       '
       Me.chkIncClose.AutoSize = True
-      Me.chkIncClose.Location = New System.Drawing.Point(251, 145)
+      Me.chkIncClose.Location = New System.Drawing.Point(299, 145)
       Me.chkIncClose.Name = "chkIncClose"
       Me.chkIncClose.Size = New System.Drawing.Size(123, 17)
       Me.chkIncClose.TabIndex = 23
       Me.chkIncClose.Text = "รวมโครงการที่ปิดแล้ว"
       Me.chkIncClose.UseVisualStyleBackColor = True
       '
-      'ibtnDown
-      '
-      Me.ibtnDown.Image = Global.My.Resources.Resources.Actions_go_down_icon32
-      Me.ibtnDown.Location = New System.Drawing.Point(251, 60)
-      Me.ibtnDown.Name = "ibtnDown"
-      Me.ibtnDown.Size = New System.Drawing.Size(36, 38)
-      Me.ibtnDown.TabIndex = 20
-      Me.ibtnDown.UseVisualStyleBackColor = False
-      '
       'chkOnlyChecked
       '
       Me.chkOnlyChecked.AutoSize = True
-      Me.chkOnlyChecked.Location = New System.Drawing.Point(251, 129)
+      Me.chkOnlyChecked.Location = New System.Drawing.Point(299, 129)
       Me.chkOnlyChecked.Name = "chkOnlyChecked"
       Me.chkOnlyChecked.Size = New System.Drawing.Size(113, 17)
       Me.chkOnlyChecked.TabIndex = 22
@@ -294,25 +282,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'clbCostCenter
       '
       Me.clbCostCenter.FormattingEnabled = True
-      Me.clbCostCenter.Location = New System.Drawing.Point(7, 16)
+      Me.clbCostCenter.Location = New System.Drawing.Point(7, 41)
       Me.clbCostCenter.Name = "clbCostCenter"
-      Me.clbCostCenter.Size = New System.Drawing.Size(238, 148)
+      Me.clbCostCenter.Size = New System.Drawing.Size(286, 148)
       Me.clbCostCenter.TabIndex = 21
-      '
-      'ibtnUp
-      '
-      Me.ibtnUp.Image = Global.My.Resources.Resources.Actions_go_up_icon32
-      Me.ibtnUp.Location = New System.Drawing.Point(251, 16)
-      Me.ibtnUp.Name = "ibtnUp"
-      Me.ibtnUp.Size = New System.Drawing.Size(36, 38)
-      Me.ibtnUp.TabIndex = 19
-      Me.ibtnUp.UseVisualStyleBackColor = False
       '
       'btnSearch
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(522, 192)
+      Me.btnSearch.Location = New System.Drawing.Point(532, 202)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(80, 23)
       Me.btnSearch.TabIndex = 2
@@ -322,7 +301,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(434, 192)
+      Me.btnReset.Location = New System.Drawing.Point(451, 202)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(80, 23)
       Me.btnReset.TabIndex = 1
@@ -338,16 +317,72 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
+      'ibtnSaveAsExcel
+      '
+      Me.ibtnSaveAsExcel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.ibtnSaveAsExcel.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnSaveAsExcel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.ibtnSaveAsExcel.Location = New System.Drawing.Point(451, 71)
+      Me.ibtnSaveAsExcel.Name = "ibtnSaveAsExcel"
+      Me.ibtnSaveAsExcel.Size = New System.Drawing.Size(88, 32)
+      Me.ibtnSaveAsExcel.TabIndex = 20
+      Me.ibtnSaveAsExcel.TabStop = False
+      Me.ibtnSaveAsExcel.Text = "  Export"
+      Me.ibtnSaveAsExcel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.ibtnSaveAsExcel.ThemedImage = CType(resources.GetObject("ibtnSaveAsExcel.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'ibtnDown
+      '
+      Me.ibtnDown.Image = Global.My.Resources.Resources.Actions_go_down_icon32
+      Me.ibtnDown.Location = New System.Drawing.Point(299, 78)
+      Me.ibtnDown.Name = "ibtnDown"
+      Me.ibtnDown.Size = New System.Drawing.Size(34, 37)
+      Me.ibtnDown.TabIndex = 20
+      Me.ibtnDown.UseVisualStyleBackColor = False
+      '
+      'ibtnUp
+      '
+      Me.ibtnUp.Image = Global.My.Resources.Resources.Actions_go_up_icon32
+      Me.ibtnUp.Location = New System.Drawing.Point(299, 41)
+      Me.ibtnUp.Name = "ibtnUp"
+      Me.ibtnUp.Size = New System.Drawing.Size(34, 37)
+      Me.ibtnUp.TabIndex = 19
+      Me.ibtnUp.UseVisualStyleBackColor = False
+      '
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
+      '
+      'txtSearchProject
+      '
+      Me.Validator.SetDataType(Me.txtSearchProject, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtSearchProject, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtSearchProject, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtSearchProject, System.Drawing.Color.Empty)
+      Me.txtSearchProject.Location = New System.Drawing.Point(7, 17)
+      Me.Validator.SetMaxValue(Me.txtSearchProject, "")
+      Me.Validator.SetMinValue(Me.txtSearchProject, "")
+      Me.txtSearchProject.Name = "txtSearchProject"
+      Me.Validator.SetRegularExpression(Me.txtSearchProject, "")
+      Me.Validator.SetRequired(Me.txtSearchProject, False)
+      Me.txtSearchProject.Size = New System.Drawing.Size(235, 21)
+      Me.txtSearchProject.TabIndex = 25
+      '
+      'btnSearchProject
+      '
+      Me.btnSearchProject.Location = New System.Drawing.Point(242, 16)
+      Me.btnSearchProject.Name = "btnSearchProject"
+      Me.btnSearchProject.Size = New System.Drawing.Size(51, 23)
+      Me.btnSearchProject.TabIndex = 26
+      Me.btnSearchProject.Text = "ค้นหา"
+      Me.btnSearchProject.UseVisualStyleBackColor = True
       '
       'RptProjectRevenueExpenseEnumerateFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptProjectRevenueExpenseEnumerateFilterSubPanel"
-      Me.Size = New System.Drawing.Size(634, 240)
+      Me.Size = New System.Drawing.Size(634, 239)
       Me.grbMaster.ResumeLayout(False)
       Me.grbViews.ResumeLayout(False)
       Me.grbPeriod.ResumeLayout(False)
@@ -420,6 +455,72 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property#End Region
 
 #Region "Methods"
+    Private Sub btnSearchProject_Click(sender As Object, e As System.EventArgs) Handles btnSearchProject.Click
+      If txtSearchProject.Text.Trim.Length = 0 Then
+        RefreshCheckCCListBox()
+      Else
+        RefreshCheckCCListBoxFilter(txtSearchProject.Text.Trim)
+      End If
+    End Sub
+    Private Sub RefreshCheckCCListBoxFilter(textFilter As String)
+      Dim notonlychecked As Boolean = Not chkOnlyChecked.Checked
+      Dim IncClose As Boolean = chkIncClose.Checked
+
+      Dim ccFilterList As Dictionary(Of String, CostCenter) = New Dictionary(Of String, CostCenter)
+      Dim ccHash As New Hashtable
+      Dim ccdt As DataTable = Me.CostCenterSchema
+      For Each kv As KeyValuePair(Of String, CostCenter) In CCList
+        Dim dr As DataRow = ccdt.NewRow
+        dr("cc_code") = kv.Value.Code
+        dr("cc_name") = kv.Value.Name
+        ccdt.Rows.Add(dr)
+        ccHash(kv.Value.Code) = kv.Value
+      Next
+
+      textFilter = Replace(Replace(Replace(Replace(textFilter, "%", ""), "'", ""), "?", ""), "*", "")
+
+      Dim ccCode As String = ""
+      Dim cc As CostCenter
+      For Each dr_ As DataRow In ccdt.Select("cc_code like '%" & textFilter & "%' or cc_name like '%" & textFilter & "%'")
+        ccCode = CStr(dr_("cc_code"))
+        cc = CType(ccHash(ccCode), CostCenter)
+        If Not ccFilterList.ContainsKey(ccCode) Then
+          ccFilterList.Add(ccCode, cc)
+        End If
+      Next
+
+      Dim chkCode As New List(Of String)
+      For Each chki As Object In clbCostCenter.CheckedItems
+        Dim s As String = chki.ToString.Split(":")(0)
+        If Not chkCode.Contains(s) Then
+          chkCode.Add(s)
+          cc = CType(ccHash(s), CostCenter)
+          If Not ccFilterList.ContainsKey(s) Then
+            ccFilterList.Add(s, cc)
+          End If
+        End If
+      Next
+
+      clbCostCenter.Items.Clear()
+      For Each kv As KeyValuePair(Of String, CostCenter) In ccFilterList
+        If (kv.Value.IsActive OrElse IncClose) AndAlso (notonlychecked OrElse chkCode.Contains(kv.Key)) Then
+          Dim chk As Boolean = chkCode.Contains(kv.Key)
+          Dim list As String = kv.Value.Code & ":" & kv.Value.Name
+          Dim ob As New IdValuePair(kv.Value.Id, list)
+          clbCostCenter.Items.Add(ob, chk)
+        End If
+      Next
+
+
+    End Sub
+    Private Function CostCenterSchema() As DataTable
+      Dim dt As New DataTable
+      Dim dcc As New DataColumn("cc_code")
+      Dim dcn As New DataColumn("cc_name")
+      dt.Columns.Add(dcc)
+      dt.Columns.Add(dcn)
+      Return dt
+    End Function
     Private Sub LoadCostCenter() Handles chkIncClose.CheckedChanged
       Dim currentuserid As Integer = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id
 
@@ -902,6 +1003,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #End Region
 
+    Private Sub chkNoDigit_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkNoDigit.CheckedChanged
+
+    End Sub
   End Class
 
 End Namespace

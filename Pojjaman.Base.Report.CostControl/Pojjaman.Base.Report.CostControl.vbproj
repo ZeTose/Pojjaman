@@ -362,6 +362,9 @@
   <ItemGroup>
     <None Include="Resources\Actions-go-up-icon32.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Excel2007.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

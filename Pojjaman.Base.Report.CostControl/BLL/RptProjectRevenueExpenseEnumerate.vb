@@ -41,7 +41,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csCostCenterCode.MappingName = "cc_code"
       csCostCenterCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CostCenterCODEHeaderText}")
       csCostCenterCode.NullText = ""
-      csCostCenterCode.Width = 129
+      csCostCenterCode.Width = 120
       csCostCenterCode.DataAlignment = HorizontalAlignment.Left
       csCostCenterCode.ReadOnly = True
       csCostCenterCode.TextBox.Name = "cc_code"
@@ -50,14 +50,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csCostCenterName.MappingName = "cc_Name"
       csCostCenterName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.CostCenterNameHeaderText}")
       csCostCenterName.NullText = ""
-      csCostCenterName.Width = 239
+      csCostCenterName.Width = 248
       csCostCenterName.TextBox.Name = "cc_name"
       csCostCenterName.ReadOnly = True
 
-      Dim csBarrier0 As New DataGridBarrierColumn
+      Dim csBarrier0 As New TreeTextColumn 'DataGridBarrierColumn
       csBarrier0.MappingName = "Barrier0"
       csBarrier0.HeaderText = ""
       csBarrier0.NullText = ""
+      csBarrier0.Width = 25
       csBarrier0.ReadOnly = True
 
       Dim csPrice As New TreeTextColumn
@@ -90,6 +91,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csVO.TextBox.Name = "vo"
       csVO.ReadOnly = True
 
+      Dim csPenalty As New TreeTextColumn
+      csPenalty.MappingName = "penalty"
+      csPenalty.HeaderText = "Penalty" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csPenalty.NullText = ""
+      csPenalty.DataAlignment = HorizontalAlignment.Right
+      csPenalty.Format = "#,###.##"
+      csPenalty.Width = 109
+      csPenalty.TextBox.Name = "penalty"
+      csPenalty.ReadOnly = True
+
       Dim csOther As New TreeTextColumn
       csOther.MappingName = "other"
       csOther.HeaderText = "Other" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
@@ -110,16 +121,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csBf.TextBox.Name = "Bf"
       csBf.ReadOnly = True
 
-      Dim csPenalty As New TreeTextColumn
-      csPenalty.MappingName = "penalty"
-      csPenalty.HeaderText = "Penalty" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
-      csPenalty.NullText = ""
-      csPenalty.DataAlignment = HorizontalAlignment.Right
-      csPenalty.Format = "#,###.##"
-      csPenalty.Width = 109
-      csPenalty.TextBox.Name = "penalty"
-      csPenalty.ReadOnly = True
-
       Dim csTotal As New TreeTextColumn
       csTotal.MappingName = "total"
       csTotal.HeaderText = "Total" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
@@ -130,10 +131,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csTotal.TextBox.Name = "total"
       csTotal.ReadOnly = True
 
-      Dim csBarrier1 As New DataGridBarrierColumn
+      Dim csBarrier1 As New TreeTextColumn 'DataGridBarrierColumn
       csBarrier1.MappingName = "Barrier1"
       csBarrier1.HeaderText = ""
       csBarrier1.NullText = ""
+      csBarrier1.Width = 25
       csBarrier1.ReadOnly = True
 
       Dim csReceivedHeader As New TreeTextColumn
@@ -176,6 +178,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceived.TextBox.Name = "received"
       csReceived.ReadOnly = True
 
+      Dim csRetention As New TreeTextColumn
+      csRetention.MappingName = "retention"
+      csRetention.HeaderText = "Retention" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csRetention.NullText = ""
+      csRetention.DataAlignment = HorizontalAlignment.Right
+      csRetention.Format = "#,###.##"
+      csRetention.Width = 109
+      csRetention.TextBox.Name = "retention"
+      csRetention.ReadOnly = True
+
+      Dim csAdvance As New TreeTextColumn
+      csAdvance.MappingName = "advance"
+      csAdvance.HeaderText = "Advance" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csAdvance.NullText = ""
+      csAdvance.DataAlignment = HorizontalAlignment.Right
+      csAdvance.Format = "#,###.##"
+      csAdvance.Width = 109
+      csAdvance.TextBox.Name = "advance"
+      csAdvance.ReadOnly = True
+
       Dim csRemain As New TreeTextColumn
       csRemain.MappingName = "remain"
       csRemain.HeaderText = "Remain" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
@@ -186,10 +208,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemain.TextBox.Name = "remain"
       csRemain.ReadOnly = True
 
-      Dim csBarrier2 As New DataGridBarrierColumn
+      Dim csBarrier2 As New TreeTextColumn 'DataGridBarrierColumn
       csBarrier2.MappingName = "Barrier2"
       csBarrier2.HeaderText = ""
       csBarrier2.NullText = ""
+      csBarrier2.Width = 25
       csBarrier2.ReadOnly = True
 
       Dim csCost As New TreeTextColumn
@@ -252,10 +275,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csGRActualBalance.TextBox.Name = "gractualbalance"
       csGRActualBalance.ReadOnly = True
 
-      Dim csBarrier3 As New DataGridBarrierColumn
+      Dim csBarrier3 As New TreeTextColumn 'DataGridBarrierColumn
       csBarrier3.MappingName = "Barrier3"
       csBarrier3.HeaderText = ""
       csBarrier3.NullText = ""
+      csBarrier3.Width = 25
       csBarrier3.ReadOnly = True
 
       Dim csProfit As New TreeTextColumn
@@ -308,20 +332,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csContractBudgetProfitLost.TextBox.Name = "profitloss"
       csContractBudgetProfitLost.ReadOnly = True
 
-      Dim csContractBudgetPercent As New TreeTextColumn
-      csContractBudgetPercent.MappingName = "contractbudgetpercent"
-      csContractBudgetPercent.HeaderText = "(%)" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
-      csContractBudgetPercent.NullText = ""
-      csContractBudgetPercent.DataAlignment = HorizontalAlignment.Right
-      csContractBudgetPercent.Format = "#,###.##"
-      csContractBudgetPercent.Width = 0
-      csContractBudgetPercent.TextBox.Name = "contractbudgetpercent"
-      csContractBudgetPercent.ReadOnly = True
+      'Dim csContractBudgetPercent As New TreeTextColumn
+      'csContractBudgetPercent.MappingName = "contractbudgetpercent"
+      'csContractBudgetPercent.HeaderText = "(%)" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      'csContractBudgetPercent.NullText = ""
+      'csContractBudgetPercent.DataAlignment = HorizontalAlignment.Right
+      'csContractBudgetPercent.Format = "#,###.##"
+      'csContractBudgetPercent.Width = 0
+      'csContractBudgetPercent.TextBox.Name = "contractbudgetpercent"
+      'csContractBudgetPercent.ReadOnly = True
 
       Dim csBarrier4 As New DataGridBarrierColumn
       csBarrier4.MappingName = "Barrier4"
       csBarrier4.HeaderText = ""
       csBarrier4.NullText = ""
+      'csBarrier4.Width = 25
       csBarrier4.ReadOnly = True
 
       Dim csReceivedActual As New TreeTextColumn
@@ -364,20 +389,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceivedActualBalance.TextBox.Name = "ReceivedActualBalance"
       csReceivedActualBalance.ReadOnly = True
 
-      Dim csReceivedActualPercent As New TreeTextColumn
-      csReceivedActualPercent.MappingName = "ReceivedActualPercent"
-      csReceivedActualPercent.HeaderText = "(%)" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
-      csReceivedActualPercent.NullText = ""
-      csReceivedActualPercent.DataAlignment = HorizontalAlignment.Right
-      csReceivedActualPercent.Format = "#,###.##"
-      csReceivedActualPercent.Width = 0
-      csReceivedActualPercent.TextBox.Name = "ReceivedActualPercent"
-      csReceivedActualPercent.ReadOnly = True
+      'Dim csReceivedActualPercent As New TreeTextColumn
+      'csReceivedActualPercent.MappingName = "ReceivedActualPercent"
+      'csReceivedActualPercent.HeaderText = "(%)" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      'csReceivedActualPercent.NullText = ""
+      'csReceivedActualPercent.DataAlignment = HorizontalAlignment.Right
+      'csReceivedActualPercent.Format = "#,###.##"
+      'csReceivedActualPercent.Width = 0
+      'csReceivedActualPercent.TextBox.Name = "ReceivedActualPercent"
+      'csReceivedActualPercent.ReadOnly = True
 
       Dim csBarrier5 As New DataGridBarrierColumn
       csBarrier5.MappingName = "Barrier5"
       csBarrier5.HeaderText = ""
       csBarrier5.NullText = ""
+      'csBarrier5.Width = 25
       csBarrier5.ReadOnly = True
 
       Dim csRemainComplete As New TreeTextColumn
@@ -420,20 +446,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemainCompleteBalance.TextBox.Name = "RemainCompleteBalance"
       csRemainCompleteBalance.ReadOnly = True
 
-      Dim csRemainCompletePercent As New TreeTextColumn
-      csRemainCompletePercent.MappingName = "RemainCompletePercent"
-      csRemainCompletePercent.HeaderText = "(%)" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
-      csRemainCompletePercent.NullText = ""
-      csRemainCompletePercent.DataAlignment = HorizontalAlignment.Right
-      csRemainCompletePercent.Format = "#,###.##"
-      csRemainCompletePercent.Width = 0
-      csRemainCompletePercent.TextBox.Name = "RemainCompletePercent"
-      csRemainCompletePercent.ReadOnly = True
+      'Dim csRemainCompletePercent As New TreeTextColumn
+      'csRemainCompletePercent.MappingName = "RemainCompletePercent"
+      'csRemainCompletePercent.HeaderText = "(%)" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      'csRemainCompletePercent.NullText = ""
+      'csRemainCompletePercent.DataAlignment = HorizontalAlignment.Right
+      'csRemainCompletePercent.Format = "#,###.##"
+      'csRemainCompletePercent.Width = 0
+      'csRemainCompletePercent.TextBox.Name = "RemainCompletePercent"
+      'csRemainCompletePercent.ReadOnly = True
 
-      Dim csBarrier6 As New DataGridBarrierColumn
+      Dim csBarrier6 As New TreeTextColumn 'DataGridBarrierColumn
       csBarrier6.MappingName = "Barrier6"
       csBarrier6.HeaderText = ""
       csBarrier6.NullText = ""
+      csBarrier6.Width = 25
       csBarrier6.ReadOnly = True
 
       Dim csDateComplete As New TreeTextColumn
@@ -452,9 +479,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csPrice)
       dst.GridColumnStyles.Add(csMain)
       dst.GridColumnStyles.Add(csVO)
+      dst.GridColumnStyles.Add(csPenalty)
       dst.GridColumnStyles.Add(csOther)
       dst.GridColumnStyles.Add(csBf)
-      dst.GridColumnStyles.Add(csPenalty)
       dst.GridColumnStyles.Add(csTotal)
 
       dst.GridColumnStyles.Add(csBarrier1)
@@ -462,6 +489,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csDeliver)
       dst.GridColumnStyles.Add(csBill)
       dst.GridColumnStyles.Add(csReceived)
+      dst.GridColumnStyles.Add(csRetention)
+      dst.GridColumnStyles.Add(csAdvance)
       dst.GridColumnStyles.Add(csRemain)
 
       dst.GridColumnStyles.Add(csBarrier2)
@@ -477,21 +506,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csContractBudgetPrice)
       dst.GridColumnStyles.Add(csContractBudgetEstimate)
       dst.GridColumnStyles.Add(csContractBudgetProfitLost)
-      dst.GridColumnStyles.Add(csContractBudgetPercent)
+      'dst.GridColumnStyles.Add(csContractBudgetPercent)
 
       dst.GridColumnStyles.Add(csBarrier4)
       dst.GridColumnStyles.Add(csReceivedActual)
       dst.GridColumnStyles.Add(csReceivedActualPrice)
       dst.GridColumnStyles.Add(csReceivedActual_GRActual)
       dst.GridColumnStyles.Add(csReceivedActualBalance)
-      dst.GridColumnStyles.Add(csReceivedActualPercent)
+      'dst.GridColumnStyles.Add(csReceivedActualPercent)
 
       dst.GridColumnStyles.Add(csBarrier5)
       dst.GridColumnStyles.Add(csRemainComplete)
       dst.GridColumnStyles.Add(csRemainCompleteReceived)
       dst.GridColumnStyles.Add(csRemainComplete_GRActual)
       dst.GridColumnStyles.Add(csRemainCompleteBalance)
-      dst.GridColumnStyles.Add(csRemainCompletePercent)
+      'dst.GridColumnStyles.Add(csRemainCompletePercent)
 
       dst.GridColumnStyles.Add(csBarrier6)
       dst.GridColumnStyles.Add(csDateComplete)
@@ -511,9 +540,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Price", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Main", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("VO", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Penalty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Other", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Bf", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Penalty", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Total", GetType(String)))
 
       myDatatable.Columns.Add(New DataColumn("barrier1", GetType(String)))
@@ -521,6 +550,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Deliver", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Bill", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Received", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Retention", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Advance", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Remain", GetType(String)))
 
       myDatatable.Columns.Add(New DataColumn("barrier2", GetType(String)))
@@ -537,21 +568,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("contractbudgetprice", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("estimatebudget", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("profitloss", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("contractbudgetpercent", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("contractbudgetpercent", GetType(String)))
 
       myDatatable.Columns.Add(New DataColumn("Barrier4", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("receivedactual", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("ReceivedActualPrice", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("ReceivedActual_GRActual", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("ReceivedActualBalance", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("ReceivedActualPercent", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("ReceivedActualPercent", GetType(String)))
 
       myDatatable.Columns.Add(New DataColumn("Barrier5", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainComplete", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainCompleteReceived", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainComplete_GRActual", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("RemainCompleteBalance", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("RemainCompletePercent", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("RemainCompletePercent", GetType(String)))
 
       myDatatable.Columns.Add(New DataColumn("Barrier6", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("DateComplete", GetType(String)))
@@ -578,13 +609,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr = dt.Childs.Add
       tr("main") = "Main" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("vo") = "VO" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
-      tr("other") = "Other" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
-      tr("bf") = "bf" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("penalty") = "Penalty" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
+      tr("other") = "Other" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
+      tr("bf") = "BF" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("total") = "Total" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("deliver") = "Deliver" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("bill") = "Bill" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("received") = "Received" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
+      tr("retention") = "Retention" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
+      tr("advance") = "Advance" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("remain") = "Remain" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("budget") = "Budget" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("poactual") = "PO Actual" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
@@ -592,36 +625,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("gractual") = "GR Actual" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("gractualbalance") = "Balance" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("contractbudget") = "Contract - Budget"
-      tr("receivedactual") = "Received - Actual"
-      tr("RemainComplete") = "Remain - Complete"
+      tr("receivedactual") = "Total - GR Actual"
+      tr("RemainComplete") = "Received - GR Actual"
 
       tr = dt.Childs.Add
-      tr("contractbudgetprice") = "Price"
-      tr("estimatebudget") = "Estimate Budget"
+      tr("contractbudgetprice") = "Contract" '"Price"
+      tr("estimatebudget") = "Budget" '"Estimate Budget"
       tr("profitloss") = "Profit/Loss"
-      tr("contractbudgetpercent") = "(%)"
+      'tr("contractbudgetpercent") = "(%)"
 
-      tr("ReceivedActualPrice") = "Price"
+      tr("ReceivedActualPrice") = "Total" '"Price"
       tr("ReceivedActual_GRActual") = "GR Actual"
       tr("ReceivedActualBalance") = "Balance"
-      tr("ReceivedActualPercent") = "(%)"
+      'tr("ReceivedActualPercent") = "(%)"
 
       tr("RemainCompleteReceived") = "Received"
       tr("RemainComplete_GRActual") = "GR Actual"
       tr("RemainCompleteBalance") = "Balance"
-      tr("RemainCompletePercent") = "(%)"
+      'tr("RemainCompletePercent") = "(%)"
 
       'Cost Center Code, Cost Center Name, Price, Received(Header), Cost, Profit, Date Complete
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                     {
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 0, 3, 0),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 2, 3, 2),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 3, 3, 3),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 1, 11),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 13, 1, 17),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 19, 1, 24),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 26, 1, 43),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 45, 3, 45)
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 13, 1, 19),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 21, 1, 26),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 28, 1, 42),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 44, 3, 44)
                                     })
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 45, 3, 45)
       'Main, VO, Panalty, Total, Deliver, Bill, Received, Remain, Budget, PO Actual, Balance, GR Actual, Balance
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                     {
@@ -636,107 +671,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 15, 3, 15),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 16, 3, 16),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 17, 3, 17),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 18, 3, 18),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 19, 3, 19),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 20, 3, 20),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 21, 3, 21),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 22, 3, 22),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 23, 3, 23),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 24, 3, 24)
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 24, 3, 24),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 25, 3, 25),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 26, 3, 26)
                                     })
       'Contract-Budget, Received-Actual, Received-Complete
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                    {
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 27, 2, 31),
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 33, 2, 37),
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 39, 2, 43)
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 29, 2, 32),
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 34, 2, 37),
+                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 39, 2, 42)
                                    })
-
-      ',
-      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 25, 1, 31)
-
-      'Dim trDetail As TreeRow = dt.Childs.Add
-      'Dim i As Integer = 5
-      '' 10 Col per cc
-      'Dim GridRangeStyle1 As GridRangeStyle = New GridRangeStyle
-
-      'For Each ccrow As DataRow In dtcc.Rows
-      '  Dim crh As New DataRowHelper(ccrow)
-
-
-      '  Dim cc As String = crh.GetValue(Of Integer)("ccid").ToString
-      '  'trcc("BudgetCost" & cc) = crh.GetValue(Of String)("cc_code") & ":" & crh.GetValue(Of String)("cc_name")
-      '  tr("CostCenter" & cc) = crh.GetValue(Of String)("cc_code") & ":" & crh.GetValue(Of String)("cc_name")
-
-      '  trDetail("BudgetCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.BudgetCostHeaderText}")
-      '  trDetail("ActualPRCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualPRCostHeaderText}")
-      '  trDetail("PRDiff" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DifferenceHeaderText}")
-      '  trDetail("ActualPOCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualPOCostHeaderText}")
-      '  trDetail("PODiff" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DifferenceHeaderText}")
-      '  trDetail("ActualGRCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualGRCostHeaderText}")
-      '  trDetail("GRDiff" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DifferenceHeaderText}")
-      '  trDetail("ActualMWCost" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
-      '  trDetail("MWDiff" & cc) = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.DifferenceHeaderText}")
-      '  'Dim csBarrier0 As New DataGridBarrierColumn
-      '  'csBarrier0.MappingName = "Barrier" & cc
-      '  'csBarrier0.HeaderText = ""
-      '  'csBarrier0.NullText = ""
-      '  'csBarrier0.ReadOnly = True
-
-      '  'For r As Integer = 0 To m_grid.ColCount - 1
-      '  '  m_grid(1, r).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      '  'Next
-
-      '  m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-      '                              {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, i, 1, i + 9)}) ' 
-      '  'm_grid(2, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-
-      '  i += 11
-      'Next
-
-      'For r As Integer = 0 To m_grid.ColCount - 1
-      '  m_grid(2, r).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      'Next
-
-
-      'trcc("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.scBudget}")       '"SC Budget"
-      'trcc("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Retention}")     '"มัดจำ"      
-      'trcc("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Retentionn}")       '"Retention"
-      'trcc("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DR}")     '"ยอดหัก DR"  '""  
-
-      'trcc = Me.m_treemanager.Treetable.Childs.Add
-      'trcc("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.sc_docDate}")        '"วันที่เอกสาร"
-
-      'trcc("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.docCode}")       '"เลขที่เอกสาร"
-      'trcc("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.supplierinfo}")      '"ผู้รับเหมา"    
-      'trcc("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.ccinfo}")      '"Cost Center "
-
-      'trcc("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'trcc("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmount}") '"เบิก"
-      'trcc("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
-
-      'trcc("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'trcc("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmountMJ}") '"เบิก"
-      'trcc("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
-
-      'trcc("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'trcc("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmountRT}") '"หักไว้" 
-      'trcc("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"
-
-      'trcc("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.DebitAmount}") '"ตั้ง"
-      'trcc("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.CreditAmountDR}") '"เบิก"
-      'trcc("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSCMovement.Balance}") '"คงเหลือ"  
-
-      'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
-      '                              {Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 1, 0, 1), _
-      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 1, 1, 1), _
-      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(0, 4, 1, 4), _
-      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 6, 1, 8), _
-      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 9, 1, 11), _
-      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 12, 1, 14), _
-      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 15, 1, 17)}) ' _
+      '  Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 34, 2, 36),
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 38, 2, 41)
     End Sub
 #End Region
-
 #Region "Overrides"
     Public Overrides Function GetSimpleSchemaTable() As Gui.Components.TreeTable
       Return RptProjectRevenueExpenseEnumerate.GetCBSMonitorSchemaTable(Nothing) 'BOQ.GetWBSMonitorSchemaTable
@@ -794,11 +748,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       'End If
       Dim nodigit As Boolean = False
-      'If Me.Filters(3).Name.ToLower = "nodigit" Then
-      '  nodigit = CBool(Me.Filters(3).Value)
-      'End If
+      If Me.Filters(1).Name.ToLower = "nodigit" Then
+        nodigit = CBool(Me.Filters(1).Value)
+      End If
       CreateHeader(tm.Treetable)
       PopulateCBSMonitorListing(tm.Treetable, nodigit)
+      MergeSeparate()
+    End Sub
+    Private Sub MergeSeparate()
+      Dim rowCount As Integer = Me.DataSet.Tables(0).Rows.Count + 4
+      m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+                             {
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 4, rowCount, 4),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 12, rowCount, 12),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 20, rowCount, 20),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 27, rowCount, 27),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 43, rowCount, 43),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 33, rowCount, 33),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 38, rowCount, 38)
+                             })
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
@@ -865,61 +833,63 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim drh As New DataRowHelper(drow)
 
         Dim trc As TreeRow = dt.Childs.Add
-        trc.State = RowExpandState.Expanded
+        'trc.State = RowExpandState.Expanded
         trc("cc_code") = drh.GetValue(Of String)("cc_code")
         trc("cc_name") = drh.GetValue(Of String)("cc_name")
 
-        trc("main") = Configuration.FormatToString(drh.GetValue(Of Decimal)("main"), DigitConfig.Price)
-        trc("vo") = Configuration.FormatToString(drh.GetValue(Of Decimal)("vo"), DigitConfig.Price)
-        trc("other") = Configuration.FormatToString(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
-        trc("bf") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bf"), DigitConfig.Price)
-        trc("penalty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
-        trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) - drh.GetValue(Of Decimal)("penalty"), DigitConfig.Price)
+        trc("main") = Configuration.FormatToString(drh.GetValue(Of Decimal)("main"), dgt)
+        trc("vo") = Configuration.FormatToString(drh.GetValue(Of Decimal)("vo"), dgt)
+        trc("other") = Configuration.FormatToString(drh.GetValue(Of Decimal)("other"), dgt)
+        trc("bf") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bf"), dgt)
+        trc("penalty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("penalty"), dgt)
+        trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) - drh.GetValue(Of Decimal)("penalty"), dgt)
         'trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) _
-        '- (drh.GetValue(Of Decimal)("penalty") + drh.GetValue(Of Decimal)("retention") + drh.GetValue(Of Decimal)("advance")), DigitConfig.Price)
+        '- (drh.GetValue(Of Decimal)("penalty") + drh.GetValue(Of Decimal)("retention") + drh.GetValue(Of Decimal)("advance")), dgt)
 
-        trc("deliver") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver"), DigitConfig.Price)
-        trc("bill") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bill"), DigitConfig.Price)
-        'trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("receivedtaxbase"), DigitConfig.Price)
-        trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), DigitConfig.Price)
-        'trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver") - drh.GetValue(Of Decimal)("bill"), DigitConfig.Price)
-        trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
+        trc("deliver") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver"), dgt)
+        trc("bill") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bill"), dgt)
+        'trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("receivedtaxbase"), dgt)
+        trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), dgt)
+        'trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver") - drh.GetValue(Of Decimal)("bill"), dgt)
+        trc("retention") = Configuration.FormatToString(drh.GetValue(Of Decimal)("recretention"), dgt)
+        trc("advance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("recadvance"), dgt)
+        trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("remain"), dgt)
 
-        trc("budget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
-        trc("POActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("POActual"), DigitConfig.Price)
-        trc("POActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), DigitConfig.Price)
-        trc("GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("GRActual"), DigitConfig.Price)
-        trc("GRActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), DigitConfig.Price)
+        trc("budget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), dgt)
+        trc("POActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("POActual"), dgt)
+        trc("POActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), dgt)
+        trc("GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("GRActual"), dgt)
+        trc("GRActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), dgt)
 
-        'trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("total")), DigitConfig.Price)
-        trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("main")), DigitConfig.Price)
-        trc("estimatebudget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
-        trc("profitloss") = Configuration.FormatToString(CDec(trc("main")) - drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
-        'trc("profitloss") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("budget"), DigitConfig.Price)
-        If drh.GetValue(Of Decimal)("budget") > 0 Then
-          trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("main")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, DigitConfig.Price) & "%"
-          'trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("total")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, DigitConfig.Price) & "%"
-        Else
-          trc("contractbudgetpercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
-        End If
+        'trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("total")), dgt)
+        trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("main")), dgt)
+        trc("estimatebudget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), dgt)
+        trc("profitloss") = Configuration.FormatToString(CDec(trc("main")) - drh.GetValue(Of Decimal)("budget"), dgt)
+        'trc("profitloss") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("budget"), dgt)
+        'If drh.GetValue(Of Decimal)("budget") > 0 Then
+        '  trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("main")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, dgt) & "%"
+        '  'trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("total")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, dgt) & "%"
+        'Else
+        '  trc("contractbudgetpercent") = Configuration.FormatToString(0, dgt) & "%"
+        'End If
 
-        trc("ReceivedActualPrice") = Configuration.FormatToString(CDec(trc("total")), DigitConfig.Price)
-        trc("ReceivedActual_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gractual"), DigitConfig.Price)
-        trc("ReceivedActualBalance") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("gractual"), DigitConfig.Price)
-        If CDec(trc("total")) > 0 Then
-          trc("ReceivedActualPercent") = Configuration.FormatToString((drh.GetValue(Of Decimal)("gractual") / CDec(trc("total"))) * 100, DigitConfig.Price) & "%"
-        Else
-          trc("ReceivedActualPercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
-        End If
+        trc("ReceivedActualPrice") = Configuration.FormatToString(CDec(trc("total")), dgt)
+        trc("ReceivedActual_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gractual"), dgt)
+        trc("ReceivedActualBalance") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("gractual"), dgt)
+        'If CDec(trc("total")) > 0 Then
+        '  trc("ReceivedActualPercent") = Configuration.FormatToString((drh.GetValue(Of Decimal)("gractual") / CDec(trc("total"))) * 100, dgt) & "%"
+        'Else
+        '  trc("ReceivedActualPercent") = Configuration.FormatToString(0, dgt) & "%"
+        'End If
 
-        trc("RemainCompleteReceived") = Configuration.FormatToString(CDec(trc("received")), DigitConfig.Price)
-        trc("RemainComplete_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gractual"), DigitConfig.Price)
-        trc("RemainCompleteBalance") = Configuration.FormatToString(CDec(trc("received")) - drh.GetValue(Of Decimal)("gractual"), DigitConfig.Price)
-        If drh.GetValue(Of Decimal)("gractual") > 0 Then
-          trc("RemainCompletePercent") = Configuration.FormatToString((CDec(trc("received")) / drh.GetValue(Of Decimal)("gractual")) * 100, DigitConfig.Price) & "%"
-        Else
-          trc("RemainCompletePercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
-        End If
+        trc("RemainCompleteReceived") = Configuration.FormatToString(CDec(trc("received")), dgt)
+        trc("RemainComplete_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gractual"), dgt)
+        trc("RemainCompleteBalance") = Configuration.FormatToString(CDec(trc("received")) - drh.GetValue(Of Decimal)("gractual"), dgt)
+        'If drh.GetValue(Of Decimal)("gractual") > 0 Then
+        '  trc("RemainCompletePercent") = Configuration.FormatToString((CDec(trc("received")) / drh.GetValue(Of Decimal)("gractual")) * 100, dgt) & "%"
+        'Else
+        '  trc("RemainCompletePercent") = Configuration.FormatToString(0, dgt) & "%"
+        'End If
 
         trc("DateComplete") = drh.GetValue(Of Date)("project_completiondate").ToShortDateString
 
@@ -957,53 +927,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ''Summary''--
       Dim trsc As TreeRow = dt.Childs.Add
-      trsc.State = RowExpandState.Expanded
+      'trsc.State = RowExpandState.Expanded
       trsc("cc_name") = "Total Cost"
 
-      trsc("main") = Configuration.FormatToString(m_CCRvExp.Main, DigitConfig.Price)
-      trsc("vo") = Configuration.FormatToString(m_CCRvExp.Vo, DigitConfig.Price)
-      trsc("other") = Configuration.FormatToString(m_CCRvExp.Other, DigitConfig.Price)
-      trsc("bf") = Configuration.FormatToString(m_CCRvExp.Bf, DigitConfig.Price)
-      trsc("penalty") = Configuration.FormatToString(m_CCRvExp.Penalty, DigitConfig.Price)
-      trsc("total") = Configuration.FormatToString(m_CCRvExp.Total, DigitConfig.Price)
+      trsc("main") = Configuration.FormatToString(m_CCRvExp.Main, dgt)
+      trsc("vo") = Configuration.FormatToString(m_CCRvExp.Vo, dgt)
+      trsc("other") = Configuration.FormatToString(m_CCRvExp.Other, dgt)
+      trsc("bf") = Configuration.FormatToString(m_CCRvExp.Bf, dgt)
+      trsc("penalty") = Configuration.FormatToString(m_CCRvExp.Penalty, dgt)
+      trsc("total") = Configuration.FormatToString(m_CCRvExp.Total, dgt)
 
-      trsc("deliver") = Configuration.FormatToString(m_CCRvExp.Deliver, DigitConfig.Price)
-      trsc("bill") = Configuration.FormatToString(m_CCRvExp.Bill, DigitConfig.Price)
-      trsc("received") = Configuration.FormatToString(m_CCRvExp.Received, DigitConfig.Price)
-      trsc("remain") = Configuration.FormatToString(m_CCRvExp.Remain, DigitConfig.Price)
+      trsc("deliver") = Configuration.FormatToString(m_CCRvExp.Deliver, dgt)
+      trsc("bill") = Configuration.FormatToString(m_CCRvExp.Bill, dgt)
+      trsc("received") = Configuration.FormatToString(m_CCRvExp.Received, dgt)
+      trsc("remain") = Configuration.FormatToString(m_CCRvExp.Remain, dgt)
 
-      trsc("budget") = Configuration.FormatToString(m_CCRvExp.Budget, DigitConfig.Price)
-      trsc("POActual") = Configuration.FormatToString(m_CCRvExp.POActual, DigitConfig.Price)
-      trsc("POActualBalance") = Configuration.FormatToString(m_CCRvExp.POActualBalance, DigitConfig.Price)
-      trsc("GRActual") = Configuration.FormatToString(m_CCRvExp.GRActual, DigitConfig.Price)
-      trsc("GRActualBalance") = Configuration.FormatToString(m_CCRvExp.GRActualBalance, DigitConfig.Price)
+      trsc("budget") = Configuration.FormatToString(m_CCRvExp.Budget, dgt)
+      trsc("POActual") = Configuration.FormatToString(m_CCRvExp.POActual, dgt)
+      trsc("POActualBalance") = Configuration.FormatToString(m_CCRvExp.POActualBalance, dgt)
+      trsc("GRActual") = Configuration.FormatToString(m_CCRvExp.GRActual, dgt)
+      trsc("GRActualBalance") = Configuration.FormatToString(m_CCRvExp.GRActualBalance, dgt)
 
-      trsc("contractbudgetprice") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice, DigitConfig.Price)
-      trsc("estimatebudget") = Configuration.FormatToString(m_CCRvExp.Estimatebudget, DigitConfig.Price)
-      trsc("profitloss") = Configuration.FormatToString(m_CCRvExp.Profitloss, DigitConfig.Price)
-      If m_CCRvExp.Budget > 0 Then
-        trsc("contractbudgetpercent") = Configuration.FormatToString(((m_CCRvExp.Total / m_CCRvExp.Budget) - 1) * 100, DigitConfig.Price) & "%"
-      Else
-        trsc("contractbudgetpercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
-      End If
+      trsc("contractbudgetprice") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice, dgt)
+      trsc("estimatebudget") = Configuration.FormatToString(m_CCRvExp.Estimatebudget, dgt)
+      trsc("profitloss") = Configuration.FormatToString(m_CCRvExp.Profitloss, dgt)
+      'If m_CCRvExp.Budget > 0 Then
+      '  trsc("contractbudgetpercent") = Configuration.FormatToString(((m_CCRvExp.Total / m_CCRvExp.Budget) - 1) * 100, dgt) & "%"
+      'Else
+      '  trsc("contractbudgetpercent") = Configuration.FormatToString(0, dgt) & "%"
+      'End If
 
-      trsc("ReceivedActualPrice") = Configuration.FormatToString(m_CCRvExp.ReceivedActualPrice, DigitConfig.Price)
-      trsc("ReceivedActual_GRActual") = Configuration.FormatToString(m_CCRvExp.ReceivedActual_GRActual, DigitConfig.Price)
-      trsc("ReceivedActualBalance") = Configuration.FormatToString(m_CCRvExp.ReceivedActualBalance, DigitConfig.Price)
-      If m_CCRvExp.Total > 0 Then
-        trsc("ReceivedActualPercent") = Configuration.FormatToString((m_CCRvExp.GRActual / m_CCRvExp.Total) * 100, DigitConfig.Price) & "%"
-      Else
-        trsc("ReceivedActualPercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
-      End If
+      trsc("ReceivedActualPrice") = Configuration.FormatToString(m_CCRvExp.ReceivedActualPrice, dgt)
+      trsc("ReceivedActual_GRActual") = Configuration.FormatToString(m_CCRvExp.ReceivedActual_GRActual, dgt)
+      trsc("ReceivedActualBalance") = Configuration.FormatToString(m_CCRvExp.ReceivedActualBalance, dgt)
+      'If m_CCRvExp.Total > 0 Then
+      '  trsc("ReceivedActualPercent") = Configuration.FormatToString((m_CCRvExp.GRActual / m_CCRvExp.Total) * 100, dgt) & "%"
+      'Else
+      '  trsc("ReceivedActualPercent") = Configuration.FormatToString(0, dgt) & "%"
+      'End If
 
-      trsc("RemainCompleteReceived") = Configuration.FormatToString(m_CCRvExp.RemainCompleteReceived, DigitConfig.Price)
-      trsc("RemainComplete_GRActual") = Configuration.FormatToString(m_CCRvExp.RemainComplete_GRActual, DigitConfig.Price)
-      trsc("RemainCompleteBalance") = Configuration.FormatToString(m_CCRvExp.RemainCompleteBalance, DigitConfig.Price)
-      If m_CCRvExp.GRActual > 0 Then
-        trsc("RemainCompletePercent") = Configuration.FormatToString((m_CCRvExp.Received / m_CCRvExp.GRActual) * 100, DigitConfig.Price) & "%"
-      Else
-        trsc("RemainCompletePercent") = Configuration.FormatToString(0, DigitConfig.Price) & "%"
-      End If
+      trsc("RemainCompleteReceived") = Configuration.FormatToString(m_CCRvExp.RemainCompleteReceived, dgt)
+      trsc("RemainComplete_GRActual") = Configuration.FormatToString(m_CCRvExp.RemainComplete_GRActual, dgt)
+      trsc("RemainCompleteBalance") = Configuration.FormatToString(m_CCRvExp.RemainCompleteBalance, dgt)
+      'If m_CCRvExp.GRActual > 0 Then
+      '  trsc("RemainCompletePercent") = Configuration.FormatToString((m_CCRvExp.Received / m_CCRvExp.GRActual) * 100, dgt) & "%"
+      'Else
+      '  trsc("RemainCompletePercent") = Configuration.FormatToString(0, dgt) & "%"
+      'End If
 
       dt.AcceptChanges()
       Return
@@ -1093,7 +1063,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             stage = "1"
 
             stage = "2"
-            tr.State = RowExpandState.Expanded
+            'tr.State = RowExpandState.Expanded
           End If
 
           'If detail > 0 Then
