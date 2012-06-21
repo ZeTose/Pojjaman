@@ -11,6 +11,7 @@ Imports Longkong.Pojjaman.TextHelper
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class BOQItemSelectionView
     Inherits AbstractEntityPanelViewContent
+    'Inherits UserControl
     Implements ISimpleListPanel, IValidatable
 
 #Region " Windows Form Designer generated code "
@@ -52,34 +53,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents tvGroup As Longkong.Pojjaman.Gui.Components.GroupTreeView
     Friend WithEvents Label1 As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container
-      Dim resources As System.Resources.ResourceManager = New System.Resources.ResourceManager(GetType(BOQItemSelectionView))
+      Me.components = New System.ComponentModel.Container()
+      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BOQItemSelectionView))
       Me.imlTree = New System.Windows.Forms.ImageList(Me.components)
-      Me.grbUseItem = New Longkong.Pojjaman.Gui.Components.FixedGroupBox
-      Me.ibtnShowBOQDialog = New Longkong.Pojjaman.Gui.Components.ImageButton
-      Me.txtBoqCode = New System.Windows.Forms.TextBox
-      Me.lblBoq = New System.Windows.Forms.Label
-      Me.cmbWBS = New System.Windows.Forms.ComboBox
-      Me.txtFrom = New System.Windows.Forms.TextBox
-      Me.btnSearch = New System.Windows.Forms.Button
-      Me.lblFrom = New System.Windows.Forms.Label
-      Me.txtTo = New System.Windows.Forms.TextBox
-      Me.lblTo = New System.Windows.Forms.Label
-      Me.lblBaht = New System.Windows.Forms.Label
-      Me.lblName = New System.Windows.Forms.Label
-      Me.txtName = New System.Windows.Forms.TextBox
-      Me.lblWBS = New System.Windows.Forms.Label
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid
-      Me.lblItem = New System.Windows.Forms.Label
-      Me.btnSelectAll = New System.Windows.Forms.Button
-      Me.tvGroup = New Longkong.Pojjaman.Gui.Components.GroupTreeView
-      Me.Label1 = New System.Windows.Forms.Label
+      Me.grbUseItem = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.ibtnShowBOQDialog = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.txtBoqCode = New System.Windows.Forms.TextBox()
+      Me.lblBoq = New System.Windows.Forms.Label()
+      Me.cmbWBS = New System.Windows.Forms.ComboBox()
+      Me.txtFrom = New System.Windows.Forms.TextBox()
+      Me.btnSearch = New System.Windows.Forms.Button()
+      Me.lblFrom = New System.Windows.Forms.Label()
+      Me.txtTo = New System.Windows.Forms.TextBox()
+      Me.lblTo = New System.Windows.Forms.Label()
+      Me.lblBaht = New System.Windows.Forms.Label()
+      Me.lblName = New System.Windows.Forms.Label()
+      Me.txtName = New System.Windows.Forms.TextBox()
+      Me.lblWBS = New System.Windows.Forms.Label()
+      Me.tvGroup = New Longkong.Pojjaman.Gui.Components.GroupTreeView()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+      Me.lblItem = New System.Windows.Forms.Label()
+      Me.btnSelectAll = New System.Windows.Forms.Button()
       Me.grbUseItem.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'imlTree
       '
+      Me.imlTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
       Me.imlTree.ImageSize = New System.Drawing.Size(16, 16)
       Me.imlTree.TransparentColor = System.Drawing.Color.Transparent
       '
@@ -98,22 +100,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbUseItem.Controls.Add(Me.lblName)
       Me.grbUseItem.Controls.Add(Me.txtName)
       Me.grbUseItem.Controls.Add(Me.lblWBS)
-      Me.grbUseItem.Controls.Add(Me.tvGroup)
-      Me.grbUseItem.Controls.Add(Me.Label1)
       Me.grbUseItem.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbUseItem.Location = New System.Drawing.Point(16, 8)
+      Me.grbUseItem.Location = New System.Drawing.Point(8, -1)
       Me.grbUseItem.Name = "grbUseItem"
-      Me.grbUseItem.Size = New System.Drawing.Size(760, 192)
+      Me.grbUseItem.Size = New System.Drawing.Size(307, 148)
       Me.grbUseItem.TabIndex = 21
       Me.grbUseItem.TabStop = False
-      Me.grbUseItem.Text = "รายละเอียด"
       '
       'ibtnShowBOQDialog
       '
+      Me.ibtnShowBOQDialog.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.ibtnShowBOQDialog.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.ibtnShowBOQDialog.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnShowBOQDialog.Image = CType(resources.GetObject("ibtnShowBOQDialog.Image"), System.Drawing.Image)
-      Me.ibtnShowBOQDialog.Location = New System.Drawing.Point(232, 16)
+      Me.ibtnShowBOQDialog.Location = New System.Drawing.Point(274, 16)
       Me.ibtnShowBOQDialog.Name = "ibtnShowBOQDialog"
       Me.ibtnShowBOQDialog.Size = New System.Drawing.Size(24, 23)
       Me.ibtnShowBOQDialog.TabIndex = 14
@@ -125,9 +124,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtBoqCode.Location = New System.Drawing.Point(80, 16)
       Me.txtBoqCode.Name = "txtBoqCode"
       Me.txtBoqCode.ReadOnly = True
-      Me.txtBoqCode.Size = New System.Drawing.Size(152, 20)
+      Me.txtBoqCode.Size = New System.Drawing.Size(192, 20)
       Me.txtBoqCode.TabIndex = 11
-      Me.txtBoqCode.Text = ""
       '
       'lblBoq
       '
@@ -145,7 +143,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.cmbWBS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
       Me.cmbWBS.Enabled = False
-      Me.cmbWBS.Location = New System.Drawing.Point(80, 88)
+      Me.cmbWBS.Location = New System.Drawing.Point(80, 92)
       Me.cmbWBS.Name = "cmbWBS"
       Me.cmbWBS.Size = New System.Drawing.Size(192, 21)
       Me.cmbWBS.TabIndex = 3
@@ -157,12 +155,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtFrom.Name = "txtFrom"
       Me.txtFrom.Size = New System.Drawing.Size(80, 22)
       Me.txtFrom.TabIndex = 0
-      Me.txtFrom.Text = ""
       '
       'btnSearch
       '
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(216, 112)
+      Me.btnSearch.Location = New System.Drawing.Point(216, 116)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(56, 23)
       Me.btnSearch.TabIndex = 9
@@ -172,7 +169,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblFrom.BackColor = System.Drawing.Color.Transparent
       Me.lblFrom.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblFrom.Location = New System.Drawing.Point(8, 40)
+      Me.lblFrom.Location = New System.Drawing.Point(16, 40)
       Me.lblFrom.Name = "lblFrom"
       Me.lblFrom.Size = New System.Drawing.Size(64, 20)
       Me.lblFrom.TabIndex = 4
@@ -186,7 +183,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTo.Name = "txtTo"
       Me.txtTo.Size = New System.Drawing.Size(80, 22)
       Me.txtTo.TabIndex = 1
-      Me.txtTo.Text = ""
       '
       'lblTo
       '
@@ -201,9 +197,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht
       '
       Me.lblBaht.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblBaht.Location = New System.Drawing.Point(280, 40)
+      Me.lblBaht.Location = New System.Drawing.Point(274, 40)
       Me.lblBaht.Name = "lblBaht"
-      Me.lblBaht.Size = New System.Drawing.Size(32, 20)
+      Me.lblBaht.Size = New System.Drawing.Size(30, 20)
       Me.lblBaht.TabIndex = 8
       Me.lblBaht.Text = "บาท"
       Me.lblBaht.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -211,7 +207,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblName
       '
       Me.lblName.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblName.Location = New System.Drawing.Point(16, 64)
+      Me.lblName.Location = New System.Drawing.Point(24, 66)
       Me.lblName.Name = "lblName"
       Me.lblName.Size = New System.Drawing.Size(56, 20)
       Me.lblName.TabIndex = 5
@@ -221,37 +217,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtName
       '
       Me.txtName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.txtName.Location = New System.Drawing.Point(80, 64)
+      Me.txtName.Location = New System.Drawing.Point(80, 66)
       Me.txtName.Name = "txtName"
       Me.txtName.Size = New System.Drawing.Size(192, 22)
       Me.txtName.TabIndex = 2
-      Me.txtName.Text = ""
       '
       'lblWBS
       '
       Me.lblWBS.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblWBS.Location = New System.Drawing.Point(16, 88)
+      Me.lblWBS.Location = New System.Drawing.Point(24, 92)
       Me.lblWBS.Name = "lblWBS"
       Me.lblWBS.Size = New System.Drawing.Size(56, 20)
       Me.lblWBS.TabIndex = 6
       Me.lblWBS.Text = "WBS:"
       Me.lblWBS.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'tvGroup
+      '
+      Me.tvGroup.AllowDrop = True
+      Me.tvGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.tvGroup.FullRowSelect = True
+      Me.tvGroup.HideSelection = False
+      Me.tvGroup.ImageIndex = 0
+      Me.tvGroup.ImageList = Me.imlTree
+      Me.tvGroup.Location = New System.Drawing.Point(320, 5)
+      Me.tvGroup.Name = "tvGroup"
+      Me.tvGroup.SelectedImageIndex = 0
+      Me.tvGroup.Size = New System.Drawing.Size(708, 168)
+      Me.tvGroup.TabIndex = 15
+      '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.Location = New System.Drawing.Point(301, 163)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(56, 20)
+      Me.Label1.TabIndex = 6
+      Me.Label1.Text = "WBS:"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.Label1.Visible = False
+      '
       'tgItem
       '
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(16, 232)
+      Me.tgItem.Location = New System.Drawing.Point(8, 179)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(760, 280)
+      Me.tgItem.Size = New System.Drawing.Size(1020, 493)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 23
       Me.tgItem.TreeManager = Nothing
@@ -259,41 +280,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblItem
       '
       Me.lblItem.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(32, 216)
+      Me.lblItem.Location = New System.Drawing.Point(15, 157)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(84, 19)
       Me.lblItem.TabIndex = 24
       Me.lblItem.Text = "รายการBOQ"
+      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnSelectAll
       '
       Me.btnSelectAll.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSelectAll.Location = New System.Drawing.Point(120, 208)
+      Me.btnSelectAll.Location = New System.Drawing.Point(102, 154)
       Me.btnSelectAll.Name = "btnSelectAll"
       Me.btnSelectAll.Size = New System.Drawing.Size(128, 23)
       Me.btnSelectAll.TabIndex = 20
       Me.btnSelectAll.Text = "เลือก/ไม่เลือกทั้งหมด"
-      '
-      'tvGroup
-      '
-      Me.tvGroup.AllowDrop = True
-      Me.tvGroup.FullRowSelect = True
-      Me.tvGroup.HideSelection = False
-      Me.tvGroup.ImageList = Me.imlTree
-      Me.tvGroup.Location = New System.Drawing.Point(312, 32)
-      Me.tvGroup.Name = "tvGroup"
-      Me.tvGroup.Size = New System.Drawing.Size(440, 152)
-      Me.tvGroup.TabIndex = 15
-      '
-      'Label1
-      '
-      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.Location = New System.Drawing.Point(288, 16)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(56, 20)
-      Me.Label1.TabIndex = 6
-      Me.Label1.Text = "WBS:"
-      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'BOQItemSelectionView
       '
@@ -301,9 +302,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Controls.Add(Me.tgItem)
       Me.Controls.Add(Me.lblItem)
       Me.Controls.Add(Me.btnSelectAll)
+      Me.Controls.Add(Me.tvGroup)
+      Me.Controls.Add(Me.Label1)
       Me.Name = "BOQItemSelectionView"
-      Me.Size = New System.Drawing.Size(792, 528)
+      Me.Size = New System.Drawing.Size(1035, 679)
       Me.grbUseItem.ResumeLayout(False)
+      Me.grbUseItem.PerformLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
@@ -719,7 +723,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity Is Nothing Then
         Me.Text = Me.StringParserService.Parse(m_entity.ListPanelTitle)
       End If
-      Me.grbUseItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MarkupDistribution.grbUseItem}")
+      'Me.grbUseItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MarkupDistribution.grbUseItem}")
       Me.lblFrom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MarkupDistribution.lblFrom}")
       Me.lblTo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MarkupDistribution.lblTo}")
       Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
