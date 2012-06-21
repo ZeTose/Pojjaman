@@ -206,6 +206,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .SequenceNo = New WitholdingTaxSequence
         .IndicationSubmit = 0
         .SubmitNo = 0
+        .wht_bookNo = ""
       End With
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)

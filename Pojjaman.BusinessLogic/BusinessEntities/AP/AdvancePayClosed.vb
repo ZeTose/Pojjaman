@@ -427,6 +427,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim ValidateError As SaveErrorException
 
+      If Me.DocDate < Me.m_advancepay.DocDate Then
+        Return New SaveErrorException("${res:Longkong.Pojjaman.BusinessLogic.AdvancePayClosed.InvalidAdvancePayCloseDate}", Me.DocDate.ToShortDateString, Me.AdvancePay.DocDate.ToShortDateString)
+      End If
+
       ValidateError = Me.Vat.BeforeSave(currentUserId)
       If Not IsNumeric(ValidateError.Message) Then
         Return ValidateError

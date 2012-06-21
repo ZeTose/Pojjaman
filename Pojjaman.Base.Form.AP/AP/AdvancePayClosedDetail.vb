@@ -797,7 +797,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Name = "lblStatus"
       Me.lblStatus.Size = New System.Drawing.Size(47, 13)
       Me.lblStatus.TabIndex = 20
-      Me.lblStatus.Text = "lblStatus"
+      Me.lblStatus.Text = ""
       '
       'grbHeader
       '

@@ -1698,8 +1698,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_txtCodeChange = True
           dirtyFlag = True
         Case "txtbookno"
-          Me.m_wht.BookNo = txtBookNo.Text
-          dirtyFlag = True
+          'Trace.WriteLine(Me.m_wht.BookNo.ToString)
+          If txtBookNo.Text <> Me.m_wht.BookNo Then
+            Me.m_wht.BookNo = txtBookNo.Text
+            dirtyFlag = True
+          End If
         Case "dtpdocdate"
           If Not Me.m_wht.DocDate.Equals(dtpDocDate.Value) Then
             If Not m_dateSetting Then
