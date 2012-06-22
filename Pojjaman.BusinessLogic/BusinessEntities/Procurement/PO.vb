@@ -2506,9 +2506,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       'Mapping การอนุมัติ #917
+      Dim appIdLevelHs1 As New Hashtable
+      Dim appIdLevelHs2 As New Hashtable
       Dim appTable As DataTable = BusinessEntity.GetApprovePersonListfromDoc(Me.Id, Me.EntityId)
       If appTable.Rows.Count > 0 Then
         For Each row As DataRow In appTable.Rows
+          Dim deh As New DataRowHelper(row)
+          If Not appIdLevelHs1.ContainsKey(deh.GetValue(Of Integer)("apvdoc_level").ToString) Then
+            appIdLevelHs1.Add(deh.GetValue(Of Integer)("apvdoc_level").ToString, row)
+          Else
+            appIdLevelHs1(deh.GetValue(Of Integer)("apvdoc_level").ToString) = row
+          End If
+        Next
+
+        For Each row As DataRow In appIdLevelHs1.Values 'appTable.Rows
           Dim deh As New DataRowHelper(row)
           dpi = New DocPrintingItem
           dpi.Mapping = "ApprovePersonNameLevel " & deh.GetValue(Of Integer)("apvdoc_level").ToString
@@ -2552,6 +2563,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       If LastLevelApprove.Count > 0 AndAlso Not LastLevelApprove.Item(LastLevelApprove.Count - 1).Reject Then
         For Each ap As ApproveDoc In LastLevelApprove
+          If Not ap.Reject Then
+            If Not appIdLevelHs2.ContainsKey(ap.Level.ToString) Then
+              appIdLevelHs2.Add(ap.Level.ToString, ap)
+            Else
+              appIdLevelHs2(ap.Level.ToString) = ap
+            End If
+          End If
+        Next
+        For Each ap As ApproveDoc In appIdLevelHs2.Values 'LastLevelApprove
           If Not ap.Reject Then
             dpi = New DocPrintingItem
             dpi.Mapping = "ApprovePersonIdLevel " & ap.Level.ToString
