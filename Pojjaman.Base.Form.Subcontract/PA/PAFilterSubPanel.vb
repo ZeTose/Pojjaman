@@ -656,7 +656,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case txtSCCode.Name.ToLower
-          SC.GetSC(txtSCCode, Me.m_sc, True)
+          dirtyFlag = SC.GetSC(txtSCCode, Me.m_sc, True)
+          If dirtyFlag AndAlso txtSCCode.Text.Trim.Length = 0 Then
+            Me.m_sc = New SC
+          End If
         Case "dtpdocdatestart"
           If Not Me.docDateStart.Equals(dtpDocDateStart.Value) Then
             If Not m_dateSetting Then
