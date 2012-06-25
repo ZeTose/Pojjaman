@@ -1076,6 +1076,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Property
 #End Region
 
+    Private Sub txtSCCode_Validated(sender As Object, e As System.EventArgs) Handles txtSCCode.Validated
+      If Me.txtSCCode.Text.Trim.Length = 0 Then
+        Me.m_sc = New SC
+      Else
+        SC.GetSC(txtSCCode, Me.m_sc)
+      End If
+    End Sub
   End Class
 End Namespace
 
