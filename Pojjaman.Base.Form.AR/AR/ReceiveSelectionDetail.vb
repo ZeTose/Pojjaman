@@ -1980,6 +1980,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim newItem As SaleBillIssueItem
         If TypeOf items(i) Is StockBasketItem Then
           Dim item As StockBasketItem = CType(items(i), StockBasketItem)
+          'Trace.WriteLine(item.FullClassName)
           Select Case item.FullClassName
             Case "Longkong.Pojjaman.BusinessLogic.SaleBillIssueItem"
               'เลือกมาจากใบวางบิลขาย

@@ -2151,7 +2151,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim amt As Decimal = item.Amount
           Dim uamt As Decimal = item.UnreceivedAmount
           '---------------------------------------------
-          Dim tb As Decimal = (amt / uamt) * mtb
+          Dim tb As Decimal = 0
+          If uamt = 0 Then
+            tb = (amt * mtb)
+          Else
+            tb = (amt / uamt) * mtb
+          End If
           item.VatAmt = Vat.GetVatAmount(tb)
           ret += tb
         End If
