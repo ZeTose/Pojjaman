@@ -947,7 +947,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
 
       'CustomerInfo
-      If Me.Customer.Valid Then
+      If Me.Customer.Valid AndAlso Not Me.Customer Is Nothing Then
         dpi = New DocPrintingItem
         dpi.Mapping = "CustomerInfo"
         dpi.Value = Me.Customer.Code & ":" & Me.Customer.Name
@@ -963,6 +963,48 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "CustomerName"
         dpi.Value = Me.Customer.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'AlternateName 
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerAlternateName"
+        dpi.Value = Me.Customer.AlternateName
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Address
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerAddress"
+        dpi.Value = Me.Customer.Address
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'BillingAddress
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerBillingAddress"
+        dpi.Value = Me.Customer.BillingAddress
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Phone
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerPhone"
+        dpi.Value = Me.Customer.Phone
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Mobile
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerMobile"
+        dpi.Value = Me.Customer.Mobile
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Mobile
+        dpi = New DocPrintingItem
+        dpi.Mapping = "CustomerAuthorizeAmount"
+        dpi.Value = Configuration.FormatToString(Me.Customer.AuthorizeAmount, DigitConfig.Price)
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
       End If
@@ -1028,7 +1070,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Value = Configuration.FormatToString(Me.ContractAmount, DigitConfig.Price)
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
-
 
       Dim myCount As New Hashtable
       Dim mySum As New Hashtable
@@ -1473,6 +1514,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerInfo", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerAlternateName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerBillingAddress", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerPhone", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerMobile", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CustomerAuthorizeAmount", "System.Decimal"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("StartDate", "System.DateTime"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Period", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueComplete", "System.DateTime"))
