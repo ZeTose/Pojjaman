@@ -933,8 +933,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
-    Private Sub txtApprovePerson_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtApprovePerson.Validated
-      User.GetUser(txtApprovePerson, txtApprovePersonName, Me.m_user)
+    Private Sub txtApprovePerson_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtApprovePerson.Validated, _
+      txtSCCode.Validated, _
+      txtSubcontractCode.Validated, _
+      txtCostCenterCode.Validated, _
+      txtFromCostCenterCode.Validated, _
+      txtFromCCPersonCode.Validated
+      Select Case CType(sender, TextBox).Name.ToLower
+        Case txtSCCode.Name.ToLower
+          If txtSCCode.Text.Trim.Length = 0 Then
+            Me.m_sc = New SC
+          Else
+            SC.GetSC(txtSCCode, Me.m_sc)
+          End If
+        Case txtApprovePerson.Name.ToLower
+          User.GetUser(txtApprovePerson, txtApprovePersonName, Me.m_user)
+        Case txtSubcontractCode.Name.ToLower
+          Supplier.GetSupplier(txtSubcontractCode, txtSubcontractName, Me.m_supcontractor)
+        Case txtCostCenterCode.Name.ToLower
+          CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_toCC)
+        Case txtFromCostCenterCode.Name.ToLower
+          CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_fromCC)
+        Case txtFromCCPersonCode.Name.ToLower
+          Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_employee)
+      End Select
     End Sub
     Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
       ClearCriterias()
