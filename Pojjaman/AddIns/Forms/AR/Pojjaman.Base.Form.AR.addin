@@ -6,7 +6,8 @@
 		<Import assembly="../AP/Pojjaman.Base.Form.AP.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
-		<EntityFilter id="customer" entity="customer" filter="Longkong.Pojjaman.Gui.Panels.CustFilterSubPanel"/>
+    <EntityFilter id="customer" entity="customer" filter="Longkong.Pojjaman.Gui.Panels.CustFilterSubPanel"/>
+    <EntityFilter id="contactcustomer" entity="contactcustomer" filter="Longkong.Pojjaman.Gui.Panels.CustFilterSubPanel"/>
 		<EntityFilter id="aropeningbalance" entity="aropeningbalance" filter="Longkong.Pojjaman.Gui.Panels.AROpeningBalanceFilterSubPanel"/>
 		<EntityFilter id="goodssold" entity="goodssold" filter="Longkong.Pojjaman.Gui.Panels.GoodsSoldFilterSubPanel"/>	
 		<EntityFilter id="salecn" entity="salescn" filter="Longkong.Pojjaman.Gui.Panels.SaleCNFilterSubPanel"/>

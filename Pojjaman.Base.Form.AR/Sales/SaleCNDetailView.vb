@@ -3082,7 +3082,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtcustomercode"
           If supplierCodeChanged Then
             supplierCodeChanged = False
-            dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+            dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
             If dirtyFlag Then
               For Each vitem As VatItem In Me.m_entity.Vat.ItemCollection
                 vitem.PrintName = Me.m_entity.Customer.Name
@@ -3822,7 +3822,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomer)
+      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomer)
     End Sub
     Private Sub SetCustomer(ByVal e As ISimpleEntity)
       Me.txtCustomerCode.Text = e.Code

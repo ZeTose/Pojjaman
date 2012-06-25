@@ -2038,7 +2038,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.JournalEntry.Note = txtNote.Text
           dirtyFlag = True
         Case "txtcustomercode"
-          dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+          dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
           If dirtyFlag Then
             UpdateCustomer()
           End If
@@ -2660,7 +2660,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomerDialog)
+      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomerDialog)
     End Sub
     Private Sub SetCustomerDialog(ByVal e As ISimpleEntity)
       Me.txtCustomerCode.Text = e.Code

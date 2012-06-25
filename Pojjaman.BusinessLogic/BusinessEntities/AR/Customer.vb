@@ -767,6 +767,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return newDt
     End Function
   End Class
+
   Public Class CustomerGroup
     Inherits TreeBaseEntity
 
@@ -962,6 +963,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+  End Class
+
+  Public Class ContactCustomer
+    Inherits Customer
+
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "ContactCustomer"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "ContactCustomer"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property FullClassName As String
+      Get
+        Return "Longkong.Pojjaman.BusinessLogic.ContactCustomer"
+      End Get
+    End Property
+
+    Public Sub New()
+      MyBase.New()
+    End Sub
+
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+
+    Public Shared Function GetCustomer(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldcust As Customer) As Boolean
+      Dim newcust As New Customer(txtCode.Text)
+      If txtCode.Text.Length <> 0 AndAlso Not newcust.Valid Then
+        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+        newcust = oldcust
+      ElseIf newcust.Canceled Then
+        MessageBox.Show(txtCode.Text & " ถูกยกเลิกไปแล้ว")
+        newcust = oldcust
+      End If
+      txtCode.Text = newcust.Code
+      txtName.Text = newcust.Name
+      If oldcust.Id <> newcust.Id Then
+        oldcust = newcust
+        Return True
+      End If
+      Return False
+    End Function
   End Class
 
 End Namespace

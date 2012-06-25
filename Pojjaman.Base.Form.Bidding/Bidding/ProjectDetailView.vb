@@ -4,116 +4,116 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class ProjectDetailView
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class ProjectDetailView
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents grbBidInfo As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblBidCode As System.Windows.Forms.Label
-        Friend WithEvents txtBidCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblStatus As System.Windows.Forms.Label
-        Friend WithEvents txtBidBond As System.Windows.Forms.TextBox
-        Friend WithEvents lblBidBond As System.Windows.Forms.Label
-        Friend WithEvents lblBidStartDate As System.Windows.Forms.Label
-        Friend WithEvents dtpBidStartDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblBidStartTime As System.Windows.Forms.Label
-        Friend WithEvents dtpBidStartTime As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblBidEndTime As System.Windows.Forms.Label
-        Friend WithEvents dtpBidEndTime As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpBidEndDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblCompletionDate As System.Windows.Forms.Label
-        Friend WithEvents dtpCompletionDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents txtContact As System.Windows.Forms.TextBox
-        Friend WithEvents lblEngineer As System.Windows.Forms.Label
-        Friend WithEvents lblCustomer As System.Windows.Forms.Label
-        Friend WithEvents txtProjectedValue As System.Windows.Forms.TextBox
-        Friend WithEvents lblProjectedValue As System.Windows.Forms.Label
-        Friend WithEvents lblAddress As System.Windows.Forms.Label
-        Friend WithEvents txtAddress As System.Windows.Forms.TextBox
-        Friend WithEvents lblProvince As System.Windows.Forms.Label
-        Friend WithEvents lblPer As System.Windows.Forms.Label
-        Friend WithEvents grbGeneralInfo As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblBidType As System.Windows.Forms.Label
-        Friend WithEvents lblBidAs As System.Windows.Forms.Label
-        Friend WithEvents grbBOQType As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents txtCode As System.Windows.Forms.TextBox
-        Friend WithEvents chkSubmited As System.Windows.Forms.CheckBox
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents txtNote As System.Windows.Forms.TextBox
-        Friend WithEvents cmbProvince As System.Windows.Forms.ComboBox
-        Friend WithEvents cmbStatus As System.Windows.Forms.ComboBox
-        Friend WithEvents lblBidEnd As System.Windows.Forms.Label
-        Friend WithEvents lblAddendum As System.Windows.Forms.Label
-        Friend WithEvents txtAddendum As System.Windows.Forms.TextBox
-        Friend WithEvents lblLocation As System.Windows.Forms.Label
-        Friend WithEvents txtLocation As System.Windows.Forms.TextBox
-        Friend WithEvents dtpBidOpenningDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblBidOpen As System.Windows.Forms.Label
-        Friend WithEvents grbProjectInformation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblContact As System.Windows.Forms.Label
-        Friend WithEvents lblBaht As System.Windows.Forms.Label
-        Friend WithEvents cmbBidType As System.Windows.Forms.ComboBox
-        Friend WithEvents cmbBidAs As System.Windows.Forms.ComboBox
-        Friend WithEvents chkMat As System.Windows.Forms.CheckBox
-        Friend WithEvents chkLabor As System.Windows.Forms.CheckBox
-        Friend WithEvents lblEstimator As System.Windows.Forms.Label
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents lblPenalty As System.Windows.Forms.Label
-        Friend WithEvents chkEquip As System.Windows.Forms.CheckBox
-        Friend WithEvents txtEngineerCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtCustomerCode As System.Windows.Forms.TextBox
-        Friend WithEvents grbProjectDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtEstimatorCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtCustomerName As System.Windows.Forms.TextBox
-        Friend WithEvents txtBidOpenningDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtBidEndDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtBidStartDate As System.Windows.Forms.TextBox
-        Friend WithEvents dtpBidOpenningTime As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblBidOpenningTime As System.Windows.Forms.Label
-        Friend WithEvents txtCompletionDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtPenaltyRate As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnShowCustomer As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnShowCustomerDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblDuration As System.Windows.Forms.Label
-        Friend WithEvents txtDuration As System.Windows.Forms.TextBox
-        Friend WithEvents cmbDurationUnit As System.Windows.Forms.ComboBox
-        Friend WithEvents txtEngineerName As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnShowEngineer As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents cmbPenaltyType As System.Windows.Forms.ComboBox
-        Friend WithEvents txtEstimatorName As System.Windows.Forms.TextBox
-        Friend WithEvents ibtnShowEstimator As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ibtnShowEstimatorDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents cmbBidBondType As System.Windows.Forms.ComboBox
-        Friend WithEvents cmbPenaltyUnit As System.Windows.Forms.ComboBox
-        Friend WithEvents ibtnShowEngineerDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtJobNumber As System.Windows.Forms.TextBox
-        Friend WithEvents lblJobNumber As System.Windows.Forms.Label
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents grbBidInfo As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblBidCode As System.Windows.Forms.Label
+    Friend WithEvents txtBidCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents txtBidBond As System.Windows.Forms.TextBox
+    Friend WithEvents lblBidBond As System.Windows.Forms.Label
+    Friend WithEvents lblBidStartDate As System.Windows.Forms.Label
+    Friend WithEvents dtpBidStartDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblBidStartTime As System.Windows.Forms.Label
+    Friend WithEvents dtpBidStartTime As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblBidEndTime As System.Windows.Forms.Label
+    Friend WithEvents dtpBidEndTime As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpBidEndDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblCompletionDate As System.Windows.Forms.Label
+    Friend WithEvents dtpCompletionDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txtContact As System.Windows.Forms.TextBox
+    Friend WithEvents lblEngineer As System.Windows.Forms.Label
+    Friend WithEvents lblCustomer As System.Windows.Forms.Label
+    Friend WithEvents txtProjectedValue As System.Windows.Forms.TextBox
+    Friend WithEvents lblProjectedValue As System.Windows.Forms.Label
+    Friend WithEvents lblAddress As System.Windows.Forms.Label
+    Friend WithEvents txtAddress As System.Windows.Forms.TextBox
+    Friend WithEvents lblProvince As System.Windows.Forms.Label
+    Friend WithEvents lblPer As System.Windows.Forms.Label
+    Friend WithEvents grbGeneralInfo As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblBidType As System.Windows.Forms.Label
+    Friend WithEvents lblBidAs As System.Windows.Forms.Label
+    Friend WithEvents grbBOQType As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtName As System.Windows.Forms.TextBox
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents txtCode As System.Windows.Forms.TextBox
+    Friend WithEvents chkSubmited As System.Windows.Forms.CheckBox
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents txtNote As System.Windows.Forms.TextBox
+    Friend WithEvents cmbProvince As System.Windows.Forms.ComboBox
+    Friend WithEvents cmbStatus As System.Windows.Forms.ComboBox
+    Friend WithEvents lblBidEnd As System.Windows.Forms.Label
+    Friend WithEvents lblAddendum As System.Windows.Forms.Label
+    Friend WithEvents txtAddendum As System.Windows.Forms.TextBox
+    Friend WithEvents lblLocation As System.Windows.Forms.Label
+    Friend WithEvents txtLocation As System.Windows.Forms.TextBox
+    Friend WithEvents dtpBidOpenningDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblBidOpen As System.Windows.Forms.Label
+    Friend WithEvents grbProjectInformation As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblContact As System.Windows.Forms.Label
+    Friend WithEvents lblBaht As System.Windows.Forms.Label
+    Friend WithEvents cmbBidType As System.Windows.Forms.ComboBox
+    Friend WithEvents cmbBidAs As System.Windows.Forms.ComboBox
+    Friend WithEvents chkMat As System.Windows.Forms.CheckBox
+    Friend WithEvents chkLabor As System.Windows.Forms.CheckBox
+    Friend WithEvents lblEstimator As System.Windows.Forms.Label
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents lblPenalty As System.Windows.Forms.Label
+    Friend WithEvents chkEquip As System.Windows.Forms.CheckBox
+    Friend WithEvents txtEngineerCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtCustomerCode As System.Windows.Forms.TextBox
+    Friend WithEvents grbProjectDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtEstimatorCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtCustomerName As System.Windows.Forms.TextBox
+    Friend WithEvents txtBidOpenningDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtBidEndDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtBidStartDate As System.Windows.Forms.TextBox
+    Friend WithEvents dtpBidOpenningTime As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblBidOpenningTime As System.Windows.Forms.Label
+    Friend WithEvents txtCompletionDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtPenaltyRate As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowCustomer As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnShowCustomerDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents lblDuration As System.Windows.Forms.Label
+    Friend WithEvents txtDuration As System.Windows.Forms.TextBox
+    Friend WithEvents cmbDurationUnit As System.Windows.Forms.ComboBox
+    Friend WithEvents txtEngineerName As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowEngineer As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents cmbPenaltyType As System.Windows.Forms.ComboBox
+    Friend WithEvents txtEstimatorName As System.Windows.Forms.TextBox
+    Friend WithEvents ibtnShowEstimator As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ibtnShowEstimatorDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents cmbBidBondType As System.Windows.Forms.ComboBox
+    Friend WithEvents cmbPenaltyUnit As System.Windows.Forms.ComboBox
+    Friend WithEvents ibtnShowEngineerDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtJobNumber As System.Windows.Forms.TextBox
+    Friend WithEvents lblJobNumber As System.Windows.Forms.Label
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
     Friend WithEvents txtContract As System.Windows.Forms.TextBox
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents lblContract As System.Windows.Forms.Label
-        <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+    Friend WithEvents lblContract As System.Windows.Forms.Label
+    <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProjectDetailView))
       Me.grbBidInfo = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -1361,8 +1361,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-        Private m_entity As Project
-        Private m_isInitialized As Boolean = False
+    Private m_entity As Project
+    Private m_isInitialized As Boolean = False
 #End Region
 
 #Region "Properties"
@@ -1370,699 +1370,699 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructor"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
-            EventWiring()
-            LoopControl(Me)
-        End Sub
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
+      EventWiring()
+      LoopControl(Me)
+    End Sub
 #End Region
 
 #Region "IListDetail"
-        ' ตรวจสอบสถานะของฟอร์ม
-        Public Overrides Sub CheckFormEnable()
+    ' ตรวจสอบสถานะของฟอร์ม
+    Public Overrides Sub CheckFormEnable()
 
-        End Sub
+    End Sub
 
-        ' เคลียร์ข้อมูลลูกค้าใน control
-        Public Overrides Sub ClearDetail()
-            With Me
-                .txtJobNumber.Text = ""
-                .txtAddendum.Text = ""
-                .txtAddress.Text = ""
-                .txtBidBond.Text = ""
-                .txtBidCode.Text = ""
-                .txtBidEndDate.Text = ""
-                .txtBidOpenningDate.Text = ""
-                .txtBidStartDate.Text = ""
-                .txtCode.Text = ""
-                .txtCompletionDate.Text = ""
-                .txtContact.Text = ""
-                .txtCustomerCode.Text = ""
-                .txtCustomerName.Text = ""
-                .txtDuration.Text = ""
-                .txtEngineerCode.Text = ""
-                .txtEngineerName.Text = ""
-                .txtEstimatorCode.Text = ""
-                .txtEstimatorName.Text = ""
-                .txtLocation.Text = ""
-                .txtName.Text = ""
-                .txtNote.Text = ""
-                .txtPenaltyRate.Text = ""
-                .txtProjectedValue.Text = ""
-                .txtContract.Text = ""
+    ' เคลียร์ข้อมูลลูกค้าใน control
+    Public Overrides Sub ClearDetail()
+      With Me
+        .txtJobNumber.Text = ""
+        .txtAddendum.Text = ""
+        .txtAddress.Text = ""
+        .txtBidBond.Text = ""
+        .txtBidCode.Text = ""
+        .txtBidEndDate.Text = ""
+        .txtBidOpenningDate.Text = ""
+        .txtBidStartDate.Text = ""
+        .txtCode.Text = ""
+        .txtCompletionDate.Text = ""
+        .txtContact.Text = ""
+        .txtCustomerCode.Text = ""
+        .txtCustomerName.Text = ""
+        .txtDuration.Text = ""
+        .txtEngineerCode.Text = ""
+        .txtEngineerName.Text = ""
+        .txtEstimatorCode.Text = ""
+        .txtEstimatorName.Text = ""
+        .txtLocation.Text = ""
+        .txtName.Text = ""
+        .txtNote.Text = ""
+        .txtPenaltyRate.Text = ""
+        .txtProjectedValue.Text = ""
+        .txtContract.Text = ""
 
-                .dtpBidEndDate.Value = Now.Date
-                .dtpBidEndTime.Value = Now.Date
-                .dtpBidOpenningDate.Value = Now.Date
-                .dtpBidOpenningTime.Value = Now.Date
-                .dtpBidStartDate.Value = Now.Date
-                .dtpBidStartTime.Value = Now.Date
-                .dtpCompletionDate.Value = Now.Date
+        .dtpBidEndDate.Value = Now.Date
+        .dtpBidEndTime.Value = Now.Date
+        .dtpBidOpenningDate.Value = Now.Date
+        .dtpBidOpenningTime.Value = Now.Date
+        .dtpBidStartDate.Value = Now.Date
+        .dtpBidStartTime.Value = Now.Date
+        .dtpCompletionDate.Value = Now.Date
 
-                .chkEquip.Checked = True
-                .chkLabor.Checked = True
-                .chkMat.Checked = True
-            End With
-        End Sub
+        .chkEquip.Checked = True
+        .chkLabor.Checked = True
+        .chkMat.Checked = True
+      End With
+    End Sub
 
-        Public Overrides Sub SetLabelText()
-            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.grbBidInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbBidInfo}")
-            Me.lblBidCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidCode}")
-            Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblStatus}")
-            Me.lblBidBond.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidBond}")
-            Me.lblBidStartDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidStartDate}")
-            Me.lblBidStartTime.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidStartTime}")
-            Me.lblBidEndTime.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidEndTime}")
-            Me.lblCompletionDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblCompletionDate}")
-            Me.lblEngineer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblEngineer}")
-            Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblCustomer}")
-            Me.lblProjectedValue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblProjectedValue}")
-            Me.lblAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblAddress}")
-            Me.lblProvince.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblProvince}")
-            Me.lblPer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblPer}")
-            Me.grbGeneralInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbGeneralInfo}")
-            Me.lblBidType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidType}")
-            Me.lblBidAs.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidAs}")
-            Me.grbBOQType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbBOQType}")
-            Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblName}")
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblCode}")
-            Me.chkSubmited.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkSubmited}")
-            Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblNote}")
-            Me.lblBidEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidEnd}")
-            Me.lblAddendum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblAddendum}")
-            Me.lblLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblLocation}")
-            Me.lblBidOpen.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidOpen}")
-            Me.grbProjectInformation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbProjectInformation}")
-            Me.lblContact.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblContact}")
-            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-            Me.chkMat.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkMat}")
-            Me.chkLabor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkLabor}")
-            Me.lblEstimator.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblEstimator}")
-            Me.lblPenalty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblPenalty}")
-            Me.chkEquip.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkEquip}")
-            Me.grbProjectDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbProjectDetail}")
-            Me.lblBidOpenningTime.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidOpenningTime}")
-            Me.lblDuration.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblDuration}")
-            Me.lblJobNumber.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblJobNumber}")
-        End Sub
+    Public Overrides Sub SetLabelText()
+      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+      Me.grbBidInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbBidInfo}")
+      Me.lblBidCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidCode}")
+      Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblStatus}")
+      Me.lblBidBond.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidBond}")
+      Me.lblBidStartDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidStartDate}")
+      Me.lblBidStartTime.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidStartTime}")
+      Me.lblBidEndTime.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidEndTime}")
+      Me.lblCompletionDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblCompletionDate}")
+      Me.lblEngineer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblEngineer}")
+      Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblCustomer}")
+      Me.lblProjectedValue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblProjectedValue}")
+      Me.lblAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblAddress}")
+      Me.lblProvince.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblProvince}")
+      Me.lblPer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblPer}")
+      Me.grbGeneralInfo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbGeneralInfo}")
+      Me.lblBidType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidType}")
+      Me.lblBidAs.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidAs}")
+      Me.grbBOQType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbBOQType}")
+      Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblName}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblCode}")
+      Me.chkSubmited.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkSubmited}")
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblNote}")
+      Me.lblBidEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidEnd}")
+      Me.lblAddendum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblAddendum}")
+      Me.lblLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblLocation}")
+      Me.lblBidOpen.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidOpen}")
+      Me.grbProjectInformation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbProjectInformation}")
+      Me.lblContact.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblContact}")
+      Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+      Me.chkMat.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkMat}")
+      Me.chkLabor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkLabor}")
+      Me.lblEstimator.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblEstimator}")
+      Me.lblPenalty.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblPenalty}")
+      Me.chkEquip.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.chkEquip}")
+      Me.grbProjectDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.grbProjectDetail}")
+      Me.lblBidOpenningTime.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblBidOpenningTime}")
+      Me.lblDuration.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblDuration}")
+      Me.lblJobNumber.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectDetailView.lblJobNumber}")
+    End Sub
 
-        Protected Overrides Sub EventWiring()
+    Protected Overrides Sub EventWiring()
 
-            AddHandler txtAddendum.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtAddress.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtBidBond.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtBidCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtContact.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtJobNumber.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAddendum.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAddress.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBidBond.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBidCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtContact.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtJobNumber.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtCustomerCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtDuration.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtDuration.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtEngineerCode.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtEstimatorCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtEngineerCode.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtEstimatorCode.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler txtLocation.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtPenaltyRate.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtProjectedValue.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtLocation.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtPenaltyRate.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtProjectedValue.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBidEndDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpBidEndDate.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpBidEndTime.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBidEndDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpBidEndDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpBidEndTime.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBidStartDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpBidStartDate.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpBidStartTime.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBidStartDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpBidStartDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpBidStartTime.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBidOpenningDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpBidOpenningDate.ValueChanged, AddressOf Me.ChangeProperty
-            AddHandler dtpBidOpenningTime.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBidOpenningDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpBidOpenningDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpBidOpenningTime.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtCompletionDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpCompletionDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtCompletionDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpCompletionDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler cmbProvince.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbProvince.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbProvince.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbProvince.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-            AddHandler cmbBidAs.SelectedIndexChanged, AddressOf ChangeProperty
-            AddHandler cmbBidBondType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbBidType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbDurationUnit.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbPenaltyUnit.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbPenaltyType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-            AddHandler cmbStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbBidAs.SelectedIndexChanged, AddressOf ChangeProperty
+      AddHandler cmbBidBondType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbBidType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbDurationUnit.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbPenaltyUnit.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbPenaltyType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+      AddHandler cmbStatus.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-            AddHandler chkEquip.CheckedChanged, AddressOf Me.ChangeProperty
-            AddHandler chkLabor.CheckedChanged, AddressOf Me.ChangeProperty
-            AddHandler chkMat.CheckedChanged, AddressOf Me.ChangeProperty
-            AddHandler chkSubmited.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkEquip.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkLabor.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkMat.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkSubmited.CheckedChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtContract.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtContract.Validated, AddressOf Me.TextHandler
-        End Sub
-        Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtcontract"
-                    Dim txt As String = Me.txtContract.Text
-                    txt = txt.Replace(",", "")
-                    If txt.Length = 0 Then
-                        Me.m_entity.Contract = 0
-                    Else
-                        Try
-                            Me.m_entity.Contract = CDec(TextParser.Evaluate(txt))
-                        Catch ex As Exception
-                            Me.m_entity.Contract = 0
-                        End Try
-                    End If
-                    Me.txtContract.Text = Configuration.FormatToString(Me.m_entity.Contract, DigitConfig.Price)
-            End Select
-        End Sub
-        ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
-            End If
-            With Me
-                .txtCode.Text = m_entity.Code
-                Me.m_oldCode = Me.m_entity.Code
-                Me.chkAutorun.Checked = Me.m_entity.AutoGen
-                Me.UpdateAutogenStatus()
+      AddHandler txtContract.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtContract.Validated, AddressOf Me.TextHandler
+    End Sub
+    Private Sub TextHandler(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtcontract"
+          Dim txt As String = Me.txtContract.Text
+          txt = txt.Replace(",", "")
+          If txt.Length = 0 Then
+            Me.m_entity.Contract = 0
+          Else
+            Try
+              Me.m_entity.Contract = CDec(TextParser.Evaluate(txt))
+            Catch ex As Exception
+              Me.m_entity.Contract = 0
+            End Try
+          End If
+          Me.txtContract.Text = Configuration.FormatToString(Me.m_entity.Contract, DigitConfig.Price)
+      End Select
+    End Sub
+    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
+      With Me
+        .txtCode.Text = m_entity.Code
+        Me.m_oldCode = Me.m_entity.Code
+        Me.chkAutorun.Checked = Me.m_entity.AutoGen
+        Me.UpdateAutogenStatus()
 
-                .txtJobNumber.Text = m_entity.Jobnumber
-                .txtName.Text = m_entity.Name
-                .txtAddendum.Text = .m_entity.AddendumCode
-                .txtAddress.Text = .m_entity.Address
-                .txtBidBond.Text = Configuration.FormatToString(.m_entity.BidBond, DigitConfig.Price)
-                .txtContract.Text = Configuration.FormatToString(.m_entity.Contract, DigitConfig.Price)
-                .txtBidCode.Text = .m_entity.BidCode
-                .txtContact.Text = .m_entity.Contact
-                If Not .m_entity.Customer Is Nothing Then
-                    .txtCustomerCode.Text = .m_entity.Customer.Code
-                    .txtCustomerName.Text = .m_entity.Customer.Name
-                End If
-                .txtDuration.Text = .m_entity.Duration.ToString
-                If Not .m_entity.Engineer Is Nothing Then
-                    .txtEngineerCode.Text = .m_entity.Engineer.Code
-                    .txtEngineerName.Text = .m_entity.Engineer.Name
-                End If
-                If Not .m_entity.Estimator Is Nothing Then
-                    .txtEstimatorCode.Text = .m_entity.Estimator.Code
-                    .txtEstimatorName.Text = .m_entity.Estimator.Name
-                End If
+        .txtJobNumber.Text = m_entity.Jobnumber
+        .txtName.Text = m_entity.Name
+        .txtAddendum.Text = .m_entity.AddendumCode
+        .txtAddress.Text = .m_entity.Address
+        .txtBidBond.Text = Configuration.FormatToString(.m_entity.BidBond, DigitConfig.Price)
+        .txtContract.Text = Configuration.FormatToString(.m_entity.Contract, DigitConfig.Price)
+        .txtBidCode.Text = .m_entity.BidCode
+        .txtContact.Text = .m_entity.Contact
+        If Not .m_entity.Customer Is Nothing Then
+          .txtCustomerCode.Text = .m_entity.Customer.Code
+          .txtCustomerName.Text = .m_entity.Customer.Name
+        End If
+        .txtDuration.Text = .m_entity.Duration.ToString
+        If Not .m_entity.Engineer Is Nothing Then
+          .txtEngineerCode.Text = .m_entity.Engineer.Code
+          .txtEngineerName.Text = .m_entity.Engineer.Name
+        End If
+        If Not .m_entity.Estimator Is Nothing Then
+          .txtEstimatorCode.Text = .m_entity.Estimator.Code
+          .txtEstimatorName.Text = .m_entity.Estimator.Name
+        End If
 
-                .txtLocation.Text = .m_entity.BidLocation
-                .txtNote.Text = .m_entity.Note
-                .txtPenaltyRate.Text = Configuration.FormatToString(.m_entity.PenaltyRate, DigitConfig.Price)
-                .txtProjectedValue.Text = Configuration.FormatToString(.m_entity.ProjectedValue, DigitConfig.Price)
+        .txtLocation.Text = .m_entity.BidLocation
+        .txtNote.Text = .m_entity.Note
+        .txtPenaltyRate.Text = Configuration.FormatToString(.m_entity.PenaltyRate, DigitConfig.Price)
+        .txtProjectedValue.Text = Configuration.FormatToString(.m_entity.ProjectedValue, DigitConfig.Price)
 
-                .txtBidEndDate.Text = MinDateToNull(Me.m_entity.BidEndDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                .dtpBidEndDate.Value = MinDateToNow(Me.m_entity.BidEndDate.Date)
-                .dtpBidEndTime.Value = MinDateToNow(Me.m_entity.BidEndDate)
+        .txtBidEndDate.Text = MinDateToNull(Me.m_entity.BidEndDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        .dtpBidEndDate.Value = MinDateToNow(Me.m_entity.BidEndDate.Date)
+        .dtpBidEndTime.Value = MinDateToNow(Me.m_entity.BidEndDate)
 
-                .txtBidOpenningDate.Text = MinDateToNull(Me.m_entity.BidOpenningDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                .dtpBidOpenningDate.Value = MinDateToNow(Me.m_entity.BidOpenningDate.Date)
-                .dtpBidOpenningTime.Value = MinDateToNow(Me.m_entity.BidOpenningDate)
+        .txtBidOpenningDate.Text = MinDateToNull(Me.m_entity.BidOpenningDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        .dtpBidOpenningDate.Value = MinDateToNow(Me.m_entity.BidOpenningDate.Date)
+        .dtpBidOpenningTime.Value = MinDateToNow(Me.m_entity.BidOpenningDate)
 
-                .txtBidStartDate.Text = MinDateToNull(Me.m_entity.BidStartDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                .dtpBidStartDate.Value = MinDateToNow(Me.m_entity.BidStartDate.Date)
-                .dtpBidStartTime.Value = MinDateToNow(Me.m_entity.BidStartDate)
+        .txtBidStartDate.Text = MinDateToNull(Me.m_entity.BidStartDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        .dtpBidStartDate.Value = MinDateToNow(Me.m_entity.BidStartDate.Date)
+        .dtpBidStartTime.Value = MinDateToNow(Me.m_entity.BidStartDate)
 
-                .txtCompletionDate.Text = MinDateToNull(Me.m_entity.CompletionDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                .dtpCompletionDate.Value = MinDateToNow(Me.m_entity.CompletionDate.Date)
+        .txtCompletionDate.Text = MinDateToNull(Me.m_entity.CompletionDate.Date, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        .dtpCompletionDate.Value = MinDateToNow(Me.m_entity.CompletionDate.Date)
 
-                For Each item As IdValuePair In .cmbBidAs.Items
-                    If .m_entity.BidAs.Value = item.Id Then
-                        Me.cmbBidAs.SelectedItem = item
-                    End If
-                Next
-                For Each item As IdValuePair In .cmbBidBondType.Items
-                    If .m_entity.BidBondType.Value = item.Id Then
-                        Me.cmbBidBondType.SelectedItem = item
-                    End If
-                Next
-                For Each item As IdValuePair In .cmbBidType.Items
-                    If .m_entity.BidType.Value = item.Id Then
-                        Me.cmbBidType.SelectedItem = item
-                    End If
-                Next
-                For Each item As IdValuePair In .cmbDurationUnit.Items
-                    If .m_entity.DurationUnit.Value = item.Id Then
-                        Me.cmbDurationUnit.SelectedItem = item
-                    End If
-                Next
-                For Each item As IdValuePair In .cmbPenaltyType.Items
-                    If .m_entity.PenaltyType.Value = item.Id Then
-                        Me.cmbPenaltyType.SelectedItem = item
-                    End If
-                Next
-                For Each item As IdValuePair In .cmbPenaltyUnit.Items
-                    If .m_entity.PenaltyUnit.Value = item.Id Then
-                        Me.cmbPenaltyUnit.SelectedItem = item
-                    End If
-                Next
-                For Each item As IdValuePair In .cmbStatus.Items
-                    If .m_entity.Status.Value = item.Id Then
-                        Me.cmbStatus.SelectedItem = item
-                    End If
-                Next
-                Dim cmbIndex As Integer = Me.cmbProvince.FindStringExact(Me.m_entity.Province)
-                If cmbIndex = -1 Then
-                    Me.cmbProvince.Text = Me.m_entity.Province
-                Else
-                    Me.cmbProvince.SelectedIndex = cmbIndex
-                End If
+        For Each item As IdValuePair In .cmbBidAs.Items
+          If .m_entity.BidAs.Value = item.Id Then
+            Me.cmbBidAs.SelectedItem = item
+          End If
+        Next
+        For Each item As IdValuePair In .cmbBidBondType.Items
+          If .m_entity.BidBondType.Value = item.Id Then
+            Me.cmbBidBondType.SelectedItem = item
+          End If
+        Next
+        For Each item As IdValuePair In .cmbBidType.Items
+          If .m_entity.BidType.Value = item.Id Then
+            Me.cmbBidType.SelectedItem = item
+          End If
+        Next
+        For Each item As IdValuePair In .cmbDurationUnit.Items
+          If .m_entity.DurationUnit.Value = item.Id Then
+            Me.cmbDurationUnit.SelectedItem = item
+          End If
+        Next
+        For Each item As IdValuePair In .cmbPenaltyType.Items
+          If .m_entity.PenaltyType.Value = item.Id Then
+            Me.cmbPenaltyType.SelectedItem = item
+          End If
+        Next
+        For Each item As IdValuePair In .cmbPenaltyUnit.Items
+          If .m_entity.PenaltyUnit.Value = item.Id Then
+            Me.cmbPenaltyUnit.SelectedItem = item
+          End If
+        Next
+        For Each item As IdValuePair In .cmbStatus.Items
+          If .m_entity.Status.Value = item.Id Then
+            Me.cmbStatus.SelectedItem = item
+          End If
+        Next
+        Dim cmbIndex As Integer = Me.cmbProvince.FindStringExact(Me.m_entity.Province)
+        If cmbIndex = -1 Then
+          Me.cmbProvince.Text = Me.m_entity.Province
+        Else
+          Me.cmbProvince.SelectedIndex = cmbIndex
+        End If
 
-                .chkEquip.Checked = .m_entity.HasEquipmentCost
-                .chkLabor.Checked = .m_entity.HasLaborCost
-                .chkMat.Checked = .m_entity.HasMaterialCost
+        .chkEquip.Checked = .m_entity.HasEquipmentCost
+        .chkLabor.Checked = .m_entity.HasLaborCost
+        .chkMat.Checked = .m_entity.HasMaterialCost
 
-            End With
+      End With
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
-            m_isInitialized = True
-        End Sub
-        Dim m_dateSetting As Boolean
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-            Dim dirtyFlag As Boolean = False
-            With Me.m_entity
-                Select Case CType(sender, Control).Name.ToLower
-                    Case "txtaddendum"
-                        .AddendumCode = txtAddendum.Text
-                        dirtyFlag = True
-                    Case "txtcontract"
-                        dirtyFlag = True
-                    Case "txtjobnumber"
-                        .Jobnumber = txtJobNumber.Text
-                        dirtyFlag = True
-                    Case "txtaddress"
-                        .Address = txtAddress.Text
-                        dirtyFlag = True
-                    Case "txtbidbond"
-                        If IsNumeric(txtBidBond.Text) Then
-                            .BidBond = CDec(txtBidBond.Text)
-                        Else
-                            .BidBond = 0
-                        End If
-                        dirtyFlag = True
-                    Case "txtbidcode"
-                        .BidCode = txtBidCode.Text
-                        dirtyFlag = True
-                    Case "txtcode"
-                        .Code = txtCode.Text
-                        dirtyFlag = True
-                    Case "txtcontact"
-                        .Contact = txtContact.Text
-                        dirtyFlag = True
-                    Case "txtcustomercode"
-                        dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, .Customer)
-                    Case "txtduration"
-                        If IsNumeric(txtDuration.Text) Then
-                            .Duration = CInt(txtDuration.Text)
-                        Else
-                            .Duration = 0
-                        End If
-                        dirtyFlag = True
-                    Case "txtengineercode"
-                        dirtyFlag = Employee.GetEmployee(txtEngineerCode, txtEngineerName, .Engineer)
-                    Case "txtestimatorcode"
-                        dirtyFlag = Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, .Estimator)
-                    Case "txtlocation"
-                        .BidLocation = txtLocation.Text
-                        dirtyFlag = True
-                    Case "txtname"
-                        .Name = txtName.Text
-                        dirtyFlag = True
-                    Case "txtnote"
-                        .Note = txtNote.Text
-                        dirtyFlag = True
-                    Case "txtpenaltyrate"
-                        If IsNumeric(txtPenaltyRate.Text) Then
-                            .PenaltyRate = CDec(txtPenaltyRate.Text)
-                        Else
-                            .PenaltyRate = 0
-                        End If
-                        dirtyFlag = True
-                    Case "txtprojectedvalue"
-                        If IsNumeric(txtProjectedValue.Text) Then
-                            .ProjectedValue = CDec(txtProjectedValue.Text)
-                        Else
-                            .ProjectedValue = 0
-                        End If
-                        dirtyFlag = True
-
-                    Case "dtpbidendtime"
-                        If Not .BidEndDate.Date.Equals(Date.MinValue) Then
-                            SetTime(dtpBidEndDate.Value, dtpBidEndTime.Value, .BidEndDate)
-                            dirtyFlag = True
-                        End If
-                    Case "txtbidenddate"
-                        m_dateSetting = True
-                        If Not Me.txtBidEndDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidEndDate) = "" Then
-                            Dim theDate As Date = CDate(Me.txtBidEndDate.Text)
-                            If Not .BidEndDate.Date.Equals(theDate) Then
-                                dtpBidEndDate.Value = theDate
-                                SetTime(dtpBidEndDate.Value, dtpBidEndTime.Value, .BidEndDate)
-                                dirtyFlag = True
-                            End If
-                        Else
-                            Me.dtpBidEndDate.Value = Date.Now
-                            .BidEndDate = Date.MinValue
-                            dirtyFlag = True
-                        End If
-                        m_dateSetting = False
-                    Case "dtpbidenddate"
-                        If Not .BidEndDate.Date.Equals(dtpBidEndDate.Value) Then
-                            If Not m_dateSetting Then
-                                Me.txtBidEndDate.Text = MinDateToNull(dtpBidEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                                SetTime(dtpBidEndDate.Value, dtpBidEndTime.Value, .BidEndDate)
-                            End If
-                            dirtyFlag = True
-                        End If
-
-                    Case "dtpbidstarttime"
-                        If Not .BidStartDate.Date.Equals(Date.MinValue) Then
-                            SetTime(dtpBidStartDate.Value, dtpBidStartTime.Value, .BidStartDate)
-                            dirtyFlag = True
-                        End If
-                    Case "txtbidstartdate"
-                        m_dateSetting = True
-                        If Not Me.txtBidStartDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidStartDate) = "" Then
-                            Dim theDate As Date = CDate(Me.txtBidStartDate.Text)
-                            If Not .BidStartDate.Date.Equals(theDate) Then
-                                dtpBidStartDate.Value = theDate
-                                SetTime(dtpBidStartDate.Value, dtpBidStartTime.Value, .BidStartDate)
-                                dirtyFlag = True
-                            End If
-                        Else
-                            Me.dtpBidStartDate.Value = Date.Now
-                            .BidStartDate = Date.MinValue
-                            dirtyFlag = True
-                        End If
-                        m_dateSetting = False
-                    Case "dtpbidstartdate"
-                        If Not .BidStartDate.Date.Equals(dtpBidStartDate.Value) Then
-                            If Not m_dateSetting Then
-                                Me.txtBidStartDate.Text = MinDateToNull(dtpBidStartDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                                SetTime(dtpBidStartDate.Value, dtpBidStartTime.Value, .BidStartDate)
-                            End If
-                            dirtyFlag = True
-                        End If
-
-                    Case "dtpbidopenningtime"
-                        If Not .BidOpenningDate.Date.Equals(Date.MinValue) Then
-                            SetTime(dtpBidOpenningDate.Value, dtpBidOpenningTime.Value, .BidOpenningDate)
-                            dirtyFlag = True
-                        End If
-                    Case "txtbidopenningdate"
-                        m_dateSetting = True
-                        If Not Me.txtBidOpenningDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidStartDate) = "" Then
-                            Dim theDate As Date = CDate(Me.txtBidOpenningDate.Text)
-                            If Not .BidOpenningDate.Date.Equals(theDate) Then
-                                dtpBidOpenningDate.Value = theDate
-                                SetTime(dtpBidOpenningDate.Value, dtpBidOpenningTime.Value, .BidOpenningDate)
-                                dirtyFlag = True
-                            End If
-                        Else
-                            Me.dtpBidOpenningDate.Value = Date.Now
-                            .BidOpenningDate = Date.MinValue
-                            dirtyFlag = True
-                        End If
-                        m_dateSetting = False
-                    Case "dtpbidopenningdate"
-                        If Not .BidOpenningDate.Date.Equals(dtpBidOpenningDate.Value) Then
-                            If Not m_dateSetting Then
-                                Me.txtBidOpenningDate.Text = MinDateToNull(dtpBidOpenningDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                                SetTime(dtpBidOpenningDate.Value, dtpBidOpenningTime.Value, .BidOpenningDate)
-                            End If
-                            dirtyFlag = True
-                        End If
-
-                    Case "txtcompletiondate"
-                        m_dateSetting = True
-                        If Not Me.txtCompletionDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidStartDate) = "" Then
-                            Dim theDate As Date = CDate(Me.txtCompletionDate.Text)
-                            If Not .CompletionDate.Equals(theDate) Then
-                                dtpCompletionDate.Value = theDate
-                                .CompletionDate = dtpCompletionDate.Value
-                                dirtyFlag = True
-                            End If
-                        Else
-                            Me.dtpCompletionDate.Value = Date.Now
-                            .CompletionDate = Date.MinValue
-                            dirtyFlag = True
-                        End If
-                        m_dateSetting = False
-                    Case "dtpcompletiondate"
-                        If Not .CompletionDate.Equals(dtpCompletionDate.Value) Then
-                            If Not m_dateSetting Then
-                                Me.txtCompletionDate.Text = MinDateToNull(dtpCompletionDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                                .CompletionDate = dtpCompletionDate.Value
-                            End If
-                            dirtyFlag = True
-                        End If
-
-                    Case "cmbprovince"
-                        .Province = cmbProvince.Text
-                        dirtyFlag = True
-
-                    Case "cmbbidas"
-                        Dim item As IdValuePair = CType(Me.cmbBidAs.SelectedItem, IdValuePair)
-                        .BidAs.Value = item.Id
-                        dirtyFlag = True
-                    Case "cmbbidbondtype"
-                        Dim item As IdValuePair = CType(Me.cmbBidBondType.SelectedItem, IdValuePair)
-                        .BidBondType.Value = item.Id
-                        dirtyFlag = True
-                    Case "cmbbidtype"
-                        Dim item As IdValuePair = CType(Me.cmbBidType.SelectedItem, IdValuePair)
-                        .BidType.Value = item.Id
-                        dirtyFlag = True
-                    Case "cmbdurationunit"
-                        Dim item As IdValuePair = CType(Me.cmbDurationUnit.SelectedItem, IdValuePair)
-                        .DurationUnit.Value = item.Id
-                        dirtyFlag = True
-                    Case "cmbpenaltyunit"
-                        Dim item As IdValuePair = CType(Me.cmbPenaltyUnit.SelectedItem, IdValuePair)
-                        .PenaltyUnit.Value = item.Id
-                        dirtyFlag = True
-                    Case "cmbpenaltytype"
-                        Dim item As IdValuePair = CType(Me.cmbPenaltyType.SelectedItem, IdValuePair)
-                        .PenaltyType.Value = item.Id
-                        dirtyFlag = True
-                    Case "cmbstatus"
-                        Dim item As IdValuePair = CType(Me.cmbStatus.SelectedItem, IdValuePair)
-                        .Status.Value = item.Id
-                        dirtyFlag = True
-
-                    Case "chkequip"
-                        .HasEquipmentCost = chkEquip.Checked
-                        dirtyFlag = True
-                    Case "chklabor"
-                        .HasLaborCost = Me.chkLabor.Checked
-                        dirtyFlag = True
-                    Case "chkmat"
-                        .HasMaterialCost = Me.chkMat.Checked
-                        dirtyFlag = True
-
-                    Case "chksubmited"
-                        'dirtyFlag = True
-                End Select
-            End With
-
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-            CheckFormEnable()
-        End Sub
-        Private Sub SetTime(ByVal theDate As Date, ByVal theTime As Date, ByRef timeToSet As Date)
-            timeToSet = theDate.Add(theTime.TimeOfDay)
-        End Sub
-        Public Sub SetStatus()
-            If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-                " " & m_entity.CancelDate.ToShortTimeString & _
-                "  โดย:" & m_entity.CancelPerson.Name
-            ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-                " " & m_entity.LastEditDate.ToShortTimeString & _
-                "  โดย:" & m_entity.LastEditor.Name
-            ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-                lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-                " " & m_entity.OriginDate.ToShortTimeString & _
-                "  โดย:" & m_entity.Originator.Name
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
+      m_isInitialized = True
+    End Sub
+    Dim m_dateSetting As Boolean
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+      Dim dirtyFlag As Boolean = False
+      With Me.m_entity
+        Select Case CType(sender, Control).Name.ToLower
+          Case "txtaddendum"
+            .AddendumCode = txtAddendum.Text
+            dirtyFlag = True
+          Case "txtcontract"
+            dirtyFlag = True
+          Case "txtjobnumber"
+            .Jobnumber = txtJobNumber.Text
+            dirtyFlag = True
+          Case "txtaddress"
+            .Address = txtAddress.Text
+            dirtyFlag = True
+          Case "txtbidbond"
+            If IsNumeric(txtBidBond.Text) Then
+              .BidBond = CDec(txtBidBond.Text)
             Else
-                lblStatus.Text = ""
+              .BidBond = 0
             End If
-        End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
-                Me.m_entity = CType(Value, Project)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
+            dirtyFlag = True
+          Case "txtbidcode"
+            .BidCode = txtBidCode.Text
+            dirtyFlag = True
+          Case "txtcode"
+            .Code = txtCode.Text
+            dirtyFlag = True
+          Case "txtcontact"
+            .Contact = txtContact.Text
+            dirtyFlag = True
+          Case "txtcustomercode"
+            dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, .Customer)
+          Case "txtduration"
+            If IsNumeric(txtDuration.Text) Then
+              .Duration = CInt(txtDuration.Text)
+            Else
+              .Duration = 0
+            End If
+            dirtyFlag = True
+          Case "txtengineercode"
+            dirtyFlag = Employee.GetEmployee(txtEngineerCode, txtEngineerName, .Engineer)
+          Case "txtestimatorcode"
+            dirtyFlag = Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, .Estimator)
+          Case "txtlocation"
+            .BidLocation = txtLocation.Text
+            dirtyFlag = True
+          Case "txtname"
+            .Name = txtName.Text
+            dirtyFlag = True
+          Case "txtnote"
+            .Note = txtNote.Text
+            dirtyFlag = True
+          Case "txtpenaltyrate"
+            If IsNumeric(txtPenaltyRate.Text) Then
+              .PenaltyRate = CDec(txtPenaltyRate.Text)
+            Else
+              .PenaltyRate = 0
+            End If
+            dirtyFlag = True
+          Case "txtprojectedvalue"
+            If IsNumeric(txtProjectedValue.Text) Then
+              .ProjectedValue = CDec(txtProjectedValue.Text)
+            Else
+              .ProjectedValue = 0
+            End If
+            dirtyFlag = True
 
-        Public Overrides Sub Initialize()
-            Province.ListProvinceInComboBox(Me.cmbProvince)
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbBidAs, "BidAs")
-            Me.cmbBidAs.SelectedIndex = 0
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbBidType, "Biddingtype")
-            Me.cmbBidType.SelectedIndex = 0
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbStatus, "project_status")
-            Me.cmbStatus.SelectedIndex = 0
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbBidBondType, "BidBondType")
-            Me.cmbBidBondType.SelectedIndex = 0
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbPenaltyType, "PenatyType")
-            Me.cmbPenaltyType.SelectedIndex = 0
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbPenaltyUnit, "DateIntervalUnit")
-            Me.cmbPenaltyUnit.SelectedIndex = 0
-            CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDurationUnit, "DateIntervalUnit")
-            Me.cmbDurationUnit.SelectedIndex = 0
-        End Sub
+          Case "dtpbidendtime"
+            If Not .BidEndDate.Date.Equals(Date.MinValue) Then
+              SetTime(dtpBidEndDate.Value, dtpBidEndTime.Value, .BidEndDate)
+              dirtyFlag = True
+            End If
+          Case "txtbidenddate"
+            m_dateSetting = True
+            If Not Me.txtBidEndDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidEndDate) = "" Then
+              Dim theDate As Date = CDate(Me.txtBidEndDate.Text)
+              If Not .BidEndDate.Date.Equals(theDate) Then
+                dtpBidEndDate.Value = theDate
+                SetTime(dtpBidEndDate.Value, dtpBidEndTime.Value, .BidEndDate)
+                dirtyFlag = True
+              End If
+            Else
+              Me.dtpBidEndDate.Value = Date.Now
+              .BidEndDate = Date.MinValue
+              dirtyFlag = True
+            End If
+            m_dateSetting = False
+          Case "dtpbidenddate"
+            If Not .BidEndDate.Date.Equals(dtpBidEndDate.Value) Then
+              If Not m_dateSetting Then
+                Me.txtBidEndDate.Text = MinDateToNull(dtpBidEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                SetTime(dtpBidEndDate.Value, dtpBidEndTime.Value, .BidEndDate)
+              End If
+              dirtyFlag = True
+            End If
+
+          Case "dtpbidstarttime"
+            If Not .BidStartDate.Date.Equals(Date.MinValue) Then
+              SetTime(dtpBidStartDate.Value, dtpBidStartTime.Value, .BidStartDate)
+              dirtyFlag = True
+            End If
+          Case "txtbidstartdate"
+            m_dateSetting = True
+            If Not Me.txtBidStartDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidStartDate) = "" Then
+              Dim theDate As Date = CDate(Me.txtBidStartDate.Text)
+              If Not .BidStartDate.Date.Equals(theDate) Then
+                dtpBidStartDate.Value = theDate
+                SetTime(dtpBidStartDate.Value, dtpBidStartTime.Value, .BidStartDate)
+                dirtyFlag = True
+              End If
+            Else
+              Me.dtpBidStartDate.Value = Date.Now
+              .BidStartDate = Date.MinValue
+              dirtyFlag = True
+            End If
+            m_dateSetting = False
+          Case "dtpbidstartdate"
+            If Not .BidStartDate.Date.Equals(dtpBidStartDate.Value) Then
+              If Not m_dateSetting Then
+                Me.txtBidStartDate.Text = MinDateToNull(dtpBidStartDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                SetTime(dtpBidStartDate.Value, dtpBidStartTime.Value, .BidStartDate)
+              End If
+              dirtyFlag = True
+            End If
+
+          Case "dtpbidopenningtime"
+            If Not .BidOpenningDate.Date.Equals(Date.MinValue) Then
+              SetTime(dtpBidOpenningDate.Value, dtpBidOpenningTime.Value, .BidOpenningDate)
+              dirtyFlag = True
+            End If
+          Case "txtbidopenningdate"
+            m_dateSetting = True
+            If Not Me.txtBidOpenningDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidStartDate) = "" Then
+              Dim theDate As Date = CDate(Me.txtBidOpenningDate.Text)
+              If Not .BidOpenningDate.Date.Equals(theDate) Then
+                dtpBidOpenningDate.Value = theDate
+                SetTime(dtpBidOpenningDate.Value, dtpBidOpenningTime.Value, .BidOpenningDate)
+                dirtyFlag = True
+              End If
+            Else
+              Me.dtpBidOpenningDate.Value = Date.Now
+              .BidOpenningDate = Date.MinValue
+              dirtyFlag = True
+            End If
+            m_dateSetting = False
+          Case "dtpbidopenningdate"
+            If Not .BidOpenningDate.Date.Equals(dtpBidOpenningDate.Value) Then
+              If Not m_dateSetting Then
+                Me.txtBidOpenningDate.Text = MinDateToNull(dtpBidOpenningDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                SetTime(dtpBidOpenningDate.Value, dtpBidOpenningTime.Value, .BidOpenningDate)
+              End If
+              dirtyFlag = True
+            End If
+
+          Case "txtcompletiondate"
+            m_dateSetting = True
+            If Not Me.txtCompletionDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtBidStartDate) = "" Then
+              Dim theDate As Date = CDate(Me.txtCompletionDate.Text)
+              If Not .CompletionDate.Equals(theDate) Then
+                dtpCompletionDate.Value = theDate
+                .CompletionDate = dtpCompletionDate.Value
+                dirtyFlag = True
+              End If
+            Else
+              Me.dtpCompletionDate.Value = Date.Now
+              .CompletionDate = Date.MinValue
+              dirtyFlag = True
+            End If
+            m_dateSetting = False
+          Case "dtpcompletiondate"
+            If Not .CompletionDate.Equals(dtpCompletionDate.Value) Then
+              If Not m_dateSetting Then
+                Me.txtCompletionDate.Text = MinDateToNull(dtpCompletionDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                .CompletionDate = dtpCompletionDate.Value
+              End If
+              dirtyFlag = True
+            End If
+
+          Case "cmbprovince"
+            .Province = cmbProvince.Text
+            dirtyFlag = True
+
+          Case "cmbbidas"
+            Dim item As IdValuePair = CType(Me.cmbBidAs.SelectedItem, IdValuePair)
+            .BidAs.Value = item.Id
+            dirtyFlag = True
+          Case "cmbbidbondtype"
+            Dim item As IdValuePair = CType(Me.cmbBidBondType.SelectedItem, IdValuePair)
+            .BidBondType.Value = item.Id
+            dirtyFlag = True
+          Case "cmbbidtype"
+            Dim item As IdValuePair = CType(Me.cmbBidType.SelectedItem, IdValuePair)
+            .BidType.Value = item.Id
+            dirtyFlag = True
+          Case "cmbdurationunit"
+            Dim item As IdValuePair = CType(Me.cmbDurationUnit.SelectedItem, IdValuePair)
+            .DurationUnit.Value = item.Id
+            dirtyFlag = True
+          Case "cmbpenaltyunit"
+            Dim item As IdValuePair = CType(Me.cmbPenaltyUnit.SelectedItem, IdValuePair)
+            .PenaltyUnit.Value = item.Id
+            dirtyFlag = True
+          Case "cmbpenaltytype"
+            Dim item As IdValuePair = CType(Me.cmbPenaltyType.SelectedItem, IdValuePair)
+            .PenaltyType.Value = item.Id
+            dirtyFlag = True
+          Case "cmbstatus"
+            Dim item As IdValuePair = CType(Me.cmbStatus.SelectedItem, IdValuePair)
+            .Status.Value = item.Id
+            dirtyFlag = True
+
+          Case "chkequip"
+            .HasEquipmentCost = chkEquip.Checked
+            dirtyFlag = True
+          Case "chklabor"
+            .HasLaborCost = Me.chkLabor.Checked
+            dirtyFlag = True
+          Case "chkmat"
+            .HasMaterialCost = Me.chkMat.Checked
+            dirtyFlag = True
+
+          Case "chksubmited"
+            'dirtyFlag = True
+        End Select
+      End With
+
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      CheckFormEnable()
+    End Sub
+    Private Sub SetTime(ByVal theDate As Date, ByVal theTime As Date, ByRef timeToSet As Date)
+      timeToSet = theDate.Add(theTime.TimeOfDay)
+    End Sub
+    Public Sub SetStatus()
+      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+        " " & m_entity.CancelDate.ToShortTimeString & _
+        "  โดย:" & m_entity.CancelPerson.Name
+      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+        " " & m_entity.LastEditDate.ToShortTimeString & _
+        "  โดย:" & m_entity.LastEditor.Name
+      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+        " " & m_entity.OriginDate.ToShortTimeString & _
+        "  โดย:" & m_entity.Originator.Name
+      Else
+        lblStatus.Text = ""
+      End If
+    End Sub
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = Nothing
+        Me.m_entity = CType(Value, Project)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
+
+    Public Overrides Sub Initialize()
+      Province.ListProvinceInComboBox(Me.cmbProvince)
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbBidAs, "BidAs")
+      Me.cmbBidAs.SelectedIndex = 0
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbBidType, "Biddingtype")
+      Me.cmbBidType.SelectedIndex = 0
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbStatus, "project_status")
+      Me.cmbStatus.SelectedIndex = 0
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbBidBondType, "BidBondType")
+      Me.cmbBidBondType.SelectedIndex = 0
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbPenaltyType, "PenatyType")
+      Me.cmbPenaltyType.SelectedIndex = 0
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbPenaltyUnit, "DateIntervalUnit")
+      Me.cmbPenaltyUnit.SelectedIndex = 0
+      CodeDescription.ListCodeDescriptionInComboBox(Me.cmbDurationUnit, "DateIntervalUnit")
+      Me.cmbDurationUnit.SelectedIndex = 0
+    End Sub
 
 #End Region
 
 #Region "Event of Control"
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_oldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
-                Me.Validator.SetRequired(Me.txtCode, False)
-                Me.ErrorProvider1.SetError(Me.txtCode, "")
-                Me.txtCode.ReadOnly = True
-                m_oldCode = Me.txtCode.Text
-                Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-                'Hack: set Code เป็น "" เอง
-                Me.m_entity.Code = ""
-                Me.m_entity.AutoGen = True
-            Else
-                Me.Validator.SetRequired(Me.txtCode, True)
-                Me.txtCode.Text = m_oldCode
-                Me.txtCode.ReadOnly = False
-                Me.m_entity.AutoGen = False
-            End If
-        End Sub
-        Private Sub ShowEmployee(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEngineer.Click, ibtnShowEstimator.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Employee)
-        End Sub
-        Private Sub ibtnShowEngineerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEngineerDialog.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEngineer)
-        End Sub
-        Private Sub ibtnShowEstimatorDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEstimatorDialog.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEstimator)
-        End Sub
-        Private Sub SetEngineer(ByVal e As ISimpleEntity)
-            Me.txtEngineerCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Employee.GetEmployee(txtEngineerCode, txtEngineerName, Me.m_entity.Engineer)
-        End Sub
-        Private Sub SetEstimator(ByVal e As ISimpleEntity)
-            Me.txtEstimatorCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, Me.m_entity.Estimator)
-        End Sub
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_oldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
+        Me.Validator.SetRequired(Me.txtCode, False)
+        Me.ErrorProvider1.SetError(Me.txtCode, "")
+        Me.txtCode.ReadOnly = True
+        m_oldCode = Me.txtCode.Text
+        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+        'Hack: set Code เป็น "" เอง
+        Me.m_entity.Code = ""
+        Me.m_entity.AutoGen = True
+      Else
+        Me.Validator.SetRequired(Me.txtCode, True)
+        Me.txtCode.Text = m_oldCode
+        Me.txtCode.ReadOnly = False
+        Me.m_entity.AutoGen = False
+      End If
+    End Sub
+    Private Sub ShowEmployee(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEngineer.Click, ibtnShowEstimator.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Employee)
+    End Sub
+    Private Sub ibtnShowEngineerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEngineerDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEngineer)
+    End Sub
+    Private Sub ibtnShowEstimatorDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEstimatorDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEstimator)
+    End Sub
+    Private Sub SetEngineer(ByVal e As ISimpleEntity)
+      Me.txtEngineerCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Employee.GetEmployee(txtEngineerCode, txtEngineerName, Me.m_entity.Engineer)
+    End Sub
+    Private Sub SetEstimator(ByVal e As ISimpleEntity)
+      Me.txtEstimatorCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, Me.m_entity.Estimator)
+    End Sub
 
-        Private Sub ShowCustomer(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomer.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Customer)
-        End Sub
-        Private Sub ibtnShowCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomer)
-        End Sub
-        Private Sub SetCustomer(ByVal e As ISimpleEntity)
-            Me.txtCustomerCode.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
-        End Sub
+    Private Sub ShowCustomer(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomer.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Customer)
+    End Sub
+    Private Sub ibtnShowCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomer)
+    End Sub
+    Private Sub SetCustomer(ByVal e As ISimpleEntity)
+      Me.txtCustomerCode.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New Customer).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtcustomercode", "txtcustomername"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New Employee).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtengineercode", "txtengineername", "txtestimatorcode", "txtestimatorname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New Customer).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Customer).FullClassName))
-                Dim entity As New Customer(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtcustomercode", "txtcustomername"
-                            'Me.SetCustomer(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New Employee).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
-                Dim entity As New Employee(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtengineercode", "txtengineername"
-                            'Me.SetEngineer(entity)
-                        Case "txtestimatorcode", "txtestimatorname"
-                            'Me.SetEstimator(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New Customer).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtcustomercode", "txtcustomername"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New Employee).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtengineercode", "txtengineername", "txtestimatorcode", "txtestimatorname"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New Customer).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Customer).FullClassName))
+        Dim entity As New Customer(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtcustomercode", "txtcustomername"
+              'Me.SetCustomer(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New Employee).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Employee).FullClassName))
+        Dim entity As New Employee(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtengineercode", "txtengineername"
+              'Me.SetEngineer(entity)
+            Case "txtestimatorcode", "txtestimatorname"
+              'Me.SetEstimator(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Overrides"
-        Public Overrides ReadOnly Property TabPageIcon() As String
-            Get
-                Return (New Project).DetailPanelIcon
-            End Get
-        End Property
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return (New Project).DetailPanelIcon
+      End Get
+    End Property
 #End Region
 
     Private Sub ibtnCopyMe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnCopyMe.Click
@@ -2072,5 +2072,5 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub
 
-    End Class
+  End Class
 End Namespace

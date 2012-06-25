@@ -1689,7 +1689,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If Me.txtCustomerCode.TextLength <> 0 Then
               Dim oldCustomer As Customer = Me.m_entity.Customer
-              Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+              ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
               Try
                 If oldCustId <> Me.m_entity.Customer.Id Then
                   If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Message.ChangeCustomer}", "${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.Caption.ChangeCustomer}") Then
@@ -2144,7 +2144,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomer)
+      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomer)
     End Sub
     Private Sub SetCustomer(ByVal e As ISimpleEntity)
       Me.txtCustomerCode.Text = e.Code

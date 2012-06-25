@@ -1084,7 +1084,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
 
         Case "txtcustomercode"
-          dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+          dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
 
         Case "txtdocdate"
           m_dateSetting = True
@@ -1344,7 +1344,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Event of Button Controls"
         Private Sub btnCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCustomerDialog.Click
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomerDialog)
+      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomerDialog)
         End Sub
 
         Private Sub SetCustomerDialog(ByVal e As ISimpleEntity)

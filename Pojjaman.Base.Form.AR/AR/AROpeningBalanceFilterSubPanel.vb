@@ -321,7 +321,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
         Private Sub btnCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCustomerDialog.Click
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomerDialog)
+      myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomerDialog)
         End Sub
 
         Private Sub SetCustomerDialog(ByVal e As ISimpleEntity)

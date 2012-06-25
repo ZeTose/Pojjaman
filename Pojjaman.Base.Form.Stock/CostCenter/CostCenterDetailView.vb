@@ -1473,7 +1473,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtadmin"
           dirtyFlag = Employee.GetEmployee(txtAdmin, txtAdminName, Me.m_entity.Admin)
         Case "txtcustomercode"
-          dirtyFlag = Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+          dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
 
         Case "txtexpenseacctcode"
           dirtyFlag = Account.GetAccount(txtExpenseAcctCode, txtExpenseAcctName, Me.m_entity.ExpenseAccount)
@@ -1883,7 +1883,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnShowCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomer)
+      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomer)
     End Sub
     Private Sub ibtnShowCustomer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomer.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
