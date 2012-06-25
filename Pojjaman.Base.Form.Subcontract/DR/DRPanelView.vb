@@ -1958,6 +1958,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtSCCode.TextChanged, AddressOf Me.TextHandler
 
       AddHandler txtDocDate.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler dtpDocDate.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtSubContractorCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtSubContractorCode.TextChanged, AddressOf Me.TextHandler
@@ -2220,7 +2221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not m_dateSetting Then
               Me.txtDocDate.Text = MinDateToNull(dtpDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
               Me.m_entity.DocDate = dtpDocDate.Value
-              ' Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+              Me.dtpDocDate.Value = MaxDtpDate(Me.m_entity.DocDate)
             End If
             dirtyFlag = True
           End If
@@ -2231,7 +2232,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If Not Me.m_entity.DocDate.Equals(theDate) Then
               dtpDocDate.Value = theDate
               Me.m_entity.DocDate = dtpDocDate.Value
-              'Me.dtpDueDate.Value = MaxDtpDate(Me.m_entity.DueDate)
+              Me.dtpDocDate.Value = MaxDtpDate(Me.m_entity.DocDate)
               dirtyFlag = True
             End If
           Else
