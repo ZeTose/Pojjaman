@@ -6,6 +6,7 @@ Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class EmployeeDetailView
     Inherits AbstractEntityDetailPanelView
+    'Inherits UserControl
     Implements IValidatable
 
 #Region " Windows Form Designer generated code "
@@ -42,6 +43,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnLoadImage2 As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnClearImage2 As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents picSignatureImage As System.Windows.Forms.PictureBox
+    Friend WithEvents chkCancel As System.Windows.Forms.CheckBox
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -63,6 +65,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.chkCancel = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       CType(Me.picSignatureImage, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,8 +75,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.chkCancel)
       Me.grbDetail.Controls.Add(Me.lblSignatureImage)
       Me.grbDetail.Controls.Add(Me.lblImage)
       Me.grbDetail.Controls.Add(Me.lblPicSize2)
@@ -214,6 +218,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(64, 56)
+      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
@@ -251,6 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(64, 32)
+      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
@@ -270,6 +276,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
+      '
+      'chkCancel
+      '
+      Me.chkCancel.AutoSize = True
+      Me.chkCancel.ForeColor = System.Drawing.Color.Black
+      Me.chkCancel.Location = New System.Drawing.Point(183, 34)
+      Me.chkCancel.Name = "chkCancel"
+      Me.chkCancel.Size = New System.Drawing.Size(57, 17)
+      Me.chkCancel.TabIndex = 227
+      Me.chkCancel.Text = "ยกเลิก"
+      Me.chkCancel.UseVisualStyleBackColor = True
       '
       'EmployeeDetailView
       '
@@ -309,6 +326,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Protected Overrides Sub EventWiring()
       AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler chkCancel.CheckedChanged, AddressOf Me.ChangeProperty
     End Sub
 #End Region
 
@@ -316,13 +334,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-
+      If Me.m_entity.Canceled Then
+        For Each ctl As Control In Me.grbDetail.Controls
+            ctl.Enabled = False
+        Next
+      Else
+        For Each ctl As Control In Me.grbDetail.Controls
+          ctl.Enabled = True
+        Next
+      End If
+      chkCancel.Enabled = True
     End Sub
 
     ' เคลียร์ข้อมูลใน control
     Public Overrides Sub ClearDetail()
       txtCode.Text = ""
       txtName.Text = ""
+      chkCancel.Checked = False
       picImage.Image = Nothing
       picSignatureImage.Image = Nothing
     End Sub
@@ -334,6 +362,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSignatureImage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EmployeeDetail.lblSignatureImage}")
       Me.lblName.Text = Me.StringParserService.Parse("${res:Global.NameText}")
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EmployeeDetail.grbDetail}")
+      Me.chkCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EmployeeDetail.chkCancel}")
     End Sub
 
     ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
@@ -350,6 +379,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       With Me
         .txtCode.Text = .m_entity.Code
         .txtName.Text = .m_entity.Name
+        .chkCancel.Checked = .m_entity.Canceled
         picImage.Image = Me.m_entity.Image
         CheckLabelImgSize()
 
@@ -391,10 +421,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtname"
           Me.m_entity.Name = Me.txtName.Text
           dirtyFlag = True
+        Case "chkcancel"
+          Me.m_entity.Canceled = Me.chkCancel.Checked
+          dirtyFlag = True
       End Select
 
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
+      If CType(sender, Control).Name.ToLower = "chkcancel" Then
+        CheckFormEnable()
+      End If
     End Sub
 
 #End Region

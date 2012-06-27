@@ -1469,7 +1469,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           m_dateSetting = False
 
         Case "txtemployeecode"
-          dirtyFlag = Employee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
+          dirtyFlag = RunningEmployee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
         Case "txtcccode"
           dirtyFlag = CostCenter.GetCostCenter(txtCCCode, txtCCName, Me.m_entity.Costcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
         Case "txtaccountcode"
@@ -1720,7 +1720,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnBankAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEmployeeFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployeeDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployeeDialog)
     End Sub
     Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
       Me.txtEmployeeCode.Text = e.Code

@@ -193,7 +193,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     ' ตรวจสอบสถานะของฟอร์ม
     Public Overrides Sub CheckFormEnable()
-
+      If TypeOf m_entity Is User Then
+        Dim u As User = CType(m_entity, User)
+        If u.Canceled Then
+          For Each ctl As Control In Me.Controls
+            ctl.Enabled = False
+          Next
+        Else
+          For Each ctl As Control In Me.Controls
+            ctl.Enabled = True
+          Next
+        End If
+      End If
     End Sub
 
     ' เคลียร์ข้อมูลใน control

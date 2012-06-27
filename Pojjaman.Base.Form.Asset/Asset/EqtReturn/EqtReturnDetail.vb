@@ -1250,14 +1250,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ReturnCheckedChanged(sender)
 
         Case "txtreturnpersoncode"
-          dirtyFlag = Employee.GetEmployee(txtReturnPersonCode, txtReturnPersonName, Me.m_entity.ReturnPerson)
+          dirtyFlag = RunningEmployee.GetEmployee(txtReturnPersonCode, txtReturnPersonName, Me.m_entity.ReturnPerson)
 
         Case "txtreturncccode"
           dirtyFlag = CostCenter.GetCostCenterWithoutRight(txtReturnCCCode, txtReturnCCName, Me.m_entity.ReturnCostcenter)
           ReturnCheckedChanged(sender)
           Me.RefreshDocs()
         Case "txtstorepersoncode"
-          dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
+          dirtyFlag = RunningEmployee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
 
         Case "txtstorecccode"
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
@@ -1674,7 +1674,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnReturnPersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReturnPersonFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetReturnPersonDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetReturnPersonDialog)
     End Sub
 
     Private Sub SetReturnPersonDialog(ByVal e As ISimpleEntity)
@@ -1710,7 +1710,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnStorepersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStorepersonFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetStorePersonDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetStorePersonDialog)
     End Sub
     Private Sub SetStorePersonDialog(ByVal e As ISimpleEntity)
       Me.txtStorepersonCode.Text = e.Code

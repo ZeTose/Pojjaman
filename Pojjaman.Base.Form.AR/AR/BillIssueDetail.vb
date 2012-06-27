@@ -1233,7 +1233,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
           dirtyFlag = True
         Case "txtemployeecode"
-          Employee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
+          RunningEmployee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
           dirtyFlag = True
         Case Else
       End Select
@@ -1416,7 +1416,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnShowEmployeeDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEmployeeDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployee)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployee)
     End Sub
     Private Sub SetEmployee(ByVal e As ISimpleEntity)
       Me.txtEmployeeCode.Text = e.Code

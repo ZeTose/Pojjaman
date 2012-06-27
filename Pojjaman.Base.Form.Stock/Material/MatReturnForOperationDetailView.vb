@@ -1296,7 +1296,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txttoccpersoncode"
           If toCCPersonCodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
+            dirtyFlag = RunningEmployee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
             toCCPersonCodeChanged = False
           End If
         Case "txttocostcentercode"
@@ -1307,7 +1307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Case "txtfromccpersoncode"
           If fromCCPersonCodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
+            dirtyFlag = RunningEmployee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromCostCenterPerson)
             fromCCPersonCodeChanged = False
           End If
         Case "txtfromcostcentercode"
@@ -1604,7 +1604,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowToCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetToPerson)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetToPerson)
     End Sub
     Private Sub SetToPerson(ByVal e As ISimpleEntity)
       Me.txtToCCPersonCode.Text = e.Code
@@ -1631,7 +1631,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowFromCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetFromPerson)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetFromPerson)
     End Sub
     Private Sub SetFromPerson(ByVal e As ISimpleEntity)
       Me.txtFromCCPersonCode.Text = e.Code

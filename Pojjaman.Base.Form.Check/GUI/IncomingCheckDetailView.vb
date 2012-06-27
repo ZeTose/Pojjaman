@@ -1032,7 +1032,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
           dirtyFlag = True
 
         Case "txtreceivepersoncode"
-          dirtyFlag = Employee.GetEmployee(txtReceivePersonCode, txtReceivePersonName, Me.m_entity.ReceivePerson)
+          dirtyFlag = RunningEmployee.GetEmployee(txtReceivePersonCode, txtReceivePersonName, Me.m_entity.ReceivePerson)
         Case "txtcustomercode"
           dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
         Case "txtbankcode"
@@ -1384,7 +1384,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
     End Sub
     Private Sub btntxtReceivePersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btntxtReceivePersonFind.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployeeDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployeeDialog)
     End Sub
     Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
       Me.txtReceivePersonCode.Text = e.Code

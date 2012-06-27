@@ -1675,7 +1675,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             txtEmployeeCodeChanged = False
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If Me.txtEmployeeCode.TextLength <> 0 Then
-              Employee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
+              RunningEmployee.GetEmployee(txtEmployeeCode, txtEmployeeName, Me.m_entity.Employee)
               Try
                 If oldEmployeeId <> Me.m_entity.Employee.Id Then
                   oldEmployeeId = Me.m_entity.Employee.Id
@@ -2018,7 +2018,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnShowEmployeeDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEmployeeDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployee)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployee)
     End Sub
     Private Sub ibtnShowEmployee_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEmployee.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)

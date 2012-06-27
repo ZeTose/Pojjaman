@@ -1083,7 +1083,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
 
         Case "txtstorepersoncode"
-          dirtyFlag = Employee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
+          dirtyFlag = RunningEmployee.GetEmployee(txtStorepersonCode, txtStorepersonName, Me.m_entity.Storeperson)
 
         Case "txtstorecccode"
           dirtyFlag = CostCenter.GetCostCenter(txtStoreCCCode, txtStoreCCName, Me.m_entity.StoreCostcenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
@@ -1501,7 +1501,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnStorepersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStorepersonFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetStorePersonDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetStorePersonDialog)
     End Sub
     Private Sub SetStorePersonDialog(ByVal e As ISimpleEntity)
       Me.txtStorepersonCode.Text = e.Code

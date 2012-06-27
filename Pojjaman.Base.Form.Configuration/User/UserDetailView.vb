@@ -93,11 +93,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblMaxAmtWR As System.Windows.Forms.Label
     Friend WithEvents lblBaht4 As System.Windows.Forms.Label
     Friend WithEvents lblSignatureImage As System.Windows.Forms.Label
+    Friend WithEvents chkCancel As System.Windows.Forms.CheckBox
     Friend WithEvents txtMaxAmtDO As System.Windows.Forms.TextBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.lblSignatureImage = New System.Windows.Forms.Label()
       Me.grbApproveLevel = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.nudLevelApprovePA = New System.Windows.Forms.NumericUpDown()
       Me.lblPA = New System.Windows.Forms.Label()
@@ -162,7 +164,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.lblSignatureImage = New System.Windows.Forms.Label()
+      Me.chkCancel = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       Me.grbApproveLevel.SuspendLayout()
       CType(Me.nudLevelApprovePA, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -180,9 +182,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.lblSignatureImage)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.chkCancel)
       Me.grbDetail.Controls.Add(Me.grbApproveLevel)
       Me.grbDetail.Controls.Add(Me.lblPicSize)
       Me.grbDetail.Controls.Add(Me.btnLoadImage)
@@ -203,6 +205,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.lblName)
       Me.grbDetail.Controls.Add(Me.lblCode)
       Me.grbDetail.Controls.Add(Me.txtCode)
+      Me.grbDetail.Controls.Add(Me.lblSignatureImage)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
       Me.grbDetail.ForeColor = System.Drawing.Color.Blue
@@ -212,6 +215,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "grbDetail: "
+      '
+      'lblSignatureImage
+      '
+      Me.lblSignatureImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblSignatureImage.ForeColor = System.Drawing.Color.Black
+      Me.lblSignatureImage.Location = New System.Drawing.Point(399, 109)
+      Me.lblSignatureImage.Name = "lblSignatureImage"
+      Me.lblSignatureImage.Size = New System.Drawing.Size(87, 18)
+      Me.lblSignatureImage.TabIndex = 227
+      Me.lblSignatureImage.Text = "ลายเซนต์:"
+      Me.lblSignatureImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'grbApproveLevel
       '
@@ -261,7 +275,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbApproveLevel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbApproveLevel.Location = New System.Drawing.Point(8, 392)
       Me.grbApproveLevel.Name = "grbApproveLevel"
-      Me.grbApproveLevel.Size = New System.Drawing.Size(536, 203)
+      Me.grbApproveLevel.Size = New System.Drawing.Size(552, 203)
       Me.grbApproveLevel.TabIndex = 221
       Me.grbApproveLevel.TabStop = False
       Me.grbApproveLevel.Text = "ระดับสิทธิการอนุมัติเอกสาร"
@@ -273,6 +287,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApprovePA.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApprovePA.TabIndex = 28
       Me.nudLevelApprovePA.Tag = "NotGigaSite"
+      Me.nudLevelApprovePA.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblPA
       '
@@ -310,9 +325,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht7
       '
       Me.lblBaht7.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht7.Location = New System.Drawing.Point(488, 168)
+      Me.lblBaht7.Location = New System.Drawing.Point(514, 168)
       Me.lblBaht7.Name = "lblBaht7"
-      Me.lblBaht7.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht7.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht7.TabIndex = 24
       Me.lblBaht7.Tag = "NotGigaSite"
       Me.lblBaht7.Text = "บาท"
@@ -325,11 +340,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtPA, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtPA, System.Drawing.Color.Empty)
       Me.txtMaxAmtPA.Location = New System.Drawing.Point(400, 170)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtPA, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtPA, "")
       Me.txtMaxAmtPA.Name = "txtMaxAmtPA"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtPA, "")
       Me.Validator.SetRequired(Me.txtMaxAmtPA, False)
-      Me.txtMaxAmtPA.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtPA.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtPA.TabIndex = 29
       Me.txtMaxAmtPA.Tag = "NotGigaSite"
       Me.txtMaxAmtPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -341,6 +357,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveDR.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveDR.TabIndex = 22
       Me.nudLevelApproveDR.Tag = "NotGigaSite"
+      Me.nudLevelApproveDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblDR
       '
@@ -378,9 +395,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht6
       '
       Me.lblBaht6.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht6.Location = New System.Drawing.Point(488, 120)
+      Me.lblBaht6.Location = New System.Drawing.Point(514, 120)
       Me.lblBaht6.Name = "lblBaht6"
-      Me.lblBaht6.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht6.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht6.TabIndex = 18
       Me.lblBaht6.Tag = "NotGigaSite"
       Me.lblBaht6.Text = "บาท"
@@ -393,11 +410,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtDR, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtDR, System.Drawing.Color.Empty)
       Me.txtMaxAmtDR.Location = New System.Drawing.Point(400, 122)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtDR, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtDR, "")
       Me.txtMaxAmtDR.Name = "txtMaxAmtDR"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtDR, "")
       Me.Validator.SetRequired(Me.txtMaxAmtDR, False)
-      Me.txtMaxAmtDR.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtDR.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtDR.TabIndex = 23
       Me.txtMaxAmtDR.Tag = "NotGigaSite"
       Me.txtMaxAmtDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -409,6 +427,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveSC.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveSC.TabIndex = 16
       Me.nudLevelApproveSC.Tag = "NotGigaSite"
+      Me.nudLevelApproveSC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblSC
       '
@@ -446,9 +465,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht5
       '
       Me.lblBaht5.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht5.Location = New System.Drawing.Point(488, 96)
+      Me.lblBaht5.Location = New System.Drawing.Point(514, 96)
       Me.lblBaht5.Name = "lblBaht5"
-      Me.lblBaht5.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht5.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht5.TabIndex = 12
       Me.lblBaht5.Tag = "NotGigaSite"
       Me.lblBaht5.Text = "บาท"
@@ -461,11 +480,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtSC, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtSC, System.Drawing.Color.Empty)
       Me.txtMaxAmtSC.Location = New System.Drawing.Point(400, 98)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtSC, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtSC, "")
       Me.txtMaxAmtSC.Name = "txtMaxAmtSC"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtSC, "")
       Me.Validator.SetRequired(Me.txtMaxAmtSC, False)
-      Me.txtMaxAmtSC.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtSC.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtSC.TabIndex = 17
       Me.txtMaxAmtSC.Tag = "NotGigaSite"
       Me.txtMaxAmtSC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -477,11 +497,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtWR, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtWR, System.Drawing.Color.Empty)
       Me.txtMaxAmtWR.Location = New System.Drawing.Point(400, 50)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtWR, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtWR, "")
       Me.txtMaxAmtWR.Name = "txtMaxAmtWR"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtWR, "")
       Me.Validator.SetRequired(Me.txtMaxAmtWR, False)
-      Me.txtMaxAmtWR.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtWR.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtWR.TabIndex = 11
       Me.txtMaxAmtWR.Tag = "NotGigaSite"
       Me.txtMaxAmtWR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -493,6 +514,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveWR.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveWR.TabIndex = 10
       Me.nudLevelApproveWR.Tag = "NotGigaSite"
+      Me.nudLevelApproveWR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblWR
       '
@@ -530,9 +552,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht4
       '
       Me.lblBaht4.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht4.Location = New System.Drawing.Point(488, 48)
+      Me.lblBaht4.Location = New System.Drawing.Point(514, 48)
       Me.lblBaht4.Name = "lblBaht4"
-      Me.lblBaht4.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht4.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht4.TabIndex = 8
       Me.lblBaht4.Tag = "NotGigaSite"
       Me.lblBaht4.Text = "บาท"
@@ -545,11 +567,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtPR, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtPR, System.Drawing.Color.Empty)
       Me.txtMaxAmtPR.Location = New System.Drawing.Point(400, 26)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtPR, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtPR, "")
       Me.txtMaxAmtPR.Name = "txtMaxAmtPR"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtPR, "")
       Me.Validator.SetRequired(Me.txtMaxAmtPR, False)
-      Me.txtMaxAmtPR.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtPR.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtPR.TabIndex = 1
       Me.txtMaxAmtPR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
@@ -559,6 +582,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApprovePR.Name = "nudLevelApprovePR"
       Me.nudLevelApprovePR.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApprovePR.TabIndex = 0
+      Me.nudLevelApprovePR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'nudLevelApprovePO
       '
@@ -566,6 +590,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApprovePO.Name = "nudLevelApprovePO"
       Me.nudLevelApprovePO.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApprovePO.TabIndex = 2
+      Me.nudLevelApprovePO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'nudLevelApproveDO
       '
@@ -573,6 +598,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.nudLevelApproveDO.Name = "nudLevelApproveDO"
       Me.nudLevelApproveDO.Size = New System.Drawing.Size(48, 21)
       Me.nudLevelApproveDO.TabIndex = 4
+      Me.nudLevelApproveDO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblPR
       '
@@ -667,9 +693,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht1
       '
       Me.lblBaht1.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht1.Location = New System.Drawing.Point(488, 24)
+      Me.lblBaht1.Location = New System.Drawing.Point(514, 24)
       Me.lblBaht1.Name = "lblBaht1"
-      Me.lblBaht1.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht1.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht1.TabIndex = 0
       Me.lblBaht1.Text = "บาท"
       Me.lblBaht1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -677,9 +703,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht2
       '
       Me.lblBaht2.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht2.Location = New System.Drawing.Point(488, 72)
+      Me.lblBaht2.Location = New System.Drawing.Point(514, 72)
       Me.lblBaht2.Name = "lblBaht2"
-      Me.lblBaht2.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht2.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht2.TabIndex = 0
       Me.lblBaht2.Text = "บาท"
       Me.lblBaht2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -687,9 +713,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblBaht3
       '
       Me.lblBaht3.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht3.Location = New System.Drawing.Point(488, 144)
+      Me.lblBaht3.Location = New System.Drawing.Point(514, 144)
       Me.lblBaht3.Name = "lblBaht3"
-      Me.lblBaht3.Size = New System.Drawing.Size(40, 24)
+      Me.lblBaht3.Size = New System.Drawing.Size(28, 24)
       Me.lblBaht3.TabIndex = 0
       Me.lblBaht3.Text = "บาท"
       Me.lblBaht3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -701,11 +727,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtPO, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtPO, System.Drawing.Color.Empty)
       Me.txtMaxAmtPO.Location = New System.Drawing.Point(400, 74)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtPO, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtPO, "")
       Me.txtMaxAmtPO.Name = "txtMaxAmtPO"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtPO, "")
       Me.Validator.SetRequired(Me.txtMaxAmtPO, False)
-      Me.txtMaxAmtPO.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtPO.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtPO.TabIndex = 3
       Me.txtMaxAmtPO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
@@ -716,18 +743,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtDO, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtMaxAmtDO, System.Drawing.Color.Empty)
       Me.txtMaxAmtDO.Location = New System.Drawing.Point(400, 146)
+      Me.Validator.SetMaxValue(Me.txtMaxAmtDO, "")
       Me.Validator.SetMinValue(Me.txtMaxAmtDO, "")
       Me.txtMaxAmtDO.Name = "txtMaxAmtDO"
       Me.Validator.SetRegularExpression(Me.txtMaxAmtDO, "")
       Me.Validator.SetRequired(Me.txtMaxAmtDO, False)
-      Me.txtMaxAmtDO.Size = New System.Drawing.Size(80, 21)
+      Me.txtMaxAmtDO.Size = New System.Drawing.Size(108, 21)
       Me.txtMaxAmtDO.TabIndex = 5
       Me.txtMaxAmtDO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblPicSize
       '
       Me.lblPicSize.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.lblPicSize.Location = New System.Drawing.Point(430, 48)
+      Me.lblPicSize.Location = New System.Drawing.Point(430, 56)
       Me.lblPicSize.Name = "lblPicSize"
       Me.lblPicSize.Size = New System.Drawing.Size(100, 23)
       Me.lblPicSize.TabIndex = 220
@@ -739,7 +767,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnLoadImage.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnLoadImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnLoadImage.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnLoadImage.Location = New System.Drawing.Point(512, 108)
+      Me.btnLoadImage.Location = New System.Drawing.Point(561, 24)
       Me.btnLoadImage.Name = "btnLoadImage"
       Me.btnLoadImage.Size = New System.Drawing.Size(24, 23)
       Me.btnLoadImage.TabIndex = 218
@@ -750,7 +778,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnClearImage.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnClearImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnClearImage.Location = New System.Drawing.Point(536, 108)
+      Me.btnClearImage.Location = New System.Drawing.Point(561, 48)
       Me.btnClearImage.Name = "btnClearImage"
       Me.btnClearImage.Size = New System.Drawing.Size(24, 23)
       Me.btnClearImage.TabIndex = 219
@@ -760,7 +788,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkAllCC
       '
       Me.chkAllCC.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.chkAllCC.Location = New System.Drawing.Point(362, 137)
+      Me.chkAllCC.Location = New System.Drawing.Point(198, 133)
       Me.chkAllCC.Name = "chkAllCC"
       Me.chkAllCC.Size = New System.Drawing.Size(184, 16)
       Me.chkAllCC.TabIndex = 217
@@ -769,7 +797,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnBlank
       '
       Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(546, 153)
+      Me.ibtnBlank.Location = New System.Drawing.Point(561, 153)
       Me.ibtnBlank.Name = "ibtnBlank"
       Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
       Me.ibtnBlank.TabIndex = 216
@@ -779,7 +807,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnDelRow
       '
       Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(546, 177)
+      Me.ibtnDelRow.Location = New System.Drawing.Point(561, 177)
       Me.ibtnDelRow.Name = "ibtnDelRow"
       Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
       Me.ibtnDelRow.TabIndex = 215
@@ -791,7 +819,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -799,7 +827,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
       Me.tgItem.Location = New System.Drawing.Point(10, 153)
       Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(536, 232)
+      Me.tgItem.Size = New System.Drawing.Size(550, 232)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 213
       Me.tgItem.TreeManager = Nothing
@@ -809,7 +837,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblItem.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblItem.Location = New System.Drawing.Point(10, 137)
+      Me.lblItem.Location = New System.Drawing.Point(10, 132)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(208, 18)
       Me.lblItem.TabIndex = 214
@@ -819,7 +847,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'picImage
       '
       Me.picImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-      Me.picImage.Location = New System.Drawing.Point(400, 16)
+      Me.picImage.Location = New System.Drawing.Point(400, 24)
       Me.picImage.Name = "picImage"
       Me.picImage.Size = New System.Drawing.Size(160, 88)
       Me.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -857,6 +885,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtPassword, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtPassword, System.Drawing.Color.Empty)
       Me.txtPassword.Location = New System.Drawing.Point(88, 87)
+      Me.Validator.SetMaxValue(Me.txtPassword, "")
       Me.Validator.SetMinValue(Me.txtPassword, "")
       Me.txtPassword.Name = "txtPassword"
       Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
@@ -885,6 +914,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGroup, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGroup, System.Drawing.Color.Empty)
       Me.txtGroup.Location = New System.Drawing.Point(88, 66)
+      Me.Validator.SetMaxValue(Me.txtGroup, "")
       Me.Validator.SetMinValue(Me.txtGroup, "")
       Me.txtGroup.Name = "txtGroup"
       Me.txtGroup.ReadOnly = True
@@ -902,6 +932,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.txtGroupName.Location = New System.Drawing.Point(184, 66)
+      Me.Validator.SetMaxValue(Me.txtGroupName, "")
       Me.Validator.SetMinValue(Me.txtGroupName, "")
       Me.txtGroupName.Name = "txtGroupName"
       Me.txtGroupName.ReadOnly = True
@@ -919,6 +950,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(88, 45)
+      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
@@ -956,6 +988,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(88, 24)
+      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
@@ -976,16 +1009,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
       '
-      'lblSignatureImage
+      'chkCancel
       '
-      Me.lblSignatureImage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblSignatureImage.ForeColor = System.Drawing.Color.Black
-      Me.lblSignatureImage.Location = New System.Drawing.Point(397, 107)
-      Me.lblSignatureImage.Name = "lblSignatureImage"
-      Me.lblSignatureImage.Size = New System.Drawing.Size(87, 18)
-      Me.lblSignatureImage.TabIndex = 227
-      Me.lblSignatureImage.Text = "ลายเซนต์:"
-      Me.lblSignatureImage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.chkCancel.AutoSize = True
+      Me.chkCancel.ForeColor = System.Drawing.Color.Black
+      Me.chkCancel.Location = New System.Drawing.Point(190, 25)
+      Me.chkCancel.Name = "chkCancel"
+      Me.chkCancel.Size = New System.Drawing.Size(57, 17)
+      Me.chkCancel.TabIndex = 228
+      Me.chkCancel.Text = "ยกเลิก"
+      Me.chkCancel.UseVisualStyleBackColor = True
       '
       'UserDetailView
       '
@@ -1078,6 +1111,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim checkString As String = BinaryHelper.DecToBin(level, 5)
       checkString = BinaryHelper.RevertString(checkString)
       Me.btnResetPassword.Enabled = CBool(checkString.Substring(1, 1))
+
+      '91 ตรวจสอบว่า User นี้มีสิทธิในการกำหนดสิทธิหรือเปล่า (Admin)
+      m_User.SetAccessCollection()
+      For Each acc As Access In m_User.AccessCollection
+        If acc.Id = 91 Then
+          Dim level2 As Integer = m_User.GetAccess(acc)
+          Dim checkString2 As String = BinaryHelper.DecToBin(level2, 5)
+          checkString2 = BinaryHelper.RevertString(checkString2)
+          If CBool(checkString2.Substring(1, 1)) Then
+            Me.chkCancel.Checked = False
+            Me.chkCancel.Enabled = False
+            Return
+          End If
+        End If
+      Next
+
+      If m_User.Canceled Then
+        For Each ctl As Control In grbDetail.Controls
+          ctl.Enabled = False
+        Next
+      Else
+        For Each ctl As Control In grbDetail.Controls
+          ctl.Enabled = True
+        Next
+      End If
+      Me.chkCancel.Enabled = True
+
     End Sub
 
     ' เคลียร์ข้อมูลใน control
@@ -1087,6 +1147,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtGroup.Text = ""
       txtGroupName.Text = ""
       txtPassword.Text = ""
+      chkCancel.Checked = False
       'Hack:
       txtPassword.Enabled = True
 
@@ -1113,6 +1174,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblGroup}")
       Me.lblPassword.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPassword}")
       Me.lblSignatureImage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblSignatureImage}")
+      Me.chkCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.chkCancel}")
 
       Me.lblPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblPR}")
       Me.lblWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.lblWR}")
@@ -1195,6 +1257,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler nudLevelApprovePA.Validated, AddressOf Me.ChangeProperty
       AddHandler txtMaxAmtPA.TextChanged, AddressOf Me.TextHandler
       AddHandler txtMaxAmtPA.Validated, AddressOf Me.ChangeProperty
+
+      AddHandler chkCancel.CheckedChanged, AddressOf Me.ChangeProperty
 
     End Sub
     Private nudLevelApprovePRChanged As Boolean = False
@@ -1294,6 +1358,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Select Case CType(sender, Control).Name.ToLower
+        Case chkCancel.Name.ToLower
+          Me.m_User.Canceled = chkCancel.Checked
+          isDirty = True
         Case "txtcode"
           Me.m_User.Code = txtCode.Text
           isDirty = True
@@ -1303,8 +1370,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtpassword"
           Me.m_User.Password = User.GeneratePassword(txtPassword.Text)
           isDirty = True
-
-
         Case "nudlevelapprovepr"
           If nudLevelApprovePRChanged Then
             Me.m_User.ApprovalDocLevelCollection.GetItem(7).Level = nudLevelApprovePR.Text
@@ -1423,6 +1488,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       txtCode.Text = m_User.Code
       txtName.Text = m_User.Name
+
+      chkCancel.Checked = m_User.Canceled
 
       If m_User.Originated Then
         txtPassword.Text = "**********"

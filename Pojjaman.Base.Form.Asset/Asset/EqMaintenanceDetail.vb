@@ -2448,7 +2448,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "dtpinvoicedate"
           dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
         Case "txttoccpersoncode"
-          dirtyFlag = Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
+          dirtyFlag = RunningEmployee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
         Case "txtequipmentcode"
           dirtyFlag = Asset.GetAsset(txtEquipmentCode, txtEquipmentName, Me.m_entity.Equipment)
           If dirtyFlag Then
@@ -2886,7 +2886,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowToCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetToPerson)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetToPerson)
     End Sub
     Private Sub SetToPerson(ByVal e As ISimpleEntity)
       Me.txtToCCPersonCode.Text = e.Code

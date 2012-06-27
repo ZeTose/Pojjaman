@@ -1700,9 +1700,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
             dirtyFlag = True
           Case "txtengineercode"
-            dirtyFlag = Employee.GetEmployee(txtEngineerCode, txtEngineerName, .Engineer)
+            dirtyFlag = RunningEmployee.GetEmployee(txtEngineerCode, txtEngineerName, .Engineer)
           Case "txtestimatorcode"
-            dirtyFlag = Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, .Estimator)
+            dirtyFlag = RunningEmployee.GetEmployee(txtEstimatorCode, txtEstimatorName, .Estimator)
           Case "txtlocation"
             .BidLocation = txtLocation.Text
             dirtyFlag = True
@@ -1970,11 +1970,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnShowEngineerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEngineerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEngineer)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEngineer)
     End Sub
     Private Sub ibtnShowEstimatorDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowEstimatorDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEstimator)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEstimator)
     End Sub
     Private Sub SetEngineer(ByVal e As ISimpleEntity)
       Me.txtEngineerCode.Text = e.Code

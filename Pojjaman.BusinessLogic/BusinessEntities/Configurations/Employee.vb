@@ -36,6 +36,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If dr.Table.Columns.Contains(aliasPrefix & "employee_name") AndAlso Not dr.IsNull(aliasPrefix & "employee_name") Then
           .employee_name = CStr(dr(aliasPrefix & "employee_name"))
         End If
+        If dr.Table.Columns.Contains(aliasPrefix & "employee_canceled") AndAlso Not dr.IsNull(aliasPrefix & "employee_canceled") Then
+          .Canceled = CBool(dr(aliasPrefix & "employee_canceled"))
+        End If
       End With
     End Sub
 
@@ -67,7 +70,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
 
-#Region "Properties"    Public Property Name() As String Implements IHasName.Name      Get        Return employee_name      End Get      Set(ByVal Value As String)        employee_name = Value      End Set    End Property    Public Property Image() As Image Implements IHasImage.Image      Get        Return employee_image      End Get      Set(ByVal Value As Image)        employee_image = Value      End Set    End Property
+#Region "Properties"    Public Property Canceled As Boolean    Public Property Name() As String Implements IHasName.Name      Get        Return employee_name      End Get      Set(ByVal Value As String)        employee_name = Value      End Set    End Property    Public Property Image() As Image Implements IHasImage.Image      Get        Return employee_image      End Get      Set(ByVal Value As Image)        employee_image = Value      End Set    End Property
     Public Property SignatureImage As Image
       Get
         Return employee_SignatureImage
@@ -168,6 +171,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_code", Me.Code))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_name", Me.employee_name))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_canceled", Me.Canceled))
 
       ' Save Originator , LastEditor , CancelPerson ...
       ' SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
@@ -471,7 +475,51 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property
 
+  End Class
 
+  Public Class RunningEmployee
+    Inherits Employee
 
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "RunningEmployee"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
+      Get
+        Return "RunningEmployee"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property FullClassName As String
+      Get
+        Return "Longkong.Pojjaman.BusinessLogic.RunningEmployee"
+      End Get
+    End Property
+
+    Public Sub New()
+      MyBase.New()
+    End Sub
+
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+
+    Public Shared Function GetEmployee(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldEmp As Employee) As Boolean
+      Dim emp As New Employee(txtCode.Text)
+      If txtCode.Text.Length <> 0 AndAlso Not emp.Valid Then
+        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+        emp = oldEmp
+      ElseIf emp.Canceled Then
+        MessageBox.Show(txtCode.Text & " ถูกยกเลิกไปแล้ว")
+        emp = oldEmp
+      End If
+      txtCode.Text = emp.Code
+      txtName.Text = emp.Name
+      If oldEmp.Id <> emp.Id Then
+        oldEmp = emp
+        Return True
+      End If
+      Return False
+    End Function
   End Class
 End Namespace

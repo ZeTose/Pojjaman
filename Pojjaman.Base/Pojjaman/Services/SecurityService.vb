@@ -83,7 +83,7 @@ Namespace Longkong.Pojjaman.Services
         Dim loginUser As New User(dialog.Name, dialog.Password)
         MessageBox.Show(dialog.Name & ":" & dialog.Password)
         If dialog.Show(name) = System.Windows.Forms.DialogResult.OK Then
-          If loginUser.Originated Then
+          If loginUser.Originated AndAlso Not loginUser.Canceled Then
             Me.SetCurrentUser(loginUser)
             value = True
             If dialog.SaveChecked Then
@@ -117,7 +117,7 @@ Namespace Longkong.Pojjaman.Services
         Else
           loginUser = New User(dlg.UserName, dlg.Password)
         End If
-        If loginUser.Originated Then
+        If loginUser.Originated AndAlso Not loginUser.Canceled Then
           If Not CheckLicense() Then
             Return ret.Cancel
           End If

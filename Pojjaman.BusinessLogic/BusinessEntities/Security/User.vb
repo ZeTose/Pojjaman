@@ -143,6 +143,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+        If Not dr.IsNull(aliasPrefix & "user_canceled") AndAlso dr.Table.Columns.Contains(aliasPrefix & "user_canceled") Then
+          .Canceled = CBool(dr(aliasPrefix & "user_canceled"))
+        End If
+
         Dim deh As New DataRowHelper(dr)
         Me.CanSeeAllDocType1 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType1")
         Me.CanSeeAllDocType2 = deh.GetValue(Of Boolean)("user_CanSeeAllDocType2")
@@ -182,6 +186,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property Canceled As Boolean
     Public Shared CurrentUserName As String
     Public Shared LicenseCount As Integer
     Public Property AccessCollection() As AccessCollection Implements IHasAccess.AccessCollection
@@ -645,6 +650,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType1", AllDocType1))
         paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType2", AllDocType2))
         paramArrayList.Add(New SqlParameter("@user_CanSeeAllDocType0", AllDocType0))
+        paramArrayList.Add(New SqlParameter("@user_canceled", Me.Canceled))
 
 
         'SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime) '********* Todo: Revise

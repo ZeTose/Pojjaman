@@ -2517,7 +2517,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = True
         Case "txtrequestorcode"
           If requestorCodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtRequestorCode, txtRequestorName, Me.m_entity.Requestor)
+            dirtyFlag = RunningEmployee.GetEmployee(txtRequestorCode, txtRequestorName, Me.m_entity.Requestor)
             requestorCodeChanged = False
           End If
         Case "cmbcontact"
@@ -3079,7 +3079,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnRequestorFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRequestorFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(dummyEmployee, AddressOf SetEmployeeDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployeeDialog)
     End Sub
 
     Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)

@@ -1469,12 +1469,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtboqcode"
           dirtyFlag = BOQ.GetBOQ(txtBOQCode, Me.m_entity.Boq)
         Case "txtmanager"
-          dirtyFlag = Employee.GetEmployee(txtManager, txtManagerName, Me.m_entity.Manager)
+          dirtyFlag = RunningEmployee.GetEmployee(txtManager, txtManagerName, Me.m_entity.Manager)
         Case "txtadmin"
-          dirtyFlag = Employee.GetEmployee(txtAdmin, txtAdminName, Me.m_entity.Admin)
+          dirtyFlag = RunningEmployee.GetEmployee(txtAdmin, txtAdminName, Me.m_entity.Admin)
         Case "txtcustomercode"
           dirtyFlag = ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
-
         Case "txtexpenseacctcode"
           dirtyFlag = Account.GetAccount(txtExpenseAcctCode, txtExpenseAcctName, Me.m_entity.ExpenseAccount)
         Case "txtstoreacctcode"
@@ -1802,11 +1801,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ibtnShowManagerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowManagerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetManager)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetManager)
     End Sub
     Private Sub ibtnShowAdminDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowAdminDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetAdmin)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetAdmin)
     End Sub
     Private Sub SetManager(ByVal e As ISimpleEntity)
       Me.txtManager.Text = e.Code

@@ -2309,7 +2309,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Case "txtfromccpersoncode"
           If txtfromccpersoncodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromEmployee)
+            dirtyFlag = RunningEmployee.GetEmployee(txtFromCCPersonCode, txtFromCCPersonName, Me.m_entity.FromEmployee)
             txtfromccpersoncodeChanged = False
           End If
       End Select
@@ -2918,7 +2918,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowFromCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(Me.m_entity.FromEmployee, AddressOf SetEmployeeDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployeeDialog)
     End Sub
     Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
       Me.txtFromCCPersonCode.Text = e.Code

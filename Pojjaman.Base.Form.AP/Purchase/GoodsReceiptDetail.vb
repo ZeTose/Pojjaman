@@ -3435,7 +3435,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           dirtyFlag = Me.m_entity.Vat.DatePickerChanged(dtpInvoiceDate, txtInvoiceDate, m_dateSetting)
         Case "txttoccpersoncode"
           If toCCPersonCodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
+            dirtyFlag = RunningEmployee.GetEmployee(txtToCCPersonCode, txtToCCPersonName, Me.m_entity.ToCostCenterPerson)
             toCCPersonCodeChanged = False
           End If
         Case "txttocostcentercode"
@@ -4314,7 +4314,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub ibtnShowToCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowToCCPersonDialog.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetToPerson)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetToPerson)
     End Sub
     Private Sub SetToPerson(ByVal e As ISimpleEntity)
       Me.txtToCCPersonCode.Text = e.Code

@@ -1352,7 +1352,7 @@ FinalLine:
         Case "txtadjustpersoncode"
           If AdjustPersonCodeChanged Then
             If txtAdjustPersonCode.Text.Length > 0 Then
-              dirtyFlag = Employee.GetEmployee(txtAdjustPersonCode, txtAdjustPersonName, Me.m_entity.AdjustPerson)
+              dirtyFlag = RunningEmployee.GetEmployee(txtAdjustPersonCode, txtAdjustPersonName, Me.m_entity.AdjustPerson)
             End If
             AdjustPersonCodeChanged = False
           End If
@@ -1778,7 +1778,7 @@ FinalLine:
     Private Sub btnAdjustPersonFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAdjustPersonFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
        CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(dummyEmployee, AddressOf SetEmployeeDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployeeDialog)
     End Sub
 
     Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)

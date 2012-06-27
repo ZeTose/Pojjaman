@@ -2928,7 +2928,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           '    'm_isInitialized = True
         Case "txtdirectorcode"
           If directorCodeChanged Then
-            dirtyFlag = Employee.GetEmployee(txtDirectorCode, txtDirectorName, Me.m_entity.Receiver)
+            dirtyFlag = RunningEmployee.GetEmployee(txtDirectorCode, txtDirectorName, Me.m_entity.Receiver)
             'directorCodeChanged = False
           End If
         Case "dtpdocdate"
@@ -3580,7 +3580,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub btnRequestorFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDirectorFind.Click
       Dim myEntityPanelService As IEntityPanelService = _
       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(Me.m_entity.Receiver, AddressOf SetEmployeeDialog)
+      myEntityPanelService.OpenListDialog(New RunningEmployee, AddressOf SetEmployeeDialog)
     End Sub
 
     Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
