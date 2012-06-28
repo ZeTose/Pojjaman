@@ -19,6 +19,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
     Private m_hashData As Hashtable
+    Private m_key As KeyValuePair
 #End Region
 
 #Region "Constructors"
@@ -51,31 +52,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.Refresh()
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
-      Dim tr As Object = m_hashData(e.RowIndex)
-      If tr Is Nothing Then
-        Return
-      End If
+      'Dim tr As Object = m_hashData(e.RowIndex)
+      'If tr Is Nothing Then
+      '  Return
+      'End If
 
-      If TypeOf tr Is DataRow Then
-        Dim dr As DataRow = CType(tr, DataRow)
-        If dr Is Nothing Then
-          Return
-        End If
+      'If TypeOf tr Is DataRow Then
+      '  Dim dr As DataRow = CType(tr, DataRow)
+      '  If dr Is Nothing Then
+      '    Return
+      '  End If
 
-        Dim drh As New DataRowHelper(dr)
+      '  Dim drh As New DataRowHelper(dr)
 
-        Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
-        Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+      '  Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+      '  Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
 
-        Debug.Print(docId.ToString)
-        Debug.Print(docType.ToString)
+      '  Debug.Print(docId.ToString)
+      '  Debug.Print(docType.ToString)
 
-        If docId > 0 AndAlso docType > 0 Then
-          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
-          myEntityPanelService.OpenDetailPanel(en)
-        End If
-      End If
+      '  If docId > 0 AndAlso docType > 0 Then
+      '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      '    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+      '    myEntityPanelService.OpenDetailPanel(en)
+      '  End If
+      'End If
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
@@ -289,6 +290,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '  SumBankRemain += CDec(row("Remain"))
             '  TotalRemain += CDec(row("Remain"))
             'End If
+
+            'TrCheq.Tag = Nothing
 
             Dim totalPayAmount As Decimal = 0
             TrPV = Nothing
