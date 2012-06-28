@@ -5,6 +5,7 @@ Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptOutgoingCheckFilterSubPanel
     Inherits AbstractFilterSubPanel
+    'Inherits UserControl
     Implements IReportFilterSubPanel
 
 #Region " Windows Form Designer generated code "
@@ -84,6 +85,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptOutgoingCheckFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.grbChqCode = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtChqCodeEnd = New System.Windows.Forms.TextBox()
+      Me.Label1 = New System.Windows.Forms.Label()
+      Me.txtChqCodeStart = New System.Windows.Forms.TextBox()
+      Me.lblChqCodeStart = New System.Windows.Forms.Label()
       Me.txtDocDateStart = New System.Windows.Forms.TextBox()
       Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
       Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
@@ -133,16 +139,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtTemp = New System.Windows.Forms.TextBox()
-      Me.grbChqCode = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.txtChqCodeEnd = New System.Windows.Forms.TextBox()
-      Me.Label1 = New System.Windows.Forms.Label()
-      Me.txtChqCodeStart = New System.Windows.Forms.TextBox()
-      Me.lblChqCodeStart = New System.Windows.Forms.Label()
       Me.grbMaster.SuspendLayout()
+      Me.grbChqCode.SuspendLayout()
       Me.grbBankAcctBook.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-      Me.grbChqCode.SuspendLayout()
       Me.SuspendLayout()
       '
       'grbMaster
@@ -150,23 +151,95 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
               Or System.Windows.Forms.AnchorStyles.Left) _
               Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.grbDetail)
       Me.grbMaster.Controls.Add(Me.grbChqCode)
       Me.grbMaster.Controls.Add(Me.txtDocDateStart)
       Me.grbMaster.Controls.Add(Me.txtDocDateEnd)
       Me.grbMaster.Controls.Add(Me.dtpDocDateStart)
       Me.grbMaster.Controls.Add(Me.dtpDocDateEnd)
       Me.grbMaster.Controls.Add(Me.grbBankAcctBook)
-      Me.grbMaster.Controls.Add(Me.grbDetail)
       Me.grbMaster.Controls.Add(Me.btnSearch)
       Me.grbMaster.Controls.Add(Me.btnReset)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbMaster.Location = New System.Drawing.Point(8, 8)
+      Me.grbMaster.Location = New System.Drawing.Point(8, 3)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(833, 233)
+      Me.grbMaster.Size = New System.Drawing.Size(826, 220)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
+      '
+      'grbChqCode
+      '
+      Me.grbChqCode.Controls.Add(Me.txtChqCodeEnd)
+      Me.grbChqCode.Controls.Add(Me.Label1)
+      Me.grbChqCode.Controls.Add(Me.txtChqCodeStart)
+      Me.grbChqCode.Controls.Add(Me.lblChqCodeStart)
+      Me.grbChqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.grbChqCode.Location = New System.Drawing.Point(504, 99)
+      Me.grbChqCode.Name = "grbChqCode"
+      Me.grbChqCode.Size = New System.Drawing.Size(312, 72)
+      Me.grbChqCode.TabIndex = 13
+      Me.grbChqCode.TabStop = False
+      Me.grbChqCode.Text = "ข้อมูลเลขที่เช็ค"
+      '
+      'txtChqCodeEnd
+      '
+      Me.Validator.SetDataType(Me.txtChqCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtChqCodeEnd, "")
+      Me.txtChqCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtChqCodeEnd, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtChqCodeEnd, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtChqCodeEnd, System.Drawing.Color.Empty)
+      Me.txtChqCodeEnd.Location = New System.Drawing.Point(80, 36)
+      Me.txtChqCodeEnd.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtChqCodeEnd, "")
+      Me.Validator.SetMinValue(Me.txtChqCodeEnd, "")
+      Me.txtChqCodeEnd.Name = "txtChqCodeEnd"
+      Me.Validator.SetRegularExpression(Me.txtChqCodeEnd, "")
+      Me.Validator.SetRequired(Me.txtChqCodeEnd, False)
+      Me.txtChqCodeEnd.Size = New System.Drawing.Size(96, 21)
+      Me.txtChqCodeEnd.TabIndex = 11
+      '
+      'Label1
+      '
+      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Label1.ForeColor = System.Drawing.Color.Black
+      Me.Label1.Location = New System.Drawing.Point(56, 36)
+      Me.Label1.Name = "Label1"
+      Me.Label1.Size = New System.Drawing.Size(24, 18)
+      Me.Label1.TabIndex = 3
+      Me.Label1.Text = "ถึง"
+      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtChqCodeStart
+      '
+      Me.Validator.SetDataType(Me.txtChqCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtChqCodeStart, "")
+      Me.txtChqCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.Validator.SetGotFocusBackColor(Me.txtChqCodeStart, System.Drawing.Color.Empty)
+      Me.ErrorProvider1.SetIconPadding(Me.txtChqCodeStart, -15)
+      Me.Validator.SetInvalidBackColor(Me.txtChqCodeStart, System.Drawing.Color.Empty)
+      Me.txtChqCodeStart.Location = New System.Drawing.Point(80, 14)
+      Me.txtChqCodeStart.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtChqCodeStart, "")
+      Me.Validator.SetMinValue(Me.txtChqCodeStart, "")
+      Me.txtChqCodeStart.Name = "txtChqCodeStart"
+      Me.Validator.SetRegularExpression(Me.txtChqCodeStart, "")
+      Me.Validator.SetRequired(Me.txtChqCodeStart, False)
+      Me.txtChqCodeStart.Size = New System.Drawing.Size(96, 21)
+      Me.txtChqCodeStart.TabIndex = 10
+      '
+      'lblChqCodeStart
+      '
+      Me.lblChqCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblChqCodeStart.ForeColor = System.Drawing.Color.Black
+      Me.lblChqCodeStart.Location = New System.Drawing.Point(8, 14)
+      Me.lblChqCodeStart.Name = "lblChqCodeStart"
+      Me.lblChqCodeStart.Size = New System.Drawing.Size(64, 18)
+      Me.lblChqCodeStart.TabIndex = 6
+      Me.lblChqCodeStart.Text = "เลขที่เช็ค"
+      Me.lblChqCodeStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtDocDateStart
       '
@@ -229,7 +302,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbBankAcctBook.Controls.Add(Me.txtBankAcctCodeStart)
       Me.grbBankAcctBook.Controls.Add(Me.lblBankAcctStart)
       Me.grbBankAcctBook.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbBankAcctBook.Location = New System.Drawing.Point(504, 16)
+      Me.grbBankAcctBook.Location = New System.Drawing.Point(504, 13)
       Me.grbBankAcctBook.Name = "grbBankAcctBook"
       Me.grbBankAcctBook.Size = New System.Drawing.Size(312, 85)
       Me.grbBankAcctBook.TabIndex = 3
@@ -385,19 +458,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.dtpCheckDueDateStart)
       Me.grbDetail.Controls.Add(Me.dtpCheckDueDateEnd)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Location = New System.Drawing.Point(8, 16)
+      Me.grbDetail.Location = New System.Drawing.Point(8, 13)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(490, 210)
+      Me.grbDetail.Size = New System.Drawing.Size(490, 199)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
-      Me.grbDetail.Text = "ข้อมูลทั่วไป"
       '
       'btnAccountEndFind
       '
       Me.btnAccountEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnAccountEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnAccountEndFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAccountEndFind.Location = New System.Drawing.Point(416, 113)
+      Me.btnAccountEndFind.Location = New System.Drawing.Point(407, 113)
       Me.btnAccountEndFind.Name = "btnAccountEndFind"
       Me.btnAccountEndFind.Size = New System.Drawing.Size(24, 22)
       Me.btnAccountEndFind.TabIndex = 52
@@ -412,7 +484,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAccountCodeEnd, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtAccountCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAccountCodeEnd, System.Drawing.Color.Empty)
-      Me.txtAccountCodeEnd.Location = New System.Drawing.Point(320, 113)
+      Me.txtAccountCodeEnd.Location = New System.Drawing.Point(312, 113)
       Me.Validator.SetMaxValue(Me.txtAccountCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtAccountCodeEnd, "")
       Me.txtAccountCodeEnd.Name = "txtAccountCodeEnd"
@@ -474,10 +546,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'chkIncludeCheckCode
       '
+      Me.chkIncludeCheckCode.AutoSize = True
       Me.chkIncludeCheckCode.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCheckCode.Location = New System.Drawing.Point(320, 185)
+      Me.chkIncludeCheckCode.Location = New System.Drawing.Point(312, 177)
       Me.chkIncludeCheckCode.Name = "chkIncludeCheckCode"
-      Me.chkIncludeCheckCode.Size = New System.Drawing.Size(164, 24)
+      Me.chkIncludeCheckCode.Size = New System.Drawing.Size(173, 18)
       Me.chkIncludeCheckCode.TabIndex = 37
       Me.chkIncludeCheckCode.Text = "รวมเอกสารที่ไม่มีหมายเลขเช็ค"
       '
@@ -496,7 +569,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblUpdateDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblUpdateDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblUpdateDateEnd.Location = New System.Drawing.Point(295, 64)
+      Me.lblUpdateDateEnd.Location = New System.Drawing.Point(289, 64)
       Me.lblUpdateDateEnd.Name = "lblUpdateDateEnd"
       Me.lblUpdateDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblUpdateDateEnd.TabIndex = 32
@@ -526,7 +599,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtUpdateDateEnd, "")
       Me.Validator.SetGotFocusBackColor(Me.txtUpdateDateEnd, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtUpdateDateEnd, System.Drawing.Color.Empty)
-      Me.txtUpdateDateEnd.Location = New System.Drawing.Point(320, 64)
+      Me.txtUpdateDateEnd.Location = New System.Drawing.Point(311, 64)
       Me.Validator.SetMaxValue(Me.txtUpdateDateEnd, "")
       Me.Validator.SetMinValue(Me.txtUpdateDateEnd, "")
       Me.txtUpdateDateEnd.Name = "txtUpdateDateEnd"
@@ -547,7 +620,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpUpdateDateEnd
       '
       Me.dtpUpdateDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpUpdateDateEnd.Location = New System.Drawing.Point(328, 64)
+      Me.dtpUpdateDateEnd.Location = New System.Drawing.Point(319, 64)
       Me.dtpUpdateDateEnd.Name = "dtpUpdateDateEnd"
       Me.dtpUpdateDateEnd.Size = New System.Drawing.Size(112, 21)
       Me.dtpUpdateDateEnd.TabIndex = 34
@@ -555,19 +628,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'chkRemainChecksShow
       '
+      Me.chkRemainChecksShow.AutoSize = True
       Me.chkRemainChecksShow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkRemainChecksShow.Location = New System.Drawing.Point(320, 161)
+      Me.chkRemainChecksShow.Location = New System.Drawing.Point(312, 157)
       Me.chkRemainChecksShow.Name = "chkRemainChecksShow"
-      Me.chkRemainChecksShow.Size = New System.Drawing.Size(136, 24)
+      Me.chkRemainChecksShow.Size = New System.Drawing.Size(141, 18)
       Me.chkRemainChecksShow.TabIndex = 30
       Me.chkRemainChecksShow.Text = "แสดงเช็คที่ยังใช้ไม่หมด"
       '
       'chkIncludeCheckDocDate
       '
+      Me.chkIncludeCheckDocDate.AutoSize = True
       Me.chkIncludeCheckDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCheckDocDate.Location = New System.Drawing.Point(320, 137)
+      Me.chkIncludeCheckDocDate.Location = New System.Drawing.Point(312, 138)
       Me.chkIncludeCheckDocDate.Name = "chkIncludeCheckDocDate"
-      Me.chkIncludeCheckDocDate.Size = New System.Drawing.Size(120, 24)
+      Me.chkIncludeCheckDocDate.Size = New System.Drawing.Size(117, 18)
       Me.chkIncludeCheckDocDate.TabIndex = 17
       Me.chkIncludeCheckDocDate.Text = "รวมเช็คไม่ระบุวันที่"
       '
@@ -594,7 +669,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblChkStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblChkStatus.ForeColor = System.Drawing.Color.Black
-      Me.lblChkStatus.Location = New System.Drawing.Point(263, 88)
+      Me.lblChkStatus.Location = New System.Drawing.Point(254, 88)
       Me.lblChkStatus.Name = "lblChkStatus"
       Me.lblChkStatus.Size = New System.Drawing.Size(56, 18)
       Me.lblChkStatus.TabIndex = 13
@@ -616,7 +691,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblDocDateEnd.Location = New System.Drawing.Point(295, 40)
+      Me.lblDocDateEnd.Location = New System.Drawing.Point(289, 40)
       Me.lblDocDateEnd.Name = "lblDocDateEnd"
       Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblDocDateEnd.TabIndex = 3
@@ -679,7 +754,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblCheckDueDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblCheckDueDateEnd.ForeColor = System.Drawing.Color.Black
-      Me.lblCheckDueDateEnd.Location = New System.Drawing.Point(295, 16)
+      Me.lblCheckDueDateEnd.Location = New System.Drawing.Point(288, 16)
       Me.lblCheckDueDateEnd.Name = "lblCheckDueDateEnd"
       Me.lblCheckDueDateEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblCheckDueDateEnd.TabIndex = 3
@@ -689,7 +764,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'cmbChkStatus
       '
       Me.cmbChkStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-      Me.cmbChkStatus.Location = New System.Drawing.Point(320, 88)
+      Me.cmbChkStatus.Location = New System.Drawing.Point(311, 88)
       Me.cmbChkStatus.Name = "cmbChkStatus"
       Me.cmbChkStatus.Size = New System.Drawing.Size(121, 21)
       Me.cmbChkStatus.TabIndex = 7
@@ -717,7 +792,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtCheckDueDateEnd, "")
       Me.Validator.SetGotFocusBackColor(Me.txtCheckDueDateEnd, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCheckDueDateEnd, System.Drawing.Color.Empty)
-      Me.txtCheckDueDateEnd.Location = New System.Drawing.Point(320, 14)
+      Me.txtCheckDueDateEnd.Location = New System.Drawing.Point(311, 14)
       Me.Validator.SetMaxValue(Me.txtCheckDueDateEnd, "")
       Me.Validator.SetMinValue(Me.txtCheckDueDateEnd, "")
       Me.txtCheckDueDateEnd.Name = "txtCheckDueDateEnd"
@@ -738,7 +813,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'dtpCheckDueDateEnd
       '
       Me.dtpCheckDueDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpCheckDueDateEnd.Location = New System.Drawing.Point(328, 14)
+      Me.dtpCheckDueDateEnd.Location = New System.Drawing.Point(319, 14)
       Me.dtpCheckDueDateEnd.Name = "dtpCheckDueDateEnd"
       Me.dtpCheckDueDateEnd.Size = New System.Drawing.Size(112, 21)
       Me.dtpCheckDueDateEnd.TabIndex = 27
@@ -748,7 +823,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(751, 201)
+      Me.btnSearch.Location = New System.Drawing.Point(744, 188)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
@@ -758,7 +833,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(671, 201)
+      Me.btnReset.Location = New System.Drawing.Point(664, 188)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
@@ -796,94 +871,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTemp.TabIndex = 26
       Me.txtTemp.Visible = False
       '
-      'grbChqCode
-      '
-      Me.grbChqCode.Controls.Add(Me.txtChqCodeEnd)
-      Me.grbChqCode.Controls.Add(Me.Label1)
-      Me.grbChqCode.Controls.Add(Me.txtChqCodeStart)
-      Me.grbChqCode.Controls.Add(Me.lblChqCodeStart)
-      Me.grbChqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbChqCode.Location = New System.Drawing.Point(504, 107)
-      Me.grbChqCode.Name = "grbChqCode"
-      Me.grbChqCode.Size = New System.Drawing.Size(312, 72)
-      Me.grbChqCode.TabIndex = 13
-      Me.grbChqCode.TabStop = False
-      Me.grbChqCode.Text = "ข้อมูลเลขที่เช็ค"
-      '
-      'txtChqCodeEnd
-      '
-      Me.Validator.SetDataType(Me.txtChqCodeEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtChqCodeEnd, "")
-      Me.txtChqCodeEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtChqCodeEnd, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtChqCodeEnd, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtChqCodeEnd, System.Drawing.Color.Empty)
-      Me.txtChqCodeEnd.Location = New System.Drawing.Point(80, 36)
-      Me.txtChqCodeEnd.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtChqCodeEnd, "")
-      Me.Validator.SetMinValue(Me.txtChqCodeEnd, "")
-      Me.txtChqCodeEnd.Name = "txtChqCodeEnd"
-      Me.Validator.SetRegularExpression(Me.txtChqCodeEnd, "")
-      Me.Validator.SetRequired(Me.txtChqCodeEnd, False)
-      Me.txtChqCodeEnd.Size = New System.Drawing.Size(96, 21)
-      Me.txtChqCodeEnd.TabIndex = 11
-      '
-      'Label1
-      '
-      Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.ForeColor = System.Drawing.Color.Black
-      Me.Label1.Location = New System.Drawing.Point(56, 36)
-      Me.Label1.Name = "Label1"
-      Me.Label1.Size = New System.Drawing.Size(24, 18)
-      Me.Label1.TabIndex = 3
-      Me.Label1.Text = "ถึง"
-      Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtChqCodeStart
-      '
-      Me.Validator.SetDataType(Me.txtChqCodeStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtChqCodeStart, "")
-      Me.txtChqCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtChqCodeStart, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtChqCodeStart, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtChqCodeStart, System.Drawing.Color.Empty)
-      Me.txtChqCodeStart.Location = New System.Drawing.Point(80, 14)
-      Me.txtChqCodeStart.MaxLength = 50
-      Me.Validator.SetMaxValue(Me.txtChqCodeStart, "")
-      Me.Validator.SetMinValue(Me.txtChqCodeStart, "")
-      Me.txtChqCodeStart.Name = "txtChqCodeStart"
-      Me.Validator.SetRegularExpression(Me.txtChqCodeStart, "")
-      Me.Validator.SetRequired(Me.txtChqCodeStart, False)
-      Me.txtChqCodeStart.Size = New System.Drawing.Size(96, 21)
-      Me.txtChqCodeStart.TabIndex = 10
-      '
-      'lblChqCodeStart
-      '
-      Me.lblChqCodeStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblChqCodeStart.ForeColor = System.Drawing.Color.Black
-      Me.lblChqCodeStart.Location = New System.Drawing.Point(8, 14)
-      Me.lblChqCodeStart.Name = "lblChqCodeStart"
-      Me.lblChqCodeStart.Size = New System.Drawing.Size(64, 18)
-      Me.lblChqCodeStart.TabIndex = 6
-      Me.lblChqCodeStart.Text = "เลขที่เช็ค"
-      Me.lblChqCodeStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
       'RptOutgoingCheckFilterSubPanel
       '
       Me.Controls.Add(Me.txtTemp)
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptOutgoingCheckFilterSubPanel"
-      Me.Size = New System.Drawing.Size(849, 248)
+      Me.Size = New System.Drawing.Size(842, 229)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
+      Me.grbChqCode.ResumeLayout(False)
+      Me.grbChqCode.PerformLayout()
       Me.grbBankAcctBook.ResumeLayout(False)
       Me.grbBankAcctBook.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-      Me.grbChqCode.ResumeLayout(False)
-      Me.grbChqCode.PerformLayout()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -932,7 +935,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbDetail}")
+      'Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.grbDetail}")
 
       Me.lblChkStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblChkStatus}")
       Me.lblSort.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.lblSort}")

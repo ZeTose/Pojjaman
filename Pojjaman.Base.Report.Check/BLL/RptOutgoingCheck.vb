@@ -9,6 +9,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptOutgoingCheck
     Inherits Report
@@ -16,6 +18,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -31,21 +34,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
-
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
+      lkg.Rows.Hidden(0) = True
       lkg.Rows.HeaderCount = 3
       lkg.Rows.FrozenCount = 3
       lkg.Refresh()
     End Sub
-    Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        If dr Is Nothing Then
+          Return
+        End If
+
+        Dim drh As New DataRowHelper(dr)
+
+        Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+        Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+
+        Debug.Print(docId.ToString)
+        Debug.Print(docType.ToString)
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
+    End Sub
+    Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
       CreateHeader()
@@ -92,6 +124,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
+      Dim dt1 As DataTable = Me.DataSet.Tables(1)
       If dt.Rows.Count = 0 Then
         Return
       End If
@@ -115,6 +148,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim TrBank As TreeRow = Nothing
       Dim TrAcc As TreeRow = Nothing
       Dim TrCheq As TreeRow = Nothing
+      Dim TrPV As TreeRow = Nothing
 
       'Dim PVCode As String = ""
       'Dim PVRefCode As String = ""
@@ -126,9 +160,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               TrBank("col9") = Configuration.FormatToString(SumBankAmt, DigitConfig.Price)
               TrBank("col10") = Configuration.FormatToString(SumBankPay, DigitConfig.Price)
               TrBank("col11") = Configuration.FormatToString(SumBankRemain, DigitConfig.Price)
-              SumBankAmt = 0
-              SumBankPay = 0
-              SumBankRemain = 0
+              'SumBankAmt = 0
+              'SumBankPay = 0
+              'SumBankRemain = 0
             End If
           End If
 
@@ -152,9 +186,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 TrAcc("col9") = Configuration.FormatToString(SumAmount, DigitConfig.Price)
                 TrAcc("col10") = Configuration.FormatToString(SumPay, DigitConfig.Price)
                 TrAcc("col11") = Configuration.FormatToString(SumRemain, DigitConfig.Price)
-                SumAmount = 0
-                SumPay = 0
-                SumRemain = 0
+                'SumAmount = 0
+                'SumPay = 0
+                'SumRemain = 0
               End If
             End If
 
@@ -177,14 +211,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If Not TrAcc Is Nothing Then
           If row("DocCode").ToString <> currentDocCode Then
-            'If currentDocCode.Length <> 0 Then
-            '    TrCheq("col6") = indent & indent & PVCode
-            '    TrCheq("col8") = indent & indent & PVRefCode
-            '    PVCode = ""
-            '    PVRefCode = ""
-            'End If
 
             TrCheq = TrAcc.Childs.Add
+            TrCheq.State = RowExpandState.Expanded
             If Not row.IsNull("DocDate") Then
               If IsDate(row("DocDate")) Then
                 TrCheq("col0") = indent & indent & CDate(row("DocDate")).ToShortDateString
@@ -212,30 +241,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("SupplierCode") Then
               TrCheq("col5") = row("SupplierCode").ToString & ":" & row("SupplierName").ToString
             End If
-            If Not row.IsNull("PV") Then
-              TrCheq("col6") = row("PV").ToString
-            End If
-            If Not row.IsNull("PVRef") Then
-              TrCheq("col7") = row("GL").ToString
-            End If
-            If Not row.IsNull("GL") Then
-              TrCheq("col8") = row("PVRef").ToString
-            End If
+            'If Not row.IsNull("PV") Then
+            '  TrCheq("col6") = row("PV").ToString
+            'End If
+            'If Not row.IsNull("PVRef") Then
+            '  TrCheq("col7") = row("GL").ToString
+            'End If
+            'If Not row.IsNull("GL") Then
+            '  TrCheq("col8") = row("PVRef").ToString
+            'End If
             If IsNumeric(row("Amount")) Then
               TrCheq("col9") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
             End If
-            If IsNumeric(row("Pay")) Then
-              TrCheq("col10") = Configuration.FormatToString(CDec(row("Pay")), DigitConfig.Price)
-            End If
-            If IsNumeric(row("Remain")) Then
-              TrCheq("col11") = Configuration.FormatToString(CDec(row("Remain")), DigitConfig.Price)
-            End If
+            'If IsNumeric(row("Pay")) Then
+            '  TrCheq("col10") = Configuration.FormatToString(CDec(row("Pay")), DigitConfig.Price)
+            'End If
+            'If IsNumeric(row("Remain")) Then
+            '  TrCheq("col11") = Configuration.FormatToString(CDec(row("Remain")), DigitConfig.Price)
+            'End If
             If Not row.IsNull("CheckStatus") Then
               TrCheq("col12") = indent & indent & row("CheckStatus").ToString
             End If
-            If Not row.IsNull("cc_code") Then
-              TrCheq("col13") = row("cc_code").ToString
-            End If
+            'If Not row.IsNull("cc_code") Then
+            '  TrCheq("col13") = row("cc_code").ToString
+            'End If
             If Not row.IsNull("CqRecipient") Then
               TrCheq("col14") = row("CqRecipient").ToString
             End If
@@ -245,91 +274,108 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not row.IsNull("cqupdate_code") Then
               TrCheq("col16") = indent & indent & row("cqupdate_code").ToString
             End If
+            'If IsNumeric(row("Amount")) Then
+            '  SumAmount += CDec(row("Amount"))
+            '  SumBankAmt += CDec(row("Amount"))
+            '  TotalAmount += CDec(row("Amount"))
+            'End If
+            'If IsNumeric(row("Pay")) Then
+            '  SumPay += CDec(row("Pay"))
+            '  SumBankPay += CDec(row("Pay"))
+            '  TotalPay += CDec(row("Pay"))
+            'End If
+            'If IsNumeric(row("Remain")) Then
+            '  SumRemain += CDec(row("Remain"))
+            '  SumBankRemain += CDec(row("Remain"))
+            '  TotalRemain += CDec(row("Remain"))
+            'End If
+
+            Dim totalPayAmount As Decimal = 0
+            TrPV = Nothing
+            For Each prow As DataRow In dt1.Select("paymenti_entity = " & row("check_id").ToString())
+              TrPV = TrCheq.Childs.Add
+
+              If Not prow.IsNull("payment_code") Then
+                TrPV("col6") = prow("payment_code").ToString
+              End If
+              If Not prow.IsNull("gl_code") Then
+                TrPV("col8") = prow("gl_code").ToString
+              End If
+              'If Not prow.IsNull("GL") Then
+              '  TrPV("col8") = prow("PVRef").ToString
+              'End If
+              If IsNumeric(prow("paymenti_amt")) Then
+                TrPV("col10") = Configuration.FormatToString(CDec(prow("paymenti_amt")), DigitConfig.Price)
+                totalPayAmount += CDec(prow("paymenti_amt"))
+              End If
+              'If IsNumeric(prow("Remain")) Then
+              '  TrPV("col11") = Configuration.FormatToString(CDec(prow("Remain")), DigitConfig.Price)
+              'End If
+              If Not prow.IsNull("cc_code") Then
+                TrPV("col13") = prow("cc_code").ToString
+              End If
+            Next
+
+            TrCheq("col10") = Configuration.FormatToString(totalPayAmount, DigitConfig.Price)
+
             If IsNumeric(row("Amount")) Then
-              SumAmount += CDec(row("Amount"))
-              SumBankAmt += CDec(row("Amount"))
-              TotalAmount += CDec(row("Amount"))
-            End If
-            If IsNumeric(row("Pay")) Then
-              SumPay += CDec(row("Pay"))
-              SumBankPay += CDec(row("Pay"))
-              TotalPay += CDec(row("Pay"))
-            End If
-            If IsNumeric(row("Remain")) Then
-              SumRemain += CDec(row("Remain"))
-              SumBankRemain += CDec(row("Remain"))
-              TotalRemain += CDec(row("Remain"))
+              TrCheq("col11") = Configuration.FormatToString(CDec(row("Amount")) - totalPayAmount, DigitConfig.Price)
             End If
 
             currentDocCode = row("DocCode").ToString
           End If
 
-          'If Not row.IsNull("PV") Then
-          '    If row("PV").ToString.Length > 0 Then
-          '        If PVCode.Length > 0 Then
-          '            PVCode &= "," & row("PV").ToString
-          '        Else
-          '            PVCode = row("PV").ToString
-          '        End If
-          '    End If
-          'End If
-          'If Not row.IsNull("PVRef") Then
-          '    If row("PVRef").ToString.Length > 0 Then
-          '        If PVRefCode.Length > 0 Then
-          '            PVRefCode &= "," & row("PVRef").ToString
-          '        Else
-          '            PVRefCode = row("PVRef").ToString
-          '        End If
-          '    End If
-          'End If
-
         End If
 
       Next
 
-      ''PV Ref PV สุดท้าย
-      'If Not TrCheq Is Nothing Then
-      '    TrCheq("col6") = indent & indent & PVCode
-      '    TrCheq("col8") = indent & indent & PVRefCode
+      ''Account สุดท้าย
+      'If Not TrAcc Is Nothing Then
+      '  If Not SumAmount.Equals(0) Then
+      '    TrAcc("col9") = Configuration.FormatToString(SumAmount, DigitConfig.Price)
+      '    SumAmount = 0
+      '  End If
+      '  If Not SumPay.Equals(0) Then
+      '    TrAcc("col10") = Configuration.FormatToString(SumPay, DigitConfig.Price)
+      '    SumPay = 0
+      '  End If
+      '  If Not SumRemain.Equals(0) Then
+      '    TrAcc("col11") = Configuration.FormatToString(SumRemain, DigitConfig.Price)
+      '    SumRemain = 0
+      '  End If
+      'End If
+      ''Bank สุดท้าย
+      'If Not TrBank Is Nothing Then
+      '  If Not SumBankAmt.Equals(0) Then
+      '    TrBank("col9") = Configuration.FormatToString(SumBankAmt, DigitConfig.Price)
+      '    SumBankAmt = 0
+      '  End If
+      '  If Not SumBankPay.Equals(0) Then
+      '    TrBank("col10") = Configuration.FormatToString(SumBankPay, DigitConfig.Price)
+      '    SumBankPay = 0
+      '  End If
+      '  If Not SumBankRemain.Equals(0) Then
+      '    TrBank("col11") = Configuration.FormatToString(SumBankRemain, DigitConfig.Price)
+      '    SumBankRemain = 0
+      '  End If
       'End If
 
-      'Account สุดท้าย
-      If Not TrAcc Is Nothing Then
-        If Not SumAmount.Equals(0) Then
-          TrAcc("col9") = Configuration.FormatToString(SumAmount, DigitConfig.Price)
-          SumAmount = 0
-        End If
-        If Not SumPay.Equals(0) Then
-          TrAcc("col10") = Configuration.FormatToString(SumPay, DigitConfig.Price)
-          SumPay = 0
-        End If
-        If Not SumRemain.Equals(0) Then
-          TrAcc("col11") = Configuration.FormatToString(SumRemain, DigitConfig.Price)
-          SumRemain = 0
-        End If
-      End If
-      'Bank สุดท้าย
-      If Not TrBank Is Nothing Then
-        If Not SumBankAmt.Equals(0) Then
-          TrBank("col9") = Configuration.FormatToString(SumBankAmt, DigitConfig.Price)
-          SumBankAmt = 0
-        End If
-        If Not SumBankPay.Equals(0) Then
-          TrBank("col10") = Configuration.FormatToString(SumBankPay, DigitConfig.Price)
-          SumBankPay = 0
-        End If
-        If Not SumBankRemain.Equals(0) Then
-          TrBank("col11") = Configuration.FormatToString(SumBankRemain, DigitConfig.Price)
-          SumBankRemain = 0
-        End If
-      End If
+      TotalAmount = 0
+      TotalPay = 0
+      TotalRemain = 0
+      For Each row As DataRow In dt.Rows
+        TotalAmount += CDec(row("Amount"))
+      Next
+      For Each row As DataRow In dt1.Rows
+        TotalPay += CDec(row("paymenti_amt"))
+      Next
 
       TrBank = Me.m_treemanager.Treetable.Childs.Add
       TrBank.Tag = "Font.Bold"
       TrBank("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Total}") '"รวม"
       TrBank("col9") = Configuration.FormatToString(TotalAmount, DigitConfig.Price)
       TrBank("col10") = Configuration.FormatToString(TotalPay, DigitConfig.Price)
-      TrBank("col11") = Configuration.FormatToString(TotalRemain, DigitConfig.Price)
+      TrBank("col11") = Configuration.FormatToString(TotalAmount - TotalRemain, DigitConfig.Price)
 
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
