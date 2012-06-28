@@ -1857,7 +1857,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(49))}
       filters(4) = New Filter() {New Filter("IDList", GetItemIDList(48)), _
       New Filter("remainMustValid", True), _
-      New Filter("nocancel", True)}
+      New Filter("nocancel", True), _
+      New Filter("GSCannotBeRefedByBillaTwice", config)}
       filters(5) = New Filter() {New Filter("IDList", GetItemIDList(366)), _
       New Filter("GSCannotBeRefedByBillaTwice", config)}
 
