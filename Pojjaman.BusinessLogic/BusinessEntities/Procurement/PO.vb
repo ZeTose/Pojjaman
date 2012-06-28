@@ -4336,6 +4336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.WBS = wbsdummy
           Next
           item.ReceivedQty = 0
+          item.Pritem = New PRItem
         End If
       Next
       Return Me
