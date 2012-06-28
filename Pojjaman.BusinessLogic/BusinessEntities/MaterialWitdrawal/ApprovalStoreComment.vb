@@ -77,7 +77,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
-
+    Public Shared Function IsReceiveDocReceivpt(ByVal entityId As Integer, ByVal entityType As Integer) As Boolean
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
+        , CommandType.StoredProcedure _
+        , "GetReceiveDocReceivpt" _
+        , New SqlParameter("@entity_id", entityId) _
+        , New SqlParameter("@entity_type", entityType) _
+        )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Return CBool(ds.Tables(0).Rows(0)(0))
+      End If
+      Return False
+    End Function
 #End Region
 
   End Class

@@ -101,6 +101,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(ByVal id As Integer)
       Dim drs As DataRow() = m_sharedUserTable.Select("user_id=" & id)
       If drs.Length = 1 Then
+
         Construct(drs(0), "")
       End If
     End Sub
@@ -143,8 +144,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
-        If Not dr.IsNull(aliasPrefix & "user_canceled") AndAlso dr.Table.Columns.Contains(aliasPrefix & "user_canceled") Then
-          .Canceled = CBool(dr(aliasPrefix & "user_canceled"))
+        If dr.Table.Columns.Contains(aliasPrefix & "user_canceled") Then
+          If Not dr.IsNull(aliasPrefix & "user_canceled") Then
+            .Canceled = CBool(dr(aliasPrefix & "user_canceled"))
+          End If
         End If
 
         Dim deh As New DataRowHelper(dr)

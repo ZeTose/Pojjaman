@@ -939,36 +939,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       With Me
 
-        'check over budget
-        Dim ValidateOverBudgetError As SaveErrorException
-        Dim overbudgetconfig As Integer = CInt(Configuration.GetConfig("GROverBudget"))
-        Select Case overbudgetconfig
-          Case 0 'Not allow
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              Return New SaveErrorException(msgString & vbCrLf & msgString2)
-            End If
-          Case 1 'Warn
-            ValidateOverBudgetError = Me.ValidateOverBudget
-            If Not IsNumeric(ValidateOverBudgetError.Message) Then
-              Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
-              Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
-              msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
-              If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
-                Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
-              End If
-            End If
-          Case 2 'Do Nothing
-        End Select
+        Dim isDocApproved As Boolean = ApprovalStoreComment.IsReceiveDocReceivpt(Me.Id, Me.EntityId)
 
-        If Me.m_approvalCollection.IsApproved Then
+        If Not isDocApproved Then
+          'check over budget
+          Dim ValidateOverBudgetError As SaveErrorException
+          Dim overbudgetconfig As Integer = CInt(Configuration.GetConfig("GROverBudget"))
+          Select Case overbudgetconfig
+            Case 0 'Not allow
+              ValidateOverBudgetError = Me.ValidateOverBudget
+              If Not IsNumeric(ValidateOverBudgetError.Message) Then
+                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.OverBudgetCannotSaved}")
+                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+                Return New SaveErrorException(msgString & vbCrLf & msgString2)
+              End If
+            Case 1 'Warn
+              ValidateOverBudgetError = Me.ValidateOverBudget
+              If Not IsNumeric(ValidateOverBudgetError.Message) Then
+                Dim msgString As String = Me.StringParserService.Parse("${res:Global.Error.AcceptOverBudget}")
+                Dim msgString2 As String = Me.StringParserService.Parse("${res:Global.Error.WBSOverBudget}")
+                msgString2 = String.Format(msgString2, ValidateOverBudgetError.Message)
+                If Not msgServ.AskQuestion(msgString2 & vbCrLf & msgString) Then
+                  Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.SaveCanceled}"))
+                End If
+              End If
+            Case 2 'Do Nothing
+          End Select
+
+          'If Not Me.m_approvalCollection.IsApproved Then
           Dim ValidItemsError As SaveErrorException = Me.ValidateItems
           If Not IsNumeric(ValidItemsError.Message) Then
             Return ValidItemsError
           End If
+          'End If
         End If
 
         '---- AutoCode Format --------
