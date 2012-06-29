@@ -553,14 +553,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(ByVal value As Decimal)
         If Me.WR.Originated Then
-        If (m_wriorginQty < value) Then
-          Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.QtyOverWR}", _
-                                           New String() {Configuration.FormatToString(m_wriorginQty, DigitConfig.Price), _
-                                                         Configuration.FormatToString(value, DigitConfig.Price)})
-          Return
-        End If
-        m_wriQty = value
+          If (m_wriorginQty < value) Then
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.QtyOverWR}", _
+                                             New String() {Configuration.FormatToString(m_wriorginQty, DigitConfig.Price), _
+                                                           Configuration.FormatToString(value, DigitConfig.Price)})
+            Return
+          End If
+          m_wriQty = value
         End If
       End Set
     End Property    Public ReadOnly Property WRIOriginQty As Decimal

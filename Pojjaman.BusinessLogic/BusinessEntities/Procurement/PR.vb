@@ -530,6 +530,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Boolean)
         'm_closedBefor = m_closed
         m_closed = Value
+        'เพื่อต้องการคำนวณ pri_orderedQty ใหม่ก่อนการปิด เพราะบางที po ก็ถูกปิดมาก่อน
+        Me.ItemCollection = New PRItemCollection(Me)
       End Set
     End Property
     Public Property ClosedBefor() As Boolean

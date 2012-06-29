@@ -391,6 +391,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             item.SetEq(item.ReceiptEq)
             item.SetQty(item.ReceiptQty)
             'End If
+
+            If item.ItemType.Value = 289 Then
+              item.SetWRIQty(item.Qty)
+              item.SetWRIOrigingQty(item.Qty)
+            Else
+              item.SetWRIQty(item.Qty)
+              item.SetWRIOrigingQty(item.WRIQty)
+            End If
           Next
         Else 'ยกเลิกการปิด
           For Each item As SCItem In Me.ItemCollection
@@ -400,8 +408,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             item.SetEq(item.OldEq)
             item.SetQty(item.OldQty)
             'End If
+
+            If item.ItemType.Value = 289 Then
+              item.SetWRIQty(item.Qty)
+              item.SetWRIOrigingQty(item.Qty)
+            Else
+              item.SetWRIQty(item.Qty)
+              item.SetWRIOrigingQty(item.WRIQty)
+            End If
           Next
         End If
+
         Me.RefreshTaxBase()
       End Set
     End Property
