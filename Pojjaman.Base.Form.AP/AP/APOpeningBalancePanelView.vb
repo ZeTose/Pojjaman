@@ -11,6 +11,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class APOpeningBalancePanelView
     Inherits AbstractEntityDetailPanelView
     'Inherits UserControl
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
     Friend WithEvents ImbSupplier As Longkong.Pojjaman.Gui.Components.ImageButton
@@ -132,7 +133,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierCode.BackColor = System.Drawing.SystemColors.Window
       Me.Validator.SetDataType(Me.txtSupplierCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtSupplierCode, "")
-      Me.ErrorProvider1.SetError(Me.txtSupplierCode, "กำหนดผู้ขาย")
+      'Me.ErrorProvider1.SetError(Me.txtSupplierCode, "กำหนดผู้ขาย")
       Me.Validator.SetGotFocusBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtSupplierCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
@@ -232,7 +233,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.Validator.SetDataType(Me.txtCostCenterCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtCostCenterCode, "")
-      Me.ErrorProvider1.SetError(Me.txtCostCenterCode, "กำหนด Cost Center")
+      'Me.ErrorProvider1.SetError(Me.txtCostCenterCode, "กำหนด Cost Center")
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
       Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
@@ -1497,6 +1498,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       myEntityPanelService.OpenPanel(dummyCC)
     End Sub
+#End Region
+
+#Region "IValidatable"
+    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
     Protected Overrides Sub Finalize()
