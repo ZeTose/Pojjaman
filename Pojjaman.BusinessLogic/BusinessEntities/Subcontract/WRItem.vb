@@ -1591,6 +1591,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub SetQty(ByVal value As Decimal)
       m_qty = value
     End Sub
+    Public Sub SetAmount(value As Decimal)
+      If m_unitprice <> 0 Then
+        m_qty = value / m_unitprice
+      Else
+        m_qty = value
+      End If
+    End Sub
 #End Region
 
 #Region "Shared"
@@ -2552,6 +2559,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           wri.SetMat(wri.ChildMat)
           wri.SetLab(wri.ChildLab)
           wri.SetEq(wri.ChildEq)
+          wri.SetAmount(wri.Mat + wri.Lab + wri.Eq)
         End If
         '-- -- Summary MAT LAB EQ ----------------
 

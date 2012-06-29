@@ -1048,6 +1048,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 Me.ItemCollection.Insert(Me.ItemCollection.IndexOf(witem) + 1, nwitem)
               Next
+
+              'Me.RecalculateAmount()
+
             End If
           End If
           'If Me.Closing Then

@@ -814,7 +814,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return
       End Select
       Dim m_cost As Decimal = Me.CostAmount
-      Trace.WriteLine(m_cost.ToString)      Select Case Me.ItemType.Value
+      'Trace.WriteLine(m_cost.ToString)      Select Case Me.ItemType.Value
         Case 0, 19, 28, 42
           Me.m_mat = m_cost 'm_receiveAmount
           Me.m_lab = 0
@@ -1778,6 +1778,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub SetQty(ByVal value As Decimal)
       m_qty = value
+    End Sub
+    Public Sub SetAmount(value As Decimal)
+      If m_unitprice <> 0 Then
+        m_qty = value / m_unitprice
+      Else
+        m_qty = value
+      End If
     End Sub
 #End Region
 
@@ -2836,6 +2843,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           CType(prow.Tag, SCItem).SetMat(pmat)
           CType(prow.Tag, SCItem).SetLab(plab)
           CType(prow.Tag, SCItem).SetEq(peq)
+          CType(prow.Tag, SCItem).SetAmount(pmat + plab + peq)
+
           CType(prow.Tag, SCItem).CopyToDataRow(prow)
         End If
       Next
