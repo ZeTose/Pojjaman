@@ -19,7 +19,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
     Private m_hashData As Hashtable
-    Private m_key As KeyValuePair
 #End Region
 
 #Region "Constructors"
@@ -52,31 +51,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.Refresh()
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
-      'Dim tr As Object = m_hashData(e.RowIndex)
-      'If tr Is Nothing Then
-      '  Return
-      'End If
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
 
-      'If TypeOf tr Is DataRow Then
-      '  Dim dr As DataRow = CType(tr, DataRow)
-      '  If dr Is Nothing Then
-      '    Return
-      '  End If
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        If dr Is Nothing Then
+          Return
+        End If
 
-      '  Dim drh As New DataRowHelper(dr)
+        Dim drh As New DataRowHelper(dr)
 
-      '  Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
-      '  Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+        Dim docId As Integer = 0
+        Dim docType As Integer = 0
 
-      '  Debug.Print(docId.ToString)
-      '  Debug.Print(docType.ToString)
+        If dr.Table.Columns.Contains("payment_refdoc") Then
+          docId = drh.GetValue(Of Integer)("payment_refdoc")
+          docType = drh.GetValue(Of Integer)("payment_refdoctype")
+        Else
+          docId = drh.GetValue(Of Integer)("check_id")
+          docType = 22
+        End If
 
-      '  If docId > 0 AndAlso docType > 0 Then
-      '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      '    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
-      '    myEntityPanelService.OpenDetailPanel(en)
-      '  End If
-      'End If
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
@@ -130,6 +135,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
+      m_hashData = New Hashtable
+
       Dim SumAmount As Decimal = 0
       Dim SumBankAmt As Decimal = 0
       Dim SumPay As Decimal = 0
@@ -168,7 +175,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
 
           TrBank = Me.m_treemanager.Treetable.Childs.Add
-          TrBank.Tag = "Font.Bold"
+          'TrBank.Tag = "Font.Bold"
           If Not row.IsNull("BankCode") Then
             TrBank("col0") = row("BankCode").ToString
           End If
@@ -194,7 +201,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
 
             TrAcc = TrBank.Childs.Add
-            TrAcc.Tag = "Font.Bold"
+            'TrAcc.Tag = "Font.Bold"
             If Not row.IsNull("BankACBankCode") Then
               TrAcc("col0") = indent & row("BankACBankCode").ToString
             End If
@@ -215,6 +222,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             TrCheq = TrAcc.Childs.Add
             TrCheq.State = RowExpandState.Expanded
+            TrCheq.Tag = row
             If Not row.IsNull("DocDate") Then
               If IsDate(row("DocDate")) Then
                 TrCheq("col0") = indent & indent & CDate(row("DocDate")).ToShortDateString
@@ -297,6 +305,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             TrPV = Nothing
             For Each prow As DataRow In dt1.Select("paymenti_entity = " & row("check_id").ToString())
               TrPV = TrCheq.Childs.Add
+              TrPV.Tag = prow
 
               If Not prow.IsNull("payment_code") Then
                 TrPV("col6") = prow("payment_code").ToString
@@ -374,11 +383,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
 
       TrBank = Me.m_treemanager.Treetable.Childs.Add
-      TrBank.Tag = "Font.Bold"
+      'TrBank.Tag = "Font.Bold"
       TrBank("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Total}") '"รวม"
       TrBank("col9") = Configuration.FormatToString(TotalAmount, DigitConfig.Price)
       TrBank("col10") = Configuration.FormatToString(TotalPay, DigitConfig.Price)
       TrBank("col11") = Configuration.FormatToString(TotalAmount - TotalRemain, DigitConfig.Price)
+
+      Dim lineNumber As Integer = 1
+      For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+        If Not tr.Tag Is Nothing AndAlso TypeOf tr.Tag Is DataRow Then
+          m_hashData(lineNumber) = CType(tr.Tag, DataRow)
+        End If
+
+        lineNumber += 1
+      Next
 
     End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
