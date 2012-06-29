@@ -2550,13 +2550,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.ItemType.Value = 160 OrElse item.ItemType.Value = 162 Then
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Name"
-          If Not item.Entity Is Nothing Then
-            If item.Entity.Name.Length > 0 Then
-              dpi.Value = item.Entity.Name
-            Else
-              dpi.Value = item.EntityName
-            End If
-          End If
           dpi.Value = item.EntityName
           dpi.DataType = "System.String"
           dpi.Row = n + 1
@@ -2591,14 +2584,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.Name
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.Name"
-          If Not item.Entity Is Nothing Then
+          If Not item.Entity Is Nothing AndAlso TypeOf item.Entity Is LCIItem Then
             If item.Entity.Name.Length > 0 Then
               dpi.Value = item.Entity.Name
             Else
               dpi.Value = item.EntityName
             End If
+          Else
+            dpi.Value = item.EntityName
           End If
-          dpi.Value = item.EntityName
           dpi.DataType = "System.String"
           dpi.Row = n + 1
           dpi.Table = "Item"

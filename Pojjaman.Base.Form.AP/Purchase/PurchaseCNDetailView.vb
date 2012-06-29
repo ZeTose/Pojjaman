@@ -1619,6 +1619,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csUnitPRice.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.UnitpriceHeaderText}")
       csUnitPRice.NullText = ""
       csUnitPRice.TextBox.Name = "stocki_unitprice"
+      csUnitPRice.DataAlignment = HorizontalAlignment.Right
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
 
@@ -1636,6 +1637,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csAmount.NullText = ""
       csAmount.TextBox.Name = "Amount"
       csAmount.ReadOnly = True
+      csAmount.DataAlignment = HorizontalAlignment.Right
       csAmount.Format = "#,###.##"
       'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
       'csUnit.DataAlignment = HorizontalAlignment.Center
