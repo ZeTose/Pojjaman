@@ -67,6 +67,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
     End Sub
+    Public Sub New(ByVal entity As SimpleBusinessEntityBase, _codeConfig As AutoCodeConfig)
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, _
+        "select * from gl  where gl_refid='" & entity.Id & "' and gl_refdoctype = '" & entity.EntityId & "'" _
+        )
+      If ds.Tables(0).Rows.Count > 0 Then
+        Dim row As DataRow = ds.Tables(0).Rows(0)
+        If row.Table.Columns.Contains("gl_glformat") AndAlso Not row.IsNull("gl_glformat") Then
+          Me.GLFormat = New GLFormat(CInt(row("gl_glformat")))
+        End If
+      Else
+        Me.GLFormat = New GLFormat
+        Me.GLFormat.AutoCodeFormat = New AutoCodeFormat
+        Me.GLFormat.AutoCodeFormat.GLFormat = New GLFormat
+        Me.GLFormat = CType(entity, IGLAble).GetDefaultGLFormat
+      End If
+
+      Me.EntityId = entity.Id
+      Me.CodeConfig = _codeConfig
+    End Sub
     Private m_id As Integer
     Public Property Id() As Integer
       Get

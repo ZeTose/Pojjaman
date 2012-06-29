@@ -1629,11 +1629,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtrealgross"
           dirtyFlag = True
         Case "cmbcode"
+          Me.m_entity.Code = cmbCode.Text.Trim
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
             m_entity.Code = m_entity.AutoCodeFormat.Format
             Me.m_entity.OnGlChanged()
+            'Else
+            '  Me.m_entity.Code = cmbCode.Text.Trim
           End If
           dirtyFlag = True
         Case "txtnote"
@@ -2060,11 +2063,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
         Me.m_entity.AutoGen = True
       Else
+        'AutoCodeFormat.CodeConfig.Value
         'Me.Validator.SetRequired(Me.txtCode, True)
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
         Me.cmbCode.Items.Clear()
-        Me.cmbCode.Text = m_oldCode
+        Me.cmbCode.Text = m_entity.Code
         Me.m_entity.AutoGen = False
+        'Me.m_entity.Code = Me.cmbCode.Text.Trim
+        Me.m_entity.AutoCodeFormat = New AutoCodeFormat(Me.m_entity, New AutoCodeConfig(1))
       End If
     End Sub
     Public Sub AcctButtonClick(ByVal e As ButtonColumnEventArgs)
