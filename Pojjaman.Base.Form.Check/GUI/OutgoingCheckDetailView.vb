@@ -85,12 +85,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(OutgoingCheckDetailView))
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.grbOutgoingCheck = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.cmbExportType = New System.Windows.Forms.ComboBox()
       Me.btnExport = New System.Windows.Forms.Button()
       Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.RadGridView2 = New Telerik.WinControls.UI.RadGridView()
       Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.chkExportCheck = New System.Windows.Forms.CheckBox()
       Me.chkACPayeeOnly = New System.Windows.Forms.CheckBox()
       Me.chkCheckHandler = New System.Windows.Forms.CheckBox()
       Me.txtTotal = New System.Windows.Forms.TextBox()
@@ -130,19 +133,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtSupplierName = New System.Windows.Forms.TextBox()
       Me.txtBankAccountName = New System.Windows.Forms.TextBox()
       Me.txtCode = New System.Windows.Forms.TextBox()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.chkExportCheck = New System.Windows.Forms.CheckBox()
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbOutgoingCheck.SuspendLayout()
       CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
+      '
+      'Validator
+      '
+      Me.Validator.BackcolorChanging = False
+      Me.Validator.DataTable = Nothing
+      Me.Validator.ErrorProvider = Me.ErrorProvider1
+      Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
+      Me.Validator.HasNewRow = False
+      Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
+      '
+      'ErrorProvider1
+      '
+      Me.ErrorProvider1.ContainerControl = Me
       '
       'grbOutgoingCheck
       '
       Me.grbOutgoingCheck.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbOutgoingCheck.Controls.Add(Me.cmbExportType)
       Me.grbOutgoingCheck.Controls.Add(Me.btnExport)
       Me.grbOutgoingCheck.Controls.Add(Me.ibtnDelRow)
@@ -233,8 +246,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'RadGridView2
       '
       Me.RadGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.RadGridView2.Location = New System.Drawing.Point(19, 275)
       Me.RadGridView2.Name = "RadGridView2"
       Me.RadGridView2.Size = New System.Drawing.Size(668, 218)
@@ -249,6 +262,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnBlank.TabIndex = 205
       Me.ibtnBlank.TabStop = False
       Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'chkExportCheck
+      '
+      Me.chkExportCheck.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkExportCheck.Location = New System.Drawing.Point(550, 24)
+      Me.chkExportCheck.Name = "chkExportCheck"
+      Me.chkExportCheck.Size = New System.Drawing.Size(136, 24)
+      Me.chkExportCheck.TabIndex = 203
+      Me.chkExportCheck.Text = "√—∫‡™Á§∑’Ë∏π“§“√"
       '
       'chkACPayeeOnly
       '
@@ -274,7 +296,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTotal, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTotal, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTotal, System.Drawing.Color.Empty)
-      Me.txtTotal.Location = New System.Drawing.Point(506, 248)
+      Me.txtTotal.Location = New System.Drawing.Point(506, 250)
+      Me.Validator.SetMaxValue(Me.txtTotal, "")
       Me.Validator.SetMinValue(Me.txtTotal, "")
       Me.txtTotal.Name = "txtTotal"
       Me.txtTotal.ReadOnly = True
@@ -282,12 +305,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.txtTotal, False)
       Me.txtTotal.Size = New System.Drawing.Size(136, 21)
       Me.txtTotal.TabIndex = 201
+      Me.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
       '
       'lblBaht3
       '
       Me.lblBaht3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBaht3.ForeColor = System.Drawing.Color.Black
-      Me.lblBaht3.Location = New System.Drawing.Point(650, 248)
+      Me.lblBaht3.Location = New System.Drawing.Point(650, 250)
       Me.lblBaht3.Name = "lblBaht3"
       Me.lblBaht3.Size = New System.Drawing.Size(32, 16)
       Me.lblBaht3.TabIndex = 198
@@ -298,7 +322,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblTotal.ForeColor = System.Drawing.Color.Black
-      Me.lblTotal.Location = New System.Drawing.Point(410, 248)
+      Me.lblTotal.Location = New System.Drawing.Point(410, 250)
       Me.lblTotal.Name = "lblTotal"
       Me.lblTotal.Size = New System.Drawing.Size(88, 18)
       Me.lblTotal.TabIndex = 200
@@ -334,6 +358,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtDueDate, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDueDate, System.Drawing.Color.Empty)
       Me.txtDueDate.Location = New System.Drawing.Point(400, 48)
+      Me.Validator.SetMaxValue(Me.txtDueDate, "")
       Me.Validator.SetMinValue(Me.txtDueDate, "")
       Me.txtDueDate.Name = "txtDueDate"
       Me.Validator.SetRegularExpression(Me.txtDueDate, "")
@@ -374,6 +399,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtIssueDate, -15)
       Me.Validator.SetInvalidBackColor(Me.txtIssueDate, System.Drawing.Color.Empty)
       Me.txtIssueDate.Location = New System.Drawing.Point(400, 24)
+      Me.Validator.SetMaxValue(Me.txtIssueDate, "")
       Me.Validator.SetMinValue(Me.txtIssueDate, "")
       Me.txtIssueDate.Name = "txtIssueDate"
       Me.Validator.SetRegularExpression(Me.txtIssueDate, "")
@@ -390,6 +416,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSupplierCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierCode, System.Drawing.Color.Empty)
       Me.txtSupplierCode.Location = New System.Drawing.Point(144, 96)
+      Me.Validator.SetMaxValue(Me.txtSupplierCode, "")
       Me.Validator.SetMinValue(Me.txtSupplierCode, "")
       Me.txtSupplierCode.Name = "txtSupplierCode"
       Me.Validator.SetRegularExpression(Me.txtSupplierCode, "")
@@ -406,6 +433,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAmount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAmount, System.Drawing.Color.Empty)
       Me.txtAmount.Location = New System.Drawing.Point(144, 168)
+      Me.Validator.SetMaxValue(Me.txtAmount, "")
       Me.Validator.SetMinValue(Me.txtAmount, "")
       Me.txtAmount.Name = "txtAmount"
       Me.Validator.SetRegularExpression(Me.txtAmount, "")
@@ -487,6 +515,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCqCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCqCode, System.Drawing.Color.Empty)
       Me.txtCqCode.Location = New System.Drawing.Point(144, 48)
+      Me.Validator.SetMaxValue(Me.txtCqCode, "")
       Me.Validator.SetMinValue(Me.txtCqCode, "")
       Me.txtCqCode.Name = "txtCqCode"
       Me.Validator.SetRegularExpression(Me.txtCqCode, "")
@@ -579,6 +608,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtNote, -15)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(144, 216)
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
@@ -607,6 +637,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtrecipient, -15)
       Me.Validator.SetInvalidBackColor(Me.txtrecipient, System.Drawing.Color.Empty)
       Me.txtrecipient.Location = New System.Drawing.Point(144, 72)
+      Me.Validator.SetMaxValue(Me.txtrecipient, "")
       Me.Validator.SetMinValue(Me.txtrecipient, "")
       Me.txtrecipient.Name = "txtrecipient"
       Me.Validator.SetRegularExpression(Me.txtrecipient, "")
@@ -670,6 +701,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtbankbranch, -15)
       Me.Validator.SetInvalidBackColor(Me.txtbankbranch, System.Drawing.Color.Empty)
       Me.txtbankbranch.Location = New System.Drawing.Point(144, 144)
+      Me.Validator.SetMaxValue(Me.txtbankbranch, "")
       Me.Validator.SetMinValue(Me.txtbankbranch, "")
       Me.txtbankbranch.Name = "txtbankbranch"
       Me.txtbankbranch.ReadOnly = True
@@ -688,6 +720,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankAccountCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankAccountCode, System.Drawing.Color.Empty)
       Me.txtBankAccountCode.Location = New System.Drawing.Point(144, 120)
+      Me.Validator.SetMaxValue(Me.txtBankAccountCode, "")
       Me.Validator.SetMinValue(Me.txtBankAccountCode, "")
       Me.txtBankAccountCode.Name = "txtBankAccountCode"
       Me.Validator.SetRegularExpression(Me.txtBankAccountCode, "")
@@ -705,6 +738,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSupplierName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSupplierName, System.Drawing.Color.Empty)
       Me.txtSupplierName.Location = New System.Drawing.Point(272, 96)
+      Me.Validator.SetMaxValue(Me.txtSupplierName, "")
       Me.Validator.SetMinValue(Me.txtSupplierName, "")
       Me.txtSupplierName.Name = "txtSupplierName"
       Me.txtSupplierName.ReadOnly = True
@@ -724,6 +758,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtBankAccountName, -15)
       Me.Validator.SetInvalidBackColor(Me.txtBankAccountName, System.Drawing.Color.Empty)
       Me.txtBankAccountName.Location = New System.Drawing.Point(272, 120)
+      Me.Validator.SetMaxValue(Me.txtBankAccountName, "")
       Me.Validator.SetMinValue(Me.txtBankAccountName, "")
       Me.txtBankAccountName.Name = "txtBankAccountName"
       Me.txtBankAccountName.ReadOnly = True
@@ -743,6 +778,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtCode, -15)
       Me.Validator.SetInvalidBackColor(Me.txtCode, System.Drawing.Color.Empty)
       Me.txtCode.Location = New System.Drawing.Point(144, 24)
+      Me.Validator.SetMaxValue(Me.txtCode, "")
       Me.Validator.SetMinValue(Me.txtCode, "")
       Me.txtCode.Name = "txtCode"
       Me.Validator.SetRegularExpression(Me.txtCode, "")
@@ -750,37 +786,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCode.Size = New System.Drawing.Size(128, 21)
       Me.txtCode.TabIndex = 1
       '
-      'Validator
-      '
-      Me.Validator.BackcolorChanging = False
-      Me.Validator.DataTable = Nothing
-      Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
-      Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
-      '
-      'ErrorProvider1
-      '
-      Me.ErrorProvider1.ContainerControl = Me
-      '
-      'chkExportCheck
-      '
-      Me.chkExportCheck.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkExportCheck.Location = New System.Drawing.Point(550, 24)
-      Me.chkExportCheck.Name = "chkExportCheck"
-      Me.chkExportCheck.Size = New System.Drawing.Size(136, 24)
-      Me.chkExportCheck.TabIndex = 203
-      Me.chkExportCheck.Text = "√—∫‡™Á§∑’Ë∏π“§“√"
-      '
       'OutgoingCheckDetailView
       '
       Me.Controls.Add(Me.grbOutgoingCheck)
       Me.Name = "OutgoingCheckDetailView"
       Me.Size = New System.Drawing.Size(709, 504)
+      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbOutgoingCheck.ResumeLayout(False)
       Me.grbOutgoingCheck.PerformLayout()
       CType(Me.RadGridView2, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -1219,9 +1233,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
           hasExport = True
         End If
       Next
+
       Me.btnExport.Visible = hasExport
       Me.cmbExportType.Visible = hasExport
       Me.chkExportCheck.Visible = hasExport
+      Me.ibtnBlank.Visible = hasExport
+      Me.ibtnDelRow.Visible = hasExport
     End Sub
 
     ' ‡§≈’¬√Ï¢ÈÕ¡Ÿ≈„π control

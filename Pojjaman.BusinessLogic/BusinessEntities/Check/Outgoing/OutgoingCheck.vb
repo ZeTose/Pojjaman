@@ -75,16 +75,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Status = New CheckStatus(-1)
 
       '==Checking for addin วิศวพัฒน์
-      Dim hasExport As Boolean = False
-      For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
-        If a.FileName.ToLower.Contains("textexport") Then
-          hasExport = True
-        End If
-      Next
-      If hasExport Then
+      'Dim hasExport As Boolean = False
+      'For Each a As AddIn In AddInTreeSingleton.AddInTree.AddIns
+      '  If a.FileName.ToLower.Contains("textexport") Then
+      '    hasExport = True
+      '  End If
+      'Next
+      'If hasExport Then
+      '  Me.m_receiptAtBank = True
+      'End If
+      Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "textexport")
+      If isCustomize Then
         Me.m_receiptAtBank = True
       End If
-
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
       MyBase.Construct(ds, aliasPrefix)
@@ -563,11 +566,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         RefreshPVList2()
         Return
       End If
+      Dim isCustomize As Boolean = ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "textexport")
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString _
         , CommandType.StoredProcedure _
         , "GetOutgoingCheckPayments" _
         , New SqlParameter("@check_id", Me.Id) _
         , New SqlParameter("@supplier_id", Me.ValidIdOrDBNull(Me.Supplier)) _
+        , New SqlParameter("@isCustomize", isCustomize) _
         )
 
       m_paymentList = New List(Of PaymentForList)
@@ -1902,7 +1907,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress2).Substring(0, 30) 'Payee Address 2
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress3).Substring(0, 30) 'Payee Address 3
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress4).Substring(0, 30) 'Payee Address 4
-        creditText &= String.Format("{0,-10}", cqritem.TaxID) 'Tax Id
+        creditText &= String.Format("{0,-13}", cqritem.TaxID).Substring(0, 13) 'Tax Id
         creditText &= String.Format("{0,-13}", cqritem.PersonalID).Substring(0, 13) 'Personal Id
         creditText &= String.Format("{0,-16}", cqritem.BeneRef).Substring(0, 16) 'Bene. Ref #
         creditText &= String.Format("{0,-255}", cqritem.Detail).Substring(0, 255) 'Details
