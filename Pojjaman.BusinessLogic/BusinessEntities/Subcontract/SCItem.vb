@@ -1780,10 +1780,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_qty = value
     End Sub
     Public Sub SetAmount(value As Decimal)
-      If m_unitprice <> 0 Then
-        m_qty = value / m_unitprice
-      Else
-        m_qty = value
+      If value <> 0 Then
+        If m_qty <> 0 Then
+          m_unitprice = value / m_qty
+        Else
+          m_unitprice = 0
+        End If
       End If
     End Sub
 #End Region
