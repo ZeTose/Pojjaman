@@ -3259,6 +3259,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class AssetForAssetSold
+    Inherits Asset
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AssetForAssetSold"
+      End Get
+    End Property
+  End Class
+
   Public Class AssetForToollotSelection
     Inherits Asset
 

@@ -850,8 +850,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return myRow
     End Function
     Public Function Insert(ByVal index As Integer, ByVal item As AssetSoldItem) As TreeRow
-      Dim myRow As TreeRow = Me.ItemTable.Childs.InsertAt(index)
-      item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+      Dim myRow As TreeRow '= Me.ItemTable.Childs.InsertAt(index)
+      If index = -1 Then
+        myRow = Me.ItemTable.Childs.Add
+        item.LineNumber = 1
+      Else
+        myRow = Me.ItemTable.Childs.InsertAt(index)
+        item.LineNumber = Me.ItemTable.Childs.IndexOf(myRow) + 1
+      End If
+
       item.AssetSold = Me
       item.CopyToDataRow(myRow)
       ReIndex(index + 1)

@@ -1951,7 +1951,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       obj.Costcenter = Me.m_entity.FromCostCenter
       entities.Add(obj)
 
-      myEntityPanelService.OpenListDialog(New Asset, AddressOf SetItems, filters, entities)
+      myEntityPanelService.OpenListDialog(New AssetForAssetSold, AddressOf SetItems, filters, entities)
     End Sub
     Private Sub SetItems(ByVal items As BasketItemCollection)
       Dim index As Integer = tgItem.CurrentRowIndex
@@ -1981,13 +1981,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.m_entity.ItemTable.Rows(index)("stocki_entityType") = newType
           Me.m_entity.ItemTable.Rows(index)("Code") = newItem.Code
         End If
-        Me.m_entity.ItemTable.AcceptChanges()
+        'Me.m_entity.ItemTable.AcceptChanges()
       Next
+
+      RefreshDocs()
       tgItem.CurrentRowIndex = index
-      RefreshBlankGrid()
+      'RefreshBlankGrid()
     End Sub
     Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
       Dim index As Integer = tgItem.CurrentRowIndex
+      If index = -1 Then
+        index = 0
+      End If
       If index > Me.m_entity.MaxRowIndex Then
         Return
       End If
@@ -2179,29 +2184,48 @@ Namespace Longkong.Pojjaman.Gui.Panels
       RefreshBlankGrid()
     End Sub
     Private Sub RefreshBlankGrid()
+      'If Me.tgItem.Height = 0 Then
+      '  Return
+      'End If
+      'Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
+      'Dim index As Integer = tgItem.CurrentRowIndex
+      'Dim maxVisibleCount As Integer
+      'Dim tgRowHeight As Integer = 17
+      'maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
+      'Do While Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1
+      '  'เพิ่มแถวจนเต็ม
+      '  Me.m_entity.AddBlankRow(1)
+      'Loop
+      'If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
+      '  If Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1 Then
+      '    'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+      '    Me.m_entity.AddBlankRow(1)
+      '  End If
+      'End If
+      ''Do While Me.m_entity.ItemTable.Rows.Count > maxVisibleCount - 1 And Me.m_entity.ItemTable.Rows.Count - 2 <> Me.m_entity.MaxRowIndex
+      ''    'ลบแถวที่ไม่จำเป็น
+      ''    Me.m_entity.Remove(Me.m_entity.ItemTable.Rows.Count - 1)
+      ''Loop
+      'Me.m_entity.ItemTable.AcceptChanges()
+      'tgItem.CurrentRowIndex = Math.Max(0, index)
+      'Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
       If Me.tgItem.Height = 0 Then
         Return
       End If
       Dim dirtyFlag As Boolean = Me.WorkbenchWindow.ViewContent.IsDirty
       Dim index As Integer = tgItem.CurrentRowIndex
-      Dim maxVisibleCount As Integer
-      Dim tgRowHeight As Integer = 17
-      maxVisibleCount = CInt(Math.Floor((Me.tgItem.Height - tgRowHeight) / tgRowHeight))
-      Do While Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1
+
+      Do Until Me.m_treeManager.Treetable.Rows.Count > tgItem.VisibleRowCount
         'เพิ่มแถวจนเต็ม
-        Me.m_entity.AddBlankRow(1)
+        Me.m_treeManager.Treetable.Childs.Add()
       Loop
-      If Me.m_entity.MaxRowIndex = maxVisibleCount - 2 Then
-        If Me.m_entity.ItemTable.Rows.Count < maxVisibleCount - 1 Then
-          'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
-          Me.m_entity.AddBlankRow(1)
-        End If
+
+      If Me.m_entity.Itemcollection.Count = Me.m_treeManager.Treetable.Childs.Count Then
+        'เพิ่มอีก 1 แถว ถ้ามีข้อมูลจนถึงแถวสุดท้าย
+        Me.m_treeManager.Treetable.Childs.Add()
       End If
-      'Do While Me.m_entity.ItemTable.Rows.Count > maxVisibleCount - 1 And Me.m_entity.ItemTable.Rows.Count - 2 <> Me.m_entity.MaxRowIndex
-      '    'ลบแถวที่ไม่จำเป็น
-      '    Me.m_entity.Remove(Me.m_entity.ItemTable.Rows.Count - 1)
-      'Loop
-      Me.m_entity.ItemTable.AcceptChanges()
+
+      Me.m_treeManager.Treetable.AcceptChanges()
       tgItem.CurrentRowIndex = Math.Max(0, index)
       Me.WorkbenchWindow.ViewContent.IsDirty = dirtyFlag
     End Sub
