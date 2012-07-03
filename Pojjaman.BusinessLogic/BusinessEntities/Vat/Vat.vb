@@ -1256,7 +1256,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'vi = New VatItem
         'Me.ItemCollection.Add(vi)
         vi = Me.ItemCollection(0)
-        If Not txtInvoiceDate.Text.Length = 0 AndAlso validator.GetErrorMessage(txtInvoiceDate) = "" Then
+        If Not txtInvoiceDate.Text.Length = 0 AndAlso validator.GetErrorMessage(txtInvoiceDate) = "" AndAlso IsDate(txtInvoiceDate.Text) Then
           Dim theDate As Date = CDate(txtInvoiceDate.Text)
           If Not vi.DocDate.Equals(theDate) Then
             dtpInvoiceDate.Value = theDate
@@ -4468,6 +4468,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Constructors"
+    Public Sub New()
+      MyBase.New()
+    End Sub
     Public Sub New(ByVal owner As Vat)
       Me.m_vat = owner
       If Not Me.m_vat.Originated Then

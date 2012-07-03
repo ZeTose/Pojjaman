@@ -881,6 +881,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  vi = New VatItem
       '  Me.m_vat.ItemCollection.Add(vi)
       'End If
+      If TypeOf Me.m_entity Is IHasVat Then
+        If Not CType(Me.m_entity, IHasVat).Taxtype Is Nothing AndAlso CType(Me.m_entity, IHasVat).Taxtype.Value = 0 Then
+          Me.m_vat.ItemCollection = New VatItemCollection()
+        End If
+      End If
 
       Me.SetNoVatRequire()
       If Me.m_vat.ItemCollection.Count > 0 Then

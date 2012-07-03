@@ -14,8 +14,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class AssetWriteOff
     Inherits SimpleBusinessEntityBase
-    Implements IVatable, IWitholdingTaxable, IBillIssuable, IPrintableEntity, IGLAble, IHasIBillablePerson, IHasFromCostCenter, ICancelable, ICheckPeriod
-
+    Implements IVatable, IWitholdingTaxable, IBillIssuable, IPrintableEntity, IGLAble, IHasIBillablePerson, IHasFromCostCenter, ICancelable, ICheckPeriod,  _
+    IHasVat
 
 #Region "Members"
     Private m_customer As Customer
@@ -206,6 +206,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         .m_je = New JournalEntry(Me)
       End With
+
+      SetNoVat()
     End Sub
 #End Region
 
@@ -231,7 +233,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Set
     End Property    Public Property Note() As String Implements IReceivable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Integer      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Integer)        m_creditPeriod = Value      End Set    End Property    'Private m_gross As Decimal    Public ReadOnly Property Gross() As Decimal      Get        Dim ret As Decimal = 0        For Each wri As AssetWriteOffItem In Me.Itemcollection          If TypeOf wri.Entity Is Asset Then            ret += wri.Amount
           End If
-        Next        Return ret 'm_gross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.Gross        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
+        Next        Return ret 'm_gross      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.Gross        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal Implements IHasVat.Taxrate      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal    Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         Select Case Me.TaxType.Value
           Case 0 '"ไม่มี"
@@ -247,7 +249,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_taxbase = Value
       End Set
-    End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Itemcollection As AssetWriteOffItemCollection      Get
+    End Property    Public Property TaxType() As TaxType Implements IHasVat.Taxtype      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public Property Itemcollection As AssetWriteOffItemCollection      Get
         Return m_itemcollection
       End Get
       Set(ByVal value As AssetWriteOffItemCollection)
@@ -2348,10 +2350,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_novat As Nullable(Of Boolean)
     Public ReadOnly Property NoVat() As Boolean Implements IVatable.NoVat
       Get
-        If Not m_NoVat.HasValue Then
-          SetNoVat()
-        End If
-        Return m_NoVat.Value
+        'If Not m_NoVat.HasValue Then
+        '  SetNoVat()
+        'End If
+        'Return m_NoVat.Value
+        Me.SetNoVat()
+        Return CBool(Me.TaxType.Value = 0 OrElse m_novat) 'OrElse RealNoVat
       End Get
     End Property
     Public Sub SetNoVat(Optional forceNovat As Boolean = False)
@@ -2525,7 +2529,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
-     
+
 
 
       If Not Me.Customer Is Nothing AndAlso Me.Customer.Originated Then
@@ -2660,7 +2664,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
-      
+
       dpiColl.AddRange(GetItemDocPrintingEntries)
 
       Return dpiColl
@@ -2822,7 +2826,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-       
+
 
         'Item.Amount
         dpi = New DocPrintingItem
@@ -3002,7 +3006,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.FromCostCenter = Value
       End Set
     End Property
-
 
   End Class
 

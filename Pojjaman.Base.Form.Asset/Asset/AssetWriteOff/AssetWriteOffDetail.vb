@@ -1711,7 +1711,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       Else
         For Each ctrl As Control In Me.Controls
-          ctrl.Enabled = True
+          If Me.IsNotVatGroup(ctrl.Name) Then
+            ctrl.Enabled = True
+          End If
         Next
         tgItem.Enabled = True
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
@@ -1726,6 +1728,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtDocDate.ReadOnly = False
       End If
     End Sub
+    Private Function IsNotVatGroup(name As String) As Boolean
+      If name = Me.txtInvoiceCode.Name OrElse name = Me.chkAutoRunVat.Name OrElse name = Me.txtInvoiceDate.Name OrElse name = Me.dtpInvoiceDate.Name Then
+        Return False
+      End If
+      Return True
+    End Function
     Public Overrides Sub ClearDetail()
       Me.StatusBarService.SetMessage("")
       For Each crlt As Control In Me.grbDelivery.Controls
@@ -1882,6 +1890,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtInvoiceCode.Enabled = enable
       Me.txtInvoiceDate.Enabled = enable
       Me.dtpInvoiceDate.Enabled = enable
+      Me.chkAutoRunVat.Enabled = enable
+
       If enable Then
         Me.Validator.SetDataType(Me.txtInvoiceDate, DataTypeConstants.DateTimeType)
         Me.Validator.SetRequired(Me.txtInvoiceCode, True)
@@ -2105,9 +2115,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       SetVatInputAfterAmountChange()
     End Sub
     Private Sub SetVatInputAfterAmountChange()
+      Dim nv As String = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+      If Me.txtInvoiceDate.Text.Trim.Equals(nv) Then
+        Me.txtInvoiceDate.Text = ""
+      End If
       If Me.m_entity.TaxType.Value = 0 Then
         'ไม่มี Vat
         'SetVatToNoDoc()
+        Me.txtInvoiceDate.Text = ""
+
         Me.VatInputEnabled(False)
         Me.m_isInitialized = False
         Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
@@ -2229,12 +2245,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.m_entity.Vat.ItemCollection.Add(New VatItem)
       End If
 
+      Dim nv As String = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+
       vi = Me.m_entity.Vat.ItemCollection(0)
       If Me.chkAutoRunVat.Checked Then
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
         Me.ErrorProvider1.SetError(Me.txtInvoiceCode, "")
         Me.txtInvoiceCode.ReadOnly = True
-        m_oldInvoiceCode = Me.txtInvoiceCode.Text
+        If Not Me.txtInvoiceCode.Text.Trim.Equals(nv) Then
+          m_oldInvoiceCode = Me.txtInvoiceCode.Text
+        Else
+          m_oldInvoiceCode = ""
+        End If
+
         Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
         'Hack: set Code เป็น "" เอง
         'vi.Code = ""
