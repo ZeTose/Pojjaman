@@ -967,11 +967,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Case 2 'Do Nothing
           End Select
 
-          'If Not Me.m_approvalCollection.IsApproved Then
-          Dim ValidItemsError As SaveErrorException = Me.ValidateItems
-          If Not IsNumeric(ValidItemsError.Message) Then
-            Return ValidItemsError
-          End If
+          'Dim ValidItemsError As SaveErrorException = Me.ValidateItems
+          'If Not IsNumeric(ValidItemsError.Message) Then
+          '  Return ValidItemsError
           'End If
         End If
 
