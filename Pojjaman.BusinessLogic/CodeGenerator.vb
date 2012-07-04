@@ -356,7 +356,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Function
     Public Shared Function GetPattern(ByVal pattern As String) As String
       Dim runNum As String = "\#+$"
-      Dim ptn As String = Regex.Replace(CleanRegEx(pattern), runNum, "")
+      Dim ptn As String = Replace(CleanRegEx(pattern), "#", "[0-9]")
+      'Dim ptn As String = Regex.Replace(CleanRegEx(pattern), runNum, "[0-9]")
       Return ptn
     End Function
     Public Shared Function CleanRegEx(ByVal input As String) As String

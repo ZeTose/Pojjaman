@@ -1221,7 +1221,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overridable Function GetLastCode(ByVal prefixPattern As String) As String Implements ICodeGeneratable.GetLastCode
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
       Dim conn As New SqlConnection(sqlConString)
-      Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "%' " & " order by " & Me.Prefix & "_id desc"
+      Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "' " & " order by " & Me.Prefix & "_code desc"
 
       conn.Open()
 
@@ -1233,6 +1233,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return obj.ToString
       End If
       Return ""
+
+      'Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,CommandType.StoredProcedure,"",
+      'Return ""
     End Function
     Public Overridable Function GetNextCode() As String Implements ICodeGeneratable.GetNextCode
       Dim autoCodeFormat As String
@@ -1284,7 +1287,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
     Public Overridable Function GetLastCode(ByVal prefixPattern As String, ByVal conn As SqlConnection, ByVal trans As SqlTransaction) As String
-      Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "%' " & " order by " & Me.Prefix & "_id desc"
+      Dim sql As String = "select top 1 " & Me.Prefix & "_code from [" & Me.TableName & "] where " & Me.Prefix & "_code like '" & prefixPattern & "' " & " order by " & Me.Prefix & "_code desc"
       Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, trans, CommandType.Text, sql)
       If ds.Tables(0).Rows.Count > 0 Then
         Return ds.Tables(0).Rows(0)(0).ToString
