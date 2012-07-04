@@ -3,6 +3,7 @@ Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class CostCenterDetailFilterSubpanel
+    'Inherits UserControl
     Inherits AbstractFilterSubPanel
 
 #Region " Windows Form Designer generated code "
