@@ -6349,6 +6349,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_payment As Payment
+    Private m_lPayment As List(Of PaymentItem)
 #End Region
 
 #Region "Constructors"
@@ -6358,9 +6359,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
+      m_lPayment = New List(Of PaymentItem)
 
       Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
       , CommandType.StoredProcedure _
@@ -6370,6 +6371,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New PaymentItem(row, "")
+        Dim nitem As New PaymentItem(row, "")
         If Not Me.m_payment Is Nothing _
         AndAlso Me.m_payment.Refdoctype = 66 _
         AndAlso Not item.EntityType Is Nothing _
@@ -6377,6 +6379,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           item.Payment = m_payment
           Me.Add(item)
+
+          nitem.Payment = m_payment
+          m_lPayment.Add(nitem)
         End If
       Next
     End Sub
@@ -6404,11 +6409,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Class Methods"
     Public Function ListOfPaymentItem() As List(Of PaymentItem)
-      Dim newList As New List(Of PaymentItem)
-      For Each Item As PaymentItem In Me
-        newList.Add(Item)
-      Next
-      Return newList
+      If m_lPayment Is Nothing Then
+        m_lPayment = New List(Of PaymentItem)
+      End If
+      Return m_lPayment
+      'Dim newList As New List(Of PaymentItem)
+      'For Each Item As PaymentItem In Me
+      '  Dim newItem As New PaymentItem
+      '  newList.Add(Item)
+      'Next
+      'Return newList
     End Function
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
