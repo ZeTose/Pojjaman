@@ -820,11 +820,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not itemRow.IsNull("receivei_amt") Then
                   check.Amount = CDec(itemRow("receivei_amt"))
                 End If
-                If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
-                  check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
-                  check.Bank = check.BankAccount.BankBranch.Bank
-                  check.CustBankBranch = check.BankAccount.BankBranch.Name
-                End If
+                'If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                '  check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                '  check.Bank = check.BankAccount.BankBranch.Bank
+                '  check.CustBankBranch = check.BankAccount.BankBranch.Name
+                'End If
 
                 Dim checkSaveError As SaveErrorException = check.Save(currentUserId, conn, trans)
                 If Not IsNumeric(checkSaveError.Message) Then
@@ -844,15 +844,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Else
 
                 check.Id = CInt(itemRow("receivei_entity"))
-                If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
-                  check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
-                  If Not check.BankAccount.BankBranch Is Nothing Then
-                    If Not check.BankAccount.BankBranch.Bank Is Nothing Then
-                      check.Bank = check.BankAccount.BankBranch.Bank
-                    End If
-                    check.CustBankBranch = check.BankAccount.BankBranch.Name
-                  End If
-                End If
+                'If Not itemRow.IsNull("receivei_bankacct") AndAlso IsNumeric(itemRow("receivei_bankacct")) Then
+                '  check.BankAccount = New BankAccount(CInt(itemRow("receivei_bankacct")))
+                '  If Not check.BankAccount.BankBranch Is Nothing Then
+                '    If Not check.BankAccount.BankBranch.Bank Is Nothing Then
+                '      check.Bank = check.BankAccount.BankBranch.Bank
+                '    End If
+                '    check.CustBankBranch = check.BankAccount.BankBranch.Name
+                '  End If
+                'End If
                 Dim errCheck As SaveErrorException = check.CheckUpdateBackAccountAndCheckDeposit(currentUserId, conn, trans, Me.DocDate)
                 If Not IsNumeric(errCheck.Message) Then
                   Return New SaveErrorException(errCheck.Message)
