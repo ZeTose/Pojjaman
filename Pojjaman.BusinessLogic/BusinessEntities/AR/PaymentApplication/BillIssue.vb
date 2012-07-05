@@ -229,7 +229,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_customer = Value
       End Set
     End Property
-    Public Property DocDate() As Date Implements IVatable.Date, IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
+    Public Property DocDate() As Date Implements IVatable.Date, IGLAble.Date, ICheckPeriod.DocDate      Get        Return m_docdate      End Get      Set(ByVal Value As Date)        m_docdate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public ReadOnly Property OldDocDate As Date Implements ICheckPeriod.OldDocDate      Get
         Return m_olddocdate
       End Get
     End Property    Public ReadOnly Property DueDate() As Date
