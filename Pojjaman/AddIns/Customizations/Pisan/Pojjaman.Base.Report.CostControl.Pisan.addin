@@ -1,0 +1,21 @@
+<AddIn name="TextExport" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+    <Import assembly="../../Reports/CostControl/Pojjaman.Base.Report.CostControl.dll"/>
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu/CostControlReport">
+    <MenuItem id="RptQTYWBSMonitor" insertafter="RptProjectRevenueExpenseEnumerate" insertbefore="RptQTYWBSMonitorAll" icon="Icons.16x16.RptQTYWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptQTYWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptQTYWBSMonitor"/>
+    <MenuItem id="RptQTYWBSMonitorAll" insertafter="RptQTYWBSMonitor" icon="Icons.16x16.RptQTYWBSMonitorAll" label="${res:MainMenu.PurchaseMenu.RptQTYWBSMonitorAll.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptQTYWBSMonitorAll"/>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+    <EntityFilter id="rptqtywbsmonitor" entity="rptqtywbsmonitor" filter="Longkong.Pojjaman.Gui.Panels.RptQTYWBSMonitorFilterSubPanel"/>
+    <EntityFilter id="rptqtywbsmonitorall" entity="rptqtywbsmonitorall" filter="Longkong.Pojjaman.Gui.Panels.RptQTYWBSMonitorAllFilterSubPanel"/>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityTabs">
+    <EntityTab id="rptqtywbsmonitor">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rptqtywbsmonitorall">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+  </Extension>
+</AddIn>
