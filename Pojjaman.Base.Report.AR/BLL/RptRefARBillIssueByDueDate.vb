@@ -192,9 +192,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid.RowStyles(currentBilliIndex).BackColor = Color.FromArgb(227, 254, 203)
           m_grid.RowStyles(currentBilliIndex).ReadOnly = True
 
-          m_grid(currentBilliIndex, 1).CellValue = indent & brh.GetValue(Of Date)("SaleBillDocDate").ToShortDateString
+          m_grid(currentBilliIndex, 1).CellValue = indent & brh.GetValue(Of Date)("DueDate").ToShortDateString
           m_grid(currentBilliIndex, 2).CellValue = indent & brh.GetValue(Of String)("SaleBillCode").ToString
-          m_grid(currentBilliIndex, 3).CellValue = indent & brh.GetValue(Of Date)("DueDate").ToShortDateString
+          m_grid(currentBilliIndex, 3).CellValue = indent & brh.GetValue(Of Date)("SaleBillDocDate").ToShortDateString
           m_grid(currentBilliIndex, 4).CellValue = indent & (brh.GetValue(Of String)("CCName")).ToString
 
           m_grid(currentBilliIndex, 5).CellValue = Configuration.FormatToString(brh.GetValue(Of Decimal)("SaleBillAmount"), DigitConfig.Price)
