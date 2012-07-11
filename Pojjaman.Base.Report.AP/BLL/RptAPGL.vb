@@ -348,7 +348,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid.RowStyles(currDocIndex).ReadOnly = True
         m_grid(currDocIndex, 0).Tag = row
 
-        m_grid(currDocIndex, 1).CellValue = row("DocDate")
+        If IsDate(row("DocDate")) Then
+          m_grid(currDocIndex, 1).CellValue = CDate(row("DocDate")).ToShortDateString
+        End If
         m_grid(currDocIndex, 2).CellValue = row("DocCode")
         m_grid(currDocIndex, 3).CellValue = row("TransCode")
         m_grid(currDocIndex, 4).CellValue = row("DocType")
