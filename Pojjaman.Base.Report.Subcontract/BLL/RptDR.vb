@@ -9,6 +9,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptDR
@@ -162,13 +163,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim n As Int32 = 0
 
+      Dim hashPA As New Hashtable
+      Dim listPARows As New List(Of DataRow)
+      Dim refId As Integer = 0
+      For Each row As DataRow In dt1.Rows
+        refId = CInt(row("pai_refdoc"))
+        If Not hashPA.ContainsKey(refId) Then
+          listPARows = New List(Of DataRow)
+          listPARows.Add(row)
+          hashPA.Add(refId, listPARows)
+        Else
+          listPARows = CType(hashPA(refId), List(Of DataRow))
+          listPARows.Add(row)
+          hashPA(refId) = listPARows
+        End If
+      Next
+
       For Each row As DataRow In dt.Rows
-        Dim dr As DataRow() = dt1.Select("pai_refDoc=" & row("dr_id"))
+        refId = CInt(row("dr_id"))
+        'Dim dr As DataRow() = dt1.Select("pai_refDoc=" & row("dr_id"))
 
         m_grid.RowCount += 1
         currItemIndex = m_grid.RowCount
         m_grid(currItemIndex, 0).Tag = row
-        If dr.Length > 0 Then
+        If hashPA.ContainsKey(refId) Then 'DR.Length > 0 Then
           m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(255, 180, 100)
         End If
 
@@ -215,27 +233,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid(currItemIndex, 15).CellValue = row("employee_name").ToString
         currDRId = row("dr_id")
 
-        For Each parow As DataRow In dr 'dt1.Rows
-          If currDRId = parow("pai_refDoc") Then
-            ' Dim newPArow As New DataRowHelper(parow)
-            m_grid.RowCount += 1
-            currPAIndex = m_grid.RowCount
-            m_grid(currPAIndex, 0).Tag = parow
-            m_grid.RowStyles(currPAIndex).ReadOnly = True
-            m_grid(currPAIndex, 1).CellValue = indent & parow("pa_code")
+        If hashPA.ContainsKey(refId) Then
+          For Each parow As DataRow In CType(hashPA(refId), List(Of DataRow)) 'dt1.Rows
+            If currDRId = parow("pai_refDoc") Then
+              ' Dim newPArow As New DataRowHelper(parow)
+              m_grid.RowCount += 1
+              currPAIndex = m_grid.RowCount
+              m_grid(currPAIndex, 0).Tag = parow
+              m_grid.RowStyles(currPAIndex).ReadOnly = True
+              m_grid(currPAIndex, 1).CellValue = indent & parow("pa_code")
 
-            If Not parow.IsNull("pa_docDate") Then
-              m_grid(currPAIndex, 2).CellValue = indent & CDate(parow("pa_docDate")).ToShortDateString
+              If Not parow.IsNull("pa_docDate") Then
+                m_grid(currPAIndex, 2).CellValue = indent & CDate(parow("pa_docDate")).ToShortDateString
+              End If
+              If Not parow.IsNull("pai_itemName") Then
+                m_grid(currPAIndex, 3).CellValue = indent & parow("pai_itemName").ToString
+              End If
+              If Not parow.IsNull("pai_amt") Then
+                m_grid(currPAIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(parow("pai_amt")), DigitConfig.Price)
+              End If
             End If
-            If Not parow.IsNull("pai_itemName") Then
-              m_grid(currPAIndex, 3).CellValue = indent & parow("pai_itemName").ToString
-            End If
-            If Not parow.IsNull("pai_amt") Then
-              m_grid(currPAIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(parow("pai_amt")), DigitConfig.Price)
-            End If
-          End If
 
-        Next
+          Next
+        End If
+
 
       Next
       m_grid.RowCount += 1
