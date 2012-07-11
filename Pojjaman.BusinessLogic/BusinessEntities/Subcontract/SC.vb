@@ -1587,6 +1587,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_DocMethod As SaveDocMultiApprovalMethod
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
+
         If Not Me.Originated Then
           m_DocMethod = SaveDocMultiApprovalMethod.Save
         ElseIf Me.Status.Value = 0 Then

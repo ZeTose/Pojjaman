@@ -2694,58 +2694,64 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               End If
       Next
+
+      'For Each Item As SCItem In Me
+      '  Item.Qty = 2
+      'Next
+
       'RefreshBudget()
     End Sub
     Private Sub SetNewItems(ByVal bitem As BoqItem, ByVal unitPrice As Decimal)
-                Dim item As SCItem = GetCurrentItems(bitem)
-                Dim lastboqitem As SCItem = GetCurrentLastItems(bitem)
+      Dim item As SCItem = GetCurrentItems(bitem)
+      Dim lastboqitem As SCItem = GetCurrentLastItems(bitem)
       Dim doc As New SCItem
       'Dim tempUnitPrice As Decimal
 
-                If Not item Is Nothing Then
+      If Not item Is Nothing Then
         doc = item
-                  doc.WBSId = bitem.WBS.Id
-                Else
-                  doc.WBSId = bitem.WBS.Id
-                  Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
-                End If
+        doc.WBSId = bitem.WBS.Id
+      Else
+        doc.WBSId = bitem.WBS.Id
+        Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
+      End If
 
-      'If bitem.ItemType.Value = 88 Then
-      '  tempUnitPrice = bitem.ULC
-      'End If
-      'If bitem.ItemType.Value = 89 Then
-      '  tempUnitPrice = bitem.UEC
-      'End If
-      'If bitem.ItemType.Value <> 88 AndAlso bitem.ItemType.Value <> 89 Then
-      '  tempUnitPrice = bitem.UMC
-      'End If
-
-              doc.ItemType = New SCIItemType(bitem.ItemType.Value)
-              doc.Entity = bitem.Entity
-              doc.EntityName = bitem.Entity.Name
-              doc.Unit = bitem.Unit
-              doc.Qty = bitem.Qty
+      doc.ItemType = New SCIItemType(bitem.ItemType.Value)
+      doc.Level = 1
+      doc.Entity = bitem.Entity
+      doc.EntityName = bitem.Entity.Name
+      doc.Unit = bitem.Unit
+      doc.Qty = bitem.Qty
       doc.UnitPrice = unitPrice
 
+      'If bitem.ItemType.Value = 88 Then
+      '  doc.SetLab(doc.Amount)
+      'End If
+      'If bitem.ItemType.Value = 89 Then
+      '  doc.SetEq(doc.Amount)
+      'End If
+      'If bitem.ItemType.Value <> 88 AndAlso bitem.ItemType.Value <> 89 Then
+      '  doc.SetMat(doc.Amount)
+      'End If
+
       Dim wbsd As New WBSDistribute
-                If Not bitem.WBS Is Nothing Then
+      If Not bitem.WBS Is Nothing Then
         wbsd.IsMarkup = False
         wbsd.CostCenter = Me.m_sc.CostCenter
         wbsd.WBS = bitem.WBS
         wbsd.Percent = 100
-                  'labWbsd.BaseCost = bitem.TotalLaborCost
-                  'labWbsd.TransferBaseCost = bitem.TotalLaborCost
+        'labWbsd.BaseCost = bitem.TotalLaborCost
+        'labWbsd.TransferBaseCost = bitem.TotalLaborCost
         wbsd.IsOutWard = False
         wbsd.Toaccttype = 3
 
         If Not doc Is Nothing Then
           SetBudgetRemain(wbsd, doc)
-              'm_WBSDistributeCollection = New WBSDistributeCollection
+          'm_WBSDistributeCollection = New WBSDistributeCollection
           AddHandler doc.WBSDistributeCollection.PropertyChanged, AddressOf doc.WBSChangedHandler
-              'matDoc.SC.SetActual(matWbsd.WBS, 0, matDoc.Amount, matDoc.ItemType.Value)
+          'matDoc.SC.SetActual(matWbsd.WBS, 0, matDoc.Amount, matDoc.ItemType.Value)
           doc.WBSDistributeCollection.Add(wbsd)
-            End If
-          End If
+        End If
+      End If
     End Sub
     Public Sub Populate(ByVal dt As TreeTable, ByVal tg As DataGrid)
       Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
@@ -2869,6 +2875,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       dt.AcceptChanges()
+
+      'For Each Item As SCItem In Me
+      '  If Item.Level = 0 Then
+      '    Item.SetQty(Item.Qty)
+      '  End If
+      'Next
 
       Me.CurrentItem = currItem
 
