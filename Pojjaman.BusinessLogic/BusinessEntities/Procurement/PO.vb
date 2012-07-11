@@ -1821,7 +1821,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '    End If
             'End Select
             Dim dr As DataRow = .NewRow
-            If item.Pritem Is Nothing Then
+            If item.Pritem Is Nothing OrElse item.Pritem.Pr Is Nothing Then
               dr("poi_pr") = DBNull.Value
               dr("poi_prilinenumber") = DBNull.Value
             Else
@@ -2008,11 +2008,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private Function GetPritemString() As String
       Dim ret As String = "("
       For Each item As POItem In Me.ItemCollection
-        If Not item.Pritem Is Nothing Then
+        If Not item.Pritem Is Nothing AndAlso Not item.Pritem.Pr Is Nothing Then
           ret &= "'" & item.Pritem.Pr.Id.ToString & "|" & item.Pritem.LineNumber & "',"
         End If
       Next
       ret &= "'')"
+      'If ret.Trim.Length > 0 Then
+      '  ret = "(" & ret & "'')"
+      'End If
       Return ret
     End Function
     Private Function SavePRItemsDetail(ByVal arr As ArrayList, ByVal trans As SqlTransaction, ByVal conn As SqlConnection) As SaveErrorException
@@ -4336,7 +4339,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             wbsd.WBS = wbsdummy
           Next
           item.ReceivedQty = 0
-          item.Pritem = New PRItem
+          item.Pritem = Nothing ' New PRItem
         End If
       Next
       Return Me
