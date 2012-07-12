@@ -335,6 +335,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      'txtBankBranchCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "BankAccountBankName"
+      If Not Me.Bankacct.BankBranch Is Nothing AndAlso Not Me.Bankacct.BankBranch.Bank Is Nothing Then
+        dpi.Value = Me.Bankacct.BankBranch.Bank.Name
+      End If
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'Note
       dpi = New DocPrintingItem
       dpi.Mapping = "Note"
