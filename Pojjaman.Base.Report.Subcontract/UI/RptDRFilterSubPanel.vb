@@ -243,7 +243,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtSCCode, "")
       Me.txtSCCode.Name = "txtSCCode"
       Me.Validator.SetRegularExpression(Me.txtSCCode, "")
-      Me.Validator.SetRequired(Me.txtSCCode, True)
+      Me.Validator.SetRequired(Me.txtSCCode, False)
       Me.txtSCCode.Size = New System.Drawing.Size(104, 21)
       Me.txtSCCode.TabIndex = 2
       Me.txtSCCode.TabStop = False
