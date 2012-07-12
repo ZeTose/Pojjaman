@@ -4,65 +4,65 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Namespace Longkong.Pojjaman.Gui.Panels
 
-    Public Class AssetAuxDetail
-        Inherits AbstractEntityDetailPanelView
-        Implements IHelperCapable, IReversibleEntityProperty, IValidatable
-
+  Public Class AssetAuxDetail
+    Inherits AbstractEntityDetailPanelView
+    'Inherits UserControl
+    Implements IHelperCapable, IReversibleEntityProperty, IValidatable
 
 #Region " Windows Form Designer generated code "
 
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents PrimaryGroupBoxControl As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblBuyer As System.Windows.Forms.Label
-        Friend WithEvents lblSaleDocCode As System.Windows.Forms.Label
-        Friend WithEvents lblSalePrice As System.Windows.Forms.Label
-        Friend WithEvents txtSalePrice As System.Windows.Forms.TextBox
-        Friend WithEvents lblInsuranceCode As System.Windows.Forms.Label
-        Friend WithEvents txtSaftyCode As System.Windows.Forms.TextBox
-        Friend WithEvents txtInsurranceCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblSaftyCode As System.Windows.Forms.Label
-        Friend WithEvents txtBuyer As System.Windows.Forms.TextBox
-        Friend WithEvents txtSaleDocCode As System.Windows.Forms.TextBox
-        Friend WithEvents lblSaleDocDate As System.Windows.Forms.Label
-        Friend WithEvents txtInsurrancePremium As System.Windows.Forms.TextBox
-        Friend WithEvents lblInsuranceeAge As System.Windows.Forms.Label
-        Friend WithEvents txtInsurranceAge As System.Windows.Forms.TextBox
-        Friend WithEvents lblInsuranceStartDate As System.Windows.Forms.Label
-        Friend WithEvents lblSaftyCompany As System.Windows.Forms.Label
-        Friend WithEvents lblInsuranceEndDate As System.Windows.Forms.Label
-        Friend WithEvents txtSaftyCompany As System.Windows.Forms.TextBox
-        Friend WithEvents lblInsurancePremium As System.Windows.Forms.Label
-        Friend WithEvents dtpSaleDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpSaleDocDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpInsurranceStartDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents dtpInsurranceEndDate As System.Windows.Forms.DateTimePicker
-        Friend WithEvents lblSaleDate As System.Windows.Forms.Label
-        Friend WithEvents grbSaleDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents grbInsurranceDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtSaleDate As System.Windows.Forms.TextBox
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents txtSaleDocDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtInsurranceStartDate As System.Windows.Forms.TextBox
-        Friend WithEvents txtInsurranceEndDate As System.Windows.Forms.TextBox
-        Friend WithEvents btnOk As System.Windows.Forms.Button
-        Friend WithEvents btnCancel As System.Windows.Forms.Button
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents PrimaryGroupBoxControl As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblBuyer As System.Windows.Forms.Label
+    Friend WithEvents lblSaleDocCode As System.Windows.Forms.Label
+    Friend WithEvents lblSalePrice As System.Windows.Forms.Label
+    Friend WithEvents txtSalePrice As System.Windows.Forms.TextBox
+    Friend WithEvents lblInsuranceCode As System.Windows.Forms.Label
+    Friend WithEvents txtSaftyCode As System.Windows.Forms.TextBox
+    Friend WithEvents txtInsurranceCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblSaftyCode As System.Windows.Forms.Label
+    Friend WithEvents txtBuyer As System.Windows.Forms.TextBox
+    Friend WithEvents txtSaleDocCode As System.Windows.Forms.TextBox
+    Friend WithEvents lblSaleDocDate As System.Windows.Forms.Label
+    Friend WithEvents txtInsurrancePremium As System.Windows.Forms.TextBox
+    Friend WithEvents lblInsuranceeAge As System.Windows.Forms.Label
+    Friend WithEvents txtInsurranceAge As System.Windows.Forms.TextBox
+    Friend WithEvents lblInsuranceStartDate As System.Windows.Forms.Label
+    Friend WithEvents lblSaftyCompany As System.Windows.Forms.Label
+    Friend WithEvents lblInsuranceEndDate As System.Windows.Forms.Label
+    Friend WithEvents txtSaftyCompany As System.Windows.Forms.TextBox
+    Friend WithEvents lblInsurancePremium As System.Windows.Forms.Label
+    Friend WithEvents dtpSaleDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpSaleDocDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpInsurranceStartDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents dtpInsurranceEndDate As System.Windows.Forms.DateTimePicker
+    Friend WithEvents lblSaleDate As System.Windows.Forms.Label
+    Friend WithEvents grbSaleDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents grbInsurranceDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtSaleDate As System.Windows.Forms.TextBox
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents txtSaleDocDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtInsurranceStartDate As System.Windows.Forms.TextBox
+    Friend WithEvents txtInsurranceEndDate As System.Windows.Forms.TextBox
+    Friend WithEvents btnOk As System.Windows.Forms.Button
+    Friend WithEvents btnCancel As System.Windows.Forms.Button
     Friend WithEvents lblYear As System.Windows.Forms.Label
     Friend WithEvents lblAssetList As System.Windows.Forms.Label
     Friend WithEvents tgAssetList As Longkong.Pojjaman.Gui.Components.TreeGrid
@@ -72,6 +72,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AssetAuxDetail))
       Me.PrimaryGroupBoxControl = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.btnAssetList = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.lblAssetList = New System.Windows.Forms.Label()
+      Me.tgAssetList = New Longkong.Pojjaman.Gui.Components.TreeGrid()
       Me.btnOk = New System.Windows.Forms.Button()
       Me.btnCancel = New System.Windows.Forms.Button()
       Me.grbInsurranceDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -108,21 +111,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpSaleDocDate = New System.Windows.Forms.DateTimePicker()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.tgAssetList = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.lblAssetList = New System.Windows.Forms.Label()
-      Me.btnAssetList = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.PrimaryGroupBoxControl.SuspendLayout()
+      CType(Me.tgAssetList, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbInsurranceDetail.SuspendLayout()
       Me.grbSaleDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.tgAssetList, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'PrimaryGroupBoxControl
       '
       Me.PrimaryGroupBoxControl.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.PrimaryGroupBoxControl.Controls.Add(Me.btnAssetList)
       Me.PrimaryGroupBoxControl.Controls.Add(Me.lblAssetList)
       Me.PrimaryGroupBoxControl.Controls.Add(Me.tgAssetList)
@@ -140,6 +140,59 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.PrimaryGroupBoxControl.TabStop = False
       Me.PrimaryGroupBoxControl.Text = "ข้อมูลสินทรัพย์เพิ่มเติม : "
       '
+      'btnAssetList
+      '
+      Me.btnAssetList.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnAssetList.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnAssetList.ForeColor = System.Drawing.SystemColors.Control
+      Me.btnAssetList.Location = New System.Drawing.Point(144, 196)
+      Me.btnAssetList.Name = "btnAssetList"
+      Me.btnAssetList.Size = New System.Drawing.Size(24, 23)
+      Me.btnAssetList.TabIndex = 36
+      Me.btnAssetList.TabStop = False
+      Me.btnAssetList.ThemedImage = CType(resources.GetObject("btnAssetList.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAssetList.Visible = False
+      '
+      'lblAssetList
+      '
+      Me.lblAssetList.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblAssetList.ForeColor = System.Drawing.Color.Black
+      Me.lblAssetList.Location = New System.Drawing.Point(13, 201)
+      Me.lblAssetList.Name = "lblAssetList"
+      Me.lblAssetList.Size = New System.Drawing.Size(123, 18)
+      Me.lblAssetList.TabIndex = 33
+      Me.lblAssetList.Text = "ความเคลื่อนไหวสินทรัพย์"
+      Me.lblAssetList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+      Me.lblAssetList.Visible = False
+      '
+      'tgAssetList
+      '
+      Me.tgAssetList.AllowNew = False
+      Me.tgAssetList.AllowSorting = False
+      Me.tgAssetList.AlternatingBackColor = System.Drawing.Color.Khaki
+      Me.tgAssetList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.tgAssetList.AutoColumnResize = True
+      Me.tgAssetList.BackColor = System.Drawing.Color.LemonChiffon
+      Me.tgAssetList.CaptionForeColor = System.Drawing.SystemColors.Window
+      Me.tgAssetList.CaptionVisible = False
+      Me.tgAssetList.Cellchanged = False
+      Me.tgAssetList.DataMember = ""
+      Me.tgAssetList.Font = New System.Drawing.Font("Tahoma", 8.25!)
+      Me.tgAssetList.GridLineColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(120, Byte), Integer))
+      Me.tgAssetList.HeaderBackColor = System.Drawing.Color.DarkGoldenrod
+      Me.tgAssetList.HeaderForeColor = System.Drawing.Color.White
+      Me.tgAssetList.Location = New System.Drawing.Point(16, 222)
+      Me.tgAssetList.Name = "tgAssetList"
+      Me.tgAssetList.ParentRowsBackColor = System.Drawing.SystemColors.ControlText
+      Me.tgAssetList.SelectionBackColor = System.Drawing.Color.Sienna
+      Me.tgAssetList.Size = New System.Drawing.Size(600, 196)
+      Me.tgAssetList.SortingArrowColor = System.Drawing.Color.Red
+      Me.tgAssetList.TabIndex = 35
+      Me.tgAssetList.TreeManager = Nothing
+      Me.tgAssetList.Visible = False
+      '
       'btnOk
       '
       Me.btnOk.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -147,7 +200,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnOk.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnOk.ForeColor = System.Drawing.Color.Black
-      Me.btnOk.Location = New System.Drawing.Point(416, 424)
+      Me.btnOk.Location = New System.Drawing.Point(520, 424)
       Me.btnOk.Name = "btnOk"
       Me.btnOk.Size = New System.Drawing.Size(96, 24)
       Me.btnOk.TabIndex = 33
@@ -160,12 +213,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.btnCancel.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.btnCancel.ForeColor = System.Drawing.Color.Black
-      Me.btnCancel.Location = New System.Drawing.Point(520, 424)
+      Me.btnCancel.Location = New System.Drawing.Point(418, 424)
       Me.btnCancel.Name = "btnCancel"
       Me.btnCancel.Size = New System.Drawing.Size(96, 24)
       Me.btnCancel.TabIndex = 34
       Me.btnCancel.TabStop = False
       Me.btnCancel.Text = "Cancel"
+      Me.btnCancel.Visible = False
       '
       'grbInsurranceDetail
       '
@@ -202,6 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInsurranceEndDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInsurranceEndDate, System.Drawing.Color.Empty)
       Me.txtInsurranceEndDate.Location = New System.Drawing.Point(144, 168)
+      Me.Validator.SetMaxValue(Me.txtInsurranceEndDate, "")
       Me.Validator.SetMinValue(Me.txtInsurranceEndDate, "")
       Me.txtInsurranceEndDate.Name = "txtInsurranceEndDate"
       Me.Validator.SetRegularExpression(Me.txtInsurranceEndDate, "")
@@ -216,6 +271,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInsurranceStartDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInsurranceStartDate, System.Drawing.Color.Empty)
       Me.txtInsurranceStartDate.Location = New System.Drawing.Point(144, 144)
+      Me.Validator.SetMaxValue(Me.txtInsurranceStartDate, "")
       Me.Validator.SetMinValue(Me.txtInsurranceStartDate, "")
       Me.txtInsurranceStartDate.Name = "txtInsurranceStartDate"
       Me.Validator.SetRegularExpression(Me.txtInsurranceStartDate, "")
@@ -242,6 +298,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInsurranceAge, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInsurranceAge, System.Drawing.Color.Empty)
       Me.txtInsurranceAge.Location = New System.Drawing.Point(144, 120)
+      Me.Validator.SetMaxValue(Me.txtInsurranceAge, "")
       Me.Validator.SetMinValue(Me.txtInsurranceAge, "0")
       Me.txtInsurranceAge.Name = "txtInsurranceAge"
       Me.Validator.SetRegularExpression(Me.txtInsurranceAge, "")
@@ -291,6 +348,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSaftyCompany, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSaftyCompany, System.Drawing.Color.Empty)
       Me.txtSaftyCompany.Location = New System.Drawing.Point(144, 72)
+      Me.Validator.SetMaxValue(Me.txtSaftyCompany, "")
       Me.Validator.SetMinValue(Me.txtSaftyCompany, "")
       Me.txtSaftyCompany.Name = "txtSaftyCompany"
       Me.Validator.SetRegularExpression(Me.txtSaftyCompany, "")
@@ -328,6 +386,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSaftyCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSaftyCode, System.Drawing.Color.Empty)
       Me.txtSaftyCode.Location = New System.Drawing.Point(144, 48)
+      Me.Validator.SetMaxValue(Me.txtSaftyCode, "")
       Me.Validator.SetMinValue(Me.txtSaftyCode, "")
       Me.txtSaftyCode.Name = "txtSaftyCode"
       Me.Validator.SetRegularExpression(Me.txtSaftyCode, "")
@@ -343,6 +402,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInsurranceCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInsurranceCode, System.Drawing.Color.Empty)
       Me.txtInsurranceCode.Location = New System.Drawing.Point(144, 24)
+      Me.Validator.SetMaxValue(Me.txtInsurranceCode, "")
       Me.Validator.SetMinValue(Me.txtInsurranceCode, "")
       Me.txtInsurranceCode.Name = "txtInsurranceCode"
       Me.Validator.SetRegularExpression(Me.txtInsurranceCode, "")
@@ -380,6 +440,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtInsurrancePremium, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtInsurrancePremium, System.Drawing.Color.Empty)
       Me.txtInsurrancePremium.Location = New System.Drawing.Point(144, 96)
+      Me.Validator.SetMaxValue(Me.txtInsurrancePremium, "")
       Me.Validator.SetMinValue(Me.txtInsurrancePremium, "")
       Me.txtInsurrancePremium.Name = "txtInsurrancePremium"
       Me.Validator.SetRegularExpression(Me.txtInsurrancePremium, "")
@@ -442,6 +503,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSaleDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSaleDate, System.Drawing.Color.Empty)
       Me.txtSaleDate.Location = New System.Drawing.Point(128, 24)
+      Me.Validator.SetMaxValue(Me.txtSaleDate, "")
       Me.Validator.SetMinValue(Me.txtSaleDate, "")
       Me.txtSaleDate.Name = "txtSaleDate"
       Me.Validator.SetRegularExpression(Me.txtSaleDate, "")
@@ -502,6 +564,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSalePrice, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSalePrice, System.Drawing.Color.Empty)
       Me.txtSalePrice.Location = New System.Drawing.Point(128, 48)
+      Me.Validator.SetMaxValue(Me.txtSalePrice, "")
       Me.Validator.SetMinValue(Me.txtSalePrice, "")
       Me.txtSalePrice.Name = "txtSalePrice"
       Me.Validator.SetRegularExpression(Me.txtSalePrice, "")
@@ -529,6 +592,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSaleDocCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSaleDocCode, System.Drawing.Color.Empty)
       Me.txtSaleDocCode.Location = New System.Drawing.Point(128, 72)
+      Me.Validator.SetMaxValue(Me.txtSaleDocCode, "")
       Me.Validator.SetMinValue(Me.txtSaleDocCode, "")
       Me.txtSaleDocCode.Name = "txtSaleDocCode"
       Me.Validator.SetRegularExpression(Me.txtSaleDocCode, "")
@@ -566,6 +630,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtBuyer, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtBuyer, System.Drawing.Color.Empty)
       Me.txtBuyer.Location = New System.Drawing.Point(128, 120)
+      Me.Validator.SetMaxValue(Me.txtBuyer, "")
       Me.Validator.SetMinValue(Me.txtBuyer, "")
       Me.txtBuyer.Name = "txtBuyer"
       Me.Validator.SetRegularExpression(Me.txtBuyer, "")
@@ -580,6 +645,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtSaleDocDate, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtSaleDocDate, System.Drawing.Color.Empty)
       Me.txtSaleDocDate.Location = New System.Drawing.Point(128, 96)
+      Me.Validator.SetMaxValue(Me.txtSaleDocDate, "")
       Me.Validator.SetMinValue(Me.txtSaleDocDate, "")
       Me.txtSaleDocDate.Name = "txtSaleDocDate"
       Me.Validator.SetRegularExpression(Me.txtSaleDocDate, "")
@@ -611,68 +677,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'tgAssetList
-      '
-      Me.tgAssetList.AllowNew = False
-      Me.tgAssetList.AllowSorting = False
-      Me.tgAssetList.AlternatingBackColor = System.Drawing.Color.Khaki
-      Me.tgAssetList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgAssetList.AutoColumnResize = True
-      Me.tgAssetList.BackColor = System.Drawing.Color.LemonChiffon
-      Me.tgAssetList.CaptionForeColor = System.Drawing.SystemColors.Window
-      Me.tgAssetList.CaptionVisible = False
-      Me.tgAssetList.Cellchanged = False
-      Me.tgAssetList.DataMember = ""
-      Me.tgAssetList.Font = New System.Drawing.Font("Tahoma", 8.25!)
-      Me.tgAssetList.GridLineColor = System.Drawing.Color.FromArgb(CType(CType(210, Byte), Integer), CType(CType(200, Byte), Integer), CType(CType(120, Byte), Integer))
-      Me.tgAssetList.HeaderBackColor = System.Drawing.Color.DarkGoldenrod
-      Me.tgAssetList.HeaderForeColor = System.Drawing.Color.White
-      Me.tgAssetList.Location = New System.Drawing.Point(16, 222)
-      Me.tgAssetList.Name = "tgAssetList"
-      Me.tgAssetList.ParentRowsBackColor = System.Drawing.SystemColors.ControlText
-      Me.tgAssetList.SelectionBackColor = System.Drawing.Color.Sienna
-      Me.tgAssetList.Size = New System.Drawing.Size(600, 196)
-      Me.tgAssetList.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgAssetList.TabIndex = 35
-      Me.tgAssetList.TreeManager = Nothing
-      '
-      'lblAssetList
-      '
-      Me.lblAssetList.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAssetList.ForeColor = System.Drawing.Color.Black
-      Me.lblAssetList.Location = New System.Drawing.Point(13, 201)
-      Me.lblAssetList.Name = "lblAssetList"
-      Me.lblAssetList.Size = New System.Drawing.Size(123, 18)
-      Me.lblAssetList.TabIndex = 33
-      Me.lblAssetList.Text = "ความเคลื่อนไหวสินทรัพย์"
-      Me.lblAssetList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'btnAssetList
-      '
-      Me.btnAssetList.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnAssetList.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnAssetList.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnAssetList.Location = New System.Drawing.Point(144, 196)
-      Me.btnAssetList.Name = "btnAssetList"
-      Me.btnAssetList.Size = New System.Drawing.Size(24, 23)
-      Me.btnAssetList.TabIndex = 36
-      Me.btnAssetList.TabStop = False
-      Me.btnAssetList.ThemedImage = CType(resources.GetObject("btnAssetList.ThemedImage"), System.Drawing.Bitmap)
-      '
       'AssetAuxDetail
       '
       Me.Controls.Add(Me.PrimaryGroupBoxControl)
       Me.Name = "AssetAuxDetail"
       Me.Size = New System.Drawing.Size(648, 470)
       Me.PrimaryGroupBoxControl.ResumeLayout(False)
+      CType(Me.tgAssetList, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbInsurranceDetail.ResumeLayout(False)
       Me.grbInsurranceDetail.PerformLayout()
       Me.grbSaleDetail.ResumeLayout(False)
       Me.grbSaleDetail.PerformLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.tgAssetList, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
 
     End Sub
@@ -680,441 +696,441 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SelLabelText "
-        Public Overrides Sub SetLabelText()
-            lblSaleDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaleDate}")
-            Me.Validator.SetDisplayName(txtSaleDate, lblSaleDate.Text)
+    Public Overrides Sub SetLabelText()
+      lblSaleDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaleDate}")
+      Me.Validator.SetDisplayName(txtSaleDate, lblSaleDate.Text)
 
-            lblSalePrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSalePrice}")
-            Me.Validator.SetDisplayName(txtSalePrice, lblSalePrice.Text)
+      lblSalePrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSalePrice}")
+      Me.Validator.SetDisplayName(txtSalePrice, lblSalePrice.Text)
 
-            lblSaleDocCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaleDocCode}")
-            Me.Validator.SetDisplayName(txtSaleDocCode, lblSaleDocCode.Text)
+      lblSaleDocCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaleDocCode}")
+      Me.Validator.SetDisplayName(txtSaleDocCode, lblSaleDocCode.Text)
 
-            lblSaleDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaleDocDate}")
-            Me.Validator.SetDisplayName(txtSaleDocDate, lblSaleDocDate.Text)
+      lblSaleDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaleDocDate}")
+      Me.Validator.SetDisplayName(txtSaleDocDate, lblSaleDocDate.Text)
 
-            lblBuyer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblBuyer}")
-            Me.Validator.SetDisplayName(txtBuyer, lblBuyer.Text)
+      lblBuyer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblBuyer}")
+      Me.Validator.SetDisplayName(txtBuyer, lblBuyer.Text)
 
-            lblInsuranceCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceCode}")
-            Me.Validator.SetDisplayName(txtInsurranceCode, lblInsuranceCode.Text)
+      lblInsuranceCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceCode}")
+      Me.Validator.SetDisplayName(txtInsurranceCode, lblInsuranceCode.Text)
 
-            lblSaftyCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaftyCode}")
-            Me.Validator.SetDisplayName(txtSaftyCode, lblSaftyCode.Text)
+      lblSaftyCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaftyCode}")
+      Me.Validator.SetDisplayName(txtSaftyCode, lblSaftyCode.Text)
 
-            lblSaftyCompany.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaftyCompany}")
-            Me.Validator.SetDisplayName(txtSaftyCompany, lblSaftyCompany.Text)
+      lblSaftyCompany.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblSaftyCompany}")
+      Me.Validator.SetDisplayName(txtSaftyCompany, lblSaftyCompany.Text)
 
-            lblInsurancePremium.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsurancePremium}")
-            Me.Validator.SetDisplayName(txtInsurrancePremium, lblInsurancePremium.Text)
+      lblInsurancePremium.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsurancePremium}")
+      Me.Validator.SetDisplayName(txtInsurrancePremium, lblInsurancePremium.Text)
 
-            lblInsuranceeAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceeAge}")
-            Me.Validator.SetDisplayName(txtInsurranceAge, lblInsuranceeAge.Text)
+      lblInsuranceeAge.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceeAge}")
+      Me.Validator.SetDisplayName(txtInsurranceAge, lblInsuranceeAge.Text)
 
-            lblInsuranceStartDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceStartDate}")
-            Me.Validator.SetDisplayName(txtInsurranceStartDate, lblInsuranceStartDate.Text)
+      lblInsuranceStartDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceStartDate}")
+      Me.Validator.SetDisplayName(txtInsurranceStartDate, lblInsuranceStartDate.Text)
 
-            lblInsuranceEndDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceEndDate}")
-            Me.Validator.SetDisplayName(txtInsurranceEndDate, lblInsuranceEndDate.Text)
+      lblInsuranceEndDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.lblInsuranceEndDate}")
+      Me.Validator.SetDisplayName(txtInsurranceEndDate, lblInsuranceEndDate.Text)
 
-            ' Description
-            lblYear.Text = Me.StringParserService.Parse("${res:Global.YearText}")
-            lblCurrencyUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
-            ' Button 
-            btnOk.Text = Me.StringParserService.Parse("${res:Global.OKButtonText}")
-            btnCancel.Text = Me.StringParserService.Parse("${res:Global.CancelButtonText}")
+      ' Description
+      lblYear.Text = Me.StringParserService.Parse("${res:Global.YearText}")
+      lblCurrencyUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
+      ' Button 
+      btnOk.Text = Me.StringParserService.Parse("${res:Global.OKButtonText}")
+      btnCancel.Text = Me.StringParserService.Parse("${res:Global.CancelButtonText}")
 
-            ' GroupBox ...
-            PrimaryGroupBoxControl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.PrimaryGroupBoxControl}")
-            grbSaleDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.grbSaleDetail}")
-            grbInsurranceDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.grbInsurranceDetail}")
+      ' GroupBox ...
+      PrimaryGroupBoxControl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.PrimaryGroupBoxControl}")
+      grbSaleDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.grbSaleDetail}")
+      grbInsurranceDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetAuxDetail.grbInsurranceDetail}")
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "Member"
-        Private m_entity As Asset
-        Private m_isInitialized As Boolean = False
+    Private m_entity As Asset
+    Private m_isInitialized As Boolean = False
 #End Region
 
 #Region "Constructor"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.m_entity = CType(Entity, Asset)
-        End Sub
-        Public Sub New(ByVal m_entity As Asset)
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.Initialize()
-            Me.Entity = m_entity
-            Me.UpdateEntityProperties()
-            Me.EventWiring()
-            Me.SetLabelText()
-        End Sub
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.m_entity = CType(Entity, Asset)
+    End Sub
+    Public Sub New(ByVal m_entity As Asset)
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.Initialize()
+      Me.Entity = m_entity
+      Me.UpdateEntityProperties()
+      Me.EventWiring()
+      Me.SetLabelText()
+    End Sub
 #End Region
 
 #Region "Property"
-        Property Asset() As Asset
-            Get
-                Return m_entity
-            End Get
-            Set(ByVal Value As Asset)
-                m_entity = Value
-            End Set
-        End Property
+    Property Asset() As Asset
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As Asset)
+        m_entity = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
-        Public Overrides Sub Initialize()
+    Public Overrides Sub Initialize()
 
-        End Sub
-        Protected Overrides Sub EventWiring()
-            AddHandler txtSaleDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpSaleDate.ValueChanged, AddressOf Me.ChangeProperty
+    End Sub
+    Protected Overrides Sub EventWiring()
+      AddHandler txtSaleDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpSaleDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtSalePrice.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtSaleDocCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSalePrice.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSaleDocCode.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtSaleDocDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpSaleDocDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSaleDocDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpSaleDocDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBuyer.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtInsurranceCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtSaftyCode.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtSaftyCompany.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtInsurrancePremium.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtInsurranceAge.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBuyer.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInsurranceCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSaftyCode.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtSaftyCompany.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInsurrancePremium.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInsurranceAge.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtInsurranceStartDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpInsurranceStartDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInsurranceStartDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpInsurranceStartDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtInsurranceEndDate.Validated, AddressOf Me.ChangeProperty
-            AddHandler dtpInsurranceEndDate.ValueChanged, AddressOf Me.ChangeProperty
+      AddHandler txtInsurranceEndDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler dtpInsurranceEndDate.ValueChanged, AddressOf Me.ChangeProperty
 
-            ' Set Numeric Format ...
-            AddHandler txtSalePrice.Validated, AddressOf Me.NumericTextBoxChanged
-            AddHandler txtInsurrancePremium.Validated, AddressOf Me.NumericTextBoxChanged
-            AddHandler txtInsurranceAge.Validated, AddressOf Me.NumericTextBoxChanged
+      ' Set Numeric Format ...
+      AddHandler txtSalePrice.Validated, AddressOf Me.NumericTextBoxChanged
+      AddHandler txtInsurrancePremium.Validated, AddressOf Me.NumericTextBoxChanged
+      AddHandler txtInsurranceAge.Validated, AddressOf Me.NumericTextBoxChanged
 
-        End Sub
+    End Sub
 #End Region
 
 #Region "IListDetail"
 
-        ' ตรวจสอบสถานะของฟอร์ม
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity.Canceled Then
-                For Each grbCtrl As Control In PrimaryGroupBoxControl.Controls
-                    grbCtrl.Enabled = False
-                Next
-            Else
-                For Each grbCtrl As Control In PrimaryGroupBoxControl.Controls
-                    grbCtrl.Enabled = True
-                Next
+    ' ตรวจสอบสถานะของฟอร์ม
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity.Canceled Then
+        For Each grbCtrl As Control In PrimaryGroupBoxControl.Controls
+          grbCtrl.Enabled = False
+        Next
+      Else
+        For Each grbCtrl As Control In PrimaryGroupBoxControl.Controls
+          grbCtrl.Enabled = True
+        Next
+      End If
+
+      grbSaleDetail.Enabled = False
+
+    End Sub
+
+    ' เคลียร์ข้อมูลใน control
+    Public Overrides Sub ClearDetail()
+      For Each grbCtrl As Control In PrimaryGroupBoxControl.Controls
+        If TypeOf grbCtrl Is FixedGroupBox Then
+          For Each Ctrl As Control In grbCtrl.Controls
+            If TypeOf Ctrl Is TextBox Then
+              Ctrl.Text = ""
             End If
+          Next
+        End If
+      Next
 
-            grbSaleDetail.Enabled = False
+      txtSaleDate.Text = ""
+      dtpSaleDate.Value = Date.Now
 
-        End Sub
+      txtSaleDocDate.Text = ""
+      dtpSaleDocDate.Value = Date.Now
 
-        ' เคลียร์ข้อมูลใน control
-        Public Overrides Sub ClearDetail()
-            For Each grbCtrl As Control In PrimaryGroupBoxControl.Controls
-                If TypeOf grbCtrl Is FixedGroupBox Then
-                    For Each Ctrl As Control In grbCtrl.Controls
-                        If TypeOf Ctrl Is TextBox Then
-                            Ctrl.Text = ""
-                        End If
-                    Next
-                End If
-            Next
+      txtInsurranceStartDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpInsurranceStartDate.Value = Date.Now
 
-            txtSaleDate.Text = ""
+      txtInsurranceEndDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+      dtpInsurranceEndDate.Value = Date.Now
+
+    End Sub
+
+    ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      If m_entity Is Nothing OrElse Not m_entity.Originated Then
+        ClearDetail()
+        Return
+      End If
+
+      ' ทำการผูก Property ต่าง ๆ เข้ากับ control
+      txtSaleDate.Text = MinDateToNull(Me.m_entity.SaleDate, "")
+      dtpSaleDate.Value = MinDateToNow(Me.m_entity.SaleDate)
+
+      txtSalePrice.Text = Configuration.FormatToString(Me.m_entity.SalePrice, DigitConfig.Price)
+      txtSaleDocCode.Text = Me.m_entity.SaleDocCode
+
+      txtSaleDocDate.Text = MinDateToNull(Me.m_entity.SaleDocDate, "")
+      dtpSaleDocDate.Value = MinDateToNow(Me.m_entity.SaleDocDate)
+
+      txtBuyer.Text = Me.m_entity.Buyer
+      txtInsurranceCode.Text = Me.m_entity.InsuranceCode
+
+      txtSaftyCode.Text = Me.m_entity.SaftyCode
+      txtSaftyCompany.Text = Me.m_entity.SaftyCompany
+
+      txtInsurrancePremium.Text = Configuration.FormatToString(Me.m_entity.InsurancePremium, DigitConfig.Price)
+      txtInsurranceAge.Text = Configuration.FormatToString(Me.m_entity.InsuranceAge, DigitConfig.Int)
+
+      txtInsurranceStartDate.Text = MinDateToNull(Me.m_entity.InsuranceStartDate, "")
+      dtpInsurranceStartDate.Value = MinDateToNow(Me.m_entity.InsuranceStartDate)
+
+      txtInsurranceEndDate.Text = MinDateToNull(Me.m_entity.InsuranceEndDate, "")
+      dtpInsurranceEndDate.Value = MinDateToNow(Me.m_entity.InsuranceEndDate)
+
+      SetLabelText()
+      CheckFormEnable()
+
+      m_isInitialized = True
+    End Sub
+    Public Sub NumericTextBoxChanged(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtsaleprice"
+          txtSalePrice.Text = Configuration.FormatToString(Me.m_entity.SalePrice, DigitConfig.Price)
+        Case "txtinsurrancepremium"
+          txtInsurrancePremium.Text = Configuration.FormatToString(Me.m_entity.InsurancePremium, DigitConfig.Price)
+        Case "txtinsurranceage"
+          txtInsurranceAge.Text = Configuration.FormatToString(Me.m_entity.InsuranceAge, DigitConfig.Int)
+      End Select
+    End Sub
+    Private m_dateSetting As Boolean = False
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
+
+      Select Case CType(sender, Control).Name.ToLower
+        Case "txtsaledate"
+          m_dateSetting = True
+          If Not Me.txtSaleDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtSaleDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtSaleDate.Text)
+            If Not Me.m_entity.SaleDate.Equals(theDate) Then
+              dtpSaleDate.Value = theDate
+              Me.m_entity.SaleDate = dtpSaleDate.Value
+            End If
+          Else
             dtpSaleDate.Value = Date.Now
+            Me.m_entity.SaleDate = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpsaledate"
+          If Not Me.m_entity.SaleDate.Equals(dtpSaleDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtSaleDate.Text = MinDateToNull(dtpSaleDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.SaleDate = dtpSaleDate.Value
+            End If
+          End If
+        Case "txtsaleprice"
+          If txtSalePrice.TextLength > 0 Then
+            Me.m_entity.SalePrice = CDec(txtSalePrice.Text)
+          Else
+            Me.m_entity.SalePrice = Nothing
+          End If
+        Case "txtsaledoccode"
+          Me.m_entity.SaleDocCode = txtSaleDocCode.Text
 
-            txtSaleDocDate.Text = ""
+        Case "txtsaledocdate"
+          m_dateSetting = True
+          If Not Me.txtSaleDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtSaleDocDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtSaleDocDate.Text)
+            If Not Me.m_entity.SaleDocDate.Equals(theDate) Then
+              dtpSaleDocDate.Value = theDate
+              Me.m_entity.SaleDocDate = dtpSaleDocDate.Value
+            End If
+          Else
             dtpSaleDocDate.Value = Date.Now
+            Me.m_entity.SaleDocDate = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpsaledocdate"
+          If Not Me.m_entity.SaleDocDate.Equals(dtpSaleDocDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtSaleDocDate.Text = MinDateToNull(dtpSaleDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.SaleDocDate = dtpSaleDocDate.Value
+            End If
+          End If
+        Case "txtbuyer"
+          Me.m_entity.Buyer = txtBuyer.Text
+        Case "txtinsurrancecode"
+          Me.m_entity.InsuranceCode = txtInsurranceCode.Text
+        Case "txtsaftycode"
+          Me.m_entity.SaftyCode = txtSaftyCode.Text
+        Case "txtsaftycompany"
+          Me.m_entity.SaftyCompany = txtSaftyCompany.Text
+        Case "txtinsurrancepremium"
+          If txtInsurrancePremium.TextLength > 0 Then
+            Me.m_entity.InsurancePremium = CDec(txtInsurrancePremium.Text)
+          Else
+            Me.m_entity.InsurancePremium = Nothing
+          End If
+        Case "txtinsurranceage"
+          If txtInsurranceAge.TextLength > 0 Then
+            Me.m_entity.InsuranceAge = CInt(txtInsurranceAge.Text)
+          Else
+            Me.m_entity.InsuranceAge = Nothing
+          End If
 
-            txtInsurranceStartDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+        Case "txtinsurrancestartdate"
+          m_dateSetting = True
+          If Not Me.txtInsurranceStartDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtInsurranceStartDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtInsurranceStartDate.Text)
+            If Not Me.m_entity.InsuranceStartDate.Equals(theDate) Then
+              dtpInsurranceStartDate.Value = theDate
+              Me.m_entity.InsuranceStartDate = dtpInsurranceStartDate.Value
+            End If
+          Else
             dtpInsurranceStartDate.Value = Date.Now
-
-            txtInsurranceEndDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+            Me.m_entity.InsuranceStartDate = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpinsurrancestartdate"
+          If Not Me.m_entity.InsuranceStartDate.Equals(dtpInsurranceStartDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtInsurranceStartDate.Text = MinDateToNull(dtpInsurranceStartDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.InsuranceStartDate = dtpInsurranceStartDate.Value
+            End If
+          End If
+        Case "txtinsurranceenddate"
+          m_dateSetting = True
+          If Not Me.txtInsurranceEndDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtInsurranceEndDate) = "" Then
+            Dim theDate As Date = CDate(Me.txtInsurranceEndDate.Text)
+            If Not Me.m_entity.InsuranceEndDate.Equals(theDate) Then
+              dtpInsurranceEndDate.Value = theDate
+              Me.m_entity.InsuranceEndDate = dtpInsurranceEndDate.Value
+            End If
+          Else
             dtpInsurranceEndDate.Value = Date.Now
-
-        End Sub
-
-        ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            If m_entity Is Nothing OrElse Not m_entity.Originated Then
-                ClearDetail()
-                Return
+            Me.m_entity.InsuranceEndDate = Date.MinValue
+          End If
+          m_dateSetting = False
+        Case "dtpinsurranceenddate"
+          If Not Me.m_entity.InsuranceEndDate.Equals(dtpInsurranceEndDate.Value) Then
+            If Not m_dateSetting Then
+              Me.txtInsurranceEndDate.Text = MinDateToNull(dtpInsurranceEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+              Me.m_entity.InsuranceEndDate = dtpInsurranceEndDate.Value
             End If
+          End If
+      End Select
 
-            ' ทำการผูก Property ต่าง ๆ เข้ากับ control
-            txtSaleDate.Text = MinDateToNull(Me.m_entity.SaleDate, "")
-            dtpSaleDate.Value = MinDateToNow(Me.m_entity.SaleDate)
-
-            txtSalePrice.Text = Configuration.FormatToString(Me.m_entity.SalePrice, DigitConfig.Price)
-            txtSaleDocCode.Text = Me.m_entity.SaleDocCode
-
-            txtSaleDocDate.Text = MinDateToNull(Me.m_entity.SaleDocDate, "")
-            dtpSaleDocDate.Value = MinDateToNow(Me.m_entity.SaleDocDate)
-
-            txtBuyer.Text = Me.m_entity.Buyer
-            txtInsurranceCode.Text = Me.m_entity.InsuranceCode
-
-            txtSaftyCode.Text = Me.m_entity.SaftyCode
-            txtSaftyCompany.Text = Me.m_entity.SaftyCompany
-
-            txtInsurrancePremium.Text = Configuration.FormatToString(Me.m_entity.InsurancePremium, DigitConfig.Price)
-            txtInsurranceAge.Text = Configuration.FormatToString(Me.m_entity.InsuranceAge, DigitConfig.Int)
-
-            txtInsurranceStartDate.Text = MinDateToNull(Me.m_entity.InsuranceStartDate, "")
-            dtpInsurranceStartDate.Value = MinDateToNow(Me.m_entity.InsuranceStartDate)
-
-            txtInsurranceEndDate.Text = MinDateToNull(Me.m_entity.InsuranceEndDate, "")
-            dtpInsurranceEndDate.Value = MinDateToNow(Me.m_entity.InsuranceEndDate)
-
-            SetLabelText()
-            CheckFormEnable()
-
-            m_isInitialized = True
-        End Sub
-        Public Sub NumericTextBoxChanged(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtsaleprice"
-                    txtSalePrice.Text = Configuration.FormatToString(Me.m_entity.SalePrice, DigitConfig.Price)
-                Case "txtinsurrancepremium"
-                    txtInsurrancePremium.Text = Configuration.FormatToString(Me.m_entity.InsurancePremium, DigitConfig.Price)
-                Case "txtinsurranceage"
-                    txtInsurranceAge.Text = Configuration.FormatToString(Me.m_entity.InsuranceAge, DigitConfig.Int)
-            End Select
-        End Sub
-        Private m_dateSetting As Boolean = False
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
-
-            Select Case CType(sender, Control).Name.ToLower
-                Case "txtsaledate"
-                    m_dateSetting = True
-                    If Not Me.txtSaleDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtSaleDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtSaleDate.Text)
-                        If Not Me.m_entity.SaleDate.Equals(theDate) Then
-                            dtpSaleDate.Value = theDate
-                            Me.m_entity.SaleDate = dtpSaleDate.Value
-                        End If
-                    Else
-                        dtpSaleDate.Value = Date.Now
-                        Me.m_entity.SaleDate = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpsaledate"
-                    If Not Me.m_entity.SaleDate.Equals(dtpSaleDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtSaleDate.Text = MinDateToNull(dtpSaleDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.SaleDate = dtpSaleDate.Value
-                        End If
-                    End If
-                Case "txtsaleprice"
-                    If txtSalePrice.TextLength > 0 Then
-                        Me.m_entity.SalePrice = CDec(txtSalePrice.Text)
-                    Else
-                        Me.m_entity.SalePrice = Nothing
-                    End If
-                Case "txtsaledoccode"
-                    Me.m_entity.SaleDocCode = txtSaleDocCode.Text
-
-                Case "txtsaledocdate"
-                    m_dateSetting = True
-                    If Not Me.txtSaleDocDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtSaleDocDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtSaleDocDate.Text)
-                        If Not Me.m_entity.SaleDocDate.Equals(theDate) Then
-                            dtpSaleDocDate.Value = theDate
-                            Me.m_entity.SaleDocDate = dtpSaleDocDate.Value
-                        End If
-                    Else
-                        dtpSaleDocDate.Value = Date.Now
-                        Me.m_entity.SaleDocDate = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpsaledocdate"
-                    If Not Me.m_entity.SaleDocDate.Equals(dtpSaleDocDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtSaleDocDate.Text = MinDateToNull(dtpSaleDocDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.SaleDocDate = dtpSaleDocDate.Value
-                        End If
-                    End If
-                Case "txtbuyer"
-                    Me.m_entity.Buyer = txtBuyer.Text
-                Case "txtinsurrancecode"
-                    Me.m_entity.InsuranceCode = txtInsurranceCode.Text
-                Case "txtsaftycode"
-                    Me.m_entity.SaftyCode = txtSaftyCode.Text
-                Case "txtsaftycompany"
-                    Me.m_entity.SaftyCompany = txtSaftyCompany.Text
-                Case "txtinsurrancepremium"
-                    If txtInsurrancePremium.TextLength > 0 Then
-                        Me.m_entity.InsurancePremium = CDec(txtInsurrancePremium.Text)
-                    Else
-                        Me.m_entity.InsurancePremium = Nothing
-                    End If
-                Case "txtinsurranceage"
-                    If txtInsurranceAge.TextLength > 0 Then
-                        Me.m_entity.InsuranceAge = CInt(txtInsurranceAge.Text)
-                    Else
-                        Me.m_entity.InsuranceAge = Nothing
-                    End If
-
-                Case "txtinsurrancestartdate"
-                    m_dateSetting = True
-                    If Not Me.txtInsurranceStartDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtInsurranceStartDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtInsurranceStartDate.Text)
-                        If Not Me.m_entity.InsuranceStartDate.Equals(theDate) Then
-                            dtpInsurranceStartDate.Value = theDate
-                            Me.m_entity.InsuranceStartDate = dtpInsurranceStartDate.Value
-                        End If
-                    Else
-                        dtpInsurranceStartDate.Value = Date.Now
-                        Me.m_entity.InsuranceStartDate = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpinsurrancestartdate"
-                    If Not Me.m_entity.InsuranceStartDate.Equals(dtpInsurranceStartDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtInsurranceStartDate.Text = MinDateToNull(dtpInsurranceStartDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.InsuranceStartDate = dtpInsurranceStartDate.Value
-                        End If
-                    End If
-                Case "txtinsurranceenddate"
-                    m_dateSetting = True
-                    If Not Me.txtInsurranceEndDate.Text.Length = 0 AndAlso Me.Validator.GetErrorMessage(Me.txtInsurranceEndDate) = "" Then
-                        Dim theDate As Date = CDate(Me.txtInsurranceEndDate.Text)
-                        If Not Me.m_entity.InsuranceEndDate.Equals(theDate) Then
-                            dtpInsurranceEndDate.Value = theDate
-                            Me.m_entity.InsuranceEndDate = dtpInsurranceEndDate.Value
-                        End If
-                    Else
-                        dtpInsurranceEndDate.Value = Date.Now
-                        Me.m_entity.InsuranceEndDate = Date.MinValue
-                    End If
-                    m_dateSetting = False
-                Case "dtpinsurranceenddate"
-                    If Not Me.m_entity.InsuranceEndDate.Equals(dtpInsurranceEndDate.Value) Then
-                        If Not m_dateSetting Then
-                            Me.txtInsurranceEndDate.Text = MinDateToNull(dtpInsurranceEndDate.Value, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
-                            Me.m_entity.InsuranceEndDate = dtpInsurranceEndDate.Value
-                        End If
-                    End If
-            End Select
-
-            Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-            myContent.IsDirty = True
-        End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = CType(Value, Asset)
-                Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-                Me.SaveProperties()
-                'Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-                EventWiring()
-            End Set
-        End Property
+      Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+      myContent.IsDirty = True
+    End Sub
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = CType(Value, Asset)
+        Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+        Me.SaveProperties()
+        'Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+        EventWiring()
+      End Set
+    End Property
 
 #End Region
 
 #Region " Ivalidator "
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "IHelperCapable"
-        Public ReadOnly Property Helpers() As HelperCollection Implements IHelperCapable.Helpers
-            Get
+    Public ReadOnly Property Helpers() As HelperCollection Implements IHelperCapable.Helpers
+      Get
 
-            End Get
-        End Property
+      End Get
+    End Property
 
-        Public Sub LoadHelpers() Implements IHelperCapable.LoadHelpers
+    Public Sub LoadHelpers() Implements IHelperCapable.LoadHelpers
 
-        End Sub
+    End Sub
 
-        Public Sub UpdateValue(ByVal value As BusinessLogic.BusinessEntity) Implements IHelperCapable.UpdateValue
+    Public Sub UpdateValue(ByVal value As BusinessLogic.BusinessEntity) Implements IHelperCapable.UpdateValue
 
-        End Sub
+    End Sub
 
 #End Region
 
 #Region "Member Old Entity"
-        Private m_oldstatusisdirty As Boolean
-        Private m_oldsaledate As DateTime
-        Private m_oldsaleprice As Decimal
-        Private m_oldsaledoccode As String
-        Private m_oldsaledocdate As DateTime
-        Private m_oldbuyer As String
-        Private m_oldinsurancecode As String
-        Private m_oldsaftycode As String
-        Private m_oldsaftycompany As String
-        Private m_oldinsurancepremium As Decimal
-        Private m_oldinsuranceage As Integer
-        Private m_oldinsurancestartdate As DateTime
-        Private m_oldinsuranceenddate As DateTime
+    Private m_oldstatusisdirty As Boolean
+    Private m_oldsaledate As DateTime
+    Private m_oldsaleprice As Decimal
+    Private m_oldsaledoccode As String
+    Private m_oldsaledocdate As DateTime
+    Private m_oldbuyer As String
+    Private m_oldinsurancecode As String
+    Private m_oldsaftycode As String
+    Private m_oldsaftycompany As String
+    Private m_oldinsurancepremium As Decimal
+    Private m_oldinsuranceage As Integer
+    Private m_oldinsurancestartdate As DateTime
+    Private m_oldinsuranceenddate As DateTime
 #End Region
 
 #Region " IReversibleEntityProperty "
-        Public Sub RevertProperties() Implements IReversibleEntityProperty.RevertProperties
-            Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-            myContent.IsDirty = m_oldstatusisdirty
-            Me.m_entity.SaleDate = m_oldsaledate
-            Me.m_entity.SalePrice = m_oldsaleprice
-            Me.m_entity.SaleDocCode = m_oldsaledoccode
-            Me.m_entity.SaleDocDate = m_oldsaledocdate
-            Me.m_entity.Buyer = m_oldbuyer
-            Me.m_entity.InsuranceCode = m_oldinsurancecode
-            Me.m_entity.SaftyCode = m_oldsaftycode
-            Me.m_entity.SaftyCompany = m_oldsaftycompany
-            Me.m_entity.InsurancePremium = m_oldinsurancepremium
-            Me.m_entity.InsuranceAge = m_oldinsuranceage
-            Me.m_entity.InsuranceStartDate = m_oldinsurancestartdate
-            Me.m_entity.InsuranceEndDate = m_oldinsuranceenddate
-        End Sub
+    Public Sub RevertProperties() Implements IReversibleEntityProperty.RevertProperties
+      Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+      myContent.IsDirty = m_oldstatusisdirty
+      Me.m_entity.SaleDate = m_oldsaledate
+      Me.m_entity.SalePrice = m_oldsaleprice
+      Me.m_entity.SaleDocCode = m_oldsaledoccode
+      Me.m_entity.SaleDocDate = m_oldsaledocdate
+      Me.m_entity.Buyer = m_oldbuyer
+      Me.m_entity.InsuranceCode = m_oldinsurancecode
+      Me.m_entity.SaftyCode = m_oldsaftycode
+      Me.m_entity.SaftyCompany = m_oldsaftycompany
+      Me.m_entity.InsurancePremium = m_oldinsurancepremium
+      Me.m_entity.InsuranceAge = m_oldinsuranceage
+      Me.m_entity.InsuranceStartDate = m_oldinsurancestartdate
+      Me.m_entity.InsuranceEndDate = m_oldinsuranceenddate
+    End Sub
 
-        Public Sub SaveProperties() Implements IReversibleEntityProperty.SaveProperties
-            Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
-            m_oldstatusisdirty = myContent.IsDirty
-            m_oldsaledate = Me.m_entity.SaleDate
-            m_oldsaleprice = Me.m_entity.SalePrice
-            m_oldsaledoccode = Me.m_entity.SaleDocCode
-            m_oldsaledocdate = Me.m_entity.SaleDocDate
-            m_oldbuyer = Me.m_entity.Buyer
-            m_oldinsurancecode = Me.m_entity.InsuranceCode
-            m_oldsaftycode = Me.m_entity.SaftyCode
-            m_oldsaftycompany = Me.m_entity.SaftyCompany
-            m_oldinsurancepremium = Me.m_entity.InsurancePremium
-            m_oldinsuranceage = Me.m_entity.InsuranceAge
-            m_oldinsuranceenddate = Me.m_entity.InsuranceStartDate
-            m_oldinsuranceenddate = Me.m_entity.InsuranceEndDate
-        End Sub
+    Public Sub SaveProperties() Implements IReversibleEntityProperty.SaveProperties
+      Dim myContent As IViewContent = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow.ViewContent
+      m_oldstatusisdirty = myContent.IsDirty
+      m_oldsaledate = Me.m_entity.SaleDate
+      m_oldsaleprice = Me.m_entity.SalePrice
+      m_oldsaledoccode = Me.m_entity.SaleDocCode
+      m_oldsaledocdate = Me.m_entity.SaleDocDate
+      m_oldbuyer = Me.m_entity.Buyer
+      m_oldinsurancecode = Me.m_entity.InsuranceCode
+      m_oldsaftycode = Me.m_entity.SaftyCode
+      m_oldsaftycompany = Me.m_entity.SaftyCompany
+      m_oldinsurancepremium = Me.m_entity.InsurancePremium
+      m_oldinsuranceage = Me.m_entity.InsuranceAge
+      m_oldinsuranceenddate = Me.m_entity.InsuranceStartDate
+      m_oldinsuranceenddate = Me.m_entity.InsuranceEndDate
+    End Sub
 
-        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-            Me.RevertProperties()
-        End Sub
+    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+      Me.RevertProperties()
+    End Sub
 #End Region
 
-    End Class
+  End Class
 
 End Namespace

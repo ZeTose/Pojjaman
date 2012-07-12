@@ -2704,7 +2704,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myAuxPanel.Entity = Me.m_entity
       Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
       If myDialog.ShowDialog() = DialogResult.Cancel Then
-        Me.WorkbenchWindow.ViewContent.IsDirty = False
+        'Me.WorkbenchWindow.ViewContent.IsDirty = False
       End If
     End Sub
 #End Region
