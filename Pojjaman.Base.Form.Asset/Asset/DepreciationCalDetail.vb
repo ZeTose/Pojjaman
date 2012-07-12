@@ -1204,9 +1204,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '  Return
       'End If
       ' ไม่แสดงรายการใน list ของ detail
-      Dim arr(1) As Filter
+      Dim arr(2) As Filter
       arr(0) = New Filter("IDList", GenIDListFromDataTable)
       arr(1) = New Filter("asset_lastdepredate", DepreciationCal.ValidDateOrDBNull(Me.m_entity.DepreDate))
+      arr(2) = New Filter("asset_AbleDepreOnly", True)
       ' Filter ของ Entity find view
       Dim entities As New ArrayList
       Dim obj As New Asset
