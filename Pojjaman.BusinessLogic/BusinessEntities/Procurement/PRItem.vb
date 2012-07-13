@@ -1652,6 +1652,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Class Methods"
+    Public Sub RefreshQtyOrderedQty()
+      For Each pri As PRItem In Me
+        pri.OrderedQty = pri.GetOrderedQty
+      Next
+
+
+      'Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "", New SqlParameter("@pr_id", Me.m_pr.Id))
+      'Dim key As String
+      'Dim hs As New Hashtable
+      'For Each row As DataRow In ds.Tables(0).Rows
+      '  key = CStr(row("key"))
+      '  hs.Add(key, row("pri_orderedQty"))
+      'Next
+      'For Each pri As PRItem In Me
+      '  key = pri.LineNumber.ToString & ":" & pri.Entity.Id.ToString & ":" & pri.ItemType.Value
+      '  Dim x As Decimal = pri.GetOrderedQty
+
+      'Next
+    End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
       For i As Integer = 0 To items.Count - 1
         If Not TypeOf items(i) Is StockBasketItem Then
