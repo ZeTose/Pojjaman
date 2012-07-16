@@ -42,6 +42,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CreateHeader()
       PopulateData()
       m_grid.EndUpdate()
+      m_grid.Refresh()
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
@@ -251,6 +252,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
               If Not parow.IsNull("pai_amt") Then
                 m_grid(currPAIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(parow("pai_amt")), DigitConfig.Price)
+              End If
+              If Not parow.IsNull("pai_not") Then
+                m_grid(currPAIndex, 12).CellValue = indent & parow("pai_not").ToString
               End If
             End If
 
