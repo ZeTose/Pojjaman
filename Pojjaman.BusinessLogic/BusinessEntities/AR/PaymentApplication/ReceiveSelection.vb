@@ -2361,6 +2361,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
       dpiColl.Add(dpi)
+
+
+      Dim RefDocVatCode As String = ""
+      Dim RefDocVatDate As String = ""
+      Dim RefDocVatCodeList As New ArrayList
+      Dim RefDocVatDateList As New ArrayList
+      If Not Me.Vat Is Nothing AndAlso Not Me.Vat.ItemCollection Is Nothing Then
+        For Each vi As VatItem In Me.Vat.ItemCollection
+          If vi.Code.Trim.Length > 0 Then
+            RefDocVatCodeList.Add(vi.Code)
+            RefDocVatDateList.Add(vi.DocDate.ToShortDateString)
+          End If
+        Next
+
+        RefDocVatCode = String.Join(", ", RefDocVatCodeList.ToArray)
+        RefDocVatDate = String.Join(", ", RefDocVatDateList.ToArray)
+      End If
+
+      'RefDocVatCode
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDocVatCode"
+      dpi.Value = RefDocVatCode
+      dpi.DataType = "System.String"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
+
+      'RefDocVatDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDocVatDate"
+      dpi.Value = RefDocVatDate
+      dpi.DataType = "System.String"
+      dpi.PrintingFrequency = DocPrintingItem.Frequency.LastPage
+      dpiColl.Add(dpi)
+
+      'RefDocVatCode(แสดงค่าอ้างอิงเลขที่ใบกำกับภาษี(ถ้ามีมากกว่าหนึ่งรายการใช้, ))
+      'RefDocVatDAte แสดงค่าอ้างอิงวันทีใบกำกับภาษี (ถ้ามีมากกว่าหนึ่งรายการใช้ ,
       '--------------------------------
 
       Dim myVat As Decimal = 0
