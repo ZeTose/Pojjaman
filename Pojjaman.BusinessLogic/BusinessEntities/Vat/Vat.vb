@@ -8,6 +8,8 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Services
 Imports System.Reflection
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class VatDirection
@@ -1380,6 +1382,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
+      For Each vi As VatItem In Me.ItemCollection
+        dpiColl.AddRange(vi.GetDocPrintingEntries)
+      Next
+
+      Return dpiColl
+
+
       'Me.RefreshTaxBase()
 
       'Vat_id
@@ -3301,6 +3310,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Me.Vat.IsInitialized = True
     End Sub
+    Public Function GetMinBillAcceptance(refcodeList As String) As DataSet
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetMinBillAcceptance", New SqlParameter("@refcodeList", refcodeList))
+        Return ds
+      Catch ex As Exception
+
+      End Try
+      Return Nothing
+    End Function
 #End Region
 
 #Region "ICodeGeneratable"
@@ -3752,6 +3770,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "CostCenterName"
       dpi.Value = Me.CostCenter.Name
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+
+      Dim refdocString As String = ""
+      Dim refdocDateString As String = ""
+      Dim refdocEntityString As String = ""
+      Dim refdocEntityDateString As String = ""
+
+      Dim refdocEntityList As New List(Of String)
+      Dim refdocEntityDateList As New List(Of String)
+
+      If Not Me.Vat Is Nothing AndAlso Not Me.Vat.RefDoc Is Nothing AndAlso TypeOf Me.Vat.RefDoc Is ISimpleEntity Then
+        refdocString = CType(Me.Vat.RefDoc, ISimpleEntity).Code
+
+        If TypeOf Me.Vat.RefDoc Is IVatable Then
+          refdocDateString = CType(Me.Vat.RefDoc, IVatable).Date.ToShortDateString
+        End If
+
+        If TypeOf Me.Vat.RefDoc Is PaySelection Then
+          Dim py As PaySelection = CType(Me.Vat.RefDoc, PaySelection)
+
+          For Each pi As BillAcceptanceItem In py.ItemCollection
+            If pi.ParentType = 60 Then
+              refdocEntityList.Add(pi.ParentCode)
+            End If
+          Next
+
+          refdocEntityString = String.Join(",", refdocEntityList.ToArray)
+          Dim ds As DataSet = GetMinBillAcceptance(refdocEntityString)
+          For Each row As DataRow In ds.Tables(0).Rows
+            Dim drh As New DataRowHelper(row)
+            If IsDate(drh.GetValue(Of String)("billa_docdate")) Then
+              refdocEntityDateList.Add(drh.GetValue(Of Date)("billa_docdate").ToShortDateString)
+            End If
+          Next
+
+          refdocEntityString = String.Join(", ", refdocEntityList.ToArray)
+          refdocEntityDateString = String.Join(", ", refdocEntityDateList.ToArray)
+        End If
+
+      End If
+
+      'RefDoc
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDoc"
+      dpi.Value = refdocString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'RefDocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDocDate"
+      dpi.Value = refdocDateString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'RefDocEntity
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDocEntity"
+      dpi.Value = refdocEntityString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'RefDocEntityDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RefDocEntityDate"
+      dpi.Value = refdocEntityDateString
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
