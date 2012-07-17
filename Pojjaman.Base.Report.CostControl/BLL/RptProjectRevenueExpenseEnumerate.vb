@@ -77,7 +77,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csMain.NullText = ""
       csMain.DataAlignment = HorizontalAlignment.Right
       csMain.Format = "#,###.##"
-      csMain.Width = 109
+      csMain.Width = 100
       csMain.TextBox.Name = "main"
       csMain.ReadOnly = True
 
@@ -87,7 +87,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csVO.NullText = ""
       csVO.DataAlignment = HorizontalAlignment.Right
       csVO.Format = "#,###.##"
-      csVO.Width = 109
+      csVO.Width = 100
       csVO.TextBox.Name = "vo"
       csVO.ReadOnly = True
 
@@ -97,7 +97,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csPenalty.NullText = ""
       csPenalty.DataAlignment = HorizontalAlignment.Right
       csPenalty.Format = "#,###.##"
-      csPenalty.Width = 109
+      csPenalty.Width = 100
       csPenalty.TextBox.Name = "penalty"
       csPenalty.ReadOnly = True
 
@@ -107,7 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csOther.NullText = ""
       csOther.DataAlignment = HorizontalAlignment.Right
       csOther.Format = "#,###.##"
-      csOther.Width = 109
+      csOther.Width = 100
       csOther.TextBox.Name = "other"
       csOther.ReadOnly = True
 
@@ -117,7 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csBf.NullText = ""
       csBf.DataAlignment = HorizontalAlignment.Right
       csBf.Format = "#,###.##"
-      csBf.Width = 109
+      csBf.Width = 100
       csBf.TextBox.Name = "Bf"
       csBf.ReadOnly = True
 
@@ -127,7 +127,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csTotal.NullText = ""
       csTotal.DataAlignment = HorizontalAlignment.Right
       csTotal.Format = "#,###.##"
-      csTotal.Width = 109
+      csTotal.Width = 100
       csTotal.TextBox.Name = "total"
       csTotal.ReadOnly = True
 
@@ -154,7 +154,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csDeliver.NullText = ""
       csDeliver.DataAlignment = HorizontalAlignment.Right
       csDeliver.Format = "#,###.##"
-      csDeliver.Width = 109
+      csDeliver.Width = 100
       csDeliver.TextBox.Name = "deliver"
       csDeliver.ReadOnly = True
 
@@ -164,7 +164,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csBill.NullText = ""
       csBill.DataAlignment = HorizontalAlignment.Right
       csBill.Format = "#,###.##"
-      csBill.Width = 109
+      csBill.Width = 100
       csBill.TextBox.Name = "bill"
       csBill.ReadOnly = True
 
@@ -174,7 +174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceived.NullText = ""
       csReceived.DataAlignment = HorizontalAlignment.Right
       csReceived.Format = "#,###.##"
-      csReceived.Width = 109
+      csReceived.Width = 100
       csReceived.TextBox.Name = "received"
       csReceived.ReadOnly = True
 
@@ -184,7 +184,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRetention.NullText = ""
       csRetention.DataAlignment = HorizontalAlignment.Right
       csRetention.Format = "#,###.##"
-      csRetention.Width = 109
+      csRetention.Width = 100
       csRetention.TextBox.Name = "retention"
       csRetention.ReadOnly = True
 
@@ -194,7 +194,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csAdvance.NullText = ""
       csAdvance.DataAlignment = HorizontalAlignment.Right
       csAdvance.Format = "#,###.##"
-      csAdvance.Width = 109
+      csAdvance.Width = 100
       csAdvance.TextBox.Name = "advance"
       csAdvance.ReadOnly = True
 
@@ -204,7 +204,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemain.NullText = ""
       csRemain.DataAlignment = HorizontalAlignment.Right
       csRemain.Format = "#,###.##"
-      csRemain.Width = 109
+      csRemain.Width = 100
       csRemain.TextBox.Name = "remain"
       csRemain.ReadOnly = True
 
@@ -231,7 +231,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csBudget.NullText = ""
       csBudget.DataAlignment = HorizontalAlignment.Right
       csBudget.Format = "#,###.##"
-      csBudget.Width = 109
+      csBudget.Width = 100
       csBudget.TextBox.Name = "budget"
       csBudget.ReadOnly = True
 
@@ -241,7 +241,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csPOActual.NullText = ""
       csPOActual.DataAlignment = HorizontalAlignment.Right
       csPOActual.Format = "#,###.##"
-      csPOActual.Width = 109
+      csPOActual.Width = 100
       csPOActual.TextBox.Name = "poactual"
       csPOActual.ReadOnly = True
 
@@ -251,7 +251,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csPOActualBalance.NullText = ""
       csPOActualBalance.DataAlignment = HorizontalAlignment.Right
       csPOActualBalance.Format = "#,###.##"
-      csPOActualBalance.Width = 109
+      csPOActualBalance.Width = 100
       csPOActualBalance.TextBox.Name = "poactualbalance"
       csPOActualBalance.ReadOnly = True
 
@@ -261,7 +261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csGRActual.NullText = ""
       csGRActual.DataAlignment = HorizontalAlignment.Right
       csGRActual.Format = "#,###.##"
-      csGRActual.Width = 109
+      csGRActual.Width = 100
       csGRActual.TextBox.Name = "gractual"
       csGRActual.ReadOnly = True
 
@@ -271,7 +271,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csGRActualBalance.NullText = ""
       csGRActualBalance.DataAlignment = HorizontalAlignment.Right
       csGRActualBalance.Format = "#,###.##"
-      csGRActualBalance.Width = 109
+      csGRActualBalance.Width = 100
       csGRActualBalance.TextBox.Name = "gractualbalance"
       csGRActualBalance.ReadOnly = True
 
@@ -308,7 +308,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csContractBudgetPrice.NullText = ""
       csContractBudgetPrice.DataAlignment = HorizontalAlignment.Right
       csContractBudgetPrice.Format = "#,###.##"
-      csContractBudgetPrice.Width = 109
+      csContractBudgetPrice.Width = 100
       csContractBudgetPrice.TextBox.Name = "contractbudgetprice"
       csContractBudgetPrice.ReadOnly = True
 
@@ -318,7 +318,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csContractBudgetEstimate.NullText = ""
       csContractBudgetEstimate.DataAlignment = HorizontalAlignment.Right
       csContractBudgetEstimate.Format = "#,###.##"
-      csContractBudgetEstimate.Width = 109
+      csContractBudgetEstimate.Width = 100
       csContractBudgetEstimate.TextBox.Name = "estimatebudget"
       csContractBudgetEstimate.ReadOnly = True
 
@@ -328,9 +328,106 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csContractBudgetProfitLost.NullText = ""
       csContractBudgetProfitLost.DataAlignment = HorizontalAlignment.Right
       csContractBudgetProfitLost.Format = "#,###.##"
-      csContractBudgetProfitLost.Width = 109
+      csContractBudgetProfitLost.Width = 100
       csContractBudgetProfitLost.TextBox.Name = "profitloss"
       csContractBudgetProfitLost.ReadOnly = True
+
+      Dim csBarrier7 As New DataGridBarrierColumn 'DataGridBarrierColumn
+      csBarrier7.MappingName = "Barrier7"
+      csBarrier7.HeaderText = ""
+      csBarrier7.NullText = ""
+      'csBarrier7.Width = 25
+      csBarrier7.ReadOnly = True
+
+      Dim csContractPOActual As New TreeTextColumn
+      csContractPOActual.MappingName = "ContractPOActual"
+      csContractPOActual.HeaderText = "Contract - PO Actual" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csContractPOActual.NullText = ""
+      csContractPOActual.DataAlignment = HorizontalAlignment.Center
+      csContractPOActual.Format = "#,###.##"
+      csContractPOActual.Width = 0
+      csContractPOActual.TextBox.Name = "ContractPOActual"
+      csContractPOActual.ReadOnly = True
+
+      Dim csContractPOActualPrice As New TreeTextColumn
+      csContractPOActualPrice.MappingName = "ContractPOActualPrice"
+      csContractPOActualPrice.HeaderText = "Budget" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csContractPOActualPrice.NullText = ""
+      csContractPOActualPrice.DataAlignment = HorizontalAlignment.Right
+      csContractPOActualPrice.Format = "#,###.##"
+      csContractPOActualPrice.Width = 100
+      csContractPOActualPrice.TextBox.Name = "ContractPOActualPrice"
+      csContractPOActualPrice.ReadOnly = True
+
+      Dim csContractPOActual_GRActual As New TreeTextColumn
+      csContractPOActual_GRActual.MappingName = "ContractPOActual_GRActual"
+      csContractPOActual_GRActual.HeaderText = "PO Actual" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csContractPOActual_GRActual.NullText = ""
+      csContractPOActual_GRActual.DataAlignment = HorizontalAlignment.Right
+      csContractPOActual_GRActual.Format = "#,###.##"
+      csContractPOActual_GRActual.Width = 100
+      csContractPOActual_GRActual.TextBox.Name = "ContractPOActual_GRActual"
+      csContractPOActual_GRActual.ReadOnly = True
+
+      Dim csContractPOActualBalance As New TreeTextColumn
+      csContractPOActualBalance.MappingName = "ContractPOActualBalance"
+      csContractPOActualBalance.HeaderText = "Balance" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csContractPOActualBalance.NullText = ""
+      csContractPOActualBalance.DataAlignment = HorizontalAlignment.Right
+      csContractPOActualBalance.Format = "#,###.##"
+      csContractPOActualBalance.Width = 100
+      csContractPOActualBalance.TextBox.Name = "ContractPOActualBalance"
+      csContractPOActualBalance.ReadOnly = True
+
+      Dim csBarrier8 As New DataGridBarrierColumn 'DataGridBarrierColumn
+      csBarrier8.MappingName = "Barrier8"
+      csBarrier8.HeaderText = ""
+      csBarrier8.NullText = ""
+      'csBarrier8.Width = 25
+      csBarrier8.ReadOnly = True
+
+      Dim csReceivedPOActual As New TreeTextColumn
+      csReceivedPOActual.MappingName = "ReceivedPOActual"
+      csReceivedPOActual.HeaderText = "Received - PO Actual" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csReceivedPOActual.NullText = ""
+      csReceivedPOActual.DataAlignment = HorizontalAlignment.Center
+      csReceivedPOActual.Format = "#,###.##"
+      csReceivedPOActual.Width = 0
+      csReceivedPOActual.TextBox.Name = "ReceivedPOActual"
+      csReceivedPOActual.ReadOnly = True
+
+      Dim csReceivedPOActualPrice As New TreeTextColumn
+      csReceivedPOActualPrice.MappingName = "ReceivedPOActualPrice"
+      csReceivedPOActualPrice.HeaderText = "Received" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csReceivedPOActualPrice.NullText = ""
+      csReceivedPOActualPrice.DataAlignment = HorizontalAlignment.Right
+      csReceivedPOActualPrice.Format = "#,###.##"
+      csReceivedPOActualPrice.Width = 100
+      csReceivedPOActualPrice.TextBox.Name = "ReceivedPOActualPrice"
+      csReceivedPOActualPrice.ReadOnly = True
+
+      Dim csReceivedPOActual_GRActual As New TreeTextColumn
+      csReceivedPOActual_GRActual.MappingName = "ReceivedPOActual_GRActual"
+      csReceivedPOActual_GRActual.HeaderText = "PO Actual" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csReceivedPOActual_GRActual.NullText = ""
+      csReceivedPOActual_GRActual.DataAlignment = HorizontalAlignment.Right
+      csReceivedPOActual_GRActual.Format = "#,###.##"
+      csReceivedPOActual_GRActual.Width = 100
+      csReceivedPOActual_GRActual.TextBox.Name = "ReceivedPOActual_GRActual"
+      csReceivedPOActual_GRActual.ReadOnly = True
+
+      Dim csReceivedPOActualBalance As New TreeTextColumn
+      csReceivedPOActualBalance.MappingName = "ReceivedPOActualBalance"
+      csReceivedPOActualBalance.HeaderText = "Balance" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.ActualMWCostHeaderText}")
+      csReceivedPOActualBalance.NullText = ""
+      csReceivedPOActualBalance.DataAlignment = HorizontalAlignment.Right
+      csReceivedPOActualBalance.Format = "#,###.##"
+      csReceivedPOActualBalance.Width = 100
+      csReceivedPOActualBalance.TextBox.Name = "ReceivedPOActualBalance"
+      csReceivedPOActualBalance.ReadOnly = True
+
+
+
 
       'Dim csContractBudgetPercent As New TreeTextColumn
       'csContractBudgetPercent.MappingName = "contractbudgetpercent"
@@ -365,7 +462,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceivedActualPrice.NullText = ""
       csReceivedActualPrice.DataAlignment = HorizontalAlignment.Right
       csReceivedActualPrice.Format = "#,###.##"
-      csReceivedActualPrice.Width = 109
+      csReceivedActualPrice.Width = 100
       csReceivedActualPrice.TextBox.Name = "ReceivedActualprice"
       csReceivedActualPrice.ReadOnly = True
 
@@ -375,7 +472,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceivedActual_GRActual.NullText = ""
       csReceivedActual_GRActual.DataAlignment = HorizontalAlignment.Right
       csReceivedActual_GRActual.Format = "#,###.##"
-      csReceivedActual_GRActual.Width = 109
+      csReceivedActual_GRActual.Width = 100
       csReceivedActual_GRActual.TextBox.Name = "ReceivedActual_GRActual"
       csReceivedActual_GRActual.ReadOnly = True
 
@@ -385,7 +482,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csReceivedActualBalance.NullText = ""
       csReceivedActualBalance.DataAlignment = HorizontalAlignment.Right
       csReceivedActualBalance.Format = "#,###.##"
-      csReceivedActualBalance.Width = 109
+      csReceivedActualBalance.Width = 100
       csReceivedActualBalance.TextBox.Name = "ReceivedActualBalance"
       csReceivedActualBalance.ReadOnly = True
 
@@ -422,7 +519,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemainCompleteReceived.NullText = ""
       csRemainCompleteReceived.DataAlignment = HorizontalAlignment.Right
       csRemainCompleteReceived.Format = "#,###.##"
-      csRemainCompleteReceived.Width = 109
+      csRemainCompleteReceived.Width = 100
       csRemainCompleteReceived.TextBox.Name = "RemainCompleteReceived"
       csRemainCompleteReceived.ReadOnly = True
 
@@ -432,7 +529,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemainComplete_GRActual.NullText = ""
       csRemainComplete_GRActual.DataAlignment = HorizontalAlignment.Right
       csRemainComplete_GRActual.Format = "#,###.##"
-      csRemainComplete_GRActual.Width = 109
+      csRemainComplete_GRActual.Width = 100
       csRemainComplete_GRActual.TextBox.Name = "RemainComplete_GRActual"
       csRemainComplete_GRActual.ReadOnly = True
 
@@ -442,7 +539,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csRemainCompleteBalance.NullText = ""
       csRemainCompleteBalance.DataAlignment = HorizontalAlignment.Right
       csRemainCompleteBalance.Format = "#,###.##"
-      csRemainCompleteBalance.Width = 109
+      csRemainCompleteBalance.Width = 100
       csRemainCompleteBalance.TextBox.Name = "RemainCompleteBalance"
       csRemainCompleteBalance.ReadOnly = True
 
@@ -508,6 +605,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dst.GridColumnStyles.Add(csContractBudgetProfitLost)
       'dst.GridColumnStyles.Add(csContractBudgetPercent)
 
+      dst.GridColumnStyles.Add(csBarrier7)
+      dst.GridColumnStyles.Add(csContractPOActual)
+      dst.GridColumnStyles.Add(csContractPOActualPrice)
+      dst.GridColumnStyles.Add(csContractPOActual_GRActual)
+      dst.GridColumnStyles.Add(csContractPOActualBalance)
+
+      dst.GridColumnStyles.Add(csBarrier8)
+      dst.GridColumnStyles.Add(csReceivedPOActual)
+      dst.GridColumnStyles.Add(csReceivedPOActualPrice)
+      dst.GridColumnStyles.Add(csReceivedPOActual_GRActual)
+      dst.GridColumnStyles.Add(csReceivedPOActualBalance)
+
       dst.GridColumnStyles.Add(csBarrier4)
       dst.GridColumnStyles.Add(csReceivedActual)
       dst.GridColumnStyles.Add(csReceivedActualPrice)
@@ -570,6 +679,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("profitloss", GetType(String)))
       'myDatatable.Columns.Add(New DataColumn("contractbudgetpercent", GetType(String)))
 
+      myDatatable.Columns.Add(New DataColumn("Barrier7", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ContractPOActual", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ContractPOActualPrice", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ContractPOActual_GRActual", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ContractPOActualBalance", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("ReceivedActualPercent", GetType(String)))
+
+      myDatatable.Columns.Add(New DataColumn("Barrier8", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ReceivedPOActual", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ReceivedPOActualPrice", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ReceivedPOActual_GRActual", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("ReceivedPOActualBalance", GetType(String)))
+
       myDatatable.Columns.Add(New DataColumn("Barrier4", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("receivedactual", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("ReceivedActualPrice", GetType(String)))
@@ -586,6 +708,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       myDatatable.Columns.Add(New DataColumn("Barrier6", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("DateComplete", GetType(String)))
+
+
+
+
+      'myDatatable.Columns.Add(New DataColumn("csContractPOActual", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("csContractPOActualPrice", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("csContractPOActual_GRActual", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("csContractPOActualBalance", GetType(String)))
+      ''myDatatable.Columns.Add(New DataColumn("ReceivedActualPercent", GetType(String)))
+
+      'myDatatable.Columns.Add(New DataColumn("csReceivedPOActual", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("csReceivedPOActualPrice", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("csReceivedPOActual_GRActual", GetType(String)))
+      'myDatatable.Columns.Add(New DataColumn("csReceivedPOActualBalance", GetType(String)))
 
       Return myDatatable
     End Function
@@ -625,7 +761,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("gractual") = "GR Actual" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("gractualbalance") = "Balance" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostControlReportView.PriceHeaderText}")
       tr("contractbudget") = "Contract - Budget"
-      tr("receivedactual") = "Total - GR Actual"
+      tr("ContractPOActual") = "Contract - PO Actual"
+      tr("ReceivedPOActual") = "Received - PO Actual"
+      tr("receivedactual") = "Contract - GR Actual"
       tr("RemainComplete") = "Received - GR Actual"
 
       tr = dt.Childs.Add
@@ -634,7 +772,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("profitloss") = "Profit/Loss"
       'tr("contractbudgetpercent") = "(%)"
 
-      tr("ReceivedActualPrice") = "Total" '"Price"
+      tr("ContractPOActualPrice") = "Contract" '"Price"
+      tr("ContractPOActual_GRActual") = "PO Actual"
+      tr("ContractPOActualBalance") = "Balance"
+      'tr("ReceivedActualPercent") = "(%)"
+
+      tr("ReceivedPOActualPrice") = "Received"
+      tr("ReceivedPOActual_GRActual") = "PO Actual"
+      tr("ReceivedPOActualBalance") = "Balance"
+      'tr("RemainCompletePercent") = "(%)"
+
+      tr("ReceivedActualPrice") = "Contract" '"Price"
       tr("ReceivedActual_GRActual") = "GR Actual"
       tr("ReceivedActualBalance") = "Balance"
       'tr("ReceivedActualPercent") = "(%)"
@@ -653,9 +801,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 5, 1, 11),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 13, 1, 19),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 21, 1, 26),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 28, 1, 42),
-                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 44, 3, 44)
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 28, 1, 52),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 54, 3, 54)
                                     })
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 54, 3, 54)
       'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 45, 3, 45)
       'Main, VO, Panalty, Total, Deliver, Bill, Received, Remain, Budget, PO Actual, Balance, GR Actual, Balance
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
@@ -680,17 +829,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 25, 3, 25),
                                       Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 26, 3, 26)
                                     })
-      'Contract-Budget, Received-Actual, Received-Complete
+      'Contract-Budget, Contract-PO Actual, Budget-PO Actual, Received-Actual, Received-Complete
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                                    {
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 29, 2, 32),
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 34, 2, 37),
-                                     Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 39, 2, 42)
-                                   })
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 29, 2, 32),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 34, 2, 37),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 39, 2, 42),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 44, 2, 47),
+                                      Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 49, 2, 52)
+                                  })
+
+
+      'm_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
+      '                             {
+      '                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 54, 3, 54)
+      '                             })
+
+      'm_grid.Cols.Model.ColStyles(54).BackColor = Color.Red
+
       '  Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 34, 2, 36),
       'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 38, 2, 41)
     End Sub
 #End Region
+
 #Region "Overrides"
     Public Overrides Function GetSimpleSchemaTable() As Gui.Components.TreeTable
       Return RptProjectRevenueExpenseEnumerate.GetCBSMonitorSchemaTable(Nothing) 'BOQ.GetWBSMonitorSchemaTable
@@ -724,6 +885,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.Rows.HeaderCount = 3
       lkg.Rows.FrozenCount = 3
       lkg.Cols.FrozenCount = 3
+
+      lkg.Cols.Model.ColStyles(1).BackColor = Color.Red
+      lkg.Cols.Model.ColStyles(2).BackColor = Color.Blue
+
       'm_grid.Model.Cols.Hidden(m_grid.ColCount) = True
       lkg.HilightGroupParentText = True
       lkg.RefreshHeights()
@@ -753,20 +918,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       CreateHeader(tm.Treetable)
       PopulateCBSMonitorListing(tm.Treetable, nodigit)
-      MergeSeparate()
+      MergeSeparate(tm.Treetable)
     End Sub
-    Private Sub MergeSeparate()
-      Dim rowCount As Integer = Me.DataSet.Tables(0).Rows.Count + 4
+    Private Sub MergeSeparate(ByVal dt As TreeTable)
+      Dim rowCount As Integer = dt.Rows.Count + 4 ' Me.DataSet.Tables(0).Rows.Count + 4
       m_grid.CoveredRanges.AddRange(New Syncfusion.Windows.Forms.Grid.GridRangeInfo() _
                              {
                                Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 4, rowCount, 4),
                                Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 12, rowCount, 12),
                                Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 20, rowCount, 20),
                                Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 27, rowCount, 27),
-                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 43, rowCount, 43),
                                Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 33, rowCount, 33),
-                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 38, rowCount, 38)
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 38, rowCount, 38),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 43, rowCount, 43),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(2, 48, rowCount, 48),
+                               Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 53, rowCount, 53)
                              })
+      '
+      'Syncfusion.Windows.Forms.Grid.GridRangeInfo.Cells(1, 53, rowCount, 53)
+
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
@@ -833,7 +1003,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim drh As New DataRowHelper(drow)
 
         Dim trc As TreeRow = dt.Childs.Add
-        'trc.State = RowExpandState.Expanded
         trc("cc_code") = drh.GetValue(Of String)("cc_code")
         trc("cc_name") = drh.GetValue(Of String)("cc_name")
 
@@ -843,14 +1012,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trc("bf") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bf"), dgt)
         trc("penalty") = Configuration.FormatToString(drh.GetValue(Of Decimal)("penalty"), dgt)
         trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) - drh.GetValue(Of Decimal)("penalty"), dgt)
-        'trc("total") = Configuration.FormatToString((drh.GetValue(Of Decimal)("main") + drh.GetValue(Of Decimal)("vo") + drh.GetValue(Of Decimal)("other") + drh.GetValue(Of Decimal)("bf")) _
-        '- (drh.GetValue(Of Decimal)("penalty") + drh.GetValue(Of Decimal)("retention") + drh.GetValue(Of Decimal)("advance")), dgt)
 
         trc("deliver") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver"), dgt)
         trc("bill") = Configuration.FormatToString(drh.GetValue(Of Decimal)("bill"), dgt)
-        'trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("receivedtaxbase"), dgt)
         trc("received") = Configuration.FormatToString(drh.GetValue(Of Decimal)("received"), dgt)
-        'trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("deliver") - drh.GetValue(Of Decimal)("bill"), dgt)
         trc("retention") = Configuration.FormatToString(drh.GetValue(Of Decimal)("recretention"), dgt)
         trc("advance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("recadvance"), dgt)
         trc("remain") = Configuration.FormatToString(drh.GetValue(Of Decimal)("remain"), dgt)
@@ -861,35 +1026,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trc("GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("GRActual"), dgt)
         trc("GRActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), dgt)
 
-        'trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("total")), dgt)
         trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("main")), dgt)
         trc("estimatebudget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), dgt)
         trc("profitloss") = Configuration.FormatToString(CDec(trc("main")) - drh.GetValue(Of Decimal)("budget"), dgt)
-        'trc("profitloss") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("budget"), dgt)
-        'If drh.GetValue(Of Decimal)("budget") > 0 Then
-        '  trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("main")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, dgt) & "%"
-        '  'trc("contractbudgetpercent") = Configuration.FormatToString(((CDec(trc("total")) / drh.GetValue(Of Decimal)("budget")) - 1) * 100, dgt) & "%"
-        'Else
-        '  trc("contractbudgetpercent") = Configuration.FormatToString(0, dgt) & "%"
-        'End If
 
-        trc("ReceivedActualPrice") = Configuration.FormatToString(CDec(trc("total")), dgt)
+        trc("ContractPOActualPrice") = Configuration.FormatToString(CDec(trc("main")), dgt)
+        trc("ContractPOActual_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("POActual"), dgt)
+        trc("ContractPOActualBalance") = Configuration.FormatToString(CDec(trc("main")) - drh.GetValue(Of Decimal)("POActual"), dgt)
+
+        trc("ReceivedPOActualPrice") = Configuration.FormatToString(CDec(trc("received")), dgt)
+        trc("ReceivedPOActual_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("POActual"), dgt)
+        trc("ReceivedPOActualBalance") = Configuration.FormatToString(CDec(trc("received")) - drh.GetValue(Of Decimal)("POActual"), dgt)
+
+        trc("ReceivedActualPrice") = Configuration.FormatToString(CDec(trc("main")), dgt)
         trc("ReceivedActual_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gractual"), dgt)
-        trc("ReceivedActualBalance") = Configuration.FormatToString(CDec(trc("total")) - drh.GetValue(Of Decimal)("gractual"), dgt)
-        'If CDec(trc("total")) > 0 Then
-        '  trc("ReceivedActualPercent") = Configuration.FormatToString((drh.GetValue(Of Decimal)("gractual") / CDec(trc("total"))) * 100, dgt) & "%"
-        'Else
-        '  trc("ReceivedActualPercent") = Configuration.FormatToString(0, dgt) & "%"
-        'End If
+        trc("ReceivedActualBalance") = Configuration.FormatToString(CDec(trc("main")) - drh.GetValue(Of Decimal)("gractual"), dgt)
 
         trc("RemainCompleteReceived") = Configuration.FormatToString(CDec(trc("received")), dgt)
         trc("RemainComplete_GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("gractual"), dgt)
         trc("RemainCompleteBalance") = Configuration.FormatToString(CDec(trc("received")) - drh.GetValue(Of Decimal)("gractual"), dgt)
-        'If drh.GetValue(Of Decimal)("gractual") > 0 Then
-        '  trc("RemainCompletePercent") = Configuration.FormatToString((CDec(trc("received")) / drh.GetValue(Of Decimal)("gractual")) * 100, dgt) & "%"
-        'Else
-        '  trc("RemainCompletePercent") = Configuration.FormatToString(0, dgt) & "%"
-        'End If
 
         trc("DateComplete") = drh.GetValue(Of Date)("project_completiondate").ToShortDateString
 
@@ -904,6 +1059,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_CCRvExp.Deliver += CDec(trc("deliver"))
         m_CCRvExp.Bill += CDec(trc("bill"))
         m_CCRvExp.Received += CDec(trc("received"))
+        m_CCRvExp.Retention += CDec(trc("retention"))
+        m_CCRvExp.Advance += CDec(trc("advance"))
         m_CCRvExp.Remain += CDec(trc("remain"))
 
         m_CCRvExp.Budget += CDec(trc("budget"))
@@ -927,7 +1084,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       ''Summary''--
       Dim trsc As TreeRow = dt.Childs.Add
-      'trsc.State = RowExpandState.Expanded
       trsc("cc_name") = "Total Cost"
 
       trsc("main") = Configuration.FormatToString(m_CCRvExp.Main, dgt)
@@ -940,6 +1096,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trsc("deliver") = Configuration.FormatToString(m_CCRvExp.Deliver, dgt)
       trsc("bill") = Configuration.FormatToString(m_CCRvExp.Bill, dgt)
       trsc("received") = Configuration.FormatToString(m_CCRvExp.Received, dgt)
+      trsc("retention") = Configuration.FormatToString(m_CCRvExp.Retention, dgt)
+      trsc("advance") = Configuration.FormatToString(m_CCRvExp.Advance, dgt)
       trsc("remain") = Configuration.FormatToString(m_CCRvExp.Remain, dgt)
 
       trsc("budget") = Configuration.FormatToString(m_CCRvExp.Budget, dgt)
@@ -951,40 +1109,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trsc("contractbudgetprice") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice, dgt)
       trsc("estimatebudget") = Configuration.FormatToString(m_CCRvExp.Estimatebudget, dgt)
       trsc("profitloss") = Configuration.FormatToString(m_CCRvExp.Profitloss, dgt)
-      'If m_CCRvExp.Budget > 0 Then
-      '  trsc("contractbudgetpercent") = Configuration.FormatToString(((m_CCRvExp.Total / m_CCRvExp.Budget) - 1) * 100, dgt) & "%"
-      'Else
-      '  trsc("contractbudgetpercent") = Configuration.FormatToString(0, dgt) & "%"
-      'End If
 
-      trsc("ReceivedActualPrice") = Configuration.FormatToString(m_CCRvExp.ReceivedActualPrice, dgt)
-      trsc("ReceivedActual_GRActual") = Configuration.FormatToString(m_CCRvExp.ReceivedActual_GRActual, dgt)
-      trsc("ReceivedActualBalance") = Configuration.FormatToString(m_CCRvExp.ReceivedActualBalance, dgt)
-      'If m_CCRvExp.Total > 0 Then
-      '  trsc("ReceivedActualPercent") = Configuration.FormatToString((m_CCRvExp.GRActual / m_CCRvExp.Total) * 100, dgt) & "%"
-      'Else
-      '  trsc("ReceivedActualPercent") = Configuration.FormatToString(0, dgt) & "%"
-      'End If
+      trsc("ContractPOActualPrice") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice, dgt)
+      trsc("ContractPOActual_GRActual") = Configuration.FormatToString(m_CCRvExp.POActual, dgt)
+      trsc("ContractPOActualBalance") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice - m_CCRvExp.POActual, dgt)
+
+      trsc("ReceivedPOActualPrice") = Configuration.FormatToString(m_CCRvExp.RemainCompleteReceived, dgt)
+      trsc("ReceivedPOActual_GRActual") = Configuration.FormatToString(m_CCRvExp.POActual, dgt)
+      trsc("ReceivedPOActualBalance") = Configuration.FormatToString(m_CCRvExp.RemainCompleteReceived - m_CCRvExp.POActual, dgt)
+
+      trsc("ReceivedActualPrice") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice, dgt)
+      trsc("ReceivedActual_GRActual") = Configuration.FormatToString(m_CCRvExp.RemainComplete_GRActual, dgt)
+      trsc("ReceivedActualBalance") = Configuration.FormatToString(m_CCRvExp.Contractbudgetprice - m_CCRvExp.RemainComplete_GRActual, dgt)
 
       trsc("RemainCompleteReceived") = Configuration.FormatToString(m_CCRvExp.RemainCompleteReceived, dgt)
       trsc("RemainComplete_GRActual") = Configuration.FormatToString(m_CCRvExp.RemainComplete_GRActual, dgt)
       trsc("RemainCompleteBalance") = Configuration.FormatToString(m_CCRvExp.RemainCompleteBalance, dgt)
-      'If m_CCRvExp.GRActual > 0 Then
-      '  trsc("RemainCompletePercent") = Configuration.FormatToString((m_CCRvExp.Received / m_CCRvExp.GRActual) * 100, dgt) & "%"
-      'Else
-      '  trsc("RemainCompletePercent") = Configuration.FormatToString(0, dgt) & "%"
-      'End If
 
       dt.AcceptChanges()
       Return
 
 
-      'Dim dtcc As DataTable = Me.DataSet.Tables(0)
       Dim dtcbs As DataTable = Me.DataSet.Tables(1)
-      'Dim dtMarkUp As DataTable = Me.DataSet.Tables(2)
       Dim dtdata As DataTable = Me.DataSet.Tables(2)
       dtcbs.TableName = "Table0"
-      'dtMarkUp.TableName = "Table1"
       dtdata.TableName = "Table1"
       If dtcbs.Rows.Count <= 0 Then
         Return
@@ -1060,352 +1208,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
 
 
-            stage = "1"
-
-            stage = "2"
-            'tr.State = RowExpandState.Expanded
           End If
 
-          'If detail > 0 Then
-          '  Dim DocMatActual As Decimal = 0
-          '  Dim DocLabActual As Decimal = 0
-          '  Dim DocEqActual As Decimal = 0
-          '  Dim DocAmount As Decimal = 0
-          '  Dim myDocId As String = ""
-          '  Dim Doctr As TreeRow = Nothing
-          '  Dim DocItemTr As TreeRow = Nothing
-          '  For Each wbsDoc As DataRow In dtdata.Select("wbsid = " & cbsrow("wbs_id") & " and ismarkup = 0")
-
-          '    If Not myDocId = CStr(wbsDoc("DocId")) Then
-          '      If Not Doctr Is Nothing Then
-          '        Doctr("ActualMaterialCost") = Configuration.FormatToString(DocMatActual, dgt)
-          '        Doctr("ActualLaborCost") = Configuration.FormatToString(DocLabActual, dgt)
-          '        Doctr("ActualEquipmentCost") = Configuration.FormatToString(DocEqActual, dgt)
-          '        Doctr("Actual") = Configuration.FormatToString(DocAmount, dgt)
-          '        DocMatActual = 0
-          '        DocLabActual = 0
-          '        DocEqActual = 0
-          '        DocAmount = 0
-          '      End If
-
-          '      'แสดงเอกสารแต่ละตัว
-          '      tr.State = RowExpandState.Expanded
-          '      Doctr = tr.Childs.Add
-          '      Doctr.Tag = wbsDoc
-          '      Doctr("boqi_itemname") = "(เอกสาร) " & CStr(wbsDoc("DocCode"))
-          '      Doctr.State = RowExpandState.None
-          '      myDocId = CStr(wbsDoc("DocId"))
-          '      Doctr("DocId") = myDocId
-          '      Doctr("note") = CStr(wbsDoc("Docnote"))
-          '    End If
-
-          '    If detail > 1 Then
-          '      'แสดงรายการในแต่ละเอกสาร
-          '      If Not Doctr Is Nothing Then
-          '        Doctr.State = RowExpandState.Expanded
-          '        DocItemTr = Doctr.Childs.Add
-          '        DocItemTr("boqi_itemname") = wbsDoc("itemName")
-          '        DocItemTr("UnitPrice") = Configuration.FormatToString(CDec(wbsDoc("UnitPrice")), dgt)
-          '        DocItemTr("Unit") = IIf(wbsDoc.IsNull("UnitName"), "", wbsDoc("UnitName"))
-          '        DocItemTr("ActualQuantity") = Configuration.FormatToString(CDec(wbsDoc("Qty")), dgt)
-          '        DocItemTr("ActualMaterialCost") = Configuration.FormatToString(CDec(wbsDoc("MatActual")), dgt)
-          '        DocItemTr("ActualLaborCost") = Configuration.FormatToString(CDec(wbsDoc("LabActual")), dgt)
-          '        DocItemTr("ActualEquipmentCost") = Configuration.FormatToString(CDec(wbsDoc("EqActual")), dgt)
-          '        DocItemTr("Actual") = Configuration.FormatToString(CDec(wbsDoc("Amount")), dgt)
-          '        DocItemTr.State = RowExpandState.None
-          '        DocItemTr("note") = CStr(wbsDoc("itemnote"))
-          '      End If
-          '    End If
-
-          '    DocMatActual += CDec(wbsDoc("MatActual"))
-          '    DocLabActual += CDec(wbsDoc("LabActual"))
-          '    DocEqActual += CDec(wbsDoc("EqActual"))
-          '    DocAmount += CDec(wbsDoc("Amount"))
-          '  Next
-          '  If Not Doctr Is Nothing Then
-          '    Doctr("ActualMaterialCost") = Configuration.FormatToString(DocMatActual, dgt)
-          '    Doctr("ActualLaborCost") = Configuration.FormatToString(DocLabActual, dgt)
-          '    Doctr("ActualEquipmentCost") = Configuration.FormatToString(DocEqActual, dgt)
-          '    Doctr("Actual") = Configuration.FormatToString(DocAmount, dgt)
-          '  End If
-          'End If
         Next
 
-        ''#######################################################################################################
-
-        '' OVER HEAD ############################################################################################
-        ''#######################################################################################################
-        'Dim SumMarkAmount As Decimal = 0
-        'Dim SumActualAmout As Decimal = 0
-        'Dim SumTotalDiffAmount As Decimal = 0
-        'Dim tmpMarkAmt As Decimal = 0
-        'Dim tmpActAmt As Decimal = 0
-        'Dim tmpDiffAmt As Decimal = 0
-        'Dim overheadTemp As String = ""
-        'Dim overheadedtr As TreeRow = Nothing
-        'Dim overheadtr As TreeRow = Nothing
-        'Dim markuptr As TreeRow = Nothing
-        'overheadedtr = dt.Childs.Add
-        'overheadedtr("boqi_itemName") = Me.StringParserService.Parse("${res:Global.Overhead}")
-        'If dtMarkUp.Rows.Count > 0 Then
-        '  For Each markuprow As DataRow In dtMarkUp.Select("code_tag = 0")
-        '    'แต่ละ Over Head
-        '    If Not overheadTemp = CStr(markuprow("code_order")) Then
-        '      If Not overheadtr Is Nothing Then
-        '        overheadtr("Total") = Configuration.FormatToString(tmpMarkAmt, dgt)
-        '        overheadtr("Actual") = Configuration.FormatToString(tmpActAmt, dgt)
-        '        overheadtr("TotalDiff") = Configuration.FormatToString(tmpDiffAmt, dgt)
-        '        stage = "3"
-        '        If tmpMarkAmt = 0 Then
-        '          overheadtr("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        '        Else
-        '          overheadtr("TotalPercentDiff") = Configuration.FormatToString((tmpDiffAmt / tmpMarkAmt) * 100, dgt) & " %"
-        '        End If
-        '        stage = "4"
-        '        tmpMarkAmt = 0
-        '        tmpActAmt = 0
-        '        tmpDiffAmt = 0
-        '      End If
-
-        '      overheadtr = overheadedtr.Childs.Add
-        '      overheadtr.Tag = markuprow
-        '      overheadtr("boqi_itemName") = markuprow("code_description")
-        '      overheadtr.State = RowExpandState.Expanded
-        '      overheadTemp = CStr(markuprow("code_order"))
-        '    End If
-
-        '    'แต่ละรายการ Markup
-        '    If Not overheadtr Is Nothing Then
-        '      markuptr = overheadtr.Childs.Add
-        '      markuptr.Tag = markuprow
-        '      markuptr("boqi_itemName") = markuprow("markup_name")
-        '      markuptr("Total") = Configuration.FormatToString(CDec(markuprow("markup_totalamt")), dgt)
-        '      markuptr("Actual") = Configuration.FormatToString(CDec(markuprow("amount")), dgt)
-        '      markuptr("TotalDiff") = Configuration.FormatToString(CDec(markuprow("diffamount")), dgt)
-        '      stage = "5"
-        '      If CDec(markuprow("markup_totalamt")) = 0 Then
-        '        markuptr("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        '      Else
-        '        markuptr("TotalPercentDiff") = Configuration.FormatToString((CDec(markuprow("diffamount")) / CDec(markuprow("markup_totalamt"))) * 100, dgt) & " %"
-        '      End If
-        '      stage = "6"
-        '      SumMarkAmount += CDec(markuprow("markup_totalamt"))
-        '      SumActualAmout += CDec(markuprow("amount"))
-        '      SumTotalDiffAmount += CDec(markuprow("diffamount"))
-        '      tmpMarkAmt += CDec(markuprow("markup_totalamt"))
-        '      tmpActAmt += CDec(markuprow("amount"))
-        '      tmpDiffAmt += CDec(markuprow("diffamount"))
-        '      markuptr.State = RowExpandState.Expanded
-        '    End If
-
-        '    'รายการแต่ละเอกสารในแต่ละ Markup
-        '    If detail > 0 Then
-        '      Dim DocMatActual As Decimal = 0
-        '      Dim DocLabActual As Decimal = 0
-        '      Dim DocEqActual As Decimal = 0
-        '      Dim DocAmount As Decimal = 0
-        '      'Dim myDocId As String = ""
-        '      Dim myTempDoc As String = ""
-        '      Dim DocMarkuptr As TreeRow = Nothing
-        '      Dim DocMarkupItemTr As TreeRow = Nothing
-
-        '      For Each markupdocrow As DataRow In dtDoc.Select("wbsid = " & markuprow("markup_id") & " and ismarkup = 1")
-        '        If Not myTempDoc = CStr(markupdocrow("DocId")) Then
-        '          If Not DocMarkuptr Is Nothing Then
-        '            DocMarkuptr("Actual") = Configuration.FormatToString(DocAmount, dgt)
-        '            DocAmount = 0
-        '          End If
-
-        '          'แสดงเอกสารแต่ละตัว
-        '          DocMarkuptr = markuptr.Childs.Add
-        '          DocMarkuptr.Tag = markupdocrow
-        '          DocMarkuptr("boqi_itemname") = markupdocrow("DocCode")
-        '          'tr("Actual") = Configuration.FormatToString(SumValueInDataTable(dt3.Select(myQuery), "Amt"), dgt)
-        '          DocMarkuptr.State = RowExpandState.Expanded
-        '          myTempDoc = CStr(markupdocrow("DocId"))
-        '        End If
-
-        '        If detail > 1 Then
-        '          If Not DocMarkuptr Is Nothing Then
-        '            'แสดงรายการในแต่ละเอกสาร
-        '            DocMarkupItemTr = DocMarkuptr.Childs.Add
-        '            DocMarkupItemTr("boqi_itemname") = markupdocrow("itemName")
-        '            DocMarkupItemTr("Unit") = IIf(markupdocrow.IsNull("UnitName"), "", markupdocrow("UnitName"))
-        '            DocMarkupItemTr("ActualQuantity") = Configuration.FormatToString(CDec(markupdocrow("Qty")), dgt)
-        '            DocMarkupItemTr("Actual") = Configuration.FormatToString(CDec(markupdocrow("Amount")), dgt)
-        '            DocMarkupItemTr.State = RowExpandState.None
-        '          End If
-        '        End If
-
-        '        DocAmount += CDec(markupdocrow("Amount"))
-        '      Next
-        '      If Not DocMarkuptr Is Nothing Then
-        '        DocMarkuptr("Actual") = Configuration.FormatToString(DocAmount, dgt)
-        '        DocAmount = 0
-        '      End If
-        '    End If
-        '  Next
-
-        '  If Not overheadtr Is Nothing Then
-        '    overheadtr("Total") = Configuration.FormatToString(tmpMarkAmt, dgt)
-        '    overheadtr("Actual") = Configuration.FormatToString(tmpActAmt, dgt)
-        '    overheadtr("TotalDiff") = Configuration.FormatToString(tmpDiffAmt, dgt)
-        '    stage = "7"
-        '    If tmpMarkAmt = 0 Then
-        '      overheadtr("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        '    Else
-        '      overheadtr("TotalPercentDiff") = Configuration.FormatToString((tmpDiffAmt / tmpMarkAmt) * 100, dgt) & " %"
-        '    End If
-        '    stage = "8"
-        '    tmpMarkAmt = 0
-        '    tmpActAmt = 0
-        '    tmpDiffAmt = 0
-        '  End If
-        'End If
-
-        'overheadedtr("Total") = Configuration.FormatToString(SumMarkAmount, dgt)
-        'overheadedtr("Actual") = Configuration.FormatToString(SumActualAmout, dgt)
-        'overheadedtr("TotalDiff") = Configuration.FormatToString(SumTotalDiffAmount, dgt)
-        'stage = "9"
-        'If SumMarkAmount = 0 Then
-        '  overheadedtr("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        'Else
-        '  overheadedtr("TotalPercentDiff") = Configuration.FormatToString((SumTotalDiffAmount / SumMarkAmount) * 100, dgt) & " %"
-        'End If
-        'stage = "10"
-        'overheadedtr.State = RowExpandState.Expanded
-        ''#######################################################################################################
-
-        'TOTAL #################################################################################################
-        '#######################################################################################################
-        'Dim totalNode As TreeRow = dt.Childs.Add
-        'totalNode("boqi_itemName") = Me.StringParserService.Parse("${res:Global.Total}")
-        'totalNode("Total") = Configuration.FormatToString(SumMarkAmount + SumNetWbsBudget, dgt)
-        'totalNode("Actual") = Configuration.FormatToString(SumActualAmout + SumNetWBsActual, dgt)
-        'totalNode("TotalDiff") = Configuration.FormatToString(SumTotalDiffAmount + SumNetWBsDiff, dgt)
-        'stage = "11"
-        'If SumMarkAmount + SumNetWbsBudget = 0 Then
-        '  totalNode("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        'Else
-        '  totalNode("TotalPercentDiff") = Configuration.FormatToString(((SumTotalDiffAmount + SumNetWBsDiff) / (SumMarkAmount + SumNetWbsBudget)) * 100, dgt) & " %"
-        'End If
-        'stage = "12"
-        'totalNode.State = RowExpandState.Expanded
-        ''#######################################################################################################
-
-        ''PROFIT ################################################################################################
-        ''#######################################################################################################
-        'Dim SumProfitAmt As Decimal = 0
-        'Dim SumProfitActualAmt As Decimal = 0
-        'Dim SumDiffProfitAmt As Decimal = 0
-        'Dim profitheadedtr As TreeRow = Nothing
-        'Dim profitheadtr As TreeRow = Nothing
-        'Dim itemtr As TreeRow = Nothing
-
-        'profitheadedtr = dt.Childs.Add
-        'profitheadedtr("boqi_itemName") = Me.StringParserService.Parse("${res:Global.Profit}" & "<ประเมิน>")
-
-        'If dtMarkUp.Rows.Count > 0 Then
-        '  For Each profitrow As DataRow In dtMarkUp.Select("code_tag = 1")
-
-        '    profitheadtr = profitheadedtr.Childs.Add
-
-        '    profitheadtr("boqi_itemName") = profitrow("markup_name")
-        '    profitheadtr("Total") = Configuration.FormatToString(CDec(profitrow("markup_totalamt")), dgt)
-        '    'profitheadtr("Actual") = Configuration.FormatToString(CDec(profitrow("amount")), dgt)
-        '    profitheadtr("TotalDiff") = Configuration.FormatToString(CDec(profitrow("diffamount")), dgt)
-        '    stage = "13"
-        '    'If CDec(profitrow("markup_totalamt")) = 0 Then
-        '    '  profitheadtr("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        '    'Else
-        '    '  profitheadtr("TotalPercentDiff") = Configuration.FormatToString((CDec(profitrow("diffamount")) / CDec(profitrow("markup_totalamt"))) * 100, dgt) & " %"
-        '    'End If
-        '    stage = "14"
-        '    SumProfitAmt += CDec(profitrow("markup_totalamt"))
-        '    SumProfitActualAmt += CDec(profitrow("amount"))
-        '    SumDiffProfitAmt += CDec(profitrow("diffamount"))
-        '    profitheadtr.State = RowExpandState.Expanded
-        '  Next
-        'End If
-
-        'profitheadedtr("Total") = Configuration.FormatToString(SumProfitAmt, dgt)
-        ''profitheadedtr("Actual") = Configuration.FormatToString(SumProfitActualAmt, dgt)
-        'profitheadedtr("TotalDiff") = Configuration.FormatToString(SumDiffProfitAmt, dgt)
-        'stage = "15"
-        ''If SumProfitAmt = 0 Then
-        ''    profitheadedtr("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        ''Else
-        ''    profitheadedtr("TotalPercentDiff") = Configuration.FormatToString((SumDiffProfitAmt / SumProfitAmt) * 100, dgt) & " %"
-        ''End If
-        'stage = "16"
-        'profitheadedtr.State = RowExpandState.Expanded
-        ''#######################################################################################################
-
-        ''NET PROFIT ############################################################################################
-        ''#######################################################################################################
-        'Dim netNode As TreeRow = dt.Childs.Add
-        'netNode("boqi_itemName") = Me.StringParserService.Parse("กำไร(ขาดทุน)สุทธิ")
-        ''netNode("Total") = Configuration.FormatToString(NetProfitTotal, dgt)
-        ''netNode("Actual") = Configuration.FormatToString(NetProfitActual, dgt)
-        'netNode("TotalDiff") = Configuration.FormatToString(SumTotalDiffAmount + SumNetWBsDiff + SumDiffProfitAmt, dgt)
-        'stage = "17"
-        ''If (SumTotalDiffAmount + SumNetWBsDiff) = 0 Then
-        ''    netNode("TotalPercentDiff") = Configuration.FormatToString(0, dgt) & " %"
-        ''Else
-        ''    netNode("TotalPercentDiff") = Configuration.FormatToString(((SumTotalDiffAmount + SumNetWBsDiff - SumDiffProfitAmt) / (SumTotalDiffAmount + SumNetWBsDiff)) * 100, dgt) & " %"
-        ''End If
-        'stage = "18"
-        'netNode.State = RowExpandState.Expanded
-        ''#######################################################################################################
-
-
-        'Dim i As Integer = 0
-        ''For Each row As DataRow In dt.Rows
-        ''  i += 1
-        ''  row("boqi_linenumber") = i
-        ''Next
-        'm_hashData = New Hashtable
-        'For Each row As TreeRow In dt.Rows
-        '  i += 1
-        '  row("boqi_linenumber") = i
-        '  If Not row.Tag Is Nothing Then
-        '    m_hashData(i) = row.Tag
-        '  End If
-        'Next
-        'If i > 0 Then
         dt.AcceptChanges()
-        'End If
       Catch ex As Exception
         MessageBox.Show(stage & vbCrLf & ex.Message)
       End Try
 
     End Sub
-    'Private Function SumValueInDataTable(ByVal dr() As DataRow, ByVal field As String) As Decimal
-    '    Dim ret As Decimal = 0
-    '    For Each drtmp As DataRow In dr
-    '        If Not drtmp.IsNull(field) Then
-    '            ret += CDec(drtmp(field))
-    '        End If
-    '    Next
-    '    Return ret
-    'End Function
-    'Public Overrides Sub RefreshDataSet()
-    '  m_cc = New CostCenter
-    '  'If TypeOf Me.Filters(0).Value Is CostCenter Then
-    '  '  m_cc = CType(Me.Filters(0).Value, CostCenter)
-    '  'End If
-    '  ''เปลี่ยนค่าที่จะส่งไป StoredProcedure ที่ส่งเป็น Object เป็น ID
-    '  'If Not Me.Filters(0).Value Is DBNull.Value Then
-    '  '  Me.Filters(0).Value = m_cc.Id
-    '  'End If
-    '  'If Not Me.Filters(6).Value Is Nothing AndAlso TypeOf Me.Filters(6).Value Is Employee Then
-    '  '  Me.Filters(6).Value = Me.Filters(6).Value.Id
-    '  'End If
-    '  '
-    '  If Not m_cc Is Nothing AndAlso m_cc.Originated Then
-    '    MyBase.RefreshDataSet()
-    '  End If
-    'End Sub
+   
 #End Region
 
 #Region "Select Distinct From DataTable"
@@ -1556,6 +1369,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Public Property Deliver As Decimal
       Public Property Bill As Decimal
       Public Property Received As Decimal
+      Public Property Retention As Decimal
+      Public Property Advance As Decimal
       Public Property Remain As Decimal
 
       Public Property Budget As Decimal
