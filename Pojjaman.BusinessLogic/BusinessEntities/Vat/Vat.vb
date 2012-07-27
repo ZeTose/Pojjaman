@@ -808,7 +808,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim vi As New VatItem
       Dim ptn As String = Longkong.Pojjaman.BusinessLogic.Entity.GetAutoCodeFormat(vi.EntityId)
-      Dim pattern As String = CodeGenerator.GetPattern(ptn, Me)
+      Dim pattern As String = CodeGenerator.GetPattern(ptn, Me.RefDoc)
       pattern = CodeGenerator.GetPattern(pattern)
       Dim lastCode As String = vi.GetLastCode(pattern)
 
@@ -3909,6 +3909,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
+      If TypeOf Me.Vat.RefDoc Is IGLAble Then
+        'RefGLCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefGLCode"
+        dpi.Value = CType(Me.Vat.RefDoc, IGLAble).Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'RefGLDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "RefGLDate"
+        dpi.Value = CType(Me.Vat.RefDoc, IGLAble).Date
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
+      End If
+
       Dim refDoc As IVatable
       If Not Me.Vat Is Nothing AndAlso Not Me.Vat.RefDoc Is Nothing Then
         refDoc = Me.Vat.RefDoc
@@ -3950,6 +3966,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
 
       End If
+
       'If TypeOf Me.Vat.RefDoc Is BillIssue Then
       '  Dim bi As BillIssue = CType(Me.Vat.RefDoc, BillIssue)
       '  myCount = bi.ItemCollection.Count
@@ -3971,6 +3988,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  dpi.DataType = "System.Decimal"
       '  dpiColl.Add(dpi)
       'End If
+
 
       '**************************************Line Items*********************************************
       Dim ls As ArrayList = Me.Lines
