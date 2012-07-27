@@ -27,7 +27,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class BillIssue
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, IGLAble, IVatable, IHasIBillablePerson, ICancelable, ICheckPeriod, INewGLAble, INewPrintableEntity
+    Implements IPrintableEntity, IGLAble, IVatable, IHasIBillablePerson, ICancelable, ICheckPeriod, INewGLAble, INewPrintableEntity, IVatAndVatDetailAble
 
 #Region "Members"
     Private m_docdate As Date

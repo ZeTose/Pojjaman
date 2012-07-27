@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class ReceiveSelection
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IWitholdingTaxable, IReceivable, IVatable, IPrintableEntity, IHasIBillablePerson _
-    , ICancelable, ICheckPeriod, INewGLAble, INewPrintableEntity
+    , ICancelable, ICheckPeriod, INewGLAble, INewPrintableEntity, IVatAndVatDetailAble
 
 #Region "Members"
     Private m_customer As Customer

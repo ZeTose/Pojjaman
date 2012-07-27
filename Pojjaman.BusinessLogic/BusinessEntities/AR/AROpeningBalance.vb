@@ -8,7 +8,7 @@ Imports System.Configuration
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class AROpeningBalance
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, ISaleBillIssuable, IPrintableEntity, IHasIBillablePerson, ICancelable, IHasToCostCenter, IVatable
+    Implements IGLAble, ISaleBillIssuable, IPrintableEntity, IHasIBillablePerson, ICancelable, IHasToCostCenter, IVatable, IVatAndVatDetailAble
 
 #Region "Members"
     Private m_customer As Customer 'entity
