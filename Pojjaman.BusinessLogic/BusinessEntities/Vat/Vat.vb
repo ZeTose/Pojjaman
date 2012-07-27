@@ -3910,6 +3910,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
 
       If TypeOf Me.Vat.RefDoc Is IGLAble Then
+
         'RefGLCode
         dpi = New DocPrintingItem
         dpi.Mapping = "RefGLCode"
@@ -3923,6 +3924,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Value = CType(Me.Vat.RefDoc, IGLAble).Date
         dpi.DataType = "System.DateTime"
         dpiColl.Add(dpi)
+
       End If
 
       Dim refDoc As IVatable
