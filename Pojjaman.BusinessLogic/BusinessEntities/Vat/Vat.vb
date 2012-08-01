@@ -3326,9 +3326,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Me.Vat.IsInitialized = True
     End Sub
-    Public Function GetMinBillAcceptance(refcodeList As String) As DataSet
+    Public Function GetMinBillAcceptance(refcodeList As String, refentityType As Integer) As DataSet
       Try
-        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetMinBillAcceptance", New SqlParameter("@refcodeList", refcodeList))
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetMinBillAcceptance", New SqlParameter("@refcodeList", refcodeList), New SqlParameter("@refentityType", refentityType))
         Return ds
       Catch ex As Exception
 
@@ -3859,26 +3859,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         If TypeOf Me.Vat.RefDoc Is PaySelection Then
           Dim py As PaySelection = CType(Me.Vat.RefDoc, PaySelection)
-
           For Each pi As BillAcceptanceItem In py.ItemCollection
             If pi.ParentType = 60 Then
               refdocEntityList.Add(pi.ParentCode)
             End If
           Next
-
           refdocEntityString = String.Join(",", refdocEntityList.ToArray)
-          Dim ds As DataSet = GetMinBillAcceptance(refdocEntityString)
+          Dim ds As DataSet = GetMinBillAcceptance(refdocEntityString, 73)
           For Each row As DataRow In ds.Tables(0).Rows
             Dim drh As New DataRowHelper(row)
             If IsDate(drh.GetValue(Of String)("billa_docdate")) Then
               refdocEntityDateList.Add(drh.GetValue(Of Date)("billa_docdate").ToShortDateString)
             End If
           Next
-
+          refdocEntityString = String.Join(", ", refdocEntityList.ToArray)
+          refdocEntityDateString = String.Join(", ", refdocEntityDateList.ToArray)
+        ElseIf TypeOf Me.Vat.RefDoc Is ReceiveSelection Then
+          Dim rs As ReceiveSelection = CType(Me.Vat.RefDoc, ReceiveSelection)
+          For Each sb As SaleBillIssueItem In rs.ItemCollection
+            If sb.ParentType = 81 Then
+              refdocEntityList.Add(sb.ParentCode)
+            End If
+          Next
+          refdocEntityString = String.Join(",", refdocEntityList.ToArray)
+          Dim ds As DataSet = GetMinBillAcceptance(refdocEntityString, 82)
+          For Each row As DataRow In ds.Tables(0).Rows
+            Dim drh As New DataRowHelper(row)
+            If IsDate(drh.GetValue(Of String)("billi_docdate")) Then
+              refdocEntityDateList.Add(drh.GetValue(Of Date)("billi_docdate").ToShortDateString)
+            End If
+          Next
           refdocEntityString = String.Join(", ", refdocEntityList.ToArray)
           refdocEntityDateString = String.Join(", ", refdocEntityDateList.ToArray)
         End If
-
       End If
 
       'RefDoc
@@ -3910,21 +3923,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
 
       If TypeOf Me.Vat.RefDoc Is IGLAble Then
-
         'RefGLCode
         dpi = New DocPrintingItem
         dpi.Mapping = "RefGLCode"
-        dpi.Value = CType(Me.Vat.RefDoc, IGLAble).Code
+        dpi.Value = CType(Me.Vat.RefDoc, IGLAble).JournalEntry.Code
         dpi.DataType = "System.String"
         dpiColl.Add(dpi)
 
         'RefGLDate
         dpi = New DocPrintingItem
         dpi.Mapping = "RefGLDate"
-        dpi.Value = CType(Me.Vat.RefDoc, IGLAble).Date
+        dpi.Value = CType(Me.Vat.RefDoc, IGLAble).JournalEntry.DocDate
         dpi.DataType = "System.DateTime"
         dpiColl.Add(dpi)
-
       End If
 
       Dim refDoc As IVatable

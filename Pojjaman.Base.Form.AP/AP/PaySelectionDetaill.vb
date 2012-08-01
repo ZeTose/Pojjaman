@@ -13,6 +13,7 @@ Imports Longkong.Core.AddIns
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PaySelectionDetail
     Inherits AbstractEntityDetailPanelView
+    'Inherits UserControl
     Implements IValidatable
 
 #Region " Windows Form Designer generated code "
