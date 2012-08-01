@@ -3630,7 +3630,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myTool As New Tool(row(0), "")
             If Not myTool.Originated Then
               Return New SaveErrorException("${res:Global.Error.ToolIsInvalid}", New String() {item.Entity.Name})
-            ElseIf Not myTool.Unit Is Nothing AndAlso item.Unit.Valid AndAlso Not myTool.Unit.Id <> item.Unit.Id Then
+            ElseIf Not myTool.Unit Is Nothing AndAlso item.Unit.Valid AndAlso myTool.Unit.Id <> item.Unit.Id Then
               Return New SaveErrorException("${res:Global.Error.ToolInvalidUnit}", New String() {myTool.Code, item.Unit.Name})
             End If
           End If
@@ -3641,7 +3641,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myLabor As New Labor(row(0), "")
             If Not myLabor.Originated Then
               Return New SaveErrorException("${res:Global.Error.LaborIsInvalid}", New String() {item.Entity.Name})
-            ElseIf Not myLabor.Unit Is Nothing AndAlso myLabor.Unit.Valid AndAlso Not myLabor.Unit.Id <> item.Unit.Id Then
+            ElseIf Not myLabor.Unit Is Nothing AndAlso myLabor.Unit.Valid AndAlso myLabor.Unit.Id <> item.Unit.Id Then
               Return New SaveErrorException("${res:Global.Error.LaborInvalidUnit}", New String() {myLabor.Code, item.Unit.Name})
             End If
           End If
@@ -3652,7 +3652,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim myEqCost As New EqCost(row(0), "")
             If Not myEqCost.Originated Then
               Return New SaveErrorException("${res:Global.Error.EqCostIsInvalid}", New String() {item.Entity.Name})
-            ElseIf Not myEqCost.Unit Is Nothing AndAlso myEqCost.Unit.Valid AndAlso Not myEqCost.Unit.Id <> item.Unit.Id Then
+            ElseIf Not myEqCost.Unit Is Nothing AndAlso myEqCost.Unit.Valid AndAlso myEqCost.Unit.Id <> item.Unit.Id Then
               Return New SaveErrorException("${res:Global.Error.EqCostInvalidUnit}", New String() {myEqCost.Code, item.Unit.Name})
             End If
           End If
