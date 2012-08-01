@@ -2367,17 +2367,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim RefDocVatDate As String = ""
       Dim RefDocVatCodeList As New ArrayList
       Dim RefDocVatDateList As New ArrayList
-      If Not Me.Vat Is Nothing AndAlso Not Me.Vat.ItemCollection Is Nothing Then
-        For Each vi As VatItem In Me.Vat.ItemCollection
-          If vi.Code.Trim.Length > 0 Then
-            RefDocVatCodeList.Add(vi.Code)
-            RefDocVatDateList.Add(vi.DocDate.ToShortDateString)
+   
+      For Each itm As SaleBillIssueItem In Me.ItemCollection
+        If itm.ParentType = 81 Then
+          Dim bi As New BillIssue(itm.ParentId)
+          If Not bi.Vat Is Nothing AndAlso Not bi.Vat.ItemCollection Is Nothing Then
+            For Each vi As VatItem In bi.Vat.ItemCollection
+              If vi.Code.Trim.Length > 0 Then
+                RefDocVatCodeList.Add(vi.Code)
+                RefDocVatDateList.Add(vi.DocDate.ToShortDateString)
+              End If
+            Next
           End If
-        Next
+        End If
+      Next
 
-        RefDocVatCode = String.Join(", ", RefDocVatCodeList.ToArray)
-        RefDocVatDate = String.Join(", ", RefDocVatDateList.ToArray)
-      End If
+      RefDocVatCode = String.Join(", ", RefDocVatCodeList.ToArray)
+      RefDocVatDate = String.Join(", ", RefDocVatDateList.ToArray)
 
       'RefDocVatCode
       dpi = New DocPrintingItem
