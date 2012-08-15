@@ -370,16 +370,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
       Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+      Dim HostURL As String = Configuration.GetConfig("WebServiceHostURL").ToString
 
       If BuilkID = "" Then
         Return
       End If
 
+      Dim WebService As String = HostURL & "/paymenttrack/requestbuilksupplier/?bid=" & BuilkID
+
       Me.BuilkMatchList = New List(Of BuilkMatch)
 
       ' Create a request for the URL. 
-      Dim request As WebRequest = _
-        WebRequest.Create("http://www.builk.com/paymenttrack/requestbuilksupplier/?bid=" & BuilkID)
+      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/requestbuilksupplier/?bid=" & BuilkID)
+      Dim request As WebRequest = WebRequest.Create(WebService)
       ' If required by the server, set the credentials.
       request.Credentials = CredentialCache.DefaultCredentials
       ' Get the response.
@@ -423,13 +426,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Sub ReturnBuilkRequest()
 
       Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+      Dim HostURL As String = Configuration.GetConfig("WebServiceHostURL").ToString
 
       If BuilkID = "" Then
         Return
       End If
 
+      Dim WebService As String = HostURL & "/paymenttrack/approvebuilksupplier/?bid=" & BuilkID
+
       ' Create a request using a URL that can receive a post. 
-      Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=" & BuilkID)
+      Dim request As WebRequest = WebRequest.Create(WebService)
+      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=" & BuilkID)
       'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
       ' Set the Method property of the request to POST.
       request.Method = "POST"

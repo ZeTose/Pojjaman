@@ -344,13 +344,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function ExportPaymentTrackOnLine() As SaveErrorException
 
       Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+      Dim HostURL As String = Configuration.GetConfig("WebServiceHostURL").ToString
 
       If BuilkID = "" Then
         Return New SaveErrorException("0")
       End If
 
+      Dim WebService As String = HostURL & "/paymenttrack/Transaction/?bid=" & BuilkID
+
       'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/approvebuilksupplier/?bid=12")
-      Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
+      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/Transaction/?bid=" & BuilkID)
+      Dim request As WebRequest = WebRequest.Create(WebService)
       request.Method = "POST"
 
       Dim postData As String = ""
@@ -410,14 +414,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim blist As New List(Of BuilkExportConfirmInfo)
       Dim BuilkID As String = Configuration.GetConfig("BuilkID").ToString
+      Dim HostURL As String = Configuration.GetConfig("WebServiceHostURL").ToString
 
       If BuilkID = "" Then
         Return
       End If
 
+      Dim WebService As String = HostURL & "/paymenttrack/requestbuilkexportconfirm/?bid=" & BuilkID & "&pid=" & Me.Id.ToString
+
       ' Create a request for the URL. 
-      Dim request As WebRequest = _
-        WebRequest.Create("http://www.builk.com/paymenttrack/requestbuilkexportconfirm/?bid=" & BuilkID & "&pid=" & Me.Id.ToString)
+      'Dim request As WebRequest = WebRequest.Create("http://www.builk.com/paymenttrack/requestbuilkexportconfirm/?bid=" & BuilkID & "&pid=" & Me.Id.ToString)
+      Dim request As WebRequest = WebRequest.Create(WebService)
       ' If required by the server, set the credentials.
       request.Credentials = CredentialCache.DefaultCredentials
       ' Get the response.
