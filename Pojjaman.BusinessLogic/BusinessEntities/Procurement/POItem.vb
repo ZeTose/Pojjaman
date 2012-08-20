@@ -937,7 +937,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             newWbsd.CBS = wbsd.CBS
             Me.WBSDistributeCollection.Add(newWbsd)
           Next
-          Me.Qty = Math.Max(prItem.Qty - (prItem.WithdrawnQty + prItem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
+          Me.Qty = Math.Max(newPritem.Qty - (newPritem.WithdrawnQty + newPritem.OrderedQty), 0) 'เพื่อให้การเซต ปริมาณมีผลที่การจัดสรรด้วย
         End If
 
       End If
