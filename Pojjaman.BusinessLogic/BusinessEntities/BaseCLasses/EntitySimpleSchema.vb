@@ -109,6 +109,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ds = GetNewListSchema(printingEntity)
       Else
         ds = GetNewListOnlySchemaFromDB(printingEntity, schemaId)
+        Dim dtIndex As Integer = 0
+        For Each dt As DataTable In ds.Tables
+          dt.TableName = "Table" & dtIndex
+          dtIndex += 1
+        Next
       End If
       ds.DataSetName = schemaId
 
@@ -441,7 +446,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                                             New SqlParameter("@entitytype", _entity.EntityId)
                                                         )
         If ds.Tables.Count > 0 Then
-          ds.Tables(0).TableName = _entity.ClassName
+          'ds.Tables(0).TableName = _entity.ClassName
+          Dim dtIndex As Integer = 0
+          For Each dt As DataTable In ds.Tables
+            dt.TableName = "Table" & dtIndex
+            dtIndex += 1
+          Next
         End If
 
         Return ds

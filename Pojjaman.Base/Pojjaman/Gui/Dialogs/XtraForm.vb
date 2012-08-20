@@ -23,6 +23,7 @@ Imports DevExpress
 Imports DevExpress.XtraReports.UI
 Imports DevExpress.XtraPrinting.Drawing
 Imports System.Text.RegularExpressions
+Imports System.Globalization
 
 Namespace Longkong.Pojjaman.Gui.Panels
 
@@ -115,6 +116,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         newReport = Me.CreateNewReport(companyLogo, companyConfig)
 
+        AddHandler newReport.AfterPrint, AddressOf AfterPrint
+
         PrintControl1.PrintingSystem = newReport.PrintingSystem
 
         PrintControl1.ShowPageMargins = False
@@ -129,6 +132,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.Customize, XtraPrinting.CommandVisibility.None)
         newReport.PrintingSystem.SetCommandVisibility(XtraPrinting.PrintingSystemCommand.SendFile, XtraPrinting.CommandVisibility.None)
 
+        'Dim _xrLabel As XRLabel = CType(newReport.FindControl("label7", True), XRLabel)
+
+        '_xrLabel.Text = _xrLabel.Text.Replace("1", "๑").Replace("2", "๒").Replace("3", "๓")
+        'Debug.WriteLine(_xrLabel.Text)
+
+        'PrintControl1.Refresh()
+
         'newReport.ShowPreviewMarginLines = False
       Catch ex As Exception
         MessageBox.Show("Load form .repx failed", "", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -137,8 +147,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Function CreateNewReport(ByVal companyLogo As Image, ByVal companyConfig As DataSet) As XtraReport
+      Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
       Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
       Dim newReport As DevExpress.XtraReports.UI.XtraReport
+      'AddHandler newReport.AfterPrint, AddressOf AfterPrint
       'newReport = New XtraReport
       Try
         newReport = XtraReport.FromFile(Me.m_path, True)
@@ -463,6 +475,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
         '--END CUSTOM NOTES--
 
         Dim newCtl As Object = CalculateFields(newReport)
+
+        Dim culture As String = CType(myProperties.GetProperty("CoreProperties.UILanguage"), String).Replace("-TH", "").Replace("-EN", "")
+        Dim cultureV As New CultureInfo(culture, True)
+
+        Dim dds As DataSet = CType(newReport.DataSource, DataSet)
+        For Each ddt As DataTable In dds.Tables
+          For Each ddc As DataColumn In ddt.Columns
+            If ddc.DataType = GetType(System.DateTime) Then
+              For Each ddr As DataRow In ddt.Rows
+                If Not ddr(ddc.ColumnName) Is DBNull.Value Then
+                  ddr(ddc.ColumnName) = CDate(ddr(ddc.ColumnName)).ToString(cultureV)
+                  'Debug.WriteLine(CDate(ddr(ddc.ColumnName)).ToString("dd/MM/yyyy"))
+                  'Debug.WriteLine(culture)
+                End If
+              Next
+            End If
+          Next
+        Next
+
+        For Each b As Band In newReport.Bands
+          For Each c As Object In b.Controls
+
+          Next
+        Next
+
         'CType(newCtl, DevExpress.XtraReports.UI.CalculatedField).Expression = "สิบบาทยี่สิบห้าสตางค์"
 
         'Dim xrLabel As New DevExpress.XtraReports.UI.XRLabel
@@ -481,6 +518,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return New XtraReport
       End Try
     End Function
+
+    Private Sub AfterPrint(sender As Object, e As System.EventArgs)
+      'Dim newReport As XtraReport = CType(sender, XtraReport)
+
+      'For Each b As Band In newReport.Bands
+      '  For Each obj As Object In b.Controls
+      '    If TypeOf obj Is XRLabel Then
+      '      Debug.WriteLine(CType(obj, XRLabel).Text)
+      '    End If
+      '  Next
+      'Next
+    End Sub
 
     Private Function CreateNewReportByStore(_docId As Integer, ByVal companyLogo As Image, ByVal companyConfig As DataSet) As XtraReport
       'Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
@@ -757,7 +806,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Function MatchFunction(expr As String, ByRef xr As XtraReport) As String
       'Dim expr As String = "ctext(12345678,th,baht,stang,only)"
-      'Dim Num As String = "(\-?\d+\.?\d*)"
       Const Var As String = "([^\(\),]*)"
       Dim ctextFunc As New Regex("ctext" &
       "\(\s*" & Var & _
@@ -766,15 +814,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       "\s*,\s*" & Var & _
       "\s*,\s*" & Var & _
       "\s*\)", RegexOptions.IgnoreCase)
+
+      'dim expr As String = "cnthai(%)"
+      Dim ctextFunc2 As New Regex("cnthai\(.*\)")
+
+      'Dim expr As String = "cnthai(123)"
+      Dim ctextFunc3 As New Regex("cnthai" &
+      "\(" &
+      "[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?" &
+      "\)", RegexOptions.IgnoreCase)
+
       If ctextFunc.IsMatch(expr) Then
         Dim m As Match = ctextFunc.Match(expr)
-
         Dim value1 As String = m.Groups(1).Value.Replace("'", "")
         Dim value2 As String = m.Groups(2).Value.Replace("'", "")
         Dim value3 As String = m.Groups(3).Value.Replace("'", "")
         Dim value4 As String = m.Groups(4).Value.Replace("'", "")
         Dim value5 As String = m.Groups(5).Value.Replace("'", "")
-
         If Not IsNumeric(value1) Then
           Dim newValue1 As String = Me.GetValueFromField(value1, xr)
           If newValue1.Length > 0 Then
@@ -783,17 +839,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Return ""
           End If
         End If
-
         Return Configuration.FormatToString(value1, value2.Trim(), value3.Trim, value4.Trim)
-
-        'Return Configuration.FormatToString(CDec(value1), DigitConfig.CurrencyText, value2.ToLower.Trim())
-
-        'If value2.ToLower.Trim.Equals("th") Then
-        '  Return Me.SplitValueText(value1, value3, value4, value5)
-        'Else
-        'End If
       End If
 
+      If ctextFunc2.IsMatch(expr) Then
+        expr = expr.Replace("cnthai(", "")
+        expr = expr.Substring(0, expr.Length - 1)
+
+        If Not IsNumeric(expr) Then
+          Dim newValue1 As String = Me.GetValueFromField(expr, xr)
+          If newValue1.Length > 0 Then
+            expr = newValue1
+          Else
+            Return ""
+          End If
+        End If
+        Return Me.ReplaceThaiNumber(expr)
+      End If
+
+      If ctextFunc3.IsMatch(expr) Then
+        Return Me.ReplaceThaiNumber(expr)
+      End If
       'Dim calcFunc As New Regex("calc\(\s*\)", RegexOptions.IgnoreCase)
       'If calcFunc.IsMatch(expr) Then
       '  Dim patturn As String = expr.Substring(5, Len(expr) - 1)
@@ -801,6 +867,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
 
       Return expr
+
+    End Function
+
+    Private Function ReplaceThaiNumber(input As String) As String
+      Dim hs As New Hashtable
+      hs.Add("1", "๑")
+      hs.Add("2", "๒")
+      hs.Add("3", "๓")
+      hs.Add("4", "๔")
+      hs.Add("5", "๕")
+      hs.Add("6", "๖")
+      hs.Add("7", "๗")
+      hs.Add("8", "๘")
+      hs.Add("9", "๙")
+      hs.Add("0", "๐")
+
+      Dim output As String = ""
+      For i As Integer = 1 To input.Length
+        output &= CStr(hs(Mid(input, i, 1)))
+      Next
+
+      Return output
 
     End Function
 
@@ -995,7 +1083,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.m_printingEntity = CType(_entity, INewPrintableEntity)
             Me.m_entity = _entity
             newOtherReport = Me.CreateNewReport(companyLogo, companyConfig)
-          
+
             'PrintControl1.PrintingSystem = newOtherReport.PrintingSystem
 
             'PrintControl1.ShowPageMargins = False

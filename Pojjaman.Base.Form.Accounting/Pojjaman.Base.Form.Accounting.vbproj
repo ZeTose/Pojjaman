@@ -82,6 +82,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="syncfusion.core, Version=9.104.0.20, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
@@ -179,7 +183,16 @@
     <Compile Include="GL\CalcMatCostProgressView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GL\ProjectReceivePaymentDetailPrintPreview.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\ProjectReceivePaymentMasterItemView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GL\EntityAutoGenView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GL\ProjectReceivePaymentDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GL\FinanacialStatmentDetail.vb">
@@ -295,8 +308,17 @@
     <EmbeddedResource Include="GL\CalcMatCostProgressView.resx">
       <DependentUpon>CalcMatCostProgressView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GL\ProjectReceivePaymentDetailPrintPreview.resx">
+      <DependentUpon>ProjectReceivePaymentDetailPrintPreview.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\ProjectReceivePaymentMasterItemView.resx">
+      <DependentUpon>ProjectReceivePaymentMasterItemView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GL\EntityAutoGenView.resx">
       <DependentUpon>EntityAutoGenView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GL\ProjectReceivePaymentDetailView.resx">
+      <DependentUpon>ProjectReceivePaymentDetailView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GL\FinanacialStatmentDetail.resx">
       <DependentUpon>FinanacialStatmentDetail.vb</DependentUpon>
@@ -364,6 +386,7 @@
     <EmbeddedResource Include="GL\WHTDetail.resx">
       <DependentUpon>WHTDetail.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

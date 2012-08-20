@@ -44,8 +44,12 @@
 		<EntityTab id="openningbalance">
 			<EntityTab id="openningbalance" view="Longkong.Pojjaman.Gui.Panels.OpenningBalanceDetail"/>
 			<EntityTab id="GLView" view="Longkong.Pojjaman.Gui.Panels.GLView"/>
-		</EntityTab>			
-	</Extension>
+		</EntityTab>
+    <EntityTab id="projectreceivepayment">
+      <EntityTab id="projectreceivepayment" view="Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView"/>
+      <!--<EntityTab id="projectreceivepaymentpreview" view="Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailPrintPreview"/>-->
+    </EntityTab>
+  </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityListViews">
 		<EntityListView id="vatitem" entity="vat" view="Longkong.Pojjaman.Gui.Panels.VatItemSelectionView"/>
 		<EntityListView id="vatforselection" entity="vatforselection" view="Longkong.Pojjaman.Gui.Panels.VatItemSelectionView"/>		
@@ -53,6 +57,7 @@
 		<EntityListView id="linkgl" entity="linkgl" view="Longkong.Pojjaman.Gui.Panels.LinkGLDetail"/>		
 		<EntityListView id="accountlink" entity="accountlink" view="Longkong.Pojjaman.Gui.Panels.AccountLinkDetail"/>	
 		<EntityListView id="accountperiod" entity="accountperiod" view="Longkong.Pojjaman.Gui.Panels.AccountPeriodView"/>
-		<EntityListView id="accountbook" entity="accountbook" view="Longkong.Pojjaman.Gui.Panels.AccountBookListView"/>			
-	</Extension>		
+		<EntityListView id="accountbook" entity="accountbook" view="Longkong.Pojjaman.Gui.Panels.AccountBookListView"/>
+    <EntityListView id="projectreceivepaymentmaster" entity="projectreceivepaymentmaster" view="Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentMasterItemView"/>
+  </Extension>		
 </AddIn>

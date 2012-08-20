@@ -82,6 +82,10 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Pojjaman.ContentInterface, Version=1.0.4038.16714, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\Pojjaman.ContentInterface.dll</HintPath>
@@ -186,6 +190,12 @@
     <Compile Include="Bidding\ProjectExplorerView.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Bidding\ProjectNACCEnumerateView.Designer.vb">
+      <DependentUpon>ProjectNACCEnumerateView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bidding\ProjectNACCEnumerateView.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bidding\Summary.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -261,6 +271,9 @@
     <EmbeddedResource Include="Bidding\ProjectExplorerView.resx">
       <DependentUpon>ProjectExplorerView.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Bidding\ProjectNACCEnumerateView.resx">
+      <DependentUpon>ProjectNACCEnumerateView.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Bidding\Summary.resx">
       <DependentUpon>Summary.vb</DependentUpon>
     </EmbeddedResource>
@@ -285,6 +298,7 @@
     <EmbeddedResource Include="CostControl\WBSAdjustFilterSubPanel.resx">
       <DependentUpon>WBSAdjustFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

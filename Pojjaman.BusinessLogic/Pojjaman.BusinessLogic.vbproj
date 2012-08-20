@@ -211,6 +211,7 @@
     <Compile Include="BusinessEntities\Accounting\AccountPeriod.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Accounting\ProjectReceivePaymentMaster.vb" />
     <Compile Include="BusinessEntities\Accounting\EntityAutoGen.vb" />
     <Compile Include="BusinessEntities\Accounting\CloseAccountPeriod.vb">
       <SubType>Code</SubType>
@@ -240,6 +241,7 @@
     <Compile Include="BusinessEntities\Accounting\OpenningBalance.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BusinessEntities\Accounting\ProjectReceivePayment.vb" />
     <Compile Include="BusinessEntities\Accounting\ReSaveGL.vb" />
     <Compile Include="BusinessEntities\AP\AdvancePayClosed.vb" />
     <Compile Include="BusinessEntities\AP\AdvancePay.vb">

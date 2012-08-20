@@ -282,17 +282,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
       'Me.m_entity.PopulateTree(tvGroup, m_filterSubPanel.GetFilterArray)
-      Search(Nothing, Nothing)
-      If Me.tvGroup.Nodes.Count > 0 Then
-        tvGroup.SelectedNode = tvGroup.Nodes(0)
-      End If
-      If Me.tvGroup.SelectedNode Is Nothing Then
-        SelectNewEntity()
-      End If
-
-      m_basketItems = New BasketItemCollection
-      m_proposedBasketItems = New BasketItemCollection
-
       m_selectionMode = mode
       Select Case m_selectionMode
         Case Selection.None, Selection.SingleSelect
@@ -305,6 +294,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.tvGroup.CheckBoxes = True
           Me.CanDrag = False
       End Select
+
+      Search(Nothing, Nothing)
+      If Me.tvGroup.Nodes.Count > 0 Then
+        tvGroup.SelectedNode = tvGroup.Nodes(0)
+      End If
+      If Me.tvGroup.SelectedNode Is Nothing Then
+        SelectNewEntity()
+      End If
+
+      m_basketItems = New BasketItemCollection
+      m_proposedBasketItems = New BasketItemCollection
+
+      'm_selectionMode = mode
+      'Select Case m_selectionMode
+      '  Case Selection.None, Selection.SingleSelect
+      '    Me.chkSelectChild.Visible = False
+      '    Me.tvGroup.CheckBoxes = False
+      '    Me.CanDrag = Me.chkAllowDrag.Checked
+      '  Case Else
+      '    Me.chkSelectChild.Visible = True
+      '    Me.dlg = basket
+      '    Me.tvGroup.CheckBoxes = True
+      '    Me.CanDrag = False
+      'End Select
 
       m_dragTimer.Interval = 200
       AddHandler m_dragTimer.Tick, AddressOf Timer_Tick
@@ -374,6 +387,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         Me.tvGroup.ExpandAll()
       End If
+
+      'For Each node As TreeNode In Me.tvGroup.Nodes
+      '  CheckChild(node)
+      'Next
 
     End Sub
 #End Region
