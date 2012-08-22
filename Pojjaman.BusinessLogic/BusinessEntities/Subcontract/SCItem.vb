@@ -810,7 +810,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Select Case Me.ItemType.Value
         Case 160, 162
           'เป็นหมายเหตุ/หมายเหตุอ้างอิง มีปริมาณไม่ได้
-          msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
+          'msgServ.ShowMessage("${res:Global.Error.NoteCannotHaveUnitPrice}")
           Return
       End Select
       Dim m_cost As Decimal = Me.CostAmount
