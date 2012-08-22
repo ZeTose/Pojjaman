@@ -2026,7 +2026,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If CType(e.Row, TreeRow).Tag Is Nothing Then
         Return
       End If
-      
+
       If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
         If e.Column.ColumnName.ToLower <> "qtyperwbs" Then 'If e.Column.ColumnName.ToLower <> "wbsqty" Then
           If e.Column.ColumnName.ToLower <> "unit" Then
@@ -2866,7 +2866,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myUnit As New Unit(e.ProposedValue.ToString)
       Dim err As String = ""
       If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-        
+
       Else
         err = "${res:Global.Error.InvalidUnit}"
       End If
@@ -3573,13 +3573,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Case 42 'LCI
             '  myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
           Case Else
-        If m_item.ItemType.Value = 0 Or m_item.ItemType.Value = 18 Or m_item.ItemType.Value = 20 Or m_item.ItemType.Value = 42 Then
-          m_targetType = m_item.ItemType.Value
+            If m_item.ItemType.Value = 0 Or m_item.ItemType.Value = 18 Or m_item.ItemType.Value = 20 Or m_item.ItemType.Value = 42 Then
+              m_targetType = m_item.ItemType.Value
               Dim entities(1) As ISimpleEntity
-          entities(0) = New LCIItem
-          entities(1) = New LCIForList
-          Dim activeIndex As Integer = -1
-          If Not m_item.ItemType Is Nothing Then
+              entities(0) = New LCIItem
+              entities(1) = New LCIForList
+              Dim activeIndex As Integer = -1
+              If Not m_item.ItemType Is Nothing Then
                 If m_item.ItemType.Value = 42 Then
                   activeIndex = 0
                 End If
@@ -4050,10 +4050,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim thePath As String
         Dim filename As String
         If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
-          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar '& "BOQItems" & ext
           filename = "BOQItems" & ext
         Else
-          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQ_" & Me.m_entity.Code & ext
+          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar '& "BOQ_" & Me.m_entity.Code & ext
           filename = "BOQ_" & Me.m_entity.Code & ext
         End If
 
@@ -4065,7 +4065,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         dialog1.AddExtension = True
         dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
         dialog1.FileName = filename
-        dialog1.InitialDirectory = thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar
+        dialog1.InitialDirectory = thePath '= Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar
         If dialog1.ShowDialog = DialogResult.OK Then
           filename = dialog1.FileName
         Else
@@ -4237,30 +4237,30 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Else
 
-            itemBOQ = CType(row.Tag, BoqItem)
+              itemBOQ = CType(row.Tag, BoqItem)
 
-            sht1.Range(i, 1).Text = "item"
-            sht1.Range(i, 2).Text = ""
-            Select Case itemBOQ.ItemType.Value
-              Case 0
-                sht1.Range(i, 3).Text = "other"
-              Case 18
-                sht1.Range(i, 3).Text = "lab"
-              Case 20
-                sht1.Range(i, 3).Text = "eq"
-              Case 42
-                sht1.Range(i, 3).Text = "lci"
-            End Select
+              sht1.Range(i, 1).Text = "item"
+              sht1.Range(i, 2).Text = ""
+              Select Case itemBOQ.ItemType.Value
+                Case 0
+                  sht1.Range(i, 3).Text = "other"
+                Case 18
+                  sht1.Range(i, 3).Text = "lab"
+                Case 20
+                  sht1.Range(i, 3).Text = "eq"
+                Case 42
+                  sht1.Range(i, 3).Text = "lci"
+              End Select
 
-            If Not itemBOQ.Entity Is Nothing Then
-              sht1.Range(i, 4).Text = itemBOQ.Entity.Code
-            Else
-              sht1.Range(i, 4).Text = ""
-            End If
+              If Not itemBOQ.Entity Is Nothing Then
+                sht1.Range(i, 4).Text = itemBOQ.Entity.Code
+              Else
+                sht1.Range(i, 4).Text = ""
+              End If
 
-            sht1.Range(i, 5).Text = If(String.IsNullOrEmpty(itemBOQ.EntityName), "", itemBOQ.EntityName)
-            sht1.Range(i, 6).Value = itemBOQ.Qty
-            If Not itemBOQ.Unit Is Nothing Then
+              sht1.Range(i, 5).Text = IIf(If(String.IsNullOrEmpty(itemBOQ.EntityName), "", itemBOQ.EntityName.Trim) = "", itemBOQ.Entity.Name, itemBOQ.EntityName)
+              sht1.Range(i, 6).Value = itemBOQ.Qty
+              If Not itemBOQ.Unit Is Nothing Then
                 sht1.Range(i, 7).Text = If(String.IsNullOrEmpty(itemBOQ.Unit.Name), "", itemBOQ.Unit.Name)
                 sht1.Range(i, 8).Value = itemBOQ.UMC
                 sht1.Range(i, 9).Value = itemBOQ.TotalMaterialCost
@@ -4269,7 +4269,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 sht1.Range(i, 12).Value = itemBOQ.UEC
                 sht1.Range(i, 13).Value = itemBOQ.TotalEquipmentCost
                 sht1.Range(i, 14).Value = itemBOQ.TotalCost
-            Else
+              Else
                 sht1.Range(i, 7).Text = ""
                 sht1.Range(i, 8).Value = ""
                 sht1.Range(i, 9).Value = ""
@@ -4278,10 +4278,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 sht1.Range(i, 12).Value = ""
                 sht1.Range(i, 13).Value = ""
                 sht1.Range(i, 14).Value = ""
-            End If
+              End If
 
-            sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemBOQ.Note), "", itemBOQ.Unit.Name)
-            i += 1
+              sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemBOQ.Note), "", itemBOQ.Unit.Name)
+              i += 1
             End If
 
 
@@ -4289,8 +4289,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
           Next
 
-
-          wkbk.SaveAs(thePath, ExcelSaveType.SaveAsXLS)
+          wkbk.SaveAs(filename, ExcelSaveType.SaveAsXLS)
           wkbk.Close()
 
         End Using
@@ -4334,7 +4333,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'End With
 
 
-        MessageBox.Show("Items are exported to Excel Succesfully in '" & thePath & "'")
+        MessageBox.Show("Items are exported to Excel Succesfully in '" & filename & "'")
         'System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
       Catch ex As Exception
         MessageBox.Show(ex.Message)
