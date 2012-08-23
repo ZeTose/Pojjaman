@@ -1360,6 +1360,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
     End Sub
     Private Sub SetDisabledForUnitReferenced()
+      Me.grbOtherUnit.Enabled = True
+
+      txtUnit1.Enabled = True
+      txtUnitCode1.Enabled = True
+      txtUnitConversion1.Enabled = True
+      ibtnShowUnit1.Enabled = True
+      ibtnShowUnitDialog1.Enabled = True
+
+      txtUnit2.Enabled = True
+      txtUnitCode2.Enabled = True
+      txtUnitConversion2.Enabled = True
+      ibtnShowUnit2.Enabled = True
+      ibtnShowUnitDialog2.Enabled = True
+
+      txtUnit3.Enabled = True
+      txtUnitCode3.Enabled = True
+      txtUnitConversion3.Enabled = True
+      ibtnShowUnit3.Enabled = True
+      ibtnShowUnitDialog3.Enabled = True
+
+      txtDefaultUnit.Enabled = True
+      txtDefaultUnitCode.Enabled = True
+      ibtnShowDefaultUnit.Enabled = True
+      ibtnShowDefaultUnitDialog.Enabled = True
+
       Dim hasOtherUnit As Boolean = False
       If Not m_entity.CompareUnit1 Is Nothing AndAlso m_entity.CompareUnit1.Originated Then
         If m_entity.IsThisUnitReferenced(m_entity.CompareUnit1) Then
