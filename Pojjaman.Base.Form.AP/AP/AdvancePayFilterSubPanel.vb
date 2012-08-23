@@ -652,7 +652,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         .Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel.CurrentUseStatus}"))
         .Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel.CanceledStatus}"))
         .Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel.NotSpecifiedStatus}"))
-        .SelectedIndex = 0
+        .SelectedIndex = 2
       End With
     End Sub
     Private m_dateSetting As Boolean
