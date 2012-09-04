@@ -9,7 +9,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     CrystalReport
     XtraReport
     XMLReport
-  End Enum
+    End Enum
+    Public Interface IUserKeypress
+
+    End Interface
   Public Interface INewPrintable
     Sub ShowSelectSchemaDataDialog()
   End Interface

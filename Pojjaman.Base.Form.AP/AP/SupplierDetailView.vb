@@ -10,7 +10,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
   Public Class SupplierDetailView
         'Inherits UserControl
         Inherits AbstractEntityDetailPanelView
-        Implements IValidatable, IUseKeyPress
+        Implements IValidatable, IUserKeypress
 
 #Region " Windows Form Designer generated code "
 

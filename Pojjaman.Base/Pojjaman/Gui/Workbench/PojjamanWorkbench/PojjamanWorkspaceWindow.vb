@@ -579,11 +579,16 @@ Namespace Longkong.Pojjaman.Gui
         'End Sub
         Private Sub PojjamanWorkspaceWindow_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
             Try
+                If TypeOf sender Is PojjamanWorkspaceWindow AndAlso TypeOf CType(sender, PojjamanWorkspaceWindow).ActiveViewContent Is IUserKeypress Then
+                    e.Handled = False
+                    Return
+                End If
+
                 Select Case e.KeyCode
                     Case Keys.Enter
-            If StartPojjamanWorkbenchCommand.ALLOWTAB Then
-                        SendKeys.Send("{tab}")
-            End If
+                        If StartPojjamanWorkbenchCommand.ALLOWTAB Then
+                            SendKeys.Send("{tab}")
+                        End If
                         e.Handled = True
                 End Select
             Catch ex As Exception
