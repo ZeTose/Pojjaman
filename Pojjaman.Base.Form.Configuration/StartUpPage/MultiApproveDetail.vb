@@ -462,25 +462,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructors"
-    Public Sub New(ByVal entity As ISimpleEntity, ByVal handler As Object, ByVal basket As BasketDialog, ByVal filters As Filter(), ByVal entities As ArrayList)
-      'Public Sub New()
-      MyBase.New()
-      InitializeComponent()
-      'Me.SetLabelText()
-      Initialize()
+        Public Sub New(ByVal entity As ISimpleEntity, ByVal handler As Object, ByVal basket As BasketDialog, ByVal filters As Filter(), ByVal entities As ArrayList)
+            'Public Sub New()
+            MyBase.New()
+            InitializeComponent()
+            Me.SetLabelText()
+            Initialize()
 
 
-      m_entity = New MultiApproval(User.CurrentUser.Id, Me.GetListOfApproveType, Me.GetListOfDateRank)
-      m_entity.CurrentUserId = User.CurrentUser.Id
+            m_entity = New MultiApproval(User.CurrentUser.Id, Me.GetListOfApproveType, Me.GetListOfDateRank)
+            m_entity.CurrentUserId = User.CurrentUser.Id
 
 
-      EventWiring()
+            EventWiring()
 
-      ''initial entity
-      Me.UpdateEntityProperties()
+            ''initial entity
+            Me.UpdateEntityProperties()
 
-      'Me.TitleName = m_entity.TabPageText
-    End Sub
+            'Me.TitleName = m_entity.TabPageText
+        End Sub
 #End Region
 
 #Region "Properties"
@@ -558,7 +558,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
     Public Sub SetLabelText() Implements ISimplePanel.SetLabelText
+            chkSelectAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkSelectAll}")
+            rgbDocumentType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.rgbDocumentType}")
+            chkPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkPR}")
+            chkWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkWR}")
+            chkPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkPO}")
+            chkSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkSC}")
+            chkDR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkDR}")
+            chkGR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkGR}")
+            chkPA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkPA}")
 
+            txtCodePrefix.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.txtCodePrefix}")
+            txtDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.txtDocDateStart}")
+            txtDocDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.txtDocDateEnd}")
+            chkAlwaysShow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.chkAlwaysShow}")
     End Sub
     Protected Sub EventWiring()
       AddHandler chkSelectAll.CheckedChanged, AddressOf Me.ChangeProperty
@@ -920,7 +933,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Style"
-    Dim CollumnHash As New Hashtable
+        Dim CollumnHash As New Hashtable
+
     Private Sub CreateHeaderGridStyle()
       CollumnHash = New Hashtable
 
@@ -1040,6 +1054,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'rGrid.Columns.Add(gridColumn)
       CollumnHash("doca_code") = gridColumn
 
+
+
       gridColumn = New GridViewTextBoxColumn("doca_docdate")
       gridColumn.Width = 75
       gridColumn.TextAlignment = ContentAlignment.MiddleCenter
@@ -1074,7 +1090,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.Width = 90
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderText = " ผู้ขาย/ผู้รับเหมา" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Supplier"
+            'gridColumn.HeaderText = " ผู้ขาย/ผู้รับเหมา" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.DocCode}") '"Supplier"
+            gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.supplier}")
       gridColumn.ReadOnly = True
       'rGrid.Columns.Add(gridColumn)
       CollumnHash("supplier") = gridColumn
@@ -1092,7 +1109,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       gridColumn.Width = 200
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
-      gridColumn.HeaderText = " ผู้อนุมัติ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastEditor}") '"ผู้ปรับปรุงสถานะล่าสุด" 
+            'gridColumn.HeaderText = " ผู้อนุมัติ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.LastEditor}") '"ผู้ปรับปรุงสถานะล่าสุด" 
+            gridColumn.HeaderText = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.approveperson}") '"ผู้ปรับปรุงสถานะล่าสุด" 
       gridColumn.ReadOnly = True
       'rGrid.Columns.Add(gridColumn)
       CollumnHash("approveperson") = gridColumn

@@ -122,6 +122,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       MyBase.New()
       Me.InitializeComponent()
 
+            SetLabelText()
+
       m_entity = New ProjectReceivePaymentMaster
 
       SaveEnableState()
@@ -583,9 +585,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
-    Public Sub SetLabelText1() Implements ISimplePanel.SetLabelText
+        Public Sub SetLabelText() Implements ISimplePanel.SetLabelText
+            lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentMasterItemView.lblItem}")
 
-    End Sub
+
+        End Sub
 
     Public Sub ShowInPad() Implements ISimplePanel.ShowInPad
 
