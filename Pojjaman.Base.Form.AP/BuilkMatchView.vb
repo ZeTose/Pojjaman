@@ -207,7 +207,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem.Rows.HeaderCount = 1
       tgitem.Rows.FrozenCount = 1
       'tgItem.Cols.HeaderCount = 1
-      'tgitem.Cols.FrozenCount = 1
+            'tgitem.Cols.FrozenCount = 1
+
+            'CreateHeaderGridStyle()
 
       tgitem.TableStyle.CheckBoxOptions = New GridCheckBoxCellInfo("True", "False", "", False)
 
@@ -243,11 +245,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem.ColWidths(5) = 40
       tgitem.ColWidths(6) = 100
 
-      SetGridValue(1, 1, "ชื่อ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 2, "ที่อยู่", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 3, "เลขประจำตัวผู้เสียภาษี", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 4, "ผู้ขาย", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
-      SetGridValue(1, 6, "ปฏิเสธ", True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center)
+            SetGridValue(1, 1, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.BuilkMatchView.Name}"), True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center) '"ชื่อ"
+            SetGridValue(1, 2, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.BuilkMatchView.Address}"), True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center) '"ที่อยู่"
+            SetGridValue(1, 3, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.BuilkMatchView.TaxID}"), True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center) '"เลขประจำตัวผู้เสียภาษี"
+            SetGridValue(1, 4, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.BuilkMatchView.Supplier}"), True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center) '"ผู้ขาย"
+            SetGridValue(1, 6, Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.BuilkMatchView.Reject}"), True, Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center) '"ปฏิเสธ"
 
       tgitem.BackColor = Color.White
 
@@ -293,16 +295,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgitem.EndUpdate()
 
     End Sub
-
-    Private Sub SetGridValue(ByVal row As Integer, ByVal col As Integer, ByVal value As String _
+        
+        Private Sub SetGridValue(ByVal row As Integer, ByVal col As Integer, ByVal value As String _
 , Optional ByVal bold As Boolean = False _
 , Optional ByVal hAlign As Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left _
 , Optional ByVal vAlign As Syncfusion.Windows.Forms.Grid.GridVerticalAlignment = Syncfusion.Windows.Forms.Grid.GridVerticalAlignment.Middle)
-      tgitem(row, col).HorizontalAlignment = hAlign
-      tgitem(row, col).VerticalAlignment = vAlign
-      tgitem(row, col).Text = value
-      tgitem(row, col).Font.Bold = bold
-    End Sub
+            tgitem(row, col).HorizontalAlignment = hAlign
+            tgitem(row, col).VerticalAlignment = vAlign
+            tgitem(row, col).Text = value
+            tgitem(row, col).Font.Bold = bold
+        End Sub
 
     Public Overloads Overrides Sub Save()
       'Dim mySService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
