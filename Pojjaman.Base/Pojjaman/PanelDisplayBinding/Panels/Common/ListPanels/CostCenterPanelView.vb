@@ -909,9 +909,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Overrides"
     Public Overrides ReadOnly Property TabPageText() As String
-      Get
-        Return "รายการ"
-      End Get
+            Get
+                'Return("รายการ")
+                Return "${res:Longkong.Pojjaman.Gui.Panels.CostCenterPanelView.TabPageText}"
+            End Get
     End Property
     Public Overrides Sub Deselected()
       If Not Me.WorkbenchWindow.SubViewContents Is Nothing Then

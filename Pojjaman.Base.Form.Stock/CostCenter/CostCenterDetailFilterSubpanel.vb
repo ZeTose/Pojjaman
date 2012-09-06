@@ -427,7 +427,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblManager.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailFilterSubpanel.lblManager}")
       Me.lblAdmin.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailFilterSubpanel.lblAdmin}")
       Me.lblCCType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailFilterSubpanel.lblCCType}")
-      Me.chkActive.Text = "โครงการที่ยังไม่แล้วเสร็จเท่านั้น"
+            Me.chkActive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailFilterSubpanel.chkActive}")
     End Sub
 
     Public Overrides Property Entities() As System.Collections.ArrayList

@@ -1173,24 +1173,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Overrides"
-    Public Overrides ReadOnly Property TabPageText() As String
-      Get
-        Return "รายการ"
-      End Get
-    End Property
-    Public Overrides Sub Deselected()
-      If Not Me.WorkbenchWindow.SubViewContents Is Nothing Then
-        If Not m_addingIHasConditionBeforeAdding Then
-          RefreshSelectedEntity() 'UNDONE********************
-        Else
-          m_addingIHasConditionBeforeAdding = False
-        End If
-        If Not m_selectedEntity Is Nothing Then
-          RemoveHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
-          AddHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
-        End If
-      End If
-    End Sub
+
+        Public Overrides ReadOnly Property TabPageText() As String
+            Get
+                Return "${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.TabPageText}" '"รายการ"
+            End Get
+        End Property
+
+
+        Public Overrides Sub Deselected()
+            If Not Me.WorkbenchWindow.SubViewContents Is Nothing Then
+                If Not m_addingIHasConditionBeforeAdding Then
+                    RefreshSelectedEntity() 'UNDONE********************
+                Else
+                    m_addingIHasConditionBeforeAdding = False
+                End If
+                If Not m_selectedEntity Is Nothing Then
+                    RemoveHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+                    AddHandler m_selectedEntity.TabPageTextChanged, AddressOf Me.ChangeTitle
+                End If
+            End If
+        End Sub
 
 #End Region
 
