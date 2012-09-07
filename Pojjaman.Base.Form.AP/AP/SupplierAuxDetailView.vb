@@ -1243,6 +1243,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView.grbReceive}")
             Me.lblCheckAmountOnHand.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView.lblCheckAmountOnHand}")
 
+            Me.PrimaryGroupBoxControl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView.PrimarygrbControl}")
+            Me.grbSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView.grbSupplierDetail}")
+            Me.grbMap.Text = Me.StringParserService.Parse("${res:Global.grbMap}")
+            Me.grbCredit.Text = Me.StringParserService.Parse("${res:Global.Credit}")
+            Me.grbBillRec.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView.grbBillRecDetail}")
+            Me.grbFinancial.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView.grbFinancialDetail}")
+
         End Sub
 #End Region
 
