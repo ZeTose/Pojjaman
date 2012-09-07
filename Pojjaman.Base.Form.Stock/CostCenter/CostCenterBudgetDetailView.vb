@@ -364,7 +364,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblCustomer}")
 
-      Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblBudget2}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblBudget2}")
+
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.TabgrbDetail}")
+            Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.TabgrbMainDetail}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty

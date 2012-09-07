@@ -1105,7 +1105,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 			Me.grbSubmit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATDetail.grbSubmit}")
 			Me.lblVatGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATDetail.lblVatGroup}")
-			Me.lblSubmitalDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATDetail.lblSubmitalDate}")
+            Me.lblSubmitalDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATDetail.lblSubmitalDate}")
+
+            Me.btnSelectAll.Text = Me.StringParserService.Parse("${res:Global.SelectAll}")
 
 		End Sub
 		Protected Overrides Sub EventWiring()

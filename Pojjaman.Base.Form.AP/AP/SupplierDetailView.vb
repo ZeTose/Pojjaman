@@ -1283,7 +1283,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMobile.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblMobile}")
 
       Me.lblContactItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblContactItem}")
-      Me.lblFaxforExport.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblFaxforExport}")
+            Me.lblFaxforExport.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblFaxforExport}")
+
+            Me.btnExportDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.btnExportDetail}")
     End Sub
 #End Region
 

@@ -287,7 +287,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtAltName, Me.lblAltName.Text.TrimEnd(":".ToCharArray))
       Me.lblParent.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GroupDetailView.lblParent}")
       Me.Validator.SetDisplayName(Me.txtParent, Me.lblParent.Text.TrimEnd(":".ToCharArray))
-      Me.chkControl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GroupDetailView.chkControl}")
+            Me.chkControl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GroupDetailView.chkControl}")
+
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbDetail}")
     End Sub
 
     Protected Overrides Sub EventWiring()

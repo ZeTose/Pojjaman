@@ -893,7 +893,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APOpeningBalancePanelView.grbDetail}")
 
       Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
-      Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
+            Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
+
+            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Global.ByDueDate}")
+            Me.lblInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.InvoiceNo}")
+            Me.lblInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.DocDate}")
+            Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Global.TaxType}")
+            Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Global.TaxRateText}")
+            Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Global.BeforeTax}")
+            Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Global.TaxBase}")
+            Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Global.Tax}")
 
     End Sub
     Protected Overrides Sub EventWiring()

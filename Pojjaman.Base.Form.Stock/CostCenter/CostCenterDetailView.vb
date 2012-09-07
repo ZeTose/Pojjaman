@@ -1299,7 +1299,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblCCType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblCCType}")
       Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblCustomer}")
-      Me.chkActive.Text = "โครงการอยู่ระหว่างก่อสร้าง(Active)"
+
+            Me.chkActive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.chkActive}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.TabgrbDetail}")
+            Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.TabgrbMainDetail}")
+            Me.grbMap.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.grbMap}")
+            Me.chkcancle.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.chkcancle}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CostCenterDetailView.lblItem}")
+
     End Sub
     Protected Overrides Sub EventWiring()
       'AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty

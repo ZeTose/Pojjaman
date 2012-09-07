@@ -1267,7 +1267,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ToolTip1.SetToolTip(Me.chkAutorun, Me.StringParserService.Parse("${res:Global.chkAutorun}"))   '"เลขที่อัตโนมัติ"
       Me.ToolTip1.SetToolTip(Me.chkUseRefCode, Me.StringParserService.Parse("${res:Global.chkUseRefCode}"))   '"ใช้เลขที่จากเอกสารอ้างอิง")
 
-      Me.Validator.SetDisplayName(Me.txtDocDate, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GLView.txtDocDateAlert}"))
+            Me.Validator.SetDisplayName(Me.txtDocDate, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GLView.txtDocDateAlert}"))
+
+            Me.grbRefDoc.Text = Me.StringParserService.Parse("${res:Global.RefDoc}")
+            Me.lblRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GLView.lblRefDoc}")
+            Me.lblRefDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDate}")
+            Me.ToolTip1.SetToolTip(Me.ibtnDown, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GLView.ibtnDown}"))   ' "เลื่อนแถวลง")
+            Me.ToolTip1.SetToolTip(Me.ibtnUp, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GLView.ibtnUp}"))  ' "เลื่อนแถวขึ้น")
+            Me.ToolTip1.SetToolTip(Me.ibtnSort, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GLView.ibtnSort}"))  ' "เรียงรายการตามเดบิต/เครดิต")
+            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
 
     End Sub
     Protected Overrides Sub EventWiring()

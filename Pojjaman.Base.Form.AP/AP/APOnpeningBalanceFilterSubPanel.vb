@@ -605,6 +605,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblDueDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel.lblDueDateStart}")
             Me.lblDueDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel.lblDueDateEnd}")
             Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.APOnpeningBalanceFilterSubPanel.lblSupplier}")
+
+
         End Sub
         Public Overrides Function GetFilterArray() As Filter()
             Dim arr(5) As Filter
