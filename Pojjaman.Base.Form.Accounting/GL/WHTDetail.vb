@@ -1332,7 +1332,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbIndicationType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.lblSubmitType}")
       Me.rdbNormalSubmit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPNDFilterSubPanel.rdNormalSubmit}")
       Me.rdbMoreSubmit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPNDFilterSubPanel.rdMoreSubmit}")
-    End Sub
+
+            Me.grbRefDoc.Text = Me.StringParserService.Parse("${res:Global.RefDoc}")
+            Me.lblRefDoc.Text = Me.StringParserService.Parse("${res:Global.RefDocNo}")
+            Me.lblRefDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDate}")
+            Me.lblDirection.Text = Me.StringParserService.Parse("${res:Global.TaxType}")
+            Me.lblRefTaxBase.Text = Me.StringParserService.Parse("${res:Global.TaxBase}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTDetail.lblTotalAmount}")
+
+        End Sub
 #End Region
 
 #Region "Members"
