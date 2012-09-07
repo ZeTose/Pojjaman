@@ -1041,6 +1041,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
+            Me.grbHeader.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.grbHeader}")
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Global.Code}")
+            'เลขที่ใบกำกับภาษี
+            Me.lblInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.InvoiceNo}")
+            Me.lblAVPCInvoice.Text = Me.StringParserService.Parse("${res:Global.InvoiceNo}")
+
+            Me.lblADVPCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.lblADVPCode}")
+
+            'หมายเหตุ
+            Me.lblPCNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+            'วันที่:
+            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateDot}")
+            'วันที่
+            Me.lblADVPInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.DocDate}")
+            Me.lblInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.DocDate}")
+
+            Me.grbAdvancePay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.grbAdvancePay}")
+            Me.lblOrgDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.lblOrgDocDate}")
+            Me.lblRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.lblRemaining}")
+
+            'บาท
+            Me.lblCurrencyUnit1.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblCurrencyUnit2.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+
+            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.lblDueDate}")
+            Me.grbLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.grbLocation}")
+            Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Global.SupplierDot}")
+            Me.lblCC.Text = Me.StringParserService.Parse("${res:Global.CostCenterDot}")
+            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvancePayClosedDetail.lblAmount}")
+            Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Global.TaxType}")
+            Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Global.TaxRateText}")
 
     End Sub
 #End Region
@@ -1054,7 +1086,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Constructs"
     Public Sub New()
       MyBase.New()
-      InitializeComponent()
+            InitializeComponent()
+            SetLabelText()
       Initialize()
       EventWiring()
     End Sub
