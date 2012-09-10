@@ -1922,21 +1922,43 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim myVat As Vat = Me.m_entity.Vat
       If Not myVat Is Nothing Then
         Dim myVatitem As VatItem
-        'If myVat.ItemCollection.Count <= 0 Then
-        '  Me.m_entity.Vat.ItemCollection.Add(New VatItem)
-        'End If
+        If myVat.ItemCollection.Count <= 0 Then
+          Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+        End If
         VatInputEnabled(True)
-        If myVat.ItemCollection.Count > 0 Then
           myVatitem = myVat.ItemCollection(0)
           If myVat.AutoGen Then
             Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
           Else
             Me.txtInvoiceCode.Text = myVatitem.Code
           End If
+        If Me.txtInvoiceCode.Text.Length = 0 Then
+          VatInputEnabled(False)
+        End If
+        'Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+        'Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
           Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, "")
           Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
         End If
-      End If
+
+      'Dim myVat As Vat = Me.m_entity.Vat
+      'If Not myVat Is Nothing Then
+      '  Dim myVatitem As VatItem
+      '  'If myVat.ItemCollection.Count <= 0 Then
+      '  '  Me.m_entity.Vat.ItemCollection.Add(New VatItem)
+      '  'End If
+      '  VatInputEnabled(True)
+      '  If myVat.ItemCollection.Count > 0 Then
+      '    myVatitem = myVat.ItemCollection(0)
+      '    If myVat.AutoGen Then
+      '      Me.txtInvoiceCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(myVatitem.EntityId)
+      '    Else
+      '      Me.txtInvoiceCode.Text = myVatitem.Code
+      '    End If
+      '    Me.txtInvoiceDate.Text = MinDateToNull(myVatitem.DocDate, "")
+      '    Me.dtpInvoiceDate.Value = MinDateToNow(myVatitem.DocDate)
+      '  End If
+      'End If
       m_oldInvoiceCode = Me.txtInvoiceCode.Text
       Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
       Me.UpdateVatAutogenStatus()
@@ -2409,6 +2431,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'Me.Validator.SetRequired(Me.txtInvoiceCode, True)
         Me.Validator.SetRequired(Me.txtInvoiceCode, False)
         Me.txtInvoiceCode.Text = m_oldInvoiceCode
+        'no vat
+        Me.m_entity.Vat.CodeChanged(Me.txtInvoiceCode.Text)
+        If Me.txtInvoiceCode.Text.Trim.Length = 0 Then
+          Me.m_entity.SetNoVat(True)
+          Me.VatInputSetRequireDate(False)
+          Me.txtInvoiceDate.Text = ""
+          Me.dtpInvoiceDate.Value = Now
+        Else
+          Me.VatInputSetRequireDate(True)
+          Me.m_entity.SetNoVat()
+        End If
         Me.txtInvoiceCode.ReadOnly = False
         Me.m_entity.Vat.AutoGen = False
         vi.AutoGen = False

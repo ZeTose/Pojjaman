@@ -1192,6 +1192,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
     End Sub
+    Public Sub GenVatitemForDeferVat()
+      If ItemCollection.Count > 0 Then
+        ItemCollection.Clear()
+      End If
+      Dim vi As New VatItem
+      ItemCollection.Add(vi)
+
+    End Sub
 #End Region
 
 #Region "GetNewJournalEntries"

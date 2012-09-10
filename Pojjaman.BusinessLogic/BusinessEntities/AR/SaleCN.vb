@@ -190,6 +190,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_vat.AutoGen = False
         m_vat.Direction.Value = 0
 
+
+
         .m_whtcol = New WitholdingTaxCollection(Me)
         .m_whtcol.Direction = New WitholdingTaxDirection(1)
 
@@ -203,6 +205,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+   
     Public Property ItemTable() As TreeTable
       Get
         Return m_itemTable
@@ -211,14 +214,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_itemTable = Value
       End Set
     End Property
-    Public Property RefDocCollection() As SaleCNRefDocCollection      Get        Return m_refDocCollection      End Get      Set(ByVal Value As SaleCNRefDocCollection)        m_refDocCollection = Value      End Set    End Property
-    Public Property Customer() As Customer      Get        Return m_customer      End Get      Set(ByVal Value As Customer)        Dim oldPerson As IBillablePerson = m_customer
-        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then          If Not Me.m_whtcol Is Nothing Then
+    Public Property RefDocCollection() As SaleCNRefDocCollection
+      Get
+        Return m_refDocCollection
+      End Get
+      Set(ByVal Value As SaleCNRefDocCollection)
+        m_refDocCollection = Value
+      End Set
+    End Property
+    Public Property Customer() As Customer
+      Get
+        Return m_customer
+      End Get
+      Set(ByVal Value As Customer)
+        Dim oldPerson As IBillablePerson = m_customer
+        If (oldPerson Is Nothing AndAlso Not Value Is Nothing) _
+          OrElse (Not oldPerson Is Nothing AndAlso Not Value Is Nothing AndAlso oldPerson.Id <> Value.Id) Then
+          If Not Me.m_whtcol Is Nothing Then
             For Each wht As WitholdingTax In m_whtcol
               wht.UpdateRefDoc(Value, True)
             Next
           End If
-        End If        m_customer = Value      End Set    End Property    Public Property DocDate() As Date Implements IVatable.Date, IReceivable.Date, IGLAble.Date, IPayable.Date, IWitholdingTaxable.Date      Get        Return m_docDate      End Get      Set(ByVal Value As Date)        m_docDate = Value        Me.m_je.DocDate = Value      End Set    End Property    Public Property ToCostCenter() As CostCenter
+        End If
+        m_customer = Value
+      End Set
+    End Property
+    Public Property DocDate() As Date Implements IVatable.Date, IReceivable.Date, IGLAble.Date, IPayable.Date, IWitholdingTaxable.Date
+      Get
+        Return m_docDate
+      End Get
+      Set(ByVal Value As Date)
+        m_docDate = Value
+        Me.m_je.DocDate = Value
+      End Set
+    End Property
+    Public Property ToCostCenter() As CostCenter
       'Get
       '  Dim ccId As Integer = 0
       '  For Each ref As SaleCNRefDoc In Me.RefDocCollection
@@ -261,7 +291,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End Get
     End Property
-    Public Property Vat() As Vat Implements IVatable.Vat      Get        Return m_vat      End Get      Set(ByVal Value As Vat)        m_vat = Value      End Set    End Property
+    Public Property Vat() As Vat Implements IVatable.Vat
+      Get
+        Return m_vat
+      End Get
+      Set(ByVal Value As Vat)
+        m_vat = Value
+      End Set
+    End Property
     Public Property WitholdingTaxCollection() As WitholdingTaxCollection Implements IWitholdingTaxable.WitholdingTaxCollection
       Get
         Return m_whtcol
@@ -269,7 +306,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As WitholdingTaxCollection)
         m_whtcol = Value
       End Set
-    End Property    Public Property Note() As String Implements IReceivable.Note, IPayable.Note, IGLAble.Note      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property CreditPeriod() As Long      Get        Return m_creditPeriod      End Get      Set(ByVal Value As Long)        m_creditPeriod = Value      End Set    End Property    Public Overrides Property Status() As CodeDescription      Get        Return m_status      End Get      Set(ByVal Value As CodeDescription)        m_status = CType(Value, SaleCNStatus)      End Set    End Property    Private m_gross As Decimal
+    End Property
+    Public Property Note() As String Implements IReceivable.Note, IPayable.Note, IGLAble.Note
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Property CreditPeriod() As Long
+      Get
+        Return m_creditPeriod
+      End Get
+      Set(ByVal Value As Long)
+        m_creditPeriod = Value
+      End Set
+    End Property
+    Public Overrides Property Status() As CodeDescription
+      Get
+        Return m_status
+      End Get
+      Set(ByVal Value As CodeDescription)
+        m_status = CType(Value, SaleCNStatus)
+      End Set
+    End Property
+    Private m_gross As Decimal
     Public ReadOnly Property Gross() As Decimal
       Get
         Return m_gross + Me.RefDocCollection.Amount
@@ -284,7 +346,32 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
         Return m_gross + Me.RefDocCollection.Amount
       End Get
-    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property DiscountAmount() As Decimal      Get        Me.Discount.AmountBeforeDiscount = Me.Gross        Return Me.Discount.Amount      End Get    End Property    Public Property TaxRate() As Decimal      Get        Return m_taxRate      End Get      Set(ByVal Value As Decimal)        m_taxRate = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Private m_taxbase As Decimal
+    End Property
+    Public Property Discount() As Discount
+      Get
+        Return m_discount
+      End Get
+      Set(ByVal Value As Discount)
+        m_discount = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public ReadOnly Property DiscountAmount() As Decimal
+      Get
+        Me.Discount.AmountBeforeDiscount = Me.Gross
+        Return Me.Discount.Amount
+      End Get
+    End Property
+    Public Property TaxRate() As Decimal
+      Get
+        Return m_taxRate
+      End Get
+      Set(ByVal Value As Decimal)
+        m_taxRate = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Private m_taxbase As Decimal
     Public Property TaxBase() As Decimal Implements IVatable.TaxBase
       Get
         Return m_taxbase
@@ -292,25 +379,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Set(ByVal Value As Decimal)
         m_taxbase = Value
       End Set
-    End Property    Public Property TaxType() As TaxType      Get        Return m_taxType      End Get      Set(ByVal Value As TaxType)        m_taxType = Value        OnPropertyChanged(Me, New PropertyChangedEventArgs)      End Set    End Property    Public ReadOnly Property TaxAmount() As Decimal      Get        Select Case Me.TaxType.Value
+    End Property
+    Public Property TaxType() As TaxType
+      Get
+        Return m_taxType
+      End Get
+      Set(ByVal Value As TaxType)
+        m_taxType = Value
+        OnPropertyChanged(Me, New PropertyChangedEventArgs)
+      End Set
+    End Property
+    Public ReadOnly Property TaxAmount() As Decimal
+      Get
+        Select Case Me.TaxType.Value
           Case 2 'รวม VAT
             Return Me.TaxGross - Me.DiscountAmount - Me.TaxBase
           Case Else '1 แยก
-            Return Configuration.Format((Me.TaxRate * Me.TaxBase) / 100, DigitConfig.Price)            'Return (Me.TaxRate * Me.TaxBase) / 100        End Select      End Get    End Property    Public ReadOnly Property BeforeTax() As Decimal      Get        Select Case Me.TaxType.Description.ToLower
+            Return Configuration.Format((Me.TaxRate * Me.TaxBase) / 100, DigitConfig.Price)
+            'Return (Me.TaxRate * Me.TaxBase) / 100
+        End Select
+      End Get
+    End Property
+    Public ReadOnly Property BeforeTax() As Decimal
+      Get
+        Select Case Me.TaxType.Description.ToLower
           Case "ไม่มี"
             Return Me.Gross - Me.DiscountAmount
           Case "แยก"
             Return Me.Gross - Me.DiscountAmount
           Case "รวม"
             Return Configuration.Format(Vat.GetExcludedVatAmount(Me.AfterTax, Me.TaxRate), DigitConfig.Price)
-        End Select      End Get    End Property    Public ReadOnly Property AfterTax() As Decimal      Get        Select Case Me.TaxType.Description.ToLower
+        End Select
+      End Get
+    End Property
+    Public ReadOnly Property AfterTax() As Decimal
+      Get
+        Select Case Me.TaxType.Description.ToLower
           Case "ไม่มี"
             Return Me.BeforeTax
           Case "แยก"
             Return Me.BeforeTax + Me.TaxAmount
           Case "รวม"
             Return Me.Gross - Me.DiscountAmount
-        End Select      End Get    End Property    Public Overrides ReadOnly Property ClassName() As String
+        End Select
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName() As String
       Get
         Return "SaleCN"
       End Get
@@ -427,9 +541,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim ValidateError As SaveErrorException
 
-      ValidateError = Me.Vat.BeforeSave(currentUserId)
-      If Not IsNumeric(ValidateError.Message) Then
-        Return ValidateError
+      'If Me.Vat.ItemCollection.Count = 0 Then
+      '  Me.Vat.GenVatitemForDeferVat()
+      'End If
+      'เพื่อภาษีขายถึงจะ save
+      If Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection.Count > 0 AndAlso _
+                                   Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen) Then
+        ValidateError = Me.Vat.BeforeSave(currentUserId)
+        If Not IsNumeric(ValidateError.Message) Then
+          Return ValidateError
+        End If
       End If
 
       ValidateError = Me.WitholdingTaxCollection.BeforeSave(currentUserId)
@@ -715,7 +836,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Case Else
               End Select
             End If
-            If Not (Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen)) Then
+            'เพื่อภาษีขายถึงจะ save
+            'If Not (Me.Vat.ItemCollection.Count > 0 OrElse Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen)) Then
+            If Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection.Count > 0 AndAlso _
+                                   Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen) Then
               Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
               If Not IsNumeric(saveVatError.Message) Then
                 trans.Rollback()
@@ -1167,19 +1291,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private m_taxGross As Decimal
     Public Sub RefreshTaxBase()
-      If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then        m_gross = 0
+      If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then
+        m_gross = 0
         m_taxGross = 0
       Else
-        Dim amt As Decimal = 0        Dim taxAmt As Decimal = 0        For Each row As TreeRow In Me.ItemTable.Rows
+        Dim amt As Decimal = 0
+        Dim taxAmt As Decimal = 0
+        For Each row As TreeRow In Me.ItemTable.Rows
           Dim item As New SaleCNItem
           item.GetAmountFromRow(row)
           amt += Configuration.Format(item.Amount, DigitConfig.Price)
           If Not item.UnVatable Then
             taxAmt += Configuration.Format(item.Amount, DigitConfig.Price)
           End If
-        Next        m_gross = amt
+        Next
+        m_gross = amt
         m_taxGross = taxAmt
-      End If
+      End If
+
       If Me.Gross = 0 Then
         Me.TaxBase = 0
         Return
@@ -2002,7 +2131,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim ji As JournalEntryItem
 
       'ภาษีขาย
-      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen)) Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat IsNot Nothing AndAlso Me.Vat.ItemCollection.Count > 0 AndAlso _
+                                   Me.Vat.ItemCollection(0).Code IsNot Nothing AndAlso (Me.Vat.ItemCollection(0).Code.Length > 0 OrElse Me.Vat.AutoGen)) Then
         ji = New JournalEntryItem
         ji.Mapping = "C6.2"
         ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
@@ -2015,7 +2145,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       'ภาษีขายยังไม่ถึงกำหนด
-      If Me.TaxAmount > 0 AndAlso (Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen)) Then
+      If Me.TaxAmount > 0 AndAlso (Me.Vat.ItemCollection.Count = 0 OrElse Me.Vat.ItemCollection(0).Code Is Nothing OrElse (Me.Vat.ItemCollection(0).Code.Length = 0 AndAlso Not Me.Vat.AutoGen)) Then
         ji = New JournalEntryItem
         ji.Mapping = "C6.2.1"
         ji.Amount = Configuration.Format(Me.TaxAmount, DigitConfig.Price)
@@ -3417,15 +3547,140 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property WbsdColl() As WBSDistributeCollection      Get        Return m_wbsdColl      End Get      Set(ByVal Value As WBSDistributeCollection)        m_wbsdColl = Value      End Set    End Property
-    Public Property Sequence() As Integer      Get        Return m_sequence      End Get      Set(ByVal Value As Integer)        m_sequence = Value      End Set    End Property
-    Public Property SaleCN() As SaleCN      Get        Return m_SaleCN      End Get      Set(ByVal Value As SaleCN)        m_SaleCN = Value      End Set    End Property    Public Property LineNumber() As Integer      Get        Return m_lineNumber      End Get      Set(ByVal Value As Integer)        m_lineNumber = Value      End Set    End Property    Public Property RefDocLine() As Integer      Get        Return m_refDocLine      End Get      Set(ByVal Value As Integer)        m_refDocLine = Value      End Set    End Property    Public Property RefDocId() As Integer      Get        Return m_refDocId      End Get      Set(ByVal Value As Integer)        m_refDocId = Value      End Set    End Property    Public Property RefDocCode() As String      Get        Return m_refDocCode      End Get      Set(ByVal Value As String)        m_refDocCode = Value      End Set    End Property    Public Property ItemType() As ItemType      Get        Return m_itemType      End Get      Set(ByVal Value As ItemType)        m_itemType = Value      End Set    End Property    Public Property Entity() As IHasName      Get        Return m_entity      End Get      Set(ByVal Value As IHasName)        m_entity = Value      End Set    End Property    Public Property EntityName() As String      Get        Return m_entityName      End Get      Set(ByVal Value As String)        m_entityName = Value      End Set    End Property    Public Property Unit() As Unit      Get        Return m_unit      End Get      Set(ByVal Value As Unit)        m_unit = Value      End Set    End Property    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        m_qty = Value      End Set    End Property    Public Property UnitPrice() As Decimal      Get        Return m_unitPrice      End Get      Set(ByVal Value As Decimal)        m_unitPrice = Value      End Set    End Property    Public Property Note() As String      Get        Return m_note      End Get      Set(ByVal Value As String)        m_note = Value      End Set    End Property    Public Property Account() As Account      Get
+    Public Property WbsdColl() As WBSDistributeCollection
+      Get
+        Return m_wbsdColl
+      End Get
+      Set(ByVal Value As WBSDistributeCollection)
+        m_wbsdColl = Value
+      End Set
+    End Property
+    Public Property Sequence() As Integer
+      Get
+        Return m_sequence
+      End Get
+      Set(ByVal Value As Integer)
+        m_sequence = Value
+      End Set
+    End Property
+    Public Property SaleCN() As SaleCN
+      Get
+        Return m_SaleCN
+      End Get
+      Set(ByVal Value As SaleCN)
+        m_SaleCN = Value
+      End Set
+    End Property
+
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+    Public Property RefDocLine() As Integer
+      Get
+        Return m_refDocLine
+      End Get
+      Set(ByVal Value As Integer)
+        m_refDocLine = Value
+      End Set
+    End Property
+    Public Property RefDocId() As Integer
+      Get
+        Return m_refDocId
+      End Get
+      Set(ByVal Value As Integer)
+        m_refDocId = Value
+      End Set
+    End Property
+    Public Property RefDocCode() As String
+      Get
+        Return m_refDocCode
+      End Get
+      Set(ByVal Value As String)
+        m_refDocCode = Value
+      End Set
+    End Property
+    Public Property ItemType() As ItemType
+      Get
+        Return m_itemType
+      End Get
+      Set(ByVal Value As ItemType)
+        m_itemType = Value
+      End Set
+    End Property
+    Public Property Entity() As IHasName
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As IHasName)
+        m_entity = Value
+      End Set
+    End Property
+    Public Property EntityName() As String
+      Get
+        Return m_entityName
+      End Get
+      Set(ByVal Value As String)
+        m_entityName = Value
+      End Set
+    End Property
+    Public Property Unit() As Unit
+      Get
+        Return m_unit
+      End Get
+      Set(ByVal Value As Unit)
+        m_unit = Value
+      End Set
+    End Property
+    Public Property Qty() As Decimal
+      Get
+        Return m_qty
+      End Get
+      Set(ByVal Value As Decimal)
+        m_qty = Value
+      End Set
+    End Property
+    Public Property UnitPrice() As Decimal
+      Get
+        Return m_unitPrice
+      End Get
+      Set(ByVal Value As Decimal)
+        m_unitPrice = Value
+      End Set
+    End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Property Account() As Account
+      Get
         Return Me.m_account
       End Get
       Set(ByVal Value As Account)
         m_account = Value
       End Set
-    End Property    Public ReadOnly Property StockQty() As Decimal      Get        Return Me.Conversion * Me.Qty      End Get    End Property    Public Property Discount() As Discount      Get        Return m_discount      End Get      Set(ByVal Value As Discount)        m_discount = Value      End Set    End Property
+    End Property
+    Public ReadOnly Property StockQty() As Decimal
+      Get
+        Return Me.Conversion * Me.Qty
+      End Get
+    End Property
+    Public Property Discount() As Discount
+      Get
+        Return m_discount
+      End Get
+      Set(ByVal Value As Discount)
+        m_discount = Value
+      End Set
+    End Property
     Public ReadOnly Property Amount() As Decimal
       Get
         Me.Discount.AmountBeforeDiscount = (Me.UnitPrice * Me.Qty)
@@ -3581,7 +3836,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return tmpCost
       End Get
     End Property
-    Public Property UnVatable() As Boolean      Get        Return m_unvatable      End Get      Set(ByVal Value As Boolean)        m_unvatable = Value      End Set    End Property
+    Public Property UnVatable() As Boolean
+      Get
+        Return m_unvatable
+      End Get
+      Set(ByVal Value As Boolean)
+        m_unvatable = Value
+      End Set
+    End Property
     Public ReadOnly Property UnitCost() As Decimal
       Get
         If Me.StockQty <> 0 Then
@@ -3607,7 +3869,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return 0
       End Get
     End Property
-    Public Property Conversion() As Decimal      Get        Return m_conversion      End Get      Set(ByVal Value As Decimal)        m_conversion = Value      End Set    End Property
+    Public Property Conversion() As Decimal
+      Get
+        Return m_conversion
+      End Get
+      Set(ByVal Value As Decimal)
+        m_conversion = Value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
@@ -3986,8 +4255,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property SaleCN() As SaleCN      Get        Return m_saleCN      End Get      Set(ByVal Value As SaleCN)        m_saleCN = Value      End Set    End Property
-    Public Property RefDocId() As Integer      Get        Return m_refDocId      End Get      Set(ByVal Value As Integer)        m_refDocId = Value      End Set    End Property    Public Property RefDocCode() As String      Get        Return m_refDocCode      End Get      Set(ByVal Value As String)        m_refDocCode = Value      End Set    End Property    Public Property RefDocType() As Integer      Get        Return m_refDocType      End Get      Set(ByVal Value As Integer)        m_refDocType = Value      End Set    End Property    Public Property RefDocDate() As Date      Get        Return m_refDocDate      End Get      Set(ByVal Value As Date)        m_refDocDate = Value      End Set    End Property    Public Property Vatitem() As Vatitem      Get        Return m_vatitem      End Get      Set(ByVal Value As Vatitem)        m_vatitem = Value      End Set    End Property    Public ReadOnly Property RealAmount() As Decimal
+    Public Property SaleCN() As SaleCN
+      Get
+        Return m_saleCN
+      End Get
+      Set(ByVal Value As SaleCN)
+        m_saleCN = Value
+      End Set
+    End Property
+    Public Property RefDocId() As Integer
+      Get
+        Return m_refDocId
+      End Get
+      Set(ByVal Value As Integer)
+        m_refDocId = Value
+      End Set
+    End Property
+    Public Property RefDocCode() As String
+      Get
+        Return m_refDocCode
+      End Get
+      Set(ByVal Value As String)
+        m_refDocCode = Value
+      End Set
+    End Property
+    Public Property RefDocType() As Integer
+      Get
+        Return m_refDocType
+      End Get
+      Set(ByVal Value As Integer)
+        m_refDocType = Value
+      End Set
+    End Property
+    Public Property RefDocDate() As Date
+      Get
+        Return m_refDocDate
+      End Get
+      Set(ByVal Value As Date)
+        m_refDocDate = Value
+      End Set
+    End Property
+    Public Property Vatitem() As Vatitem
+      Get
+        Return m_vatitem
+      End Get
+      Set(ByVal Value As Vatitem)
+        m_vatitem = Value
+      End Set
+    End Property
+    Public ReadOnly Property RealAmount() As Decimal
       Get
         Select Case Me.SaleCN.TaxType.Value
           Case 0 'ไม่มี
@@ -3998,20 +4314,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return Me.Vatitem.TaxBase + Me.Vatitem.Amount
         End Select
       End Get
-    End Property    Public Property Amount() As Decimal
+    End Property
+    Public Property Amount() As Decimal
       Get
         Return m_amount
       End Get
       Set(ByVal Value As Decimal)
         m_amount = Value
       End Set
-    End Property    Public Property Note() As String      Get
+    End Property
+    Public Property Note() As String
+      Get
         Return m_note
       End Get
       Set(ByVal Value As String)
         m_note = Value
       End Set
-    End Property    Public Property Linenumber() As Integer      Get        Return m_linenumber      End Get      Set(ByVal Value As Integer)        m_linenumber = Value      End Set    End Property
+    End Property
+    Public Property Linenumber() As Integer
+      Get
+        Return m_linenumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_linenumber = Value
+      End Set
+    End Property
 #End Region
 
   End Class
@@ -4050,7 +4377,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property SaleCN() As SaleCN      Get        Return m_cn      End Get      Set(ByVal Value As SaleCN)        m_cn = Value      End Set    End Property
+    Public Property SaleCN() As SaleCN
+      Get
+        Return m_cn
+      End Get
+      Set(ByVal Value As SaleCN)
+        m_cn = Value
+      End Set
+    End Property
     Default Public Property Item(ByVal index As Integer) As SaleCNRefDoc
       Get
         Return CType(MyBase.List.Item(index), SaleCNRefDoc)
