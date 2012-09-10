@@ -80,6 +80,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtChqCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblChqCodeStart As System.Windows.Forms.Label
+    Friend WithEvents chkOnlyNothaveCqCode As System.Windows.Forms.CheckBox
     Friend WithEvents lblUpdateDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -88,8 +89,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox()
+      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
+      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
       Me.lblAccountEnd = New System.Windows.Forms.Label()
+      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
       Me.btnAccountStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.txtAccountCodeStart = New System.Windows.Forms.TextBox()
       Me.lblAccountStart = New System.Windows.Forms.Label()
       Me.chkIncludeCheckCode = New System.Windows.Forms.CheckBox()
@@ -121,10 +126,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label1 = New System.Windows.Forms.Label()
       Me.txtChqCodeStart = New System.Windows.Forms.TextBox()
       Me.lblChqCodeStart = New System.Windows.Forms.Label()
-      Me.txtDocDateStart = New System.Windows.Forms.TextBox()
-      Me.txtDocDateEnd = New System.Windows.Forms.TextBox()
-      Me.dtpDocDateStart = New System.Windows.Forms.DateTimePicker()
-      Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.grbBankAcctBook = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtBankAcctNameStart = New System.Windows.Forms.TextBox()
       Me.txtBankAcctCodeEnd = New System.Windows.Forms.TextBox()
@@ -139,6 +140,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtTemp = New System.Windows.Forms.TextBox()
+      Me.chkOnlyNothaveCqCode = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       Me.grbChqCode.SuspendLayout()
@@ -167,6 +169,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
+      Me.grbDetail.Controls.Add(Me.chkOnlyNothaveCqCode)
       Me.grbDetail.Controls.Add(Me.btnAccountEndFind)
       Me.grbDetail.Controls.Add(Me.txtAccountCodeEnd)
       Me.grbDetail.Controls.Add(Me.txtDocDateStart)
@@ -237,6 +240,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAccountCodeEnd.Size = New System.Drawing.Size(96, 21)
       Me.txtAccountCodeEnd.TabIndex = 50
       '
+      'txtDocDateStart
+      '
+      Me.txtDocDateStart.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
+      Me.txtDocDateStart.Location = New System.Drawing.Point(130, 39)
+      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
+      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
+      Me.txtDocDateStart.Name = "txtDocDateStart"
+      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
+      Me.Validator.SetRequired(Me.txtDocDateStart, False)
+      Me.txtDocDateStart.Size = New System.Drawing.Size(87, 21)
+      Me.txtDocDateStart.TabIndex = 24
+      '
+      'dtpDocDateStart
+      '
+      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateStart.Location = New System.Drawing.Point(138, 39)
+      Me.dtpDocDateStart.Name = "dtpDocDateStart"
+      Me.dtpDocDateStart.Size = New System.Drawing.Size(112, 21)
+      Me.dtpDocDateStart.TabIndex = 22
+      Me.dtpDocDateStart.TabStop = False
+      '
       'lblAccountEnd
       '
       Me.lblAccountEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -247,6 +275,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAccountEnd.TabIndex = 54
       Me.lblAccountEnd.Text = "ถึง"
       Me.lblAccountEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'txtDocDateEnd
+      '
+      Me.txtDocDateEnd.BackColor = System.Drawing.SystemColors.Window
+      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
+      Me.txtDocDateEnd.Location = New System.Drawing.Point(311, 39)
+      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
+      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
+      Me.txtDocDateEnd.Name = "txtDocDateEnd"
+      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
+      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
+      Me.txtDocDateEnd.Size = New System.Drawing.Size(86, 21)
+      Me.txtDocDateEnd.TabIndex = 25
       '
       'btnAccountStartFind
       '
@@ -259,6 +303,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountStartFind.TabIndex = 51
       Me.btnAccountStartFind.TabStop = False
       Me.btnAccountStartFind.ThemedImage = CType(resources.GetObject("btnAccountStartFind.ThemedImage"), System.Drawing.Bitmap)
+      '
+      'dtpDocDateEnd
+      '
+      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+      Me.dtpDocDateEnd.Location = New System.Drawing.Point(319, 39)
+      Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
+      Me.dtpDocDateEnd.Size = New System.Drawing.Size(112, 21)
+      Me.dtpDocDateEnd.TabIndex = 23
+      Me.dtpDocDateEnd.TabStop = False
       '
       'txtAccountCodeStart
       '
@@ -635,56 +688,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblChqCodeStart.Text = "เลขที่เช็ค"
       Me.lblChqCodeStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'txtDocDateStart
-      '
-      Me.txtDocDateStart.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtDocDateStart, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtDocDateStart, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
-      Me.txtDocDateStart.Location = New System.Drawing.Point(130, 39)
-      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
-      Me.Validator.SetMinValue(Me.txtDocDateStart, "")
-      Me.txtDocDateStart.Name = "txtDocDateStart"
-      Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
-      Me.Validator.SetRequired(Me.txtDocDateStart, False)
-      Me.txtDocDateStart.Size = New System.Drawing.Size(87, 21)
-      Me.txtDocDateStart.TabIndex = 24
-      '
-      'txtDocDateEnd
-      '
-      Me.txtDocDateEnd.BackColor = System.Drawing.SystemColors.Window
-      Me.Validator.SetDataType(Me.txtDocDateEnd, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtDocDateEnd, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
-      Me.txtDocDateEnd.Location = New System.Drawing.Point(311, 39)
-      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
-      Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
-      Me.txtDocDateEnd.Name = "txtDocDateEnd"
-      Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
-      Me.Validator.SetRequired(Me.txtDocDateEnd, False)
-      Me.txtDocDateEnd.Size = New System.Drawing.Size(86, 21)
-      Me.txtDocDateEnd.TabIndex = 25
-      '
-      'dtpDocDateStart
-      '
-      Me.dtpDocDateStart.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDocDateStart.Location = New System.Drawing.Point(138, 39)
-      Me.dtpDocDateStart.Name = "dtpDocDateStart"
-      Me.dtpDocDateStart.Size = New System.Drawing.Size(112, 21)
-      Me.dtpDocDateStart.TabIndex = 22
-      Me.dtpDocDateStart.TabStop = False
-      '
-      'dtpDocDateEnd
-      '
-      Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-      Me.dtpDocDateEnd.Location = New System.Drawing.Point(319, 39)
-      Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-      Me.dtpDocDateEnd.Size = New System.Drawing.Size(112, 21)
-      Me.dtpDocDateEnd.TabIndex = 23
-      Me.dtpDocDateEnd.TabStop = False
-      '
       'grbBankAcctBook
       '
       Me.grbBankAcctBook.Controls.Add(Me.txtBankAcctNameStart)
@@ -870,6 +873,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTemp.Size = New System.Drawing.Size(104, 21)
       Me.txtTemp.TabIndex = 26
       Me.txtTemp.Visible = False
+      '
+      'chkOnlyNothaveCqCode
+      '
+      Me.chkOnlyNothaveCqCode.AutoSize = True
+      Me.chkOnlyNothaveCqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkOnlyNothaveCqCode.Location = New System.Drawing.Point(77, 177)
+      Me.chkOnlyNothaveCqCode.Name = "chkOnlyNothaveCqCode"
+      Me.chkOnlyNothaveCqCode.Size = New System.Drawing.Size(184, 18)
+      Me.chkOnlyNothaveCqCode.TabIndex = 55
+      Me.chkOnlyNothaveCqCode.Text = "เฉพาะเอกสารที่ไม่มีหมายเลขเช็ค"
       '
       'RptOutgoingCheckFilterSubPanel
       '
@@ -1096,6 +1109,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       ' รูปแบบ
       OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(Me.cmbChkStatus, "outgoingcheck_docstatus", True)
 
+      'lสถานะเช็ครวมกัย ในมือกับในมือผู้ขาย
+      Dim item As New IdValuePair(9, "เช็คในมือและเช็คในมือผู้ขาย")
+      Me.cmbChkStatus.Items.Add(item)
+
       Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.DueDate}")) '"วันที่บนเช็ค"
       Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.IssueDate}")) '"วันที่เอกสาร"
       Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.CqCode}")) '"เลขที่เช็ค"
@@ -1177,13 +1194,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbSort.SelectedIndex = 0
 
       Me.chkIncludeCheckDocDate.Checked = 0
+      Me.chkOnlyNothaveCqCode.Checked = 0
+      Me.chkIncludeCheckCode.Checked = 0
       Me.chkRemainChecksShow.Checked = 0
     End Sub
     Public Overrides Function GetFilterString() As String
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(17) As Filter
+      Dim arr(18) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart)) '("DocDateStart", ValidDateOrDBNull(DocDateStart)) '
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd)) '("DocDateEnd", ValidDateOrDBNull(DocDateEnd)) '
       arr(2) = New Filter("SuppliCodeStart", IIf(txtSupplierCodeStart.TextLength > 0, txtSupplierCodeStart.Text, DBNull.Value))
@@ -1202,6 +1221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(15) = New Filter("accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
       arr(16) = New Filter("ChqCodeStart", IIf(txtChqCodeStart.TextLength > 0, txtChqCodeStart.Text, DBNull.Value))
       arr(17) = New Filter("ChqCodeEnd", IIf(txtChqCodeEnd.TextLength > 0, txtChqCodeEnd.Text, DBNull.Value))
+      arr(18) = New Filter("OnlyCheckCode", IIf(Me.chkOnlyNothaveCqCode.Checked, 1, 0))
       'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
 
       Return arr

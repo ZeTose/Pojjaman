@@ -326,6 +326,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If Not prow.IsNull("cc_code") Then
                 TrPV("col13") = prow("cc_code").ToString
               End If
+              If Not prow.IsNull("payment_note") Then
+                TrPV("col15") = prow("payment_note").ToString
+              End If
             Next
 
             TrCheq("col10") = Configuration.FormatToString(totalPayAmount, DigitConfig.Price)
