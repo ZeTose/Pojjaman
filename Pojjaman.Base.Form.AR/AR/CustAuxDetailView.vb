@@ -1209,6 +1209,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblName.Text = Me.StringParserService.Parse("${res:Global.NameText}")
             Me.btnOk.Text = Me.StringParserService.Parse("${res:Global.OKButtonText}")
             Me.btnCancel.Text = Me.StringParserService.Parse("${res:Global.CancelButtonText}")
+
+            Me.PrimaryGroupBoxControl.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustAuxDetailView.PrimarygrbControl}")
+            Me.grbCustomer.Text = Me.StringParserService.Parse("${res:MainWindow.Windows.CusDetailLabel}")
+            Me.grbMap.Text = Me.StringParserService.Parse("${res:Global.grbMap}")
+            Me.grbCredit.Text = Me.StringParserService.Parse("${res:Global.Credit}")
+            Me.grbBillRec.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustAuxDetailView.grbBillRecText}")
+            Me.grbFinancial.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustAuxDetailView.grbFinancialText}")
+
         End Sub
 #End Region
 

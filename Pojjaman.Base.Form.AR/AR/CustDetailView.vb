@@ -1001,6 +1001,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblNote}")
             Me.lblMobile.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblMobile}")
+
+            Me.lblProvince.Text = Me.StringParserService.Parse("${res:Global.Province}")
         End Sub
 #End Region
 
