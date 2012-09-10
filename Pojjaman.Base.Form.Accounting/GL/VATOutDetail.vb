@@ -853,7 +853,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtPrintAddress, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATOutDetail.txtPrintAddressAlert}"))
 
       Me.ToolTip1.SetToolTip(Me.chkAutorun, Me.StringParserService.Parse("${res:Global.chkAutorun}")) '"เลขที่อัตโนมัติ")
-    End Sub
+
+            Me.grbSubmit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATOutDetail.grbSubmit}")
+            Me.lblSubmitalDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VATOutDetail.lblSubmitalDate}")
+            Me.lblVatGroup.Text = Me.StringParserService.Parse("${res:Global.VatGroupDot}")
+            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDate}")
+
+
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
