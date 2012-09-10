@@ -730,7 +730,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Me.MileStoneAmount - sign * (Me.DiscountAmount + Me.AdvancePlusRetention + Me.Penalty) - Me.TaxAmount
         End Select      End Get    End Property    'AfterTax Case 1 เอาค่าไม่มีผลกับ TaxAmount ออกด้วย    Public ReadOnly Property AfterTax() As Decimal      Get        Return Me.BeforeTax + Me.RealTaxAmount      End Get    End Property    'Case 2 Aftertax = taxbase + taxamount    Public ReadOnly Property RealAfterTax() As Decimal      Get        Return Me.RealTaxBase + Me.RealTaxAmount
       End Get    End Property    Public ReadOnly Property TaxPoint() As TaxPoint      Get        If Me.m_pma Is Nothing Then          Return New TaxPoint(1)
-        End If        Return Me.m_pma.TaxPoint      End Get    End Property#End Region    Public Property Amount() As Decimal Implements IHasAmount.Amount
+        End If        Return Me.m_pma.TaxPoint      End Get    End Property    'ค่ารายได้ ไว้ลงบัญชี รายได้ ไม่หักมัดจำ และไม่มี vat
+    'TBD ค่าปรับยังไม่แน่
+    Public ReadOnly Property Revenue() As Decimal
+      Get
+        Dim sign As Integer = 1
+        If Me.Type.Value = 79 Then
+          sign = -1
+        End If
+        Select Case Me.TaxType.Value
+          Case 0 '"ไม่มี"
+            Return CDec(Me.RealMileStoneAmount - sign * (Me.DiscountAmount))
+          Case 1 '"แยก"
+            Return CDec(Me.RealMileStoneAmount - sign * (Me.DiscountAmount)) 'เอา ค่าปรับออกเพราะไม่ทำให้ Tax Base เปลี่ยน
+          Case 2 '"รวม"
+            Return CDec((Me.RealMileStoneAmount - sign * (Me.DiscountAmount)) / ((100 + Me.TaxRate) / 100))
+        End Select
+      End Get
+    End Property
+#End Region    Public Property Amount() As Decimal Implements IHasAmount.Amount
       Get
         'If Me.TaxType.Value = 2 Then
         'Return AfterTax - Me.m_retention
@@ -2890,6 +2908,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As Milestone In Me
         If IncludeThisItem(item, pma) Then
           Dim itemAmount As Decimal = item.MileStoneAmount
+          If TypeOf item Is Retention OrElse TypeOf item Is AdvanceMileStone Then
+            itemAmount = 0
+          End If
           If item.TaxType.Value = 1 Then
             itemAmount += Vat.GetVatAmount(itemAmount)
           End If
