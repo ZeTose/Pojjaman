@@ -47,7 +47,7 @@
 		</EntityTab>
     <EntityTab id="projectreceivepayment">
       <EntityTab id="projectreceivepayment" view="Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView"/>
-      <!--<EntityTab id="projectreceivepaymentpreview" view="Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailPrintPreview"/>-->
+      <EntityTab id="xtraformpanelview" view="Longkong.Pojjaman.Gui.Panels.XtraFormPanelView"/>
     </EntityTab>
   </Extension>
 	<Extension path="/Pojjaman/Workbench/EntityListViews">

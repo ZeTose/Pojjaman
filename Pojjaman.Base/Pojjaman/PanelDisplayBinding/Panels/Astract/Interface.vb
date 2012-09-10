@@ -15,6 +15,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Interface
   Public Interface INewPrintable
     Sub ShowSelectSchemaDataDialog()
+    ReadOnly Property CanExportSchema As Boolean
   End Interface
   Public Interface IPreAddView
     Property SelectedRow() As DataRow

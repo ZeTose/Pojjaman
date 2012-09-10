@@ -68,6 +68,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.IsBiddingFinished = drh.GetValue(Of Boolean)("projectprp_isbindingfinished")
       Me.BiddingFinishedDate = drh.GetValue(Of Date)("projectprp_bindingfinisheddate")
 
+      Me.Acceptancepersonposition = drh.GetValue(Of String)("projectprp_acceptancepersonposition")
+      Me.Acceptancepersonposition2 = drh.GetValue(Of String)("projectprp_acceptancepersonposition2")
+
       Me.GetPRPI()
     End Sub
 #End Region
@@ -110,6 +113,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property UnNormalDeliverNumber As Integer
     Public Property NormalDeliverDate As Date
     Public Property UnNormalDeliverDate As Date
+
+    Public Property Acceptancepersonposition As String
+    Public Property Acceptancepersonposition2 As String
 
     Public Property ProjectReceivePaymentItemList As List(Of ProjectReceivePaymentItem)
 
@@ -254,6 +260,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_bindingfinisheddate", ValidDateOrDBNull(Me.BiddingFinishedDate)))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptanceperson", Me.AcceptPerson.Id))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptanceperson2", Me.AcceptPerson2.Id))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptancepersonposition", Me.Acceptancepersonposition))
+      paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptancepersonposition2", Me.Acceptancepersonposition2))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -488,7 +496,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
     Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
-
+      'Return "..\data\forms\DevExpress\ProjectReceivePaymentDeliverForm.repx"
     End Function
 
     Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries

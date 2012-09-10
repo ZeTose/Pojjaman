@@ -775,6 +775,7 @@
     <Compile Include="Pojjaman\Gui\Components\ListCol.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pojjaman\Gui\Components\LKXtraReport.vb" />
     <Compile Include="Pojjaman\Gui\Components\LocalizedProperty.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1095,6 +1096,9 @@
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\XtraForm.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\XtraFormPanelView.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb">
       <SubType>Form</SubType>
@@ -1662,6 +1666,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Components\WedgedTextBox.resx">
       <DependentUpon>WedgedTextBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.resx">
       <DependentUpon>AboutPojjamanTabPage.vb</DependentUpon>
@@ -1675,15 +1680,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\AttachmentForm.resx">
       <DependentUpon>AttachmentForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\Basket\BasketDialog.resx">
       <DependentUpon>BasketDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ChangePasswordDialog.resx">
       <DependentUpon>ChangePasswordDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.resx">
       <DependentUpon>ColorPickerDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\ContactForm.resx">
       <DependentUpon>ContactForm.vb</DependentUpon>
@@ -1702,15 +1711,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\CustomNoteForm.resx">
       <DependentUpon>CustomNoteForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\GraphDialog.resx">
       <DependentUpon>GraphDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\LoginDialog.resx">
       <DependentUpon>LoginDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\NotAvailableInDemoForm.resx">
       <DependentUpon>NotAvailableInDemoForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\NewCostCenter\ChooseBOQPanel.resx">
       <DependentUpon>ChooseBOQPanel.vb</DependentUpon>
@@ -1780,6 +1793,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Dialogs\XtraForm.resx">
       <DependentUpon>XtraForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\Gui\Dialogs\XtraFormPanelView.resx">
+      <DependentUpon>XtraFormPanelView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbench.resx">
       <DependentUpon>PojjamanWorkbench.vb</DependentUpon>

@@ -288,9 +288,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AP\AdvancePayFilterSubPanel.resx">
       <DependentUpon>AdvancePayFilterSubPanel.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AP\APOnpeningBalanceFilterSubPanel.resx">
       <DependentUpon>APOnpeningBalanceFilterSubPanel.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AP\APOpeningBalancePanelView.resx">
       <DependentUpon>APOpeningBalancePanelView.vb</DependentUpon>

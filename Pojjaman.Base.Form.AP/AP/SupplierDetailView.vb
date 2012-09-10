@@ -124,6 +124,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnDelContact = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.lblContactItem = New System.Windows.Forms.Label()
       Me.lblStatus = New System.Windows.Forms.Label()
+      Me.btnExportDetail = New System.Windows.Forms.Button()
       Me.btnAuxDetail = New System.Windows.Forms.Button()
       Me.primaryDetailGroupBox = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.txtFaxforExport = New System.Windows.Forms.TextBox()
@@ -176,7 +177,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblNote = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.btnExportDetail = New System.Windows.Forms.Button()
       Me.grbDetail.SuspendLayout()
       Me.grbBuilkPayeeID.SuspendLayout()
       Me.FixedGroupBox1.SuspendLayout()
@@ -189,8 +189,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbDetail.Controls.Add(Me.grbBuilkPayeeID)
       Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
       Me.grbDetail.Controls.Add(Me.btnLock)
@@ -233,6 +233,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBuilkID, System.Drawing.Color.Empty)
       Me.txtBuilkID.Location = New System.Drawing.Point(80, 17)
       Me.txtBuilkID.MaxLength = 200
+      Me.Validator.SetMaxValue(Me.txtBuilkID, "")
       Me.Validator.SetMinValue(Me.txtBuilkID, "")
       Me.txtBuilkID.Name = "txtBuilkID"
       Me.Validator.SetRegularExpression(Me.txtBuilkID, "")
@@ -280,6 +281,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtMCAccount, System.Drawing.Color.Empty)
       Me.txtMCAccount.Location = New System.Drawing.Point(80, 92)
       Me.txtMCAccount.MaxLength = 100
+      Me.Validator.SetMaxValue(Me.txtMCAccount, "")
       Me.Validator.SetMinValue(Me.txtMCAccount, "")
       Me.txtMCAccount.Name = "txtMCAccount"
       Me.Validator.SetRegularExpression(Me.txtMCAccount, "")
@@ -307,6 +309,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtDCBank, -15)
       Me.Validator.SetInvalidBackColor(Me.txtDCBank, System.Drawing.Color.Empty)
       Me.txtDCBank.Location = New System.Drawing.Point(80, 20)
+      Me.Validator.SetMaxValue(Me.txtDCBank, "")
       Me.Validator.SetMinValue(Me.txtDCBank, "")
       Me.txtDCBank.Name = "txtDCBank"
       Me.Validator.SetRegularExpression(Me.txtDCBank, "")
@@ -335,6 +338,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDCACcount, System.Drawing.Color.Empty)
       Me.txtDCACcount.Location = New System.Drawing.Point(80, 44)
       Me.txtDCACcount.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtDCACcount, "")
       Me.Validator.SetMinValue(Me.txtDCACcount, "")
       Me.txtDCACcount.Name = "txtDCACcount"
       Me.Validator.SetRegularExpression(Me.txtDCACcount, "")
@@ -374,6 +378,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtMCBank, System.Drawing.Color.Empty)
       Me.txtMCBank.Location = New System.Drawing.Point(80, 68)
       Me.txtMCBank.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtMCBank, "")
       Me.Validator.SetMinValue(Me.txtMCBank, "")
       Me.txtMCBank.Name = "txtMCBank"
       Me.Validator.SetRegularExpression(Me.txtMCBank, "")
@@ -395,8 +400,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgContact.AllowNew = False
       Me.tgContact.AllowSorting = False
       Me.tgContact.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgContact.AutoColumnResize = True
       Me.tgContact.CaptionVisible = False
       Me.tgContact.Cellchanged = False
@@ -454,6 +459,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.Text = "Status จ้า"
       Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'btnExportDetail
+      '
+      Me.btnExportDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.btnExportDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.btnExportDetail.Location = New System.Drawing.Point(568, 257)
+      Me.btnExportDetail.Name = "btnExportDetail"
+      Me.btnExportDetail.Size = New System.Drawing.Size(90, 23)
+      Me.btnExportDetail.TabIndex = 2
+      Me.btnExportDetail.Text = "ข้อมูล Export"
+      Me.btnExportDetail.Visible = False
+      '
       'btnAuxDetail
       '
       Me.btnAuxDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -509,6 +525,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtFaxforExport, System.Drawing.Color.Empty)
       Me.txtFaxforExport.Location = New System.Drawing.Point(96, 312)
       Me.txtFaxforExport.MaxLength = 250
+      Me.Validator.SetMaxValue(Me.txtFaxforExport, "")
       Me.Validator.SetMinValue(Me.txtFaxforExport, "")
       Me.txtFaxforExport.Name = "txtFaxforExport"
       Me.Validator.SetRegularExpression(Me.txtFaxforExport, "")
@@ -577,6 +594,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtEmail, System.Drawing.Color.Empty)
       Me.txtEmail.Location = New System.Drawing.Point(96, 288)
       Me.txtEmail.MaxLength = 250
+      Me.Validator.SetMaxValue(Me.txtEmail, "")
       Me.Validator.SetMinValue(Me.txtEmail, "")
       Me.txtEmail.Name = "txtEmail"
       Me.Validator.SetRegularExpression(Me.txtEmail, "")
@@ -605,6 +623,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(96, 48)
       Me.txtName.MaxLength = 200
+      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
@@ -655,6 +674,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtBillingAddress, System.Drawing.Color.Empty)
       Me.txtBillingAddress.Location = New System.Drawing.Point(96, 96)
       Me.txtBillingAddress.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtBillingAddress, "")
       Me.Validator.SetMinValue(Me.txtBillingAddress, "")
       Me.txtBillingAddress.Multiline = True
       Me.txtBillingAddress.Name = "txtBillingAddress"
@@ -686,6 +706,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAltName, System.Drawing.Color.Empty)
       Me.txtAltName.Location = New System.Drawing.Point(96, 72)
       Me.txtAltName.MaxLength = 200
+      Me.Validator.SetMaxValue(Me.txtAltName, "")
       Me.Validator.SetMinValue(Me.txtAltName, "")
       Me.txtAltName.Name = "txtAltName"
       Me.Validator.SetRegularExpression(Me.txtAltName, "")
@@ -703,6 +724,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAddress, System.Drawing.Color.Empty)
       Me.txtAddress.Location = New System.Drawing.Point(96, 144)
       Me.txtAddress.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtAddress, "")
       Me.Validator.SetMinValue(Me.txtAddress, "")
       Me.txtAddress.Multiline = True
       Me.txtAddress.Name = "txtAddress"
@@ -735,6 +757,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtPhone, System.Drawing.Color.Empty)
       Me.txtPhone.Location = New System.Drawing.Point(96, 216)
       Me.txtPhone.MaxLength = 250
+      Me.Validator.SetMaxValue(Me.txtPhone, "")
       Me.Validator.SetMinValue(Me.txtPhone, "")
       Me.txtPhone.Name = "txtPhone"
       Me.Validator.SetRegularExpression(Me.txtPhone, "")
@@ -763,6 +786,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtFax, System.Drawing.Color.Empty)
       Me.txtFax.Location = New System.Drawing.Point(96, 264)
       Me.txtFax.MaxLength = 250
+      Me.Validator.SetMaxValue(Me.txtFax, "")
       Me.Validator.SetMinValue(Me.txtFax, "")
       Me.txtFax.Name = "txtFax"
       Me.Validator.SetRegularExpression(Me.txtFax, "")
@@ -802,6 +826,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtMobile, System.Drawing.Color.Empty)
       Me.txtMobile.Location = New System.Drawing.Point(96, 240)
       Me.txtMobile.MaxLength = 250
+      Me.Validator.SetMaxValue(Me.txtMobile, "")
       Me.Validator.SetMinValue(Me.txtMobile, "")
       Me.txtMobile.Name = "txtMobile"
       Me.Validator.SetRegularExpression(Me.txtMobile, "")
@@ -912,6 +937,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtContact, System.Drawing.Color.Empty)
       Me.txtContact.Location = New System.Drawing.Point(136, 168)
       Me.txtContact.MaxLength = 100
+      Me.Validator.SetMaxValue(Me.txtContact, "")
       Me.Validator.SetMinValue(Me.txtContact, "")
       Me.txtContact.Name = "txtContact"
       Me.Validator.SetRegularExpression(Me.txtContact, "")
@@ -950,6 +976,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtAuthorizeAmount, -15)
       Me.Validator.SetInvalidBackColor(Me.txtAuthorizeAmount, System.Drawing.Color.Empty)
       Me.txtAuthorizeAmount.Location = New System.Drawing.Point(136, 96)
+      Me.Validator.SetMaxValue(Me.txtAuthorizeAmount, "")
       Me.Validator.SetMinValue(Me.txtAuthorizeAmount, "")
       Me.txtAuthorizeAmount.Name = "txtAuthorizeAmount"
       Me.Validator.SetRegularExpression(Me.txtAuthorizeAmount, "")
@@ -978,6 +1005,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtTaxID, System.Drawing.Color.Empty)
       Me.txtTaxID.Location = New System.Drawing.Point(136, 120)
       Me.txtTaxID.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtTaxID, "")
       Me.Validator.SetMinValue(Me.txtTaxID, "")
       Me.txtTaxID.Name = "txtTaxID"
       Me.Validator.SetRegularExpression(Me.txtTaxID, "")
@@ -1049,6 +1077,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtAccountName, System.Drawing.Color.Empty)
       Me.txtAccountName.Location = New System.Drawing.Point(216, 72)
+      Me.Validator.SetMaxValue(Me.txtAccountName, "")
       Me.Validator.SetMinValue(Me.txtAccountName, "")
       Me.txtAccountName.Name = "txtAccountName"
       Me.txtAccountName.ReadOnly = True
@@ -1067,6 +1096,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.txtGroupName.Location = New System.Drawing.Point(216, 48)
+      Me.Validator.SetMaxValue(Me.txtGroupName, "")
       Me.Validator.SetMinValue(Me.txtGroupName, "")
       Me.txtGroupName.Name = "txtGroupName"
       Me.txtGroupName.ReadOnly = True
@@ -1097,6 +1127,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtIdNo, System.Drawing.Color.Empty)
       Me.txtIdNo.Location = New System.Drawing.Point(136, 144)
       Me.txtIdNo.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtIdNo, "")
       Me.Validator.SetMinValue(Me.txtIdNo, "")
       Me.txtIdNo.Name = "txtIdNo"
       Me.Validator.SetRegularExpression(Me.txtIdNo, "")
@@ -1114,6 +1145,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtGroupCode, System.Drawing.Color.Empty)
       Me.txtGroupCode.Location = New System.Drawing.Point(136, 48)
       Me.txtGroupCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtGroupCode, "")
       Me.Validator.SetMinValue(Me.txtGroupCode, "")
       Me.txtGroupCode.Name = "txtGroupCode"
       Me.Validator.SetRegularExpression(Me.txtGroupCode, "")
@@ -1131,6 +1163,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtAccountCode, System.Drawing.Color.Empty)
       Me.txtAccountCode.Location = New System.Drawing.Point(136, 72)
       Me.txtAccountCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtAccountCode, "")
       Me.Validator.SetMinValue(Me.txtAccountCode, "")
       Me.txtAccountCode.Name = "txtAccountCode"
       Me.Validator.SetRegularExpression(Me.txtAccountCode, "")
@@ -1149,6 +1182,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(136, 192)
       Me.txtNote.MaxLength = 100
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Name = "txtNote"
       Me.Validator.SetRegularExpression(Me.txtNote, "")
@@ -1179,16 +1213,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
-      '
-      'btnExportDetail
-      '
-      Me.btnExportDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnExportDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnExportDetail.Location = New System.Drawing.Point(568, 257)
-      Me.btnExportDetail.Name = "btnExportDetail"
-      Me.btnExportDetail.Size = New System.Drawing.Size(90, 23)
-      Me.btnExportDetail.TabIndex = 2
-      Me.btnExportDetail.Text = "ข้อมูล Export"
       '
       'SupplierDetailView
       '
@@ -1283,9 +1307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblMobile.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblMobile}")
 
       Me.lblContactItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblContactItem}")
-            Me.lblFaxforExport.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblFaxforExport}")
-
-            Me.btnExportDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.btnExportDetail}")
+      Me.lblFaxforExport.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SupplierDetailView.lblFaxforExport}")
     End Sub
 #End Region
 

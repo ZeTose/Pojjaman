@@ -120,10 +120,37 @@
   <metadata name="ErrorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="ibtnRefresh.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAEvUlEQVRIS7VWa0xbZRjeD2NC
+        zGRLsS2lXErvQFtdXOIWdRF/OLNkbpmJcfEPjPulg1Iuq1A2LgN0GkfU4CLTkSHBuVGdoGzWweaYgoPh
+        mFxUtrmxOIe4bBQ4paeP7zmnBcqA+EO/9s35vnPe73ne63fOKgCr/k/hwA+QtJI4lxcvPfM63R63k/HM
+        rKAXgMHhruIIukmWHV4vCy/9iACXxvpQ0r4HrtkpQZ+7vfzgcHkCziLXknqLAM6OdkBeKYHZkYaZ2ZkV
+        0X24SxMIFgvj8q1+vH+uFhaHGTs+3grTGypEVUiR68gCwzArkXCGP0jgZQXw6xPXCSQThho1lOUyRJeH
+        QlepgKlaAyNJVJkE2c2pmHIL4fKHcQHjgwR+y3vHuhF/cCOi9ophrFDDWKVGTJkC2spwmqtgqtRCuTcU
+        5s9S4GE9mPV46OpenJOlPbh65zfEv/0UtKVyGPcroS+LgHZfGDa/twnbP3gBpnI1FPbHkHciA15ydmLq
+        L+w6uhO1nVzRBAyBgKUkkx6fZM6a9KYERBdLYCxXQlcix4u1z+LLAQfuTv2NjqHTCLMFw3osGwwlefj2
+        ELbVbYZiTwhP3H+zV2AQoiwQeL1eJwlP8N2vZ6AsEkNfGg5tSRi2vPMc5WJ0zqyBmz+hotWOaV+ZNnc3
+        IrIwBIZ9CihtYuQ2pRI2lTVZTRNfiIiAFjxB37UeJNS/gifLtIguFKFj8LRgEMXCn/w5NrKSK9Wdh7ZB
+        Y5NCXxyOp6sfx517f/q98IeIdbJgXQKtMH4fv4a2vi/AsFytC+As13Bc0Lm/b83pNnYdhqZAAsPrCuiL
+        5Lh49YdAAupUChERcEH7+WvUOQ9i+I/BOTLBAxYezgAPR0SENGe9Hl6nZ+QCtAViGGyR0OVL8dXlz/17
+        /TnwdTJtTDr0KkIzg7CuKALb33oeJcfy0drbQmXI8LHlQHkCmvtHx2A7NFYpjIXhRCCG80r7IgI6xOiO
+        a+LeODZVmKCzShBnlUNjCSERw/5pDhg3EfCWk9UUnmnGhebzDbhBoax2lEKdI4KhQI64AhmGbl3xhYjH
+        ne/krpEO6HPI1TwZDFYZNNkhKGzInLOU9c4SuLCcnnVhy5sbsaFQhQ02DQy5MujNImytegaT0/d9exYR
+        VJ0ohizpYeiyQmC0hCIuV4p1+RH45OyRgHz4F1XHixGZ+ghiSc9kkUGdJcKHp2r5x1yOuOM9wAN7owU1
+        LXbUOOxQZazFE+YIxO6WIIY8ya5PQNtFB3pHv8ePI12YcU/j1KWT0GeKYMwhjy1h5EEIEt99Gf2jPYEe
+        sJilTva4GNrkZ7ccTkRkchDizKEwZIdCnbYWqrQ1iEkTQZkajAvD53B3cgLr85RQpqyGJvlR6NJFWG9V
+        oPZkRWCSqb6dHupkvsR9pce4Z2A/uhu6FBFUSasRl05HR6YUsRkSKBKDcOSbOh7EWp+CHfvjUXPcjvOD
+        nRi/f1swUkjWMsf1gob7tr8ViQdegilDCnVyMPS71kD22kOw1QvJn2ImwbLzJTufLP4wmiPooMWC15Pw
+        epwfLH4ZG0BbTwuaznyE5s4GDN0YWDLxi25yuHyZtpGMk3Dd/F8Kh8sT/IuvipW+OJZ9xn9V/AOBxFBu
+        KiJ9vQAAAABJRU5ErkJggg==
+</value>
+  </data>
   <metadata name="Validator.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>140, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="iFindEmployee2.ThemedImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

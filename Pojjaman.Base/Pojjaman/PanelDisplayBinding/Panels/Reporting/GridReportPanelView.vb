@@ -276,6 +276,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       End If
     End Sub
+    Public Overridable ReadOnly Property CanExportSchema As Boolean Implements INewPrintable.CanExportSchema
+      Get
+        Return True
+      End Get
+    End Property
 #End Region
 
     Private Sub tgItem_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles tgItem.KeyDown

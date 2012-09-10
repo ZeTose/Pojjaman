@@ -679,14 +679,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         End Try
-        Try
-          Dim subsaveerror2 As SaveErrorException = SubSave2(conn)
-          If Not IsNumeric(subsaveerror2.Message) Then
-            Return New SaveErrorException(" Save Incomplete Please Save Again")
-          End If
-        Catch ex As Exception
-          Return New SaveErrorException(ex.ToString)
-        End Try
+        'Try
+        '  Dim subsaveerror2 As SaveErrorException = SubSave2(conn)
+        '  If Not IsNumeric(subsaveerror2.Message) Then
+        '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+        '  End If
+        'Catch ex As Exception
+        '  Return New SaveErrorException(ex.ToString)
+        'End Try
         '--Sub Save Block-- ============================================================
 
         Return New SaveErrorException(returnVal.Value.ToString) 'Complete Save

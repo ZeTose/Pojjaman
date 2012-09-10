@@ -135,10 +135,10 @@ Namespace Longkong.Pojjaman.Commands
         If Not TypeOf window.ViewContent Is ISimpleListPanel Then
           Return MyBase.IsEnabled
         End If
-        If TypeOf window.ActiveViewContent Is IPrintable Then
-          Return CType(window.ActiveViewContent, IPrintable).CanPrint AndAlso MyBase.IsEnabledWithChecking
-        ElseIf TypeOf window.ViewContent Is IPrintable Then
-          Return CType(window.ViewContent, IPrintable).CanPrint AndAlso MyBase.IsEnabledWithChecking
+        If TypeOf window.ActiveViewContent Is INewPrintable Then
+          Return CType(window.ActiveViewContent, INewPrintable).CanExportSchema AndAlso MyBase.IsEnabledWithChecking
+        ElseIf TypeOf window.ViewContent Is INewPrintable Then
+          Return CType(window.ViewContent, INewPrintable).CanExportSchema AndAlso MyBase.IsEnabledWithChecking
         End If
         Return MyBase.IsEnabledWithChecking
       End Get
