@@ -242,6 +242,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Me.lblManager.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblManager}")
             'Me.lblAdmin.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblAdmin}")
             'Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel.lblStatus}")
+
+            Me.lblGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolDetailFilterSubpanel.lblGroup}")
+            Me.lblName.Text = Me.StringParserService.Parse("${res:Global.NameTextDot}")
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Global.Code}")
+
         End Sub
     Public Overrides Function GetFilterArray() As Filter()
       Dim arr(3) As Filter

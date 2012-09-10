@@ -126,16 +126,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Methods"
-    Public Sub SetLabelText()
-      Me.Name = "ตะกร้า"
-      Me.ToolTip1.SetToolTip(Me.ibtnClear, "เทตะกร้า")
-      Me.ToolTip1.SetToolTip(Me.ibtnAdd, "จับใส่ตะกร้า")
-      Me.ToolTip1.SetToolTip(Me.ibtnDelete, "ลบออกจากตะกร้า")
-    End Sub
-    Public Event EmptyBasket As BasketOperationDelegate
-    Public Sub OnEmptyBasket(ByVal items As BusinessLogic.BasketItemCollection)
-      RaiseEvent EmptyBasket(items)
-    End Sub
+        Dim StringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        Public Sub SetLabelText()
+            Me.Name = "ตะกร้า"
+            Me.ToolTip1.SetToolTip(Me.ibtnClear, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BasketDialog.ibtnClear}")) ' "เทตะกร้า")
+            Me.ToolTip1.SetToolTip(Me.ibtnAdd, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BasketDialog.ibtnAdd}")) '"จับใส่ตะกร้า")
+            Me.ToolTip1.SetToolTip(Me.ibtnDelete, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BasketDialog.ibtnDelete}")) ' "ลบออกจากตะกร้า")
+        End Sub
+        Public Event EmptyBasket As BasketOperationDelegate
+        Public Sub OnEmptyBasket(ByVal items As BusinessLogic.BasketItemCollection)
+            RaiseEvent EmptyBasket(items)
+        End Sub
 #End Region
 
 #Region "Properties"

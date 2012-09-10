@@ -646,7 +646,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.grbGroup}")
       Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.lblStatus}")
       Me.chkOnlyCalcEndedStillRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkOnlyCalcEndedStillRemaining}") 'เฉพาะสินทรัพย์มูลค่ายังคงเหลือ แต่สิ้นสุดอายุคำนวณแล้ว
-      Me.chkShowRemainingOnly.Text = "แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkShowRemainingOnly}") 'แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ
+            Me.chkShowRemainingOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkShowRemainingOnly}") 'แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
       Dim arr(8) As Filter

@@ -743,6 +743,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Public Sub SetLabelText() Implements ISimpleEntityPanel.SetLabelText
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.grbDetail}")
+            Me.GroupBox1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.GroupBox1}")
+            Me.grpAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.grpAmount}")
+            Me.Label7.Text = Me.StringParserService.Parse("${res:Global.BahtUnit")
+            Me.Label8.Text = Me.StringParserService.Parse("${res:Global.BahtUnit")
+            Me.chkIncludeCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.chkIncludeCancel}")
+            Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
 
     End Sub
 
