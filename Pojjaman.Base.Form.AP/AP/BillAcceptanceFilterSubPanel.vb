@@ -682,6 +682,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel.grbMainDetail}")
             Me.lblDueDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel.lblDueDateStart}")
             Me.lblDueDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceFilterSubPanel.lblDueDateEnd}")
+
+            Me.grbDueDate.Text = Me.StringParserService.Parse("${res:Global.grbDueDate}")
+
         End Sub
         Public Overrides Function GetFilterArray() As Filter()
             Dim arr(7) As Filter
