@@ -895,7 +895,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceReceiveDetail.lblTaxAmount}")
       Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceReceiveDetail.lblTaxType}")
       Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceReceiveDetail.lblTaxRate}")
-    End Sub
+
+            Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Global.TaxBase}")
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
