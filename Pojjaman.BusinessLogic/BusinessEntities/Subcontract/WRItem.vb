@@ -1592,6 +1592,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_qty = value
     End Sub
     Public Sub SetAmount(value As Decimal)
+      If m_unitprice = 0 Then
+        Me.SetUnitPrice(value)
+      End If
       If m_unitprice <> 0 Then
         m_qty = value / m_unitprice
       Else
