@@ -1540,7 +1540,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblGrossUnit.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
       Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.lblGross}")
       Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.chkShowDetail}")
-    End Sub
+
+            Me.lblRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ReceiveSelectionDetail.lblRemainingText}")
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
