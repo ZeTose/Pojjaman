@@ -602,6 +602,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
+    Public Shared Function GetDefaultCustomer() As Customer
+     
+      'Dim filters(0) As Filter
+      'filters(0) = New Filter("includeInvisible", True)
+      Dim myId As Integer = CInt(Configuration.GetConfig("AdvanceMoneyCustomer"))
+      Dim sup As New Customer(myId)
+      Return sup
+       
+    End Function
     Public Shared Function CreateTableStyle() As DataGridTableStyle
       Dim dst As New DataGridTableStyle
       dst.MappingName = "CostCenter"
