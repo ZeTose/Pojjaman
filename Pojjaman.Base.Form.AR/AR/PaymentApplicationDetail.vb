@@ -1632,7 +1632,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.imbMilestoneDetail.TabIndex = 14
       Me.imbMilestoneDetail.TabStop = False
       Me.imbMilestoneDetail.ThemedImage = CType(resources.GetObject("imbMilestoneDetail.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.imbMilestoneDetail, "ไปยังรายการ")
+            Me.ToolTip1.SetToolTip(Me.imbMilestoneDetail, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.imbMilestoneDetail}")) 'ไปยังรายการ")
       '
       'lblItemDiscount
       '
@@ -1654,7 +1654,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnHand.TabIndex = 14
       Me.ibtnHand.TabStop = False
       Me.ibtnHand.ThemedImage = CType(resources.GetObject("ibtnHand.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnHand, "ส่งงาน")
+            Me.ToolTip1.SetToolTip(Me.ibtnHand, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.ibtnHand}")) ' "ส่งงาน")
       '
       'ibtnCancelHand
       '
@@ -1665,7 +1665,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCancelHand.TabIndex = 14
       Me.ibtnCancelHand.TabStop = False
       Me.ibtnCancelHand.ThemedImage = CType(resources.GetObject("ibtnCancelHand.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnCancelHand, "ยกเลิกการส่งงาน")
+            Me.ToolTip1.SetToolTip(Me.ibtnCancelHand, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.ibtnCancelHand}")) '  "ยกเลิกการส่งงาน")
       '
       'ErrorProvider1
       '
@@ -2941,7 +2941,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.lblItemNote}")
       Me.grbContract.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.grbContract}")
       Me.grbAdvrRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.grbAdvrRetention}")
-    End Sub
+
+            Me.grbTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentApplicationDetail.grbTax}")
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler txtCostCenterCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtBOQCode.Validated, AddressOf Me.ChangeProperty
