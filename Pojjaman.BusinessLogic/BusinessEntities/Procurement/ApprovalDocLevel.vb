@@ -395,6 +395,8 @@ Public Class ApproveDocCollection
         For Each dr As DataRow In dt.Rows
           dr.Delete()
         Next
+
+        Dim isMeReject As Boolean = False
         For Each myApvDoc As ApproveDoc In Me
           Dim drNew As DataRow = dt.NewRow
           drNew("apvdoc_entityId") = m_entityId
@@ -408,6 +410,16 @@ Public Class ApproveDocCollection
           drNew("apvdoc_lastEditDate") = IIf(myApvDoc.LastEditDate.Equals(Date.MinValue), DBNull.Value, myApvDoc.LastEditDate)
           drNew("apvdoc_reject") = myApvDoc.Reject
           dt.Rows.Add(drNew)
+
+          '<สำหรับกรณีเคย Reject แล้วมา comment ตามหลัง>
+          If myApvDoc.Reject Then
+            isMeReject = True
+          Else
+            If myApvDoc.Level <> 0 Then
+              isMeReject = False
+            End If
+          End If
+          '<สำหรับกรณีเคย Reject แล้วมา comment ตามหลัง>
         Next
         ' First process deletes.
         m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
@@ -424,6 +436,9 @@ Public Class ApproveDocCollection
             m_DocMethod = SaveDocMultiApprovalMethod.Reject
           ElseIf myApvDoc.Level = 0 Then
             m_DocMethod = SaveDocMultiApprovalMethod.Comment
+            If isMeReject Then
+              m_DocMethod = SaveDocMultiApprovalMethod.Reject
+            End If
           Else
             m_DocMethod = SaveDocMultiApprovalMethod.Approve
           End If
