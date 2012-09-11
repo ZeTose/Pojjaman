@@ -1160,6 +1160,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
+      Me.RefreshUserColumns()
 
       'Dim grNewCol As New DataGridViewButtonColumn
       'grNewCol.Width = 50
@@ -1924,6 +1925,53 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         End If
       Next
+
+      'Me.SaveUserColumnWidth()
+    End Sub
+
+    Private Sub RefreshUserColumns()
+      Dim UserCollumns2 As Hashtable = ConfigurationUser.GetConfigurationUserMulltiApproveCollumnsList2(User.CurrentUser.Id)
+      'Dim configName As String
+      Dim col As GridViewTextBoxColumn
+
+      'For Each gcol As GridViewTextBoxColumn In rGrid.Columns
+      '  gcol.Width = CType(UserCollumns2(gcol.FieldName.ToLower), Decimal)
+      'Next
+
+      For Each obj As Object In rGrid.Columns
+        If TypeOf obj Is GridViewTextBoxColumn Then
+          col = CType(obj, GridViewTextBoxColumn)
+          If UserCollumns2.ContainsKey(col.FieldName.ToLower) Then
+            col.Width = CType(UserCollumns2(col.FieldName.ToLower), Decimal)
+            'If CollumnHash.ContainsKey(col.FieldName) Then
+            '  configName = String.Format("MultiApprove.{0}.width", col.FieldName)
+            '  ConfigurationUser.Save(User.CurrentUser.Id, configName, colIndex)
+            '  colIndex += 1
+            'End If
+          End If
+        End If
+      Next
+    End Sub
+
+    Private Sub SaveUserColumnWidth(e As System.Windows.Forms.ColumnWidthChangedEventArgs)
+      Dim configName As String
+      Dim col As GridViewTextBoxColumn
+
+      Dim obj As Object = rGrid.Columns(e.ColumnIndex)
+
+      'For Each gcol As GridViewTextBoxColumn In rGrid.Columns
+      '  configName = String.Format("MultiApprove.{0}.width", gcol.FieldName)
+      '  ConfigurationUser.Save(User.CurrentUser.Id, configName, gcol.Width)
+      'Next
+
+      'For Each obj As Object In rGrid.Columns
+      If TypeOf obj Is GridViewTextBoxColumn Then
+        col = CType(obj, GridViewTextBoxColumn)
+        configName = String.Format("MultiApprove.{0}.width", col.FieldName)
+        ConfigurationUser.Save(User.CurrentUser.Id, configName, col.Width)
+      End If
+      'Next
+
     End Sub
 
     Private Sub txtCodePrefix_Click(sender As Object, e As System.EventArgs) Handles txtCodePrefix.Click
@@ -1987,5 +2035,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
     End Sub
 
+    Private Sub rGrid_ColumnWidthChanged(sender As Object, e As System.Windows.Forms.ColumnWidthChangedEventArgs) Handles rGrid.ColumnWidthChanged
+      Me.SaveUserColumnWidth(e)
+    End Sub
   End Class
 End Namespace
