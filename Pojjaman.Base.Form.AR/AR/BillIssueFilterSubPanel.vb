@@ -562,6 +562,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			Me.lblDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillIssueFilterSubPanel.lbldoc}")
             Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueFilterSubPanel.lblDocDateStart}")
             Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueFilterSubPanel.lblDocDateEnd}")
+
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+            Me.grbDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateText}")
         End Sub
 		Public Overrides Function GetFilterArray() As Filter()
             Dim arr(5) As Filter
