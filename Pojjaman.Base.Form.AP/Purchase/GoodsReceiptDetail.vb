@@ -2791,6 +2791,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblWHT}")
 
             Me.ibtUnlocker.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.ibtUnlocker}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Global.VatDot}")
         End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
