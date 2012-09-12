@@ -654,9 +654,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides ReadOnly Property TabPageText() As String
       Get
         If Me.Entity Is Nothing OrElse Not Me.Entity.Originated Then
-          Return "รายละเอียด"
+                    Return Me.StringParserService.Parse("${res:Global.grbDetail}") '"รายละเอียด"
         End If
-        Return "รายละเอียด:" & Me.Entity.Code
+                'Return "รายละเอียด:" & Me.Entity.Code
+                Return Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.grbDetailDot}") & Me.Entity.Code
       End Get
     End Property
 #End Region

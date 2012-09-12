@@ -1480,7 +1480,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkUnvatable.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MaterialDetailView.chkUnvatable}")
       Me.lblMVCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MaterialDetailView.lblMVCost}")
       Me.lblMVCostUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MaterialDetailView.lblMVCostUnit}")
-    End Sub
+
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbDetail}")
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
       AddHandler txtAltName.TextChanged, AddressOf Me.ChangeProperty
