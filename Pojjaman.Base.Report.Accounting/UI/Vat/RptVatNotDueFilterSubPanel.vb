@@ -59,6 +59,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents dtpDueDocDateStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpDueDocDateEnd As System.Windows.Forms.DateTimePicker
     Friend WithEvents chkOnlyRemain As System.Windows.Forms.CheckBox
+    Friend WithEvents chkExcludeNoGL As System.Windows.Forms.CheckBox
     Friend WithEvents chkIncludeChildren As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -97,6 +98,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.chkExcludeNoGL = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       Me.grbDocDate.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,8 +107,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.grbDetail.Controls.Add(Me.KeepKeyCombo3)
       Me.grbDetail.Controls.Add(Me.KeepKeyCombo2)
       Me.grbDetail.Controls.Add(Me.KeepKeyCombo1)
@@ -117,7 +119,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(8, 0)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(431, 200)
+      Me.grbDetail.Size = New System.Drawing.Size(519, 200)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "Incoming Vat Report"
@@ -152,8 +154,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTemp, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.txtTemp.Location = New System.Drawing.Point(488, 142)
+      Me.txtTemp.Location = New System.Drawing.Point(521, 142)
       Me.txtTemp.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtTemp, "")
       Me.Validator.SetMinValue(Me.txtTemp, "")
       Me.txtTemp.Name = "txtTemp"
       Me.txtTemp.ReadOnly = True
@@ -165,6 +168,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDocDate
       '
+      Me.grbDocDate.Controls.Add(Me.chkExcludeNoGL)
       Me.grbDocDate.Controls.Add(Me.chkOnlyRemain)
       Me.grbDocDate.Controls.Add(Me.txtDueDocDateEnd)
       Me.grbDocDate.Controls.Add(Me.txtDueDocDateStart)
@@ -192,7 +196,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDocDate.Location = New System.Drawing.Point(16, 16)
       Me.grbDocDate.Name = "grbDocDate"
-      Me.grbDocDate.Size = New System.Drawing.Size(407, 147)
+      Me.grbDocDate.Size = New System.Drawing.Size(497, 146)
       Me.grbDocDate.TabIndex = 1
       Me.grbDocDate.TabStop = False
       Me.grbDocDate.Text = "Date"
@@ -202,9 +206,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkOnlyRemain.Checked = True
       Me.chkOnlyRemain.CheckState = System.Windows.Forms.CheckState.Checked
       Me.chkOnlyRemain.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkOnlyRemain.Location = New System.Drawing.Point(243, 117)
+      Me.chkOnlyRemain.Location = New System.Drawing.Point(247, 111)
       Me.chkOnlyRemain.Name = "chkOnlyRemain"
-      Me.chkOnlyRemain.Size = New System.Drawing.Size(128, 24)
+      Me.chkOnlyRemain.Size = New System.Drawing.Size(119, 24)
       Me.chkOnlyRemain.TabIndex = 68
       Me.chkOnlyRemain.Text = "แสดงเฉพาะที่ค้าง"
       '
@@ -217,6 +221,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDueDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDueDocDateEnd.Location = New System.Drawing.Point(272, 41)
       Me.txtDueDocDateEnd.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDueDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDueDocDateEnd, "")
       Me.txtDueDocDateEnd.Name = "txtDueDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDueDocDateEnd, "")
@@ -233,6 +238,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDueDocDateStart, System.Drawing.Color.Empty)
       Me.txtDueDocDateStart.Location = New System.Drawing.Point(123, 41)
       Me.txtDueDocDateStart.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDueDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDueDocDateStart, "")
       Me.txtDueDocDateStart.Name = "txtDueDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDueDocDateStart, "")
@@ -301,6 +307,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSuppliCodeEnd, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSuppliCodeEnd, System.Drawing.Color.Empty)
       Me.txtSuppliCodeEnd.Location = New System.Drawing.Point(272, 65)
+      Me.Validator.SetMaxValue(Me.txtSuppliCodeEnd, "")
       Me.Validator.SetMinValue(Me.txtSuppliCodeEnd, "")
       Me.txtSuppliCodeEnd.Name = "txtSuppliCodeEnd"
       Me.Validator.SetRegularExpression(Me.txtSuppliCodeEnd, "")
@@ -340,6 +347,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtSuppliCodeStart, -15)
       Me.Validator.SetInvalidBackColor(Me.txtSuppliCodeStart, System.Drawing.Color.Empty)
       Me.txtSuppliCodeStart.Location = New System.Drawing.Point(123, 65)
+      Me.Validator.SetMaxValue(Me.txtSuppliCodeStart, "")
       Me.Validator.SetMinValue(Me.txtSuppliCodeStart, "")
       Me.txtSuppliCodeStart.Name = "txtSuppliCodeStart"
       Me.Validator.SetRegularExpression(Me.txtSuppliCodeStart, "")
@@ -361,7 +369,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'chkIncludeChildren
       '
       Me.chkIncludeChildren.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeChildren.Location = New System.Drawing.Point(112, 117)
+      Me.chkIncludeChildren.Location = New System.Drawing.Point(124, 110)
       Me.chkIncludeChildren.Name = "chkIncludeChildren"
       Me.chkIncludeChildren.Size = New System.Drawing.Size(128, 24)
       Me.chkIncludeChildren.TabIndex = 51
@@ -389,6 +397,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCCCodeStart, System.Drawing.Color.Empty)
       Me.txtCCCodeStart.Location = New System.Drawing.Point(123, 89)
       Me.txtCCCodeStart.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtCCCodeStart, "")
       Me.Validator.SetMinValue(Me.txtCCCodeStart, "")
       Me.txtCCCodeStart.Name = "txtCCCodeStart"
       Me.Validator.SetRegularExpression(Me.txtCCCodeStart, "")
@@ -417,6 +426,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(232, 89)
       Me.txtCostCenterName.MaxLength = 50
+      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -434,6 +444,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
       Me.txtDocDateEnd.Location = New System.Drawing.Point(273, 18)
       Me.txtDocDateEnd.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
       Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
       Me.txtDocDateEnd.Name = "txtDocDateEnd"
       Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
@@ -450,6 +461,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtDocDateStart, System.Drawing.Color.Empty)
       Me.txtDocDateStart.Location = New System.Drawing.Point(123, 18)
       Me.txtDocDateStart.MaxLength = 10
+      Me.Validator.SetMaxValue(Me.txtDocDateStart, "")
       Me.Validator.SetMinValue(Me.txtDocDateStart, "")
       Me.txtDocDateStart.Name = "txtDocDateStart"
       Me.Validator.SetRegularExpression(Me.txtDocDateStart, "")
@@ -501,7 +513,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(340, 168)
+      Me.btnSearch.Location = New System.Drawing.Point(428, 168)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 3
@@ -511,7 +523,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(252, 168)
+      Me.btnReset.Location = New System.Drawing.Point(340, 168)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 2
@@ -530,11 +542,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
+      'chkExcludeNoGL
+      '
+      Me.chkExcludeNoGL.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkExcludeNoGL.Location = New System.Drawing.Point(372, 111)
+      Me.chkExcludeNoGL.Name = "chkExcludeNoGL"
+      Me.chkExcludeNoGL.Size = New System.Drawing.Size(119, 24)
+      Me.chkExcludeNoGL.TabIndex = 68
+      Me.chkExcludeNoGL.Text = "ไม่รวม NO-GL"
+      '
       'RptVatNotDueFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "RptVatNotDueFilterSubPanel"
-      Me.Size = New System.Drawing.Size(447, 208)
+      Me.Size = New System.Drawing.Size(535, 208)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.grbDocDate.ResumeLayout(False)
@@ -564,6 +585,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.grbDocDate}")
       'Checkbox
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.chkIncludeChildren}")
+      Me.chkExcludeNoGL.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.chkExcludeNoGL}")
     End Sub
 #End Region
 
@@ -647,6 +669,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End If
       Next
 
+      Me.chkExcludeNoGL.Checked = False
       Me.chkIncludeChildren.Checked = False
 
       Me.Costcenter = New CostCenter
@@ -676,7 +699,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(9) As Filter
+      Dim arr(10) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
       arr(2) = New Filter("SupplierCodeStart", IIf(txtSuppliCodeStart.TextLength > 0, txtSuppliCodeStart.Text, DBNull.Value))
@@ -687,6 +710,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(7) = New Filter("DueDocDateStart", IIf(Me.DueDocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DueDocDateStart))
       arr(8) = New Filter("DueDocDateEnd", IIf(Me.DueDocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DueDocDateEnd))
       arr(9) = New Filter("OnlyRemain", Me.chkOnlyRemain.Checked)
+      arr(10) = New Filter("ExcludeNoGL", Me.chkExcludeNoGL.Checked)
 
       Return arr
     End Function
