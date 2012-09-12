@@ -1389,7 +1389,9 @@ FinalLine:
 
       Me.btnApproveStore.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.btnStoreApprove}")
       Me.lblStoreApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PRPanelView.lblStoreApprove}")
-    End Sub
+
+            Me.lblGross.Text = Me.StringParserService.Parse("${res:Global.Gross}")
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
