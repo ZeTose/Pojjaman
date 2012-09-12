@@ -215,6 +215,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
