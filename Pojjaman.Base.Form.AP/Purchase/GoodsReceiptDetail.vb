@@ -2789,7 +2789,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.btnApprove}")
       Me.lblWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.lblWHT}")
-    End Sub
+
+            Me.ibtUnlocker.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.ibtUnlocker}")
+        End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
