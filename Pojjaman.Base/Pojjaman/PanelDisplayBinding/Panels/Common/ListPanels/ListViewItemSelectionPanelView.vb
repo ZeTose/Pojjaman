@@ -1021,8 +1021,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End If
       Me.ibtnAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.ibtnAll}")
       Me.ibtnNone.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.ibtnNone}")
-      Me.chkHilightStatus.Text = "แสดงสีสถานะ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.chkHilightStatus}")
-      Me.chkHilightApproveStatus.Text = "แสดงสีการอนุมัติ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.chkHilightApproveStatus}")
+            Me.chkHilightStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.chkHilightStatus}") '"แสดงสีสถานะ" 
+            Me.chkHilightApproveStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ListViewItemSelectionPanelView.chkHilightApproveStatus}") '"แสดงสีการอนุมัติ"
     End Sub
     Public Sub UpdateEntityProperties() Implements ISimpleEntityPanel.UpdateEntityProperties
 
