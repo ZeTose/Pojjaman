@@ -1969,7 +1969,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
 
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblCode}")   '"รหัส"
-      Me.lblSCCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblSCCode}")   '"เลขที่ SC"
+            Me.lblSCCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblSCCode}")   '"เลขที่ SC"
       Me.lblSubcontractor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblSubcontractor}")   '"ผู้รับเหมา"
       Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblCostCenter}")   '"Cost Center"
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
@@ -2018,7 +2018,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '            'Me.btnApprove.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.btnApprove}")
 
       '            'Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.chkClosed}")
-      '            'ไปกำหนดข้างล่าง
+            '            'ไปกำหนดข้างล่าง
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbDetail}")
+            Me.lblAdvancePay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblAdvancePay}")
+            Me.btnApprove.Text = Me.StringParserService.Parse("${res:MainMenu.ApproveDoc}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.lblItem}")
+            Me.lblGross.Text = Me.StringParserService.Parse("${res:Global.Gross}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VOPanelView.Label2}")
+            Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Global.BeforeTax}")
+            Me.lblTaxType.Text = Me.StringParserService.Parse("${res:Global.TaxType}")
+            Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Global.VatDot}")
+            Me.lblAfterTax.Text = Me.StringParserService.Parse("${res:Global.AfterTax}")
+            Me.lblTaxRate.Text = Me.StringParserService.Parse("${res:Global.TaxRateText}")
+
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
