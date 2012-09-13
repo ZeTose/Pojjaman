@@ -2221,10 +2221,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not advrCol Is Nothing Then
               aAmt = advrCol.GetBeforeTax       'aAmt = advrCol.GetAmount
             End If
+
+            'กรณีเบิกมัดจำ
+            If Not advrCol Is Nothing AndAlso aAmt <> 0 Then
+              ji = New JournalEntryItem
+              ji.Amount = aAmt
+              ji.Mapping = "C7.7"
+
+              ji.CostCenter = cc
+              jiColl.Add(ji)
+
+              Dim advaftertax As Decimal = Me.ItemCollection.GetMilestoneAdvrAftertax
+
+              'ลูกหนี้การค้า C7.3 ของเงินมัดจำ
+              ji = New JournalEntryItem
+              ji.Amount = advaftertax
+              ji.Mapping = "C7.3"
+              ji.CostCenter = cc
+              If Not cust.Account Is Nothing AndAlso cust.Originated Then
+                ji.Account = cust.Account
+              End If
+              jiColl.Add(ji)
+
+              If pma.TaxType.Value <> 0 Then
+                vatAmt = advaftertax - aAmt       'sumAmt - amt - aAmt
+              End If
+
+              If vatAmt <> 0 Then
+                'Vat C7.5/C7.6
+                ji = New JournalEntryItem
+                ji.Amount = vatAmt
+                If pma.TaxPoint.Value = 1 Then
+                  'Tax ที่นี่
+                  ji.Mapping = "C7.5"
+                Else
+                  'Tax ที่รับชำระหนี้
+                  ji.Mapping = "C7.6"
+                End If
+                ji.CostCenter = cc
+                jiColl.Add(ji)
+              End If
+            End If
+
             Dim sumAmt As Decimal      'ลูกหนี้
 
             'sumAmt = Me.GetMilestoneAmountAftertax
-            sumAmt = Me.ItemCollection.GetCanGetMilestoneAmountAfterTax(pma) + Me.ItemCollection.GetMilestoneAdvrAmount
+            sumAmt = Me.ItemCollection.GetCanGetMilestoneAmountAfterTax(pma)
 
             'amt = Me.GetPseudoTaxBase(pma.Id) - pma.Retention
 
@@ -2237,21 +2279,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
               vatAmt = sumAmt - amt       'sumAmt - amt - aAmt
             End If
 
-            'กรณีเบิกมัดจำ
-            If Not advrCol Is Nothing AndAlso aAmt <> 0 Then
-              ji = New JournalEntryItem
-              ji.Amount = aAmt
-              ji.Mapping = "C7.7"
-
-              ji.CostCenter = cc
-              jiColl.Add(ji)
-            End If
+            
 
             'Dim miType As Integer
             'For Each mi As Milestone In Me.ItemCollection
             '  miType = mi.Type.Value
             'Next
-            If sumAmt > 0 OrElse amt > 0 Then
+            If sumAmt <> 0 OrElse amt <> 0 Then
               'If miType = 75 OrElse miType = 78 OrElse miType = 79 Then
               'รายได้จากงานก่อสร้าง C7.4
               If pma.TaxType.Value = 0 Then
@@ -3072,21 +3106,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As Milestone In Me.ItemCollection
         If item.PMAId = pmaId Then
           If Not (TypeOf item Is Retention OrElse TypeOf item Is AdvanceMileStone) Then
-          If item.TaxType.Value <> 0 Then
-            If TypeOf item Is VariationOrderDe Then
-              amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
-            Else
-              amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
-            End If
-          Else
-            If TypeOf item Is VariationOrderDe Then
-              amt -= Configuration.Format(item.BeforeTax, DigitConfig.Price)
-            Else
-              amt += Configuration.Format(item.BeforeTax, DigitConfig.Price)
+              If item.TaxType.Value <> 0 Then
+                If TypeOf item Is VariationOrderDe Then
+                  amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
+                Else
+                  amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
+                End If
+              Else
+                If TypeOf item Is VariationOrderDe Then
+                  amt -= Configuration.Format(item.BeforeTax, DigitConfig.Price)
+                Else
+                  amt += Configuration.Format(item.BeforeTax, DigitConfig.Price)
+                End If
+              End If
             End If
           End If
-        End If
-        End If
       Next
       Return Configuration.Format(amt, DigitConfig.Price)
     End Function

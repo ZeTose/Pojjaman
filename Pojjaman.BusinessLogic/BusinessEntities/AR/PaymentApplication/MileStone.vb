@@ -3088,6 +3088,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       Return amt
     End Function
+    Public Function GetMilestoneAdvrAftertax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+      Dim amt As Decimal
+      For Each item As Milestone In Me
+        If IncludeThisItem(item, pma) Then
+          Dim itemAmount As Decimal
+          If TypeOf item Is AdvanceMileStone Then
+            itemAmount = item.MileStoneAmount
+          End If
+          If item.TaxType.Value = 1 Then
+            itemAmount += Vat.GetVatAmount(itemAmount)
+          End If
+          If roundBeforeSum Then
+            itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+          End If
+            amt = itemAmount
+        End If
+      Next
+      Return amt
+    End Function
     Public Function GetHandedAdvrAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
