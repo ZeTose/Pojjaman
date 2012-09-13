@@ -408,6 +408,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Me.m_je.Code = m_je.GetNextCode
               End If
           End Select
+          'มีการเปลี่ยน config value
+          If m_je.DontSave AndAlso Me.AutoCodeFormat.CodeConfig.Value <> 0 Then
+            m_je.DontSave = False
+          End If
         Else
           If Me.AutoGen Then 'And Me.Code.Length = 0 Then
             Me.Code = Me.GetNextCode
