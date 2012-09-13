@@ -843,7 +843,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim saveVatError As SaveErrorException = Me.m_vat.Save(currentUserId, conn, trans)
               If Not IsNumeric(saveVatError.Message) Then
                 trans.Rollback()
-                Me.Payment.ResetDetail()
                 Me.ResetID(oldid, oldpay, oldvat, oldje)
                 ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                 Return saveVatError
@@ -851,10 +850,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Select Case CInt(saveVatError.Message)
                   Case -1, -2, -5
                     trans.Rollback()
-                    Me.Payment.ResetDetail()
                     Me.ResetID(oldid, oldpay, oldvat, oldje)
                     ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
                     Return saveVatError
+                  Case Else
+                End Select
+              End If
+              'ถ้าเคยมี vat แล้วลบออก จะลบ vat ให้
+            ElseIf Me.Vat IsNot Nothing AndAlso Me.Vat.Originated Then
+              Dim DeleteVatError As SaveErrorException = Me.m_vat.Delete(currentUserId, conn, trans)
+              If Not IsNumeric(DeleteVatError.Message) Then
+                trans.Rollback()
+                Me.ResetID(oldid, oldpay, oldvat, oldje)
+                ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                Return DeleteVatError
+              Else
+                Select Case CInt(DeleteVatError.Message)
+                  Case -1, -2, -5
+                    trans.Rollback()
+                    Me.ResetID(oldid, oldpay, oldvat, oldje)
+                    ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
+                    Return DeleteVatError
                   Case Else
                 End Select
               End If

@@ -2224,7 +2224,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim sumAmt As Decimal      'ลูกหนี้
 
             'sumAmt = Me.GetMilestoneAmountAftertax
-            sumAmt = Me.ItemCollection.GetCanGetMilestoneAmountAfterTax(pma)
+            sumAmt = Me.ItemCollection.GetCanGetMilestoneAmountAfterTax(pma) + Me.ItemCollection.GetMilestoneAdvrAmount
 
             'amt = Me.GetPseudoTaxBase(pma.Id) - pma.Retention
 

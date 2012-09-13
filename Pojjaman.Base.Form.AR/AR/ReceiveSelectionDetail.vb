@@ -2019,7 +2019,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
           newItem.Amount = Math.Min(newItem.UnreceivedAmount, newItem.BilledAmount)
           newItem.DeductedTaxBase = Nothing
-          If newItem.EntityId = 366 OrElse newItem.EntityId = 83 Then
+          If newItem.EntityId = 366 OrElse newItem.EntityId = 83 OrElse newItem.EntityId = 48 Then
             newItem.ARretention = 0
           Else
             newItem.ARretention = newItem.getARretention()

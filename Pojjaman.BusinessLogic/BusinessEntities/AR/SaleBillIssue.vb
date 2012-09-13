@@ -2064,7 +2064,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function VatAmount() As Decimal
       Dim ret As Decimal = 0
       For Each doc As SaleBillIssueItem In Me
-        If doc.EntityId = 79 OrElse doc.EntityId = 48 Then
+        '48 ลดหนี้ ออกมาเป็นค่าลบอยู่แล้ว
+        If doc.EntityId = 79 Then
           ret -= doc.VatAmt
         Else
           ret += doc.VatAmt

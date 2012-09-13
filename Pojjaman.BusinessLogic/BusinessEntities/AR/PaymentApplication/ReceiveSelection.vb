@@ -1592,8 +1592,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
 
-
-        If doc.VatAmt > 0 Then
+        If doc.VatAmt <> 0 Then
           ji = New JournalEntryItem
           ji.Mapping = "C8.3"
           ji.Amount = Configuration.Format(doc.VatAmt, DigitConfig.Price)

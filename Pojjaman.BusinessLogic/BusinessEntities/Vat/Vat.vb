@@ -1155,6 +1155,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ' Finally process inserts.
       da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
     End Function
+
+    Public Function Delete(ByVal currentUserId As Integer, ByVal conn As System.Data.SqlClient.SqlConnection, ByVal trans As System.Data.SqlClient.SqlTransaction) As SaveErrorException
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteVat", New SqlParameter("@vat_id", Me.Id))
+        Return New SaveErrorException("0")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+    End Function
     Private Function GetCurrencyConversion() As Decimal
       If TypeOf Me.RefDoc Is IHasCurrency Then
         Return CType(Me.RefDoc, IHasCurrency).Currency.Conversion
