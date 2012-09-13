@@ -1134,7 +1134,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtToCostCenterCode, TextHelper.StringHelper.GetRidOfAtEnd(Me.lbltoCC.Text, ":"))
 
 
-      Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatReturnDetailView.chkShowCost}")
+            Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatReturnDetailView.chkShowCost}")
+            Me.lblCustomer.Text = Me.StringParserService.Parse("${res:Global.CustomerText}")
     End Sub
     Protected Overrides Sub EventWiring()
       'AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty

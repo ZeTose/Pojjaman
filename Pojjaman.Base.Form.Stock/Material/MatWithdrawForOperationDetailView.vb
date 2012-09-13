@@ -1975,7 +1975,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblDocType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblDocType}")
       Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblAccount}")
-      Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.chkShowCost}")
+            Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.chkShowCost}")
+
+            Me.lblWBS.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblWBS}")
+            Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.grbSummary}")
+            Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblItemCount}")
+            Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Global.ItemCountUnitText}")
+            Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblTotalAmount}")
+            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
