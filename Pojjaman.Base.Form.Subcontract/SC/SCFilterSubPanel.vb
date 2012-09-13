@@ -117,7 +117,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode.Name = "lblCode"
       Me.lblCode.Size = New System.Drawing.Size(88, 18)
       Me.lblCode.TabIndex = 3
-      Me.lblCode.Text = "รหัส:"
+            Me.lblCode.Text = "รหัส:"
       Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'txtCode
@@ -861,7 +861,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel.lblApproveLevel}")
       Me.lblDesc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel.lblDesc}")
       Me.grbDesc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel.grbDesc}")
-    End Sub
+
+            Me.grbMainDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel.grbMainDetail}")
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Global.Code}")
+            Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.SCFilterSubPanel.lblStatus}")
+        End Sub
     Public Overrides Function GetFilterArray() As Filter()
       Dim arr(9) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
