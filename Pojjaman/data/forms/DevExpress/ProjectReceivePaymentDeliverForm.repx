@@ -2737,10 +2737,10 @@ namespace XtraReportSerialization {
             this.label1.BackColor = System.Drawing.Color.LightGray;
             this.label1.Dpi = 254F;
             this.label1.Font = new System.Drawing.Font("EucrosiaUPC", 14F, System.Drawing.FontStyle.Bold);
-            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(24.9998F, 0F);
+            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(24.99977F, 0F);
             this.label1.Name = "label1";
             this.label1.Padding = new DevExpress.XtraPrinting.PaddingInfo(5, 5, 32, 0, 254F);
-            this.label1.SizeF = new System.Drawing.SizeF(1865.751F, 122.9F);
+            this.label1.SizeF = new System.Drawing.SizeF(1475.342F, 122.9F);
             this.label1.StylePriority.UseBackColor = false;
             this.label1.StylePriority.UseFont = false;
             this.label1.StylePriority.UsePadding = false;

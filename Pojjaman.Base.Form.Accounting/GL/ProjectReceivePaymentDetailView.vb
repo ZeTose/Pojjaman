@@ -1092,10 +1092,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csLineNumber As New TreeTextColumn
       csLineNumber.MappingName = "LineNumber"
-      csLineNumber.HeaderText = "Row" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.LineNumberHeaderText}")
+      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.LineNumberHeaderText}")
       csLineNumber.NullText = ""
-      csLineNumber.Width = 45
+      csLineNumber.Width = 100
       csLineNumber.DataAlignment = HorizontalAlignment.Center
+      csLineNumber.Alignment = HorizontalAlignment.Center
       csLineNumber.ReadOnly = True
       csLineNumber.TextBox.Name = "LineNumber"
 
