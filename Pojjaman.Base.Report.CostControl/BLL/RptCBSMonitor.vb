@@ -99,6 +99,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csBudget.DataAlignment = HorizontalAlignment.Right
         csBudget.Format = "#,###.##"
         csBudget.TextBox.Name = "BudgetCost" & cc
+        csBudget.Width = 125
         csBudget.ReadOnly = True
 
         Dim csActualTotalPR As New TreeTextColumn
@@ -108,6 +109,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csActualTotalPR.DataAlignment = HorizontalAlignment.Right
         csActualTotalPR.Format = "#,###.##"
         csActualTotalPR.TextBox.Name = "ActualPRCost" & cc
+        csActualTotalPR.Width = 125
         csActualTotalPR.ReadOnly = True
 
         Dim csPRDiff As New TreeTextColumn
@@ -117,6 +119,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csPRDiff.DataAlignment = HorizontalAlignment.Right
         csPRDiff.Format = "#,###.##"
         csPRDiff.TextBox.Name = "PRDiff" & cc
+        csPRDiff.Width = 125
         csPRDiff.ReadOnly = True
 
         Dim csActualTotalPO As New TreeTextColumn
@@ -126,6 +129,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csActualTotalPO.DataAlignment = HorizontalAlignment.Right
         csActualTotalPO.Format = "#,###.##"
         csActualTotalPO.TextBox.Name = "ActualPOCost" & cc
+        csActualTotalPO.Width = 125
         csActualTotalPO.ReadOnly = True
 
         Dim csPODiff As New TreeTextColumn
@@ -135,6 +139,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csPODiff.DataAlignment = HorizontalAlignment.Right
         csPODiff.Format = "#,###.##"
         csPODiff.TextBox.Name = "PODiff" & cc
+        csPODiff.Width = 125
         csPODiff.ReadOnly = True
 
         Dim csActualTotalGR As New TreeTextColumn
@@ -144,6 +149,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csActualTotalGR.DataAlignment = HorizontalAlignment.Right
         csActualTotalGR.Format = "#,###.##"
         csActualTotalGR.TextBox.Name = "ActualGRCost" & cc
+        csActualTotalGR.Width = 125
         csActualTotalGR.ReadOnly = True
 
         Dim csGRDiff As New TreeTextColumn
@@ -153,6 +159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csGRDiff.DataAlignment = HorizontalAlignment.Right
         csGRDiff.Format = "#,###.##"
         csGRDiff.TextBox.Name = "GRDiff" & cc
+        csGRDiff.Width = 125
         csGRDiff.ReadOnly = True
 
         Dim csActualTotalMW As New TreeTextColumn
@@ -162,6 +169,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csActualTotalMW.DataAlignment = HorizontalAlignment.Right
         csActualTotalMW.Format = "#,###.##"
         csActualTotalMW.TextBox.Name = "ActualMWCost" & cc
+        csActualTotalMW.Width = 125
         csActualTotalMW.ReadOnly = True
 
         Dim csMWDiff As New TreeTextColumn
@@ -172,6 +180,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         csMWDiff.DataAlignment = HorizontalAlignment.Right
         csMWDiff.Format = "#,###.##"
         csMWDiff.TextBox.Name = "MWDiff" & cc
+        csMWDiff.Width = 125
         csMWDiff.ReadOnly = True
 
         LcsBarrier.Add(csBarrier0)
@@ -663,25 +672,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim ccrh As New DataRowHelper(ccrow)
 
               Dim cc As String = ccrh.GetValue(Of Integer)("ccid")
-              Dim tmp As Decimal = 0
-              If dicdata.ContainsKey(cc & "|" & cbs) Then
-                tr("BudgetCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).Budget, dgt)
-                tmp = dicdata(cc & "|" & cbs).Budget
-                tr("ActualPRCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).PRActual, dgt)
-                tr("PRDiff" & cc) = 0
-                tmp = dicdata(cc & "|" & cbs).PRActual
 
-                tr("ActualPOCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).POActual, dgt)
-                tr("PODiff" & cc) = 0
-                tmp = dicdata(cc & "|" & cbs).POActual
+              Dim key As String = String.Format("{0}|{1}", cc, cbs)
 
-                tr("ActualGRCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).GRActual, dgt)
-                tr("GRDiff" & cc) = 0
-                tmp = dicdata(cc & "|" & cbs).GRActual
+              If dicdata.ContainsKey(key) Then
+                Dim tmpBudget As Decimal = dicdata(key).Budget
+                Dim tmpPRActual As Decimal = dicdata(key).PRActual
+                Dim tmpPOActual As Decimal = dicdata(key).POActual
+                Dim tmpGRActual As Decimal = dicdata(key).GRActual
+                Dim tmpMAActual As Decimal = dicdata(key).MWActual
 
-                tr("ActualMWCost" & cc) = Configuration.FormatToString(dicdata(cc & "|" & cbs).MWActual, dgt)
-                tr("MWDiff" & cc) = 0
-                tmp = dicdata(cc & "|" & cbs).MWActual
+                tr("BudgetCost" & cc) = Configuration.FormatToString(tmpBudget, dgt)
+
+                tr("ActualPRCost" & cc) = Configuration.FormatToString(tmpPRActual, dgt)
+                tr("PRDiff" & cc) = Configuration.FormatToString(tmpBudget - tmpPRActual, dgt)
+                'tmp = dicdata(key).PRActual
+
+                tr("ActualPOCost" & cc) = Configuration.FormatToString(tmpPOActual, dgt)
+                tr("PODiff" & cc) = Configuration.FormatToString(tmpBudget - tmpPOActual, dgt)
+                'tmp = dicdata(key).POActual
+
+                tr("ActualGRCost" & cc) = Configuration.FormatToString(tmpGRActual, dgt)
+                tr("GRDiff" & cc) = Configuration.FormatToString(tmpBudget - tmpGRActual, dgt)
+                'tmp = dicdata(key).GRActual
+
+                tr("ActualMWCost" & cc) = Configuration.FormatToString(tmpMAActual, dgt)
+                tr("MWDiff" & cc) = Configuration.FormatToString(tmpBudget - tmpMAActual, dgt)
+                'tmp = dicdata(key).MWActual
 
               End If
 
@@ -769,19 +786,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim cc As String = ccrh.GetValue(Of Integer)("ccid")
           Dim totalkey As String = cc & "|Total"
           If dicdata.ContainsKey(totalkey) Then
-            totalNode("BudgetCost" & cc) = Configuration.FormatToString(dicdata(totalkey).Budget, dgt)
+            Dim tmpTotalBudget As Decimal = dicdata(totalkey).Budget
+            Dim tmpTotalPRActual As Decimal = dicdata(totalkey).PRActual
+            Dim tmpTotalPOActual As Decimal = dicdata(totalkey).POActual
+            Dim tmpTotalGRActual As Decimal = dicdata(totalkey).GRActual
+            Dim tmpTotalMAActual As Decimal = dicdata(totalkey).MWActual
 
-            totalNode("ActualPRCost" & cc) = Configuration.FormatToString(dicdata(totalkey).PRActual, dgt)
-            totalNode("PRDiff" & cc) = 0
+            totalNode("BudgetCost" & cc) = Configuration.FormatToString(tmpTotalBudget, dgt)
 
-            totalNode("ActualPOCost" & cc) = Configuration.FormatToString(dicdata(totalkey).POActual, dgt)
-            totalNode("PODiff" & cc) = 0
+            totalNode("ActualPRCost" & cc) = Configuration.FormatToString(tmpTotalPRActual, dgt)
+            totalNode("PRDiff" & cc) = Configuration.FormatToString(tmpTotalBudget - tmpTotalPRActual, dgt)
 
-            totalNode("ActualGRCost" & cc) = Configuration.FormatToString(dicdata(totalkey).GRActual, dgt)
-            totalNode("GRDiff" & cc) = 0
+            totalNode("ActualPOCost" & cc) = Configuration.FormatToString(tmpTotalPOActual, dgt)
+            totalNode("PODiff" & cc) = Configuration.FormatToString(tmpTotalBudget - tmpTotalPOActual, dgt)
 
-            totalNode("ActualMWCost" & cc) = Configuration.FormatToString(dicdata(totalkey).MWActual, dgt)
-            totalNode("MWDiff" & cc) = 0
+            totalNode("ActualGRCost" & cc) = Configuration.FormatToString(tmpTotalGRActual, dgt)
+            totalNode("GRDiff" & cc) = Configuration.FormatToString(tmpTotalBudget - tmpTotalGRActual, dgt)
+
+            totalNode("ActualMWCost" & cc) = Configuration.FormatToString(tmpTotalMAActual, dgt)
+            totalNode("MWDiff" & cc) = Configuration.FormatToString(tmpTotalBudget - tmpTotalMAActual, dgt)
 
           End If
 
