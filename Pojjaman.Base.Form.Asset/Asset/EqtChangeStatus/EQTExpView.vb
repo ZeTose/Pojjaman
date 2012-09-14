@@ -612,8 +612,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.lblRefDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblRefDocDate}")
       Me.lblRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblRefDoc}")
       Me.lblEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EQTExpView.lblEmployee}")
-      Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblCostCenter}")
+            Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scWBSView.lblCostCenter}")
 
+            Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EQTExpView.lblGross}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EQTExpView.lblItem}")
     End Sub
     Protected Overrides Sub EventWiring()
       'AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty

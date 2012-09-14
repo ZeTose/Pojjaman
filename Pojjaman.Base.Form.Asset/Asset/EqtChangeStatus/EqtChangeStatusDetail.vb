@@ -659,7 +659,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbSummary.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbSummary}")
       Me.grbStore.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbChange}")
       Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.grbDocGeneral}")
-    End Sub
+
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.Label1}")
+            Me.lblToStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqtDetail.lblToStatus}")
+        End Sub
 #End Region
 
 #Region " Members "
