@@ -1529,9 +1529,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemCount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblItemCount}")
       Me.lblItemCountUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblItemCountUnit}")
       Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
-      Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.lblTotalAmount}")
+            Me.lblTotalAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.TotalAmount}")
       Me.chkShowCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatWithdrawDetailView.chkShowCost}")
 
+            Me.lblEquipment.Text = Me.StringParserService.Parse("${res:Global.Equipment}")
     End Sub
     Protected Overrides Sub EventWiring()
       'AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty

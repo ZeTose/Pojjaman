@@ -1949,6 +1949,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.lblTaxAmount}")
       Me.lblAfterTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.lblAfterTax}")
 
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbDetail}")
+            Me.btnApprove.Text = Me.StringParserService.Parse("${res:MainMenu.ApproveDoc}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.DRPanelView.lblItem}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty

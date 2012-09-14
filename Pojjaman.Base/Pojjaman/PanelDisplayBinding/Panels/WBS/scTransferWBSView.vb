@@ -618,7 +618,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csDescription As New TreeTextColumn
       csDescription.MappingName = "Description"
-      csDescription.HeaderText = "รายการ"
+            csDescription.HeaderText = myStringParserService.Parse("${res:Global.ItemCountUnitText}") '"รายการ"
       csDescription.NullText = ""
       csDescription.Width = 175
       csDescription.ReadOnly = True
@@ -1157,7 +1157,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaymentOutDetail.lblRefDoc}")
 
       Me.lblToCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scTransferWBSView.lblToCC}")
-      Me.lblFromCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scTransferWBSView.lblFromCC}")
+            Me.lblFromCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scTransferWBSView.lblFromCC}")
+
+            Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.scTransferWBSView.lblSupplier}")
     End Sub
     Protected Overrides Sub EventWiring()
       'AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty

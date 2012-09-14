@@ -373,6 +373,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.DeliverNumber = Me.UnNormalDeliverNumber
       End If
     End Sub
+    Public Sub GetRptGLPayType()
+      ' สร้าง ArrayList จาก Item ของ  SqlParameter ...
+      Dim paramArrayList As New ArrayList
+
+      'paramArrayList.Add(New SqlParameter("@Detailed", Me.Code))
+      paramArrayList.Add(New SqlParameter("@DocDateStart", ""))
+      paramArrayList.Add(New SqlParameter("@DocDateEnd", ""))
+      paramArrayList.Add(New SqlParameter("@cc_id", ""))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_creditPeriod", Me.CreditPeriod))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_note", Me.Note))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_gross", Me.Gross))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_status", Me.Status.Value))
+      'paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_singleVat", Me.SingleVat))
+
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetRptGLPayTypeList")
+
+    End Sub
     Public Sub GetPRPMI()
 
       Me.ProjectReceivePaymentItemList = New List(Of ProjectReceivePaymentItem)

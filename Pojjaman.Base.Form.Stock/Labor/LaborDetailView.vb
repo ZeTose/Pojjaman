@@ -549,6 +549,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblSelectMat.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LaborDetailView.lblSelectMat}")
             Me.lblCostDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LaborDetailView.lblCostDate}")
             Me.Validator.SetDisplayName(Me.txtCostDate, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LaborDetailView.txtCostDateAlert}"))
+
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LaborDetailView.grbDetail}")
         End Sub
 #End Region
 

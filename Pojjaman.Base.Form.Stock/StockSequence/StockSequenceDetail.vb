@@ -478,7 +478,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnOK.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.btnOK}")
       Me.Validator.SetDisplayName(Me.txtDocDateStart, lblDateStart.Text)
       Me.Validator.SetDisplayName(Me.txtDocDateEnd, lblDateEnd.Text)
-    End Sub
+
+            Me.lblItemCodeList.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.lblItemCodeList}")
+        End Sub
     Protected Sub EventWiring()
       AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
       AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty

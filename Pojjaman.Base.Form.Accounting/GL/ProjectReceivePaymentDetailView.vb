@@ -2151,9 +2151,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub ibtnRefresh_Click(sender As System.Object, e As System.EventArgs) Handles ibtnRefresh.Click
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      'รายการผังบัญชีของเอกสารนี้จะถูกเขียนทับด้วย รายการผังบัญชีที่กำหนดไว้
-      msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceiveDetailView.RefreshItem}")
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      ''รายการผังบัญชีของเอกสารนี้จะถูกเขียนทับด้วย รายการผังบัญชีที่กำหนดไว้
+      'msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceiveDetailView.RefreshItem}")
 
       Me.m_entity.GetPRPMI()
       Me.RefreshDocs()
