@@ -310,7 +310,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
       Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail.grbGeneral}")
-    End Sub
+
+            Me.lblWBS.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.InternalChargeDetail.lblWBS}")
+
+        End Sub
 #End Region
 
 #Region " Members "

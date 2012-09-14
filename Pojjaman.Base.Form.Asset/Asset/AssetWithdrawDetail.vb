@@ -875,7 +875,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.grbGeneral.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail.grbGeneral}")
       Me.grbRequest.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail.grbRequest}")
-      Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail.grbReceive}")
+            Me.grbReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail.grbReceive}")
+
+            Me.lblWBS.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetWithdrawDetail.lblWBS}")
     End Sub
 #End Region
 
