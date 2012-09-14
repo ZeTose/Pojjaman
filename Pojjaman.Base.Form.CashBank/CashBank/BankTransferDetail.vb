@@ -826,6 +826,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblSum}")
 
+            Me.lblBankAcctType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferDetail.lblBankAcctType}")
     End Sub
 #End Region
 

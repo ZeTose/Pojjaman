@@ -1149,7 +1149,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.Validator.SetDisplayName(txtEmployeeCode, rdIsEmployee.Text)
       Me.Validator.SetDisplayName(txtCCCode, rdIsCC.Text)
-      Me.Validator.SetDisplayName(txtlimit, rdLimited.Text)
+            Me.Validator.SetDisplayName(txtlimit, rdLimited.Text)
+
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashDetail.lblItem}")
+            Me.lblTotal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashDetail.lblTotal}")
+            Me.lblBaht3.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
     End Sub
 #End Region
 
