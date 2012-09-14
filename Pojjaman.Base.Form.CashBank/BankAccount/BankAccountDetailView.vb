@@ -540,7 +540,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.lblBalance.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankAccountDetailView.lblBalance}")
             Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankAccountDetailView.grbDetail}")
         End Sub
 #End Region
 
