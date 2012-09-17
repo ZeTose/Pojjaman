@@ -3403,14 +3403,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item"
               dpiColl.Add(dpi)
 
-              'Item.RemainingAmount
-              dpi = New DocPrintingItem
-              dpi.Mapping = "Item.RemainingAmount"
-              dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
-              dpi.DataType = "System.Int32"
-              dpi.Row = n2 + 1
-              dpi.Table = "Item"
-              dpiColl.Add(dpi)
+                            'Item.RemainingAmount =====
+                            'dpi = New DocPrintingItem
+                            'dpi.Mapping = "Item.RemainingAmount"
+                            'dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
+                            'dpi.DataType = "System.Int32"
+                            'dpi.Row = n2 + 1
+                            'dpi.Table = "Item"
+                            'dpiColl.Add(dpi)
 
               'Item.Amount
               dpi = New DocPrintingItem
@@ -4024,7 +4024,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Item.Name
         dpi = New DocPrintingItem
-        dpi.Mapping = "Item.Name"
+                'dpi.Mapping = "Item.Name"
+                dpi.Mapping = "Item.RefCode"
         dpi.Value = CodeDescription.GetDescription("receivesi_entityType", item.EntityId) & "," & item.Code
         dpi.DataType = "System.String"
         dpi.Row = n + 1
@@ -4073,7 +4074,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim mi As Milestone = CType(entityFromItem, Milestone)
             'Item.Name
             dpi = New DocPrintingItem
-            dpi.Mapping = "Item.Name"
+                        'dpi.Mapping = "Item.Name"
+                        dpi.Mapping = "Item.RefCode"
             dpi.Value = mi.Name
             dpi.DataType = "System.String"
             dpi.Row = n + 1
@@ -4143,14 +4145,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        'Item.RemainingAmount ค่าข้างล่างถูกแล้ว ไม่ได้สลับนะ
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Item.RemainingAmount"
-        dpi.Value = Configuration.FormatToString(item.UnreceivedAmount, DigitConfig.Price)
-        dpi.DataType = "System.Int32"
-        dpi.Row = n + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+                'Item.RemainingAmount ค่าข้างล่างถูกแล้ว ไม่ได้สลับนะ===
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.RemainingAmount"
+                dpi.Value = Configuration.FormatToString(item.UnreceivedAmount, DigitConfig.Price)
+                dpi.DataType = "System.Int32"
+                dpi.Row = n + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
         'Item.AmountHeaderText
         dpi = New DocPrintingItem
@@ -4189,7 +4191,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim childText As String = miDetailRow("milestonei_desc").ToString
             'Item.Name
             dpi = New DocPrintingItem
-            dpi.Mapping = "Item.Name"
+                        'dpi.Mapping = "Item.Name"
+                        dpi.Mapping = "Item.RefCode"
             dpi.Value = childText
             dpi.DataType = "System.String"
             dpi.Row = n + 1
