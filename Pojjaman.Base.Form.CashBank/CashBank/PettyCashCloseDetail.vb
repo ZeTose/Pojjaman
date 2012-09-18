@@ -906,7 +906,31 @@ Public Class PettyCashCloseDetail
 
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
-
+            Me.grbHeader.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.grbHeader}")
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Global.Code}")
+            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateDot}")
+            Me.lblPCCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblPCCode}")
+            Me.lblRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblRemaining}")
+            Me.lblCurrencyUnit2.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblCurrencyUnit1.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblCurrencyUnit3.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblPCNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+            Me.grbPettyCash.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.grbPettyCash}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.Label1}")
+            Me.grbLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.grbLocation}")
+            Me.rdIsEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.rdIsEmployee}")
+            Me.rdIsCC.Text = Me.StringParserService.Parse("${res:Global.CostCenterDot}")
+            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblAmount}")
+            Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblAccount}")
+            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+            Me.grbWithdraw.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.grbWithdraw}")
+            Me.rdNotAllow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.rdNotAllow}")
+            Me.rdLimited.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.rdLimited}")
+            Me.rdAllow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.rdAllow}")
+            Me.grbBillRec.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.grbBillRec}")
+            Me.lblBillRecDay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblBillRecDay}")
+            Me.lblBillRecDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblBillRecDate}")
+            Me.lblBillRecWeek.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PettyCashCloseDetail.lblBillRecWeek}")
     End Sub
 #End Region
 
