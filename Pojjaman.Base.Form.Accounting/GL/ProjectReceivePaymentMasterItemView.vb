@@ -374,16 +374,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_updating As Boolean = False
     Public Sub SetGLCodeList(ByVal e As DataColumnChangeEventArgs)
       Dim doc As ProjectReceivePaymentMasterItem = Me.CurrentItem
-      If Not e.ProposedValue Is Nothing OrElse e.ProposedValue.ToString.Length > 0 Then
+      If Not e.ProposedValue Is Nothing AndAlso e.ProposedValue.ToString.Length > 0 Then
         If e.ProposedValue.ToString.StartsWith("=") Then
           doc.IsFormula = True
           doc.GLAccountList = New List(Of Account)
           doc.Formula = e.ProposedValue.ToString
-        Else
-          doc.IsFormula = False
-          doc.Formula = ""
-          doc.GLAccountList = New List(Of Account)
+          'Else
+          '  doc.IsFormula = False
+          '  doc.Formula = ""
+          '  doc.GLAccountList = New List(Of Account)
         End If
+        'If e.Row(e.Column.ColumnName).ToString() Then
+
+        'End If
       Else
         doc.IsFormula = False
         doc.Formula = ""
