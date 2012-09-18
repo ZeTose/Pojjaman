@@ -139,6 +139,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           If itm.GLAccountList.Count > 0 Then
             cmd &= "Update ProjectPRPMI Set projectprpmi_accountlist = '" & itm.GLIdSeparate & "' Where projectprpmi_id = " & itm.Id.ToString & ";"
+          Else
+            cmd &= "Update ProjectPRPMI Set projectprpmi_accountlist = '' Where projectprpmi_id = " & itm.Id.ToString & ";"
           End If
         End If
       Next
