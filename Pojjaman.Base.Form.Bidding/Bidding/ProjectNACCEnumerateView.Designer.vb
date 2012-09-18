@@ -83,13 +83,16 @@ Partial Class ProjectNACCEnumerateView
     Me.Label19 = New System.Windows.Forms.Label()
     Me.btnSave = New System.Windows.Forms.Button()
     Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-    Me.ListView1 = New System.Windows.Forms.ListView()
     Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
     Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+    Me.ListView1 = New System.Windows.Forms.ListView()
     Me.NO = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.Bank = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.Branch = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
     Me.BankAccount = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+    Me.grbCostCenter = New System.Windows.Forms.GroupBox()
+    Me.lblCostCenter = New System.Windows.Forms.Label()
+    Me.cmbCostCenter = New System.Windows.Forms.ComboBox()
     Me.GroupBox1.SuspendLayout()
     Me.GroupBox2.SuspendLayout()
     CType(Me.tCompleteDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,6 +100,7 @@ Partial Class ProjectNACCEnumerateView
     CType(Me.tActiveDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
     CType(Me.tActiveDate.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.GroupBox3.SuspendLayout()
+    Me.grbCostCenter.SuspendLayout()
     Me.SuspendLayout()
     '
     'GroupBox1
@@ -140,10 +144,10 @@ Partial Class ProjectNACCEnumerateView
     Me.GroupBox1.Controls.Add(Me.tTaxId)
     Me.GroupBox1.Controls.Add(Me.Label1)
     Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.GroupBox1.Location = New System.Drawing.Point(12, 7)
+    Me.GroupBox1.Location = New System.Drawing.Point(12, 64)
     Me.GroupBox1.Name = "GroupBox1"
-    Me.GroupBox1.Size = New System.Drawing.Size(785, 267)
-    Me.GroupBox1.TabIndex = 0
+    Me.GroupBox1.Size = New System.Drawing.Size(789, 267)
+    Me.GroupBox1.TabIndex = 1
     Me.GroupBox1.TabStop = False
     Me.GroupBox1.Text = "ข้อมูลคู่สัญญา"
     '
@@ -514,10 +518,10 @@ Partial Class ProjectNACCEnumerateView
     Me.GroupBox2.Controls.Add(Me.Label20)
     Me.GroupBox2.Controls.Add(Me.Label19)
     Me.GroupBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-    Me.GroupBox2.Location = New System.Drawing.Point(12, 279)
+    Me.GroupBox2.Location = New System.Drawing.Point(12, 332)
     Me.GroupBox2.Name = "GroupBox2"
-    Me.GroupBox2.Size = New System.Drawing.Size(785, 133)
-    Me.GroupBox2.TabIndex = 0
+    Me.GroupBox2.Size = New System.Drawing.Size(789, 133)
+    Me.GroupBox2.TabIndex = 2
     Me.GroupBox2.TabStop = False
     Me.GroupBox2.Text = "ข้อมูลสัญญาที่ทำกับหน่วยงานของรัฐ"
     '
@@ -732,7 +736,7 @@ Partial Class ProjectNACCEnumerateView
     'btnSave
     '
     Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.btnSave.Location = New System.Drawing.Point(704, 503)
+    Me.btnSave.Location = New System.Drawing.Point(708, 560)
     Me.btnSave.Name = "btnSave"
     Me.btnSave.Size = New System.Drawing.Size(93, 44)
     Me.btnSave.TabIndex = 1
@@ -747,32 +751,18 @@ Partial Class ProjectNACCEnumerateView
     Me.GroupBox3.Controls.Add(Me.ibtnBlank)
     Me.GroupBox3.Controls.Add(Me.ibtnDelRow)
     Me.GroupBox3.Controls.Add(Me.ListView1)
-    Me.GroupBox3.Location = New System.Drawing.Point(13, 417)
+    Me.GroupBox3.Location = New System.Drawing.Point(13, 465)
     Me.GroupBox3.Name = "GroupBox3"
-    Me.GroupBox3.Size = New System.Drawing.Size(685, 130)
-    Me.GroupBox3.TabIndex = 2
+    Me.GroupBox3.Size = New System.Drawing.Size(689, 139)
+    Me.GroupBox3.TabIndex = 3
     Me.GroupBox3.TabStop = False
     Me.GroupBox3.Text = "บัญชีเงินฝากธนาคารที่ใช้ในการรับจ่ายเงินตามสัญญา"
-    '
-    'ListView1
-    '
-    Me.ListView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NO, Me.Bank, Me.Branch, Me.BankAccount})
-    Me.ListView1.FullRowSelect = True
-    Me.ListView1.Location = New System.Drawing.Point(167, 28)
-    Me.ListView1.Name = "ListView1"
-    Me.ListView1.Size = New System.Drawing.Size(487, 96)
-    Me.ListView1.TabIndex = 0
-    Me.ListView1.UseCompatibleStateImageBehavior = False
-    Me.ListView1.View = System.Windows.Forms.View.Details
     '
     'ibtnBlank
     '
     Me.ibtnBlank.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
     Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-    Me.ibtnBlank.Location = New System.Drawing.Point(655, 28)
+    Me.ibtnBlank.Location = New System.Drawing.Point(659, 28)
     Me.ibtnBlank.Name = "ibtnBlank"
     Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
     Me.ibtnBlank.TabIndex = 206
@@ -783,12 +773,26 @@ Partial Class ProjectNACCEnumerateView
     '
     Me.ibtnDelRow.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
     Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-    Me.ibtnDelRow.Location = New System.Drawing.Point(655, 50)
+    Me.ibtnDelRow.Location = New System.Drawing.Point(659, 50)
     Me.ibtnDelRow.Name = "ibtnDelRow"
     Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
     Me.ibtnDelRow.TabIndex = 205
     Me.ibtnDelRow.TabStop = False
     Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
+    '
+    'ListView1
+    '
+    Me.ListView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+    Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.NO, Me.Bank, Me.Branch, Me.BankAccount})
+    Me.ListView1.FullRowSelect = True
+    Me.ListView1.Location = New System.Drawing.Point(167, 28)
+    Me.ListView1.Name = "ListView1"
+    Me.ListView1.Size = New System.Drawing.Size(491, 105)
+    Me.ListView1.TabIndex = 0
+    Me.ListView1.UseCompatibleStateImageBehavior = False
+    Me.ListView1.View = System.Windows.Forms.View.Details
     '
     'NO
     '
@@ -810,18 +814,49 @@ Partial Class ProjectNACCEnumerateView
     Me.BankAccount.Text = "เลขที่"
     Me.BankAccount.Width = 100
     '
+    'grbCostCenter
+    '
+    Me.grbCostCenter.Controls.Add(Me.cmbCostCenter)
+    Me.grbCostCenter.Controls.Add(Me.lblCostCenter)
+    Me.grbCostCenter.Location = New System.Drawing.Point(13, 4)
+    Me.grbCostCenter.Name = "grbCostCenter"
+    Me.grbCostCenter.Size = New System.Drawing.Size(788, 59)
+    Me.grbCostCenter.TabIndex = 0
+    Me.grbCostCenter.TabStop = False
+    Me.grbCostCenter.Text = "Cost Center"
+    '
+    'lblCostCenter
+    '
+    Me.lblCostCenter.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+    Me.lblCostCenter.Location = New System.Drawing.Point(75, 29)
+    Me.lblCostCenter.Name = "lblCostCenter"
+    Me.lblCostCenter.Size = New System.Drawing.Size(89, 17)
+    Me.lblCostCenter.TabIndex = 0
+    Me.lblCostCenter.Text = "Cost Center"
+    Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+    '
+    'cmbCostCenter
+    '
+    Me.cmbCostCenter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+    Me.cmbCostCenter.FormattingEnabled = True
+    Me.cmbCostCenter.Location = New System.Drawing.Point(167, 25)
+    Me.cmbCostCenter.MaxLength = 70
+    Me.cmbCostCenter.Name = "cmbCostCenter"
+    Me.cmbCostCenter.Size = New System.Drawing.Size(368, 21)
+    Me.cmbCostCenter.TabIndex = 16
+    '
     'ProjectNACCEnumerateView
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(809, 553)
+    Me.ClientSize = New System.Drawing.Size(813, 610)
+    Me.Controls.Add(Me.grbCostCenter)
     Me.Controls.Add(Me.GroupBox3)
     Me.Controls.Add(Me.btnSave)
     Me.Controls.Add(Me.GroupBox2)
     Me.Controls.Add(Me.GroupBox1)
     Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
     Me.Name = "ProjectNACCEnumerateView"
-    Me.Text = "รายละเอียด แบบ บช. ๑"
     Me.GroupBox1.ResumeLayout(False)
     Me.GroupBox1.PerformLayout()
     Me.GroupBox2.ResumeLayout(False)
@@ -831,6 +866,7 @@ Partial Class ProjectNACCEnumerateView
     CType(Me.tActiveDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
     CType(Me.tActiveDate.Properties, System.ComponentModel.ISupportInitialize).EndInit()
     Me.GroupBox3.ResumeLayout(False)
+    Me.grbCostCenter.ResumeLayout(False)
     Me.ResumeLayout(False)
 
   End Sub
@@ -901,4 +937,7 @@ Partial Class ProjectNACCEnumerateView
   Friend WithEvents Bank As System.Windows.Forms.ColumnHeader
   Friend WithEvents Branch As System.Windows.Forms.ColumnHeader
   Friend WithEvents BankAccount As System.Windows.Forms.ColumnHeader
+  Friend WithEvents grbCostCenter As System.Windows.Forms.GroupBox
+  Friend WithEvents lblCostCenter As System.Windows.Forms.Label
+  Friend WithEvents cmbCostCenter As System.Windows.Forms.ComboBox
 End Class

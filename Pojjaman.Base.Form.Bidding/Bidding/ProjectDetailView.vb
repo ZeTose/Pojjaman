@@ -5,8 +5,8 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class ProjectDetailView
-    Inherits AbstractEntityDetailPanelView
     'Inherits UserControl
+    Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
 #Region " Windows Form Designer generated code "

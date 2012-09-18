@@ -35,6 +35,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AcceptPerson = New Employee
         .AcceptPerson2 = New Employee
         .IsNomalDeliver = True
+        .CostCenter = New CostCenter
         '.m_olddocDate = Now.Date
         '.m_je = New JournalEntry(Me)
         '.m_je.DocDate = Me.m_docDate
@@ -71,11 +72,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Acceptancepersonposition = drh.GetValue(Of String)("projectprp_acceptancepersonposition")
       Me.Acceptancepersonposition2 = drh.GetValue(Of String)("projectprp_acceptancepersonposition2")
 
+      Me.CostCenter = New CostCenter
+      If m_project.Originated Then
+        Me.CostCenter = New CostCenter(m_project.GetCostCenterForNacc)
+      End If
+
       Me.GetPRPI()
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property CostCenter As CostCenter
     Private m_project As Project
     Public Property Project As Project
       Get
@@ -262,6 +269,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptanceperson2", Me.AcceptPerson2.Id))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptancepersonposition", Me.Acceptancepersonposition))
       paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_acceptancepersonposition2", Me.Acceptancepersonposition2))
+      paramArrayList.Add(New SqlParameter("@cc_id", ValidIdOrDBNull(Me.CostCenter)))
 
       SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 

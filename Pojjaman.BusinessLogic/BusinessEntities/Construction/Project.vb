@@ -438,6 +438,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Public Sub LoadProjectNACC()
       Me.ProjectNACC = New ProjectNACC(Me)
+      Me.ProjectNACC.CostCenter = New CostCenter
       Me.ProjectNACC.BankAccountList = New List(Of BankAccountItem)
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(Me.ConnectionString, CommandType.StoredProcedure, _
@@ -475,8 +476,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.ProjectNACC.GuaranteeYear = drh.GetValue(Of Integer)("projectnacc_guaranteeyear")
         Me.ProjectNACC.GuaranteeMonth = drh.GetValue(Of Integer)("projectnacc_guaranteemonth")
         Me.ProjectNACC.GuaranteeDay = drh.GetValue(Of Integer)("projectnacc_guaranteeday")
-
-
+        If drh.GetValue(Of Integer)("projectnacc_cc") > 0 Then
+          Me.ProjectNACC.CostCenter = New CostCenter(drh.GetValue(Of Integer)("projectnacc_cc"))
+        End If
 
       Next
       For Each row As DataRow In ds.Tables(1).Rows
@@ -496,6 +498,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim companyPhone As String = Configuration.GetConfig("CompanyPhone").ToString
       Dim customerName As String = ""
       Dim completeDate As Object = DBNull.Value
+      Dim costcenter As Object = DBNull.Value
       If Not Me.Customer Is Nothing Then
         customerName = Me.Customer.Name
       End If
@@ -521,6 +524,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                   New SqlParameter("@projectnacc_phone", companyPhone), _
                                   New SqlParameter("@projectnacc_contractname", customerName), _
                                   New SqlParameter("@projectnacc_completiondate", completeDate), _
+                                  New SqlParameter("@projectnacc_cc", Me.GetCostCenterId), _
                                   returnVal})
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
@@ -622,6 +626,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                         New SqlParameter("@projectnacc_guaranteeyear", Me.ProjectNACC.GuaranteeYear), _
                                         New SqlParameter("@projectnacc_guaranteemonth", Me.ProjectNACC.GuaranteeMonth), _
                                         New SqlParameter("@projectnacc_guaranteeday", Me.ProjectNACC.GuaranteeDay), _
+                                        New SqlParameter("@projectnacc_cc", ValidIdOrDBNull(Me.ProjectNACC.CostCenter)), _
                                   returnVal})
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
@@ -655,6 +660,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
         conn.Close()
       End Try
+    End Function
+    Public Function GetCostCenterId() As Object
+      Dim ds As DataSet = Me.GetCostCenter
+      If ds.Tables(0).Rows.Count = 1 Then
+        Return ds.Tables(0).Rows(0)("cc_id")
+      End If
+
+      Return DBNull.Value
+    End Function
+    Public Function GetCostCenter() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetCostCenterLinkProjectNacc", New SqlParameter("@project_id", Me.Id))
+      Return ds
+    End Function
+    Public Function GetCostCenterForNacc() As Integer
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetCostCenterForProjectNacc", New SqlParameter("@project_id", Me.Id))
+      Dim ccId As Integer
+      For Each row As DataRow In ds.Tables(0).Rows
+        ccId = CInt(row("projectnacc_cc"))
+      Next
+      Return ccId
     End Function
     Public Overrides Function ToString() As String
       Return Me.Name
@@ -893,6 +918,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New(proj As Project)
       Me.Project = proj
     End Sub
+    Public Property CostCenter As CostCenter
     Public Property Project As Project
     Public Property TaxID As String
     Public Property IDNO As String

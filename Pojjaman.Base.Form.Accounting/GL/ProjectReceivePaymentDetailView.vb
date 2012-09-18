@@ -96,14 +96,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents tAcceptPosition As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txtCostCenter As System.Windows.Forms.TextBox
+    Friend WithEvents lblCostCenter As System.Windows.Forms.Label
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProjectReceivePaymentDetailView))
       Me.lblItem = New System.Windows.Forms.Label()
       Me.lblAccountPeriodStart = New System.Windows.Forms.Label()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.tProjectName = New System.Windows.Forms.TextBox()
       Me.tProjectCode = New System.Windows.Forms.TextBox()
       Me.tDeliverNumber = New System.Windows.Forms.TextBox()
@@ -163,6 +164,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnRefresh = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.Label1 = New System.Windows.Forms.Label()
       Me.Label2 = New System.Windows.Forms.Label()
+      Me.txtCostCenter = New System.Windows.Forms.TextBox()
+      Me.lblCostCenter = New System.Windows.Forms.Label()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tDeliverDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,7 +187,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblItem.BackColor = System.Drawing.Color.Transparent
       Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.Location = New System.Drawing.Point(30, 255)
+      Me.lblItem.Location = New System.Drawing.Point(30, 267)
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(92, 18)
       Me.lblItem.TabIndex = 15
@@ -274,7 +277,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tContractAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.tContractAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tContractAmount, System.Drawing.Color.Empty)
-      Me.tContractAmount.Location = New System.Drawing.Point(110, 19)
+      Me.tContractAmount.Location = New System.Drawing.Point(110, 36)
       Me.tContractAmount.MaxLength = 20
       Me.Validator.SetMaxValue(Me.tContractAmount, "")
       Me.Validator.SetMinValue(Me.tContractAmount, "")
@@ -293,7 +296,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tMileStoneNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.tMileStoneNumber, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tMileStoneNumber, System.Drawing.Color.Empty)
-      Me.tMileStoneNumber.Location = New System.Drawing.Point(110, 43)
+      Me.tMileStoneNumber.Location = New System.Drawing.Point(110, 60)
       Me.tMileStoneNumber.MaxLength = 20
       Me.Validator.SetMaxValue(Me.tMileStoneNumber, "")
       Me.Validator.SetMinValue(Me.tMileStoneNumber, "")
@@ -312,7 +315,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tReceiveMileStoneNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.tReceiveMileStoneNumber, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tReceiveMileStoneNumber, System.Drawing.Color.Empty)
-      Me.tReceiveMileStoneNumber.Location = New System.Drawing.Point(110, 67)
+      Me.tReceiveMileStoneNumber.Location = New System.Drawing.Point(110, 84)
       Me.tReceiveMileStoneNumber.MaxLength = 20
       Me.Validator.SetMaxValue(Me.tReceiveMileStoneNumber, "")
       Me.Validator.SetMinValue(Me.tReceiveMileStoneNumber, "")
@@ -331,7 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tReceiveAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.tReceiveAmount, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tReceiveAmount, System.Drawing.Color.Empty)
-      Me.tReceiveAmount.Location = New System.Drawing.Point(365, 21)
+      Me.tReceiveAmount.Location = New System.Drawing.Point(365, 38)
       Me.tReceiveAmount.MaxLength = 20
       Me.Validator.SetMaxValue(Me.tReceiveAmount, "")
       Me.Validator.SetMinValue(Me.tReceiveAmount, "")
@@ -350,7 +353,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tReceiveNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.tReceiveNumber, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tReceiveNumber, System.Drawing.Color.Empty)
-      Me.tReceiveNumber.Location = New System.Drawing.Point(365, 69)
+      Me.tReceiveNumber.Location = New System.Drawing.Point(365, 86)
       Me.tReceiveNumber.MaxLength = 20
       Me.Validator.SetMaxValue(Me.tReceiveNumber, "")
       Me.Validator.SetMinValue(Me.tReceiveNumber, "")
@@ -369,7 +372,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tSentMileStoneNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Validator.SetGotFocusBackColor(Me.tSentMileStoneNumber, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tSentMileStoneNumber, System.Drawing.Color.Empty)
-      Me.tSentMileStoneNumber.Location = New System.Drawing.Point(365, 45)
+      Me.tSentMileStoneNumber.Location = New System.Drawing.Point(365, 62)
       Me.tSentMileStoneNumber.MaxLength = 20
       Me.Validator.SetMaxValue(Me.tSentMileStoneNumber, "")
       Me.Validator.SetMinValue(Me.tSentMileStoneNumber, "")
@@ -388,7 +391,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.tAcceptPerson1, "")
       Me.Validator.SetGotFocusBackColor(Me.tAcceptPerson1, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tAcceptPerson1, System.Drawing.Color.Empty)
-      Me.tAcceptPerson1.Location = New System.Drawing.Point(887, 57)
+      Me.tAcceptPerson1.Location = New System.Drawing.Point(887, 88)
       Me.Validator.SetMaxValue(Me.tAcceptPerson1, "")
       Me.Validator.SetMinValue(Me.tAcceptPerson1, "")
       Me.tAcceptPerson1.Name = "tAcceptPerson1"
@@ -403,7 +406,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.tAcceptPerson1Name, "")
       Me.Validator.SetGotFocusBackColor(Me.tAcceptPerson1Name, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tAcceptPerson1Name, System.Drawing.Color.Empty)
-      Me.tAcceptPerson1Name.Location = New System.Drawing.Point(971, 57)
+      Me.tAcceptPerson1Name.Location = New System.Drawing.Point(971, 88)
       Me.Validator.SetMaxValue(Me.tAcceptPerson1Name, "")
       Me.Validator.SetMinValue(Me.tAcceptPerson1Name, "")
       Me.tAcceptPerson1Name.Name = "tAcceptPerson1Name"
@@ -421,7 +424,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.tAcceptPerson2, "")
       Me.Validator.SetGotFocusBackColor(Me.tAcceptPerson2, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tAcceptPerson2, System.Drawing.Color.Empty)
-      Me.tAcceptPerson2.Location = New System.Drawing.Point(887, 117)
+      Me.tAcceptPerson2.Location = New System.Drawing.Point(887, 148)
       Me.Validator.SetMaxValue(Me.tAcceptPerson2, "")
       Me.Validator.SetMinValue(Me.tAcceptPerson2, "")
       Me.tAcceptPerson2.Name = "tAcceptPerson2"
@@ -436,7 +439,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.tAcceptPerson2Name, "")
       Me.Validator.SetGotFocusBackColor(Me.tAcceptPerson2Name, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tAcceptPerson2Name, System.Drawing.Color.Empty)
-      Me.tAcceptPerson2Name.Location = New System.Drawing.Point(971, 117)
+      Me.tAcceptPerson2Name.Location = New System.Drawing.Point(971, 148)
       Me.Validator.SetMaxValue(Me.tAcceptPerson2Name, "")
       Me.Validator.SetMinValue(Me.tAcceptPerson2Name, "")
       Me.tAcceptPerson2Name.Name = "tAcceptPerson2Name"
@@ -454,7 +457,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.tAcceptPosition, "")
       Me.Validator.SetGotFocusBackColor(Me.tAcceptPosition, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tAcceptPosition, System.Drawing.Color.Empty)
-      Me.tAcceptPosition.Location = New System.Drawing.Point(887, 80)
+      Me.tAcceptPosition.Location = New System.Drawing.Point(887, 111)
       Me.Validator.SetMaxValue(Me.tAcceptPosition, "")
       Me.Validator.SetMinValue(Me.tAcceptPosition, "")
       Me.tAcceptPosition.Name = "tAcceptPosition"
@@ -470,7 +473,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.tAcceptPosition2, "")
       Me.Validator.SetGotFocusBackColor(Me.tAcceptPosition2, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.tAcceptPosition2, System.Drawing.Color.Empty)
-      Me.tAcceptPosition2.Location = New System.Drawing.Point(887, 140)
+      Me.tAcceptPosition2.Location = New System.Drawing.Point(887, 171)
       Me.Validator.SetMaxValue(Me.tAcceptPosition2, "")
       Me.Validator.SetMinValue(Me.tAcceptPosition2, "")
       Me.tAcceptPosition2.Name = "tAcceptPosition2"
@@ -512,10 +515,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))})
       Me.tgItem.DataMember = ""
       Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(8, 282)
+      Me.tgItem.Location = New System.Drawing.Point(8, 295)
       Me.tgItem.Name = "tgItem"
       Me.tgItem.PreferredRowHeight = 21
-      Me.tgItem.Size = New System.Drawing.Size(1191, 272)
+      Me.tgItem.Size = New System.Drawing.Size(1191, 263)
       Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
       Me.tgItem.TabIndex = 10
       Me.tgItem.TreeManager = Nothing
@@ -612,7 +615,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbAccountPeriod.Controls.Add(Me.lblAccountPeriodStart)
       Me.grbAccountPeriod.Controls.Add(Me.tAccountDateEnd)
       Me.grbAccountPeriod.Controls.Add(Me.lblAccountPeriodEnd)
-      Me.grbAccountPeriod.Location = New System.Drawing.Point(516, 48)
+      Me.grbAccountPeriod.Location = New System.Drawing.Point(516, 79)
       Me.grbAccountPeriod.Name = "grbAccountPeriod"
       Me.grbAccountPeriod.Size = New System.Drawing.Size(274, 72)
       Me.grbAccountPeriod.TabIndex = 6
@@ -625,7 +628,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox2.Controls.Add(Me.rDeliver)
       Me.GroupBox2.Controls.Add(Me.tDeliverNumber)
       Me.GroupBox2.Controls.Add(Me.lblDeliverNumber)
-      Me.GroupBox2.Location = New System.Drawing.Point(516, 117)
+      Me.GroupBox2.Location = New System.Drawing.Point(516, 148)
       Me.GroupBox2.Name = "GroupBox2"
       Me.GroupBox2.Size = New System.Drawing.Size(274, 63)
       Me.GroupBox2.TabIndex = 7
@@ -670,7 +673,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.GroupBox3.Controls.Add(Me.cNoExpenditure)
       Me.GroupBox3.Controls.Add(Me.cNoRevenue)
-      Me.GroupBox3.Location = New System.Drawing.Point(516, 177)
+      Me.GroupBox3.Location = New System.Drawing.Point(516, 208)
       Me.GroupBox3.Name = "GroupBox3"
       Me.GroupBox3.Size = New System.Drawing.Size(274, 63)
       Me.GroupBox3.TabIndex = 8
@@ -704,6 +707,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox4.Controls.Add(Me.tReceiveMileStoneNumber)
       Me.GroupBox4.Controls.Add(Me.lblSentMileStoneNumber)
       Me.GroupBox4.Controls.Add(Me.lblMileStoneNumber)
+      Me.GroupBox4.Controls.Add(Me.txtCostCenter)
       Me.GroupBox4.Controls.Add(Me.lblReceiveNumber)
       Me.GroupBox4.Controls.Add(Me.lblReceiveMileStoneNumber)
       Me.GroupBox4.Controls.Add(Me.tReceiveAmount)
@@ -714,11 +718,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox4.Controls.Add(Me.lblBaht)
       Me.GroupBox4.Controls.Add(Me.lblReceiveAmount)
       Me.GroupBox4.Controls.Add(Me.tContractAmount)
+      Me.GroupBox4.Controls.Add(Me.lblCostCenter)
       Me.GroupBox4.Controls.Add(Me.lblContract)
       Me.GroupBox4.Controls.Add(Me.lblBaht1)
       Me.GroupBox4.Location = New System.Drawing.Point(11, 80)
       Me.GroupBox4.Name = "GroupBox4"
-      Me.GroupBox4.Size = New System.Drawing.Size(499, 100)
+      Me.GroupBox4.Size = New System.Drawing.Size(499, 118)
       Me.GroupBox4.TabIndex = 3
       Me.GroupBox4.TabStop = False
       '
@@ -726,7 +731,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblSentMileStoneNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblSentMileStoneNumber.ForeColor = System.Drawing.Color.Black
-      Me.lblSentMileStoneNumber.Location = New System.Drawing.Point(285, 46)
+      Me.lblSentMileStoneNumber.Location = New System.Drawing.Point(285, 63)
       Me.lblSentMileStoneNumber.Name = "lblSentMileStoneNumber"
       Me.lblSentMileStoneNumber.Size = New System.Drawing.Size(80, 18)
       Me.lblSentMileStoneNumber.TabIndex = 8
@@ -737,7 +742,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblMileStoneNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblMileStoneNumber.ForeColor = System.Drawing.Color.Black
-      Me.lblMileStoneNumber.Location = New System.Drawing.Point(30, 44)
+      Me.lblMileStoneNumber.Location = New System.Drawing.Point(30, 61)
       Me.lblMileStoneNumber.Name = "lblMileStoneNumber"
       Me.lblMileStoneNumber.Size = New System.Drawing.Size(80, 18)
       Me.lblMileStoneNumber.TabIndex = 8
@@ -748,7 +753,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblReceiveNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblReceiveNumber.ForeColor = System.Drawing.Color.Black
-      Me.lblReceiveNumber.Location = New System.Drawing.Point(285, 70)
+      Me.lblReceiveNumber.Location = New System.Drawing.Point(285, 87)
       Me.lblReceiveNumber.Name = "lblReceiveNumber"
       Me.lblReceiveNumber.Size = New System.Drawing.Size(80, 18)
       Me.lblReceiveNumber.TabIndex = 8
@@ -759,7 +764,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblReceiveMileStoneNumber.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblReceiveMileStoneNumber.ForeColor = System.Drawing.Color.Black
-      Me.lblReceiveMileStoneNumber.Location = New System.Drawing.Point(2, 68)
+      Me.lblReceiveMileStoneNumber.Location = New System.Drawing.Point(2, 85)
       Me.lblReceiveMileStoneNumber.Name = "lblReceiveMileStoneNumber"
       Me.lblReceiveMileStoneNumber.Size = New System.Drawing.Size(108, 18)
       Me.lblReceiveMileStoneNumber.TabIndex = 8
@@ -770,7 +775,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblPeriod2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblPeriod2.ForeColor = System.Drawing.Color.Black
-      Me.lblPeriod2.Location = New System.Drawing.Point(210, 68)
+      Me.lblPeriod2.Location = New System.Drawing.Point(210, 85)
       Me.lblPeriod2.Name = "lblPeriod2"
       Me.lblPeriod2.Size = New System.Drawing.Size(30, 18)
       Me.lblPeriod2.TabIndex = 8
@@ -781,7 +786,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblPeriod3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblPeriod3.ForeColor = System.Drawing.Color.Black
-      Me.lblPeriod3.Location = New System.Drawing.Point(464, 71)
+      Me.lblPeriod3.Location = New System.Drawing.Point(464, 88)
       Me.lblPeriod3.Name = "lblPeriod3"
       Me.lblPeriod3.Size = New System.Drawing.Size(30, 18)
       Me.lblPeriod3.TabIndex = 8
@@ -792,7 +797,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblPeriod1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblPeriod1.ForeColor = System.Drawing.Color.Black
-      Me.lblPeriod1.Location = New System.Drawing.Point(464, 48)
+      Me.lblPeriod1.Location = New System.Drawing.Point(464, 65)
       Me.lblPeriod1.Name = "lblPeriod1"
       Me.lblPeriod1.Size = New System.Drawing.Size(30, 18)
       Me.lblPeriod1.TabIndex = 8
@@ -803,7 +808,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblPeriod.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblPeriod.ForeColor = System.Drawing.Color.Black
-      Me.lblPeriod.Location = New System.Drawing.Point(210, 45)
+      Me.lblPeriod.Location = New System.Drawing.Point(210, 62)
       Me.lblPeriod.Name = "lblPeriod"
       Me.lblPeriod.Size = New System.Drawing.Size(30, 18)
       Me.lblPeriod.TabIndex = 8
@@ -814,7 +819,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBaht.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBaht.ForeColor = System.Drawing.Color.Black
-      Me.lblBaht.Location = New System.Drawing.Point(210, 22)
+      Me.lblBaht.Location = New System.Drawing.Point(210, 39)
       Me.lblBaht.Name = "lblBaht"
       Me.lblBaht.Size = New System.Drawing.Size(30, 18)
       Me.lblBaht.TabIndex = 8
@@ -825,7 +830,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblReceiveAmount.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblReceiveAmount.ForeColor = System.Drawing.Color.Black
-      Me.lblReceiveAmount.Location = New System.Drawing.Point(242, 22)
+      Me.lblReceiveAmount.Location = New System.Drawing.Point(242, 39)
       Me.lblReceiveAmount.Name = "lblReceiveAmount"
       Me.lblReceiveAmount.Size = New System.Drawing.Size(123, 18)
       Me.lblReceiveAmount.TabIndex = 8
@@ -836,7 +841,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblContract.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblContract.ForeColor = System.Drawing.Color.Black
-      Me.lblContract.Location = New System.Drawing.Point(30, 20)
+      Me.lblContract.Location = New System.Drawing.Point(30, 37)
       Me.lblContract.Name = "lblContract"
       Me.lblContract.Size = New System.Drawing.Size(80, 18)
       Me.lblContract.TabIndex = 8
@@ -847,7 +852,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.lblBaht1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblBaht1.ForeColor = System.Drawing.Color.Black
-      Me.lblBaht1.Location = New System.Drawing.Point(464, 22)
+      Me.lblBaht1.Location = New System.Drawing.Point(464, 39)
       Me.lblBaht1.Name = "lblBaht1"
       Me.lblBaht1.Size = New System.Drawing.Size(30, 18)
       Me.lblBaht1.TabIndex = 8
@@ -857,7 +862,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblAcceptPerson1
       '
       Me.lblAcceptPerson1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAcceptPerson1.Location = New System.Drawing.Point(796, 57)
+      Me.lblAcceptPerson1.Location = New System.Drawing.Point(796, 88)
       Me.lblAcceptPerson1.Name = "lblAcceptPerson1"
       Me.lblAcceptPerson1.Size = New System.Drawing.Size(91, 18)
       Me.lblAcceptPerson1.TabIndex = 330
@@ -869,7 +874,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.iFindEmployee1.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.iFindEmployee1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.iFindEmployee1.ForeColor = System.Drawing.SystemColors.Control
-      Me.iFindEmployee1.Location = New System.Drawing.Point(1149, 55)
+      Me.iFindEmployee1.Location = New System.Drawing.Point(1149, 86)
       Me.iFindEmployee1.Name = "iFindEmployee1"
       Me.iFindEmployee1.Size = New System.Drawing.Size(24, 23)
       Me.iFindEmployee1.TabIndex = 332
@@ -879,7 +884,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'lblAcceptPerson2
       '
       Me.lblAcceptPerson2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblAcceptPerson2.Location = New System.Drawing.Point(796, 117)
+      Me.lblAcceptPerson2.Location = New System.Drawing.Point(796, 148)
       Me.lblAcceptPerson2.Name = "lblAcceptPerson2"
       Me.lblAcceptPerson2.Size = New System.Drawing.Size(91, 18)
       Me.lblAcceptPerson2.TabIndex = 330
@@ -891,7 +896,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.iFindEmployee2.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.iFindEmployee2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.iFindEmployee2.ForeColor = System.Drawing.SystemColors.Control
-      Me.iFindEmployee2.Location = New System.Drawing.Point(1149, 115)
+      Me.iFindEmployee2.Location = New System.Drawing.Point(1149, 146)
       Me.iFindEmployee2.Name = "iFindEmployee2"
       Me.iFindEmployee2.Size = New System.Drawing.Size(24, 23)
       Me.iFindEmployee2.TabIndex = 332
@@ -903,7 +908,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.GroupBox6.Controls.Add(Me.tBindingFinishedDate)
       Me.GroupBox6.Controls.Add(Me.rBindingFinished)
       Me.GroupBox6.Controls.Add(Me.rUnBindingFinished)
-      Me.GroupBox6.Location = New System.Drawing.Point(11, 177)
+      Me.GroupBox6.Location = New System.Drawing.Point(11, 195)
       Me.GroupBox6.Name = "GroupBox6"
       Me.GroupBox6.Size = New System.Drawing.Size(499, 63)
       Me.GroupBox6.TabIndex = 9
@@ -954,7 +959,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnRefresh
       '
       Me.ibtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnRefresh.Location = New System.Drawing.Point(121, 247)
+      Me.ibtnRefresh.Location = New System.Drawing.Point(121, 260)
       Me.ibtnRefresh.Name = "ibtnRefresh"
       Me.ibtnRefresh.Size = New System.Drawing.Size(32, 32)
       Me.ibtnRefresh.TabIndex = 347
@@ -964,7 +969,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Label1
       '
       Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label1.Location = New System.Drawing.Point(796, 81)
+      Me.Label1.Location = New System.Drawing.Point(796, 112)
       Me.Label1.Name = "Label1"
       Me.Label1.Size = New System.Drawing.Size(91, 18)
       Me.Label1.TabIndex = 330
@@ -974,12 +979,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Label2
       '
       Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Label2.Location = New System.Drawing.Point(796, 140)
+      Me.Label2.Location = New System.Drawing.Point(796, 171)
       Me.Label2.Name = "Label2"
       Me.Label2.Size = New System.Drawing.Size(91, 18)
       Me.Label2.TabIndex = 330
       Me.Label2.Text = "ตำแหน่ง:"
       Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtCostCenter
+      '
+      Me.Validator.SetDataType(Me.txtCostCenter, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCostCenter, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtCostCenter, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCostCenter, System.Drawing.Color.Empty)
+      Me.txtCostCenter.Location = New System.Drawing.Point(110, 14)
+      Me.Validator.SetMaxValue(Me.txtCostCenter, "")
+      Me.Validator.SetMinValue(Me.txtCostCenter, "")
+      Me.txtCostCenter.Name = "txtCostCenter"
+      Me.txtCostCenter.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtCostCenter, "")
+      Me.Validator.SetRequired(Me.txtCostCenter, False)
+      Me.txtCostCenter.Size = New System.Drawing.Size(353, 20)
+      Me.txtCostCenter.TabIndex = 331
+      Me.txtCostCenter.TabStop = False
+      '
+      'lblCostCenter
+      '
+      Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCostCenter.ForeColor = System.Drawing.Color.Black
+      Me.lblCostCenter.Location = New System.Drawing.Point(26, 16)
+      Me.lblCostCenter.Name = "lblCostCenter"
+      Me.lblCostCenter.Size = New System.Drawing.Size(85, 18)
+      Me.lblCostCenter.TabIndex = 8
+      Me.lblCostCenter.Text = "Cost Center:"
+      Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'ProjectReceivePaymentDetailView
       '
@@ -1657,6 +1690,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tAcceptPosition.Text = m_entity.Acceptancepersonposition
       Me.tAcceptPosition2.Text = m_entity.Acceptancepersonposition2
 
+      If Me.m_entity.CostCenter.Originated Then
+        Me.txtCostCenter.Text = String.Format("{0} : {1}", Me.m_entity.CostCenter.Code, Me.m_entity.CostCenter.Name)
+      End If
+
       'CodeDescription.ComboSelect(Me.cmbType, Me.m_entity.ReportType)
       'CodeDescription.ComboSelect(Me.cmbAutoGenType, Me.m_entity.AutoType)
 
@@ -1765,9 +1802,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case tProjectCode.Name.ToLower
           If Me.tProjectCode.TextLength <> 0 Then
             dirtyFlag = Project.GetProject(tProjectCode, tProjectName, Me.m_entity.Project)
+            Me.SetCostCenter()
+            If Me.m_entity.CostCenter.Originated Then
+              Me.txtCostCenter.Text = String.Format("{0} : {1}", Me.m_entity.CostCenter.Code, Me.m_entity.CostCenter.Name)
+            End If
           Else
             dirtyFlag = True
             Me.m_entity.Project = New Project
+            Me.m_entity.CostCenter = New CostCenter
             tProjectCode.Text = ""
             tProjectName.Text = ""
           End If
@@ -1875,6 +1917,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       End Select
       Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
       'CheckFormEnable()
+    End Sub
+    Private Sub SetCostCenter()
+      If m_entity.Originated Then
+        Dim _id As Integer = m_entity.Project.GetCostCenterForNacc
+        If _id > 0 Then
+          Me.m_entity.CostCenter = New CostCenter(_id)
+        End If
+      End If
     End Sub
     Public Sub SetStatus()
       MyBase.SetStatusBarMessage()

@@ -11,9 +11,9 @@ Public Class ProjectNACCEnumerateView
   Public Sub New(_entity As Project)
     MyBase.New()
     Me.InitializeComponent()
-    Me.Initial()
 
     m_entity = _entity
+    Me.Initial()
 
     Try
       Dim err As SaveErrorException = m_entity.InsertProjectNACC()
@@ -32,6 +32,13 @@ Public Class ProjectNACCEnumerateView
   End Sub
   Private Sub Initial()
     Province.ListProvinceInComboBox(Me.cProvince)
+
+    For Each row As DataRow In m_entity.GetCostCenter.Tables(0).Rows
+      Dim keyValue As New IdValuePair(String.Format("{0}", row("cc_id")), String.Format("{0} : {1}", row("cc_code"), row("cc_name")))
+      'Trace.WriteLine(String.Format("{0}", row("cc_id")))
+      'Trace.WriteLine(String.Format("{0} : {1}", row("cc_code"), row("cc_name")))
+      Me.cmbCostCenter.Items.Add(keyValue)
+    Next
   End Sub
   Private Sub UpdateEntityProperties()
     If Not m_entity.ProjectNACC Is Nothing Then
@@ -78,6 +85,14 @@ Public Class ProjectNACCEnumerateView
         .tGuaranteeMonth.Text = _nacc.GuaranteeMonth
         .tGuaranteeDay.Text = _nacc.GuaranteeDay
 
+        If _nacc.CostCenter.Originated AndAlso Not _nacc.CostCenter Is Nothing Then
+          For Each item As IdValuePair In cmbCostCenter.Items
+            If _nacc.CostCenter.Id = item.Id Then
+              Me.cmbCostCenter.SelectedItem = item
+            End If
+          Next
+        End If
+
         For Each bi As BankAccountItem In _nacc.BankAccountList
           Me.SetBankAccountDialog(bi.BankAccount)
         Next
@@ -116,6 +131,8 @@ Public Class ProjectNACCEnumerateView
     AddHandler tGuaranteeYear.TextChanged, AddressOf Me.ChangeProperty
     AddHandler tGuaranteeMonth.TextChanged, AddressOf Me.ChangeProperty
     AddHandler tGuaranteeDay.TextChanged, AddressOf Me.ChangeProperty
+
+    AddHandler cmbCostCenter.SelectedIndexChanged, AddressOf Me.ChangeProperty
   End Sub
   'Protected Sub RemoveEventWiring()
   '  RemoveHandler tContractNo.TextChanged, AddressOf Me.ChangeProperty
@@ -152,6 +169,7 @@ Public Class ProjectNACCEnumerateView
     If Not m_entity.ProjectNACC Is Nothing Then
       Dim _nacc As ProjectNACC = m_entity.ProjectNACC
       With Me
+        _nacc.CostCenter = New CostCenter(CType(.cmbCostCenter.SelectedItem, IdValuePair).Id)
         _nacc.ContractNO = .tContractNo.Text
         _nacc.eGPContractNO = .teGPContractNo.Text
         _nacc.TaxID = .tTaxId.Text
@@ -195,6 +213,8 @@ Public Class ProjectNACCEnumerateView
         'Dim c2 As Integer = IIf(.tContractMonth.Text.Trim.Length = 0, 0, .tContractMonth.Text)
         'Dim c3 As Integer = IIf(.tContractDay.Text.Trim.Length = 0, 0, .tContractDay.Text)
         Select Case CType(sender, Control).Name.ToLower
+          Case cmbCostCenter.Name.ToLower
+
           Case tActiveDate.Name.ToLower
             .tContractYear.Text = _nacc.ContractYear
             .tContractMonth.Text = _nacc.ContractMonth
@@ -396,4 +416,15 @@ Public Class ProjectNACCEnumerateView
       CType(itm.Tag, BankAccountItem).ThaiNumber = cThai
     Next
   End Sub
+
+  Private Sub ibtnShowCostCenterDialog_Click(sender As System.Object, e As System.EventArgs)
+    'Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+    'myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCostCenter)
+  End Sub
+  'Private Sub SetCostCenter(ByVal e As ISimpleEntity)
+  '  Me.txtCostCenterCode.Text = e.Code
+  '  CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.ProjectNACC.CostCenter)
+  '  'Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+  'End Sub
+
 End Class
