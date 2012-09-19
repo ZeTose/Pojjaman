@@ -89,6 +89,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dtdoc As DataTable = Me.DataSet.Tables(0)
       Dim dtOpen As DataTable = Me.DataSet.Tables(1)
       Dim dtba As DataTable = Me.DataSet.Tables(2)
+      Dim dtRef As DataTable = Me.DataSet.Tables(3)
       Dim currentItemCode As String = ""
       Dim currentDocCode As String = ""
 
@@ -97,6 +98,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currBAIndex As Integer = -1
       Dim indent As String = Space(3)
       Dim tmpSum As Decimal = 0
+
+      Dim key As String = ""
+      Dim hashRef As New Hashtable
+      For Each row As DataRow In dtRef.Rows
+        key = String.Format("{0}-{1}", row("refid"), row("reftype"))
+        If Not hashRef.ContainsKey(key) Then
+          hashRef.Add(key, row("refpvrv").ToString)
+        Else
+          hashRef(key) = CType(hashRef(key), String) + "," + row("refpvrv").ToString
+        End If
+      Next
 
       For Each bar As DataRow In dtba.Rows
         Dim brh As New DataRowHelper(bar)
@@ -140,6 +152,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim drh As New DataRowHelper(row)
 
+          key = String.Format("{0}-{1}", drh.GetValue(Of String)("refid"), drh.GetValue(Of String)("reftype"))
+
           m_grid(currItemIndex, 2).CellValue = indent & drh.GetValue(Of Date)("DocDate").ToShortDateString
           m_grid(currItemIndex, 3).CellValue = indent & drh.GetValue(Of String)("DocCode")
           m_grid(currItemIndex, 4).CellValue = indent & drh.GetValue(Of String)("CqCode")
@@ -151,7 +165,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
           tmpSum -= drh.GetValue(Of Decimal)("Withdrawamt")
           m_grid(currItemIndex, 9).CellValue = Configuration.FormatToString(CDec(tmpSum), DigitConfig.Price)
           m_grid(currItemIndex, 10).CellValue = indent & drh.GetValue(Of String)("Note")
-          m_grid(currItemIndex, 11).CellValue = indent & drh.GetValue(Of String)("pvrv")
+          If drh.GetValue(Of Integer)("reftype") = 22 OrElse drh.GetValue(Of Integer)("reftype") = 27 Then
+            If hashRef.ContainsKey(key) Then
+              m_grid(currItemIndex, 11).CellValue = indent & CType(hashRef(key), String)
+            Else
+              m_grid(currItemIndex, 11).CellValue = indent & drh.GetValue(Of String)("pvrv")
+            End If
+          Else
+            m_grid(currItemIndex, 11).CellValue = indent & drh.GetValue(Of String)("pvrv")
+          End If
+
           currentItemCode = drh.GetValue(Of String)("DocCode")
         Next
       Next
