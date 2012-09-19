@@ -899,7 +899,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myTable As DataTable = ds.Tables(0)
       For Each row As DataRow In myTable.Rows
         Dim drh As New DataRowHelper(row)
-        myHash.Add(drh.GetValue(Of String)("config_name"), drh.GetValue(Of String)("config_value"))
+        myHash.Add(drh.GetValue(Of String)("config_name").ToLower, drh.GetValue(Of String)("config_value"))
       Next
 
       Return myHash

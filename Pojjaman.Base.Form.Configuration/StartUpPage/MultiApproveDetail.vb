@@ -1025,7 +1025,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       rGrid.Columns.Add(chkColumn)
 
       gridColumn = New GridViewTextBoxColumn("lineNumber")
-      gridColumn.Width = 80
+      gridColumn.Width = 60
       gridColumn.HeaderText = "" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.MultiApproval.Seq}") '"�ӴѺ"
       gridColumn.TextAlignment = ContentAlignment.MiddleLeft
       gridColumn.HeaderTextAlignment = ContentAlignment.MiddleLeft
