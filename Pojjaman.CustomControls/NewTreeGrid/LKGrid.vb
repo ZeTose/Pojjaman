@@ -245,7 +245,7 @@ Namespace Longkong.Pojjaman.Gui.Components
 
     'provide the data from the datasource
     Sub GridQueryCellInfo(ByVal sender As Object, ByVal e As GridQueryCellInfoEventArgs)
-      If e Is Nothing Then
+      If e Is Nothing OrElse Me.m_treetable Is Nothing Then
         Return
       End If
       Dim i As Integer = 0
