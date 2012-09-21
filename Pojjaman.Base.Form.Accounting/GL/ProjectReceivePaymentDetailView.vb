@@ -2050,7 +2050,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New FFormat).DetailPanelIcon
+        Return (New ProjectReceivePayment).DetailPanelIcon
       End Get
     End Property
 #End Region

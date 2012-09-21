@@ -753,6 +753,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_ProjectReceivePayment() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_ProjectReceivePayment", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_Receive() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_Receive", resourceCulture)
@@ -952,6 +959,13 @@ Namespace My.Resources
         Public ReadOnly Property VC() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("VC", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property XtraReports() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("XtraReports", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

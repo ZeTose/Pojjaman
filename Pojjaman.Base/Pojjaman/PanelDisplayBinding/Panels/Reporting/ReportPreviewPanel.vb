@@ -261,6 +261,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 #End Region
 
+#Region "Overrides"
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return "XtraReports" '(New ProjectReceivePayment).DetailPanelIcon
+      End Get
+    End Property
+#End Region
+
         '#Region "IPrintable"
         '        Public Overrides ReadOnly Property PrintDocument() As PrintDocument
         '            Get

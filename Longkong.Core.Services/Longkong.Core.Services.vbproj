@@ -572,6 +572,12 @@
   <ItemGroup>
     <None Include="Resources\folder-with-file-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XtraReports.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ProjectReceivePayment.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

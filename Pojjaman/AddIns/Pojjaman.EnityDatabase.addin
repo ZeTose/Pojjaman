@@ -190,7 +190,7 @@
 					<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.Vat}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Vat"/>
 				</MenuItem>
         <MenuItem id="FFormat" icon="Icons.16x16.FFormat" label="${res:MainMenu.AccountingMenu.LinkFinancialStatement}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.FFormat"/>
-        <MenuItem id="ProjectReceivePaymentMaster" icon="Icons.16x16.ProjectReceivePaymentMaster" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
+        <MenuItem id="ProjectReceivePaymentMaster" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
         <MenuItem id="ProjectReceivePayment" icon="Icons.16x16.ProjectReceivePayment" label="${res:MainMenu.AccountingMenu.ProjectReceivePayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePayment"/>
 				<!--<MenuItem id="Country" icon="Icons.16x16.Country" label="${res:MainMenu.AccountingMenu.Country}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Country"/>-->
 			</MenuItem>
