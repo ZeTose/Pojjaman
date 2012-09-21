@@ -188,8 +188,14 @@
     <Compile Include="BLL\Material\RptStockOutCard.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\Tool\RptToolCount.vb" />
     <Compile Include="BLL\Tool\RptStockCardTool.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UI\Material\RptMatCountExpendedLciItemFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -224,9 +230,17 @@
     <Compile Include="UI\Material\RptStockOutCardFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="UI\Tool\RptToolCountDetailFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\Tool\RptStockCardToolFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Material\RptMatCountExpendedLciItemFilterSubPanel.resx">
       <DependentUpon>RptMatCountExpendedLciItemFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -260,13 +274,14 @@
     <EmbeddedResource Include="UI\Material\RptStockOutCardFilterSubPanel.resx">
       <DependentUpon>RptStockOutCardFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Tool\RptToolCountDetailFilterSubPanel.resx">
+      <DependentUpon>RptToolCountDetailFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Tool\RptStockCardToolFilterSubPanel.resx">
       <DependentUpon>RptStockCardToolFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="My Project\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -321,6 +336,27 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-down-icon32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-down-icon48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-down.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-up-icon32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-up-icon48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions-go-up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Excel2007.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

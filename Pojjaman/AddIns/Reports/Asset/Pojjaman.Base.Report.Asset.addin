@@ -1,6 +1,7 @@
 <AddIn name="Pojjaman Asset Reports" author="KRISS" copyright="2006" url="http://www.longkongstudio.com" description="Pojjaman Asset Reports" version="1.0.0">
 	<Runtime>
-		<Import assembly="Pojjaman.Base.Report.Asset.dll"/>
+    <Import assembly="Pojjaman.Base.Report.Asset.dll"/>
+    <Import assembly="../Stock/Pojjaman.Base.Report.Stock.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
@@ -20,6 +21,7 @@
         <MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
         <MenuItem id="rptassetprofitloss" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetProfitLoss.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss"/>
         <MenuItem id="rptassetwriteoff" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetWriteOff.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetWriteOff"/>
+        
         <!--<MenuItem id="rptassetexpenditurebycostcenter" icon="Icons.16x16.RptAssetExpenditureByCostCenter" label="${res:MainMenu.PurchaseMenu.RptAssetExpenditureByCostCenter.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetExpenditureByCostCenter"/>-->
 			</MenuItem>
       
@@ -30,6 +32,7 @@
         <MenuItem id="rpteqtincome" icon="Icons.16x16.RptEQTIncome" label="${res:MainMenu.PurchaseMenu.RptEQTIncome.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTIncome"/>
         <!--<MenuItem id="rptequipmentmovement" icon="Icons.16x16.RptEquipmentMovement" label="${res:MainMenu.PurchaseMenu.RptEquipmentMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement"/>-->
         <MenuItem id="rpttoolmovement" icon="Icons.16x16.RpttoolMovement" label="${res:MainMenu.PurchaseMenu.RptToolMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolMovement"/>
+        <MenuItem id="rpttoolcount" icon="Icons.16x16.RptToolCount" label="${res:MainMenu.PurchaseMenu.RptToolCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolCount"/>
       </MenuItem>
 		</Conditional>
 	</Extension>
@@ -58,6 +61,7 @@
     <EntityFilter id="rptequipmentmovement" entity="RptEquipmentMovement" filter="Longkong.Pojjaman.Gui.Panels.RptEquipmentMovementFilterSubPanel"/>
     <EntityFilter id="rpttoolmovement" entity="RptToolMovement" filter="Longkong.Pojjaman.Gui.Panels.RptToolMovementFilterSubPanel"/>
     <EntityFilter id="rptassetexpenditurebycostcenter" entity="RptAssetExpenditureByCostCenter" filter="Longkong.Pojjaman.Gui.Panels.RptAssetExpenditureByCostCenterFilterSubPanel"/>
+    <EntityFilter id="rpttoolcount" entity="RptToolCount" filter="Longkong.Pojjaman.Gui.Panels.RptToolCountDetailFilterSubPanel"/>
 	</Extension>
 	
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
@@ -123,6 +127,9 @@
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
     <EntityTab id="rpttoolmovement">
+      <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+    </EntityTab>
+    <EntityTab id="rpttoolcount">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
 	</Extension>
