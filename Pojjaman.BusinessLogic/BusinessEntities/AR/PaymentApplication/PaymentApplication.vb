@@ -424,6 +424,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Shared Function GetProjectContact(cc_id As Integer) As DataTable
+      Dim dcc As New DataColumn("contactnumber", GetType(System.String)) 'เลขที่สัญญา
+      Dim dca As New DataColumn("contactactivedate", GetType(System.DateTime)) 'วันที่เริ่มสัญญา
+      Dim dcf As New DataColumn("contactfinishdate", GetType(System.DateTime)) 'วันที่สิ้นสุดสัญญา
+
+      Dim dt As New DataTable
+      dt.Columns.Add(dcc)
+      dt.Columns.Add(dca)
+      dt.Columns.Add(dcf)
+
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetProjectContact", New SqlParameter("@cc_id", cc_id))
+        If ds.Tables.Count > 0 Then
+          For Each row As DataRow In ds.Tables(0).Rows
+            Dim newrow As DataRow = dt.NewRow
+            If row.Table.Columns.Contains("contactnumber") Then
+              newrow("contactnumber") = row("contactnumber")
+            End If
+            If row.Table.Columns.Contains("contactactivedate") Then
+              newrow("contactactivedate") = row("contactactivedate")
+            End If
+            If row.Table.Columns.Contains("contactfinishdate") Then
+              newrow("contactfinishdate") = row("contactfinishdate")
+            End If
+            dt.Rows.Add(newrow)
+          Next
+        End If
+      Catch ex As Exception
+      End Try
+
+      Return dt
+    End Function
     Public Sub DistributeRetention()
       Dim roundBeforeSum As Boolean = True
       Dim coll As MilestoneCollection = Me.ItemCollection.GetMilestoneCollection

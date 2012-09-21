@@ -2366,7 +2366,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim RefDocVatDate As String = ""
       Dim RefDocVatCodeList As New ArrayList
       Dim RefDocVatDateList As New ArrayList
-   
+
       For Each itm As SaleBillIssueItem In Me.ItemCollection
         If itm.ParentType = 81 Then
           Dim bi As New BillIssue(itm.ParentId)
@@ -2403,6 +2403,55 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'RefDocVatCode(แสดงค่าอ้างอิงเลขที่ใบกำกับภาษี(ถ้ามีมากกว่าหนึ่งรายการใช้, ))
       'RefDocVatDAte แสดงค่าอ้างอิงวันทีใบกำกับภาษี (ถ้ามีมากกว่าหนึ่งรายการใช้ ,
       '--------------------------------
+
+      Dim hashCostCenter As New Hashtable
+      Dim contactNumber As New ArrayList
+      Dim contactActiveDate As New ArrayList
+      Dim contactCompleteDate As New ArrayList
+      For Each item As SaleBillIssueItem In Me.ItemCollection
+        If IsMilieStone(item.EntityId) Then
+          Dim mi As New Milestone(item.Id)
+          If Not mi.CostCenter Is Nothing Then
+            Dim dt As DataTable
+            If Not hashCostCenter.ContainsKey(mi.CostCenter.Id) Then
+              dt = PaymentApplication.GetProjectContact(mi.CostCenter.Id)
+              hashCostCenter.Add(mi.CostCenter.Id, dt)
+
+              If dt.Rows.Count > 0 Then
+                Dim row As DataRow = dt.Rows(0)
+
+                If row.Table.Columns.Contains("contactnumber") Then
+                  contactNumber.Add(CStr(row("contactnumber")))
+                End If
+                If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
+                  contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
+                End If
+                If row.Table.Columns.Contains("contactfinishdate") AndAlso IsDate(row("contactfinishdate")) Then
+                  contactCompleteDate.Add(CDate(row("contactfinishdate")).ToShortDateString)
+                End If
+              End If
+            End If
+          End If
+        End If
+      Next
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactNumber"
+      dpi.Value = String.Join(",", contactNumber.ToArray)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactActiveDate"
+      dpi.Value = String.Join(",", contactActiveDate.ToArray)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactCompleteDate"
+      dpi.Value = String.Join(",", contactCompleteDate.ToArray)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
 
       Dim myVat As Decimal = 0
       Dim myBeforeTax As Decimal = 0
@@ -3403,14 +3452,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item"
               dpiColl.Add(dpi)
 
-                            'Item.RemainingAmount =====
-                            'dpi = New DocPrintingItem
-                            'dpi.Mapping = "Item.RemainingAmount"
-                            'dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
-                            'dpi.DataType = "System.Int32"
-                            'dpi.Row = n2 + 1
-                            'dpi.Table = "Item"
-                            'dpiColl.Add(dpi)
+              'Item.RemainingAmount =====
+              'dpi = New DocPrintingItem
+              'dpi.Mapping = "Item.RemainingAmount"
+              'dpi.Value = Configuration.FormatToString(item.RemainingAmount, DigitConfig.Price)
+              'dpi.DataType = "System.Int32"
+              'dpi.Row = n2 + 1
+              'dpi.Table = "Item"
+              'dpiColl.Add(dpi)
 
               'Item.Amount
               dpi = New DocPrintingItem
@@ -4024,8 +4073,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Item.Name
         dpi = New DocPrintingItem
-                'dpi.Mapping = "Item.Name"
-                dpi.Mapping = "Item.RefCode"
+        'dpi.Mapping = "Item.Name"
+        dpi.Mapping = "Item.RefCode"
         dpi.Value = CodeDescription.GetDescription("receivesi_entityType", item.EntityId) & "," & item.Code
         dpi.DataType = "System.String"
         dpi.Row = n + 1
@@ -4055,51 +4104,54 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim entityFromItem As SimpleBusinessEntityBase
           Dim entityClassName As String = Entity.GetFullClassName(item.EntityId)
           entityFromItem = SimpleBusinessEntityBase.GetEntity(entityClassName, item.Id)
-          If TypeOf entityFromItem Is IVatable Then
-            Dim vatable As IVatable = CType(entityFromItem, IVatable)
-            If Not vatable.Vat Is Nothing Then
-              If vatable.Vat.ItemCollection.Count > 0 Then
-                'Item.RefVATCode
-                dpi = New DocPrintingItem
-                dpi.Mapping = "Item.RefVATCode"
-                Dim vi As VatItem = vatable.Vat.ItemCollection(0)
-                dpi.Value = vi.Code
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpiColl.Add(dpi)
+          If Not entityFromItem Is Nothing Then
+            If TypeOf entityFromItem Is IVatable Then
+              Dim vatable As IVatable = CType(entityFromItem, IVatable)
+              If Not vatable.Vat Is Nothing Then
+                If vatable.Vat.ItemCollection.Count > 0 Then
+                  'Item.RefVATCode
+                  dpi = New DocPrintingItem
+                  dpi.Mapping = "Item.RefVATCode"
+                  Dim vi As VatItem = vatable.Vat.ItemCollection(0)
+                  dpi.Value = vi.Code
+                  dpi.DataType = "System.String"
+                  dpi.Row = n + 1
+                  dpi.Table = "Item"
+                  dpiColl.Add(dpi)
+                End If
               End If
+            ElseIf TypeOf entityFromItem Is Milestone Then
+              Dim mi As Milestone = CType(entityFromItem, Milestone)
+              'Item.Name
+              dpi = New DocPrintingItem
+              'dpi.Mapping = "Item.Name"
+              dpi.Mapping = "Item.RefCode"
+              dpi.Value = mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.Code
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Code"
+              dpi.Value = mi.Code
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.CodeAndName
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.CodeAndName"
+              dpi.Value = mi.Code & " : " & mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
             End If
-          ElseIf TypeOf entityFromItem Is Milestone Then
-            Dim mi As Milestone = CType(entityFromItem, Milestone)
-            'Item.Name
-            dpi = New DocPrintingItem
-                        'dpi.Mapping = "Item.Name"
-                        dpi.Mapping = "Item.RefCode"
-            dpi.Value = mi.Name
-            dpi.DataType = "System.String"
-            dpi.Row = n + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
-
-            'Item.Code
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Item.Code"
-            dpi.Value = mi.Code
-            dpi.DataType = "System.String"
-            dpi.Row = n + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
-
-            'Item.CodeAndName
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Item.CodeAndName"
-            dpi.Value = mi.Code & " : " & mi.Name
-            dpi.DataType = "System.String"
-            dpi.Row = n + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
           End If
+
         Catch ex As Exception
 
         End Try
@@ -4145,14 +4197,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-                'Item.RemainingAmount ค่าข้างล่างถูกแล้ว ไม่ได้สลับนะ===
-                dpi = New DocPrintingItem
-                dpi.Mapping = "Item.RemainingAmount"
-                dpi.Value = Configuration.FormatToString(item.UnreceivedAmount, DigitConfig.Price)
-                dpi.DataType = "System.Int32"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpiColl.Add(dpi)
+        'Item.RemainingAmount ค่าข้างล่างถูกแล้ว ไม่ได้สลับนะ===
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RemainingAmount"
+        dpi.Value = Configuration.FormatToString(item.UnreceivedAmount, DigitConfig.Price)
+        dpi.DataType = "System.Int32"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         'Item.AmountHeaderText
         dpi = New DocPrintingItem
@@ -4163,22 +4215,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Table = "Item"
         dpiColl.Add(dpi)
 
-        Dim obj As Object = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(item.EntityId), item.Id)
-        Dim ratio As Decimal = item.Amount / item.RemainingAmount
-        Dim pmaHash As New Hashtable
-        If TypeOf obj Is IVatable Then
-          Dim vatable As IVatable = CType(obj, IVatable)
-          myVat += (ratio * vatable.Vat.Amount)
-          myBeforeTax += (ratio * vatable.GetBeforeTax)
-        ElseIf TypeOf obj Is Milestone Then
-          Dim mi As Milestone = CType(obj, Milestone)
-          If Not pmaHash.Contains(mi.PMAId) Then
-            pmaHash(mi.PMAId) = New PaymentApplication(mi.PMAId)
-          End If
-          mi.PaymentApplication = CType(pmaHash(mi.PMAId), PaymentApplication)
-          myVat += (ratio * mi.TaxAmount)
-          myBeforeTax += (ratio * mi.BeforeTax)
-        End If
+        'Dim obj As Object = SimpleBusinessEntityBase.GetEntity(BusinessLogic.Entity.GetFullClassName(item.EntityId), item.Id)
+        'If Not obj Is Nothing Then
+        '  Dim ratio As Decimal = item.Amount / item.RemainingAmount
+        '  Dim pmaHash As New Hashtable
+        '  If TypeOf obj Is IVatable Then
+        '    Dim vatable As IVatable = CType(obj, IVatable)
+        '    myVat += (ratio * vatable.Vat.Amount)
+        '    myBeforeTax += (ratio * vatable.GetBeforeTax)
+        '  ElseIf TypeOf obj Is Milestone Then
+        '    Dim mi As Milestone = CType(obj, Milestone)
+        '    If Not pmaHash.Contains(mi.PMAId) Then
+        '      pmaHash(mi.PMAId) = New PaymentApplication(mi.PMAId)
+        '    End If
+        '    mi.PaymentApplication = CType(pmaHash(mi.PMAId), PaymentApplication)
+        '    myVat += (ratio * mi.TaxAmount)
+        '    myBeforeTax += (ratio * mi.BeforeTax)
+        '  End If
+        'End If
 
         'Item.Name (Show MileStone Detail)
         'Dim y As Integer = 0
@@ -4191,8 +4245,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim childText As String = miDetailRow("milestonei_desc").ToString
             'Item.Name
             dpi = New DocPrintingItem
-                        'dpi.Mapping = "Item.Name"
-                        dpi.Mapping = "Item.RefCode"
+            'dpi.Mapping = "Item.Name"
+            dpi.Mapping = "Item.RefCode"
             dpi.Value = childText
             dpi.DataType = "System.String"
             dpi.Row = n + 1
@@ -4783,6 +4837,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Function GetVatAmountForPrinting() As Decimal
 
+    End Function
+    Private Function IsMilieStone(_entityId As Integer) As Boolean
+      If _entityId = 75 OrElse _entityId = 77 OrElse _entityId = 78 OrElse _entityId = 79 OrElse _entityId = 86 Then
+        Return True
+      Else
+        Return False
+      End If
     End Function
 #End Region
 

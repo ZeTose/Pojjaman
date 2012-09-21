@@ -958,6 +958,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumAfterTax As Decimal = 0
       Dim sumReceivebleForBillissue As Decimal = 0
       Dim sumVat As Decimal = 0
+
+      Dim hashCostCenter As New Hashtable
+      Dim contactNumber As New ArrayList
+      Dim contactActiveDate As New ArrayList
+      Dim contactCompleteDate As New ArrayList
+      For Each item As Milestone In Me.ItemCollection
+        If Not item.CostCenter Is Nothing Then
+          Dim dt As DataTable
+          If Not hashCostCenter.ContainsKey(item.CostCenter.Id) Then
+            dt = PaymentApplication.GetProjectContact(item.CostCenter.Id)
+            hashCostCenter.Add(item.CostCenter.Id, dt)
+
+            If dt.Rows.Count > 0 Then
+              Dim row As DataRow = dt.Rows(0)
+
+              If row.Table.Columns.Contains("contactnumber") Then
+                contactNumber.Add(CStr(row("contactnumber")))
+              End If
+              If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
+                contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
+              End If
+              If row.Table.Columns.Contains("contactfinishdate") AndAlso IsDate(row("contactfinishdate")) Then
+                contactCompleteDate.Add(CDate(row("contactfinishdate")).ToShortDateString)
+              End If
+            End If
+          End If
+
+        End If
+      Next
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactNumber"
+      dpi.Value = String.Join(",", contactNumber.ToArray)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactActiveDate"
+      dpi.Value = String.Join(",", contactActiveDate.ToArray)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContactCompleteDate"
+      dpi.Value = String.Join(",", contactCompleteDate.ToArray)
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
+
       For Each item As Milestone In Me.ItemCollection
         dpi = New DocPrintingItem
         dpi.Mapping = "billii_billi"
