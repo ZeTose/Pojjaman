@@ -994,7 +994,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Overrides"
     Public Overrides ReadOnly Property TabPageIcon() As String
       Get
-        Return (New ProjectReceivePayment).DetailPanelIcon
+        Return "XtraReports" '(New ProjectReceivePayment).DetailPanelIcon
       End Get
     End Property
 #End Region
