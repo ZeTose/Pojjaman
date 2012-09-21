@@ -743,38 +743,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " Setlabeltext "
     Public Overrides Sub SetLabelText()
-      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblName}")
-      Me.Validator.SetDisplayName(txtName, lblName.Text)
+            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+            Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblName}")
+            Me.Validator.SetDisplayName(txtName, lblName.Text)
 
-      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblCode}")
-      Me.Validator.SetDisplayName(cmbCode, lblCode.Text)
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblCode}")
+            Me.Validator.SetDisplayName(cmbCode, lblCode.Text)
 
-      Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDocDate}")
-      Me.Validator.SetDisplayName(txtdocdate, lblDocDate.Text)
+            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDocDate}")
+            Me.Validator.SetDisplayName(txtdocdate, lblDocDate.Text)
 
-      Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDueDate}")
-      Me.Validator.SetDisplayName(txtDueDate, lblDueDate.Text)
+            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblDueDate}")
+            Me.Validator.SetDisplayName(txtDueDate, lblDueDate.Text)
 
-      Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAccount}")
-      Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
+            Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAccount}")
+            Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-      Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAmount}")
-      Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
+            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblAmount}")
+            Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-      Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
 
-      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblNote}")
-      Me.Validator.SetDisplayName(txtNote, lblNote.Text)
+            Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblNote}")
+            Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
-      Me.rdIsEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsEmployee}")
-      Me.rdIsCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsCC}")
+            Me.rdIsEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsEmployee}")
+            Me.rdIsCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.rdIsCC}")
 
-      Me.lblIsClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblIsClosed}")
+            Me.lblIsClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblIsClosed}")
 
-      Me.grbAdvanceMoney.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.grbAdvanceMoney}")
+            Me.grbAdvanceMoney.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.grbAdvanceMoney}")
 
+            Me.grbLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.grbLocation}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyDetail.lblItem}")
     End Sub
 #End Region
 
