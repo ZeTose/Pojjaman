@@ -461,7 +461,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblAmount}")
       Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-      Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+
+            Me.grbExportPC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.grbExportPC}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblItem}")
     End Sub
 #End Region
 
@@ -534,7 +537,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
-      gcPaymentCode.HeaderText = "เอกสารเคลม" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+            gcPaymentCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPCDetailView.PaymentCode}") '"เอกสารเคลม"
       gcPaymentCode.Width = 100
       gcPaymentCode.ReadOnly = True
       grid.Columns.Add(gcPaymentCode)
@@ -545,7 +548,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
-      gcRefCode.HeaderText = "เอกสารอ้างอิง" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPCDetailView.RefCode}") '"เอกสารอ้างอิง"
       gcRefCode.Width = 100
       gcRefCode.ReadOnly = True
       grid.Columns.Add(gcRefCode)
@@ -556,7 +559,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcRefType As New GridViewTextBoxColumn("RefType")
-      gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPCDetailView.RefType}") '"ประเภท"
       gcRefType.Width = 100
       gcRefType.ReadOnly = True
       grid.Columns.Add(gcRefType)
@@ -567,7 +570,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcRefDueDate As New GridViewTextBoxColumn("RefDueDate")
-      gcRefDueDate.HeaderText = "วันที่ครบกำหนด" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPCDetailView.RefDueDate}") '"วันที่ครบกำหนด" 
       gcRefDueDate.Width = 100
       gcRefDueDate.ReadOnly = True
       grid.Columns.Add(gcRefDueDate)
@@ -578,7 +581,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim csAmount As New GridViewTextBoxColumn("Amount")
-      csAmount.HeaderText = "จำนวนเงิน" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
+            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPCDetailView.Amount}") '"จำนวนเงิน"
       csAmount.Width = 150
       csAmount.TextAlignment = ContentAlignment.MiddleRight
       csAmount.ReadOnly = True

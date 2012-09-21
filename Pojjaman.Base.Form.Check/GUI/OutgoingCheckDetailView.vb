@@ -337,7 +337,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(136, 18)
       Me.lblItem.TabIndex = 199
-      Me.lblItem.Text = "บันทีกยอดตัดจ่ายเช็ค"
+            Me.lblItem.Text = "บันทึกยอดตัดจ่ายเช็ค"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
       '
       'chkAutorun
@@ -835,7 +835,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtNote, lblNote.Text)
 
       Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      Me.lblCheckStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblCheckStatus}")
+            Me.lblCheckStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblCheckStatus}")
+
+            Me.grbOutgoingCheck.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.grbOutgoingCheck}")
+            Me.chkCheckHandler.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.chkCheckHandler}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblItem}")
+            Me.lblTotal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.lblTotal}")
     End Sub
 #End Region
 
@@ -913,7 +918,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
-      gcPaymentCode.HeaderText = "เลขที่ PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+            gcPaymentCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.PaymentCode}") '"เลขที่ PV" 
       gcPaymentCode.Width = 100
       gcPaymentCode.ReadOnly = True
       grid.Columns.Add(gcPaymentCode)
@@ -924,7 +929,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
-      gcRefCode.HeaderText = "เอกสารอ้างอิง" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.RefCode}") '"เอกสารอ้างอิง"
       gcRefCode.Width = 100
       gcRefCode.ReadOnly = True
       grid.Columns.Add(gcRefCode)
@@ -953,7 +958,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       grid.Columns.Add(gcRefTypeId)
 
       Dim gcRefType As New GridViewTextBoxColumn("RefType")
-      gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.RefType}") '"ประเภท" 
       gcRefType.Width = 100
       gcRefType.ReadOnly = True
       grid.Columns.Add(gcRefType)
@@ -964,7 +969,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim gcRefDueDate As New GridViewTextBoxColumn("RefDueDate")
-      gcRefDueDate.HeaderText = "วันที่ครบกำหนด" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.RefDueDate}") '"วันที่ครบกำหนด" 
       gcRefDueDate.Width = 100
       gcRefDueDate.ReadOnly = True
       grid.Columns.Add(gcRefDueDate)
@@ -975,7 +980,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       colNum += 1
 
       Dim csRefAmount As New GridViewTextBoxColumn("RefAmount")
-      csRefAmount.HeaderText = "จำนวนเงิน PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+            csRefAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.RefAmount}") '"จำนวนเงิน PV"
       csRefAmount.ReadOnly = True
       csRefAmount.Width = 150
       csRefAmount.TextAlignment = ContentAlignment.MiddleRight
@@ -987,7 +992,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim csRemain As New GridViewTextBoxColumn("Remain")
-      csRemain.HeaderText = "คงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+            csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.Remain}") '"คงเหลือ"
       csRemain.ReadOnly = True
       csRemain.Width = 150
       csRemain.TextAlignment = ContentAlignment.MiddleRight
@@ -999,7 +1004,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim csAmount As New GridViewTextBoxColumn("Amount")
-      csAmount.HeaderText = "จำนวนจ่ายโดยเช็คนี้" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
+            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.Amount}") '"จำนวนจ่ายโดยเช็คนี้"
       csAmount.Width = 150
       csAmount.TextAlignment = ContentAlignment.MiddleRight
       csAmount.ReadOnly = True
@@ -1010,7 +1015,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim csCheckRemain As New GridViewTextBoxColumn("CheckRemain")
-      csCheckRemain.HeaderText = "มูลค่าเช็คคงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+            csCheckRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.OutgoingCheckDetailView.CheckRemain}") '"มูลค่าเช็คคงเหลือ" 
       csCheckRemain.ReadOnly = True
       csCheckRemain.Width = 150
       csCheckRemain.TextAlignment = ContentAlignment.MiddleRight
