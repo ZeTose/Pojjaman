@@ -718,6 +718,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
+            Me.grbHeader.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.grbHeader}")
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Global.Code}")
+            Me.lblDocDate.Text = Me.StringParserService.Parse("${res:Global.DocDateDot}")
+            Me.lblADVMCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.lblADVMCode}")
+            Me.lblRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.lblRemaining}")
+            Me.lblPCNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+            Me.grbAdvanceMoney.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.grbAdvanceMoney}")
+            Me.lblOrgDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.lblOrgDocDate}")
+            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.lblDueDate}")
+            Me.grbLocation.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.grbLocation}")
+            Me.rdIsEmployee.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.rdIsEmployee}")
+            Me.rdIsCC.Text = Me.StringParserService.Parse("${res:Global.CostCenterDot}")
+            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.lblAmount}")
+            Me.lblCurrencyUnit1.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblCurrencyUnit2.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AdvanceMoneyClosedDetail.lblAccount}")
+            Me.lblNote.Text = Me.StringParserService.Parse("${res:Global.NoteText}")
+
 
     End Sub
 #End Region
