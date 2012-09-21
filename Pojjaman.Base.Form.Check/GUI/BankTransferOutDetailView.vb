@@ -250,7 +250,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItem.Name = "lblItem"
       Me.lblItem.Size = New System.Drawing.Size(144, 18)
       Me.lblItem.TabIndex = 199
-      Me.lblItem.Text = "บันทีกยอดตัดจ่ายเงินโอน"
+            Me.lblItem.Text = "บันทึกยอดตัดจ่ายเงินโอน"
       Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'chkAutorun
@@ -585,676 +585,680 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " SetLabelText "
     Public Overrides Sub SetLabelText()
-      If Not Me.m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblCode}")
-      Me.Validator.SetDisplayName(txtCode, lblCode.Text)
+            If Not Me.m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblCode}")
+            Me.Validator.SetDisplayName(txtCode, lblCode.Text)
 
-      Me.lblIssueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblIssueDate}")
-      Me.Validator.SetDisplayName(txtIssueDate, lblIssueDate.Text)
+            Me.lblIssueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblIssueDate}")
+            Me.Validator.SetDisplayName(txtIssueDate, lblIssueDate.Text)
 
-      Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblSupplier}")
-      Me.Validator.SetDisplayName(txtSupplierCode, lblSupplier.Text)
+            Me.lblSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblSupplier}")
+            Me.Validator.SetDisplayName(txtSupplierCode, lblSupplier.Text)
 
-      Me.lblBankAccount.Text = Me.StringParserService.Parse("${res:Global.BankAccountText}")
-      Me.lblBank.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblBank}")
-      Me.Validator.SetDisplayName(txtBankAccountCode, lblBankAccount.Text)
+            Me.lblBankAccount.Text = Me.StringParserService.Parse("${res:Global.BankAccountText}")
+            Me.lblBank.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblBank}")
+            Me.Validator.SetDisplayName(txtBankAccountCode, lblBankAccount.Text)
 
-      Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblAmount}")
-      Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
+            Me.lblAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblAmount}")
+            Me.Validator.SetDisplayName(txtAmount, lblAmount.Text)
 
-      Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-    End Sub
+            Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.grbBankTransferOut.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.grbBankTransferOut}")
+            Me.lblTotal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblTotal}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.lblItem}")
+            Me.lblBaht3.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+        End Sub
 #End Region
 
 #Region "Member"
-    Private m_entity As New BankTransferOut
-    Private m_isInitialized As Boolean = False
-    Private m_tableInitialized2 As Boolean = False
+        Private m_entity As New BankTransferOut
+        Private m_isInitialized As Boolean = False
+        Private m_tableInitialized2 As Boolean = False
 #End Region
 
 #Region "Constructor"
-    Public Sub New()
-      MyBase.New()
-      InitializeComponent()
-      Initialize()
+        Public Sub New()
+            MyBase.New()
+            InitializeComponent()
+            Initialize()
 
-      Me.SetLabelText()
-      Me.UpdateEntityProperties()
-      Me.EventWiring()
-    End Sub
+            Me.SetLabelText()
+            Me.UpdateEntityProperties()
+            Me.EventWiring()
+        End Sub
 #End Region
 
 #Region "Method"
-    Private Sub SetBankBranch()
-      Dim oldstatus As Boolean = Me.m_isInitialized
-      Me.m_isInitialized = False
-      If m_entity.BankAccount Is Nothing _
-      OrElse Not Me.m_entity.BankAccount.Originated Then
-        txtbankbranch.Text = ""
-      Else
-        txtbankbranch.Text = Me.m_entity.BankAccount.BankBranch.Bank.Name & " : " & Me.m_entity.BankAccount.BankBranch.Name
-      End If
-      Me.m_isInitialized = oldstatus
-    End Sub
+        Private Sub SetBankBranch()
+            Dim oldstatus As Boolean = Me.m_isInitialized
+            Me.m_isInitialized = False
+            If m_entity.BankAccount Is Nothing _
+            OrElse Not Me.m_entity.BankAccount.Originated Then
+                txtbankbranch.Text = ""
+            Else
+                txtbankbranch.Text = Me.m_entity.BankAccount.BankBranch.Bank.Name & " : " & Me.m_entity.BankAccount.BankBranch.Name
+            End If
+            Me.m_isInitialized = oldstatus
+        End Sub
 #End Region
-    Dim viewDef As ColumnGroupsViewDefinition
-    Private Sub GetColumns(ByVal grid As RadGridView, ByVal istop As Boolean)
+        Dim viewDef As ColumnGroupsViewDefinition
+        Private Sub GetColumns(ByVal grid As RadGridView, ByVal istop As Boolean)
 
-      viewDef = New ColumnGroupsViewDefinition
-      Dim colNum As Integer = 0
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-      Dim gcLineNumber As New GridViewDecimalColumn("Linenumber")
-      gcLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
-      gcLineNumber.Width = 45
-      gcLineNumber.ReadOnly = True
-      gcLineNumber.DecimalPlaces = 0
-      gcLineNumber.TextAlignment = ContentAlignment.MiddleCenter
-      grid.Columns.Add(gcLineNumber)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcLineNumber)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
+            viewDef = New ColumnGroupsViewDefinition
+            Dim colNum As Integer = 0
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim gcLineNumber As New GridViewDecimalColumn("Linenumber")
+            gcLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
+            gcLineNumber.Width = 45
+            gcLineNumber.ReadOnly = True
+            gcLineNumber.DecimalPlaces = 0
+            gcLineNumber.TextAlignment = ContentAlignment.MiddleCenter
+            grid.Columns.Add(gcLineNumber)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcLineNumber)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
 
-      Dim colName As String
-      If istop Then
-        colName = "Selected"
-      Else
-        colName = "SelectedForDeleted"
-      End If
-      Dim gcSelected As New GridViewCheckBoxColumn(colName)
-      gcSelected.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
-      gcSelected.Width = 30
-      gcSelected.ReadOnly = False
-      gcSelected.AllowSort = False
-      grid.Columns.Add(gcSelected)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcSelected)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
+            Dim colName As String
+            If istop Then
+                colName = "Selected"
+            Else
+                colName = "SelectedForDeleted"
+            End If
+            Dim gcSelected As New GridViewCheckBoxColumn(colName)
+            gcSelected.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+            gcSelected.Width = 30
+            gcSelected.ReadOnly = False
+            gcSelected.AllowSort = False
+            grid.Columns.Add(gcSelected)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcSelected)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
 
-      Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
-      gcPaymentCode.HeaderText = "เลขที่ PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
-      gcPaymentCode.Width = 100
-      gcPaymentCode.ReadOnly = True
-      grid.Columns.Add(gcPaymentCode)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcPaymentCode)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
+            Dim gcPaymentCode As New GridViewTextBoxColumn("PaymentCode")
+            gcPaymentCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.PaymentCode}") '"เลขที่ PV" 
+            gcPaymentCode.Width = 100
+            gcPaymentCode.ReadOnly = True
+            grid.Columns.Add(gcPaymentCode)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcPaymentCode)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
 
-      Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
-      gcRefCode.HeaderText = "เอกสารอ้างอิง" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
-      gcRefCode.Width = 100
-      gcRefCode.ReadOnly = True
-      grid.Columns.Add(gcRefCode)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefCode)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
+            Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
+            gcRefCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.RefCode}") '"เอกสารอ้างอิง"
+            gcRefCode.Width = 100
+            gcRefCode.ReadOnly = True
+            grid.Columns.Add(gcRefCode)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefCode)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
 
-      Dim gcRefType As New GridViewTextBoxColumn("RefType")
-      gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
-      gcRefType.Width = 100
-      gcRefType.ReadOnly = True
-      grid.Columns.Add(gcRefType)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefType)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
+            Dim gcRefType As New GridViewTextBoxColumn("RefType")
+            gcRefType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.RefType}") '"ประเภท
+            gcRefType.Width = 100
+            gcRefType.ReadOnly = True
+            grid.Columns.Add(gcRefType)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefType)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
 
-      Dim gcRefDueDate As New GridViewTextBoxColumn("RefDueDate")
-      gcRefDueDate.HeaderText = "วันที่ครบกำหนด" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
-      gcRefDueDate.Width = 100
-      gcRefDueDate.ReadOnly = True
-      grid.Columns.Add(gcRefDueDate)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefDueDate)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
+            Dim gcRefDueDate As New GridViewTextBoxColumn("RefDueDate")
+            gcRefDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.RefDueDate}") '"วันที่ครบกำหนด"
+            gcRefDueDate.Width = 100
+            gcRefDueDate.ReadOnly = True
+            grid.Columns.Add(gcRefDueDate)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(gcRefDueDate)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
 
-      Dim csRefAmount As New GridViewTextBoxColumn("RefAmount")
-      csRefAmount.HeaderText = "จำนวนเงิน PV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
-      csRefAmount.ReadOnly = True
-      csRefAmount.Width = 150
-      csRefAmount.TextAlignment = ContentAlignment.MiddleRight
-      csRefAmount.ReadOnly = True
-      grid.Columns.Add(csRefAmount)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRefAmount)
-      viewDef.ColumnGroups(colNum).IsPinned = True
+            Dim csRefAmount As New GridViewTextBoxColumn("RefAmount")
+            csRefAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.RefAmount}") '"จำนวนเงิน PV" 
+            csRefAmount.ReadOnly = True
+            csRefAmount.Width = 150
+            csRefAmount.TextAlignment = ContentAlignment.MiddleRight
+            csRefAmount.ReadOnly = True
+            grid.Columns.Add(csRefAmount)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRefAmount)
+            viewDef.ColumnGroups(colNum).IsPinned = True
 
-      Dim csRemain As New GridViewTextBoxColumn("Remain")
-      csRemain.HeaderText = "คงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
-      csRemain.ReadOnly = True
-      csRemain.Width = 150
-      csRemain.TextAlignment = ContentAlignment.MiddleRight
-      csRemain.ReadOnly = True
-      grid.Columns.Add(csRemain)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRemain)
-      viewDef.ColumnGroups(colNum).IsPinned = True
+            Dim csRemain As New GridViewTextBoxColumn("Remain")
+            csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.Remain}") '"คงเหลือ" 
+            csRemain.ReadOnly = True
+            csRemain.Width = 150
+            csRemain.TextAlignment = ContentAlignment.MiddleRight
+            csRemain.ReadOnly = True
+            grid.Columns.Add(csRemain)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csRemain)
+            viewDef.ColumnGroups(colNum).IsPinned = True
 
-      Dim csAmount As New GridViewTextBoxColumn("Amount")
-      csAmount.HeaderText = "จำนวนจ่ายโดยการโอนนี้" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
-      csAmount.Width = 150
-      csAmount.TextAlignment = ContentAlignment.MiddleRight
-      csAmount.ReadOnly = True
-      grid.Columns.Add(csAmount)
-      viewDef.ColumnGroups.Add(New GridViewColumnGroup)
-      viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
-      viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csAmount)
-      viewDef.ColumnGroups(colNum).IsPinned = True
-      colNum += 1
-    End Sub
-    Private Sub RefreshSelectedItems()
-      m_tableInitialized2 = False
-      Me.RadGridView2.GridElement.BeginUpdate()
-      Me.RadGridView2.Rows.Clear()
-      For Each p As PaymentForList In m_entity.PaymentList
-        Dim row As GridViewDataRowInfo = Me.RadGridView2.Rows.AddNew()
-        PopulateRow(p, row)
-      Next
-      Dim i As Integer = 1
-      For Each row As GridViewDataRowInfo In Me.RadGridView2.Rows
-        row.Cells("Linenumber").Value = i
-        i += 1
-      Next
-      Me.RadGridView2.GridElement.EndUpdate(True)
-      m_tableInitialized2 = True
-    End Sub
+            Dim csAmount As New GridViewTextBoxColumn("Amount")
+            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BankTransferOutDetailView.Amount}") '"จำนวนจ่ายโดยการโอนนี้"
+            csAmount.Width = 150
+            csAmount.TextAlignment = ContentAlignment.MiddleRight
+            csAmount.ReadOnly = True
+            grid.Columns.Add(csAmount)
+            viewDef.ColumnGroups.Add(New GridViewColumnGroup)
+            viewDef.ColumnGroups(colNum).Rows.Add(New GridViewColumnGroupRow())
+            viewDef.ColumnGroups(colNum).Rows(0).Columns.Add(csAmount)
+            viewDef.ColumnGroups(colNum).IsPinned = True
+            colNum += 1
+        End Sub
+        Private Sub RefreshSelectedItems()
+            m_tableInitialized2 = False
+            Me.RadGridView2.GridElement.BeginUpdate()
+            Me.RadGridView2.Rows.Clear()
+            For Each p As PaymentForList In m_entity.PaymentList
+                Dim row As GridViewDataRowInfo = Me.RadGridView2.Rows.AddNew()
+                PopulateRow(p, row)
+            Next
+            Dim i As Integer = 1
+            For Each row As GridViewDataRowInfo In Me.RadGridView2.Rows
+                row.Cells("Linenumber").Value = i
+                i += 1
+            Next
+            Me.RadGridView2.GridElement.EndUpdate(True)
+            m_tableInitialized2 = True
+        End Sub
 
-    Public Sub PopulateRow(ByVal p As PaymentForList, ByVal tr As GridViewDataRowInfo)
-      If tr Is Nothing Then
-        Return
-      End If
+        Public Sub PopulateRow(ByVal p As PaymentForList, ByVal tr As GridViewDataRowInfo)
+            If tr Is Nothing Then
+                Return
+            End If
 
-      If tr.ViewTemplate.Columns.Contains("SelectedForDeleted") Then
-        tr.Cells("SelectedForDeleted").Value = p.SelectedForDeleted
-      End If
-      If tr.ViewTemplate.Columns.Contains("Selected") Then
-        tr.Cells("Selected").Value = p.Selected
-      End If
-      tr.Cells("PaymentCode").Value = p.Code
-      tr.Cells("RefCode").Value = p.RefCode
-      tr.Cells("RefType").Value = p.RefType
-      tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
-      tr.Cells("RefAmount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
-      Dim remain As Decimal = p.RefRemain
-      If Not p.JustAdded Then
-        remain += p.Amount
-      End If
-      tr.Cells("Remain").Value = Configuration.FormatToString(remain, DigitConfig.Price)
-      tr.Cells("Amount").Value = Configuration.FormatToString(p.Amount, DigitConfig.Price)
+            If tr.ViewTemplate.Columns.Contains("SelectedForDeleted") Then
+                tr.Cells("SelectedForDeleted").Value = p.SelectedForDeleted
+            End If
+            If tr.ViewTemplate.Columns.Contains("Selected") Then
+                tr.Cells("Selected").Value = p.Selected
+            End If
+            tr.Cells("PaymentCode").Value = p.Code
+            tr.Cells("RefCode").Value = p.RefCode
+            tr.Cells("RefType").Value = p.RefType
+            tr.Cells("RefDueDate").Value = p.RefDueDate.ToShortDateString
+            tr.Cells("RefAmount").Value = Configuration.FormatToString(p.RefAmount, DigitConfig.Price)
+            Dim remain As Decimal = p.RefRemain
+            If Not p.JustAdded Then
+                remain += p.Amount
+            End If
+            tr.Cells("Remain").Value = Configuration.FormatToString(remain, DigitConfig.Price)
+            tr.Cells("Amount").Value = Configuration.FormatToString(p.Amount, DigitConfig.Price)
 
-      tr.Tag = p
+            tr.Tag = p
 
-    End Sub
+        End Sub
 
 #Region "ISimpleEntityPanel"
-    Public Overrides Sub Initialize()
-      Me.RadGridView2.MasterGridViewTemplate.AllowAddNewRow = False
-      Me.RadGridView2.MasterGridViewTemplate.AllowDragToGroup = False
-      Me.RadGridView2.ShowGroupPanel = False
-      GetColumns(RadGridView2, False)
-    End Sub
+        Public Overrides Sub Initialize()
+            Me.RadGridView2.MasterGridViewTemplate.AllowAddNewRow = False
+            Me.RadGridView2.MasterGridViewTemplate.AllowDragToGroup = False
+            Me.RadGridView2.ShowGroupPanel = False
+            GetColumns(RadGridView2, False)
+        End Sub
 
-    Protected Overrides Sub EventWiring()
-      AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
+        Protected Overrides Sub EventWiring()
+            AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtIssueDate.Validated, AddressOf Me.ChangeProperty
-      AddHandler dtpIssueDate.ValueChanged, AddressOf Me.ChangeProperty
+            AddHandler txtIssueDate.Validated, AddressOf Me.ChangeProperty
+            AddHandler dtpIssueDate.ValueChanged, AddressOf Me.ChangeProperty
 
-      AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtBankAccountCode.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtSupplierCode.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtBankAccountCode.Validated, AddressOf Me.ChangeProperty
 
-      AddHandler txtAmount.TextChanged, AddressOf Me.ChangeProperty
-      AddHandler txtAmount.Validated, AddressOf Me.NumberTextBoxChange
+            AddHandler txtAmount.TextChanged, AddressOf Me.ChangeProperty
+            AddHandler txtAmount.Validated, AddressOf Me.NumberTextBoxChange
 
-      AddHandler cmbExportType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+            AddHandler cmbExportType.SelectedIndexChanged, AddressOf Me.ChangeProperty
 
-    End Sub
-    ' ตรวจสอบสถานะของฟอร์ม
-    Public Overrides Sub CheckFormEnable()
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      If Me.m_entity.Status.Value = 0 _
-          OrElse Me.m_entity.Status.Value >= 3 Then   '{-1 ยังไม่บันทึก, 0 ยกเลิก  , 1 ในมือ  , 2 เช็คผ่าน }
-        For Each ctrl As Control In grbBankTransferOut.Controls
-          If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
-            'MessageBox.Show(Me.m_entity.Supplier.Id)
-            If ctrl.Name = "txtrecipient" And Me.m_entity.Supplier.invisible = True Then   'เช็คว่าเป็นเงินสดย่อยถึงให้เปลี่ยนชื่อคนรับได้ 
-              'MessageBox.Show(ctrl.Name & " isTrue")
-            Else
-              ctrl.Enabled = False
-              'MessageBox.Show(ctrl.Name & " isFalse")
+        End Sub
+        ' ตรวจสอบสถานะของฟอร์ม
+        Public Overrides Sub CheckFormEnable()
+            If Me.m_entity Is Nothing Then
+                Return
             End If
-          End If
-        Next
-        dtpIssueDate.Enabled = False
-        txtBankAccountCode.Enabled = False
-        btnBankAccountFind.Enabled = False
-        btnBankAccountEdit.Enabled = False
-        'If m_entity.Status.Value = 3 AndAlso m_entity.DocStatus.Value <> 2 Then 'ยังไม่ผ่าน
-        '  txtNote.Enabled = True
-        '  If CBool(Configuration.GetConfig("CanEditBankTransferOutRecipient")) Then
-        '    txtrecipient.Enabled = True
-        '  End If
-        'End If
-      Else
-        For Each ctrl As Control In grbBankTransferOut.Controls
-          If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
-            ctrl.Enabled = True
-          End If
-        Next
-        dtpIssueDate.Enabled = True
-        txtBankAccountCode.Enabled = True
-        btnBankAccountFind.Enabled = True
-        btnBankAccountEdit.Enabled = True
-      End If
-      Me.ibtnBlank.Enabled = True
-      Me.ibtnDelRow.Enabled = True
-      Me.btnExport.Enabled = True
-    End Sub
+            If Me.m_entity.Status.Value = 0 _
+                OrElse Me.m_entity.Status.Value >= 3 Then   '{-1 ยังไม่บันทึก, 0 ยกเลิก  , 1 ในมือ  , 2 เช็คผ่าน }
+                For Each ctrl As Control In grbBankTransferOut.Controls
+                    If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
+                        'MessageBox.Show(Me.m_entity.Supplier.Id)
+                        If ctrl.Name = "txtrecipient" And Me.m_entity.Supplier.invisible = True Then   'เช็คว่าเป็นเงินสดย่อยถึงให้เปลี่ยนชื่อคนรับได้ 
+                            'MessageBox.Show(ctrl.Name & " isTrue")
+                        Else
+                            ctrl.Enabled = False
+                            'MessageBox.Show(ctrl.Name & " isFalse")
+                        End If
+                    End If
+                Next
+                dtpIssueDate.Enabled = False
+                txtBankAccountCode.Enabled = False
+                btnBankAccountFind.Enabled = False
+                btnBankAccountEdit.Enabled = False
+                'If m_entity.Status.Value = 3 AndAlso m_entity.DocStatus.Value <> 2 Then 'ยังไม่ผ่าน
+                '  txtNote.Enabled = True
+                '  If CBool(Configuration.GetConfig("CanEditBankTransferOutRecipient")) Then
+                '    txtrecipient.Enabled = True
+                '  End If
+                'End If
+            Else
+                For Each ctrl As Control In grbBankTransferOut.Controls
+                    If TypeOf ctrl Is TextBox OrElse TypeOf ctrl Is CheckBox OrElse TypeOf ctrl Is Button Then
+                        ctrl.Enabled = True
+                    End If
+                Next
+                dtpIssueDate.Enabled = True
+                txtBankAccountCode.Enabled = True
+                btnBankAccountFind.Enabled = True
+                btnBankAccountEdit.Enabled = True
+            End If
+            Me.ibtnBlank.Enabled = True
+            Me.ibtnDelRow.Enabled = True
+            Me.btnExport.Enabled = True
+        End Sub
 
-    ' เคลียร์ข้อมูลใน control
-    Public Overrides Sub ClearDetail()
-      For Each ctrl As Control In grbBankTransferOut.Controls
-        If TypeOf ctrl Is TextBox Then
-          ctrl.Text = ""
-        End If
-      Next
+        ' เคลียร์ข้อมูลใน control
+        Public Overrides Sub ClearDetail()
+            For Each ctrl As Control In grbBankTransferOut.Controls
+                If TypeOf ctrl Is TextBox Then
+                    ctrl.Text = ""
+                End If
+            Next
 
-      txtIssueDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
+            txtIssueDate.Text = Me.StringParserService.Parse("${res:Global.BlankDateText}")
 
-      dtpIssueDate.Value = Date.Now
+            dtpIssueDate.Value = Date.Now
 
-      cmbExportType.SelectedIndex = 0
-      cmbExportType.SelectedIndex = 0
-    End Sub
+            cmbExportType.SelectedIndex = 0
+            cmbExportType.SelectedIndex = 0
+        End Sub
 
-    ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
-    Public Overrides Sub UpdateEntityProperties()
-      m_isInitialized = False
-      ClearDetail()
+        ' แสดงค่าข้อมูลลงใน control ที่อยู่บนฟอร์ม
+        Public Overrides Sub UpdateEntityProperties()
+            m_isInitialized = False
+            ClearDetail()
 
-      If m_entity Is Nothing Then
-        Return
-      End If
+            If m_entity Is Nothing Then
+                Return
+            End If
 
-      ' ทำการผูก Property ต่าง ๆ เข้ากับ control
-      With Me
-        .txtCode.Text = .m_entity.Code
-        ' autogencode 
-        m_oldCode = m_entity.Code
-        Me.chkAutorun.Checked = Me.m_entity.AutoGen
-        Me.UpdateAutogenStatus()
+            ' ทำการผูก Property ต่าง ๆ เข้ากับ control
+            With Me
+                .txtCode.Text = .m_entity.Code
+                ' autogencode 
+                m_oldCode = m_entity.Code
+                Me.chkAutorun.Checked = Me.m_entity.AutoGen
+                Me.UpdateAutogenStatus()
 
-        dtpIssueDate.Value = MinDateToNow(Me.m_entity.DocDate)
-        txtIssueDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
+                dtpIssueDate.Value = MinDateToNow(Me.m_entity.DocDate)
+                txtIssueDate.Text = MinDateToNull(Me.m_entity.DocDate, Me.StringParserService.Parse("${res:Global.BlankDateText}"))
 
 
-        cmbExportType.Text = m_entity.ExportType.ToUpper
+                cmbExportType.Text = m_entity.ExportType.ToUpper
 
-        txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+                txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
 
-        'txtNote.Text = .m_entity.Note
+                'txtNote.Text = .m_entity.Note
 
-        If Not .m_entity.Supplier Is Nothing Then
-          txtSupplierCode.Text = .m_entity.Supplier.Code
-          txtSupplierName.Text = .m_entity.Supplier.Name
-        End If
+                If Not .m_entity.Supplier Is Nothing Then
+                    txtSupplierCode.Text = .m_entity.Supplier.Code
+                    txtSupplierName.Text = .m_entity.Supplier.Name
+                End If
 
-        If Not .m_entity.BankAccount Is Nothing Then
-          txtBankAccountCode.Text = .m_entity.BankAccount.Code
-          txtBankAccountName.Text = .m_entity.BankAccount.Name
-          SetBankBranch()
-        End If
-        
-      End With
+                If Not .m_entity.BankAccount Is Nothing Then
+                    txtBankAccountCode.Text = .m_entity.BankAccount.Code
+                    txtBankAccountName.Text = .m_entity.BankAccount.Name
+                    SetBankBranch()
+                End If
 
-      Me.RefreshSelectedItems()
+            End With
 
-      UpdateAmount()
+            Me.RefreshSelectedItems()
 
-      SetStatus()
-      CheckFormEnable()
-      SetLabelText()
+            UpdateAmount()
 
-      m_isInitialized = True
-    End Sub
-    Private Sub SetStatus()
-      If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
-        " " & m_entity.CancelDate.ToShortTimeString & _
-        "  โดย:" & m_entity.CancelPerson.Name
-      ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
-        " " & m_entity.LastEditDate.ToShortTimeString & _
-        "  โดย:" & m_entity.LastEditor.Name
-      ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
-        lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
-        " " & m_entity.OriginDate.ToShortTimeString & _
-        "  โดย:" & m_entity.Originator.Name
-      Else
-        lblStatus.Text = "ยังไม่ได้บันทึก"
-      End If
-    End Sub
+            SetStatus()
+            CheckFormEnable()
+            SetLabelText()
 
-    Public Sub NumberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
-        Return
-      End If
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txtamount"
-          txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
-      End Select
-    End Sub
-    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean
-      Select Case CType(sender, Control).Name.ToLower
-        Case "cmbexporttype"
-          Me.m_entity.ExportType = Me.cmbExportType.Text.ToUpper
-          dirtyFlag = True
-        Case "txtcode"
-          Me.m_entity.Code = Me.txtCode.Text
-          dirtyFlag = True
-        Case "dtpissuedate"
-          txtIssueDate.Text = MinDateToNull(dtpIssueDate.Value, "")
-          Me.m_entity.DocDate = Me.dtpIssueDate.Value
-          dirtyFlag = True
+            m_isInitialized = True
+        End Sub
+        Private Sub SetStatus()
+            If Not IsNothing(m_entity.CancelDate) And Not m_entity.CancelDate.Equals(Date.MinValue) Then
+                lblStatus.Text = "ยกเลิก: " & m_entity.CancelDate.ToShortDateString & _
+                " " & m_entity.CancelDate.ToShortTimeString & _
+                "  โดย:" & m_entity.CancelPerson.Name
+            ElseIf Not IsNothing(m_entity.LastEditDate) And Not m_entity.LastEditDate.Equals(Date.MinValue) Then
+                lblStatus.Text = "แก้ไขล่าสุด: " & m_entity.LastEditDate.ToShortDateString & _
+                " " & m_entity.LastEditDate.ToShortTimeString & _
+                "  โดย:" & m_entity.LastEditor.Name
+            ElseIf Not IsNothing(m_entity.OriginDate) And Not m_entity.OriginDate.Equals(Date.MinValue) Then
+                lblStatus.Text = "เพิ่มเข้าสู่ระบบ: " & m_entity.OriginDate.ToShortDateString & _
+                " " & m_entity.OriginDate.ToShortTimeString & _
+                "  โดย:" & m_entity.Originator.Name
+            Else
+                lblStatus.Text = "ยังไม่ได้บันทึก"
+            End If
+        End Sub
 
-        Case "txtissuedate"
-          Dim dt As DateTime = StringToDate(txtIssueDate, dtpIssueDate)
-          Me.m_entity.DocDate = dt
-          dirtyFlag = True
+        Public Sub NumberTextBoxChange(ByVal sender As Object, ByVal e As EventArgs)
+            If Me.m_entity Is Nothing Or Not m_isInitialized Then
+                Return
+            End If
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txtamount"
+                    txtAmount.Text = Configuration.FormatToString(Me.m_entity.Amount, DigitConfig.Price)
+            End Select
+        End Sub
+        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+            If Me.m_entity Is Nothing Or Not m_isInitialized Then
+                Return
+            End If
+            Dim dirtyFlag As Boolean
+            Select Case CType(sender, Control).Name.ToLower
+                Case "cmbexporttype"
+                    Me.m_entity.ExportType = Me.cmbExportType.Text.ToUpper
+                    dirtyFlag = True
+                Case "txtcode"
+                    Me.m_entity.Code = Me.txtCode.Text
+                    dirtyFlag = True
+                Case "dtpissuedate"
+                    txtIssueDate.Text = MinDateToNull(dtpIssueDate.Value, "")
+                    Me.m_entity.DocDate = Me.dtpIssueDate.Value
+                    dirtyFlag = True
 
-        Case "txtamount"
-          If txtAmount.TextLength > 0 Then
-            Me.m_entity.Amount = CDec(Me.txtAmount.Text)
-          Else
-            Me.m_entity.Amount = Nothing
-          End If
-          'UpdateAmount()
-          dirtyFlag = True
+                Case "txtissuedate"
+                    Dim dt As DateTime = StringToDate(txtIssueDate, dtpIssueDate)
+                    Me.m_entity.DocDate = dt
+                    dirtyFlag = True
 
-          'Case "txtnote"
-          '  Me.m_entity.Note = Me.txtNote.Text
-          '  dirtyFlag = True
+                Case "txtamount"
+                    If txtAmount.TextLength > 0 Then
+                        Me.m_entity.Amount = CDec(Me.txtAmount.Text)
+                    Else
+                        Me.m_entity.Amount = Nothing
+                    End If
+                    'UpdateAmount()
+                    dirtyFlag = True
 
-        Case "txtbankaccountcode"
-          dirtyFlag = BankAccount.GetBankAccount(txtBankAccountCode, txtBankAccountName, Me.m_entity.BankAccount)
-          SetBankBranch()
+                    'Case "txtnote"
+                    '  Me.m_entity.Note = Me.txtNote.Text
+                    '  dirtyFlag = True
 
-        Case "txtsuppliercode"
-          dirtyFlag = Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
-      End Select
+                Case "txtbankaccountcode"
+                    dirtyFlag = BankAccount.GetBankAccount(txtBankAccountCode, txtBankAccountName, Me.m_entity.BankAccount)
+                    SetBankBranch()
 
-      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+                Case "txtsuppliercode"
+                    dirtyFlag = Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+            End Select
 
-      SetStatus()
-      'CheckFormEnable()
+            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
-    End Sub
+            SetStatus()
+            'CheckFormEnable()
 
-    Public Overrides Property Entity() As ISimpleEntity
-      Get
-        Return Me.m_entity
-      End Get
-      Set(ByVal Value As ISimpleEntity)
-        Me.m_entity = CType(Value, BankTransferOut)
-        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-        UpdateEntityProperties()
-        EventWiring()
-      End Set
-    End Property
+        End Sub
+
+        Public Overrides Property Entity() As ISimpleEntity
+            Get
+                Return Me.m_entity
+            End Get
+            Set(ByVal Value As ISimpleEntity)
+                Me.m_entity = CType(Value, BankTransferOut)
+                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+                UpdateEntityProperties()
+                EventWiring()
+            End Set
+        End Property
 
 #End Region
 
 #Region "IReversibleEntityProperty"
-    Public Sub RevertProperties() Implements IReversibleEntityProperty.RevertProperties
+        Public Sub RevertProperties() Implements IReversibleEntityProperty.RevertProperties
 
-    End Sub
+        End Sub
 
-    Public Sub SaveProperties() Implements IReversibleEntityProperty.SaveProperties
+        Public Sub SaveProperties() Implements IReversibleEntityProperty.SaveProperties
 
-    End Sub
+        End Sub
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
-      Get
-        Return Me.Validator
-      End Get
-    End Property
+        Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+            Get
+                Return Me.Validator
+            End Get
+        End Property
 #End Region
 
 #Region "IClipboardHandler Overrides"
-    Public Overrides ReadOnly Property EnablePaste() As Boolean
-      Get
-        Dim data As IDataObject = Clipboard.GetDataObject
-        If data.GetDataPresent((New Supplier).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtsuppliercode", "txtsuppliername"
-                Return True
-            End Select
-          End If
-        End If
-        If data.GetDataPresent((New BankAccount).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtbankaccountcode", "txtbankaccountname"
-                Return True
-            End Select
-          End If
-        End If
-        Return False
-      End Get
-    End Property
-    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim data As IDataObject = Clipboard.GetDataObject
-      If data.GetDataPresent((New Supplier).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
-        Dim entity As New Supplier(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtsuppliercode", "txtsuppliername"
-              Me.SetSupplierDialog(entity)
-          End Select
-        End If
-      End If
-      If data.GetDataPresent((New BankAccount).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New BankAccount).FullClassName))
-        Dim entity As New BankAccount(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtbankaccountcode", "txtbankaccountname"
-              Me.SetBankAccountDialog(entity)
-          End Select
-        End If
-      End If
-    End Sub
+        Public Overrides ReadOnly Property EnablePaste() As Boolean
+            Get
+                Dim data As IDataObject = Clipboard.GetDataObject
+                If data.GetDataPresent((New Supplier).FullClassName) Then
+                    If Not Me.ActiveControl Is Nothing Then
+                        Select Case Me.ActiveControl.Name.ToLower
+                            Case "txtsuppliercode", "txtsuppliername"
+                                Return True
+                        End Select
+                    End If
+                End If
+                If data.GetDataPresent((New BankAccount).FullClassName) Then
+                    If Not Me.ActiveControl Is Nothing Then
+                        Select Case Me.ActiveControl.Name.ToLower
+                            Case "txtbankaccountcode", "txtbankaccountname"
+                                Return True
+                        End Select
+                    End If
+                End If
+                Return False
+            End Get
+        End Property
+        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+            Dim data As IDataObject = Clipboard.GetDataObject
+            If data.GetDataPresent((New Supplier).FullClassName) Then
+                Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
+                Dim entity As New Supplier(id)
+                If Not Me.ActiveControl Is Nothing Then
+                    Select Case Me.ActiveControl.Name.ToLower
+                        Case "txtsuppliercode", "txtsuppliername"
+                            Me.SetSupplierDialog(entity)
+                    End Select
+                End If
+            End If
+            If data.GetDataPresent((New BankAccount).FullClassName) Then
+                Dim id As Integer = CInt(data.GetData((New BankAccount).FullClassName))
+                Dim entity As New BankAccount(id)
+                If Not Me.ActiveControl Is Nothing Then
+                    Select Case Me.ActiveControl.Name.ToLower
+                        Case "txtbankaccountcode", "txtbankaccountname"
+                            Me.SetBankAccountDialog(entity)
+                    End Select
+                End If
+            End If
+        End Sub
 #End Region
 
 #Region " Autogencode"
-    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-      UpdateAutogenStatus()
-    End Sub
-    Private m_oldCode As String = ""
-    Private Sub UpdateAutogenStatus()
-      If Me.chkAutorun.Checked Then
-        Me.Validator.SetRequired(Me.txtCode, False)
-        Me.ErrorProvider1.SetError(Me.txtCode, "")
-        Me.txtCode.ReadOnly = True
-        m_oldCode = Me.txtCode.Text
-        Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-        'Hack: set Code เป็น "" เอง
-        Me.m_entity.Code = ""
-        Me.m_entity.AutoGen = True
-      Else
-        Me.Validator.SetRequired(Me.txtCode, True)
-        Me.txtCode.Text = m_oldCode
-        Me.txtCode.ReadOnly = False
-        Me.m_entity.AutoGen = False
-      End If
-    End Sub
+        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+            UpdateAutogenStatus()
+        End Sub
+        Private m_oldCode As String = ""
+        Private Sub UpdateAutogenStatus()
+            If Me.chkAutorun.Checked Then
+                Me.Validator.SetRequired(Me.txtCode, False)
+                Me.ErrorProvider1.SetError(Me.txtCode, "")
+                Me.txtCode.ReadOnly = True
+                m_oldCode = Me.txtCode.Text
+                Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
+                'Hack: set Code เป็น "" เอง
+                Me.m_entity.Code = ""
+                Me.m_entity.AutoGen = True
+            Else
+                Me.Validator.SetRequired(Me.txtCode, True)
+                Me.txtCode.Text = m_oldCode
+                Me.txtCode.ReadOnly = False
+                Me.m_entity.AutoGen = False
+            End If
+        End Sub
 #End Region
 
 #Region " Event of Button controls "
-    Private Sub btnSupplierFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSupplierFind.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplierDialog)
-    End Sub
+        Private Sub btnSupplierFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSupplierFind.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenListDialog(New Supplier, AddressOf SetSupplierDialog)
+        End Sub
 
-    Private Sub SetSupplierDialog(ByVal e As ISimpleEntity)
-      Me.txtSupplierCode.Text = e.Code
-      Me.WorkbenchWindow.ViewContent.IsDirty = _
-          Me.WorkbenchWindow.ViewContent.IsDirty Or _
-          Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
-      Dim tmp As Boolean = m_isInitialized
-    End Sub
+        Private Sub SetSupplierDialog(ByVal e As ISimpleEntity)
+            Me.txtSupplierCode.Text = e.Code
+            Me.WorkbenchWindow.ViewContent.IsDirty = _
+                Me.WorkbenchWindow.ViewContent.IsDirty Or _
+                Supplier.GetSupplier(txtSupplierCode, txtSupplierName, Me.m_entity.Supplier, True)
+            Dim tmp As Boolean = m_isInitialized
+        End Sub
 
-    Private Sub btnBankAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBankAccountFind.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountDialog)
-    End Sub
+        Private Sub btnBankAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBankAccountFind.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenListDialog(New BankAccount, AddressOf SetBankAccountDialog)
+        End Sub
 
-    Private Sub SetBankAccountDialog(ByVal e As ISimpleEntity)
-      Me.txtBankAccountCode.Text = e.Code
-      Me.WorkbenchWindow.ViewContent.IsDirty = _
-          Me.WorkbenchWindow.ViewContent.IsDirty Or _
-          BankAccount.GetBankAccount(txtBankAccountCode, txtBankAccountName, Me.m_entity.BankAccount)
-      SetBankBranch()
-    End Sub
+        Private Sub SetBankAccountDialog(ByVal e As ISimpleEntity)
+            Me.txtBankAccountCode.Text = e.Code
+            Me.WorkbenchWindow.ViewContent.IsDirty = _
+                Me.WorkbenchWindow.ViewContent.IsDirty Or _
+                BankAccount.GetBankAccount(txtBankAccountCode, txtBankAccountName, Me.m_entity.BankAccount)
+            SetBankBranch()
+        End Sub
 
-    Private Sub btnSupplierEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSupplierEdit.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New Supplier)
-    End Sub
+        Private Sub btnSupplierEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSupplierEdit.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenPanel(New Supplier)
+        End Sub
 
-    Private Sub btnBankAccountEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBankAccountEdit.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New BankAccount)
-    End Sub
+        Private Sub btnBankAccountEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBankAccountEdit.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenPanel(New BankAccount)
+        End Sub
 #End Region
 
-    Private Sub UpdateAmount()
-      Dim flag As Boolean = m_isInitialized
-      m_isInitialized = False
-      txtTotal.Text = Configuration.FormatToString(m_entity.GetRemain, DigitConfig.Price)
-      txtAmount.Text = Configuration.FormatToString(m_entity.Amount, DigitConfig.Price)
-      m_isInitialized = flag
-    End Sub
-    Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      Dim f As New PaymentList
-      f.SetSupplier(Me.m_entity.Supplier)
-      f.SetBankAccount(Me.m_entity.BankAccount)
-      f.SetType(65)
-      If f.ShowDialog() = DialogResult.OK Then
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-        Dim list As List(Of PaymentForList) = f.Selected
-        If Not list Is Nothing Then
-          Dim originalSum As Decimal = m_entity.GetSum
-          For Each p As PaymentForList In list
-            If Not m_entity.PaymentList.Contains(p) Then
-              p.Amount = p.RefRemain
-              p.JustAdded = True
-              originalSum += p.Amount
-              If m_entity.Amount < originalSum Then
-                If MessageBox.Show("ยอดเกินจำนวนเงินโอน ท่านต้องการปรับยอดเงินหรือไม่?", "ยอดเกิน", MessageBoxButtons.YesNo) = DialogResult.Yes Then
-                  m_entity.Amount = originalSum
-                Else
-                  Exit For
+        Private Sub UpdateAmount()
+            Dim flag As Boolean = m_isInitialized
+            m_isInitialized = False
+            txtTotal.Text = Configuration.FormatToString(m_entity.GetRemain, DigitConfig.Price)
+            txtAmount.Text = Configuration.FormatToString(m_entity.Amount, DigitConfig.Price)
+            m_isInitialized = flag
+        End Sub
+        Private Sub ibtnBlank_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+            Dim f As New PaymentList
+            f.SetSupplier(Me.m_entity.Supplier)
+            f.SetBankAccount(Me.m_entity.BankAccount)
+            f.SetType(65)
+            If f.ShowDialog() = DialogResult.OK Then
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+                Dim list As List(Of PaymentForList) = f.Selected
+                If Not list Is Nothing Then
+                    Dim originalSum As Decimal = m_entity.GetSum
+                    For Each p As PaymentForList In list
+                        If Not m_entity.PaymentList.Contains(p) Then
+                            p.Amount = p.RefRemain
+                            p.JustAdded = True
+                            originalSum += p.Amount
+                            If m_entity.Amount < originalSum Then
+                                If MessageBox.Show("ยอดเกินจำนวนเงินโอน ท่านต้องการปรับยอดเงินหรือไม่?", "ยอดเกิน", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                                    m_entity.Amount = originalSum
+                                Else
+                                    Exit For
+                                End If
+                            End If
+                            m_entity.PaymentList.Add(p)
+                        End If
+                    Next
                 End If
-              End If
-              m_entity.PaymentList.Add(p)
             End If
-          Next
-        End If
-      End If
-      RefreshSelectedItems()
-      UpdateAmount()
-    End Sub
-    Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      Dim deleted As New List(Of PaymentForList)
-      For Each p As PaymentForList In m_entity.PaymentList
-        If p.SelectedForDeleted Then
-          deleted.Add(p)
-        End If
-      Next
-      For Each p As PaymentForList In deleted
-        p.SelectedForDeleted = False
-        If p.JustAdded Then
-          m_entity.PaymentList.Remove(p)
-        End If
-      Next
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      RefreshSelectedItems()
-      UpdateAmount()
-    End Sub
-    Private m_updating2 As Boolean = False
-    Private Sub RadGridView2_CellValidating(ByVal sender As Object, ByVal e As CellValidatingEventArgs) Handles RadGridView2.CellValidating
-      Dim column As GridViewDataColumn = TryCast(e.Column, GridViewDataColumn)
-      If e.Row Is Nothing Then
-        Return
-      End If
-      If Not TypeOf e.Row Is GridViewDataRowInfo OrElse column Is Nothing Then
-        Return
-      End If
-      If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then
-        Return
-      End If
-      If Not Me.m_tableInitialized2 Then
-        Return
-      End If
-      Dim p As PaymentForList = CType(e.Row.Tag, PaymentForList)
-      If m_updating2 Then
-        Return
-      End If
-      m_updating2 = True
-      If Not e.Value Is Nothing Then
-        Select Case column.FieldName.ToLower
-          Case "selectedfordeleted"
-            p.SelectedForDeleted = e.Value
-          Case Else
-        End Select
-      End If
-      m_updating2 = False
-    End Sub
-    Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
-      Dim myOpb As New SaveFileDialog
-      myOpb.Filter = "Text file|*.txt|All Files|*.*"
-      myOpb.FilterIndex = 1
+            RefreshSelectedItems()
+            UpdateAmount()
+        End Sub
+        Private Sub ibtnDelRow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+            Dim deleted As New List(Of PaymentForList)
+            For Each p As PaymentForList In m_entity.PaymentList
+                If p.SelectedForDeleted Then
+                    deleted.Add(p)
+                End If
+            Next
+            For Each p As PaymentForList In deleted
+                p.SelectedForDeleted = False
+                If p.JustAdded Then
+                    m_entity.PaymentList.Remove(p)
+                End If
+            Next
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+            RefreshSelectedItems()
+            UpdateAmount()
+        End Sub
+        Private m_updating2 As Boolean = False
+        Private Sub RadGridView2_CellValidating(ByVal sender As Object, ByVal e As CellValidatingEventArgs) Handles RadGridView2.CellValidating
+            Dim column As GridViewDataColumn = TryCast(e.Column, GridViewDataColumn)
+            If e.Row Is Nothing Then
+                Return
+            End If
+            If Not TypeOf e.Row Is GridViewDataRowInfo OrElse column Is Nothing Then
+                Return
+            End If
+            If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then
+                Return
+            End If
+            If Not Me.m_tableInitialized2 Then
+                Return
+            End If
+            Dim p As PaymentForList = CType(e.Row.Tag, PaymentForList)
+            If m_updating2 Then
+                Return
+            End If
+            m_updating2 = True
+            If Not e.Value Is Nothing Then
+                Select Case column.FieldName.ToLower
+                    Case "selectedfordeleted"
+                        p.SelectedForDeleted = e.Value
+                    Case Else
+                End Select
+            End If
+            m_updating2 = False
+        End Sub
+        Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
+            Dim myOpb As New SaveFileDialog
+            myOpb.Filter = "Text file|*.txt|All Files|*.*"
+            myOpb.FilterIndex = 1
 
-      Dim culture As New Globalization.CultureInfo("en-US", True)
-      Dim exportTime As Date = Date.Now
-      Dim timeString As String = exportTime.ToString("yyyyMMddHHmm", culture)
-      myOpb.FileName = timeString & "-" & m_entity.ExportType.ToUpper & ".txt"
-      If myOpb.ShowDialog() = DialogResult.OK Then
-        Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
-        Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.GetEncoding(874))
-        Try
-          Exporter.Export(m_entity, writer)
-          MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportBankTransferOutDetail.ExportCompleted}"))
-        Catch ex As Exception
-          MessageBox.Show("Error:" & ex.ToString)
-        Finally
-          writer.Close()
-        End Try
-      End If
-    End Sub
-  End Class
+            Dim culture As New Globalization.CultureInfo("en-US", True)
+            Dim exportTime As Date = Date.Now
+            Dim timeString As String = exportTime.ToString("yyyyMMddHHmm", culture)
+            myOpb.FileName = timeString & "-" & m_entity.ExportType.ToUpper & ".txt"
+            If myOpb.ShowDialog() = DialogResult.OK Then
+                Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
+                Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.GetEncoding(874))
+                Try
+                    Exporter.Export(m_entity, writer)
+                    MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportBankTransferOutDetail.ExportCompleted}"))
+                Catch ex As Exception
+                    MessageBox.Show("Error:" & ex.ToString)
+                Finally
+                    writer.Close()
+                End Try
+            End If
+        End Sub
+    End Class
 
 End Namespace
