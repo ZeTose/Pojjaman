@@ -160,7 +160,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Public Overrides Sub SetLabelText()
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
 
-      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.grbMaster}")
+            Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.grbMaster}")
+
+            Me.grbFilter.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.grbFilter}")
+            Me.chkSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportPaymentTrackDetail.chkSupplier}")
 
     End Sub
 
