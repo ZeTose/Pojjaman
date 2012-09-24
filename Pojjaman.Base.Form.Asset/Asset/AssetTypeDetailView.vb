@@ -676,6 +676,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetDisplayName(txtRent, lblRent.Text)
             Me.lblDateInval.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailView.lblDateInval}")
 
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbDetail}")
         End Sub
 #End Region
 

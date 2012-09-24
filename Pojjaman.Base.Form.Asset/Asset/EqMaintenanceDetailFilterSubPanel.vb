@@ -1089,6 +1089,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbPV.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel.grbPV}")
             Me.lblPVStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel.lblPVStart}")
             Me.lblPVEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel.lblPVEnd}")
+
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Pojjaman.Gui.Panels.EqMaintenanceDetailFilterSubPanel.grbDetail}")
         End Sub
         Public Overrides Function GetFilterArray() As Filter()
             Dim arr(12) As Filter

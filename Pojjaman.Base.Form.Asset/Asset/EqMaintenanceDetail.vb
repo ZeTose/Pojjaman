@@ -2132,8 +2132,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblDeliveryPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.lblDeliveryPerson}")
       Me.lblCreditPrd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.lblCreditPrd}")
-      Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
+            Me.lblDay.Text = Me.StringParserService.Parse("${res:Global.DayText}")
 
+            Me.lblTaxAmount.Text = Me.StringParserService.Parse("${res:Global.Tax}")
+            Me.lblWBS.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EqMaintenanceDetail.lblWBS}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Global.Tax}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty
