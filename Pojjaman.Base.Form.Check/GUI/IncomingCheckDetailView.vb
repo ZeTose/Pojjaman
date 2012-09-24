@@ -754,7 +754,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtBankCode, lblBank.Text)
 
       Me.lblCurrency.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      Me.grbIncomingCheck.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.grbIncomingCheck}")
+            Me.grbIncomingCheck.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.grbIncomingCheck}")
+
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.lblItem}")
     End Sub
 #End Region
 
@@ -1146,7 +1148,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       'colNum += 1
 
       Dim gcPaymentCode As New GridViewTextBoxColumn("ReceiveCode")
-      gcPaymentCode.HeaderText = "เลขที่ RV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CBSHeaderText}")
+            gcPaymentCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.ReceiveCode}") '"เลขที่ RV"
       gcPaymentCode.Width = 100
       gcPaymentCode.ReadOnly = True
       grid.Columns.Add(gcPaymentCode)
@@ -1157,7 +1159,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       colNum += 1
 
       Dim gcRefCode As New GridViewTextBoxColumn("RefCode")
-      gcRefCode.HeaderText = "เอกสารอ้างอิง" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.RefCode}") '"เอกสารอ้างอิง"
       gcRefCode.Width = 100
       gcRefCode.ReadOnly = True
       grid.Columns.Add(gcRefCode)
@@ -1168,7 +1170,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       colNum += 1
 
       Dim gcRefId As New GridViewTextBoxColumn("RefId")
-      gcRefId.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefId.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.DescriptionHeaderText}")
       gcRefId.Width = 100
       gcRefId.ReadOnly = True
       gcRefId.IsVisible = False
@@ -1179,14 +1181,14 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       'viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim gcRefTypeId As New GridViewTextBoxColumn("RefTypeId")
-      gcRefTypeId.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefTypeId.HeaderText = "" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.DescriptionHeaderText}")
       gcRefTypeId.Width = 100
       gcRefTypeId.ReadOnly = True
       gcRefTypeId.IsVisible = False
       grid.Columns.Add(gcRefTypeId)
 
       Dim gcRefType As New GridViewTextBoxColumn("RefType")
-      gcRefType.HeaderText = "ประเภท" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.RefType}") '"ประเภท" 
       gcRefType.Width = 100
       gcRefType.ReadOnly = True
       grid.Columns.Add(gcRefType)
@@ -1197,7 +1199,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       colNum += 1
 
       Dim gcRefDueDate As New GridViewTextBoxColumn("RefDueDate")
-      gcRefDueDate.HeaderText = "วันที่ครบกำหนด" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            gcRefDueDate.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.RefDueDate}") '"วันที่ครบกำหนด" 
       gcRefDueDate.Width = 100
       gcRefDueDate.ReadOnly = True
       grid.Columns.Add(gcRefDueDate)
@@ -1208,7 +1210,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       colNum += 1
 
       Dim csRefAmount As New GridViewTextBoxColumn("RefAmount")
-      csRefAmount.HeaderText = "จำนวนเงิน RV" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+            csRefAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.RefAmount}") '"จำนวนเงิน RV" '
       csRefAmount.ReadOnly = True
       csRefAmount.Width = 150
       csRefAmount.TextAlignment = ContentAlignment.MiddleRight
@@ -1220,7 +1222,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim csRemain As New GridViewTextBoxColumn("Remain")
-      csRemain.HeaderText = "คงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+            csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.Remain}") '"คงเหลือ" '
       csRemain.ReadOnly = True
       csRemain.Width = 150
       csRemain.TextAlignment = ContentAlignment.MiddleRight
@@ -1232,7 +1234,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim csAmount As New GridViewTextBoxColumn("Amount")
-      csAmount.HeaderText = "จำนวนรับโดยเช็คนี้" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.AmountHeaderText}")
+            csAmount.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.Amount}") '"จำนวนรับโดยเช็คนี้"
       csAmount.Width = 150
       csAmount.TextAlignment = ContentAlignment.MiddleRight
       csAmount.ReadOnly = True
@@ -1243,7 +1245,7 @@ OrElse Me.m_entity.DocStatus.Value > 3 Then
       viewDef.ColumnGroups(colNum).IsPinned = True
 
       Dim csCheckRemain As New GridViewTextBoxColumn("CheckRemain")
-      csCheckRemain.HeaderText = "มูลค่าเช็คคงเหลือ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BudgetHeaderText}")
+            csCheckRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.IncomingCheckDetailView.CheckRemain}") ' "มูลค่าเช็คคงเหลือ" '
       csCheckRemain.ReadOnly = True
       csCheckRemain.Width = 150
       csCheckRemain.TextAlignment = ContentAlignment.MiddleRight
