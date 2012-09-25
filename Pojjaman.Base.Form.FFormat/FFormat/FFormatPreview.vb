@@ -360,7 +360,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
       Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatPreview.lblCode}")
       Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatPreview.lblName}")
-      Me.lblType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatPreview.lblType}")
+            Me.lblType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatPreview.lblType}")
+
+            Me.lblUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatPreview.lblUnit}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbUnit.SelectedIndexChanged, AddressOf ChangeProperty

@@ -960,7 +960,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.lblType}")
       Me.rdOption.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.rdOption}")
       Me.rdCustom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.rdCustom}")
-      Me.grbCompanyName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.grbCompanyName}")
+            Me.grbCompanyName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.grbCompanyName}")
+
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.FFormatDetailView.lblType}")
+
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbType.SelectedIndexChanged, AddressOf Me.ChangeProperty
