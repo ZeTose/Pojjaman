@@ -1090,6 +1090,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             'Checkbox
             Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VatItemPanelView.chkIncludeChildren}")
+            Me.ChkDocVatGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VatItemPanelView.ChkDocVatGroup}")
+            Me.ChkDocdate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.VatItemPanelView.ChkDocdate}")
+
         End Sub
         Public Sub ShowInPad() Implements ISimplePanel.ShowInPad
 
