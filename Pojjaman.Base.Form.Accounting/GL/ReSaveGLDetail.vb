@@ -416,7 +416,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.chkRecalUnitCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.chkRecalUnitCost}")
       Me.btnOK.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.btnOK}")
       Me.Validator.SetDisplayName(Me.txtDocDateStart, lblDateStart.Text)
-      Me.Validator.SetDisplayName(Me.txtDocDateEnd, lblDateEnd.Text)
+            Me.Validator.SetDisplayName(Me.txtDocDateEnd, lblDateEnd.Text)
+
+            Me.chkOnlyDonHaveAtom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.chkOnlyDonHaveAtom}")
+            Me.grbViews.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.grbViews}")
+            Me.chkAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockSequence.chkAll}")
     End Sub
     Protected Sub EventWiring()
       AddHandler txtDocDateStart.Validated, AddressOf Me.ChangeProperty
