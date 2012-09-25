@@ -286,7 +286,6 @@
     <EmbeddedResource Include="Employee\EmployeeDetailView.resx">
       <DependentUpon>EmployeeDetailView.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="Right\RightDetailView.resx">
       <DependentUpon>RightDetailView.vb</DependentUpon>
     </EmbeddedResource>
@@ -330,7 +329,9 @@
       <DependentUpon>ViewCreatePanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
