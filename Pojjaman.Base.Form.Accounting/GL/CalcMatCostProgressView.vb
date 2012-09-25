@@ -161,7 +161,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMatSum.Size = New System.Drawing.Size(266, 349)
       Me.grbMatSum.TabIndex = 165
       Me.grbMatSum.TabStop = False
-      Me.grbMatSum.Text = " √ÿª¬Õ¥ WIP"
+            Me.grbMatSum.Text = " √ÿª¬Õ¥ WIP"
       '
       'FlowLayoutPanel3
       '
@@ -707,8 +707,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
       Me.grbMatSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grbSummary}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grbDetail}")
-
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grbDetail}")
+            Me.grpWIPSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grpWIPSum}")
+            Me.lblWIPBal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.lblWIPBal}")
+            Me.lblMoveIn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.lblMoveIn}")
+            Me.lblCannotCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.lblCannotCost}")
+            Me.grbMatSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grbMatSum}")
+            Me.lblMatBal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.lblMatBal}")
     End Sub
     Protected Overrides Sub EventWiring()
 

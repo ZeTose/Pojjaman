@@ -1074,6 +1074,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMatSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grbSummary}")
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatOpenningBalanceDetailView.grbDetail}")
 
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.Label1}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.Label2}")
+            Me.lblMoveIn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblMoveIn}")
+            Me.lblMoveOut.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblMoveOut}")
+            Me.lblMatBal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblMatBal}")
+            Me.lblMatSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblMatSum}")
+            Me.grbMatSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.grbMatSum}")
+            Me.lblWIPBF.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblWIPBF}")
+            Me.lblMatSum2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblMatSum}")
+            Me.lblWIPMoveOut.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblWIPMoveOut}")
+            Me.Label4.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.Label4}")
+            Me.grbMatSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.grbMatSum}")
+            Me.lblWIPSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.lblWIPSum}")
+            Me.grpWIPSum.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CalcMatCostView.grpWIPSum}")
     End Sub
     Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
