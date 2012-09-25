@@ -17,7 +17,6 @@ Imports System.Data.SqlClient
 
 Imports Syncfusion.Windows.Forms.Grid
 
-
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class EntityAutoGenView
     Inherits AbstractEntityPanelViewContent
@@ -385,13 +384,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Private Sub Initialize()
 
-      InitGrid()
+            InitGrid()
 
-      PopulateData()
+            SetLabelText()
 
-      PopulateComboBox()
+            PopulateData()
 
-      PopulateGrid()
+            PopulateComboBox()
+
+            PopulateGrid()
 
     End Sub
 
@@ -540,7 +541,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       tgItem(row, col).VerticalAlignment = vAlign
       tgItem(row, col).Text = value
       tgItem(row, col).Font.Bold = bold
-    End Sub
+        End Sub
+
+        Public Sub SetLabelText()
+            'Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.EntityAutoGenView.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbList}")
+        End Sub
 
     '-----------------------------------------------------------------------------------------------
 
