@@ -73,6 +73,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnSaveAsExcel = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkOnlyRemain = New System.Windows.Forms.CheckBox()
       Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox()
       Me.lblAccountEnd = New System.Windows.Forms.Label()
@@ -106,7 +107,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset = New System.Windows.Forms.Button()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.chkOnlyRemain = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -200,6 +200,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.TabStop = False
       Me.grbDetail.Text = "ข้อมูลทั่วไป"
       '
+      'chkOnlyRemain
+      '
+      Me.chkOnlyRemain.Checked = True
+      Me.chkOnlyRemain.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkOnlyRemain.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkOnlyRemain.Location = New System.Drawing.Point(242, 14)
+      Me.chkOnlyRemain.Name = "chkOnlyRemain"
+      Me.chkOnlyRemain.Size = New System.Drawing.Size(154, 24)
+      Me.chkOnlyRemain.TabIndex = 55
+      Me.chkOnlyRemain.Text = "แสดงที่เหลือเท่านั้น"
+      '
       'btnAccountEndFind
       '
       Me.btnAccountEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -282,14 +293,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'chkShowRemainRet
       '
-      Me.chkShowRemainRet.Checked = True
-      Me.chkShowRemainRet.CheckState = System.Windows.Forms.CheckState.Checked
       Me.chkShowRemainRet.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.chkShowRemainRet.Location = New System.Drawing.Point(104, 13)
       Me.chkShowRemainRet.Name = "chkShowRemainRet"
       Me.chkShowRemainRet.Size = New System.Drawing.Size(154, 24)
       Me.chkShowRemainRet.TabIndex = 34
       Me.chkShowRemainRet.Text = "แสดง Retention ทั้งหมด"
+      Me.chkShowRemainRet.Visible = False
       '
       'chkIncludeChildCC
       '
@@ -616,17 +626,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ErrorProvider1
       '
       Me.ErrorProvider1.ContainerControl = Me
-      '
-      'chkOnlyRemain
-      '
-      Me.chkOnlyRemain.Checked = True
-      Me.chkOnlyRemain.CheckState = System.Windows.Forms.CheckState.Checked
-      Me.chkOnlyRemain.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkOnlyRemain.Location = New System.Drawing.Point(242, 14)
-      Me.chkOnlyRemain.Name = "chkOnlyRemain"
-      Me.chkOnlyRemain.Size = New System.Drawing.Size(154, 24)
-      Me.chkOnlyRemain.TabIndex = 55
-      Me.chkOnlyRemain.Text = "แสดงที่เหลือเท่านั้น"
       '
       'RptRetentionFilterSubPanel
       '
