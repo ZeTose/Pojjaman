@@ -287,7 +287,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
         dpi.Value = m_grid(rowIndex, 5).Text
-        dpi.DataType = "System.Integer"
+                dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
         dpi.Level = level
