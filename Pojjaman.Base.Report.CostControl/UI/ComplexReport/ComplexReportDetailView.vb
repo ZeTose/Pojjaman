@@ -843,6 +843,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportDetailView.lblNote}")
             Me.rdOption.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportDetailView.rdOption}")
             Me.rdCustom.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportDetailView.rdCustom}")
+            Me.grbCompanyName.Text = Me.StringParserService.Parse("${res:Global.SupplierText}")
         End Sub
         Protected Overrides Sub EventWiring()
             AddHandler txtCode.TextChanged, AddressOf Me.ChangeProperty

@@ -353,6 +353,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ' GroupBox
             Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSBudgetByCCFilterSubPanel.grbMaster}")
             Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSBudgetByCCFilterSubPanel.grbDetail}")
+            Me.lblReportType.Text = Me.StringParserService.Parse("${res:Global.ReportType}")
 
         End Sub
 #End Region

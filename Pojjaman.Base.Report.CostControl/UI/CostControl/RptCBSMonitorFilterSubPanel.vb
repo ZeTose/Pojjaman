@@ -386,6 +386,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblDocStartDate.Text = Me.StringParserService.Parse("${res:Global.DocStartDate}")
             Me.lblDocEndDate.Text = Me.StringParserService.Parse("${res:Global.DocEndDate}")
             Me.grbViews.Text = Me.StringParserService.Parse("${res:Global.Views}")
+            Me.chkAll.Text = Me.StringParserService.Parse("${res:Global.chkSelectAll}")
+            Me.chkOnlyChecked.Text = Me.StringParserService.Parse("${res:Global.chkOnlyChecked}")
+            Me.chkIncClose.Text = Me.StringParserService.Parse("${res:Global.chkIncClose}")
+
+
     End Sub
 #End Region
 

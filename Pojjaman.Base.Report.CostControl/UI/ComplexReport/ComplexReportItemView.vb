@@ -561,6 +561,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportItemView.lblItem}")
             Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportItemView.lblCode}")
             Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportItemView.lblName}")
+            Me.lblUnderline.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ComplexReportItemView.lblUnderline}")
         End Sub
         Protected Overrides Sub EventWiring()
 

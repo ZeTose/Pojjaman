@@ -418,7 +418,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.grbMaster}")
       Me.grbProject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.grbProject}")
 
-      Me.chkNoDigit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.chkNoDigit}")
+            Me.chkNoDigit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.chkNoDigit}")
+
+            Me.chkAll.Text = Me.StringParserService.Parse("${res:Global.chkSelectAll}")
+            Me.chkOnlyChecked.Text = Me.StringParserService.Parse("${res:Global.chkOnlyChecked}")
+            Me.chkIncClose.Text = Me.StringParserService.Parse("${res:Global.chkIncClose}")
+            Me.btnSearchProject.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+
     End Sub
 #End Region
 
