@@ -141,9 +141,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       myDatatable.Columns.Add(New DataColumn("Barrier", GetType(String)))
 
-      myDatatable.Columns.Add(New DataColumn("UnitCost", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("Unit", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("QtyActualCost", GetType(String)))
+            'myDatatable.Columns.Add(New DataColumn("UnitCost", GetType(String)))
+            'myDatatable.Columns.Add(New DataColumn("Unit", GetType(String)))
+            'myDatatable.Columns.Add(New DataColumn("QtyActualCost", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("BudgetCost", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("ActualCost", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("Diff", GetType(String)))
@@ -308,11 +308,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'End If
       Dim nodigit As Boolean = False
       Dim detailed As Integer = 0
-      If Me.Filters(0).Name.ToLower = "cc_id" Then
-        Me.m_cc = New CostCenter(CInt(Me.Filters(0).Value))
-      Else
-        Me.m_cc = New CostCenter
-      End If
+            If Me.Filters(0).Name.ToLower = "cc_id" AndAlso Not Me.Filters(0).Value Is DBNull.Value Then
+                Me.m_cc = New CostCenter(CInt(Me.Filters(0).Value))
+            Else
+                Me.m_cc = New CostCenter
+            End If
       If Me.Filters(3).Name.ToLower = "detailed" Then
         detailed = CInt(Me.Filters(3).Value)
       End If
@@ -500,9 +500,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                       DocItemTr("cbs_code") = ""
                       DocItemTr("cbs_name") = "(" & itemh.GetValue(Of String)("entitytype") & ") " & itemh.GetValue(Of String)("entitycode") & " : " & itemh.GetValue(Of String)("entitydescription")
-                      DocItemTr("UnitCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("actual"), dgt)
-                      DocItemTr("Unit") = itemh.GetValue(Of String)("unit_name")
-                      DocItemTr("QtyActualCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("qty"), dgt)
+                                            'DocItemTr("UnitCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("actual"), dgt)
+                                            'DocItemTr("Unit") = itemh.GetValue(Of String)("unit_name")
+                                            'DocItemTr("QtyActualCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("qty"), dgt)
                       DocItemTr("ActualCost") = Configuration.FormatToString(itemh.GetValue(Of Decimal)("actual"), dgt)
                       DocItemTr.Tag = itemh.GetValue(Of String)("doctype") & "|" & itemh.GetValue(Of String)("docid")
 
