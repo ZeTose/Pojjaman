@@ -578,6 +578,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.cmbDocStatus.SelectedIndex = 0
             Me.cmbStatus.SelectedIndex = 0
 
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.grbDisplay}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Global.Status}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.Label2}")
+            Me.Label4.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt274FilterSubPanel.Label4}")
+
         End Sub
 #End Region
 

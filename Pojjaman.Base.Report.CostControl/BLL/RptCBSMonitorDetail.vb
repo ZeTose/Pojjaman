@@ -268,7 +268,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       dtcc = Me.DataSet.Tables(0)
 
-      lkg.DefaultBehavior = False
+            lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme

@@ -418,6 +418,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.cmbSortBy.SelectedIndex = 0
 
             Me.lblSortBy.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPOHistoryFilterSubPanel.lblSortBy}")
+            Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Global.SupplierText}")
 
         End Sub
 #End Region
