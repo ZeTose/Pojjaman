@@ -407,9 +407,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.grbDetail}")
 
-      'Me.chkNegativeOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.chkNegativeOnly}")
+            Me.lblLcistart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.lblLcistart}")
+            Me.lblLciend.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.chkNegativeOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.chkNegativeOnly}")
+            Me.chkNoZero.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.chkNoZero}")
+
+            Me.lblToCCend.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            'Me.lblLcistart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.lblLcistart}")
+            'Me.chkNegativeOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.chkNegativeOnly}")
       'Me.chkNoZero.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountFilterSubPanel.chkNoZero}")
     End Sub
 #End Region

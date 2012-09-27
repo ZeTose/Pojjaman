@@ -384,7 +384,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountDetailFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountDetailFilterSubPanel.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptMatCountDetailFilterSubPanel.grbDetail}")
+
+            Me.lblLcistart.Text = Me.StringParserService.Parse("${res:Global.Lcistart}")
+            Me.lblLciend.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+
     End Sub
 #End Region
 
