@@ -346,7 +346,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSuppliEnd.Name = "lblSuppliEnd"
       Me.lblSuppliEnd.Size = New System.Drawing.Size(24, 18)
       Me.lblSuppliEnd.TabIndex = 22
-      Me.lblSuppliEnd.Text = "ถึง"
+            Me.lblSuppliEnd.Text = "ถึง"
       Me.lblSuppliEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
       '
       'btnSuppliStartFind
@@ -748,6 +748,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.cmbDocApprove}")) 'เอกสารสั่งซื้อที่อนุมัติแล้ว
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.cmbDocNoApprove}")) 'เอกสารสั่งซื้อที่ยังไม่อนุมัติ
             Me.cmbStatus.SelectedIndex = 0
+
+            Me.Label3.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.Label3}")
+            Me.Label4.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.Label4}")
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Global.Status}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+
         End Sub
 #End Region
 

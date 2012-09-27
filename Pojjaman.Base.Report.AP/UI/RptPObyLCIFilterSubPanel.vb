@@ -760,8 +760,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkMechine.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.chkMechine}") 'ค่าเช่าเครื่องจักร 
             Me.chkAssets.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.chkAssets}") 'สินทรัพย์
 
-
-
+            Me.lblItemCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.lblItemCode}")
+            Me.lblPOCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.lblPOCode}")
 
         End Sub
 #End Region
