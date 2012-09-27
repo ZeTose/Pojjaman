@@ -1139,8 +1139,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.ToolTip1.SetToolTip(Me.txtPoStart, "คีย์รหัส prefix หรือใส่ comma (""PO%"" หรือ ""PO550001,PO550002"")")
 
       Me.ToolTip1.SetToolTip(Me.txtDocStart, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.txtDocStartToolTip}"))
-      Me.ToolTip1.SetToolTip(Me.txtPoStart, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.txtPoStartTooltip}"))
+            Me.ToolTip1.SetToolTip(Me.txtPoStart, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.txtPoStartTooltip}"))
 
+            Me.lblPOEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblDocEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.lblSuppliEnd}")
+            Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.lblSuppliEnd}")
+            Me.lblPersonReceive.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.lblPersonReceive}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Global.ShowDetail}")
+            Me.lblDocStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.lblDocStart}")
+            Me.lblPOStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.lblPOStart}")
+            Me.lblPORefStatus.Text = Me.StringParserService.Parse("${res:Global.Status}")
+            Me.grbRank.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.grbDetail}")
     End Sub
 #End Region
 

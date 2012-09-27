@@ -642,6 +642,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkWage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisByLciFilterSubPanel.chkWage}") 'ค่าแรง
             Me.chkMechine.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisByLciFilterSubPanel.chkMechine}") 'ค่าเช่าเครื่องจักร 
             Me.chkAssets.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisByLciFilterSubPanel.chkAssets}") 'สินทรัพย์
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
+
         End Sub
 #End Region
 

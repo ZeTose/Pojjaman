@@ -622,7 +622,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblPOStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptCCPOSummaryFilterSubPanel.lblPOStart}")
             Me.lblPOEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
             Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Global.SupplierText}")
-            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${}res:Global.FilterPanelTo")
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
 
         End Sub
 #End Region

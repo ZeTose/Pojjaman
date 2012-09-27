@@ -748,6 +748,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPORemainingQtyFilterSubPanel.cmbDocNoApprove}")) 'เอกสารสั่งซื้อที่ยังไม่อนุมัติ
 
             Me.cmbStatus.SelectedIndex = 0
+
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
         End Sub
 #End Region
 
