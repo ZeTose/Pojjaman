@@ -617,6 +617,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.cmbStatus.SelectedIndex = 0
 
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.lblPOStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptCCPOSummaryFilterSubPanel.lblPOStart}")
+            Me.lblPOEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Global.SupplierText}")
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${}res:Global.FilterPanelTo")
+
         End Sub
 #End Region
 
