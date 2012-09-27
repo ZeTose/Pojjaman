@@ -605,7 +605,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.cmbDocStatus.SelectedIndex = 0
 
       Me.lblLciStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPObyLCIFilterSubPanel.lblLciStart}")
-      Me.Validator.SetDisplayName(txtLciCodeStart, lblLciStart.Text)
+            Me.Validator.SetDisplayName(txtLciCodeStart, lblLciStart.Text)
+
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
         End Sub
 #End Region
 

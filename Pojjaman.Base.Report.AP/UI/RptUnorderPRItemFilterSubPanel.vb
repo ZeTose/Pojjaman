@@ -506,6 +506,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemFilterSubPanel.chkShowDetail}")
             Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemFilterSubPanel.chkIncludeChildren}")
 
+            Me.lblPRStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemFilterSubPanel.lblPRStart}")
+            Me.lblPREnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblEmpStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemFilterSubPanel.lblEmpStart}")
         End Sub
 #End Region
 
