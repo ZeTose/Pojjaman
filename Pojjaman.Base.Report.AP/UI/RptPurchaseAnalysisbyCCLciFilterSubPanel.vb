@@ -776,7 +776,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.grbDetail}")
 
             'Check Type
-            Me.chkTool.Text = "เครื่องมือ"
+            Me.chkTool.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkTool}")
+
+            Me.lblLciStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.lblLciStart}")
+            Me.lblToolStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.lblToolStart}")
+            Me.lblItemCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.lblItemCode}")
+            Me.chkLCI.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkLCI}")
+            Me.chkTool.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkTool}")
+            Me.chkEtc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkEtc}")
+            Me.chkWage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkWage}")
+            Me.chkMechine.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkMechine}")
+            Me.chkAssets.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.chkAssets}")
+            Me.grbTypeDisplay.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPurchaseAnalysisbyCCLciFilterSubPanel.grbTypeDisplay}")
+
         End Sub
 #End Region
 
