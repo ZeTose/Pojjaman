@@ -1044,6 +1044,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.lblPaymentType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.lblPaymentType}")
             Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.chkDetail}")
+            Me.lblOrderBy.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.lblOrderBy}")
+            Me.lblbankacct.Text = Me.StringParserService.Parse("${res:MainMenu.CashBankMenu.BankAccountList}")
+            Me.grbTypeDisplay.Text = Me.StringParserService.Parse("${res:Global.grbTypeDisplay}")
+            Me.chkCash.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.chkCash}")
+            Me.chkPettyCash.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.chkPettyCash}")
+            Me.chkChq.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.chkChq}")
+            Me.chkTransfer.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.chkTransfer}")
+            Me.chkAdvMoney.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPPaymentFilterSubPanel.chkAdvMoney}")
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+
+
         End Sub
 #End Region
 
