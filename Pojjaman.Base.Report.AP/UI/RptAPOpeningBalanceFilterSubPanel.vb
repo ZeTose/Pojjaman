@@ -622,6 +622,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             'Checkbox
             Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPOpeningBalanceFilterSubPanel.chkIncludeChildren}")
+
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPOpeningBalanceFilterSubPanel.lblAccountStart}")
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
         End Sub
 #End Region
 

@@ -665,7 +665,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtSuppliCodeEnd, lblSuppliEnd.Text)
 
       Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+            Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
