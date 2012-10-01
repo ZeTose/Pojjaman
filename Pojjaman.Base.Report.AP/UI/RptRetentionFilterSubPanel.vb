@@ -675,6 +675,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeChildCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRetentionFilterSubPanel.chkIncludeChildCC}")
       Me.chkIncludeChildSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRetentionFilterSubPanel.chkIncludeChildSupplierGroup}")
 
+            Me.chkOnlyRemain.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptRetentionFilterSubPanel.chkOnlyRemain}")
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
     End Sub
 #End Region
 

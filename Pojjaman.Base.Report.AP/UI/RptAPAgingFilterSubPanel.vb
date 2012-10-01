@@ -700,6 +700,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 			Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
 			Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
+            Me.lblTerm.Text = Me.StringParserService.Parse("${res:Global.Term}")
+
 
     End Sub
 #End Region

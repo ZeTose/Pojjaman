@@ -693,8 +693,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt276FilterSubPanel.cmbDocNoApprove}")) 'เอกสารซื้อสินค้า/บริการที่ยังไม่อนุมัติ
             Me.cmbStatus.SelectedIndex = 0
 
-
-
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
 
 
         End Sub
