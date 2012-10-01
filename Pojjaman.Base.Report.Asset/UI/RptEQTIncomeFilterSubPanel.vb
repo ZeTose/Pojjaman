@@ -496,7 +496,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbDetail}")
+
+            Me.Label1.Text = Me.StringParserService.Parse("${res:MainMenu.ItemMenu.ToolList}")
+            Me.lblGroup.Text = Me.StringParserService.Parse("${res:MainMenu.ItemMenu.ToolGroup}")
+            Me.chkIncludeTGChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.chkIncludeTGChildren}")
+            Me.ChkCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.ChkCancel}")
+            Me.lblToolEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
     End Sub
 #End Region
 
