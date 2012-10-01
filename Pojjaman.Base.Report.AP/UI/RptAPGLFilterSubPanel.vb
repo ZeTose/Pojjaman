@@ -734,7 +734,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Checkbox
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPFilterSubPanel.chkIncludeChildren}")
-      Me.chkAPAcctOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel.chkAPAcctOnly}")
+            Me.chkAPAcctOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel.chkAPAcctOnly}")
+
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
     End Sub
 #End Region
 
@@ -810,7 +814,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_sg = Value
       End Set
     End Property
-    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
+        Public Property DocDateEnd() As Date
+            Get
+                Return m_DocDateEnd
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateEnd = Value
+            End Set
+        End Property
+
+        Public Property DocDateStart() As Date
+            Get
+                Return m_DocDateStart
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateStart = Value
+            End Set
+        End Property
 
     Public Property Costcenter() As Costcenter
       Get

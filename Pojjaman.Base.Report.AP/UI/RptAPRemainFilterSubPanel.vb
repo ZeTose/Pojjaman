@@ -669,7 +669,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPRemainFilterSubPanel.chkDetail}")
             Me.chkShowAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPRemainFilterSubPanel.chkShowAll}")
 
-
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
         End Sub
 #End Region
 

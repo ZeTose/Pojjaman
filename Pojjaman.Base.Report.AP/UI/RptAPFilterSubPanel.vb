@@ -683,7 +683,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPFilterSubPanel.lblAccountStart}")
       Me.rdbBillissue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPFilterSubPanel.rdbBillissue}")
-      Me.rdbPaySelection.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPFilterSubPanel.rdbPaySelection}")
+            Me.rdbPaySelection.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPFilterSubPanel.rdbPaySelection}")
+
+
     End Sub
 #End Region
 
