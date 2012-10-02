@@ -740,6 +740,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.cmbDocApprove}")) 'เอกสารสั่งซื้อที่อนุมัติแล้ว
             'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.cmbDocNoApprove}")) 'เอกสารสั่งซื้อที่ยังไม่อนุมัติ
             'Me.cmbStatus.SelectedIndex = 0
+
+            Me.grbMaster.Text = Me.StringParserService.Parse("${res:MainMenu.SubcontractMenu.SC.Description}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.grbDetail}")
+            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Global.DocDateStart}")
+            'Global ถึง
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtSuppliCodeEnd, lblSuppliEnd.Text)
+
+            Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+
+            Me.lblSCCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.lblSCCode}")
+            Me.chkIncludeChildSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.chkIncludeChildSupplierGroup}")
+            Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Global.SubContractorText}")
+            Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Global.CostCenterText}")
+            Me.lblSpgStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.lblSpgStart}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.lblVOCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.lblVOCode}")
+            Me.lblEmployee.Text = Me.StringParserService.Parse("${res:Global.DirectorText}")
+            Me.lblDocStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVOFilterSubPanel.lblDocStatus}")
+            Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
+            Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+
+
+
         End Sub
 #End Region
 

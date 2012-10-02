@@ -482,7 +482,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWRFilterSubPanel.cmbDocAll}")) 'เอกสารสั่งซื้อทั้งหมด
       'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWRFilterSubPanel.cmbDocApprove}")) 'เอกสารสั่งซื้อที่อนุมัติแล้ว
       'Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWRFilterSubPanel.cmbDocNoApprove}")) 'เอกสารสั่งซื้อที่ยังไม่อนุมัติ
-      'Me.cmbStatus.SelectedIndex = 0
+            'Me.cmbStatus.SelectedIndex = 0
+
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+
     End Sub
 #End Region
 
@@ -526,7 +529,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_subcontractor = Value
       End Set
     End Property
-    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
+    Public Property DocDateEnd() As Date
+      Get
+        Return m_DocDateEnd
+      End Get
+      Set(ByVal Value As Date)
+        m_DocDateEnd = Value
+      End Set
+    End Property
+
+    Public Property DocDateStart() As Date
+      Get
+        Return m_DocDateStart
+      End Get
+      Set(ByVal Value As Date)
+        m_DocDateStart = Value
+      End Set
+    End Property
     Public Property SubcontractorGroup() As SupplierGroup
       Get
         Return m_subcontractorgroup
