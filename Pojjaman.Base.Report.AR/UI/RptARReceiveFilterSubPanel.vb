@@ -760,6 +760,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.lblCustomerGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.lblCustomerGroup}")
             Me.chkIncludeChildCust.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildCust}")
+            Me.chkCash.Text = Me.StringParserService.Parse("${res:Global.Cash}")
+            Me.chkChq.Text = Me.StringParserService.Parse("${res:Global.Check}")
+            Me.chkTransfer.Text = Me.StringParserService.Parse("${res:Global.Transfer}")
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+
     End Sub
 #End Region
 

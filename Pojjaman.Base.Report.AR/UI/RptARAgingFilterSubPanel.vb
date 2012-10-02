@@ -697,7 +697,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbDueDateType.SelectedIndex = 0
 
       Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.lblDueDate}")
-      Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.chkDetail}")
+            Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.chkDetail}")
+
+            Me.lblCustomerGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.lblCustomerGroup}")
+            Me.chkIncludeChildCust.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildCust}")
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+            Me.lblTerm.Text = Me.StringParserService.Parse("${res:Global.Term}")
+            Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
+
     End Sub
 #End Region
 

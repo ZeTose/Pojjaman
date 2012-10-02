@@ -654,7 +654,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
       ' GroupBox
-      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptJournalEntryByCCFilterSubPanel.grbMaster}")
+            Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptJournalEntryByCCFilterSubPanel.grbMaster}")
+
+            Me.grbValueType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEstimateMilestoneFilterSubPanel.grbValueType}")
+            Me.rbMiDocdate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEstimateMilestoneFilterSubPanel.rbMiDocdate}")
+            Me.rbBillDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEstimateMilestoneFilterSubPanel.rbBillDate}")
+            Me.rbHandedDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptEstimateMilestoneFilterSubPanel.rbHandedDate}")
+
     End Sub
 #End Region
 
