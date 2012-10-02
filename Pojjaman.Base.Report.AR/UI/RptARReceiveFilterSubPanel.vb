@@ -758,6 +758,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.chkIncludeChildren}")
       Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARReceiveFilterSubPanel.chkShowDetail}")
 
+            Me.lblCustomerGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.lblCustomerGroup}")
+            Me.chkIncludeChildCust.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildCust}")
     End Sub
 #End Region
 

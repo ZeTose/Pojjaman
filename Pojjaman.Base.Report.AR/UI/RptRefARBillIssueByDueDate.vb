@@ -534,7 +534,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Checkbox
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.chkIncludeChildren}")
-      Me.chkShowAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.chkShowAll}")
+            Me.chkShowAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.chkShowAll}")
+
+            Me.lblCustomerGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARBillIssueByDueDateFilterSubPanel.lblCustomerGroup}")
+            Me.chkIncludeChildCust.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildCust}")
     End Sub
 #End Region
 

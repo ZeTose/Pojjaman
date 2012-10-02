@@ -633,6 +633,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
             Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+
             ' Button
             Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
             Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
@@ -646,6 +650,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAREnumerateFilterSubPanel.lblAccountStart}")
             Me.rdbBillissue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAREnumerateFilterSubPanel.rdbBillissue}")
             Me.rdbPaySelection.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAREnumerateFilterSubPanel.rdbPaySelection}")
+
+            Me.chkIncludeChildCust.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildCust}")
+
         End Sub
 #End Region
 
