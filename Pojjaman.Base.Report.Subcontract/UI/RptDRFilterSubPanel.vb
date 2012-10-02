@@ -805,8 +805,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
-      Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
+            Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
+            Me.lblDRCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCFilterSubPanel.lblDRCode}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Global.ShowDetail}")
+            Me.lblFromCCPerson.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCFilterSubPanel.lblFromCCPerson}")
 
     End Sub
 #End Region

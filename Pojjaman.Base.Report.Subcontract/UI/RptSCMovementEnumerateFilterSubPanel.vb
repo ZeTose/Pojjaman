@@ -680,6 +680,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ''Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel.cmbDocApprove}")) 'เอกสารสั่งซื้อที่อนุมัติแล้ว
             ''Me.cmbStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel.cmbDocNoApprove}")) 'เอกสารสั่งซื้อที่ยังไม่อนุมัติ
             ''Me.cmbStatus.SelectedIndex = 0
+
+            Me.grbMaster.Text = Me.StringParserService.Parse("${res:MainMenu.SubcontractMenu.SC.Description}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel.grbDetail}")
+            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Global.DocDateStart}")
+            'Global ถึง
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtSuppliCodeEnd, lblSuppliEnd.Text)
+
+            Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+            Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Global.SubContractorText}")
+            Me.chkIncludeChildSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel.chkIncludeChildSupplierGroup}")
+            Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Global.CostCenterText}")
+            Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
+            Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.lblSpgStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSCMovementEnumerateFilterSubPanel.lblSpgStart}")
+
+
         End Sub
 #End Region
 
