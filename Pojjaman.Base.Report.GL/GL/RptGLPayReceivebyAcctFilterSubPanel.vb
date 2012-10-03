@@ -914,7 +914,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCustG.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel.lblCustG}")
       Me.lblCust.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel.lblCust}")
       Me.lblCust2.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.chkIncludeChildCustG.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel.chkIncludeChildCustG}")
+            Me.chkIncludeChildCustG.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPGLFilterSubPanel.chkIncludeChildCustG}")
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
     End Sub
 #End Region
 

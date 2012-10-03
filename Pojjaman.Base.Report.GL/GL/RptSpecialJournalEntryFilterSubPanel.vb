@@ -522,7 +522,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSpecialJournalEntryFilterSubPanel.grbMaster}")
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSpecialJournalEntryFilterSubPanel.grbDetail}")
 
-      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSpecialJournalEntryFilterSubPanel.lblCCStart}")
+            Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSpecialJournalEntryFilterSubPanel.lblCCStart}")
+
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptSpecialJournalEntryFilterSubPanel.Label2}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+
+
     End Sub
 #End Region
 

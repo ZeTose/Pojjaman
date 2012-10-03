@@ -608,6 +608,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblDocStartDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.lblDocStartDate}")
             Me.lblDocEndDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.lblDocEndDate}")
             Me.grbFilterDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.grbFilterDoc}")
+            Me.grbPeriod.Text = Me.StringParserService.Parse("${res:Global.grbPeriod}")
+            Me.lblDocStartDate.Text = Me.StringParserService.Parse("${res:Global.DocStartDate}")
+            Me.lblDocEndDate.Text = Me.StringParserService.Parse("${res:Global.DocEndDate}")
+
 
     End Sub
 #End Region

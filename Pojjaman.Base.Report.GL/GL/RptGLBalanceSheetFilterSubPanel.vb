@@ -711,7 +711,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLBalanceSheetFilterSubPanel.chkIncludeChildren}")
       Me.chkOnlyPosted.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLBalanceSheetFilterSubPanel.chkOnlyPosted}")
       Me.chkShowSumEachAcct.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLBalanceSheetFilterSubPanel.chkShowSumEachAcct}")
-      Me.chkComputeDrCr.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLBalanceSheetFilterSubPanel.chkComputeDrCr}")
+            Me.chkComputeDrCr.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLBalanceSheetFilterSubPanel.chkComputeDrCr}")
+
+            Me.lblFormat.Text = Me.StringParserService.Parse("${res:MainWindow.Windows.FormatToolBoxLabel}")
+
+
     End Sub
 #End Region
 
