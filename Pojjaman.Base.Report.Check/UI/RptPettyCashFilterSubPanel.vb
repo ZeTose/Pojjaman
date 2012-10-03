@@ -642,7 +642,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPCEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtPCCodeStart, lblPCStart.Text)
 
-      ' Button
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+
+            Me.lblCustEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+
+            ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
       Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
@@ -653,7 +658,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.grbDetail}")
+
+            Me.lblCustStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPettyCashFilterSubPanel.lblCustStart}")
+            Me.chkIncludeChildCC.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildren}")
+            Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Global.ShowDetail}")
 
     End Sub
 #End Region

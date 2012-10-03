@@ -390,7 +390,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.grbMaster}")
       Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.grbDetail}")
 
-      Me.lblDetailed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.chkDetailed}")
+            Me.lblDetailed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.chkDetailed}")
+
+            Me.grbPeriod.Text = Me.StringParserService.Parse("${res:Global.grbPeriod}")
+            Me.lblDocStartDate.Text = Me.StringParserService.Parse("${res:Global.DocStartDate}")
+            Me.lblDocEndDate.Text = Me.StringParserService.Parse("${res:Global.DocEndDate}")
+
     End Sub
 #End Region
 

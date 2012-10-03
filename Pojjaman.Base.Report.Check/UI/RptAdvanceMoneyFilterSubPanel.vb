@@ -535,7 +535,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' Global {ถึง}
       Me.lblAdvmEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.Validator.SetDisplayName(txtAdvmCodeStart, lblAdvmStart.Text)
+            Me.Validator.SetDisplayName(txtAdvmCodeStart, lblAdvmStart.Text)
+
+            Me.lblCustEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
@@ -543,7 +546,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.grbDetail}")
+            Me.lblCustStart.Text = Me.StringParserService.Parse("${res:Global.CustStart}")
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+
+
 
     End Sub
 #End Region
