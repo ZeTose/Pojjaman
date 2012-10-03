@@ -586,7 +586,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Checkbox
       Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.chkIncludeChildren}")
       Me.chkExcludeNoGL.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.chkExcludeNoGL}")
-    End Sub
+
+            Me.chkOnlyRemain.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVatNotDueFilterSubPanel.chkOnlyRemain}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptVatNotDueFilterSubPanel.Label1}")
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+        End Sub
 #End Region
 
 #Region " Member "

@@ -878,6 +878,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkType2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPNDFilterSubPanel.chkType2}")
       Me.chkType3.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPNDFilterSubPanel.chkType3}")
 
+            Me.lblAcctBookStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+            Me.lblAcctBookEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+
     End Sub
 #End Region
 
@@ -903,8 +906,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Properties "
-    Public Property DocDateEnd() As Date      Get        Return m_DocDateEnd      End Get      Set(ByVal Value As Date)        m_DocDateEnd = Value      End Set    End Property    Public Property DocDateStart() As Date      Get        Return m_DocDateStart      End Get      Set(ByVal Value As Date)        m_DocDateStart = Value      End Set    End Property
-    Public Property DocDate() As Date      Get        Return m_DocDate      End Get      Set(ByVal Value As Date)        m_DocDate = Value      End Set    End Property
+        Public Property DocDateEnd() As Date
+            Get
+                Return m_DocDateEnd
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateEnd = Value
+            End Set
+        End Property
+
+        Public Property DocDateStart() As Date
+            Get
+                Return m_DocDateStart
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateStart = Value
+            End Set
+        End Property
+        Public Property DocDate() As Date
+            Get
+                Return m_DocDate
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDate = Value
+            End Set
+        End Property
     Public Property SupplierGroup() As SupplierGroup
       Get
         Return m_suppliergroup

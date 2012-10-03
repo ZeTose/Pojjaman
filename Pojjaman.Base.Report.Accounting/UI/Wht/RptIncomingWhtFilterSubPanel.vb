@@ -851,6 +851,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblSpgStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtFilterSubPanel.lblSpgStart}")
       Me.chkIncludeChildSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtFilterSubPanel.chkIncludeChildSupplierGroup}")
 
+            Me.lblAcctBookStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+            Me.lblAcctBookEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
     End Sub
 #End Region
 

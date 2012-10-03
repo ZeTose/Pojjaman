@@ -625,7 +625,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.grbDocDate}")
       Me.grbFixValue.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.grbFixValue}")
       'Checkbox
-      Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.chkIncludeChildren}")
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.chkIncludeChildren}")
+
+            Me.lblOrderBy.Text = Me.StringParserService.Parse("${res:Global.OrderBy}")
+
     End Sub
 #End Region
 
