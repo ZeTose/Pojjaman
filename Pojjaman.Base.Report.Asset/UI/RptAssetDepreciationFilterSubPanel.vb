@@ -790,6 +790,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ' GroupBox
             Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFilterSubPanel.grbMaster}")
             Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFilterSubPanel.grbDetail}")
+
+            Me.chkAssetShowAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAssetDepreciationFilterSubPanel.chkAssetShowAll}")
+
         End Sub
 #End Region
 

@@ -402,7 +402,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' Global {ถึง}
       Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+            Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
+
+            Me.lblEQEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtEQCodeEnd, lblEQEnd.Text)
+
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
@@ -410,7 +414,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel.grbDetail}")
+
+            Me.ChkCancel.Text = Me.StringParserService.Parse("${res:Global.ChkCancel}")
+
     End Sub
 #End Region
 
