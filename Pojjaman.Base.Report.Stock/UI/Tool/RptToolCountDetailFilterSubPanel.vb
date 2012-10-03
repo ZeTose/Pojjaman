@@ -57,6 +57,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents txtGroupCodeEnd As System.Windows.Forms.TextBox
         Friend WithEvents ibtnDown As System.Windows.Forms.Button
         Friend WithEvents ibtnUp As System.Windows.Forms.Button
+        Friend WithEvents ChkGroupAll As System.Windows.Forms.CheckBox
 
         Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
@@ -72,15 +73,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.txtSearchProject = New System.Windows.Forms.TextBox()
             Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
             Me.btnGroupFindEnd = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.btnSearch = New System.Windows.Forms.Button()
             Me.btnGroupFindStart = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.btnToolEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.btnToolStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
-            Me.lblDocDateEnd = New System.Windows.Forms.Label()
-            Me.lblDocEndDate = New System.Windows.Forms.Label()
-            Me.Label1 = New System.Windows.Forms.Label()
-            Me.lblDocStartDate = New System.Windows.Forms.Label()
-            Me.Label2 = New System.Windows.Forms.Label()
+            Me.btnReset = New System.Windows.Forms.Button()
             Me.grbProject = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
             Me.ibtnDown = New System.Windows.Forms.Button()
             Me.ibtnUp = New System.Windows.Forms.Button()
@@ -89,8 +84,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkonlyRemain = New System.Windows.Forms.CheckBox()
             Me.chkOnlyChecked = New System.Windows.Forms.CheckBox()
             Me.clbCostCenter = New System.Windows.Forms.CheckedListBox()
-            Me.btnSearch = New System.Windows.Forms.Button()
-            Me.btnReset = New System.Windows.Forms.Button()
+            Me.btnToolEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.Label2 = New System.Windows.Forms.Label()
+            Me.btnToolStartFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.lblDocStartDate = New System.Windows.Forms.Label()
+            Me.Label1 = New System.Windows.Forms.Label()
+            Me.lblDocEndDate = New System.Windows.Forms.Label()
+            Me.lblDocDateEnd = New System.Windows.Forms.Label()
+            Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
+            Me.ChkGroupAll = New System.Windows.Forms.CheckBox()
             CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.grbMaster.SuspendLayout()
             Me.grbProject.SuspendLayout()
@@ -118,7 +120,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtToolCodeEnd, -15)
             Me.Validator.SetInvalidBackColor(Me.txtToolCodeEnd, System.Drawing.Color.Empty)
             Me.txtToolCodeEnd.Location = New System.Drawing.Point(717, 45)
-            Me.Validator.SetMaxValue(Me.txtToolCodeEnd, "")
             Me.Validator.SetMinValue(Me.txtToolCodeEnd, "")
             Me.txtToolCodeEnd.Name = "txtToolCodeEnd"
             Me.Validator.SetRegularExpression(Me.txtToolCodeEnd, "")
@@ -135,7 +136,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.ErrorProvider1.SetIconPadding(Me.txtToolCodeStart, -15)
             Me.Validator.SetInvalidBackColor(Me.txtToolCodeStart, System.Drawing.Color.Empty)
             Me.txtToolCodeStart.Location = New System.Drawing.Point(559, 44)
-            Me.Validator.SetMaxValue(Me.txtToolCodeStart, "")
             Me.Validator.SetMinValue(Me.txtToolCodeStart, "")
             Me.txtToolCodeStart.Name = "txtToolCodeStart"
             Me.Validator.SetRegularExpression(Me.txtToolCodeStart, "")
@@ -152,7 +152,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtDocDateEnd, System.Drawing.Color.Empty)
             Me.txtDocDateEnd.Location = New System.Drawing.Point(559, 20)
             Me.txtDocDateEnd.MaxLength = 10
-            Me.Validator.SetMaxValue(Me.txtDocDateEnd, "")
             Me.Validator.SetMinValue(Me.txtDocDateEnd, "")
             Me.txtDocDateEnd.Name = "txtDocDateEnd"
             Me.Validator.SetRegularExpression(Me.txtDocDateEnd, "")
@@ -169,7 +168,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtGroupCodeEnd, System.Drawing.Color.Empty)
             Me.txtGroupCodeEnd.Location = New System.Drawing.Point(717, 69)
             Me.txtGroupCodeEnd.MaxLength = 20
-            Me.Validator.SetMaxValue(Me.txtGroupCodeEnd, "")
             Me.Validator.SetMinValue(Me.txtGroupCodeEnd, "")
             Me.txtGroupCodeEnd.Name = "txtGroupCodeEnd"
             Me.Validator.SetRegularExpression(Me.txtGroupCodeEnd, "")
@@ -186,7 +184,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetInvalidBackColor(Me.txtGroupCodeStart, System.Drawing.Color.Empty)
             Me.txtGroupCodeStart.Location = New System.Drawing.Point(559, 69)
             Me.txtGroupCodeStart.MaxLength = 20
-            Me.Validator.SetMaxValue(Me.txtGroupCodeStart, "")
             Me.Validator.SetMinValue(Me.txtGroupCodeStart, "")
             Me.txtGroupCodeStart.Name = "txtGroupCodeStart"
             Me.Validator.SetRegularExpression(Me.txtGroupCodeStart, "")
@@ -201,7 +198,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Validator.SetGotFocusBackColor(Me.txtSearchProject, System.Drawing.Color.Empty)
             Me.Validator.SetInvalidBackColor(Me.txtSearchProject, System.Drawing.Color.Empty)
             Me.txtSearchProject.Location = New System.Drawing.Point(7, 17)
-            Me.Validator.SetMaxValue(Me.txtSearchProject, "")
             Me.Validator.SetMinValue(Me.txtSearchProject, "")
             Me.txtSearchProject.Name = "txtSearchProject"
             Me.Validator.SetRegularExpression(Me.txtSearchProject, "")
@@ -212,8 +208,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'grbMaster
             '
             Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                        Or System.Windows.Forms.AnchorStyles.Left) _
+                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.grbMaster.Controls.Add(Me.txtGroupCodeEnd)
             Me.grbMaster.Controls.Add(Me.btnGroupFindEnd)
             Me.grbMaster.Controls.Add(Me.btnSearch)
@@ -252,6 +248,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnGroupFindEnd.TabStop = False
             Me.btnGroupFindEnd.ThemedImage = CType(resources.GetObject("btnGroupFindEnd.ThemedImage"), System.Drawing.Bitmap)
             '
+            'btnSearch
+            '
+            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnSearch.Location = New System.Drawing.Point(782, 219)
+            Me.btnSearch.Name = "btnSearch"
+            Me.btnSearch.Size = New System.Drawing.Size(80, 23)
+            Me.btnSearch.TabIndex = 2
+            Me.btnSearch.Text = "ค้นหา"
+            '
             'btnGroupFindStart
             '
             Me.btnGroupFindStart.FlatStyle = System.Windows.Forms.FlatStyle.System
@@ -264,101 +270,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnGroupFindStart.TabStop = False
             Me.btnGroupFindStart.ThemedImage = CType(resources.GetObject("btnGroupFindStart.ThemedImage"), System.Drawing.Bitmap)
             '
-            'btnToolEndFind
+            'btnReset
             '
-            Me.btnToolEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnToolEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnToolEndFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnToolEndFind.Location = New System.Drawing.Point(820, 44)
-            Me.btnToolEndFind.Name = "btnToolEndFind"
-            Me.btnToolEndFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnToolEndFind.TabIndex = 68
-            Me.btnToolEndFind.TabStop = False
-            Me.btnToolEndFind.ThemedImage = CType(resources.GetObject("btnToolEndFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'btnToolStartFind
-            '
-            Me.btnToolStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnToolStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.btnToolStartFind.ForeColor = System.Drawing.SystemColors.Control
-            Me.btnToolStartFind.Location = New System.Drawing.Point(655, 43)
-            Me.btnToolStartFind.Name = "btnToolStartFind"
-            Me.btnToolStartFind.Size = New System.Drawing.Size(24, 22)
-            Me.btnToolStartFind.TabIndex = 67
-            Me.btnToolStartFind.TabStop = False
-            Me.btnToolStartFind.ThemedImage = CType(resources.GetObject("btnToolStartFind.ThemedImage"), System.Drawing.Bitmap)
-            '
-            'dtpDocDateEnd
-            '
-            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-            Me.dtpDocDateEnd.Location = New System.Drawing.Point(559, 20)
-            Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
-            Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
-            Me.dtpDocDateEnd.TabIndex = 41
-            Me.dtpDocDateEnd.TabStop = False
-            '
-            'lblDocDateEnd
-            '
-            Me.lblDocDateEnd.AutoSize = True
-            Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateEnd.Location = New System.Drawing.Point(510, 23)
-            Me.lblDocDateEnd.Name = "lblDocDateEnd"
-            Me.lblDocDateEnd.Size = New System.Drawing.Size(43, 13)
-            Me.lblDocDateEnd.TabIndex = 39
-            Me.lblDocDateEnd.Text = "ณ วันที่:"
-            Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblDocEndDate
-            '
-            Me.lblDocEndDate.AutoSize = True
-            Me.lblDocEndDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocEndDate.ForeColor = System.Drawing.Color.Black
-            Me.lblDocEndDate.Location = New System.Drawing.Point(689, 71)
-            Me.lblDocEndDate.Name = "lblDocEndDate"
-            Me.lblDocEndDate.Size = New System.Drawing.Size(22, 13)
-            Me.lblDocEndDate.TabIndex = 24
-            Me.lblDocEndDate.Text = "ถึง:"
-            Me.lblDocEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'Label1
-            '
-            Me.Label1.AutoSize = True
-            Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Label1.ForeColor = System.Drawing.Color.Black
-            Me.Label1.Location = New System.Drawing.Point(689, 47)
-            Me.Label1.Name = "Label1"
-            Me.Label1.Size = New System.Drawing.Size(22, 13)
-            Me.Label1.TabIndex = 30
-            Me.Label1.Text = "ถึง:"
-            Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'lblDocStartDate
-            '
-            Me.lblDocStartDate.AutoSize = True
-            Me.lblDocStartDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.lblDocStartDate.ForeColor = System.Drawing.Color.Black
-            Me.lblDocStartDate.Location = New System.Drawing.Point(450, 75)
-            Me.lblDocStartDate.Name = "lblDocStartDate"
-            Me.lblDocStartDate.Size = New System.Drawing.Size(103, 13)
-            Me.lblDocStartDate.TabIndex = 21
-            Me.lblDocStartDate.Text = "กลุ่มเครื่องมือ ตั้งแต่:"
-            Me.lblDocStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-            '
-            'Label2
-            '
-            Me.Label2.AutoSize = True
-            Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-            Me.Label2.ForeColor = System.Drawing.Color.Black
-            Me.Label2.Location = New System.Drawing.Point(471, 49)
-            Me.Label2.Name = "Label2"
-            Me.Label2.Size = New System.Drawing.Size(82, 13)
-            Me.Label2.TabIndex = 28
-            Me.Label2.Text = "เครื่องมือ ตั้งแต่:"
-            Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnReset.Location = New System.Drawing.Point(701, 219)
+            Me.btnReset.Name = "btnReset"
+            Me.btnReset.Size = New System.Drawing.Size(80, 23)
+            Me.btnReset.TabIndex = 1
+            Me.btnReset.TabStop = False
+            Me.btnReset.Text = "เคลียร์"
             '
             'grbProject
             '
+            Me.grbProject.Controls.Add(Me.ChkGroupAll)
             Me.grbProject.Controls.Add(Me.ibtnDown)
             Me.grbProject.Controls.Add(Me.ibtnUp)
             Me.grbProject.Controls.Add(Me.btnSearchProject)
@@ -442,26 +367,108 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.clbCostCenter.Size = New System.Drawing.Size(286, 148)
             Me.clbCostCenter.TabIndex = 21
             '
-            'btnSearch
+            'btnToolEndFind
             '
-            Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnSearch.Location = New System.Drawing.Point(782, 219)
-            Me.btnSearch.Name = "btnSearch"
-            Me.btnSearch.Size = New System.Drawing.Size(80, 23)
-            Me.btnSearch.TabIndex = 2
-            Me.btnSearch.Text = "ค้นหา"
+            Me.btnToolEndFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnToolEndFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnToolEndFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnToolEndFind.Location = New System.Drawing.Point(820, 44)
+            Me.btnToolEndFind.Name = "btnToolEndFind"
+            Me.btnToolEndFind.Size = New System.Drawing.Size(24, 22)
+            Me.btnToolEndFind.TabIndex = 68
+            Me.btnToolEndFind.TabStop = False
+            Me.btnToolEndFind.ThemedImage = CType(resources.GetObject("btnToolEndFind.ThemedImage"), System.Drawing.Bitmap)
             '
-            'btnReset
+            'Label2
             '
-            Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.btnReset.Location = New System.Drawing.Point(701, 219)
-            Me.btnReset.Name = "btnReset"
-            Me.btnReset.Size = New System.Drawing.Size(80, 23)
-            Me.btnReset.TabIndex = 1
-            Me.btnReset.TabStop = False
-            Me.btnReset.Text = "เคลียร์"
+            Me.Label2.AutoSize = True
+            Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label2.ForeColor = System.Drawing.Color.Black
+            Me.Label2.Location = New System.Drawing.Point(471, 49)
+            Me.Label2.Name = "Label2"
+            Me.Label2.Size = New System.Drawing.Size(82, 13)
+            Me.Label2.TabIndex = 28
+            Me.Label2.Text = "เครื่องมือ ตั้งแต่:"
+            Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'btnToolStartFind
+            '
+            Me.btnToolStartFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnToolStartFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnToolStartFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnToolStartFind.Location = New System.Drawing.Point(655, 43)
+            Me.btnToolStartFind.Name = "btnToolStartFind"
+            Me.btnToolStartFind.Size = New System.Drawing.Size(24, 22)
+            Me.btnToolStartFind.TabIndex = 67
+            Me.btnToolStartFind.TabStop = False
+            Me.btnToolStartFind.ThemedImage = CType(resources.GetObject("btnToolStartFind.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'lblDocStartDate
+            '
+            Me.lblDocStartDate.AutoSize = True
+            Me.lblDocStartDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblDocStartDate.ForeColor = System.Drawing.Color.Black
+            Me.lblDocStartDate.Location = New System.Drawing.Point(450, 75)
+            Me.lblDocStartDate.Name = "lblDocStartDate"
+            Me.lblDocStartDate.Size = New System.Drawing.Size(103, 13)
+            Me.lblDocStartDate.TabIndex = 21
+            Me.lblDocStartDate.Text = "กลุ่มเครื่องมือ ตั้งแต่:"
+            Me.lblDocStartDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'Label1
+            '
+            Me.Label1.AutoSize = True
+            Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label1.ForeColor = System.Drawing.Color.Black
+            Me.Label1.Location = New System.Drawing.Point(689, 47)
+            Me.Label1.Name = "Label1"
+            Me.Label1.Size = New System.Drawing.Size(22, 13)
+            Me.Label1.TabIndex = 30
+            Me.Label1.Text = "ถึง:"
+            Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblDocEndDate
+            '
+            Me.lblDocEndDate.AutoSize = True
+            Me.lblDocEndDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblDocEndDate.ForeColor = System.Drawing.Color.Black
+            Me.lblDocEndDate.Location = New System.Drawing.Point(689, 71)
+            Me.lblDocEndDate.Name = "lblDocEndDate"
+            Me.lblDocEndDate.Size = New System.Drawing.Size(22, 13)
+            Me.lblDocEndDate.TabIndex = 24
+            Me.lblDocEndDate.Text = "ถึง:"
+            Me.lblDocEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblDocDateEnd
+            '
+            Me.lblDocDateEnd.AutoSize = True
+            Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
+            Me.lblDocDateEnd.Location = New System.Drawing.Point(510, 23)
+            Me.lblDocDateEnd.Name = "lblDocDateEnd"
+            Me.lblDocDateEnd.Size = New System.Drawing.Size(43, 13)
+            Me.lblDocDateEnd.TabIndex = 39
+            Me.lblDocDateEnd.Text = "ณ วันที่:"
+            Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'dtpDocDateEnd
+            '
+            Me.dtpDocDateEnd.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+            Me.dtpDocDateEnd.Location = New System.Drawing.Point(559, 20)
+            Me.dtpDocDateEnd.Name = "dtpDocDateEnd"
+            Me.dtpDocDateEnd.Size = New System.Drawing.Size(120, 21)
+            Me.dtpDocDateEnd.TabIndex = 41
+            Me.dtpDocDateEnd.TabStop = False
+            '
+            'ChkGroupAll
+            '
+            Me.ChkGroupAll.AutoSize = True
+            Me.ChkGroupAll.Location = New System.Drawing.Point(101, 191)
+            Me.ChkGroupAll.Name = "ChkGroupAll"
+            Me.ChkGroupAll.Size = New System.Drawing.Size(145, 17)
+            Me.ChkGroupAll.TabIndex = 29
+            Me.ChkGroupAll.Text = "รวมยอดตามกลุ่มเครื่องมือ"
+            Me.ChkGroupAll.UseVisualStyleBackColor = True
             '
             'RptToolCountDetailFilterSubPanel
             '
@@ -490,7 +497,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ' GroupBox
             Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptToolCountDetailFilterSubPanel.grbMaster}")
             Me.grbProject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptToolCountDetailFilterSubPanel.grbProject}")
-
+            Me.ChkGroupAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptToolCountDetailFilterSubPanel.ChkGroupAll}")
         End Sub
 #End Region
 
@@ -533,7 +540,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Properties"
 
-        Public Property DocDateEnd() As Date            Get                Return m_DocDateEnd            End Get            Set(ByVal Value As Date)                m_DocDateEnd = Value            End Set        End Property        Public Property DocDateStart() As Date            Get                Return m_DocDateStart            End Get            Set(ByVal Value As Date)                m_DocDateStart = Value            End Set        End Property
+        Public Property DocDateEnd() As Date
+            Get
+                Return m_DocDateEnd
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateEnd = Value
+            End Set
+        End Property
+
+        Public Property DocDateStart() As Date
+            Get
+                Return m_DocDateStart
+            End Get
+            Set(ByVal Value As Date)
+                m_DocDateStart = Value
+            End Set
+        End Property
 
         Public Property Toolstart() As Tool
             Get
@@ -634,14 +657,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Methods"
-        Private Sub btnSearchProject_Click(sender As Object, e As System.EventArgs) Handles btnSearchProject.Click
+        Private Sub btnSearchProject_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearchProject.Click
             If txtSearchProject.Text.Trim.Length = 0 Then
                 RefreshCheckCCListBox()
             Else
                 RefreshCheckCCListBoxFilter(txtSearchProject.Text.Trim)
             End If
         End Sub
-        Private Sub RefreshCheckCCListBoxFilter(textFilter As String)
+        Private Sub RefreshCheckCCListBoxFilter(ByVal textFilter As String)
             Dim notonlychecked As Boolean = Not chkOnlyChecked.Checked
             Dim onlyRemain As Boolean = chkonlyRemain.Checked
 
@@ -766,7 +789,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Function
         Public Overrides Function GetFilterArray() As Filter()
-            Dim arr(7) As Filter
+            Dim arr(8) As Filter
             arr(0) = New Filter("CCCodeList", CheckedCCListString)
             arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd))
             arr(2) = New Filter("ToolCodeStart", IIf(txtToolCodeStart.TextLength > 0, txtToolCodeStart.Text, DBNull.Value))
@@ -775,6 +798,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(5) = New Filter("ToolGroupEnd", IIf(txtGroupCodeEnd.TextLength > 0, txtGroupCodeEnd.Text, DBNull.Value))
             arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             arr(7) = New Filter("onlyRemain", Me.chkonlyRemain.Checked)
+            arr(8) = New Filter("showGroupSummary", Me.ChkGroupAll.Checked)
             Return arr
         End Function
         Public Overrides ReadOnly Property SearchButton() As System.Windows.Forms.Button
@@ -912,6 +936,35 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim dpiColl As New DocPrintingItemCollection
             Dim dpi As DocPrintingItem
 
+            'EquipmentCodeStart 
+            dpi = New DocPrintingItem
+            dpi.Mapping = "ToolCodeStart"
+            dpi.Value = Me.txtToolCodeStart.Text
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'EquipmentCodeEnd
+            dpi = New DocPrintingItem
+            dpi.Mapping = "ToolCodeEnd"
+            dpi.Value = Me.txtToolCodeEnd.Text
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'GroupCodeStart 
+            dpi = New DocPrintingItem
+            dpi.Mapping = "ToolGroupStart"
+            dpi.Value = Me.txtGroupCodeStart.Text
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'GroupCodeEnd
+            dpi = New DocPrintingItem
+            dpi.Mapping = "ToolGroupEnd"
+            dpi.Value = Me.txtGroupCodeEnd.Text
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+
             'DocDateEnd
             dpi = New DocPrintingItem
             dpi.Mapping = "DocDateEnd"
@@ -940,7 +993,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         End Sub
 
-        Private Sub ibtnUp_Click(sender As System.Object, e As System.EventArgs) Handles ibtnUp.Click
+        Private Sub ibtnUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnUp.Click
             Dim code As String = clbCostCenter.SelectedItem.ToString
             Dim index As Integer = clbCostCenter.SelectedIndex
             Dim chk As Boolean = clbCostCenter.CheckedItems.Contains(clbCostCenter.SelectedItem)
@@ -954,7 +1007,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
         End Sub
 
-        Private Sub ibtnDown_Click(sender As System.Object, e As System.EventArgs) Handles ibtnDown.Click
+        Private Sub ibtnDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDown.Click
             Dim index As Integer = clbCostCenter.SelectedIndex
             Dim swap As Object = clbCostCenter.SelectedItem
             Dim chk As Boolean = clbCostCenter.CheckedItems.Contains(clbCostCenter.SelectedItem)
@@ -964,6 +1017,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 clbCostCenter.SetItemChecked(index + 1, chk)
                 clbCostCenter.SelectedItem = swap                     'Keep this item selected
             End If
+        End Sub
+
+        Private Sub LoadCostCenter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkonlyRemain.CheckedChanged
+
         End Sub
     End Class
 End Namespace

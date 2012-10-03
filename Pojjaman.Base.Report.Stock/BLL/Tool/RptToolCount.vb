@@ -46,14 +46,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColWidths(2) = 300
             m_grid.ColWidths(3) = 150
             m_grid.ColWidths(4) = 300
-            m_grid.ColWidths(5) = 100
+            m_grid.ColWidths(5) = 150
             m_grid.ColWidths(6) = 100
 
             m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+            m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
             m_grid.Rows.HeaderCount = 1
@@ -77,25 +77,58 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Center
+            m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
 
         End Sub
         Private Sub PopulateData()
             Dim dt As DataTable = Me.DataSet.Tables(0)
 
+            Dim ShowGroupSummary As Boolean = False
+            If Not Me.Filters(8).Value Is Nothing Then
+                ShowGroupSummary = CType(Me.Filters(8).Value, Boolean)
+            End If
+
             Dim ccHash As New Hashtable
+            'Dim GroupHash As New Hashtable
             Dim key As String
 
             Dim totalReamin As Decimal = 0
             Dim currItemIndex As Integer = -1
             Dim indent As String = Space(3)
+
+            Dim totalGroup As Decimal = 0
+            Dim groupCurrenName As String = ""
+
+            Dim rowindex As Integer = 0
             For Each row As DataRow In dt.Rows
                 Dim drh As New DataRowHelper(row)
+
+                rowindex += 1
+
+                If ShowGroupSummary Then
+                    key = drh.GetValue(Of String)("cc_id") & ":" & drh.GetValue(Of String)("toolg_code")
+                    If Not groupCurrenName.Equals(key) And rowindex > 1 Then
+                        m_grid.RowCount += 1
+                        currItemIndex = m_grid.RowCount
+                        'm_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(255, 228, 225)
+                        m_grid.RowStyles(currItemIndex).TextColor = Color.Black
+                        m_grid.RowStyles(currItemIndex).Font.Bold = True
+                        m_grid.RowStyles(currItemIndex).ReadOnly = True
+                        m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.GroupSumAmount}")  '"รวมยอดตามกลุ่มเครื่องมือ"
+                        m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(totalGroup, DigitConfig.Price)
+                        totalGroup = 0
+                        groupCurrenName = key
+                    End If
+                    If rowindex = 1 Then
+                        groupCurrenName = key
+                    End If
+                End If
 
                 key = drh.GetValue(Of String)("cc_id")
                 If Not ccHash.ContainsKey(key) Then
                     ccHash.Add(key, drh.GetValue(Of String)("cc_id"))
+                    totalGroup = 0
 
                     m_grid.RowCount += 1
                     currItemIndex = m_grid.RowCount
@@ -123,10 +156,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(drh.GetValue(Of Decimal)("remainqty"), DigitConfig.Price)
 
                     totalReamin += drh.GetValue(Of Decimal)("remainqty")
+                    totalGroup += drh.GetValue(Of Decimal)("remainqty")
+
                 End If
 
-
-                'currItemIndex = row("CostCenterId").ToString
             Next
 
 
@@ -197,6 +230,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
             'Next
+            If ShowGroupSummary Then
+                m_grid.RowCount += 1
+                currItemIndex = m_grid.RowCount
+                'm_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(255, 228, 225)
+                m_grid.RowStyles(currItemIndex).TextColor = Color.Black
+                m_grid.RowStyles(currItemIndex).Font.Bold = True
+                m_grid.RowStyles(currItemIndex).ReadOnly = True
+                m_grid(currItemIndex, 5).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor.GroupSumAmount}")  '"รวมยอดตามกลุ่มเครื่องมือ"
+                m_grid(currItemIndex, 6).CellValue = Configuration.FormatToString(totalGroup, DigitConfig.Price)
+            End If
+
             m_grid.RowCount += 1
             currItemIndex = m_grid.RowCount
             m_grid.RowStyles(currItemIndex).BackColor = Color.FromArgb(255, 255, 192, 128)
