@@ -362,7 +362,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblPercentDOOverPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.lblPercentDOOverPO}")
 			Me.rdPRFull.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rdPRFull}")		 '"เบิกได้ตามใบ PR"
-			Me.rdPRremainPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rdPRremainPO}")		 '"เบิกได้เท่าส่วนที่เหลือจากสั่งซื้อ"
+            Me.rdPRremainPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rdPRremainPO}")       '"เบิกได้เท่าส่วนที่เหลือจากสั่งซื้อ"
+
+            Me.grbPRtoMW.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.grbPRtoMW}")
     End Sub
     Protected Sub EventWiring()
       AddHandler rd16.CheckedChanged, AddressOf ChangeProperty

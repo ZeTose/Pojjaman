@@ -1206,7 +1206,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBaht4.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
       Me.lblBaht5.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
       Me.lblBaht6.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
-      Me.lblBaht7.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
+            Me.lblBaht7.Text = Me.StringParserService.Parse("${res:Global.CurrencyText}")
+
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblItem}")
+            Me.chkAllCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.chkAllCC}")
+            Me.grbApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.grbApproveLevel}")
     End Sub
 
     Protected Overrides Sub EventWiring()

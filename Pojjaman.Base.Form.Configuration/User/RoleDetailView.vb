@@ -442,7 +442,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelPA.Size = New System.Drawing.Size(80, 24)
       Me.lblLevelPA.TabIndex = 26
       Me.lblLevelPA.Tag = "NotGigaSite"
-      Me.lblLevelPA.Text = "ระดับสิทธิ:"
+            Me.lblLevelPA.Text = "ระดับสิทธิ์:"
       Me.lblLevelPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblMaxAmtPA
@@ -510,277 +510,277 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblLevelDR.Size = New System.Drawing.Size(80, 24)
       Me.lblLevelDR.TabIndex = 20
       Me.lblLevelDR.Tag = "NotGigaSite"
-      Me.lblLevelDR.Text = "ระดับสิทธิ:"
-      Me.lblLevelDR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblMaxAmtDR
-      '
-      Me.lblMaxAmtDR.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblMaxAmtDR.Location = New System.Drawing.Point(264, 120)
-      Me.lblMaxAmtDR.Name = "lblMaxAmtDR"
-      Me.lblMaxAmtDR.Size = New System.Drawing.Size(128, 24)
-      Me.lblMaxAmtDR.TabIndex = 19
-      Me.lblMaxAmtDR.Tag = "NotGigaSite"
-      Me.lblMaxAmtDR.Text = "วงเงินสูงสุดที่อนุมัติได้"
-      Me.lblMaxAmtDR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblBaht6
-      '
-      Me.lblBaht6.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht6.Location = New System.Drawing.Point(488, 120)
-      Me.lblBaht6.Name = "lblBaht6"
-      Me.lblBaht6.Size = New System.Drawing.Size(40, 24)
-      Me.lblBaht6.TabIndex = 18
-      Me.lblBaht6.Tag = "NotGigaSite"
-      Me.lblBaht6.Text = "บาท"
-      Me.lblBaht6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'txtMaxAmtDR
-      '
-      Me.Validator.SetDataType(Me.txtMaxAmtDR, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtMaxAmtDR, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtDR, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtMaxAmtDR, System.Drawing.Color.Empty)
-      Me.txtMaxAmtDR.Location = New System.Drawing.Point(400, 122)
-      Me.Validator.SetMinValue(Me.txtMaxAmtDR, "")
-      Me.txtMaxAmtDR.Name = "txtMaxAmtDR"
-      Me.Validator.SetRegularExpression(Me.txtMaxAmtDR, "")
-      Me.Validator.SetRequired(Me.txtMaxAmtDR, False)
-      Me.txtMaxAmtDR.Size = New System.Drawing.Size(80, 21)
-      Me.txtMaxAmtDR.TabIndex = 23
-      Me.txtMaxAmtDR.Tag = "NotGigaSite"
-      Me.txtMaxAmtDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'nudLevelApproveSC
-      '
-      Me.nudLevelApproveSC.Location = New System.Drawing.Point(208, 98)
-      Me.nudLevelApproveSC.Name = "nudLevelApproveSC"
-      Me.nudLevelApproveSC.Size = New System.Drawing.Size(48, 21)
-      Me.nudLevelApproveSC.TabIndex = 16
-      Me.nudLevelApproveSC.Tag = "NotGigaSite"
-      '
-      'lblSC
-      '
-      Me.lblSC.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblSC.Location = New System.Drawing.Point(24, 96)
-      Me.lblSC.Name = "lblSC"
-      Me.lblSC.Size = New System.Drawing.Size(104, 24)
-      Me.lblSC.TabIndex = 15
-      Me.lblSC.Tag = "NotGigaSite"
-      Me.lblSC.Text = "ใบสั้งจ้าง (SC,VO)"
-      Me.lblSC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'lblLevelSC
-      '
-      Me.lblLevelSC.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblLevelSC.Location = New System.Drawing.Point(120, 96)
-      Me.lblLevelSC.Name = "lblLevelSC"
-      Me.lblLevelSC.Size = New System.Drawing.Size(80, 24)
-      Me.lblLevelSC.TabIndex = 14
-      Me.lblLevelSC.Tag = "NotGigaSite"
-      Me.lblLevelSC.Text = "ระดับสิทธิ:"
-      Me.lblLevelSC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblMaxAmtSC
-      '
-      Me.lblMaxAmtSC.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblMaxAmtSC.Location = New System.Drawing.Point(264, 96)
-      Me.lblMaxAmtSC.Name = "lblMaxAmtSC"
-      Me.lblMaxAmtSC.Size = New System.Drawing.Size(128, 24)
-      Me.lblMaxAmtSC.TabIndex = 13
-      Me.lblMaxAmtSC.Tag = "NotGigaSite"
-      Me.lblMaxAmtSC.Text = "วงเงินสูงสุดที่อนุมัติได้"
-      Me.lblMaxAmtSC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblBaht5
-      '
-      Me.lblBaht5.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht5.Location = New System.Drawing.Point(488, 96)
-      Me.lblBaht5.Name = "lblBaht5"
-      Me.lblBaht5.Size = New System.Drawing.Size(40, 24)
-      Me.lblBaht5.TabIndex = 12
-      Me.lblBaht5.Tag = "NotGigaSite"
-      Me.lblBaht5.Text = "บาท"
-      Me.lblBaht5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'txtMaxAmtSC
-      '
-      Me.Validator.SetDataType(Me.txtMaxAmtSC, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtMaxAmtSC, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtSC, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtMaxAmtSC, System.Drawing.Color.Empty)
-      Me.txtMaxAmtSC.Location = New System.Drawing.Point(400, 98)
-      Me.Validator.SetMinValue(Me.txtMaxAmtSC, "")
-      Me.txtMaxAmtSC.Name = "txtMaxAmtSC"
-      Me.Validator.SetRegularExpression(Me.txtMaxAmtSC, "")
-      Me.Validator.SetRequired(Me.txtMaxAmtSC, False)
-      Me.txtMaxAmtSC.Size = New System.Drawing.Size(80, 21)
-      Me.txtMaxAmtSC.TabIndex = 17
-      Me.txtMaxAmtSC.Tag = "NotGigaSite"
-      Me.txtMaxAmtSC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'txtMaxAmtWR
-      '
-      Me.Validator.SetDataType(Me.txtMaxAmtWR, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtMaxAmtWR, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtWR, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtMaxAmtWR, System.Drawing.Color.Empty)
-      Me.txtMaxAmtWR.Location = New System.Drawing.Point(400, 50)
-      Me.Validator.SetMinValue(Me.txtMaxAmtWR, "")
-      Me.txtMaxAmtWR.Name = "txtMaxAmtWR"
-      Me.Validator.SetRegularExpression(Me.txtMaxAmtWR, "")
-      Me.Validator.SetRequired(Me.txtMaxAmtWR, False)
-      Me.txtMaxAmtWR.Size = New System.Drawing.Size(80, 21)
-      Me.txtMaxAmtWR.TabIndex = 11
-      Me.txtMaxAmtWR.Tag = "NotGigaSite"
-      Me.txtMaxAmtWR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'nudLevelApproveWR
-      '
-      Me.nudLevelApproveWR.Location = New System.Drawing.Point(208, 50)
-      Me.nudLevelApproveWR.Name = "nudLevelApproveWR"
-      Me.nudLevelApproveWR.Size = New System.Drawing.Size(48, 21)
-      Me.nudLevelApproveWR.TabIndex = 10
-      Me.nudLevelApproveWR.Tag = "NotGigaSite"
-      '
-      'lblWR
-      '
-      Me.lblWR.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblWR.Location = New System.Drawing.Point(24, 48)
-      Me.lblWR.Name = "lblWR"
-      Me.lblWR.Size = New System.Drawing.Size(104, 24)
-      Me.lblWR.TabIndex = 9
-      Me.lblWR.Tag = "NotGigaSite"
-      Me.lblWR.Text = "ใบขอจ้าง (WR)"
-      Me.lblWR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'lblLevelWR
-      '
-      Me.lblLevelWR.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblLevelWR.Location = New System.Drawing.Point(120, 48)
-      Me.lblLevelWR.Name = "lblLevelWR"
-      Me.lblLevelWR.Size = New System.Drawing.Size(80, 24)
-      Me.lblLevelWR.TabIndex = 6
-      Me.lblLevelWR.Tag = "NotGigaSite"
-      Me.lblLevelWR.Text = "ระดับสิทธิ:"
-      Me.lblLevelWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblMaxAmtWR
-      '
-      Me.lblMaxAmtWR.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblMaxAmtWR.Location = New System.Drawing.Point(264, 48)
-      Me.lblMaxAmtWR.Name = "lblMaxAmtWR"
-      Me.lblMaxAmtWR.Size = New System.Drawing.Size(128, 24)
-      Me.lblMaxAmtWR.TabIndex = 7
-      Me.lblMaxAmtWR.Tag = "NotGigaSite"
-      Me.lblMaxAmtWR.Text = "วงเงินสูงสุดที่อนุมัติได้"
-      Me.lblMaxAmtWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblBaht4
-      '
-      Me.lblBaht4.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblBaht4.Location = New System.Drawing.Point(488, 48)
-      Me.lblBaht4.Name = "lblBaht4"
-      Me.lblBaht4.Size = New System.Drawing.Size(40, 24)
-      Me.lblBaht4.TabIndex = 8
-      Me.lblBaht4.Tag = "NotGigaSite"
-      Me.lblBaht4.Text = "บาท"
-      Me.lblBaht4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'txtMaxAmtPR
-      '
-      Me.Validator.SetDataType(Me.txtMaxAmtPR, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtMaxAmtPR, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtPR, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtMaxAmtPR, System.Drawing.Color.Empty)
-      Me.txtMaxAmtPR.Location = New System.Drawing.Point(400, 26)
-      Me.Validator.SetMinValue(Me.txtMaxAmtPR, "")
-      Me.txtMaxAmtPR.Name = "txtMaxAmtPR"
-      Me.Validator.SetRegularExpression(Me.txtMaxAmtPR, "")
-      Me.Validator.SetRequired(Me.txtMaxAmtPR, False)
-      Me.txtMaxAmtPR.Size = New System.Drawing.Size(80, 21)
-      Me.txtMaxAmtPR.TabIndex = 1
-      Me.txtMaxAmtPR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'nudLevelApprovePR
-      '
-      Me.nudLevelApprovePR.Location = New System.Drawing.Point(208, 26)
-      Me.nudLevelApprovePR.Name = "nudLevelApprovePR"
-      Me.nudLevelApprovePR.Size = New System.Drawing.Size(48, 21)
-      Me.nudLevelApprovePR.TabIndex = 0
-      '
-      'nudLevelApprovePO
-      '
-      Me.nudLevelApprovePO.Location = New System.Drawing.Point(208, 74)
-      Me.nudLevelApprovePO.Name = "nudLevelApprovePO"
-      Me.nudLevelApprovePO.Size = New System.Drawing.Size(48, 21)
-      Me.nudLevelApprovePO.TabIndex = 2
-      '
-      'nudLevelApproveDO
-      '
-      Me.nudLevelApproveDO.Location = New System.Drawing.Point(208, 146)
-      Me.nudLevelApproveDO.Name = "nudLevelApproveDO"
-      Me.nudLevelApproveDO.Size = New System.Drawing.Size(48, 21)
-      Me.nudLevelApproveDO.TabIndex = 4
-      '
-      'lblPR
-      '
-      Me.lblPR.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblPR.Location = New System.Drawing.Point(24, 24)
-      Me.lblPR.Name = "lblPR"
-      Me.lblPR.Size = New System.Drawing.Size(104, 24)
-      Me.lblPR.TabIndex = 0
-      Me.lblPR.Text = "ใบขอซื้อ (PR)"
-      Me.lblPR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'lblPO
-      '
-      Me.lblPO.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblPO.Location = New System.Drawing.Point(24, 72)
-      Me.lblPO.Name = "lblPO"
-      Me.lblPO.Size = New System.Drawing.Size(104, 24)
-      Me.lblPO.TabIndex = 0
-      Me.lblPO.Text = "ใบสั้งซื้อ (PO)"
-      Me.lblPO.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'lblDO
-      '
-      Me.lblDO.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblDO.Location = New System.Drawing.Point(24, 144)
-      Me.lblDO.Name = "lblDO"
-      Me.lblDO.Size = New System.Drawing.Size(104, 24)
-      Me.lblDO.TabIndex = 0
-      Me.lblDO.Text = "ใบรับของ (DO)"
-      Me.lblDO.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-      '
-      'lblLevelPR
-      '
-      Me.lblLevelPR.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblLevelPR.Location = New System.Drawing.Point(120, 24)
-      Me.lblLevelPR.Name = "lblLevelPR"
-      Me.lblLevelPR.Size = New System.Drawing.Size(80, 24)
-      Me.lblLevelPR.TabIndex = 0
-      Me.lblLevelPR.Text = "ระดับสิทธิ:"
-      Me.lblLevelPR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblLevelPO
-      '
-      Me.lblLevelPO.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblLevelPO.Location = New System.Drawing.Point(120, 72)
-      Me.lblLevelPO.Name = "lblLevelPO"
-      Me.lblLevelPO.Size = New System.Drawing.Size(80, 24)
-      Me.lblLevelPO.TabIndex = 0
-      Me.lblLevelPO.Text = "ระดับสิทธิ:"
-      Me.lblLevelPO.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblLevelDO
-      '
-      Me.lblLevelDO.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblLevelDO.Location = New System.Drawing.Point(120, 144)
-      Me.lblLevelDO.Name = "lblLevelDO"
-      Me.lblLevelDO.Size = New System.Drawing.Size(80, 24)
-      Me.lblLevelDO.TabIndex = 0
-      Me.lblLevelDO.Text = "ระดับสิทธิ:"
+            Me.lblLevelDR.Text = "ระดับสิทธิ์:"
+            Me.lblLevelDR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblMaxAmtDR
+            '
+            Me.lblMaxAmtDR.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblMaxAmtDR.Location = New System.Drawing.Point(264, 120)
+            Me.lblMaxAmtDR.Name = "lblMaxAmtDR"
+            Me.lblMaxAmtDR.Size = New System.Drawing.Size(128, 24)
+            Me.lblMaxAmtDR.TabIndex = 19
+            Me.lblMaxAmtDR.Tag = "NotGigaSite"
+            Me.lblMaxAmtDR.Text = "วงเงินสูงสุดที่อนุมัติได้"
+            Me.lblMaxAmtDR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblBaht6
+            '
+            Me.lblBaht6.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblBaht6.Location = New System.Drawing.Point(488, 120)
+            Me.lblBaht6.Name = "lblBaht6"
+            Me.lblBaht6.Size = New System.Drawing.Size(40, 24)
+            Me.lblBaht6.TabIndex = 18
+            Me.lblBaht6.Tag = "NotGigaSite"
+            Me.lblBaht6.Text = "บาท"
+            Me.lblBaht6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'txtMaxAmtDR
+            '
+            Me.Validator.SetDataType(Me.txtMaxAmtDR, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtMaxAmtDR, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtDR, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtMaxAmtDR, System.Drawing.Color.Empty)
+            Me.txtMaxAmtDR.Location = New System.Drawing.Point(400, 122)
+            Me.Validator.SetMinValue(Me.txtMaxAmtDR, "")
+            Me.txtMaxAmtDR.Name = "txtMaxAmtDR"
+            Me.Validator.SetRegularExpression(Me.txtMaxAmtDR, "")
+            Me.Validator.SetRequired(Me.txtMaxAmtDR, False)
+            Me.txtMaxAmtDR.Size = New System.Drawing.Size(80, 21)
+            Me.txtMaxAmtDR.TabIndex = 23
+            Me.txtMaxAmtDR.Tag = "NotGigaSite"
+            Me.txtMaxAmtDR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'nudLevelApproveSC
+            '
+            Me.nudLevelApproveSC.Location = New System.Drawing.Point(208, 98)
+            Me.nudLevelApproveSC.Name = "nudLevelApproveSC"
+            Me.nudLevelApproveSC.Size = New System.Drawing.Size(48, 21)
+            Me.nudLevelApproveSC.TabIndex = 16
+            Me.nudLevelApproveSC.Tag = "NotGigaSite"
+            '
+            'lblSC
+            '
+            Me.lblSC.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblSC.Location = New System.Drawing.Point(24, 96)
+            Me.lblSC.Name = "lblSC"
+            Me.lblSC.Size = New System.Drawing.Size(104, 24)
+            Me.lblSC.TabIndex = 15
+            Me.lblSC.Tag = "NotGigaSite"
+            Me.lblSC.Text = "ใบสั่งจ้าง (SC,VO)"
+            Me.lblSC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'lblLevelSC
+            '
+            Me.lblLevelSC.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblLevelSC.Location = New System.Drawing.Point(120, 96)
+            Me.lblLevelSC.Name = "lblLevelSC"
+            Me.lblLevelSC.Size = New System.Drawing.Size(80, 24)
+            Me.lblLevelSC.TabIndex = 14
+            Me.lblLevelSC.Tag = "NotGigaSite"
+            Me.lblLevelSC.Text = "ระดับสิทธิ์:"
+            Me.lblLevelSC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblMaxAmtSC
+            '
+            Me.lblMaxAmtSC.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblMaxAmtSC.Location = New System.Drawing.Point(264, 96)
+            Me.lblMaxAmtSC.Name = "lblMaxAmtSC"
+            Me.lblMaxAmtSC.Size = New System.Drawing.Size(128, 24)
+            Me.lblMaxAmtSC.TabIndex = 13
+            Me.lblMaxAmtSC.Tag = "NotGigaSite"
+            Me.lblMaxAmtSC.Text = "วงเงินสูงสุดที่อนุมัติได้"
+            Me.lblMaxAmtSC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblBaht5
+            '
+            Me.lblBaht5.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblBaht5.Location = New System.Drawing.Point(488, 96)
+            Me.lblBaht5.Name = "lblBaht5"
+            Me.lblBaht5.Size = New System.Drawing.Size(40, 24)
+            Me.lblBaht5.TabIndex = 12
+            Me.lblBaht5.Tag = "NotGigaSite"
+            Me.lblBaht5.Text = "บาท"
+            Me.lblBaht5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'txtMaxAmtSC
+            '
+            Me.Validator.SetDataType(Me.txtMaxAmtSC, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtMaxAmtSC, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtSC, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtMaxAmtSC, System.Drawing.Color.Empty)
+            Me.txtMaxAmtSC.Location = New System.Drawing.Point(400, 98)
+            Me.Validator.SetMinValue(Me.txtMaxAmtSC, "")
+            Me.txtMaxAmtSC.Name = "txtMaxAmtSC"
+            Me.Validator.SetRegularExpression(Me.txtMaxAmtSC, "")
+            Me.Validator.SetRequired(Me.txtMaxAmtSC, False)
+            Me.txtMaxAmtSC.Size = New System.Drawing.Size(80, 21)
+            Me.txtMaxAmtSC.TabIndex = 17
+            Me.txtMaxAmtSC.Tag = "NotGigaSite"
+            Me.txtMaxAmtSC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'txtMaxAmtWR
+            '
+            Me.Validator.SetDataType(Me.txtMaxAmtWR, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtMaxAmtWR, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtWR, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtMaxAmtWR, System.Drawing.Color.Empty)
+            Me.txtMaxAmtWR.Location = New System.Drawing.Point(400, 50)
+            Me.Validator.SetMinValue(Me.txtMaxAmtWR, "")
+            Me.txtMaxAmtWR.Name = "txtMaxAmtWR"
+            Me.Validator.SetRegularExpression(Me.txtMaxAmtWR, "")
+            Me.Validator.SetRequired(Me.txtMaxAmtWR, False)
+            Me.txtMaxAmtWR.Size = New System.Drawing.Size(80, 21)
+            Me.txtMaxAmtWR.TabIndex = 11
+            Me.txtMaxAmtWR.Tag = "NotGigaSite"
+            Me.txtMaxAmtWR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'nudLevelApproveWR
+            '
+            Me.nudLevelApproveWR.Location = New System.Drawing.Point(208, 50)
+            Me.nudLevelApproveWR.Name = "nudLevelApproveWR"
+            Me.nudLevelApproveWR.Size = New System.Drawing.Size(48, 21)
+            Me.nudLevelApproveWR.TabIndex = 10
+            Me.nudLevelApproveWR.Tag = "NotGigaSite"
+            '
+            'lblWR
+            '
+            Me.lblWR.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblWR.Location = New System.Drawing.Point(24, 48)
+            Me.lblWR.Name = "lblWR"
+            Me.lblWR.Size = New System.Drawing.Size(104, 24)
+            Me.lblWR.TabIndex = 9
+            Me.lblWR.Tag = "NotGigaSite"
+            Me.lblWR.Text = "ใบขอจ้าง (WR)"
+            Me.lblWR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'lblLevelWR
+            '
+            Me.lblLevelWR.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblLevelWR.Location = New System.Drawing.Point(120, 48)
+            Me.lblLevelWR.Name = "lblLevelWR"
+            Me.lblLevelWR.Size = New System.Drawing.Size(80, 24)
+            Me.lblLevelWR.TabIndex = 6
+            Me.lblLevelWR.Tag = "NotGigaSite"
+            Me.lblLevelWR.Text = "ระดับสิทธิ์:"
+            Me.lblLevelWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblMaxAmtWR
+            '
+            Me.lblMaxAmtWR.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblMaxAmtWR.Location = New System.Drawing.Point(264, 48)
+            Me.lblMaxAmtWR.Name = "lblMaxAmtWR"
+            Me.lblMaxAmtWR.Size = New System.Drawing.Size(128, 24)
+            Me.lblMaxAmtWR.TabIndex = 7
+            Me.lblMaxAmtWR.Tag = "NotGigaSite"
+            Me.lblMaxAmtWR.Text = "วงเงินสูงสุดที่อนุมัติได้"
+            Me.lblMaxAmtWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblBaht4
+            '
+            Me.lblBaht4.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblBaht4.Location = New System.Drawing.Point(488, 48)
+            Me.lblBaht4.Name = "lblBaht4"
+            Me.lblBaht4.Size = New System.Drawing.Size(40, 24)
+            Me.lblBaht4.TabIndex = 8
+            Me.lblBaht4.Tag = "NotGigaSite"
+            Me.lblBaht4.Text = "บาท"
+            Me.lblBaht4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'txtMaxAmtPR
+            '
+            Me.Validator.SetDataType(Me.txtMaxAmtPR, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtMaxAmtPR, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtMaxAmtPR, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtMaxAmtPR, System.Drawing.Color.Empty)
+            Me.txtMaxAmtPR.Location = New System.Drawing.Point(400, 26)
+            Me.Validator.SetMinValue(Me.txtMaxAmtPR, "")
+            Me.txtMaxAmtPR.Name = "txtMaxAmtPR"
+            Me.Validator.SetRegularExpression(Me.txtMaxAmtPR, "")
+            Me.Validator.SetRequired(Me.txtMaxAmtPR, False)
+            Me.txtMaxAmtPR.Size = New System.Drawing.Size(80, 21)
+            Me.txtMaxAmtPR.TabIndex = 1
+            Me.txtMaxAmtPR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'nudLevelApprovePR
+            '
+            Me.nudLevelApprovePR.Location = New System.Drawing.Point(208, 26)
+            Me.nudLevelApprovePR.Name = "nudLevelApprovePR"
+            Me.nudLevelApprovePR.Size = New System.Drawing.Size(48, 21)
+            Me.nudLevelApprovePR.TabIndex = 0
+            '
+            'nudLevelApprovePO
+            '
+            Me.nudLevelApprovePO.Location = New System.Drawing.Point(208, 74)
+            Me.nudLevelApprovePO.Name = "nudLevelApprovePO"
+            Me.nudLevelApprovePO.Size = New System.Drawing.Size(48, 21)
+            Me.nudLevelApprovePO.TabIndex = 2
+            '
+            'nudLevelApproveDO
+            '
+            Me.nudLevelApproveDO.Location = New System.Drawing.Point(208, 146)
+            Me.nudLevelApproveDO.Name = "nudLevelApproveDO"
+            Me.nudLevelApproveDO.Size = New System.Drawing.Size(48, 21)
+            Me.nudLevelApproveDO.TabIndex = 4
+            '
+            'lblPR
+            '
+            Me.lblPR.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblPR.Location = New System.Drawing.Point(24, 24)
+            Me.lblPR.Name = "lblPR"
+            Me.lblPR.Size = New System.Drawing.Size(104, 24)
+            Me.lblPR.TabIndex = 0
+            Me.lblPR.Text = "ใบขอซื้อ (PR)"
+            Me.lblPR.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'lblPO
+            '
+            Me.lblPO.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblPO.Location = New System.Drawing.Point(24, 72)
+            Me.lblPO.Name = "lblPO"
+            Me.lblPO.Size = New System.Drawing.Size(104, 24)
+            Me.lblPO.TabIndex = 0
+            Me.lblPO.Text = "ใบสั้งซื้อ (PO)"
+            Me.lblPO.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'lblDO
+            '
+            Me.lblDO.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblDO.Location = New System.Drawing.Point(24, 144)
+            Me.lblDO.Name = "lblDO"
+            Me.lblDO.Size = New System.Drawing.Size(104, 24)
+            Me.lblDO.TabIndex = 0
+            Me.lblDO.Text = "ใบรับของ (DO)"
+            Me.lblDO.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'lblLevelPR
+            '
+            Me.lblLevelPR.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblLevelPR.Location = New System.Drawing.Point(120, 24)
+            Me.lblLevelPR.Name = "lblLevelPR"
+            Me.lblLevelPR.Size = New System.Drawing.Size(80, 24)
+            Me.lblLevelPR.TabIndex = 0
+            Me.lblLevelPR.Text = "ระดับสิทธิ์:"
+            Me.lblLevelPR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblLevelPO
+            '
+            Me.lblLevelPO.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblLevelPO.Location = New System.Drawing.Point(120, 72)
+            Me.lblLevelPO.Name = "lblLevelPO"
+            Me.lblLevelPO.Size = New System.Drawing.Size(80, 24)
+            Me.lblLevelPO.TabIndex = 0
+            Me.lblLevelPO.Text = "ระดับสิทธิ์:"
+            Me.lblLevelPO.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblLevelDO
+            '
+            Me.lblLevelDO.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblLevelDO.Location = New System.Drawing.Point(120, 144)
+            Me.lblLevelDO.Name = "lblLevelDO"
+            Me.lblLevelDO.Size = New System.Drawing.Size(80, 24)
+            Me.lblLevelDO.TabIndex = 0
+            Me.lblLevelDO.Text = "ระดับสิทธิ์:"
       Me.lblLevelDO.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'lblMaxAmtPR
@@ -987,7 +987,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csName As New TreeTextColumn
       csName.MappingName = "name"
-      csName.HeaderText = "ชื่อ" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.NameHeaderText}")
+            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.name}")
       csName.NullText = ""
       csName.Width = 200
       csName.TextBox.Name = "name"
@@ -995,7 +995,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim csOwnerModified As New TreeTextColumn
       csOwnerModified.MappingName = "ownermodified"
-      csOwnerModified.HeaderText = "แก้ไขจากกลุ่ม" 'myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.NameHeaderText}")
+            csOwnerModified.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.UserDetailView.ownermodified}")
       csOwnerModified.NullText = ""
       csOwnerModified.Width = 80
       csOwnerModified.TextBox.Name = "ownermodified"
@@ -1100,7 +1100,46 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtCode, Me.lblCode.Text.TrimEnd(":".ToCharArray))
       Me.lblName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblName}")
       Me.Validator.SetDisplayName(Me.txtName, Me.lblName.Text.TrimEnd(":".ToCharArray))
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.grbDetail}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.grbDetail}")
+
+            Me.lblUser.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblUser}")
+            Me.lblItem.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblItem}")
+            Me.chkAllCC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.chkAllCC}")
+            Me.grbApproveLevel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.grbApproveLevel}")
+            Me.lblPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblPR}")
+            Me.lblWR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblWR}")
+            Me.lblSC.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblSC}")
+            Me.lblDR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblDR}")
+            Me.lblPA.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblPA}")
+            Me.lblDO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RoleDetailView.lblDO}")
+
+            'Global ระดับสิทธิ์
+            Me.lblLevelPR.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+            Me.lblLevelWR.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+            Me.lblLevelPO.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+            Me.lblLevelSC.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+            Me.lblLevelDR.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+            Me.lblLevelDO.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+            Me.lblLevelPA.Text = Me.StringParserService.Parse("${res:Global.LevelPA}")
+
+            'Global วงเงินสูงสุดที่อนุมัติได้
+            Me.lblMaxAmtPR.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+            Me.lblMaxAmtWR.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+            Me.lblMaxAmtPO.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+            Me.lblMaxAmtSC.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+            Me.lblMaxAmtDR.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+            Me.lblMaxAmtDO.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+            Me.lblMaxAmtPA.Text = Me.StringParserService.Parse("${res:Global.MaxAmt}")
+
+            'Global Baht
+            Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblBaht3.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblBaht4.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblBaht5.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblBaht6.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            Me.lblBaht7.Text = Me.StringParserService.Parse("${res:Global.BahtText}")
+            
     End Sub
 
     Protected Overrides Sub EventWiring()

@@ -12,8 +12,8 @@ Imports System.Drawing.Drawing2D
 Imports Longkong.Pojjaman.Gui.Dialogs
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class CheckConfigurationView
-    'Inherits UserControl
-    Inherits AbstractOptionPanel
+        '    Inherits UserControl
+        Inherits AbstractOptionPanel
     Implements IValidatable
 
 #Region " Windows Form Designer generated code "
@@ -200,7 +200,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkCheckRegist.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckRegist}")
       Me.chkAllowNoCQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkAllowNoCqCode}")
       Me.chkCheckDateFromWHT.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckDateFromWHT}")
-      'Me.chkCanChangeRecipeint.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckDateFromWHT}")
+            'Me.chkCanChangeRecipeint.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCheckDateFromWHT}")
+
+            Me.grbItem.Text = Me.StringParserService.Parse("${res:codedesc.Other}")
+            Me.chkCanChangeRecipient.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CheckConfigurationView.chkCanChangeRecipient}")
     End Sub
     Protected Sub EventWiring()
       AddHandler chkAllowNoCQCodeDate.CheckedChanged, AddressOf ChangeProperty
