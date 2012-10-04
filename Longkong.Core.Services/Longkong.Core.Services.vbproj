@@ -578,6 +578,12 @@
   <ItemGroup>
     <None Include="Resources\ProjectReceivePayment.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon32.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

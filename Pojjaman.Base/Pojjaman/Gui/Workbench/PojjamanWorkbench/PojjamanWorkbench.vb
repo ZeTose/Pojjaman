@@ -15,6 +15,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports System.Runtime.InteropServices
 Imports System.Globalization
+Imports System.Resources
+
 'Imports Microsoft.WindowsAPICodePack.Taskbar
 
 Namespace Longkong.Pojjaman.Gui
@@ -64,7 +66,7 @@ Namespace Longkong.Pojjaman.Gui
       Me.m_layout = Nothing
       Dim myResourceService As ResourceService = CType(ServiceManager.Services.GetService(GetType(IResourceService)), ResourceService)
       Me.Text = GetDialogName()
-      MyBase.Icon = myResourceService.GetIcon("Icons.PojjamanIcon")
+      MyBase.Icon = myResourceService.GetIcon("Icons_32x32_Pojjaman") 'myResourceService.GetIcon("Icons.PojjamanIcon")
       MyBase.StartPosition = FormStartPosition.Manual
       Me.AllowDrop = True
       Me.windowChangeEventHandler = New EventHandler(AddressOf Me.OnActiveWindowChanged)
@@ -85,7 +87,7 @@ Namespace Longkong.Pojjaman.Gui
       If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
         ret &= ":Gigasite=" & version
       Else
-      ret &= ":PJM=" & version
+        ret &= ":PJM=" & version
       End If
       Return ret
     End Function

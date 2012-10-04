@@ -739,6 +739,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Public ReadOnly Property Icons_16x16_Pojjaman() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_16x16_Pojjaman", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Public ReadOnly Property Icons_16x16_POPlaceOfDelivery() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_POPlaceOfDelivery", resourceCulture)
@@ -946,6 +953,13 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("Icons_16x16_WR", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Public ReadOnly Property Icons_32x32_Pojjaman() As System.Drawing.Icon
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Icons_32x32_Pojjaman", resourceCulture)
+                Return CType(obj,System.Drawing.Icon)
             End Get
         End Property
         
