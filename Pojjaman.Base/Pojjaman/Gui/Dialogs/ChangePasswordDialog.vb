@@ -168,6 +168,7 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 
 #Region "Members"
         Private m_user As User
+        Private StringParserService As StringParserService
 #End Region
 
 #Region "Constructors"
@@ -175,8 +176,11 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
             MyBase.New()
             InitializeComponent()
             Dim mySecurityService As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+            StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
             Me.m_user = mySecurityService.CurrentUser
             Me.txtUserName.Text = m_user.Name
+            SetLabelText()
+
         End Sub
 #End Region
 
@@ -208,6 +212,17 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
 
             End If
         End Sub
+
+#Region "Methods"
+        Private Sub SetLabelText()
+            Me.lblUserName.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.ChangePasswordDialog.lblUserName}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.ChangePasswordDialog.Label1}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.ChangePasswordDialog.Label2}")
+            Me.Label3.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.ChangePasswordDialog.Label3}")
+            Me.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Dialogs.ChangePasswordDialog.Head}")
+        End Sub
+#End Region
+
     End Class
 
 End Namespace

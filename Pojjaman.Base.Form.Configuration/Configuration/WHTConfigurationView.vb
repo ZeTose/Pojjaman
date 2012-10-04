@@ -11,71 +11,71 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Longkong.Pojjaman.Gui.Dialogs
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class WHTConfigurationView
+    Public Class WHTConfigurationView
         'Inherits UserControl
         Inherits AbstractOptionPanel
-    Implements IValidatable
+        Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-    'UserControl overrides dispose to clean up the component list.
-    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-      If disposing Then
-        If Not (components Is Nothing) Then
-          components.Dispose()
-        End If
-      End If
-      MyBase.Dispose(disposing)
-    End Sub
+        'UserControl overrides dispose to clean up the component list.
+        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+            If disposing Then
+                If Not (components Is Nothing) Then
+                    components.Dispose()
+                End If
+            End If
+            MyBase.Dispose(disposing)
+        End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+        'Required by the Windows Form Designer
+        Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents btnAccountFind01 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit01 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName01 As System.Windows.Forms.TextBox
-    Friend WithEvents txtAccountCode01 As System.Windows.Forms.TextBox
-    Friend WithEvents btnAccountFind07 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit07 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName07 As System.Windows.Forms.TextBox
-    Friend WithEvents txtAccountCode07 As System.Windows.Forms.TextBox
-    Friend WithEvents btnAccountFind06 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit06 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName06 As System.Windows.Forms.TextBox
-    Friend WithEvents txtAccountCode06 As System.Windows.Forms.TextBox
-    Friend WithEvents btnAccountFind05 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit05 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName05 As System.Windows.Forms.TextBox
-    Friend WithEvents txtAccountCode05 As System.Windows.Forms.TextBox
-    Friend WithEvents btnAccountFind04 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit04 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName04 As System.Windows.Forms.TextBox
-    Friend WithEvents txtAccountCode04 As System.Windows.Forms.TextBox
-    Friend WithEvents btnAccountFind03 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit03 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName03 As System.Windows.Forms.TextBox
-    Friend WithEvents txtAccountCode03 As System.Windows.Forms.TextBox
-    Friend WithEvents btnAccountFind02 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents btnAccountEdit02 As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtAccountName02 As System.Windows.Forms.TextBox
+        'NOTE: The following procedure is required by the Windows Form Designer
+        'It can be modified using the Windows Form Designer.  
+        'Do not modify it using the code editor.
+        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+        Friend WithEvents Label7 As System.Windows.Forms.Label
+        Friend WithEvents Label6 As System.Windows.Forms.Label
+        Friend WithEvents Label5 As System.Windows.Forms.Label
+        Friend WithEvents Label4 As System.Windows.Forms.Label
+        Friend WithEvents Label3 As System.Windows.Forms.Label
+        Friend WithEvents Label2 As System.Windows.Forms.Label
+        Friend WithEvents Label1 As System.Windows.Forms.Label
+        Friend WithEvents btnAccountFind01 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit01 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName01 As System.Windows.Forms.TextBox
+        Friend WithEvents txtAccountCode01 As System.Windows.Forms.TextBox
+        Friend WithEvents btnAccountFind07 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit07 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName07 As System.Windows.Forms.TextBox
+        Friend WithEvents txtAccountCode07 As System.Windows.Forms.TextBox
+        Friend WithEvents btnAccountFind06 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit06 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName06 As System.Windows.Forms.TextBox
+        Friend WithEvents txtAccountCode06 As System.Windows.Forms.TextBox
+        Friend WithEvents btnAccountFind05 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit05 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName05 As System.Windows.Forms.TextBox
+        Friend WithEvents txtAccountCode05 As System.Windows.Forms.TextBox
+        Friend WithEvents btnAccountFind04 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit04 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName04 As System.Windows.Forms.TextBox
+        Friend WithEvents txtAccountCode04 As System.Windows.Forms.TextBox
+        Friend WithEvents btnAccountFind03 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit03 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName03 As System.Windows.Forms.TextBox
+        Friend WithEvents txtAccountCode03 As System.Windows.Forms.TextBox
+        Friend WithEvents btnAccountFind02 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents btnAccountEdit02 As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtAccountName02 As System.Windows.Forms.TextBox
         Friend WithEvents txtAccountCode02 As System.Windows.Forms.TextBox
         Friend WithEvents btnAccountFind08 As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents btnAccountEdit08 As Longkong.Pojjaman.Gui.Components.ImageButton
         Friend WithEvents txtAccountName08 As System.Windows.Forms.TextBox
         Friend WithEvents txtAccountCode08 As System.Windows.Forms.TextBox
         Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-    <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+        <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(WHTConfigurationView))
             Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
@@ -716,58 +716,58 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-    Private m_isInitialized As Boolean
+        Private m_isInitialized As Boolean
         Public ConfigFilters(7) As Filter
-    Private Dirty As Boolean
-    Private WHTAcc01 As New Account
-    Private WHTAcc02 As New Account
-    Private WHTAcc03 As New Account
-    Private WHTAcc04 As New Account
-    Private WHTAcc05 As New Account
-    Private WHTAcc06 As New Account
+        Private Dirty As Boolean
+        Private WHTAcc01 As New Account
+        Private WHTAcc02 As New Account
+        Private WHTAcc03 As New Account
+        Private WHTAcc04 As New Account
+        Private WHTAcc05 As New Account
+        Private WHTAcc06 As New Account
         Private WHTAcc07 As New Account
         Private WHTAcc08 As New Account
 #End Region
 
 #Region "Constructors"
-    Public Sub New()
-      MyBase.New()
-      InitializeComponent()
-      Me.SetLabelText()
-      Initialize()
-      EventWiring()
+        Public Sub New()
+            MyBase.New()
+            InitializeComponent()
+            Me.SetLabelText()
+            Initialize()
+            EventWiring()
 
-      'Check Module
+            'Check Module
             CheckModuleActivation()
-      DisableGigaSiteControl()
-    End Sub
-    Private Sub DisableGigaSiteControl()
-      If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
-        For Each ct As Control In Me.Controls
-          ct.Enabled = False
-        Next
-      End If
-    End Sub
+            DisableGigaSiteControl()
+        End Sub
+        Private Sub DisableGigaSiteControl()
+            If Longkong.Pojjaman.BusinessLogic.Configuration.CheckGigaSiteRight Then
+                For Each ct As Control In Me.Controls
+                    ct.Enabled = False
+                Next
+            End If
+        End Sub
 #End Region
 
 #Region "CheckPJMModule"
-    Private m_ApproveDocModule As New PJMModule("approvedoc")
-    ReadOnly Property Activated() As Boolean
-      Get
-        Return m_ApproveDocModule.Activated
-      End Get
-    End Property
-    Public Sub CheckModuleActivation()
-      If Not Me.Activated Then
-        'Me.lblMaxLevelApprovePR.Visible = False
-        'Me.lblMaxLevelApprovePO.Visible = False
-        'Me.lblMaxLevelApproveDO.Visible = False
+        Private m_ApproveDocModule As New PJMModule("approvedoc")
+        ReadOnly Property Activated() As Boolean
+            Get
+                Return m_ApproveDocModule.Activated
+            End Get
+        End Property
+        Public Sub CheckModuleActivation()
+            If Not Me.Activated Then
+                'Me.lblMaxLevelApprovePR.Visible = False
+                'Me.lblMaxLevelApprovePO.Visible = False
+                'Me.lblMaxLevelApproveDO.Visible = False
 
-        'Me.nudMaxLevelApprovePR.Visible = False
-        'Me.nudMaxLevelApprovePO.Visible = False
-        'Me.nudMaxLevelApproveDO.Visible = False
-      End If
-    End Sub
+                'Me.nudMaxLevelApprovePR.Visible = False
+                'Me.nudMaxLevelApprovePO.Visible = False
+                'Me.nudMaxLevelApproveDO.Visible = False
+            End If
+        End Sub
 #End Region
 
 #Region "Properties"
@@ -775,170 +775,178 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "IListDetail"
-    Public Sub CheckFormEnable()
+        Public Sub CheckFormEnable()
 
-    End Sub
-    Public Sub ClearDetail()
-    End Sub
-    Public Sub SetLabelText()
-    End Sub
-    Protected Sub EventWiring()
+        End Sub
+        Public Sub ClearDetail()
+        End Sub
+        Public Sub SetLabelText()
+            Me.Label8.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label8}")
+            Me.Label1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label1}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label2}")
+            Me.Label3.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label3}")
+            Me.Label5.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label5}")
+            Me.Label4.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label4}")
+            Me.Label6.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label6}")
+            Me.Label7.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WHTConfigurationView.Label7}")
+        End Sub
+        Protected Sub EventWiring()
 
-      AddHandler txtAccountCode01.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAccountCode02.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAccountCode03.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAccountCode04.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAccountCode05.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAccountCode06.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtAccountCode07.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode01.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode02.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode03.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode04.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode05.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode06.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtAccountCode07.Validated, AddressOf Me.ChangeProperty
             AddHandler txtAccountCode08.Validated, AddressOf Me.ChangeProperty
 
-      AddHandler btnAccountEdit01.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind01.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit01.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind01.Click, AddressOf Me.btnAccountFind_Click
 
-      AddHandler btnAccountEdit02.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind02.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit02.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind02.Click, AddressOf Me.btnAccountFind_Click
 
-      AddHandler btnAccountEdit03.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind03.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit03.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind03.Click, AddressOf Me.btnAccountFind_Click
 
-      AddHandler btnAccountEdit04.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind04.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit04.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind04.Click, AddressOf Me.btnAccountFind_Click
 
-      AddHandler btnAccountEdit05.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind05.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit05.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind05.Click, AddressOf Me.btnAccountFind_Click
 
-      AddHandler btnAccountEdit06.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind06.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit06.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind06.Click, AddressOf Me.btnAccountFind_Click
 
-      AddHandler btnAccountEdit07.Click, AddressOf Me.btnAccountEdit_Click
-      AddHandler btnAccountFind07.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler btnAccountEdit07.Click, AddressOf Me.btnAccountEdit_Click
+            AddHandler btnAccountFind07.Click, AddressOf Me.btnAccountFind_Click
 
             AddHandler btnAccountEdit08.Click, AddressOf Me.btnAccountEdit_Click
             AddHandler btnAccountFind08.Click, AddressOf Me.btnAccountFind_Click
 
-    End Sub
-    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Not m_isInitialized Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = False
-      '-----
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txtaccountcode01"
-          dirtyFlag = Account.GetAccount(txtAccountCode01, txtAccountName01, WHTAcc01)
-        Case "txtaccountcode02"
+        End Sub
+        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+            If Not m_isInitialized Then
+                Return
+            End If
+            Dim dirtyFlag As Boolean = False
+            '-----
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txtaccountcode01"
+                    dirtyFlag = Account.GetAccount(txtAccountCode01, txtAccountName01, WHTAcc01)
+                Case "txtaccountcode02"
                     dirtyFlag = Account.GetAccount(txtAccountCode02, txtAccountName02, WHTAcc02)
-        Case "txtaccountcode03"
+                Case "txtaccountcode03"
                     dirtyFlag = Account.GetAccount(txtAccountCode03, txtAccountName03, WHTAcc03)
-        Case "txtaccountcode04"
+                Case "txtaccountcode04"
                     dirtyFlag = Account.GetAccount(txtAccountCode04, txtAccountName04, WHTAcc04)
-        Case "txtaccountcode05"
+                Case "txtaccountcode05"
                     dirtyFlag = Account.GetAccount(txtAccountCode05, txtAccountName05, WHTAcc05)
-        Case "txtaccountcode06"
+                Case "txtaccountcode06"
                     dirtyFlag = Account.GetAccount(txtAccountCode06, txtAccountName06, WHTAcc06)
-        Case "txtaccountcode07"
+                Case "txtaccountcode07"
                     dirtyFlag = Account.GetAccount(txtAccountCode07, txtAccountName07, WHTAcc07)
                 Case "txtaccountcode08"
                     dirtyFlag = Account.GetAccount(txtAccountCode08, txtAccountName08, WHTAcc08)
 
             End Select
-      '-----
-      Dirty = Dirty Or dirtyFlag
-      CheckFormEnable()
-    End Sub
-    Public Sub SetStatus()
+            '-----
+            Dirty = Dirty Or dirtyFlag
+            CheckFormEnable()
+        End Sub
+        Public Sub SetStatus()
 
-    End Sub
-    Public Sub Initialize()
-      ConfigFilters(0) = New Filter("WHTAcc01", Configuration.GetConfig("WHTAcc01"))
-      ConfigFilters(1) = New Filter("WHTAcc02", Configuration.GetConfig("WHTAcc02"))
-      ConfigFilters(2) = New Filter("WHTAcc03", Configuration.GetConfig("WHTAcc03"))
-      ConfigFilters(3) = New Filter("WHTAcc04", Configuration.GetConfig("WHTAcc04"))
-      ConfigFilters(4) = New Filter("WHTAcc05", Configuration.GetConfig("WHTAcc05"))
-      ConfigFilters(5) = New Filter("WHTAcc06", Configuration.GetConfig("WHTAcc06"))
+        End Sub
+        Public Sub Initialize()
+            ConfigFilters(0) = New Filter("WHTAcc01", Configuration.GetConfig("WHTAcc01"))
+            ConfigFilters(1) = New Filter("WHTAcc02", Configuration.GetConfig("WHTAcc02"))
+            ConfigFilters(2) = New Filter("WHTAcc03", Configuration.GetConfig("WHTAcc03"))
+            ConfigFilters(3) = New Filter("WHTAcc04", Configuration.GetConfig("WHTAcc04"))
+            ConfigFilters(4) = New Filter("WHTAcc05", Configuration.GetConfig("WHTAcc05"))
+            ConfigFilters(5) = New Filter("WHTAcc06", Configuration.GetConfig("WHTAcc06"))
             ConfigFilters(6) = New Filter("WHTAcc07", Configuration.GetConfig("WHTAcc07"))
             ConfigFilters(7) = New Filter("WHTAcc08", Configuration.GetConfig("WHTAcc08"))
 
-    End Sub
-    Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
-      For Each filter As Filter In ConfigFilters
-        If filter.Name.ToLower = name.ToLower Then
-          filter.Value = value
-          Exit For
-        End If
-      Next
-    End Sub
-    Private Function GetFilterValue(ByVal name As String) As Object
-      For Each filter As Filter In ConfigFilters
-        If filter.Name.ToLower = name.ToLower Then
-          Return filter.Value
-        End If
-      Next
-    End Function
+        End Sub
+        Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
+            For Each filter As Filter In ConfigFilters
+                If filter.Name.ToLower = name.ToLower Then
+                    filter.Value = value
+                    Exit For
+                End If
+            Next
+        End Sub
+        Private Function GetFilterValue(ByVal name As String) As Object
+            For Each filter As Filter In ConfigFilters
+                If filter.Name.ToLower = name.ToLower Then
+                    Return filter.Value
+                End If
+            Next
+        End Function
 #End Region
 
 #Region "Methods"
 #End Region
 
 #Region "Event Handers"
-    Private Sender As String = ""
-    Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Private Sender As String = ""
+        Private Sub ibtnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
-    End Sub
-    Private Sub btnAccountEdit_Click(ByVal sender As Object, ByVal e As System.EventArgs) 'Handles btnAccountEdit01.Click
-      'sender = CType(sender, Control).Name.ToLower
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New Account)
-    End Sub
-    Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) ' Handles btnAccountFind01.Click
-      Me.Sender = CType(sender, Control).Name.ToLower
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
-    End Sub
-    Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
-      Select Case Me.Sender
-        Case "btnaccountfind01"
-          Me.txtAccountCode01.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode01, txtAccountName01, WHTAcc01)
-          If Dirty Then
-            ConfigFilters(0).Value = WHTAcc01.Code
-          End If
-        Case "btnaccountfind02"
-          Me.txtAccountCode02.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode02, txtAccountName02, WHTAcc02)
-          If Dirty Then
-            ConfigFilters(1).Value = WHTAcc02.Code
-          End If
-        Case "btnaccountfind03"
-          Me.txtAccountCode03.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode03, txtAccountName03, WHTAcc03)
-          If Dirty Then
-            ConfigFilters(2).Value = WHTAcc03.Code
-          End If
-        Case "btnaccountfind04"
-          Me.txtAccountCode04.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode04, txtAccountName04, WHTAcc04)
-          If Dirty Then
-            ConfigFilters(3).Value = WHTAcc04.Code
-          End If
-        Case "btnaccountfind05"
-          Me.txtAccountCode05.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode05, txtAccountName05, WHTAcc05)
-          If Dirty Then
-            ConfigFilters(4).Value = WHTAcc05.Code
-          End If
-        Case "btnaccountfind06"
-          Me.txtAccountCode06.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode06, txtAccountName06, WHTAcc06)
-          If Dirty Then
-            ConfigFilters(5).Value = WHTAcc06.Code
-          End If
-        Case "btnaccountfind07"
-          Me.txtAccountCode07.Text = e.Code
-          Me.Dirty = Account.GetAccount(txtAccountCode07, txtAccountName07, WHTAcc07)
-          If Dirty Then
-            ConfigFilters(6).Value = WHTAcc07.Code
+        End Sub
+        Private Sub btnAccountEdit_Click(ByVal sender As Object, ByVal e As System.EventArgs) 'Handles btnAccountEdit01.Click
+            'sender = CType(sender, Control).Name.ToLower
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenPanel(New Account)
+        End Sub
+        Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) ' Handles btnAccountFind01.Click
+            Me.Sender = CType(sender, Control).Name.ToLower
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
+        End Sub
+        Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
+            Select Case Me.Sender
+                Case "btnaccountfind01"
+                    Me.txtAccountCode01.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode01, txtAccountName01, WHTAcc01)
+                    If Dirty Then
+                        ConfigFilters(0).Value = WHTAcc01.Code
+                    End If
+                Case "btnaccountfind02"
+                    Me.txtAccountCode02.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode02, txtAccountName02, WHTAcc02)
+                    If Dirty Then
+                        ConfigFilters(1).Value = WHTAcc02.Code
+                    End If
+                Case "btnaccountfind03"
+                    Me.txtAccountCode03.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode03, txtAccountName03, WHTAcc03)
+                    If Dirty Then
+                        ConfigFilters(2).Value = WHTAcc03.Code
+                    End If
+                Case "btnaccountfind04"
+                    Me.txtAccountCode04.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode04, txtAccountName04, WHTAcc04)
+                    If Dirty Then
+                        ConfigFilters(3).Value = WHTAcc04.Code
+                    End If
+                Case "btnaccountfind05"
+                    Me.txtAccountCode05.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode05, txtAccountName05, WHTAcc05)
+                    If Dirty Then
+                        ConfigFilters(4).Value = WHTAcc05.Code
+                    End If
+                Case "btnaccountfind06"
+                    Me.txtAccountCode06.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode06, txtAccountName06, WHTAcc06)
+                    If Dirty Then
+                        ConfigFilters(5).Value = WHTAcc06.Code
+                    End If
+                Case "btnaccountfind07"
+                    Me.txtAccountCode07.Text = e.Code
+                    Me.Dirty = Account.GetAccount(txtAccountCode07, txtAccountName07, WHTAcc07)
+                    If Dirty Then
+                        ConfigFilters(6).Value = WHTAcc07.Code
                     End If
                 Case "btnaccountfind08"
                     Me.txtAccountCode08.Text = e.Code
@@ -948,69 +956,69 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     End If
 
             End Select
-    End Sub
+        End Sub
 #End Region
 
 #Region "Overrides"
-    Public Overloads Overrides Sub LoadPanelContents()
-      m_isInitialized = False
-      ClearDetail()
+        Public Overloads Overrides Sub LoadPanelContents()
+            m_isInitialized = False
+            ClearDetail()
 
-      If IsDBNull(GetFilterValue("WHTAcc01")) Then
-        txtAccountCode01.Text = ""
-      Else
-        WHTAcc01 = New Account(CStr(GetFilterValue("WHTAcc01")))
-        txtAccountCode01.Text = WHTAcc01.Code
-        txtAccountName01.Text = WHTAcc01.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc01")) Then
+                txtAccountCode01.Text = ""
+            Else
+                WHTAcc01 = New Account(CStr(GetFilterValue("WHTAcc01")))
+                txtAccountCode01.Text = WHTAcc01.Code
+                txtAccountName01.Text = WHTAcc01.Name
+            End If
 
-      If IsDBNull(GetFilterValue("WHTAcc02")) Then
-        txtAccountCode02.Text = ""
-      Else
-        WHTAcc02 = New Account(CStr(GetFilterValue("WHTAcc02")))
-        txtAccountCode02.Text = WHTAcc02.Code
-        txtAccountName02.Text = WHTAcc02.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc02")) Then
+                txtAccountCode02.Text = ""
+            Else
+                WHTAcc02 = New Account(CStr(GetFilterValue("WHTAcc02")))
+                txtAccountCode02.Text = WHTAcc02.Code
+                txtAccountName02.Text = WHTAcc02.Name
+            End If
 
-      If IsDBNull(GetFilterValue("WHTAcc03")) Then
-        txtAccountCode03.Text = ""
-      Else
-        WHTAcc03 = New Account(CStr(GetFilterValue("WHTAcc03")))
-        txtAccountCode03.Text = WHTAcc03.Code
-        txtAccountName03.Text = WHTAcc03.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc03")) Then
+                txtAccountCode03.Text = ""
+            Else
+                WHTAcc03 = New Account(CStr(GetFilterValue("WHTAcc03")))
+                txtAccountCode03.Text = WHTAcc03.Code
+                txtAccountName03.Text = WHTAcc03.Name
+            End If
 
-      If IsDBNull(GetFilterValue("WHTAcc04")) Then
-        txtAccountCode04.Text = ""
-      Else
-        WHTAcc04 = New Account(CStr(GetFilterValue("WHTAcc04")))
-        txtAccountCode04.Text = WHTAcc04.Code
-        txtAccountName04.Text = WHTAcc04.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc04")) Then
+                txtAccountCode04.Text = ""
+            Else
+                WHTAcc04 = New Account(CStr(GetFilterValue("WHTAcc04")))
+                txtAccountCode04.Text = WHTAcc04.Code
+                txtAccountName04.Text = WHTAcc04.Name
+            End If
 
-      If IsDBNull(GetFilterValue("WHTAcc05")) Then
-        txtAccountCode05.Text = ""
-      Else
-        WHTAcc05 = New Account(CStr(GetFilterValue("WHTAcc05")))
-        txtAccountCode05.Text = WHTAcc05.Code
-        txtAccountName05.Text = WHTAcc05.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc05")) Then
+                txtAccountCode05.Text = ""
+            Else
+                WHTAcc05 = New Account(CStr(GetFilterValue("WHTAcc05")))
+                txtAccountCode05.Text = WHTAcc05.Code
+                txtAccountName05.Text = WHTAcc05.Name
+            End If
 
-      If IsDBNull(GetFilterValue("WHTAcc06")) Then
-        txtAccountCode06.Text = ""
-      Else
-        WHTAcc06 = New Account(CStr(GetFilterValue("WHTAcc06")))
-        txtAccountCode06.Text = WHTAcc06.Code
-        txtAccountName06.Text = WHTAcc06.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc06")) Then
+                txtAccountCode06.Text = ""
+            Else
+                WHTAcc06 = New Account(CStr(GetFilterValue("WHTAcc06")))
+                txtAccountCode06.Text = WHTAcc06.Code
+                txtAccountName06.Text = WHTAcc06.Name
+            End If
 
-      If IsDBNull(GetFilterValue("WHTAcc07")) Then
-        txtAccountCode07.Text = ""
-      Else
-        WHTAcc07 = New Account(CStr(GetFilterValue("WHTAcc07")))
-        txtAccountCode07.Text = WHTAcc07.Code
-        txtAccountName07.Text = WHTAcc07.Name
-      End If
+            If IsDBNull(GetFilterValue("WHTAcc07")) Then
+                txtAccountCode07.Text = ""
+            Else
+                WHTAcc07 = New Account(CStr(GetFilterValue("WHTAcc07")))
+                txtAccountCode07.Text = WHTAcc07.Code
+                txtAccountName07.Text = WHTAcc07.Name
+            End If
 
             If IsDBNull(GetFilterValue("WHTAcc08")) Then
                 txtAccountCode08.Text = ""
@@ -1022,28 +1030,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
             SetStatus()
-      SetLabelText()
-      CheckFormEnable()
-      m_isInitialized = True
-    End Sub
-    Public Overloads Overrides Function StorePanelContents() As Boolean
-      If Not m_isInitialized Then
-        Return True
-      End If
-      If Not Dirty Then
-        Return True
-      End If
-      Configuration.Save(Me.ConfigFilters)
-      Return True
-    End Function
+            SetLabelText()
+            CheckFormEnable()
+            m_isInitialized = True
+        End Sub
+        Public Overloads Overrides Function StorePanelContents() As Boolean
+            If Not m_isInitialized Then
+                Return True
+            End If
+            If Not Dirty Then
+                Return True
+            End If
+            Configuration.Save(Me.ConfigFilters)
+            Return True
+        End Function
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
-      Get
-        Return Me.Validator
-      End Get
-    End Property
+        Public ReadOnly Property FormValidator() As Components.PJMTextboxValidator Implements IValidatable.FormValidator
+            Get
+                Return Me.Validator
+            End Get
+        End Property
 #End Region
-  End Class
+    End Class
 End Namespace
