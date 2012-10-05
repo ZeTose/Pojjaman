@@ -376,8 +376,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Child(tr, "Advance", "เงินรับล่วงหน้า", advance)
       Child(tr, "VO", "เปลี่ยนแปลงงาน", vo)
       Child(tr, "Penalty", "ค่าปรับ/ส่วนลด", penalty)
-      Child(tr, "Other", "รายได้อื่นๆ", other)
-      Child(tr, "BF", "รายได้ที่ไม่ออกบิล", bf)
+            'Child(tr, "Other", "รายได้อื่นๆ", other)
+            'Child(tr, "BF", "รายได้ที่ไม่ออกบิล", bf)
+            Child(tr, "Other", "รายได้อื่น (1)", other)
+            Child(tr, "BF", "รายได้อื่น (2)", bf)
       Child(tr, "Total", "Main+VO-Penalty+other+bf", totalprice)
       Blank(dt)
 
