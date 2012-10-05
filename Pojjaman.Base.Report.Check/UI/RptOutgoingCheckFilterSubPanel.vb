@@ -4,8 +4,8 @@ Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class RptOutgoingCheckFilterSubPanel
-    Inherits AbstractFilterSubPanel
     'Inherits UserControl
+    Inherits AbstractFilterSubPanel
     Implements IReportFilterSubPanel
 
 #Region " Windows Form Designer generated code "
@@ -61,13 +61,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents dtpDocDateEnd As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpCheckDueDateStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpCheckDueDateEnd As System.Windows.Forms.DateTimePicker
-    Friend WithEvents chkRemainChecksShow As System.Windows.Forms.CheckBox
+    Friend WithEvents chkOnlyCheckRemain As System.Windows.Forms.CheckBox
     Friend WithEvents txtUpdateDateStart As System.Windows.Forms.TextBox
     Friend WithEvents txtUpdateDateEnd As System.Windows.Forms.TextBox
     Friend WithEvents dtpUpdateDateStart As System.Windows.Forms.DateTimePicker
     Friend WithEvents dtpUpdateDateEnd As System.Windows.Forms.DateTimePicker
     Friend WithEvents lblUpdateDateStart As System.Windows.Forms.Label
-    Friend WithEvents chkIncludeCheckCode As System.Windows.Forms.CheckBox
+    Friend WithEvents chkIncludeNoCqCode As System.Windows.Forms.CheckBox
     Friend WithEvents btnAccountEndFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeEnd As System.Windows.Forms.TextBox
     Friend WithEvents lblAccountEnd As System.Windows.Forms.Label
@@ -80,13 +80,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtChqCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblChqCodeStart As System.Windows.Forms.Label
-    Friend WithEvents chkOnlyNothaveCqCode As System.Windows.Forms.CheckBox
+    Friend WithEvents chkOnlyNoCqCode As System.Windows.Forms.CheckBox
     Friend WithEvents lblUpdateDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptOutgoingCheckFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkOnlyNoCqCode = New System.Windows.Forms.CheckBox()
       Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox()
       Me.txtDocDateStart = New System.Windows.Forms.TextBox()
@@ -97,14 +98,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
       Me.txtAccountCodeStart = New System.Windows.Forms.TextBox()
       Me.lblAccountStart = New System.Windows.Forms.Label()
-      Me.chkIncludeCheckCode = New System.Windows.Forms.CheckBox()
+      Me.chkIncludeNoCqCode = New System.Windows.Forms.CheckBox()
       Me.lblUpdateDateStart = New System.Windows.Forms.Label()
       Me.lblUpdateDateEnd = New System.Windows.Forms.Label()
       Me.txtUpdateDateStart = New System.Windows.Forms.TextBox()
       Me.txtUpdateDateEnd = New System.Windows.Forms.TextBox()
       Me.dtpUpdateDateStart = New System.Windows.Forms.DateTimePicker()
       Me.dtpUpdateDateEnd = New System.Windows.Forms.DateTimePicker()
-      Me.chkRemainChecksShow = New System.Windows.Forms.CheckBox()
+      Me.chkOnlyCheckRemain = New System.Windows.Forms.CheckBox()
       Me.chkIncludeCheckDocDate = New System.Windows.Forms.CheckBox()
       Me.lblSort = New System.Windows.Forms.Label()
       Me.cmbSort = New System.Windows.Forms.ComboBox()
@@ -140,7 +141,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.txtTemp = New System.Windows.Forms.TextBox()
-      Me.chkOnlyNothaveCqCode = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       Me.grbChqCode.SuspendLayout()
@@ -153,6 +153,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
               Or System.Windows.Forms.AnchorStyles.Left) _
               Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbMaster.Controls.Add(Me.txtTemp)
       Me.grbMaster.Controls.Add(Me.grbDetail)
       Me.grbMaster.Controls.Add(Me.grbChqCode)
       Me.grbMaster.Controls.Add(Me.grbBankAcctBook)
@@ -162,14 +163,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.grbMaster.Location = New System.Drawing.Point(8, 3)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(826, 219)
+      Me.grbMaster.Size = New System.Drawing.Size(849, 240)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
       '
       'grbDetail
       '
-      Me.grbDetail.Controls.Add(Me.chkOnlyNothaveCqCode)
+      Me.grbDetail.Controls.Add(Me.chkOnlyNoCqCode)
       Me.grbDetail.Controls.Add(Me.btnAccountEndFind)
       Me.grbDetail.Controls.Add(Me.txtAccountCodeEnd)
       Me.grbDetail.Controls.Add(Me.txtDocDateStart)
@@ -180,14 +181,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.dtpDocDateEnd)
       Me.grbDetail.Controls.Add(Me.txtAccountCodeStart)
       Me.grbDetail.Controls.Add(Me.lblAccountStart)
-      Me.grbDetail.Controls.Add(Me.chkIncludeCheckCode)
+      Me.grbDetail.Controls.Add(Me.chkIncludeNoCqCode)
       Me.grbDetail.Controls.Add(Me.lblUpdateDateStart)
       Me.grbDetail.Controls.Add(Me.lblUpdateDateEnd)
       Me.grbDetail.Controls.Add(Me.txtUpdateDateStart)
       Me.grbDetail.Controls.Add(Me.txtUpdateDateEnd)
       Me.grbDetail.Controls.Add(Me.dtpUpdateDateStart)
       Me.grbDetail.Controls.Add(Me.dtpUpdateDateEnd)
-      Me.grbDetail.Controls.Add(Me.chkRemainChecksShow)
+      Me.grbDetail.Controls.Add(Me.chkOnlyCheckRemain)
       Me.grbDetail.Controls.Add(Me.chkIncludeCheckDocDate)
       Me.grbDetail.Controls.Add(Me.lblSort)
       Me.grbDetail.Controls.Add(Me.cmbSort)
@@ -207,9 +208,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbDetail.Location = New System.Drawing.Point(16, 13)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(490, 199)
+      Me.grbDetail.Size = New System.Drawing.Size(507, 222)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
+      '
+      'chkOnlyNoCqCode
+      '
+      Me.chkOnlyNoCqCode.AutoSize = True
+      Me.chkOnlyNoCqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkOnlyNoCqCode.Location = New System.Drawing.Point(130, 191)
+      Me.chkOnlyNoCqCode.Name = "chkOnlyNoCqCode"
+      Me.chkOnlyNoCqCode.Size = New System.Drawing.Size(184, 18)
+      Me.chkOnlyNoCqCode.TabIndex = 55
+      Me.chkOnlyNoCqCode.Text = "เฉพาะเอกสารที่ไม่มีหมายเลขเช็ค"
       '
       'btnAccountEndFind
       '
@@ -341,15 +352,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAccountStart.Text = "ตั้งแต่สมุดรายวัน"
       Me.lblAccountStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'chkIncludeCheckCode
+      'chkIncludeNoCqCode
       '
-      Me.chkIncludeCheckCode.AutoSize = True
-      Me.chkIncludeCheckCode.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCheckCode.Location = New System.Drawing.Point(312, 177)
-      Me.chkIncludeCheckCode.Name = "chkIncludeCheckCode"
-      Me.chkIncludeCheckCode.Size = New System.Drawing.Size(173, 18)
-      Me.chkIncludeCheckCode.TabIndex = 37
-      Me.chkIncludeCheckCode.Text = "รวมเอกสารที่ไม่มีหมายเลขเช็ค"
+      Me.chkIncludeNoCqCode.AutoSize = True
+      Me.chkIncludeNoCqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkIncludeNoCqCode.Location = New System.Drawing.Point(312, 158)
+      Me.chkIncludeNoCqCode.Name = "chkIncludeNoCqCode"
+      Me.chkIncludeNoCqCode.Size = New System.Drawing.Size(173, 18)
+      Me.chkIncludeNoCqCode.TabIndex = 37
+      Me.chkIncludeNoCqCode.Text = "รวมเอกสารที่ไม่มีหมายเลขเช็ค"
       '
       'lblUpdateDateStart
       '
@@ -423,21 +434,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.dtpUpdateDateEnd.TabIndex = 34
       Me.dtpUpdateDateEnd.TabStop = False
       '
-      'chkRemainChecksShow
+      'chkOnlyCheckRemain
       '
-      Me.chkRemainChecksShow.AutoSize = True
-      Me.chkRemainChecksShow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkRemainChecksShow.Location = New System.Drawing.Point(312, 157)
-      Me.chkRemainChecksShow.Name = "chkRemainChecksShow"
-      Me.chkRemainChecksShow.Size = New System.Drawing.Size(141, 18)
-      Me.chkRemainChecksShow.TabIndex = 30
-      Me.chkRemainChecksShow.Text = "แสดงเช็คที่ยังใช้ไม่หมด"
+      Me.chkOnlyCheckRemain.AutoSize = True
+      Me.chkOnlyCheckRemain.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkOnlyCheckRemain.Location = New System.Drawing.Point(130, 171)
+      Me.chkOnlyCheckRemain.Name = "chkOnlyCheckRemain"
+      Me.chkOnlyCheckRemain.Size = New System.Drawing.Size(143, 18)
+      Me.chkOnlyCheckRemain.TabIndex = 30
+      Me.chkOnlyCheckRemain.Text = "เฉพาะเช็คที่ยังใช้ไม่หมด"
       '
       'chkIncludeCheckDocDate
       '
       Me.chkIncludeCheckDocDate.AutoSize = True
       Me.chkIncludeCheckDocDate.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkIncludeCheckDocDate.Location = New System.Drawing.Point(312, 138)
+      Me.chkIncludeCheckDocDate.Location = New System.Drawing.Point(312, 139)
       Me.chkIncludeCheckDocDate.Name = "chkIncludeCheckDocDate"
       Me.chkIncludeCheckDocDate.Size = New System.Drawing.Size(117, 18)
       Me.chkIncludeCheckDocDate.TabIndex = 17
@@ -623,7 +634,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbChqCode.Controls.Add(Me.txtChqCodeStart)
       Me.grbChqCode.Controls.Add(Me.lblChqCodeStart)
       Me.grbChqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbChqCode.Location = New System.Drawing.Point(504, 99)
+      Me.grbChqCode.Location = New System.Drawing.Point(529, 99)
       Me.grbChqCode.Name = "grbChqCode"
       Me.grbChqCode.Size = New System.Drawing.Size(312, 72)
       Me.grbChqCode.TabIndex = 13
@@ -699,7 +710,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbBankAcctBook.Controls.Add(Me.txtBankAcctCodeStart)
       Me.grbBankAcctBook.Controls.Add(Me.lblBankAcctStart)
       Me.grbBankAcctBook.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbBankAcctBook.Location = New System.Drawing.Point(504, 13)
+      Me.grbBankAcctBook.Location = New System.Drawing.Point(529, 13)
       Me.grbBankAcctBook.Name = "grbBankAcctBook"
       Me.grbBankAcctBook.Size = New System.Drawing.Size(312, 85)
       Me.grbBankAcctBook.TabIndex = 3
@@ -826,7 +837,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(744, 187)
+      Me.btnSearch.Location = New System.Drawing.Point(767, 208)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
@@ -836,7 +847,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(664, 187)
+      Me.btnReset.Location = New System.Drawing.Point(687, 208)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
@@ -862,7 +873,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(Me.txtTemp, "")
       Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.txtTemp.Location = New System.Drawing.Point(845, 138)
+      Me.txtTemp.Location = New System.Drawing.Point(852, 135)
       Me.txtTemp.MaxLength = 255
       Me.Validator.SetMaxValue(Me.txtTemp, "")
       Me.Validator.SetMinValue(Me.txtTemp, "")
@@ -874,24 +885,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtTemp.TabIndex = 26
       Me.txtTemp.Visible = False
       '
-      'chkOnlyNothaveCqCode
-      '
-      Me.chkOnlyNothaveCqCode.AutoSize = True
-      Me.chkOnlyNothaveCqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.chkOnlyNothaveCqCode.Location = New System.Drawing.Point(77, 177)
-      Me.chkOnlyNothaveCqCode.Name = "chkOnlyNothaveCqCode"
-      Me.chkOnlyNothaveCqCode.Size = New System.Drawing.Size(184, 18)
-      Me.chkOnlyNothaveCqCode.TabIndex = 55
-      Me.chkOnlyNothaveCqCode.Text = "เฉพาะเอกสารที่ไม่มีหมายเลขเช็ค"
-      '
       'RptOutgoingCheckFilterSubPanel
       '
-      Me.Controls.Add(Me.txtTemp)
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptOutgoingCheckFilterSubPanel"
-      Me.Size = New System.Drawing.Size(842, 228)
+      Me.Size = New System.Drawing.Size(865, 249)
       Me.grbMaster.ResumeLayout(False)
+      Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.grbChqCode.ResumeLayout(False)
@@ -900,7 +901,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbBankAcctBook.PerformLayout()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
-      Me.PerformLayout()
 
     End Sub
 
@@ -954,8 +954,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'Checkbox
       Me.chkIncludeCheckDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckDocDate}") '"รวมเช็คไม่ระบุวันที่"
-      Me.chkRemainChecksShow.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkRemainChecksShow}") '"แสดงเช็คที่ยังใช้ไม่หมด"
-      Me.chkIncludeCheckCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckCode}") '"รวมเอกสารที่ไม่มีหมายเลขเช็ค"
+      Me.chkOnlyCheckRemain.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkRemainChecksShow}") '"แสดงเช็คที่ยังใช้ไม่หมด"
+      Me.chkIncludeNoCqCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckCode}") '"รวมเอกสารที่ไม่มีหมายเลขเช็ค"
 
     End Sub
 #End Region
@@ -1194,9 +1194,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbSort.SelectedIndex = 0
 
       Me.chkIncludeCheckDocDate.Checked = 0
-      Me.chkOnlyNothaveCqCode.Checked = 0
-      Me.chkIncludeCheckCode.Checked = 0
-      Me.chkRemainChecksShow.Checked = 0
+      Me.chkOnlyNoCqCode.Checked = 0
+      Me.chkIncludeNoCqCode.Checked = 0
+      Me.chkOnlyCheckRemain.Checked = 0
     End Sub
     Public Overrides Function GetFilterString() As String
 
@@ -1214,14 +1214,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(8) = New Filter("UpdateDateStart", IIf(Me.UpdateDateStart.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateStart))
       arr(9) = New Filter("UpdateDateEnd", IIf(Me.UpdateDateEnd.Equals(Date.MinValue), DBNull.Value, Me.UpdateDateEnd))
       arr(10) = New Filter("SortBy", cmbSort.SelectedIndex)
-      arr(11) = New Filter("IncludeCheckDocDate", IIf(Me.chkIncludeCheckDocDate.Checked, 1, 0))
-      arr(12) = New Filter("IncludeCheckCode", IIf(Me.chkIncludeCheckCode.Checked, 1, 0))
-      arr(13) = New Filter("RemainCheckShow", IIf(Me.chkRemainChecksShow.Checked, 1, 0))
-      arr(14) = New Filter("accountbookfrom", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
-      arr(15) = New Filter("accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
-      arr(16) = New Filter("ChqCodeStart", IIf(txtChqCodeStart.TextLength > 0, txtChqCodeStart.Text, DBNull.Value))
-      arr(17) = New Filter("ChqCodeEnd", IIf(txtChqCodeEnd.TextLength > 0, txtChqCodeEnd.Text, DBNull.Value))
-      arr(18) = New Filter("OnlyCheckCode", IIf(Me.chkOnlyNothaveCqCode.Checked, 1, 0))
+
+      arr(11) = New Filter("accountbookfrom", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
+      arr(12) = New Filter("accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
+      arr(13) = New Filter("ChqCodeStart", IIf(txtChqCodeStart.TextLength > 0, txtChqCodeStart.Text, DBNull.Value))
+      arr(14) = New Filter("ChqCodeEnd", IIf(txtChqCodeEnd.TextLength > 0, txtChqCodeEnd.Text, DBNull.Value))
+
+      arr(15) = New Filter("IncludeCheckDocDate", IIf(Me.chkIncludeCheckDocDate.Checked, 1, 0))
+      arr(16) = New Filter("IncludeNoCheckCode", IIf(Me.chkIncludeNoCqCode.Checked, 1, 0))
+      arr(17) = New Filter("OnlyCheckRemain", IIf(Me.chkOnlyCheckRemain.Checked, 1, 0))
+      arr(18) = New Filter("OnlyNoCqCode", IIf(Me.chkOnlyNoCqCode.Checked, 1, 0))
       'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
 
       Return arr

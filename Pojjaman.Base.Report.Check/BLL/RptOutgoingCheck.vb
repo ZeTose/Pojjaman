@@ -261,6 +261,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'End If
             If IsNumeric(row("Amount")) Then
               TrCheq("col9") = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
+              TotalAmount += CDec(row("Amount"))
             End If
             'If IsNumeric(row("Pay")) Then
             '  TrCheq("col10") = Configuration.FormatToString(CDec(row("Pay")), DigitConfig.Price)
@@ -319,6 +320,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If IsNumeric(prow("paymenti_amt")) Then
                 TrPV("col10") = Configuration.FormatToString(CDec(prow("paymenti_amt")), DigitConfig.Price)
                 totalPayAmount += CDec(prow("paymenti_amt"))
+                TotalPay += CDec(prow("paymenti_amt"))
               End If
               'If IsNumeric(prow("Remain")) Then
               '  TrPV("col11") = Configuration.FormatToString(CDec(prow("Remain")), DigitConfig.Price)
@@ -375,22 +377,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  End If
       'End If
 
-      TotalAmount = 0
-      TotalPay = 0
-      TotalRemain = 0
-      For Each row As DataRow In dt.Rows
-        TotalAmount += CDec(row("Amount"))
-      Next
-      For Each row As DataRow In dt1.Rows
-        TotalPay += CDec(row("paymenti_amt"))
-      Next
+      'TotalAmount = 0
+      'TotalPay = 0
+      'TotalRemain = 0
+      'For Each row As DataRow In dt.Rows
+      '  TotalAmount += CDec(row("Amount"))
+      'Next
+      'For Each row As DataRow In dt1.Rows
+      '  TotalPay += CDec(row("paymenti_amt"))
+      'Next
 
       TrBank = Me.m_treemanager.Treetable.Childs.Add
       'TrBank.Tag = "Font.Bold"
       TrBank("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Total}") '"รวม"
       TrBank("col9") = Configuration.FormatToString(TotalAmount, DigitConfig.Price)
       TrBank("col10") = Configuration.FormatToString(TotalPay, DigitConfig.Price)
-      TrBank("col11") = Configuration.FormatToString(TotalAmount - TotalRemain, DigitConfig.Price)
+      TrBank("col11") = Configuration.FormatToString(TotalAmount - TotalPay, DigitConfig.Price)
 
       Dim lineNumber As Integer = 1
       For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
