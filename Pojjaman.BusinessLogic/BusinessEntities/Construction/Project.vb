@@ -486,7 +486,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim acci As New BankAccountItem
         acci.ThaiNumber = drh.GetValue(Of String)("projectnaccbank_thainumber")
         acci.Project = Me
-        acci.BankAccount = New BankAccount(drh.GetValue(Of Integer)("projectnaccbank_id"))
+        acci.BankAccount = New BankAccount(drh.GetValue(Of Integer)("projectnaccbank_accountid"))
 
         Me.ProjectNACC.BankAccountList.Add(acci)
       Next

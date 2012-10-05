@@ -1775,6 +1775,8 @@ namespace XtraReportSerialization {
             this.label75.Borders = ((DevExpress.XtraPrinting.BorderSide)((((DevExpress.XtraPrinting.BorderSide.Left | DevExpress.XtraPrinting.BorderSide.Top) 
                         | DevExpress.XtraPrinting.BorderSide.Right) 
                         | DevExpress.XtraPrinting.BorderSide.Bottom)));
+            this.label75.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Table0.projectnacc_idno")});
             this.label75.Dpi = 254F;
             this.label75.Font = new System.Drawing.Font("EucrosiaUPC", 14F);
             this.label75.LocationFloat = new DevExpress.Utils.PointFloat(525.364F, 402.0043F);
@@ -1786,6 +1788,7 @@ namespace XtraReportSerialization {
             this.label75.StylePriority.UseFont = false;
             this.label75.StylePriority.UsePadding = false;
             this.label75.StylePriority.UseTextAlignment = false;
+            this.label75.Text = "label75";
             this.label75.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
             // 
             // label74
@@ -1795,6 +1798,8 @@ namespace XtraReportSerialization {
                         | DevExpress.XtraPrinting.BorderSide.Right) 
                         | DevExpress.XtraPrinting.BorderSide.Bottom)));
             this.label74.CanGrow = false;
+            this.label74.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+                        new DevExpress.XtraReports.UI.XRBinding("Text", null, "Table0.projectnacc_taxid")});
             this.label74.Dpi = 254F;
             this.label74.Font = new System.Drawing.Font("EucrosiaUPC", 14F);
             this.label74.LocationFloat = new DevExpress.Utils.PointFloat(525.364F, 293.5842F);
@@ -1806,7 +1811,7 @@ namespace XtraReportSerialization {
             this.label74.StylePriority.UseFont = false;
             this.label74.StylePriority.UsePadding = false;
             this.label74.StylePriority.UseTextAlignment = false;
-            this.label74.Text = "[Table0.projectnacc_idno]";
+            this.label74.Text = "label74";
             this.label74.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
             // 
             // label71

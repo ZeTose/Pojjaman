@@ -364,7 +364,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.MileStoneNumber = drh.GetValue(Of Integer)("MilestoneNumber", 0)
         Me.SentMileStoneNumber = drh.GetValue(Of Integer)("SentMilestoneNumber", 0)
         Me.ReceivedMileStoneNumber = drh.GetValue(Of Integer)("ReceivedMilestoneNumber", 0)
-        Me.ReceivedNumber = drh.GetValue(Of Integer)("ReceivedAmount", 0)
+        Me.ReceivedNumber = drh.GetValue(Of Integer)("ReceivedNumber", 0)
 
       Next
       For Each row As DataRow In ds.Tables(1).Rows
