@@ -120,12 +120,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}")  '"หมายเหตุ"
       ' Level 2
       tr = Me.m_treemanager.Treetable.Childs.Add
-      tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.BillICode}")  '"เลขที่เอกสารวางบิล"
-      tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.DocDate}")  '"วันที่เอกสาร"
-      tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLCode}")  '"เลขที่ GL"
-      tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.DocType}")  '"ประเภทเอกสาร"
-      tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.MilestoneCode}")  '" milestone code"
-      tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.Description}")  '"รายการของ milestone"
+      tr("col0") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.BillICode}")  '"เลขที่เอกสารวางบิล"
+      tr("col1") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.DocDate}")  '"วันที่เอกสาร"
+      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLCode}")  '"เลขที่ GL"
+      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.DocType}")  '"ประเภทเอกสาร"
+      tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.MilestoneCode}")  '" milestone code"
+      tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.Description}")  '"รายการของ milestone"
       tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone.AdvanceAmount}")  '"ยอดมัดจำ" 
       tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.AdvanceAmount}")  '"ยอดหัก" 
       tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.Remain}")  '"คงเหลือ" 
@@ -293,7 +293,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       trCust = Me.m_treemanager.Treetable.Childs.Add
       trCust.Tag = "Font.Bold"
-      trCust("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.Total}") '"รวม"
+      trCust("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive.Total}") '"รวม"
       trCust("col6") = Configuration.FormatToString(totalAdvanceInc, DigitConfig.Price)
       trCust("col7") = Configuration.FormatToString(totalAdvanceRel, DigitConfig.Price)
       trCust("col8") = Configuration.FormatToString(totalBalance, DigitConfig.Price)
@@ -377,7 +377,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Alignment = HorizontalAlignment.Left
           'If Me.m_showDetailInGrid <> 0 Then
           Select Case i
-            Case 0, 1, 2, 3, 4, 5, 8, 9, 10
+            Case 0, 1, 2, 3, 4, 5, 9, 10
               cs.Alignment = HorizontalAlignment.Left
               cs.DataAlignment = HorizontalAlignment.Left
               cs.Format = "s"
