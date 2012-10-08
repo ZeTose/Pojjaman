@@ -45,6 +45,8 @@ Namespace Longkong.Pojjaman.PanelDisplayBinding
 #End Region
 
 #Region "Methods"
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
         Private Sub EntityPropertyChangedEvent(ByVal sender As Object, ByVal e As EventArgs)
             Me.IsDirty = True
         End Sub
@@ -65,7 +67,8 @@ Namespace Longkong.Pojjaman.PanelDisplayBinding
                 If Not IsNumeric(eventID) Then 'Todo
                     MessageBox.Show(eventID)
                 Else
-                    MessageBox.Show("ข้อมูลถูกเก็บเรียบร้อย")
+                    'MessageBox.Show("ข้อมูลถูกเก็บเรียบร้อย")
+                    msgServ.ShowMessage("${res:Global.Info.DataSaved}")
                     CType(Me.Control, IListPanel).RefreshData(eventID.ToString)
                 End If
                 Me.IsDirty = False

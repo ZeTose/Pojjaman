@@ -400,7 +400,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private m_tmpDropNode As TreeNode
     Private imlDraggedNode As New ImageList
     Private m_Ticks As Long
-    Private m_dragTimer As New Timer
+        Private m_dragTimer As New Timer
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
     Private Sub tvGroup_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tvGroup.DoubleClick
       Dim tv As TreeView = CType(sender, TreeView)
       If Not Me.WorkbenchWindow Is Nothing Then
@@ -463,11 +465,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
           sourceNode.EnsureVisible()
         Else
           If sourceNode.Parent Is targetNode Then
-            MessageService.ShowMessage("ไม่จำเป็นต้องย้ายเพราะ '" & sourceNode.ToString & "' อยู่ภายใต้ '" & targetNode.ToString & "' อยู่แล้ว")
+                        'MessageService.ShowMessage("ไม่จำเป็นต้องย้ายเพราะ '" & sourceNode.ToString & "' อยู่ภายใต้ '" & targetNode.ToString & "' อยู่แล้ว")
+                        msgServ.ShowMessage("${res:ShowMessage.CostCenterPanelView.dispensable}" & " '" & sourceNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.IsUnder}" & " '" & targetNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.Orready}")
+
           ElseIf targetNode Is sourceNode Then
             'MessageBox.Show("ไม่สามารถย้ายได้เพราะลูกกับแม่เป็นกลุ่มเดียวกัน")
           Else
-            MessageService.ShowMessage("ไม่สามารถย้ายได้ '" & targetNode.ToString & "' อยู่ภายใต้ '" & sourceNode.ToString & "'")
+                        ' MessageService.ShowMessage("ไม่สามารถย้ายได้ '" & targetNode.ToString & "' อยู่ภายใต้ '" & sourceNode.ToString & "'")
+                        MessageService.ShowMessage("${res:ShowMessage.CostCenterPanelView.NotMove}" & " '" & targetNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.IsUnder}" & " '" & sourceNode.ToString & "'")
+
           End If
         End If
         Dim entity As TreeBaseEntity = CType(SimpleBusinessEntityBase.GetEntity(Me.Entity.FullClassName, CInt(sourceNode.Tag)), TreeBaseEntity)
@@ -660,11 +666,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
           sourceNode.EnsureVisible()
         Else
           If sourceNode.Parent Is targetNode Then
-            MessageBox.Show("ไม่จำเป็นต้องย้ายเพราะ '" & sourceNode.ToString & "' อยู่ภายใต้ '" & targetNode.ToString & "' อยู่แล้ว")
+                        ' MessageBox.Show("ไม่จำเป็นต้องย้ายเพราะ '" & sourceNode.ToString & "' อยู่ภายใต้ '" & targetNode.ToString & "' อยู่แล้ว")
+                        msgServ.ShowMessage("${res:ShowMessage.CostCenterPanelView.dispensable}" & " '" & sourceNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.IsUnder}" & " '" & targetNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.Orready}")
           ElseIf targetNode Is sourceNode Then
             'MessageBox.Show("ไม่สามารถย้ายได้เพราะลูกกับแม่เป็นกลุ่มเดียวกัน")
           Else
-            MessageBox.Show("ไม่สามารถย้ายได้ '" & targetNode.ToString & "' อยู่ภายใต้ '" & sourceNode.ToString & "'")
+                        'MessageBox.Show("ไม่สามารถย้ายได้ '" & targetNode.ToString & "' อยู่ภายใต้ '" & sourceNode.ToString & "'")
+                        MessageService.ShowMessage("${res:ShowMessage.CostCenterPanelView.NotMove}" & " '" & targetNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.IsUnder}" & " '" & sourceNode.ToString & "'")
           End If
         End If
         Dim entity As TreeBaseEntity = CType(SimpleBusinessEntityBase.GetEntity(Me.Entity.FullClassName, CInt(sourceNode.Tag)), TreeBaseEntity)
@@ -678,12 +686,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Try
         Dim result As Integer = Me.m_entity.ChangeParent(CInt(child.Tag), CInt(parentNode.Tag))
         If result = -1 Then
-          MessageBox.Show("ไม่สามารถย้ายได้ '" & parentNode.ToString & "' อยู่ภายใต้ '" & child.ToString & "'")
+                    'MessageBox.Show("ไม่สามารถย้ายได้ '" & parentNode.ToString & "' อยู่ภายใต้ '" & child.ToString & "'")
+                    MessageService.ShowMessage("${res:ShowMessage.NotMove}" & " '" & parentNode.ToString & "' " & "${res:ShowMessage.IsUnder}" & " '" & child.ToString & "'")
         ElseIf result > 0 Then
           RecursiveSwitchTreeParent(child.Nodes)
         End If
       Catch ex As Exception
-        Throw New Exception("เกิด error " & ex.Message)
+                'Throw New Exception("เกิด error " & ex.Message)
+                Throw New Exception("${res:ShowMessage.Error}" & " " & ex.Message)
       End Try
     End Sub
     Private Sub RecursiveSwitchTreeParent(ByVal childNodes As TreeNodeCollection)
@@ -691,7 +701,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       For Each node In childNodes
         Dim result As Integer = Me.m_entity.ChangeParent(CInt(node.Tag), CInt(node.Parent.Tag))
         If result = -1 Then
-          MessageBox.Show("ไม่สามารถย้ายได้ '" & node.Parent.ToString & "' อยู่ภายใต้ '" & node.ToString & "'")
+                    'MessageBox.Show("ไม่สามารถย้ายได้ '" & node.Parent.ToString & "' อยู่ภายใต้ '" & node.ToString & "'")
+                    MessageService.ShowMessage("${res:ShowMessage.NotMove}" & " '" & node.Parent.ToString & "' " & "${res:ShowMessage.IsUnder}" & " '" & node.ToString & "'")
+
         ElseIf result > 0 Then
           RecursiveSwitchTreeParent(node.Nodes)
         End If

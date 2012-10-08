@@ -58,28 +58,32 @@ Public Class ContactForm
     Return (str & Me.RichTextBox1.Text)
   End Function
   Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
-    Try
-      Dim client As New SmtpClient("smtp.gmail.com", 587)
-      client.Credentials = New NetworkCredential("bugreport@longkongstudio.com", "tmhctr")
-      client.EnableSsl = True
-      Dim s As New MailAddress("bugreport@longkongstudio.com", "Bug Report", System.Text.Encoding.UTF8)
-      Dim r As New MailAddress("bugreport@longkongstudio.com")
-      Dim message As New MailMessage(s, r)
-      message.Body = getClipboardString()
-      If String.IsNullOrEmpty(ex) Then
-        message.Subject = Me.txtSubject.Text & "[Pojjaman Contact]"
-      ElseIf Me.txtSubject.TextLength = 0 OrElse Not Me.txtSubject.Text.Contains("[Pojjaman Error]") Then
-        message.Subject = Me.txtSubject.Text & "[Pojjaman Error]"
-      Else
-        message.Subject = Me.txtSubject.Text
-      End If
-      message.SubjectEncoding = System.Text.Encoding.UTF8
-      client.Send(message)
-      MessageBox.Show("ทางเราได้รับการติดต่อเรียบร้อยค่ะ เราจะรีบติดต่อท่านกลับโดยเร็วค่ะ")
-      Me.Close()
-    Catch ex As Exception
-      Console.WriteLine(ex.ToString)
-    End Try
+        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+        Try
+            Dim client As New SmtpClient("smtp.gmail.com", 587)
+            client.Credentials = New NetworkCredential("bugreport@longkongstudio.com", "tmhctr")
+            client.EnableSsl = True
+            Dim s As New MailAddress("bugreport@longkongstudio.com", "Bug Report", System.Text.Encoding.UTF8)
+            Dim r As New MailAddress("bugreport@longkongstudio.com")
+            Dim message As New MailMessage(s, r)
+            message.Body = getClipboardString()
+            If String.IsNullOrEmpty(ex) Then
+                message.Subject = Me.txtSubject.Text & "[Pojjaman Contact]"
+            ElseIf Me.txtSubject.TextLength = 0 OrElse Not Me.txtSubject.Text.Contains("[Pojjaman Error]") Then
+                message.Subject = Me.txtSubject.Text & "[Pojjaman Error]"
+            Else
+                message.Subject = Me.txtSubject.Text
+            End If
+            message.SubjectEncoding = System.Text.Encoding.UTF8
+            client.Send(message)
+            'MessageBox.Show("ทางเราได้รับการติดต่อเรียบร้อยค่ะ เราจะรีบติดต่อท่านกลับโดยเร็วค่ะ")
+            msgServ.ShowMessage("${res:ShowMessage.ContactForm.callback}")
+
+            Me.Close()
+        Catch ex As Exception
+            Console.WriteLine(ex.ToString)
+        End Try
   End Sub
   Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
     Me.Close()
