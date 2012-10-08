@@ -2491,7 +2491,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             m_DocUpdating = True
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If DupDocCode(e) Then
-                msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"ใบรับสินค้า", e.ProposedValue.ToString})
+                msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"${res:Global.Error.Billstock}", e.ProposedValue.ToString})
                 e.ProposedValue = e.Row(e.Column)
                 m_DocUpdating = False
                 Return

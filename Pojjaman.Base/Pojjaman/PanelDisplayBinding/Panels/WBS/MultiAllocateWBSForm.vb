@@ -196,18 +196,18 @@ Public Class MultiAllocateWBSForm
 
     Dim row As TreeRow = Me.m_treeManager.SelectedRow
     If row.Tag Is Nothing Then
-      msgServ.ShowMessageFormatted("เลือก CC ก่อน") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
+            msgServ.ShowMessageFormatted("${res:Global.Error.CCBefore}") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
       Return
     End If
     If Not TypeOf row.Tag Is MultiAllocate Then
-      msgServ.ShowMessageFormatted("เลือก CC ก่อน") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
+            msgServ.ShowMessageFormatted("${res:Global.Error.CCBefore}") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
       Return
     End If
 
     Dim doc As MultiAllocate = CType(row.Tag, MultiAllocate)
 
     If doc Is Nothing Then
-      msgServ.ShowMessageFormatted("เลือก CC ก่อน") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
+            msgServ.ShowMessageFormatted("${res:Global.Error.CCBefore}") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
       Return
     End If
     If doc.CostCenter.BoqId = 0 Then
@@ -297,7 +297,7 @@ Public Class MultiAllocateWBSForm
       Dim key As String = ""
       key = CType(row.Tag, MultiAllocate).CostCenter.Id.ToString & ":" & newWBS.Id.ToString
       If m_hashWBS.ContainsKey(key) Then
-        msgServ.ShowMessageFormatted("WBS Code '" & newWBS.Code & "' มีอยู่แล้ว")
+                msgServ.ShowMessageFormatted("WBS Code '" & newWBS.Code & "' " & "${res:Global.Error.Already}")
         'msgServ.ShowMessageFormatted("${res:Global.Error.WBSCodeNameMissMatch}", New String() {wbscode(0).Trim})
         Return
       End If
@@ -760,18 +760,18 @@ Public Class MultiAllocateWBSForm
 
     Dim row As TreeRow = Me.m_treeManager.SelectedRow
     If row.Tag Is Nothing Then
-      msgServ.ShowMessageFormatted("เลือก CC ก่อน") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
+            msgServ.ShowMessageFormatted("${res:Global.Error.CCBefore}") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
       Return
     End If
     If Not TypeOf row.Tag Is MultiAllocate Then
-      msgServ.ShowMessageFormatted("เลือก CC ก่อน") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
+            msgServ.ShowMessageFormatted("${res:Global.Error.CCBefore}") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
       Return
     End If
 
     Dim doc As MultiAllocate = CType(row.Tag, MultiAllocate)
 
     If doc Is Nothing Then
-      msgServ.ShowMessageFormatted("เลือก CC ก่อน") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
+            msgServ.ShowMessageFormatted("${res:Global.Error.CCBefore}") '"${res:Global.Error.CCHasNotBOQ}", New String() {doc.CostCenter.Code & " : " & doc.CostCenter.Name})
       Return
     End If
     If doc.CostCenter.BoqId = 0 Then
@@ -791,7 +791,7 @@ Public Class MultiAllocateWBSForm
       Dim key As String = ""
       key = doc.CostCenter.Id.ToString & ":" & wbs.Id.ToString
       If m_hashWBS.ContainsKey(key) Then
-        msgServ.ShowMessageFormatted("WBS Code '" & wbscode(0).Trim & "' มีอยู่แล้ว")
+                msgServ.ShowMessageFormatted("WBS Code '" & wbscode(0).Trim & "' " & "${res:Global.Error.Already}")
         'msgServ.ShowMessageFormatted("${res:Global.Error.WBSCodeNameMissMatch}", New String() {wbscode(0).Trim})
         Return
       End If

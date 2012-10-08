@@ -400,7 +400,7 @@ Namespace Longkong.Pojjaman.Gui
         ElseIf CInt(saveError.Message) = -5 Then
           'ปิดงวดไปแล้ว
           'Todo
-          msgServ.ShowMessageFormatted("${res:Global.Error.CannotSavePeriodIsClosed}", New String() {"ใช้เวลา: " & Now.Subtract(t).Seconds.ToString & " วินาที " & myEntity.Code})
+                    msgServ.ShowMessageFormatted("${res:Global.Error.CannotSavePeriodIsClosed}", New String() {"${res:Global.Error.Duration}" & " " & Now.Subtract(t).Seconds.ToString & " " & "${res:Global.Error.Second}" & " " & myEntity.Code})
           Me.OnSaved(New SaveEventArgs(False))
         Else
           msgServ.ShowMessageFormatted("${res:Global.Info.DataSavedWithCode}", New String() {myEntity.TabPageText})
