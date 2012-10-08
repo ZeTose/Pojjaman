@@ -126,9 +126,11 @@ Namespace Longkong.Pojjaman.Gui
                 ElseIf CInt(eventId) = -1 Then
                     'code ซ้ำ
                     'Todo
-                    MessageBox.Show(StringParserService.Parse("รหัส") & " " & CType(Me, IListPanel).SelectedEntity.Code & " " & StringParserService.Parse("มีอยู่แล้ว"))
+                    'MessageBox.Show(StringParserService.Parse("รหัส") & " " & CType(Me, IListPanel).SelectedEntity.Code & " " & StringParserService.Parse("มีอยู่แล้ว"))
+                    MessageBox.Show(StringParserService.Parse("${res:ShowMessage.AbstractPanelViewContent.Code}") & " " & CType(Me, IListPanel).SelectedEntity.Code & " " & StringParserService.Parse("${res:ShowMessage.AbstractPanelViewContent.Already}"))
                 Else
-                    MessageBox.Show(CType(Me, IListPanel).SelectedEntity.TabPageText & " ข้อมูลถูกเก็บเรียบร้อย")
+                    'MessageBox.Show(CType(Me, IListPanel).SelectedEntity.TabPageText & " ข้อมูลถูกเก็บเรียบร้อย")
+                    MessageBox.Show(CType(Me, IListPanel).SelectedEntity.TabPageText & " " & StringParserService.Parse("${res:ShowMessage.AbstractPanelViewContent.SaveCompleted}"))
                     Me.IsDirty = False
                     Me.OnSaved(New SaveEventArgs(True))
                 End If
@@ -137,7 +139,8 @@ Namespace Longkong.Pojjaman.Gui
                 If Not IsNumeric(eventID) Then 'Todo
                     MessageBox.Show(eventID)
                 Else
-                    MessageBox.Show("ข้อมูลถูกเก็บเรียบร้อย")
+                    'MessageBox.Show("ข้อมูลถูกเก็บเรียบร้อย")
+                    MessageBox.Show(StringParserService.Parse("${res:ShowMessage.AbstractPanelViewContent.SaveCompleted}"))
                     Me.IsDirty = False
                     Me.OnSaved(New SaveEventArgs(True))
                 End If

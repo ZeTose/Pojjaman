@@ -111,35 +111,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Shared"
-    Public Shared Function GetAccountBook(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldAcb As AccountBook) As Boolean
-      Dim acb As New AccountBook(txtCode.Text)
-      If txtCode.Text.Length <> 0 AndAlso Not acb.Originated Then
-        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
-        acb = oldAcb
-      End If
-      txtCode.Text = acb.Code
-      txtName.Text = acb.Name
-      If oldAcb.Id <> acb.Id Then
-        oldAcb = acb
-        Return True
-      End If
-      Return False
-    End Function
-    Public Shared Sub RefreshEntityTable()
-      Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
-      , CommandType.StoredProcedure _
-      , "GetAccountBookList" _
-      )
-      m_accountBookSet = New DataTable
-      m_accountBookSet = ds.Tables(0)
-    End Sub
-    Public Shared Function GetAccountSet() As DataTable
-      If m_accountBookSet Is Nothing Then
-        AccountBook.RefreshEntityTable()
-      End If
-      Return m_accountBookSet
-    End Function
+       
+        Public Shared Function GetAccountBook(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldAcb As AccountBook) As Boolean
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+
+            Dim acb As New AccountBook(txtCode.Text)
+            If txtCode.Text.Length <> 0 AndAlso Not acb.Originated Then
+                'MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+                msgServ.ShowMessage(txtCode.Text & " " & "${res:ShowMessage.rdNotExist}")
+
+                acb = oldAcb
+            End If
+            txtCode.Text = acb.Code
+            txtName.Text = acb.Name
+            If oldAcb.Id <> acb.Id Then
+                oldAcb = acb
+                Return True
+            End If
+            Return False
+        End Function
+        Public Shared Sub RefreshEntityTable()
+            Dim connString As String = RecentCompanies.CurrentCompany.ConnectionString
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(connString _
+            , CommandType.StoredProcedure _
+            , "GetAccountBookList" _
+            )
+            m_accountBookSet = New DataTable
+            m_accountBookSet = ds.Tables(0)
+        End Sub
+        Public Shared Function GetAccountSet() As DataTable
+            If m_accountBookSet Is Nothing Then
+                AccountBook.RefreshEntityTable()
+            End If
+            Return m_accountBookSet
+        End Function
 #End Region
 
   End Class

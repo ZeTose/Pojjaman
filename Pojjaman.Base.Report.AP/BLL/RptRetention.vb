@@ -73,8 +73,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim drh As New DataRowHelper(dr)
 
-      Dim docId As Integer = drh.GetValue(Of Integer)("stock_id")
-      Dim docType As Integer = drh.GetValue(Of Integer)("stock_type")
+      Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+      Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
 
       Trace.WriteLine(docId.ToString & ":" & docType.ToString)
 

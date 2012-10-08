@@ -399,12 +399,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return acct.GetProfitToDate(endDate)
     End Function
     Public Shared Function GetAccount(ByVal txtCode As TextBox, ByVal txtName As TextBox, ByRef oldAcct As Account) As Boolean
-      Dim acct As New Account(txtCode.Text)
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
+            Dim acct As New Account(txtCode.Text)
       If txtCode.Text.Length <> 0 AndAlso Not acct.Valid Then
-        MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+                'MessageBox.Show(txtCode.Text & " ไม่มีในระบบ")
+                msgServ.ShowMessage(txtCode.Text & " " & "${res:ShowMessage.rdNotExist}")
         acct = oldAcct
       ElseIf acct.IsControlGroup Then
-        MessageBox.Show(acct.Code & "-" & acct.Name & " เป็นบัญชีคุม")
+                'MessageBox.Show(acct.Code & "-" & acct.Name & " เป็นบัญชีคุม")
+                MessageBox.Show(acct.Code & "-" & acct.Name & " " & "${res:ShowMessage.ControlAccounts}")
         acct = oldAcct
       End If
       txtCode.Text = acct.Code
