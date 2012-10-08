@@ -8,6 +8,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Services
+Imports Syncfusion.Windows.Forms.Grid
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptIncomingWhtPND
@@ -352,6 +353,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
       Return dpiColl
     End Function
+
+    'Public Overrides Function GetPrintDocumentFromGrid() As Syncfusion.Windows.Forms.Grid.GridPrintDocument
+    '  Dim pd As New GridPrintDocument(m_grid, True)
+    '  Return pd
+    'End Function
+
 #End Region
 
   End Class

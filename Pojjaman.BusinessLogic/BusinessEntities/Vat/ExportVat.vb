@@ -2216,4 +2216,273 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
+  Public Class ExportVat2012
+    Private WitholdingTaxIdList As List(Of Integer)
+    Private dsExportSet As DataSet
+    Private dsExportTable As DataTable
+    Private m_whtType As Integer
+
+    Public Sub New(ByVal ds As DataSet)
+
+      m_whtType = -1
+      If ds.Tables(0).Rows.Count > 0 Then
+        m_whtType = CInt(ds.Tables(0).Rows(0)("wht_type"))
+      End If
+
+      'ผู้หักภาษี
+      Dim companytaxId13 As String = ""
+      Dim companytaxId10 As String = ""
+      If Configuration.GetConfig("CompanyTaxId").ToString.Trim.Length = 10 Then
+        companytaxId10 = Configuration.GetConfig("CompanyTaxId").ToString.Trim
+      Else
+        companytaxId13 = Configuration.GetConfig("CompanyTaxId").ToString.Trim
+      End If
+      Dim companybranchId As String = Configuration.GetConfig("CompanyTaxBranchId").ToString()
+      If companybranchId.ToString.Length = 0 Then
+        companybranchId = "00000"
+      End If
+      Dim companyname As String = Configuration.GetConfig("CompanyName").ToString
+      Dim companyaddress As String = Configuration.GetConfig("CompanyAddress").ToString
+
+      Dim culture As New CultureInfo("TH", True)
+
+      WitholdingTaxIdList = New List(Of Integer)
+      dsExportSet = New DataSet
+
+      dsExportTable = New DataTable
+      dsExportSet.Tables.Add(dsExportTable)
+
+      dsExportTable.Columns.Add(New DataColumn("no", Type.GetType("System.String"))) 'O : ลำดับที่
+      dsExportTable.Columns.Add(New DataColumn("taxidno13", Type.GetType("System.String"))) '1 : เลขประจำตัวผู้เสียภาษี13หลัก(ผู้หัก)
+      dsExportTable.Columns.Add(New DataColumn("taxidno10", Type.GetType("System.String"))) '2 : เลขประจำตัวผู้เสียภาษี10หลัก(ผู้หัก) 
+      dsExportTable.Columns.Add(New DataColumn("branch", Type.GetType("System.String"))) '3 : สาขา(ผู้หัก)
+      dsExportTable.Columns.Add(New DataColumn("name", Type.GetType("System.String"))) '4 : ชื่อผู้หัก
+      dsExportTable.Columns.Add(New DataColumn("address", Type.GetType("System.String"))) '5 : ที่อยู่ผู้หัก
+      dsExportTable.Columns.Add(New DataColumn("incomesection", Type.GetType("System.String"))) '6 : เงินได้ตามมาตรา
+      dsExportTable.Columns.Add(New DataColumn("idnoperson", Type.GetType("System.String"))) '7 : เลขประจำตัวประชาชน(ผู้มีเงินได้)
+      dsExportTable.Columns.Add(New DataColumn("taxidnoperson", Type.GetType("System.String"))) '8 : เลขประจำตัวผู้เสียภาษี(ผู้มีเงินได้)
+      dsExportTable.Columns.Add(New DataColumn("branchperson", Type.GetType("System.String"))) '9 : สาขา(ผู้มีเงินได้)
+      dsExportTable.Columns.Add(New DataColumn("titleperson", Type.GetType("System.String"))) '10 : คำนำหน้าชื่อผู้มีเงินได้
+      dsExportTable.Columns.Add(New DataColumn("nameperson", Type.GetType("System.String"))) '11 : ชื่อผู้มีเงินได้
+      dsExportTable.Columns.Add(New DataColumn("lastnameperson", Type.GetType("System.String"))) '12 : ชื่อสกุลผู้มีเงินได้
+      dsExportTable.Columns.Add(New DataColumn("addressperson", Type.GetType("System.String"))) '13 : ที่อยู่ผู้มีเงินได้
+      dsExportTable.Columns.Add(New DataColumn("paymentdate", Type.GetType("System.String"))) '14 : วันเดือนปีที่จ่าย
+      dsExportTable.Columns.Add(New DataColumn("incomeclass", Type.GetType("System.String"))) '15 : ประเภทเงินได้
+      dsExportTable.Columns.Add(New DataColumn("taxrate", Type.GetType("System.String"))) '16 : อัตราภาษี
+      dsExportTable.Columns.Add(New DataColumn("amount", Type.GetType("System.String"))) '17 : จำนวนเงินที่จ่าย
+      dsExportTable.Columns.Add(New DataColumn("taxamount", Type.GetType("System.String"))) '17 : จำนวนเงินภาษีที่หัก
+      dsExportTable.Columns.Add(New DataColumn("condition", Type.GetType("System.String"))) '17 : เงื่อนไขการหักภาษี
+
+      Dim index As Integer = 0
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        Dim newrow As DataRow
+
+        index += 1
+
+        newrow = dsExportSet.Tables(0).NewRow()
+        dsExportSet.Tables(0).Rows.Add(newrow)
+        newrow("no") = index.ToString
+        newrow("taxidno13") = companytaxId13
+        newrow("taxidno10") = companytaxId10
+        newrow("branch") = companybranchId
+        newrow("name") = companyname
+        newrow("address") = companyaddress
+        newrow("incomesection") = "" ' drh.GetValue(Of Integer)("", 0)
+        newrow("idnoperson") = drh.GetValue(Of String)("supplierIdno", "").Trim
+        newrow("taxidnoperson") = drh.GetValue(Of String)("supplierTaxId", "").Trim
+        newrow("branchperson") = "00000" 'drh.GetValue(Of String)("", "00000")
+        newrow("titleperson") = "" 'drh.GetValue(Of String)("", "")
+        newrow("nameperson") = drh.GetValue(Of String)("printname", "").Trim
+        newrow("lastnameperson") = "" 'drh.GetValue(Of String)("", "")
+        newrow("addressperson") = drh.GetValue(Of String)("printaddress", "").Trim
+        newrow("paymentdate") = drh.GetValue(Of DateTime)("docdate").ToString("dd/MM/yyyy", culture)
+        newrow("incomeclass") = drh.GetValue(Of String)("description", "").Trim
+        newrow("taxrate") = drh.GetValue(Of Decimal)("taxrate", 0).ToString
+        newrow("amount") = drh.GetValue(Of Decimal)("beforetax", 0).ToString
+        newrow("taxamount") = drh.GetValue(Of Decimal)("whtamt", 0).ToString
+        newrow("condition") = drh.GetValue(Of String)("whtpaymenttype", "")
+
+        If Not WitholdingTaxIdList.Contains(drh.GetValue(Of Integer)("wht_id")) Then
+          WitholdingTaxIdList.Add(drh.GetValue(Of Integer)("wht_id"))
+        End If
+
+      Next
+    End Sub
+
+    Public Sub Export(ByVal writer As TextWriter, exportpndType As Integer) 'As SaveErrorException
+
+      Dim expText As String = ""
+
+      If m_whtType <> -1 Then
+        exportpndType = m_whtType
+      End If
+      Select Case exportpndType
+        Case 8 'ภงด. 1
+          For Each row As DataRow In Me.dsExportSet.Tables(0).Rows
+            Dim exportList As New ArrayList
+            Dim drh As New DataRowHelper(row)
+            exportList.Add(drh.GetValue(Of String)("no"))
+            exportList.Add(drh.GetValue(Of String)("taxidno13"))
+            exportList.Add(drh.GetValue(Of String)("taxidno10"))
+            exportList.Add(drh.GetValue(Of String)("branch"))
+            exportList.Add(drh.GetValue(Of String)("name"))
+            exportList.Add(drh.GetValue(Of String)("address"))
+            exportList.Add(drh.GetValue(Of String)("incomesection"))
+            exportList.Add(drh.GetValue(Of String)("idnoperson"))
+            exportList.Add(drh.GetValue(Of String)("taxidnoperson"))
+            'exportList.Add(drh.GetValue(Of String)("branchperson"))
+            exportList.Add(drh.GetValue(Of String)("titleperson"))
+            exportList.Add(drh.GetValue(Of String)("nameperson"))
+            exportList.Add(drh.GetValue(Of String)("lastnameperson"))
+            exportList.Add(drh.GetValue(Of String)("addressperson"))
+            exportList.Add(drh.GetValue(Of String)("paymentdate"))
+            'exportList.Add(drh.GetValue(Of String)("incomeclass"))
+            'exportList.Add(drh.GetValue(Of String)("taxrate"))
+            exportList.Add(drh.GetValue(Of String)("amount"))
+            exportList.Add(drh.GetValue(Of String)("taxamount"))
+            exportList.Add(drh.GetValue(Of String)("condition"))
+
+            expText = String.Join("|", exportList.ToArray)
+            writer.WriteLine(expText)
+          Next
+        Case 4 'ภงด. 3
+          For Each row As DataRow In Me.dsExportSet.Tables(0).Rows
+            Dim exportList As New ArrayList
+            Dim drh As New DataRowHelper(row)
+            exportList.Add(drh.GetValue(Of String)("no"))
+            exportList.Add(drh.GetValue(Of String)("taxidno13"))
+            exportList.Add(drh.GetValue(Of String)("taxidno10"))
+            exportList.Add(drh.GetValue(Of String)("branch"))
+            exportList.Add(drh.GetValue(Of String)("name"))
+            exportList.Add(drh.GetValue(Of String)("address"))
+            'exportList.Add(drh.GetValue(Of String)("incomesection"))
+            exportList.Add(drh.GetValue(Of String)("idnoperson"))
+            exportList.Add(drh.GetValue(Of String)("taxidnoperson"))
+            exportList.Add(drh.GetValue(Of String)("branchperson"))
+            exportList.Add(drh.GetValue(Of String)("titleperson"))
+            exportList.Add(drh.GetValue(Of String)("nameperson"))
+            exportList.Add(drh.GetValue(Of String)("lastnameperson"))
+            exportList.Add(drh.GetValue(Of String)("addressperson"))
+            exportList.Add(drh.GetValue(Of String)("paymentdate"))
+            exportList.Add(drh.GetValue(Of String)("incomeclass"))
+            exportList.Add(drh.GetValue(Of String)("taxrate"))
+            exportList.Add(drh.GetValue(Of String)("amount"))
+            exportList.Add(drh.GetValue(Of String)("taxamount"))
+            exportList.Add(drh.GetValue(Of String)("condition"))
+
+            expText = String.Join("|", exportList.ToArray)
+            writer.WriteLine(expText)
+          Next
+        Case 7 'ภงด. 53
+          For Each row As DataRow In Me.dsExportSet.Tables(0).Rows
+            Dim exportList As New ArrayList
+            Dim drh As New DataRowHelper(row)
+            exportList.Add(drh.GetValue(Of String)("no"))
+            exportList.Add(drh.GetValue(Of String)("taxidno13"))
+            exportList.Add(drh.GetValue(Of String)("taxidno10"))
+            exportList.Add(drh.GetValue(Of String)("branch"))
+            exportList.Add(drh.GetValue(Of String)("name"))
+            exportList.Add(drh.GetValue(Of String)("address"))
+            'exportList.Add(drh.GetValue(Of String)("incomesection"))
+            'exportList.Add(drh.GetValue(Of String)("idnoperson"))
+            exportList.Add(drh.GetValue(Of String)("taxidnoperson"))
+            exportList.Add(drh.GetValue(Of String)("branchperson"))
+            'exportList.Add(drh.GetValue(Of String)("titleperson"))
+            exportList.Add(drh.GetValue(Of String)("nameperson"))
+            'exportList.Add(drh.GetValue(Of String)("lastnameperson"))
+            exportList.Add(drh.GetValue(Of String)("addressperson"))
+            exportList.Add(drh.GetValue(Of String)("paymentdate"))
+            exportList.Add(drh.GetValue(Of String)("incomeclass"))
+            exportList.Add(drh.GetValue(Of String)("taxrate"))
+            exportList.Add(drh.GetValue(Of String)("amount"))
+            exportList.Add(drh.GetValue(Of String)("taxamount"))
+            exportList.Add(drh.GetValue(Of String)("condition"))
+
+            expText = String.Join("|", exportList.ToArray)
+            writer.WriteLine(expText)
+          Next
+      End Select
+
+    End Sub
+
+    Public Function Save() As SaveErrorException
+      If WitholdingTaxIdList Is Nothing OrElse WitholdingTaxIdList.Count <= 0 Then
+        Return New SaveErrorException("0")
+      End If
+
+      Dim cmd As String = ""
+
+      Try
+        cmd = String.Join(",", WitholdingTaxIdList.ToArray)
+        If cmd.Length > 0 Then
+          cmd = "update witholdingtax set wht_exportno = isnull(wht_exportno,0) + 1 where wht_id in (" & cmd & ")"
+
+          SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString,
+                                    CommandType.Text,
+                                    cmd)
+        End If
+
+        Return New SaveErrorException("0")
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message & vbCrLf & ex.InnerException.ToString)
+      End Try
+    End Function
+
+    'Public Function Export(ByVal writer As TextWriter) As SaveErrorException
+    '  WitholdingTaxIdList = New List(Of Integer)
+
+    '  Dim culture As New CultureInfo("th-TH", True)
+
+    '  For Each expitem As ExportVatItem In Me.ListOfExportVat
+    '    Dim vatExpText As String = ""
+
+    '    vatExpText &= Me.PinNo.Pipe
+    '    vatExpText &= Me.RegistrationNo.Pipe
+    '    vatExpText &= Me.TaxIdNo.Pipe
+    '    vatExpText &= Me.BranchId.Pipe
+    '    vatExpText &= expitem.IndicationSubmit.ToString.Pipe
+    '    vatExpText &= expitem.SubmitNo.ToString.Pipe
+    '    vatExpText &= Me.SendType1.ToString.Pipe
+    '    vatExpText &= Me.SendType2.ToString.Pipe
+    '    vatExpText &= Me.SendType3.ToString.Pipe
+    '    vatExpText &= Me.TotincYear.Pipe
+    '    vatExpText &= Me.TotincMonth.Pipe
+    '    vatExpText &= expitem.RevenuePinNo.Pipe
+    '    vatExpText &= expitem.RevenueRegistrationNo.Pipe
+    '    vatExpText &= expitem.RevenueBranchId.Pipe
+    '    vatExpText &= expitem.RevenueTitleName.Pipe
+    '    vatExpText &= expitem.RevenueFirstName.Pipe
+    '    vatExpText &= expitem.RevenueLastName.Pipe
+    '    vatExpText &= expitem.BuildingName.Pipe
+    '    vatExpText &= expitem.VillageName.Pipe
+    '    vatExpText &= expitem.RoomNo.Pipe
+    '    vatExpText &= expitem.FloorNo.Pipe
+    '    vatExpText &= expitem.AddressNo.Pipe
+    '    vatExpText &= expitem.Moo.Pipe
+    '    vatExpText &= expitem.SubStreet.Pipe
+    '    vatExpText &= expitem.Street.Pipe
+    '    vatExpText &= expitem.Tambon.Pipe
+    '    vatExpText &= expitem.District.Pipe
+    '    vatExpText &= expitem.Province.Pipe
+    '    vatExpText &= expitem.PostCode.Pipe
+    '    vatExpText &= expitem.PhoneNumber.Pipe
+    '    vatExpText &= expitem.PayDate.ToString("dd-MM-yyyy", culture).Pipe
+    '    vatExpText &= expitem.IndicationType.Pipe
+    '    vatExpText &= Configuration.Format(expitem.TaxRate, DigitConfig.Price).ToString.Pipe
+    '    vatExpText &= Configuration.Format(expitem.TaxBase, DigitConfig.Price).ToString.Pipe
+    '    vatExpText &= Configuration.Format(expitem.TaxAmount, DigitConfig.Price).ToString.Pipe
+    '    vatExpText &= expitem.ConditionType.Pipe
+    '    vatExpText &= expitem.Note
+    '    writer.WriteLine(vatExpText)
+
+    '    If Not WitholdingTaxIdList.Contains(expitem.WitholdingTaxId) Then
+    '      WitholdingTaxIdList.Add(expitem.WitholdingTaxId)
+    '    End If
+    '  Next
+
+    'End Function
+
+  End Class
+
 End Namespace
