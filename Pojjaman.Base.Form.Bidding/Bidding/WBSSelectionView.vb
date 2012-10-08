@@ -335,6 +335,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim targetNode As TreeNode = tvGroup.GetNodeAt(pt)
 
             Dim sourceNode As TreeNode = Me.m_draggedNode 'DirectCast(e.Data.GetData(Me.Entity.FullClassName), TreeNode)
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+
             Try
                 If Not targetNode.Bounds.Contains(pt) Then
                     If e.X < targetNode.Bounds.X And CanDragToParent Then
@@ -358,11 +360,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     sourceNode.EnsureVisible()
                 Else
                     If sourceNode.Parent Is targetNode Then
-                        MessageService.ShowMessage("ไม่จำเป็นต้องย้ายเพราะ '" & sourceNode.ToString & "' อยู่ภายใต้ '" & targetNode.ToString & "' อยู่แล้ว")
+                        'MessageService.ShowMessage("ไม่จำเป็นต้องย้ายเพราะ '" & sourceNode.ToString & "' อยู่ภายใต้ '" & targetNode.ToString & "' อยู่แล้ว")
+                        msgServ.ShowMessage("${res:ShowMessage.CostCenterPanelView.dispensable}" & " '" & sourceNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.IsUnder}" & " '" & targetNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.Orready}")
                     ElseIf targetNode Is sourceNode Then
                         'MessageBox.Show("ไม่สามารถย้ายได้เพราะลูกกับแม่เป็นกลุ่มเดียวกัน")
                     Else
-                        MessageService.ShowMessage("ไม่สามารถย้ายได้ '" & targetNode.ToString & "' อยู่ภายใต้ '" & sourceNode.ToString & "'")
+                        'MessageService.ShowMessage("ไม่สามารถย้ายได้ '" & targetNode.ToString & "' อยู่ภายใต้ '" & sourceNode.ToString & "'")
+                        msgServ.ShowMessage("${res:ShowMessage.CostCenterPanelView.NotMove}" & " '" & targetNode.ToString & "' " & "${res:ShowMessage.CostCenterPanelView.IsUnder}" & " '" & sourceNode.ToString & "'")
                     End If
                 End If
                 Dim entity As TreeBaseEntity = CType(SimpleBusinessEntityBase.GetEntity(Me.Entity.FullClassName, CInt(sourceNode.Tag)), TreeBaseEntity)
