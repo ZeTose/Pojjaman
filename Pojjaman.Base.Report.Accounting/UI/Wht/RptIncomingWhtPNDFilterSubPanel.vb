@@ -987,8 +987,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.SupplierGroup = New SupplierGroup
 
       Me.rdNormalSubmit.Checked = True
-
+      Me.CaseWhtType()
     End Sub
+    Public Sub CaseWhtType()
+      Select Case CType(cmbWhtType.SelectedItem, IdValuePair).Id
+        Case 8, 4, 7
+          Me.btnExport.Enabled = True
+        Case Else
+          Me.btnExport.Enabled = False
+      End Select
+    End Sub
+
+
     Public Overrides Function GetFilterString() As String
 
     End Function
@@ -1032,26 +1042,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Dim taxYear As String = Me.cmbYear.Text
       Dim taxMonth As String = CType(Me.cmbMonth.SelectedItem, IdValuePair).Id.ToString("00")
-      Dim sendType As String
-      Dim sendArr As New ArrayList
-      If chkType1.Checked Then
-        sendArr.Add("1")
-      Else
-        sendArr.Add("0")
-      End If
-      If chkType2.Checked Then
-        sendArr.Add("1")
-      Else
-        sendArr.Add("0")
-      End If
-      If chkType3.Checked Then
-        sendArr.Add("1")
-      Else
-        sendArr.Add("0")
-      End If
-      sendType = String.Join("|", sendArr.ToArray)
+      'Dim sendType As String
+      'Dim sendArr As New ArrayList
+      'If chkType1.Checked Then
+      '  sendArr.Add("1")
+      'Else
+      '  sendArr.Add("0")
+      'End If
+      'If chkType2.Checked Then
+      '  sendArr.Add("1")
+      'Else
+      '  sendArr.Add("0")
+      'End If
+      'If chkType3.Checked Then
+      '  sendArr.Add("1")
+      'Else
+      '  sendArr.Add("0")
+      'End If
+      'sendType = String.Join("|", sendArr.ToArray)
 
-      Dim exp As New ExportVat(taxYear, taxMonth, sendType, ds)
+      'Dim exp As New ExportVat(taxYear, taxMonth, sendType, ds)
+
+      Dim pndType As String = ""
+      Select Case CType(cmbWhtType.SelectedItem, IdValuePair).Id
+        Case 8
+          pndType = "1"
+        Case 4
+          pndType = "3"
+        Case 7
+          pndType = "53"
+      End Select
+
+      Dim exp As New ExportVat2012(ds)
 
       If Not exp Is Nothing Then
         'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
@@ -1064,14 +1086,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim myOpb As New SaveFileDialog
         myOpb.Filter = "All Files|*.*|Text File (*.txt)|*.txt"
         myOpb.FilterIndex = 2
-        myOpb.FileName = "WHT_" & taxYear.ToString & taxMonth.ToString & "_" & Now.ToString("hhmm") & ".txt"
+        myOpb.FileName = String.Format("PND_{0}_{1}{2}_{3}.txt", pndType, taxYear, taxMonth, Now.ToString("hhmm")) '"PND_" & taxYear.ToString & taxMonth.ToString & "_" & Now.ToString("hhmm") & ".txt"
         If myOpb.ShowDialog() = DialogResult.OK Then
           Dim fileName As String = Path.GetDirectoryName(myOpb.FileName) & Path.DirectorySeparatorChar & Path.GetFileName(myOpb.FileName)
           Dim writer As New IO.StreamWriter(fileName, False, System.Text.Encoding.Default)
 
           Try
-            exp.Export(writer)
-            MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ExportOutgoingCheckDetail.ExportCompleted}"))
+            exp.Export(writer, CType(cmbWhtType.SelectedItem, IdValuePair).Id)
+            MessageBox.Show(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingWhtPND.ExportCompleted}"))
 
             Dim saveerr As SaveErrorException = exp.Save()
             If Not IsNumeric(saveerr.Message) Then
@@ -1380,6 +1402,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_tgItem = value
       End Set
     End Property
+
+    Private Sub cmbWhtType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbWhtType.SelectedIndexChanged
+      Me.CaseWhtType()
+    End Sub
+
   End Class
+
 End Namespace
 
