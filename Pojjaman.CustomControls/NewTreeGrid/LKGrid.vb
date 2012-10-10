@@ -53,17 +53,21 @@ Namespace Longkong.Pojjaman.Gui.Components
       End Get
       Set(ByVal Value As TreeTable)
         If Not m_treetable Is Nothing Then
-          RemoveHandler m_treetable.RowExpandStateChanged, AddressOf RowExpandStateChanged
+          Try
+            RemoveHandler m_treetable.RowExpandStateChanged, AddressOf RowExpandStateChanged
 
-          RemoveHandler Me.QueryCellInfo, AddressOf GridQueryCellInfo
-          RemoveHandler Me.QueryRowCount, AddressOf GridQueryRowCount
-          RemoveHandler Me.QueryColCount, AddressOf GridQueryColCount
+            RemoveHandler Me.QueryCellInfo, AddressOf GridQueryCellInfo
+            RemoveHandler Me.QueryRowCount, AddressOf GridQueryRowCount
+            RemoveHandler Me.QueryColCount, AddressOf GridQueryColCount
 
-          RemoveHandler Me.SaveCellInfo, AddressOf GridSaveCellInfo
+            RemoveHandler Me.SaveCellInfo, AddressOf GridSaveCellInfo
 
-          RemoveHandler Me.QueryRowHeight, AddressOf GridQueryRowHeight
-          RemoveHandler Me.QueryColWidth, AddressOf GridQueryColWidth
-          RemoveHandler Me.QueryCoveredRange, AddressOf GridQueryCoveredRange
+            RemoveHandler Me.QueryRowHeight, AddressOf GridQueryRowHeight
+            RemoveHandler Me.QueryColWidth, AddressOf GridQueryColWidth
+            RemoveHandler Me.QueryCoveredRange, AddressOf GridQueryCoveredRange
+          Catch ex As Exception
+
+          End Try
         End If
         m_treetable = Value
         If Not m_treetable Is Nothing Then
@@ -74,20 +78,25 @@ Namespace Longkong.Pojjaman.Gui.Components
           'hook up the events needed for virtual grid
           'While only the QueryCellInfo is absolutely required,
           'it would be unusual not to handle at least one of the row or column count events
-          AddHandler Me.QueryCellInfo, AddressOf GridQueryCellInfo
-          AddHandler Me.QueryRowCount, AddressOf GridQueryRowCount
-          AddHandler Me.QueryColCount, AddressOf GridQueryColCount
+          Try
+            AddHandler Me.QueryCellInfo, AddressOf GridQueryCellInfo
+            AddHandler Me.QueryRowCount, AddressOf GridQueryRowCount
+            AddHandler Me.QueryColCount, AddressOf GridQueryColCount
 
-          'if you want to edit your data in the grid, you need to 
-          'handle saving data back to the data source...
-          AddHandler Me.SaveCellInfo, AddressOf GridSaveCellInfo
+            'if you want to edit your data in the grid, you need to 
+            'handle saving data back to the data source...
+            AddHandler Me.SaveCellInfo, AddressOf GridSaveCellInfo
 
-          '
-          'other events that you can use to provide virtual data
-          'these events are optional depending upon the functionality you want
-          AddHandler Me.QueryRowHeight, AddressOf GridQueryRowHeight
-          AddHandler Me.QueryColWidth, AddressOf GridQueryColWidth
-          AddHandler Me.QueryCoveredRange, AddressOf GridQueryCoveredRange
+            '
+            'other events that you can use to provide virtual data
+            'these events are optional depending upon the functionality you want
+            AddHandler Me.QueryRowHeight, AddressOf GridQueryRowHeight
+            AddHandler Me.QueryColWidth, AddressOf GridQueryColWidth
+            AddHandler Me.QueryCoveredRange, AddressOf GridQueryCoveredRange
+          Catch ex As Exception
+
+          End Try
+
 
           Me.BeginUpdate()
           For i As Integer = 1 To Me.ColCount
@@ -250,7 +259,7 @@ Namespace Longkong.Pojjaman.Gui.Components
       End If
       Dim i As Integer = 0
       Try
-        If e.RowIndex > 0 AndAlso e.ColIndex > 0 Then
+        If e.RowIndex > 0 AndAlso e.ColIndex > 0 AndAlso Me.m_treetable.Rows.Count > 0 Then
           i = 1
           e.Style.CellValue = Me.m_treetable.Rows(e.RowIndex - 1)(e.ColIndex - 1)
           Dim row As TreeRow = CType(m_treetable.Rows(e.RowIndex - 1), TreeRow)

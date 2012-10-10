@@ -91,12 +91,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ' Level 2
         tr = Me.m_treemanager.Treetable.Childs.Add
       tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocCode}") '"รหัสเอกสาร"
-      tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}") ' "วันที่"
-      tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}") '"ประเภทเอกสาร"
-      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}") '"CCรับ"
-      tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.Qty}") '"รายชื่อผู้ขาย"
-      tr("col5") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}") '"มูลค่าซื้อถึงกำหนด"
-      tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}") '"ภาษีซื้อ(ถึงกำหนด)"
+      tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry.DocDate}") '"วันที่"
+      tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.DocType}") '"ประเภทเอกสาร"
+      tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.ToolStatus}") '"สถานะเครื่องมือ"
+      tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEQTIncome.ToCC}") '"CCรับ"
+      tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolMovement.Qty}") '"รายชื่อผู้ขาย"
+      tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptToolStatus.Unit}") '"มูลค่าซื้อถึงกำหนด"
+      tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptEquipmentMovement.RentalAmount}") '"ภาษีซื้อ(ถึงกำหนด)"
+
     End Sub
     Private Sub PopulateData()
       Dim dtTool As DataTable = Me.DataSet.Tables(0)
@@ -133,12 +135,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             trEqtDoc = trToolCode.Childs.Add
             trEqtDoc.Tag = eqtRow
             trEqtDoc("col0") = indent & deh.GetValue(Of String)("eqtstock_code")
-            trEqtDoc("col1") = indent & deh.GetValue(Of Date)("eqtstock_docdate").ToShortDateString
-            trEqtDoc("col2") = deh.GetValue(Of String)("DoctypeName")
-            trEqtDoc("col3") = deh.GetValue(Of String)("tocc")
-            trEqtDoc("col4") = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_qty"), DigitConfig.Int)
-            trEqtDoc("col5") = deh.GetValue(Of String)("unit_name")
-            trEqtDoc("col6") = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
+            trEqtDoc("col1") = deh.GetValue(Of Date)("eqtstock_docdate").ToShortDateString
+            trEqtDoc("col2") = indent & deh.GetValue(Of String)("DoctypeName")
+            trEqtDoc("col3") = deh.GetValue(Of String)("eqttoolstatus")
+            trEqtDoc("col4") = deh.GetValue(Of String)("tocc")
+            trEqtDoc("col5") = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_qty"), DigitConfig.Int)
+            trEqtDoc("col6") = deh.GetValue(Of String)("unit_name")
+            trEqtDoc("col7") = Configuration.FormatToString(deh.GetValue(Of Decimal)("eqtstocki_Amount"), DigitConfig.Price)
 
           End If
         Next
@@ -174,6 +177,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col4", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
 
       Return myDatatable
     End Function
@@ -181,14 +185,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
-      Dim iCol As Integer = 6 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+      Dim iCol As Integer = 7 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
       widths.Add(100)
       widths.Add(100)
-      widths.Add(150)
-      widths.Add(150)
+      widths.Add(220)
+      widths.Add(120)
+      widths.Add(200)
+      widths.Add(100)
       widths.Add(70)
-      widths.Add(150)
       widths.Add(120)
 
       For i As Integer = 0 To iCol
@@ -213,7 +218,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Alignment = HorizontalAlignment.Left
           'If Me.m_showDetailInGrid <> 0 Then
           Select Case i
-            Case 0, 1, 2, 3, 5, 14
+            Case 0, 1, 2, 3, 4, 6
               cs.Alignment = HorizontalAlignment.Left
               cs.DataAlignment = HorizontalAlignment.Left
               cs.Format = "s"
@@ -287,245 +292,258 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each fixDpi As DocPrintingItem In Me.FixValueCollection
         dpiColl.Add(fixDpi)
       Next
-      'Dim i As Integer = 0
-      Dim indent As String = Space(3)
 
-      Dim line As Decimal = 0
+      For rowIndex As Integer = 3 To Me.m_grid.RowCount
+        For colIndex As Integer = 1 To Me.m_grid.ColCount
+          dpi = New DocPrintingItem
+          dpi.Mapping = String.Format("col{0}", colIndex)
+          dpi.Value = m_grid(rowIndex, colIndex).CellValue
+          dpi.DataType = "System.Sting"
+          dpi.Row = rowIndex - 2
+          dpi.Table = "Item"
+          dpiColl.Add(dpi)
+        Next
+      Next
+
+      'Dim i As Integer = 0
+      'Dim indent As String = Space(3)
+
+      'Dim line As Decimal = 0
 
       'For Each itemrow As TreeRow In Me.Treemanager.Treetable.Childs
-      For i As Decimal = 0 To Me.Treemanager.Treetable.Childs.Count - 2
-        Dim itemrow As TreeRow = Me.Treemanager.Treetable.Childs.Item(i + 2)
-        Dim dhstockrow As New DataRowHelper(CType(itemrow, DataRow))
+      'For i As Decimal = 0 To Me.Treemanager.Treetable.Childs.Count - 2
+      '  Dim itemrow As TreeRow = Me.Treemanager.Treetable.Childs.Item(i + 2)
+      '  Dim dhstockrow As New DataRowHelper(CType(itemrow, DataRow))
 
-        'Item.LineNumber
-        dpi = New DocPrintingItem
-        dpi.Mapping = "linenumber"
-        dpi.Value = line + 1
-        dpi.DataType = "System.Sting"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'Item.LineNumber
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "linenumber"
+      '  dpi.Value = line + 1
+      '  dpi.DataType = "System.Sting"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'stock.DocCode
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Stock.DocCode"
-        dpi.Value = dhstockrow.GetValue(Of String)("Col0")
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'stock.DocCode
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Stock.DocCode"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("Col0")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'Item.DocDate
-        dpi = New DocPrintingItem
-        dpi.Mapping = "Stock.DocDate"
-        dpi.Value = dhstockrow.GetValue(Of String)("Col1")
-        'dpi.Value = dhstockrow.GetValue(Of Date)("Col1").ToShortDateString
-        dpi.DataType = "System.DateTime"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'Item.DocDate
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "Stock.DocDate"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("Col1")
+      '  'dpi.Value = dhstockrow.GetValue(Of Date)("Col1").ToShortDateString
+      '  dpi.DataType = "System.DateTime"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'GL.DocCode
-        dpi = New DocPrintingItem
-        dpi.Mapping = "GL.DocCode"
-        dpi.Value = dhstockrow.GetValue(Of String)("Col2")
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'GL.DocCode
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "GL.DocCode"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("Col2")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'Type
-        dpi = New DocPrintingItem
-        dpi.Mapping = "DocType"
-        dpi.Value = dhstockrow.GetValue(Of String)("col3")
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'Type
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "DocType"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col3")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'SupplierCode
-        dpi = New DocPrintingItem
-        dpi.Mapping = "SupplierCode"
-        dpi.Value = dhstockrow.GetValue(Of String)("col4")
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'SupplierCode
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "SupplierCode"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col4")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'SupplierName
-        dpi = New DocPrintingItem
-        dpi.Mapping = "SupplierName"
-        dpi.Value = dhstockrow.GetValue(Of String)("col5")
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'SupplierName
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "SupplierName"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col5")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'StockTaxBase
-        dpi = New DocPrintingItem
-        dpi.Mapping = "StockTaxBase"
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("col6"), DigitConfig.Price)
-        dpi.Value = dhstockrow.GetValue(Of String)("col6")
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'StockTaxBase
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "StockTaxBase"
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("col6"), DigitConfig.Price)
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col6")
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'StockTaxAmt
-        dpi = New DocPrintingItem
-        dpi.Mapping = "StockTaxAmt"
-        dpi.Value = dhstockrow.GetValue(Of String)("col7")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxAmt"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'StockTaxAmt
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "StockTaxAmt"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col7")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxAmt"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'StockTaxAmt
-        dpi = New DocPrintingItem
-        dpi.Mapping = "bfdeferTaxBase"
-        dpi.Value = dhstockrow.GetValue(Of String)("col8")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'StockTaxAmt
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "bfdeferTaxBase"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col8")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'bfdeferTaxAmt
-        dpi = New DocPrintingItem
-        dpi.Mapping = "bfdeferTaxAmt"
-        dpi.Value = dhstockrow.GetValue(Of String)("col9")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'bfdeferTaxAmt
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "bfdeferTaxAmt"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col9")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'duetaxBase
-        dpi = New DocPrintingItem
-        dpi.Mapping = "duetaxBase"
-        dpi.Value = dhstockrow.GetValue(Of String)("col10")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'duetaxBase
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "duetaxBase"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col10")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'duetaxAmt
-        dpi = New DocPrintingItem
-        dpi.Mapping = "duetaxAmt"
-        dpi.Value = dhstockrow.GetValue(Of String)("col11")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'duetaxAmt
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "duetaxAmt"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col11")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'baldeferTaxBase
-        dpi = New DocPrintingItem
-        dpi.Mapping = "baldeferTaxBase"
-        dpi.Value = dhstockrow.GetValue(Of String)("col12")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxBase"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'baldeferTaxBase
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "baldeferTaxBase"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col12")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxBase"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'baldeferTaxAmt
-        dpi = New DocPrintingItem
-        dpi.Mapping = "baldeferTaxAmt"
-        dpi.Value = dhstockrow.GetValue(Of String)("col13")
-        'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxAmt"), DigitConfig.Price)
-        dpi.DataType = "System.Decimal"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'baldeferTaxAmt
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "baldeferTaxAmt"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col13")
+      '  'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxAmt"), DigitConfig.Price)
+      '  dpi.DataType = "System.Decimal"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        'GlNote
-        dpi = New DocPrintingItem
-        dpi.Mapping = "GlNote"
-        dpi.Value = dhstockrow.GetValue(Of String)("col14")
-        dpi.DataType = "System.String"
-        dpi.Row = i + 1
-        dpi.Table = "Item"
-        dpiColl.Add(dpi)
+      '  'GlNote
+      '  dpi = New DocPrintingItem
+      '  dpi.Mapping = "GlNote"
+      '  dpi.Value = dhstockrow.GetValue(Of String)("col14")
+      '  dpi.DataType = "System.String"
+      '  dpi.Row = i + 1
+      '  dpi.Table = "Item"
+      '  dpiColl.Add(dpi)
 
-        line += 1
-        'add childs
-        If itemrow IsNot Nothing AndAlso Not itemrow.IsLeafRow Then
-          For Each paysrow As TreeRow In itemrow.Childs
-            i += 1
-            Dim prh As New DataRowHelper(paysrow)
+      '  line += 1
+      '  'add childs
+      '  If itemrow IsNot Nothing AndAlso Not itemrow.IsLeafRow Then
+      '    For Each paysrow As TreeRow In itemrow.Childs
+      '      i += 1
+      '      Dim prh As New DataRowHelper(paysrow)
 
 
-            'stock.DocCode
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Stock.DocCode"
-            dpi.Value = indent & prh.GetValue(Of String)("Col0")
-            dpi.DataType = "System.String"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'stock.DocCode
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "Stock.DocCode"
+      '      dpi.Value = indent & prh.GetValue(Of String)("Col0")
+      '      dpi.DataType = "System.String"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-            'stock.DocCode
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Stock.DocDate"
-            dpi.Value = indent & prh.GetValue(Of String)("Col1")
-            dpi.DataType = "System.String"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'stock.DocCode
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "Stock.DocDate"
+      '      dpi.Value = indent & prh.GetValue(Of String)("Col1")
+      '      dpi.DataType = "System.String"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-            'stock.DocCode
-            dpi = New DocPrintingItem
-            dpi.Mapping = "DocType"
-            dpi.Value = indent & prh.GetValue(Of String)("Col3")
-            dpi.DataType = "System.String"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'stock.DocCode
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "DocType"
+      '      dpi.Value = indent & prh.GetValue(Of String)("Col3")
+      '      dpi.DataType = "System.String"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-            'SupplierCode
-            dpi = New DocPrintingItem
-            dpi.Mapping = "SupplierCode"
-            dpi.Value = indent & prh.GetValue(Of String)("col4")
-            dpi.DataType = "System.String"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'SupplierCode
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "SupplierCode"
+      '      dpi.Value = indent & prh.GetValue(Of String)("col4")
+      '      dpi.DataType = "System.String"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-            'SupplierName
-            dpi = New DocPrintingItem
-            dpi.Mapping = "SupplierName"
-            dpi.Value = indent & prh.GetValue(Of String)("col5")
-            dpi.DataType = "System.String"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'SupplierName
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "SupplierName"
+      '      dpi.Value = indent & prh.GetValue(Of String)("col5")
+      '      dpi.DataType = "System.String"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-            'duetaxBase
-            dpi = New DocPrintingItem
-            dpi.Mapping = "duetaxBase"
-            dpi.Value = prh.GetValue(Of String)("col10")
-            'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
-            dpi.DataType = "System.Decimal"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'duetaxBase
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "duetaxBase"
+      '      dpi.Value = prh.GetValue(Of String)("col10")
+      '      'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
+      '      dpi.DataType = "System.Decimal"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-            'duetaxAmt
-            dpi = New DocPrintingItem
-            dpi.Mapping = "duetaxAmt"
-            dpi.Value = prh.GetValue(Of String)("col11")
-            'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
-            dpi.DataType = "System.Decimal"
-            dpi.Row = i + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+      '      'duetaxAmt
+      '      dpi = New DocPrintingItem
+      '      dpi.Mapping = "duetaxAmt"
+      '      dpi.Value = prh.GetValue(Of String)("col11")
+      '      'dpi.Value = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
+      '      dpi.DataType = "System.Decimal"
+      '      dpi.Row = i + 1
+      '      dpi.Table = "Item"
+      '      dpiColl.Add(dpi)
 
-          Next
-        End If
-      Next
+      '    Next
+      '  End If
+      'Next
 
       Return dpiColl
     End Function
