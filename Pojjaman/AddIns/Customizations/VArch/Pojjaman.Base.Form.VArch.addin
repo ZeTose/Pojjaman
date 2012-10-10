@@ -20,7 +20,8 @@
   <Extension path="/Pojjaman/Workbench/MainMenu/Reports">
     <MenuItem id="V-ArchReport" label="${res:MainMenu.ReportMenu.V-ArchReport}" insertafter="AssetReport">
       <MenuItem id="rptapgoodsreceiptbybilla" icon="Icons.16x16.RptAPGoodsReceiptByBilla" label="${res:MainMenu.PurchaseMenu.RptAPGoodsReceiptByBilla.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGoodsReceiptByBilla"/>
-      <MenuItem id="rptargoodssoldbybillissue" icon="Icons.16x16.RptARGoodsSoldByBillIssue" label="${res:MainMenu.PurchaseMenu.RptARGoodsSoldByBillIssue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillissue"/>
+		<MenuItem id="rptargoodssoldbybillissue" icon="Icons.16x16.RptARGoodsSoldByBillIssue" label="${res:MainMenu.PurchaseMenu.RptARGoodsSoldByBillIssue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARGoodsSoldByBillissue"/>
+		<MenuItem id="rptunorderpritemvarc" icon="Icons.16x16.rptunorderpritemvarc" label="${res:MainMenu.PurchaseMenu.RptUnorderPRItemVArc.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnorderPRItemVArc"/>
     </MenuItem>  
   </Extension>  
   <Extension path="/Pojjaman/Workbench/EntityTabs/user">
@@ -28,7 +29,9 @@
   </Extension>
   <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
     <EntityFilter id="rptapgoodsreceiptbybilla" entity="rptapgoodsreceiptbybilla" filter="Longkong.Pojjaman.Gui.Panels.RptAPGoodsReceiptByBillaFilterSubPanel"/>
-    <EntityFilter id="rptargoodssoldbybillissue" entity="rptargoodssoldbybillissue" filter="Longkong.Pojjaman.Gui.Panels.RptARGoodsSoldByBillIssueFilterSubPanel"/>
+	  <EntityFilter id="rptargoodssoldbybillissue" entity="rptargoodssoldbybillissue" filter="Longkong.Pojjaman.Gui.Panels.RptARGoodsSoldByBillIssueFilterSubPanel"/>
+	  <EntityFilter id="rptunorderpritemvarc" entity="rptunorderpritemvarc" filter="Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemVArcFilterSubPanel"/>
+	  <!--<EntityFilter id="prforselection" entity="PRForSelection" filter="Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel"/>-->
   </Extension>
   <Extension path="/Pojjaman/Workbench/EntityTabs">
     <EntityTab id="rptapgoodsreceiptbybilla">
@@ -37,10 +40,13 @@
     <EntityTab id="rptargoodssoldbybillissue">
       <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
     </EntityTab>
+	  <EntityTab id="rptunorderpritemvarc">
+		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+	  </EntityTab>
   </Extension>
   <Extension path="/Pojjaman/Workbench/EntityTabs/asset">
     <EntityTab id="AssetWithdrawReturnView" insertafter="EqRentalSummary" view="Longkong.Pojjaman.Gui.Panels.AssetWithdrawReturnView"/>
-    <EntityTab id="EqManagementView" insertafter="AssetWithdrawReturnView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>
+	  <EntityTab id="EqManagementView" insertafter="AssetWithdrawReturnView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>	 
     <!--<EntityTab id="EqManagementView" view="Longkong.Pojjaman.Gui.Panels.EqManagementView"/>-->
   </Extension>  
 </AddIn>

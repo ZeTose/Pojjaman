@@ -50,6 +50,7 @@
     <EntityFilter id="advancepay" entity="advancepay" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel"/>
     <EntityFilter id="advancepayforclosed" entity="advancepayforclosed" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel"/>
     <EntityFilter id="advancepayclosed" entity="advancepayclosed" filter="Longkong.Pojjaman.Gui.Panels.AdvancePayFilterSubPanel"/>
+		<EntityFilter id="prforselection" entity="PRForSelection" filter="Longkong.Pojjaman.Gui.Panels.PRFilterSubPanel"/>
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityTabs">
 		<EntityTab id="po">
