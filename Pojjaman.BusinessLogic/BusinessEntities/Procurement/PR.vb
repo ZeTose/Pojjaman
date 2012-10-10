@@ -3407,7 +3407,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
-
+    Public Class PRForSelection
+        Inherits PR
+        Implements IVisibleButtonShowColorListAble
+        Public Sub New()
+            MyBase.New()
+        End Sub
+        Public Sub New(ByVal code As String)
+            MyBase.New(code)
+        End Sub
+        Public Sub New(ByVal id As Integer)
+            MyBase.New(id)
+        End Sub
+        'Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+        '    Me.Construct(ds, aliasPrefix)
+        'End Sub
+        'Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+        '    Me.Construct(dr, aliasPrefix)
+        'End Sub
+        'Protected Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+        '    MyBase.Construct(ds, aliasPrefix)
+        'End Sub
+        'Protected Overrides Sub Construct()
+        '    MyBase.Construct()
+        'End Sub
+        'Protected Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+        '    MyBase.Construct()
+        'End Sub
+        Public Overrides ReadOnly Property CodonName() As String
+            Get
+                Return "PRForSelection"
+            End Get
+        End Property
+        Public Overrides ReadOnly Property ClassName As String
+            Get
+                Return "PRForSelection"
+            End Get
+        End Property
+    End Class
   Public Class PRForApprove
     Inherits PR
     Implements IVisibleButtonShowColorListAble

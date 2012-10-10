@@ -139,6 +139,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptUnorderPRItemVArc.vb" />
     <Compile Include="BLL\RptAPGoodsReceiptByBilla.vb" />
     <Compile Include="BLL\RptCreditPurchase.vb" />
     <Compile Include="BLL\RptCashPurchase.vb" />
@@ -279,6 +280,9 @@
     </Compile>
     <Compile Include="BLL\RptUnreceivedPOItem.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\RptUnorderPRItemVArcFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptAPGoodsReceiptByBillaFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -427,6 +431,9 @@
     <Compile Include="UI\RptUnreceivedPOItemFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\RptUnorderPRItemVArcFilterSubPanel.resx">
+      <DependentUpon>RptUnorderPRItemVArcFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptAPGoodsReceiptByBillaFilterSubPanel.resx">
       <DependentUpon>RptAPGoodsReceiptByBillaFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
