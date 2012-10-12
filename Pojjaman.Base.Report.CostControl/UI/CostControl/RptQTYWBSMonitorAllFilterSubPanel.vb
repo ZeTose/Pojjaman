@@ -607,9 +607,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RegisterDropdown()
       ' รูปแบบ
       With cmbDetailed.Items
-        .Add("ไม่แสดงรายการ")
-        .Add("แสดงรายการ")
-        .Add("แสดงรายการวัสดุ")
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.NotList}"))
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.ShowList}"))
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.ShowMaterial}"))
       End With
       cmbDetailed.SelectedIndex = 2
     End Sub

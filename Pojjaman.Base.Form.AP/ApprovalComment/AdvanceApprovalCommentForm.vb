@@ -338,10 +338,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				If Me.grdApproval.CurrentCell.RowIndex > 0 Then
 					If ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Originator = mySService.CurrentUser.Id Then
 						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						If msgServ.AskQuestion("ต้องการอนุมัติเอกสารโดยใช้ความเห็นที่ " & Me.grdApproval.CurrentCell.RowIndex.ToString & "ใช่หรือไม่?") Then
-							ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Level = ApprovalDocLevel.GetItem(m_entity.EntityId).Level
-							ApproveDocColl.Save()
-						End If
+                        If msgServ.AskQuestion("${res:Global.Question.Approvedocument}" & " " & Me.grdApproval.CurrentCell.RowIndex.ToString & "ใช่หรือไม่?") Then
+                            ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Level = ApprovalDocLevel.GetItem(m_entity.EntityId).Level
+                            ApproveDocColl.Save()
+                        End If
 					End If
 				End If
 			Else
@@ -375,11 +375,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
 				If Me.grdApproval.CurrentCell.RowIndex > 0 Then
 					If ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Originator = mySService.CurrentUser.Id Then
 						Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-						If msgServ.AskQuestion("ต้องการส่งกลับเอกสารโดยใช้ความเห็นที่ " & Me.grdApproval.CurrentCell.RowIndex.ToString & "ใช่หรือไม่?") Then
-							ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Level = ApprovalDocLevel.GetItem(m_entity.EntityId).Level
-							ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Reject = True
-							ApproveDocColl.Save()
-						End If
+                        If msgServ.AskQuestion("${res:Global.Question.Approvedocument}" & " " & Me.grdApproval.CurrentCell.RowIndex.ToString & "ใช่หรือไม่?") Then
+                            ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Level = ApprovalDocLevel.GetItem(m_entity.EntityId).Level
+                            ApproveDocColl(Me.grdApproval.CurrentCell.RowIndex - 1).Reject = True
+                            ApproveDocColl.Save()
+                        End If
 					End If
 				End If
 			Else
