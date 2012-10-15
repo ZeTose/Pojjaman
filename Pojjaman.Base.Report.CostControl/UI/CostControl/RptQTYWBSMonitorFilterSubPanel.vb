@@ -641,10 +641,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CodeDescription.ListCodeDescriptionInComboBox(Me.cmbType, "CostControlReportType")
       With cmbReportType
         .Items.Clear()
-        .Items.Add("ขอซื้อ")
-        .Items.Add("สั่งซื้อ")
-        .Items.Add("รับของ")
-        .Items.Add("เบิกของ")
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.PR}"))
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.PO}"))
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.GR}"))
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.MR}"))
         .SelectedIndex = 0
       End With
 

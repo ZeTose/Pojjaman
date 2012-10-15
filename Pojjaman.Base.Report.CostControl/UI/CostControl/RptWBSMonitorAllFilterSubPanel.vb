@@ -557,6 +557,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblDocEndDate.Text = Me.StringParserService.Parse("${res:Global.DocEndDate}")
             Me.grbFilterDoc.Text = Me.StringParserService.Parse("${res:Global.FilterDoc}")
 
+            Me.btnWBS.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.btnWBS}")
     End Sub
 #End Region
 
@@ -622,9 +623,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RegisterDropdown()
       ' รูปแบบ
       With cmbDetailed.Items
-        .Add("ไม่แสดงรายการ")
-        .Add("แสดงรายการ")
-        .Add("แสดงรายการวัสดุ")
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.NotList}"))
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.ShowList}"))
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.ShowMaterial}"))
       End With
       cmbDetailed.SelectedIndex = 0
     End Sub

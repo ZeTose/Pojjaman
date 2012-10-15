@@ -546,10 +546,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'CodeDescription.ListCodeDescriptionInComboBox(Me.cmbType, "CostControlReportType")
       With cmbReportType
         .Items.Clear()
-        .Items.Add("ขอซื้อ")
-        .Items.Add("สั่งซื้อ")
-        .Items.Add("รับของ")
-        .Items.Add("เบิกของ")
+                '.Items.Add("ขอซื้อ")
+                '.Items.Add("สั่งซื้อ")
+                '.Items.Add("รับของ")
+                '.Items.Add("เบิกของ")
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.PR}"))
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.PO}"))
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.GR}"))
+                .Items.Add(Me.StringParserService.Parse("${res:Global.AllocationType.MR}"))
         .SelectedIndex = 0
       End With
 
@@ -562,9 +566,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub RegisterDropdown()
       ' รูปแบบ
       With cmbDetailed.Items
-        .Add("ไม่แสดงรายการ")
-        .Add("แสดงรายการ")
-        .Add("แสดงรายการวัสดุ")
+                '.Add("ไม่แสดงรายการ")
+                '.Add("แสดงรายการ")
+                '.Add("แสดงรายการวัสดุ")
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.NotList}"))
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.ShowList}"))
+                .Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptWBSMonitorFilterSubPanel.ShowMaterial}"))
       End With
       cmbDetailed.SelectedIndex = 0
     End Sub
