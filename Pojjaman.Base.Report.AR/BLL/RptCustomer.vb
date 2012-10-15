@@ -95,7 +95,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private Sub PopulateData()
             Dim dt As DataTable = Me.DataSet.Tables(0)
 
-            Dim indent As String = Space(3)
+            Dim cindent As String = Space(3)
 
             Dim n As Int32 = 0
             Dim currRow As Integer = -1
@@ -110,7 +110,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_grid(n, 2).CellValue = row("Name")
                 m_grid(n, 3).CellValue = row("Address")
                 m_grid(n, 4).CellValue = row("CreditPeriod")
-                m_grid(n, 5).CellValue = Configuration.FormatToString(row("CreditAmount"), DigitConfig.Price)
+                'm_grid(n, 5).CellValue = Configuration.FormatToString(row("CreditAmount"), DigitConfig.Price)
+
+                If row.IsNull("CreditAmount") Then
+                    m_grid(n, 5).CellValue = Configuration.FormatToString(0, DigitConfig.Price)
+                Else
+                    m_grid(n, 5).CellValue = Configuration.FormatToString(row("CreditAmount"), DigitConfig.Price)
+                End If
+
                 m_grid(n, 6).CellValue = row("GroupName")
                 m_grid(n, 7).CellValue = row("ContactPerson")
                 m_grid(n, 8).CellValue = row("Note")
