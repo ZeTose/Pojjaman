@@ -526,7 +526,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Me.m_entity.AdvanceFilter Is Nothing Then
           Me.m_entity.AdvanceFilter = New MultiApproveAdvanceFilter
         End If
-        Me.m_entity.AdvanceFilter.CodePrefix = IIf(Me.txtCodePrefix.Text.Trim = "รหัสเอกสาร...", "", Me.txtCodePrefix.Text.Trim)
+
+        Dim documentPrefix As String = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MultiApproveDetail.txtCodePrefix}")
+
+        Me.m_entity.AdvanceFilter.CodePrefix = IIf(Me.txtCodePrefix.Text.ToLower.Trim = documentPrefix.ToLower.Trim, "", Me.txtCodePrefix.Text.Trim)
         Me.m_entity.AdvanceFilter.DocDateStart = IIf(Me.txtDocDateStart.Text.Trim.Length > 0 AndAlso TypeOf Me.txtDocDateStart.EditValue Is DateTime, Me.txtDocDateStart.Text, Date.MinValue)
         Me.m_entity.AdvanceFilter.DocDateEnd = IIf(Me.txtDocDateEnd.Text.Trim.Length > 0 AndAlso TypeOf Me.txtDocDateEnd.EditValue Is DateTime, Me.txtDocDateEnd.Text, Date.MinValue)
 

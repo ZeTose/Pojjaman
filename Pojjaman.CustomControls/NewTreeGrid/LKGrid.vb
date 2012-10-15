@@ -259,119 +259,136 @@ Namespace Longkong.Pojjaman.Gui.Components
       End If
       Dim i As Integer = 0
       Try
-        If e.RowIndex > 0 AndAlso e.ColIndex > 0 AndAlso Me.m_treetable.Rows.Count > 0 Then
+        If (e.RowIndex > 0 AndAlso e.ColIndex > 0 AndAlso Me.m_treetable.Rows.Count > 0) Then
+
           i = 1
-          e.Style.CellValue = Me.m_treetable.Rows(e.RowIndex - 1)(e.ColIndex - 1)
-          Dim row As TreeRow = CType(m_treetable.Rows(e.RowIndex - 1), TreeRow)
-          Dim state As RowExpandState = row.State
-          Dim level As Integer = row.Level
-          i = 2
-          For Each col As DataColumn In Me.m_treetable.Columns
-            If Me.TreeTableStyle.GridColumnStyles.Contains(col.ColumnName) Then
-              If e.ColIndex - 1 = col.Ordinal Then
-                If TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is DataGridCheckBoxColumn Then
-                  i = 26
-                  If CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Level > 0 Then
-                    e.Style.CellType = "CheckBox"
-                    e.Style.TriState = False
-                    e.Style.CheckBoxOptions.CheckedValue = "True"
-                    e.Style.CheckBoxOptions.UncheckedValue = "False"
-                    e.Style.Description = Me.TreeTableStyle.GridColumnStyles(col.ColumnName).HeaderText
-                  End If
-                  i = 27
-                ElseIf TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is DataGridButtonColumn Then
-                  i = 28
-                  If Me.m_treetable.Rows(e.RowIndex - 1)(e.ColIndex - 1).ToString.ToLower <> "invisible" Then
-                    If Not CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Tag Is Nothing Then
-                      e.Style.CellType = "PushButton"
-                      e.Style.CellAppearance = GridCellAppearance.Raised
+
+          Dim row As TreeRow = Nothing
+          Try
+            e.Style.CellValue = Me.m_treetable.Rows(e.RowIndex - 1)(e.ColIndex - 1)
+          Catch ex As Exception
+            e.Style.CellValue = ""
+          End Try
+          Try
+            row = CType(m_treetable.Rows(e.RowIndex - 1), TreeRow)
+          Catch ex As Exception
+
+          End Try
+
+          If Not row Is Nothing Then
+
+            Dim state As RowExpandState = row.State
+            Dim level As Integer = row.Level
+            i = 2
+            For Each col As DataColumn In Me.m_treetable.Columns
+              If Me.TreeTableStyle.GridColumnStyles.Contains(col.ColumnName) Then
+                If e.ColIndex - 1 = col.Ordinal Then
+                  If TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is DataGridCheckBoxColumn Then
+                    i = 26
+                    If CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Level > 0 Then
+                      e.Style.CellType = "CheckBox"
+                      e.Style.TriState = False
+                      e.Style.CheckBoxOptions.CheckedValue = "True"
+                      e.Style.CheckBoxOptions.UncheckedValue = "False"
+                      e.Style.Description = Me.TreeTableStyle.GridColumnStyles(col.ColumnName).HeaderText
                     End If
-                  Else
-                    e.Style.Text = ""
+                    i = 27
+                  ElseIf TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is DataGridButtonColumn Then
+                    i = 28
+                    If Me.m_treetable.Rows(e.RowIndex - 1)(e.ColIndex - 1).ToString.ToLower <> "invisible" Then
+                      If Not CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Tag Is Nothing Then
+                        e.Style.CellType = "PushButton"
+                        e.Style.CellAppearance = GridCellAppearance.Raised
+                      End If
+                    Else
+                      e.Style.Text = ""
+                    End If
+                    i = 29
+                  ElseIf TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is DataGridComboColumn Then
+                    i = 30
+                    Dim cmbCol As DataGridComboColumn = CType(Me.TreeTableStyle.GridColumnStyles(col.ColumnName), DataGridComboColumn)
+                    If state = RowExpandState.None AndAlso Not CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Tag Is Nothing Then
+                      e.Style.CellType = "ComboBox"
+                      e.Style.DataSource = cmbCol.DataTable
+                      e.Style.DisplayMember = cmbCol.DisplayMember
+                      e.Style.ValueMember = cmbCol.ValueMember
+                      e.Style.DropDownStyle = GridDropDownStyle.AutoComplete
+                    End If
+                    i = 31
+                  ElseIf TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is PlusMinusTreeTextColumn Then
+                    i = 32
+                    If e.RowIndex > Me.Rows.HeaderCount Then 'ไม่งั้นจะขึ้นขาวๆ ใน col ที่มีภาพ +-
+                      e.Style.CellType = "TreeCell"
+                    End If
+                    If HilightGroupParentText And CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Level = 0 Then
+                      ' Hilight ที่หัวของ tree นั้นๆที่เป็น Level 0
+                      e.Style.Font.Bold = True
+                    End If
+                    i = 33
                   End If
-                  i = 29
-                ElseIf TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is DataGridComboColumn Then
-                  i = 30
-                  Dim cmbCol As DataGridComboColumn = CType(Me.TreeTableStyle.GridColumnStyles(col.ColumnName), DataGridComboColumn)
-                  If state = RowExpandState.None AndAlso Not CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Tag Is Nothing Then
-                    e.Style.CellType = "ComboBox"
-                    e.Style.DataSource = cmbCol.DataTable
-                    e.Style.DisplayMember = cmbCol.DisplayMember
-                    e.Style.ValueMember = cmbCol.ValueMember
-                    e.Style.DropDownStyle = GridDropDownStyle.AutoComplete
+                  i = 34
+                  If Me.TreeTableStyle.GridColumnStyles(col.ColumnName).ReadOnly Then
+                    e.Style.ReadOnly = True
                   End If
-                  i = 31
-                ElseIf TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is PlusMinusTreeTextColumn Then
-                  i = 32
-                  If e.RowIndex > Me.Rows.HeaderCount Then 'ไม่งั้นจะขึ้นขาวๆ ใน col ที่มีภาพ +-
-                    e.Style.CellType = "TreeCell"
-                  End If
-                  If HilightGroupParentText And CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Level = 0 Then
-                    ' Hilight ที่หัวของ tree นั้นๆที่เป็น Level 0
-                    e.Style.Font.Bold = True
-                  End If
-                  i = 33
-                End If
-                i = 34
-                If Me.TreeTableStyle.GridColumnStyles(col.ColumnName).ReadOnly Then
-                  e.Style.ReadOnly = True
-                End If
-                i = 35
-                If TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is TreeTextColumn Then
-                  Dim ttc As TreeTextColumn = CType(Me.TreeTableStyle.GridColumnStyles(col.ColumnName), TreeTextColumn)
-                  If e.RowIndex = 0 Then
-                    Select Case ttc.Alignment
-                      Case HorizontalAlignment.Center
-                        e.Style.HorizontalAlignment = GridHorizontalAlignment.Center
-                      Case HorizontalAlignment.Left
-                        e.Style.HorizontalAlignment = GridHorizontalAlignment.Left
-                      Case HorizontalAlignment.Right
-                        e.Style.HorizontalAlignment = GridHorizontalAlignment.Right
-                    End Select
-                  Else
-                    Select Case ttc.DataAlignment
-                      Case HorizontalAlignment.Center
-                        e.Style.HorizontalAlignment = GridHorizontalAlignment.Center
-                      Case HorizontalAlignment.Left
-                        e.Style.HorizontalAlignment = GridHorizontalAlignment.Left
-                      Case HorizontalAlignment.Right
-                        e.Style.HorizontalAlignment = GridHorizontalAlignment.Right
-                    End Select
+                  i = 35
+                  If TypeOf Me.TreeTableStyle.GridColumnStyles(col.ColumnName) Is TreeTextColumn Then
+                    Dim ttc As TreeTextColumn = CType(Me.TreeTableStyle.GridColumnStyles(col.ColumnName), TreeTextColumn)
+                    If e.RowIndex = 0 Then
+                      Select Case ttc.Alignment
+                        Case HorizontalAlignment.Center
+                          e.Style.HorizontalAlignment = GridHorizontalAlignment.Center
+                        Case HorizontalAlignment.Left
+                          e.Style.HorizontalAlignment = GridHorizontalAlignment.Left
+                        Case HorizontalAlignment.Right
+                          e.Style.HorizontalAlignment = GridHorizontalAlignment.Right
+                      End Select
+                    Else
+                      Select Case ttc.DataAlignment
+                        Case HorizontalAlignment.Center
+                          e.Style.HorizontalAlignment = GridHorizontalAlignment.Center
+                        Case HorizontalAlignment.Left
+                          e.Style.HorizontalAlignment = GridHorizontalAlignment.Left
+                        Case HorizontalAlignment.Right
+                          e.Style.HorizontalAlignment = GridHorizontalAlignment.Right
+                      End Select
+                    End If
                   End If
                 End If
               End If
+            Next
+            i = 3
+            'If Me.CurrentCell.RowIndex = e.RowIndex Then
+            '    backBrush = New SolidBrush(dg.SelectionBackColor)
+            '    foreBrush = New SolidBrush(dg.SelectionForeColor)
+            'ElseIf row.State = RowExpandState.None Then
+            If row.State = RowExpandState.None OrElse row.State = RowExpandState.UnderParent Then
+              e.Style.BackColor = Me.BackColor
+              e.Style.TextColor = Me.ForeColor
+            Else
+              e.Style.BackColor = ColorList((level Mod ColorList.Count))
+              e.Style.TextColor = ForeColorList((level Mod ColorList.Count))
             End If
-          Next
-          i = 3
-          'If Me.CurrentCell.RowIndex = e.RowIndex Then
-          '    backBrush = New SolidBrush(dg.SelectionBackColor)
-          '    foreBrush = New SolidBrush(dg.SelectionForeColor)
-          'ElseIf row.State = RowExpandState.None Then
-          If row.State = RowExpandState.None OrElse row.State = RowExpandState.UnderParent Then
-            e.Style.BackColor = Me.BackColor
-            e.Style.TextColor = Me.ForeColor
-          Else
-            e.Style.BackColor = ColorList((level Mod ColorList.Count))
-            e.Style.TextColor = ForeColorList((level Mod ColorList.Count))
+            'If row.State <> RowExpandState.None Then
+            '    myFont = New Font("Tahoma", 8, FontStyle.Bold)
+            'Else
+            '    myFont = MyBase.TextBox.Font
+            'End If
+            'If CType(m_treetable.Rows(e.RowIndex - 1), TreeRow).State = RowExpandState.Expanded Then
+            '    e.Style.BackColor = Color.FromArgb(&HFF, &HBF, &H34)
+            'End If
+            If m_hilightWhenMinus AndAlso IsNumeric(e.Style.CellValue) Then
+              Try
+                If CDec(e.Style.CellValue) < 0 Then
+                  e.Style.TextColor = Color.Red
+                  e.Style.Font.Bold = True
+                End If
+              Catch ex As Exception
+                '--pui-- กรณีบาง filed vb เข้าใจว่าเป็นตัวเลขเช่น '22778128,22778129,22781784,22781785 ซึ่งจะทำให้ CDec(..) นั้น error
+              End Try
+            End If
+
           End If
-          'If row.State <> RowExpandState.None Then
-          '    myFont = New Font("Tahoma", 8, FontStyle.Bold)
-          'Else
-          '    myFont = MyBase.TextBox.Font
-          'End If
-          'If CType(m_treetable.Rows(e.RowIndex - 1), TreeRow).State = RowExpandState.Expanded Then
-          '    e.Style.BackColor = Color.FromArgb(&HFF, &HBF, &H34)
-          'End If
-          If m_hilightWhenMinus AndAlso IsNumeric(e.Style.CellValue) Then
-            Try
-              If CDec(e.Style.CellValue) < 0 Then
-                e.Style.TextColor = Color.Red
-                e.Style.Font.Bold = True
-              End If
-            Catch ex As Exception
-              '--pui-- กรณีบาง filed vb เข้าใจว่าเป็นตัวเลขเช่น '22778128,22778129,22781784,22781785 ซึ่งจะทำให้ CDec(..) นั้น error
-            End Try
-          End If
+
         ElseIf e.RowIndex = 0 Then
           i = 4
           For Each col As DataColumn In Me.m_treetable.Columns

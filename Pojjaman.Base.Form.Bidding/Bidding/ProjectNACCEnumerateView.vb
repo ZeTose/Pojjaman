@@ -169,7 +169,9 @@ Public Class ProjectNACCEnumerateView
     If Not m_entity.ProjectNACC Is Nothing Then
       Dim _nacc As ProjectNACC = m_entity.ProjectNACC
       With Me
-        _nacc.CostCenter = New CostCenter(CType(.cmbCostCenter.SelectedItem, IdValuePair).Id)
+        If Not .cmbCostCenter.SelectedItem Is Nothing Then
+          _nacc.CostCenter = New CostCenter(CType(.cmbCostCenter.SelectedItem, IdValuePair).Id)
+        End If
         _nacc.ContractNO = .tContractNo.Text
         _nacc.eGPContractNO = .teGPContractNo.Text
         _nacc.TaxID = .tTaxId.Text
