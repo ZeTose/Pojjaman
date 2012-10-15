@@ -45,7 +45,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
-      lkg.HideHead = True
+            lkg.HideRows(0) = False
+            lkg.RowHeights(0) = 5
       lkg.TreeTable = tm.Treetable
       lkg.Cols.FrozenCount = 3
       lkg.Rows.HeaderCount = 4
