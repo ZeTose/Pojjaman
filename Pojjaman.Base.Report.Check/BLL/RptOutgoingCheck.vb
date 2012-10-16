@@ -45,7 +45,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
       lkg.TreeTable = tm.Treetable
-      lkg.Rows.Hidden(0) = True
+
+            lkg.HideRows(0) = False
+            lkg.RowHeights(0) = 5
+
       lkg.Rows.HeaderCount = 3
       lkg.Rows.FrozenCount = 3
       lkg.Refresh()

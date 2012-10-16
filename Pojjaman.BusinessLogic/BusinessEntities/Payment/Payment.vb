@@ -2621,7 +2621,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim TotalCheck As Decimal = 0
       Dim TotalTransferOut As Decimal = 0
       Dim TotalAdvanceMoney As Decimal = 0
-      Dim CheckCode As String = ""
+            Dim CheckCode As String = ""
+
+            Dim DiscountAmount As Decimal = 0
+            Dim OtherRevenue As Decimal = 0
 
       Dim tmpCode As String = ""
       Dim tmpName As String = ""
@@ -3151,7 +3154,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Mapping = "TotalOtherPay"
       dpi.Value = Configuration.FormatToString(totalOtherPay, DigitConfig.Price)
       dpi.DataType = "System.String"
-      dpiColl.Add(dpi)
+            dpiColl.Add(dpi)
+
+            '--------------------------------------
+            'payment_discountAmount 'ส่วนลดรับ
+            dpi = New DocPrintingItem
+            dpi.Mapping = "DiscountAmount"
+            dpi.Value = Configuration.FormatToString(Me.payment_discountAmount, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+
+            'payment_otherRevenue รายได้อื่นๆ
+            dpi = New DocPrintingItem
+            dpi.Mapping = "OtherRevenue"
+            dpi.Value = Configuration.FormatToString(Me.payment_otherRevenue, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpiColl.Add(dpi)
+            '--------------------------------------
 
       'TotalCash
       dpi = New DocPrintingItem

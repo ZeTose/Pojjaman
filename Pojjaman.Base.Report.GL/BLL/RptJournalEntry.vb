@@ -48,7 +48,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.TreeTable = tm.Treetable
       lkg.Rows.HeaderCount = 2
       lkg.Rows.FrozenCount = 2
-      m_grid.Model.Rows.Hidden(0) = True
+            'm_grid.Model.Rows.Hidden(0) = True
+
+            lkg.HideRows(0) = False
+            lkg.RowHeights(0) = 5
+
       'm_grid.Model.Cols.Hidden(13) = True
       'm_grid.Model.Cols.Hidden(14) = True
       lkg.Refresh()

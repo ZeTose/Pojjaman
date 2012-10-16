@@ -1133,17 +1133,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
             myEntityPanelService.OpenListDialog(entities, AddressOf SetItems)
             'txtMaterialName.Text = String.Join(",", LCICodeList.ToArray)
 
-            CheckedLCIListString = String.Join(",", LCICodeList.ToArray)
+            'CheckedLCIListString = String.Join(",", LCICodeList.ToArray)
+ 
             For i = 0 To LCICodeList.Count
                 clbMaterial.Items.Add(LCICodeList(i))
             Next
-         
+
+
 
         End Sub
 
-   
+        Private Function CheckedLCIListString() As String
+
+            Dim chkId As New List(Of String)
+            Dim order As Integer = 0
+            Dim i As Integer = 0
+
+            For Each chki As Object In clbMaterial.Items
+                Dim s As String = chki
+                s = s & "|" & order.ToString
+                chkId.Add(s)
+                order += 1
+            Next
+            Return String.Join(",", chkId)
+
+        End Function
+
 #End Region
-        Dim CheckedLCIListString As String
+        'Dim CheckedLCIListString As String
         Dim LCICodeList As ArrayList
         Public Sub SetItems(ByVal items As BasketItemCollection, Optional ByVal targetType As Integer = -1)
             LCICodeList = New ArrayList
@@ -1177,13 +1194,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub ibtnUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnUp.Click
             Dim code As String = clbMaterial.SelectedItem.ToString
             Dim index As Integer = clbMaterial.SelectedIndex
-            'Dim chk As Boolean = clbMaterial.CheckedItems.Contains(clbMaterial.SelectedItem)
+            Dim chk As Boolean = clbMaterial.SelectedItems.Contains(clbMaterial.SelectedItem)
 
             Dim swap As Object = clbMaterial.SelectedItem
             If Not (swap Is Nothing) AndAlso index >= 1 Then               'If something is selected...
                 clbMaterial.Items.RemoveAt(index)                   'Remove it
                 clbMaterial.Items.Insert(index - 1, swap)           'Add it back in one spot up
-                'clbMaterial.SetItemChecked(index - 1, chk)
+                clbMaterial.SetSelected(index - 1, chk)
                 clbMaterial.SelectedItem = swap                     'Keep this item selected
 
             End If
@@ -1192,11 +1209,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub ibtnDown_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnDown.Click
             Dim index As Integer = clbMaterial.SelectedIndex
             Dim swap As Object = clbMaterial.SelectedItem
-            'Dim chk As Boolean = clbMaterial.CheckedItems.Contains(clbMaterial.SelectedItem)
+            Dim chk As Boolean = clbMaterial.SelectedItems.Contains(clbMaterial.SelectedItem)
             If Not (swap Is Nothing) AndAlso index < clbMaterial.Items.Count - 1 Then     'If something is selected...
                 clbMaterial.Items.RemoveAt(index)                   'Remove it
                 clbMaterial.Items.Insert(index + 1, swap)           'Add it back in one spot up
-                'clbMaterial.SetItemChecked(index + 1, chk)
+                clbMaterial.SetSelected(index + 1, chk)
                 clbMaterial.SelectedItem = swap                     'Keep this item selected
             End If
         End Sub

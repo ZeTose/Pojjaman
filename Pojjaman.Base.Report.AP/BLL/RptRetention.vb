@@ -58,7 +58,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  lkg.Rows.HeaderCount = 1
       '  lkg.Rows.FrozenCount = 1
       'Else
-      lkg.Rows.Hidden(0) = True
+            'lkg.Rows.Hidden(0) = True
+            lkg.RowHeights(0) = 5
       lkg.Rows.HeaderCount = 3
       lkg.Rows.FrozenCount = 3
       'End If
