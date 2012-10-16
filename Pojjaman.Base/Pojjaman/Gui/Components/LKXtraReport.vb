@@ -45,8 +45,8 @@ Public Class LKXtraReport
     Dim myProperties As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
     Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
     Dim newReport As DevExpress.XtraReports.UI.XtraReport
-    Dim m_userHash As Hashtable
-    Dim m_employeeHash As Hashtable
+    Dim m_userHash As New Hashtable
+    Dim m_employeeHash As New Hashtable
     'AddHandler newReport.AfterPrint, AddressOf AfterPrint
     'newReport = New XtraReport
     Try
