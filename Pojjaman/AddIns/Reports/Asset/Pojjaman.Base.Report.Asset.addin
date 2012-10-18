@@ -14,7 +14,7 @@
 				<MenuItem id="rpt268" icon="Icons.16x16.Rpt268" label="${res:MainMenu.PurchaseMenu.Rpt268.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt268"/>
  				<MenuItem id="rpt269" icon="Icons.16x16.Rpt269" label="${res:MainMenu.PurchaseMenu.Rpt269.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt269"/>
 				<MenuItem id="rpt270" icon="Icons.16x16.Rpt270" label="${res:MainMenu.PurchaseMenu.Rpt270.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt270"/>
-				<MenuItem id="rpt271" icon="Icons.16x16.Rpt271" label="${res:MainMenu.PurchaseMenu.Rpt271.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt271"/>
+				<!--<MenuItem id="rpt271" icon="Icons.16x16.Rpt271" label="${res:MainMenu.PurchaseMenu.Rpt271.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt271"/>-->
 				<MenuItem id="rpt272" icon="Icons.16x16.Rpt272" label="${res:MainMenu.PurchaseMenu.Rpt272.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt272"/>
 				<MenuItem id="rpt273" icon="Icons.16x16.Rpt273" label="${res:MainMenu.PurchaseMenu.Rpt273.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt273"/>
 				<MenuItem id="rptdepreciationbyasset" icon="Icons.16x16.RptDepreciationByAsset" label="${res:MainMenu.PurchaseMenu.RptDepreciationByAsset.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByAsset"/>
@@ -47,7 +47,7 @@
 		<EntityFilter id="rpt268" entity="Rpt268" filter="Longkong.Pojjaman.Gui.Panels.Rpt268FilterSubPanel"/> 
 		<EntityFilter id="rpt269" entity="Rpt269" filter="Longkong.Pojjaman.Gui.Panels.Rpt269FilterSubPanel"/> 
 		<EntityFilter id="rpt270" entity="Rpt270" filter="Longkong.Pojjaman.Gui.Panels.Rpt270FilterSubPanel"/> 
-		<EntityFilter id="rpt271" entity="Rpt271" filter="Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel"/> 
+		<!--<EntityFilter id="rpt271" entity="Rpt271" filter="Longkong.Pojjaman.Gui.Panels.Rpt271FilterSubPanel"/>--> 
 		<EntityFilter id="rpt272" entity="Rpt272" filter="Longkong.Pojjaman.Gui.Panels.Rpt272FilterSubPanel"/> 
 		<EntityFilter id="rpt273" entity="Rpt273" filter="Longkong.Pojjaman.Gui.Panels.Rpt273FilterSubPanel"/>
 		<EntityFilter id="rptdepreciationbyasset" entity="RptDepreciationByAsset" filter="Longkong.Pojjaman.Gui.Panels.RptDepreciationByAssetFilterSubPanel"/>
@@ -90,9 +90,9 @@
 		<EntityTab id="rpt270">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
-		<EntityTab id="rpt271">
+		<!--<EntityTab id="rpt271">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
-		</EntityTab>
+		</EntityTab>-->
 		<EntityTab id="rpt272">
 			<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
