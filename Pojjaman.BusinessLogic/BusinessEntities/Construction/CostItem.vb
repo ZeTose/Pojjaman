@@ -72,11 +72,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     'End Sub
 
     Public Sub New(ByVal dr As DataRow)
+      Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       With Me
         If Not dr.IsNull("entity_id") Then
           Dim drh As New DataRowHelper(dr)
           .entity_id = drh.GetValue(Of Integer)("entity_id")
-          .entity_description = drh.GetValue(Of String)("entity_description")
+          .entity_description = myService.Parse(drh.GetValue(Of String)("entity_description"))
           .entity_name = drh.GetValue(Of String)("entity_name")
         End If
       End With

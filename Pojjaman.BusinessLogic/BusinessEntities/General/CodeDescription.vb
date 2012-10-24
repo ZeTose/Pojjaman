@@ -207,7 +207,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           tmpdt.ImportRow(row)
         Next
         Dim dt As New List(Of CodeDescription)
-       
+
         For Each row As DataRow In tmpdt.Select(filter, "code_order")
           If Not row.IsNull("code_description") Then
             row("code_description") = myService.Parse(row("code_description").ToString)
