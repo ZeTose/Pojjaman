@@ -520,7 +520,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDirector.Name = "lblDirector"
       Me.lblDirector.Size = New System.Drawing.Size(88, 18)
       Me.lblDirector.TabIndex = 22
-      Me.lblDirector.Text = "ผู้สั่งจ้าง:"
+            Me.lblDirector.Text = "ผู้ขอจ้าง:"
       Me.lblDirector.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnCCEdit
@@ -1368,7 +1368,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCostCenter.Text = Me.StringParserService.Parse("${res:Global.CostCenterText}")
       Me.Validator.SetDisplayName(Me.txtCostCenterCode, StringHelper.GetRidOfAtEnd(Me.lblCostCenter.Text, ":"))
 
-      Me.lblDirector.Text = Me.StringParserService.Parse("${res:Global.DirectorText}")
+            Me.lblDirector.Text = Me.StringParserService.Parse("${res:Global.Director}")
       Me.Validator.SetDisplayName(Me.txtDirectorCode, StringHelper.GetRidOfAtEnd(Me.lblDirector.Text, ":"))
 
       'Me.lblRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.lblRetention}")
