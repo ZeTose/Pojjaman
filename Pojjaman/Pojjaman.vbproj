@@ -191,6 +191,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="AddIns\Customizations\NotRecommended\NotRecommended.addin" />
+    <Content Include="AddIns\Customizations\NotReleased\NotReleased.addin" />
+    <Content Include="AddIns\Customizations\Pisan\Pojjaman.Base.Report.CostControl.Pisan.addin" />
     <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin">
       <SubType>Designer</SubType>
     </Content>

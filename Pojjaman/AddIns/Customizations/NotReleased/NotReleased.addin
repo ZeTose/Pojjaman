@@ -1,0 +1,21 @@
+<AddIn name="Pojjaman Not Recommended Form" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Ask Developer" version="1.0.0">
+	<Runtime>
+    <Import assembly="../../Forms/Bidding/Pojjaman.Base.Form.Bidding.dll"/>
+    <Import assembly="../../Forms/Accounting/Pojjaman.Base.Form.Accounting.dll"/>
+    <!--<Import assembly="../../Forms/AP/Pojjaman.Base.Form.AP.dll"/>-->    
+  	<!--<Import assembly="../../Forms/AR/Pojjaman.Base.Form.AR.dll"/>-->
+    <!--<Import assembly="../../Forms/Asset/Pojjaman.Base.Form.Asset.dll"/>-->
+
+    <!--<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/>-->
+    <!--<Import assembly="../../Forms/SubContract/Pojjaman.Base.Form.SubContract.dll"/>-->
+    <!--<Import assembly="../../Forms/Configuration/Pojjaman.Base.Form.Configuration.dll"/>-->
+    <!--<Import assembly="../../Reports/AP/Pojjaman.Base.Report.AP.dll"/>-->
+    <!--<Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>-->
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
+    <MenuItem id="ProjectReceivePaymentMaster" insertafter="FFormat" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
+    <MenuItem id="ProjectReceivePayment" insertafter="ProjectReceivePaymentMaster" icon="Icons.16x16.ProjectReceivePayment" label="${res:MainMenu.AccountingMenu.ProjectReceivePayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePayment"/>   
+  </Extension>
+</AddIn>
+
+

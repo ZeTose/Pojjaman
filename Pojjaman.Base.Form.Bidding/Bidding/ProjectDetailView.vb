@@ -1968,6 +1968,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'End If
     End Sub
     Private Sub SetEnableNACCButton()
+      If ConfigurationUserControl.GetConfig(0, ConfigType.AddIns, "NotReleased") Then
+        Me.btnNACCEnumerate.Visible = True
+      Else
+        Me.btnNACCEnumerate.Visible = False
+      End If
       If m_entity.BidType.Value = 1 AndAlso Me.m_entity.Originated Then
         Me.btnNACCEnumerate.Enabled = True
       Else
