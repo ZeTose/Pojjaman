@@ -491,44 +491,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           If detail > 0 Then
             Dim myDocId As String = ""
-            Dim Doctr As TreeRow = Nothing
+                        'Dim Doctr As TreeRow = Nothing
             Dim DocItemTr As TreeRow = Nothing
             For Each wbsDoc As DataRow In dtDoc.Select("wbsid = " & wbsrow("wbs_id") & " and ismarkup = 0")
-              Dim wdoc As New DataRowHelper(wbsDoc)
+                            'Dim wdoc As New DataRowHelper(wbsDoc)
 
-              If Not myDocId = CStr(wbsDoc("Doc")) Then
-                'แสดงเอกสารแต่ละตัว
-                tr.State = RowExpandState.Expanded
-                Doctr = tr.Childs.Add
-                Doctr.Tag = wbsDoc
-                Doctr("boqi_itemname") = "(เอกสาร) " & CStr(wbsDoc("DocCode"))
-                Doctr.State = RowExpandState.None
-                myDocId = CStr(wbsDoc("Doc"))
-              End If
+                            '              If Not myDocId = CStr(wbsDoc("Doc")) Then
+                            '                  'แสดงเอกสารแต่ละตัว
+                            '                  tr.State = RowExpandState.Expanded
+                            '                  Doctr = tr.Childs.Add
+                            '                  Doctr.Tag = wbsDoc
+                            '                  'Doctr("boqi_itemname") = "(เอกสาร) " & CStr(wbsDoc("DocCode"))
+                            '                  Doctr.State = RowExpandState.None
+                            '                  myDocId = CStr(wbsDoc("Doc"))
+                            '              End If
 
               If detail > 1 Then
                 'แสดงรายการในแต่ละเอกสาร
-                If Not Doctr Is Nothing Then
-                  Doctr.State = RowExpandState.Expanded
-                  DocItemTr = Doctr.Childs.Add
-                  DocItemTr("boqi_itemname") = wbsDoc("itemName")
-                  'DocItemTr("UnitPrice") = Configuration.FormatToString(CDec(wbsDoc("UnitPrice")), dgt)
-                  DocItemTr("Unit") = IIf(wbsDoc.IsNull("UnitName"), "", wbsDoc("UnitName"))
-                  DocItemTr("BudgetQty") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")), dgt)
-                  DocItemTr("ActualPRQTY") = Configuration.FormatToString(CDec(wbsDoc("PRQtyActual")), dgt)
-                  DocItemTr("PRDiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("PRQtyActual")), dgt)
-                  DocItemTr("ActualPOQTY") = Configuration.FormatToString(CDec(wbsDoc("POQtyActual")), dgt)
-                  DocItemTr("PODiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("POQtyActual")), dgt)
-                  DocItemTr("ActualGRQTY") = Configuration.FormatToString(CDec(wbsDoc("GRQtyActual")), dgt)
-                  DocItemTr("GRDiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("GRQtyActual")), dgt)
-                  DocItemTr("ActualMWQTY") = Configuration.FormatToString(CDec(wbsDoc("MWQtyActual")), dgt)
-                  DocItemTr("MWDiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("MWQtyActual")), dgt)
-                  DocItemTr.State = RowExpandState.None
-                  'DocItemTr("note") = CStr(wbsDoc("itemnote"))
-                End If
-              End If
+                                'If Not Doctr Is Nothing Then
 
-            Next
+                                DocItemTr = tr.Childs.Add
+                                DocItemTr.State = RowExpandState.Expanded
+                                DocItemTr("boqi_itemname") = wbsDoc("itemName")
+                                'DocItemTr("UnitPrice") = Configuration.FormatToString(CDec(wbsDoc("UnitPrice")), dgt)
+                                DocItemTr("Unit") = IIf(wbsDoc.IsNull("UnitName"), "", wbsDoc("UnitName"))
+                                DocItemTr("BudgetQty") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")), dgt)
+                                DocItemTr("ActualPRQTY") = Configuration.FormatToString(CDec(wbsDoc("PRQtyActual")), dgt)
+                                DocItemTr("PRDiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("PRQtyActual")), dgt)
+                                DocItemTr("ActualPOQTY") = Configuration.FormatToString(CDec(wbsDoc("POQtyActual")), dgt)
+                                DocItemTr("PODiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("POQtyActual")), dgt)
+                                DocItemTr("ActualGRQTY") = Configuration.FormatToString(CDec(wbsDoc("GRQtyActual")), dgt)
+                                DocItemTr("GRDiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("GRQtyActual")), dgt)
+                                DocItemTr("ActualMWQTY") = Configuration.FormatToString(CDec(wbsDoc("MWQtyActual")), dgt)
+                                DocItemTr("MWDiff") = Configuration.FormatToString(CDec(wbsDoc("QtyBudget")) - CDec(wbsDoc("MWQtyActual")), dgt)
+                                DocItemTr.State = RowExpandState.None
+                                'DocItemTr("note") = CStr(wbsDoc("itemnote"))
+                                'End If
+                            End If
+
+                Next
           End If
         Next
 
@@ -572,14 +573,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
               For Each markupdocrow As DataRow In dtDoc.Select("wbsid = " & markuprow("markup_id") & " and ismarkup = 1")
                 Dim mdoch As New DataRowHelper(markupdocrow)
-                If Not myTempDoc = CStr(markupdocrow("DocId")) Then
-                  'แสดงเอกสารแต่ละตัว
-                  DocMarkuptr = markuptr.Childs.Add
-                  DocMarkuptr.Tag = markupdocrow
-                  DocMarkuptr("boqi_itemname") = markupdocrow("DocCode")
-                  DocMarkuptr.State = RowExpandState.Expanded
-                  myTempDoc = CStr(markupdocrow("DocId"))
-                End If
+                                If Not myTempDoc = CStr(markupdocrow("DocId")) Then
+                                    'แสดงเอกสารแต่ละตัว
+                                    DocMarkuptr = markuptr.Childs.Add
+                                    DocMarkuptr.Tag = markupdocrow
+                                    'DocMarkuptr("boqi_itemname") = markupdocrow("DocCode")
+                                    DocMarkuptr.State = RowExpandState.Expanded
+                                    myTempDoc = CStr(markupdocrow("DocId"))
+                                End If
 
                 If detail > 1 Then
                   If Not DocMarkuptr Is Nothing Then
