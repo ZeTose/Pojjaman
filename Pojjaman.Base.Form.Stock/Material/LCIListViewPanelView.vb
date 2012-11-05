@@ -8,7 +8,8 @@ Imports Longkong.Pojjaman.BusinessLogic
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class LCIListViewPanelView
     Inherits AbstractEntityPanelViewContent
-    Implements ISimpleListPanel, IValidatable
+        Implements ISimpleListPanel, IValidatable
+
 
 #Region " Windows Form Designer generated code "
 
@@ -747,8 +748,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.grbDetail}")
             Me.GroupBox1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.GroupBox1}")
             Me.grpAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.grpAmount}")
-            Me.Label7.Text = Me.StringParserService.Parse("${res:Global.BahtUnit")
-            Me.Label8.Text = Me.StringParserService.Parse("${res:Global.BahtUnit")
+            Me.Label7.Text = Me.StringParserService.Parse("${res:Global.BahtUnit}")
+            Me.Label8.Text = Me.StringParserService.Parse("${res:Global.BahtUnit}")
             Me.chkIncludeCancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.LCIListViewPanelView.chkIncludeCancel}")
             Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
 
