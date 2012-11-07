@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+
+
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class RptSupplier
         Inherits Report
@@ -96,7 +98,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Dim n As Int32 = 0
             For Each row As DataRow In dt.Rows
-                ''Tr = Me.m_treemanager.Treetable.Childs.Add
+                'Tr = Me.m_treemanager.Treetable.Childs.Add
                 m_grid.RowCount += 1
                 currTrIndex = m_grid.RowCount
                 m_grid.RowStyles(currTrIndex).ReadOnly = True
@@ -106,12 +108,67 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 m_grid(currTrIndex, 4).CellValue = row("CreditPeriod")
                 m_grid(currTrIndex, 5).CellValue = row("GroupName")
                 m_grid(currTrIndex, 6).CellValue = row("ContactPerson")
-                m_grid(currTrIndex, 7).CellValue = row("Note")
+
+
+                Dim Paying As String = ""
+                If Not IsDBNull(row("Note")) AndAlso row("Note") <> "" Then
+                    Paying = row("Note")
+                ElseIf Not IsDBNull(row("receiveDays")) AndAlso Not IsDBNull(row("receiveDates")) AndAlso Not IsDBNull("receiveWeeks") Then
+                    Paying = ChkPaying(row("receiveDays"), row("receiveDates"), row("receiveWeeks"))
+                End If
+
+                m_grid(currTrIndex, 7).CellValue = Paying
+
                 m_grid(currTrIndex, 8).CellValue = row("Phone")
                 m_grid(currTrIndex, 9).CellValue = row("Fax")
                 m_grid(currTrIndex, 10).CellValue = row("Mobile")
             Next
         End Sub
+
+        Function ChkPaying(ByVal rday As String, ByVal rDate As String, ByVal rWeek As String) As String
+            ChkPaying = ""
+
+            Dim strarryday As String() = rday.Split(",")
+            Dim strarrydate As String() = rDate.Split(",")
+            Dim strarryweek As String() = rWeek.Split(",")
+
+            Dim i As Integer
+
+            If rday <> "" Then
+                For i = 0 To strarryday.Length - 1
+                    If ChkPaying = "" Then
+                        ChkPaying = "จ่ายเงินตามวัน: " & WeekdayName(CInt(strarryday(i) + 1), False, FirstDayOfWeek.Sunday)
+                    Else
+                        ChkPaying = ChkPaying & "," & WeekdayName(CInt(strarryday(i) + 1), False, FirstDayOfWeek.Sunday)
+                    End If
+                Next
+            End If
+
+            If rDate <> "" Then
+                ChkPaying = ChkPaying & " จ่ายเงินตามวันที่: "
+                For i = 0 To strarrydate.Length - 1
+                    If i = 0 Then
+                        ChkPaying = ChkPaying & CInt(strarrydate(i)) + 1
+                    Else
+                        ChkPaying = ChkPaying & "," & CInt(strarrydate(i)) + 1
+                    End If
+                Next
+            End If
+
+            If rWeek <> "" Then
+                ChkPaying = ChkPaying & " จ่ายเงินตามสัปดาห์ที่: "
+                For i = 0 To strarryweek.Length - 1
+                    If i = 0 Then
+                        ChkPaying = ChkPaying & CInt(strarryweek(i)) + 1
+                    Else
+                        ChkPaying = ChkPaying & "," & CInt(strarryweek(i)) + 1
+                    End If
+                Next
+            End If
+
+
+        End Function
+
 #End Region#Region "Shared"
 #End Region#Region "Properties"        Public Overrides ReadOnly Property ClassName() As String
             Get
@@ -262,6 +319,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return dpiColl
         End Function
 #End Region
+
     End Class
 End Namespace
 
