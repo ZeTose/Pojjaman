@@ -1572,47 +1572,56 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       dpi.Mapping = "DocDate"
       dpi.Value = Me.DocDate.ToShortDateString
       dpi.DataType = "System.DateTime"
-      dpiColl.Add(dpi)
+            dpiColl.Add(dpi)
 
-      If Not Me.SC Is Nothing Then
-        'SCCode
-        dpi = New DocPrintingItem
-        dpi.Mapping = "SCCode"
-        dpi.Value = Me.SC.Code
-        dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
 
-        If Not Me.SC.Director Is Nothing AndAlso Me.SC.Director.Originated Then
-          'RequestorId
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RequestorId"
-          dpi.Value = Me.SC.Director.Id
-          dpi.DataType = "System.String"
-          dpi.SignatureType = SignatureType.Person
-          dpiColl.Add(dpi)
+            If Not Me.SC Is Nothing Then
 
-          'RequestorInfo
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RequestorInfo"
-          dpi.Value = Me.SC.Director.Code & ":" & Me.SC.Director.Name
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+                'SCCode
+                dpi = New DocPrintingItem
+                dpi.Mapping = "SCCode"
+                dpi.Value = Me.SC.Code
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
 
-          'RequestorCode
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RequestorCode"
-          dpi.Value = Me.SC.Director.Code
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
+                'SCDate
+                dpi = New DocPrintingItem
+                dpi.Mapping = "SCDate"
+                dpi.Value = Me.SC.DocDate
+                dpi.DataType = "System.DateTime"
+                dpiColl.Add(dpi)
 
-          'RequestorName
-          dpi = New DocPrintingItem
-          dpi.Mapping = "RequestorName"
-          dpi.Value = Me.SC.Director.Name
-          dpi.DataType = "System.String"
-          dpiColl.Add(dpi)
-        End If
-      End If
+                If Not Me.SC.Director Is Nothing AndAlso Me.SC.Director.Originated Then
+                    'RequestorId
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "RequestorId"
+                    dpi.Value = Me.SC.Director.Id
+                    dpi.DataType = "System.String"
+                    dpi.SignatureType = SignatureType.Person
+                    dpiColl.Add(dpi)
+
+                    'RequestorInfo
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "RequestorInfo"
+                    dpi.Value = Me.SC.Director.Code & ":" & Me.SC.Director.Name
+                    dpi.DataType = "System.String"
+                    dpiColl.Add(dpi)
+
+                    'RequestorCode
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "RequestorCode"
+                    dpi.Value = Me.SC.Director.Code
+                    dpi.DataType = "System.String"
+                    dpiColl.Add(dpi)
+
+                    'RequestorName
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "RequestorName"
+                    dpi.Value = Me.SC.Director.Name
+                    dpi.DataType = "System.String"
+                    dpiColl.Add(dpi)
+                End If
+            End If
 
       If Not Me.SubContractor Is Nothing AndAlso Me.SubContractor.Originated Then
         'SubcontractorInfo
