@@ -265,7 +265,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Catch ex As NoConversionException
               Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
               If Not msgServ Is Nothing Then
-                msgServ.ShowErrorFormatted("วัสดุ {0} ไม่มีหน่วยนับ {1} ระบุไว้", New String() {ex.Lci.Code, ex.Unit.Name})
+                                msgServ.ShowErrorFormatted("${res:Global.Error.GoodsSoldNotUnit}", New String() {ex.Lci.Code, ex.Unit.Name})
               End If
             End Try
           Else

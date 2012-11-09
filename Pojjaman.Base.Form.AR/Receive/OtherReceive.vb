@@ -443,7 +443,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       m_updating = True
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       If DupCode(e) Then
-        msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"¼Ñ§ºÑ­ªÕ", e.ProposedValue.ToString})
+                msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"${res:Global.Error.AccountChart}", e.ProposedValue.ToString})
         e.ProposedValue = e.Row(e.Column)
         m_updating = False
         Return

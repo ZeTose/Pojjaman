@@ -1703,7 +1703,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If entity.Originated Then
         If entity.IsControlGroup Then
           Dim myMsgService As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-          myMsgService.ShowError(entity.Code & "-" & entity.Name & " เป็นบัญชีคุม")
+                    myMsgService.ShowError(entity.Code & "-" & entity.Name & " " & "${res:ShowMessage.ControlAccounts}")
           Dim ga As GeneralAccount = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.OtherIncome)
           If Not ga.Account Is Nothing AndAlso ga.Account.Originated Then
             e.Row("stocki_acct") = ga.Account.Id

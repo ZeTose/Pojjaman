@@ -2471,28 +2471,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Return ""
         End If
 
-        showMessage = "เพิ่มเข้าสู่ระบบ : "
+                showMessage = "${res:Global.Error.Add}" & " "
         If Not Me.Entity.Originator Is Nothing Then
           showMessage += Me.Entity.OriginDate.ToShortDateString
         Else
           showMessage += ""
         End If
 
-        showMessage += " โดย : "
+                showMessage += " " & "${res:Global.By}" & " : "
         If Not Me.Entity.Originator Is Nothing Then
           showMessage += Me.Entity.Originator.Name
         Else
           showMessage += ""
         End If
 
-        showMessage += " แก้ไขล่าสุด : "
+                showMessage += " " & "${res:Global.Edited}" & " : "
         If Not Me.Entity.LastEditor Is Nothing Then
           showMessage += Me.Entity.LastEditDate.ToShortDateString
         Else
           showMessage += ""
         End If
 
-        showMessage += " โดย : "
+                showMessage += " " & "${res:Global.By}" & " : "
         If Not Me.Entity.LastEditor Is Nothing Then
           showMessage += Me.Entity.LastEditor.Name
         Else

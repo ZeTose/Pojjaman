@@ -371,7 +371,7 @@ Public Class MultiAllocateWBSForm
             SetSumPercent()
         Else
             'msgServ.ShowMessage("${res:Global.Error.SpecifyCC}")
-            msgServ.ShowMessage("ไม่อนุญาติให้จัดสรรเกิน 100 %")
+            msgServ.ShowMessage("${res:Global.Error.NotAllocate}")
             Return
         End If
 

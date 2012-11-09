@@ -414,7 +414,7 @@ Namespace Longkong.Pojjaman.Gui
           msgServ.ShowMessage(saveError.Message)
           Me.OnSaved(New SaveEventArgs(False))
         Else
-          msgServ.ShowMessage("${res:Global.Info.DataSaved}" & "ใช้เวลา: " & Now.Subtract(t).Seconds.ToString & " วินาที ")
+                    msgServ.ShowMessage("${res:Global.Info.DataSaved}" & "${res:Global.Error.Duration}" & " " & Now.Subtract(t).Seconds.ToString & " " & "${res:Global.Error.Second}" & " ")
           Me.IsDirty = False
           Me.OnSaved(New SaveEventArgs(True))
         End If
