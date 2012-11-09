@@ -51,7 +51,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'm_grid.Model.Rows.Hidden(0) = True
 
             lkg.HideRows(0) = False
-            lkg.RowHeights(0) = 5
+            lkg.RowHeights(0) = 20
 
       'm_grid.Model.Cols.Hidden(13) = True
       'm_grid.Model.Cols.Hidden(14) = True
