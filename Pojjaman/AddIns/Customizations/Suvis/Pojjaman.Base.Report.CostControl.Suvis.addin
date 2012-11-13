@@ -1,0 +1,21 @@
+<AddIn name="TextExport" author="KRISS" copyright="2010" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+    <Import assembly="../../Reports/CostControl/Pojjaman.Base.Report.CostControl.dll"/>
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu/CostControlReport">
+	  <MenuItem id="RptProjectRevenueExpense" insertafter="RptMatBudgetByCC"  icon="Icons.16x16.RptProjectRevenueExpense" label="${res:MainMenu.PurchaseMenu.RptProjectRevenueExpense.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptProjectRevenueExpense"/>
+	  <MenuItem id="RptProjectRevenueExpenseEnumerate" insertafter="RptProjectRevenueExpense"  icon="Icons.16x16.RptProjectRevenueExpenseEnumerate" label="${res:MainMenu.PurchaseMenu.RptProjectRevenueExpenseEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptProjectRevenueExpenseEnumerate"/>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityFilterPanels">
+	  <EntityFilter id="rptprojectrevenueexpense" entity="rptprojectrevenueexpense" filter="Longkong.Pojjaman.Gui.Panels.RptProjectRevenueExpenseFilterSubPanel"/>
+	  <EntityFilter id="rptprojectrevenueexpenseenumerate" entity="rptprojectrevenueexpenseenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptProjectRevenueExpenseEnumerateFilterSubPanel"/>
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/EntityTabs">
+	  <EntityTab id="rptprojectrevenueexpense">
+		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+	  </EntityTab>
+	  <EntityTab id="rptprojectrevenueexpenseenumerate">
+		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
+	  </EntityTab>
+  </Extension>
+</AddIn>

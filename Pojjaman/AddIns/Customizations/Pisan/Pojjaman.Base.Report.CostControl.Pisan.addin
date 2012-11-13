@@ -3,7 +3,7 @@
     <Import assembly="../../Reports/CostControl/Pojjaman.Base.Report.CostControl.dll"/>
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/CostControlReport">
-    <MenuItem id="RptQTYWBSMonitor" insertafter="RptProjectRevenueExpenseEnumerate" insertbefore="RptQTYWBSMonitorAll" icon="Icons.16x16.RptQTYWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptQTYWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptQTYWBSMonitor"/>
+    <MenuItem id="RptQTYWBSMonitor" insertafter="RptMatBudgetByCC"  icon="Icons.16x16.RptQTYWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptQTYWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptQTYWBSMonitor"/>
     <MenuItem id="RptQTYWBSMonitorAll" insertafter="RptQTYWBSMonitor" icon="Icons.16x16.RptQTYWBSMonitorAll" label="${res:MainMenu.PurchaseMenu.RptQTYWBSMonitorAll.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptQTYWBSMonitorAll"/>
   </Extension>
   <Extension path="/Pojjaman/Workbench/EntityFilterPanels">

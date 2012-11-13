@@ -92,10 +92,11 @@
 			<MenuItem id="EmployeeSeparator" label="-"/>
 			<MenuItem id="Employee" label="${res:MainMenu.AdminMenu.EmployeeList}" icon="Icons.16x16.Employee" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Employee"/>
 			<MenuItem id="User" label="${res:MainMenu.AdminMenu.User}" icon="Icons.16x16.User" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.User"/>
-			<MenuItem id="Role" label="${res:MainMenu.AdminMenu.Role}" icon="Icons.16x16.Role" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Role"/>
+			<!--<MenuItem id="Role" label="${res:MainMenu.AdminMenu.Role}" icon="Icons.16x16.Role" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Role"/>-->
 			<MenuItem id="ChangePassword" icon="Icons.16x16.ChangePasswordIcon" label="${res:MainMenu.AdminMenu.ChangePassword}" class="Longkong.Pojjaman.Commands.ChangePassword"/>
 			<MenuItem id="OptionSeparator" label="-"/>
 			<MenuItem id="Options" label="${res:MainMenu.ToolMenu.Options}" icon="Icons.16x16.Options" description="${res:MainMenu.ToolMenu.Options.Description}" class="Longkong.Pojjaman.Commands.OptionsCommand"/>
+			<!--<MenuItem id="EntityAutoGen" icon="Icons.16x16.EntityAutoGen" label="Set Entity AutoGen" class="Longkong.Pojjaman.Commands.OpenPanel" entity="Longkong.Pojjaman.BusinessLogic.EntityAutoGen" panel="Longkong.Pojjaman.Gui.Panels.EntityAutoGenView"/>-->
 			<MenuItem id="DBTool" label="DBTool" icon="Icons.16x16.Options" description="DBTool" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
       <MenuItem id="Backup" label="Backup" icon="Icons.16x16.Options" description="Backup" class="Longkong.Pojjaman.Commands.Backup"/>
       <MenuItem id="SchemaExport" label="Schema Export" icon="Icons.16x16.Options" description="Schema Export" class="Longkong.Pojjaman.Commands.SchemaExport"/>
@@ -117,7 +118,7 @@
 			<MenuItem id="ContentBuilder" label="boguslabel" class="Longkong.Pojjaman.Commands.OpenContentsMenuBuilder"/>
 		</MenuItem>
 		<MenuItem id="Help" insertafter="Window" label="${res:MainMenu.HelpMenu}">
-			<MenuItem id="MainViewBuilder" label="" class="Longkong.Pojjaman.Commands.MainSelectionMenuBuilder"/>
+			<!--<MenuItem id="MainViewBuilder" label="" class="Longkong.Pojjaman.Commands.MainSelectionMenuBuilder"/>
 			<MenuItem id="Tools" label="${res:MainMenu.ViewMenu.FormMenu}" icon="Icons.16x16.ToolsIcon">
 				<MenuItem id="ViewBuilder" icon="Icons.16x16.ViewBuilder" label="" class="Longkong.Pojjaman.Commands.SelectionMenuBuilder"/>
 			</MenuItem>
@@ -127,7 +128,7 @@
 			<MenuItem id="TipOfTheDay" label="${res:MainMenu.HelpMenu.Tips}" icon="Icons.16x16.TipOfTheDay" description="${res:MainMenu.HelpMenu.Tips.Description}" class="Longkong.Pojjaman.Commands.ViewTipOfTheDay"/>
 			<MenuItem id="Separator3" label="-"/>
 		
-			<MenuItem id="ContactUs" label="Contact Us" icon="Icons.16x16.ContactUsIcon" description="Contact Us" class="Longkong.Pojjaman.Commands.ContactUs"/>
+			<MenuItem id="ContactUs" label="Contact Us" icon="Icons.16x16.ContactUsIcon" description="Contact Us" class="Longkong.Pojjaman.Commands.ContactUs"/>-->
 			<MenuItem id="About" label="${res:MainMenu.HelpMenu.About}" icon="Icons.16x16.AboutIcon" description="${res:MainMenu.HelpMenu.About.Description}" class="Longkong.Pojjaman.Commands.AboutPojjaman"/>
 			<MenuItem id="LKWeb" label="${res:MainMenu.HelpMenu.LKWeb}" icon="Icons.16x16.LKIcon" description="${res:MainMenu.HelpMenu.LKWeb.Description}" link="www.longkongstudio.com"/>
 		</MenuItem>

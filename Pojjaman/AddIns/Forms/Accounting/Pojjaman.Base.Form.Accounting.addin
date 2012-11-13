@@ -3,8 +3,8 @@
 		<Import assembly="Pojjaman.Base.Form.Accounting.dll"/>
 	</Runtime>
 
-  <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
-    <MenuItem id="EntityAutoGen" icon="Icons.16x16.EntityAutoGen" insertafter="ReSaveGL" label="Set Entity AutoGen" class="Longkong.Pojjaman.Commands.OpenPanel" entity="Longkong.Pojjaman.BusinessLogic.EntityAutoGen" panel="Longkong.Pojjaman.Gui.Panels.EntityAutoGenView"/>
+  <Extension path="/Pojjaman/Workbench/MainMenu/GeneralSetting">
+    <MenuItem id="EntityAutoGen" icon="Icons.16x16.EntityAutoGen" insertafter="Options" label="Set Entity AutoGen" class="Longkong.Pojjaman.Commands.OpenPanel" entity="Longkong.Pojjaman.BusinessLogic.EntityAutoGen" panel="Longkong.Pojjaman.Gui.Panels.EntityAutoGenView"/>
   </Extension>
   
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">

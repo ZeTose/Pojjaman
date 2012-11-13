@@ -15,8 +15,8 @@
 					<MenuItem id="rptincomingwht" icon="Icons.16x16.RptIncomingWht" label="${res:MainMenu.PurchaseMenu.RptIncomingWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWht"/>
 					<MenuItem id="rptoutgoinwht" icon="Icons.16x16.RptOutgoinWht" label="${res:MainMenu.PurchaseMenu.RptOutgoinWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinWht"/>
           <MenuItem id="rptincomingwhtpnd" icon="Icons.16x16.RptIncomingWhtPND" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND"/>
-          <!--<MenuItem id="rptincomingwhtpnd2" icon="Icons.16x16.RptIncomingWhtPND2" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}(2)" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND2"/>-->
-					<MenuItem id="SpecialAccountWHTReport" icon="Icons.16x16.SpecialAccountWHTReport" label="${res:MainMenu.PurchaseMenu.SpecialAccountWHTReport.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialAccountWHT"/>										
+					<!--<MenuItem id="rptincomingwhtpnd2" icon="Icons.16x16.RptIncomingWhtPND2" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}(2)" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND2"/>-->
+					<!--<MenuItem id="SpecialAccountWHTReport" icon="Icons.16x16.SpecialAccountWHTReport" label="${res:MainMenu.PurchaseMenu.SpecialAccountWHTReport.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialAccountWHT"/>-->										
 				</MenuItem>		
 		</MenuItem>
 		</Conditional>

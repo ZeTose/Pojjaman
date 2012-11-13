@@ -19,7 +19,7 @@
 				<MenuItem id="rptstockcard" icon="Icons.16x16.RptStockCard" label="${res:MainMenu.PurchaseMenu.RptStockCard.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCard"/>
 				<MenuItem id="rptstockoutcard" icon="Icons.16x16.RptStockOutCard" label="${res:MainMenu.PurchaseMenu.RptStockOutCard.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockOutCard"/>	-->
 				<MenuItem id="RptMatStockMonitor" icon="Icons.16x16.RptMatStockMonitor" label="${res:MainMenu.PurchaseMenu.RptMatStockMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor"/>							
-				<MenuItem id="RptMatWithdrawByCC" icon="Icons.16x16.RptMatWithdrawByCC" label="${res:MainMenu.PurchaseMenu.RptMatWithdrawByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdrawByCC"/>							
+				<!--<MenuItem id="RptMatWithdrawByCC" icon="Icons.16x16.RptMatWithdrawByCC" label="${res:MainMenu.PurchaseMenu.RptMatWithdrawByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdrawByCC"/>-->							
 			</MenuItem>
 		</Conditional>
 	</Extension>

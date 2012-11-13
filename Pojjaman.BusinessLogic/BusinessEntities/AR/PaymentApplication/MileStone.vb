@@ -794,7 +794,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property DetailPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.Milestone.DetailLabel}"
+                Return "${res:Longkong.Pojjaman.BusinessLogic.Milestone.DetailLabel1}"
       End Get
     End Property
     Public Overrides ReadOnly Property DetailPanelIcon() As String
@@ -809,7 +809,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public Overrides ReadOnly Property ListPanelTitle() As String
       Get
-        Return "${res:Longkong.Pojjaman.BusinessLogic.Milestone.ListLabel}"
+                Return "${res:Longkong.Pojjaman.BusinessLogic.Milestone.ListLabel}"
       End Get
     End Property
     Public Overrides ReadOnly Property Prefix() As String
@@ -3256,6 +3256,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.m_baseEnumerator.Reset()
       End Sub
     End Class
-  End Class
+    End Class
+
 
 End Namespace

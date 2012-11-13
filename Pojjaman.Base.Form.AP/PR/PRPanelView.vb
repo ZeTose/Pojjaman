@@ -11,7 +11,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class PRPanelView
-    'Inherits UserControl
+        'Inherits UserControl
     Inherits AbstractEntityDetailPanelView
     Implements IValidatable
 
@@ -84,712 +84,713 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents imAttachment As System.Windows.Forms.PictureBox
     Friend WithEvents chkClosed As System.Windows.Forms.CheckBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
-      Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PRPanelView))
-      Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.imAttachment = New System.Windows.Forms.PictureBox()
-      Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
-      Me.lblRate = New System.Windows.Forms.Label()
-      Me.lblLanguage = New System.Windows.Forms.Label()
-      Me.txtRate = New System.Windows.Forms.TextBox()
-      Me.lblUnit2 = New System.Windows.Forms.Label()
-      Me.txtUnit1 = New System.Windows.Forms.TextBox()
-      Me.lblUnit1 = New System.Windows.Forms.Label()
-      Me.txtUnit2 = New System.Windows.Forms.TextBox()
-      Me.txtLanguage = New System.Windows.Forms.TextBox()
-      Me.chkClosed = New System.Windows.Forms.CheckBox()
-      Me.btnApproveStore = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.lblStoreApprove = New System.Windows.Forms.Label()
-      Me.cmbCode = New System.Windows.Forms.ComboBox()
-      Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.lblGross = New System.Windows.Forms.Label()
-      Me.txtGross = New System.Windows.Forms.TextBox()
-      Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ibtnGetFromBOQ = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.chkAutorun = New System.Windows.Forms.CheckBox()
-      Me.lblStatus = New System.Windows.Forms.Label()
-      Me.txtReceivingDate = New System.Windows.Forms.TextBox()
-      Me.txtDocDate = New System.Windows.Forms.TextBox()
-      Me.btnRequestorEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnRequestorFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.txtCostCenterName = New System.Windows.Forms.TextBox()
-      Me.txtRequestorName = New System.Windows.Forms.TextBox()
-      Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.txtRequestorCode = New System.Windows.Forms.TextBox()
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
-      Me.dtpReceivingDate = New System.Windows.Forms.DateTimePicker()
-      Me.lblReceivingDate = New System.Windows.Forms.Label()
-      Me.lblDocDate = New System.Windows.Forms.Label()
-      Me.lblCode = New System.Windows.Forms.Label()
-      Me.lblRequestor = New System.Windows.Forms.Label()
-      Me.lblCostCenter = New System.Windows.Forms.Label()
-      Me.txtNote = New System.Windows.Forms.TextBox()
-      Me.lblNote = New System.Windows.Forms.Label()
-      Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
-      Me.lblItem = New System.Windows.Forms.Label()
-      Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
-      Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-      Me.grbDetail.SuspendLayout()
-      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).BeginInit()
-      Me.FixedGroupBox1.SuspendLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
-      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-      Me.SuspendLayout()
-      '
-      'grbDetail
-      '
-      Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
-      Me.grbDetail.Controls.Add(Me.chkClosed)
-      Me.grbDetail.Controls.Add(Me.btnApproveStore)
-      Me.grbDetail.Controls.Add(Me.lblStoreApprove)
-      Me.grbDetail.Controls.Add(Me.cmbCode)
-      Me.grbDetail.Controls.Add(Me.btnApprove)
-      Me.grbDetail.Controls.Add(Me.lblGross)
-      Me.grbDetail.Controls.Add(Me.txtGross)
-      Me.grbDetail.Controls.Add(Me.ibtnCopyMe)
-      Me.grbDetail.Controls.Add(Me.ibtnGetFromBOQ)
-      Me.grbDetail.Controls.Add(Me.chkAutorun)
-      Me.grbDetail.Controls.Add(Me.lblStatus)
-      Me.grbDetail.Controls.Add(Me.txtReceivingDate)
-      Me.grbDetail.Controls.Add(Me.txtDocDate)
-      Me.grbDetail.Controls.Add(Me.btnRequestorEdit)
-      Me.grbDetail.Controls.Add(Me.btnRequestorFind)
-      Me.grbDetail.Controls.Add(Me.txtCostCenterName)
-      Me.grbDetail.Controls.Add(Me.txtRequestorName)
-      Me.grbDetail.Controls.Add(Me.btnCCEdit)
-      Me.grbDetail.Controls.Add(Me.btnCCFind)
-      Me.grbDetail.Controls.Add(Me.txtRequestorCode)
-      Me.grbDetail.Controls.Add(Me.tgItem)
-      Me.grbDetail.Controls.Add(Me.dtpReceivingDate)
-      Me.grbDetail.Controls.Add(Me.lblReceivingDate)
-      Me.grbDetail.Controls.Add(Me.lblDocDate)
-      Me.grbDetail.Controls.Add(Me.lblCode)
-      Me.grbDetail.Controls.Add(Me.lblRequestor)
-      Me.grbDetail.Controls.Add(Me.lblCostCenter)
-      Me.grbDetail.Controls.Add(Me.txtNote)
-      Me.grbDetail.Controls.Add(Me.lblNote)
-      Me.grbDetail.Controls.Add(Me.txtCostCenterCode)
-      Me.grbDetail.Controls.Add(Me.lblItem)
-      Me.grbDetail.Controls.Add(Me.ibtnBlank)
-      Me.grbDetail.Controls.Add(Me.dtpDocDate)
-      Me.grbDetail.Controls.Add(Me.ibtnDelRow)
-      Me.grbDetail.Controls.Add(Me.imAttachment)
-      Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbDetail.ForeColor = System.Drawing.Color.Blue
-      Me.grbDetail.Location = New System.Drawing.Point(8, 4)
-      Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(914, 509)
-      Me.grbDetail.TabIndex = 0
-      Me.grbDetail.TabStop = False
-      Me.grbDetail.Text = "รายละเอียด:"
-      '
-      'imAttachment
-      '
-      Me.imAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.imAttachment.Location = New System.Drawing.Point(750, 16)
-      Me.imAttachment.Name = "imAttachment"
-      Me.imAttachment.Size = New System.Drawing.Size(29, 31)
-      Me.imAttachment.TabIndex = 345
-      Me.imAttachment.TabStop = False
-      '
-      'FixedGroupBox1
-      '
-      Me.FixedGroupBox1.Controls.Add(Me.lblRate)
-      Me.FixedGroupBox1.Controls.Add(Me.lblLanguage)
-      Me.FixedGroupBox1.Controls.Add(Me.txtRate)
-      Me.FixedGroupBox1.Controls.Add(Me.lblUnit2)
-      Me.FixedGroupBox1.Controls.Add(Me.txtUnit1)
-      Me.FixedGroupBox1.Controls.Add(Me.lblUnit1)
-      Me.FixedGroupBox1.Controls.Add(Me.txtUnit2)
-      Me.FixedGroupBox1.Controls.Add(Me.txtLanguage)
-      Me.FixedGroupBox1.Location = New System.Drawing.Point(605, 90)
-      Me.FixedGroupBox1.Name = "FixedGroupBox1"
-      Me.FixedGroupBox1.Size = New System.Drawing.Size(280, 64)
-      Me.FixedGroupBox1.TabIndex = 344
-      Me.FixedGroupBox1.TabStop = False
-      Me.FixedGroupBox1.Text = "Currency"
-      '
-      'lblRate
-      '
-      Me.lblRate.BackColor = System.Drawing.Color.Transparent
-      Me.lblRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRate.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblRate.Location = New System.Drawing.Point(6, 14)
-      Me.lblRate.Name = "lblRate"
-      Me.lblRate.Size = New System.Drawing.Size(62, 18)
-      Me.lblRate.TabIndex = 342
-      Me.lblRate.Text = "Rate"
-      Me.lblRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'lblLanguage
-      '
-      Me.lblLanguage.BackColor = System.Drawing.Color.Transparent
-      Me.lblLanguage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblLanguage.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblLanguage.Location = New System.Drawing.Point(210, 15)
-      Me.lblLanguage.Name = "lblLanguage"
-      Me.lblLanguage.Size = New System.Drawing.Size(62, 18)
-      Me.lblLanguage.TabIndex = 342
-      Me.lblLanguage.Text = "Language"
-      Me.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtRate
-      '
-      Me.Validator.SetDataType(Me.txtRate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
-      Me.txtRate.Location = New System.Drawing.Point(6, 35)
-      Me.Validator.SetMinValue(Me.txtRate, "")
-      Me.txtRate.Name = "txtRate"
-      Me.Validator.SetRegularExpression(Me.txtRate, "")
-      Me.Validator.SetRequired(Me.txtRate, False)
-      Me.txtRate.Size = New System.Drawing.Size(62, 21)
-      Me.txtRate.TabIndex = 341
-      Me.txtRate.TextAlign = HorizontalAlignment.Right
-      '
-      'lblUnit2
-      '
-      Me.lblUnit2.BackColor = System.Drawing.Color.Transparent
-      Me.lblUnit2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblUnit2.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblUnit2.Location = New System.Drawing.Point(142, 15)
-      Me.lblUnit2.Name = "lblUnit2"
-      Me.lblUnit2.Size = New System.Drawing.Size(62, 18)
-      Me.lblUnit2.TabIndex = 342
-      Me.lblUnit2.Text = "Unit2"
-      Me.lblUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtUnit1
-      '
-      Me.Validator.SetDataType(Me.txtUnit1, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtUnit1, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
-      Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
-      Me.Validator.SetMinValue(Me.txtUnit1, "")
-      Me.txtUnit1.Name = "txtUnit1"
-      Me.Validator.SetRegularExpression(Me.txtUnit1, "")
-      Me.Validator.SetRequired(Me.txtUnit1, False)
-      Me.txtUnit1.Size = New System.Drawing.Size(62, 21)
-      Me.txtUnit1.TabIndex = 341
-      '
-      'lblUnit1
-      '
-      Me.lblUnit1.BackColor = System.Drawing.Color.Transparent
-      Me.lblUnit1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblUnit1.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblUnit1.Location = New System.Drawing.Point(74, 15)
-      Me.lblUnit1.Name = "lblUnit1"
-      Me.lblUnit1.Size = New System.Drawing.Size(62, 18)
-      Me.lblUnit1.TabIndex = 342
-      Me.lblUnit1.Text = "Unit1"
-      Me.lblUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtUnit2
-      '
-      Me.Validator.SetDataType(Me.txtUnit2, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtUnit2, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
-      Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
-      Me.Validator.SetMinValue(Me.txtUnit2, "")
-      Me.txtUnit2.Name = "txtUnit2"
-      Me.Validator.SetRegularExpression(Me.txtUnit2, "")
-      Me.Validator.SetRequired(Me.txtUnit2, False)
-      Me.txtUnit2.Size = New System.Drawing.Size(62, 21)
-      Me.txtUnit2.TabIndex = 341
-      '
-      'txtLanguage
-      '
-      Me.Validator.SetDataType(Me.txtLanguage, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtLanguage, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
-      Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
-      Me.Validator.SetMinValue(Me.txtLanguage, "")
-      Me.txtLanguage.Name = "txtLanguage"
-      Me.Validator.SetRegularExpression(Me.txtLanguage, "")
-      Me.Validator.SetRequired(Me.txtLanguage, False)
-      Me.txtLanguage.Size = New System.Drawing.Size(62, 21)
-      Me.txtLanguage.TabIndex = 341
-      '
-      'chkClosed
-      '
-      Me.chkClosed.Appearance = System.Windows.Forms.Appearance.Button
-      Me.chkClosed.Location = New System.Drawing.Point(544, 16)
-      Me.chkClosed.Name = "chkClosed"
-      Me.chkClosed.Size = New System.Drawing.Size(80, 24)
-      Me.chkClosed.TabIndex = 335
-      Me.chkClosed.Text = "ปิด PR"
-      Me.chkClosed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'btnApproveStore
-      '
-      Me.btnApproveStore.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnApproveStore.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApproveStore.ForeColor = System.Drawing.Color.Black
-      Me.btnApproveStore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApproveStore.Location = New System.Drawing.Point(786, 56)
-      Me.btnApproveStore.Name = "btnApproveStore"
-      Me.btnApproveStore.Size = New System.Drawing.Size(120, 24)
-      Me.btnApproveStore.TabIndex = 334
-      Me.btnApproveStore.Text = "ตรวจสอบโดยคลัง"
-      Me.btnApproveStore.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.btnApproveStore.ThemedImage = CType(resources.GetObject("btnApproveStore.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'lblStoreApprove
-      '
-      Me.lblStoreApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.lblStoreApprove.Location = New System.Drawing.Point(786, 56)
-      Me.lblStoreApprove.Name = "lblStoreApprove"
-      Me.lblStoreApprove.Size = New System.Drawing.Size(120, 40)
-      Me.lblStoreApprove.TabIndex = 333
-      Me.lblStoreApprove.Text = "Store Approve แล้ว จริงๆนะ"
-      Me.lblStoreApprove.Visible = False
-      '
-      'cmbCode
-      '
-      Me.cmbCode.Location = New System.Drawing.Point(120, 16)
-      Me.cmbCode.Name = "cmbCode"
-      Me.cmbCode.Size = New System.Drawing.Size(120, 21)
-      Me.cmbCode.TabIndex = 332
-      '
-      'btnApprove
-      '
-      Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnApprove.ForeColor = System.Drawing.Color.Black
-      Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.btnApprove.Location = New System.Drawing.Point(786, 16)
-      Me.btnApprove.Name = "btnApprove"
-      Me.btnApprove.Size = New System.Drawing.Size(120, 24)
-      Me.btnApprove.TabIndex = 331
-      Me.btnApprove.Text = "อนุมัติเอกสาร"
-      Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'lblGross
-      '
-      Me.lblGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.lblGross.BackColor = System.Drawing.Color.Transparent
-      Me.lblGross.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblGross.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblGross.Location = New System.Drawing.Point(688, 481)
-      Me.lblGross.Name = "lblGross"
-      Me.lblGross.Size = New System.Drawing.Size(80, 18)
-      Me.lblGross.TabIndex = 329
-      Me.lblGross.Text = "ยอดเงินรวม :"
-      Me.lblGross.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtGross
-      '
-      Me.txtGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.txtGross.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtGross, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtGross, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
-      Me.txtGross.Location = New System.Drawing.Point(770, 481)
-      Me.Validator.SetMinValue(Me.txtGross, "")
-      Me.txtGross.Name = "txtGross"
-      Me.txtGross.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtGross, "")
-      Me.Validator.SetRequired(Me.txtGross, False)
-      Me.txtGross.Size = New System.Drawing.Size(136, 21)
-      Me.txtGross.TabIndex = 328
-      Me.txtGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-      '
-      'ibtnCopyMe
-      '
-      Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
-      Me.ibtnCopyMe.Location = New System.Drawing.Point(264, 16)
-      Me.ibtnCopyMe.Name = "ibtnCopyMe"
-      Me.ibtnCopyMe.Size = New System.Drawing.Size(24, 23)
-      Me.ibtnCopyMe.TabIndex = 326
-      Me.ibtnCopyMe.TabStop = False
-      Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'ibtnGetFromBOQ
-      '
-      Me.ibtnGetFromBOQ.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnGetFromBOQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-      Me.ibtnGetFromBOQ.Location = New System.Drawing.Point(120, 157)
-      Me.ibtnGetFromBOQ.Name = "ibtnGetFromBOQ"
-      Me.ibtnGetFromBOQ.Size = New System.Drawing.Size(48, 24)
-      Me.ibtnGetFromBOQ.TabIndex = 325
-      Me.ibtnGetFromBOQ.TabStop = False
-      Me.ibtnGetFromBOQ.Text = "BOQ"
-      Me.ibtnGetFromBOQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      Me.ibtnGetFromBOQ.ThemedImage = CType(resources.GetObject("ibtnGetFromBOQ.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnGetFromBOQ, "BOQ")
-      '
-      'chkAutorun
-      '
-      Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
-      Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
-      Me.chkAutorun.Location = New System.Drawing.Point(240, 16)
-      Me.chkAutorun.Name = "chkAutorun"
-      Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
-      Me.chkAutorun.TabIndex = 320
-      Me.ToolTip1.SetToolTip(Me.chkAutorun, "Autorun")
-      '
-      'lblStatus
-      '
-      Me.lblStatus.AutoSize = True
-      Me.lblStatus.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.lblStatus.Location = New System.Drawing.Point(264, 160)
-      Me.lblStatus.Name = "lblStatus"
-      Me.lblStatus.Size = New System.Drawing.Size(38, 13)
-      Me.lblStatus.TabIndex = 205
-      Me.lblStatus.Text = "Status"
-      Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-      '
-      'txtReceivingDate
-      '
-      Me.Validator.SetDataType(Me.txtReceivingDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtReceivingDate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtReceivingDate, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtReceivingDate, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtReceivingDate, System.Drawing.Color.Empty)
-      Me.txtReceivingDate.Location = New System.Drawing.Point(120, 40)
-      Me.Validator.SetMinValue(Me.txtReceivingDate, "")
-      Me.txtReceivingDate.Name = "txtReceivingDate"
-      Me.Validator.SetRegularExpression(Me.txtReceivingDate, "")
-      Me.Validator.SetRequired(Me.txtReceivingDate, True)
-      Me.txtReceivingDate.Size = New System.Drawing.Size(120, 21)
-      Me.txtReceivingDate.TabIndex = 2
-      '
-      'txtDocDate
-      '
-      Me.Validator.SetDataType(Me.txtDocDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
-      Me.Validator.SetDisplayName(Me.txtDocDate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
-      Me.txtDocDate.Location = New System.Drawing.Point(392, 16)
-      Me.Validator.SetMinValue(Me.txtDocDate, "")
-      Me.txtDocDate.Name = "txtDocDate"
-      Me.Validator.SetRegularExpression(Me.txtDocDate, "")
-      Me.Validator.SetRequired(Me.txtDocDate, True)
-      Me.txtDocDate.Size = New System.Drawing.Size(115, 21)
-      Me.txtDocDate.TabIndex = 1
-      '
-      'btnRequestorEdit
-      '
-      Me.btnRequestorEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnRequestorEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnRequestorEdit.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnRequestorEdit.Location = New System.Drawing.Point(560, 88)
-      Me.btnRequestorEdit.Name = "btnRequestorEdit"
-      Me.btnRequestorEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnRequestorEdit.TabIndex = 203
-      Me.btnRequestorEdit.TabStop = False
-      Me.btnRequestorEdit.ThemedImage = CType(resources.GetObject("btnRequestorEdit.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnRequestorFind
-      '
-      Me.btnRequestorFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnRequestorFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnRequestorFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnRequestorFind.Location = New System.Drawing.Point(536, 88)
-      Me.btnRequestorFind.Name = "btnRequestorFind"
-      Me.btnRequestorFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnRequestorFind.TabIndex = 201
-      Me.btnRequestorFind.TabStop = False
-      Me.btnRequestorFind.ThemedImage = CType(resources.GetObject("btnRequestorFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'txtCostCenterName
-      '
-      Me.txtCostCenterName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCostCenterName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
-      Me.txtCostCenterName.Location = New System.Drawing.Point(264, 64)
-      Me.Validator.SetMinValue(Me.txtCostCenterName, "")
-      Me.txtCostCenterName.Name = "txtCostCenterName"
-      Me.txtCostCenterName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
-      Me.Validator.SetRequired(Me.txtCostCenterName, False)
-      Me.txtCostCenterName.Size = New System.Drawing.Size(272, 21)
-      Me.txtCostCenterName.TabIndex = 198
-      Me.txtCostCenterName.TabStop = False
-      '
-      'txtRequestorName
-      '
-      Me.txtRequestorName.BackColor = System.Drawing.SystemColors.Control
-      Me.Validator.SetDataType(Me.txtRequestorName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRequestorName, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRequestorName, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtRequestorName, System.Drawing.Color.Empty)
-      Me.txtRequestorName.Location = New System.Drawing.Point(264, 88)
-      Me.Validator.SetMinValue(Me.txtRequestorName, "")
-      Me.txtRequestorName.Name = "txtRequestorName"
-      Me.txtRequestorName.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtRequestorName, "")
-      Me.Validator.SetRequired(Me.txtRequestorName, False)
-      Me.txtRequestorName.Size = New System.Drawing.Size(272, 21)
-      Me.txtRequestorName.TabIndex = 199
-      Me.txtRequestorName.TabStop = False
-      '
-      'btnCCEdit
-      '
-      Me.btnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCEdit.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCEdit.Location = New System.Drawing.Point(560, 64)
-      Me.btnCCEdit.Name = "btnCCEdit"
-      Me.btnCCEdit.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCEdit.TabIndex = 202
-      Me.btnCCEdit.TabStop = False
-      Me.btnCCEdit.ThemedImage = CType(resources.GetObject("btnCCEdit.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'btnCCFind
-      '
-      Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.btnCCFind.ForeColor = System.Drawing.SystemColors.Control
-      Me.btnCCFind.Location = New System.Drawing.Point(536, 64)
-      Me.btnCCFind.Name = "btnCCFind"
-      Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
-      Me.btnCCFind.TabIndex = 200
-      Me.btnCCFind.TabStop = False
-      Me.btnCCFind.ThemedImage = CType(resources.GetObject("btnCCFind.ThemedImage"), System.Drawing.Bitmap)
-      '
-      'txtRequestorCode
-      '
-      Me.Validator.SetDataType(Me.txtRequestorCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtRequestorCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtRequestorCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtRequestorCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtRequestorCode, System.Drawing.Color.Empty)
-      Me.txtRequestorCode.Location = New System.Drawing.Point(120, 88)
-      Me.Validator.SetMinValue(Me.txtRequestorCode, "")
-      Me.txtRequestorCode.Name = "txtRequestorCode"
-      Me.Validator.SetRegularExpression(Me.txtRequestorCode, "")
-      Me.Validator.SetRequired(Me.txtRequestorCode, False)
-      Me.txtRequestorCode.Size = New System.Drawing.Size(144, 21)
-      Me.txtRequestorCode.TabIndex = 4
-      '
-      'tgItem
-      '
-      Me.tgItem.AllowNew = False
-      Me.tgItem.AllowSorting = False
-      Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
-      Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-      Me.tgItem.AutoColumnResize = True
-      Me.tgItem.CaptionVisible = False
-      Me.tgItem.Cellchanged = False
-      Me.tgItem.DataMember = ""
-      Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
-      Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(11, 184)
-      Me.tgItem.Name = "tgItem"
-      Me.tgItem.Size = New System.Drawing.Size(895, 291)
-      Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
-      Me.tgItem.TabIndex = 6
-      Me.tgItem.TreeManager = Nothing
-      '
-      'dtpReceivingDate
-      '
-      Me.dtpReceivingDate.CustomFormat = "dd/MM/yyyy"
-      Me.dtpReceivingDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.dtpReceivingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpReceivingDate.Location = New System.Drawing.Point(120, 40)
-      Me.dtpReceivingDate.Name = "dtpReceivingDate"
-      Me.dtpReceivingDate.Size = New System.Drawing.Size(144, 21)
-      Me.dtpReceivingDate.TabIndex = 165
-      Me.dtpReceivingDate.TabStop = False
-      '
-      'lblReceivingDate
-      '
-      Me.lblReceivingDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblReceivingDate.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblReceivingDate.Location = New System.Drawing.Point(8, 40)
-      Me.lblReceivingDate.Name = "lblReceivingDate"
-      Me.lblReceivingDate.Size = New System.Drawing.Size(112, 18)
-      Me.lblReceivingDate.TabIndex = 173
-      Me.lblReceivingDate.Text = "วันรับของ"
-      Me.lblReceivingDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblDocDate
-      '
-      Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblDocDate.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblDocDate.Location = New System.Drawing.Point(296, 16)
-      Me.lblDocDate.Name = "lblDocDate"
-      Me.lblDocDate.Size = New System.Drawing.Size(96, 18)
-      Me.lblDocDate.TabIndex = 172
-      Me.lblDocDate.Text = "วันที่:"
-      Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblCode
-      '
-      Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCode.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblCode.Location = New System.Drawing.Point(8, 16)
-      Me.lblCode.Name = "lblCode"
-      Me.lblCode.Size = New System.Drawing.Size(112, 18)
-      Me.lblCode.TabIndex = 171
-      Me.lblCode.Text = "รหัส:"
-      Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblRequestor
-      '
-      Me.lblRequestor.BackColor = System.Drawing.Color.Transparent
-      Me.lblRequestor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblRequestor.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblRequestor.Location = New System.Drawing.Point(8, 88)
-      Me.lblRequestor.Name = "lblRequestor"
-      Me.lblRequestor.Size = New System.Drawing.Size(112, 18)
-      Me.lblRequestor.TabIndex = 174
-      Me.lblRequestor.Text = "ผู้ขอ:"
-      Me.lblRequestor.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'lblCostCenter
-      '
-      Me.lblCostCenter.BackColor = System.Drawing.Color.Transparent
-      Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCostCenter.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblCostCenter.Location = New System.Drawing.Point(8, 64)
-      Me.lblCostCenter.Name = "lblCostCenter"
-      Me.lblCostCenter.Size = New System.Drawing.Size(112, 18)
-      Me.lblCostCenter.TabIndex = 175
-      Me.lblCostCenter.Text = "CostCenter:"
-      Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtNote
-      '
-      Me.Validator.SetDataType(Me.txtNote, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtNote, "")
-      Me.txtNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
-      Me.txtNote.Location = New System.Drawing.Point(120, 112)
-      Me.txtNote.MaxLength = 250
-      Me.Validator.SetMinValue(Me.txtNote, "")
-      Me.txtNote.Multiline = True
-      Me.txtNote.Name = "txtNote"
-      Me.Validator.SetRegularExpression(Me.txtNote, "")
-      Me.Validator.SetRequired(Me.txtNote, False)
-      Me.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-      Me.txtNote.Size = New System.Drawing.Size(464, 42)
-      Me.txtNote.TabIndex = 5
-      '
-      'lblNote
-      '
-      Me.lblNote.BackColor = System.Drawing.Color.Transparent
-      Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblNote.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblNote.Location = New System.Drawing.Point(8, 112)
-      Me.lblNote.Name = "lblNote"
-      Me.lblNote.Size = New System.Drawing.Size(112, 18)
-      Me.lblNote.TabIndex = 176
-      Me.lblNote.Text = "หมายเหตุ:"
-      Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'txtCostCenterCode
-      '
-      Me.Validator.SetDataType(Me.txtCostCenterCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCostCenterCode, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
-      Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterCode, -15)
-      Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
-      Me.txtCostCenterCode.Location = New System.Drawing.Point(120, 64)
-      Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
-      Me.txtCostCenterCode.Name = "txtCostCenterCode"
-      Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
-      Me.Validator.SetRequired(Me.txtCostCenterCode, False)
-      Me.txtCostCenterCode.Size = New System.Drawing.Size(144, 21)
-      Me.txtCostCenterCode.TabIndex = 3
-      '
-      'lblItem
-      '
-      Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblItem.ForeColor = System.Drawing.SystemColors.WindowText
-      Me.lblItem.Location = New System.Drawing.Point(24, 156)
-      Me.lblItem.Name = "lblItem"
-      Me.lblItem.Size = New System.Drawing.Size(88, 24)
-      Me.lblItem.TabIndex = 173
-      Me.lblItem.Text = "รายการขอซื้อ"
-      Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-      '
-      'ibtnBlank
-      '
-      Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnBlank.Location = New System.Drawing.Point(192, 157)
-      Me.ibtnBlank.Name = "ibtnBlank"
-      Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnBlank.TabIndex = 204
-      Me.ibtnBlank.TabStop = False
-      Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnBlank, "Blank")
-      '
-      'dtpDocDate
-      '
-      Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
-      Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-      Me.dtpDocDate.Location = New System.Drawing.Point(392, 16)
-      Me.dtpDocDate.Name = "dtpDocDate"
-      Me.dtpDocDate.Size = New System.Drawing.Size(144, 21)
-      Me.dtpDocDate.TabIndex = 164
-      Me.dtpDocDate.TabStop = False
-      '
-      'ibtnDelRow
-      '
-      Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnDelRow.Location = New System.Drawing.Point(216, 157)
-      Me.ibtnDelRow.Name = "ibtnDelRow"
-      Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
-      Me.ibtnDelRow.TabIndex = 204
-      Me.ibtnDelRow.TabStop = False
-      Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
-      Me.ToolTip1.SetToolTip(Me.ibtnDelRow, "Delete")
-      '
-      'Validator
-      '
-      Me.Validator.BackcolorChanging = False
-      Me.Validator.DataTable = Nothing
-      Me.Validator.ErrorProvider = Me.ErrorProvider1
-      Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
-      Me.Validator.HasNewRow = False
-      Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
-      '
-      'ErrorProvider1
-      '
-      Me.ErrorProvider1.ContainerControl = Me
-      '
-      'PRPanelView
-      '
-      Me.Controls.Add(Me.grbDetail)
-      Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.Name = "PRPanelView"
-      Me.Size = New System.Drawing.Size(930, 520)
-      Me.grbDetail.ResumeLayout(False)
-      Me.grbDetail.PerformLayout()
-      CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).EndInit()
-      Me.FixedGroupBox1.ResumeLayout(False)
-      Me.FixedGroupBox1.PerformLayout()
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
-      CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-      Me.ResumeLayout(False)
+            Me.components = New System.ComponentModel.Container()
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PRPanelView))
+            Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.FixedGroupBox1 = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.lblRate = New System.Windows.Forms.Label()
+            Me.lblLanguage = New System.Windows.Forms.Label()
+            Me.txtRate = New System.Windows.Forms.TextBox()
+            Me.lblUnit2 = New System.Windows.Forms.Label()
+            Me.txtUnit1 = New System.Windows.Forms.TextBox()
+            Me.lblUnit1 = New System.Windows.Forms.Label()
+            Me.txtUnit2 = New System.Windows.Forms.TextBox()
+            Me.txtLanguage = New System.Windows.Forms.TextBox()
+            Me.chkClosed = New System.Windows.Forms.CheckBox()
+            Me.btnApproveStore = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.lblStoreApprove = New System.Windows.Forms.Label()
+            Me.cmbCode = New System.Windows.Forms.ComboBox()
+            Me.btnApprove = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.lblGross = New System.Windows.Forms.Label()
+            Me.txtGross = New System.Windows.Forms.TextBox()
+            Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.ibtnGetFromBOQ = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.chkAutorun = New System.Windows.Forms.CheckBox()
+            Me.lblStatus = New System.Windows.Forms.Label()
+            Me.txtReceivingDate = New System.Windows.Forms.TextBox()
+            Me.txtDocDate = New System.Windows.Forms.TextBox()
+            Me.btnRequestorEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.btnRequestorFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtCostCenterName = New System.Windows.Forms.TextBox()
+            Me.txtRequestorName = New System.Windows.Forms.TextBox()
+            Me.btnCCEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.btnCCFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.txtRequestorCode = New System.Windows.Forms.TextBox()
+            Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
+            Me.dtpReceivingDate = New System.Windows.Forms.DateTimePicker()
+            Me.lblReceivingDate = New System.Windows.Forms.Label()
+            Me.lblDocDate = New System.Windows.Forms.Label()
+            Me.lblCode = New System.Windows.Forms.Label()
+            Me.lblRequestor = New System.Windows.Forms.Label()
+            Me.lblCostCenter = New System.Windows.Forms.Label()
+            Me.txtNote = New System.Windows.Forms.TextBox()
+            Me.lblNote = New System.Windows.Forms.Label()
+            Me.txtCostCenterCode = New System.Windows.Forms.TextBox()
+            Me.lblItem = New System.Windows.Forms.Label()
+            Me.ibtnBlank = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.dtpDocDate = New System.Windows.Forms.DateTimePicker()
+            Me.ibtnDelRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
+            Me.imAttachment = New System.Windows.Forms.PictureBox()
+            Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+            Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+            Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+            Me.grbDetail.SuspendLayout()
+            Me.FixedGroupBox1.SuspendLayout()
+            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.SuspendLayout()
+            '
+            'grbDetail
+            '
+            Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                        Or System.Windows.Forms.AnchorStyles.Left) _
+                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.grbDetail.Controls.Add(Me.FixedGroupBox1)
+            Me.grbDetail.Controls.Add(Me.chkClosed)
+            Me.grbDetail.Controls.Add(Me.btnApproveStore)
+            Me.grbDetail.Controls.Add(Me.lblStoreApprove)
+            Me.grbDetail.Controls.Add(Me.cmbCode)
+            Me.grbDetail.Controls.Add(Me.btnApprove)
+            Me.grbDetail.Controls.Add(Me.lblGross)
+            Me.grbDetail.Controls.Add(Me.txtGross)
+            Me.grbDetail.Controls.Add(Me.ibtnCopyMe)
+            Me.grbDetail.Controls.Add(Me.ibtnGetFromBOQ)
+            Me.grbDetail.Controls.Add(Me.chkAutorun)
+            Me.grbDetail.Controls.Add(Me.lblStatus)
+            Me.grbDetail.Controls.Add(Me.txtReceivingDate)
+            Me.grbDetail.Controls.Add(Me.txtDocDate)
+            Me.grbDetail.Controls.Add(Me.btnRequestorEdit)
+            Me.grbDetail.Controls.Add(Me.btnRequestorFind)
+            Me.grbDetail.Controls.Add(Me.txtCostCenterName)
+            Me.grbDetail.Controls.Add(Me.txtRequestorName)
+            Me.grbDetail.Controls.Add(Me.btnCCEdit)
+            Me.grbDetail.Controls.Add(Me.btnCCFind)
+            Me.grbDetail.Controls.Add(Me.txtRequestorCode)
+            Me.grbDetail.Controls.Add(Me.tgItem)
+            Me.grbDetail.Controls.Add(Me.dtpReceivingDate)
+            Me.grbDetail.Controls.Add(Me.lblReceivingDate)
+            Me.grbDetail.Controls.Add(Me.lblDocDate)
+            Me.grbDetail.Controls.Add(Me.lblCode)
+            Me.grbDetail.Controls.Add(Me.lblRequestor)
+            Me.grbDetail.Controls.Add(Me.lblCostCenter)
+            Me.grbDetail.Controls.Add(Me.txtNote)
+            Me.grbDetail.Controls.Add(Me.lblNote)
+            Me.grbDetail.Controls.Add(Me.txtCostCenterCode)
+            Me.grbDetail.Controls.Add(Me.lblItem)
+            Me.grbDetail.Controls.Add(Me.ibtnBlank)
+            Me.grbDetail.Controls.Add(Me.dtpDocDate)
+            Me.grbDetail.Controls.Add(Me.ibtnDelRow)
+            Me.grbDetail.Controls.Add(Me.imAttachment)
+            Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.grbDetail.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.grbDetail.ForeColor = System.Drawing.Color.Blue
+            Me.grbDetail.Location = New System.Drawing.Point(8, 4)
+            Me.grbDetail.Name = "grbDetail"
+            Me.grbDetail.Size = New System.Drawing.Size(914, 509)
+            Me.grbDetail.TabIndex = 0
+            Me.grbDetail.TabStop = False
+            Me.grbDetail.Text = "รายละเอียด:"
+            '
+            'FixedGroupBox1
+            '
+            Me.FixedGroupBox1.Controls.Add(Me.lblRate)
+            Me.FixedGroupBox1.Controls.Add(Me.lblLanguage)
+            Me.FixedGroupBox1.Controls.Add(Me.txtRate)
+            Me.FixedGroupBox1.Controls.Add(Me.lblUnit2)
+            Me.FixedGroupBox1.Controls.Add(Me.txtUnit1)
+            Me.FixedGroupBox1.Controls.Add(Me.lblUnit1)
+            Me.FixedGroupBox1.Controls.Add(Me.txtUnit2)
+            Me.FixedGroupBox1.Controls.Add(Me.txtLanguage)
+            Me.FixedGroupBox1.Location = New System.Drawing.Point(605, 90)
+            Me.FixedGroupBox1.Name = "FixedGroupBox1"
+            Me.FixedGroupBox1.Size = New System.Drawing.Size(280, 64)
+            Me.FixedGroupBox1.TabIndex = 344
+            Me.FixedGroupBox1.TabStop = False
+            Me.FixedGroupBox1.Text = "Currency"
+            Me.FixedGroupBox1.Visible = False
+            '
+            'lblRate
+            '
+            Me.lblRate.BackColor = System.Drawing.Color.Transparent
+            Me.lblRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblRate.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblRate.Location = New System.Drawing.Point(6, 14)
+            Me.lblRate.Name = "lblRate"
+            Me.lblRate.Size = New System.Drawing.Size(62, 18)
+            Me.lblRate.TabIndex = 342
+            Me.lblRate.Text = "Rate"
+            Me.lblRate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'lblLanguage
+            '
+            Me.lblLanguage.BackColor = System.Drawing.Color.Transparent
+            Me.lblLanguage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblLanguage.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblLanguage.Location = New System.Drawing.Point(210, 15)
+            Me.lblLanguage.Name = "lblLanguage"
+            Me.lblLanguage.Size = New System.Drawing.Size(62, 18)
+            Me.lblLanguage.TabIndex = 342
+            Me.lblLanguage.Text = "Language"
+            Me.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'txtRate
+            '
+            Me.Validator.SetDataType(Me.txtRate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtRate, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtRate, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtRate, System.Drawing.Color.Empty)
+            Me.txtRate.Location = New System.Drawing.Point(6, 35)
+            Me.Validator.SetMinValue(Me.txtRate, "")
+            Me.txtRate.Name = "txtRate"
+            Me.Validator.SetRegularExpression(Me.txtRate, "")
+            Me.Validator.SetRequired(Me.txtRate, False)
+            Me.txtRate.Size = New System.Drawing.Size(62, 21)
+            Me.txtRate.TabIndex = 341
+            Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'lblUnit2
+            '
+            Me.lblUnit2.BackColor = System.Drawing.Color.Transparent
+            Me.lblUnit2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblUnit2.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblUnit2.Location = New System.Drawing.Point(142, 15)
+            Me.lblUnit2.Name = "lblUnit2"
+            Me.lblUnit2.Size = New System.Drawing.Size(62, 18)
+            Me.lblUnit2.TabIndex = 342
+            Me.lblUnit2.Text = "Unit2"
+            Me.lblUnit2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'txtUnit1
+            '
+            Me.Validator.SetDataType(Me.txtUnit1, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtUnit1, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtUnit1, System.Drawing.Color.Empty)
+            Me.txtUnit1.Location = New System.Drawing.Point(74, 35)
+            Me.Validator.SetMinValue(Me.txtUnit1, "")
+            Me.txtUnit1.Name = "txtUnit1"
+            Me.Validator.SetRegularExpression(Me.txtUnit1, "")
+            Me.Validator.SetRequired(Me.txtUnit1, False)
+            Me.txtUnit1.Size = New System.Drawing.Size(62, 21)
+            Me.txtUnit1.TabIndex = 341
+            '
+            'lblUnit1
+            '
+            Me.lblUnit1.BackColor = System.Drawing.Color.Transparent
+            Me.lblUnit1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblUnit1.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblUnit1.Location = New System.Drawing.Point(74, 15)
+            Me.lblUnit1.Name = "lblUnit1"
+            Me.lblUnit1.Size = New System.Drawing.Size(62, 18)
+            Me.lblUnit1.TabIndex = 342
+            Me.lblUnit1.Text = "Unit1"
+            Me.lblUnit1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'txtUnit2
+            '
+            Me.Validator.SetDataType(Me.txtUnit2, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtUnit2, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtUnit2, System.Drawing.Color.Empty)
+            Me.txtUnit2.Location = New System.Drawing.Point(142, 35)
+            Me.Validator.SetMinValue(Me.txtUnit2, "")
+            Me.txtUnit2.Name = "txtUnit2"
+            Me.Validator.SetRegularExpression(Me.txtUnit2, "")
+            Me.Validator.SetRequired(Me.txtUnit2, False)
+            Me.txtUnit2.Size = New System.Drawing.Size(62, 21)
+            Me.txtUnit2.TabIndex = 341
+            '
+            'txtLanguage
+            '
+            Me.Validator.SetDataType(Me.txtLanguage, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtLanguage, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtLanguage, System.Drawing.Color.Empty)
+            Me.txtLanguage.Location = New System.Drawing.Point(210, 35)
+            Me.Validator.SetMinValue(Me.txtLanguage, "")
+            Me.txtLanguage.Name = "txtLanguage"
+            Me.Validator.SetRegularExpression(Me.txtLanguage, "")
+            Me.Validator.SetRequired(Me.txtLanguage, False)
+            Me.txtLanguage.Size = New System.Drawing.Size(62, 21)
+            Me.txtLanguage.TabIndex = 341
+            '
+            'chkClosed
+            '
+            Me.chkClosed.Appearance = System.Windows.Forms.Appearance.Button
+            Me.chkClosed.Location = New System.Drawing.Point(544, 16)
+            Me.chkClosed.Name = "chkClosed"
+            Me.chkClosed.Size = New System.Drawing.Size(80, 24)
+            Me.chkClosed.TabIndex = 335
+            Me.chkClosed.Text = "ปิด PR"
+            Me.chkClosed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'btnApproveStore
+            '
+            Me.btnApproveStore.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnApproveStore.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnApproveStore.ForeColor = System.Drawing.Color.Black
+            Me.btnApproveStore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+            Me.btnApproveStore.Location = New System.Drawing.Point(786, 56)
+            Me.btnApproveStore.Name = "btnApproveStore"
+            Me.btnApproveStore.Size = New System.Drawing.Size(120, 24)
+            Me.btnApproveStore.TabIndex = 334
+            Me.btnApproveStore.Text = "ตรวจสอบโดยคลัง"
+            Me.btnApproveStore.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            Me.btnApproveStore.ThemedImage = CType(resources.GetObject("btnApproveStore.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'lblStoreApprove
+            '
+            Me.lblStoreApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.lblStoreApprove.Location = New System.Drawing.Point(786, 56)
+            Me.lblStoreApprove.Name = "lblStoreApprove"
+            Me.lblStoreApprove.Size = New System.Drawing.Size(120, 40)
+            Me.lblStoreApprove.TabIndex = 333
+            Me.lblStoreApprove.Text = "Store Approve แล้ว จริงๆนะ"
+            Me.lblStoreApprove.Visible = False
+            '
+            'cmbCode
+            '
+            Me.cmbCode.Location = New System.Drawing.Point(120, 16)
+            Me.cmbCode.Name = "cmbCode"
+            Me.cmbCode.Size = New System.Drawing.Size(120, 21)
+            Me.cmbCode.TabIndex = 332
+            '
+            'btnApprove
+            '
+            Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnApprove.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnApprove.ForeColor = System.Drawing.Color.Black
+            Me.btnApprove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+            Me.btnApprove.Location = New System.Drawing.Point(786, 16)
+            Me.btnApprove.Name = "btnApprove"
+            Me.btnApprove.Size = New System.Drawing.Size(120, 24)
+            Me.btnApprove.TabIndex = 331
+            Me.btnApprove.Text = "อนุมัติเอกสาร"
+            Me.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            Me.btnApprove.ThemedImage = CType(resources.GetObject("btnApprove.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'lblGross
+            '
+            Me.lblGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.lblGross.BackColor = System.Drawing.Color.Transparent
+            Me.lblGross.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblGross.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblGross.Location = New System.Drawing.Point(688, 481)
+            Me.lblGross.Name = "lblGross"
+            Me.lblGross.Size = New System.Drawing.Size(80, 18)
+            Me.lblGross.TabIndex = 329
+            Me.lblGross.Text = "ยอดเงินรวม :"
+            Me.lblGross.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtGross
+            '
+            Me.txtGross.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.txtGross.BackColor = System.Drawing.SystemColors.Control
+            Me.Validator.SetDataType(Me.txtGross, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtGross, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
+            Me.txtGross.Location = New System.Drawing.Point(770, 481)
+            Me.Validator.SetMinValue(Me.txtGross, "")
+            Me.txtGross.Name = "txtGross"
+            Me.txtGross.ReadOnly = True
+            Me.Validator.SetRegularExpression(Me.txtGross, "")
+            Me.Validator.SetRequired(Me.txtGross, False)
+            Me.txtGross.Size = New System.Drawing.Size(136, 21)
+            Me.txtGross.TabIndex = 328
+            Me.txtGross.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'ibtnCopyMe
+            '
+            Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
+            Me.ibtnCopyMe.Location = New System.Drawing.Point(264, 16)
+            Me.ibtnCopyMe.Name = "ibtnCopyMe"
+            Me.ibtnCopyMe.Size = New System.Drawing.Size(24, 23)
+            Me.ibtnCopyMe.TabIndex = 326
+            Me.ibtnCopyMe.TabStop = False
+            Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'ibtnGetFromBOQ
+            '
+            Me.ibtnGetFromBOQ.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.ibtnGetFromBOQ.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+            Me.ibtnGetFromBOQ.Location = New System.Drawing.Point(120, 157)
+            Me.ibtnGetFromBOQ.Name = "ibtnGetFromBOQ"
+            Me.ibtnGetFromBOQ.Size = New System.Drawing.Size(48, 24)
+            Me.ibtnGetFromBOQ.TabIndex = 325
+            Me.ibtnGetFromBOQ.TabStop = False
+            Me.ibtnGetFromBOQ.Text = "BOQ"
+            Me.ibtnGetFromBOQ.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            Me.ibtnGetFromBOQ.ThemedImage = CType(resources.GetObject("ibtnGetFromBOQ.ThemedImage"), System.Drawing.Bitmap)
+            Me.ToolTip1.SetToolTip(Me.ibtnGetFromBOQ, "BOQ")
+            '
+            'chkAutorun
+            '
+            Me.chkAutorun.Appearance = System.Windows.Forms.Appearance.Button
+            Me.chkAutorun.Image = CType(resources.GetObject("chkAutorun.Image"), System.Drawing.Image)
+            Me.chkAutorun.Location = New System.Drawing.Point(240, 16)
+            Me.chkAutorun.Name = "chkAutorun"
+            Me.chkAutorun.Size = New System.Drawing.Size(21, 21)
+            Me.chkAutorun.TabIndex = 320
+            Me.ToolTip1.SetToolTip(Me.chkAutorun, "Autorun")
+            '
+            'lblStatus
+            '
+            Me.lblStatus.AutoSize = True
+            Me.lblStatus.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.lblStatus.Location = New System.Drawing.Point(264, 160)
+            Me.lblStatus.Name = "lblStatus"
+            Me.lblStatus.Size = New System.Drawing.Size(38, 13)
+            Me.lblStatus.TabIndex = 205
+            Me.lblStatus.Text = "Status"
+            Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+            '
+            'txtReceivingDate
+            '
+            Me.Validator.SetDataType(Me.txtReceivingDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+            Me.Validator.SetDisplayName(Me.txtReceivingDate, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtReceivingDate, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtReceivingDate, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtReceivingDate, System.Drawing.Color.Empty)
+            Me.txtReceivingDate.Location = New System.Drawing.Point(120, 40)
+            Me.Validator.SetMinValue(Me.txtReceivingDate, "")
+            Me.txtReceivingDate.Name = "txtReceivingDate"
+            Me.Validator.SetRegularExpression(Me.txtReceivingDate, "")
+            Me.Validator.SetRequired(Me.txtReceivingDate, True)
+            Me.txtReceivingDate.Size = New System.Drawing.Size(120, 21)
+            Me.txtReceivingDate.TabIndex = 2
+            '
+            'txtDocDate
+            '
+            Me.Validator.SetDataType(Me.txtDocDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.DateTimeType)
+            Me.Validator.SetDisplayName(Me.txtDocDate, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
+            Me.txtDocDate.Location = New System.Drawing.Point(392, 16)
+            Me.Validator.SetMinValue(Me.txtDocDate, "")
+            Me.txtDocDate.Name = "txtDocDate"
+            Me.Validator.SetRegularExpression(Me.txtDocDate, "")
+            Me.Validator.SetRequired(Me.txtDocDate, True)
+            Me.txtDocDate.Size = New System.Drawing.Size(115, 21)
+            Me.txtDocDate.TabIndex = 1
+            '
+            'btnRequestorEdit
+            '
+            Me.btnRequestorEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnRequestorEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnRequestorEdit.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnRequestorEdit.Location = New System.Drawing.Point(560, 88)
+            Me.btnRequestorEdit.Name = "btnRequestorEdit"
+            Me.btnRequestorEdit.Size = New System.Drawing.Size(24, 23)
+            Me.btnRequestorEdit.TabIndex = 203
+            Me.btnRequestorEdit.TabStop = False
+            Me.btnRequestorEdit.ThemedImage = CType(resources.GetObject("btnRequestorEdit.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'btnRequestorFind
+            '
+            Me.btnRequestorFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnRequestorFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnRequestorFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnRequestorFind.Location = New System.Drawing.Point(536, 88)
+            Me.btnRequestorFind.Name = "btnRequestorFind"
+            Me.btnRequestorFind.Size = New System.Drawing.Size(24, 23)
+            Me.btnRequestorFind.TabIndex = 201
+            Me.btnRequestorFind.TabStop = False
+            Me.btnRequestorFind.ThemedImage = CType(resources.GetObject("btnRequestorFind.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'txtCostCenterName
+            '
+            Me.txtCostCenterName.BackColor = System.Drawing.SystemColors.Control
+            Me.Validator.SetDataType(Me.txtCostCenterName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtCostCenterName, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
+            Me.txtCostCenterName.Location = New System.Drawing.Point(264, 64)
+            Me.Validator.SetMinValue(Me.txtCostCenterName, "")
+            Me.txtCostCenterName.Name = "txtCostCenterName"
+            Me.txtCostCenterName.ReadOnly = True
+            Me.Validator.SetRegularExpression(Me.txtCostCenterName, "")
+            Me.Validator.SetRequired(Me.txtCostCenterName, False)
+            Me.txtCostCenterName.Size = New System.Drawing.Size(272, 21)
+            Me.txtCostCenterName.TabIndex = 198
+            Me.txtCostCenterName.TabStop = False
+            '
+            'txtRequestorName
+            '
+            Me.txtRequestorName.BackColor = System.Drawing.SystemColors.Control
+            Me.Validator.SetDataType(Me.txtRequestorName, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtRequestorName, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtRequestorName, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtRequestorName, System.Drawing.Color.Empty)
+            Me.txtRequestorName.Location = New System.Drawing.Point(264, 88)
+            Me.Validator.SetMinValue(Me.txtRequestorName, "")
+            Me.txtRequestorName.Name = "txtRequestorName"
+            Me.txtRequestorName.ReadOnly = True
+            Me.Validator.SetRegularExpression(Me.txtRequestorName, "")
+            Me.Validator.SetRequired(Me.txtRequestorName, False)
+            Me.txtRequestorName.Size = New System.Drawing.Size(272, 21)
+            Me.txtRequestorName.TabIndex = 199
+            Me.txtRequestorName.TabStop = False
+            '
+            'btnCCEdit
+            '
+            Me.btnCCEdit.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnCCEdit.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnCCEdit.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnCCEdit.Location = New System.Drawing.Point(560, 64)
+            Me.btnCCEdit.Name = "btnCCEdit"
+            Me.btnCCEdit.Size = New System.Drawing.Size(24, 23)
+            Me.btnCCEdit.TabIndex = 202
+            Me.btnCCEdit.TabStop = False
+            Me.btnCCEdit.ThemedImage = CType(resources.GetObject("btnCCEdit.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'btnCCFind
+            '
+            Me.btnCCFind.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.btnCCFind.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.btnCCFind.ForeColor = System.Drawing.SystemColors.Control
+            Me.btnCCFind.Location = New System.Drawing.Point(536, 64)
+            Me.btnCCFind.Name = "btnCCFind"
+            Me.btnCCFind.Size = New System.Drawing.Size(24, 23)
+            Me.btnCCFind.TabIndex = 200
+            Me.btnCCFind.TabStop = False
+            Me.btnCCFind.ThemedImage = CType(resources.GetObject("btnCCFind.ThemedImage"), System.Drawing.Bitmap)
+            '
+            'txtRequestorCode
+            '
+            Me.Validator.SetDataType(Me.txtRequestorCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtRequestorCode, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtRequestorCode, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtRequestorCode, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtRequestorCode, System.Drawing.Color.Empty)
+            Me.txtRequestorCode.Location = New System.Drawing.Point(120, 88)
+            Me.Validator.SetMinValue(Me.txtRequestorCode, "")
+            Me.txtRequestorCode.Name = "txtRequestorCode"
+            Me.Validator.SetRegularExpression(Me.txtRequestorCode, "")
+            Me.Validator.SetRequired(Me.txtRequestorCode, False)
+            Me.txtRequestorCode.Size = New System.Drawing.Size(144, 21)
+            Me.txtRequestorCode.TabIndex = 4
+            '
+            'tgItem
+            '
+            Me.tgItem.AllowNew = False
+            Me.tgItem.AllowSorting = False
+            Me.tgItem.AlternatingBackColor = System.Drawing.Color.FromArgb(CType(CType(217, Byte), Integer), CType(CType(222, Byte), Integer), CType(CType(236, Byte), Integer))
+            Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                        Or System.Windows.Forms.AnchorStyles.Left) _
+                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.tgItem.AutoColumnResize = True
+            Me.tgItem.CaptionVisible = False
+            Me.tgItem.Cellchanged = False
+            Me.tgItem.DataMember = ""
+            Me.tgItem.HeaderBackColor = System.Drawing.Color.Khaki
+            Me.tgItem.HeaderForeColor = System.Drawing.SystemColors.ControlText
+            Me.tgItem.Location = New System.Drawing.Point(11, 184)
+            Me.tgItem.Name = "tgItem"
+            Me.tgItem.Size = New System.Drawing.Size(895, 291)
+            Me.tgItem.SortingArrowColor = System.Drawing.Color.Red
+            Me.tgItem.TabIndex = 6
+            Me.tgItem.TreeManager = Nothing
+            '
+            'dtpReceivingDate
+            '
+            Me.dtpReceivingDate.CustomFormat = "dd/MM/yyyy"
+            Me.dtpReceivingDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.dtpReceivingDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+            Me.dtpReceivingDate.Location = New System.Drawing.Point(120, 40)
+            Me.dtpReceivingDate.Name = "dtpReceivingDate"
+            Me.dtpReceivingDate.Size = New System.Drawing.Size(144, 21)
+            Me.dtpReceivingDate.TabIndex = 165
+            Me.dtpReceivingDate.TabStop = False
+            '
+            'lblReceivingDate
+            '
+            Me.lblReceivingDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblReceivingDate.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblReceivingDate.Location = New System.Drawing.Point(8, 40)
+            Me.lblReceivingDate.Name = "lblReceivingDate"
+            Me.lblReceivingDate.Size = New System.Drawing.Size(112, 18)
+            Me.lblReceivingDate.TabIndex = 173
+            Me.lblReceivingDate.Text = "วันรับของ"
+            Me.lblReceivingDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblDocDate
+            '
+            Me.lblDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblDocDate.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblDocDate.Location = New System.Drawing.Point(296, 16)
+            Me.lblDocDate.Name = "lblDocDate"
+            Me.lblDocDate.Size = New System.Drawing.Size(96, 18)
+            Me.lblDocDate.TabIndex = 172
+            Me.lblDocDate.Text = "วันที่:"
+            Me.lblDocDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblCode
+            '
+            Me.lblCode.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblCode.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblCode.Location = New System.Drawing.Point(8, 16)
+            Me.lblCode.Name = "lblCode"
+            Me.lblCode.Size = New System.Drawing.Size(112, 18)
+            Me.lblCode.TabIndex = 171
+            Me.lblCode.Text = "รหัส:"
+            Me.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblRequestor
+            '
+            Me.lblRequestor.BackColor = System.Drawing.Color.Transparent
+            Me.lblRequestor.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblRequestor.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblRequestor.Location = New System.Drawing.Point(8, 88)
+            Me.lblRequestor.Name = "lblRequestor"
+            Me.lblRequestor.Size = New System.Drawing.Size(112, 18)
+            Me.lblRequestor.TabIndex = 174
+            Me.lblRequestor.Text = "ผู้ขอ:"
+            Me.lblRequestor.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'lblCostCenter
+            '
+            Me.lblCostCenter.BackColor = System.Drawing.Color.Transparent
+            Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblCostCenter.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblCostCenter.Location = New System.Drawing.Point(8, 64)
+            Me.lblCostCenter.Name = "lblCostCenter"
+            Me.lblCostCenter.Size = New System.Drawing.Size(112, 18)
+            Me.lblCostCenter.TabIndex = 175
+            Me.lblCostCenter.Text = "CostCenter:"
+            Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtNote
+            '
+            Me.Validator.SetDataType(Me.txtNote, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtNote, "")
+            Me.txtNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
+            Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
+            Me.txtNote.Location = New System.Drawing.Point(120, 112)
+            Me.txtNote.MaxLength = 250
+            Me.Validator.SetMinValue(Me.txtNote, "")
+            Me.txtNote.Multiline = True
+            Me.txtNote.Name = "txtNote"
+            Me.Validator.SetRegularExpression(Me.txtNote, "")
+            Me.Validator.SetRequired(Me.txtNote, False)
+            Me.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+            Me.txtNote.Size = New System.Drawing.Size(464, 42)
+            Me.txtNote.TabIndex = 5
+            '
+            'lblNote
+            '
+            Me.lblNote.BackColor = System.Drawing.Color.Transparent
+            Me.lblNote.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblNote.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblNote.Location = New System.Drawing.Point(8, 112)
+            Me.lblNote.Name = "lblNote"
+            Me.lblNote.Size = New System.Drawing.Size(112, 18)
+            Me.lblNote.TabIndex = 176
+            Me.lblNote.Text = "หมายเหตุ:"
+            Me.lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtCostCenterCode
+            '
+            Me.Validator.SetDataType(Me.txtCostCenterCode, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+            Me.Validator.SetDisplayName(Me.txtCostCenterCode, "")
+            Me.Validator.SetGotFocusBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
+            Me.ErrorProvider1.SetIconPadding(Me.txtCostCenterCode, -15)
+            Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
+            Me.txtCostCenterCode.Location = New System.Drawing.Point(120, 64)
+            Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
+            Me.txtCostCenterCode.Name = "txtCostCenterCode"
+            Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
+            Me.Validator.SetRequired(Me.txtCostCenterCode, False)
+            Me.txtCostCenterCode.Size = New System.Drawing.Size(144, 21)
+            Me.txtCostCenterCode.TabIndex = 3
+            '
+            'lblItem
+            '
+            Me.lblItem.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblItem.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblItem.Location = New System.Drawing.Point(24, 156)
+            Me.lblItem.Name = "lblItem"
+            Me.lblItem.Size = New System.Drawing.Size(88, 24)
+            Me.lblItem.TabIndex = 173
+            Me.lblItem.Text = "รายการขอซื้อ"
+            Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'ibtnBlank
+            '
+            Me.ibtnBlank.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.ibtnBlank.Location = New System.Drawing.Point(192, 157)
+            Me.ibtnBlank.Name = "ibtnBlank"
+            Me.ibtnBlank.Size = New System.Drawing.Size(24, 24)
+            Me.ibtnBlank.TabIndex = 204
+            Me.ibtnBlank.TabStop = False
+            Me.ibtnBlank.ThemedImage = CType(resources.GetObject("ibtnBlank.ThemedImage"), System.Drawing.Bitmap)
+            Me.ToolTip1.SetToolTip(Me.ibtnBlank, "Blank")
+            '
+            'dtpDocDate
+            '
+            Me.dtpDocDate.CustomFormat = "dd/MM/yyyy"
+            Me.dtpDocDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.dtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+            Me.dtpDocDate.Location = New System.Drawing.Point(392, 16)
+            Me.dtpDocDate.Name = "dtpDocDate"
+            Me.dtpDocDate.Size = New System.Drawing.Size(144, 21)
+            Me.dtpDocDate.TabIndex = 164
+            Me.dtpDocDate.TabStop = False
+            '
+            'ibtnDelRow
+            '
+            Me.ibtnDelRow.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.ibtnDelRow.Location = New System.Drawing.Point(216, 157)
+            Me.ibtnDelRow.Name = "ibtnDelRow"
+            Me.ibtnDelRow.Size = New System.Drawing.Size(24, 24)
+            Me.ibtnDelRow.TabIndex = 204
+            Me.ibtnDelRow.TabStop = False
+            Me.ibtnDelRow.ThemedImage = CType(resources.GetObject("ibtnDelRow.ThemedImage"), System.Drawing.Bitmap)
+            Me.ToolTip1.SetToolTip(Me.ibtnDelRow, "Delete")
+            '
+            'imAttachment
+            '
+            Me.imAttachment.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.imAttachment.Location = New System.Drawing.Point(750, 16)
+            Me.imAttachment.Name = "imAttachment"
+            Me.imAttachment.Size = New System.Drawing.Size(29, 31)
+            Me.imAttachment.TabIndex = 345
+            Me.imAttachment.TabStop = False
+            '
+            'Validator
+            '
+            Me.Validator.BackcolorChanging = False
+            Me.Validator.DataTable = Nothing
+            Me.Validator.ErrorProvider = Me.ErrorProvider1
+            Me.Validator.GotFocusBackColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))
+            Me.Validator.HasNewRow = False
+            Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
+            '
+            'ErrorProvider1
+            '
+            Me.ErrorProvider1.ContainerControl = Me
+            '
+            'PRPanelView
+            '
+            Me.Controls.Add(Me.grbDetail)
+            Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Name = "PRPanelView"
+            Me.Size = New System.Drawing.Size(930, 520)
+            Me.grbDetail.ResumeLayout(False)
+            Me.grbDetail.PerformLayout()
+            Me.FixedGroupBox1.ResumeLayout(False)
+            Me.FixedGroupBox1.PerformLayout()
+            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.imAttachment, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.ResumeLayout(False)
 
-    End Sub
+        End Sub
 
 #End Region
 
