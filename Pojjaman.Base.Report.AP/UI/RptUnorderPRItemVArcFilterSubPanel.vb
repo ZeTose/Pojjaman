@@ -71,6 +71,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptUnorderPRItemVArcFilterSubPanel))
             Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
             Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+            Me.clbMaterial = New System.Windows.Forms.ListBox()
             Me.ibtnDown = New System.Windows.Forms.Button()
             Me.ibtnUp = New System.Windows.Forms.Button()
             Me.btnMaterialCode = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -105,7 +106,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.btnSearch = New System.Windows.Forms.Button()
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
             Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-            Me.clbMaterial = New System.Windows.Forms.ListBox()
             Me.grbMaster.SuspendLayout()
             Me.GroupBox1.SuspendLayout()
             Me.grbDetail.SuspendLayout()
@@ -141,7 +141,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.GroupBox1.Size = New System.Drawing.Size(387, 183)
             Me.GroupBox1.TabIndex = 74
             Me.GroupBox1.TabStop = False
-            Me.GroupBox1.Text = "กลุ่มวัสดุ"
+            Me.GroupBox1.Text = "วัสดุ"
+            '
+            'clbMaterial
+            '
+            Me.clbMaterial.FormattingEnabled = True
+            Me.clbMaterial.Location = New System.Drawing.Point(31, 20)
+            Me.clbMaterial.Name = "clbMaterial"
+            Me.clbMaterial.Size = New System.Drawing.Size(286, 147)
+            Me.clbMaterial.TabIndex = 75
             '
             'ibtnDown
             '
@@ -261,11 +269,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'Label1
             '
+            Me.Label1.AutoSize = True
             Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Label1.ForeColor = System.Drawing.Color.Black
-            Me.Label1.Location = New System.Drawing.Point(235, 80)
+            Me.Label1.Location = New System.Drawing.Point(243, 83)
             Me.Label1.Name = "Label1"
-            Me.Label1.Size = New System.Drawing.Size(24, 18)
+            Me.Label1.Size = New System.Drawing.Size(18, 13)
             Me.Label1.TabIndex = 68
             Me.Label1.Text = "ถึง"
             Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -275,7 +284,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Label2.AutoSize = True
             Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Label2.ForeColor = System.Drawing.Color.Black
-            Me.Label2.Location = New System.Drawing.Point(6, 85)
+            Me.Label2.Location = New System.Drawing.Point(6, 83)
             Me.Label2.Name = "Label2"
             Me.Label2.Size = New System.Drawing.Size(97, 13)
             Me.Label2.TabIndex = 58
@@ -371,11 +380,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'lblPREnd
             '
+            Me.lblPREnd.AutoSize = True
             Me.lblPREnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblPREnd.ForeColor = System.Drawing.Color.Black
-            Me.lblPREnd.Location = New System.Drawing.Point(235, 28)
+            Me.lblPREnd.Location = New System.Drawing.Point(243, 31)
             Me.lblPREnd.Name = "lblPREnd"
-            Me.lblPREnd.Size = New System.Drawing.Size(24, 18)
+            Me.lblPREnd.Size = New System.Drawing.Size(18, 13)
             Me.lblPREnd.TabIndex = 45
             Me.lblPREnd.Text = "ถึง"
             Me.lblPREnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -454,7 +464,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblCCStart.AutoSize = True
             Me.lblCCStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblCCStart.ForeColor = System.Drawing.Color.Black
-            Me.lblCCStart.Location = New System.Drawing.Point(428, 58)
+            Me.lblCCStart.Location = New System.Drawing.Point(429, 57)
             Me.lblCCStart.Name = "lblCCStart"
             Me.lblCCStart.Size = New System.Drawing.Size(65, 13)
             Me.lblCCStart.TabIndex = 40
@@ -531,22 +541,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'lblDocDateStart
             '
+            Me.lblDocDateStart.AutoSize = True
             Me.lblDocDateStart.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblDocDateStart.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateStart.Location = New System.Drawing.Point(405, 25)
+            Me.lblDocDateStart.Location = New System.Drawing.Point(426, 28)
             Me.lblDocDateStart.Name = "lblDocDateStart"
-            Me.lblDocDateStart.Size = New System.Drawing.Size(88, 18)
+            Me.lblDocDateStart.Size = New System.Drawing.Size(69, 13)
             Me.lblDocDateStart.TabIndex = 0
             Me.lblDocDateStart.Text = "ตั้งแต่วันที่ PR"
             Me.lblDocDateStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
             '
             'lblDocDateEnd
             '
+            Me.lblDocDateEnd.AutoSize = True
             Me.lblDocDateEnd.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblDocDateEnd.ForeColor = System.Drawing.Color.Black
-            Me.lblDocDateEnd.Location = New System.Drawing.Point(629, 25)
+            Me.lblDocDateEnd.Location = New System.Drawing.Point(637, 28)
             Me.lblDocDateEnd.Name = "lblDocDateEnd"
-            Me.lblDocDateEnd.Size = New System.Drawing.Size(24, 18)
+            Me.lblDocDateEnd.Size = New System.Drawing.Size(18, 13)
             Me.lblDocDateEnd.TabIndex = 3
             Me.lblDocDateEnd.Text = "ถึง"
             Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -585,14 +597,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.ErrorProvider1.ContainerControl = Me
             '
-            'clbMaterial
-            '
-            Me.clbMaterial.FormattingEnabled = True
-            Me.clbMaterial.Location = New System.Drawing.Point(31, 20)
-            Me.clbMaterial.Name = "clbMaterial"
-            Me.clbMaterial.Size = New System.Drawing.Size(286, 147)
-            Me.clbMaterial.TabIndex = 75
-            '
             'RptUnorderPRItemVArcFilterSubPanel
             '
             Me.Controls.Add(Me.grbMaster)
@@ -613,7 +617,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
         Public Sub SetLabelText()
             'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Global.DocDateStart}")
+            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemVArcFilterSubPanel.lblDocDateStart}")
             Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
             Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Global.CostCenterText}")
@@ -622,7 +626,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblDocDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
             Me.Validator.SetDisplayName(txtDocDateEnd, lblDocDateEnd.Text)
 
-            Me.Label2.Text = Me.StringParserService.Parse("${res:Global.DocDateStart}")
+            Me.Label2.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemVArcFilterSubPanel.Label2}")
             Me.Validator.SetDisplayName(txtDocDateStart1, Label2.Text)
 
             Me.Label1.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
@@ -635,6 +639,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             ' GroupBox
             Me.grbMaster.Text = Me.StringParserService.Parse("${res:Global.SearchText}")
             Me.grbDetail.Text = Me.StringParserService.Parse("${res:Global.grbGeneral}")
+            Me.GroupBox1.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemVArcFilterSubPanel.GroupBox1}")
 
             'Checkbox
             Me.lblPRStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptUnorderPRItemVArcFilterSubPanel.lblPRStart}")
@@ -1185,10 +1190,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
                     End Select
                 End If
             Next
-        End Sub
-
-        Private Sub GroupBox1_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GroupBox1.Enter
-
         End Sub
 
         Private Sub ibtnUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnUp.Click
