@@ -324,8 +324,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
 
-      RemoveHandler m_grid.CellClick, AddressOf CellClick
-      AddHandler m_grid.CellClick, AddressOf CellClick
+      'RemoveHandler m_grid.CellClick, AddressOf CellClick
+      'AddHandler m_grid.CellClick, AddressOf CellClick
 
 
       lkg.DefaultBehavior = False
