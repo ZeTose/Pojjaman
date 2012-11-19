@@ -450,6 +450,16 @@ Public Class ApproveDocCollection
                                     New SqlParameter("@apvdoc_entityId", m_entityId),
                                     New SqlParameter("@apvdoc_entityType", m_entityType)
                                     )
+
+          SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, "UpdateApproveList",
+                                    New SqlParameter("@entity_id", m_entityId),
+                                    New SqlParameter("@entity_type", m_entityType)
+                                    )
+
+          SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, "UpdateCommentList",
+                                    New SqlParameter("@entity_id", m_entityId),
+                                    New SqlParameter("@entity_type", m_entityType)
+                                    )
         End If
 
         Return New SaveErrorException("1")
@@ -614,6 +624,19 @@ Public Class ApproveDocCollection
                                   New SqlParameter("@apvdoc_originator", Me.Originator), _
                                   New SqlParameter("@apvdoc_reject", Me.Reject)
                                   )
+
+        SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, _
+                                  CommandType.StoredProcedure, "UpdateApproveList",
+                                  New SqlParameter("@entity_id", Me.EntityId),
+                                  New SqlParameter("@entity_type", Me.EntityType)
+                                  )
+
+        SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, _
+                                  CommandType.StoredProcedure, "UpdateCommentList",
+                                  New SqlParameter("@entity_id", Me.EntityId),
+                                  New SqlParameter("@entity_type", Me.EntityType)
+                                  )
+
         'New SqlParameter("@apvdoc_linenumber", Me.LineNumber + 1), _
 
         'Dim mldoc As New DocMultiApproval(Me.EntityId, Me.EntityType)

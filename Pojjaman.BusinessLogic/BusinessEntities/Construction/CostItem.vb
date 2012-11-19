@@ -15,8 +15,60 @@ Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class CostItem
+    'Public Shared Function InsertNew(ItemCollection As MatOperationWithdrawItemCollection, conn As SqlConnection, trans As SqlTransaction, stock_cc As Long) As SaveErrorException
+    '  Try
+    '    Dim ds As DataSet = SqlHelper.ExecuteDataset(conn, CommandType.StoredProcedure, "", New SqlParameter("@stock_cc", stock_cc))
 
+    '    For Each item As MatOperationWithdrawItem In ItemCollection
+    '      For Each row As DataRow In ds.Tables(0).Select("stocki_entity=" & item.Entity.Id)
+    '        Dim drh As New DataRowHelper(row)
+    '        If item.StockQty <= drh.GetValue(Of Decimal)("stockic_stockqtyremain") Then
+
+    '          Dim lci As LCIItem = CType(item.Entity, LCIItem)
+
+    '          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "",
+    '                           New SqlParameter("stockic_stockisequence", item.Sequence),
+    '                           New SqlParameter("", drh.GetValue(Of Decimal)("stockic_unitcost")),
+    '                           New SqlParameter("", CDec(row("stockic_stockqtyremain")) - item.StockQty),
+    '                           New SqlParameter("", lci.DefaultUnit),
+    '                           New SqlParameter("", item.Conversion),
+    '                           New SqlParameter("", drh.GetValue(Of Long)("stockic_sequence")),
+    '                           New SqlParameter("", item.MatOperationWithdraw.Id),
+    '                           New SqlParameter("", item.MatOperationWithdraw.EntityId),
+    '                           New SqlParameter("", item.Entity.Id),
+    '                           New SqlParameter("", item.MatOperationWithdraw.CostCenter.Id),
+    '                           New SqlParameter("", item.MatOperationWithdraw.CostCenter.Id),
+    '                           New SqlParameter("", item.MatOperationWithdraw.ToAccount.Id)
+    '                           )
+
+    '          row("stockic_stockqtyremain") = CDec(row("stockic_stockqtyremain")) - item.StockQty
+    '        End If
+    '      Next
+    '    Next
+    '  Catch ex As Exception
+    '    Return New SaveErrorException(ex.Message)
+    '  End Try
+    'End Function
+
+    Public Shared Function Update(procedureName As String, conn As SqlConnection, trans As SqlTransaction, stock_id As Long, stock_cc As Long) As SaveErrorException
+      'Dim newcon As New SqlConnection(conn.ConnectionString)
+      'newcon.Open()
+      'Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, procedureName, New SqlParameter("@stock_id", stock_id), New SqlParameter("@stock_cc", stock_cc))
+      Catch ex As Exception
+        'trans.Rollback()
+        'newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      'trans.Commit()
+      'newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
   End Class
+
   Public Class CostItemType
     Implements IDescripable
 #Region "Members"
@@ -130,5 +182,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
 #End Region
   End Class
+
 End Namespace
 
