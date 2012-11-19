@@ -112,6 +112,14 @@ Public Class RptGLPayTypeDetailForm
     For Each row As DataRow In ds.Tables(0).Rows
       Dim drh As New DataRowHelper(row)
 
+      Dim payrecword As String
+
+      If drh.GetValue(Of Integer)("payrec") = 68 Then
+        payrecword = "จ่าย"
+      Else
+        payrecword = "รับ"
+      End If
+
       refdocKey = drh.GetValue(Of Integer)("payment_refdoc", 0).ToString & "|" & drh.GetValue(Of Integer)("payment_refDocType", 0).ToString
       Trace.WriteLine(refdocKey)
 
@@ -124,7 +132,7 @@ Public Class RptGLPayTypeDetailForm
 
       Select Case ColumnName.ToLower
         Case "cash"
-          docRefTabText = "เอกสารสำคัญจ่าย " & drh.GetValue(Of String)("payment_code")
+          docRefTabText = "เอกสารสำคัญ" & payrecword & Space(2) & drh.GetValue(Of String)("payment_code")
           lvitem = ListView1.Items.Add(docRefTabText)
           lvitem.Tag = refdocKey
           docRefTabText = indent & "วันที่ " & drh.GetValue(Of Date)("payment_docdate").ToShortDateString
@@ -136,11 +144,11 @@ Public Class RptGLPayTypeDetailForm
 
           Select Case drh.GetValue(Of Integer)("paymenti_entityType", 0)
             Case 0
-              docRefTabText = indent & "จ่ายชำระด้วยเงินสด ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยเงินสด ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
             Case 36
-              docRefTabText = indent & "จ่ายชำระด้วยเงินสดย่อย ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยเงินสดย่อย ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
               docRefTabText = indent & indent & "เอกสารเงินสดย่อย " & drh.GetValue(Of String)("pc_code")
@@ -150,7 +158,7 @@ Public Class RptGLPayTypeDetailForm
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = drh.GetValue(Of Integer)("paymenti_entity", 0).ToString & "|" & drh.GetValue(Of Integer)("paymenti_entityType", 0).ToString
             Case 174
-              docRefTabText = indent & "จ่ายชำระด้วยเงินทดรองจ่าย ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยเงินทดรองจ่าย ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
               docRefTabText = indent & indent & "เอกสารเงินทดรองจ่าย " & drh.GetValue(Of String)("advm_code")
@@ -173,7 +181,7 @@ Public Class RptGLPayTypeDetailForm
             lvitem.Tag = drh.GetValue(Of Integer)("stock_id", 0).ToString & "|" & drh.GetValue(Of Integer)("stock_type", 0).ToString
           End If
 
-          docRefTabText = "เอกสารสำคัญจ่าย " & drh.GetValue(Of String)("payment_code")
+          docRefTabText = "เอกสารสำคัญ" & payrecword & Space(2) & drh.GetValue(Of String)("payment_code")
           lvitem = ListView1.Items.Add(docRefTabText)
           lvitem.Tag = refdocKey
           docRefTabText = indent & "วันที่ " & drh.GetValue(Of Date)("payment_docdate").ToShortDateString
@@ -185,7 +193,7 @@ Public Class RptGLPayTypeDetailForm
 
           Select Case drh.GetValue(Of Integer)("paymenti_entityType", 0)
             Case 22
-              docRefTabText = indent & "จ่ายชำระด้วยเช็คจ่าย ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยเช็คจ่าย ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
               docRefTabText = indent & indent & "เอกสารเช็คจ่าย " & drh.GetValue(Of String)("outgoingcheck.check_code")
@@ -198,7 +206,7 @@ Public Class RptGLPayTypeDetailForm
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = drh.GetValue(Of Integer)("paymenti_entity", 0).ToString & "|" & drh.GetValue(Of Integer)("paymenti_entityType", 0).ToString
             Case 27
-              docRefTabText = indent & "จ่ายชำระด้วยเช็ครับ ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยเช็ครับ ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
               docRefTabText = indent & indent & "เอกสารเช็ครับ " & drh.GetValue(Of String)("incomingcheck.check_code")
@@ -211,17 +219,17 @@ Public Class RptGLPayTypeDetailForm
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = drh.GetValue(Of Integer)("paymenti_entity", 0).ToString & "|" & drh.GetValue(Of Integer)("paymenti_entityType", 0).ToString
             Case 65
-              docRefTabText = indent & "จ่ายชำระด้วยโอนเงินจ่าย มูลค่า " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยโอนเงินจ่าย มูลค่า " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
-              docRefTabText = indent & indent & "เอกสารโอนเงินจ่าย " & drh.GetValue(Of String)("bto_code")
+              docRefTabText = indent & indent & "เอกสารโอนเงิน" & payrecword & Space(2) & drh.GetValue(Of String)("bto_code")
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = drh.GetValue(Of Integer)("paymenti_entity", 0).ToString & "|" & drh.GetValue(Of Integer)("paymenti_entityType", 0).ToString
               docRefTabText = indent & indent & indent & "ยอด " & Configuration.FormatToString(drh.GetValue(Of Decimal)("bto_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = drh.GetValue(Of Integer)("paymenti_entity", 0).ToString & "|" & drh.GetValue(Of Integer)("paymenti_entityType", 0).ToString
             Case 22
-              docRefTabText = indent & "จ่ายชำระด้วยตั๋วอาวัล มูลค่า " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
+              docRefTabText = indent & payrecword & "ชำระด้วยตั๋วอาวัล มูลค่า " & Configuration.FormatToString(drh.GetValue(Of Decimal)("paymenti_amt"), DigitConfig.Price)
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
               docRefTabText = indent & "เอกสารตั๋วอาวัล " & drh.GetValue(Of String)("outgoingcheck.check_code")
@@ -248,7 +256,7 @@ Public Class RptGLPayTypeDetailForm
               lvitem = ListView1.Items.Add(docRefTabText)
               lvitem.Tag = refdocKey
               If drh.GetValue(Of Decimal)("payment_gross") > 0 Then
-                docRefTabText = indent & indent & "เอกสารอ้างอิงการจ่าย " & drh.GetValue(Of Decimal)("payment_refdoccode")
+                docRefTabText = indent & indent & "เอกสารอ้างอิงการ" & payrecword & Space(2) & drh.GetValue(Of Decimal)("payment_refdoccode")
                 lvitem = ListView1.Items.Add(docRefTabText)
                 lvitem.Tag = refdocKey
                 docRefTabText = indent & indent & indent & "วันที่ " & drh.GetValue(Of Date)("payment_refdoccode").ToString
@@ -264,7 +272,7 @@ Public Class RptGLPayTypeDetailForm
 
                 refdocKey = drh2.GetValue(Of Integer)("pays_id").ToString & "|73"
 
-                docRefTabText = indent & indent & "เอกสารอ้างอิงการจ่าย " & drh2.GetValue(Of String)("pays_code")
+                docRefTabText = indent & indent & "เอกสารอ้างอิงการ" & payrecword & Space(2) & drh2.GetValue(Of String)("pays_code")
                 lvitem = ListView1.Items.Add(docRefTabText)
                 lvitem.Tag = refdocKey
                 docRefTabText = indent & indent & indent & "วันที่ " & drh.GetValue(Of Date)("pays_doccode").ToString

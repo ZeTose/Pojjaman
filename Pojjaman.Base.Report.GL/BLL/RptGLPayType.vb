@@ -42,7 +42,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csAcctCode.MappingName = "acct_code"
       csAcctCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.AcctCodeHeaderText}")
       csAcctCode.NullText = ""
-      csAcctCode.Width = 90
+      csAcctCode.Width = 50
       csAcctCode.DataAlignment = HorizontalAlignment.Left
       csAcctCode.ReadOnly = True
       csAcctCode.TextBox.Name = "acct_code"
@@ -51,15 +51,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       csAcctName.MappingName = "acct_Name"
       csAcctName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptGLPayType.AcctNameHeaderText}")
       csAcctName.NullText = ""
-      csAcctName.Width = 290
+      csAcctName.Width = 250
       csAcctName.TextBox.Name = "acct_name"
       csAcctName.DataAlignment = HorizontalAlignment.Left
       csAcctName.ReadOnly = True
 
       Dim csBarrier0 As New DataGridBarrierColumn
       csBarrier0.MappingName = "Barrier"
-      csBarrier0.HeaderText = ""
+      csBarrier0.HeaderText = "วันที่เอกสาร"
       csBarrier0.NullText = ""
+      csBarrier0.Width = 80
       csBarrier0.ReadOnly = True
 
       Dim csGlCode As New TreeTextColumn
@@ -324,8 +325,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
 
-      'RemoveHandler m_grid.CellClick, AddressOf CellClick
-      'AddHandler m_grid.CellClick, AddressOf CellClick
+      RemoveHandler m_grid.CellClick, AddressOf CellClick
+      AddHandler m_grid.CellClick, AddressOf CellClick
 
 
       lkg.DefaultBehavior = False
@@ -376,8 +377,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Dim dlgDetailForm As RptGLPayTypeDetailForm
     Private Sub CellClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
       Dim amount As Decimal = 0
-      Select Case e.ColIndex
-        Case 7, 8, 9, 10, 11, 12, 13, 14
+      Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
+      'Select e.ColIndex
+      Select Case colName
+        Case "cash", "bank", "remain", "other"
           If IsNumeric(m_grid(e.RowIndex, e.ColIndex).CellValue) Then
             amount = CDec(m_grid(e.RowIndex, e.ColIndex).CellValue)
           Else
@@ -394,6 +397,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Select
       If Not dlgDetailForm Is Nothing Then
         dlgDetailForm.Close()
+      End If
+      If amount = 0 Then
+        Return
       End If
       dlgDetailForm = New RptGLPayTypeDetailForm
       dlgDetailForm.StartPosition = FormStartPosition.Manual
@@ -412,7 +418,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         mpY -= dlgDetailForm.Height
       End If
 
-      Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
+      If colName = "debit" OrElse colName = "credit" OrElse colName = "balance" Then
+        Return
+      End If
       Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(e.RowIndex - 1)
       If tr Is Nothing Then
         Return
@@ -825,7 +833,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'End If
             theRow2("acct_id") = drh.GetValue(Of Integer)("gli_acct")
             theRow2("gli_cc") = drh.GetValue(Of Integer)("gli_cc")
-
+            theRow2("Barrier") = drh.GetValue(Of Date)("gl_docdate").ToShortDateString
             If Not row.IsNull("gl_code") Then
               theRow2("gl_code") = CStr(row("gl_code")) 'Space(6) & CStr(row("gl_code"))
             End If
@@ -858,7 +866,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             theRow2("Bank") = Configuration.FormatToString(bank, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Remain") = Configuration.FormatToString(remain, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Other") = Configuration.FormatToString(Other, DigitConfig.Price, True)      ' ยอดคงเหลือ
-
+            theRow2("sum") = Configuration.FormatToString(cash + bank + remain + Other, DigitConfig.Price, True)
 
             'theRow("col9") = row("cc_code")       ' Costcenter
             theRow2("Docid") = drh.GetValue(Of Integer)("gl_refid", 0)
