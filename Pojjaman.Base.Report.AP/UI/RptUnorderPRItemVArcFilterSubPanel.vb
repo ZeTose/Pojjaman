@@ -704,6 +704,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private Sub Initialize()
             ClearCriterias()
             'LoadCostCenter()
+            Dim appovePr As Boolean = CBool(Configuration.GetConfig("ApprovePR"))
+            If appovePr Then
+                Me.txtDocDateStart1.Enabled = True
+                Me.dtpDocDateStart1.Enabled = True
+                Me.txtDocDateEnd1.Enabled = True
+                Me.dtpDocDateEnd1.Enabled = True
+            Else
+                Me.txtDocDateStart1.Enabled = False
+                Me.dtpDocDateStart1.Enabled = False
+                Me.txtDocDateEnd1.Enabled = False
+                Me.dtpDocDateEnd1.Enabled = False
+
+                Me.txtDocDateStart1.Text = ""
+                Me.txtDocDateEnd1.Text = ""
+            End If
+
         End Sub
 
         Private Sub ClearCriterias()
@@ -741,9 +757,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 
         End Sub
-        Public Overrides Function GetFilterString() As String
-
-        End Function
+     
         Public Overrides Function GetFilterArray() As Filter()
             Dim arr(9) As Filter
             arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart))
@@ -1140,7 +1154,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             'CheckedLCIListString = String.Join(",", LCICodeList.ToArray)
  
-            For i = 0 To LCICodeList.Count
+            For i = 0 To LCICodeList.Count - 1
                 clbMaterial.Items.Add(LCICodeList(i))
             Next
 
