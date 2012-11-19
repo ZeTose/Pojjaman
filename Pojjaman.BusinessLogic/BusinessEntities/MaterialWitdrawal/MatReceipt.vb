@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   '  Public Class MatWithdrawType
@@ -66,6 +67,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public MatActualHashOut As Hashtable
 
     Private m_approvalCollection As ApprovalStoreCommentCollection
+    Private m_oldActualDataSet As DataSet
 #End Region
 
 #Region "Constructors"
@@ -110,6 +112,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
       m_itemCollection = New MatReceiptItemCollection(Me, m_grouping)
+      m_oldActualDataSet = New DataSet
       MatActualHashIn = New Hashtable
       MatActualHashOut = New Hashtable
       m_approvalCollection = New ApprovalStoreCommentCollection(Me)
@@ -222,6 +225,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_je.DocDate = Me.DocDate
         End If
         m_itemCollection = New MatReceiptItemCollection(Me, m_grouping)
+        m_oldActualDataSet = Me.GetOldMatOperationWithdrawWBSActual
         MatActualHashIn = New Hashtable
         MatActualHashOut = New Hashtable
       End With
@@ -510,6 +514,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function GetOldMatOperationWithdrawWBSActual() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetOldMatOperationWithdrawWBSActual",
+                                                   New SqlParameter("@stock_id", Me.Id)
+                                                  )
+      Return ds
+    End Function
+    Private Function GetGRCommandActual() As String
+      If Me.m_oldActualDataSet Is Nothing OrElse Me.m_oldActualDataSet.Tables.Count = 0 OrElse Me.m_oldActualDataSet.Tables(0).Rows.Count = 0 Then
+        Return ""
+      End If
+      Dim cmd As String = ""
+      Dim cmdList As New ArrayList
+      For Each row As DataRow In Me.m_oldActualDataSet.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        cmd = ""
+        cmd = "" & _
+        " update swang_mat_wbsactual " & _
+        " set wbs_matactual = isnull(wbs_matactual,0) - " & drh.GetValue(Of Decimal)("wbsmatactual").ToString() & "" & _
+        " ,wbs_labactual = isnull(wbs_labactual,0) - " & drh.GetValue(Of Decimal)("wbslabactual").ToString() & "" & _
+        " ,wbs_eqactual = isnull(wbs_eqactual,0) - " & drh.GetValue(Of Decimal)("wbseqactual").ToString() & "" & _
+        " ,nonref_matactual = isnull(nonref_matactual,0) - " & drh.GetValue(Of Decimal)("nonrefmatactual").ToString() & "" & _
+        " ,nonref_labactual = isnull(nonref_labactual,0) - " & drh.GetValue(Of Decimal)("nonreflabactual").ToString() & "" & _
+        " ,nonref_eqactual = isnull(nonref_eqactual,0) - " & drh.GetValue(Of Decimal)("nonrefeqactual").ToString() & "" & _
+        " where wbs_id = " & drh.GetValue(Of Long)("stockiw_wbs").ToString & "" & _
+        " and isnull(wbs_ismarkup,0) = " & drh.GetValue(Of Integer)("stockiw_isMarkup").ToString
+        cmdList.Add(cmd)
+      Next
+      If cmdList.Count > 0 Then
+        Return String.Join(";", cmdList.ToArray)
+      End If
+
+      Return ""
+    End Function
     'Public Function GetDiffConversion() As Decimal
     '  Try
     '    Dim ds As DataSet = SqlHelper.ExecuteDataset( _
@@ -916,18 +955,40 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(ex.ToString)
         End Try
 
+        'Try
+        '  Dim subsaveerror As SaveErrorException = SubSave(conn)
+        '  If Not IsNumeric(subsaveerror.Message) Then
+        '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+        '  End If
+        '  Return New SaveErrorException("0")
+        '  'Complete Save
+        'Catch ex As Exception
+        '  Return New SaveErrorException(ex.ToString)
+        'End Try
+
         Try
-          Dim subsaveerror As SaveErrorException = SubSave(conn)
-          If Not IsNumeric(subsaveerror.Message) Then
-            Return New SaveErrorException(" Save Incomplete Please Save Again")
-          End If
-          Return New SaveErrorException("0")
-          'Complete Save
+
+          Parallel.Invoke(Sub()
+                            SubSave(conn)
+                          End Sub,
+                          Sub()
+                            SaveWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            SubSaveMatReference(conn)
+                          End Sub,
+                          Sub()
+                            SubSaveWBSReference(conn)
+                          End Sub)
+
+
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         End Try
+
         '--Sub Save Block-- ============================================================
 
+        Return New SaveErrorException("0")
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
       Finally
@@ -1116,8 +1177,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '==============================STOCKCOSTFIFO=========================================
             'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
             If Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
-                                                                                                          New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+              'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+              '                                                                                            New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+
+              Try
+                CostItem.Update("InsertStockiCostFIFO_DeleteCost", conn, trans, Me.Id, Me.FromCostCenter.Id)
+                CostItem.Update("InsertStockiCostFIFO_NewInsert", conn, trans, Me.Id, Me.FromCostCenter.Id)
+                CostItem.Update("InsertStockiCostFIFO_UpdateStockItem", conn, trans, Me.Id, Me.FromCostCenter.Id)
+                CostItem.Update("InsertStockiCostFIFO_UpdateStockIWBS", conn, trans, Me.Id, Me.FromCostCenter.Id)
+              Catch ex As Exception
+                Return New SaveErrorException(ex.Message)
+              End Try
             End If
             '==============================STOCKCOSTFIFO=========================================
 
@@ -1268,16 +1338,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End With
     End Function
-    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
 
+    Private Function SubSave(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
 
       Try
         '==============================UPDATE Old PRITEM=========================================
-        'If Me.Originated AndAlso Not Me.IsReferenced Then
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteOldPriWithdrawQty", New SqlParameter("@stock_id", Me.Id))
-        'End If
         '==============================UPDATE Old PRITEM=========================================
         '==============================UPDATE PRITEM=========================================
         If Me.m_approvalCollection.IsApproved Then
@@ -1285,33 +1355,83 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         '==============================UPDATE PRITEM=========================================
 
-        'Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
-                                                                          , New SqlParameter("@refto_id", Me.Id) _
-                                                                          , New SqlParameter("@refto_type", Me.EntityId) _
-                                                                          , New SqlParameter("@IsApprove", m_approvalCollection.IsApproved))
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePR_MAtwRef" _
-        ', New SqlParameter("@refto_id", Me.Id))
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef" _
-        ', New SqlParameter("@refto_id", Me.Id))
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef" _
-        ', New SqlParameter("@refto_id", Me.Id))
-        'If Me.Status.Value = 0 Then
-        '  Me.CancelRef(conn, trans)
-        'End If
-        'trans.Commit()
-
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateMATWBSActual")
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateStock2WBSActual")
       Catch ex As Exception
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.ToString)
       End Try
 
       trans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
+
+    Private Function SaveWBSActual(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim cmd As String = Me.GetGRCommandActual
+        If cmd.Length > 0 Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_OnlyUpdateMatOperationWithdrawWBSActual", New SqlParameter("@stock_id", Me.Id))
+
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSaveMatReference(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertMatReceiptReference" _
+                                                                        , New SqlParameter("@refto_id", Me.Id) _
+                                                                        , New SqlParameter("@refto_type", Me.EntityId) _
+                                                                        , New SqlParameter("@IsApprove", m_approvalCollection.IsApproved))
+
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSaveWBSReference(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String
       If Me.AutoCodeFormat.Format.Length > 0 Then
