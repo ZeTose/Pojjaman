@@ -2289,8 +2289,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newrow("name") = companyname
         newrow("address") = companyaddress
         newrow("incomesection") = "" ' drh.GetValue(Of Integer)("", 0)
-        newrow("idnoperson") = drh.GetValue(Of String)("supplierIdno", "").Trim
-        newrow("taxidnoperson") = drh.GetValue(Of String)("supplierTaxId", "").Trim
+        newrow("idnoperson") = drh.GetValue(Of String)("idnoperson", "").Trim
+        newrow("taxidnoperson") = drh.GetValue(Of String)("taxidperson", "").Trim
         newrow("branchperson") = "00000" 'drh.GetValue(Of String)("", "00000")
         newrow("titleperson") = "" 'drh.GetValue(Of String)("", "")
         newrow("nameperson") = drh.GetValue(Of String)("printname", "").Trim
@@ -2310,7 +2310,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
 
+    Private Function SplitTitle(_printName As String, _splitTitleSep() As String) As KeyValuePair
+      If _printName.Trim.Length > 0 Then
+        For Each mapWord As String In _splitTitleSep
+          If _printName.StartsWith(mapWord) Then
+            Return New KeyValuePair(mapWord, _printName.Replace(mapWord, "").Trim)
+          End If
+        Next
+      End If
+      Return New KeyValuePair("", _printName)
+    End Function
+
     Public Sub Export(ByVal writer As TextWriter, exportpndType As Integer) 'As SaveErrorException
+
+      Dim splitTitle As String = Configuration.GetConfig("WHT_Title_Splite").ToString()
+      Dim splitTitleSep As String() = splitTitle.Split(","c)
 
       Dim expText As String = ""
 
@@ -2332,8 +2346,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             exportList.Add(drh.GetValue(Of String)("idnoperson"))
             exportList.Add(drh.GetValue(Of String)("taxidnoperson"))
             'exportList.Add(drh.GetValue(Of String)("branchperson"))
-            exportList.Add(drh.GetValue(Of String)("titleperson"))
-            exportList.Add(drh.GetValue(Of String)("nameperson"))
+
+            Dim kv As KeyValuePair = Me.SplitTitle(drh.GetValue(Of String)("nameperson"), splitTitleSep)
+            exportList.Add(kv.Key)
+            exportList.Add(kv.Value)
+            'exportList.Add(drh.GetValue(Of String)("titleperson"))
+            'exportList.Add(drh.GetValue(Of String)("nameperson"))
+
             exportList.Add(drh.GetValue(Of String)("lastnameperson"))
             exportList.Add(drh.GetValue(Of String)("addressperson"))
             exportList.Add(drh.GetValue(Of String)("paymentdate"))
@@ -2360,8 +2379,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             exportList.Add(drh.GetValue(Of String)("idnoperson"))
             exportList.Add(drh.GetValue(Of String)("taxidnoperson"))
             exportList.Add(drh.GetValue(Of String)("branchperson"))
-            exportList.Add(drh.GetValue(Of String)("titleperson"))
-            exportList.Add(drh.GetValue(Of String)("nameperson"))
+
+            Dim kv As KeyValuePair = Me.SplitTitle(drh.GetValue(Of String)("nameperson"), splitTitleSep)
+            exportList.Add(kv.Key)
+            exportList.Add(kv.Value)
+            'exportList.Add(drh.GetValue(Of String)("titleperson"))
+            'exportList.Add(drh.GetValue(Of String)("nameperson"))
+
             exportList.Add(drh.GetValue(Of String)("lastnameperson"))
             exportList.Add(drh.GetValue(Of String)("addressperson"))
             exportList.Add(drh.GetValue(Of String)("paymentdate"))
