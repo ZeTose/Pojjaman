@@ -230,6 +230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 , New SqlParameter("@EntityId", 343) _
                 , New SqlParameter("@lci_id", lci_id) _
                 , New SqlParameter("@stock_id", Me.MatTransfer.Id) _
+                , New SqlParameter("@itemcheck_byitem", True) _
                 )
         If ds.Tables(0).Rows(0).IsNull("remain") Then
           Return 0
