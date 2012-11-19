@@ -8,6 +8,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Core
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class GoodsReceiptStatus
@@ -328,42 +329,73 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         '--------------------END REAL-------------------------
 
-        .m_vat = New Vat(Me)
-        m_vat.Direction.Value = 1
+        '.m_vat = New Vat(Me)
+        'm_vat.Direction.Value = 1
 
-        '.m_wht = New WitholdingTax(Me)
-        '.m_wht.Direction.Value = 1
+        ''.m_wht = New WitholdingTax(Me)
+        ''.m_wht.Direction.Value = 1
 
-        .m_whtcol = New WitholdingTaxCollection(Me)
-        .m_whtcol.Direction = New WitholdingTaxDirection(1)
+        '.m_whtcol = New WitholdingTaxCollection(Me)
+        '.m_whtcol.Direction = New WitholdingTaxDirection(1)
 
-        .m_payment = New Payment(Me)
+        '.m_payment = New Payment(Me)
 
-        .m_je = New JournalEntry(Me)
+        '.m_je = New JournalEntry(Me)
 
         '.m_advancePayItemColl = New AdvancePayItemCollection(Me)
-        .m_advancePayItemColl = New AdvancePayItemCollection(Me.Id, Me.EntityId)
+        '.m_advancePayItemColl = New AdvancePayItemCollection(Me.Id, Me.EntityId)
 
         If dr.Table.Columns.Contains("stock_asset") AndAlso Not dr.IsNull(aliasPrefix & "stock_asset") Then
           .m_asset = New Asset(CInt(dr(aliasPrefix & "stock_asset")))
         End If
       End With
+
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New GoodsReceiptItemCollection(Me)
-      'm_oldItemList = New List(Of GoodsReceiptItem)
-      'm_itemCollection.CopyItemToList(m_oldItemList)
-      'm_itemCollection.RefreshBudget()
-      m_oldActualDataSet = Me.GetOldGRWBSActual
-      m_approveDocColl = New ApproveDocCollection(Me)
 
-      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+      Parallel.Invoke(Sub()
+                        m_vat = New Vat(Me)
+                        m_vat.Direction.Value = 1
+                      End Sub,
+                      Sub()
+                        m_whtcol = New WitholdingTaxCollection(Me)
+                        m_whtcol.Direction = New WitholdingTaxDirection(1)
+                      End Sub,
+                      Sub()
+                        m_payment = New Payment(Me)
+                      End Sub,
+                      Sub()
+                        m_je = New JournalEntry(Me)
+                      End Sub,
+                      Sub()
+                        m_advancePayItemColl = New AdvancePayItemCollection(Me.Id, Me.EntityId)
+                      End Sub,
+                      Sub()
 
-      '==============CURRENCY=================================
-      BusinessLogic.Currency.SetCurrencyFromDB(Me)
-      '==============CURRENCY=================================
+                      End Sub,
+                      Sub()
+                        m_itemCollection = New GoodsReceiptItemCollection(Me)
+                      End Sub,
+                      Sub()
+                        m_oldActualDataSet = Me.GetOldGRWBSActual
+                      End Sub,
+                      Sub()
+                        m_approveDocColl = New ApproveDocCollection(Me)
+                      End Sub,
+                      Sub()
+                        Me.AutoCodeFormat = New AutoCodeFormat(Me)
+                      End Sub)
+
+      ''==============CURRENCY=================================
+      'BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      ''==============CURRENCY=================================
       m_Unlock = UnlockType.Non
+
+      If poIdArrayList Is Nothing Then
+        poIdArrayList = New ArrayList
+        poIdArrayList.Add(Me.Po.Id)
+      End If
     End Sub
 #End Region
 
@@ -2038,6 +2070,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       conn.Close()
     End Function
 
+    Dim poIdArrayList As ArrayList
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
 
       With Me
@@ -2358,11 +2391,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End Select
             End If
 
-            '==============CURRENCY=================================
-            'Save Currency
-            If Me.Originated Then
-              BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
-            End If
+            ''==============CURRENCY=================================
+            ''Save Currency
+            'If Me.Originated Then
+            '  BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+            'End If
             '==============CURRENCY=================================
 
 
@@ -2532,14 +2565,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Try
 
           'Sub Save Block ===========================================
-          Try
-            Dim subsaveerror As SaveErrorException = SubSave(conn)
-            If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
-            End If
-          Catch ex As Exception
-            Return New SaveErrorException(ex.ToString)
-          End Try
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSave(conn)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+
+          poIdArrayList.Add(Me.Po.Id)
+          Dim poIdList As String = String.Join(",", poIdArrayList.ToArray)
+
+          Parallel.Invoke(Sub()
+                            SubSaveGoodReceiptList(conn)
+                          End Sub,
+                          Sub()
+                            SubSave(conn)
+                          End Sub,
+                          Sub()
+                            SubSavePOReference(conn)
+                          End Sub,
+                          Sub()
+                            SaveWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            SubSaveDocApprove(conn, currentUserId)
+                          End Sub,
+                          Sub()
+                            BusinessLogic.PO.UpdateReferencePOGeneralList(conn, poIdArrayList)
+                          End Sub,
+                          Sub()
+                            BusinessLogic.PO.UpdateGRReferencePOGeneralList(conn, poIdArrayList)
+                          End Sub)
 
           Try
             Dim subsaveerror3 As SaveErrorException = SubSaveJeAtom(conn)
@@ -2550,14 +2608,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(ex.ToString)
           End Try
 
-          Try
-            Dim subsaveerror2 As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
-            If Not IsNumeric(subsaveerror2.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
-            End If
-          Catch ex As Exception
-            Return New SaveErrorException(ex.ToString)
-          End Try
+          'Try
+          '  Dim subsaveerror2 As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror2.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
           'Sub Save Block ===========================================
 
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -2570,55 +2628,131 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
     End Function
 
-    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+    Public Shared Function UpdateRemainGoodsReceiptList(ByVal conn As SqlConnection, ByVal grIdList As String) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
 
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdateRemainGoodsReceiptList", New SqlParameter("@stockIdList", grIdList))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Public Shared Function UpdateReferenceGoodsReceiptList(ByVal conn As SqlConnection, ByVal grIdList As String) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdateReferenceGoodsReceiptList", New SqlParameter("@stockIdList", grIdList))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSaveGoodReceiptList(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdateGoodsReceiptList", New SqlParameter("@stock_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
       '==============================STOCKCOST=========================================
       'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut) 
       If Not Me.IsReferenced Then
-        Dim transCost As SqlTransaction = conn.BeginTransaction
+        Dim trans As SqlTransaction = conn.BeginTransaction
         Try
-
           'InsertStockiCostFirstFIFO ใช้สำหรับเอกสารตั้งต้น Cost จะได้ลดภาระ database
-          SqlHelper.ExecuteNonQuery(conn, transCost, CommandType.StoredProcedure, "InsertStockiCostFirstFIFO", New SqlParameter("@stock_id", Me.Id))
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFirstFIFO", New SqlParameter("@stock_id", Me.Id))
         Catch ex As Exception
-          transCost.Rollback()
+          trans.Rollback()
+          conn.Close()
           Return New SaveErrorException(ex.InnerException.ToString)
         End Try
-        transCost.Commit()
+
+        For Each extender As Object In Me.Extenders
+          If TypeOf extender Is IExtender Then
+            Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
+            If Not IsNumeric(saveDocError.Message) Then
+              trans.Rollback()
+              conn.Close()
+              Return saveDocError
+            Else
+              Select Case CInt(saveDocError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  conn.Close()
+                  Return saveDocError
+                Case Else
+              End Select
+            End If
+          End If
+        Next
+
+        trans.Commit()
+        conn.Close()
       End If
       '==============================STOCKCOST=========================================
+      Return New SaveErrorException("0")
+    End Function
 
-      '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
+    Private Function SubSavePOReference(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
       Dim trans As SqlTransaction = conn.BeginTransaction
-      For Each extender As Object In Me.Extenders
-        If TypeOf extender Is IExtender Then
-          Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
-          If Not IsNumeric(saveDocError.Message) Then
-            trans.Rollback()
-            Return saveDocError
-          Else
-            Select Case CInt(saveDocError.Message)
-              Case -1, -2, -5
-                trans.Rollback()
-                Return saveDocError
-              Case Else
-            End Select
-          End If
-        End If
-      Next
-
       Try
         Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePO_GRRef", New SqlParameter("@stock_id", Me.Id))
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBS_StockRef", New SqlParameter("@refto_id", Me.Id))
-        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateMarkup_StockRef", New SqlParameter("@refto_id", Me.Id))
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromStock", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateGoodsReceiptPVList", New SqlParameter("@stock_id", Me.Id))
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
 
+    Private Function SaveWBSActual(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
         Dim cmd As String = Me.GetGRCommandActual
         If cmd.Length > 0 Then
           SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
@@ -2627,12 +2761,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Catch ex As Exception
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.ToString)
       End Try
 
       trans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
+
+    Private Function SubSaveDocApprove(ByVal oldconn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim strans As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.ToCostCenter.Id, Me.Supplier.Id, Me)
+        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
+        If Not IsNumeric(savemldocError.Message) Then
+          strans.Rollback()
+          conn.Close()
+          Return savemldocError
+        End If
+      Catch ex As Exception
+        strans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      strans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
     Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
       Me.JournalEntry.RefreshOnlyGLAtom()
       Dim trans As SqlTransaction = conn.BeginTransaction
@@ -2645,24 +2806,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans.Commit()
       Return New SaveErrorException("0")
     End Function
-    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
-      Dim strans As SqlTransaction = conn.BeginTransaction
 
-      Try
-        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.AfterTax, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.ToCostCenter.Id, Me.Supplier.Id, Me)
-        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
-        If Not IsNumeric(savemldocError.Message) Then
-          strans.Rollback()
-          Return savemldocError
-        End If
-      Catch ex As Exception
-        strans.Rollback()
-        Return New SaveErrorException(ex.InnerException.ToString)
-      End Try
-
-      strans.Commit()
-      Return New SaveErrorException("0")
-    End Function
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code 'Entity.GetAutoCodeFormat(Me.EntityId)
       Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
@@ -6472,13 +6616,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return savemldocError
         End If
 
-        Dim cmd As String = Me.GetGRCommandActual
-        If cmd.Length > 0 Then
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
-          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_OnlyUpdateGRWBSChildActual")
-        End If
+        'Dim cmd As String = Me.GetGRCommandActual
+        'If cmd.Length > 0 Then
+        '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
+        '  SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_OnlyUpdateGRWBSChildActual")
+        'End If
 
         trans.Commit()
+
+        SaveWBSActual(conn)
+
+        'If Me.Po.Originated Then
+        Dim poIdList As String = String.Join(",", poIdArrayList.ToArray)
+        BusinessLogic.PO.UpdateReferencePOGeneralList(conn, poIdList)
+        BusinessLogic.PO.UpdateGRReferencePOGeneralList(conn, poIdList)
+        'End If
+
         Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()

@@ -577,6 +577,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
 
     End Function
+
+    Dim grIdArrayList As ArrayList
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Dim oldcode As String
@@ -607,6 +609,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.ItemCollection.Count <= 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
+
+        grIdArrayList = New ArrayList
+        grIdArrayList.AddRange(Me.GetGoodsRecriptIdList())
 
         'If Me.MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
         '    Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
@@ -1019,17 +1024,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
       , New SqlParameter("@pays_id", Me.Id))
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePA_Retention_PaySRef" _
       , New SqlParameter("@pays_id", Me.Id))
+
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
 
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
+
       Catch ex As Exception
         trans.Rollback()
         Return New SaveErrorException(ex.ToString)
       End Try
 
       trans.Commit()
+
+      Try
+        grIdArrayList.AddRange(Me.GetGoodsRecriptIdList())
+        Dim grIdList As String = String.Join(",", grIdArrayList.ToArray)
+
+        GoodsReceipt.UpdateRemainGoodsReceiptList(conn, grIdList)
+
+        GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, grIdList)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message.ToString())
+      End Try
+
       Return New SaveErrorException("0")
     End Function
     Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
@@ -1896,6 +1915,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.Status.Value <= 2 AndAlso Not Me.IsReferenced
       End Get
     End Property
+    Private Function GetGoodsRecriptIdList() As ArrayList
+      Dim arrList As New ArrayList
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetGoodsRecriptIdList", New SqlParameter("@pays_id", Me.Id))
+      For Each row As DataRow In ds.Tables(0).Rows
+        arrList.Add(row("stock_id"))
+      Next
+      'For Each itm As BillAcceptanceItem In Me.ItemCollection
+      '  If itm.EntityId = 45 Then
+      '    arrList.Add(itm.Id)
+      '  End If
+      'Next
+      Return arrList ' String.Join(",", arrList.ToArray)
+    End Function
     Public Overrides Function Delete() As SaveErrorException
       If Not Me.Originated Then
         Return New SaveErrorException("${res:Global.Error.NoIdError}")
@@ -1906,6 +1938,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeletePaySelection}", format) Then
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
+
+      Dim grIdList As String = String.Join(",", Me.GetGoodsRecriptIdList().ToArray)
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
@@ -1931,7 +1966,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Me.DeleteRef(conn, trans)
         trans.Commit()
-        Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()
         Return New SaveErrorException(ex.Message)
@@ -1941,6 +1975,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
         conn.Close()
       End Try
+
+      Try
+        GoodsReceipt.UpdateRemainGoodsReceiptList(conn, grIdList)
+
+        GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, grIdList)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
+
+      Return New SaveErrorException("1")
     End Function
 #End Region
 
