@@ -322,12 +322,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid = grid
 
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
-      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
-      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
-
-      RemoveHandler m_grid.CellClick, AddressOf CellClick
-      AddHandler m_grid.CellClick, AddressOf CellClick
-
+      
 
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
@@ -336,6 +331,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tm As New TreeManager(GetSchemaTable(), New TreeGrid)
       ListInGrid(tm)
 
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+
+      RemoveHandler m_grid.CellClick, AddressOf CellClick
+      AddHandler m_grid.CellClick, AddressOf CellClick
 
       lkg.TreeTableStyle = CreateTableStyle()
       'lkg.Model.Rows.Hidden(0) = True
@@ -380,7 +380,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
       'Select e.ColIndex
       Select Case colName
-        Case "cash", "bank", "remain", "other"
+        Case "cash", "bank", "remain"
           If IsNumeric(m_grid(e.RowIndex, e.ColIndex).CellValue) Then
             amount = CDec(m_grid(e.RowIndex, e.ColIndex).CellValue)
           Else
@@ -563,7 +563,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim drh As New DataRowHelper(dr)
         debit += drh.GetValue(Of Decimal)("Debit", 0)
         credit += drh.GetValue(Of Decimal)("Credit", 0)
-        Amount += drh.GetValue(Of Decimal)("amount", 0)
+        Amount += drh.GetValue(Of Decimal)("balance", 0)
         Cash += drh.GetValue(Of Decimal)("cash", 0)
         Bank += drh.GetValue(Of Decimal)("bank", 0)
         Remain += drh.GetValue(Of Decimal)("remain", 0)
@@ -713,7 +713,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim drh As New DataRowHelper(dr)
         debit += drh.GetValue(Of Decimal)("Debit", 0)
         credit += drh.GetValue(Of Decimal)("Credit", 0)
-        Amount += drh.GetValue(Of Decimal)("Amount", 0)
+        Amount += drh.GetValue(Of Decimal)("amount", 0)
         Cash += drh.GetValue(Of Decimal)("cash", 0)
         Bank += drh.GetValue(Of Decimal)("bank", 0)
         Remain += drh.GetValue(Of Decimal)("remain", 0)
@@ -722,6 +722,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If parrow.Childs.Count > 0 Then
         parrow("Debit") = Configuration.FormatToString(debit, DigitConfig.Price)
         parrow("Credit") = Configuration.FormatToString(credit, DigitConfig.Price)
+        parrow("Amount") = Configuration.FormatToString(Amount, DigitConfig.Price)
         parrow("Balance") = Configuration.FormatToString(Amount, DigitConfig.Price)
         parrow("cash") = Configuration.FormatToString(Cash, DigitConfig.Price)
         parrow("bank") = Configuration.FormatToString(Bank, DigitConfig.Price)
@@ -854,13 +855,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             theRow2("balance") = Configuration.FormatToString(totalbalance, DigitConfig.Price)      ' ยอดคงเหลือ
 
-            Dim cash As Decimal = drh.GetValue(Of Decimal)("Cash")
+            Dim cash As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("Cash"), DigitConfig.Price)
+            Dim bank As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("bank"), DigitConfig.Price)
+            Dim remain As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
+            Dim Other As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
+            Dim fraction As Decimal = gli_balanceamt - cash - bank - remain - Other
+            If fraction <> 0 Then
+              ProjectReceivePaymentItem.EqualizeFraction(fraction, cash, bank, remain, Other)
+            End If
+
             totalCash += cash
-            Dim bank As Decimal = drh.GetValue(Of Decimal)("bank")
             totalBank += bank
-            Dim remain As Decimal = drh.GetValue(Of Decimal)("remain")
             totalRemain += remain
-            Dim Other As Decimal = drh.GetValue(Of Decimal)("Other")
             totalOther += Other
             theRow2("Cash") = Configuration.FormatToString(cash, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Bank") = Configuration.FormatToString(bank, DigitConfig.Price, True)      ' ยอดคงเหลือ
@@ -879,7 +885,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'tr.AcceptChanges()
       End If
     End Sub
-   
+    
 #End Region
 
 #Region "Select Distinct From DataTable"

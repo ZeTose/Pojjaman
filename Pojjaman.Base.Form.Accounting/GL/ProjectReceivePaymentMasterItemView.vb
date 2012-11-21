@@ -230,9 +230,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If TypeOf theRow.Tag Is ProjectReceivePaymentMasterItem Then
         itm = CType(theRow.Tag, ProjectReceivePaymentMasterItem)
       End If
-      Dim filters(1) As Filter
+      Dim filters(2) As Filter
       filters(0) = New Filter("CheckedIdList", itm.GLIdSeparate)
       filters(1) = New Filter("acct_typeGroup", "4,5")
+      filters(2) = New Filter("CodeList", GenIDListFromDataTable(theRow, "GLAccount"))
 
       Dim Entities As New ArrayList
       Dim _entity As New Account
@@ -243,6 +244,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetGLAccount, filters, Entities)
       'Me.IsDirty = True
     End Sub
+    Private Function GenIDListFromDataTable(ByVal theRow As TreeRow, ByVal colName As String) As String
+      Dim idlist As String = ""
+      Me.m_treeManager.Treetable.AcceptChanges()
+      For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+        If Not row Is theRow Then
+          If Not row.IsNull(colName) Then
+            Dim formula As String = CStr(row(colName))
+            idlist += formula
+          End If
+        End If
+      Next
+      Return idlist
+    End Function
     Private Sub SetGLAccount(ByVal items As BasketItemCollection)
       'Me.m_treeManager.SelectedRow("CCCode") = cc.Code
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)

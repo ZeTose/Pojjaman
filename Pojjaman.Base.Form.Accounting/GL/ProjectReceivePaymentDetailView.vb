@@ -98,13 +98,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtCostCenter As System.Windows.Forms.TextBox
     Friend WithEvents lblCostCenter As System.Windows.Forms.Label
+    Friend WithEvents ibottonShowValue As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
+      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProjectReceivePaymentDetailView))
       Me.lblItem = New System.Windows.Forms.Label()
       Me.lblAccountPeriodStart = New System.Windows.Forms.Label()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.tProjectName = New System.Windows.Forms.TextBox()
       Me.tProjectCode = New System.Windows.Forms.TextBox()
       Me.tDeliverNumber = New System.Windows.Forms.TextBox()
@@ -120,6 +122,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tAcceptPerson2Name = New System.Windows.Forms.TextBox()
       Me.tAcceptPosition = New System.Windows.Forms.TextBox()
       Me.tAcceptPosition2 = New System.Windows.Forms.TextBox()
+      Me.txtCostCenter = New System.Windows.Forms.TextBox()
       Me.chkAutorun = New System.Windows.Forms.CheckBox()
       Me.lblCode = New System.Windows.Forms.Label()
       Me.tgItem = New Longkong.Pojjaman.Gui.Components.TreeGrid()
@@ -150,6 +153,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblPeriod = New System.Windows.Forms.Label()
       Me.lblBaht = New System.Windows.Forms.Label()
       Me.lblReceiveAmount = New System.Windows.Forms.Label()
+      Me.lblCostCenter = New System.Windows.Forms.Label()
       Me.lblContract = New System.Windows.Forms.Label()
       Me.lblBaht1 = New System.Windows.Forms.Label()
       Me.lblAcceptPerson1 = New System.Windows.Forms.Label()
@@ -164,8 +168,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnRefresh = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.Label1 = New System.Windows.Forms.Label()
       Me.Label2 = New System.Windows.Forms.Label()
-      Me.txtCostCenter = New System.Windows.Forms.TextBox()
-      Me.lblCostCenter = New System.Windows.Forms.Label()
+      Me.ibottonShowValue = New Longkong.Pojjaman.Gui.Components.ImageButton()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.tDeliverDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -481,6 +484,23 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetRequired(Me.tAcceptPosition2, False)
       Me.tAcceptPosition2.Size = New System.Drawing.Size(262, 20)
       Me.tAcceptPosition2.TabIndex = 4
+      '
+      'txtCostCenter
+      '
+      Me.Validator.SetDataType(Me.txtCostCenter, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtCostCenter, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtCostCenter, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtCostCenter, System.Drawing.Color.Empty)
+      Me.txtCostCenter.Location = New System.Drawing.Point(110, 14)
+      Me.Validator.SetMaxValue(Me.txtCostCenter, "")
+      Me.Validator.SetMinValue(Me.txtCostCenter, "")
+      Me.txtCostCenter.Name = "txtCostCenter"
+      Me.txtCostCenter.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtCostCenter, "")
+      Me.Validator.SetRequired(Me.txtCostCenter, False)
+      Me.txtCostCenter.Size = New System.Drawing.Size(353, 20)
+      Me.txtCostCenter.TabIndex = 331
+      Me.txtCostCenter.TabStop = False
       '
       'chkAutorun
       '
@@ -837,6 +857,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblReceiveAmount.Text = "ได้รับเงินตามสัญญาแล้ว:"
       Me.lblReceiveAmount.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
+      'lblCostCenter
+      '
+      Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.lblCostCenter.ForeColor = System.Drawing.Color.Black
+      Me.lblCostCenter.Location = New System.Drawing.Point(26, 16)
+      Me.lblCostCenter.Name = "lblCostCenter"
+      Me.lblCostCenter.Size = New System.Drawing.Size(85, 18)
+      Me.lblCostCenter.TabIndex = 8
+      Me.lblCostCenter.Text = "Cost Center:"
+      Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
       'lblContract
       '
       Me.lblContract.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
@@ -986,36 +1017,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Label2.Text = "ตำแหน่ง:"
       Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
-      'txtCostCenter
+      'ibottonShowValue
       '
-      Me.Validator.SetDataType(Me.txtCostCenter, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtCostCenter, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtCostCenter, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtCostCenter, System.Drawing.Color.Empty)
-      Me.txtCostCenter.Location = New System.Drawing.Point(110, 14)
-      Me.Validator.SetMaxValue(Me.txtCostCenter, "")
-      Me.Validator.SetMinValue(Me.txtCostCenter, "")
-      Me.txtCostCenter.Name = "txtCostCenter"
-      Me.txtCostCenter.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtCostCenter, "")
-      Me.Validator.SetRequired(Me.txtCostCenter, False)
-      Me.txtCostCenter.Size = New System.Drawing.Size(353, 20)
-      Me.txtCostCenter.TabIndex = 331
-      Me.txtCostCenter.TabStop = False
-      '
-      'lblCostCenter
-      '
-      Me.lblCostCenter.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.lblCostCenter.ForeColor = System.Drawing.Color.Black
-      Me.lblCostCenter.Location = New System.Drawing.Point(26, 16)
-      Me.lblCostCenter.Name = "lblCostCenter"
-      Me.lblCostCenter.Size = New System.Drawing.Size(85, 18)
-      Me.lblCostCenter.TabIndex = 8
-      Me.lblCostCenter.Text = "Cost Center:"
-      Me.lblCostCenter.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.ibottonShowValue.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibottonShowValue.Location = New System.Drawing.Point(206, 260)
+      Me.ibottonShowValue.Name = "ibottonShowValue"
+      Me.ibottonShowValue.Size = New System.Drawing.Size(32, 32)
+      Me.ibottonShowValue.TabIndex = 348
+      Me.ibottonShowValue.TabStop = False
+      Me.ibottonShowValue.ThemedImage = CType(resources.GetObject("ibottonShowValue.ThemedImage"), System.Drawing.Bitmap)
       '
       'ProjectReceivePaymentDetailView
       '
+      Me.Controls.Add(Me.ibottonShowValue)
       Me.Controls.Add(Me.ibtnRefresh)
       Me.Controls.Add(Me.cCode)
       Me.Controls.Add(Me.GroupBox4)
@@ -1169,12 +1183,62 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csGLButton.NullText = ""
       AddHandler csGLButton.Click, AddressOf GLAccountClicked
 
+      Dim csCash As New TreeTextColumn
+      csCash.MappingName = "Cash"
+      csCash.HeaderText = myStringParserService.Parse("เงินสด")
+      'csCash.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.CashText}")
+      csCash.NullText = ""
+      csCash.Width = 120
+      csCash.ReadOnly = True
+      csCash.TextBox.Name = "Cash"
+
+      Dim csBank As New TreeTextColumn
+      csBank.MappingName = "Bank"
+      csBank.HeaderText = myStringParserService.Parse("ธนาคาร")
+      'csBank.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.BankText}")
+      csBank.NullText = ""
+      csBank.Width = 120
+      csBank.ReadOnly = True
+      csBank.TextBox.Name = "Bank"
+
+      Dim csRemain As New TreeTextColumn
+      csRemain.MappingName = "Remain"
+      csRemain.HeaderText = myStringParserService.Parse("คงค้าง")
+      'csRemain.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.RemainText}")
+      csRemain.NullText = ""
+      csRemain.Width = 120
+      csRemain.ReadOnly = True
+      csRemain.TextBox.Name = "Remain"
+
+      Dim csOther As New TreeTextColumn
+      csOther.MappingName = "Other"
+      csOther.HeaderText = myStringParserService.Parse("อื่นๆ")
+      'csOther.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.OtherText}")
+      csOther.NullText = ""
+      csOther.Width = 120
+      csOther.ReadOnly = True
+      csOther.TextBox.Name = "Other"
+
+      Dim csSum As New TreeTextColumn
+      csSum.MappingName = "Sum"
+      csSum.HeaderText = myStringParserService.Parse("รวม")
+      'csSum.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceivePaymentDetailView.SumText}")
+      csSum.NullText = ""
+      csSum.Width = 120
+      csSum.ReadOnly = True
+      csSum.TextBox.Name = "Sum"
+
       dst.GridColumnStyles.Add(csLineNumber)
       dst.GridColumnStyles.Add(csThaiNumber)
       dst.GridColumnStyles.Add(csDescription)
       dst.GridColumnStyles.Add(csSeparator1)
       dst.GridColumnStyles.Add(csGLAccount)
       'dst.GridColumnStyles.Add(csGLButton)
+      dst.GridColumnStyles.Add(csCash)
+      dst.GridColumnStyles.Add(csBank)
+      dst.GridColumnStyles.Add(csRemain)
+      dst.GridColumnStyles.Add(csOther)
+      dst.GridColumnStyles.Add(csSum)
 
       m_tableStyleEnable = New Hashtable
       For Each colStyle As DataGridColumnStyle In dst.GridColumnStyles
@@ -2238,6 +2302,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceiveDetailView.RefreshItem}")
 
       Me.m_entity.GetPRPMI()
+      Me.RefreshDocs()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub ibtnShowValue_Click(sender As System.Object, e As System.EventArgs) Handles ibottonShowValue.Click
+      'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      ''รายการผังบัญชีของเอกสารนี้จะถูกเขียนทับด้วย รายการผังบัญชีที่กำหนดไว้
+      'msgServ.ShowWarning("${res:Longkong.Pojjaman.Gui.Panels.ProjectReceiveDetailView.RefreshItem}")
+
+      Me.m_entity.GetPRPMIValue()
       Me.RefreshDocs()
       Me.WorkbenchWindow.ViewContent.IsDirty = True
     End Sub

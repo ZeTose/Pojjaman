@@ -9,7 +9,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class ProjectReceivePayment
     Inherits SimpleBusinessEntityBase
-    Implements IPrintableEntity, INewPrintableEntity
+    Implements IPrintableEntity, INewPrintableEntity, IHasToCostCenter
 
 #Region "Constructor"
     Public Sub New()
@@ -82,7 +82,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
-    Public Property CostCenter As CostCenter
+    Public Property CostCenter As CostCenter Implements IHasToCostCenter.ToCC
     Private m_project As Project
     Public Property Project As Project
       Get
@@ -124,7 +124,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property Acceptancepersonposition As String
     Public Property Acceptancepersonposition2 As String
 
-    Public Property ProjectReceivePaymentItemList As List(Of ProjectReceivePaymentItem)
+    Public Property ProjectReceivePaymentItemList As Dictionary(Of Integer, ProjectReceivePaymentItem)
 
 #End Region
 
@@ -137,6 +137,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("Separator1", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("GLAccount", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("GLButton", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Cash", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Bank", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Remain", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Other", GetType(String)))
+      myDatatable.Columns.Add(New DataColumn("Sum", GetType(String)))
 
       Return myDatatable
     End Function
@@ -288,6 +293,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''Main Save Block
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+
           If IsNumeric(returnVal.Value) Then
             Select Case CInt(returnVal.Value)
               Case -1, -5
@@ -310,6 +316,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ResetCode(oldcode, oldautogen)
             Return New SaveErrorException(returnVal.Value.ToString)
           End If
+
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeletePRPI", New SqlParameter("@id", returnVal.Value))
+
+          For Each kv As KeyValuePair(Of Integer, ProjectReceivePaymentItem) In ProjectReceivePaymentItemList
+            Dim item As ProjectReceivePaymentItem = kv.Value
+            SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertPRPI", item.insertparameter(CInt(returnVal.Value)))
+          Next
 
           trans.Commit()
 
@@ -401,14 +414,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub GetPRPMI()
 
-      Me.ProjectReceivePaymentItemList = New List(Of ProjectReceivePaymentItem)
+      Me.ProjectReceivePaymentItemList = New Dictionary(Of Integer, ProjectReceivePaymentItem)
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRPMI")
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)
 
         Dim itm As New ProjectReceivePaymentItem
-        Me.ProjectReceivePaymentItemList.Add(itm)
         itm.ProjectReceivePaymen = Me
 
         itm.LineNumber = drh.GetValue(Of Integer)("projectprpmi_linenumber")
@@ -417,6 +429,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         itm.GroupName = drh.GetValue(Of String)("projectprpmi_groupname")
         itm.IsFormula = drh.GetValue(Of Boolean)("projectprpmi_isformula")
         itm.IsCanceld = drh.GetValue(Of Boolean)("projectprpmi_iscanceled")
+        itm.GLAccountListString = drh.GetValue(Of String)("projectprpmi_accountlist", "")
 
         itm.GLAccountList = New List(Of Account)
         If drh.GetValue(Of String)("projectprpmi_accountlist", "").Length > 0 Then
@@ -434,18 +447,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itm.Formula = drh.GetValue(Of String)("projectprpmi_accountlist", "")
           End If
         End If
+        Me.ProjectReceivePaymentItemList.Add(itm.LineNumber, itm)
       Next
+    End Sub
+    Public Sub GetPRPMIValue()
+
+      Me.ProjectReceivePaymentItemList = New Dictionary(Of Integer, ProjectReceivePaymentItem)
+      Dim paramArrayList As New ArrayList
+
+      paramArrayList.Add(New SqlParameter("@projectprp_id", Me.Id))
+      paramArrayList.Add(New SqlParameter("@DocDateStart", Me.AccountPeriodDateStart))
+      paramArrayList.Add(New SqlParameter("@DocDateEnd", Me.AccountPeriodDateEnd))
+      paramArrayList.Add(New SqlParameter("@cc_id", Me.CostCenter.Id))
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRPMIValue", sqlparams)
+      For Each row As DataRow In ds.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+
+        Dim itm As New ProjectReceivePaymentItem
+        itm.ProjectReceivePaymen = Me
+
+        itm.LineNumber = drh.GetValue(Of Integer)("projectprpmi_linenumber")
+        itm.ThaiNumber = drh.GetValue(Of String)("projectprpmi_thainumber")
+        itm.Description = drh.GetValue(Of String)("projectprpmi_description")
+        itm.GroupName = drh.GetValue(Of String)("projectprpmi_groupname")
+        itm.IsFormula = drh.GetValue(Of Boolean)("projectprpmi_isformula")
+        itm.IsCanceld = drh.GetValue(Of Boolean)("projectprpmi_iscanceled")
+        itm.Cash = drh.GetValue(Of Decimal)("Cash")
+        itm.Bank = drh.GetValue(Of Decimal)("Bank")
+        itm.Remain = drh.GetValue(Of Decimal)("Remain")
+        itm.Other = drh.GetValue(Of Decimal)("Other")
+        itm.Sum = drh.GetValue(Of Decimal)("Sum")
+        itm.Frac = drh.GetValue(Of Decimal)("frac")
+        itm.GLAccountListString = drh.GetValue(Of String)("projectprpmi_accountlist", "")
+
+        If itm.Frac <> 0 Then
+          ProjectReceivePaymentItem.EqualizeFraction(itm.Frac, itm.Cash, itm.Bank, itm.Remain, itm.Other)
+        End If
+
+        itm.GLAccountList = New List(Of Account)
+        If drh.GetValue(Of String)("projectprpmi_accountlist", "").Length > 0 Then
+          If Not itm.IsFormula Then
+            Dim acctIdSplit() As String = drh.GetValue(Of String)("projectprpmi_accountlist").Split(","c)
+
+            For Each acctIds As String In acctIdSplit
+              If IsNumeric(acctIds) AndAlso CInt(acctIds) > 0 Then
+                Dim acct As New Account(CInt(acctIds))
+
+                itm.GLAccountList.Add(acct)
+              End If
+            Next
+          Else
+            itm.Formula = drh.GetValue(Of String)("projectprpmi_accountlist", "")
+          End If
+        End If
+
+        Me.ProjectReceivePaymentItemList.Add(itm.LineNumber, itm)
+      Next
+
+      For Each kv As KeyValuePair(Of Integer, ProjectReceivePaymentItem) In ProjectReceivePaymentItemList
+        If kv.Key <> 1 AndAlso kv.Key <> 2 AndAlso kv.Key <> 24 AndAlso kv.Key <> 3 Then
+          Dim itm As ProjectReceivePaymentItem = kv.Value
+          ProjectReceivePaymentItemList(2).Plus(itm)
+          ProjectReceivePaymentItemList(24).Plus(itm)
+        End If
+      Next
+      ProjectReceivePaymentItemList(3).Plus(ProjectReceivePaymentItemList(1))
+      ProjectReceivePaymentItemList(3).Plus(ProjectReceivePaymentItemList(2), -1)
+
     End Sub
     Public Sub GetPRPI()
 
-      Me.ProjectReceivePaymentItemList = New List(Of ProjectReceivePaymentItem)
+      Me.ProjectReceivePaymentItemList = New Dictionary(Of Integer, ProjectReceivePaymentItem)
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRPI", New SqlParameter("@projectprp_id", Me.Id))
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)
 
         Dim itm As New ProjectReceivePaymentItem
-        Me.ProjectReceivePaymentItemList.Add(itm)
         itm.ProjectReceivePaymen = Me
 
         itm.LineNumber = drh.GetValue(Of Integer)("projectprpi_linenumber")
@@ -454,6 +534,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         itm.GroupName = drh.GetValue(Of String)("projectprpi_groupname")
         itm.IsFormula = drh.GetValue(Of Boolean)("projectprpi_isformula")
         'itm.IsCanceld = drh.GetValue(Of Boolean)("projectprpmi_iscanceled")
+        itm.Cash = drh.GetValue(Of Decimal)("projectprpi_cashamt")
+        itm.Bank = drh.GetValue(Of Decimal)("projectprpi_bankamt")
+        itm.Remain = drh.GetValue(Of Decimal)("projectprpi_remainingamt")
+        itm.Other = drh.GetValue(Of Decimal)("projectprpi_otheramt")
+        itm.Sum = drh.GetValue(Of Decimal)("projectprpi_amt")
+        itm.Frac = drh.GetValue(Of Decimal)("frac")
+        itm.GLAccountListString = drh.GetValue(Of String)("projectprpmi_accountlist", "")
 
         itm.GLAccountList = New List(Of Account)
         If drh.GetValue(Of String)("projectprpi_accountlist", "").Length > 0 Then
@@ -471,16 +558,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             itm.Formula = drh.GetValue(Of String)("projectprpi_accountlist", "")
           End If
         End If
+        Me.ProjectReceivePaymentItemList.Add(itm.LineNumber, itm)
       Next
     End Sub
     Public Sub Populate(ByVal dt As TreeTable)
       dt.Clear()
-      Dim i As Integer = 0
+      Dim i As Integer = 7
 
       Dim hashParent As New Hashtable
       Dim hashKey As String = ""
       Dim newParentRow As TreeRow
-      For Each itm As ProjectReceivePaymentItem In Me.ProjectReceivePaymentItemList
+      For Each kv As KeyValuePair(Of Integer, ProjectReceivePaymentItem) In Me.ProjectReceivePaymentItemList
+        Dim itm As ProjectReceivePaymentItem = kv.Value
         i += 1
         itm.LineNumber = i
 
@@ -541,8 +630,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Property GroupName As String
     Public Property IsFormula As Boolean
     Public Property Formula As String
+    Public Property Cash As Decimal
+    Public Property Bank As Decimal
+    Public Property Remain As Decimal
+    Public Property Other As Decimal
+    Public Property Sum As Decimal
+    Public Property Frac As Decimal
     Public Property IsCanceld As Boolean
     Public Property GLAccountList As List(Of Account)
+    Public Property GLAccountListString As String
 
     Public Function GLIdSeparate() As String
       Dim codeList As New ArrayList
@@ -562,6 +658,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ""
     End Function
+    Public Sub Plus(ByVal item As ProjectReceivePaymentItem, Optional ByVal sign As Integer = 1)
+      Me.Cash += sign * item.Cash
+      Me.Bank += sign * item.Bank
+      Me.Remain += sign * item.Remain
+      Me.Other += sign * item.Other
+      Me.Sum += sign * item.Sum
+    End Sub
     Public Function CopyToDataParentRow(ByVal dt As TreeTable) As TreeRow
       Dim newRow As TreeRow = dt.Childs.Add
       newRow("Description") = Me.GroupName
@@ -584,7 +687,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           row("GLAccount") = Me.GLCodeSeparate
         End If
-
+        row("Cash") = Configuration.FormatToString(Me.Cash, DigitConfig.Price)
+        row("Bank") = Configuration.FormatToString(Me.Bank, DigitConfig.Price)
+        row("Remain") = Configuration.FormatToString(Me.Remain, DigitConfig.Price)
+        row("Other") = Configuration.FormatToString(Me.Other, DigitConfig.Price)
+        row("Sum") = Configuration.FormatToString(Me.Sum, DigitConfig.Price)
 
         Me.ProjectReceivePaymen.IsInitialized = True
       Catch ex As Exception
@@ -606,6 +713,78 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("GLButton") = "invisible"
       End If
     End Sub
-  End Class
 
+    Public Shared Sub EqualizeFraction(ByVal frac As Decimal, ByRef cash As Decimal, ByRef bank As Decimal, ByRef remain As Decimal, ByRef other As Decimal)
+      Dim kv As New Dictionary(Of String, Decimal)
+      kv.Add("cash", cash)
+      kv.Add("bank", bank)
+      kv.Add("remain", remain)
+      kv.Add("other", other)
+
+      Dim sumforfrac As Decimal = 0
+      Dim delkey As New List(Of String)
+      For Each item As KeyValuePair(Of String, Decimal) In kv
+        If item.Value Mod 1 = 0 Then
+          delkey.Add(item.Key)
+        Else
+          sumforfrac += item.Value
+        End If
+      Next
+      Dim remfrac As Decimal = frac
+
+      Dim count As Integer = kv.Count - delkey.Count
+      For Each item As KeyValuePair(Of String, Decimal) In kv
+        Dim tmpkey As String = item.Key
+        Dim temval As Decimal = item.Value
+        Dim tmpfrac As Decimal = 0
+        If temval Mod 1 <> 0 Then
+          If remfrac > 0 AndAlso count > 1 Then
+            tmpfrac = Configuration.Format(temval * frac / sumforfrac, DigitConfig.Price)
+            remfrac = remfrac - tmpfrac
+            count -= 1
+          Else
+            tmpfrac = remfrac
+            remfrac = 0
+            count -= 1
+          End If
+          temval = temval + tmpfrac
+
+          Select Case tmpkey
+            Case "cash"
+              cash = temval
+            Case "bank"
+              bank = temval
+            Case "remain"
+              remain = temval
+            Case "other"
+              other = temval
+          End Select
+        End If
+      Next
+
+    End Sub
+
+    Public Function insertparameter(ByVal returnVal As Integer) As SqlParameter()
+      Dim paramArrayList As New ArrayList
+
+      paramArrayList.Add(New SqlParameter("@projectprpi_projectprp", returnVal))
+      paramArrayList.Add(New SqlParameter("@projectprpi_linenumber", Me.LineNumber))
+      paramArrayList.Add(New SqlParameter("@projectprpi_thainumber", Me.ThaiNumber))
+      paramArrayList.Add(New SqlParameter("@projectprpi_description", Me.Description))
+      paramArrayList.Add(New SqlParameter("@projectprpi_groupname", Me.GroupName))
+      paramArrayList.Add(New SqlParameter("@projectprpi_isformula", Me.IsFormula))
+      paramArrayList.Add(New SqlParameter("@projectprpi_accountlist", Me.GLAccountListString))
+      paramArrayList.Add(New SqlParameter("@projectprpi_cashamt", Configuration.Format(Me.Cash, DigitConfig.Price)))
+      paramArrayList.Add(New SqlParameter("@projectprpi_bankamt", Configuration.Format(Me.Bank, DigitConfig.Price)))
+      paramArrayList.Add(New SqlParameter("@projectprpi_remainingamt", Configuration.Format(Me.Remain, DigitConfig.Price)))
+      paramArrayList.Add(New SqlParameter("@projectprpi_otheramt", Configuration.Format(Me.Other, DigitConfig.Price)))
+      paramArrayList.Add(New SqlParameter("@projectprpi_amt", Configuration.Format(Me.Sum, DigitConfig.Price)))
+      Dim sqlparams() As SqlParameter
+      sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
+
+      Return sqlparams
+    End Function
+
+  End Class
+  
 End Namespace
