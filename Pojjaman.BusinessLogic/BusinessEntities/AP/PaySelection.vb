@@ -8,6 +8,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
 Imports Longkong.Core.AddIns
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Stock
@@ -175,24 +176,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_status = New PaySelectionStatus(CInt(dr(aliasPrefix & "pays_status")))
         End If
 
-        .m_payment = New Payment(Me)
-
-        .m_je = New JournalEntry(Me)
-
-        .m_whtcol = New WitholdingTaxCollection(Me)
-        .m_whtcol.Direction = New WitholdingTaxDirection(1)
-
-        .m_vat = New Vat(Me)
-        .m_vat.Direction.Value = 1
-
-        m_itemCollection = New BillAcceptanceItemCollection(Me)
-        GetPaySelectionRefDocFromDB()
         'CreateRefDocs()
       End With
-      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      Parallel.Invoke(Sub()
+                        m_payment = New Payment(Me)
+                      End Sub,
+                      Sub()
+                        m_je = New JournalEntry(Me)
+                      End Sub,
+                      Sub()
+                        m_whtcol = New WitholdingTaxCollection(Me)
+                        m_whtcol.Direction = New WitholdingTaxDirection(1)
+                      End Sub,
+                      Sub()
+                        m_vat = New Vat(Me)
+                        m_vat.Direction.Value = 1
+                      End Sub,
+                      Sub()
+                        m_itemCollection = New BillAcceptanceItemCollection(Me)
+                      End Sub,
+                      Sub()
+                        GetPaySelectionRefDocFromDB()
+                      End Sub,
+                      Sub()
+                        Me.AutoCodeFormat = New AutoCodeFormat(Me)
+                      End Sub)
 
       '==============CURRENCY=================================
-      BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      'BusinessLogic.Currency.SetCurrencyFromDB(Me)
       '==============CURRENCY=================================
     End Sub
     'Public Function FindStock(ByVal id As Integer, ByVal type As Integer) As Stock
@@ -1029,8 +1041,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Me.CancelRef(conn, trans)
         End If
 
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
-
       Catch ex As Exception
         trans.Rollback()
         Return New SaveErrorException(ex.ToString)
@@ -1042,15 +1052,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
         grIdArrayList.AddRange(Me.GetGoodsRecriptIdList())
         Dim grIdList As String = String.Join(",", grIdArrayList.ToArray)
 
-        GoodsReceipt.UpdateRemainGoodsReceiptList(conn, grIdList)
+        Parallel.Invoke(Sub()
+                          Me.UpdatePayselectionItemPVList(conn)
+                        End Sub,
+                        Sub()
+                          Me.UpdatePaySelectionReferencePOCode(conn, grIdList)
+                        End Sub,
+                        Sub()
+                          GoodsReceipt.UpdateRemainGoodsReceiptList(conn, grIdList)
+                        End Sub,
+                        Sub()
+                          GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, grIdList)
+                        End Sub)
 
-        GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, grIdList)
       Catch ex As Exception
         Return New SaveErrorException(ex.Message.ToString())
       End Try
 
       Return New SaveErrorException("0")
     End Function
+
+    Private Function UpdatePayselectionItemPVList(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePayselectionItemPVList", New SqlParameter("@pays_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function UpdatePaySelectionReferencePOCode(ByVal oldconn As SqlConnection, grIdList As String) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePaySelectionReferencePOCode", New SqlParameter("@paysId", Me.Id), New SqlParameter("@grIdList", grIdList))
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
     Private Function SubSaveJeAtom(ByVal conn As SqlConnection) As SaveErrorException Implements INewGLAble.SubSaveJeAtom
       Me.JournalEntry.RefreshOnlyGLAtom()
       Dim trans As SqlTransaction = conn.BeginTransaction
