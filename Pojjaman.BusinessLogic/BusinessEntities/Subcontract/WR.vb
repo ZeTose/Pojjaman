@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class WRStatus
@@ -1220,14 +1221,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(ex.ToString)
           End Try
 
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+
           Try
-            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+            Parallel.Invoke(Sub()
+                              SubSaveDocApprove(conn, currentUserId)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryPRWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryWRWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryPRAdjWBSActual(conn)
+                            End Sub)
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "pr")
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
+
           'Sub Save Block =======================================
 
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -1237,9 +1265,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Finally
           conn.Close()
         End Try
+
+
       End With
     End Function
-    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
+    Private Function SubSave(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
 
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
@@ -1257,11 +1289,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
           If Not IsNumeric(saveDocError.Message) Then
             trans.Rollback()
+            conn.Close()
             Return saveDocError
           Else
             Select Case CInt(saveDocError.Message)
               Case -1, -2, -5
                 trans.Rollback()
+                conn.Close()
                 Return saveDocError
               Case Else
             End Select
@@ -1289,16 +1323,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'End If
         'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromWR", New SqlParameter("@refto_id", Me.Id))
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
       Catch ex As Exception
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
       trans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
-    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+    Private Function SubSaveDocApprove(ByVal oldconn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
@@ -1306,14 +1344,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
+          conn.Close()
           Return savemldocError
         End If
       Catch ex As Exception
         strans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
       strans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
@@ -3573,8 +3614,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
 
         Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
         mldoc.DocMethod = SaveDocMultiApprovalMethod.Delete
@@ -3585,7 +3626,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         trans.Commit()
-        Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()
         Return New SaveErrorException(ex.Message)
@@ -3595,6 +3635,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
         conn.Close()
       End Try
+
+      Try
+        Parallel.Invoke(Sub()
+                          WBSActual.SummaryPRWBSActual(conn)
+                        End Sub,
+                        Sub()
+                          WBSActual.SummaryWRWBSActual(conn)
+                        End Sub,
+                        Sub()
+                          WBSActual.SummaryPRAdjWBSActual(conn)
+                        End Sub
+                 )
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Try
+        Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "pr")
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
+        End If
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Return New SaveErrorException("1")
+
     End Function
 #End Region
 
