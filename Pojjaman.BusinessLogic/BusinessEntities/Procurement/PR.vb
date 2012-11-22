@@ -7,6 +7,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PRStatus
@@ -240,12 +241,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New PRItemCollection(Me)
-      m_approveDocColl = New ApproveDocCollection(Me)
-      Me.AutoCodeFormat = New AutoCodeFormat(Me)
+
+      Parallel.Invoke(Sub()
+                        m_itemCollection = New PRItemCollection(Me)
+                      End Sub,
+                      Sub()
+                        m_approveDocColl = New ApproveDocCollection(Me)
+                      End Sub,
+                      Sub()
+                        Me.AutoCodeFormat = New AutoCodeFormat(Me)
+                      End Sub)
 
       '==============CURRENCY=================================
-      BusinessLogic.Currency.SetCurrencyFromDB(Me)
+      'BusinessLogic.Currency.SetCurrencyFromDB(Me)
       '==============CURRENCY=================================
     End Sub
     Public Sub ConstructForPOitem(ByVal dr As System.Data.DataRow)
@@ -1273,17 +1281,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End Select
             End If
 
-            '==============CURRENCY=================================
-            'Save Currency
-            If Me.Originated Then
-              BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
-            End If
-            '==============CURRENCY=================================
-
-
-
-
-
+            ''==============CURRENCY=================================
+            ''Save Currency
+            'If Me.Originated Then
+            '  BusinessLogic.Currency.SaveCurrency(Me, conn, trans)
+            'End If
+            ''==============CURRENCY=================================
 
 
             '==============================AUTOGEN==========================================
@@ -1320,23 +1323,65 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Try
 
           'Sub Save Block ============================================
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSave(conn)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again (2)")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+
           Try
             Dim subsaveerror As SaveErrorException = SubSave(conn)
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
+            End If
+
+            Dim subsaveerror2 As SaveErrorException = SubSavePRList(conn)
+            If Not IsNumeric(subsaveerror2.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again (2)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
 
           Try
-            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+            Parallel.Invoke(Sub()
+                              SubSaveDocApprove(conn, currentUserId)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryPRWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryWRWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryPRAdjWBSActual(conn)
+                            End Sub
+                 )
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "pr")
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
           End Try
+
           'Sub Save Block ============================================
 
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -1348,8 +1393,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End With
     End Function
-    Private Function SubSave(ByVal conn As SqlConnection) As SaveErrorException
 
+    Private Function SubSavePRList(ByVal conn As SqlConnection) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdatePRList", New SqlParameter("@pr_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSave(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
       '======เริ่ม trans 2 ลองผิดให้ save ใหม่ ========
       Dim trans As SqlTransaction = conn.BeginTransaction
 
@@ -1366,11 +1431,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim saveDocError As SaveErrorException = CType(extender, IExtender).Save(conn, trans)
           If Not IsNumeric(saveDocError.Message) Then
             trans.Rollback()
+            conn.Close()
             Return saveDocError
           Else
             Select Case CInt(saveDocError.Message)
               Case -1, -2, -5
                 trans.Rollback()
+                conn.Close()
                 Return saveDocError
               Case Else
             End Select
@@ -1388,17 +1455,94 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.Status.Value = 0 Then
           Me.CancelRef(conn, trans)
         End If
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+
       Catch ex As Exception
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
       trans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
 
-    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+    'Private Function SubSaveSwang1(ByVal conn As SqlConnection) As SaveErrorException
+    '  Dim newcon As New SqlConnection(conn.ConnectionString)
+    '  newcon.Open()
+    '  Dim trans As SqlTransaction = newcon.BeginTransaction
+
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdateTempPRWBSActual")
+    '  Catch ex As Exception
+    '    trans.Rollback()
+    '    newcon.Close()
+    '    Return New SaveErrorException(ex.InnerException.ToString)
+    '  End Try
+
+    '  trans.Commit()
+    '  newcon.Close()
+    '  Return New SaveErrorException("0")
+    'End Function
+
+    'Private Function SubSaveSwang2(ByVal conn As SqlConnection) As SaveErrorException
+    '  Dim newcon As New SqlConnection(conn.ConnectionString)
+    '  newcon.Open()
+    '  Dim trans As SqlTransaction = newcon.BeginTransaction
+
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdateTempWRWBSActual")
+    '  Catch ex As Exception
+    '    trans.Rollback()
+    '    newcon.Close()
+    '    Return New SaveErrorException(ex.InnerException.ToString)
+    '  End Try
+
+    '  trans.Commit()
+    '  newcon.Close()
+    '  Return New SaveErrorException("0")
+    'End Function
+
+    'Private Function SubSaveSwang3(ByVal conn As SqlConnection) As SaveErrorException
+    '  Dim newcon As New SqlConnection(conn.ConnectionString)
+    '  newcon.Open()
+    '  Dim trans As SqlTransaction = newcon.BeginTransaction
+
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdateTempPRAdjWBSActual")
+    '  Catch ex As Exception
+    '    trans.Rollback()
+    '    newcon.Close()
+    '    Return New SaveErrorException(ex.InnerException.ToString)
+    '  End Try
+
+    '  trans.Commit()
+    '  newcon.Close()
+    '  Return New SaveErrorException("0")
+    'End Function
+
+    'Private Function SubSaveSwang4(ByVal conn As SqlConnection) As SaveErrorException
+    '  Dim newcon As New SqlConnection(conn.ConnectionString)
+    '  newcon.Open()
+    '  Dim trans As SqlTransaction = newcon.BeginTransaction
+
+    '  Try
+    '    SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "swang_UpdateChildActual", New SqlParameter("@viewname", "pr"))
+    '  Catch ex As Exception
+    '    trans.Rollback()
+    '    newcon.Close()
+    '    Return New SaveErrorException(ex.InnerException.ToString)
+    '  End Try
+
+    '  trans.Commit()
+    '  newcon.Close()
+    '  Return New SaveErrorException("0")
+    'End Function
+
+    Private Function SubSaveDocApprove(ByVal oldconn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
@@ -1406,16 +1550,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
+          conn.Close()
           Return savemldocError
         End If
       Catch ex As Exception
         strans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
       strans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
+
+    Public Shared Function UpdateReferencePRList(ByVal conn As SqlConnection, prIdList As String) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdateReferencePRList", New SqlParameter("@prIdlist", prIdList))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Public Shared Function UpdatePOCodeReferencePRList(ByVal conn As SqlConnection, ByVal prIdList As String) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdatePOCodeReferencePRList", New SqlParameter("@prIdlist", prIdList))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Public Shared Function UpdatePOReferencePRList(ByVal conn As SqlConnection, entityId As Integer, entityType As Integer, Optional prIdList As Object = Nothing) As SaveErrorException
+      Dim newcon As New SqlConnection(conn.ConnectionString)
+      newcon.Open()
+      Dim trans As SqlTransaction = newcon.BeginTransaction
+
+      Try
+        SqlHelper.ExecuteNonQuery(newcon, trans, CommandType.StoredProcedure, "UpdatePOReferencePRList", New SqlParameter("@entity_id", entityId), New SqlParameter("@entity_type", entityType), New SqlParameter("@prIdlist", prIdList))
+      Catch ex As Exception
+        trans.Rollback()
+        newcon.Close()
+        Return New SaveErrorException(ex.InnerException.ToString)
+      End Try
+
+      trans.Commit()
+      newcon.Close()
+      Return New SaveErrorException("0")
+    End Function
+
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String
       If Me.AutoCodeFormat.Format.Length > 0 Then
@@ -3146,7 +3348,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         trans.Commit()
-        Return New SaveErrorException("1")
+        'Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()
         Return New SaveErrorException(ex.Message)
@@ -3156,6 +3358,33 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Finally
         conn.Close()
       End Try
+
+      Try
+        Parallel.Invoke(Sub()
+                          WBSActual.SummaryPRWBSActual(conn)
+                        End Sub,
+                        Sub()
+                          WBSActual.SummaryWRWBSActual(conn)
+                        End Sub,
+                        Sub()
+                          WBSActual.SummaryPRAdjWBSActual(conn)
+                        End Sub
+                 )
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Try
+        Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "pr")
+        If Not IsNumeric(subsaveerror.Message) Then
+          Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
+        End If
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      Return New SaveErrorException("1")
+
     End Function
 #End Region
 
@@ -3407,44 +3636,44 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
-    Public Class PRForSelection
-        Inherits PR
-        Implements IVisibleButtonShowColorListAble
-        Public Sub New()
-            MyBase.New()
-        End Sub
-        Public Sub New(ByVal code As String)
-            MyBase.New(code)
-        End Sub
-        Public Sub New(ByVal id As Integer)
-            MyBase.New(id)
-        End Sub
-        'Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-        '    Me.Construct(ds, aliasPrefix)
-        'End Sub
-        'Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-        '    Me.Construct(dr, aliasPrefix)
-        'End Sub
-        'Protected Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-        '    MyBase.Construct(ds, aliasPrefix)
-        'End Sub
-        'Protected Overrides Sub Construct()
-        '    MyBase.Construct()
-        'End Sub
-        'Protected Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
-        '    MyBase.Construct()
-        'End Sub
-        Public Overrides ReadOnly Property CodonName() As String
-            Get
-                Return "PRForSelection"
-            End Get
-        End Property
-        Public Overrides ReadOnly Property ClassName As String
-            Get
-                Return "PRForSelection"
-            End Get
-        End Property
-    End Class
+  Public Class PRForSelection
+    Inherits PR
+    Implements IVisibleButtonShowColorListAble
+    Public Sub New()
+      MyBase.New()
+    End Sub
+    Public Sub New(ByVal code As String)
+      MyBase.New(code)
+    End Sub
+    Public Sub New(ByVal id As Integer)
+      MyBase.New(id)
+    End Sub
+    'Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    '    Me.Construct(ds, aliasPrefix)
+    'End Sub
+    'Public Sub New(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+    '    Me.Construct(dr, aliasPrefix)
+    'End Sub
+    'Protected Overrides Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+    '    MyBase.Construct(ds, aliasPrefix)
+    'End Sub
+    'Protected Overrides Sub Construct()
+    '    MyBase.Construct()
+    'End Sub
+    'Protected Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
+    '    MyBase.Construct()
+    'End Sub
+    Public Overrides ReadOnly Property CodonName() As String
+      Get
+        Return "PRForSelection"
+      End Get
+    End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "PRForSelection"
+      End Get
+    End Property
+  End Class
   Public Class PRForApprove
     Inherits PR
     Implements IVisibleButtonShowColorListAble

@@ -467,6 +467,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
 
     End Function
+
+    Dim stockIdArrayList As ArrayList
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       With Me
         Dim oldcode As String
@@ -482,6 +484,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.ItemCollection.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
+
+        stockIdArrayList = New ArrayList
+        stockIdArrayList.AddRange(Me.GetStockList)
+
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
         returnVal.ParameterName = "RETURN_VALUE"
         returnVal.DbType = DbType.Int32
@@ -598,24 +604,35 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '  conn.Close()
           End Try
 
-          '--Sub Save Block-- ============================================================
-          Try
-            Dim subsaveerror As SaveErrorException = SubSave(conn)
-            If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
-            End If
-            Return New SaveErrorException(returnVal.Value.ToString)
-            'Complete Save
-          Catch ex As Exception
-            Return New SaveErrorException(ex.ToString)
-          End Try
-          '--Sub Save Block-- ============================================================
-
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
         End Try
+
+        '--Sub Save Block-- ============================================================
+        Try
+          Dim subsaveerror As SaveErrorException = SubSave(conn)
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again")
+          End If
+
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+        '--Sub Save Block-- ============================================================
+
+        Try
+          stockIdArrayList.AddRange(Me.GetStockList)
+          Dim stockIdList As String = String.Join(",", stockIdArrayList.ToArray)
+
+          GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, stockIdList)
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
+        Return New SaveErrorException(returnVal.Value.ToString)
+        'Complete Save
 
       End With
     End Function
@@ -731,6 +748,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return Rows
+    End Function
+    Private Function GetStockList() As ArrayList
+      Dim stockIdList As New ArrayList
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetStockListForUpdateGoodsReceiptList", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+        For Each row As DataRow In ds.Tables(0).Rows
+          stockIdList.Add(CInt(row("stock_id")))
+        Next
+      Catch ex As Exception
+
+      End Try
+
+      Return stockIdList 'String.Join(",", stockIdList.ToArray)
     End Function
 #End Region
 
@@ -1864,6 +1894,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteBillAcceptance}", format) Then
         Return New SaveErrorException("${res:Global.CencelDelete}")
       End If
+
+      Dim stockIdList As String = String.Join(",", Me.GetStockList.ToArray)
+
       Dim trans As SqlTransaction
       Dim conn As New SqlConnection(Me.ConnectionString)
       conn.Open()
@@ -1888,16 +1921,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         Me.DeleteRef(conn, trans)
         trans.Commit()
-        Return New SaveErrorException("1")
+
       Catch ex As SqlException
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.Message)
       Catch ex As Exception
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.Message)
       Finally
-        conn.Close()
+
       End Try
+
+      Try
+        GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, stockIdList)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
+
+      Return New SaveErrorException("1")
     End Function
 #End Region
 

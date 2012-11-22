@@ -810,6 +810,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_je.Code = oldJecode
       Me.m_je.AutoGen = oldjeautogen
     End Sub
+
+    Dim stockIdArrayList As ArrayList
+    Dim prIdArrayList As ArrayList
     Public Overloads Overrides Function Save(ByVal currentUserId As Integer) As SaveErrorException
       Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
       With Me
@@ -824,6 +827,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Not IsNumeric(ValidateError.Message) Then
           Return ValidateError
         End If
+
+        stockIdArrayList = New ArrayList
+        prIdArrayList = New ArrayList
+        stockIdArrayList.AddRange(Me.GetStockList)
+        prIdArrayList.AddRange(Me.GetPrList)
 
         ''ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut) ก็เลยไม่ต้อง VerrifyCost แล้วด้วย
         'If Not Me.IsReferenced OrElse Not Me.ApprovalCollection.IsApproved Then
@@ -1060,8 +1068,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '==============================STOCKCOSTFIFO=========================================
             'ถ้าเอกสารนี้ถูกอ้างอิงแล้ว ก็จะไม่อนุญาติให้เปลี่ยนแปลง Cost แล้วนะ (julawut)
             If Not Me.IsReferenced Then
-              SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
-                                                                                                    New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+              'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "InsertStockiCostFIFO", New SqlParameter("@stock_id", Me.Id), _
+              '                                                                                      New SqlParameter("@stock_cc", Me.FromCostCenter.Id))
+
+              CostItem.Update("InsertStockiCostFIFO_DeleteCost", conn, trans, Me.Id, Me.FromCostCenter.Id)
+              CostItem.Update("InsertStockiCostFIFO_NewInsert", conn, trans, Me.Id, Me.FromCostCenter.Id)
+              CostItem.Update("InsertStockiCostFIFO_UpdateStockItem", conn, trans, Me.Id, Me.FromCostCenter.Id)
+              CostItem.Update("InsertStockiCostFIFO_UpdateStockIWBS", conn, trans, Me.Id, Me.FromCostCenter.Id)
             End If
             '==============================STOCKCOSTFIFO=========================================
 
@@ -1256,7 +1269,49 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
 
       trans.Commit()
+
+      Try
+        stockIdArrayList.AddRange(Me.GetStockList)
+        prIdArrayList.AddRange(Me.GetPrList)
+
+        Dim stockIdList As String = String.Join(",", stockIdArrayList.ToArray)
+        Dim prIdList As String = String.Join(",", prIdArrayList.ToArray)
+
+        PR.UpdateReferencePRList(conn, prIdList)
+        GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, stockIdList)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
       Return New SaveErrorException("0")
+    End Function
+
+    Private Function GetPrList() As ArrayList
+      Dim prIdList As New ArrayList
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRListForUpdateMatTransfer", New SqlParameter("@stock_id", Me.Id))
+        For Each row As DataRow In ds.Tables(0).Rows
+          prIdList.Add(CInt(row("stocki_refDoc")))
+        Next
+      Catch ex As Exception
+
+      End Try
+
+      Return prIdList 'String.Join(",", prIdList.ToArray)
+    End Function
+
+    Private Function GetStockList() As ArrayList
+      Dim stockIdList As New ArrayList
+      Try
+        Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetStockListForUpdateGoodsReceiptList", New SqlParameter("@refto_id", Me.Id), New SqlParameter("@refto_type", Me.EntityId))
+        For Each row As DataRow In ds.Tables(0).Rows
+          stockIdList.Add(CInt(row("stock_id")))
+        Next
+      Catch ex As Exception
+
+      End Try
+
+      Return stockIdList 'String.Join(",", stockIdList.ToArray)
     End Function
 
     Public Overrides Function GetNextCode() As String
@@ -2191,6 +2246,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.ApprovalCollection.IsApproved Then
         Return New SaveErrorException("${res:Longkong.Pojjaman.BusinessLogic.MatTransfer.ReceiptConfirm}")
       End If
+
+      Dim prIdList As String = String.Join(",", Me.GetPrList.ToArray)
+      Dim stockIdList As String = String.Join(",", Me.GetStockList.ToArray)
+
       '  '-------------------------------------------------------
       '  Dim pris As String = GetPritemString()
       '  Dim sql As String = "select * from pritem where convert(nvarchar,pri_pr) + '|' +  convert(nvarchar,pri_linenumber) " & _
@@ -2259,16 +2318,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
         ''--------------------------------------------------------------
 
         trans.Commit()
-        Return New SaveErrorException("1")
+
       Catch ex As SqlException
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.Message)
       Catch ex As Exception
         trans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.Message)
       Finally
-        conn.Close()
+
       End Try
+
+      Try
+        PR.UpdateReferencePRList(conn, prIdList)
+        GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, stockIdList)
+      Catch ex As Exception
+        Return New SaveErrorException(ex.Message)
+      End Try
+
+      Return New SaveErrorException("1")
     End Function
 #End Region
 

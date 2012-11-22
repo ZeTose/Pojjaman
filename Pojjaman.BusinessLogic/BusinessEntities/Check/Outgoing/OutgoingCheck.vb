@@ -1592,7 +1592,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0:000}", CInt(itemBankCode)) 'Bank No
         creditText &= Space(255) 'Details
         creditText &= String.Format("{0,-10}", item.PayeeTaxID) 'Tax Id
-        creditText &= Space(50) 'Attachment Sub-file
+        If (item.PayeeTaxID.Trim.Length = 13) Then
+          creditText &= Space(47) 'Attachment Sub-file
+        Else
+          creditText &= Space(50) 'Attachment Sub-file
+        End If
         creditText &= "F" 'Advice Mode (F = fax)
         creditText &= String.Format("{0,-50}", SetDigitOnly(item.PayeeFax)) 'Fax No.
         creditText &= Space(50) 'Email ID
@@ -1738,7 +1742,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= Space(30) 'Payee Address 1
         creditText &= Space(30) 'Payee Address 2
         creditText &= Space(30) 'Payee Address 3
-        creditText &= Space(30) 'Payee Address 4
+        If (item.PayeeTaxID.Trim.Length = 13) Then
+          creditText &= Space(27) 'Payee Address 4
+        Else
+          creditText &= Space(30) 'Payee Address 4
+        End If
 
         writer.WriteLine(creditText)
 
@@ -1822,7 +1830,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-10}", item.PayeeTaxID) 'Tax Id
         creditText &= String.Format("{0,-13}", item.PersonalID).Substring(0, 13) 'Personal Id
         creditText &= String.Format("{0,-16}", item.RefCode).Substring(0, 16) 'Bene. Ref #
-        creditText &= Space(255) 'Details
+        If (item.PayeeTaxID.Trim.Length = 13) Then
+          creditText &= Space(252) 'Details
+        Else
+          creditText &= Space(255) 'Details
+        End If
         creditText &= item.DeliveryMethod 'Delivery Method
         creditText &= String.Format("{0,-4}", item.PickupLocation).Substring(0, 4) 'Pickup Location Code
         creditText &= String.Format("{0,-24}", item.PickupDocument).Substring(0, 24) 'Document for Pickup
