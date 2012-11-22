@@ -318,8 +318,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       MatActualHash = New Hashtable
       LabActualHash = New Hashtable
       EQActualHash = New Hashtable
-      m_itemCollection = New POItemCollection(Me)
-      m_approveDocColl = New ApproveDocCollection(Me)
+
+      Parallel.Invoke(Sub()
+                        m_itemCollection = New POItemCollection(Me)
+                      End Sub,
+                      Sub()
+                        m_approveDocColl = New ApproveDocCollection(Me)
+                      End Sub)
+
       'm_itemCollection.RefreshBudget()
 
       '==============CURRENCY=================================
@@ -1648,18 +1654,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  Return New SaveErrorException(ex.ToString)
           'End Try
 
+          Try
+            SubSave(conn, arr)
+            SubSavePOGeneralList(conn)
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
 
           prIdArrayList.AddRange(Me.GetPrList)
           Dim prIdList As String = String.Join(",", prIdArrayList.ToArray)
 
           Try
             Parallel.Invoke(Sub()
-                              SubSavePOGeneralList(conn)
-                            End Sub,
-                            Sub()
-                              SubSave(conn, arr)
-                            End Sub,
-                            Sub()
                               SubSaveDocApprove(conn, currentUserId)
                             End Sub,
                             Sub()
@@ -4554,7 +4560,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Try
           Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "po")
           If Not IsNumeric(subsaveerror.Message) Then
-            Return New SaveErrorException(" Save Incomplete Please Save Again (6)")
+            Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
           End If
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
@@ -4573,7 +4579,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
 
-    Public Shared Function UpdateReferencePOGeneralList(ByVal conn As SqlConnection, poId As Object) As SaveErrorException
+    Public Shared Function UpdateReferencePOGeneralList(ByVal conn As SqlConnection, poId As String) As SaveErrorException
       Dim newcon As New SqlConnection(conn.ConnectionString)
       newcon.Open()
       Dim trans As SqlTransaction = newcon.BeginTransaction
@@ -4591,7 +4597,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return New SaveErrorException("0")
     End Function
 
-    Public Shared Function UpdateGRReferencePOGeneralList(ByVal conn As SqlConnection, poId As Object) As SaveErrorException
+    Public Shared Function UpdateGRReferencePOGeneralList(ByVal conn As SqlConnection, poId As String) As SaveErrorException
       Dim newcon As New SqlConnection(conn.ConnectionString)
       newcon.Open()
       Dim trans As SqlTransaction = newcon.BeginTransaction
