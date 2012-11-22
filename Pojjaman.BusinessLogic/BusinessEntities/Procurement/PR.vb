@@ -1342,13 +1342,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'End Try
 
           Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
+            End If
+
+            Dim subsaveerror2 As SaveErrorException = SubSavePRList(conn)
+            If Not IsNumeric(subsaveerror2.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again (2)")
+            End If
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
             Parallel.Invoke(Sub()
-                              SubSavePRList(conn)
-                            End Sub,
-                            Sub()
-                              SubSave(conn)
-                            End Sub,
-                            Sub()
                               SubSaveDocApprove(conn, currentUserId)
                             End Sub,
                             Sub()
@@ -3369,7 +3377,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Try
         Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "pr")
         If Not IsNumeric(subsaveerror.Message) Then
-          Return New SaveErrorException(" Save Incomplete Please Save Again (3)")
+          Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
         End If
       Catch ex As Exception
         Return New SaveErrorException(ex.ToString)
