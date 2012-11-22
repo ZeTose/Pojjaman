@@ -2574,29 +2574,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
           '  Return New SaveErrorException(ex.ToString)
           'End Try
 
+          Try
+            SubSave(conn)
+            SubSavePOReference(conn)
+            SubSaveGoodReceiptList(conn)
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          poIdArrayList = New ArrayList
           poIdArrayList.Add(Me.Po.Id)
           Dim poIdList As String = String.Join(",", poIdArrayList.ToArray)
 
           Parallel.Invoke(Sub()
-                            SubSaveGoodReceiptList(conn)
-                          End Sub,
-                          Sub()
-                            SubSave(conn)
-                          End Sub,
-                          Sub()
-                            SubSavePOReference(conn)
-                          End Sub,
-                          Sub()
                             SaveWBSActual(conn)
                           End Sub,
                           Sub()
                             SubSaveDocApprove(conn, currentUserId)
                           End Sub,
                           Sub()
-                            BusinessLogic.PO.UpdateReferencePOGeneralList(conn, poIdArrayList)
+                            BusinessLogic.PO.UpdateReferencePOGeneralList(conn, poIdList)
                           End Sub,
                           Sub()
-                            BusinessLogic.PO.UpdateGRReferencePOGeneralList(conn, poIdArrayList)
+                            BusinessLogic.PO.UpdateGRReferencePOGeneralList(conn, poIdList)
                           End Sub)
 
           Try
@@ -2625,6 +2625,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Finally
           conn.Close()
         End Try
+
+
       End With
     End Function
 
