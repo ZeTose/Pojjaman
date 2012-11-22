@@ -502,12 +502,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   Dim glih As New DataRowHelper(glirow)
                   Dim gli As New GLforReceivePaymentItem
                   gli.AcctId = glih.GetValue(Of Integer)("gli_acct")
-                  gli.amtwSign = glih.GetValue(Of Integer)("gliamtwSign")
-                  gli.total = glih.GetValue(Of Integer)("totalnvat")
-                  gli.totalCash = glih.GetValue(Of Integer)("TotalCashnVat")
-                  gli.totalBank = glih.GetValue(Of Integer)("TotalBanknVat")
-                  gli.totalOther = glih.GetValue(Of Integer)("TotalOthernVat")
-                  gli.payRemain = glih.GetValue(Of Integer)("payRemainnVat")
+                  gli.amtwSign = glih.GetValue(Of Decimal)("gliamtwSign")
+                  gli.total = glih.GetValue(Of Decimal)("totalnvat")
+                  gli.totalCash = glih.GetValue(Of Decimal)("TotalCashnVat")
+                  gli.totalBank = glih.GetValue(Of Decimal)("TotalBanknVat")
+                  gli.totalOther = glih.GetValue(Of Decimal)("TotalOthernVat")
+                  gli.payRemain = glih.GetValue(Of Decimal)("payRemainnVat")
 
                   Dim cash As Decimal = gli.Cash
                   Dim Bank As Decimal = gli.Bank
