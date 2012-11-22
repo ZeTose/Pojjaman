@@ -990,12 +990,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibtnRefresh
       '
       Me.ibtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibtnRefresh.Location = New System.Drawing.Point(121, 260)
+      Me.ibtnRefresh.Location = New System.Drawing.Point(299, 260)
       Me.ibtnRefresh.Name = "ibtnRefresh"
       Me.ibtnRefresh.Size = New System.Drawing.Size(32, 32)
       Me.ibtnRefresh.TabIndex = 347
       Me.ibtnRefresh.TabStop = False
       Me.ibtnRefresh.ThemedImage = CType(resources.GetObject("ibtnRefresh.ThemedImage"), System.Drawing.Bitmap)
+      Me.ibtnRefresh.Visible = False
       '
       'Label1
       '
@@ -1020,7 +1021,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'ibottonShowValue
       '
       Me.ibottonShowValue.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.ibottonShowValue.Location = New System.Drawing.Point(206, 260)
+      Me.ibottonShowValue.Location = New System.Drawing.Point(121, 260)
       Me.ibottonShowValue.Name = "ibottonShowValue"
       Me.ibottonShowValue.Size = New System.Drawing.Size(32, 32)
       Me.ibottonShowValue.TabIndex = 348

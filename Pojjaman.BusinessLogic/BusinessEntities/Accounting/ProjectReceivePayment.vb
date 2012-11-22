@@ -455,13 +455,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.ProjectReceivePaymentItemList = New Dictionary(Of Integer, ProjectReceivePaymentItem)
       Dim paramArrayList As New ArrayList
 
-      paramArrayList.Add(New SqlParameter("@projectprp_id", Me.Id))
       paramArrayList.Add(New SqlParameter("@DocDateStart", Me.AccountPeriodDateStart))
       paramArrayList.Add(New SqlParameter("@DocDateEnd", Me.AccountPeriodDateEnd))
       paramArrayList.Add(New SqlParameter("@cc_id", Me.CostCenter.Id))
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRPMIValue", sqlparams)
+      Dim ds2 As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetRptGLPayTypeList", sqlparams)
+      Dim dtgli As DataTable = ds2.Tables(1) 'gli and cash amount
+
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRPMI")
+
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)
 
@@ -474,17 +477,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         itm.GroupName = drh.GetValue(Of String)("projectprpmi_groupname")
         itm.IsFormula = drh.GetValue(Of Boolean)("projectprpmi_isformula")
         itm.IsCanceld = drh.GetValue(Of Boolean)("projectprpmi_iscanceled")
-        itm.Cash = drh.GetValue(Of Decimal)("Cash")
-        itm.Bank = drh.GetValue(Of Decimal)("Bank")
-        itm.Remain = drh.GetValue(Of Decimal)("Remain")
-        itm.Other = drh.GetValue(Of Decimal)("Other")
-        itm.Sum = drh.GetValue(Of Decimal)("Sum")
-        itm.Frac = drh.GetValue(Of Decimal)("frac")
+
         itm.GLAccountListString = drh.GetValue(Of String)("projectprpmi_accountlist", "")
 
-        If itm.Frac <> 0 Then
-          ProjectReceivePaymentItem.EqualizeFraction(itm.Frac, itm.Cash, itm.Bank, itm.Remain, itm.Other)
-        End If
+        itm.Cash = 0
+        itm.Bank = 0
+        itm.Remain = 0
+        itm.Other = 0
+        itm.Sum = 0
+        itm.Frac = 0
 
         itm.GLAccountList = New List(Of Account)
         If drh.GetValue(Of String)("projectprpmi_accountlist", "").Length > 0 Then
@@ -494,8 +495,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each acctIds As String In acctIdSplit
               If IsNumeric(acctIds) AndAlso CInt(acctIds) > 0 Then
                 Dim acct As New Account(CInt(acctIds))
+                'หาค่าจากรายบรรทัด
 
                 itm.GLAccountList.Add(acct)
+                For Each glirow As DataRow In dtgli.Select("gli_acct =" & CStr(acctIds))
+                  Dim glih As New DataRowHelper(glirow)
+                  Dim gli As New GLforReceivePaymentItem
+                  gli.AcctId = glih.GetValue(Of Integer)("gli_acct")
+                  gli.amtwSign = glih.GetValue(Of Integer)("gliamtwSign")
+                  gli.total = glih.GetValue(Of Integer)("totalnvat")
+                  gli.totalCash = glih.GetValue(Of Integer)("TotalCashnVat")
+                  gli.totalBank = glih.GetValue(Of Integer)("TotalBanknVat")
+                  gli.totalOther = glih.GetValue(Of Integer)("TotalOthernVat")
+                  gli.payRemain = glih.GetValue(Of Integer)("payRemainnVat")
+
+                  Dim cash As Decimal = gli.Cash
+                  Dim Bank As Decimal = gli.Bank
+                  Dim remain As Decimal = gli.Remain
+                  Dim Other As Decimal = gli.Other
+                  Dim frac As Decimal = gli.Frac
+
+                  If frac <> 0 Then
+                    ProjectReceivePaymentItem.EqualizeFraction(frac, cash, Bank, remain, Other)
+                  End If
+
+                  itm.Cash += cash
+                  itm.Bank += Bank
+                  itm.Remain += remain
+                  itm.Other += Other
+                  itm.Sum += gli.amtwSign
+                Next
+
               End If
             Next
           Else
@@ -503,6 +533,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
         End If
 
+
+
+        
         Me.ProjectReceivePaymentItemList.Add(itm.LineNumber, itm)
       Next
 
@@ -786,5 +819,42 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 
   End Class
-  
+
+
+  Public Class GLforReceivePaymentItem
+
+    Public Property AcctId As Integer
+    Public Property amtwSign As Decimal
+    Public Property total As Decimal
+    Public Property totalCash As Decimal
+    Public Property totalBank As Decimal
+    Public Property payRemain As Decimal
+    Public Property totalOther As Decimal
+    Public ReadOnly Property Cash As Decimal
+      Get
+        Return totalCash / total * amtwSign
+      End Get
+    End Property
+    Public ReadOnly Property Bank As Decimal
+      Get
+        Return totalBank / total * amtwSign
+      End Get
+    End Property
+    Public ReadOnly Property Remain As Decimal
+      Get
+        Return payRemain / total * amtwSign
+      End Get
+    End Property
+    Public ReadOnly Property Other As Decimal
+      Get
+        Return totalOther / total * amtwSign
+      End Get
+    End Property
+    Public ReadOnly Property Frac As Decimal
+      Get
+        Return amtwSign - (Cash + Bank + Remain + Other)
+      End Get
+    End Property
+
+  End Class
 End Namespace

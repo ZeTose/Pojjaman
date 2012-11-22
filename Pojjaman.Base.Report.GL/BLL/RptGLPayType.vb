@@ -855,10 +855,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             theRow2("balance") = Configuration.FormatToString(totalbalance, DigitConfig.Price)      ' ยอดคงเหลือ
 
-            Dim cash As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("Cash"), DigitConfig.Price)
-            Dim bank As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("bank"), DigitConfig.Price)
-            Dim remain As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
-            Dim Other As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
+            Dim gliamtwSign As Decimal = drh.GetValue(Of Decimal)("gliamtwSign")
+            Dim SumDoc As Decimal = drh.GetValue(Of Decimal)("TotalnVat")
+            Dim SumDocCash As Decimal = drh.GetValue(Of Decimal)("TotalCashnVat")
+            Dim SumDocBank As Decimal = drh.GetValue(Of Decimal)("TotalBanknVat")
+            Dim SumDocOther As Decimal = drh.GetValue(Of Decimal)("TotalOthernVat")
+            Dim SumDocRemain As Decimal = drh.GetValue(Of Decimal)("payRemainnVat")
+
+            'Dim cash As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("Cash"), DigitConfig.Price)
+            'Dim bank As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("bank"), DigitConfig.Price)
+            'Dim remain As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
+            'Dim Other As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
+            Dim cash As Decimal = Configuration.Format(SumDocCash / SumDoc * gliamtwSign, DigitConfig.Price)
+            Dim bank As Decimal = Configuration.Format(SumDocBank / SumDoc * gliamtwSign, DigitConfig.Price)
+            Dim remain As Decimal = Configuration.Format(SumDocRemain / SumDoc * gliamtwSign, DigitConfig.Price)
+            Dim Other As Decimal = Configuration.Format(SumDocOther / SumDoc * gliamtwSign, DigitConfig.Price)
             Dim fraction As Decimal = gli_balanceamt - cash - bank - remain - Other
             If fraction <> 0 Then
               ProjectReceivePaymentItem.EqualizeFraction(fraction, cash, bank, remain, Other)
