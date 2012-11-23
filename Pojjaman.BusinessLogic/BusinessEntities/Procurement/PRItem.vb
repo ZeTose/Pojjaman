@@ -673,6 +673,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.Amount, oldVal))
       Next
     End Sub
+    Public Sub SetQty(qty As Decimal)
+      m_qty = qty
+      UpdateWBS()
+    End Sub
     Public Property Qty() As Decimal
       Get
         Return m_qty
@@ -1655,6 +1659,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub RefreshQtyOrderedQty()
       For Each pri As PRItem In Me
         pri.OrderedQty = pri.GetOrderedQty
+        pri.SetQty(pri.OriginQty)
       Next
 
 

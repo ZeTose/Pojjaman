@@ -387,7 +387,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'ยกเลิกการปิด
         If m_closedBefor AndAlso Not m_closed Then
           For Each item As POItem In ItemCollection
-            item.Qty = item.OriginQty
+            'item.Qty = item.OriginQty
+            item.SetQty(item.OriginQty)
           Next
         End If
       End Set

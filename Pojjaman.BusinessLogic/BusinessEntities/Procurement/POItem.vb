@@ -534,7 +534,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim transferAmt As Decimal = bfTax
           wbsd.BaseCost = bfTax
           wbsd.BaseCost = transferAmt          Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.Amount, oldVal))        Next
-      End If    End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      End If    End Sub    Public Sub SetQty(qty As Decimal)      m_qty = qty
+      UpdateWBS()
+    End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If Me.ItemType Is Nothing Then
           'ไม่มี Type
           msgServ.ShowMessage("${res:Global.Error.NoItemType}")

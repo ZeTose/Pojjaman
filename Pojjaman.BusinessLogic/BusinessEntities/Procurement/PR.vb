@@ -1712,7 +1712,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dr("pri_qty") = item.OriginQty
               dr("pri_originqty") = item.OriginQty
               dr("pri_originamt") = item.OriginAmount
-              item.m_qty = Configuration.Format(item.GetOrderedQty, DigitConfig.Qty)
+              item.m_qty = Configuration.Format(item.OriginQty, DigitConfig.Qty)
             ElseIf m_closedBefor AndAlso Me.Closed Then
               dr("pri_qty") = item.GetOrderedQty + item.GetWithdrawnQty
               dr("pri_originqty") = item.OriginQty
