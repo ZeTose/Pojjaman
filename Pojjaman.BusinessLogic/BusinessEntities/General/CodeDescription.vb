@@ -252,7 +252,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Shared Sub RefreshCodeList()
       Dim myService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
       Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select code_value,code_description,code_name,code_order,code_tag from codedescription order by code_name,code_order")
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select code_value,code_description,code_name,code_order,code_tag from codedescriptionview order by code_name,code_order")
       Dim myTable As DataTable = ds.Tables(0)
       m_codeDescHash = New Hashtable
       For Each row As DataRow In myTable.Rows
