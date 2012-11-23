@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class PAStatus
@@ -88,6 +89,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_OldadvancePayItemColl As AdvancePayItemCollection
     Private m_approveDocColl As ApproveDocCollection
+    Private m_oldActualDataSet As DataSet
     'Public MatActualHash As Hashtable
     'Public LabActualHash As Hashtable
     'Public EQActualHash As Hashtable
@@ -165,6 +167,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_itemCollection = New PAItemCollection(Me)
       m_approveDocColl = New ApproveDocCollection(Me)
       m_hashWbsId = New Hashtable
+      m_oldActualDataSet = New DataSet
       OnGlChanged()
     End Sub
     '------------------------------------------ GetPAList------------------------------------------
@@ -351,6 +354,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End With
       m_itemCollection = New PAItemCollection(Me)
       m_approveDocColl = New ApproveDocCollection(Me)
+      m_oldActualDataSet = New DataSet
       m_hashWbsId = New Hashtable
       'm_itemCollection.RefreshBudget()
     End Sub
@@ -886,6 +890,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Function GetOldPAWBSActual() As DataSet
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString,
+                                                   CommandType.StoredProcedure,
+                                                   "GetOldPAWBSActual",
+                                                   New SqlParameter("@pa_id", Me.Id)
+                                                  )
+      Return ds
+    End Function
+    Private Function GetGRCommandActual() As String
+      If Me.m_oldActualDataSet Is Nothing OrElse Me.m_oldActualDataSet.Tables.Count = 0 OrElse Me.m_oldActualDataSet.Tables(0).Rows.Count = 0 Then
+        Return ""
+      End If
+      Dim cmd As String = ""
+      Dim cmdList As New ArrayList
+      For Each row As DataRow In Me.m_oldActualDataSet.Tables(0).Rows
+        Dim drh As New DataRowHelper(row)
+        cmd = ""
+        cmd = "" & _
+        " update swang_gr_wbsactual " & _
+        " set wbs_matactual = isnull(wbs_matactual,0) - " & drh.GetValue(Of Decimal)("wbsmatactual").ToString() & "" & _
+        " ,wbs_labactual = isnull(wbs_labactual,0) - " & drh.GetValue(Of Decimal)("wbslabactual").ToString() & "" & _
+        " ,wbs_eqactual = isnull(wbs_eqactual,0) - " & drh.GetValue(Of Decimal)("wbseqactual").ToString() & "" & _
+        " ,nonref_matactual = isnull(nonref_matactual,0) - " & drh.GetValue(Of Decimal)("nonrefmatactual").ToString() & "" & _
+        " ,nonref_labactual = isnull(nonref_labactual,0) - " & drh.GetValue(Of Decimal)("nonreflabactual").ToString() & "" & _
+        " ,nonref_eqactual = isnull(nonref_eqactual,0) - " & drh.GetValue(Of Decimal)("nonrefeqactual").ToString() & "" & _
+        " where wbs_id = " & drh.GetValue(Of Long)("stockiw_wbs").ToString & "" & _
+        " and isnull(wbs_ismarkup,0) = " & drh.GetValue(Of Integer)("stockiw_isMarkup").ToString
+        cmdList.Add(cmd)
+      Next
+      If cmdList.Count > 0 Then
+        Return String.Join(";", cmdList.ToArray)
+      End If
+
+      Return ""
+    End Function
     Structure ContractReceiveStruct
       Dim SCContractAmount As Decimal
       Dim VOContractAmount As Decimal
@@ -1991,14 +2030,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(ex.ToString)
           End Try
 
-          Try
-            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
-            If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
-            End If
-          Catch ex As Exception
-            Return New SaveErrorException(ex.ToString)
-          End Try
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+          Parallel.Invoke(Sub()
+                            SaveWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            SubSaveDocApprove(conn, currentUserId)
+                          End Sub,
+                          Sub()
+                            SaveUpdateWBSReferencedFromPA(conn)
+                          End Sub)
           'Sub Save Block ========================================
 
           Return New SaveErrorException(returnVal.Value.ToString)
@@ -2070,7 +2118,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Try
 
-
         Me.DeleteRef(conn, trans3)
 
         For Each hsItem As PAItem In hashItem.Values
@@ -2083,9 +2130,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           )
         Next
 
-        SqlHelper.ExecuteNonQuery(conn, trans3, CommandType.StoredProcedure, "UpdateWBSReferencedFromPA", New SqlParameter("@refto_id", Me.Id))
+        'SqlHelper.ExecuteNonQuery(conn, trans3, CommandType.StoredProcedure, "UpdateWBSReferencedFromPA", New SqlParameter("@refto_id", Me.Id))
 
-        SqlHelper.ExecuteNonQuery(conn, trans3, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans3, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
       Catch ex As Exception
         trans3.Rollback()
         Return New SaveErrorException(ex.InnerException.ToString)
@@ -2094,7 +2141,52 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trans3.Commit()
       Return New SaveErrorException("0")
     End Function
-    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+
+    Private Function SaveWBSActual(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        Dim cmd As String = Me.GetGRCommandActual
+        If cmd.Length > 0 Then
+          SqlHelper.ExecuteNonQuery(conn, trans, CommandType.Text, cmd)
+        End If
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_OnlyUpdateGRWBSActual", New SqlParameter("@stock_id", Me.Id))
+
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SaveUpdateWBSReferencedFromPA(ByVal oldconn As SqlConnection) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
+      Dim trans As SqlTransaction = conn.BeginTransaction
+      Try
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateWBSReferencedFromPA", New SqlParameter("@refto_id", Me.Id))
+      Catch ex As Exception
+        trans.Rollback()
+        conn.Close()
+        Return New SaveErrorException(ex.ToString)
+      End Try
+
+      trans.Commit()
+      conn.Close()
+      Return New SaveErrorException("0")
+    End Function
+
+    Private Function SubSaveDocApprove(ByVal oldconn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
@@ -2102,16 +2194,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
+          conn.Close()
           Return savemldocError
         End If
       Catch ex As Exception
         strans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
       strans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
+
+
     Public Overrides Function GetNextCode() As String
       Dim autoCodeFormat As String = Me.Code   'Entity.GetAutoCodeFormat(Me.EntityId)
       Dim pattern As String = CodeGenerator.GetPattern(autoCodeFormat, Me)
