@@ -10,6 +10,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports System.Collections.Generic
+Imports System.Threading.Tasks
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class VO
@@ -1046,10 +1047,43 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
             Return New SaveErrorException(ex.ToString)
           End Try
 
+          'Try
+          '  Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+          '  If Not IsNumeric(subsaveerror.Message) Then
+          '    Return New SaveErrorException(" Save Incomplete Please Save Again")
+          '  End If
+          'Catch ex As Exception
+          '  Return New SaveErrorException(ex.ToString)
+          'End Try
+
           Try
-            Dim subsaveerror As SaveErrorException = SubSaveDocApprove(conn, currentUserId)
+            Parallel.Invoke(Sub()
+                              SubSaveDocApprove(conn, currentUserId)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryPOWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummarySCWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryVOWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryPOAdjWBSActual(conn)
+                            End Sub,
+                            Sub()
+                              WBSActual.SummaryDRWBSActual(conn)
+                            End Sub
+                 )
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
+          Try
+            Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "po")
             If Not IsNumeric(subsaveerror.Message) Then
-              Return New SaveErrorException(" Save Incomplete Please Save Again")
+              Return New SaveErrorException(" Save Incomplete Please Save Again (2)")
             End If
           Catch ex As Exception
             Return New SaveErrorException(ex.ToString)
@@ -1122,7 +1156,7 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 
         SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "UpdateWBSReferencedFromVO", New SqlParameter("@refto_id", Me.Id))
 
-        SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans2, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
         trans2.Commit()
       Catch ex As Exception
         trans2.Rollback()
@@ -1132,7 +1166,10 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
 
       Return New SaveErrorException("0")
     End Function
-    Private Function SubSaveDocApprove(ByVal conn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+    Private Function SubSaveDocApprove(ByVal oldconn As SqlConnection, ByVal currentUserId As Integer) As SaveErrorException
+      Dim conn As New SqlConnection(oldconn.ConnectionString)
+      conn.Open()
+
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
@@ -1140,14 +1177,17 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
+          conn.Close()
           Return savemldocError
         End If
       Catch ex As Exception
         strans.Rollback()
+        conn.Close()
         Return New SaveErrorException(ex.InnerException.ToString)
       End Try
 
       strans.Commit()
+      conn.Close()
       Return New SaveErrorException("0")
     End Function
     Public Overrides Function GetNextCode() As String
@@ -1572,56 +1612,56 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
       dpi.Mapping = "DocDate"
       dpi.Value = Me.DocDate.ToShortDateString
       dpi.DataType = "System.DateTime"
-            dpiColl.Add(dpi)
+      dpiColl.Add(dpi)
 
 
-            If Not Me.SC Is Nothing Then
+      If Not Me.SC Is Nothing Then
 
-                'SCCode
-                dpi = New DocPrintingItem
-                dpi.Mapping = "SCCode"
-                dpi.Value = Me.SC.Code
-                dpi.DataType = "System.String"
-                dpiColl.Add(dpi)
+        'SCCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCCode"
+        dpi.Value = Me.SC.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
 
-                'SCDate
-                dpi = New DocPrintingItem
-                dpi.Mapping = "SCDate"
-                dpi.Value = Me.SC.DocDate
-                dpi.DataType = "System.DateTime"
-                dpiColl.Add(dpi)
+        'SCDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SCDate"
+        dpi.Value = Me.SC.DocDate
+        dpi.DataType = "System.DateTime"
+        dpiColl.Add(dpi)
 
-                If Not Me.SC.Director Is Nothing AndAlso Me.SC.Director.Originated Then
-                    'RequestorId
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RequestorId"
-                    dpi.Value = Me.SC.Director.Id
-                    dpi.DataType = "System.String"
-                    dpi.SignatureType = SignatureType.Person
-                    dpiColl.Add(dpi)
+        If Not Me.SC.Director Is Nothing AndAlso Me.SC.Director.Originated Then
+          'RequestorId
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorId"
+          dpi.Value = Me.SC.Director.Id
+          dpi.DataType = "System.String"
+          dpi.SignatureType = SignatureType.Person
+          dpiColl.Add(dpi)
 
-                    'RequestorInfo
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RequestorInfo"
-                    dpi.Value = Me.SC.Director.Code & ":" & Me.SC.Director.Name
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+          'RequestorInfo
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorInfo"
+          dpi.Value = Me.SC.Director.Code & ":" & Me.SC.Director.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-                    'RequestorCode
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RequestorCode"
-                    dpi.Value = Me.SC.Director.Code
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
+          'RequestorCode
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorCode"
+          dpi.Value = Me.SC.Director.Code
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
 
-                    'RequestorName
-                    dpi = New DocPrintingItem
-                    dpi.Mapping = "RequestorName"
-                    dpi.Value = Me.SC.Director.Name
-                    dpi.DataType = "System.String"
-                    dpiColl.Add(dpi)
-                End If
-            End If
+          'RequestorName
+          dpi = New DocPrintingItem
+          dpi.Mapping = "RequestorName"
+          dpi.Value = Me.SC.Director.Name
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        End If
+      End If
 
       If Not Me.SubContractor Is Nothing AndAlso Me.SubContractor.Originated Then
         'SubcontractorInfo
@@ -3636,8 +3676,8 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePRWBSActual")
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdatePOWBSActual")
 
         Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
         mldoc.DocMethod = SaveDocMultiApprovalMethod.Delete
@@ -3648,6 +3688,37 @@ New String() {vitem.ItemDescription, Configuration.FormatToString(vitem.Amount, 
         End If
 
         trans.Commit()
+
+        Try
+          Parallel.Invoke(Sub()
+                            WBSActual.SummaryPOWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            WBSActual.SummarySCWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            WBSActual.SummaryVOWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            WBSActual.SummaryPOAdjWBSActual(conn)
+                          End Sub,
+                          Sub()
+                            WBSActual.SummaryDRWBSActual(conn)
+                          End Sub
+               )
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
+        Try
+          Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "po")
+          If Not IsNumeric(subsaveerror.Message) Then
+            Return New SaveErrorException(" Save Incomplete Please Save Again (2)")
+          End If
+        Catch ex As Exception
+          Return New SaveErrorException(ex.ToString)
+        End Try
+
         Return New SaveErrorException("1")
       Catch ex As SqlException
         trans.Rollback()
