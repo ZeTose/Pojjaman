@@ -11,6 +11,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Inherits SimpleBusinessEntityBase
     Implements IPrintableEntity, INewPrintableEntity, IHasToCostCenter
 
+#Region "Member"
+    Private m_reference As Boolean
+#End Region
+
 #Region "Constructor"
     Public Sub New()
       MyBase.New()
@@ -623,6 +627,116 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
       dt.AcceptChanges()
     End Sub
+#End Region
+
+#Region "Delete"
+    Public Overrides ReadOnly Property CanDelete() As Boolean
+      Get
+        If Me.Originated Then
+          Return Me.Status.Value <= 2 'AndAlso Not Me.IsReferenced
+        Else
+          Return False
+        End If
+      End Get
+    End Property
+    Public Overrides Function Delete() As SaveErrorException
+      If Not Me.Originated Then
+        Return New SaveErrorException("${res:Global.Error.NoIdError}")
+      End If
+      Dim myMessage As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      Dim format(0) As String
+      format(0) = Me.Code
+      If Not myMessage.AskQuestionFormatted("${res:Global.ConfirmDeleteProjectPRP}", format) Then
+        Return New SaveErrorException("${res:Global.CencelDelete}")
+      End If
+      Dim trans As SqlTransaction
+      Dim conn As New SqlConnection(Me.ConnectionString)
+      conn.Open()
+      trans = conn.BeginTransaction()
+      Try
+        For Each extender As Object In Me.Extenders
+          If TypeOf extender Is IExtender Then
+            Dim delDocError As SaveErrorException = CType(extender, IExtender).Delete(conn, trans)
+            If Not IsNumeric(delDocError.Message) Then
+              trans.Rollback()
+              Return delDocError
+            Else
+              Select Case CInt(delDocError.Message)
+                Case -1, -2, -5
+                  trans.Rollback()
+                  Return delDocError
+                Case Else
+              End Select
+            End If
+          End If
+        Next
+
+        Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
+        returnVal.ParameterName = "RETURN_VALUE"
+        returnVal.DbType = DbType.Int32
+        returnVal.Direction = ParameterDirection.ReturnValue
+        returnVal.SourceVersion = DataRowVersion.Current
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteProjectPRP", New SqlParameter() {New SqlParameter("@projectprp_id", Me.Id), returnVal})
+        If IsNumeric(returnVal.Value) Then
+          Select Case CInt(returnVal.Value)
+            Case -1
+              trans.Rollback()
+              'Return New SaveErrorException("${res:Global.PRIsReferencedCannotBeDeleted}")
+            Case Else
+          End Select
+        ElseIf IsDBNull(returnVal.Value) OrElse Not IsNumeric(returnVal.Value) Then
+          trans.Rollback()
+          Return New SaveErrorException(returnVal.Value.ToString)
+        End If
+        'Me.DeleteRef(conn, trans)
+
+        'Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId)
+        'mldoc.DocMethod = SaveDocMultiApprovalMethod.Delete
+        'Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, trans)
+        'If Not IsNumeric(savemldocError.Message) Then
+        '  trans.Rollback()
+        '  Return savemldocError
+        'End If
+
+        trans.Commit()
+        'Return New SaveErrorException("1")
+      Catch ex As SqlException
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Catch ex As Exception
+        trans.Rollback()
+        Return New SaveErrorException(ex.Message)
+      Finally
+        conn.Close()
+      End Try
+
+      'Try
+      '  Parallel.Invoke(Sub()
+      '                    WBSActual.SummaryPRWBSActual(conn)
+      '                  End Sub,
+      '                  Sub()
+      '                    WBSActual.SummaryWRWBSActual(conn)
+      '                  End Sub,
+      '                  Sub()
+      '                    WBSActual.SummaryPRAdjWBSActual(conn)
+      '                  End Sub
+      '           )
+      'Catch ex As Exception
+      '  Return New SaveErrorException(ex.ToString)
+      'End Try
+
+      'Try
+      '  Dim subsaveerror As SaveErrorException = WBSActual.SummaryChildActual(conn, "pr")
+      '  If Not IsNumeric(subsaveerror.Message) Then
+      '    Return New SaveErrorException(" Save Incomplete Please Save Again (1)")
+      '  End If
+      'Catch ex As Exception
+      '  Return New SaveErrorException(ex.ToString)
+      'End Try
+
+      Return New SaveErrorException("1")
+
+    End Function
 #End Region
 
     Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
