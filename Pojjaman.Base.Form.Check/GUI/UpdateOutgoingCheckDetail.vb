@@ -876,7 +876,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           RefreshDocs()
           'RefreshBlankGrid()
 
-          Me.m_entity.UpdatedStatus = New OutgoingCheckDocStatus(cmbStatus.Text)
+          Me.m_entity.UpdatedStatus = New OutgoingCheckDocStatus(CType(cmbStatus.SelectedItem, IdValuePair).Id) 'New OutgoingCheckDocStatus(cmbStatus.Text)
           dirtyFlag = True
 
         Case "cmbchecktype"
