@@ -81,11 +81,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents txtChqCodeStart As System.Windows.Forms.TextBox
     Friend WithEvents lblChqCodeStart As System.Windows.Forms.Label
     Friend WithEvents chkOnlyNoCqCode As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowPVDetail As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowGLNote As System.Windows.Forms.CheckBox
     Friend WithEvents lblUpdateDateEnd As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptOutgoingCheckFilterSubPanel))
       Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.txtTemp = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.chkOnlyNoCqCode = New System.Windows.Forms.CheckBox()
       Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -138,9 +141,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblBankAcctStart = New System.Windows.Forms.Label()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
+      Me.chkShowPVDetail = New System.Windows.Forms.CheckBox()
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.txtTemp = New System.Windows.Forms.TextBox()
+      Me.chkShowGLNote = New System.Windows.Forms.CheckBox()
       Me.grbMaster.SuspendLayout()
       Me.grbDetail.SuspendLayout()
       Me.grbChqCode.SuspendLayout()
@@ -159,14 +163,34 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbMaster.Controls.Add(Me.grbBankAcctBook)
       Me.grbMaster.Controls.Add(Me.btnSearch)
       Me.grbMaster.Controls.Add(Me.btnReset)
+      Me.grbMaster.Controls.Add(Me.chkShowGLNote)
+      Me.grbMaster.Controls.Add(Me.chkShowPVDetail)
       Me.grbMaster.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbMaster.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
-      Me.grbMaster.Location = New System.Drawing.Point(8, 3)
+      Me.grbMaster.Location = New System.Drawing.Point(8, 1)
       Me.grbMaster.Name = "grbMaster"
-      Me.grbMaster.Size = New System.Drawing.Size(849, 240)
+      Me.grbMaster.Size = New System.Drawing.Size(849, 241)
       Me.grbMaster.TabIndex = 0
       Me.grbMaster.TabStop = False
       Me.grbMaster.Text = "เช็ครับ"
+      '
+      'txtTemp
+      '
+      Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
+      Me.Validator.SetDisplayName(Me.txtTemp, "")
+      Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
+      Me.txtTemp.Location = New System.Drawing.Point(852, 135)
+      Me.txtTemp.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtTemp, "")
+      Me.Validator.SetMinValue(Me.txtTemp, "")
+      Me.txtTemp.Name = "txtTemp"
+      Me.txtTemp.ReadOnly = True
+      Me.Validator.SetRegularExpression(Me.txtTemp, "")
+      Me.Validator.SetRequired(Me.txtTemp, False)
+      Me.txtTemp.Size = New System.Drawing.Size(104, 21)
+      Me.txtTemp.TabIndex = 26
+      Me.txtTemp.Visible = False
       '
       'grbDetail
       '
@@ -206,7 +230,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbDetail.Controls.Add(Me.dtpCheckDueDateStart)
       Me.grbDetail.Controls.Add(Me.dtpCheckDueDateEnd)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Location = New System.Drawing.Point(16, 13)
+      Me.grbDetail.Location = New System.Drawing.Point(16, 9)
       Me.grbDetail.Name = "grbDetail"
       Me.grbDetail.Size = New System.Drawing.Size(507, 222)
       Me.grbDetail.TabIndex = 0
@@ -636,7 +660,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbChqCode.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.grbChqCode.Location = New System.Drawing.Point(529, 99)
       Me.grbChqCode.Name = "grbChqCode"
-      Me.grbChqCode.Size = New System.Drawing.Size(312, 72)
+      Me.grbChqCode.Size = New System.Drawing.Size(312, 65)
       Me.grbChqCode.TabIndex = 13
       Me.grbChqCode.TabStop = False
       Me.grbChqCode.Text = "ข้อมูลเลขที่เช็ค"
@@ -710,9 +734,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbBankAcctBook.Controls.Add(Me.txtBankAcctCodeStart)
       Me.grbBankAcctBook.Controls.Add(Me.lblBankAcctStart)
       Me.grbBankAcctBook.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbBankAcctBook.Location = New System.Drawing.Point(529, 13)
+      Me.grbBankAcctBook.Location = New System.Drawing.Point(529, 9)
       Me.grbBankAcctBook.Name = "grbBankAcctBook"
-      Me.grbBankAcctBook.Size = New System.Drawing.Size(312, 85)
+      Me.grbBankAcctBook.Size = New System.Drawing.Size(312, 78)
       Me.grbBankAcctBook.TabIndex = 3
       Me.grbBankAcctBook.TabStop = False
       Me.grbBankAcctBook.Text = "ข้อมูลสมุดบัญชี"
@@ -837,7 +861,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(767, 208)
+      Me.btnSearch.Location = New System.Drawing.Point(767, 209)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 2
@@ -847,12 +871,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(687, 208)
+      Me.btnReset.Location = New System.Drawing.Point(687, 209)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 1
       Me.btnReset.TabStop = False
       Me.btnReset.Text = "เคลียร์"
+      '
+      'chkShowPVDetail
+      '
+      Me.chkShowPVDetail.AutoSize = True
+      Me.chkShowPVDetail.Checked = True
+      Me.chkShowPVDetail.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkShowPVDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkShowPVDetail.Location = New System.Drawing.Point(529, 165)
+      Me.chkShowPVDetail.Name = "chkShowPVDetail"
+      Me.chkShowPVDetail.Size = New System.Drawing.Size(179, 18)
+      Me.chkShowPVDetail.TabIndex = 37
+      Me.chkShowPVDetail.Text = "แสดงรายละเอียด เลขที่ใบสำคัญ"
       '
       'Validator
       '
@@ -867,30 +903,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.ErrorProvider1.ContainerControl = Me
       '
-      'txtTemp
+      'chkShowGLNote
       '
-      Me.Validator.SetDataType(Me.txtTemp, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtTemp, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtTemp, System.Drawing.Color.Empty)
-      Me.txtTemp.Location = New System.Drawing.Point(852, 135)
-      Me.txtTemp.MaxLength = 255
-      Me.Validator.SetMaxValue(Me.txtTemp, "")
-      Me.Validator.SetMinValue(Me.txtTemp, "")
-      Me.txtTemp.Name = "txtTemp"
-      Me.txtTemp.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtTemp, "")
-      Me.Validator.SetRequired(Me.txtTemp, False)
-      Me.txtTemp.Size = New System.Drawing.Size(104, 21)
-      Me.txtTemp.TabIndex = 26
-      Me.txtTemp.Visible = False
+      Me.chkShowGLNote.AutoSize = True
+      Me.chkShowGLNote.Checked = True
+      Me.chkShowGLNote.CheckState = System.Windows.Forms.CheckState.Checked
+      Me.chkShowGLNote.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.chkShowGLNote.Location = New System.Drawing.Point(529, 185)
+      Me.chkShowGLNote.Name = "chkShowGLNote"
+      Me.chkShowGLNote.Size = New System.Drawing.Size(134, 18)
+      Me.chkShowGLNote.TabIndex = 37
+      Me.chkShowGLNote.Text = "แสดงหมายเหตุจาก GL"
       '
       'RptOutgoingCheckFilterSubPanel
       '
       Me.Controls.Add(Me.grbMaster)
       Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.Name = "RptOutgoingCheckFilterSubPanel"
-      Me.Size = New System.Drawing.Size(865, 249)
+      Me.Size = New System.Drawing.Size(865, 250)
       Me.grbMaster.ResumeLayout(False)
       Me.grbMaster.PerformLayout()
       Me.grbDetail.ResumeLayout(False)
@@ -956,6 +986,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkIncludeCheckDocDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckDocDate}") '"รวมเช็คไม่ระบุวันที่"
       Me.chkOnlyCheckRemain.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkRemainChecksShow}") '"แสดงเช็คที่ยังใช้ไม่หมด"
       Me.chkIncludeNoCqCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkIncludeCheckCode}") '"รวมเอกสารที่ไม่มีหมายเลขเช็ค"
+
+      Me.chkShowPVDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkShowPVDetail}") '"แสดงรายละเอียดเลขที่ใบสำคัญ"
+      Me.chkShowGLNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptPaymentByCheckFilterSubPanel.chkShowGLNote}") '"แสดงหมายเหตุจาก GL"
 
     End Sub
 #End Region
@@ -1110,7 +1143,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       OutgoingCheckDocStatus.ListCodeDescriptionInComboBox(Me.cmbChkStatus, "outgoingcheck_docstatus", True)
 
       'lสถานะเช็ครวมกัย ในมือกับในมือผู้ขาย
-      Dim item As New IdValuePair(9, "เช็คในมือและเช็คในมือผู้ขาย")
+      Dim str As String = pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.HoldingCheck}") '"เช็คในมือและเช็คในมือผู้ขาย"
+      Dim item As New IdValuePair(9, str) ' "เช็คในมือและเช็คในมือผู้ขาย")
       Me.cmbChkStatus.Items.Add(item)
 
       Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.DueDate}")) '"วันที่บนเช็ค"
@@ -1197,12 +1231,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkOnlyNoCqCode.Checked = 0
       Me.chkIncludeNoCqCode.Checked = 0
       Me.chkOnlyCheckRemain.Checked = 0
+      Me.chkShowPVDetail.Checked = 1
+      Me.chkShowGLNote.Checked = 0
     End Sub
     Public Overrides Function GetFilterString() As String
 
     End Function
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(18) As Filter
+      Dim arr(20) As Filter
       arr(0) = New Filter("DocDateStart", IIf(Me.DocDateStart.Equals(Date.MinValue), DBNull.Value, Me.DocDateStart)) '("DocDateStart", ValidDateOrDBNull(DocDateStart)) '
       arr(1) = New Filter("DocDateEnd", IIf(Me.DocDateEnd.Equals(Date.MinValue), DBNull.Value, Me.DocDateEnd)) '("DocDateEnd", ValidDateOrDBNull(DocDateEnd)) '
       arr(2) = New Filter("SuppliCodeStart", IIf(txtSupplierCodeStart.TextLength > 0, txtSupplierCodeStart.Text, DBNull.Value))
@@ -1224,6 +1260,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(16) = New Filter("IncludeNoCheckCode", IIf(Me.chkIncludeNoCqCode.Checked, 1, 0))
       arr(17) = New Filter("OnlyCheckRemain", IIf(Me.chkOnlyCheckRemain.Checked, 1, 0))
       arr(18) = New Filter("OnlyNoCqCode", IIf(Me.chkOnlyNoCqCode.Checked, 1, 0))
+      arr(19) = New Filter("ShowPVDetail", IIf(Me.chkShowPVDetail.Checked, 1, 0))
+      arr(20) = New Filter("ShowGLNote", IIf(Me.chkShowGLNote.Checked, 1, 0))
       'arr(9) = New Filter("IsNotShowDetail", IIf(Me.chkNotShowDetail.Checked, 1, 0))
 
       Return arr

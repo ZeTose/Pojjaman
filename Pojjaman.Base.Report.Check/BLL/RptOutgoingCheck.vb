@@ -97,6 +97,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
+      Dim showPVDtail As Boolean = CType(Me.Filters(19).Value, Boolean)
+      Dim showGLNote As Boolean = CType(Me.Filters(20).Value, Boolean)
+
       Dim indent As String
       indent = Space(3)
 
@@ -128,7 +131,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       tr("col12") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.Status}") '"สถานะ"
       tr("col13") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.cc}") '"รหัส Cost center"
       tr("col14") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckRecipient}") '"ผู้รับเช็ค"
-      tr("col15") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNote}") '"หมายเหตุ"
+      If showGLNote Then
+        tr("col15") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNote}") & "(GL)" '"หมายเหตุ"
+      Else
+        tr("col15") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNote}") & "(PV)" '"หมายเหตุ"
+      End If
+      If Not showPVDtail Then
+        tr("col15") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck.CheckNote}") '"หมายเหตุ"
+      End If
       tr("col16") = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingCheck.CQUpdateCheck}") '"เลขที่ปรับปรุงสถานะเช็ค"
     End Sub
     Private Sub PopulateData()
@@ -137,6 +147,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If dt.Rows.Count = 0 Then
         Return
       End If
+
+      Dim showPVDtail As Boolean = CType(Me.Filters(19).Value, Boolean)
+      Dim showGLNote As Boolean = CType(Me.Filters(20).Value, Boolean)
 
       m_hashData = New Hashtable
 
@@ -306,35 +319,70 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'TrCheq.Tag = Nothing
 
             Dim totalPayAmount As Decimal = 0
+            Dim pvList As New ArrayList
+            Dim glList As New ArrayList
+
             TrPV = Nothing
             For Each prow As DataRow In dt1.Select("paymenti_entity = " & row("check_id").ToString())
-              TrPV = TrCheq.Childs.Add
-              TrPV.Tag = prow
+              If showPVDtail Then
+                TrPV = TrCheq.Childs.Add
+                TrPV.Tag = prow
 
-              If Not prow.IsNull("payment_code") Then
-                TrPV("col6") = prow("payment_code").ToString
-              End If
-              If Not prow.IsNull("gl_code") Then
-                TrPV("col8") = prow("gl_code").ToString
-              End If
-              'If Not prow.IsNull("GL") Then
-              '  TrPV("col8") = prow("PVRef").ToString
-              'End If
-              If IsNumeric(prow("paymenti_amt")) Then
-                TrPV("col10") = Configuration.FormatToString(CDec(prow("paymenti_amt")), DigitConfig.Price)
-                totalPayAmount += CDec(prow("paymenti_amt"))
-                TotalPay += CDec(prow("paymenti_amt"))
-              End If
-              'If IsNumeric(prow("Remain")) Then
-              '  TrPV("col11") = Configuration.FormatToString(CDec(prow("Remain")), DigitConfig.Price)
-              'End If
-              If Not prow.IsNull("cc_code") Then
-                TrPV("col13") = prow("cc_code").ToString
-              End If
-              If Not prow.IsNull("payment_note") Then
-                TrPV("col15") = prow("payment_note").ToString
+                If Not prow.IsNull("payment_code") Then
+                  TrPV("col6") = prow("payment_code").ToString
+                End If
+                If Not prow.IsNull("gl_code") Then
+                  TrPV("col8") = prow("gl_code").ToString
+                End If
+                'If Not prow.IsNull("GL") Then
+                '  TrPV("col8") = prow("PVRef").ToString
+                'End If
+                If IsNumeric(prow("paymenti_amt")) Then
+                  TrPV("col10") = Configuration.FormatToString(CDec(prow("paymenti_amt")), DigitConfig.Price)
+                  totalPayAmount += CDec(prow("paymenti_amt"))
+                  TotalPay += CDec(prow("paymenti_amt"))
+                End If
+                'If IsNumeric(prow("Remain")) Then
+                '  TrPV("col11") = Configuration.FormatToString(CDec(prow("Remain")), DigitConfig.Price)
+                'End If
+                If Not prow.IsNull("cc_code") Then
+                  TrPV("col13") = prow("cc_code").ToString
+                End If
+                If showGLNote Then
+                  If Not prow.IsNull("gl_note") Then
+                    TrPV("col15") = prow("gl_note").ToString
+                  End If
+                Else
+                  If Not prow.IsNull("payment_note") Then
+                    TrPV("col15") = prow("payment_note").ToString
+                  End If
+                End If
+
+              Else
+                If IsNumeric(prow("paymenti_amt")) Then
+                  totalPayAmount += CDec(prow("paymenti_amt"))
+                  TotalPay += CDec(prow("paymenti_amt"))
+                End If
+
+                If Not prow.IsNull("payment_code") Then
+                  If Not pvList.Contains(prow("payment_code").ToString) Then
+                    pvList.Add(prow("payment_code").ToString)
+                  End If
+                End If
+                If Not prow.IsNull("gl_code") Then
+                  If Not glList.Contains(prow("gl_code").ToString) Then
+                    glList.Add(prow("gl_code").ToString)
+                  End If
+                End If
+
               End If
             Next
+
+            If Not showPVDtail Then
+              TrCheq.State = RowExpandState.None
+              TrCheq("col6") = String.Join(",", pvList.ToArray)
+              TrCheq("col8") = String.Join(",", glList.ToArray)
+            End If
 
             TrCheq("col10") = Configuration.FormatToString(totalPayAmount, DigitConfig.Price)
 
