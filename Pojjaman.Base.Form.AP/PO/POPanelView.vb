@@ -3137,10 +3137,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenPanel(dummyCC)
     End Sub
     Private Sub ChangeCC()
-      'For Each item As POItem In Me.m_entity.ItemCollection
-      '    item.WBSDistributeCollection.Clear()
-      'Next
+      For Each item As POItem In Me.m_entity.ItemCollection
+        item.WBSDistributeCollection.Clear()
+      Next
       'RefreshWBS()
+      RefreshDocs()
     End Sub
     Private Sub UpdateDestAdmin()
       If Me.m_entity Is Nothing Then
