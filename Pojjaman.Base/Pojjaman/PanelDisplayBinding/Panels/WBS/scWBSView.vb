@@ -521,7 +521,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetHideColumns()
       For Each colStyle As DataGridColumnStyle In Me.m_wbsTreeManager.GridTableStyle.GridColumnStyles
         If (colStyle.MappingName.ToLower = "BudgetRemain".ToLower OrElse
-            colStyle.MappingName.ToLower = "QtyRemain".ToLower) Then
+            colStyle.MappingName.ToLower = "QtyRemain".ToLower OrElse
+            colStyle.MappingName.ToLower = "Amount".ToLower) Then
           colStyle.Width = 0
           colStyle.ResetHeaderText()
         End If
