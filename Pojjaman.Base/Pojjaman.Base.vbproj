@@ -1554,6 +1554,12 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLListForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\LKQueryForm.Designer.vb">
+      <DependentUpon>LKQueryForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\LKQueryForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Test\MappingListDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1655,6 +1661,7 @@
     <Content Include="External\ICSharpCode.SharpZipLib.dll" />
     <Content Include="External\Interop.SHDocVw.dll" />
     <None Include="Resources\Attachment.ico" />
+    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -1998,6 +2005,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\GLListForm.resx">
       <DependentUpon>GLListForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\LKQueryForm.resx">
+      <DependentUpon>LKQueryForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pojjaman\PanelDisplayBinding\Panels\Test\MappingListDialog.resx">
       <DependentUpon>MappingListDialog.vb</DependentUpon>

@@ -43,5 +43,29 @@ Namespace Longkong.Pojjaman.Commands
         End Sub
 #End Region
 
-    End Class
+  End Class
+  Public Class LKQuery
+    Inherits AbstractMenuCommand
+
+#Region "Constructors"
+    Public Sub New()
+    End Sub
+#End Region
+
+#Region "Methods"
+    Public Overrides Sub Run()
+      'Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
+      Dim myDialog As New LKQueryForm
+      myDialog.Show()
+      '
+      'If TypeOf window.ActiveViewContent Is Longkong.Pojjaman.Gui.Panels.ISimpleEntityPanel Then
+      '  Dim pnl As New EntityDebugPanel(CType(window.ActiveViewContent, ISimpleEntityPanel).Entity)
+      '  Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(pnl)
+      '  myDialog.ShowInTaskbar = True
+      '  myDialog.Show()
+      'End If
+    End Sub
+#End Region
+
+  End Class
 End Namespace

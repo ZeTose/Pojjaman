@@ -514,4 +514,7 @@
   <data name="Icons_32x32_Pojjaman" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon32.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Icons_16x16_LKQuery" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\transaction_logfile.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

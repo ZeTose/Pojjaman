@@ -584,6 +584,9 @@
   <ItemGroup>
     <None Include="Resources\icon32.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\transaction_logfile.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
     <PreBuildEvent />

@@ -13,9 +13,10 @@
 					<ToolbarItem id="DebugEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.DebugIcon" tooltip="Debug" class="Longkong.Pojjaman.Commands.DebugEntity"/>					
 				</Conditional>		
 				<ToolbarItem id="NoteEntity" insertafter="ShowCodeDescription" icon="Icons.16x16.NoteEntityIcon" tooltip="NoteEntity" class="Longkong.Pojjaman.Commands.NoteEntity"/>
-      <ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.MappingListIcon" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
-      <ToolbarItem id="GLList" insertafter="MappingList" icon="Icons.16x16.GLListIcon" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLList"/>
-      <ToolbarItem id="GLAtomList" insertafter="MappingList" icon="Icons.16x16.GlAtomListIcon" tooltip="GL AtomList" class="Longkong.Pojjaman.Commands.GLAtomList"/>
+        <ToolbarItem id="MappingList" insertafter="NoteEntity" icon="Icons.16x16.MappingListIcon" tooltip="MappingList" class="Longkong.Pojjaman.Commands.MappingList"/>
+        <ToolbarItem id="GLList" insertafter="MappingList" icon="Icons.16x16.GLListIcon" tooltip="GL List" class="Longkong.Pojjaman.Commands.GLList"/>
+        <ToolbarItem id="GLAtomList" insertafter="MappingList" icon="Icons.16x16.GlAtomListIcon" tooltip="GL AtomList" class="Longkong.Pojjaman.Commands.GLAtomList"/>
+        <ToolbarItem id="LKQuery" insertafter="DebugEntity" icon="Icons.16x16.LKQuery" tooltip="LK Query" class="Longkong.Pojjaman.Commands.LKQuery"/>
 		</Extension>			
 		<Extension path="/Pojjaman/Workbench/MainMenu">
 				<MenuItem id="Test" insertafter="Help" label="Test">
@@ -24,7 +25,7 @@
 						<MenuItem id="Test" icon="Icons.16x16.TestIcon" label="Test" class="Longkong.Pojjaman.Commands.Test"/>
 						<MenuItem id="FormTester" icon="Icons.16x16.FormTesterIcon" label="FormTester" class="Longkong.Pojjaman.Commands.FormTester"/>
 						<MenuItem id="DatabaseSelection" icon="Icons.16x16.DatabaseSelectionIcon" label="DatabaseSelection" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
-						<MenuItem id="ErrorTest" icon="Icons.16x16.ErrorTestIcon" label="Test Error" class="Longkong.Pojjaman.Commands.ErrorTest"/>
+            <MenuItem id="ErrorTest" icon="Icons.16x16.ErrorTestIcon" label="Test Error" class="Longkong.Pojjaman.Commands.ErrorTest"/>
 				</MenuItem>
 		</Extension>
 </AddIn>
