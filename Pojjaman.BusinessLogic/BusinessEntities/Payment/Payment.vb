@@ -976,7 +976,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Return ""
     End Function
-    Private Sub UpdateItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
+    Public Sub UpdateItemEntityStatus(ByVal conn As SqlConnection, ByVal trans As SqlTransaction)
       If Not Me.Originated Then
         Return
       End If

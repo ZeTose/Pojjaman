@@ -3288,7 +3288,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         returnVal.Direction = ParameterDirection.ReturnValue
         returnVal.SourceVersion = DataRowVersion.Current
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "DeleteSaleCN", New SqlParameter() {New SqlParameter("@stock_id", Me.Id), returnVal})
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePaymentItemEntityStatus", New SqlParameter("@payment_id", Me.ValidIdOrDBNull(Me.Payment)))
+        'SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePaymentItemEntityStatus", New SqlParameter("@payment_id", Me.ValidIdOrDBNull(Me.Payment)))
+        If Not Me.Payment Is Nothing Then
+          Me.Payment.UpdateItemEntityStatus(conn, trans)
+        End If
         If IsNumeric(returnVal.Value) Then
           Select Case CInt(returnVal.Value)
             Case -1
