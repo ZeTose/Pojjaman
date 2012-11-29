@@ -1393,7 +1393,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
 
         prIdArrayList = New ArrayList
-        prIdArrayList.AddRange(Me.GetPrList)
+        Try
+          prIdArrayList.AddRange(Me.GetPrList)
+        Catch ex As Exception
+          Return New SaveErrorException(ex.Message)
+        End Try
+
 
         'Select Case config
         '  Case 0      'Not allow
@@ -1662,7 +1667,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return New SaveErrorException(ex.ToString)
           End Try
 
-          prIdArrayList.AddRange(Me.GetPrList)
+          Try
+            prIdArrayList.AddRange(Me.GetPrList)
+          Catch ex As Exception
+            Return New SaveErrorException(ex.Message)
+          End Try
+
           Dim prIdList As String = String.Join(",", prIdArrayList.ToArray)
 
           Try

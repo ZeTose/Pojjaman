@@ -2583,7 +2583,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End Try
 
           poIdArrayList = New ArrayList
-          poIdArrayList.Add(Me.Po.Id)
+          If Not Me.Po Is Nothing Then
+            poIdArrayList.Add(Me.Po.Id)
+          End If
           Dim poIdList As String = String.Join(",", poIdArrayList.ToArray)
 
           Parallel.Invoke(Sub()
