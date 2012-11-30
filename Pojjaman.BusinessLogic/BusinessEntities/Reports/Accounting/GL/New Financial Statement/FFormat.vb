@@ -1703,6 +1703,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim fff As FFormatData = ffi.DataCollection(col)
           If Not fff Is Nothing Then
             newRow("ffi_formula" & (n).ToString) = fff.FormulaText
+            'Trace.WriteLine(fff.FormulaText)
           End If
         Next
 
@@ -2056,6 +2057,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If isRow Then
             'Index จะมาลดจาก linenumber 1 จาก Insert นะ
+            Dim i As Integer = TextHelper.StringHelper.GetExcelColumnIndex(str)
             If n > index Then
               If IsInsert Then
                 n = n + 1
@@ -2066,6 +2068,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
               End If
             End If
+            str = strsign + TextHelper.StringHelper.GetExcelColumnString(i)
           Else
             Dim i As Integer = TextHelper.StringHelper.GetExcelColumnIndex(str)
             If i > index Then
