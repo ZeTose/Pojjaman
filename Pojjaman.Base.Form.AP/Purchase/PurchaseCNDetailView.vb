@@ -4156,6 +4156,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       If Me.m_entity.Supplier.Originated Then
         entities.Add(m_entity.Supplier)
       End If
+      If Me.m_entity.FromCostCenter.Originated Then
+        entities.Add(m_entity.FromCostCenter)
+      End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
       Dim v As New VatForSelection
       v.Direction = New VatDirection(1)
