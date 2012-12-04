@@ -604,31 +604,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '  conn.Close()
           End Try
 
+          '--Sub Save Block-- ============================================================
+          Try
+            Dim subsaveerror As SaveErrorException = SubSave(conn)
+            If Not IsNumeric(subsaveerror.Message) Then
+              Return New SaveErrorException(" Save Incomplete Please Save Again")
+            End If
+
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+          '--Sub Save Block-- ============================================================
+
+          Try
+            stockIdArrayList.AddRange(Me.GetStockList)
+            Dim stockIdList As String = String.Join(",", stockIdArrayList.ToArray)
+
+            GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, stockIdList)
+          Catch ex As Exception
+            Return New SaveErrorException(ex.ToString)
+          End Try
+
         Catch ex As Exception
           Return New SaveErrorException(ex.ToString)
         Finally
           conn.Close()
-        End Try
-
-        '--Sub Save Block-- ============================================================
-        Try
-          Dim subsaveerror As SaveErrorException = SubSave(conn)
-          If Not IsNumeric(subsaveerror.Message) Then
-            Return New SaveErrorException(" Save Incomplete Please Save Again")
-          End If
-
-        Catch ex As Exception
-          Return New SaveErrorException(ex.ToString)
-        End Try
-        '--Sub Save Block-- ============================================================
-
-        Try
-          stockIdArrayList.AddRange(Me.GetStockList)
-          Dim stockIdList As String = String.Join(",", stockIdArrayList.ToArray)
-
-          GoodsReceipt.UpdateReferenceGoodsReceiptList(conn, stockIdList)
-        Catch ex As Exception
-          Return New SaveErrorException(ex.ToString)
         End Try
 
         Return New SaveErrorException(returnVal.Value.ToString)
