@@ -5141,6 +5141,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           trans.Rollback()
           Return New SaveErrorException(returnVal.Value.ToString)
         End If
+        If Not Me.Payment Is Nothing Then
+          Me.Payment.UpdateItemEntityStatus(conn, trans)
+        End If
         Me.DeleteRef(conn, trans)
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "swang_UpdateGRWBSActual")
 
