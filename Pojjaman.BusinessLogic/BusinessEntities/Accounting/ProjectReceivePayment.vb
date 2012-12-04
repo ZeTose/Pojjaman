@@ -456,12 +456,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Public Sub GetPRPMIValue()
 
+      If Me.CostCenter Is Nothing OrElse Not Me.CostCenter.Originated Then
+        Return
+      End If
+
       Me.ProjectReceivePaymentItemList = New Dictionary(Of Integer, ProjectReceivePaymentItem)
       Dim paramArrayList As New ArrayList
 
-      paramArrayList.Add(New SqlParameter("@DocDateStart", Me.AccountPeriodDateStart))
-      paramArrayList.Add(New SqlParameter("@DocDateEnd", Me.AccountPeriodDateEnd))
-      paramArrayList.Add(New SqlParameter("@cc_id", Me.CostCenter.Id))
+      paramArrayList.Add(New SqlParameter("@DocDateStart", Me.ValidDateOrDBNull(Me.AccountPeriodDateStart)))
+      paramArrayList.Add(New SqlParameter("@DocDateEnd", Me.ValidDateOrDBNull(Me.AccountPeriodDateEnd)))
+      paramArrayList.Add(New SqlParameter("@cc_id", Me.ValidIdOrDBNull(Me.CostCenter)))
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
       Dim ds2 As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetRptGLPayTypeList", sqlparams)
@@ -539,7 +543,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 
-        
+
         Me.ProjectReceivePaymentItemList.Add(itm.LineNumber, itm)
       Next
 
