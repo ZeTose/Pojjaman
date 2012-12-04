@@ -982,7 +982,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Sub
     Public Sub SetItems(ByVal items As BasketItemCollection, ByVal index As Integer)
-      For i As Integer = 0 To items.Count - 1
+      'For i As Integer = 0 To items.Count - 1
+      For i As Integer = items.Count - 1 To 0 Step -1
         If Not TypeOf items(i) Is StockBasketItem Then
 
           'Dim item As BasketItem = CType(items(i), BasketItem)
