@@ -7,6 +7,8 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptAdvanceMoney
     Inherits Report
@@ -14,6 +16,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
     Private m_reportColumns As ReportColumnCollection
+    Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -29,6 +32,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
       m_grid = grid
+      RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+      AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       m_grid.BeginUpdate()
       m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
       m_grid.Model.Options.NumberedColHeaders = False
@@ -36,6 +41,39 @@ Namespace Longkong.Pojjaman.BusinessLogic
       CreateHeader()
       PopulateData()
       m_grid.EndUpdate()
+    End Sub
+    Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+      Dim tr As Object = m_hashData(e.RowIndex)
+      If tr Is Nothing Then
+        Return
+      End If
+
+      If TypeOf tr Is DataRow Then
+        Dim dr As DataRow = CType(tr, DataRow)
+        If dr Is Nothing Then
+          Return
+        End If
+
+        Dim drh As New DataRowHelper(dr)
+
+        Dim docId As Integer = 0
+        Dim docType As Integer = 0
+
+        If dr.Table.Columns.Contains("payment_refdoctype") Then
+          docId = drh.GetValue(Of Integer)("refdocid")
+          docType = drh.GetValue(Of Integer)("payment_refdoctype")
+        Else
+          docId = drh.GetValue(Of Integer)("docid")
+          docType = 174
+        End If
+
+
+        If docId > 0 AndAlso docType > 0 Then
+          Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+          Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+          myEntityPanelService.OpenDetailPanel(en)
+        End If
+      End If
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 2
@@ -108,9 +146,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'm_grid(2, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
     End Sub
     Private Sub PopulateData()
+      m_hashData = New Hashtable
       Dim AdvmDt As DataTable = Me.DataSet.Tables(0)
-      Dim RefDocDt As DataTable = Me.DataSet.Tables(2)
-      Dim ItemDt As DataTable = Me.DataSet.Tables(3)
+      'Dim RefDocDt As DataTable = Me.DataSet.Tables(2)
+      'Dim ItemDt As DataTable = Me.DataSet.Tables(3)
       Dim currentAdvmCode As String = ""
       Dim currentRefDocCode As String = ""
       Dim currentItemCode As String = ""
@@ -135,6 +174,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           tmpPayAmt = 0
           m_grid.RowCount += 1
           currAdvmIndex = m_grid.RowCount
+          m_hashData(m_grid.RowCount) = ADVMrow
           m_grid.RowStyles(currAdvmIndex).BackColor = Color.FromArgb(128, 255, 128)
           m_grid.RowStyles(currAdvmIndex).Font.Bold = True
           m_grid.RowStyles(currAdvmIndex).ReadOnly = True
@@ -179,6 +219,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not RefDocRow("IsOpb") = 1 Then
               m_grid.RowCount += 1
               currRefDocIndex = m_grid.RowCount
+              m_hashData(m_grid.RowCount) = RefDocRow
               m_grid.RowStyles(currRefDocIndex).BackColor = Color.FromArgb(250, 227, 197)
               m_grid.RowStyles(currRefDocIndex).Font.Bold = True
               m_grid.RowStyles(currRefDocIndex).ReadOnly = True
