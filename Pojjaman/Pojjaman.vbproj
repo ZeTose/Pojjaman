@@ -460,6 +460,8 @@
     <Content Include="Externals\DevExpress.XtraBars.v11.2.dll" />
     <Content Include="Externals\DevExpress.XtraCharts.v11.2.dll" />
     <Content Include="Externals\DevExpress.XtraEditors.v11.2.dll" />
+    <Content Include="Externals\DevExpress.XtraGrid.v11.2.dll" />
+    <Content Include="Externals\DevExpress.XtraLayout.v11.2.dll" />
     <Content Include="Externals\DevExpress.XtraNavBar.v11.2.dll" />
     <Content Include="Externals\DevExpress.XtraPivotGrid.v11.2.dll" />
     <Content Include="Externals\DevExpress.XtraPrinting.v11.2.dll" />
@@ -488,6 +490,7 @@
     <Content Include="Externals\Telerik.WinControls.Themes.Vista.dll" />
     <Content Include="Externals\Telerik.WinControls.UI.dll" />
     <Content Include="Externals\TelerikCommon.dll" />
+    <Content Include="Externals\WindowsBase.dll" />
     <Content Include="icon32.ico" />
     <Content Include="PojjamanIcon.ico" />
     <None Include="data\forms\DevExpress\XtraReportTemplate1.repx" />
