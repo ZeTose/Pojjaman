@@ -193,7 +193,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_AllUnits = Nothing
       m_unitNameIds = Nothing
     End Sub
-    Public Shared Function CanDeleteThisId(ByVal id As Integer) As Boolean
+    Public Shared Function CountUnitRef(ByVal id As Integer) As Boolean
       Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "CountUnitRef", _
       New SqlParameter("@unit_id", id))
       If ds.Tables(0).Rows.Count > 0 Then
@@ -313,6 +313,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Constructors"
     Public Sub New(ByVal filters As Filter())
+      HashUnitCollection = New Hashtable
 
       Dim sqlConString As String = SimpleBusinessEntityBase.SiteConnectionString
       m_filters = filters
@@ -333,11 +334,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In ds.Tables(0).Rows
         Dim item As New Unit(row, "")
         Me.Add(item)
+        HashUnitCollection.Add(CInt(row("unit_id")), row)
       Next
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property HashUnitCollection As Hashtable
     Default Public Property Item(ByVal index As Integer) As Unit
       Get
         Return CType(MyBase.List.Item(index), Unit)
@@ -366,9 +369,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
       ret = ret.TrimEnd(","c)
       Return ret
     End Function
-    Public Function Save(ByVal currentUserId As Integer) As SaveErrorException
-      Try
+    Private Function ValidateReference(hs As Hashtable) As SaveErrorException
+      Dim stServ As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
+      For Each item As Unit In Me
+        If item.Originated AndAlso item.IsDirty Then
+          If hs.ContainsKey(item.Id) Then
+            If Not HashUnitCollection.ContainsKey(item.Id) Then
+              Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferenceCannotDelete}"), item.Name))
+            End If
+            Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferencedCannotUpdate}"), item.Name))
+          End If
+        End If
+      Next
+
+      Return New SaveErrorException("0")
+    End Function
+    Public Function Save(ByVal currentUserId As Integer) As SaveErrorException
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "CountUnitReferenced")
+      Dim unitRefHash As New Hashtable
+      For Each row As DataRow In ds.Tables(0).Rows
+        If Not row.IsNull("unit_id") Then
+          unitRefHash.Add(CInt(row("unit_id")), row)
+        End If
+      Next
+
+      Dim saveErr As SaveErrorException = ValidateReference(unitRefHash)
+      If Not IsNumeric(saveErr.Message) Then
+        Return New SaveErrorException(saveErr.Message)
+      End If
+
+      Try
+        Dim stServ As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
         Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
         Dim conn As New SqlConnection(sqlConString)
         Dim cmd As SqlCommand = conn.CreateCommand
@@ -393,11 +425,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'ไม่ใช่ default
             If GetItemWithId(CInt(row("unit_id"))) Is Nothing Then
               'หาไม่เจอ
-              If Unit.CanDeleteThisId(CInt(row("unit_id"))) Then
+              'If Unit.CountUnitRef(CInt(row("unit_id"))) Then
+              If Not unitRefHash.ContainsKey(CInt(row("unit_id"))) Then
                 'ลบได้
                 row.Delete()
               Else
-                MessageBox.Show("หน่วยนับ '" & CStr(row("unit_name")) & "' ถูกอ้างอิงแล้ว ไม่สามารถลบได้")
+                'MessageBox.Show("หน่วยนับ '" & CStr(row("unit_name")) & "' ถูกอ้างอิงแล้ว ไม่สามารถลบได้")
+                'Return New SaveErrorException(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferenceCannotDelete}"), CStr(row("unit_name")))
+                Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferenceCannotDelete}"), CStr(row("unit_name"))))
               End If
             End If
           End If
@@ -432,6 +467,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return New SaveErrorException("Error Saving:" & ex.ToString)
       End Try
     End Function
+
     Public Sub PopulateTable(ByVal dt As TreeTable)
       Dim i As Integer = 0
       dt.Clear()
