@@ -545,7 +545,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Alignment = HorizontalAlignment.Left
           If m_showDetailInGrid <> 0 Then
             Select Case i
-              Case 0, 1, 2, 3, 4
+              Case 0, 1, 2, 3, 4, 15, 17, 18
                 cs.Alignment = HorizontalAlignment.Left
                 cs.DataAlignment = HorizontalAlignment.Left
                 cs.Format = "s"
