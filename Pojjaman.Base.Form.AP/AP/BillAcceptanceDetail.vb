@@ -2105,7 +2105,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(5) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
       filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
-                               , New Filter("notRefedByBilla", notRefedByBilla)}
+       , New Filter("grNeedsApproval", grNeedsApproval) _
+       , New Filter("notRefedByBilla", notRefedByBilla)}
 
       Dim entities(6) As ISimpleEntity
       entities(0) = New GoodsReceiptForBillAcceptance
