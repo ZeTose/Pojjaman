@@ -1100,7 +1100,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetDisplayName(txtDueDateStart, lblDueDateStart.Text)
 
       'ตั้งแต่วันที่ครบกำหนด: End
-      Me.txtDueDateEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.Label2.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
       Me.Validator.SetDisplayName(txtDueDateEnd, lblDocDateEnd.Text)
 
 

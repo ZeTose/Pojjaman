@@ -64,7 +64,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
     End Sub
     Private Sub CreateHeader()
-            m_grid.RowCount = 1
+      m_grid.RowCount = 1
       m_grid.ColCount = 26
 
       m_grid.ColWidths(1) = 100
@@ -98,10 +98,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
@@ -122,9 +122,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(25).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
-            Dim indent As String = Space(3)
-            m_grid.Rows.HeaderCount = 1
-            m_grid.Rows.FrozenCount = 1
+      Dim indent As String = Space(3)
+      m_grid.Rows.HeaderCount = 1
+      m_grid.Rows.FrozenCount = 1
       m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockOtherDocCode}") '"เลขที่เอกสาร"
       m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.tock_originDate}") '"วันที่เอกสาร"
       m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockCode}") '"ใบส่งของ"
@@ -150,16 +150,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 23).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Address}") '"ที่อยู่"
       m_grid(0, 24).Text = Me.StringParserService.Parse("${res:Column.10.supplier_phone}") '"โทรศัพท์"
       m_grid(0, 25).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptSupplier.Fax}") '"โทรสาร"
-            m_grid(0, 26).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_note}")
+      m_grid(0, 26).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stock_note}")
 
-            m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemType}") '"ประเภทรายการ"
-            m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemCode}") '"รหัสรายการ"
-            m_grid(1, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemName}") '"ชื่อรายการ"
-            m_grid(1, 4).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemQty}") '"จำนวน"
-            m_grid(1, 5).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.unit}") '"หน่วย"
-            m_grid(1, 6).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemUnitprice}") '"ราคาต่อหน่วย"
-            m_grid(1, 7).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemDiscamt}") '"ส่วนลด"
-            m_grid(1, 8).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.Total}") '"ชื่อผู้ขาย"
+      m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemType}") '"ประเภทรายการ"
+      m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemCode}") '"รหัสรายการ"
+      m_grid(1, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemName}") '"ชื่อรายการ"
+      m_grid(1, 4).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemQty}") '"จำนวน"
+      m_grid(1, 5).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.unit}") '"หน่วย"
+      m_grid(1, 6).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemUnitprice}") '"ราคาต่อหน่วย"
+      m_grid(1, 7).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.stockitemDiscamt}") '"ส่วนลด"
+      m_grid(1, 8).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt276.Total}") '"ชื่อผู้ขาย"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -185,24 +185,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 23).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 24).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 25).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(0, 26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(0, 26).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
-            m_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+      m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
     End Sub
     Private Sub PopulateData()
-            Dim dt As DataTable = Me.DataSet.Tables(0)
-            Dim dt1 As DataTable = Me.DataSet.Tables(1)
+      Dim dt As DataTable = Me.DataSet.Tables(0)
+      Dim dt1 As DataTable = Me.DataSet.Tables(1)
 
-            Dim currTrIndex As Integer = -1
-            Dim currGrItemIndex As Integer = -1
-            Dim currGrId As Integer
+      Dim currTrIndex As Integer = -1
+      Dim currGrItemIndex As Integer = -1
+      Dim currGrId As Integer
       Dim indent As String = Space(3)
 
       Dim Total As Decimal = 0 'รวมยอดเงิน
@@ -215,112 +215,114 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_grid.RowCount += 1
         currTrIndex = m_grid.RowCount
         m_grid(currTrIndex, 0).Tag = row
-                'If ((currTrIndex Mod 2) = 0) Then
-                m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(202, 220, 200)
-                'Else
-                ' m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(255, 255, 255)
+        'If ((currTrIndex Mod 2) = 0) Then
+        m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(202, 220, 200)
+        'Else
+        ' m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(255, 255, 255)
 
-                'End If
-                m_grid(currTrIndex, 1).CellValue = row("stock_code").ToString
-                If Not row.IsNull("DocDate") Then
-                    m_grid(currTrIndex, 2).CellValue = CDate(row("DocDate")).ToShortDateString
-                End If
-                m_grid(currTrIndex, 3).CellValue = row("stock_otherDocCode").ToString
-                If Not row.IsNull("otherdocdate") Then
-                    m_grid(currTrIndex, 4).CellValue = CDate(row("otherdocdate")).ToShortDateString
-                End If
-                If Not row.IsNull("duedate") Then
-                    m_grid(currTrIndex, 5).CellValue = CDate(row("duedate")).ToShortDateString
-                End If
-                m_grid(currTrIndex, 6).CellValue = row("supplierCode").ToString
-                m_grid(currTrIndex, 7).CellValue = row("supplierName").ToString
-                If Not row.IsNull("BeforTax") Then
-                    m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(CDec(row("BeforTax")), DigitConfig.Price)
-                    Total += CDec(row("BeforTax"))
-                End If
-                If Not row.IsNull("TextAmount") Then
-                    m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TextAmount")), DigitConfig.Price)
-                    sumTax += CDec(row("TextAmount"))
-                End If
-                If Not row.IsNull("AfterTex") Then
-                    m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AfterTex")), DigitConfig.Price)
-                    sumAftertax += CDec(row("AfterTex"))
-                End If
-                If Not row.IsNull("remain") Then
-                    m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(CDec(row("remain")), DigitConfig.Price)
-                    sumRemain += CDec(row("remain"))
-                End If
-                m_grid(currTrIndex, 12).CellValue = row("toccCode").ToString
-                m_grid(currTrIndex, 13).CellValue = row("toccName").ToString
-                m_grid(currTrIndex, 14).CellValue = row("stock_creditPeriod").ToString
-                m_grid(currTrIndex, 15).CellValue = row("pvcode").ToString
-                m_grid(currTrIndex, 16).CellValue = row("pocode").ToString
-                m_grid(currTrIndex, 17).CellValue = row("prcode").ToString
-                m_grid(currTrIndex, 18).CellValue = row("lasteditorinfo").ToString
-                If Not row.IsNull("stock_approvedate") Then
-                    m_grid(currTrIndex, 19).CellValue = CDate(row("stock_approvedate")).ToShortDateString
-                End If
-                m_grid(currTrIndex, 20).CellValue = row("refstatus").ToString
-                m_grid(currTrIndex, 21).CellValue = row("toccpersoninfo").ToString
-                m_grid(currTrIndex, 22).CellValue = row("GoodsReceiptStatusinfo").ToString
-                If row("stock_status").ToString = "0" Then
-                    m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(142, 142, 142)
-                End If
-                m_grid(currTrIndex, 23).CellValue = row("supplieraddress").ToString
-                m_grid(currTrIndex, 24).CellValue = row("supplierphone").ToString
-                m_grid(currTrIndex, 25).CellValue = row("supplierfax").ToString
-                m_grid(currTrIndex, 26).CellValue = row("stock_note").ToString
-                m_grid.RowStyles(currTrIndex).ReadOnly = True
+        'End If
+        m_grid(currTrIndex, 1).CellValue = row("stock_code").ToString
+        If Not row.IsNull("DocDate") Then
+          m_grid(currTrIndex, 2).CellValue = CDate(row("DocDate")).ToShortDateString
+        End If
+        m_grid(currTrIndex, 3).CellValue = row("stock_otherDocCode").ToString
+        If Not row.IsNull("otherdocdate") Then
+          m_grid(currTrIndex, 4).CellValue = CDate(row("otherdocdate")).ToShortDateString
+        End If
+        If Not row.IsNull("duedate") Then
+          m_grid(currTrIndex, 5).CellValue = CDate(row("duedate")).ToShortDateString
+        End If
+        m_grid(currTrIndex, 6).CellValue = row("supplierCode").ToString
+        m_grid(currTrIndex, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+        m_grid(currTrIndex, 7).CellValue = row("supplierName").ToString
+        m_grid(currTrIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+        If Not row.IsNull("BeforTax") Then
+          m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(CDec(row("BeforTax")), DigitConfig.Price)
+          Total += CDec(row("BeforTax"))
+        End If
+        If Not row.IsNull("TextAmount") Then
+          m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(CDec(row("TextAmount")), DigitConfig.Price)
+          sumTax += CDec(row("TextAmount"))
+        End If
+        If Not row.IsNull("AfterTex") Then
+          m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(CDec(row("AfterTex")), DigitConfig.Price)
+          sumAftertax += CDec(row("AfterTex"))
+        End If
+        If Not row.IsNull("remain") Then
+          m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(CDec(row("remain")), DigitConfig.Price)
+          sumRemain += CDec(row("remain"))
+        End If
+        m_grid(currTrIndex, 12).CellValue = row("toccCode").ToString
+        m_grid(currTrIndex, 13).CellValue = row("toccName").ToString
+        m_grid(currTrIndex, 14).CellValue = row("stock_creditPeriod").ToString
+        m_grid(currTrIndex, 15).CellValue = row("pvcode").ToString
+        m_grid(currTrIndex, 16).CellValue = row("pocode").ToString
+        m_grid(currTrIndex, 17).CellValue = row("prcode").ToString
+        m_grid(currTrIndex, 18).CellValue = row("lasteditorinfo").ToString
+        If Not row.IsNull("stock_approvedate") Then
+          m_grid(currTrIndex, 19).CellValue = CDate(row("stock_approvedate")).ToShortDateString
+        End If
+        m_grid(currTrIndex, 20).CellValue = row("refstatus").ToString
+        m_grid(currTrIndex, 21).CellValue = row("toccpersoninfo").ToString
+        m_grid(currTrIndex, 22).CellValue = row("GoodsReceiptStatusinfo").ToString
+        If row("stock_status").ToString = "0" Then
+          m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(142, 142, 142)
+        End If
+        m_grid(currTrIndex, 23).CellValue = row("supplieraddress").ToString
+        m_grid(currTrIndex, 24).CellValue = row("supplierphone").ToString
+        m_grid(currTrIndex, 25).CellValue = row("supplierfax").ToString
+        m_grid(currTrIndex, 26).CellValue = row("stock_note").ToString
+        m_grid.RowStyles(currTrIndex).ReadOnly = True
 
-                currGrId = CInt(row("stock_id"))
+        currGrId = CInt(row("stock_id"))
 
-                For Each itemrow As DataRow In dt1.Rows
-                    If currGrId = CInt(itemrow("stocki_stock")) Then
-                        m_grid.RowCount += 1
-                        currGrItemIndex = m_grid.RowCount
-                        m_grid(currGrItemIndex, 0).Tag = row
-                        m_grid(currGrItemIndex, 0).Tag = itemrow
-                        m_grid.RowStyles(currGrItemIndex).ReadOnly = True
-                        m_grid(currGrItemIndex, 1).CellValue = indent & itemrow("Type").ToString
-
-                        If Not itemrow.IsNull("Code") Then
-                            m_grid(currGrItemIndex, 2).CellValue = indent & itemrow("Code").ToString
-                        End If
-                        If Not itemrow.IsNull("Name") Then
-                            m_grid(currGrItemIndex, 3).CellValue = indent & itemrow("Name").ToString
-                        End If
-                        If Not itemrow.IsNull("stocki_qty") Then
-                            m_grid(currGrItemIndex, 4).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_qty")), DigitConfig.Price)
-                        End If
-                        If Not itemrow.IsNull("unit_name") Then
-                            m_grid(currGrItemIndex, 5).CellValue = indent & itemrow("unit_name").ToString
-                        End If
-                        If Not itemrow.IsNull("stocki_unitprice") Then
-                            m_grid(currGrItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_unitprice")), DigitConfig.Price)
-                        End If
-                        If Not itemrow.IsNull("stocki_discamt") Then
-                            m_grid(currGrItemIndex, 7).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_discamt")), DigitConfig.Price)
-                        End If
-                        If Not itemrow.IsNull("stocki_amt") Then
-                            m_grid(currGrItemIndex, 8).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_amt")), DigitConfig.Price)
-                        End If
-                    End If
-
-                Next
-
-            Next
-
+        For Each itemrow As DataRow In dt1.Rows
+          If currGrId = CInt(itemrow("stocki_stock")) Then
             m_grid.RowCount += 1
-            currTrIndex = m_grid.RowCount
-            m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(167, 214, 231)
-            m_grid.RowStyles(currTrIndex).Font.Bold = True
-            m_grid.RowStyles(currTrIndex).ReadOnly = True
-            m_grid(currTrIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(currTrIndex, 7).CellValue = "รวม"
-            m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(Total, DigitConfig.Price)
-            m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(sumTax, DigitConfig.Price)
-            m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(sumAftertax, DigitConfig.Price)
-            m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(sumRemain, DigitConfig.Price)
+            currGrItemIndex = m_grid.RowCount
+            m_grid(currGrItemIndex, 0).Tag = row
+            m_grid(currGrItemIndex, 0).Tag = itemrow
+            m_grid.RowStyles(currGrItemIndex).ReadOnly = True
+            m_grid(currGrItemIndex, 1).CellValue = indent & itemrow("Type").ToString
+
+            If Not itemrow.IsNull("Code") Then
+              m_grid(currGrItemIndex, 2).CellValue = indent & itemrow("Code").ToString
+            End If
+            If Not itemrow.IsNull("Name") Then
+              m_grid(currGrItemIndex, 3).CellValue = indent & itemrow("Name").ToString
+            End If
+            If Not itemrow.IsNull("stocki_qty") Then
+              m_grid(currGrItemIndex, 4).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_qty")), DigitConfig.Price)
+            End If
+            If Not itemrow.IsNull("unit_name") Then
+              m_grid(currGrItemIndex, 5).CellValue = indent & itemrow("unit_name").ToString
+            End If
+            If Not itemrow.IsNull("stocki_unitprice") Then
+              m_grid(currGrItemIndex, 6).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_unitprice")), DigitConfig.Price)
+            End If
+            If Not itemrow.IsNull("stocki_discamt") Then
+              m_grid(currGrItemIndex, 7).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_discamt")), DigitConfig.Price)
+            End If
+            If Not itemrow.IsNull("stocki_amt") Then
+              m_grid(currGrItemIndex, 8).CellValue = indent & Configuration.FormatToString(CDec(itemrow("stocki_amt")), DigitConfig.Price)
+            End If
+          End If
+
+        Next
+
+      Next
+
+      m_grid.RowCount += 1
+      currTrIndex = m_grid.RowCount
+      m_grid.RowStyles(currTrIndex).BackColor = Color.FromArgb(167, 214, 231)
+      m_grid.RowStyles(currTrIndex).Font.Bold = True
+      m_grid.RowStyles(currTrIndex).ReadOnly = True
+      m_grid(currTrIndex, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(currTrIndex, 7).CellValue = "รวม"
+      m_grid(currTrIndex, 8).CellValue = Configuration.FormatToString(Total, DigitConfig.Price)
+      m_grid(currTrIndex, 9).CellValue = Configuration.FormatToString(sumTax, DigitConfig.Price)
+      m_grid(currTrIndex, 10).CellValue = Configuration.FormatToString(sumAftertax, DigitConfig.Price)
+      m_grid(currTrIndex, 11).CellValue = Configuration.FormatToString(sumRemain, DigitConfig.Price)
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
