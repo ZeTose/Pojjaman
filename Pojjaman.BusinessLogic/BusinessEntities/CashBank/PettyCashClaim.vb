@@ -388,7 +388,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If Me.MaxRowIndex < 0 Then '.ItemTable.Childs.Count = 0 Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.NoItem}"))
         End If
-        If Me.Payment.Gross < Me.Gross Then
+        If Me.Payment.GrossWithNoCreditDebitAmount < Me.Gross Then
           Return New SaveErrorException(Me.StringParserService.Parse("${res:Global.Error.PaymentAmountMissing}"))
         End If
         Dim returnVal As System.Data.SqlClient.SqlParameter = New SqlParameter
@@ -534,7 +534,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               ResetCode(oldcode, oldautogen, oldjecode, oldjeautogen)
               Return New SaveErrorException(returnVal.Value.ToString)
             End If
-            Dim pmGross As Decimal = Me.Payment.Gross()
+            Dim pmGross As Decimal = Me.Payment.GrossWithNoCreditDebitAmount
             If pmGross < Me.Gross Then
               Dim diff As Decimal = Me.Gross - pmGross
               Dim newPaymentItem As New PaymentItem

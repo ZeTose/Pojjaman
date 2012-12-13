@@ -239,6 +239,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return amt
       End Get
     End Property
+    Public ReadOnly Property GrossWithNoCreditDebitAmount As Decimal
+      Get
+        Return Me.Gross - Me.SumCreditAmount + Me.SumDebitAmount
+      End Get
+    End Property
     'Public Sub UpdateGross()
     '    If Me.ItemTable Is Nothing OrElse Me.ItemTable.Rows.Count = 0 Then
     '        m_gross = 0
