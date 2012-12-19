@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 using mshtml;
-using SHDocVw;
+//using SHDocVw;
 using System.Runtime.InteropServices;
 
 namespace Longkong.Pojjaman.BrowserDisplayBinding

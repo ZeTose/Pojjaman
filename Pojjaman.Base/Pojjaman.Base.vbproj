@@ -173,100 +173,95 @@
     </ProjectReference>
     <Reference Include="AxSHDocVw">
       <Name>AxSHDocVw</Name>
-      <HintPath>External\AxSHDocVw.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Charts.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.CodeParser.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Charts.v11.2.Core.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.CodeParser.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Data.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Data.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Data.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.PivotGrid.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Printing.v12.2.Core, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.PivotGrid.v11.2.Core.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Printing.v12.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.RichEdit.v12.2.Core, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Printing.v11.2.Core.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.RichEdit.v12.2.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Reports.v11.2.Designer, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Utils.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Reports.v11.2.Designer.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.RichEdit.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraBars.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.RichEdit.v11.2.Core.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraBars.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraCharts.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraCharts.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraBars.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraEditors.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraBars.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraCharts.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraGrid.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraCharts.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraGrid.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraLayout.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraLayout.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraGrid.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPivotGrid.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraPivotGrid.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPivotGrid.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPivotGrid.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraPrinting.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraPrinting.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPrinting.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraPrinting.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraReports.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v11.2.Extensions, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraReports.v12.2.Extensions, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v11.2.Extensions.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraReports.v12.2.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraRichEdit.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraRichEdit.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraRichEdit.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraRichEdit.v12.2.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.XtraTreeList.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraTreeList.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\DevExpress.XtraTreeList.v11.2.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraTreeList.v12.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraVerticalGrid.v12.2.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>External\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml">
       <Name>Microsoft.mshtml</Name>
-      <HintPath>C:\Program Files\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
       <AssemblyFolderKey>hklm\primary interop assemblies</AssemblyFolderKey>
     </Reference>
     <Reference Include="Microsoft.VisualBasic">
@@ -274,31 +269,33 @@
     </Reference>
     <Reference Include="Pojjaman.ContentInterface, Version=1.0.4038.16714, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Pojjaman.ContentInterface.dll</HintPath>
     </Reference>
     <Reference Include="SHDocVw">
       <Name>Interop.SHDocVw</Name>
-      <HintPath>External\Interop.SHDocVw.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.core, Version=9.104.0.20, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.Compression.Base, Version=10.304.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\syncfusion.core.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\Syncfusion.Compression.Base.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.grid.base, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.Core, Version=10.304.0.43, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\syncfusion.grid.base.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\Syncfusion.Core.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.grid.windows, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.Grid.Base, Version=10.304.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\syncfusion.grid.windows.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\Syncfusion.Grid.Base.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.shared.base, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.Grid.Windows, Version=10.304.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\syncfusion.shared.base.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\Syncfusion.Grid.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="syncfusion.shared.windows, Version=9.104.0.20, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+    <Reference Include="Syncfusion.Shared.Base, Version=10.304.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\syncfusion.shared.windows.dll</HintPath>
+      <HintPath>..\Pojjaman\Externals\Syncfusion.Shared.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Windows, Version=10.304.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\Syncfusion.Shared.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -324,19 +321,15 @@
     </Reference>
     <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
     </Reference>
     <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\TelerikCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -594,9 +587,7 @@
     <Compile Include="Pojjaman\Commands\NoteEntity.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Commands\OpenContentsMenuBuilder.vb" />
     <Compile Include="Pojjaman\Commands\OpenFile.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -613,9 +604,7 @@
     <Compile Include="Pojjaman\Commands\Paste.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Commands\PJMMenuCommand.vb" />
     <Compile Include="Pojjaman\Commands\Print.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -785,21 +774,11 @@
     <Compile Include="Pojjaman\Gui\Components\MyBalloonWindow.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Components\PJMMenu.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCheckBox.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuComboBox.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuCommand.vb" />
+    <Compile Include="Pojjaman\Gui\Components\PJMMenuSeparator.vb" />
     <Compile Include="Pojjaman\Gui\Components\PJMMessageBox.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -878,12 +857,8 @@
     <Compile Include="Pojjaman\Gui\Dialogs\AboutPojjamanTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractOptionPanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\AbstractWizardPanel.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\ActionDialog.Designer.vb">
       <DependentUpon>ActionDialog.vb</DependentUpon>
     </Compile>
@@ -908,9 +883,7 @@
     <Compile Include="Pojjaman\Gui\Dialogs\ColorPickerDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\CommonAboutDialog.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\ContactForm.Designer.vb">
       <DependentUpon>ContactForm.vb</DependentUpon>
     </Compile>
@@ -956,15 +929,11 @@
     <Compile Include="Pojjaman\Gui\Dialogs\GraphDialog.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\InputBox.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\LoginDialog.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\NewFileDialog.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\NotAvailableInDemoForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -974,24 +943,14 @@
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\BaseClasses\BaseWizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\ColorListOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LineTerminatorStyle.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\LoadSavePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectCulturePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\SelectStylePanel.vb" />
+    <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\TaskListOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\OptionPanels\Wizards\Base\WizardPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1073,18 +1032,14 @@
     <Compile Include="Pojjaman\Gui\Dialogs\StatusPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TabbedOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayDialog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Dialogs\TipOfTheDayView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Dialogs\TreeViewOptions.vb" />
     <Compile Include="Pojjaman\Gui\Dialogs\VersionInformationTabPage.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1100,9 +1055,7 @@
     <Compile Include="Pojjaman\Gui\Dialogs\XtraFormPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\DocumentForm\DocumentForm.vb" />
     <Compile Include="Pojjaman\Gui\ErrorDialogs\LoadingError.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -1170,18 +1123,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkbenchLayout.vb" />
-    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\Workbench\PojjamanWorkbench\PojjamanWorkspaceWindow.vb" />
     <Compile Include="Pojjaman\Gui\Workbench\WorkbenchMemento.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanForm.vb" />
+    <Compile Include="Pojjaman\Gui\XmlForms\BasePojjamanUserControl.vb" />
     <Compile Include="Pojjaman\Gui\XmlForms\PojjamanObjectCreator.vb">
       <SubType>Code</SubType>
     </Compile>
@@ -1509,9 +1456,7 @@
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\TelerikReportPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\FinancialStatementForm.vb" />
     <Compile Include="Pojjaman\PanelDisplayBinding\Panels\Reporting\GridReportPanelView.vb">
       <SubType>UserControl</SubType>
     </Compile>

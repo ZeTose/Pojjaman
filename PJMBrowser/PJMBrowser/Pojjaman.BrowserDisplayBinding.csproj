@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -86,20 +86,20 @@
   <ItemGroup>
     <Reference Include="AxInterop.SHDocVw">
       <Name>AxInterop.SHDocVw</Name>
-      <HintPath>External\AxInterop.SHDocVw.dll</HintPath>
+      
     </Reference>
     <Reference Include="Microsoft.mshtml">
       <Name>Microsoft.mshtml</Name>
-      <HintPath>C:\Program Files\Microsoft.NET\Primary Interop Assemblies\Microsoft.mshtml.dll</HintPath>
+      
       <AssemblyFolderKey>hklm\primary interop assemblies</AssemblyFolderKey>
     </Reference>
     <Reference Include="MsHtmlCustomization">
       <Name>MsHtmlCustomization</Name>
-      <HintPath>External\MsHtmlCustomization.dll</HintPath>
+      
     </Reference>
     <Reference Include="SHDocVw">
       <Name>Interop.SHDocVw</Name>
-      <HintPath>External\Interop.SHDocVw.dll</HintPath>
+      
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

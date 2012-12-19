@@ -82,15 +82,32 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraGrid.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v11.2, Version=11.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Data.v12.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v12.2.Core, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Printing.v12.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.Utils.v12.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraEditors.v12.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraGrid.v12.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Pojjaman\Externals\DevExpress.XtraLayout.v12.2.dll</HintPath>
+    </Reference>
     <Reference Include="Pojjaman.ContentInterface, Version=1.0.4038.16714, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Pojjaman.ContentInterface.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -111,11 +128,9 @@
     <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
     <Reference Include="Telerik.WinControls.Themes.Breeze, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.Themes.Breeze.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.Themes.Vista, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.Themes.Vista.dll</HintPath>
     </Reference>
     <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
     <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
@@ -133,51 +148,21 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\AliasConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\ApproveConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\AttachmentConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\CheckConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\CheckConfigurationView_.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\ConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\RetentionPointView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\WHTConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\DuplicateRunConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\NumberConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\OverBudgetConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\RunNumberView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\StockConfigurationView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\StockConfigurationView_.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Configuration\UnitPriceAdviceView.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Configuration\AliasConfigurationView.vb" />
+    <Compile Include="Configuration\ApproveConfigurationView.vb" />
+    <Compile Include="Configuration\AttachmentConfigurationView.vb" />
+    <Compile Include="Configuration\CheckConfigurationView.vb" />
+    <Compile Include="Configuration\CheckConfigurationView_.vb" />
+    <Compile Include="Configuration\ConfigurationView.vb" />
+    <Compile Include="Configuration\RetentionPointView.vb" />
+    <Compile Include="Configuration\WHTConfigurationView.vb" />
+    <Compile Include="Configuration\DuplicateRunConfigurationView.vb" />
+    <Compile Include="Configuration\NumberConfigurationView.vb" />
+    <Compile Include="Configuration\OverBudgetConfigurationView.vb" />
+    <Compile Include="Configuration\RunNumberView.vb" />
+    <Compile Include="Configuration\StockConfigurationView.vb" />
+    <Compile Include="Configuration\StockConfigurationView_.vb" />
+    <Compile Include="Configuration\UnitPriceAdviceView.vb" />
     <Compile Include="Employee\EmployeeDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
