@@ -1919,7 +1919,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress2).Substring(0, 30) 'Payee Address 2
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress3).Substring(0, 30) 'Payee Address 3
         creditText &= String.Format("{0,-30}", cqritem.PayeeAddress4).Substring(0, 30) 'Payee Address 4
-        creditText &= String.Format("{0,-23}", cqritem.TaxID.Trim & cqritem.PersonalID.Trim).Substring(0, 23)
+        creditText &= String.Format("{0,-23}", GetNewTaxID(cqritem.TaxID, cqritem.PersonalID)).Substring(0, 23)
         'creditText &= String.Format("{0,-13}", cqritem.PersonalID).Substring(0, 13) 'Tax Id'Personal Id /*ที่ต้องเป็น 10 เพราะว่า TaxId+PesonalID เริ่มที่ col 247 แต่ field ถัดไปดันเริ่มที่ col 247 + 23 */
         creditText &= String.Format("{0,-16}", cqritem.BeneRef).Substring(0, 16) 'Bene. Ref #
         creditText &= String.Format("{0,-255}", cqritem.Detail).Substring(0, 255) 'Details
@@ -2002,6 +2002,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       InsertExportLog(cmdEntity, cmdList)
 
     End Sub
+    Private Shared Function GetNewTaxID(taxId As String, personId As String) As String
+      If taxId.Trim.Length = 0 Then
+        taxId = personId
+      End If
+      If taxId.Trim.Length = 10 Then
+        Return taxId
+      ElseIf taxId.Trim.Length = 13 Then
+        Return String.Format("{0}{1}", Space(10), taxId)
+      End If
+    End Function
     Public Shared Function SetDigitOnly(ByVal val As String) As String
       Dim dg As String = val
       dg = dg.Replace(" ", "")
