@@ -71,7 +71,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 2
-      m_grid.ColCount = 9
+      m_grid.ColCount = 10
 
       m_grid.ColWidths(1) = 120
       m_grid.ColWidths(2) = 200
@@ -82,6 +82,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(7) = 120
       m_grid.ColWidths(8) = 120
       m_grid.ColWidths(9) = 150
+      m_grid.ColWidths(10) = 150
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -92,6 +93,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 2
       m_grid.Rows.FrozenCount = 2
@@ -110,6 +112,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.DiscAmount}")  '"ส่วนลดท้ายบิล"
       m_grid(1, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.AfterTax}")  '"จำนวนเงินรวมภาษี"
       m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.PODiscrate}")  '"จำนวนเงินรวมภาษี"
+      m_grid(1, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.PONote}")  '"หมายเหตุ PO"
 
       m_grid(2, 1).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.PrID}")   '"เลขที่ PR"
       m_grid(2, 2).Text = indent & indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptCCPOSummary.Description}")  '"รายละเอียด"
@@ -134,6 +137,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(1, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(1, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(1, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid(2, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(2, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -314,6 +318,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           End If
           If Not row.IsNull("po_discrate") Then
             m_grid(currDocIndex, 9).CellValue = row("po_discrate")
+          End If
+          If Not row.IsNull("po_note") Then
+            m_grid(currDocIndex, 10).CellValue = row("po_note")
           End If
           If IsNumeric(row("DocDiscountAmount")) Then
             tmpDocDiscountAmount = CDec(row("DocDiscountAmount"))
@@ -621,6 +628,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
+
+        dpi = New DocPrintingItem
+        dpi.Mapping = "col9"
+        dpi.Value = m_grid(rowIndex, 10).CellValue
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
         n += 1
         If IsNumeric(m_grid(rowIndex, 7).CellValue) Then
           SumAmt += CDec(m_grid(rowIndex, 7).CellValue)
