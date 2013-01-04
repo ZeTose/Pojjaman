@@ -148,21 +148,51 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\AliasConfigurationView.vb" />
-    <Compile Include="Configuration\ApproveConfigurationView.vb" />
-    <Compile Include="Configuration\AttachmentConfigurationView.vb" />
-    <Compile Include="Configuration\CheckConfigurationView.vb" />
-    <Compile Include="Configuration\CheckConfigurationView_.vb" />
-    <Compile Include="Configuration\ConfigurationView.vb" />
-    <Compile Include="Configuration\RetentionPointView.vb" />
-    <Compile Include="Configuration\WHTConfigurationView.vb" />
-    <Compile Include="Configuration\DuplicateRunConfigurationView.vb" />
-    <Compile Include="Configuration\NumberConfigurationView.vb" />
-    <Compile Include="Configuration\OverBudgetConfigurationView.vb" />
-    <Compile Include="Configuration\RunNumberView.vb" />
-    <Compile Include="Configuration\StockConfigurationView.vb" />
-    <Compile Include="Configuration\StockConfigurationView_.vb" />
-    <Compile Include="Configuration\UnitPriceAdviceView.vb" />
+    <Compile Include="Configuration\AliasConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\ApproveConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\AttachmentConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\CheckConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\CheckConfigurationView_.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\ConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\RetentionPointView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\WHTConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\DuplicateRunConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\NumberConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\OverBudgetConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\RunNumberView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\StockConfigurationView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\StockConfigurationView_.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Configuration\UnitPriceAdviceView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Employee\EmployeeDetailView.vb">
       <SubType>UserControl</SubType>
     </Compile>
