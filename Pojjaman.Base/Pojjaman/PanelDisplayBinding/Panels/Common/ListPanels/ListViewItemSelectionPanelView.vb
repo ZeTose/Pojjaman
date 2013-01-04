@@ -660,11 +660,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Select Case otherColumn.DataType.FullName.ToLower
             Case "system.datetime"
               Dim val As Nullable(Of Date) = deh.GetValue(Of Date)(otherColumn.Name)
-              If val.HasValue Then
+              If val.HasValue AndAlso Not Date.MinValue.Equals(val) Then
                 If otherColumn.Format = 2 Then
                   otherColumnText = val.Value.ToShortDateString
                 Else
-                  otherColumnText = val.Value.ToShortDateString & ":" & val.Value.ToShortTimeString
+                  otherColumnText = String.Format("{0} {1}", val.Value.ToShortDateString, val.Value.ToShortTimeString)
                 End If
               End If
             Case "system.decimal"
