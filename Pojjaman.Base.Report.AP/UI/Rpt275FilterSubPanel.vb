@@ -736,9 +736,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbDocStatus.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.cbNonReference}")) 'ยังไม่ถูกอ้างอิง
             Me.cmbDocStatus.SelectedIndex = 0
       'การเรียงลำดับ
-      Me.CmbOderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.Po_Date}")) 'วันที่PO
+      Me.CmbOderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.Po_Date}")) 'วันที่ PO
       Me.CmbOderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.PoApproveDate}")) 'วันที่อนุมัติ
       Me.CmbOderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.PoProjectType}")) 'รูปแบบโครงการ
+      Me.CmbOderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.Rpt275FilterSubPanel.PoCode}")) 'เลขที่ PO
 
       Me.CmbOderBy.SelectedIndex = 0
 
