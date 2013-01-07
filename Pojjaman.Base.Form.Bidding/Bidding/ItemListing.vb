@@ -2913,9 +2913,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             newConversion = CType(m_item.Entity, LCIItem).GetConversion(myUnit)
           End If
         ElseIf TypeOf m_item.Entity Is Labor Then
-          If Not (Not CType(m_item.Entity, Labor).Unit Is Nothing AndAlso CType(m_item.Entity, Labor).Unit.Id = myUnit.Id) Then
-            err = "${res:Global.Error.NoUnitConversion}"
-          End If
+          'If Not (Not CType(m_item.Entity, Labor).Unit Is Nothing AndAlso CType(m_item.Entity, Labor).Unit.Id = myUnit.Id) Then
+          '  err = "${res:Global.Error.NoUnitConversion}"
+          'End If
         ElseIf TypeOf m_item.Entity Is EqCost Then
           If Not (Not CType(m_item.Entity, EqCost).Unit Is Nothing AndAlso CType(m_item.Entity, EqCost).Unit.Id = myUnit.Id) Then
             err = "${res:Global.Error.NoUnitConversion}"
@@ -2924,21 +2924,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Else
         err = "${res:Global.Error.InvalidUnit}"
       End If
+
       If err.Length = 0 Then
         e.Row("boqi_unit") = myUnit.Id
         e.ProposedValue = myUnit.Name
         Me.m_item.Unit = myUnit
-        If Not e.Row.IsNull("boqi_qty") AndAlso e.Row("boqi_qty").ToString.Length > 0 Then
-          e.Row("boqi_qty") = (oldConversion / newConversion) * CDec(e.Row("boqi_qty"))
-        End If
-        If Not e.Row.IsNull("boqi_umc") AndAlso e.Row("boqi_umc").ToString.Length > 0 Then
-          e.Row("boqi_umc") = (newConversion / oldConversion) * CDec(e.Row("boqi_umc"))
-        End If
-        If Not e.Row.IsNull("boqi_ulc") AndAlso e.Row("boqi_ulc").ToString.Length > 0 Then
-          e.Row("boqi_ulc") = (newConversion / oldConversion) * CDec(e.Row("boqi_ulc"))
-        End If
-        If Not e.Row.IsNull("boqi_uec") AndAlso e.Row("boqi_uec").ToString.Length > 0 Then
-          e.Row("boqi_uec") = (newConversion / oldConversion) * CDec(e.Row("boqi_uec"))
+        If Not TypeOf m_item.Entity Is Labor Then
+          If Not e.Row.IsNull("boqi_qty") AndAlso e.Row("boqi_qty").ToString.Length > 0 Then
+            If newConversion <> 0 Then
+              e.Row("boqi_qty") = (oldConversion / newConversion) * CDec(e.Row("boqi_qty"))
+            End If
+          End If
+          If Not e.Row.IsNull("boqi_umc") AndAlso e.Row("boqi_umc").ToString.Length > 0 Then
+            If oldConversion <> 0 Then
+              e.Row("boqi_umc") = (newConversion / oldConversion) * CDec(e.Row("boqi_umc"))
+            End If
+          End If
+          If Not e.Row.IsNull("boqi_ulc") AndAlso e.Row("boqi_ulc").ToString.Length > 0 Then
+            If oldConversion <> 0 Then
+              e.Row("boqi_ulc") = (newConversion / oldConversion) * CDec(e.Row("boqi_ulc"))
+            End If
+          End If
+          If Not e.Row.IsNull("boqi_uec") AndAlso e.Row("boqi_uec").ToString.Length > 0 Then
+            If oldConversion <> 0 Then
+              e.Row("boqi_uec") = (newConversion / oldConversion) * CDec(e.Row("boqi_uec"))
+            End If
+          End If
         End If
       Else
         e.ProposedValue = e.Row(e.Column)
