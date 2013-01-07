@@ -2405,9 +2405,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '--------------------------------
 
       Dim hashCostCenter As New Hashtable
-      Dim contactNumber As New ArrayList
-      Dim contactActiveDate As New ArrayList
-      Dim contactCompleteDate As New ArrayList
+      Dim contractNumber As New ArrayList
+      'Dim contactActiveDate As New ArrayList
+      'Dim contactCompleteDate As New ArrayList
       For Each item As SaleBillIssueItem In Me.ItemCollection
         If IsMilieStone(item.EntityId) Then
           Dim mi As New Milestone(item.Id)
@@ -2421,37 +2421,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim row As DataRow = dt.Rows(0)
 
                 If row.Table.Columns.Contains("contactnumber") Then
-                  contactNumber.Add(CStr(row("contactnumber")))
+                  contractNumber.Add(CStr(row("contactnumber")))
                 End If
-                If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
-                  contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
-                End If
-                If row.Table.Columns.Contains("contactfinishdate") AndAlso IsDate(row("contactfinishdate")) Then
-                  contactCompleteDate.Add(CDate(row("contactfinishdate")).ToShortDateString)
-                End If
+                'If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
+                '  contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
+                'End If
+                'If row.Table.Columns.Contains("contactfinishdate") AndAlso IsDate(row("contactfinishdate")) Then
+                '  contactCompleteDate.Add(CDate(row("contactfinishdate")).ToShortDateString)
+                'End If
               End If
             End If
           End If
         End If
       Next
 
-      dpi = New DocPrintingItem
-      dpi.Mapping = "ContactNumber"
-      dpi.Value = String.Join(",", contactNumber.ToArray)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContactNumber"
+      'dpi.Value = String.Join(",", contractNumber.ToArray)
+      'dpi.DataType = "System.string"
+      'dpiColl.Add(dpi)
 
-      dpi = New DocPrintingItem
-      dpi.Mapping = "ContactActiveDate"
-      dpi.Value = String.Join(",", contactActiveDate.ToArray)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContactActiveDate"
+      'dpi.Value = String.Join(",", contactActiveDate.ToArray)
+      'dpi.DataType = "System.string"
+      'dpiColl.Add(dpi)
 
-      dpi = New DocPrintingItem
-      dpi.Mapping = "ContactCompleteDate"
-      dpi.Value = String.Join(",", contactCompleteDate.ToArray)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContactCompleteDate"
+      'dpi.Value = String.Join(",", contactCompleteDate.ToArray)
+      'dpi.DataType = "System.string"
+      'dpiColl.Add(dpi)
 
       Dim myVat As Decimal = 0
       Dim myBeforeTax As Decimal = 0
@@ -2475,6 +2475,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumAdvanceWitdraw As Decimal = 0
       Dim sumRemainAmount As Decimal = 0
       Dim rowNumber As Integer = 0
+      Dim contractNumberLIst As New ArrayList
       For Each item As SaleBillIssueItem In Me.ItemCollection
         rowNumber += 1
 
@@ -3276,6 +3277,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Case 75, 77, 78, 86    'Milestone
               Dim mi As New Milestone(item.Id)
+              Dim ccm As CostCenter = mi.CostCenter
+              If Not mi.PaymentApplication Is Nothing AndAlso Not mi.PaymentApplication.ContractNumber Is Nothing AndAlso mi.PaymentApplication.ContractNumber.Trim.Length > 0 Then
+                contractNumberLIst.Add(mi.PaymentApplication.ContractNumber)
+              End If
               'Dim mic As New MilestoneCollection(Me.Customer)
               'Item.LineNumber
               dpi = New DocPrintingItem
@@ -3614,6 +3619,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             Case 79   'Milestone  �ҹŴ
               Dim mi As New Milestone(item.Id)
+              Dim ccm As CostCenter = mi.CostCenter
+              If Not mi.PaymentApplication Is Nothing AndAlso Not mi.PaymentApplication.ContractNumber Is Nothing AndAlso mi.PaymentApplication.ContractNumber.Trim.Length > 0 Then
+                contractNumberLIst.Add(mi.PaymentApplication.ContractNumber)
+              End If
+
               'Dim mic As New MilestoneCollection(Me.Customer)
               dpi = New DocPrintingItem
               dpi.Mapping = "receivesi_receives"
@@ -4084,6 +4094,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         End Try
         '-------------------------------------END DETAIL ITEM---------------------------------------
+
+        If contractNumberLIst.Count > 0 Then
+          'ContractNumber
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ContractNumber"
+          dpi.Value = String.Join(",", contractNumberLIst.ToArray)
+          dpi.DataType = "System.String"
+          dpiColl.Add(dpi)
+        Else
+          dpi = New DocPrintingItem
+          dpi.Mapping = "ContractNumber"
+          dpi.Value = String.Join(",", contractNumber.ToArray)
+          dpi.DataType = "System.string"
+          dpiColl.Add(dpi)
+        End If
 
         dpi = New DocPrintingItem
         dpi.Mapping = "receivesi_receives"

@@ -960,9 +960,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sumVat As Decimal = 0
 
       Dim hashCostCenter As New Hashtable
-      Dim contactNumber As New ArrayList
-      Dim contactActiveDate As New ArrayList
-      Dim contactCompleteDate As New ArrayList
+      Dim contractNumber As New ArrayList
+      'Dim contactActiveDate As New ArrayList
+      'Dim contactCompleteDate As New ArrayList
       For Each item As Milestone In Me.ItemCollection
         If Not item.CostCenter Is Nothing Then
           Dim dt As DataTable
@@ -974,38 +974,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim row As DataRow = dt.Rows(0)
 
               If row.Table.Columns.Contains("contactnumber") Then
-                contactNumber.Add(CStr(row("contactnumber")))
+                contractNumber.Add(CStr(row("contactnumber")))
               End If
-              If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
-                contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
-              End If
-              If row.Table.Columns.Contains("contactfinishdate") AndAlso IsDate(row("contactfinishdate")) Then
-                contactCompleteDate.Add(CDate(row("contactfinishdate")).ToShortDateString)
-              End If
+              'If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
+              '  contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
+              'End If
+              'If row.Table.Columns.Contains("contactfinishdate") AndAlso IsDate(row("contactfinishdate")) Then
+              '  contactCompleteDate.Add(CDate(row("contactfinishdate")).ToShortDateString)
+              'End If
             End If
           End If
 
         End If
       Next
-      dpi = New DocPrintingItem
-      dpi.Mapping = "ContactNumber"
-      dpi.Value = String.Join(",", contactNumber.ToArray)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContactNumber"
+      'dpi.Value = String.Join(",", contactNumber.ToArray)
+      'dpi.DataType = "System.string"
+      'dpiColl.Add(dpi)
 
-      dpi = New DocPrintingItem
-      dpi.Mapping = "ContactActiveDate"
-      dpi.Value = String.Join(",", contactActiveDate.ToArray)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContactActiveDate"
+      'dpi.Value = String.Join(",", contactActiveDate.ToArray)
+      'dpi.DataType = "System.string"
+      'dpiColl.Add(dpi)
 
-      dpi = New DocPrintingItem
-      dpi.Mapping = "ContactCompleteDate"
-      dpi.Value = String.Join(",", contactCompleteDate.ToArray)
-      dpi.DataType = "System.string"
-      dpiColl.Add(dpi)
+      'dpi = New DocPrintingItem
+      'dpi.Mapping = "ContactCompleteDate"
+      'dpi.Value = String.Join(",", contactCompleteDate.ToArray)
+      'dpi.DataType = "System.string"
+      'dpiColl.Add(dpi)
+
+      Dim contractNumberLIst As New ArrayList
+      'Dim contractActiveDateLIst As New ArrayList
+      'Dim contractFinishDateList As New ArrayList
 
       For Each item As Milestone In Me.ItemCollection
+        If Not item.PaymentApplication Is Nothing AndAlso Not item.PaymentApplication.ContractNumber Is Nothing AndAlso item.PaymentApplication.ContractNumber.Trim.Length > 0 Then
+          contractNumberLIst.Add(item.PaymentApplication.ContractNumber)
+        End If
+
         dpi = New DocPrintingItem
         dpi.Mapping = "billii_billi"
         dpi.Value = Me.Id
@@ -1444,6 +1452,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         n += 1
       Next
+
+      If contractNumberLIst.Count > 0 Then
+        'ContractNumber
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ContractNumber"
+        dpi.Value = String.Join(",", contractNumberLIst.ToArray)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      Else
+        dpi = New DocPrintingItem
+        dpi.Mapping = "ContractNumber"
+        dpi.Value = String.Join(",", contractNumber.ToArray)
+        dpi.DataType = "System.string"
+        dpiColl.Add(dpi)
+      End If
 
 
       'MileStoneAmount

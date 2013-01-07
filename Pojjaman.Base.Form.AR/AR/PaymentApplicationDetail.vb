@@ -137,15 +137,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblItemReceiveDate As System.Windows.Forms.Label
     Friend WithEvents dtpItemReceiveDate As System.Windows.Forms.DateTimePicker
     Friend WithEvents grbReference As System.Windows.Forms.GroupBox
-    Friend WithEvents txtContactFinishDate As System.Windows.Forms.TextBox
-    Friend WithEvents txtContactActiveDate As System.Windows.Forms.TextBox
     Friend WithEvents lblRefContactFinishDate As System.Windows.Forms.Label
     Friend WithEvents txtProjectContact As System.Windows.Forms.TextBox
     Friend WithEvents lblRefContactActiveDate As System.Windows.Forms.Label
     Friend WithEvents lblRefContactNumber As System.Windows.Forms.Label
+    Friend WithEvents txtContactFinishDate As DevExpress.XtraEditors.DateEdit
+    Friend WithEvents txtContactActiveDate As DevExpress.XtraEditors.DateEdit
     Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PaymentApplicationDetail))
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbContract = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
@@ -250,22 +249,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblItemDiscount = New System.Windows.Forms.Label()
       Me.ibtnHand = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.ibtnCancelHand = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
       Me.txtProjectContact = New System.Windows.Forms.TextBox()
-      Me.txtContactActiveDate = New System.Windows.Forms.TextBox()
-      Me.txtContactFinishDate = New System.Windows.Forms.TextBox()
-      Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.ToolTip1 = New System.Windows.Forms.ToolTip()
       Me.grbReference = New System.Windows.Forms.GroupBox()
       Me.lblRefContactFinishDate = New System.Windows.Forms.Label()
       Me.lblRefContactActiveDate = New System.Windows.Forms.Label()
       Me.lblRefContactNumber = New System.Windows.Forms.Label()
+      Me.txtContactFinishDate = New DevExpress.XtraEditors.DateEdit()
+      Me.txtContactActiveDate = New DevExpress.XtraEditors.DateEdit()
       Me.grbContract.SuspendLayout()
       Me.grbAdvrRetention.SuspendLayout()
       Me.grbTax.SuspendLayout()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbReference.SuspendLayout()
+      CType(Me.txtContactFinishDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.txtContactFinishDate.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.txtContactActiveDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
+      CType(Me.txtContactActiveDate.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.SuspendLayout()
       '
       'ibtnCopyMe
@@ -1658,43 +1661,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMaxValue(Me.txtProjectContact, "")
       Me.Validator.SetMinValue(Me.txtProjectContact, "")
       Me.txtProjectContact.Name = "txtProjectContact"
-      Me.txtProjectContact.ReadOnly = True
       Me.Validator.SetRegularExpression(Me.txtProjectContact, "")
       Me.Validator.SetRequired(Me.txtProjectContact, False)
       Me.txtProjectContact.Size = New System.Drawing.Size(105, 20)
       Me.txtProjectContact.TabIndex = 1
-      '
-      'txtContactActiveDate
-      '
-      Me.Validator.SetDataType(Me.txtContactActiveDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtContactActiveDate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtContactActiveDate, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtContactActiveDate, System.Drawing.Color.Empty)
-      Me.txtContactActiveDate.Location = New System.Drawing.Point(100, 58)
-      Me.Validator.SetMaxValue(Me.txtContactActiveDate, "")
-      Me.Validator.SetMinValue(Me.txtContactActiveDate, "")
-      Me.txtContactActiveDate.Name = "txtContactActiveDate"
-      Me.txtContactActiveDate.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtContactActiveDate, "")
-      Me.Validator.SetRequired(Me.txtContactActiveDate, False)
-      Me.txtContactActiveDate.Size = New System.Drawing.Size(105, 20)
-      Me.txtContactActiveDate.TabIndex = 1
-      '
-      'txtContactFinishDate
-      '
-      Me.Validator.SetDataType(Me.txtContactFinishDate, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
-      Me.Validator.SetDisplayName(Me.txtContactFinishDate, "")
-      Me.Validator.SetGotFocusBackColor(Me.txtContactFinishDate, System.Drawing.Color.Empty)
-      Me.Validator.SetInvalidBackColor(Me.txtContactFinishDate, System.Drawing.Color.Empty)
-      Me.txtContactFinishDate.Location = New System.Drawing.Point(100, 79)
-      Me.Validator.SetMaxValue(Me.txtContactFinishDate, "")
-      Me.Validator.SetMinValue(Me.txtContactFinishDate, "")
-      Me.txtContactFinishDate.Name = "txtContactFinishDate"
-      Me.txtContactFinishDate.ReadOnly = True
-      Me.Validator.SetRegularExpression(Me.txtContactFinishDate, "")
-      Me.Validator.SetRequired(Me.txtContactFinishDate, False)
-      Me.txtContactFinishDate.Size = New System.Drawing.Size(105, 20)
-      Me.txtContactFinishDate.TabIndex = 1
       '
       'grbReference
       '
@@ -1747,6 +1717,32 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblRefContactNumber.TabIndex = 13
       Me.lblRefContactNumber.Text = "เลขที่สัญญา:"
       Me.lblRefContactNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      '
+      'txtContactFinishDate
+      '
+      Me.txtContactFinishDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.txtContactFinishDate.EditValue = Nothing
+      Me.txtContactFinishDate.Location = New System.Drawing.Point(100, 81)
+      Me.txtContactFinishDate.Name = "txtContactFinishDate"
+      'Me.txtContactFinishDate.Properties.Appearance.ForeColor = System.Drawing.Color.Silver
+      Me.txtContactFinishDate.Properties.Appearance.Options.UseForeColor = True
+      Me.txtContactFinishDate.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+      Me.txtContactFinishDate.Properties.VistaTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton()})
+      Me.txtContactFinishDate.Size = New System.Drawing.Size(105, 20)
+      Me.txtContactFinishDate.TabIndex = 3
+      '
+      'txtContactActiveDate
+      '
+      Me.txtContactActiveDate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.txtContactActiveDate.EditValue = Nothing
+      Me.txtContactActiveDate.Location = New System.Drawing.Point(100, 59)
+      Me.txtContactActiveDate.Name = "txtContactActiveDate"
+      'Me.txtContactActiveDate.Properties.Appearance.ForeColor = System.Drawing.Color.Silver
+      Me.txtContactActiveDate.Properties.Appearance.Options.UseForeColor = True
+      Me.txtContactActiveDate.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+      Me.txtContactActiveDate.Properties.VistaTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton()})
+      Me.txtContactActiveDate.Size = New System.Drawing.Size(105, 20)
+      Me.txtContactActiveDate.TabIndex = 2
       '
       'PaymentApplicationDetail
       '
@@ -1816,6 +1812,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
       Me.grbReference.ResumeLayout(False)
       Me.grbReference.PerformLayout()
+      CType(Me.txtContactFinishDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.txtContactFinishDate.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.txtContactActiveDate.Properties.VistaTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
+      CType(Me.txtContactActiveDate.Properties, System.ComponentModel.ISupportInitialize).EndInit()
       Me.ResumeLayout(False)
       Me.PerformLayout()
 
@@ -3139,6 +3139,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler txtItemNote.TextChanged, AddressOf Me.ChangeProperty
 
+      AddHandler txtProjectContact.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtContactActiveDate.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtContactFinishDate.Validated, AddressOf Me.ChangeProperty
+
     End Sub
     Private Sub SetNumberTextBox(ByVal txtBox As TextBox, ByRef prop As Decimal, ByVal dgf As DigitConfig)
       Dim txt As String = txtBox.Text
@@ -3381,7 +3385,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtCostCenterName.Text = Me.m_entity.CostCenter.Name
       UpdateCC()
 
-      Me.SetProjectContact()
+      If Me.m_entity.ContractNumber Is Nothing OrElse Me.m_entity.ContractNumber.Trim.Length = 0 Then
+        Me.SetProjectContact()
+      Else
+        If Not Me.m_entity.ContractNumber Is Nothing Then
+          Me.txtProjectContact.Text = Me.m_entity.ContractNumber
+        End If
+        If Not Date.MinValue.Equals(Me.m_entity.ContractDateActive) Then
+          Me.txtContactActiveDate.Text = Me.m_entity.ContractDateActive.ToShortDateString
+        End If
+        If Not Date.MinValue.Equals(Me.m_entity.ContractDateFinish) Then
+          Me.txtContactFinishDate.Text = Me.m_entity.ContractDateFinish.ToShortDateString
+        End If
+      End If
 
       Me.txtStartDate.Text = Me.MinDateToNull(Me.m_entity.StartDate, "")
       Me.dtpStartDate.Value = Me.MinDateToNow(Me.m_entity.StartDate)
@@ -3452,6 +3468,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim row As TreeRow = Me.m_treeManager.SelectedRow
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
+        Case txtProjectContact.Name.ToLower
+          m_entity.ContractNumber = txtProjectContact.Text.Trim()
+          dirtyFlag = True
+        Case txtContactActiveDate.Name.ToLower
+          m_entity.ContractDateActive = txtContactActiveDate.EditValue
+          dirtyFlag = True
+        Case txtContactFinishDate.Name.ToLower
+          m_entity.ContractDateFinish = txtContactFinishDate.EditValue
+          dirtyFlag = True
         Case "txtcostcentercode"
           dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
           UpdateCC()

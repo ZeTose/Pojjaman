@@ -61,6 +61,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_taxType As TaxType 'ประเภทภาษี
     Private m_taxPoint As TaxPoint 'จุดรับรู้ภาษี
     Private m_status As PaymentApplicationStatus
+    Private m_contractnumber As String
+    Private m_dateactive As Date
+    Private m_datefinish As Date
 
     Private m_manualBudget As Boolean
 
@@ -176,12 +179,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
           .m_status = New PaymentApplicationStatus(CInt(dr(aliasPrefix & Me.Prefix & "_status")))
         End If
 
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_contractnumber") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_contractnumber") Then
+          .m_contractnumber = CStr(dr(aliasPrefix & Me.Prefix & "_contractnumber"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_contractdateactive") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_contractdateactive") Then
+          .m_dateactive = CDate(dr(aliasPrefix & Me.Prefix & "_contractdateactive"))
+        End If
+
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_contractdatefinish") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_contractdatefinish") Then
+          .m_datefinish = CDate(dr(aliasPrefix & Me.Prefix & "_contractdatefinish"))
+        End If
+
+        'Private m_contractnumber As String
+        'Private m_dateactive As Date
+        'Private m_datefinish As Date
+
+
         m_itemCollection = New MilestoneCollection(Me)
       End With
     End Sub
 #End Region
 
 #Region "Properties"
+    Public Property ContractNumber As String
+      Get
+        Return m_contractnumber
+      End Get
+      Set(value As String)
+        m_contractnumber = value
+      End Set
+    End Property
+    Public Property ContractDateActive As Date
+      Get
+        Return m_dateactive
+      End Get
+      Set(value As Date)
+        m_dateactive = value
+      End Set
+    End Property
+    Public Property ContractDateFinish As Date
+      Get
+        Return m_datefinish
+      End Get
+      Set(value As Date)
+        m_datefinish = value
+      End Set
+    End Property
     Public Property ItemCollection() As MilestoneCollection      Get        Return m_itemCollection      End Get      Set(ByVal Value As MilestoneCollection)        m_itemCollection = Value      End Set    End Property
     Public ReadOnly Property Boq() As BOQ      Get        Return Me.CostCenter.Boq      End Get    End Property    Public ReadOnly Property Project() As Project      Get        Return Me.CostCenter.Project      End Get    End Property    Public Property CostCenter() As CostCenter      Get        Return m_cc      End Get      Set(ByVal Value As CostCenter)        m_cc = Value      End Set    End Property    Public ReadOnly Property Customer() As Customer      Get
         Return Me.CostCenter.Customer
@@ -598,6 +642,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_cc", ValidIdOrDBNull(Me.CostCenter)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_boq", ValidIdOrDBNull(Me.Boq)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_manualbudget", Me.ManualBudget))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_contractnumber", Me.ContractNumber))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_contractdateactive", ValidDateOrDBNull(Me.ContractDateActive)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_contractdatefinish", ValidDateOrDBNull(Me.ContractDateFinish)))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
@@ -1429,6 +1476,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi = New DocPrintingItem
       dpi.Mapping = "TotalDeductAdvance"
       dpi.Value = Configuration.FormatToString(Me.ItemCollection.TotalDeductAdvance, DigitConfig.Price)
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'ContractNumber
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContractNumber"
+      dpi.Value = Me.ContractNumber
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'ContractDateActive
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContractDateActive"
+      dpi.Value = Me.ContractDateActive.ToShortDateString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'ContractDateFinish
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ContractDateFinish"
+      dpi.Value = Me.ContractDateFinish.ToShortDateString
       dpi.DataType = "System.String"
       dpiColl.Add(dpi)
 
