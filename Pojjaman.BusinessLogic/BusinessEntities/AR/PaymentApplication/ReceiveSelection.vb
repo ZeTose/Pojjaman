@@ -2817,9 +2817,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpi.Table = "Item.RefDoc"
                 dpiColl.Add(dpi)
 
-                'Item.Name
+                'Item.RefDoc.Name
                 dpi = New DocPrintingItem
                 dpi.Mapping = "Item.RefDoc.Name"
+                dpi.Value = "ค่าเช่า" & oitem.Entity.Name
+                dpi.DataType = "System.String"
+                dpi.Row = n2 + 1
+                dpi.Table = "Item.RefDoc"
+                dpiColl.Add(dpi)
+
+                'Item.Name
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Name"
                 dpi.Value = "ค่าเช่า" & oitem.Entity.Name
                 dpi.DataType = "System.String"
                 dpi.Row = n2 + 1
@@ -3025,9 +3034,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   dpi.Table = "Item.RefDoc"
                   dpiColl.Add(dpi)
 
-                  'Item.Name
+                  'Item.RefDoc.Name
                   dpi = New DocPrintingItem
                   dpi.Mapping = "Item.RefDoc.Name"
+                  If Not oitem.EntityName Is Nothing AndAlso oitem.EntityName.Length > 0 Then
+                    dpi.Value = oitem.EntityName
+                  Else
+                    dpi.Value = oitem.Entity.Name
+                  End If
+                  dpi.DataType = "System.String"
+                  dpi.Row = n2 + 1
+                  dpi.Table = "Item.RefDoc"
+                  dpiColl.Add(dpi)
+
+                  'Item.Name
+                  dpi = New DocPrintingItem
+                  dpi.Mapping = "Item.Name"
                   If Not oitem.EntityName Is Nothing AndAlso oitem.EntityName.Length > 0 Then
                     dpi.Value = oitem.EntityName
                   Else
@@ -3281,9 +3303,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item.RefDoc"
               dpiColl.Add(dpi)
 
-              'Item.Name
+              'Item.RefDoc.Name
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDoc.Name"
+              dpi.Value = mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
               dpi.Value = mi.Name
               dpi.DataType = "System.String"
               dpi.Row = n2 + 1
@@ -3610,9 +3641,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item.RefDoc"
               dpiColl.Add(dpi)
 
-              'Item.Name
+              'Item.RefDoc.Name
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDoc.Name"
+              dpi.Value = mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
               dpi.Value = mi.Name
               dpi.DataType = "System.String"
               dpi.Row = n2 + 1
@@ -3921,9 +3961,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
               dpi.Table = "Item.RefDoc"
               dpiColl.Add(dpi)
 
-              'Item.Name
+              'Item.RefDoc.Name
               dpi = New DocPrintingItem
               dpi.Mapping = "Item.RefDoc.Name"
+              dpi.Value = item.Code
+              dpi.DataType = "System.String"
+              dpi.Row = n2 + 1
+              dpi.Table = "Item.RefDoc"
+              dpiColl.Add(dpi)
+
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
               dpi.Value = item.Code
               dpi.DataType = "System.String"
               dpi.Row = n2 + 1
@@ -4073,6 +4122,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
         'Item.Name
         dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Name"
+        dpi.Value = CodeDescription.GetDescription("receivesi_entityType", item.EntityId) & "," & item.Code
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.RefCode
+        dpi = New DocPrintingItem
         'dpi.Mapping = "Item.Name"
         dpi.Mapping = "Item.RefCode"
         dpi.Value = CodeDescription.GetDescription("receivesi_entityType", item.EntityId) & "," & item.Code
@@ -4123,6 +4181,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ElseIf TypeOf entityFromItem Is Milestone Then
               Dim mi As Milestone = CType(entityFromItem, Milestone)
               'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
+              dpi.Value = mi.Name
+              dpi.DataType = "System.String"
+              dpi.Row = n + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+
+              'Item.RefCode
               dpi = New DocPrintingItem
               'dpi.Mapping = "Item.Name"
               dpi.Mapping = "Item.RefCode"
@@ -4245,7 +4312,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim childText As String = miDetailRow("milestonei_desc").ToString
             'Item.Name
             dpi = New DocPrintingItem
-            'dpi.Mapping = "Item.Name"
+            dpi.Mapping = "Item.Name"
+            dpi.Value = childText
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.Name
+            dpi = New DocPrintingItem
+            'dpi.Mapping = "Item.RefCode"
             dpi.Mapping = "Item.RefCode"
             dpi.Value = childText
             dpi.DataType = "System.String"
