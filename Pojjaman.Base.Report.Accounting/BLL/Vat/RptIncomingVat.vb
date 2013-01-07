@@ -62,7 +62,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
-      m_grid.ColCount = 12
+      m_grid.ColCount = 13
 
       m_grid.ColWidths(1) = 100
       m_grid.ColWidths(2) = 100
@@ -73,9 +73,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(7) = 200
       m_grid.ColWidths(8) = 120
       m_grid.ColWidths(9) = 120
-      m_grid.ColWidths(10) = 100
+      m_grid.ColWidths(10) = 120
       m_grid.ColWidths(11) = 100
       m_grid.ColWidths(12) = 100
+      m_grid.ColWidths(13) = 100
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -89,6 +90,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColStyles(10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid.ColStyles(12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid.ColStyles(13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
 
       m_grid.Rows.HeaderCount = 0
       m_grid.Rows.FrozenCount = 0
@@ -105,6 +107,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 10).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingVat.BeforeTax}") '"มูลค่าสินค้า/บริการ"
       m_grid(0, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingVat.TaxAmount}") '"จำนวนเงินภาษี"
       m_grid(0, 12).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingVat.AfterTax}") '"รวม"
+      m_grid(0, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingVat.GLCode}") '"GLCode"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -118,6 +121,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 10).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 11).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(0, 12).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
+      m_grid(0, 13).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
@@ -204,6 +208,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If IsNumeric(row("AfterTax")) Then
             m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(CDec(row("AfterTax")), DigitConfig.Price)
             SumAfterTax += Configuration.Format(CDec(row("AfterTax")), DigitConfig.Price)
+          End If
+          If Not row.IsNull("gl_code") Then
+            m_grid(currDocIndex, 13).CellValue = row("gl_code")
           End If
 
         End If
@@ -403,6 +410,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi = New DocPrintingItem
         dpi.Mapping = "Item.CostcenterName"
         dpi.Value = itemRow("CostcenterName")
+        dpi.DataType = "System.String"
+        dpi.Row = i + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Item.GLCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.GLCode"
+        dpi.Value = itemRow("gl_code")
         dpi.DataType = "System.String"
         dpi.Row = i + 1
         dpi.Table = "Item"
