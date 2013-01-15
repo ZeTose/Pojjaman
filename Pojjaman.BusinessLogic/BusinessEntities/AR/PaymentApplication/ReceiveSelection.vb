@@ -2421,7 +2421,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Dim row As DataRow = dt.Rows(0)
 
                 If row.Table.Columns.Contains("contactnumber") Then
-                  contractNumber.Add(CStr(row("contactnumber")))
+                  If Not contractNumber.Contains(CStr(row("contactnumber"))) Then
+                    contractNumber.Add(CStr(row("contactnumber")))
+                  End If
                 End If
                 'If row.Table.Columns.Contains("contactactivedate") AndAlso IsDate(row("contactactivedate")) Then
                 '  contactActiveDate.Add(CDate(row("contactactivedate")).ToShortDateString)
@@ -3279,7 +3281,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim mi As New Milestone(item.Id)
               Dim ccm As CostCenter = mi.CostCenter
               If Not mi.PaymentApplication Is Nothing AndAlso Not mi.PaymentApplication.ContractNumber Is Nothing AndAlso mi.PaymentApplication.ContractNumber.Trim.Length > 0 Then
-                contractNumberLIst.Add(mi.PaymentApplication.ContractNumber)
+                If Not contractNumberLIst.Contains(mi.PaymentApplication.ContractNumber) Then
+                  contractNumberLIst.Add(mi.PaymentApplication.ContractNumber)
+                End If
               End If
               'Dim mic As New MilestoneCollection(Me.Customer)
               'Item.LineNumber
@@ -3621,7 +3625,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               Dim mi As New Milestone(item.Id)
               Dim ccm As CostCenter = mi.CostCenter
               If Not mi.PaymentApplication Is Nothing AndAlso Not mi.PaymentApplication.ContractNumber Is Nothing AndAlso mi.PaymentApplication.ContractNumber.Trim.Length > 0 Then
-                contractNumberLIst.Add(mi.PaymentApplication.ContractNumber)
+                If Not contractNumberLIst.Contains(mi.PaymentApplication.ContractNumber) Then
+                  contractNumberLIst.Add(mi.PaymentApplication.ContractNumber)
+                End If
               End If
 
               'Dim mic As New MilestoneCollection(Me.Customer)
