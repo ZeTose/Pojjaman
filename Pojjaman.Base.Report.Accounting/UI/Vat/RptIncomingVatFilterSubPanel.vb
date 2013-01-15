@@ -566,7 +566,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'cmbOrderBy
       '
-      Me.cmbOrderBy.Items.AddRange(New Object() {"ตามวันที่เอกสาร", "ตามเลขที่เอกสาร"})
+      'Me.cmbOrderBy.Items.AddRange(New Object() {"ตามวันที่เอกสาร", "ตามเลขที่เอกสาร"})
       Me.cmbOrderBy.Location = New System.Drawing.Point(296, 111)
       Me.cmbOrderBy.Name = "cmbOrderBy"
       Me.cmbOrderBy.Size = New System.Drawing.Size(120, 21)
@@ -681,8 +681,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             DateTimeService.ListMonthsInComboBox(Me.cmbMonth, False, , False)
     End Sub
     Private Sub Initialize()
-      PopulateStatus()
-      ClearCriterias()
+      Me.PopulateStatus()
+      Me.ClearCriterias()
+
+      Me.cmbOrderBy.Items.Clear()
+      Me.cmbOrderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.SortByDocDate}")) '"ตามวันที่เอกสาร"
+      Me.cmbOrderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.SortByDocCode}")) '"ตามเลขที่เอกสาร"
+      Me.cmbOrderBy.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.SortByGLCode}")) '"ตามเลขที่ GL"
+      Me.cmbOrderBy.SelectedIndex = 0
     End Sub
     Private Sub ClearCriterias()
       For Each grbCtrl As Control In grbDetail.Controls
@@ -709,7 +715,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtDocDateEnd.Text = MinDateToNull(Date.Now, "")
       Me.dtpDocDateEnd.Value = Date.Now
       Me.DocDateEnd = Date.Now
-      cmbOrderBy.SelectedIndex = 0
 
       'Me.txtSubmitalDateStart.Text = MinDateToNull(dtStart, "")
       'Me.dtpSubmitalDateStart.Value = dtStart
