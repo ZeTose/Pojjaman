@@ -1351,12 +1351,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
             '    m_receive.PayeeAddress4 = arr(3).ToString
             'End Select
             m_receive.BeneRef = item.Entity.Supplier.Code
-            If item.Entity.Supplier.PersonType.Value = 0 Then
-              m_receive.TaxID = item.Entity.Supplier.IdNo
-              m_receive.PersonalID = item.Entity.Supplier.IdNo
-            Else
-              m_receive.TaxID = item.Entity.Supplier.TaxId
-              m_receive.PersonalID = ""
+            m_receive.TaxID = ""
+            If Not item.WHTCollection Is Nothing AndAlso item.WHTCollection.Count > 0 Then
+              If item.Entity.Supplier.PersonType.Value = 0 Then
+                m_receive.TaxID = item.WHTCollection(0).EntityTaxId
+                m_receive.PersonalID = item.WHTCollection(0).EntityTaxId
+              Else
+                m_receive.TaxID = item.WHTCollection(0).EntityIdNo
+                m_receive.PersonalID = ""
+              End If
+            End If
+            If m_receive.TaxID.Trim.Length = 0 Then
+              If item.Entity.Supplier.PersonType.Value = 0 Then
+                m_receive.TaxID = item.Entity.Supplier.IdNo
+                m_receive.PersonalID = item.Entity.Supplier.IdNo
+              Else
+                m_receive.TaxID = item.Entity.Supplier.TaxId
+                m_receive.PersonalID = ""
+              End If
+            End If
+            If m_receive.TaxID Is Nothing Then
+              m_receive.TaxID = ""
             End If
           End If
           If item.WHTCollection.Count > 0 Then
