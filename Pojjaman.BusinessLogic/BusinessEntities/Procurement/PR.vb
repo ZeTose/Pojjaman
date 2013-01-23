@@ -542,7 +542,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If m_closed Then
         'Me.ItemCollection = New PRItemCollection(Me)
         'End If
-        Me.ItemCollection.RefreshQtyOrderedQty()
+        'If Me.Originated Then
+        If Me.m_closedBefor AndAlso Not Me.m_closed Then
+          Me.ItemCollection.RefreshQtyOrderedQty()
+        End If
+
+        'End If
       End Set
     End Property
     Public Property ClosedBefor() As Boolean

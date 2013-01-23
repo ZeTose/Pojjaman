@@ -2117,48 +2117,57 @@ FinalLine:
 #Region "IClipboardHandler Overrides"
     Public Overrides ReadOnly Property EnablePaste() As Boolean
       Get
-        Dim data As IDataObject = Clipboard.GetDataObject
-        If data.GetDataPresent((dummyEmployee).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtrequestorcode", "txtrequestorname"
-                Return True
-            End Select
+        Try
+          Dim data As IDataObject = Clipboard.GetDataObject
+          If data.GetDataPresent((dummyEmployee).FullClassName) Then
+            If Not Me.ActiveControl Is Nothing Then
+              Select Case Me.ActiveControl.Name.ToLower
+                Case "txtrequestorcode", "txtrequestorname"
+                  Return True
+              End Select
+            End If
           End If
-        End If
-        If data.GetDataPresent((dummyCC).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtcostcentercode", "txtcostcentername"
-                Return True
-            End Select
+          If data.GetDataPresent((dummyCC).FullClassName) Then
+            If Not Me.ActiveControl Is Nothing Then
+              Select Case Me.ActiveControl.Name.ToLower
+                Case "txtcostcentercode", "txtcostcentername"
+                  Return True
+              End Select
+            End If
           End If
-        End If
+        Catch ex As Exception
+
+        End Try
+
         Return False
       End Get
     End Property
     Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim data As IDataObject = Clipboard.GetDataObject
-      If data.GetDataPresent((dummyEmployee).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((dummyEmployee).FullClassName))
-        Dim entity As New Employee(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtrequestorcode", "txtrequestorname"
-              Me.SetEmployeeDialog(entity)
-          End Select
+      Try
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((dummyEmployee).FullClassName) Then
+          Dim id As Integer = CInt(data.GetData((dummyEmployee).FullClassName))
+          Dim entity As New Employee(id)
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtrequestorcode", "txtrequestorname"
+                Me.SetEmployeeDialog(entity)
+            End Select
+          End If
         End If
-      End If
-      If data.GetDataPresent((dummyCC).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((dummyCC).FullClassName))
-        Dim entity As New CostCenter(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtcostcentercode", "txtcostcentername"
-              Me.SetCostCenterDialog(entity)
-          End Select
+        If data.GetDataPresent((dummyCC).FullClassName) Then
+          Dim id As Integer = CInt(data.GetData((dummyCC).FullClassName))
+          Dim entity As New CostCenter(id)
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtcostcentercode", "txtcostcentername"
+                Me.SetCostCenterDialog(entity)
+            End Select
+          End If
         End If
-      End If
+      Catch ex As Exception
+
+      End Try
     End Sub
 #End Region
 
