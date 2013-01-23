@@ -1328,17 +1328,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'จากการอนุมัติเอกสาร
       If CBool(Configuration.GetConfig("ApproveDO")) AndAlso Not Me.m_entity.ApproveDate.Equals(Date.MinValue) Then
-        If Not Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id Then
+        Trace.WriteLine(Me.m_entity.ApprovePerson.Id)
+        Trace.WriteLine(CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+        If Not Me.m_entity.ApprovePerson Is Nothing AndAlso (Me.m_entity.ApprovePerson.Id = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id) Then
           For Each ctrl As Control In Me.Controls
             ctrl.Enabled = False
           Next
-          tgItem.Enabled = False
+          tgItem.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = True
+          Next
           Return
         Else
           For Each ctrl As Control In Me.Controls
             ctrl.Enabled = True
           Next
           Me.tgItem.Enabled = True
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            colStyle.ReadOnly = False
+          Next
         End If
       End If
 
