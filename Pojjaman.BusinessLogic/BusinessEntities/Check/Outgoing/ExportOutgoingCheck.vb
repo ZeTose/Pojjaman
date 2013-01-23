@@ -1353,7 +1353,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_receive.BeneRef = item.Entity.Supplier.Code
             m_receive.TaxID = ""
             If Not item.WHTCollection Is Nothing AndAlso item.WHTCollection.Count > 0 Then
-              If item.Entity.Supplier.PersonType.Value = 0 Then
+              If item.Entity.Supplier.PersonType.Value = 1 Then
                 m_receive.TaxID = item.WHTCollection(0).EntityTaxId
                 m_receive.PersonalID = item.WHTCollection(0).EntityTaxId
               Else
@@ -1362,7 +1362,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               End If
             End If
             If m_receive.TaxID.Trim.Length = 0 Then
-              If item.Entity.Supplier.PersonType.Value = 0 Then
+              If item.Entity.Supplier.PersonType.Value = 1 Then
                 m_receive.TaxID = item.Entity.Supplier.IdNo
                 m_receive.PersonalID = item.Entity.Supplier.IdNo
               Else
@@ -1372,6 +1372,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
             If m_receive.TaxID Is Nothing Then
               m_receive.TaxID = ""
+            End If
+            If m_receive.PersonalID Is Nothing Then
+              m_receive.PersonalID = ""
             End If
           End If
           If item.WHTCollection.Count > 0 Then

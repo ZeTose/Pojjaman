@@ -2008,7 +2008,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       If taxId.Trim.Length = 10 Then
         Return taxId
-      ElseIf taxId.Trim.Length = 13 Then
+      ElseIf taxId.Trim.Length > 10 Then
         Return String.Format("{0}{1}", Space(10), taxId)
       End If
     End Function
