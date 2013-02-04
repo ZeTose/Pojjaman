@@ -973,7 +973,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub RefreshRealGross()
       Dim gross As Decimal = 0
       For Each item As SCItem In Me.ItemCollection
-        gross += item.Amount
+        If item.Level = 1 Then
+          gross += item.Amount
+        End If
       Next
       Me.m_realGross = gross
     End Sub
@@ -1037,7 +1039,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 sci.SetWRIOrigingQty(sci.WRIQty)
                 sci.SetQty(sci.WRIQty)
               End If
-              sci.UnitPrice = wri.UnitPrice
+              'sci.UnitPrice = wri.UnitPrice
+              sci.SetUnitPrice(wri.UnitPrice)
 
               sci.Note = wri.Note
             End If
