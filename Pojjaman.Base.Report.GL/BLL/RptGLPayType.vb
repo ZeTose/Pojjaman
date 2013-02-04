@@ -376,85 +376,90 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Dim dlgDetailForm As RptGLPayTypeDetailForm
     Private Sub CellClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
-      Dim amount As Decimal = 0
-      Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
-      'Select e.ColIndex
-      Select Case colName
-        Case "cash", "bank", "remain"
-          If IsNumeric(m_grid(e.RowIndex, e.ColIndex).CellValue) Then
-            amount = CDec(m_grid(e.RowIndex, e.ColIndex).CellValue)
-          Else
+      Try
+        Dim amount As Decimal = 0
+        Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
+        'Select e.ColIndex
+        Select Case colName
+          Case "cash", "bank", "remain"
+            If IsNumeric(m_grid(e.RowIndex, e.ColIndex).CellValue) Then
+              amount = CDec(m_grid(e.RowIndex, e.ColIndex).CellValue)
+            Else
+              If Not dlgDetailForm Is Nothing Then
+                dlgDetailForm.Close()
+              End If
+              Return
+            End If
+          Case Else
             If Not dlgDetailForm Is Nothing Then
               dlgDetailForm.Close()
             End If
             Return
-          End If
-        Case Else
-          If Not dlgDetailForm Is Nothing Then
-            dlgDetailForm.Close()
-          End If
-          Return
-      End Select
-      If Not dlgDetailForm Is Nothing Then
-        dlgDetailForm.Close()
-      End If
-      If amount = 0 Then
-        Return
-      End If
-      dlgDetailForm = New RptGLPayTypeDetailForm
-      dlgDetailForm.StartPosition = FormStartPosition.Manual
-
-      Dim wpX As Integer = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width
-      Dim wpY As Integer = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height
-      'Dim wpY As Integer System.Windows.Forms.Screen.PrimaryScreen.Bounds.Y
-
-      Dim mpX As Integer = System.Windows.Forms.Control.MousePosition.X
-      Dim mpY As Integer = System.Windows.Forms.Control.MousePosition.Y
-
-      If mpX + dlgDetailForm.Width > wpX Then
-        mpX -= dlgDetailForm.Width
-      End If
-      If mpY + dlgDetailForm.Height > wpY Then
-        mpY -= dlgDetailForm.Height
-      End If
-
-      If colName = "debit" OrElse colName = "credit" OrElse colName = "balance" Then
-        Return
-      End If
-      Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(e.RowIndex - 1)
-      If tr Is Nothing Then
-        Return
-      End If
-      If TypeOf tr Is DataRow Then
-        Dim dr As DataRow = CType(tr, DataRow)
-        Dim drh As New DataRowHelper(dr)
-
-        Dim docId As Integer = drh.GetValue(Of Integer)("DocId", 0)
-        Dim docType As Integer = drh.GetValue(Of Integer)("DocType", 0)
-        Dim glAccountId As Integer = drh.GetValue(Of Integer)("acct_id", 0)
-        Dim costcenterId As Integer = drh.GetValue(Of Integer)("gli_cc", 0)
-        Trace.WriteLine(glAccountId)
-
-        If docId > 0 AndAlso docType > 0 Then
-          dlgDetailForm.ColumnName = colName
-          dlgDetailForm.DocId = docId
-          dlgDetailForm.DocType = docType
-          dlgDetailForm.Amount = amount
-          dlgDetailForm.GLAcountId = glAccountId
-          dlgDetailForm.CostCenterId = costcenterId
-        Else
+        End Select
+        If Not dlgDetailForm Is Nothing Then
+          dlgDetailForm.Close()
+        End If
+        If amount = 0 Then
           Return
         End If
-      End If
+        dlgDetailForm = New RptGLPayTypeDetailForm
+        dlgDetailForm.StartPosition = FormStartPosition.Manual
+
+        Dim wpX As Integer = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width
+        Dim wpY As Integer = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height
+        'Dim wpY As Integer System.Windows.Forms.Screen.PrimaryScreen.Bounds.Y
+
+        Dim mpX As Integer = System.Windows.Forms.Control.MousePosition.X
+        Dim mpY As Integer = System.Windows.Forms.Control.MousePosition.Y
+
+        If mpX + dlgDetailForm.Width > wpX Then
+          mpX -= dlgDetailForm.Width
+        End If
+        If mpY + dlgDetailForm.Height > wpY Then
+          mpY -= dlgDetailForm.Height
+        End If
+
+        If colName = "debit" OrElse colName = "credit" OrElse colName = "balance" Then
+          Return
+        End If
+        Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(e.RowIndex - 1)
+        If tr Is Nothing Then
+          Return
+        End If
+        If TypeOf tr Is DataRow Then
+          Dim dr As DataRow = CType(tr, DataRow)
+          Dim drh As New DataRowHelper(dr)
+
+          Dim docId As Integer = drh.GetValue(Of Integer)("DocId", 0)
+          Dim docType As Integer = drh.GetValue(Of Integer)("DocType", 0)
+          Dim glAccountId As Integer = drh.GetValue(Of Integer)("acct_id", 0)
+          Dim costcenterId As Integer = drh.GetValue(Of Integer)("gli_cc", 0)
+          Trace.WriteLine(glAccountId)
+
+          If docId > 0 AndAlso docType > 0 Then
+            dlgDetailForm.ColumnName = colName
+            dlgDetailForm.DocId = docId
+            dlgDetailForm.DocType = docType
+            dlgDetailForm.Amount = amount
+            dlgDetailForm.GLAcountId = glAccountId
+            dlgDetailForm.CostCenterId = costcenterId
+          Else
+            Return
+          End If
+        End If
 
 
-      'Dim x As Integer = m_grid.CurrentCellInfo.CellView.
-      ''Dim y As Integer = m_grid.CurrentCellInfo.GridView.Top
-      'dlg.Location = New Point(e.MouseEventArgs.X + 40, e.MouseEventArgs.Y - 55)
-      dlgDetailForm.Location = New Point(mpX, mpY)
+        'Dim x As Integer = m_grid.CurrentCellInfo.CellView.
+        ''Dim y As Integer = m_grid.CurrentCellInfo.GridView.Top
+        'dlg.Location = New Point(e.MouseEventArgs.X + 40, e.MouseEventArgs.Y - 55)
+        dlgDetailForm.Location = New Point(mpX, mpY)
 
-      'dlg.Location = New Point(x, y)
-      dlgDetailForm.Show()
+        'dlg.Location = New Point(x, y)
+        dlgDetailForm.Show()
+      Catch ex As Exception
+
+      End Try
+
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
 
@@ -494,7 +499,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       '  End If
       'End If
     End Sub
-   
+
     Public Sub PopulateListing(ByVal detailed As Integer)
       If Me.m_treemanager Is Nothing Then
         Return
