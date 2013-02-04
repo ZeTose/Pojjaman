@@ -2527,7 +2527,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Case "txtcostcentercode"
           If CCCodeChanged Then
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
+            Dim config As Boolean = CBool(Configuration.GetConfig("POClearAllocationIfChangeCostCenter"))
+            Dim msgChangeCC As String = ""
+            If config Then
+              msgChangeCC = "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}"
+            Else
+              msgChangeCC = "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCCNotChangeAllocate}"
+            End If
+            If msgServ.AskQuestion(msgChangeCC, "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
               If Me.txtCostCenterCode.TextLength <> 0 Then
                 dirtyFlag = CostCenter.GetCostCenter(txtCostCenterCode, txtCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
                 If dirtyFlag Then
@@ -3099,7 +3106,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Sub SetCostCenterDialog(ByVal e As ISimpleEntity)
       If Me.txtCostCenterCode.Text <> e.Code AndAlso Me.txtCostCenterCode.Text.Length > 0 Then
         Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-        If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}", "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
+        Dim config As Boolean = CBool(Configuration.GetConfig("POClearAllocationIfChangeCostCenter"))
+        Dim msgChangeCC As String = ""
+        If config Then
+          msgChangeCC = "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCC}"
+        Else
+          msgChangeCC = "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Message.ChangeCCNotChangeAllocate}"
+        End If
+        If msgServ.AskQuestion(msgChangeCC, "${res:Longkong.Pojjaman.Gui.Panels.GoodsReceiptDetail.Caption.ChangeCC}") Then
           'If Me.txtCostCenterCode.TextLength = 0 Then
           '    Me.m_entity.CostCenter = New CostCenter
           'End If
@@ -3137,9 +3151,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       myEntityPanelService.OpenPanel(dummyCC)
     End Sub
     Private Sub ChangeCC()
-      For Each item As POItem In Me.m_entity.ItemCollection
-        item.WBSDistributeCollection.Clear()
-      Next
+      Dim config As Boolean = CBool(Configuration.GetConfig("POClearAllocationIfChangeCostCenter"))
+      If config Then
+        For Each item As POItem In Me.m_entity.ItemCollection
+          item.WBSDistributeCollection.Clear()
+        Next
+      End If
+
       'RefreshWBS()
       RefreshDocs()
     End Sub
