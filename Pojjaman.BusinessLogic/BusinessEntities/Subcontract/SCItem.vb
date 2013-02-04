@@ -2557,7 +2557,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           End Select
 
-          Dim doc As New scitem
+          Dim doc As New SCItem
           If Not Me.CurrentItem Is Nothing Then
             doc = Me.CurrentItem
             doc.ItemType.Value = newType
@@ -2576,7 +2576,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim wbsitem As WBS = CType(items(i).Tag, WBS)
           If Not m_hashWBSItems.Contains(wbsitem.Id) Then
             m_hashWBSItems(wbsitem.Id) = wbsitem
-            Dim wsci As New scitem
+            Dim wsci As New SCItem
             If Me.Count = 0 Then
               Me.Add(wsci)
             Else
@@ -2602,16 +2602,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'ถ้าไปลบรายการของ wbs ออก ก็จะหา wbs ให้ใหม่เสมอ
           If Not m_hashWBSItems.Contains(bitem.WBS.Id) Then
             m_hashWBSItems(bitem.WBS.Id) = bitem.WBS
-            Dim wsci As New scitem
+            Dim wsci As New SCItem
             If Me.Count = 0 Then
               Me.Add(wsci)
             Else
-              Dim scitem As scitem = Me.GetCurrentWBSItems(bitem.WBS.Id)
+              Dim scitem As SCItem = Me.GetCurrentWBSItems(bitem.WBS.Id)
               If Not scitem Is Nothing Then
                 wsci = scitem
               Else
                 Me.Add(wsci)
               End If
+              'If Not Me.CurrentItem Is Nothing Then
+              '  wsci = Me.CurrentItem
+              '  Me.CurrentItem = Nothing
+              'Else
+              '  Me.Add(wsci)
+              '  Me.CurrentItem = wsci
+              'End If
             End If
             Dim item As New BlankItem("")
             wsci.Entity = item
@@ -2665,34 +2672,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If bitem.ItemType.Value = 88 Then
             tempUnitPrice = bitem.ULC
             Me.SetNewItems(bitem, tempUnitPrice)
-                End If
+          End If
           If bitem.ItemType.Value = 89 Then
             tempUnitPrice = bitem.UEC
             Me.SetNewItems(bitem, tempUnitPrice)
-                End If
+          End If
           If bitem.ItemType.Value <> 88 AndAlso bitem.ItemType.Value <> 89 Then
             If bitem.UMC > 0 Then
               tempUnitPrice = bitem.UMC
               Me.SetNewItems(bitem, tempUnitPrice)
-                End If
+            End If
             If bitem.ULC > 0 Then
               tempUnitPrice = bitem.ULC
               bitem.ItemType.Value = 88
               Me.SetNewItems(bitem, tempUnitPrice)
-              End If
+            End If
             If bitem.UEC > 0 Then
               tempUnitPrice = bitem.UEC
               bitem.ItemType.Value = 89
               Me.SetNewItems(bitem, tempUnitPrice)
-                End If
+            End If
             If bitem.TotalCost = 0 Then
               tempUnitPrice = 0
               Me.SetNewItems(bitem, tempUnitPrice)
-                End If
-                End If
+            End If
+          End If
           '>>>>==== SetNewItems ================>>>
 
-              End If
+          End If
       Next
 
       'For Each Item As SCItem In Me
@@ -2707,13 +2714,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim doc As New SCItem
       'Dim tempUnitPrice As Decimal
 
-      If Not item Is Nothing Then
-        doc = item
-        doc.WBSId = bitem.WBS.Id
-      Else
-        doc.WBSId = bitem.WBS.Id
-        Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
-      End If
+      'If Not item Is Nothing Then
+      '  doc = item
+      '  doc.WBSId = bitem.WBS.Id
+      'Else
+      doc.WBSId = bitem.WBS.Id
+      Me.Insert(Me.IndexOf(lastboqitem) + 1, doc)
+      'End If
 
       doc.ItemType = New SCIItemType(bitem.ItemType.Value)
       doc.Level = 1
