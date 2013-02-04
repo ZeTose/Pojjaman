@@ -13,8 +13,8 @@
     <!--<Import assembly="../../Reports/AR/Pojjaman.Base.Report.AR.dll"/>-->
   </Runtime>
   <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
-    <MenuItem id="ProjectReceivePaymentMaster" insertafter="FFormat" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
-    <MenuItem id="ProjectReceivePayment" insertafter="ProjectReceivePaymentMaster" icon="Icons.16x16.ProjectReceivePayment" label="${res:MainMenu.AccountingMenu.ProjectReceivePayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePayment"/>   
+    <!--<MenuItem id="ProjectReceivePaymentMaster" insertafter="FFormat" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
+    <MenuItem id="ProjectReceivePayment" insertafter="ProjectReceivePaymentMaster" icon="Icons.16x16.ProjectReceivePayment" label="${res:MainMenu.AccountingMenu.ProjectReceivePayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePayment"/>-->   
   </Extension>
 </AddIn>
 
