@@ -831,14 +831,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.txtBlank.Text = ""
 
-      Me.dtpDocDateStart.Value = DateAdd(DateInterval.Day, -14, Now.Date)
-      Me.dtpDocDateEnd.Value = Now.Date
+      Dim dateStart As Integer = Convert.ToInt32(Configuration.GetConfig("PRSelectionDocDateStartBeforeToday"))
+      Dim dateEnd As Integer = Convert.ToInt32(Configuration.GetConfig("PRSelectionDocDateEndAfterToday"))
 
-      Me.txtDocDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, -14, Now.Date), "")
+      Me.dtpDocDateStart.Value = DateAdd(DateInterval.Day, dateStart, Now.Date)
+      Me.dtpDocDateEnd.Value = DateAdd(DateInterval.Day, dateEnd, Now.Date)
+
+      Me.txtDocDateStart.Text = Me.MinDateToNull(DateAdd(DateInterval.Day, dateStart, Now.Date), "")
       Me.txtDocDateEnd.Text = Me.MinDateToNull(Now.Date, "")
 
-      Me.docDateStart = DateAdd(DateInterval.Month, -1, Now.Date)
-      Me.docDateEnd = Now.Date
+      Me.docDateStart = DateAdd(DateInterval.Day, dateStart, Now.Date)
+      Me.docDateEnd = DateAdd(DateInterval.Day, dateEnd, Now.Date)
 
     End Sub
     Public Sub SetLabelText()
