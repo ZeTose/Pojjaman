@@ -5422,6 +5422,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpiColl.Add(dpi)
       End If
 
+      'DeliveryPerson
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DeliveryPerson"
+      dpi.Value = Me.DeliveryPerson
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       'ToAccountType
       dpi = New DocPrintingItem
       dpi.Mapping = "ToAccountType"
@@ -6877,6 +6884,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("VatDocDate", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryDocCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryDocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DeliveryPerson", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ToAccountType", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PaymentAmount", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("PaymentGross", "System.String"))
