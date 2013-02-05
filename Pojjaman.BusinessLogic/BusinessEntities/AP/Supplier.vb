@@ -90,7 +90,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_group = New SupplierGroup
       Me.m_coordinator = New Employee
       Me.m_creditType = New CreditType(2)
-      Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Supplier).Account
+      'Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Supplier).Account
       m_contactCollection = New SupplierContactCollection(Me)
       'm_SupplierLCICostLink = New SupplierLCICostLink
     End Sub
@@ -443,6 +443,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub SetAccountFromSupplierGroup()
+
+      Me.Account = m_group.Account
+      If Me.Account Is Nothing Then
+        Me.Account = New Account
+      End If
+
+    End Sub
     Public Shared Sub RefreshAllMinData()
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString _
    , CommandType.StoredProcedure _
@@ -1235,6 +1243,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
+      Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Supplier).Account
     End Sub
     Public Sub New(ByVal myParent As SupplierGroup)
       MyBase.New(myParent)
@@ -1354,6 +1363,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@spg_level", Me.Level))
         paramArrayList.Add(New SqlParameter("@spg_path", Me.Path))
         paramArrayList.Add(New SqlParameter("@spg_control", Me.IsControlGroup))
+        paramArrayList.Add(New SqlParameter("@spg_acct", Me.ValidIdOrDBNull(Me.Account)))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 

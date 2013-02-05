@@ -15,6 +15,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_path As String
     Private m_control As Boolean
     Private m_parent As TreeBaseEntity
+    Private m_acct As Account
 #End Region
 
 #Region "Contructors"
@@ -37,6 +38,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
       With Me
+        .m_acct = New Account()
+
         If dr.Table.Columns.Contains(aliasPrefix & Prefix & "_altName") AndAlso Not dr.IsNull(aliasPrefix & Prefix & "_altName") Then
           .m_alternateName = CStr(dr(aliasPrefix & Prefix & "_altName"))
         End If
@@ -51,6 +54,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If dr.Table.Columns.Contains(aliasPrefix & Prefix & "_control") AndAlso Not dr.IsNull(aliasPrefix & Prefix & "_control") Then
           .m_control = CBool(dr(aliasPrefix & Prefix & "_control"))
+        End If
+        If dr.Table.Columns.Contains(aliasPrefix & Prefix & "_acct") AndAlso Not dr.IsNull(aliasPrefix & Prefix & "_acct") Then
+          .m_acct = New Account(CInt(dr(aliasPrefix & Prefix & "_acct")))
         End If
 
         Dim parid As Integer
@@ -169,6 +175,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Get
 
       End Get
+    End Property
+    Public Overridable Property Account As Account
+      Get
+        Return m_acct
+      End Get
+      Set(value As Account)
+        m_acct = value
+      End Set
     End Property
 #End Region
 

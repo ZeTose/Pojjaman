@@ -4,85 +4,85 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.Gui.Panels
-    Public Class CustDetailView
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable
+  Public Class CustDetailView
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable
 
 #Region " Windows Form Designer generated code "
 
-        'UserControl overrides dispose to clean up the component list.
-        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-            If disposing Then
-                If Not (components Is Nothing) Then
-                    'Clear the memory
-                    Me.m_entity = Nothing
-                    components.Dispose()
-                End If
-            End If
-            MyBase.Dispose(disposing)
-        End Sub
+    'UserControl overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+      If disposing Then
+        If Not (components Is Nothing) Then
+          'Clear the memory
+          Me.m_entity = Nothing
+          components.Dispose()
+        End If
+      End If
+      MyBase.Dispose(disposing)
+    End Sub
 
-        'Required by the Windows Form Designer
-        Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-        'NOTE: The following procedure is required by the Windows Form Designer
-        'It can be modified using the Windows Form Designer.  
-        'Do not modify it using the code editor.
-        Friend WithEvents btnAccountFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnGroupFind As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnAuxDetail As System.Windows.Forms.Button
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents btnAccountFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnGroupFind As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnAuxDetail As System.Windows.Forms.Button
     Friend WithEvents txtName As System.Windows.Forms.TextBox
-        Friend WithEvents txtBillingAddress As System.Windows.Forms.TextBox
-        Friend WithEvents txtAltName As System.Windows.Forms.TextBox
-        Friend WithEvents txtAddress As System.Windows.Forms.TextBox
-        Friend WithEvents txtPhone As System.Windows.Forms.TextBox
-        Friend WithEvents txtFax As System.Windows.Forms.TextBox
-        Friend WithEvents txtEmail As System.Windows.Forms.TextBox
-        Friend WithEvents txtAuthorizeAmount As System.Windows.Forms.TextBox
-        Friend WithEvents txtTaxID As System.Windows.Forms.TextBox
-        Friend WithEvents rdJuris As System.Windows.Forms.RadioButton
-        Friend WithEvents rdIndividual As System.Windows.Forms.RadioButton
-        Friend WithEvents lblStatus As System.Windows.Forms.Label
-        Friend WithEvents primaryDetailGroupBox As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents otherDetailGroupBox As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents lblEmail As System.Windows.Forms.Label
-        Friend WithEvents lblName As System.Windows.Forms.Label
-        Friend WithEvents lblCode As System.Windows.Forms.Label
-        Friend WithEvents lblAltName As System.Windows.Forms.Label
-        Friend WithEvents lblBillingAddress As System.Windows.Forms.Label
-        Friend WithEvents lblAddress As System.Windows.Forms.Label
-        Friend WithEvents lblPhone As System.Windows.Forms.Label
-        Friend WithEvents lblFax As System.Windows.Forms.Label
-        Friend WithEvents lblPersonType As System.Windows.Forms.Label
-        Friend WithEvents lblCustGroup As System.Windows.Forms.Label
-        Friend WithEvents lblAccount As System.Windows.Forms.Label
-        Friend WithEvents lblAuthorizeAmount As System.Windows.Forms.Label
-        Friend WithEvents lblTaxID As System.Windows.Forms.Label
-        Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-        Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
-        Friend WithEvents txtContact As System.Windows.Forms.TextBox
-        Friend WithEvents lblContact As System.Windows.Forms.Label
-        Friend WithEvents chkcancel As System.Windows.Forms.CheckBox
-        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-        Friend WithEvents txtAccountName As System.Windows.Forms.TextBox
-        Friend WithEvents ImageButton1 As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents ImageButton2 As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtIdNo As System.Windows.Forms.TextBox
-        Friend WithEvents lblIdNo As System.Windows.Forms.Label
-        Friend WithEvents btnGroupEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents btnAccountEdit As Longkong.Pojjaman.Gui.Components.ImageButton
-        Friend WithEvents txtGroup As System.Windows.Forms.TextBox
-        Friend WithEvents txtAccount As System.Windows.Forms.TextBox
-        Friend WithEvents cmbProvince As System.Windows.Forms.ComboBox
-        Friend WithEvents lblProvince As System.Windows.Forms.Label
-        Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
-        Friend WithEvents lblMobile As System.Windows.Forms.Label
-        Friend WithEvents txtMobile As System.Windows.Forms.TextBox
-        Friend WithEvents lblNote As System.Windows.Forms.Label
-        Friend WithEvents txtNote As System.Windows.Forms.TextBox
-        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-        Friend WithEvents lblItem As System.Windows.Forms.Label
+    Friend WithEvents txtBillingAddress As System.Windows.Forms.TextBox
+    Friend WithEvents txtAltName As System.Windows.Forms.TextBox
+    Friend WithEvents txtAddress As System.Windows.Forms.TextBox
+    Friend WithEvents txtPhone As System.Windows.Forms.TextBox
+    Friend WithEvents txtFax As System.Windows.Forms.TextBox
+    Friend WithEvents txtEmail As System.Windows.Forms.TextBox
+    Friend WithEvents txtAuthorizeAmount As System.Windows.Forms.TextBox
+    Friend WithEvents txtTaxID As System.Windows.Forms.TextBox
+    Friend WithEvents rdJuris As System.Windows.Forms.RadioButton
+    Friend WithEvents rdIndividual As System.Windows.Forms.RadioButton
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents primaryDetailGroupBox As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents otherDetailGroupBox As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents lblEmail As System.Windows.Forms.Label
+    Friend WithEvents lblName As System.Windows.Forms.Label
+    Friend WithEvents lblCode As System.Windows.Forms.Label
+    Friend WithEvents lblAltName As System.Windows.Forms.Label
+    Friend WithEvents lblBillingAddress As System.Windows.Forms.Label
+    Friend WithEvents lblAddress As System.Windows.Forms.Label
+    Friend WithEvents lblPhone As System.Windows.Forms.Label
+    Friend WithEvents lblFax As System.Windows.Forms.Label
+    Friend WithEvents lblPersonType As System.Windows.Forms.Label
+    Friend WithEvents lblCustGroup As System.Windows.Forms.Label
+    Friend WithEvents lblAccount As System.Windows.Forms.Label
+    Friend WithEvents lblAuthorizeAmount As System.Windows.Forms.Label
+    Friend WithEvents lblTaxID As System.Windows.Forms.Label
+    Friend WithEvents grbDetail As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+    Friend WithEvents txtGroupName As System.Windows.Forms.TextBox
+    Friend WithEvents txtContact As System.Windows.Forms.TextBox
+    Friend WithEvents lblContact As System.Windows.Forms.Label
+    Friend WithEvents chkcancel As System.Windows.Forms.CheckBox
+    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+    Friend WithEvents txtAccountName As System.Windows.Forms.TextBox
+    Friend WithEvents ImageButton1 As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents ImageButton2 As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtIdNo As System.Windows.Forms.TextBox
+    Friend WithEvents lblIdNo As System.Windows.Forms.Label
+    Friend WithEvents btnGroupEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents btnAccountEdit As Longkong.Pojjaman.Gui.Components.ImageButton
+    Friend WithEvents txtGroup As System.Windows.Forms.TextBox
+    Friend WithEvents txtAccount As System.Windows.Forms.TextBox
+    Friend WithEvents cmbProvince As System.Windows.Forms.ComboBox
+    Friend WithEvents lblProvince As System.Windows.Forms.Label
+    Friend WithEvents chkAutorun As System.Windows.Forms.CheckBox
+    Friend WithEvents lblMobile As System.Windows.Forms.Label
+    Friend WithEvents txtMobile As System.Windows.Forms.TextBox
+    Friend WithEvents lblNote As System.Windows.Forms.Label
+    Friend WithEvents txtNote As System.Windows.Forms.TextBox
+    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+    Friend WithEvents lblItem As System.Windows.Forms.Label
     Friend WithEvents cmbCode As System.Windows.Forms.ComboBox
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container
@@ -594,10 +594,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtAccount, "")
       Me.txtAccount.Name = "txtAccount"
       Me.Validator.SetRegularExpression(Me.txtAccount, "")
-      Me.Validator.SetRequired(Me.txtAccount, True)
+      Me.Validator.SetRequired(Me.txtAccount, False)
       Me.txtAccount.Size = New System.Drawing.Size(88, 21)
       Me.txtAccount.TabIndex = 14
       Me.txtAccount.Tag = "NotGigaSite"
+      Me.txtAccount.ReadOnly = True
       '
       'txtGroup
       '
@@ -629,6 +630,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountEdit.TabStop = False
       Me.btnAccountEdit.Tag = "NotGigaSite"
       Me.btnAccountEdit.ThemedImage = CType(resources.GetObject("btnAccountEdit.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAccountEdit.Enabled = False
       '
       'btnGroupEdit
       '
@@ -665,6 +667,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountFind.TabStop = False
       Me.btnAccountFind.Tag = "NotGigaSite"
       Me.btnAccountFind.ThemedImage = CType(resources.GetObject("btnAccountFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAccountFind.Enabled = False
       '
       'rdJuris
       '
@@ -941,74 +944,74 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " SetLabelText "
-        Public Overrides Sub SetLabelText()
-            If Not Me.m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+    Public Overrides Sub SetLabelText()
+      If Not Me.m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
 
-            Me.lblIdNo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblIdNo}")
-            Me.Validator.SetDisplayName(Me.txtIdNo, Me.lblIdNo.Text)
+      Me.lblIdNo.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblIdNo}")
+      Me.Validator.SetDisplayName(Me.txtIdNo, Me.lblIdNo.Text)
 
-            Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblCode}")
+      Me.lblCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblCode}")
       Me.Validator.SetDisplayName(cmbCode, lblCode.Text)
 
-            Me.lblName.Text = Me.StringParserService.Parse("${res:Global.NameText}")
-            Me.Validator.SetDisplayName(txtName, lblName.Text)
+      Me.lblName.Text = Me.StringParserService.Parse("${res:Global.NameText}")
+      Me.Validator.SetDisplayName(txtName, lblName.Text)
 
-            Me.lblAltName.Text = Me.StringParserService.Parse("${res:Global.AltNameText}")
-            Me.Validator.SetDisplayName(txtAltName, lblAltName.Text)
+      Me.lblAltName.Text = Me.StringParserService.Parse("${res:Global.AltNameText}")
+      Me.Validator.SetDisplayName(txtAltName, lblAltName.Text)
 
-            Me.lblBillingAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblBillingAddress}")
-            Me.Validator.SetDisplayName(Me.txtBillingAddress, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.txtBillingAddressAlert}"))
+      Me.lblBillingAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblBillingAddress}")
+      Me.Validator.SetDisplayName(Me.txtBillingAddress, Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.txtBillingAddressAlert}"))
 
-            Me.chkcancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.chkCancel}")
+      Me.chkcancel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.chkCancel}")
 
-            Me.lblAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblAddress}")
-            Me.Validator.SetDisplayName(txtAddress, lblAddress.Text)
+      Me.lblAddress.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblAddress}")
+      Me.Validator.SetDisplayName(txtAddress, lblAddress.Text)
 
-            Me.lblPhone.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblPhone}")
-            Me.Validator.SetDisplayName(txtPhone, lblPhone.Text)
+      Me.lblPhone.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblPhone}")
+      Me.Validator.SetDisplayName(txtPhone, lblPhone.Text)
 
-            Me.lblFax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblFax}")
-            Me.Validator.SetDisplayName(txtFax, lblFax.Text)
+      Me.lblFax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblFax}")
+      Me.Validator.SetDisplayName(txtFax, lblFax.Text)
 
-            Me.lblEmail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblEmail}")
-            Me.Validator.SetDisplayName(txtEmail, lblEmail.Text)
+      Me.lblEmail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblEmail}")
+      Me.Validator.SetDisplayName(txtEmail, lblEmail.Text)
 
-            Me.lblPersonType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblPersonType}")
+      Me.lblPersonType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblPersonType}")
 
-            Me.rdJuris.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.rdJuris}")
-            Me.rdIndividual.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.rdIndividual}")
+      Me.rdJuris.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.rdJuris}")
+      Me.rdIndividual.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.rdIndividual}")
 
-            Me.lblCustGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblCustGroup}")
-            Me.Validator.SetDisplayName(txtGroup, lblCustGroup.Text)
+      Me.lblCustGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblCustGroup}")
+      Me.Validator.SetDisplayName(txtGroup, lblCustGroup.Text)
 
-            Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblAccount}")
-            Me.Validator.SetDisplayName(txtAccount, lblAccount.Text)
+      Me.lblAccount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblAccount}")
+      Me.Validator.SetDisplayName(txtAccount, lblAccount.Text)
 
-            Me.lblContact.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblContact}")
-            Me.Validator.SetDisplayName(txtContact, lblContact.Text)
+      Me.lblContact.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblContact}")
+      Me.Validator.SetDisplayName(txtContact, lblContact.Text)
 
-            Me.lblAuthorizeAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblAuthorizeAmount}")
-            Me.Validator.SetDisplayName(txtAuthorizeAmount, lblAuthorizeAmount.Text)
+      Me.lblAuthorizeAmount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblAuthorizeAmount}")
+      Me.Validator.SetDisplayName(txtAuthorizeAmount, lblAuthorizeAmount.Text)
 
-            Me.lblTaxID.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblTaxID}")
-            Me.Validator.SetDisplayName(txtTaxID, lblTaxID.Text)
+      Me.lblTaxID.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblTaxID}")
+      Me.Validator.SetDisplayName(txtTaxID, lblTaxID.Text)
 
-            Me.btnAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.btnAuxDetail}")
+      Me.btnAuxDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.btnAuxDetail}")
 
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.grbDetail}")
-            Me.primaryDetailGroupBox.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.primaryDetailGroupBox}")
-            Me.otherDetailGroupBox.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.otherDetailGroupBox}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.grbDetail}")
+      Me.primaryDetailGroupBox.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.primaryDetailGroupBox}")
+      Me.otherDetailGroupBox.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.otherDetailGroupBox}")
 
-            Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblNote}")
-            Me.lblMobile.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblMobile}")
+      Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblNote}")
+      Me.lblMobile.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.CustDetailView.lblMobile}")
 
-            Me.lblProvince.Text = Me.StringParserService.Parse("${res:Global.Province}")
-        End Sub
+      Me.lblProvince.Text = Me.StringParserService.Parse("${res:Global.Province}")
+    End Sub
 #End Region
 
 #Region "Member"
-        Private m_entity As Customer
-        Private m_isInitialized As Boolean = False
+    Private m_entity As Customer
+    Private m_isInitialized As Boolean = False
     Private m_treeManager As TreeManager
     Private m_combocodeindex As Integer
 #End Region
@@ -1030,20 +1033,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Constructor"
-        Public Sub New()
-            MyBase.New()
-            Me.InitializeComponent()
-            Me.SetLabelText()
-            Initialize()
+    Public Sub New()
+      MyBase.New()
+      Me.InitializeComponent()
+      Me.SetLabelText()
+      Initialize()
 
-            Dim dt As TreeTable = Customer.GetSchemaTable()
-            Dim dst As DataGridTableStyle = Customer.CreateTableStyle()
-            m_treeManager = New TreeManager(dt, tgItem)
-            m_treeManager.SetTableStyle(dst)
-            m_treeManager.AllowSorting = False
-            m_treeManager.AllowDelete = False
+      Dim dt As TreeTable = Customer.GetSchemaTable()
+      Dim dst As DataGridTableStyle = Customer.CreateTableStyle()
+      m_treeManager = New TreeManager(dt, tgItem)
+      m_treeManager.SetTableStyle(dst)
+      m_treeManager.AllowSorting = False
+      m_treeManager.AllowDelete = False
 
-            EventWiring()
+      EventWiring()
       DisableGigaSiteControl()
     End Sub
     Private Sub DisableGigaSiteControl()
@@ -1054,150 +1057,157 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.lblAccount.Enabled = False
         Me.txtAccountName.Enabled = False
       End If
-        End Sub
+    End Sub
 #End Region
 
 #Region "IListDetail"
-        Public Overrides Sub Initialize()
-            Province.ListProvinceInComboBox(Me.cmbProvince)
-        End Sub
-        ' ตรวจสอบสถานะของฟอร์ม
-        Public Overrides Sub CheckFormEnable()
-            If Me.m_entity.Canceled Then
-                For Each ctrl As Control In primaryDetailGroupBox.Controls
-                    ctrl.Enabled = False
-                Next
-                Me.chkcancel.Enabled = True
-                otherDetailGroupBox.Enabled = False
-            Else
-                For Each ctrl As Control In primaryDetailGroupBox.Controls
-                    ctrl.Enabled = True
-                Next
-                otherDetailGroupBox.Enabled = True
-            End If
-        End Sub
+    Public Overrides Sub Initialize()
+      Province.ListProvinceInComboBox(Me.cmbProvince)
+    End Sub
+    ' ตรวจสอบสถานะของฟอร์ม
+    Public Overrides Sub CheckFormEnable()
+      If Me.m_entity.Canceled Then
+        For Each ctrl As Control In primaryDetailGroupBox.Controls
+          ctrl.Enabled = False
+        Next
+        Me.chkcancel.Enabled = True
+        otherDetailGroupBox.Enabled = False
+      Else
+        For Each ctrl As Control In primaryDetailGroupBox.Controls
+          ctrl.Enabled = True
+        Next
+        otherDetailGroupBox.Enabled = True
+      End If
+      Dim CanEditAccountEntity As Boolean = Convert.ToBoolean(Configuration.GetConfig("CanEditAccountEntity"))
+      If CanEditAccountEntity Then
+        Me.txtAccount.ReadOnly = False
+        Me.btnAccountEdit.Enabled = True
+        Me.btnAccountFind.Enabled = True
+        Me.Validator.SetRequired(Me.txtAccount, True)
+      End If
+    End Sub
 
-        ' เคลียร์ข้อมูลลูกค้าใน control
-        Public Overrides Sub ClearDetail()
-            lblStatus.Text = ""
-            For Each crtl As Control In grbDetail.Controls
-                If TypeOf crtl Is TextBox Then
-                    crtl.Text = ""
-                End If
-            Next
+    ' เคลียร์ข้อมูลลูกค้าใน control
+    Public Overrides Sub ClearDetail()
+      lblStatus.Text = ""
+      For Each crtl As Control In grbDetail.Controls
+        If TypeOf crtl Is TextBox Then
+          crtl.Text = ""
+        End If
+      Next
 
-            rdJuris.PerformClick()
-            chkcancel.Checked = False
+      rdJuris.PerformClick()
+      chkcancel.Checked = False
 
-            cmbProvince.SelectedIndex = -1
-            cmbProvince.SelectedIndex = -1
-        End Sub
+      cmbProvince.SelectedIndex = -1
+      cmbProvince.SelectedIndex = -1
+    End Sub
 
-        Protected Overrides Sub EventWiring()
+    Protected Overrides Sub EventWiring()
       AddHandler cmbCode.TextChanged, AddressOf Me.ChangeProperty
       AddHandler cmbCode.SelectedIndexChanged, AddressOf Me.ChangeProperty
       AddHandler txtName.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtAltName.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAltName.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler chkcancel.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler chkcancel.CheckedChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtBillingAddress.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtAddress.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtPhone.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtContact.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtFax.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtEmail.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtAuthorizeAmount.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtTaxID.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtIdNo.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtMobile.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtBillingAddress.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAddress.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtPhone.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtContact.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtFax.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtEmail.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtAuthorizeAmount.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtTaxID.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtIdNo.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtMobile.TextChanged, AddressOf Me.ChangeProperty
 
-            AddHandler rdJuris.CheckedChanged, AddressOf Me.ChangeProperty
-            AddHandler rdIndividual.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler rdJuris.CheckedChanged, AddressOf Me.ChangeProperty
+      AddHandler rdIndividual.CheckedChanged, AddressOf Me.ChangeProperty
 
-            AddHandler txtAccount.Validated, AddressOf Me.ChangeProperty
-            AddHandler txtGroup.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtAccount.Validated, AddressOf Me.ChangeProperty
+      AddHandler txtGroup.Validated, AddressOf Me.ChangeProperty
 
-            AddHandler cmbProvince.Validated, AddressOf Me.ChangeProperty
-           
-        End Sub
-        ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-        Public Overrides Sub UpdateEntityProperties()
-            m_isInitialized = False
-            ClearDetail()
-            If m_entity Is Nothing Then
-                Return
-            End If
+      AddHandler cmbProvince.Validated, AddressOf Me.ChangeProperty
+
+    End Sub
+    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+    Public Overrides Sub UpdateEntityProperties()
+      m_isInitialized = False
+      ClearDetail()
+      If m_entity Is Nothing Then
+        Return
+      End If
       cmbCode.Items.Clear()
       cmbCode.DropDownStyle = ComboBoxStyle.Simple
       cmbCode.Text = m_entity.Code
       BusinessLogic.Entity.PopulateCodeCombo(Me.cmbCode, Me.m_entity.EntityId)
       m_genoldCode = m_entity.Code
 
-            m_entity.LoadImage()
+      m_entity.LoadImage()
 
-            Me.m_genoldCode = Me.m_entity.Code
-            Me.chkAutorun.Checked = Me.m_entity.AutoGen
-            Me.UpdateAutogenStatus()
+      Me.m_genoldCode = Me.m_entity.Code
+      Me.chkAutorun.Checked = Me.m_entity.AutoGen
+      Me.UpdateAutogenStatus()
 
-            txtName.Text = m_entity.Name
-            txtAltName.Text = m_entity.AlternateName
-            txtBillingAddress.Text = m_entity.BillingAddress
-            txtAddress.Text = m_entity.Address
-            txtPhone.Text = m_entity.Phone
-            txtFax.Text = m_entity.Fax
-            txtEmail.Text = m_entity.EmailAddress
-            txtGroup.Text = m_entity.Group.Code
-            txtGroupName.Text = m_entity.Group.Name
-            txtAccount.Text = m_entity.Account.Code
-            txtAccountName.Text = m_entity.Account.Name
-            txtAuthorizeAmount.Text = Configuration.FormatToString(m_entity.AuthorizeAmount, DigitConfig.Price)
-            txtTaxID.Text = m_entity.TaxId
-            txtContact.Text = m_entity.Contact
-            txtIdNo.Text = Me.m_entity.IdNo
-            txtNote.Text = Me.m_entity.Note
-            txtMobile.Text = Me.m_entity.Mobile
+      txtName.Text = m_entity.Name
+      txtAltName.Text = m_entity.AlternateName
+      txtBillingAddress.Text = m_entity.BillingAddress
+      txtAddress.Text = m_entity.Address
+      txtPhone.Text = m_entity.Phone
+      txtFax.Text = m_entity.Fax
+      txtEmail.Text = m_entity.EmailAddress
+      txtGroup.Text = m_entity.Group.Code
+      txtGroupName.Text = m_entity.Group.Name
+      txtAccount.Text = m_entity.Account.Code
+      txtAccountName.Text = m_entity.Account.Name
+      txtAuthorizeAmount.Text = Configuration.FormatToString(m_entity.AuthorizeAmount, DigitConfig.Price)
+      txtTaxID.Text = m_entity.TaxId
+      txtContact.Text = m_entity.Contact
+      txtIdNo.Text = Me.m_entity.IdNo
+      txtNote.Text = Me.m_entity.Note
+      txtMobile.Text = Me.m_entity.Mobile
 
-            If Me.m_entity.PersonType.Value = 0 Then
-                rdIndividual.PerformClick()
-            Else
-                rdJuris.PerformClick()
-            End If
-            If Me.m_entity.Canceled Then
-                chkcancel.Checked = True
-            Else
-                chkcancel.Checked = False
-            End If
+      If Me.m_entity.PersonType.Value = 0 Then
+        rdIndividual.PerformClick()
+      Else
+        rdJuris.PerformClick()
+      End If
+      If Me.m_entity.Canceled Then
+        chkcancel.Checked = True
+      Else
+        chkcancel.Checked = False
+      End If
 
-            Dim flaginlist As Boolean = False
-            For Each item As IdValuePair In cmbProvince.Items
-                If item.Value = Me.m_entity.Province Then
-                    Me.cmbProvince.SelectedItem = item
-                    flaginlist = True
-                    Exit For
-                End If
-            Next
-            If Not flaginlist Then
-                Me.cmbProvince.Text = Me.m_entity.Province
-            End If
+      Dim flaginlist As Boolean = False
+      For Each item As IdValuePair In cmbProvince.Items
+        If item.Value = Me.m_entity.Province Then
+          Me.cmbProvince.SelectedItem = item
+          flaginlist = True
+          Exit For
+        End If
+      Next
+      If Not flaginlist Then
+        Me.cmbProvince.Text = Me.m_entity.Province
+      End If
 
-            m_treeManager.Treetable = Me.m_entity.GetCCTable
+      m_treeManager.Treetable = Me.m_entity.GetCCTable
 
-            SetStatus()
-            SetLabelText()
-            CheckFormEnable()
+      SetStatus()
+      SetLabelText()
+      CheckFormEnable()
 
-            m_isInitialized = True
-        End Sub
+      m_isInitialized = True
+    End Sub
 
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
 
-            Dim dirtyFlag As Boolean = False
-            Select Case CType(sender, Control).Name.ToLower
+      Dim dirtyFlag As Boolean = False
+      Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
           Me.m_entity.Code = cmbCode.Text
           ComboCodeIndex = cmbCode.SelectedIndex
@@ -1278,7 +1288,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Case "txtgroup"
           dirtyFlag = CustomerGroup.GetCustomerGroup(txtGroup, txtGroupName, Me.m_entity.Group)
-
+          If dirtyFlag Then
+            Me.SetAccountFromCustomerGroup()
+          End If
         Case "txtaccount"
           dirtyFlag = Account.GetAccount(txtAccount, txtAccountName, Me.m_entity.Account)
 
@@ -1288,36 +1300,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       End Select
 
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
-            CheckFormEnable()
+      CheckFormEnable()
 
-        End Sub
-    Public Sub SetStatus()
-       MyBase.SetStatusBarMessage()
     End Sub
-        Public Overrides Property Entity() As ISimpleEntity
-            Get
-                Return Me.m_entity
-            End Get
-            Set(ByVal Value As ISimpleEntity)
-                Me.m_entity = Nothing
-                Me.m_entity = CType(Value, Customer)
-                'Hack:
-                Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-                UpdateEntityProperties()
-            End Set
-        End Property
+    Public Sub SetStatus()
+      MyBase.SetStatusBarMessage()
+    End Sub
+    Public Overrides Property Entity() As ISimpleEntity
+      Get
+        Return Me.m_entity
+      End Get
+      Set(ByVal Value As ISimpleEntity)
+        Me.m_entity = Nothing
+        Me.m_entity = CType(Value, Customer)
+        'Hack:
+        Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+        UpdateEntityProperties()
+      End Set
+    End Property
 
 #End Region
 
 #Region " AutoGenCode "
-        Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-            UpdateAutogenStatus()
-        End Sub
-        Private m_genoldCode As String = ""
-        Private Sub UpdateAutogenStatus()
-            If Me.chkAutorun.Checked Then
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
+      UpdateAutogenStatus()
+    End Sub
+    Private m_genoldCode As String = ""
+    Private Sub UpdateAutogenStatus()
+      If Me.chkAutorun.Checked Then
         'Me.Validator.SetRequired(Me.txtCode, False)
         'Me.ErrorProvider1.SetError(Me.txtCode, "")
         'Me.txtCode.ReadOnly = True
@@ -1325,126 +1337,139 @@ Namespace Longkong.Pojjaman.Gui.Panels
         cmbCode.SelectedIndex = ComboCodeIndex
         m_genoldCode = Me.cmbCode.Text
         'Me.txtCode.Text = BusinessLogic.Entity.GetAutoCodeFormat(Me.m_entity.EntityId)
-                'Hack: set Code เป็น "" เอง
+        'Hack: set Code เป็น "" เอง
         'Me.m_entity.Code = ""
         Me.m_entity.Code = m_genoldCode
-                Me.m_entity.AutoGen = True
-            Else
+        Me.m_entity.AutoGen = True
+      Else
         'Me.Validator.SetRequired(Me.txtCode, True)
         Me.cmbCode.DropDownStyle = ComboBoxStyle.Simple
         Me.cmbCode.Text = m_genoldCode
         'Me.txtCode.ReadOnly = False
-                Me.m_entity.AutoGen = False
-            End If
-        End Sub
-        Private Sub btnAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAuxDetail.Click
-            Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.CustAuxDetailView
-            myAuxPanel.Entity = Me.m_entity
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
-            If myDialog.ShowDialog() = DialogResult.Cancel Then
-                'Me.WorkbenchWindow.ViewContent.IsDirty = True    'neng :ไม่งั้นจะ IsDirty เสมอเมื่อคลิก Cancel
-            End If
-        End Sub
-        Private Sub btnGroupEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGroupEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New CustomerGroup)
-        End Sub
+        Me.m_entity.AutoGen = False
+      End If
+    End Sub
+    Private Sub btnAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAuxDetail.Click
+      Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.CustAuxDetailView
+      myAuxPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        'Me.WorkbenchWindow.ViewContent.IsDirty = True    'neng :ไม่งั้นจะ IsDirty เสมอเมื่อคลิก Cancel
+      End If
+    End Sub
+    Private Sub btnGroupEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGroupEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New CustomerGroup)
+    End Sub
 
-        Private Sub btnAccountEdit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAccountEdit.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenPanel(New Account)
-        End Sub
+    Private Sub btnAccountEdit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAccountEdit.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenPanel(New Account)
+    End Sub
 
-        Private Sub btnGroupFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGroupFind.Click
-            Dim myEntityPanelService As IEntityPanelService = _
-             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New CustomerGroup, AddressOf SetCustomerGroupDialog)
-        End Sub
+    Private Sub btnGroupFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGroupFind.Click
+      Dim myEntityPanelService As IEntityPanelService = _
+       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New CustomerGroup, AddressOf SetCustomerGroupDialog)
+    End Sub
 
-        Private Sub SetCustomerGroupDialog(ByVal e As ISimpleEntity)
-            Me.txtGroup.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or CustomerGroup.GetCustomerGroup(txtGroup, txtGroupName, Me.m_entity.Group)
-        End Sub
+    Private Sub SetCustomerGroupDialog(ByVal e As ISimpleEntity)
+      Me.txtGroup.Text = e.Code
+      Dim dirty As Boolean = CustomerGroup.GetCustomerGroup(txtGroup, txtGroupName, Me.m_entity.Group)
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or dirty
+      If dirty Then
+        Me.SetAccountFromCustomerGroup()
+      End If
+    End Sub
 
-        Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountFind.Click
-            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
-        End Sub
+    Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountFind.Click
+      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+      myEntityPanelService.OpenTreeDialog(New Account, AddressOf SetAccountDialog)
+    End Sub
 
-        Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
-            Me.txtAccount.Text = e.Code
-            Me.WorkbenchWindow.ViewContent.IsDirty = _
-                Me.WorkbenchWindow.ViewContent.IsDirty _
-                Or Account.GetAccount(txtAccount, txtAccountName, Me.m_entity.Account)
-        End Sub
+    Private Sub SetAccountDialog(ByVal e As ISimpleEntity)
+      Me.txtAccount.Text = e.Code
+      Me.WorkbenchWindow.ViewContent.IsDirty = _
+          Me.WorkbenchWindow.ViewContent.IsDirty _
+          Or Account.GetAccount(txtAccount, txtAccountName, Me.m_entity.Account)
+    End Sub
 
+    Private Sub SetAccountFromCustomerGroup()
+      Me.txtAccount.Text = ""
+      Me.txtAccountName.Text = ""
+      Me.m_entity.SetAccountFromCustomerGroup()
+      If Not Me.m_entity.Account Is Nothing AndAlso Me.m_entity.Account.Code.Length > 0 Then
+        Me.txtAccount.Text = m_entity.Account.Code
+        Me.txtAccountName.Text = m_entity.Account.Name
+      End If
+    End Sub
 
 #End Region
 
 #Region "IClipboardHandler Overrides"
-        Public Overrides ReadOnly Property EnablePaste() As Boolean
-            Get
-                Dim data As IDataObject = Clipboard.GetDataObject
-                If data.GetDataPresent((New CustomerGroup).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtgroup", "txtgroupname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                If data.GetDataPresent((New Account).FullClassName) Then
-                    If Not Me.ActiveControl Is Nothing Then
-                        Select Case Me.ActiveControl.Name.ToLower
-                            Case "txtaccount", "txtaccountname"
-                                Return True
-                        End Select
-                    End If
-                End If
-                Return False
-            End Get
-        End Property
-        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-            Dim data As IDataObject = Clipboard.GetDataObject
-            If data.GetDataPresent((New CustomerGroup).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New CustomerGroup).FullClassName))
-                Dim entity As New CustomerGroup(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtgroup", "txtgroupname"
-                            Me.SetCustomerGroupDialog(entity)
-                    End Select
-                End If
-            End If
-            If data.GetDataPresent((New Account).FullClassName) Then
-                Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
-                Dim entity As New Account(id)
-                If Not Me.ActiveControl Is Nothing Then
-                    Select Case Me.ActiveControl.Name.ToLower
-                        Case "txtaccount", "txtaccountname"
-                            Me.SetAccountDialog(entity)
-                    End Select
-                End If
-            End If
-        End Sub
+    Public Overrides ReadOnly Property EnablePaste() As Boolean
+      Get
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New CustomerGroup).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtgroup", "txtgroupname"
+                Return True
+            End Select
+          End If
+        End If
+        If data.GetDataPresent((New Account).FullClassName) Then
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtaccount", "txtaccountname"
+                Return True
+            End Select
+          End If
+        End If
+        Return False
+      End Get
+    End Property
+    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+      Dim data As IDataObject = Clipboard.GetDataObject
+      If data.GetDataPresent((New CustomerGroup).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New CustomerGroup).FullClassName))
+        Dim entity As New CustomerGroup(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtgroup", "txtgroupname"
+              Me.SetCustomerGroupDialog(entity)
+          End Select
+        End If
+      End If
+      If data.GetDataPresent((New Account).FullClassName) Then
+        Dim id As Integer = CInt(data.GetData((New Account).FullClassName))
+        Dim entity As New Account(id)
+        If Not Me.ActiveControl Is Nothing Then
+          Select Case Me.ActiveControl.Name.ToLower
+            Case "txtaccount", "txtaccountname"
+              Me.SetAccountDialog(entity)
+          End Select
+        End If
+      End If
+    End Sub
 #End Region
 
 #Region "IValidatable"
-        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-            Get
-                Return Me.Validator
-            End Get
-        End Property
+    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+      Get
+        Return Me.Validator
+      End Get
+    End Property
 #End Region
 
 #Region "Overrides"
-        Public Overrides ReadOnly Property TabPageIcon() As String
-            Get
-                Return (New Customer).DetailPanelIcon
-            End Get
-        End Property
+    Public Overrides ReadOnly Property TabPageIcon() As String
+      Get
+        Return (New Customer).DetailPanelIcon
+      End Get
+    End Property
 #End Region
 
     Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
@@ -1457,6 +1482,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Next
       Next
     End Sub
-    End Class
+  End Class
 
 End Namespace

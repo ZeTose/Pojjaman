@@ -8,9 +8,9 @@ Imports System.Text.RegularExpressions
 
 Namespace Longkong.Pojjaman.Gui.Panels
   Public Class SupplierDetailView
-        'Inherits UserControl
-        Inherits AbstractEntityDetailPanelView
-        Implements IValidatable, IUserKeypress
+    'Inherits UserControl
+    Inherits AbstractEntityDetailPanelView
+    Implements IValidatable, IUserKeypress
 
 #Region " Windows Form Designer generated code "
 
@@ -733,7 +733,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtAddress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
       Me.txtAddress.Size = New System.Drawing.Size(224, 42)
       Me.txtAddress.TabIndex = 4
-            Me.txtAddress.WordWrap = False
+      Me.txtAddress.WordWrap = False
       '
       'lblAddress
       '
@@ -744,7 +744,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAddress.Size = New System.Drawing.Size(88, 18)
       Me.lblAddress.TabIndex = 14
       Me.lblAddress.Text = "ที่อยู่ปัจจุบัน:"
-            Me.lblAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+      Me.lblAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight
 
       '
       'txtPhone
@@ -903,6 +903,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountFind.TabStop = False
       Me.btnAccountFind.Tag = "NotGigaSite"
       Me.btnAccountFind.ThemedImage = CType(resources.GetObject("btnAccountFind.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAccountFind.Enabled = False
       '
       'btnGroupEdit
       '
@@ -926,6 +927,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.btnAccountEdit.TabStop = False
       Me.btnAccountEdit.Tag = "NotGigaSite"
       Me.btnAccountEdit.ThemedImage = CType(resources.GetObject("btnAccountEdit.ThemedImage"), System.Drawing.Bitmap)
+      Me.btnAccountEdit.Enabled = False
       '
       'txtContact
       '
@@ -1167,10 +1169,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetMinValue(Me.txtAccountCode, "")
       Me.txtAccountCode.Name = "txtAccountCode"
       Me.Validator.SetRegularExpression(Me.txtAccountCode, "")
-      Me.Validator.SetRequired(Me.txtAccountCode, True)
+      Me.Validator.SetRequired(Me.txtAccountCode, False)
       Me.txtAccountCode.Size = New System.Drawing.Size(80, 21)
       Me.txtAccountCode.TabIndex = 3
       Me.txtAccountCode.Tag = "NotGigaSite"
+      Me.txtAccountCode.ReadOnly = True
       '
       'txtNote
       '
@@ -1707,6 +1710,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Catch ex As Exception
         'MessageBox.Show(ex.ToString)
       End Try
+      Dim CanEditAccountEntity As Boolean = Convert.ToBoolean(Configuration.GetConfig("CanEditAccountEntity"))
+      If CanEditAccountEntity Then
+        Me.txtAccountCode.ReadOnly = False
+        Me.btnAccountEdit.Enabled = True
+        Me.btnAccountFind.Enabled = True
+        Me.Validator.SetRequired(Me.txtAccountCode, True)
+      End If
     End Sub
 
     ' เคลียร์ข้อมูลลูกค้าใน control
@@ -1756,29 +1766,29 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler cbmProvince.Validated, AddressOf Me.ChangeProperty
 
       AddHandler txtNote.TextChanged, AddressOf Me.ChangeProperty
-            AddHandler txtMobile.TextChanged, AddressOf Me.ChangeProperty
+      AddHandler txtMobile.TextChanged, AddressOf Me.ChangeProperty
 
       AddHandler txtDCBank.TextChanged, AddressOf ChangeProperty
       AddHandler txtDCACcount.TextChanged, AddressOf ChangeProperty
       AddHandler txtMCBank.TextChanged, AddressOf ChangeProperty
       AddHandler txtMCAccount.TextChanged, AddressOf ChangeProperty
-            AddHandler txtBuilkID.TextChanged, AddressOf ChangeProperty
+      AddHandler txtBuilkID.TextChanged, AddressOf ChangeProperty
 
-            For Each ctl As Control In Me.grbDetail.Controls
-                If TypeOf ctl Is FixedGroupBox Then
-                    For Each ctl1 As Control In CType(ctl, FixedGroupBox).Controls
-                        If TypeOf ctl1 Is TextBox Then
-                            AddHandler CType(ctl1, TextBox).KeyPress, AddressOf KeyPress
-                        End If
-                        If TypeOf ctl1 Is ComboBox Then
-                            AddHandler CType(ctl1, ComboBox).KeyPress, AddressOf KeyPress
-                        End If
-                        If TypeOf ctl1 Is CheckBox Then
-                            AddHandler CType(ctl1, CheckBox).KeyPress, AddressOf KeyPress
-                        End If
-                    Next
-                End If
-            Next
+      For Each ctl As Control In Me.grbDetail.Controls
+        If TypeOf ctl Is FixedGroupBox Then
+          For Each ctl1 As Control In CType(ctl, FixedGroupBox).Controls
+            If TypeOf ctl1 Is TextBox Then
+              AddHandler CType(ctl1, TextBox).KeyPress, AddressOf KeyPress
+            End If
+            If TypeOf ctl1 Is ComboBox Then
+              AddHandler CType(ctl1, ComboBox).KeyPress, AddressOf KeyPress
+            End If
+            If TypeOf ctl1 Is CheckBox Then
+              AddHandler CType(ctl1, CheckBox).KeyPress, AddressOf KeyPress
+            End If
+          Next
+        End If
+      Next
 
     End Sub
     ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
@@ -2020,147 +2030,149 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     End Sub
 
-        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-            If Me.m_entity Is Nothing Or Not m_isInitialized Then
-                Return
-            End If
+    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+      If Me.m_entity Is Nothing Or Not m_isInitialized Then
+        Return
+      End If
 
-            Dim dirtyFlag As Boolean
-            Select Case CType(sender, Control).Name.ToLower
-                Case "cmbcode"
-                    Me.m_entity.Code = cmbCode.Text
-                    ComboCodeIndex = cmbCode.SelectedIndex
-                    m_oldCode = Me.cmbCode.Text
-                    dirtyFlag = True
+      Dim dirtyFlag As Boolean
+      Select Case CType(sender, Control).Name.ToLower
+        Case "cmbcode"
+          Me.m_entity.Code = cmbCode.Text
+          ComboCodeIndex = cmbCode.SelectedIndex
+          m_oldCode = Me.cmbCode.Text
+          dirtyFlag = True
 
-                Case txtDCBank.Name.ToLower
-                    m_entity.DCBank = txtDCBank.Text
-                    dirtyFlag = True
-                Case txtDCACcount.Name.ToLower
-                    m_entity.DCAccount = txtDCACcount.Text
-                    dirtyFlag = True
-                Case txtMCBank.Name.ToLower
-                    m_entity.MCBank = txtMCBank.Text
-                    dirtyFlag = True
-                Case txtMCAccount.Name.ToLower
-                    m_entity.MCAccount = txtMCAccount.Text
-                    dirtyFlag = True
-                Case "chkcancel"
-                    Me.m_entity.Canceled = chkcancel.Checked
-                    dirtyFlag = True
+        Case txtDCBank.Name.ToLower
+          m_entity.DCBank = txtDCBank.Text
+          dirtyFlag = True
+        Case txtDCACcount.Name.ToLower
+          m_entity.DCAccount = txtDCACcount.Text
+          dirtyFlag = True
+        Case txtMCBank.Name.ToLower
+          m_entity.MCBank = txtMCBank.Text
+          dirtyFlag = True
+        Case txtMCAccount.Name.ToLower
+          m_entity.MCAccount = txtMCAccount.Text
+          dirtyFlag = True
+        Case "chkcancel"
+          Me.m_entity.Canceled = chkcancel.Checked
+          dirtyFlag = True
 
-                Case "txtname"
-                    Me.m_entity.Name = txtName.Text
-                    dirtyFlag = True
+        Case "txtname"
+          Me.m_entity.Name = txtName.Text
+          dirtyFlag = True
 
-                Case "txtmobile"
-                    Me.m_entity.Mobile = txtMobile.Text
-                    dirtyFlag = True
+        Case "txtmobile"
+          Me.m_entity.Mobile = txtMobile.Text
+          dirtyFlag = True
 
-                Case "txtnote"
-                    Me.m_entity.Note = txtNote.Text
-                    dirtyFlag = True
+        Case "txtnote"
+          Me.m_entity.Note = txtNote.Text
+          dirtyFlag = True
 
-                Case "txtaltname"
-                    Me.m_entity.AlternateName = txtAltName.Text
-                    dirtyFlag = True
+        Case "txtaltname"
+          Me.m_entity.AlternateName = txtAltName.Text
+          dirtyFlag = True
 
-                Case "txtbillingaddress"
-                    Me.m_entity.BillingAddress = txtBillingAddress.Text
-                    dirtyFlag = True
+        Case "txtbillingaddress"
+          Me.m_entity.BillingAddress = txtBillingAddress.Text
+          dirtyFlag = True
 
-                Case "txtaddress"
-                    Me.m_entity.Address = txtAddress.Text
-                    dirtyFlag = True
+        Case "txtaddress"
+          Me.m_entity.Address = txtAddress.Text
+          dirtyFlag = True
 
-                Case "txtphone"
-                    Me.m_entity.Phone = txtPhone.Text
-                    dirtyFlag = True
+        Case "txtphone"
+          Me.m_entity.Phone = txtPhone.Text
+          dirtyFlag = True
 
-                Case "txtcontact"
-                    Me.m_entity.Contact = txtContact.Text
-                    dirtyFlag = True
+        Case "txtcontact"
+          Me.m_entity.Contact = txtContact.Text
+          dirtyFlag = True
 
-                Case "txtfax"
-                    Me.m_entity.Fax = txtFax.Text
-                    dirtyFlag = True
+        Case "txtfax"
+          Me.m_entity.Fax = txtFax.Text
+          dirtyFlag = True
 
-                Case "txtfaxforexport"
-                    'If IsNumeric(txtFaxforExport.Text) Then
+        Case "txtfaxforexport"
+          'If IsNumeric(txtFaxforExport.Text) Then
 
-                    Try
+          Try
 
-                        Me.m_entity.FaxforExport = Regex.Replace(txtFaxforExport.Text, "\b\D+\b", "")
+            Me.m_entity.FaxforExport = Regex.Replace(txtFaxforExport.Text, "\b\D+\b", "")
 
-                    Catch ex As Exception
+          Catch ex As Exception
 
-                    End Try
-                    'Else
-                    'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-                    'msgServ.ShowMessageFormatted("${res:Global.Error.FillWithInteger}")
-                    'End If
-                    dirtyFlag = True
+          End Try
+          'Else
+          'Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+          'msgServ.ShowMessageFormatted("${res:Global.Error.FillWithInteger}")
+          'End If
+          dirtyFlag = True
 
-                Case "txtemail"
-                    Me.m_entity.EmailAddress = txtEmail.Text
-                    dirtyFlag = True
+        Case "txtemail"
+          Me.m_entity.EmailAddress = txtEmail.Text
+          dirtyFlag = True
 
-                Case "txtgroupcode"
-                    dirtyFlag = SupplierGroup.GetSupplierGroup(txtGroupCode, txtGroupName, Me.m_entity.Group)
+        Case "txtgroupcode"
+          dirtyFlag = SupplierGroup.GetSupplierGroup(txtGroupCode, txtGroupName, Me.m_entity.Group)
+          If dirtyFlag Then
+            Me.SetAccountFromSupplierGroup()
+          End If
+        Case "txtaccountcode"
+          dirtyFlag = Account.GetAccount(txtAccountCode, txtAccountName, Me.m_entity.Account)
 
-                Case "txtaccountcode"
-                    dirtyFlag = Account.GetAccount(txtAccountCode, txtAccountName, Me.m_entity.Account)
+        Case "txtauthorizeamount"
+          If IsNumeric(txtAuthorizeAmount.Text) Then
+            Try
+              Me.m_entity.AuthorizeAmount = CDec(txtAuthorizeAmount.Text)
+            Catch ex As Exception
 
-                Case "txtauthorizeamount"
-                    If IsNumeric(txtAuthorizeAmount.Text) Then
-                        Try
-                            Me.m_entity.AuthorizeAmount = CDec(txtAuthorizeAmount.Text)
-                        Catch ex As Exception
+            End Try
+          Else
+            Me.m_entity.AuthorizeAmount = 0
+          End If
+          dirtyFlag = True
 
-                        End Try
-                    Else
-                        Me.m_entity.AuthorizeAmount = 0
-                    End If
-                    dirtyFlag = True
+        Case "txttaxid"
+          If Not IsNumeric(txtTaxID.Text) Then
+            txtTaxID.Text = ""
+          End If
+          Me.m_entity.TaxId = txtTaxID.Text
+          dirtyFlag = True
 
-                Case "txttaxid"
-                    If Not IsNumeric(txtTaxID.Text) Then
-                        txtTaxID.Text = ""
-                    End If
-                    Me.m_entity.TaxId = txtTaxID.Text
-                    dirtyFlag = True
+        Case "txtidno"
+          If Not IsNumeric(txtIdNo.Text) Then
+            txtIdNo.Text = ""
+          End If
+          Me.m_entity.IdNo = txtIdNo.Text
+          dirtyFlag = True
 
-                Case "txtidno"
-                    If Not IsNumeric(txtIdNo.Text) Then
-                        txtIdNo.Text = ""
-                    End If
-                    Me.m_entity.IdNo = txtIdNo.Text
-                    dirtyFlag = True
+        Case "rdjuris", "rdIndividual"
+          If rdJuris.Checked Then
+            Me.m_entity.PersonType.Value = 1
+          Else
+            Me.m_entity.PersonType.Value = 0
+          End If
+          dirtyFlag = True
 
-                Case "rdjuris", "rdIndividual"
-                    If rdJuris.Checked Then
-                        Me.m_entity.PersonType.Value = 1
-                    Else
-                        Me.m_entity.PersonType.Value = 0
-                    End If
-                    dirtyFlag = True
+        Case "cbmprovince"
+          Me.m_entity.Province = Me.cbmProvince.Text
+          dirtyFlag = True
 
-                Case "cbmprovince"
-                    Me.m_entity.Province = Me.cbmProvince.Text
-                    dirtyFlag = True
-
-                Case "txtbuilkid"
-                    Me.m_entity.BuilkID = txtBuilkID.Text
-                    dirtyFlag = True
+        Case "txtbuilkid"
+          Me.m_entity.BuilkID = txtBuilkID.Text
+          dirtyFlag = True
 
 
-            End Select
+      End Select
 
-            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
 
-            CheckFormEnable()
+      CheckFormEnable()
 
-        End Sub
+    End Sub
     'Public Function OnlyNumeric(ByVal txt As String) As String
     '    Dim ret As String = ""
     '    Dim arrt() As Char = txt.ToCharArray()
@@ -2190,45 +2202,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region " Event of Button Controls "
-        Private Sub ibtnAddContact_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddContact.Click
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If Me.m_entity Is Nothing Then
-                Return
-            End If
-            Dim scColl As SupplierContactCollection = Me.m_entity.ContactCollection
-            Dim sc As New SupplierContact
-            scColl.Add(sc)
-            RefreshContact()
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End Sub
-        Private Sub ibtnDelContact_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelContact.Click
-            Dim item As SupplierContact = Me.CurrentContact
-            If item Is Nothing Then
-                Return
-            End If
-            Dim scColl As SupplierContactCollection = Me.m_entity.ContactCollection
-            scColl.Remove(item)
-            RefreshContact()
-            Me.WorkbenchWindow.ViewContent.IsDirty = True
-        End Sub
-        Private Sub btnAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAuxDetail.Click
-            Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView
-            myAuxPanel.Entity = Me.m_entity
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
-            If myDialog.ShowDialog() = DialogResult.Cancel Then
-                Me.WorkbenchWindow.ViewContent.IsDirty = False
-            End If
-        End Sub
-        Private Sub btnExportDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportDetail.Click
-            Dim myExpPanel As New Longkong.Pojjaman.Gui.Panels.SupplierExportDetailView
-            myExpPanel.Entity = Me.m_entity
-            Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myExpPanel)
-            If myDialog.ShowDialog() = DialogResult.Cancel Then
-                CType(Me.m_entity, IExportEntityDetail).ExportEntity = Nothing
-                Me.WorkbenchWindow.ViewContent.IsDirty = False
-                'Me.m_entity.ExportEntity.IsDirty = False
-            End If
-        End Sub
+    Private Sub ibtnAddContact_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnAddContact.Click
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.m_entity Is Nothing Then
+        Return
+      End If
+      Dim scColl As SupplierContactCollection = Me.m_entity.ContactCollection
+      Dim sc As New SupplierContact
+      scColl.Add(sc)
+      RefreshContact()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub ibtnDelContact_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnDelContact.Click
+      Dim item As SupplierContact = Me.CurrentContact
+      If item Is Nothing Then
+        Return
+      End If
+      Dim scColl As SupplierContactCollection = Me.m_entity.ContactCollection
+      scColl.Remove(item)
+      RefreshContact()
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
+    Private Sub btnAuxDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAuxDetail.Click
+      Dim myAuxPanel As New Longkong.Pojjaman.Gui.Panels.SupplierAuxDetailView
+      myAuxPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myAuxPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+      End If
+    End Sub
+    Private Sub btnExportDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportDetail.Click
+      Dim myExpPanel As New Longkong.Pojjaman.Gui.Panels.SupplierExportDetailView
+      myExpPanel.Entity = Me.m_entity
+      Dim myDialog As New Longkong.Pojjaman.Gui.Dialogs.PanelDialog(myExpPanel)
+      If myDialog.ShowDialog() = DialogResult.Cancel Then
+        CType(Me.m_entity, IExportEntityDetail).ExportEntity = Nothing
+        Me.WorkbenchWindow.ViewContent.IsDirty = False
+        'Me.m_entity.ExportEntity.IsDirty = False
+      End If
+    End Sub
 #End Region
 
 #Region "IClipboardHandler Overrides"
@@ -2305,9 +2317,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub SetSupplierGroupDialog(ByVal e As ISimpleEntity)
       Me.txtGroupCode.Text = e.Code
+      Dim dirty As Boolean = SupplierGroup.GetSupplierGroup(txtGroupCode, txtGroupName, Me.m_entity.Group)
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty _
-          Or SupplierGroup.GetSupplierGroup(txtGroupCode, txtGroupName, Me.m_entity.Group)
+          Or dirty
+      If dirty Then
+        Me.SetAccountFromSupplierGroup()
+      End If
     End Sub
     ' Account
     Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccountFind.Click
@@ -2319,6 +2335,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.WorkbenchWindow.ViewContent.IsDirty = _
           Me.WorkbenchWindow.ViewContent.IsDirty Or _
           Account.GetAccount(txtAccountCode, txtAccountName, Me.m_entity.Account)
+    End Sub
+
+    Private Sub SetAccountFromSupplierGroup()
+      Me.txtAccountCode.Text = ""
+      Me.txtAccountName.Text = ""
+      Me.m_entity.SetAccountFromSupplierGroup()
+      If Not Me.m_entity.Account Is Nothing AndAlso Me.m_entity.Account.Code.Length > 0 Then
+        Me.txtAccountCode.Text = m_entity.Account.Code
+        Me.txtAccountName.Text = m_entity.Account.Name
+      End If
     End Sub
 #End Region
 
@@ -2359,26 +2385,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Next
       Next
-        End Sub
+    End Sub
 
- 
-        Private Sub KeyPress(sender As Object, e As System.Windows.Forms.KeyPressEventArgs)
-            If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Enter) Then
-                If TypeOf sender Is ComboBox Or TypeOf sender Is CheckBox Then
-                    SendKeys.Send("{Tab}")
-                    e.Handled = True
-                ElseIf TypeOf sender Is TextBox Then
 
-                    If CType(sender, TextBox).Name = Me.txtAddress.Name OrElse CType(sender, TextBox).Name = Me.txtBillingAddress.Name Then
-                        e.Handled = False
-                    Else
-                        SendKeys.Send("{Tab}")
-                        e.Handled = True
-                    End If
-                End If
-            End If
+    Private Sub KeyPress(sender As Object, e As System.Windows.Forms.KeyPressEventArgs)
+      If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Enter) Then
+        If TypeOf sender Is ComboBox Or TypeOf sender Is CheckBox Then
+          SendKeys.Send("{Tab}")
+          e.Handled = True
+        ElseIf TypeOf sender Is TextBox Then
 
-        End Sub
-        
-    End Class
+          If CType(sender, TextBox).Name = Me.txtAddress.Name OrElse CType(sender, TextBox).Name = Me.txtBillingAddress.Name Then
+            e.Handled = False
+          Else
+            SendKeys.Send("{Tab}")
+            e.Handled = True
+          End If
+        End If
+      End If
+
+    End Sub
+
+  End Class
 End Namespace

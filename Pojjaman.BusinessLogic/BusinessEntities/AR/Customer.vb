@@ -100,7 +100,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.m_group = New CustomerGroup
       Me.m_coordinator = New Employee
       Me.m_creditType = New CreditType(2)
-      Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Customer).Account
+      'Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Customer).Account
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -492,6 +492,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Methods"
+    Public Sub SetAccountFromCustomerGroup()
+
+      Me.Account = m_group.Account
+      If Me.Account Is Nothing Then
+        Me.Account = New Account
+      End If
+
+    End Sub
     Public Sub PopulateDPIColl(ByVal dpiColl As DocPrintingItemCollection)
       Dim dpi As DocPrintingItem
       'Customer
@@ -783,6 +791,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Constructors"
     Public Sub New()
       MyBase.New()
+      Me.Account = GeneralAccount.GetDefaultGA(GeneralAccount.DefaultGAType.Customer).Account
     End Sub
     Public Sub New(ByVal myParent As CustomerGroup)
       MyBase.New(myParent)
@@ -881,6 +890,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@csg_level", Me.Level))
         paramArrayList.Add(New SqlParameter("@csg_path", Me.Path))
         paramArrayList.Add(New SqlParameter("@csg_control", Me.IsControlGroup))
+        paramArrayList.Add(New SqlParameter("@csg_acct", Me.ValidIdOrDBNull(Me.Account)))
 
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
