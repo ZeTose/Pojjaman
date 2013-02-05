@@ -1019,7 +1019,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'End If
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          If colStyle.MappingName.ToLower.Equals("type") Then
+            colStyle.ReadOnly = True
+          Else
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          End If
         Next
       End If
     End Sub
@@ -1274,6 +1278,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim doc As EquipmentToolWithdrawItem = Me.CurrentItem
       If doc Is Nothing Then
         doc = New EquipmentToolWithdrawItem
+        doc.ItemType = New EqtItemType(19)
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
       End If
