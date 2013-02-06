@@ -1045,10 +1045,36 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If row Is Nothing Then
           Return Nothing
         End If
+        'If TypeOf row.Tag Is String Then
+        '  If CType(row.Tag, String) = "parent" Then
+        '    Dim eqt As New EquipmentToolReturnItem()
+
+        '    Return New EquipmentToolReturnItem()
+        '  End If
+        'End If
         If Not TypeOf row.Tag Is EquipmentToolReturnItem Then
           Return Nothing
         End If
         Return CType(row.Tag, EquipmentToolReturnItem)
+      End Get
+    End Property
+    Private ReadOnly Property IsCurrentItemParent() As Boolean
+      Get
+        Dim row As TreeRow = Me.m_treeManager.SelectedRow
+        If row Is Nothing Then
+          Return False
+        End If
+        'If TypeOf row.Tag Is String Then
+        '  If CType(row.Tag, String) = "parent" Then
+        '    Dim eqt As New EquipmentToolReturnItem()
+
+        '    Return New EquipmentToolReturnItem()
+        '  End If
+        'End If
+        If TypeOf row.Tag Is String AndAlso CType(row.Tag, String).Equals("parent") Then
+          Return True
+        End If
+        Return False
       End Get
     End Property
     'Private Property ComboCodeIndex() As Integer
@@ -1090,7 +1116,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
           ctrl.Enabled = True
         Next
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-          colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          If colStyle.MappingName.ToLower.Equals("code") Then
+            colStyle.ReadOnly = False
+          Else
+            colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
+          End If
         Next
       End If
     End Sub
@@ -1339,18 +1369,109 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim doc As EquipmentToolReturnItem = Me.CurrentItem
+      If Me.IsCurrentItemParent Then
+        Return
+      End If
       If doc Is Nothing Then
         doc = New EquipmentToolReturnItem
+        doc.ItemType = New EqtItemType(19)
         Me.m_entity.ItemCollection.Add(doc)
         Me.m_treeManager.SelectedRow.Tag = doc
+      Else
+        If e.ProposedValue.ToString().Length = 0 Then
+          If Me.m_entity.ItemCollection.Contains(doc) Then
+            Me.m_entity.ItemCollection.Remove(doc)
+          End If
+          'Dim index As Integer = tgItem.CurrentRowIndex
+          'Me.m_entity.ItemCollection.SetItems(items)
+
+          'tgItem.CurrentRowIndex = index
+          'RefreshDocs()
+          'RefreshBlankGrid()
+          Return
+        End If
       End If
+
       Try
         Select Case e.Column.ColumnName.ToLower
           Case "code"
             If IsDBNull(e.ProposedValue) OrElse e.ProposedValue Is Nothing Then
               e.ProposedValue = ""
             End If
-            doc.SetItemCode(CStr(e.ProposedValue))
+
+            Dim excludeList As Object = ""
+            excludeList = GetRefitemExcludeList()
+            If excludeList.ToString.Length = 0 Then
+              excludeList = DBNull.Value
+            End If
+
+            Dim filters(5) As Filter
+            filters(0) = New Filter("excludeList", excludeList)
+            filters(1) = New Filter("formEntity", Me.m_entity.EntityId)
+            filters(2) = New Filter("tocc", Me.m_entity.StoreCostcenter.Id)
+            filters(3) = New Filter("fromcc", Me.m_entity.ReturnCostcenter.Id)
+            filters(4) = New Filter("userright", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
+            filters(5) = New Filter("code", e.ProposedValue)
+
+            'Dim index As Integer = tgItem.CurrentRowIndex
+
+            'doc.SetNewItemCode(CStr(e.ProposedValue), filters)
+
+            Dim dt As DataTable = EqtItem.GetListDatatable("GetEquipmentToolWithdrawforSelectionList", filters)
+            Dim index As Integer = 0
+            For Each row As DataRow In dt.Rows
+              Dim newEqr As New EquipmentToolReturnItem(row, "")
+
+              index += 1
+
+              If index > 1 Then
+                doc = New EquipmentToolReturnItem
+                doc.ItemType = New EqtItemType(19)
+                Me.m_entity.ItemCollection.Add(doc)
+                Me.m_treeManager.SelectedRow.Tag = doc
+              End If
+
+              doc.RefItem = newEqr.RefItem
+              doc.RefDoc = doc.RefItem.EquipmentToolWithdraw
+              doc.Entity = newEqr.Entity
+              doc.Unit = newEqr.Unit
+              doc.ToStatus = New EqtStatus(3)
+              doc.LineNumber = Me.m_entity.ItemCollection.IndexOf(doc) + 1
+
+              If doc.RefItem IsNot Nothing Then
+                doc.Qty = doc.RefItem.Qty
+                doc.LimitQty = doc.RefItem.Qty
+                doc.RentalRate = doc.RefItem.RentalRate
+                'Else
+                '  doc.RentalRate = refItem.RentalRate
+                '  doc.LimitQty = 1
+                '  doc.Qty = 1
+              End If
+              doc.RentalPerDay = doc.RentalRate * doc.Qty
+              'doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
+
+              'Dim myTool As New Tool(theCode)
+              'If Not myTool.Originated Then
+              '  msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+              '  Return
+              'Else
+              '  Me.m_entityitem = myTool
+              '  Me.Unit = CType(myTool, IEqtItem).Unit
+              'End If
+              'Me.m_qty = 1
+            Next
+            If dt.Rows.Count = 0 Then
+              e.ProposedValue = ""
+              If Me.m_entity.ItemCollection.Contains(doc) Then
+                Me.m_entity.ItemCollection.Remove(doc)
+              End If
+            End If
+
+            'Me.m_entity.ItemCollection.SetItems(items)
+
+            'tgItem.CurrentRowIndex = index
+            'RefreshDocs()
+            'RefreshBlankGrid()
           Case "type"
             doc.ItemType = New EqtItemType(CInt(e.ProposedValue))
           Case "qty"
@@ -1638,8 +1759,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Function GetRefitemExcludeList() As String
       Dim arr As New ArrayList
       For Each item As EquipmentToolReturnItem In Me.m_entity.ItemCollection
-        Dim key As String = item.Entity.Id & ":" & item.ItemType.Value
-        arr.Add(key)
+        If Not item.Entity Is Nothing AndAlso Not item.ItemType Is Nothing AndAlso item.Entity.Id <> 0 Then
+          Dim key As String = item.Entity.Id & ":" & item.ItemType.Value
+          arr.Add(key)
+        End If
       Next
       Return String.Join(",", arr.ToArray)
     End Function

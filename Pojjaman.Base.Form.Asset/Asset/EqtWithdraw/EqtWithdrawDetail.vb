@@ -1330,8 +1330,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Private Function GetItemIDList(ByVal type As Integer) As String
       Dim arr As New ArrayList
       For Each item As EquipmentToolWithdrawItem In Me.m_entity.ItemCollection
-        If item.Entity.Id > 0 AndAlso item.ItemType.Value = type Then
-          arr.Add(item.Entity.Id)
+        If Not item.Entity Is Nothing Then
+          If item.Entity.Id > 0 AndAlso item.ItemType.Value = type Then
+            arr.Add(item.Entity.Id)
+          End If
         End If
       Next
       Return String.Join(",", arr.ToArray)

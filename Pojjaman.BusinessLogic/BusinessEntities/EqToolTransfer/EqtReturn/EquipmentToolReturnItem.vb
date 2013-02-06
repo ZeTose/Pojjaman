@@ -225,6 +225,190 @@ Namespace Longkong.Pojjaman.BusinessLogic
     '  Me.Qty = 0
     '  Me.Note = ""
     'End Sub
+    Public Overridable Sub SetNewItemCode(ByVal theCode As String, ByVal filters As Filter())      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If Me.ItemType Is Nothing Then
+        'ไม่มี Type
+        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+        Return
+      End If
+      'If DupCode(theCode) Then
+      '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
+      '    Return
+      'End If
+      Select Case Me.ItemType.Value
+        'Case 342 'F/A
+        '  If theCode Is Nothing OrElse theCode.Length = 0 Then
+        '    If Me.Entity.Code.Length <> 0 Then
+        '      If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
+        '        Me.Clear()
+        '      End If
+        '    End If
+        '    Return
+        '  End If
+        '  Dim myEquipment As New EquipmentItem(theCode)
+        '  If Not myEquipment.Originated Then
+        '    msgServ.ShowMessageFormatted("${res:Global.Error.NoAsset}", New String() {theCode})
+        '    Return
+        '  Else
+        '    Me.m_entityitem = myEquipment
+        '  End If
+        Case 19 'Tool
+
+          Me.Clear()
+
+          Dim dt As DataTable = EqtItem.GetListDatatable("GetEquipmentToolWithdrawforSelectionList", filters)
+          If dt.Rows.Count > 0 Then
+            Dim newEqr As New EquipmentToolReturnItem(dt.Rows(0), "")
+
+            Me.RefItem = newEqr.RefItem
+            Me.RefDoc = RefItem.EquipmentToolWithdraw
+            Me.Entity = newEqr.Entity
+            Me.Unit = newEqr.Unit
+            Me.ToStatus = New EqtStatus(3)
+            'Me.LineNumber = LineNumber
+
+
+            If RefItem IsNot Nothing Then
+              Me.Qty = RefItem.Qty
+              Me.LimitQty = RefItem.Qty
+              Me.RentalRate = RefItem.RentalRate
+              'Else
+              '  doc.RentalRate = refItem.RentalRate
+              '  doc.LimitQty = 1
+              '  doc.Qty = 1
+            End If
+            Me.RentalPerDay = Me.RentalRate * Me.Qty
+            'doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
+
+            'Dim myTool As New Tool(theCode)
+            'If Not myTool.Originated Then
+            '  msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+            '  Return
+            'Else
+            '  Me.m_entityitem = myTool
+            '  Me.Unit = CType(myTool, IEqtItem).Unit
+            'End If
+            'Me.m_qty = 1
+          End If
+
+          'If theCode Is Nothing OrElse theCode.Length = 0 Then
+          '  If Me.Entity.Code.Length <> 0 Then
+          '    If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteToolDetail}", New String() {Me.Entity.Code}) Then
+          '      Me.Clear()
+          '    End If
+          '  End If
+          '  Return
+          'End If
+          'Dim myTool As New Tool(theCode)
+          'If Not myTool.Originated Then
+          '  msgServ.ShowMessageFormatted("${res:Global.Error.NoTool}", New String() {theCode})
+          '  Return
+          'Else
+          '  Me.m_entityitem = myTool
+          '  Me.Unit = CType(myTool, IEqtItem).Unit
+          'End If
+        Case Else
+          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+          Return
+      End Select
+      'Me.m_qty = 1
+    End Sub
+
+    Public Sub SetItems()
+      Dim sequnces As New ArrayList
+      'Dim lineNumber As Integer = 0
+      ''For i As Integer = items.Count - 1 To 0 Step -1
+      'For i As Integer = 0 To items.Count - 1
+      '  lineNumber += 1
+      '  Dim item As EqtBasketItem = CType(items(i), EqtBasketItem)
+      '  Dim refItem As EquipmentToolWithdrawItem
+      '  Dim newEntity As IEqtItem
+      '  Dim doc As New EquipmentToolReturnItem
+      '  Dim itemType As Integer
+      '  If TypeOf item.Tag Is EquipmentToolWithdrawItem Then
+      '    refItem = CType(item.Tag, EquipmentToolWithdrawItem)
+      '    newEntity = CType(item.Tag, EquipmentToolWithdrawItem).Entity
+      '    itemType = CType(item.Tag, EquipmentToolWithdrawItem).ItemType.Value
+      '  Else
+      '    Select Case item.FullClassName.ToLower
+      '      Case "longkong.pojjaman.businesslogic.equipmentitem"
+      '        newEntity = New EquipmentItem
+      '        itemType = 346
+      '      Case "longkong.pojjaman.businesslogic.tool"
+      '        newEntity = New Tool(item.Id)
+      '        itemType = 19
+      '    End Select
+      '  End If
+
+
+      '  If Not itemType = 0 Then
+      '    'Dim doc As New EquipmentToolReturnItem
+      '    If Not Me.CurrentItem Is Nothing Then
+      '      doc = Me.CurrentItem
+      '      doc.ItemType.Value = itemType
+      '      'Me.m_treeManager.SelectedRow.Tag = Nothing
+      '    Else
+      '      Me.m_eqtReturn.ItemCollection.Add(doc)
+      '      doc.ItemType = New EqtItemType(itemType)
+      '    End If
+      '    doc.RefItem = refItem
+      '    doc.RefDoc = refItem.EquipmentToolWithdraw
+      '    doc.Entity = newEntity
+      '    doc.Unit = CType(newEntity, IEqtItem).Unit
+      '    doc.ToStatus = New EqtStatus(3)
+      '    doc.LineNumber = lineNumber
+      '    If itemType = 19 Then
+      '      If refItem IsNot Nothing Then
+      '        doc.Qty = refItem.Qty
+      '        doc.LimitQty = refItem.Qty
+      '        doc.RentalRate = refItem.RentalRate
+      '        'Else
+      '        '  doc.RentalRate = refItem.RentalRate
+      '        '  doc.LimitQty = 1
+      '        '  doc.Qty = 1
+      '      End If
+      '      doc.RentalPerDay = doc.RentalRate * doc.Qty
+      '      'doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate * doc.Qty
+      '    Else
+      '      doc.LimitQty = 1
+      '      doc.Qty = 1
+      '      doc.RentalRate = refItem.RentalRate
+      '      doc.RentalPerDay = CType(newEntity, IEqtItem).RentalRate
+      '    End If
+      '  End If
+      '  sequnces.Add(refItem.Sequence)
+      '  'สร้างการจัดสรร
+      'Next
+      Dim theList As String = String.Join(",", sequnces.ToArray)
+      SetWBSCollections(theList)
+
+    End Sub
+    Private Sub SetWBSCollections(ByVal theList As String)
+      'Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+
+      'Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString _
+      ', CommandType.StoredProcedure _
+      ', "GetEqtStockWbsfromList" _
+      ', New SqlParameter("@List", theList) _
+      ')
+
+      'If ds.Tables(0).Rows.Count > 0 Then
+      '  For Each Item As EquipmentToolReturnItem In Me
+      '    Dim wbsdColl As WBSDistributeCollection = New WBSDistributeCollection
+      '    AddHandler wbsdColl.PropertyChanged, AddressOf Item.WBSChangedHandler
+      '    If Item.WBSDistributeCollection Is Nothing Then
+      '      Item.WBSDistributeCollection = wbsdColl
+      '    Else
+      '      wbsdColl = Item.WBSDistributeCollection
+      '    End If
+      '    For Each wbsRow As DataRow In ds.Tables(0).Select("eqtstockiw_sequence=" & Item.RefItem.Sequence)
+      '      Dim wbsd As New WBSDistribute(wbsRow, "")
+      '      wbsdColl.Add(wbsd)
+      '    Next
+      '  Next
+      'End If
+    End Sub
+
     Public Overrides Sub ItemValidateRow(ByVal row As DataRow)
       MyBase.ItemValidateRow(row)
       'Dim code As Object = row("Code")
@@ -603,6 +787,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             parRow("Button") = "invisible"
             parRow.State = RowExpandState.Expanded
             prRowHash(eri.RefDoc.Id) = parRow
+            parRow.Tag = "parent"
           Else
             parRow = CType(prRowHash(eri.RefDoc.Id), TreeRow)
           End If
