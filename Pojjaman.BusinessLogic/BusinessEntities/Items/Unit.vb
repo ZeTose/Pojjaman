@@ -63,6 +63,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_name") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_name") Then
           .m_name = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
+          .m_originName = CStr(dr(aliasPrefix & Me.Prefix & "_name"))
         End If
 
         If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_pjmid") AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_pjmid") Then
@@ -262,6 +263,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "IHasName"
+    Private m_originName As String
+    Public ReadOnly Property OriginName() As String
+      Get
+        Return m_originName
+      End Get
+    End Property
     Public Property Name() As String Implements IHasName.Name
       Get
         Return m_name
@@ -376,9 +383,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If item.Originated AndAlso item.IsDirty Then
           If hs.ContainsKey(item.Id) Then
             If Not HashUnitCollection.ContainsKey(item.Id) Then
-              Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferenceCannotDelete}"), item.Name))
+              Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferenceCannotDelete}"), item.OriginName))
             End If
-            Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferencedCannotUpdate}"), item.Name))
+            Return New SaveErrorException(String.Format(stServ.Parse("${res:Longkong.Pojjaman.Gui.Panels.UnitFilterSubPanel.UnitReferencedCannotUpdate}"), item.OriginName))
           End If
         End If
       Next

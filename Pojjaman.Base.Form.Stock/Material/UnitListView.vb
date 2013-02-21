@@ -599,7 +599,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         m_updating = False
         Return
       End If
-      If Not m_unit.Name.Equals(e.ProposedValue.ToString) Then
+      If Not m_unit.Originated OrElse Not m_unit.Name.Equals(e.ProposedValue.ToString) Then
         m_unit.IsDirty = True
       End If
       m_unit.Name = e.ProposedValue.ToString
@@ -809,6 +809,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not IsNumeric(errorMessage) Then 'Todo
           msgServ.ShowMessage(errorMessage)
           Me.OnSaved(New SaveEventArgs(False))
+          Me.btnSearch_Click(Nothing, Nothing)
         Else
           msgServ.ShowMessage("${res:Global.Info.DataSaved}")
           CType(Me, ISimpleListPanel).RefreshData("")
