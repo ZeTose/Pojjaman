@@ -888,6 +888,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         ElseIf TypeOf entity Is CheckBox Then
           Me.chkShowRemainingOnly.Checked = CType(entity, CheckBox).Checked
+          'Me.chkShowRemainingOnly.Enabled = False
         End If
 
       Next
