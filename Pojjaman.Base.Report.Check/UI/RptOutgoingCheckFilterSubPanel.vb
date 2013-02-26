@@ -1149,7 +1149,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.DueDate}")) '"วันที่บนเช็ค"
       Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.IssueDate}")) '"วันที่เอกสาร"
-      Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.CqCode}")) '"เลขที่เช็ค"
+      Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.CqCodeNumericStyle}")) '"เลขที่เช็ค (ตามรูปแบบตัวเลข)"
+      Me.cmbSort.Items.Add(pars.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel.CqCode2CharecterStyle}")) '"เลขที่เช็ค (ตามรูปแบบตัวอักษร)"
       Me.cmbSort.SelectedIndex = 0
     End Sub
     Private Sub Initialize()
