@@ -900,8 +900,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim daNewBIRef As SqlDataAdapter
       Dim refBIIds As String = Me.GetBillIssueRefIdString
+      Dim refBilldsCmd As String = "Select * from billissue where billi_id in ({1});"
+      refBilldsCmd &= "select isnull(c,0) c from ( "
+      refBilldsCmd &= "select billii_billi, count(*) c from billissueitem "
+      refBilldsCmd &= "inner join receiveselectionitem on billii_milestone = stock_id and stock_type in (75,77,78,79,86) "
+      refBilldsCmd &= "inner join receiveselection on receiveselectionitem.receivesi_receives = receiveselection.receives_id "
+      refBilldsCmd &= "where receivesi_receives not in ({0}) "
+      refBilldsCmd &= "and billii_billi in ({1}) "
+      refBilldsCmd &= "and receives_status not in (0) "
+      refBilldsCmd &= "group by billii_billi "
+      refBilldsCmd &= ") c "
+      refBilldsCmd = String.Format(refBilldsCmd, Me.Id, refBIIds)
+
       If refBIIds.Length > 0 Then
-        daNewBIRef = New SqlDataAdapter("Select * from billissue where billi_id in (" & refBIIds & ")", conn)
+        daNewBIRef = New SqlDataAdapter(refBilldsCmd, conn) ' New SqlDataAdapter("Select * from billissue where billi_id in (" & refBIIds & ")", conn)
       End If
 
       Dim ds As New DataSet
@@ -962,6 +974,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
       Dim dtNewBIRef As DataTable
+      Dim dtBillRefReceive As DataTable
       If Not daNewBIRef Is Nothing Then
         cmdBuilder = New SqlCommandBuilder(daNewBIRef)
         daNewBIRef.SelectCommand.Transaction = trans
@@ -972,12 +985,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         daNewBIRef.FillSchema(ds, SchemaType.Mapped, "newbi")
         daNewBIRef.Fill(ds, "newbi")
         dtNewBIRef = ds.Tables("newbi")
+        dtBillRefReceive = ds.Tables("newbi1")
         For Each row As DataRow In dtNewBIRef.Rows
           If Not row.IsNull("billi_status") AndAlso IsNumeric(row("billi_status")) Then
-            If CInt(row("billi_status")) = 2 Then
+            If CInt(row("billi_status")) = 2 AndAlso Not Me.Status.Value = 0 Then
               row("billi_status") = 3
             ElseIf CInt(row("billi_status")) = 3 AndAlso Me.Status.Value = 0 Then
-              row("billi_status") = 2
+              If dtBillRefReceive.Rows.Count = 0 OrElse CInt(dtBillRefReceive.Rows(0)(0)) = 0 Then
+                row("billi_status") = 2
+              End If
             End If
           End If
         Next
