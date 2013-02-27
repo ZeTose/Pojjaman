@@ -732,7 +732,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property RemainingQty() As Decimal
       Get
-        Return Me.Qty - Me.OrderedQty
+        Return Me.Qty - (Me.OrderedQty / Me.Conversion)
       End Get
     End Property
     Public Property Note() As String
@@ -963,7 +963,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
         If Me.OrderedQty <> Decimal.MinValue And Me.OrderedQty <> 0 Then
           'row("OrderedQty") = Configuration.FormatToString(Me.OrderedQty / Me.Conversion, DigitConfig.Qty)
-          row("OrderedQty") = Configuration.FormatToString(Me.OrderedQty, DigitConfig.Qty)
+          row("OrderedQty") = Configuration.FormatToString(Me.OrderedQty / Me.Conversion, DigitConfig.Qty)
         Else
           row("OrderedQty") = DBNull.Value
         End If
@@ -1125,7 +1125,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim found As Boolean = False
         For Each row As DataRow In rows
           Dim pri As New PRItem(row, "")
-          If pri.OrderedQty <> 0 Or pri.Qty <> 0 Then
+          If (pri.OrderedQty / pri.Conversion) <> 0 Or pri.Qty <> 0 Then
             found = True
             Exit For
           End If

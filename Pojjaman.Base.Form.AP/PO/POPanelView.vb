@@ -3278,30 +3278,39 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "IClipboardHandler Overrides"
     Public Overrides ReadOnly Property EnablePaste() As Boolean
       Get
-        Dim data As IDataObject = Clipboard.GetDataObject
-        If data.GetDataPresent((New Supplier).FullClassName) Then
-          If Not Me.ActiveControl Is Nothing Then
-            Select Case Me.ActiveControl.Name.ToLower
-              Case "txtsuppliercode", "txtsuppliername"
-                Return True
-            End Select
+        Try
+          Dim data As IDataObject = Clipboard.GetDataObject
+          If data.GetDataPresent((New Supplier).FullClassName) Then
+            If Not Me.ActiveControl Is Nothing Then
+              Select Case Me.ActiveControl.Name.ToLower
+                Case "txtsuppliercode", "txtsuppliername"
+                  Return True
+              End Select
+            End If
           End If
-        End If
-        Return False
+        Catch ex As Exception
+          Return False
+        End Try
+
+        Return True
       End Get
     End Property
     Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim data As IDataObject = Clipboard.GetDataObject
-      If data.GetDataPresent((New Supplier).FullClassName) Then
-        Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
-        Dim entity As New Supplier(id)
-        If Not Me.ActiveControl Is Nothing Then
-          Select Case Me.ActiveControl.Name.ToLower
-            Case "txtsuppliercode", "txtsuppliername"
-              Me.SetSupplierDialog(entity)
-          End Select
+      Try
+        Dim data As IDataObject = Clipboard.GetDataObject
+        If data.GetDataPresent((New Supplier).FullClassName) Then
+          Dim id As Integer = CInt(data.GetData((New Supplier).FullClassName))
+          Dim entity As New Supplier(id)
+          If Not Me.ActiveControl Is Nothing Then
+            Select Case Me.ActiveControl.Name.ToLower
+              Case "txtsuppliercode", "txtsuppliername"
+                Me.SetSupplierDialog(entity)
+            End Select
+          End If
         End If
-      End If
+      Catch ex As Exception
+
+      End Try
     End Sub
 #End Region
 
