@@ -1148,7 +1148,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Me.txtAssetName.Text = Me.m_entity.ToolLot.Asset.Name
         End If
 
-        If Me.m_entity.ToolLot.Buydoc IsNot Nothing AndAlso Me.m_entity.ToolLot.Buydoc.Code.Trim.Length > 0 Then
+        If Me.m_entity.ToolLot.Buydoc IsNot Nothing AndAlso Me.m_entity.ToolLot.Buydoc.Code IsNot Nothing AndAlso Me.m_entity.ToolLot.Buydoc.Code.Trim.Length > 0 Then
           Me.txtToollotbuydoccode.Text = Me.m_entity.ToolLot.Buydoc.Code
           Me.txtToollotBuyDate.Text = Me.m_entity.ToolLot.Buydate.ToShortDateString
         End If
@@ -2430,14 +2430,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub ToggleReferenced(ByVal lot As ToolLot)
       Dim isEnable As Boolean = Not lot.IsReferenced
+      Dim isAssetEnable As Boolean = Not lot.IsDepreReferenced
 
       ibtnSave.Enabled = isEnable
       ibtnDel.Enabled = isEnable
 
       cmbCode.Enabled = isEnable
       chkAutorun.Enabled = isEnable
-      txtAssetCode.Enabled = isEnable
-      btnAssetFind.Enabled = isEnable
+      txtAssetCode.Enabled = isAssetEnable
+      btnAssetFind.Enabled = isAssetEnable
       btnPurchaseFind.Enabled = isEnable
       txtToollotBuyQTY.Enabled = isEnable
       txtToollotUnitCost.Enabled = isEnable

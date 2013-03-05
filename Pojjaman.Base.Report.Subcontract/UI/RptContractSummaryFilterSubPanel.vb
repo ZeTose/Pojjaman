@@ -1082,8 +1082,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
           End If
         Case "txtscstart"
           SC.GetSC(txtSCStart, Me.SCStart)
+          If (Me.txtSCStart.Text.Trim().Length() = 0) Then
+            Me.SCStart = New SC
+          End If
         Case "txtscend"
           SC.GetSC(txtSCEnd, Me.SCEnd)
+          If (Me.txtSCEnd.Text.Trim().Length() = 0) Then
+            Me.SCEnd = New SC
+          End If
         Case "txtcccodestart"
           Dim txtName As New TextBox
           CostCenter.GetCostCenter(Me.txtCCStart, txtName, m_ccStart, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)

@@ -189,6 +189,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_writeoff = drh.GetValue(Of Decimal)("wfQty")
 
         Me.IsReferenced = drh.GetValue(Of Boolean)("isreferenced")
+        Me.IsDepreReferenced = drh.GetValue(Of Boolean)("isdeprereferenced")
         'Dim unitid2 As Integer = drh.GetValue(Of Integer)("eqi_rentalunit")
         'm_rentalunit = New Unit(unitid2)
 
@@ -342,6 +343,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Property IsDirty As Boolean
     Public Property IsReferenced As Boolean
+    Public Property IsDepreReferenced As Boolean
     Private m_isAddNewToolLot As Boolean
     Public Property IsAddNewToolLot As Boolean
       Get
