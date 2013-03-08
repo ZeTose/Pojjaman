@@ -1299,12 +1299,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(5) As ArrayList
-      For i As Integer = 0 To 5
+      Dim filterEntities(6) As ArrayList
+      For i As Integer = 0 To 6
         filterEntities(i) = New ArrayList
         filterEntities(i).Add(Me.m_entity.Supplier)
       Next
-      Dim filters(5)() As Filter
+      Dim filters(6)() As Filter
       'Dim grNeedsApproval As Boolean = False
       'grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45))} _
@@ -1319,17 +1319,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
 
       filters(3) = New Filter() {New Filter("IDList", GetItemIDList(59))}
+      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(399))}
 
-      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(292))}
+      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(292))}
 
-      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
       'New Filter("nocancel", True) _
       ', New Filter("grNeedsApproval", grNeedsApproval)}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
 
-      Dim entities(5) As ISimpleEntity
+      Dim entities(6) As ISimpleEntity
       'entities(0) = New GoodsReceipt
       'entities(1) = New APOpeningBalance
       'entities(2) = New EqMaintenance
@@ -1338,8 +1340,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       entities(1) = New APOpeningBalanceForVat
       entities(2) = New EqMaintenanceForVat
       entities(3) = New AdvancePayForVat
-      entities(4) = New PAForVat
-      entities(5) = New PurchaseCNForVat
+      entities(4) = New AdvancePayClosedForVat
+      entities(5) = New PAForVat
+      entities(6) = New PurchaseCNForVat
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
@@ -1400,6 +1403,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.advancepayforvat" Then
               'เฉพาะสำหรับเอามัดจำจ่ายมากรอกใบกำกับภาษีซื้อ
               newItem = New BillAcceptanceItem(New AdvancePay(CType(item.Tag, DataRow), ""), Me.m_entity, CType(item.Tag, DataRow))
+            ElseIf item.FullClassName.ToLower = "longkong.pojjaman.businesslogic.advancepayclosedforvat" Then
+              'เฉพาะสำหรับเอกสารปิดมัดจำจ่ายมากรอกใบกำกับภาษีซื้อ
+              newItem = New BillAcceptanceItem(New AdvancePayClosed(), Me.m_entity, CType(item.Tag, DataRow))
             Else
               newItem = New BillAcceptanceItem(CType(item.Tag, DataRow), "", Me.m_entity)
             End If

@@ -1148,5 +1148,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
     End Property
   End Class
+  Public Class AdvancePayClosedForVat
+    Inherits AdvancePayClosed
+
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "AdvancePayClosedForVat"
+      End Get
+    End Property
+
+  End Class
 End Namespace
 

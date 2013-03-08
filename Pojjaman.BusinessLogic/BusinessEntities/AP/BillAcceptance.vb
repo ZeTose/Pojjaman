@@ -2191,6 +2191,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_typeId = CType(advancepay, ISimpleEntity).EntityId
       End If
     End Sub
+    Public Sub New(ByVal advClosed As AdvancePayClosed, ByVal apvi As APVatInput, ByVal dr As DataRow)
+      MyBase.New()
+
+      Dim drh As New DataRowHelper(dr)
+
+      m_apvi = apvi
+
+      Me.Id = drh.GetValue(Of Integer)("advpclosed_id")
+      Me.Code = drh.GetValue(Of String)("advpclosed_code")
+      Me.BeforeTax = drh.GetValue(Of Decimal)("taxBase")
+      Me.AfterTax = drh.GetValue(Of Decimal)("taxBase") + drh.GetValue(Of Decimal)("vatAmt")
+      Me.BilledAmount = drh.GetValue(Of Decimal)("taxBase")
+      Me.Amount = drh.GetValue(Of Decimal)("taxBase")
+      Me.UnpaidAmount = drh.GetValue(Of Decimal)("taxBase")
+      Me.TaxBase = drh.GetValue(Of Decimal)("taxBase")
+      Me.UnpaidVatAmt = drh.GetValue(Of Decimal)("vatAmt")
+      Me.VatAmt = drh.GetValue(Of Decimal)("vatAmt")
+      'theDoc.SetType(newItem.EntityId)
+      'theDoc.CreditPeriod = newItem.CreditPeriod
+      Me.Date = drh.GetValue(Of DateTime)("advpclosed_docdate")
+      If TypeOf advClosed Is ISimpleEntity Then
+        m_typeId = CType(advClosed, ISimpleEntity).EntityId
+      End If
+    End Sub
     'Public Sub New(ByVal pa As PA)
     'MyBase.New()
     'm_typeId = pa.EntityId
