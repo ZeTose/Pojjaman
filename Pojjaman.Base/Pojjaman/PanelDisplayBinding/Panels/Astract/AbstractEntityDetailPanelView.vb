@@ -1003,6 +1003,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim tmpRet As New DocPrintingItemCollection
       Dim window As IWorkbenchWindow = WorkbenchSingleton.Workbench.ActiveWorkbenchWindow
       Dim activeContent As Object = window.ActiveViewContent
+
+      If activeContent.GetType().FullName.ToLower.Equals("longkong.pojjaman.gui.panels.vatdetail") Then
+        If TypeOf activeContent Is IPrintDocumentsList Then
+          Dim item As List(Of VatItemWithCustomNote) = CType(activeContent, IPrintDocumentsList).VatItemWithCustomNoteForPreview
+          If item IsNot Nothing Then
+            For Each newItem As VatItemWithCustomNote In item
+              ret.AddRange(newItem.GetDocPrintingEntries)
+            Next
+          End If
+          Return ret
+        End If
+      End If
+
       For Each entity As IPrintableEntity In m_entities
         Dim dpiColl As DocPrintingItemCollection = entity.GetDocPrintingEntries
         For Each dpi As DocPrintingItem In dpiColl 'entity.GetDocPrintingEntries

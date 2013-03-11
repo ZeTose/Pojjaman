@@ -4315,6 +4315,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       End If
 
+      If Me.Vat.RefDoc IsNot Nothing AndAlso TypeOf Me.Vat.RefDoc Is IPrintableEntity Then
+        Dim doc As DocPrintingItemCollection = CType(Me.Vat.RefDoc, IPrintableEntity).GetDocPrintingEntries
+        If doc IsNot Nothing Then
+          For Each d As DocPrintingItem In doc
+            d.Mapping = String.Format("{0}.{1}", Me.Vat.RefDoc.GetType().Name, d.Mapping)
+            If d.Table IsNot Nothing AndAlso d.Table.Length > 0 Then
+              d.Table = String.Format("{0}.{1}", Me.Vat.RefDoc.GetType().Name, d.Table)
+            End If
+          Next
+          dpiColl.AddRange(doc)
+        End If
+      End If
+
       Return dpiColl
     End Function
     Public ReadOnly Property Lines() As ArrayList
