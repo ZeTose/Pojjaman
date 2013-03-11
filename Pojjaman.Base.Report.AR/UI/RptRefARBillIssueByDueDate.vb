@@ -234,7 +234,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkShowAll.FlatStyle = System.Windows.Forms.FlatStyle.System
       Me.chkShowAll.Location = New System.Drawing.Point(104, 164)
       Me.chkShowAll.Name = "chkShowAll"
-      Me.chkShowAll.Size = New System.Drawing.Size(144, 24)
+      Me.chkShowAll.Size = New System.Drawing.Size(294, 24)
       Me.chkShowAll.TabIndex = 33
       Me.chkShowAll.Text = "แสดงทุกเอกสาร"
       '
