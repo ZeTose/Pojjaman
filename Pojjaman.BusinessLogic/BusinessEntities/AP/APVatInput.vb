@@ -28,7 +28,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class APVatInput
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IPrintableEntity, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh
+    Implements IGLAble, IPrintableEntity, IHasIBillablePerson, ICancelable, IVatable, IGLCheckingBeforeRefresh, INewPrintableEntity
 
 #Region "Members"
     Private m_supplier As Supplier
@@ -870,11 +870,177 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
+      'Pays_id
+      dpi = New DocPrintingItem
+      dpi.Mapping = "pays_id"
+      dpi.Value = Me.Id
+      dpi.DataType = "System.Integer"
+      dpiColl.Add(dpi)
+
       'Code
       dpi = New DocPrintingItem
       dpi.Mapping = "Code"
       dpi.Value = Me.Code
       dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'DocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DocDate"
+      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      If Me.Supplier IsNot Nothing Then
+        'Supplier Code
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierCode"
+        dpi.Value = Me.Supplier.Code
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Supplier Name
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierName"
+        dpi.Value = Me.Supplier.Name
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+
+        'Supplier Info
+        dpi = New DocPrintingItem
+        dpi.Mapping = "SupplierInfo"
+        dpi.Value = String.Format("{0}:{1}", Me.Supplier.Code, Me.Supplier.Name)
+        dpi.DataType = "System.String"
+        dpiColl.Add(dpi)
+      End If
+
+      Dim line As Integer
+      Dim sumRemainingAmount As Decimal
+      Dim sumTaxBase As Decimal
+      Dim sumVatAmount As Decimal
+      Dim itemCodeList As New ArrayList
+      For Each bi As BillAcceptanceItem In Me.ItemCollection
+        'Paysi_pays
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Paysi_pays"
+        dpi.Value = Me.Id
+        dpi.DataType = "System.Integer"
+        dpiColl.Add(dpi)
+
+        'LineNumber
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.LineNumber"
+        dpi.Value = line + 1
+        dpi.DataType = "System.Integer"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'DocType
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.DocType"
+        dpi.Value = bi.itemType
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'DocCode
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Code"
+        dpi.Value = bi.Code
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'DocDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.DocDate"
+        dpi.Value = bi.Date.ToShortDateString
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'DueDate
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.DueDate"
+        dpi.Value = bi.DueDate.ToShortDateString
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'RemainingAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.RemainingAmount"
+        dpi.Value = Configuration.FormatToString(bi.UnpaidAmount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'TaxBase
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.TaxBase"
+        dpi.Value = Configuration.FormatToString(bi.Amount, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'VatAmount
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.VatAmount"
+        dpi.Value = Configuration.FormatToString(bi.VatAmt, DigitConfig.Price)
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        'Note
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.Note"
+        dpi.Value = bi.Note
+        dpi.DataType = "System.String"
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
+
+        sumRemainingAmount += bi.UnpaidAmount
+        sumTaxBase += bi.Amount
+        sumVatAmount += bi.VatAmt
+
+        itemCodeList.Add(bi.Code)
+
+        line += 1
+      Next
+
+      'ItemCount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ItemCount"
+      dpi.Value = line
+      dpi.DataType = "System.Integer"
+      dpiColl.Add(dpi)
+
+      'SummaryRemainingAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SummaryRemainingAmount"
+      dpi.Value = Configuration.FormatToString(sumRemainingAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'SummaryTaxbase
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SummaryTaxbase"
+      dpi.Value = Configuration.FormatToString(sumTaxBase, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'SummaryVatAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "SummaryVatAmount"
+      dpi.Value = Configuration.FormatToString(sumVatAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'ItemCodeList
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ItemCodeList"
+      dpi.Value = String.Join(", ", itemCodeList.ToArray)
+      dpi.DataType = "System.Decimal"
       dpiColl.Add(dpi)
 
       Return dpiColl
@@ -1077,6 +1243,41 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
 #End Region
 
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      dpiColl.RelationList.Add("general>pays_id>Item>paysi_pay")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("pays_id", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCode", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemCount", "System.Integer"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryRemainingAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryTaxbase", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SummaryVatAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("ItemCodeList", "System.String"))
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("paysi_pay", "System.Integer", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.LineNumber", "System.Integer", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocType", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Code", "System.String", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DocDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.DueDate", "System.DateTime", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.RemainingAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.TaxBase", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.VatAmount", "System.Decimal", "Item"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Item.Note", "System.String", "Item"))
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return Me.GetDocPrintingEntries
+    End Function
   End Class
 
   Public Class GoodsReceiptForVat

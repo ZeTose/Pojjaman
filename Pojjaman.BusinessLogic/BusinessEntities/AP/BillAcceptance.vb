@@ -2657,21 +2657,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property itemType As String
       Get
-        Select Case m_typeId
-          Case 45
-            Return "รับของ"
-          Case 15
-            Return "ซื้อยกมา"
-          Case 59
-            Return "มัดจำจ่าย"
-          Case 46
-            Return "ลดหนี้"
-          Case 292
-            Return "รับงาน"
-          Case Else
-            Return Nothing
+        Return CodeDescription.GetDescription("PayableItemType", m_typeId)
 
-        End Select
+        'Select Case m_typeId
+        '  Case 45
+        '    Return "รับของ"
+        '  Case 15
+        '    Return "ซื้อยกมา"
+        '  Case 59
+        '    Return "มัดจำจ่าย"
+        '  Case 46
+        '    Return "ลดหนี้"
+        '  Case 292
+        '    Return "รับงาน"
+        '  Case 399
+        '    Return "ปิดมัดจำจ่าย"
+        '  Case Else
+        '    Return Nothing
+        'End Select
+
       End Get
     End Property
 
