@@ -2,25 +2,22 @@
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Report.Accounting.dll"/>
 	</Runtime>
-	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+	<!--<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
 		<MenuItem id="TaxReport" label="${res:MainMenu.ReportMenu.TaxReport}"  insertafter="CheckReport" insertbefore="AssetReport">
 				<MenuItem id="VATReport" label="${res:MainMenu.ReportMenu.VATReport}">
           <MenuItem id="rptincomingvat" icon="Icons.16x16.RptIncomingVat" label="${res:MainMenu.PurchaseMenu.RptIncomingVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingVat"/>
           <MenuItem id="rptvatnotdue" icon="Icons.16x16.RptVatNotDue" label="${res:MainMenu.PurchaseMenu.RptVatNotDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVatNotDue"/>
-          <!--<MenuItem id="rptvatnotduebydebt" icon="Icons.16x16.RptVatNotDueByDebt" label="${res:MainMenu.PurchaseMenu.RptVatNotDueByDebt.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVatNotDueByDebt"/>-->
 					<MenuItem id="rptoutgoinvat" icon="Icons.16x16.RptOutgoinVat" label="${res:MainMenu.PurchaseMenu.RptOutgoinVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinVat"/>
 				</MenuItem>
 				<MenuItem id="WHTReport" label="${res:MainMenu.ReportMenu.WHTReport}">
 					<MenuItem id="rptincomingwht" icon="Icons.16x16.RptIncomingWht" label="${res:MainMenu.PurchaseMenu.RptIncomingWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWht"/>
 					<MenuItem id="rptoutgoinwht" icon="Icons.16x16.RptOutgoinWht" label="${res:MainMenu.PurchaseMenu.RptOutgoinWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinWht"/>
           <MenuItem id="rptincomingwhtpnd" icon="Icons.16x16.RptIncomingWhtPND" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND"/>
-					<!--<MenuItem id="rptincomingwhtpnd2" icon="Icons.16x16.RptIncomingWhtPND2" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}(2)" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND2"/>-->
-					<!--<MenuItem id="SpecialAccountWHTReport" icon="Icons.16x16.SpecialAccountWHTReport" label="${res:MainMenu.PurchaseMenu.SpecialAccountWHTReport.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialAccountWHT"/>-->										
 				</MenuItem>		
 		</MenuItem>
 		</Conditional>
-	</Extension>
+	</Extension>-->
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
     <EntityFilter id="rptincomingvat" entity="rptincomingvat" filter="Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel"/>
     <EntityFilter id="rptvatnotdue" entity="rptvatnotdue" filter="Longkong.Pojjaman.Gui.Panels.RptVatNotDueFilterSubPanel"/>

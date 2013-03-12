@@ -1,0 +1,363 @@
+<AddIn name="Pojjaman Entity Data" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+ 
+  <!--====ไฟล์=======================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/File">
+    <!--อนุมัติเอกสาร (Multi Approval)--><MenuItem id="MultiApproval" label="${res:MainMenu.FileMenu.New.MultiApproval}" icon="Icons.16x16.MultiApproval" description="${res:MainMenu.FileMenu.New.Multiapprove.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MultiApproval" insertbefore="SaveSeparator" insertafter="New"/>
+  </Extension>  
+
+  <!--====ประมูล=======================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Bidding">
+    <!--Cost Center--><MenuItem id="CostCenter" label="${res:MainMenu.CostCenterMenu}" icon="Icons.16x16.CostCenter" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CostCenter"/>
+    <!--BOQ--><MenuItem id="BOQ" label="${res:MainMenu.BiddingMenu.BOQ.Description}" icon="Icons.16x16.BOQ" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BOQ"/>
+    <!--โครงการประมูล--><MenuItem id="project" label="${res:MainMenu.BiddingMenu.Project.Description}" icon="Icons.16x16.Project" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Project"/>    
+  </Extension>
+
+  <!--====ผู้ขาย=========================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Supplier">
+    <!--รายชื่อผู้ขาย--><MenuItem id="Supplier" label="${res:MainMenu.SupplierMenu.SupplierList}" icon="Icons.16x16.Supplier" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Supplier"/>
+    <!--กลุ่มผู้ขาย--><MenuItem id="SupplierGroup" label="${res:MainMenu.SupplierMenu.SupplierGroup}" icon="Icons.16x16.SupplierGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SupplierGroup"/>
+    <!----><MenuItem id="ReloadSeparator" label="-"/>
+    <!--เจ้าหนี้ยกมา--><MenuItem id="APOpeningBalance" icon="Icons.16x16.APOpeningBalanceIcon" label="${res:MainMenu.ARMenu.APOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.APOpeningBalance"/>
+    <!--มัดจำจ่่าย--><MenuItem id="AdvancePay" label="${res:MainMenu.SupplierMenu.AdvancePay}" icon="Icons.16x16.AdvancePay" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePay"/>
+    <!--ปิดมัดจำจ่าย--><MenuItem id="AdvancePayClosed" label="${res:MainMenu.SupplierMenu.AdvancePayClosed}" icon="Icons.16x16.AdvancePayClosed" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePayClosed"/>
+    <!--<MenuItem id="PurchaseCNDN" icon="Icons.16x16.Approve" label="${res:MainMenu.PurchaseCNDN}">-->
+    <!--ใบลดหนี้ซื้อ(ลดหนี้เจ้าหนี้)--><MenuItem id="PurchaseCN" icon="Icons.16x16.PurchaseCN" label="${res:MainMenu.PurchaseMenu.PurchaseCN}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PurchaseCN"/>
+    <!--</MenuItem>-->
+    <!--ใบรับวางบิล--><MenuItem id="BillAcceptance" label="${res:MainMenu.SupplierMenu.BillAcceptance}" icon="Icons.16x16.BillAcceptance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BillAcceptance"/>
+    <!----><MenuItem id="Separator2" label="-"/>
+    <!--กรอกใบกำกับภาษีซื้อ--><MenuItem id="APVatInput" label="${res:MainMenu.SupplierMenu.APVatInput}" icon="Icons.16x16.APVatInput" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.APVatInput"/>
+    <!--จ่ายชำระหนี้--><MenuItem id="PaySelection" label="${res:MainMenu.SupplierMenu.PaySelection}" icon="Icons.16x16.PaySelection" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PaySelection"/>    
+  </Extension>
+
+  <!--====ลูกค้า==========================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Customer">
+    <!--รายชื่อลูกค้า--><MenuItem id="Customer" label="${res:MainMenu.CustomerMenu.CustomerList}" icon="Icons.16x16.Customer" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Customer"/>
+    <!--กลุ่มลูกค้า--><MenuItem id="CustomerGroup" label="${res:MainMenu.CustomerMenu.CustomerGroup}" icon="Icons.16x16.CustomerGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CustomerGroup"/>
+    <!----><MenuItem id="Separator" label="-"/>
+    <!--ลูกหนี้ยกมา--><MenuItem id="AROpeningBalance" icon="Icons.16x16.AROpeningBalanceIcon" label="${res:MainMenu.ARMenu.AROpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AROpeningBalance"/>
+    <!--เงินรับล่วงหน้า(มัดจำรับ)--><MenuItem id="AdvanceReceive" label="${res:MainMenu.CustomerMenu.AdvanceReceive}" icon="Icons.16x16.AdvanceReceive" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceReceive"/>
+    <!--ขายสินค้า/บริการ--><MenuItem id="GoodsSold" label="${res:MainMenu.CustomerMenu.GoodsSold}" icon="Icons.16x16.GoodsSold" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsSold"/>
+    <!--ใบลดหนี้ลูกหนี้--><MenuItem id="SaleCN" label="${res:MainMenu.CustomerMenu.SaleCN}" icon="Icons.16x16.SaleCN" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SaleCN"/>
+    <!--ใบวางบิล--><MenuItem id="SaleBillIssue" label="${res:MainMenu.CustomerMenu.SaleBillIssue}" icon="Icons.16x16.SaleBillIssue" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SaleBillIssue"/>
+    <!----><MenuItem id="Separator2" label="-"/>
+    <!--จัดการเงินงวด--><MenuItem id="PaymentApplication" label="${res:MainMenu.CustomerMenu.PaymentApplication}" icon="Icons.16x16.PaymentApplication" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PaymentApplication"/>
+    <!--ใบวางบิลงวด--><MenuItem id="BillIssue" label="${res:MainMenu.CustomerMenu.BillIssue}" icon="Icons.16x16.BillIssue" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BillIssue"/>
+    <!----><MenuItem id="Separator3" label="-"/>
+    <!--รับชำระหนี้--><MenuItem id="ReceiveSelection" label="${res:MainMenu.CustomerMenu.ReceiveSelection}" icon="Icons.16x16.ReceiveSelection" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ReceiveSelection"/>    
+  </Extension>
+  
+  <!--====จัดซื้อ===========================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Purchase">
+    <!--ใบขอซื้อ--><MenuItem id="EditPR" icon="Icons.16x16.PR" label="${res:MainMenu.PurchaseMenu.PR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PR"/>
+    <!--ใบสั่งซื้อ--><MenuItem id="ListPO" icon="Icons.16x16.PO" label="${res:MainMenu.FileMenu.New.Po.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PO" />
+    <!----><MenuItem id="Separator" label="-"/>
+    <!--ซืื้อสินค้า/บริการ--><MenuItem id="GoodsReceipt0" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.Delivery}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:45|"/>
+    <!----><MenuItem id="AuditSeparator" label="-"/>
+    <!----><MenuItem id="ApproveMenu" icon="Icons.16x16.Approve" label="${res:MainMenu.ApproveDoc}">
+      <!--อนุมัติใบขอซื้อ--><MenuItem id="ApprovePR" icon="Icons.16x16.ApprovePR" label="${res:MainMenu.ApproveDocPR}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PRForApprove"/>
+      <!--อนุมัติใบสั่งซื้อ--><MenuItem id="ApprovePO" icon="Icons.16x16.ApprovePO" label="${res:MainMenu.ApproveDocPO}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.POForApprove"/>
+      <!--อนุมัติใบรับของ--><MenuItem id="ApproveGoodsReceipt" icon="Icons.16x16.ApproveGoodsReceipt" label="${res:MainMenu.ApproveDocGoodsReceipt}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceiptForApprove"/>
+    <!----></MenuItem>
+  </Extension>
+  
+  <!--====จัดจ้าง===========================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Subcontract">
+    <!--ใบขอจ้าง--><MenuItem id="wr" icon="Icons.16x16.WR" label="${res:MainMenu.SubcontractMenu.WR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WR"/>
+    <!----><MenuItem id="WRSeparator" label="-"/>
+    <!--ใบสั่งจ้าง--><MenuItem id="sc" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.SC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SC"/>
+    <!--ใบเปลี่ยนแปลงงาน--><MenuItem id="vo" icon="Icons.16x16.VO" label="${res:MainMenu.SubcontractMenu.VO.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VO"/>
+    <!--ใบหักค่าใช้จ่าย--><MenuItem id="dr" icon="Icons.16x16.DR" label="${res:MainMenu.SubcontractMenu.DR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DR"/>
+    <!----><MenuItem id="SCSeparator" label="-"/>
+    <!--ใบรับงาน--><MenuItem id="pa" icon="Icons.16x16.PA" label="${res:MainMenu.SubcontractMenu.PA.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PA"/>    
+  </Extension>  
+  
+  <!--====จัดการคลัง=========================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Stock">
+    <MenuItem id="MatetialStock" label="${res:MainMenu.MatetialStock}">
+      <!--ข้อมูลวัตถุดิบ--><MenuItem id="Material" icon="Icons.16x16.Material" label="${res:MainMenu.MaterialMenu.MaterialList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LCIItem"/>
+      <!----><MenuItem id="MatetialStockSeparator1" label="-"></MenuItem>
+      <!--เบิกวัสดุไปใช้งาน--><MenuItem id="MatOperationWithdraw" icon="Icons.16x16.MatOperationWithdraw" label="${res:MainMenu.StockMenu.MatOperationWithdraw}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationWithdraw"/>
+      <!--คืนวัสดุเหลือใช้งาน--><MenuItem id="MatOperationReturn" icon="Icons.16x16.MatOperationReturn" label="${res:MainMenu.StockMenu.MatOperationReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationReturn"/>
+      <!--โอยย้ายวัสดุ--><MenuItem id="MatTransfer" icon="Icons.16x16.MatTransfer" label="${res:MainMenu.StockMenu.MatTransfer}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatTransfer"/>
+      <!--ยืนยันรับของ--><MenuItem id="MatReceipt" icon="Icons.16x16.MatReceipt" label="${res:MainMenu.StockMenu.MatReceipt}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReceipt"/>
+      <!----><MenuItem id="MatetialStockSeparator3" label="-"></MenuItem>
+      <!--วัสดุยกมาต้นปี--><MenuItem id="MatOpenningBalance" label="${res:MainMenu.StockMenu.MatOpenningBalance}" icon="Icons.16x16.MatOpenningBalance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOpenningBalance"/>
+      <!----><MenuItem id="MatetialStockSeparator4" label="-"></MenuItem>
+      <!--Re Stock Sequence--><MenuItem id="stocksequence" label="${res:MainMenu.StockMenu.StockSequence}" icon="Icons.16x16.StockSequence" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.StockSequence"/>
+    </MenuItem>
+    <MenuItem id="EquipmentToolStock" label="${res:MainMenu.EquipmentToolStock}">
+      <!--ข้อมูลเครื่องมือ/เครื่องจักร--><MenuItem id="Tool" label="${res:MainMenu.ItemMenu.ToolList}" icon="Icons.16x16.Tool" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Tool"/>
+      <!--กลุ่มเครื่องมือ/เครื่องจักร[เพิ่มเติมเครื่องจักร]--><MenuItem id="ToolGroup" label="${res:MainMenu.ItemMenu.ToolGroup}" icon="Icons.16x16.ToolGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolGroup"/>
+      <!----><MenuItem id="EquipmentToolStockSeparator1" label="-"></MenuItem>
+      <!--เบิกเครื่องมือ/เครื่องจักร--><MenuItem id="EqtWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw"/>
+      <!--คืนเครื่องมือ/เครื่องจักร--><MenuItem id="EqtReturn" label="${res:MainMenu.StockMenu.EqtReturn}" icon="Icons.16x16.ToolReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolReturn"/>
+      <!--เปลี่ยนสถานะเครื่องมือ/เครื่องจักร--><MenuItem id="EqtChangeStatus" label="${res:MainMenu.StockMenu.EqtChangeStatus}" icon="Icons.16x16.EquipmentToolChangeStatus" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolChangeStatus"/>
+    </MenuItem>
+    <!----><MenuItem id="StockSeparator" label="-"/>
+    <!--รับของหน้างาน--><MenuItem id="GoodsReceiptForOperation" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceiptForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceiptForOperation" args="|DocType:45|"/>
+    <!--ข้อมูลค่าแรง--><MenuItem id="Labor" icon="Icons.16x16.Labor" label="${res:MainMenu.ItemMenu.LaborList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Labor"/>
+    <!--กลุ่มค่าแรง--><MenuItem id="LaborGroup" label="${res:MainMenu.ItemMenu.LaborGroup}" icon="Icons.16x16.LaborGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LaborGroup"/>
+  </Extension>
+
+  <!--====การเงิน===============================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/CashBank">
+    <!--ธนาคาร--><MenuItem id="Bank" icon="Icons.16x16.Bank" label="${res:MainMenu.CashBankMenu.BankList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Bank"/>
+    <!--ธนาคาร-สาขา--><MenuItem id="BankBranch" label="${res:MainMenu.CashBankMenu.BankBranchList}" icon="Icons.16x16.BankBranch" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankBranch"/>
+    <!--บัญชีธนาคาร--><MenuItem id="BankAccount" label="${res:MainMenu.CashBankMenu.BankAccountList}" icon="Icons.16x16.BankAccountList" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankAccount"/>
+    <!----><MenuItem id="Separator1" label="-"/>
+    <!--ถอนเงินสด--><MenuItem id="CashWithdraw" label="${res:MainMenu.CashBankMenu.CashWithdraw}" icon="Icons.16x16.CashWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CashWithdraw"/>
+    <!--นำฝากเงินสด--><MenuItem id="CashDeposite" label="${res:MainMenu.CashBankMenu.CashDeposite}" icon="Icons.16x16.CashDeposite" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CashDeposite"/>
+    <!--โอนเงิน--><MenuItem id="BankTransfer" label="${res:MainMenu.CashBankMenu.BankTransfer}" icon="Icons.16x16.BankTransfer" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransfer"/>
+    <!--บันทึกค่าใช้จ่ายธนาคาร--><MenuItem id="BankCharge" icon="Icons.16x16.BankCharge" label="${res:MainMenu.CashBankMenu.BankCharge}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankCharge"/>
+    <!--บันทึกดอกเบี้ยรับ--><MenuItem id="BankInterest" icon="Icons.16x16.BankInterest" label="${res:MainMenu.CashBankMenu.BankInterest}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankInterest"/>
+    <!----><MenuItem id="Separator2" label="-"/>
+    <!--ตั้งวงเงินสดย่อย--><MenuItem id="PettyCash" icon="Icons.16x16.PettyCashSet" label="${res:MainMenu.CashBankMenu.PettyCashSet}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCash"/>
+    <!--เบิกเงินสดย่อย--><MenuItem id="PettyCashClaim" icon="Icons.16x16.PettyCashClaim" label="${res:MainMenu.CashBankMenu.PettyCashClaim}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCashClaim"/>
+    <!--ปิดวงเงินสดย่อย--><MenuItem id="PettyCashClosed" icon="Icons.16x16.PettyCashClosed" label="${res:MainMenu.CashBankMenu.PettyCashClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCashClosed"/>
+    <!----><MenuItem id="Separator3" label="-"/>
+    <!--เงินทดรองจ่าย--><MenuItem id="AdvanceMoney" icon="Icons.16x16.AdvanceMoney" label="${res:MainMenu.CashBankMenu.AdvanceMoneySet}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoney"/>
+    <!--ปิดวงเงินทดรองจ่าย--><MenuItem id="AdvanceMoneyClosed" icon="Icons.16x16.AdvanceMoneyClosed" label="${res:MainMenu.CashBankMenu.AdvanceMoneyClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoneyClosed"/>    
+  </Extension>
+
+  <!--====เช็ค===================================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Check">
+    <!--บันทึกเช็คจ่าย--><MenuItem id="OutgoingCheck" icon="Icons.16x16.OutgoingCheckIcon" label="${res:MainMenu.CheckMenu.OutgoingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OutgoingCheck"/>
+    <!--ปรับปรุงสถานะเช็คจ่าย--><MenuItem id="UpdateCheckPayment" icon="Icons.16x16.UpdateCheckPayment" label="${res:MainMenu.CheckMenu.UpdateCheckPayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment"/>
+    <!----><MenuItem id="Separator1" label="-"/>
+    <!--บันทึกเช็ครับ--><MenuItem id="IncomingCheck" icon="Icons.16x16.IncomingCheckIcon" label="${res:MainMenu.CheckMenu.IncomingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.IncomingCheck"/>
+    <!--นำฝากเช็ก--><MenuItem id="CheckDeposit" icon="Icons.16x16.CheckDeposite" label="${res:MainMenu.CheckMenu.CheckDeposite}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckDeposit"/>
+    <!--ปรับปรุงสถานะเช็ครับ--><MenuItem id="UpdateCheckReceive" icon="Icons.16x16.UpdateCheckReceive" label="${res:MainMenu.CheckMenu.UpdateCheckReceive}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckReceive"/>
+    <!--ขายลดเช็ค--><MenuItem id="CheckDiscount" icon="Icons.16x16.CheckDiscount" label="${res:MainMenu.CheckMenu.CheckDiscount}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckDiscount"/>
+    <!--เปลี่ยนเช็ครับ--><MenuItem id="CheckChange" icon="Icons.16x16.CheckChange" label="${res:MainMenu.CheckMenu.CheckChange}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CheckChange"/>    
+  </Extension>
+
+  <!--====สินทรัพย์================================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Asset">
+    <!--ข้อมูลสินทรัพย์--><MenuItem id="AssetList" icon="Icons.16x16.AssetListIcon" label="${res:MainMenu.AssetMenu.AssetList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Asset"/>
+    <!--ประเภทสินทรัพย์--><MenuItem id="AssetType" icon="Icons.16x16.AssetTypeIcon" label="${res:MainMenu.AssetMenu.AssetType.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetType"/>
+    <!----><MenuItem id="Separator1" label="-"/>
+    <!--บันทึกการซ่อมบำรุง--><MenuItem id="EqMaintenance" icon="Icons.16x16.EqMaintenance" label="${res:MainMenu.AssetMenu.EqMaintenance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EqMaintenance"/>
+    <!----><MenuItem id="Separator2" label="-"/>
+    <!--บันทึกค่าเสื่อมสินทรัพย์--><MenuItem id="DepreciationCal" icon="Icons.16x16.DepreciationCal" label="${res:MainMenu.AssetMenu.DepreciationCal}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DepreciationCal"/>
+    <!----><MenuItem id="Separator3" label="-"/>
+    <!--Write off สินทรัพย์--><MenuItem id="AssetWriteOff" icon="Icons.16x16.AssetWriteoff" label="${res:MainMenu.AssetMenu.AssetWriteOff}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWriteOff"/>
+  </Extension>
+
+  <!--====บัญชี===================================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/Accounting">
+    <!--ผังบัญชี--><MenuItem id="AccountChart" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.AccountChart.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Account"/>
+    <!--งวดบัญชี--><MenuItem id="AccountPeriod" icon="Icons.16x16.AccountPeriodMenuIcon" label="${res:MainMenu.AccountingMenu.AccountPeriod.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountPeriod"/>
+    <!--สมุดรายวัน--><MenuItem id="AccountBook" icon="Icons.16x16.AccountBookMenuIcon" label="${res:MainMenu.AccountingMenu.AccountBook.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountBook"/>
+    <!--กำหนดรหัสบัญชีทั่วไป--><MenuItem id="AccountLink" icon="Icons.16x16.AccountLink" label="${res:MainMenu.AccountingMenu.AccountLink}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountLink"/>
+    <!--การเชื่อมบัญชี--><MenuItem id="LinkGL" icon="Icons.16x16.GLFormat" label="${res:MainMenu.AccountingMenu.LinkGL}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkGL"/>
+    <!----><MenuItem id="Separator1" label="-"/>
+    <!--บันทึกรายการรายวัน--><MenuItem id="JournalEntry" icon="Icons.16x16.JournalEntry" label="${res:MainMenu.AccountingMenu.JournalEntry}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntry"/>
+    <!--ยอดยกมา--><MenuItem id="OpenningBalance" icon="Icons.16x16.OpenningBalance" label="${res:MainMenu.AccountingMenu.BeginingBalance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OpenningBalance"/>
+    <!--ปิดงวดบัญชี--><MenuItem id="CloseAccountPeriod" icon="Icons.16x16.CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
+    <!----><MenuItem id="Separator2" label="-"/>
+    <!----><MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.VatMenu}">
+      <!--กลุ่มภาษี--><MenuItem id="VatGroup" icon="Icons.16x16.VatGroup" label="${res:MainMenu.AccountingMenu.VatGroup}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VatGroup"/>
+      <!--ใบกำกับภาษีมูลค่าเพิ่ม--><MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.Vat}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Vat"/>
+    <!----></MenuItem>
+    <!--รายงานงบการเงิน--><MenuItem id="FFormat" icon="Icons.16x16.FFormat" label="${res:MainMenu.AccountingMenu.LinkFinancialStatement}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.FFormat"/>
+    <!--กำหนดผังบัญชี แบบแสดงบัญชีรายรับรายจ่ายโครงการ (บช.๑)--><MenuItem id="ProjectReceivePaymentMaster" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
+    <!--รายงาน แบบแสดงบัญชีรายรับรายจ่ายโครงการ (บช.๑)--><MenuItem id="ProjectReceivePayment" icon="Icons.16x16.ProjectReceivePayment" label="${res:MainMenu.AccountingMenu.ProjectReceivePayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePayment"/>
+  </Extension>
+
+  <!--====Cost Control=============================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/CostControlReport">
+    <!--CBS--><MenuItem id="cbs" icon="Icons.16x16.CBS" label="${res:MainMenu.PurchaseMenu.CBS.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CBS"/>
+    <!--ปรับปรุงการจัดสรร--><MenuItem id="WBSAdjust" icon="Icons.16x16.WBSAdjust" label="${res:MainMenu.PurchaseMenu.WBSAdjust.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WBSAdjust"/>
+    <!----><MenuItem id="CostControlSeparate1" label="-"/>
+    <!--รายงานต้นทุนตาม WBS [127]--><MenuItem id="RptWBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitor"/>
+    <!--รายงานต้นทุนตาม WBS แบบทุกมุมมอง [408]--><MenuItem id="RptWBSMonitorAll" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitorAll.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitorAll"/>
+    <!--รายงานต้นทุนตาม CBS แต่ละโครงการ [409]--><MenuItem id="RptCBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptCBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCBSMonitor"/>
+    <!--รายงานต้นทุนตาม CBS [442]--><MenuItem id="RptCBSMonitorDetail" icon="Icons.16x16.RptCBSMonitorDetail" label="${res:MainMenu.PurchaseMenu.RptCBSMonitorDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCBSMonitorDetail"/>
+    <!--รายงานต้นทุนตาม WBS แบบแจกแจงรายการของ [213]--><MenuItem id="RptWBSItemsMonitor" icon="Icons.16x16.RptWBSItemsMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSItemsMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSItemsMonitor"/>
+    <!--รายงานต้นทุนตามรายการของ แบบแจกแจง WBS [254]--><MenuItem id="RptWBSMonitorByItem" icon="Icons.16x16.RptWBSMonitorByItem" label="${res:MainMenu.PurchaseMenu.RptWBSMonitorByItem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitorByItem"/>
+    <!--รายงานต้นทุนแต่ละโครงการสร้าง [161]--><MenuItem id="RptWBSBudgetByCC" icon="Icons.16x16.RptWBSBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptWBSBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSBudgetByCC"/>
+    <!--RptMatBudgetByCC--><MenuItem id="RptMatBudgetByCC" icon="Icons.16x16.RptMatBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptMatBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC"/>
+  </Extension>
+  
+  <!--====รายงานด้านการจัดซื้อ=============================================-->  
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/PurchaseRepot">
+    <!--รายงานประวัติการสั่งซื้อสินค้า [150]--><MenuItem id="RptPOHistory" icon="Icons.16x16.RptPOHistory" label="${res:MainMenu.PurchaseMenu.RptPOHistory.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOHistory"/>
+		<!--รายงานรายงานใบขอซื้อ [274]--><MenuItem id="rpt274" icon="Icons.16x16.Rpt274" label="${res:MainMenu.PurchaseMenu.Rpt274.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt274"/>
+		<!--รายงานสรุปการขอซื้อแต่ละโครงการ [280]--><MenuItem id="RptCCPRSummary" icon="Icons.16x16.RptCCPRSummary" label="${res:MainMenu.PurchaseMenu.RptCCPRSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCCPRSummary"/>
+		<!--รายงาน PR ค้างสั่ง [281]--><MenuItem id="RptUnorderPRItem" icon="Icons.16x16.RptUnorderPRItem" label="${res:MainMenu.PurchaseMenu.RptUnorderPRItem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnorderPRItem"/>
+		<!--รายงาน PR ค้างสั่งแบบแจกแจง [283]--><MenuItem id="RptUnorderPRAnalysis" icon="Icons.16x16.RptUnorderPRAnalysis" label="${res:MainMenu.PurchaseMenu.RptUnorderPRAnalysis.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis"/>
+		<!--รายงานตรวจสอบการค้างเบิกของตาม PR [282]--><MenuItem id="RptCheckPRWithdraw" icon="Icons.16x16.RptCheckPRWithdraw" label="${res:MainMenu.PurchaseMenu.RptCheckPRWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckPRWithdraw"/>
+		<!--รายงานตรวจสอบลำดับการขอเบิก [279]--><MenuItem id="RptCheckPriorityWithdraw" icon="Icons.16x16.RptCheckPriorityWithdraw" label="${res:MainMenu.PurchaseMenu.RptCheckPriorityWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckPriorityWithdraw"/>
+		<!----><MenuItem id="Separator1" label="-"/>
+		<!--รายงานใบสั่งซื้อ [275]--><MenuItem id="rpt275" icon="Icons.16x16.Rpt275" label="${res:MainMenu.PurchaseMenu.Rpt275.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt275"/>
+		<!--รายงานแนะนำจำนวนที่ควรออก PO [147]--><MenuItem id="RptPOQtyRecommended" icon="Icons.16x16.RptPOQtyRecommended" label="${res:MainMenu.PurchaseMenu.RptPOQtyRecommended.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOQtyRecommended"/>
+		<!--รายงานการสั่งซื้อเรียงตามวัสดุ [202]--><MenuItem id="RptPObyLCI" icon="Icons.16x16.RptPObyLCI" label="${res:MainMenu.PurchaseMenu.RptPObyLCI.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPObyLCI"/>
+		<!--รายงานสรุปยอดสั่งซื้อตามผู้ขาย [187]--><MenuItem id="RptSupplierPOSummary" icon="Icons.16x16.RptSupplierPOSummary" label="${res:MainMenu.PurchaseMenu.RptSupplierPOSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSupplierPOSummary"/>
+		<!--รายงานสรุปการสั่งซื้อแต่ละโครงการ [184]--><MenuItem id="RptCCPOSummary" icon="Icons.16x16.RptCCPOSummary" label="${res:MainMenu.PurchaseMenu.RptCCPOSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCCPOSummary"/>
+		<!--รายงานตรวจสอบยอดค้างรับของใบสั่งซื้อ [148]--><MenuItem id="RptRptPORemainingQty" icon="Icons.16x16.RptPORemainingQty" label="${res:MainMenu.PurchaseMenu.RptPORemainingQty.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPORemainingQty"/>
+		<!--รายงานมูลค่าค้างรับใบสั่งซื้อ [227]--><MenuItem id="RptRptPORemainingCost" icon="Icons.16x16.RptPORemainingCost" label="${res:MainMenu.PurchaseMenu.RptPORemainingCost.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPORemainingCost"/>
+		<!--รายงานสินค้าค้างรับ [143]--><MenuItem id="rptunreceivedpoitem" icon="Icons.16x16.rptunreceivedpoitem" label="${res:MainMenu.PurchaseMenu.rptunreceivedpoitem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptUnreceivedPOItem"/>
+		<!--รายงานตรวจสอบการเปลี่ยนแปลงราคาต่อหน่วย [154]--><MenuItem id="RptChangingUnitPrice" icon="Icons.16x16.RptChangingUnitPrice" label="${res:MainMenu.PurchaseMenu.RptChangingUnitPrice.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptChangingUnitPrice"/>
+		<!----><MenuItem id="Separator2" label="-"/>
+		<!--รายงานรายงานใบรับของ [276]--><MenuItem id="rpt276" icon="Icons.16x16.Rpt276" label="${res:MainMenu.PurchaseMenu.Rpt276.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt276"/>
+		<!--รายงานวิเคราะห์การซื้อสุทธิ - เรียงตามวัสดุ [182]--><MenuItem id="RptPurchaseAnalysisByLci" icon="Icons.16x16.RptPurchaseAnalysisByLci" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysisByLci.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByLci"/>
+		<!--รายงานวิเคราะห์การซื้อสุทธิ - เรียงตามผู้ขาย [157]--><MenuItem id="RptPurchaseAnalysis" icon="Icons.16x16.RptPurchaseAnalysis" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysis.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysis"/>
+		<!--รายงานวิเคราะห์การจัดซื้อแต่ละโครงการแบบแจกแจง [203]--><MenuItem id="RptPurchaseAnalysisByCCLci" icon="Icons.16x16.RptPurchaseAnalysisByCCLci" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysisByCCLci.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci"/>
+		<!--รายงานตรวจสอบการเชื่อมโยงเอกสารจัดซื้อ [155]--><MenuItem id="RptPurchaseDocLinking" icon="Icons.16x16.RptPurchaseDocLinking" label="${res:MainMenu.PurchaseMenu.RptPurchaseDocLinking.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseDocLinking"/>
+		<MenuItem id="Separator3" label="-"/>
+  </Extension>
+  
+  <!--====รายงานด้านคลังสินค้าและวัสดุ=============================================-->    
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/MatStockReport">
+    <!--รายงานรับคืนวัสดุ [112]--><MenuItem id="rptmatreturn" icon="Icons.16x16.RptMatReturn" label="${res:MainMenu.PurchaseMenu.RptMatReturn.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatReturn"/>
+    <!--รายงานเบิกวัสดุ [111]--><MenuItem id="rptmatwithdraw" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdraw"/>
+    <!--รายงานโอนย้ายและรับวัสดุ [358]--><MenuItem id="rptmattransfer" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatTransfer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatTransfer"/>
+		<!--รายงานตรวจสอบการเบิกของ [156]--><MenuItem id="RptAuditMatWithdraw" icon="Icons.16x16.RptAuditMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptAuditMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAuditMatWithdraw"/>		
+		<!--รายงานตรวจนับวัสดุ [113]--><MenuItem id="rptmatcount" icon="Icons.16x16.RptMatCount" label="${res:MainMenu.PurchaseMenu.RptMatCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCount"/>
+		<!--รายงานรายละเอียดการตรวจนับวัสดุคงเหลือ [190]--><MenuItem id="rptmatcountdetail" icon="Icons.16x16.RptMatCountDetail" label="${res:MainMenu.PurchaseMenu.RptMatCountDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountDetail"/>							
+    <!--ดูรายงานรายตรวจนับวัสดุตาม Cost Center [390]--><MenuItem id="rptmatcountexpandedlciitem" icon="Icons.16x16.RptMatCountExpandedLciitem" label="${res:MainMenu.PurchaseMenu.RptMatCountExpandedLciitem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountExpandedLciitem"/>							
+		<!--รายงานความเคลื่อนไหววัสดุ [121]--><MenuItem id="rptstockcardmat" icon="Icons.16x16.RptStockCardMat" label="${res:MainMenu.PurchaseMenu.RptStockCardMat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardMat"/>
+		<!--รายงานบัญชีพิเศษและบัญชีคุมสินค้า [158]--><MenuItem id="RptMatStockMonitor" icon="Icons.16x16.RptMatStockMonitor" label="${res:MainMenu.PurchaseMenu.RptMatStockMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor"/>							    
+  </Extension>
+
+  <!--====รายงานคลังเครื่องมือ/เครื่องจักร=============================================-->    
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/EquipmentToolReport">
+    <!--รายงานสถานะเครื่องมือ [365]--><MenuItem id="rpttoolstatus" icon="Icons.16x16.RptToolStatus" label="${res:MainMenu.PurchaseMenu.RptToolStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolStatus"/>
+    <!--รายงานซ่อมบำรุงเครื่องมือ/เครื่องจักร [369]--><MenuItem id="rpteqtmaintenance" icon="Icons.16x16.RptEQTMaintenance" label="${res:MainMenu.PurchaseMenu.RptEQTMaintenance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTMaintenance"/>
+    <!--รายงานรายได้เครื่องมือ/เครื่องจักร [371]--><MenuItem id="rpteqtincome" icon="Icons.16x16.RptEQTIncome" label="${res:MainMenu.PurchaseMenu.RptEQTIncome.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEQTIncome"/>
+    <!--รายงานความเคลื่อนไหวเครื่องมือ [373]--><MenuItem id="rpttoolmovement" icon="Icons.16x16.RpttoolMovement" label="${res:MainMenu.PurchaseMenu.RptToolMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolMovement"/>
+    <!--รายงานตรวจนับเครื่องมือ [455]--><MenuItem id="rpttoolcount" icon="Icons.16x16.RptToolCount" label="${res:MainMenu.PurchaseMenu.RptToolCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptToolCount"/>
+  </Extension>
+  
+  <!--====รายงานเกี่ยวกับเจ้าหนี้====================================================-->   
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/APReport">
+    <!--รายงานเจ้าหนี้ยกมา [104]--><MenuItem id="rptapopeningbalance" icon="Icons.16x16.RptAPOpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAPOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPOpeningBalance"/>			
+		<!--รายงานการ์ดเจ้าหนี้ - แยกตามรหัสเจ้าหนี้ [145]--><MenuItem id="rptap" icon="Icons.16x16.RptAP" label="${res:MainMenu.PurchaseMenu.RptAP.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAP"/>
+		<!--รายงานการ์ดเจ้าหนี้จาก GL [277]--><MenuItem id="rptapgl" icon="Icons.16x16.RptAPGL" label="${res:MainMenu.PurchaseMenu.RptAPGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGL"/>
+		<!--รายงานการ์ดเจ้าหนี้แบบแจกแจง [237]--><MenuItem id="rptapenumerate" icon="Icons.16x16.RptAPEnumerate" label="${res:MainMenu.PurchaseMenu.RptAPEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPEnumerate"/>
+		<!--รายงานเจ้าหนี้คงค้าง [137]--><MenuItem id="rptapremain" icon="Icons.16x16.RptAPRemain" label="${res:MainMenu.PurchaseMenu.RptAPRemain.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPRemain"/>
+		<!--รายงานเอกสารครบกำหนดชำระเรียงตามเจ้าหนี้ [169]--><MenuItem id="rptapremaindetail" icon="Icons.16x16.RptAPRemainDetail" label="${res:MainMenu.PurchaseMenu.RptAPRemainDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPRemainDetail"/>
+		<!--รายงานสถานะของใบรับวางบิล [149]--><MenuItem id="RptBillAcceptanceStatus" icon="Icons.16x16.RptBillAcceptanceStatus" label="${res:MainMenu.PurchaseMenu.RptBillAcceptanceStatus.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBillAcceptanceStatus"/>
+		<!--รายงานใบรับวางบิลตามวันที่จ่ายเงิน [144]--><MenuItem id="rptapbillacceptancebyduedate" icon="Icons.16x16.rptapbillacceptancebyduedate" label="${res:MainMenu.PurchaseMenu.RptAPBillAcceptanceByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.rptapbillacceptancebyduedate"/>
+		<!--รายงานกำหนดการชำระเงิน [195]--><MenuItem id="RptPaymentDue" icon="Icons.16x16.RptPaymentDue" label="${res:MainMenu.PurchaseMenu.RptPaymentDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentDue"/>
+		<!--รายงานจ่ายชำระหนี้ [105]--><MenuItem id="rptappayment" icon="Icons.16x16.RptAPPayment" label="${res:MainMenu.PurchaseMenu.RptAPPayment.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPPayment"/>
+		<!--รายงานอายุเจ้าหนี้ [152]--><MenuItem id="RptAPAging" icon="Icons.16x16.RptAPAging" label="${res:MainMenu.PurchaseMenu.RptAPAging.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPAging"/>				
+		<!--รายงานตัดเงินมัดจำ [108]--><MenuItem id="rptapadvancepay" icon="Icons.16x16.RptAPAdvancePay" label="${res:MainMenu.PurchaseMenu.RptAPAdvancePay.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPAdvancePay"/>
+		<!--รายงานสรุปผู้ขาย [185]--><MenuItem id="RptSupplier" icon="Icons.16x16.RptSupplier" label="${res:MainMenu.PurchaseMenu.RptSupplier.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSupplier"/>
+		<!--รายงานสรุปประเภทการชำระเงิน [151]--><MenuItem id="RptPaymentMethodSummary" icon="Icons.16x16.RptPaymentMethodSummary" label="${res:MainMenu.PurchaseMenu.RptPaymentMethodSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentMethodSummary"/>				
+		<!--รายงาน Retention [258]--><MenuItem id="RptRetention" icon="Icons.16x16.RptRetention" label="${res:MainMenu.PurchaseMenu.RptRetention.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptRetention"/>
+		<!--รายงานซื้อสด [236]--><MenuItem id="RptCashPurchase" icon="Icons.16x16.RptCashPurchase" label="${res:MainMenu.PurchaseMenu.RptCashPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCashPurchase"/>
+		<!--รายงานซื้อเชื่อ [146]--><MenuItem id="RptCreditPurchase" icon="Icons.16x16.RptCreditPurchase" label="${res:MainMenu.PurchaseMenu.RptCreditPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCreditPurchase"/>
+  </Extension>
+
+  <!--====รายงานด้านจัดจ้าง====================================================-->     
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/SubcontractReport">
+    <!--รายงานใบขอจ้าง [349]--><MenuItem id="rptwr" icon="Icons.16x16.RptWR" label="${res:MainMenu.Subcontract.RptWR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWR"/>
+		<!--รายงานใบสั่งจ้าง [293]--><MenuItem id="rptsc" icon="Icons.16x16.RptSC" label="${res:MainMenu.Subcontract.RptSC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSC"/>			
+		<!--รายงานใบเปลี่ยนเปลงงาน [294]--><MenuItem id="rptvo" icon="Icons.16x16.RptVO" label="${res:MainMenu.Subcontract.RptVO.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVO"/>
+		<!--รายงานใบหักค่าใช้จ่าย [295]--><MenuItem id="rptdr" icon="Icons.16x16.RptDR" label="${res:MainMenu.Subcontract.RptDR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDR"/>
+		<!--รายงานใบรับงาน [298]--><MenuItem id="rptpa" icon="Icons.16x16.RptPA" label="${res:MainMenu.Subcontract.RptPA.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPA"/>
+    <!--รายงานสรุปการจัดจ้าง [350]--><MenuItem id="rptcontractsummary" icon="Icons.16x16.RptContract" label="${res:MainMenu.Subcontract.RptContractSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptContractSummary"/>
+		<!--รายงานความเคลื่อนไหวใบสั่งจ้าง [296]--><MenuItem id="rptscmovement" icon="Icons.16x16.RptSCMovement" label="${res:MainMenu.Subcontract.RptSCMovement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCMovement"/>
+		<!--รายงานความเคลื่อนไหวใบสั่งจ้างแบบแจกแจง [297]--><MenuItem id="rptscmovementenumerate" icon="Icons.16x16.RptSCMovementEnumerate" label="${res:MainMenu.Subcontract.RptSCMovementEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSCMovementEnumerate"/>    
+  </Extension>
+
+  <!--====รายงานเกี่ยวกับลูกหนี้====================================================-->     
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/ARRepot">
+		<!--รายงานลูกหนี้ยกมา [132]--><MenuItem id="RptAROpeningBalance" icon="Icons.16x16.RptAROpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAROpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAROpeningBalance"/>
+		<!--รายงานการ์ดลูกหนี้ - แยกตามรหัสลูกหนี้ [180]--><MenuItem id="RptAR" icon="Icons.16x16.RptAR" label="${res:MainMenu.PurchaseMenu.RptAR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAR"/>
+		<!--รายงานการ์ดลูกหนี้แบบแจกแจง [242]--><MenuItem id="RptAREnumerate" icon="Icons.16x16.RptAREnumerate" label="${res:MainMenu.PurchaseMenu.RptAREnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAREnumerate"/>
+		<!--รายงานลูกหนี้คงค้าง [177]--><MenuItem id="RptARRemain" icon="Icons.16x16.RptARRemain" label="${res:MainMenu.PurchaseMenu.RptARRemain.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARRemain"/>
+    <!--รายงานใบวางบิล [159]--><MenuItem id="RptARBillIssueByDueDate" icon="Icons.16x16.RptARBillIssueByDueDate" label="${res:MainMenu.PurchaseMenu.RptARBillIssueByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate"/>
+    <!--รายงานใบวางบิลงวดตามวันที่จัดการเงินงวด [380]--><MenuItem id="RptRefARBillIssueByDueDate" icon="Icons.16x16.RptRefARBillIssueByDueDate" label="${res:MainMenu.PurchaseMenu.RptRefARBillIssueByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptRefARBillIssueByDueDate"/>
+		<!--รายงานกำหนดการรับเงิน [196]--><MenuItem id="RptReceiveDue" icon="Icons.16x16.RptReceiveDue" label="${res:MainMenu.PurchaseMenu.RptReceiveDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptReceiveDue"/>		
+		<!--รายงานรับชำระหนี้ [179]--><MenuItem id="RptARReceive" icon="Icons.16x16.RptARReceive" label="${res:MainMenu.PurchaseMenu.RptARReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARReceive"/>			
+		<!--รายงานอายุลูกหนี้ [153]--><MenuItem id="RptARAging" icon="Icons.16x16.RptARAging" label="${res:MainMenu.PurchaseMenu.RptARAging.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAging"/>
+		<!--รายงานมัดจำรับ [178]--><MenuItem id="RptARAdvanceReceive" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptARAdvanceReceive.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARAdvanceReceive"/>
+		<!--รายงานสรุปลูกค้า [186]--><MenuItem id="RptCustomer" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptCustomer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCustomer"/>
+		<!--รายงานมัดจำงวดงาน [396]--><MenuItem id="RptAdvanceMilestone" icon="Icons.16x16.RptARAdvanceReceive" label="${res:MainMenu.PurchaseMenu.RptAdvanceMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMilestone"/>
+		<!--ประมาณการงวดงาน [398]--><MenuItem id="RptEstimateMilestone" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptEstimateMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEstimateMilestone"/>    
+  </Extension>
+
+  <!--====รายงานด้านบัญชี====================================================--> 
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/AccountingReport">
+    <!--รายงานข้อมูลรายวัน   [109]--><MenuItem id="rptgl" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGL"/>
+    <!--รายงานบัญชีแยกประเภทแบ่งตามเจ้าหนี้ลูกหนี้ [341]--><MenuItem id="rptglpayreceivebyacct" icon="Icons.16x16.RptGL" label="${res:MainMenu.PurchaseMenu.RptGLPayReceivebyAcct.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLPayReceivebyAcct"/>
+		<!--รายงานบัญชีแยกประเภทแบบแจกแจง   [110]--><MenuItem id="rptjournalentry" icon="Icons.16x16.RptJournalEntry" label="${res:MainMenu.PurchaseMenu.RptJournalEntry.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntry"/>
+		<!--รายงานการแก้ไขปรับปรุงรายการโดยอัตโนมัติ   [119]--><MenuItem id="rptjvautomatic" icon="Icons.16x16.RptJVAutomatic" label="${res:MainMenu.PurchaseMenu.RptJVAutomatic.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJVAutomatic"/>
+		<!--รายงานงบทดลอง   [117]--><MenuItem id="rptglbalancesheet" icon="Icons.16x16.RptGLBalanceSheet" label="${res:MainMenu.PurchaseMenu.RptGLBalanceSheet.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLBalanceSheet"/>
+    <!--รายงานบัญชีแยกประเภทแบบแจกแจง [278]--><MenuItem id="rptspecialjournalentry" icon="Icons.16x16.RptSpecialJournalEntry" label="${res:MainMenu.PurchaseMenu.RptSpecialJournalEntry.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSpecialJournalEntry"/>
+    <!--รายงานบัญชีแยกประเภท Cost Center [379]--><MenuItem id="rptjournalentrybycc" icon="Icons.16x16.RptJournalEntryByCC" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCC"/>
+    <!--รายงานบัญชีแยกประเภท Cost Center List [381]--><MenuItem id="rptjournalentrybycclist" icon="Icons.16x16.RptJournalEntryByCCList" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCCList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList"/>
+    <!--รายงานงบทดลอง [395]--><MenuItem id="rpttrialbalancebycc" icon="Icons.16x16.RptTrialBalanceByCC" label="${res:MainMenu.PurchaseMenu.RptTrialBalanceByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptTrialBalanceByCC"/>
+    <!--รายงานบัญชีแยกประเภทแบ่งชนิดการจ่าย [443]--><MenuItem id="rptglpaytype" icon="Icons.16x16.RptJournalEntry" label="${res:MainMenu.PurchaseMenu.RptGlpaytype.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLPaytype"/>
+  </Extension>
+
+  <!--====รายงานเงินสดย่อย/เงินทดรองจ่าย====================================================-->  
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/BankCheckReport">
+		<!--รายงานเงินสดย่อย [194]--><MenuItem id="rptpettycash" icon="Icons.16x16.RptPettyCash" label="${res:MainMenu.PurchaseMenu.RptPettyCash.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPettyCash"/>
+		<!--รายงานเงินทดรองจ่าย [200]--><MenuItem id="rptadvancemoney" icon="Icons.16x16.RptAdvanceMoney" label="${res:MainMenu.PurchaseMenu.RptAdvanceMoney.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney"/>	    
+  </Extension>
+
+  <!--====รายงานเกี่ยวกับเช็ค/ธนาคาร====================================================-->  
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/CheckReport">
+  	<!--รายงานเช็ครับ [197]--><MenuItem id="rptincomingcheck" icon="Icons.16x16.RptIncomingCheck" label="${res:MainMenu.PurchaseMenu.RptIncomingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingCheck"/>			
+		<!--รายงานเช็ครับแบบแจกแจง [234]--><MenuItem id="rptincomingcheckenumerate" icon="Icons.16x16.RptIncomingCheckEnumerate" label="${res:MainMenu.PurchaseMenu.RptIncomingCheckEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingCheckEnumerate"/>
+		<!--รายงานเช็คจ่าย [166]--><MenuItem id="rptoutgoingcheck" icon="Icons.16x16.RptOutgoingCheck" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck"/>
+		<!--รายงานเช็คจ่ายแบบแจกแจง [235]--><MenuItem id="rptoutgoingcheckenumerate" icon="Icons.16x16.RptOutgoingCheckEnumerate" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheckEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheckEnumerate"/>
+		<!--รายงานเช็คจ่ายเงินสดย่อย [243]--><MenuItem id="rptoutgoingcheckpettycash" icon="Icons.16x16.RptOutgoingCheckPettyCash" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheckPettyCash.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheckPettyCash"/>
+		<!--รายงาน Statement พร้อมเช็คในมือ [168]--><MenuItem id="rptcheckstatement" icon="Icons.16x16.RptCheckStatement" label="${res:MainMenu.PurchaseMenu.RptCheckStatement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckStatement"/>
+		<!--รายงาน Statement ธนาคาร [115]--><MenuItem id="rptbankstatement" icon="Icons.16x16.RptBankStatement" label="${res:MainMenu.PurchaseMenu.RptBankStatement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankStatement"/>
+		<!--รายงานยอดคงเหลือบัญชีธนคาร [116]--><MenuItem id="rptbankaccount" icon="Icons.16x16.RptBankAccount" label="${res:MainMenu.PurchaseMenu.RptBankAccount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankAccount"/>		    
+  </Extension>
+
+  <!--====รายงานภาษีมูลค่าเพิ่ม====================================================--> 
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/TaxReport/VATReport">
+    <!--รายงานภาษีซื้อ [97]--><MenuItem id="rptincomingvat" icon="Icons.16x16.RptIncomingVat" label="${res:MainMenu.PurchaseMenu.RptIncomingVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingVat"/>
+    <!--รายงานภาษีซื้อไม่ถึงกำหนด [385]--><MenuItem id="rptvatnotdue" icon="Icons.16x16.RptVatNotDue" label="${res:MainMenu.PurchaseMenu.RptVatNotDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptVatNotDue"/>
+		<!--รายงานภาษีขาย [101]--><MenuItem id="rptoutgoinvat" icon="Icons.16x16.RptOutgoinVat" label="${res:MainMenu.PurchaseMenu.RptOutgoinVat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinVat"/>    
+  </Extension>
+
+  <!--====รายงานภาษีหัก ณ ที่จ่าย====================================================-->  
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/TaxReport/WHTReport">
+    <!--รายงานภาษีหัก ณ ที่จ่าย [102]--><MenuItem id="rptincomingwht" icon="Icons.16x16.RptIncomingWht" label="${res:MainMenu.PurchaseMenu.RptIncomingWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWht"/>
+		<!--รายงานภาษีถูกหัก ณ ที่จ่าย [103]--><MenuItem id="rptoutgoinwht" icon="Icons.16x16.RptOutgoinWht" label="${res:MainMenu.PurchaseMenu.RptOutgoinWht.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoinWht"/>
+    <!--รายงานใบต่อ ภ.ง.ด. หัก ณ ที่จ่าย [228]--><MenuItem id="rptincomingwhtpnd" icon="Icons.16x16.RptIncomingWhtPND" label="${res:MainMenu.PurchaseMenu.RptIncomingWhtPND.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingWhtPND"/>    
+  </Extension>
+  
+  <!--====รายงานด้านสินทรัพย์====================================================-->     
+  <Extension path="/Pojjaman/Workbench/MainMenu/Reports/AssetReport">
+		<!--รายงานค่าเสื่อมราคาของสินทรัพย์ [215]--><MenuItem id="rptassetdepreciation" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciation.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciation"/>
+    <!--รายงานค่าเสื่อมจากเอกสาร [402]--><MenuItem id="rptassetdepreciationfromdoc" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciationfromdoc.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDoc"/>
+    <!--รายงานรายระเอียดค่าเสื่อมจากGL [406]--><MenuItem id="rptassetdepreciationfromdocdetail" icon="Icons.16x16.RptAssetDepreciation" label="${res:MainMenu.PurchaseMenu.RptAssetDepreciationfromdocdetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetDepreciationFromDocDetail"/>
+		<!--รายงานค่าใช้จ่ายจากสินทรัพย์จำแนกตามแผนก [266]--><MenuItem id="rpt266" icon="Icons.16x16.Rpt266" label="${res:MainMenu.PurchaseMenu.Rpt266.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt266"/>
+		<!--รายงานสรุปสินทรัพย์สำหรับเบิก [268]--><MenuItem id="rpt268" icon="Icons.16x16.Rpt268" label="${res:MainMenu.PurchaseMenu.Rpt268.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt268"/>
+ 		<!--รายงานสรุปการเบิกและคืนสินทรัพย์ [269]--><MenuItem id="rpt269" icon="Icons.16x16.Rpt269" label="${res:MainMenu.PurchaseMenu.Rpt269.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt269"/>
+		<!--รายงานค่าใช้จ่ายจากสินทรัพย์จำแนกตามสินทรัพย์ [270]--><MenuItem id="rpt270" icon="Icons.16x16.Rpt270" label="${res:MainMenu.PurchaseMenu.Rpt270.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt270"/>
+		<!--รายงานแจกแจงค่าใช้จ่าย [272]--><MenuItem id="rpt272" icon="Icons.16x16.Rpt272" label="${res:MainMenu.PurchaseMenu.Rpt272.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt272"/>
+		<!--รายงานทะเบียนสินทรัพย์แยกตามประเภท [273]--><MenuItem id="rpt273" icon="Icons.16x16.Rpt273" label="${res:MainMenu.PurchaseMenu.Rpt273.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Rpt273"/>
+		<!--รายงานสรุปค่าเสื่อม (by Asset) [287]--><MenuItem id="rptdepreciationbyasset" icon="Icons.16x16.RptDepreciationByAsset" label="${res:MainMenu.PurchaseMenu.RptDepreciationByAsset.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByAsset"/>
+    <!--รายงานสรุปค่าเสื่อม (by Costcenter) [288]--><MenuItem id="rptdepreciationbycc" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptDepreciationByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptDepreciationByCC"/>
+    <!--รายงานกำไรขาดทุนเครื่องจักร [374]--><MenuItem id="rptassetprofitloss" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetProfitLoss.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetProfitLoss"/>
+    <!--รายงานWriteOff [376]--><MenuItem id="rptassetwriteoff" icon="Icons.16x16.RptDepreciationByCC" label="${res:MainMenu.PurchaseMenu.RptAssetWriteOff.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAssetWriteOff"/>    
+  </Extension>
+
+  <!--====กำหนดค่าทั่วไป=============================================-->
+  <Extension path="/Pojjaman/Workbench/MainMenu/GeneralSetting">
+    <!--หน่วยนับ--><MenuItem id="Unit" icon="Icons.16x16.Unit" label="${res:MainMenu.MaterialMenu.UnitList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Unit"/>
+    <!--สถานที่ส่งของ--><MenuItem id="POPlaceOfDelivery" icon="Icons.16x16.POPlaceOfDelivery" label="${res:MainMenu.MaterialMenu.POPlaceOfDeliveryList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.POPlaceOfDelivery"/>
+		<!----><MenuItem id="EmployeeSeparator" label="-"/>
+		<!--พนักงาน--><MenuItem id="Employee" label="${res:MainMenu.AdminMenu.EmployeeList}" icon="Icons.16x16.Employee" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Employee"/>
+		<!--ผู้ใช้โปรแกรม--><MenuItem id="User" label="${res:MainMenu.AdminMenu.User}" icon="Icons.16x16.User" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.User"/>
+		<!--เปลี่ยนรหัสผ่าน--><MenuItem id="ChangePassword" icon="Icons.16x16.ChangePasswordIcon" label="${res:MainMenu.AdminMenu.ChangePassword}" class="Longkong.Pojjaman.Commands.ChangePassword"/>
+		<!----><MenuItem id="OptionSeparator" label="-"/>
+		<!--ตั้งค่าโปรแกรม--><MenuItem id="Options" label="${res:MainMenu.ToolMenu.Options}" icon="Icons.16x16.Options" description="${res:MainMenu.ToolMenu.Options.Description}" class="Longkong.Pojjaman.Commands.OptionsCommand"/>
+		<!--DBTool--><MenuItem id="DBTool" label="DBTool" icon="Icons.16x16.Options" description="DBTool" class="Longkong.Pojjaman.Commands.DatabaseSelection"/>
+    <!--Backup--><MenuItem id="Backup" label="Backup" icon="Icons.16x16.Options" description="Backup" class="Longkong.Pojjaman.Commands.Backup"/>
+    <!--Schema Export--><MenuItem id="SchemaExport" label="Schema Export" icon="Icons.16x16.Options" description="Schema Export" class="Longkong.Pojjaman.Commands.SchemaExport"/>
+  </Extension>  
+  
+
+  <Extension path="/Pojjaman/Workbench/ToolBar/Dynamic">
+  </Extension>
+</AddIn>

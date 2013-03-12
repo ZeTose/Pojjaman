@@ -3,7 +3,7 @@
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Report.Stock.dll"/>
 	</Runtime>
-	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+	<!--<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="MatStockReport" label="${res:MainMenu.ReportMenu.MatStockReport}" insertafter="PurchaseRepot" insertbefore="APReport">
 				<MenuItem id="rptmatreturn" icon="Icons.16x16.RptMatReturn" label="${res:MainMenu.PurchaseMenu.RptMatReturn.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatReturn"/>
@@ -11,18 +11,13 @@
         <MenuItem id="rptmattransfer" icon="Icons.16x16.RptMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptMatTransfer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatTransfer"/>
 				<MenuItem id="RptAuditMatWithdraw" icon="Icons.16x16.RptAuditMatWithdraw" label="${res:MainMenu.PurchaseMenu.RptAuditMatWithdraw.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAuditMatWithdraw"/>		
 				<MenuItem id="rptmatcount" icon="Icons.16x16.RptMatCount" label="${res:MainMenu.PurchaseMenu.RptMatCount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCount"/>
-				<!--<MenuItem id="rptmatcountresult" icon="Icons.16x16.RptMatCountResult" label="${res:MainMenu.PurchaseMenu.RptMatCountResult.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountResult"/>-->			
 				<MenuItem id="rptmatcountdetail" icon="Icons.16x16.RptMatCountDetail" label="${res:MainMenu.PurchaseMenu.RptMatCountDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountDetail"/>							
         <MenuItem id="rptmatcountexpandedlciitem" icon="Icons.16x16.RptMatCountExpandedLciitem" label="${res:MainMenu.PurchaseMenu.RptMatCountExpandedLciitem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatCountExpandedLciitem"/>							
 				<MenuItem id="rptstockcardmat" icon="Icons.16x16.RptStockCardMat" label="${res:MainMenu.PurchaseMenu.RptStockCardMat.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardMat"/>
-                                <!--<MenuItem id="rptstockcardtool" icon="Icons.16x16.RptStockCardTool" label="${res:MainMenu.PurchaseMenu.RptStockCardTool.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCardTool"/>
-				<MenuItem id="rptstockcard" icon="Icons.16x16.RptStockCard" label="${res:MainMenu.PurchaseMenu.RptStockCard.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockCard"/>
-				<MenuItem id="rptstockoutcard" icon="Icons.16x16.RptStockOutCard" label="${res:MainMenu.PurchaseMenu.RptStockOutCard.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptStockOutCard"/>	-->
 				<MenuItem id="RptMatStockMonitor" icon="Icons.16x16.RptMatStockMonitor" label="${res:MainMenu.PurchaseMenu.RptMatStockMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatStockMonitor"/>							
-				<!--<MenuItem id="RptMatWithdrawByCC" icon="Icons.16x16.RptMatWithdrawByCC" label="${res:MainMenu.PurchaseMenu.RptMatWithdrawByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatWithdrawByCC"/>-->							
 			</MenuItem>
 		</Conditional>
-	</Extension>
+	</Extension>-->
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
     <EntityFilter id="rptmatwithdraw" entity="rptmatwithdraw" filter="Longkong.Pojjaman.Gui.Panels.RptMatWithdrawFilterSubPanel"/>
     <EntityFilter id="rptmattransfer" entity="rptmattransfer" filter="Longkong.Pojjaman.Gui.Panels.RptMatTransferFilterSubPanel"/>

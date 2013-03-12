@@ -2,14 +2,14 @@
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Report.CashBank.dll"/>
 	</Runtime>
-	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+	<!--<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="BankCheckReport" label="${res:MainMenu.ReportMenu.BankCheckReport}" insertbefore="CheckReport" insertafter="AccountingReport">
 				<MenuItem id="rptpettycash" icon="Icons.16x16.RptPettyCash" label="${res:MainMenu.PurchaseMenu.RptPettyCash.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPettyCash"/>
 				<MenuItem id="rptadvancemoney" icon="Icons.16x16.RptAdvanceMoney" label="${res:MainMenu.PurchaseMenu.RptAdvanceMoney.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAdvanceMoney"/>				
 			</MenuItem>
 		</Conditional>
-	</Extension>
+	</Extension>-->
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="rptbankaccount" entity="rptbankaccount" filter="Longkong.Pojjaman.Gui.Panels.RptBankAccountFilterSubPanel"/>
 		<EntityFilter id="rptbankstatement" entity="rptbankstatement" filter="Longkong.Pojjaman.Gui.Panels.RptBankStatementFilterSubPanel"/>

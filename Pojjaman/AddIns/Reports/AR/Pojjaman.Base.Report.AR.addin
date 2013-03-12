@@ -3,14 +3,13 @@
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Report.AR.dll"/>
 	</Runtime>
-	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+	<!--<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="ARRepot" label="${res:MainMenu.ReportMenu.ARReport}" insertafter="APReport" insertbefore="AccountingReport">
 				<MenuItem id="RptAROpeningBalance" icon="Icons.16x16.RptAROpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAROpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAROpeningBalance"/>
 				<MenuItem id="RptAR" icon="Icons.16x16.RptAR" label="${res:MainMenu.PurchaseMenu.RptAR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAR"/>
 				<MenuItem id="RptAREnumerate" icon="Icons.16x16.RptAREnumerate" label="${res:MainMenu.PurchaseMenu.RptAREnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAREnumerate"/>
 				<MenuItem id="RptARRemain" icon="Icons.16x16.RptARRemain" label="${res:MainMenu.PurchaseMenu.RptARRemain.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARRemain"/>
-				<!--<MenuItem id="RptARRemainDetail" icon="Icons.16x16.RptARRemainDetail" label="${res:MainMenu.PurchaseMenu.RptARRemainDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARRemainDetail"/>-->
         <MenuItem id="RptARBillIssueByDueDate" icon="Icons.16x16.RptARBillIssueByDueDate" label="${res:MainMenu.PurchaseMenu.RptARBillIssueByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptARBillIssueByDueDate"/>
         <MenuItem id="RptRefARBillIssueByDueDate" icon="Icons.16x16.RptRefARBillIssueByDueDate" label="${res:MainMenu.PurchaseMenu.RptRefARBillIssueByDueDate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptRefARBillIssueByDueDate"/>
 				<MenuItem id="RptReceiveDue" icon="Icons.16x16.RptReceiveDue" label="${res:MainMenu.PurchaseMenu.RptReceiveDue.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptReceiveDue"/>		
@@ -22,7 +21,7 @@
 				<MenuItem id="RptEstimateMilestone" icon="Icons.16x16.RptCustomer" label="${res:MainMenu.PurchaseMenu.RptEstimateMilestone.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptEstimateMilestone"/>
 			</MenuItem>
 		</Conditional>
-	</Extension>
+	</Extension>-->
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="rptaropeningbalance" entity="rptaropeningbalance" filter="Longkong.Pojjaman.Gui.Panels.RptAROpeningBalanceFilterSubPanel"/>
 		<EntityFilter id="rptaraging" entity="rptaraging" filter="Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel"/>

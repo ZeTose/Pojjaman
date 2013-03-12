@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -109,7 +109,6 @@
     </ProjectReference>
     <Reference Include="ADODB">
       <Name>adodb</Name>
-      
       <AssemblyFolderKey>hklm\primary interop assemblies</AssemblyFolderKey>
       <Private>True</Private>
     </Reference>
@@ -188,6 +187,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="AddIns\Customizations\ForImplementor\Pojjaman.Base.Form.ForImplementor.addin">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AddIns\Pojjaman.EnityParentMenu.addin">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="AddIns\Pojjaman.EnityMenu.addin">
       <SubType>Designer</SubType>
     </None>
     <Content Include="AddIns\Customizations\NotRecommended\NotRecommended.addin" />
@@ -548,9 +553,6 @@
     </None>
     <None Include="AddIns\Pojjaman.Accounting.addin" />
     <None Include="AddIns\Pojjaman.Base.addin">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AddIns\Pojjaman.EnityDatabase.addin">
       <SubType>Designer</SubType>
     </None>
     <None Include="AddIns\Pojjaman.General.addin">

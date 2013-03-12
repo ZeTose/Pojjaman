@@ -1,0 +1,47 @@
+<AddIn name="Pojjaman Entity Data" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+  <Runtime>
+    <!--<Import assembly="../bin/Pojjaman.BusinessLogic.dll"/>
+    <Import assembly="../AddIns/Reports/CostControl/Pojjaman.Base.Report.CostControl.dll"/>   
+    <Import assembly="../AddIns/Forms/Bidding/Pojjaman.Base.Form.Bidding.dll"/>
+
+    <Import assembly="../AddIns/Reports/Purchase/Pojjaman.Base.Report.AP.dll"/>
+
+    <Import assembly="../AddIns/Reports/Accounting/Pojjaman.Base.Report.Accounting.dll"/>
+
+    <Import assembly="../AddIns/Reports/Asset/Pojjaman.Base.Report.Asset.dll"/>
+    <Import assembly="../AddIns/Reports/Stock/Pojjaman.Base.Report.Stock.dll"/>-->
+  </Runtime>
+  <Extension path="/Pojjaman/Workbench/MainMenu">
+    <!--====ประมูล====--><MenuItem id="Bidding" insertafter="File" insertbefere="Supplier" label="${res:MainMenu.BiddingMenu}" />
+    <!--====ผู้ขาย====--><MenuItem id="Supplier" insertafter="Bidding" insertbefore="Customer" label="${res:MainMenu.SupplierMenu}" />     
+    <!--====ลูกค้า====--><MenuItem id="Customer" insertafter="Supplier" insertbefore="Purchase" label="${res:MainMenu.CustomerMenu}" />
+    <!--====จัดซื้อ====--><MenuItem id="Purchase" insertafter="Customer" insertbefore="Subcontract" label="${res:MainMenu.PurchaseMenu}" />
+    <!--====จัดจ้าง====--><MenuItem id="Subcontract" insertafter="Purchase" insertbefore="Stock" label="${res:MainMenu.SubcontractMenu}" />     
+    <!--====จัดการคลัง====--><MenuItem id="Stock" insertafter="Subcontract" insertbefore="CashBank" label="${res:MainMenu.StockMenu}" />
+    <!--====การเงิน====--><MenuItem id="CashBank" insertafter="Stock" insertbefore="Check" label="${res:MainMenu.CashBankMenu}" />
+    <!--====เช็ค====--><MenuItem id="Check" insertafter="CashBank" insertbefore="Asset" label="${res:MainMenu.CheckMenu}" />
+    <!--====สินทรัพย์====--><MenuItem id="Asset" insertafter="Check" insertbefore="Accounting" label="${res:MainMenu.AssetMenu}" />
+    <!--====บัญชี====--><MenuItem id="Accounting" insertafter="Asset" insertbefore="CostControlReport" label="${res:MainMenu.AccountingMenu}" />
+    <!--====Cost Control====--><MenuItem id="CostControlReport" label="${res:MainMenu.ReportMenu.CostControlReport}" insertafter="Accounting" insertbefore="Reports" />
+    <!--====รายงาน====--><MenuItem id="Reports" insertafter="CostControlReport" insertbefore="GeneralSetting" label="${res:MainMenu.ReportsMenu}">
+      <!--====รายงานด้านการจัดซื้อ====--><MenuItem id="PurchaseRepot" label="${res:MainMenu.ReportMenu.PurchaseRepot}" insertbefore="MatStockReport" />
+      <!--====รายงานด้านคลังสินค้าและวัสดุ====--><MenuItem id="MatStockReport" label="${res:MainMenu.ReportMenu.MatStockReport}" insertafter="PurchaseRepot" insertbefore="APReport" />
+      <!--====รายงานคลังเครื่องมือ/เครื่องจักร====--><MenuItem id="EquipmentToolReport" label="${res:MainMenu.ReportMenu.EquipmentToolReport}" insertafter="MatStockReport" />
+      <!--====รายงานเกี่ยวกับเจ้าหนี้====--><MenuItem id="APReport" label="${res:MainMenu.ReportMenu.APReport}" insertafter="MatStockReport" insertbefore="ARRepot" />
+      <!--====รายงานด้านการจัดจ้าง====--><MenuItem id="SubcontractReport" label="${res:MainMenu.ReportMenu.SubcontractReport}" insertafter="APReport" insertbefore="ARRepot" />
+      <!--====รายงานเกี่ยวกับลูกหนี้====--><MenuItem id="ARRepot" label="${res:MainMenu.ReportMenu.ARReport}" insertafter="APReport" insertbefore="AccountingReport" />
+      <!--====รายงานด้านบัญชี====--><MenuItem id="AccountingReport" label="${res:MainMenu.ReportMenu.AccountingReport}" insertafter="ARRepot" insertbefore="BankCheckReport" />
+      <!--====รายงานเงินสดย่อย/เงินทดรองจ่าย====--><MenuItem id="BankCheckReport" label="${res:MainMenu.ReportMenu.BankCheckReport}" insertbefore="CheckReport" insertafter="AccountingReport" />
+      <!--====รายงานเกี่ยวกับเช็ค/ธนาคาร====--><MenuItem id="CheckReport" label="${res:MainMenu.ReportMenu.CheckReport}" insertafter="BankCheckReport" insertbefore="TaxReport" />
+      <!--====รายงานด้านภาษี====--><MenuItem id="TaxReport" label="${res:MainMenu.ReportMenu.TaxReport}"  insertafter="CheckReport" insertbefore="AssetReport">
+        <!--====รายงานภาษีมูลค่าเพิ่ม====--><MenuItem id="VATReport" label="${res:MainMenu.ReportMenu.VATReport}" />
+        <!--====รายงานภาษีหัก ณ ที่จ่าย====--><MenuItem id="WHTReport" label="${res:MainMenu.ReportMenu.WHTReport}" />
+      </MenuItem>
+      <!--====รายงานด้านสินทรัพย์====--><MenuItem id="AssetReport" label="${res:MainMenu.ReportMenu.AssetReport}" insertafter="TaxReport" />
+    </MenuItem>      
+    <!--====กำหนดค่าทั่วไป====-->
+    <MenuItem id="GeneralSetting" insertafter="Reports" insertbefore="Window" label="${res:MainMenu.GeneralSettingMenu}" />
+  </Extension>
+  <Extension path="/Pojjaman/Workbench/ToolBar/Dynamic">
+  </Extension>
+</AddIn>

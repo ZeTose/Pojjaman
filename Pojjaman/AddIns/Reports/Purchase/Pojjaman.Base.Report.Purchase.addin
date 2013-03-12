@@ -3,7 +3,7 @@
 			<Runtime>
 				<Import assembly="Pojjaman.Base.Report.AP.dll"/>
 			</Runtime>
-			<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+			<!--<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 				<Conditional applicationmode="Accounting" action="Exclude">
 					<MenuItem id="PurchaseRepot" label="${res:MainMenu.ReportMenu.PurchaseRepot}" insertbefore="MatStockReport">
 						<MenuItem id="RptPOHistory" icon="Icons.16x16.RptPOHistory" label="${res:MainMenu.PurchaseMenu.RptPOHistory.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOHistory"/>
@@ -30,14 +30,9 @@
 						<MenuItem id="RptPurchaseAnalysisByCCLci" icon="Icons.16x16.RptPurchaseAnalysisByCCLci" label="${res:MainMenu.PurchaseMenu.RptPurchaseAnalysisByCCLci.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseAnalysisByCCLci"/>
 						<MenuItem id="RptPurchaseDocLinking" icon="Icons.16x16.RptPurchaseDocLinking" label="${res:MainMenu.PurchaseMenu.RptPurchaseDocLinking.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPurchaseDocLinking"/>
 						<MenuItem id="Separator3" label="-"/>
-						<!--<MenuItem id="RptGoodsReceipt" icon="Icons.16x16.RptGoodsReceipt" label="${res:MainMenu.PurchaseMenu.RptGoodsReceipt.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGoodsReceipt"/>-->
-						<!--<MenuItem id="RptCashPurchase" icon="Icons.16x16.RptCashPurchase" label="${res:MainMenu.PurchaseMenu.RptCashPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCashPurchase"/>-->
-						<!--<MenuItem id="RptCreditPurchase" icon="Icons.16x16.RptCreditPurchase" label="${res:MainMenu.PurchaseMenu.RptCreditPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCreditPurchase"/>-->
-						<!--<MenuItem id="RptPOSummary" icon="Icons.16x16.RptPOSummary" label="${res:MainMenu.PurchaseMenu.RptPOSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOSummary"/>-->
-						<!--<MenuItem id="RptPOReceivingCalendar" icon="Icons.16x16.RptPOReceivingCalendar" label="${res:MainMenu.PurchaseMenu.RptPOReceivingCalendar.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPOReceivingCalendar"/>-->
 					</MenuItem>
 				</Conditional>
-			</Extension>
+			</Extension>-->
 			<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 				<EntityFilter id="rptpohistory" entity="rptpohistory" filter="Longkong.Pojjaman.Gui.Panels.RptPOHistoryFilterSubPanel"/>
 				<!--<EntityFilter id="rptcashpurchase" entity="rptcashpurchase" filter="Longkong.Pojjaman.Gui.Panels.RptCashPurchaseFilterSubPanel"/>-->

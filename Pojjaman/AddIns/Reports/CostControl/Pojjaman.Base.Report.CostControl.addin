@@ -4,32 +4,21 @@
 		<Import assembly="Pojjaman.Base.Report.CostControl.dll"/>
 		<Import assembly="../../Forms/Bidding/Pojjaman.Base.Form.Bidding.dll"/>
 		</Runtime>
-		<Extension path="/Pojjaman/Workbench/MainMenu">
-			
-			<!--<Conditional applicationmode="CostControl" action="Exclude">-->
-			<!--<MenuItem id="CostControlReport" label="${res:MainMenu.ReportMenu.CostControlReport}" insertafter="Item">-->
+		<!--<Extension path="/Pojjaman/Workbench/MainMenu">
   		<MenuItem id="CostControlReport" label="${res:MainMenu.ReportMenu.CostControlReport}" insertafter="Accounting" insertbefore="Reports">
-			<MenuItem id="cbs" icon="Icons.16x16.CBS" label="${res:MainMenu.PurchaseMenu.CBS.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CBS"/>
-			<MenuItem id="WBSAdjust" icon="Icons.16x16.WBSAdjust" label="${res:MainMenu.PurchaseMenu.WBSAdjust.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WBSAdjust"/>
-			<MenuItem id="CostControlSeparate1" label="-"/>
-		  <MenuItem id="RptWBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitor"/>
-		  <MenuItem id="RptWBSMonitorAll" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitorAll.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitorAll"/>
-		  <MenuItem id="RptCBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptCBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCBSMonitor"/>
-		  <MenuItem id="RptCBSMonitorDetail" icon="Icons.16x16.RptCBSMonitorDetail" label="${res:MainMenu.PurchaseMenu.RptCBSMonitorDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCBSMonitorDetail"/>
-		  <MenuItem id="RptWBSItemsMonitor" icon="Icons.16x16.RptWBSItemsMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSItemsMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSItemsMonitor"/>						
-					<MenuItem id="RptWBSMonitorByItem" icon="Icons.16x16.RptWBSMonitorByItem" label="${res:MainMenu.PurchaseMenu.RptWBSMonitorByItem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitorByItem"/>
-					<MenuItem id="RptWBSBudgetByCC" icon="Icons.16x16.RptWBSBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptWBSBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSBudgetByCC"/>
-      				<!--<MenuItem id="ComplexReport" icon="Icons.16x16.ComplexReport" label="${res:MainMenu.CostControlMenu.ComplexReport.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ComplexReport"/>-->	  
-					<!--<MenuItem id="RptWBSExpenseIncomeMonitor" icon="Icons.16x16.RptWBSExpenseIncomeMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSExpenseIncomeMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSExpenseIncomeMonitor"/>
-					<MenuItem id="RptCCExpenseIncomeMonitor" icon="Icons.16x16.RptCCExpenseIncomeMonitor" label="${res:MainMenu.PurchaseMenu.RptCCExpenseIncomeMonitor.Description}"/>										
-					<MenuItem id="RptExpenseSummary" icon="Icons.16x16.RptExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptExpenseSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptExpenseSummary"/>					
-					<MenuItem id="RptCCExpenseSummary" icon="Icons.16x16.RptCCExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptCCExpenseSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCCExpenseSummary"/>	-->						
-					<MenuItem id="RptMatBudgetByCC" icon="Icons.16x16.RptMatBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptMatBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC"/>
-		  <!--<MenuItem id="RptACCBudgetByCC" icon="Icons.16x16.RptCCExpenseSummary" label="${res:MainMenu.PurchaseMenu.RptACCBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptACCBudgetByCC"/>-->
-     
-		</MenuItem>
-			<!--</Conditional>-->
-		</Extension>
+			  <MenuItem id="cbs" icon="Icons.16x16.CBS" label="${res:MainMenu.PurchaseMenu.CBS.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CBS"/>
+			  <MenuItem id="WBSAdjust" icon="Icons.16x16.WBSAdjust" label="${res:MainMenu.PurchaseMenu.WBSAdjust.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WBSAdjust"/>
+			  <MenuItem id="CostControlSeparate1" label="-"/>
+		    <MenuItem id="RptWBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitor"/>
+		    <MenuItem id="RptWBSMonitorAll" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSMonitorAll.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitorAll"/>
+		    <MenuItem id="RptCBSMonitor" icon="Icons.16x16.RptWBSMonitor" label="${res:MainMenu.PurchaseMenu.RptCBSMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCBSMonitor"/>
+		    <MenuItem id="RptCBSMonitorDetail" icon="Icons.16x16.RptCBSMonitorDetail" label="${res:MainMenu.PurchaseMenu.RptCBSMonitorDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCBSMonitorDetail"/>
+		    <MenuItem id="RptWBSItemsMonitor" icon="Icons.16x16.RptWBSItemsMonitor" label="${res:MainMenu.PurchaseMenu.RptWBSItemsMonitor.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSItemsMonitor"/>						
+			  <MenuItem id="RptWBSMonitorByItem" icon="Icons.16x16.RptWBSMonitorByItem" label="${res:MainMenu.PurchaseMenu.RptWBSMonitorByItem.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSMonitorByItem"/>
+			  <MenuItem id="RptWBSBudgetByCC" icon="Icons.16x16.RptWBSBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptWBSBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptWBSBudgetByCC"/>
+			  <MenuItem id="RptMatBudgetByCC" icon="Icons.16x16.RptMatBudgetByCC" label="${res:MainMenu.PurchaseMenu.RptMatBudgetByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC"/>
+		  </MenuItem>
+		</Extension>-->
 		<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="cbs" entity="cbs" filter="Longkong.Pojjaman.Gui.Panels.CBSFilterSubPanel"/>
 		<EntityFilter id="wbsadjust" entity="wbsadjust" filter="Longkong.Pojjaman.Gui.Panels.WBSAdjustFilterSubPanel"/>

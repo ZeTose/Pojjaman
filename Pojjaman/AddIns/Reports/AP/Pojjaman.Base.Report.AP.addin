@@ -4,7 +4,7 @@
 		<Import assembly="Pojjaman.Base.Report.AP.dll"/>
 	</Runtime>
 	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
-		<Conditional applicationmode="Accounting" action="Exclude">
+		<!--<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="APReport" label="${res:MainMenu.ReportMenu.APReport}" insertafter="MatStockReport" insertbefore="ARRepot">
 				<MenuItem id="rptapopeningbalance" icon="Icons.16x16.RptAPOpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAPOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPOpeningBalance"/>			
 				<MenuItem id="rptap" icon="Icons.16x16.RptAP" label="${res:MainMenu.PurchaseMenu.RptAP.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAP"/>
@@ -21,11 +21,10 @@
 				<MenuItem id="RptSupplier" icon="Icons.16x16.RptSupplier" label="${res:MainMenu.PurchaseMenu.RptSupplier.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSupplier"/>
 				<MenuItem id="RptPaymentMethodSummary" icon="Icons.16x16.RptPaymentMethodSummary" label="${res:MainMenu.PurchaseMenu.RptPaymentMethodSummary.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentMethodSummary"/>				
 				<MenuItem id="RptRetention" icon="Icons.16x16.RptRetention" label="${res:MainMenu.PurchaseMenu.RptRetention.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptRetention"/>
-				<!--<MenuItem id="RptSubContractManagement" icon="Icons.16x16.RptSubContractManagement" label="${res:MainMenu.PurchaseMenu.RptSubContractManagement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptSubContractManagement"/>-->
 				<MenuItem id="RptCashPurchase" icon="Icons.16x16.RptCashPurchase" label="${res:MainMenu.PurchaseMenu.RptCashPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCashPurchase"/>
 				<MenuItem id="RptCreditPurchase" icon="Icons.16x16.RptCreditPurchase" label="${res:MainMenu.PurchaseMenu.RptCreditPurchase.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCreditPurchase"/>
 			</MenuItem>
-		</Conditional>
+		</Conditional>-->
 	</Extension>
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="rptapopeningbalance" entity="rptapopeningbalance" filter="Longkong.Pojjaman.Gui.Panels.RptAPOpeningBalanceFilterSubPanel"/>

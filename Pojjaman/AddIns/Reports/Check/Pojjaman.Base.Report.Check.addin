@@ -3,7 +3,7 @@
 	<Runtime>
 		<Import assembly="Pojjaman.Base.Report.Check.dll"/>
 	</Runtime>
-	<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
+	<!--<Extension path="/Pojjaman/Workbench/MainMenu/Reports">
 		<Conditional applicationmode="Accounting" action="Exclude">
 			<MenuItem id="CheckReport" label="${res:MainMenu.ReportMenu.CheckReport}" insertafter="BankCheckReport" insertbefore="TaxReport">
 				<MenuItem id="rptincomingcheck" icon="Icons.16x16.RptIncomingCheck" label="${res:MainMenu.PurchaseMenu.RptIncomingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptIncomingCheck"/>			
@@ -11,15 +11,12 @@
 				<MenuItem id="rptoutgoingcheck" icon="Icons.16x16.RptOutgoingCheck" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheck"/>
 				<MenuItem id="rptoutgoingcheckenumerate" icon="Icons.16x16.RptOutgoingCheckEnumerate" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheckEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheckEnumerate"/>
 				<MenuItem id="rptoutgoingcheckpettycash" icon="Icons.16x16.RptOutgoingCheckPettyCash" label="${res:MainMenu.PurchaseMenu.RptOutgoingCheckPettyCash.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptOutgoingCheckPettyCash"/>
-				<!--<MenuItem id="rptbanktransfer" icon="Icons.16x16.RptBankTransfer" label="${res:MainMenu.PurchaseMenu.RptBankTransfer.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankTransfer"/>-->
-				<!-- <MenuItem id="rptreceivebycheck" icon="Icons.16x16.RptReceiveByCheck" label="${res:MainMenu.PurchaseMenu.RptReceiveByCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptReceiveByCheck"/>			
-				<MenuItem id="rptpaymentbycheck" icon="Icons.16x16.RptPaymentByCheck" label="${res:MainMenu.PurchaseMenu.RptPaymentByCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptPaymentByCheck"/>-->	
 				<MenuItem id="rptcheckstatement" icon="Icons.16x16.RptCheckStatement" label="${res:MainMenu.PurchaseMenu.RptCheckStatement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptCheckStatement"/>
 				<MenuItem id="rptbankstatement" icon="Icons.16x16.RptBankStatement" label="${res:MainMenu.PurchaseMenu.RptBankStatement.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankStatement"/>
 				<MenuItem id="rptbankaccount" icon="Icons.16x16.RptBankAccount" label="${res:MainMenu.PurchaseMenu.RptBankAccount.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptBankAccount"/>				
 			</MenuItem>
 		</Conditional>
-	</Extension>
+	</Extension>-->
 	<Extension path="/Pojjaman/Workbench/EntityFilterPanels">
 		<EntityFilter id="rptoutgoingcheck" entity="rptoutgoingcheck" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckFilterSubPanel"/>
 		<EntityFilter id="rptoutgoingcheckenumerate" entity="rptoutgoingcheckenumerate" filter="Longkong.Pojjaman.Gui.Panels.RptOutgoingCheckEnumerateFilterSubPanel"/>
