@@ -1,0 +1,154 @@
+<AddIn name="Pojjaman Entity Data" author="KRISS" copyright="2005" url="http://www.pojjaman.com" description="Pojjaman Entity Data" version="1.0.0">
+	<Runtime>
+		<Import assembly="../bin/Pojjaman.BusinessLogic.dll"/>
+	</Runtime>
+	<Extension path="/Pojjaman/Workbench/MainMenu">
+			<!--<MenuItem id="Bidding" insertafter="File" insertbefere="Supplier" label="${res:MainMenu.BiddingMenu}">
+				<MenuItem id="CostCenter" label="${res:MainMenu.CostCenterMenu}" icon="Icons.16x16.CostCenter" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CostCenter"/>
+				<MenuItem id="BOQ" label="${res:MainMenu.BiddingMenu.BOQ.Description}" icon="Icons.16x16.BOQ" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BOQ"/>
+				<MenuItem id="project" label="${res:MainMenu.BiddingMenu.Project.Description}" icon="Icons.16x16.Project" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Project"/>
+			</MenuItem>		
+			<MenuItem id="Supplier" insertafter="Bidding" insertbefore="Customer" label="${res:MainMenu.SupplierMenu}">
+				<MenuItem id="Supplier" label="${res:MainMenu.SupplierMenu.SupplierList}" icon="Icons.16x16.Supplier" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Supplier"/>
+				<MenuItem id="SupplierGroup" label="${res:MainMenu.SupplierMenu.SupplierGroup}" icon="Icons.16x16.SupplierGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SupplierGroup"/>
+        <MenuItem id="ReloadSeparator" label="-"/>
+				<MenuItem id="APOpeningBalance" icon="Icons.16x16.APOpeningBalanceIcon" label="${res:MainMenu.ARMenu.APOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.APOpeningBalance"/>
+        <MenuItem id="AdvancePay" label="${res:MainMenu.SupplierMenu.AdvancePay}" icon="Icons.16x16.AdvancePay" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePay"/>
+        <MenuItem id="AdvancePayClosed" label="${res:MainMenu.SupplierMenu.AdvancePayClosed}" icon="Icons.16x16.AdvancePayClosed" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvancePayClosed"/>
+				<MenuItem id="PurchaseCNDN" icon="Icons.16x16.Approve" label="${res:MainMenu.PurchaseCNDN}">
+				<MenuItem id="PurchaseCN" icon="Icons.16x16.PurchaseCN" label="${res:MainMenu.PurchaseMenu.PurchaseCN}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PurchaseCN"/>
+				</MenuItem>
+				<MenuItem id="BillAcceptance" label="${res:MainMenu.SupplierMenu.BillAcceptance}" icon="Icons.16x16.BillAcceptance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BillAcceptance"/>
+				<MenuItem id="Separator2" label="-"/>
+				<MenuItem id="APVatInput" label="${res:MainMenu.SupplierMenu.APVatInput}" icon="Icons.16x16.APVatInput" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.APVatInput"/>
+				<MenuItem id="PaySelection" label="${res:MainMenu.SupplierMenu.PaySelection}" icon="Icons.16x16.PaySelection" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PaySelection"/>			
+			</MenuItem>
+			<MenuItem id="Customer" insertafter="Supplier" insertbefore="Purchase" label="${res:MainMenu.CustomerMenu}">
+				<MenuItem id="Customer" label="${res:MainMenu.CustomerMenu.CustomerList}" icon="Icons.16x16.Customer" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Customer"/>
+				<MenuItem id="CustomerGroup" label="${res:MainMenu.CustomerMenu.CustomerGroup}" icon="Icons.16x16.CustomerGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CustomerGroup"/>
+				<MenuItem id="Separator" label="-"/>
+				<MenuItem id="AROpeningBalance" icon="Icons.16x16.AROpeningBalanceIcon" label="${res:MainMenu.ARMenu.AROpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AROpeningBalance"/>
+				<MenuItem id="AdvanceReceive" label="${res:MainMenu.CustomerMenu.AdvanceReceive}" icon="Icons.16x16.AdvanceReceive" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceReceive"/>
+				<MenuItem id="GoodsSold" label="${res:MainMenu.CustomerMenu.GoodsSold}" icon="Icons.16x16.GoodsSold" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsSold"/>
+				<MenuItem id="SaleCN" label="${res:MainMenu.CustomerMenu.SaleCN}" icon="Icons.16x16.SaleCN" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SaleCN"/>
+				<MenuItem id="SaleBillIssue" label="${res:MainMenu.CustomerMenu.SaleBillIssue}" icon="Icons.16x16.SaleBillIssue" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SaleBillIssue"/>
+				<MenuItem id="Separator2" label="-"/>
+				<MenuItem id="PaymentApplication" label="${res:MainMenu.CustomerMenu.PaymentApplication}" icon="Icons.16x16.PaymentApplication" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PaymentApplication"/>
+				<MenuItem id="BillIssue" label="${res:MainMenu.CustomerMenu.BillIssue}" icon="Icons.16x16.BillIssue" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BillIssue"/>
+				<MenuItem id="Separator3" label="-"/>
+				<MenuItem id="ReceiveSelection" label="${res:MainMenu.CustomerMenu.ReceiveSelection}" icon="Icons.16x16.ReceiveSelection" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ReceiveSelection"/>
+			</MenuItem>
+
+			<MenuItem id="Purchase" insertafter="Customer" insertbefore="Subcontract" label="${res:MainMenu.PurchaseMenu}">
+				<MenuItem id="EditPR" icon="Icons.16x16.PR" label="${res:MainMenu.PurchaseMenu.PR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PR"/>
+				<MenuItem id="ListPO" icon="Icons.16x16.PO" label="${res:MainMenu.FileMenu.New.Po.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PO" />
+				<MenuItem id="Separator" label="-"/>
+        <MenuItem id="GoodsReceipt0" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.Delivery}" class="Longkong.Pojjaman.Commands.EditEntity" forcelabel="${res:MainMenu.PurchaseMenu.Delivery}" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceipt" args="|DocType:45|"/>
+				<MenuItem id="AuditSeparator" label="-"/>
+				<MenuItem id="ApproveMenu" icon="Icons.16x16.Approve" label="${res:MainMenu.ApproveDoc}">
+					<MenuItem id="ApprovePR" icon="Icons.16x16.ApprovePR" label="${res:MainMenu.ApproveDocPR}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PRForApprove"/>
+					<MenuItem id="ApprovePO" icon="Icons.16x16.ApprovePO" label="${res:MainMenu.ApproveDocPO}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.POForApprove"/>
+					<MenuItem id="ApproveGoodsReceipt" icon="Icons.16x16.ApproveGoodsReceipt" label="${res:MainMenu.ApproveDocGoodsReceipt}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceiptForApprove"/>
+				</MenuItem>
+			</MenuItem>
+			
+			<MenuItem id="Subcontract" insertafter="Purchase" insertbefore="Stock" label="${res:MainMenu.SubcontractMenu}">
+        <MenuItem id="wr" icon="Icons.16x16.WR" label="${res:MainMenu.SubcontractMenu.WR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.WR"/>
+        <MenuItem id="WRSeparator" label="-"/>
+        <MenuItem id="sc" icon="Icons.16x16.SC" label="${res:MainMenu.SubcontractMenu.SC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.SC"/>
+				<MenuItem id="vo" icon="Icons.16x16.VO" label="${res:MainMenu.SubcontractMenu.VO.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VO"/>
+				<MenuItem id="dr" icon="Icons.16x16.DR" label="${res:MainMenu.SubcontractMenu.DR.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DR"/>
+				<MenuItem id="SCSeparator" label="-"/>
+				<MenuItem id="pa" icon="Icons.16x16.PA" label="${res:MainMenu.SubcontractMenu.PA.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PA"/>
+			</MenuItem>
+    
+      <MenuItem id="Stock" insertafter="Subcontract" insertbefore="CashBank" label="${res:MainMenu.StockMenu}">
+        <MenuItem id="MatetialStock" label="${res:MainMenu.MatetialStock}">
+          <MenuItem id="Material" icon="Icons.16x16.Material" label="${res:MainMenu.MaterialMenu.MaterialList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LCIItem"/>
+          <MenuItem id="MatetialStockSeparator1" label="-"></MenuItem>
+          <MenuItem id="MatOperationWithdraw" icon="Icons.16x16.MatOperationWithdraw" label="${res:MainMenu.StockMenu.MatOperationWithdraw}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationWithdraw"/>
+          <MenuItem id="MatOperationReturn" icon="Icons.16x16.MatOperationReturn" label="${res:MainMenu.StockMenu.MatOperationReturn}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOperationReturn"/>
+          <MenuItem id="MatTransfer" icon="Icons.16x16.MatTransfer" label="${res:MainMenu.StockMenu.MatTransfer}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatTransfer"/>
+          <MenuItem id="MatReceipt" icon="Icons.16x16.MatReceipt" label="${res:MainMenu.StockMenu.MatReceipt}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatReceipt"/>
+          <MenuItem id="MatetialStockSeparator3" label="-"></MenuItem>
+          <MenuItem id="MatOpenningBalance" label="${res:MainMenu.StockMenu.MatOpenningBalance}" icon="Icons.16x16.MatOpenningBalance" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.MatOpenningBalance"/>
+          <MenuItem id="MatetialStockSeparator4" label="-"></MenuItem>
+          <MenuItem id="stocksequence" label="${res:MainMenu.StockMenu.StockSequence}" icon="Icons.16x16.StockSequence" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.StockSequence"/>
+        </MenuItem>
+        <MenuItem id="EquipmentToolStock" label="${res:MainMenu.EquipmentToolStock}">
+          <MenuItem id="Tool" label="${res:MainMenu.ItemMenu.ToolList}" icon="Icons.16x16.Tool" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Tool"/>
+          <MenuItem id="ToolGroup" label="${res:MainMenu.ItemMenu.ToolGroup}" icon="Icons.16x16.ToolGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ToolGroup"/>
+          <MenuItem id="EquipmentToolStockSeparator1" label="-"></MenuItem>
+          <MenuItem id="EqtWithdraw" label="${res:MainMenu.StockMenu.ToolWithdraw}" icon="Icons.16x16.ToolWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolWithdraw"/>
+          <MenuItem id="EqtReturn" label="${res:MainMenu.StockMenu.EqtReturn}" icon="Icons.16x16.ToolReturn" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolReturn"/>
+          <MenuItem id="EqtChangeStatus" label="${res:MainMenu.StockMenu.EqtChangeStatus}" icon="Icons.16x16.EquipmentToolChangeStatus" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EquipmentToolChangeStatus"/>
+        </MenuItem>
+        <MenuItem id="StockSeparator" label="-"/>
+        <MenuItem id="GoodsReceiptForOperation" icon="Icons.16x16.Delivery" label="${res:MainMenu.PurchaseMenu.GoodsReceiptForOperation}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.GoodsReceiptForOperation" args="|DocType:45|"/>
+        <MenuItem id="Labor" icon="Icons.16x16.Labor" label="${res:MainMenu.ItemMenu.LaborList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Labor"/>
+        <MenuItem id="LaborGroup" label="${res:MainMenu.ItemMenu.LaborGroup}" icon="Icons.16x16.LaborGroup" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LaborGroup"/>
+      </MenuItem>
+
+			<MenuItem id="CashBank" insertafter="Stock" insertbefore="Check" label="${res:MainMenu.CashBankMenu}">
+				<MenuItem id="Bank" icon="Icons.16x16.Bank" label="${res:MainMenu.CashBankMenu.BankList}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Bank"/>
+				<MenuItem id="BankBranch" label="${res:MainMenu.CashBankMenu.BankBranchList}" icon="Icons.16x16.BankBranch" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankBranch"/>
+				<MenuItem id="BankAccount" label="${res:MainMenu.CashBankMenu.BankAccountList}" icon="Icons.16x16.BankAccountList" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankAccount"/>
+				<MenuItem id="Separator1" label="-"/>
+				<MenuItem id="CashWithdraw" label="${res:MainMenu.CashBankMenu.CashWithdraw}" icon="Icons.16x16.CashWithdraw" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CashWithdraw"/>
+				<MenuItem id="CashDeposite" label="${res:MainMenu.CashBankMenu.CashDeposite}" icon="Icons.16x16.CashDeposite" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CashDeposite"/>
+				<MenuItem id="BankTransfer" label="${res:MainMenu.CashBankMenu.BankTransfer}" icon="Icons.16x16.BankTransfer" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankTransfer"/>
+				<MenuItem id="BankCharge" icon="Icons.16x16.BankCharge" label="${res:MainMenu.CashBankMenu.BankCharge}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankCharge"/>
+				<MenuItem id="BankInterest" icon="Icons.16x16.BankInterest" label="${res:MainMenu.CashBankMenu.BankInterest}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.BankInterest"/>
+				<MenuItem id="Separator2" label="-"/>
+				<MenuItem id="PettyCash" icon="Icons.16x16.PettyCashSet" label="${res:MainMenu.CashBankMenu.PettyCashSet}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCash"/>
+				<MenuItem id="PettyCashClaim" icon="Icons.16x16.PettyCashClaim" label="${res:MainMenu.CashBankMenu.PettyCashClaim}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCashClaim"/>
+				<MenuItem id="PettyCashClosed" icon="Icons.16x16.PettyCashClosed" label="${res:MainMenu.CashBankMenu.PettyCashClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.PettyCashClosed"/>
+				<MenuItem id="Separator3" label="-"/>
+				<MenuItem id="AdvanceMoney" icon="Icons.16x16.AdvanceMoney" label="${res:MainMenu.CashBankMenu.AdvanceMoneySet}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoney"/>
+				<MenuItem id="AdvanceMoneyClosed" icon="Icons.16x16.AdvanceMoneyClosed" label="${res:MainMenu.CashBankMenu.AdvanceMoneyClosed}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AdvanceMoneyClosed"/>
+			</MenuItem>
+			<MenuItem id="Check" insertafter="CashBank" insertbefore="Asset" label="${res:MainMenu.CheckMenu}">
+				<MenuItem id="OutgoingCheck" icon="Icons.16x16.OutgoingCheckIcon" label="${res:MainMenu.CheckMenu.OutgoingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OutgoingCheck"/>
+				<MenuItem id="UpdateCheckPayment" icon="Icons.16x16.UpdateCheckPayment" label="${res:MainMenu.CheckMenu.UpdateCheckPayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckPayment"/>
+				<MenuItem id="Separator1" label="-"/>
+				<MenuItem id="IncomingCheck" icon="Icons.16x16.IncomingCheckIcon" label="${res:MainMenu.CheckMenu.IncomingCheck.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.IncomingCheck"/>
+				<MenuItem id="CheckDeposit" icon="Icons.16x16.CheckDeposite" label="${res:MainMenu.CheckMenu.CheckDeposite}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckDeposit"/>
+				<MenuItem id="UpdateCheckReceive" icon="Icons.16x16.UpdateCheckReceive" label="${res:MainMenu.CheckMenu.UpdateCheckReceive}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckReceive"/>
+				<MenuItem id="CheckDiscount" icon="Icons.16x16.CheckDiscount" label="${res:MainMenu.CheckMenu.CheckDiscount}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.UpdateCheckDiscount"/>
+				<MenuItem id="CheckChange" icon="Icons.16x16.CheckChange" label="${res:MainMenu.CheckMenu.CheckChange}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CheckChange"/>
+			</MenuItem>
+			<MenuItem id="Asset" insertafter="Check" insertbefore="Accounting" label="${res:MainMenu.AssetMenu}">
+				<MenuItem id="AssetList" icon="Icons.16x16.AssetListIcon" label="${res:MainMenu.AssetMenu.AssetList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Asset"/>
+				<MenuItem id="AssetType" icon="Icons.16x16.AssetTypeIcon" label="${res:MainMenu.AssetMenu.AssetType.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetType"/>
+				<MenuItem id="Separator1" label="-"/>
+				<MenuItem id="EqMaintenance" icon="Icons.16x16.EqMaintenance" label="${res:MainMenu.AssetMenu.EqMaintenance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EqMaintenance"/>
+				<MenuItem id="Separator2" label="-"/>
+				<MenuItem id="DepreciationCal" icon="Icons.16x16.DepreciationCal" label="${res:MainMenu.AssetMenu.DepreciationCal}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DepreciationCal"/>
+				<MenuItem id="Separator3" label="-"/>
+				<MenuItem id="AssetWriteOff" icon="Icons.16x16.AssetWriteoff" label="${res:MainMenu.AssetMenu.AssetWriteOff}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetWriteOff"/>
+			</MenuItem>
+			<MenuItem id="Accounting" insertafter="Asset" insertbefore="CostControlReport" label="${res:MainMenu.AccountingMenu}">
+				<MenuItem id="AccountChart" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.AccountChart.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Account"/>
+				<MenuItem id="AccountPeriod" icon="Icons.16x16.AccountPeriodMenuIcon" label="${res:MainMenu.AccountingMenu.AccountPeriod.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountPeriod"/>
+				<MenuItem id="AccountBook" icon="Icons.16x16.AccountBookMenuIcon" label="${res:MainMenu.AccountingMenu.AccountBook.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountBook"/>
+				<MenuItem id="AccountLink" icon="Icons.16x16.AccountLink" label="${res:MainMenu.AccountingMenu.AccountLink}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AccountLink"/>
+				<MenuItem id="LinkGL" icon="Icons.16x16.GLFormat" label="${res:MainMenu.AccountingMenu.LinkGL}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.LinkGL"/>
+				<MenuItem id="Separator1" label="-"/>
+				<MenuItem id="JournalEntry" icon="Icons.16x16.JournalEntry" label="${res:MainMenu.AccountingMenu.JournalEntry}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.JournalEntry"/>
+				<MenuItem id="OpenningBalance" icon="Icons.16x16.OpenningBalance" label="${res:MainMenu.AccountingMenu.BeginingBalance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.OpenningBalance"/>
+        <MenuItem id="CloseAccountPeriod" icon="Icons.16x16.CloseAccountPeriod" label="${res:MainMenu.AccountingMenu.CloseAccountPeriod}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.CloseAccountPeriod"/>
+				<MenuItem id="Separator2" label="-"/>
+				<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.VatMenu}">
+					<MenuItem id="VatGroup" icon="Icons.16x16.VatGroup" label="${res:MainMenu.AccountingMenu.VatGroup}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.VatGroup"/>
+					<MenuItem id="Vat" icon="Icons.16x16.Vat" label="${res:MainMenu.AccountingMenu.Vat}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Vat"/>
+				</MenuItem>
+        <MenuItem id="FFormat" icon="Icons.16x16.FFormat" label="${res:MainMenu.AccountingMenu.LinkFinancialStatement}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.FFormat"/>
+        <MenuItem id="ProjectReceivePaymentMaster" icon="Icons.16x16.AccountingMenuIcon" label="${res:MainMenu.AccountingMenu.ProjectReceivePaymentMaster}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePaymentMaster"/>
+        <MenuItem id="ProjectReceivePayment" icon="Icons.16x16.ProjectReceivePayment" label="${res:MainMenu.AccountingMenu.ProjectReceivePayment}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.ProjectReceivePayment"/>
+			</MenuItem>-->		
+		
+	</Extension>
+	<Extension path="/Pojjaman/Workbench/ToolBar/Dynamic">
+
+	</Extension>
+</AddIn>

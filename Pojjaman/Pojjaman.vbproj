@@ -204,6 +204,7 @@
     <Content Include="AddIns\Forms\Subcontract\Pojjaman.Base.Form.SubContract.addin">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="AddIns\Pojjaman.EnityDatabase.addin" />
     <Content Include="AddIns\Reports\Asset\Pojjaman.Base.Report.Asset.addin">
       <SubType>Designer</SubType>
     </Content>
