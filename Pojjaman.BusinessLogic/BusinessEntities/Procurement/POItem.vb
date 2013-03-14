@@ -530,10 +530,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
               bfTax = Me.BeforeTax
             End If
           End If
-          Dim oldVal As Decimal = wbsd.Amount
+          'Dim oldVal As Decimal = wbsd.Amount
           Dim transferAmt As Decimal = bfTax
           wbsd.BaseCost = bfTax
-          wbsd.BaseCost = transferAmt          Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("Percent", wbsd.Amount, oldVal))        Next
+          wbsd.BaseCost = transferAmt          Me.WBSChangedHandler(wbsd, New PropertyChangedEventArgs("WBS", wbsd.WBS, New WBS))        Next
       End If    End Sub    Public Sub SetQty(qty As Decimal)      m_qty = qty
       UpdateWBS()
     End Sub    Public Property Qty() As Decimal      Get        Return m_qty      End Get      Set(ByVal Value As Decimal)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
