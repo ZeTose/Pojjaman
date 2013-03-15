@@ -877,10 +877,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim dirtyFlag As Boolean = False
       Select Case CType(sender, Control).Name.ToLower
         Case "cmbcode"
+          Me.m_entity.Code = cmbCode.Text
           'เพิ่ม AutoCode
           If TypeOf cmbCode.SelectedItem Is AutoCodeFormat Then
             Me.m_entity.AutoCodeFormat = CType(cmbCode.SelectedItem, AutoCodeFormat)
-            Me.m_entity.Code = m_entity.AutoCodeFormat.Format
+            'Me.m_entity.Code = m_entity.AutoCodeFormat.Format
             Me.m_entity.OnGlChanged()
           End If
           dirtyFlag = True
@@ -1029,7 +1030,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event Handlers"
-    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
       UpdateAutogenStatus()
     End Sub
     Private m_oldCode As String = ""
