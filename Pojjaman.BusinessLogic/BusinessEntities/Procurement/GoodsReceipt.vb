@@ -6060,21 +6060,74 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           '#########################################REMAIN#################################################
           Dim remainQty As Decimal = 0
+          Dim poRemainQty As Decimal = 0
           If Not item.POitem Is Nothing Then
-            Dim receiveQty As Decimal = 0
-            'If Me.POitem.ReceivedQty <> Decimal.MinValue Then
-            'receiveQty = Me.POitem.ReceivedQty ' หน่วยตาม PO
-            receiveQty = (item.Qty * item.Conversion) / item.POitem.Conversion
-            'End If
+            'Dim receiveQty As Decimal = 0
+            ''If Me.POitem.ReceivedQty <> Decimal.MinValue Then
+            ''receiveQty = Me.POitem.ReceivedQty ' หน่วยตาม PO
+            'receiveQty = (item.Qty * item.Conversion) / item.POitem.Conversion
+            ''End If
             If item.POitem.Conversion <> 0 Then
               If item.Conversion <> 0 Then
                 Select Case item.POitem.ItemType.Value
                   Case 160, 162
                   Case Else
-                    remainQty = (((item.POitem.Qty - item.POitem.ReceivedQty) - receiveQty) * item.POitem.Conversion) / item.Conversion
+                    remainQty = ((item.POitem.StockQty - item.POitem.ReceivedQty) - (item.Qty * item.Conversion)) / item.Conversion
+                    poRemainQty = (item.POitem.StockQty - item.POitem.ReceivedQty) - (item.Qty * item.Conversion)
                 End Select
               End If
             End If
+
+            'Item.POCode
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.POCode"
+            If Not item.POitem.Po Is Nothing Then
+              dpi.Value = item.POitem.Po.Code
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.PODocDate
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.PODocDate"
+            If Not item.POitem.Po Is Nothing Then
+              dpi.Value = item.POitem.Po.DocDate.ToShortDateString
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.POItemUnitName
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.POItemUnitName"
+            If Not item.POitem.Unit Is Nothing Then
+              dpi.Value = item.POitem.Unit.Name
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.POItemQty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.POItemQty"
+            dpi.Value = Configuration.FormatToString(item.POitem.Qty, DigitConfig.Qty)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
+
+            'Item.POItemQtyRemaining
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.POItemQtyRemaining"
+            dpi.Value = Configuration.FormatToString(poRemainQty, DigitConfig.Qty)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
           End If
           '##########################################################################################
 
