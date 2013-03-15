@@ -26,7 +26,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   End Class
   Public Class AdvanceMoneyClosed
     Inherits SimpleBusinessEntityBase
-    Implements IGLAble, IReceivable, ICheckPeriod
+    Implements IGLAble, IReceivable, ICheckPeriod, IPrintableEntity, INewPrintableEntity
 
 #Region "Members"
     Private m_docdate As Date
@@ -208,9 +208,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim ValidateError As SaveErrorException
 
-    
 
-      
+
+
 
       ValidateError = Me.Receive.BeforeSave(currentUserId)
       If Not IsNumeric(ValidateError.Message) Then
@@ -767,5 +767,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 
+    Public Function GetDefaultForm() As String Implements IPrintableEntity.GetDefaultForm
+      Return ""
+    End Function
+
+    Public Function GetDefaultFormPath() As String Implements IPrintableEntity.GetDefaultFormPath
+
+    End Function
+
+    Public Function GetDocPrintingEntries() As DocPrintingItemCollection Implements IPrintableEntity.GetDocPrintingEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      'Code
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Code"
+      dpi.Value = Me.Code
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'DocDate
+      dpi = New DocPrintingItem
+      dpi.Mapping = "DocDate"
+      dpi.Value = Me.DocDate.ToShortDateString
+      dpi.DataType = "System.DateTime"
+      dpiColl.Add(dpi)
+
+      'RemainingAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "RemainingAmount"
+      dpi.Value = Configuration.FormatToString(Me.RemainAmount, DigitConfig.Price)
+      dpi.DataType = "System.Decimal"
+      dpiColl.Add(dpi)
+
+      'Note
+      dpi = New DocPrintingItem
+      dpi.Mapping = "Note"
+      dpi.Value = Me.Note
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      If Me.AdvanceMoney IsNot Nothing Then
+        For Each ndpi As DocPrintingItem In Me.AdvanceMoney.GetDocPrintingEntries
+          ndpi.Mapping = String.Format("AdvanceMoney{0}", ndpi.Mapping)
+          If ndpi.Table IsNot Nothing AndAlso ndpi.Table.Length > 0 Then
+            ndpi.Table = String.Format("AdvanceMoney{0}", ndpi.Table)
+          End If
+          dpiColl.Add(ndpi)
+        Next
+      End If
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingColumnsEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingColumnsEntries
+      Dim dpiColl As New DocPrintingItemCollection
+      Dim dpi As DocPrintingItem
+
+      'dpiColl.RelationList.Add("general>pr_id>item>pri_pr")
+
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Code", "System.String"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DocDate", "System.DateTime"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("RemainingAmount", "System.Decimal"))
+      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
+
+      If Me.AdvanceMoney IsNot Nothing Then
+        For Each ndpi As DocPrintingItem In Me.AdvanceMoney.GetDocPrintingColumnsEntries
+          ndpi.Mapping = String.Format("AdvanceMoney{0}", ndpi.Mapping)
+          If ndpi.Table IsNot Nothing AndAlso ndpi.Table.Length > 0 Then
+            ndpi.Table = String.Format("AdvanceMoney{0}", ndpi.Table)
+          End If
+          dpiColl.Add(ndpi)
+        Next
+      End If
+
+      Return dpiColl
+    End Function
+
+    Public Function GetDocPrintingDataEntries() As DocPrintingItemCollection Implements INewPrintableEntity.GetDocPrintingDataEntries
+      Return GetDocPrintingEntries()
+    End Function
   End Class
 End Namespace

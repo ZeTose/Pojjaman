@@ -858,6 +858,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim TotalAmount As Decimal = 0
 
+      If Me.m_itemTable Is Nothing Then
+        Me.ReLoadItems()
+      End If
+
       Dim n As Integer = 0
       For i As Integer = 0 To Me.m_itemTable.Rows.Count - 1
         Dim itemRow As TreeRow = CType(Me.m_itemTable.Rows(i), TreeRow)
