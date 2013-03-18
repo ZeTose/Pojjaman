@@ -5836,7 +5836,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 For Each wbsd As WBSDistribute In item.WBSDistributeCollection
                   itemAmount = wbsd.Amount
-                  SetJournalEntryItem(jiColl, realAccount, itemAmount, wbsd.CostCenter, "E3.4W", note)
+                  SetJournalEntryItem(jiColl, realAccount, itemAmount, wbsd.CostCenter, "E4.4W", note)
 
 
                 Next
