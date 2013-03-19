@@ -1690,6 +1690,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             dirtyFlag = CostCenter.GetCostCenter(txtFromCostCenterCode, txtFromCostCenterName, Me.m_entity.CostCenter, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             UpdateOriginAdmin()
             ListType()
+            RefreshDocs()
             fromCCCodeChanged = False
           End If
         Case "cmbdoctype"
@@ -1839,6 +1840,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           'If i = items.Count - 1 Then
           If Me.m_entity.ItemCollection.Count = 0 Then
             Dim doc As New MatOperationWithdrawItem
+            doc.MatOperationWithdraw = Me.m_entity
             'doc.Qty = Me.m_entity.GetRemainLCIItem(newItem.Id) / doc.Conversion
             Me.m_entity.ItemCollection.Add(doc)
             If newType = 42 Then
@@ -1849,6 +1851,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             doc.DefaultUnit = CType(newItem, LCIItem).DefaultUnit
           Else
             Dim doc As New MatOperationWithdrawItem
+            doc.MatOperationWithdraw = Me.m_entity
             If Not Me.CurrentItem Is Nothing Then
               doc = Me.CurrentItem
             Else
@@ -2180,6 +2183,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       UpdateAccount()
       UpdateOriginAdmin()
       fromCCCodeChanged = False
+      RefreshDocs()
       'Me.chkShowCost.Enabled = Not Me.WorkbenchWindow.ViewContent.IsDirty
     End Sub
     Private Sub ibtnShowFromCCPersonDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowFromCCPersonDialog.Click

@@ -267,6 +267,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_CostCenter 'สำหรับการจัดสรร
       End Get
       Set(ByVal Value As CostCenter)
+        If Not m_CostCenter Is Nothing AndAlso m_CostCenter.Valid AndAlso m_CostCenter.Id <> Value.Id Then
+          m_itemCollection.Clear()
+        End If
         m_CostCenter = Value
         'ValidateCCandType()
       End Set
@@ -1462,7 +1465,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
         '==============================UPDATE PRITEM=========================================
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnitAfterSaveStockItem", New SqlParameter("@stock_id", Me.Id))
         '==============================UPDATE PRITEM=========================================
 
         Me.DeleteRef(conn, trans)

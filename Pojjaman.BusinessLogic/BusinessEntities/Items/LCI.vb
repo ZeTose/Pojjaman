@@ -1671,7 +1671,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           params(i) = New SqlParameter("@" & filters(i).Name, filters(i).Value)
         Next
       End If
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetRemainLCIItemListForCC", params)
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "GetRemainLCIItemRptMatCountConcept", params)
       Return ds.Tables(0)
     End Function
 #End Region

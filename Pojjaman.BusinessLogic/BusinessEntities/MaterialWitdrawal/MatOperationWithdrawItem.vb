@@ -219,7 +219,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
                 , CommandType.StoredProcedure _
-                , "GetRemainLCIItemListForCC" _
+                , "GetRemainLCIItemRptMatCountConcept" _
                 , New SqlParameter("@cc_id", cc) _
                 , New SqlParameter("@FromacctType", 3) _
                 , New SqlParameter("@EntityId", 31) _
@@ -259,8 +259,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
           Dim newHs As New Hashtable
           For Each key As Integer In Me.MatOperationWithdraw.ItemEntityHashTable.Keys
-            remainQty = remainQty - CType(Me.MatOperationWithdraw.ItemEntityHashTable(key), Decimal)
-            Me.MatOperationWithdraw.ItemEntityHashTable(key) = remainQty
+            If key = m_entity.Id Then
+              Trace.WriteLine(remainQty.ToString)
+              Trace.WriteLine(CType(Me.MatOperationWithdraw.ItemEntityHashTable(key), Decimal).ToString)
+              remainQty = remainQty - CType(Me.MatOperationWithdraw.ItemEntityHashTable(key), Decimal)
+              Me.MatOperationWithdraw.ItemEntityHashTable(key) = remainQty
+            End If
           Next
 
           If remainQty > 0 Then
