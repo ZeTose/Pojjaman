@@ -298,7 +298,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
               TrCheq("col15") = row("CqNote").ToString
             End If
             If Not row.IsNull("cqupdate_code") Then
-              TrCheq("col16") = indent & indent & row("cqupdate_code").ToString
+              If row("cqupdate_code").ToString.Trim.Length > 0 Then
+                Dim updateCode() As String = row("cqupdate_code").ToString.Split("-"c)
+                If updateCode.Length = 2 Then
+                  TrCheq("col16") = indent & indent & updateCode(1)
+                End If
+              End If
             End If
             'If IsNumeric(row("Amount")) Then
             '  SumAmount += CDec(row("Amount"))
