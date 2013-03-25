@@ -2752,8 +2752,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Function GetThisEnittyRemainingQtyFromCollection(ByVal doc As MatReturnItem) As Decimal
       Dim summarryQty As Decimal = 0
       For Each Item As MatReturnItem In Me
-        If Item.Entity.Id = doc.Entity.Id AndAlso Me.IndexOf(Item) <> Me.IndexOf(doc) Then 'Item.LineNumber <> doc.LineNumber Then
-          summarryQty += Item.Qty
+        If Not Item.Entity Is Nothing Then
+          If Item.Entity.Id = doc.Entity.Id AndAlso Me.IndexOf(Item) <> Me.IndexOf(doc) Then 'Item.LineNumber <> doc.LineNumber Then
+            summarryQty += Item.Qty
+          End If
         End If
       Next
 

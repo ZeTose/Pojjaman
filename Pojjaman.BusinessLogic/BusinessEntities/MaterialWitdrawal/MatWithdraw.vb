@@ -549,10 +549,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 Me.ConnectionString _
                 , CommandType.StoredProcedure _
-                , "GetRemainLCIItemForCC" _
+                , "GetRemainLCIItemRptMatCountConcept" _
                 , New SqlParameter("@lci_id", lci_id) _
                 , New SqlParameter("@cc_id", Me.ValidIdOrDBNull(Me.FromCC)) _
-                , New SqlParameter("@doc_id", Me.Id) _
+                , New SqlParameter("@stock_id", Me.Id) _
+                , New SqlParameter("@EntityId", Me.EntityId) _
+                , New SqlParameter("@FromacctType", 3) _
+                , New SqlParameter("@itemcheck_byitem", True) _
                 )
         Dim tableIndex As Integer = 0
         If ds.Tables.Count > tableIndex Then
@@ -1316,7 +1319,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Try
         '==============================UPDATE PRITEM=========================================
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnit", New SqlParameter("@stock_id", Me.Id))
+        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdatePriWithdrawQtyWithDefaultUnitAfterSaveStockItem", New SqlParameter("@stock_id", Me.Id))
         '==============================UPDATE PRITEM=========================================
 
         Me.DeleteRef(conn, trans)

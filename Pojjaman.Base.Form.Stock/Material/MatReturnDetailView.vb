@@ -2312,6 +2312,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
               Dim doc As New MatReturnItem
               Me.m_entity.ItemCollection.Add(doc)
               If newType = 42 Then
+                If doc.Entity Is Nothing Then
+                  doc.Entity = New LCIItem
+                End If
                 doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
                 doc.OldQty = doc.Qty
               End If
@@ -2324,6 +2327,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.m_entity.ItemCollection.Add(doc)
               End If
               If newType = 42 Then
+                If doc.Entity Is Nothing Then
+                  doc.Entity = New LCIItem
+                End If
                 doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
                 doc.OldQty = doc.Qty
               End If
@@ -2331,8 +2337,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
           Else
             Dim doc As New MatReturnItem
+            doc.Entity = New LCIItem
             Me.m_entity.ItemCollection.Insert(index, doc)
             If newType = 42 Then
+              If doc.Entity Is Nothing Then
+                doc.Entity = New LCIItem
+              End If
               doc.Qty = doc.GetAmountFromSproc(item.Id, Me.m_entity.FromCC.Id)
               doc.Qty = doc.Qty - Me.m_entity.ItemCollection.GetThisEnittyRemainingQtyFromCollection(doc)
               doc.OldQty = doc.Qty

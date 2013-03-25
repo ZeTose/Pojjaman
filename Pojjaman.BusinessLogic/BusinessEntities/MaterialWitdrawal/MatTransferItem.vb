@@ -224,7 +224,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim ds As DataSet = SqlHelper.ExecuteDataset( _
                 RecentCompanies.CurrentCompany.SiteConnectionString _
                 , CommandType.StoredProcedure _
-                , "GetRemainLCIItemListForCC" _
+                , "GetRemainLCIItemRptMatCountConcept" _
                 , New SqlParameter("@cc_id", cc) _
                 , New SqlParameter("@FromacctType", 3) _
                 , New SqlParameter("@EntityId", 343) _
