@@ -597,6 +597,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Methods"
     Public Sub Initialize()
       Me.chkOnlyCalcEndedStillRemaining.Visible = Not CBool(Configuration.GetConfig("HideChkOnlyCalcEndedStillRemaining"))
+      Me.chkShowRemainingOnly.Enabled = Not Me.chkOnlyCalcEndedStillRemaining.Visible
 
       PupolateCalctype()
       ClearCriterias()
@@ -894,6 +895,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
 
+    Private Sub chkOnlyCalcEndedStillRemaining_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlyCalcEndedStillRemaining.CheckedChanged
+      'If chkOnlyCalcEndedStillRemaining.Checked Then
+      chkShowRemainingOnly.Checked = Not chkOnlyCalcEndedStillRemaining.Checked
+      'End If
+    End Sub
   End Class
 End Namespace
 

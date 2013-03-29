@@ -646,7 +646,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
             existsId = True
           End If
 
-          item.GetDepreciationFromDB(Me, item.Entity, existsId)
+          If item.Entity.EndCalcDate.ToString("yyyyMMdd") <= Me.DepreDate.ToString("yyyyMMdd") OrElse item.Entity.EndCalcDate.ToString("yyyyMMdd") <= DateTime.Now.ToString("yyyyMMdd") Then
+
+          Else
+            item.Set_Depreamnt(0)
+            item.Set_Depreopeningamnt(0)
+            item.Set_Writeoffamt(0)
+            item.Set_Deprebase(0)
+            item.Set_BuyPrice(0)
+
+            'ReCalculate Depreciation Amount
+            item.GetDepreciationFromDB(Me, item.Entity, existsId)
+          End If
         End If
       Next
     End Sub
@@ -1437,336 +1448,431 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   End Class
 
-    'Item Class
-    Public Class DepreciationCalItem
+  'Item Class
+  Public Class DepreciationCalItem
 
 #Region "Members"
-        Private m_depreciationcal As DepreciationCal
+    Private m_depreciationcal As DepreciationCal
 
-        Private m_entity As Asset
-        Private m_lineNumber As Integer
+    Private m_entity As Asset
+    Private m_lineNumber As Integer
 
-        Private m_note As String
-        Private m_lastestCalcDate As Date
-        Private m_cc As CostCenter
+    Private m_note As String
+    Private m_lastestCalcDate As Date
+    Private m_cc As CostCenter
 #End Region
 
 #Region "Constructors"
-        Public Sub New()
-            MyBase.New()
-            Me.Construct()
-        End Sub
-        Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Me.Construct(ds, aliasPrefix)
-        End Sub
-        Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
-        Protected Sub Construct()
-            With Me
-                .m_entity = New Asset
-                .m_cc = New CostCenter
-                m_note = ""
-            End With
-        End Sub
-        Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
-            'Me.Construct()
-            With Me
-                ' m_entity As Asset
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
-                    .m_entity = New Asset(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
-                Else
-                    .m_entity = New Asset
-                End If
-                ' m_lineNumber As Integer
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
-                    .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
-                End If
-                ' m_note As String
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
-                    .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
-                Else
-                    .m_note = ""
-                End If
+    Public Sub New()
+      MyBase.New()
+      Me.Construct()
+    End Sub
+    Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Me.Construct(ds, aliasPrefix)
+    End Sub
+    Public Sub New(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
+    Protected Sub Construct()
+      With Me
+        .m_entity = New Asset
+        .m_cc = New CostCenter
+        m_note = ""
+      End With
+    End Sub
+    Protected Sub Construct(ByVal dr As DataRow, ByVal aliasPrefix As String)
+      'Me.Construct()
+      With Me
+        ' m_entity As Asset
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_entity") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_entity") Then
+          .m_entity = New Asset(CInt(dr(aliasPrefix & Me.Prefix & "_entity")))
+        Else
+          .m_entity = New Asset
+        End If
+        ' m_lineNumber As Integer
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_linenumber") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_linenumber") Then
+          .m_lineNumber = CInt(dr(aliasPrefix & Me.Prefix & "_linenumber"))
+        End If
+        ' m_note As String
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_note") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_note") Then
+          .m_note = CStr(dr(aliasPrefix & Me.Prefix & "_note"))
+        Else
+          .m_note = ""
+        End If
 
-                ' m_note As String
-                If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastestcalcdate") _
-                AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastestcalcdate") Then
-                    .m_lastestCalcDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastestcalcdate"))
-                End If
-                Dim drh As New DataRowHelper(dr)
-                m_depreamnt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreamnt")
-                m_depreopeningamnt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
-                m_writeoffamt = drh.GetValue(Of Decimal)("asset_writeoffamt")
-                m_deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
-                m_buyprice = drh.GetValue(Of Decimal)("asset_buyprice")
-                m_cc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_cc"))
-            End With
-        End Sub
-        Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
-            Dim dr As DataRow = ds.Tables(0).Rows(0)
-            Me.Construct(dr, aliasPrefix)
-        End Sub
+        ' m_note As String
+        If dr.Table.Columns.Contains(aliasPrefix & Me.Prefix & "_lastestcalcdate") _
+        AndAlso Not dr.IsNull(aliasPrefix & Me.Prefix & "_lastestcalcdate") Then
+          .m_lastestCalcDate = CDate(dr(aliasPrefix & Me.Prefix & "_lastestcalcdate"))
+        End If
+        Dim drh As New DataRowHelper(dr)
+        m_depreamnt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreamnt")
+        m_depreopeningamnt = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_depreopening")
+        m_writeoffamt = drh.GetValue(Of Decimal)("asset_writeoffamt")
+        m_deprebase = drh.GetValue(Of Decimal)(aliasPrefix & Me.Prefix & "_deprebase")
+        m_buyprice = drh.GetValue(Of Decimal)("asset_buyprice")
+        m_cc = CostCenter.GetCCMinDataById(drh.GetValue(Of Integer)(aliasPrefix & Me.Prefix & "_cc"))
+      End With
+    End Sub
+    Protected Sub Construct(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
+      Dim dr As DataRow = ds.Tables(0).Rows(0)
+      Me.Construct(dr, aliasPrefix)
+    End Sub
 #End Region
 
 #Region "Properties"
-        Private ReadOnly Property Prefix() As String
-            Get
-                Return "deprei"
-            End Get
-        End Property
+    Private ReadOnly Property Prefix() As String
+      Get
+        Return "deprei"
+      End Get
+    End Property
 
-        Public Property LineNumber() As Integer
-            Get
-                Return m_lineNumber
-            End Get
-            Set(ByVal Value As Integer)
-                m_lineNumber = Value
-            End Set
-        End Property
-        Public Property DepreciationCal() As DepreciationCal
-            Get
-                Return m_depreciationcal
-            End Get
-            Set(ByVal Value As DepreciationCal)
-                m_depreciationcal = Value
-            End Set
-        End Property
-        Public Property Entity() As Asset
-            Get
-                Return m_entity
-            End Get
-            Set(ByVal Value As Asset)
-                m_entity = Value
-            End Set
-        End Property
-        Public ReadOnly Property LastestCalcDate() As Date
-            Get
-                If m_lastestCalcDate.Equals(Date.MinValue) Then
-                    Return Me.Entity.LastDepreDate
-                End If
-                Return m_lastestCalcDate
-            End Get
-        End Property
-        ' หาจำนวนวันทั้งหมดในปีนั้น ๆ
-        Private ReadOnly Property GetTotalOfYear(ByVal datevalue As Date) As Integer
-            Get
-                Dim dt As Date
-                dt = DateSerial(datevalue.Year, 12, 31)
-                Return dt.DayOfYear
-            End Get
-        End Property
-        Public Property Note() As String
-            Get
-                Return m_note
-            End Get
-            Set(ByVal Value As String)
-                m_note = Value
-            End Set
-        End Property
-        Public Property CostCenter As CostCenter
-            Get
-                Return m_cc
-            End Get
-            Set(ByVal value As CostCenter)
-                m_cc = value
-            End Set
-        End Property
+    Public Property LineNumber() As Integer
+      Get
+        Return m_lineNumber
+      End Get
+      Set(ByVal Value As Integer)
+        m_lineNumber = Value
+      End Set
+    End Property
+    Public Property DepreciationCal() As DepreciationCal
+      Get
+        Return m_depreciationcal
+      End Get
+      Set(ByVal Value As DepreciationCal)
+        m_depreciationcal = Value
+      End Set
+    End Property
+    Public Property Entity() As Asset
+      Get
+        Return m_entity
+      End Get
+      Set(ByVal Value As Asset)
+        m_entity = Value
+      End Set
+    End Property
+    Public ReadOnly Property LastestCalcDate() As Date
+      Get
+        If m_lastestCalcDate.Equals(Date.MinValue) Then
+          Return Me.Entity.LastDepreDate
+        End If
+        Return m_lastestCalcDate
+      End Get
+    End Property
+    ' หาจำนวนวันทั้งหมดในปีนั้น ๆ
+    Private ReadOnly Property GetTotalOfYear(ByVal datevalue As Date) As Integer
+      Get
+        Dim dt As Date
+        dt = DateSerial(datevalue.Year, 12, 31)
+        Return dt.DayOfYear
+      End Get
+    End Property
+    Public Property Note() As String
+      Get
+        Return m_note
+      End Get
+      Set(ByVal Value As String)
+        m_note = Value
+      End Set
+    End Property
+    Public Property CostCenter As CostCenter
+      Get
+        Return m_cc
+      End Get
+      Set(ByVal value As CostCenter)
+        m_cc = value
+      End Set
+    End Property
 #End Region
 
 #Region "Methods"
-        Public Sub CopyToDataRow(ByVal row As TreeRow)
-            If row Is Nothing Then
-                Return
-            End If
-            Me.DepreciationCal.IsInitialized = False
-            row("linenumber") = Me.LineNumber
-            If Not Me.Entity Is Nothing AndAlso Me.Entity.Originated Then
+    Public Sub CopyToDataRow(ByVal row As TreeRow)
+      If row Is Nothing Then
+        Return
+      End If
+      Me.DepreciationCal.IsInitialized = False
+      row("linenumber") = Me.LineNumber
+      If Not Me.Entity Is Nothing AndAlso Me.Entity.Originated Then
 
-                'Asset
+        'Asset
 
-                ' คำนวณค่าเสื่อม
+        ' คำนวณค่าเสื่อม
 
-                row("asset_code") = Me.Entity.Code
-                row("asset_name") = Me.Entity.Name
-                row("btnAsset") = ""
-                row("asset_startCalcDate") = Me.DepreciationCal.ValidDateOrDBNull(Me.Entity.StartCalcDate)
+        row("asset_code") = Me.Entity.Code
+        row("asset_name") = Me.Entity.Name
+        row("btnAsset") = ""
+        row("asset_startCalcDate") = Me.DepreciationCal.ValidDateOrDBNull(Me.Entity.StartCalcDate)
 
-                ' คำนวณค่า
-                'Me.DepreciationCalculation(Me.Entity)
-                'Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
-                'm_deprebase = Entity.BuyPrice - m_writeoffamt
-                row("deprei_note") = Me.Note
-                row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
-                row("deprei_depreamnt") = Configuration.FormatToString(Me.Depreamnt, DigitConfig.Price)
-                'row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
-                row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
-                row("deprei_salvage") = Configuration.FormatToString(Me.Entity.Salvage, DigitConfig.Price)
-                row("deprei_age") = Configuration.FormatToString(Me.Entity.Age, DigitConfig.Int)
-            End If
-            Me.DepreciationCal.IsInitialized = True
-        End Sub
+        ' คำนวณค่า
+        'Me.DepreciationCalculation(Me.Entity)
+        'Me.GetDepreciationFromDB(Me.DepreciationCal, Me.Entity)
+        'm_deprebase = Entity.BuyPrice - m_writeoffamt
+        row("deprei_note") = Me.Note
+        row("deprei_depreopening") = Configuration.FormatToString(Me.DepreOpeningBalanceamnt, DigitConfig.Price)
+        row("deprei_depreamnt") = Configuration.FormatToString(Me.Depreamnt, DigitConfig.Price)
+        'row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
+        row("deprei_price") = Configuration.FormatToString(Me.DepreBase, DigitConfig.Price)
+        row("deprei_salvage") = Configuration.FormatToString(Me.Entity.Salvage, DigitConfig.Price)
+        row("deprei_age") = Configuration.FormatToString(Me.Entity.Age, DigitConfig.Int)
+      End If
+      Me.DepreciationCal.IsInitialized = True
+    End Sub
 #End Region
 
 #Region "UI"
-        Public Sub Clear()
-            Me.m_entity = New Asset
-            Me.m_note = ""
-        End Sub
-        Public Sub SetEntityCode(ByVal theCode As String)
-            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-            If theCode Is Nothing OrElse theCode.Length = 0 Then
-                If Me.Entity.Code.Length <> 0 Then
-                    If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
-                        Me.Clear()
-                    End If
-                End If
-                Return
-            End If
-            Dim oEntity As New Asset(theCode)
-            If oEntity.Originated Then
-                If Me.DepreciationCal.IsTransfer AndAlso Not oEntity.ValidCostCenter(Me.DepreciationCal.FromCostcenter) Then
-                    ' เตือนไม่มีใน costcenter
-                    msgServ.ShowWarningFormatted("${res:Global.Error.NoAssetCostcenter}", Me.DepreciationCal.FromCostcenter.Name)
-                    Return
-                End If
-                If oEntity.Status.Value <> 1 AndAlso Me.DepreciationCal.IsTransfer Then
-                    ' เตือน Status
-                    msgServ.ShowWarningFormatted("${res:Global.Error.AssetEqNotAvaliable}", oEntity.Code, oEntity.Status.Description)
-                    Return
-                End If
-                Me.Entity = oEntity
-                Me.CostCenter = oEntity.Costcenter
-            Else
-                msgServ.ShowMessageFormatted("${res:Global.Error.NoEqAsset}", New String() {theCode})
-                Return
-            End If
-        End Sub
+    Public Sub Clear()
+      Me.m_entity = New Asset
+      Me.m_note = ""
+    End Sub
+    Private HashAsset As Hashtable
+    Public Sub SetEntityCode(ByVal theCode As String)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      If theCode Is Nothing OrElse theCode.Length = 0 Then
+        If Me.Entity.Code.Length <> 0 Then
+          If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
+            Me.Clear()
+          End If
+        End If
+        Return
+      End If
+      If HashAsset Is Nothing Then
+        HashAsset = New Hashtable
+      End If
+      For Each item As DepreciationCalItem In Me.DepreciationCal.ItemCollection
+        If Not HashAsset.ContainsKey(item.Entity.Code.ToLower) Then
+          HashAsset.Add(item.Entity.Code.ToLower, item)
+        End If
+      Next
+      If HashAsset.ContainsKey(theCode.ToLower) Then
+        msgServ.ShowWarningFormatted("${res:Global.Error.AssetAreDuplicate}", theCode)
+        Me.Clear()
+        Return
+      End If
+
+      Dim oEntity As New Asset(theCode)
+      If oEntity.Originated Then
+        If Me.DepreciationCal.IsTransfer AndAlso Not oEntity.ValidCostCenter(Me.DepreciationCal.FromCostcenter) Then
+          ' เตือนไม่มีใน costcenter
+          msgServ.ShowWarningFormatted("${res:Global.Error.NoAssetCostcenter}", Me.DepreciationCal.FromCostcenter.Name)
+          Return
+        End If
+        If oEntity.Status.Value <> 1 AndAlso Me.DepreciationCal.IsTransfer Then
+          ' เตือน Status
+          msgServ.ShowWarningFormatted("${res:Global.Error.AssetEqNotAvaliable}", oEntity.Code, oEntity.Status.Description)
+          Return
+        End If
+        Me.Entity = oEntity
+        Me.CostCenter = oEntity.Costcenter
+      Else
+        msgServ.ShowMessageFormatted("${res:Global.Error.NoEqAsset}", New String() {theCode})
+        Return
+      End If
+    End Sub
+    Public Sub SetItems(ByVal row As DataRow)
+      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+      'If theCode Is Nothing OrElse theCode.Length = 0 Then
+      'If Me.Entity.Code.Length <> 0 Then
+      '  If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteAssetDetail}", New String() {Me.Entity.Code}) Then
+      Me.Clear()
+      '  End If
+      'End If
+      'Return
+      'End If
+      Dim oEntity As New Asset(row, "")
+      Me.Entity = oEntity
+
+      Dim drh As New DataRowHelper(row)
+
+      'oEntity.Id = drh.GetValue(Of Integer)("asset_id")
+      'oEntity.Code = drh.GetValue(Of String)("asset_code")
+      'oEntity.Name = drh.GetValue(Of String)("asset_name")
+      'oEntity.Age = drh.GetValue(Of Integer)("asset_age")
+      'oEntity.Salvage = drh.GetValue(Of Decimal)("asset_salvage")
+      'oEntity.StartCalcDate = drh.GetValue(Of DateTime)("asset_startCalcDate")
+      'oEntity.Costcenter = New CostCenter(drh.GetValue(Of Integer)("asset_cc"))
+
+      ' Select Asset.asset_id
+      ', asset_code
+      ', asset_name
+      ', asset_age
+      '--, asset_calcRate
+      ', asset_salvage
+      ', asset_startCalcDate
+      ', asset_endCalcDate +1 [asset_endCalcDate]
+
+      ', asset_deprebase
+      ', asset_buyPrice
+      ', asset_writeoffamt
+      ', isnull(asset_depreopening,0) + isnull(depreamt,0) [depreopeningamnt]
+      ', isnull(asset_deprebase,0) - 1 - isnull(asset_depreopening,0) - isnull(depreamt,0) [depreamnt]
+
+      Me.Set_Deprebase(drh.GetValue(Of Decimal)("asset_deprebase"))
+      Me.Set_BuyPrice(drh.GetValue(Of Decimal)("asset_buyPrice"))
+      Me.Set_Writeoffamt(drh.GetValue(Of Decimal)("asset_writeoffamt"))
+      Me.Set_Depreopeningamnt(drh.GetValue(Of Decimal)("depreopeningamnt"))
+      Me.Set_Depreamnt(drh.GetValue(Of Decimal)("depreamnt"))
+
+      Me.CostCenter = oEntity.Costcenter
+
+      'If oEntity.Originated Then
+      '  If Me.DepreciationCal.IsTransfer AndAlso Not oEntity.ValidCostCenter(Me.DepreciationCal.FromCostcenter) Then
+      '    ' เตือนไม่มีใน costcenter
+      '    msgServ.ShowWarningFormatted("${res:Global.Error.NoAssetCostcenter}", Me.DepreciationCal.FromCostcenter.Name)
+      '    Return
+      '  End If
+      '  If oEntity.Status.Value <> 1 AndAlso Me.DepreciationCal.IsTransfer Then
+      '    ' เตือน Status
+      '    msgServ.ShowWarningFormatted("${res:Global.Error.AssetEqNotAvaliable}", oEntity.Code, oEntity.Status.Description)
+      '    Return
+      '  End If
+      '  Me.Entity = oEntity
+      '  Me.CostCenter = oEntity.Costcenter
+      'Else
+      '  msgServ.ShowMessageFormatted("${res:Global.Error.NoEqAsset}", New String() {theCode})
+      '  Return
+      'End If
+
+    End Sub
 #End Region
 
 #Region " Depreciation Calculation "
 
-        Private m_depreamntinprocess As Decimal     ' ค่าเสื่อมถึงวันที่คำนวณ
+    Private m_depreamntinprocess As Decimal     ' ค่าเสื่อมถึงวันที่คำนวณ
 
-        Private m_writeoffamt As Decimal              ' มูลค่า write-off ที่หักไปแล้ว
-        Private m_deprebase As Decimal              ' ฐานราคาที่คิดค่าเสื่อม
-        Private m_depreopeningamnt As Decimal       ' ค่าเสื่อมสะสมยกมา
-        Private m_depreamnt As Decimal              ' ค่าเสื่อมสะสมที่ต้องการ
-        Private m_remainingamnt As Decimal          ' ยอดคงเหลือ
-        Private m_buyprice As Decimal               ' ราคาซื้อ
+    Private m_writeoffamt As Decimal              ' มูลค่า write-off ที่หักไปแล้ว
+    Private m_deprebase As Decimal              ' ฐานราคาที่คิดค่าเสื่อม
+    Private m_depreopeningamnt As Decimal       ' ค่าเสื่อมสะสมยกมา
+    Private m_depreamnt As Decimal              ' ค่าเสื่อมสะสมที่ต้องการ
+    Private m_remainingamnt As Decimal          ' ยอดคงเหลือ
+    Private m_buyprice As Decimal               ' ราคาซื้อ
 
-        Public ReadOnly Property DepreamntInProcess() As Decimal
-            Get
-                Return m_depreamntinprocess
-            End Get
-        End Property
-        Public ReadOnly Property WriteOffAmt() As Decimal
-            Get
-                'If Me.m_entity.Type.DepreAble Then
-                Return m_writeoffamt
-                'End If
+    Public ReadOnly Property DepreamntInProcess() As Decimal
+      Get
+        Return m_depreamntinprocess
+      End Get
+    End Property
+    Public ReadOnly Property WriteOffAmt() As Decimal
+      Get
+        'If Me.m_entity.Type.DepreAble Then
+        Return m_writeoffamt
+        'End If
 
-                'Return 0
-            End Get
-        End Property
-        Public ReadOnly Property DepreBase() As Decimal
-            Get
-                'If Me.m_entity.Type.DepreAble Then
-                Return m_deprebase
-                'End If
+        'Return 0
+      End Get
+    End Property
+    Public ReadOnly Property DepreBase() As Decimal
+      Get
+        'If Me.m_entity.Type.DepreAble Then
+        Return m_deprebase
+        'End If
 
-                'Return 0
-            End Get
-        End Property
-        Public ReadOnly Property BuyPrice() As Decimal
-            Get
-                Return m_buyprice
-            End Get
-        End Property
-        Public ReadOnly Property DepreOpeningBalanceamnt() As Decimal
-            Get
-                If Me.m_entity.Type.DepreAble Then
-                    Return m_depreopeningamnt
-                End If
+        'Return 0
+      End Get
+    End Property
+    Public ReadOnly Property BuyPrice() As Decimal
+      Get
+        Return m_buyprice
+      End Get
+    End Property
+    Public ReadOnly Property DepreOpeningBalanceamnt() As Decimal
+      Get
+        If Me.m_entity.Type.DepreAble Then
+          Return m_depreopeningamnt
+        End If
 
-                Return 0
-            End Get
-        End Property
-        Public ReadOnly Property Depreamnt() As Decimal
-            Get
-                If Me.m_entity.Type.DepreAble Then
-                    Return m_depreamnt
-                End If
+        Return 0
+      End Get
+    End Property
+    Public ReadOnly Property Depreamnt() As Decimal
+      Get
+        If Me.m_entity.Type.DepreAble Then
+          Return m_depreamnt
+        End If
 
-                Return 0
-            End Get
-        End Property
-        Public ReadOnly Property DepreRemainingamnt() As Decimal
-            Get
-                Return m_remainingamnt
-            End Get
-        End Property
-        Public Sub GetDepreciationFromDB(ByVal Depre As DepreciationCal, ByVal myAsset As Asset, ByVal isRemainWithEndedCalc As Boolean)
-            If myAsset Is Nothing OrElse Not myAsset.Originated Then
-                Return
-            End If
+        Return 0
+      End Get
+    End Property
+    Public ReadOnly Property DepreRemainingamnt() As Decimal
+      Get
+        Return m_remainingamnt
+      End Get
+    End Property
+    Public Sub Set_Depreamnt(value As Decimal)
+      m_depreamnt = value
+    End Sub
+    Public Sub Set_Depreopeningamnt(value As Decimal)
+      m_depreopeningamnt = value
+    End Sub
+    Public Sub Set_Writeoffamt(value As Decimal)
+      m_writeoffamt = value
+    End Sub
+    Public Sub Set_Deprebase(value As Decimal)
+      m_deprebase = value
+    End Sub
+    Public Sub Set_BuyPrice(value As Decimal)
+      m_buyprice = value
+    End Sub
+    Public Sub GetDepreciationFromDB(ByVal Depre As DepreciationCal, ByVal myAsset As Asset, ByVal isRemainWithEndedCalc As Boolean)
+      If myAsset Is Nothing OrElse Not myAsset.Originated Then
+        Return
+      End If
 
-            Dim ds As New DataSet
+      Dim ds As New DataSet
 
-            Try
-                Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+      Try
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
 
-                ds = SqlHelper.ExecuteDataset(sqlConString _
-                , CommandType.StoredProcedure _
-                , "AssetDepreciation" _
-                , New SqlParameter("@DepreId", Depre.Id) _
-                , New SqlParameter("@AssetId", myAsset.Id) _
-                , New SqlParameter("@DocDateEnd", Depre.DepreDate) _
-                , New SqlParameter("@isRemainWithEndedCalc", isRemainWithEndedCalc))
+        ds = SqlHelper.ExecuteDataset(sqlConString _
+        , CommandType.StoredProcedure _
+        , "AssetDepreciation" _
+        , New SqlParameter("@DepreId", Depre.Id) _
+        , New SqlParameter("@AssetId", myAsset.Id) _
+        , New SqlParameter("@DocDateEnd", Depre.DepreDate) _
+        , New SqlParameter("@isRemainWithEndedCalc", isRemainWithEndedCalc))
 
-                If ds.Tables(0).Rows.Count > 0 Then
-                    m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))
-                    m_depreopeningamnt = CDec(ds.Tables(0).Rows(0)("DepreAmount"))
-                    m_writeoffamt = CDec(ds.Tables(0).Rows(0)("writeoffamt"))
-                    m_deprebase = CDec(ds.Tables(0).Rows(0)("DepreBase"))
-                    m_buyprice = CDec(ds.Tables(0).Rows(0)("BuyPrice"))
-                End If
-            Catch ex As Exception
+        If ds.Tables(0).Rows.Count > 0 Then
+          m_depreamnt = CDec(ds.Tables(0).Rows(0)("Depre"))
+          m_depreopeningamnt = CDec(ds.Tables(0).Rows(0)("DepreAmount"))
+          m_writeoffamt = CDec(ds.Tables(0).Rows(0)("writeoffamt"))
+          m_deprebase = CDec(ds.Tables(0).Rows(0)("DepreBase"))
+          m_buyprice = CDec(ds.Tables(0).Rows(0)("BuyPrice"))
+        End If
+      Catch ex As Exception
 
-            End Try
-        End Sub
-        Public Sub DepreciationCalculation(ByVal myAsset As Asset)
-            If myAsset Is Nothing OrElse Not myAsset.Originated Then
-                Return
-            End If
+      End Try
+    End Sub
+    Public Sub DepreciationCalculation(ByVal myAsset As Asset)
+      If myAsset Is Nothing OrElse Not myAsset.Originated Then
+        Return
+      End If
 
-            m_depreamntinprocess = 0
-            m_depreopeningamnt = 0
-            m_depreamnt = 0
-            m_remainingamnt = 0
+      m_depreamntinprocess = 0
+      m_depreopeningamnt = 0
+      m_depreamnt = 0
+      m_remainingamnt = 0
 
-            Dim lastestCalcDate As Date = Me.Entity.GetLastCalcDate(Me.DepreciationCal)
-            If lastestCalcDate.Equals(Date.MinValue) Then
-                m_depreopeningamnt = myAsset.DepreOpening
-            Else
-                If lastestCalcDate.Date < Me.DepreciationCal.DepreDate.Date Then
-                    m_depreopeningamnt = CDec(myAsset.DepreCalcAtDate(lastestCalcDate.Date))
-                End If
-            End If
+      Dim lastestCalcDate As Date = Me.Entity.GetLastCalcDate(Me.DepreciationCal)
+      If lastestCalcDate.Equals(Date.MinValue) Then
+        m_depreopeningamnt = myAsset.DepreOpening
+      Else
+        If lastestCalcDate.Date < Me.DepreciationCal.DepreDate.Date Then
+          m_depreopeningamnt = CDec(myAsset.DepreCalcAtDate(lastestCalcDate.Date))
+        End If
+      End If
 
-            m_depreamntinprocess = CDec(myAsset.DepreCalcAtDate(Me.DepreciationCal.DepreDate.Date))
+      m_depreamntinprocess = CDec(myAsset.DepreCalcAtDate(Me.DepreciationCal.DepreDate.Date))
 
-            m_depreamnt = m_depreamntinprocess - m_depreopeningamnt
+      m_depreamnt = m_depreamntinprocess - m_depreopeningamnt
 
-            Dim depreval As Decimal = myAsset.RemainValue
-            m_remainingamnt = depreval - m_depreamntinprocess
-        End Sub
+      Dim depreval As Decimal = myAsset.RemainValue
+      m_remainingamnt = depreval - m_depreamntinprocess
+    End Sub
 #End Region
 
-    End Class
+  End Class
 
   <Serializable(), DefaultMember("Item")> _
   Public Class DepreciationCalItemCollection
@@ -1833,7 +1939,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Else
           Me.Add(doc)
         End If
-        doc.SetEntityCode(item.Code)
+        Dim row As DataRow = Nothing
+        If TypeOf (item.Tag) Is DataRow Then
+          row = CType(item.Tag, DataRow)
+        End If
+
+        'doc.SetEntityCode(item.Code)
+        doc.SetItems(row)
       Next
     End Sub
     Public Sub Populate(ByVal dt As TreeTable)
