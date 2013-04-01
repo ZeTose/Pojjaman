@@ -302,7 +302,6 @@
     <EmbeddedResource Include="AR\WBSMilestoneDetail.resx">
       <DependentUpon>WBSMilestoneDetail.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="Receive\OtherReceive.resx">
       <DependentUpon>OtherReceive.vb</DependentUpon>
     </EmbeddedResource>
@@ -337,7 +336,9 @@
       <DependentUpon>SaleDNFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="My Project\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>

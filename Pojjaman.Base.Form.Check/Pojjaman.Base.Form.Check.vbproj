@@ -85,8 +85,6 @@
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="Pojjaman.Data">
-    </Reference>
     <Reference Include="Syncfusion.Core, Version=10.304.0.43, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Pojjaman\Externals\Syncfusion.Core.dll</HintPath>
@@ -122,10 +120,24 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
-    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
-    <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e" />
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Breeze">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.Themes.Breeze.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Vista">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.Themes.Vista.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon">
+      <HintPath>..\Pojjaman\Externals\TelerikCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -344,6 +356,10 @@
     <ProjectReference Include="..\Pojjaman.CustomControls\Pojjaman.CustomControls.vbproj">
       <Project>{6839B89B-BFD8-498A-B8C2-6CBE33E78E57}</Project>
       <Name>Pojjaman.CustomControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pojjaman.Data\Pojjaman.Data.vbproj">
+      <Project>{1b192737-9099-4018-a30f-f1bc49ec97ed}</Project>
+      <Name>Pojjaman.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

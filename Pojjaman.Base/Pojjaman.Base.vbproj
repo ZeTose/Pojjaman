@@ -174,20 +174,17 @@
     <Reference Include="AxSHDocVw">
       <Name>AxSHDocVw</Name>
     </Reference>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportAppServer.CommLayer, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="CrystalDecisions.ReportSource">
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.ReportSource.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="CrystalDecisions.Windows.Forms">
+      <HintPath>..\Pojjaman\Externals\CrystalDecisions.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.CodeParser.v12.2, Version=12.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -260,6 +257,11 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <Name>ICSharpCode.SharpZipLib</Name>
     </Reference>
+    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>External\Interop.SHDocVw.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.mshtml">
       <Name>Microsoft.mshtml</Name>
       <AssemblyFolderKey>hklm\primary interop assemblies</AssemblyFolderKey>
@@ -267,11 +269,8 @@
     <Reference Include="Microsoft.VisualBasic">
       <Name>Microsoft.VisualBasic</Name>
     </Reference>
-    <Reference Include="Pojjaman.ContentInterface, Version=1.0.4038.16714, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="SHDocVw">
-      <Name>Interop.SHDocVw</Name>
+    <Reference Include="Pojjaman.ContentInterface">
+      <HintPath>..\Pojjaman.ContentInterface\bin\Pojjaman.ContentInterface.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Compression.Base, Version=10.304.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -319,17 +318,23 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <Reference Include="Telerik.WinControls, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.GridView, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.WinControls.GridView">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.GridView.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.UI, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.WinControls.Themes.Breeze">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.Themes.Breeze.dll</HintPath>
     </Reference>
-    <Reference Include="TelerikCommon, Version=2010.1.10.308, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.WinControls.Themes.Vista">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.Themes.Vista.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\Pojjaman\Externals\Telerik.WinControls.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="TelerikCommon">
+      <HintPath>..\Pojjaman\Externals\TelerikCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

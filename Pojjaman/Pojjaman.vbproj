@@ -968,7 +968,6 @@
     <None Include="doc\help\Pojjaman.chm" />
     <None Include="doc\help\Pojjaman.hhc" />
     <None Include="doc\help\PojjamanHelp.zip" />
-    <EmbeddedResource Include="licenses.licx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AddIns\Customizations\TextExport\" />
