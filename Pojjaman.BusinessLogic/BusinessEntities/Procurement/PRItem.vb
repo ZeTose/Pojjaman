@@ -941,7 +941,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
           row("pri_originqty") = Configuration.FormatToString(Me.OriginQty, DigitConfig.Qty)
         Else
           row("pri_originqty") = ""
-        End If
+                End If
+
+                If Me.OrderedQty <> 0 Then
+                    row("OrderedQty") = Configuration.FormatToString(Me.OrderedQty, DigitConfig.Qty)
+                Else
+                    row("OrderedQty") = ""
+                End If
 
         If Me.Amount <> 0 Then
           row("Amount") = Configuration.FormatToString(Me.Amount, DigitConfig.Price)

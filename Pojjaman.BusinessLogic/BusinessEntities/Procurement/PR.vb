@@ -336,7 +336,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return m_approveDocColl
       End Get
       Set(ByVal value As ApproveDocCollection)
-        '
+                m_approveDocColl = value
       End Set
     End Property
     Public ReadOnly Property ExceptAccountPeriod As Boolean Implements IAbleExceptAccountPeriod.ExceptAccountPeriod
@@ -1551,8 +1551,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.CostCenter.Id, 0, Me)
-        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
+                Dim mldoc As DocMultiApproval
+                If Not (Me.ApproveDocColl Is Nothing) Then
+                    mldoc = New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, Me.CostCenter.Id, 0, Me)
+                Else
+                    mldoc = New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, "", Me.CostCenter.Id, 0, Me)
+                End If
+
+                Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
           conn.Close()
@@ -3419,7 +3425,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.ApproveDate = Date.MinValue
       Me.ApprovePerson = New User
       Me.ApproveStoreDate = Date.MinValue
-      Me.ApproveStorePerson = New User
+            Me.ApproveStorePerson = New User
+            Me.ApproveDocColl = Nothing 'New ApproveDocCollection(Me)
       Me.Canceled = False
       Me.CancelPerson = New User
       'Me.Closing = False
