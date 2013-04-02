@@ -1339,8 +1339,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim strans As SqlTransaction = conn.BeginTransaction
 
       Try
-        Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, 0, Me.SubContractor.Id, Me)
-        Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
+                'Dim mldoc As New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, 0, Me.SubContractor.Id, Me)
+                Dim mldoc As DocMultiApproval
+                If Not (Me.ApproveDocColl Is Nothing) Then
+                    mldoc = New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, Me.ApproveDocColl.GetLastedApproveDoc.Comment, 0, Me.SubContractor.Id, Me)
+                Else
+                    mldoc = New DocMultiApproval(Me.Id, Me.EntityId, Me.Code, Me.DocDate, Me.Gross, currentUserId, m_DocMethod, "", 0, Me.SubContractor.Id, Me)
+                End If
+                Dim savemldocError As SaveErrorException = mldoc.UpdateApprove(0, conn, strans)
         If Not IsNumeric(savemldocError.Message) Then
           strans.Rollback()
           conn.Close()
@@ -2880,7 +2886,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Id = 0
       Me.Code = "Copy of " & Me.Code
       Me.ApproveDate = Date.MinValue
-      Me.ApprovePerson = New User
+            Me.ApprovePerson = New User
+            Me.ApproveDocColl = Nothing
       Me.Canceled = False
       Me.CancelPerson = New User
       Me.Closing = False
