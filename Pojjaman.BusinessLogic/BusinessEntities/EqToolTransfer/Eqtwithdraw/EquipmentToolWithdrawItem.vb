@@ -208,7 +208,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Methods"
     Public Overrides Sub Clear()
-      'Me.Entity = New EquipmentToolWithdrawItem
+      Me.Entity = New BlankEqItem()
+      Me.m_itemtype = New EqtItemType(-1)
       Me.Qty = 0
       Me.Note = ""
     End Sub
@@ -223,47 +224,50 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       Try
         Me.EquipmentToolWithdraw.IsInitialized = False
-        'Dim rpd As Decimal = 0
-        'Dim rentrate As Decimal = 0
-        row("Linenumber") = Me.LineNumber
-        row("Type") = Me.ItemType.Description
-        If Not Me.Entity Is Nothing Then
-          row("eqtstocki_entity") = Me.Entity.Id
-          row("Code") = Me.Entity.Code
-          row("Name") = Me.Entity.Name
-          'If Not Me.Entity.Unit Is Nothing Then
-          '  Me.Unit = Me.Entity.Unit
-          '  row("UnitName") = Me.Entity.Unit.Name
-          'End If
-          'rentrate = Me.Entity.RentalRate
-        End If
-        If Not Me.Unit Is Nothing Then
-          row("UnitName") = Me.Unit.Name
-        End If
 
-        'row("Name") = Me.name
+        If Not Me.ItemType Is Nothing AndAlso Not Me.ItemType.Description Is Nothing Then
+          'Dim rpd As Decimal = 0
+          'Dim rentrate As Decimal = 0
+          row("Linenumber") = Me.LineNumber
+          row("Type") = Me.ItemType.Description
+          If Not Me.Entity Is Nothing Then
+            row("eqtstocki_entity") = Me.Entity.Id
+            row("Code") = Me.Entity.Code
+            row("Name") = Me.Entity.Name
+            'If Not Me.Entity.Unit Is Nothing Then
+            '  Me.Unit = Me.Entity.Unit
+            '  row("UnitName") = Me.Entity.Unit.Name
+            'End If
+            'rentrate = Me.Entity.RentalRate
+          End If
+          If Not Me.Unit Is Nothing Then
+            row("UnitName") = Me.Unit.Name
+          End If
 
-        row("Button") = ""
+          'row("Name") = Me.name
 
-        row("Note") = Me.Note
+          row("Button") = ""
 
-        If Me.Qty <> 0 Then
-          row("QTY") = Configuration.FormatToString(Me.Qty, DigitConfig.Int)
-        Else
-          row("QTY") = ""
-        End If
-        'rpd = rentrate * Me.Qty
-        'If Me.RentalPerDay <> 0 And rpd <> 0 Then
-        If Me.RentalPerDay <> 0 Then
-          row("RentalRate") = Configuration.FormatToString(Me.RentalRate, DigitConfig.Price)
-          row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
-          'Else
-          '  row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
-          '  Me.RentalPerDay = rpd
-          'End If
-        Else
-          row("RentalRate") = ""
-          row("RentalPerDay") = ""
+          row("Note") = Me.Note
+
+          If Me.Qty <> 0 Then
+            row("QTY") = Configuration.FormatToString(Me.Qty, DigitConfig.Int)
+          Else
+            row("QTY") = ""
+          End If
+          'rpd = rentrate * Me.Qty]
+          'If Me.RentalPerDay <> 0 And rpd <> 0 Then
+          If Me.RentalPerDay <> 0 Then
+            row("RentalRate") = Configuration.FormatToString(Me.RentalRate, DigitConfig.Price)
+            row("RentalPerDay") = Configuration.FormatToString(Me.RentalPerDay, DigitConfig.Price)
+            'Else
+            '  row("RentalPerDay") = Configuration.FormatToString(rpd, DigitConfig.Price)
+            '  Me.RentalPerDay = rpd
+            'End If
+          Else
+            row("RentalRate") = ""
+            row("RentalPerDay") = ""
+          End If
         End If
 
         Me.EquipmentToolWithdraw.IsInitialized = True
@@ -347,10 +351,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
         msgServ.ShowMessage("${res:Global.Error.NoItemType}")
         Return
       End If
-      'If DupCode(theCode) Then
-      '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
-      '    Return
-      'End If
+      If DupCode(theCode) Then
+        msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {"Asset", theCode})
+        If Me.Entity Is Nothing OrElse Me.Entity.Code Is Nothing Then
+          Me.Clear()
+        End If
+        Return
+      End If
       Select Case Me.ItemType.Value
         Case 342 'F/A
           If theCode Is Nothing OrElse theCode.Length = 0 Then

@@ -39,7 +39,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Sub
     Private Sub CreateHeader()
       m_grid.RowCount = 0
-      m_grid.ColCount = 6
+            m_grid.ColCount = 9
 
       m_grid.ColWidths(1) = 120
       m_grid.ColWidths(2) = 200
@@ -47,6 +47,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.ColWidths(4) = 150
       m_grid.ColWidths(5) = 150
       m_grid.ColWidths(6) = 150
+            m_grid.ColWidths(7) = 150
+            m_grid.ColWidths(8) = 150
+            m_grid.ColWidths(9) = 150
 
       m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
@@ -64,19 +67,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC.Budget}") '"Qty Budget"
       m_grid(0, 5).Text = "Unit Price" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC.UnitPrice}") '"UnitPrice"
       m_grid(0, 6).Text = "Amount" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC.Amount}") '"Amount"
+            m_grid(0, 7).Text = "MAT" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC.Amount}") '"Amount"
+            m_grid(0, 8).Text = "Lab" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC.Amount}") '"Amount"
+            m_grid(0, 9).Text = "EQ" 'Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptMatBudgetByCC.Amount}") '"Amount"
 
       m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
       m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-      m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
+            m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
       Dim currDocIndex As Integer = -1
 
-      Dim total As Decimal = 0
+            Dim total As Decimal = 0
+            Dim totalMC As Decimal = 0
+            Dim totalLC As Decimal = 0
+            Dim totalEC As Decimal = 0
+
       For Each row As DataRow In dt.Rows
         m_grid.RowCount += 1
         currDocIndex = m_grid.RowCount
@@ -99,14 +112,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If IsNumeric(row("Amount")) Then
           total += Configuration.Format(CDec(row("Amount")), DigitConfig.Price)
           m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Amount")), DigitConfig.Price)
-        End If
+                End If
+
+                If IsNumeric(row("AMOUNT_MC")) Then
+                    totalMC += Configuration.Format(CDec(row("AMOUNT_MC")), DigitConfig.Price)
+                    m_grid(currDocIndex, 7).CellValue = Configuration.FormatToString(CDec(row("AMOUNT_MC")), DigitConfig.Price)
+                End If
+                If IsNumeric(row("AMOUNT_LC")) Then
+                    totalLC += Configuration.Format(CDec(row("AMOUNT_LC")), DigitConfig.Price)
+                    m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(CDec(row("AMOUNT_LC")), DigitConfig.Price)
+                End If
+                If IsNumeric(row("AMOUNT_EC")) Then
+                    totalEC += Configuration.Format(CDec(row("AMOUNT_EC")), DigitConfig.Price)
+                    m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(CDec(row("AMOUNT_EC")), DigitConfig.Price)
+                End If
+
       Next
       m_grid.RowCount += 1
       currDocIndex = m_grid.RowCount
       m_grid.RowStyles(currDocIndex).Font.Bold = True
       m_grid.RowStyles(currDocIndex).ReadOnly = True
       m_grid(currDocIndex, 5).CellValue = "Total"
-      m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(total, DigitConfig.Price)
+            m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(total, DigitConfig.Price)
+            m_grid(currDocIndex, 7).CellValue = Configuration.FormatToString(totalMC, DigitConfig.Price)
+            m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(totalLC, DigitConfig.Price)
+            m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(totalEC, DigitConfig.Price)
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String

@@ -219,8 +219,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not row.IsNull("supplierName") Then
                     m_grid(currDocIndex, 11).CellValue = indent & row("supplierName").ToString
                 End If
-                If Not row.IsNull("supplierTaxId") Then
-                    m_grid(currDocIndex, 12).CellValue = indent & row("supplierTaxId").ToString
+                'If Not row.IsNull("supplierTaxId") Then
+                '    m_grid(currDocIndex, 12).CellValue = indent & row("supplierTaxId").ToString
+                'End If
+                If Not row.IsNull("printtaxid") Then
+                    m_grid(currDocIndex, 12).CellValue = indent & row("printtaxid").ToString
                 End If
                 'm_grid(currDocIndex, 13).CellValue = 0
                 currentDocCode = row("DocCode").ToString

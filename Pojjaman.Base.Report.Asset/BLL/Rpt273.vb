@@ -133,7 +133,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currDetailIndex As Integer = -1
       Dim currAssetIndex As Integer = -1
       Dim sumAssetPrice As Decimal = 0
-      Dim AssetPrice As Decimal = 0
+            Dim AssetPrice As Decimal = 0
+            Dim BuyPrice As Decimal = 0
       Dim beforeTax As Decimal = 0
       Dim taxAmt As Decimal = 0
       Dim status As Boolean = True
@@ -223,7 +224,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'End If
           strAssetcode = row("asset_code").ToString
           AssetPrice += CDec(row("depTotal"))
-
+                    BuyPrice += CDec(row("buyPrice"))
         End If
         'If Not row.IsNull("SbeforeTax") Then
         '  beforeTax += CDec(row("SbeforeTax"))
@@ -239,17 +240,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid.RowCount += 1
       balance = AssetPrice - sale
       currAssetIndex = m_grid.RowCount
-      m_grid(currAssetIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.sum}") '"รวม"
+            m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.sum}") '"รวม"
+            m_grid(currAssetIndex, 4).CellValue = indent & Configuration.FormatToString(BuyPrice, DigitConfig.Price)
       m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(AssetPrice, DigitConfig.Price)
       AssetPrice = 0
       m_grid.RowCount += 1
       currAssetIndex = m_grid.RowCount
-      m_grid(currAssetIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetBetweenl}") '"รวมขายระหว่างงวด"
+            m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetBetweenl}") '"รวมขายระหว่างงวด"
       m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(sale, DigitConfig.Price)
       sale = 0
       m_grid.RowCount += 1
       currAssetIndex = m_grid.RowCount
-      m_grid(currAssetIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetTotal}")
+            m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetTotal}")
       m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(balance, DigitConfig.Price)
       balance = 0
     End Sub
