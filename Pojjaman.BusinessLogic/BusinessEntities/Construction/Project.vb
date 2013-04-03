@@ -778,18 +778,38 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trans = conn.BeginTransaction()
         Try
           Me.ExecuteSaveSproc(conn, trans, returnVal, sqlparams, theTime, theUser)
+
+
           trans.Commit()
-          Return New SaveErrorException(returnVal.Value.ToString)
+          'Return New SaveErrorException(returnVal.Value.ToString)
         Catch ex As SqlException
           trans.Rollback()
+          conn.Close()
           Return New SaveErrorException(ex.ToString)
         Catch ex As Exception
           trans.Rollback()
+          conn.Close()
           Return New SaveErrorException(ex.ToString)
         Finally
-          conn.Close()
+          'conn.Close()
         End Try
+
+        Dim naccSaveErr As SaveErrorException = Me.InsertProjectNACC()
+        If Not IsNumeric(naccSaveErr.Message) Then
+          'trans.Rollback()
+          Return New SaveErrorException(naccSaveErr.Message.ToString)
+        End If
+
+        Dim naccUpdateErr As SaveErrorException = Me.UpdateProjectNACC()
+        If Not IsNumeric(naccUpdateErr.Message) Then
+          'trans.Rollback()
+          Return New SaveErrorException(naccUpdateErr.Message.ToString)
+        End If
+
+        Return New SaveErrorException(returnVal.Value.ToString)
+
       End With
+
     End Function
 #End Region
 

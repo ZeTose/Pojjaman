@@ -323,6 +323,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbStatus.Name = "cmbStatus"
       Me.cmbStatus.Size = New System.Drawing.Size(144, 21)
       Me.cmbStatus.TabIndex = 0
+      Me.cmbStatus.DropDownStyle = ComboBoxStyle.DropDownList
       '
       'lblBidEndTime
       '
@@ -549,6 +550,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbBidBondType.Name = "cmbBidBondType"
       Me.cmbBidBondType.Size = New System.Drawing.Size(56, 21)
       Me.cmbBidBondType.TabIndex = 3
+      Me.cmbBidBondType.DropDownStyle = ComboBoxStyle.DropDownList
       '
       'txtContract
       '
@@ -1044,6 +1046,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbBidType.Size = New System.Drawing.Size(122, 21)
       Me.cmbBidType.TabIndex = 0
       Me.cmbBidType.Text = "Government"
+      Me.cmbBidType.DropDownStyle = ComboBoxStyle.DropDownList
       '
       'cmbBidAs
       '
@@ -1052,6 +1055,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbBidAs.Size = New System.Drawing.Size(122, 21)
       Me.cmbBidAs.TabIndex = 1
       Me.cmbBidAs.Text = "Sub-Contractor"
+      Me.cmbBidAs.DropDownStyle = ComboBoxStyle.DropDownList
       '
       'lblBidAs
       '
@@ -1973,7 +1977,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Else
       '  Me.btnNACCEnumerate.Visible = False
       'End If
-      If m_entity.BidType.Value = 1 AndAlso Me.m_entity.Originated Then
+      If m_entity.BidType.Value = 1 Then 'AndAlso Me.m_entity.Originated Then
         Me.btnNACCEnumerate.Enabled = True
       Else
         Me.btnNACCEnumerate.Enabled = False
