@@ -59,6 +59,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents cmbStatus As System.Windows.Forms.ComboBox
     Friend WithEvents chkOnlyCalcEndedStillRemaining As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowRemainingOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents chkOnlyCalcEndedRemainingLessThenSalvage As System.Windows.Forms.CheckBox
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -66,6 +67,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblCode = New System.Windows.Forms.Label()
       Me.txtCode = New System.Windows.Forms.TextBox()
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage = New System.Windows.Forms.CheckBox()
       Me.chkOnlyCalcEndedStillRemaining = New System.Windows.Forms.CheckBox()
       Me.btnSearch = New System.Windows.Forms.Button()
       Me.btnReset = New System.Windows.Forms.Button()
@@ -91,13 +93,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblAssettype = New System.Windows.Forms.Label()
       Me.txtAssettypeCode = New System.Windows.Forms.TextBox()
       Me.grbGeneral = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+      Me.chkShowRemainingOnly = New System.Windows.Forms.CheckBox()
       Me.cmbCalcType = New System.Windows.Forms.ComboBox()
       Me.lblCalcType = New System.Windows.Forms.Label()
       Me.cmbStatus = New System.Windows.Forms.ComboBox()
       Me.lblStatus = New System.Windows.Forms.Label()
       Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
       Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
-      Me.chkShowRemainingOnly = New System.Windows.Forms.CheckBox()
       Me.grbDetail.SuspendLayout()
       Me.grbGroup.SuspendLayout()
       Me.grbGeneral.SuspendLayout()
@@ -133,24 +135,38 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       'grbDetail
       '
-      Me.grbDetail.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+      Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+              Or System.Windows.Forms.AnchorStyles.Left) _
               Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.chkOnlyCalcEndedRemainingLessThenSalvage)
       Me.grbDetail.Controls.Add(Me.chkOnlyCalcEndedStillRemaining)
       Me.grbDetail.Controls.Add(Me.btnSearch)
       Me.grbDetail.Controls.Add(Me.btnReset)
       Me.grbDetail.Controls.Add(Me.grbGroup)
       Me.grbDetail.Controls.Add(Me.grbGeneral)
       Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbDetail.Location = New System.Drawing.Point(8, 8)
+      Me.grbDetail.Location = New System.Drawing.Point(8, 3)
       Me.grbDetail.Name = "grbDetail"
-      Me.grbDetail.Size = New System.Drawing.Size(712, 202)
+      Me.grbDetail.Size = New System.Drawing.Size(712, 212)
       Me.grbDetail.TabIndex = 0
       Me.grbDetail.TabStop = False
       '
+      'chkOnlyCalcEndedRemainingLessThenSalvage
+      '
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.AutoSize = True
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Location = New System.Drawing.Point(8, 188)
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Name = "chkOnlyCalcEndedRemainingLessThenSalvage"
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Size = New System.Drawing.Size(399, 17)
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.TabIndex = 6
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Text = "เฉพาะสินทรัพย์มูลค่าน้อยกว่าค่าซาก แต่สิ้นสุดอายุคำนวณแล้ว (ยังไม่ได้ write off)"
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.UseVisualStyleBackColor = True
+      '
       'chkOnlyCalcEndedStillRemaining
       '
+      Me.chkOnlyCalcEndedStillRemaining.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.chkOnlyCalcEndedStillRemaining.AutoSize = True
-      Me.chkOnlyCalcEndedStillRemaining.Location = New System.Drawing.Point(8, 173)
+      Me.chkOnlyCalcEndedStillRemaining.Location = New System.Drawing.Point(8, 168)
       Me.chkOnlyCalcEndedStillRemaining.Name = "chkOnlyCalcEndedStillRemaining"
       Me.chkOnlyCalcEndedStillRemaining.Size = New System.Drawing.Size(290, 17)
       Me.chkOnlyCalcEndedStillRemaining.TabIndex = 6
@@ -161,7 +177,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnSearch.Location = New System.Drawing.Point(624, 173)
+      Me.btnSearch.Location = New System.Drawing.Point(624, 183)
       Me.btnSearch.Name = "btnSearch"
       Me.btnSearch.Size = New System.Drawing.Size(75, 23)
       Me.btnSearch.TabIndex = 5
@@ -171,7 +187,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       '
       Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
       Me.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.btnReset.Location = New System.Drawing.Point(543, 173)
+      Me.btnReset.Location = New System.Drawing.Point(543, 183)
       Me.btnReset.Name = "btnReset"
       Me.btnReset.Size = New System.Drawing.Size(75, 23)
       Me.btnReset.TabIndex = 4
@@ -200,7 +216,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGroup.Controls.Add(Me.lblAssettype)
       Me.grbGroup.Controls.Add(Me.txtAssettypeCode)
       Me.grbGroup.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbGroup.Location = New System.Drawing.Point(8, 92)
+      Me.grbGroup.Location = New System.Drawing.Point(8, 90)
       Me.grbGroup.Name = "grbGroup"
       Me.grbGroup.Size = New System.Drawing.Size(691, 72)
       Me.grbGroup.TabIndex = 1
@@ -485,12 +501,22 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGeneral.Controls.Add(Me.cmbStatus)
       Me.grbGeneral.Controls.Add(Me.lblStatus)
       Me.grbGeneral.FlatStyle = System.Windows.Forms.FlatStyle.System
-      Me.grbGeneral.Location = New System.Drawing.Point(8, 16)
+      Me.grbGeneral.Location = New System.Drawing.Point(8, 14)
       Me.grbGeneral.Name = "grbGeneral"
       Me.grbGeneral.Size = New System.Drawing.Size(691, 72)
       Me.grbGeneral.TabIndex = 0
       Me.grbGeneral.TabStop = False
       Me.grbGeneral.Text = "รายละเอียดทั่วไป"
+      '
+      'chkShowRemainingOnly
+      '
+      Me.chkShowRemainingOnly.AutoSize = True
+      Me.chkShowRemainingOnly.Location = New System.Drawing.Point(336, 45)
+      Me.chkShowRemainingOnly.Name = "chkShowRemainingOnly"
+      Me.chkShowRemainingOnly.Size = New System.Drawing.Size(200, 17)
+      Me.chkShowRemainingOnly.TabIndex = 6
+      Me.chkShowRemainingOnly.Text = "แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ"
+      Me.chkShowRemainingOnly.UseVisualStyleBackColor = True
       '
       'cmbCalcType
       '
@@ -545,21 +571,11 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
       '
-      'chkShowRemainingOnly
-      '
-      Me.chkShowRemainingOnly.AutoSize = True
-      Me.chkShowRemainingOnly.Location = New System.Drawing.Point(336, 45)
-      Me.chkShowRemainingOnly.Name = "chkShowRemainingOnly"
-      Me.chkShowRemainingOnly.Size = New System.Drawing.Size(200, 17)
-      Me.chkShowRemainingOnly.TabIndex = 6
-      Me.chkShowRemainingOnly.Text = "แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ"
-      Me.chkShowRemainingOnly.UseVisualStyleBackColor = True
-      '
       'AssetDetailFilterSubPanel
       '
       Me.Controls.Add(Me.grbDetail)
       Me.Name = "AssetDetailFilterSubPanel"
-      Me.Size = New System.Drawing.Size(728, 218)
+      Me.Size = New System.Drawing.Size(728, 220)
       Me.grbDetail.ResumeLayout(False)
       Me.grbDetail.PerformLayout()
       Me.grbGroup.ResumeLayout(False)
@@ -597,7 +613,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region "Methods"
     Public Sub Initialize()
       Me.chkOnlyCalcEndedStillRemaining.Visible = Not CBool(Configuration.GetConfig("HideChkOnlyCalcEndedStillRemaining"))
-      Me.chkShowRemainingOnly.Enabled = Not Me.chkOnlyCalcEndedStillRemaining.Visible
+      'Me.chkShowRemainingOnly.Enabled = Not Me.chkOnlyCalcEndedStillRemaining.Visible
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Visible = Me.chkOnlyCalcEndedStillRemaining.Visible
 
       PupolateCalctype()
       ClearCriterias()
@@ -630,6 +647,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.m_cc = New CostCenter
 
       Me.chkOnlyCalcEndedStillRemaining.Checked = False
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Checked = False
 
       EntityRefresh()
     End Sub
@@ -647,10 +665,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.grbGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.grbGroup}")
       Me.lblStatus.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.lblStatus}")
       Me.chkOnlyCalcEndedStillRemaining.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkOnlyCalcEndedStillRemaining}") 'เฉพาะสินทรัพย์มูลค่ายังคงเหลือ แต่สิ้นสุดอายุคำนวณแล้ว
-            Me.chkShowRemainingOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkShowRemainingOnly}") 'แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ
+      Me.chkShowRemainingOnly.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkShowRemainingOnly}") 'แสดงเฉพาะสินทรัพย์ที่มีมูลค่าคงเหลือ และยังไม่หมดอายุ
+      Me.chkOnlyCalcEndedRemainingLessThenSalvage.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.AssetDetailFilterSubPanel.chkOnlyCalcEndedRemainingLessThenSalvage}") 'แสดงเฉพาะสินทรัพย์ที่มีมูลค่าน้อยกว่าค่าซาก แต่สิ้นสุดอายุคำนวณแล้ว
+      'Me.chkOnlyCalcEndedRemainingLessThenSalvage.Text = "แสดงเฉพาะสินทรัพย์ที่มีมูลค่าน้อยกว่าค่าซาก แต่สิ้นสุดอายุคำนวณแล้"
     End Sub
     Public Overrides Function GetFilterArray() As Filter()
-      Dim arr(8) As Filter
+      Dim arr(9) As Filter
       arr(0) = New Filter("code", IIf(Me.txtCode.Text.Length = 0, DBNull.Value, Me.txtCode.Text))
       arr(1) = New Filter("status", IIf(cmbStatus.SelectedItem Is Nothing, DBNull.Value, CType(cmbStatus.SelectedItem, IdValuePair).Id))
       arr(2) = New Filter("account", IIf(Me.m_account.Originated, Me.m_account.Id, DBNull.Value))
@@ -660,6 +680,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       arr(6) = New Filter("calctype", IIf(Me.cmbCalcType.SelectedIndex = -1, DBNull.Value, Me.cmbCalcType.SelectedIndex))
       arr(7) = New Filter("isCalEndedStillRemaining", IIf(Me.chkOnlyCalcEndedStillRemaining.Checked, 1, DBNull.Value))
       arr(8) = New Filter("showRemainingOnly", IIf(Me.chkShowRemainingOnly.Checked, 1, DBNull.Value))
+      arr(9) = New Filter("chkOnlyCalcEndedRemainingLessThenSalvage", IIf(Me.chkOnlyCalcEndedRemainingLessThenSalvage.Checked, 1, DBNull.Value))
       Return arr
     End Function
 
@@ -895,9 +916,28 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Next
     End Sub
 
-    Private Sub chkOnlyCalcEndedStillRemaining_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlyCalcEndedStillRemaining.CheckedChanged
+    Private Sub chkOnlyCalcEndedStillRemaining_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlyCalcEndedStillRemaining.CheckedChanged,
+      chkOnlyCalcEndedRemainingLessThenSalvage.CheckedChanged,
+      chkShowRemainingOnly.CheckedChanged
       'If chkOnlyCalcEndedStillRemaining.Checked Then
-      chkShowRemainingOnly.Checked = Not chkOnlyCalcEndedStillRemaining.Checked
+
+      If CType(sender, CheckBox).Name.ToLower.Equals(chkOnlyCalcEndedStillRemaining.Name.ToLower) Then
+        If chkOnlyCalcEndedStillRemaining.Checked Then
+          chkShowRemainingOnly.Checked = False 'Not chkOnlyCalcEndedStillRemaining.Checked
+          chkOnlyCalcEndedRemainingLessThenSalvage.Checked = False 'Not chkOnlyCalcEndedStillRemaining.Checked
+        End If
+      ElseIf CType(sender, CheckBox).Name.ToLower.Equals(chkShowRemainingOnly.Name.ToLower) Then
+        If chkShowRemainingOnly.Checked Then
+          chkOnlyCalcEndedStillRemaining.Checked = False 'Not chkOnlyCalcEndedStillRemaining.Checked
+          chkOnlyCalcEndedRemainingLessThenSalvage.Checked = False 'Not chkOnlyCalcEndedStillRemaining.Checked
+        End If
+      ElseIf CType(sender, CheckBox).Name.ToLower.Equals(chkOnlyCalcEndedRemainingLessThenSalvage.Name.ToLower) Then
+        If chkOnlyCalcEndedRemainingLessThenSalvage.Checked Then
+          chkShowRemainingOnly.Checked = False 'Not chkOnlyCalcEndedStillRemaining.Checked
+          chkOnlyCalcEndedStillRemaining.Checked = False 'Not chkOnlyCalcEndedStillRemaining.Checked
+        End If
+      End If
+
       'End If
     End Sub
   End Class
