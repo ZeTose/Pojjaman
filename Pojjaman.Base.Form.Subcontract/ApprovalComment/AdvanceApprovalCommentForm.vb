@@ -234,9 +234,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			For Each apvDoc As ApproveDoc In m_approveDocColl
 				myDR = myDT.NewRow
 				myDR.Item(0) = apvDoc.LineNumber
-				myDR.Item(1) = apvDoc.Comment
+        myDR.Item(1) = apvDoc.Comment
+        If apvDoc.Reject Then
+          myDR.Item(2) = "(Reject) "
+        End If
 				Dim temp As User = New User(apvDoc.Originator)
-				myDR.Item(2) = temp.Name
+        myDR.Item(2) &= temp.Name
 				If apvDoc.Level > 0 Then
 					myDR.Item(2) &= " (Level " & apvDoc.Level.ToString & ")"
 				End If
