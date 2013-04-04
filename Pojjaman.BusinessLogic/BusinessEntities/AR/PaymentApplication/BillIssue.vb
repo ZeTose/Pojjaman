@@ -1372,9 +1372,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.LineNumber
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.LineNumber"
-            If Not miDetailRow.IsNull("milestonei_linenumber") Then
-              dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_linenumber")), DigitConfig.Qty)
-            End If
+                        If Not miDetailRow.IsNull("milestonei_linenumber") Then
+
+                            dpi.Value = CInt(n + 1 - y - z) & "." & CInt(miDetailRow("milestonei_linenumber"))
+                            'Configuration.FormatToString(CInt(miDetailRow("milestonei_linenumber")), DigitConfig.Qty)
+                        End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
             dpi.Table = "Item"
