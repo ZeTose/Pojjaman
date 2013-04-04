@@ -610,7 +610,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Initialize()
       EventWiring()
 
-      Dim dt As TreeTable = Me.GetSchemaTable
+            Dim dt As TreeTable = WBSDetail.GetSchemaTable
       Dim dst As DataGridTableStyle = Me.CreateTableStyle2
       m_TreeManager = New TreeManager(dt, tgProgress)
       m_TreeManager.SetTableStyle(dst)
@@ -716,35 +716,20 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each ctrl As Control In grbDetail.Controls
           ctrl.Enabled = False
         Next
-        Me.ibtnBlank.Enabled = False
-        Me.ibtnDelRow.Enabled = False
-        Me.ibtnInsert.Enabled = False
+                Me.ibtnBlank.Enabled = False
+                Me.ibtnDelRow.Enabled = False
+                Me.ibtnInsert.Enabled = False
       Else
         For Each ctrl As Control In grbDetail.Controls
           ctrl.Enabled = True
-        Next
-        Me.ibtnBlank.Enabled = True
-        Me.ibtnDelRow.Enabled = True
-        Me.ibtnInsert.Enabled = True
-      End If
-      If Not m_entity.Originated Then
-        btnLockBoq.Visible = False
-        ibtnDelRow.Enabled = True
-        ibtnBlank.Enabled = True
-        ibtnInsert.Enabled = True
-      ElseIf m_entity.Locked Then
-        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
-        'btnLockBoq.Text = "UnLock"
-        ibtnDelRow.Enabled = False
-        ibtnBlank.Enabled = False
-        ibtnInsert.Enabled = False
-      Else
-        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
-        'btnLockBoq.Text = "Lock"
-        ibtnDelRow.Enabled = True
-        ibtnBlank.Enabled = True
-        ibtnInsert.Enabled = True
-      End If
+                Next
+                If Not m_entity.Locked Then
+                    Me.ibtnBlank.Enabled = True
+                    Me.ibtnDelRow.Enabled = True
+                    Me.ibtnInsert.Enabled = True
+                End If
+            End If
+
     End Sub
     Public Overrides Sub ClearDetail()
       For Each crlt As Control In grbDetail.Controls
@@ -814,7 +799,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.tvWbs.SelectedNode = Me.tvWbs.Nodes(0)
       End If
 
-
+            If Not m_entity.Originated Then
+                btnLockBoq.Visible = False
+                ibtnDelRow.Enabled = True
+                ibtnBlank.Enabled = True
+                ibtnInsert.Enabled = True
+            ElseIf m_entity.Locked Then
+                Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+                'btnLockBoq.Text = "UnLock"
+                ibtnDelRow.Enabled = False
+                ibtnBlank.Enabled = False
+                ibtnInsert.Enabled = False
+            ElseIf Not (m_entity.Locked) Then
+                Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+                ''btnLockBoq.Text = "Lock"
+                ibtnDelRow.Enabled = True
+                ibtnBlank.Enabled = True
+                ibtnInsert.Enabled = True
+            End If
 
       UpdateRefDoc()
 
@@ -1471,13 +1473,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
 
     Private Sub btnLockBoq_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnLockBoq.MouseHover, btnLockBoq.GotFocus
-      If Not m_entity.Originated Then
-        btnLockBoq.Visible = False
-      ElseIf m_entity.Locked Then
-        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
-      Else
-        Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
-      End If
+            'If Not m_entity.Originated Then
+            '  btnLockBoq.Visible = False
+            'ElseIf m_entity.Locked Then
+            '  Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
+            'Else
+            '  Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
+            'End If
 
     End Sub
 
