@@ -634,20 +634,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Return hs
     End Function
 
+    'Public Function SetDepreAmountFromAssetStillRemainingButEndCalcDate() As Hashtable
+    '  Dim hs As New Hashtable
+
+    '  Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetAssetList",
+    '                                               New SqlParameter("IncludeIdList", Me.GetIncludeIdList),
+    '                                               New SqlParameter("depre_id", Me.Id))
+    '  For Each row As DataRow In ds.Tables(0).Rows
+    '    Dim drh As New DataRowHelper(row)
+    '    hs(drh.GetValue(Of String)("asset_id")) = row
+    '  Next
+
+    '  Return hs
+    'End Function
+
+    'Public Function GetIncludeIdList() As String
+    '  Dim idList As New ArrayList
+    '  If Not Me.ItemCollection Is Nothing Then
+    '    For Each item As DepreciationCalItem In Me.ItemCollection
+    '      If item.Entity IsNot Nothing Then
+    '        idList.Add(String.Format("|{0}|", item.Entity.Id))
+    '      End If
+    '    Next
+
+    '    Return String.Join("", idList.ToArray)
+    '  End If
+    'End Function
+
     Public Sub ReCalculationAll()
-      Dim hs As Hashtable = Me.GetListIdOfAssetRemaing
+      'Dim hs As Hashtable = Me.GetListIdOfAssetRemaing
 
       'Dim existsId As Boolean = False
       For Each item As DepreciationCalItem In Me.ItemCollection
 
         Dim existsId As Boolean = False
         If Me.DepreDate > item.Entity.StartCalcDate Then
-          If hs.ContainsKey(item.Entity.Id.ToString) Then
-            existsId = True
-          End If
+          'If hs.ContainsKey(item.Entity.Id.ToString) Then
+          '  existsId = True
+          'End If
 
           If item.Entity.EndCalcDate.ToString("yyyyMMdd") <= Me.DepreDate.ToString("yyyyMMdd") OrElse item.Entity.EndCalcDate.ToString("yyyyMMdd") <= DateTime.Now.ToString("yyyyMMdd") Then
+            item.Set_Depreamnt(0)
+            item.Set_Depreopeningamnt(0)
+            item.Set_Writeoffamt(0)
+            item.Set_Deprebase(0)
+            item.Set_BuyPrice(0)
 
+            item.GetDepreciationFromDB(Me, item.Entity, True)
           Else
             item.Set_Depreamnt(0)
             item.Set_Depreopeningamnt(0)
@@ -656,7 +689,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             item.Set_BuyPrice(0)
 
             'ReCalculate Depreciation Amount
-            item.GetDepreciationFromDB(Me, item.Entity, existsId)
+            item.GetDepreciationFromDB(Me, item.Entity, False)
           End If
         End If
       Next
