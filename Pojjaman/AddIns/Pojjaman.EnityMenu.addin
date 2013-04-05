@@ -136,7 +136,7 @@
     <!--ข้อมูลสินทรัพย์--><MenuItem id="AssetList" icon="Icons.16x16.AssetListIcon" label="${res:MainMenu.AssetMenu.AssetList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.Asset"/>
     <!--ประเภทสินทรัพย์--><MenuItem id="AssetType" icon="Icons.16x16.AssetTypeIcon" label="${res:MainMenu.AssetMenu.AssetType.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.AssetType"/>
     <!----><MenuItem id="Separator1" label="-"/>
-    <!--บันทึกการซ่อมบำรุง--><MenuItem id="EqMaintenance" icon="Icons.16x16.EqMaintenance" label="${res:MainMenu.AssetMenu.EqMaintenance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EqMaintenance"/>
+    <!--บันทึกการซ่อมบำรุง--><!--<MenuItem id="EqMaintenance" icon="Icons.16x16.EqMaintenance" label="${res:MainMenu.AssetMenu.EqMaintenance}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.EqMaintenance"/>-->
     <!----><MenuItem id="Separator2" label="-"/>
     <!--บันทึกค่าเสื่อมสินทรัพย์--><MenuItem id="DepreciationCal" icon="Icons.16x16.DepreciationCal" label="${res:MainMenu.AssetMenu.DepreciationCal}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.DepreciationCal"/>
     <!----><MenuItem id="Separator3" label="-"/>

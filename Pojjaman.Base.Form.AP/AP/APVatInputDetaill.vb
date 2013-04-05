@@ -411,7 +411,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "paysi_linenumber"
 
       Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("paysi_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47,199,60)"), "code_description", "code_value")
+            csType = New DataGridComboColumn("paysi_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47,199,60,50)"), "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.PaySelectionDetail.TypeHeaderText}")
       csType.Width = 70
       csType.NullText = String.Empty
@@ -1299,12 +1299,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(6) As ArrayList
-      For i As Integer = 0 To 6
-        filterEntities(i) = New ArrayList
-        filterEntities(i).Add(Me.m_entity.Supplier)
-      Next
-      Dim filters(6)() As Filter
+            Dim filterEntities(5) As ArrayList
+            For i As Integer = 0 To 5
+                filterEntities(i) = New ArrayList
+                filterEntities(i).Add(Me.m_entity.Supplier)
+            Next
+            Dim filters(5)() As Filter
       'Dim grNeedsApproval As Boolean = False
       'grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       filters(0) = New Filter() {New Filter("IDList", GetItemIDList(45))} _
@@ -1316,14 +1316,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'New Filter("grNeedsApproval", grNeedsApproval), _
       'New Filter("Id", Me.m_entity.Id)} 'Hack: filter อันสุดท้ายไม่เอาไป Query
 
-      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
+            'filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
 
-      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(59))}
-      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(399))}
+            filters(2) = New Filter() {New Filter("IDList", GetItemIDList(59))}
+            filters(3) = New Filter() {New Filter("IDList", GetItemIDList(399))}
 
-      filters(5) = New Filter() {New Filter("IDList", GetItemIDList(292))}
+            filters(4) = New Filter() {New Filter("IDList", GetItemIDList(292))}
 
-      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+            filters(5) = New Filter() {New Filter("IDList", GetItemIDList(46))}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(199)), _
       'New Filter("nocancel", True) _
@@ -1331,18 +1331,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
 
-      Dim entities(6) As ISimpleEntity
+            Dim entities(5) As ISimpleEntity
       'entities(0) = New GoodsReceipt
       'entities(1) = New APOpeningBalance
       'entities(2) = New EqMaintenance
       'entities(3) = New AdvancePay
       entities(0) = New GoodsReceiptForVat
       entities(1) = New APOpeningBalanceForVat
-      entities(2) = New EqMaintenanceForVat
-      entities(3) = New AdvancePayForVat
-      entities(4) = New AdvancePayClosedForVat
-      entities(5) = New PAForVat
-      entities(6) = New PurchaseCNForVat
+            'entities(2) = New EqMaintenanceForVat
+            entities(2) = New AdvancePayForVat
+            entities(3) = New AdvancePayClosedForVat
+            entities(4) = New PAForVat
+            entities(5) = New PurchaseCNForVat
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String

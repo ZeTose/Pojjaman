@@ -2074,12 +2074,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(7) As ArrayList
-      For i As Integer = 0 To 7
-        filterEntities(i) = New ArrayList
-        filterEntities(i).Add(Me.m_entity.Supplier)
-      Next
-      Dim filters(7)() As Filter
+            Dim filterEntities(6) As ArrayList
+            For i As Integer = 0 To 6
+                filterEntities(i) = New ArrayList
+                filterEntities(i).Add(Me.m_entity.Supplier)
+            Next
+            Dim filters(6)() As Filter
       Dim grNeedsApproval As Boolean = False
       grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
       Dim paNeedsApproval As Boolean = CBool(Configuration.GetConfig("ApprovePA"))
@@ -2095,31 +2095,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       filters(2) = New Filter() {New Filter("IDList", GetItemIDList(15))}
 
-      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(50)), _
-      New Filter("remainMustValid", True), _
-      New Filter("pays_id", Me.m_entity.Id)}
+            'filters(3) = New Filter() {New Filter("IDList", GetItemIDList(50)), _
+            'New Filter("remainMustValid", True), _
+            'New Filter("pays_id", Me.m_entity.Id)}
 
-      filters(4) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+            filters(3) = New Filter() {New Filter("IDList", GetItemIDList(46))}
 
-      filters(5) = New Filter() {New Filter("IDList", GetRetItemIDList(45)) _
+            filters(4) = New Filter() {New Filter("IDList", GetRetItemIDList(45)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
-      filters(6) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
+            filters(5) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
      , New Filter("grNeedsApproval", paNeedsApproval)}
 
-      filters(7) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
+            filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
       , New Filter("grNeedsApproval", paNeedsApproval)}
 
       'filters(5) = New Filter() {New Filter("IDList", GetItemIDList(47))}
-      Dim entities(7) As ISimpleEntity
+            Dim entities(6) As ISimpleEntity
       entities(0) = New GoodsReceiptForPaySelection
       entities(1) = New BillAcceptanceItem
       entities(2) = New APOpeningBalanceForPaySelection
-      entities(3) = New EqMaintenance
-      entities(4) = New PurchaseCNForPaySelection
-      entities(5) = New PurchaseRetentionForPaySelection
-      entities(6) = New PARetentionForPaySelection
+            'entities(3) = New EqMaintenance
+            entities(3) = New PurchaseCNForPaySelection
+            entities(4) = New PurchaseRetentionForPaySelection
+            entities(5) = New PARetentionForPaySelection
       'entities(5) = New PurchaseDN
-      entities(7) = New PAForPaySelection
+            entities(6) = New PAForPaySelection
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String

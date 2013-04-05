@@ -823,7 +823,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       csLineNumber.TextBox.Name = "billai_linenumber"
 
       Dim csType As DataGridComboColumn
-      csType = New DataGridComboColumn("billai_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47)"), "code_description", "code_value")
+            csType = New DataGridComboColumn("billai_entityType", CodeDescription.GetCodeList("PayableItemType", "code_value not in (47,50)"), "code_description", "code_value")
       csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.BillAcceptanceDetail.TypeHeaderText}")
       csType.Width = 70
       csType.NullText = String.Empty
@@ -2082,12 +2082,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Dim filterEntities(6) As ArrayList
-      For i As Integer = 0 To 6
-        filterEntities(i) = New ArrayList
-        filterEntities(i).Add(Me.m_entity.Supplier)
-      Next
-      Dim filters(6)() As Filter
+            Dim filterEntities(5) As ArrayList
+            For i As Integer = 0 To 5
+                filterEntities(i) = New ArrayList
+                filterEntities(i).Add(Me.m_entity.Supplier)
+            Next
+            Dim filters(5)() As Filter
       Dim grNeedsApproval As Boolean = False
       grNeedsApproval = CBool(Configuration.GetConfig("ApproveDO"))
 
@@ -2098,24 +2098,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
       , New Filter("grNeedsApproval", grNeedsApproval) _
       , New Filter("notRefedByBilla", notRefedByBilla)}
       filters(1) = New Filter() {New Filter("IDList", GetItemIDList(15))}
-      filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
-      filters(3) = New Filter() {New Filter("IDList", GetItemIDList(46))}
-      filters(4) = New Filter() {New Filter("IDList", GetRetItemIDList(45)) _
+            'filters(2) = New Filter() {New Filter("IDList", GetItemIDList(50))}
+            filters(2) = New Filter() {New Filter("IDList", GetItemIDList(46))}
+            filters(3) = New Filter() {New Filter("IDList", GetRetItemIDList(45)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
-      filters(5) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
+            filters(4) = New Filter() {New Filter("IDList", GetRetItemIDList(292)) _
       , New Filter("grNeedsApproval", grNeedsApproval)}
-      filters(6) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
+            filters(5) = New Filter() {New Filter("IDList", GetItemIDList(292)) _
        , New Filter("grNeedsApproval", grNeedsApproval) _
        , New Filter("notRefedByBilla", notRefedByBilla)}
 
-      Dim entities(6) As ISimpleEntity
+            Dim entities(5) As ISimpleEntity
       entities(0) = New GoodsReceiptForBillAcceptance
       entities(1) = New APOpeningBalanceForBillAcceptance
-      entities(2) = New EqMaintenanceForBillAcceptance
-      entities(3) = New PurchaseCNForBillAcceptance
-      entities(4) = New PurchaseRetentionForBillAcceptance
-      entities(5) = New PARetentionForBillAcceptance
-      entities(6) = New PAForBillAcceptance
+            'entities(2) = New EqMaintenanceForBillAcceptance
+            entities(2) = New PurchaseCNForBillAcceptance
+            entities(3) = New PurchaseRetentionForBillAcceptance
+            entities(4) = New PARetentionForBillAcceptance
+            entities(5) = New PAForBillAcceptance
       myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, filters, filterEntities, 0)
     End Sub
     Private Function GetItemIDList(ByVal type As Integer) As String
