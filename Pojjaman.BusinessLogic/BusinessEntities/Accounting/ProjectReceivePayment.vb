@@ -372,7 +372,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.NormalDeliverNumber = 0
       Me.UnNormalDeliverNumber = 0
 
-      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetProjectContract", New SqlParameter("@Project_id", Me.Project.Id))
+            Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetProjectContract", New SqlParameter("@Project_id", Me.Project.Id), New SqlParameter("@DeliverDate", Me.DeliverDate))
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)
 
