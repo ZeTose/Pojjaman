@@ -1641,7 +1641,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
             If Me.txtCustomerCode.TextLength <> 0 Then
               Dim oldCustomer As Customer = Me.m_entity.Customer
-              ContactCustomer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
+                            Customer.GetCustomer(txtCustomerCode, txtCustomerName, Me.m_entity.Customer)
               Try
                 If oldCustId <> Me.m_entity.Customer.Id Then
                   If msgServ.AskQuestion("${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueDetail.Message.ChangeCustomer}", "${res:Longkong.Pojjaman.Gui.Panels.SaleBillIssueDetail.Caption.ChangeCustomer}") Then
