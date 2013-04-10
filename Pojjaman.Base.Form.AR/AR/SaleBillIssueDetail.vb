@@ -2011,7 +2011,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub btnCustomerDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowCustomerDialog.Click
       Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New ContactCustomer, AddressOf SetCustomer)
+            myEntityPanelService.OpenListDialog(New Customer, AddressOf SetCustomer)
     End Sub
     Private Sub SetCustomer(ByVal e As ISimpleEntity)
       Me.txtCustomerCode.Text = e.Code
