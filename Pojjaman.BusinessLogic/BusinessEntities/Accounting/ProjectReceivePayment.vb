@@ -39,6 +39,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .AcceptPerson = New Employee
         .AcceptPerson2 = New Employee
         .IsNomalDeliver = True
+
+        Me.DeliverDate = Now
+        Me.Project = New Project
+        Me.AccountPeriodDateStart = Date.MinValue
+        Me.AccountPeriodDateEnd = Date.MinValue
+        Me.AcceptPerson = New Employee
+        Me.AcceptPerson2 = New Employee
+        Me.IsNomalDeliver = True
+        Me.DeliverNumber = 0
+        Me.NoRevenue = False
+        Me.NoExpenditure = False
+        Me.ContractAmount = 0
+        Me.ReceivedAmount = 0
+        Me.MileStoneNumber = 0
+        Me.SentMileStoneNumber = 0
+        Me.ReceivedMileStoneNumber = 0
+        Me.ReceivedNumber = 0
+        Me.IsBiddingFinished = False
+        Me.BiddingFinishedDate = Date.MinValue
+
+        Me.Acceptancepersonposition = ""
+        Me.Acceptancepersonposition2 = ""
+
         .CostCenter = New CostCenter
         '.m_olddocDate = Now.Date
         '.m_je = New JournalEntry(Me)
@@ -94,7 +117,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Get
       Set(value As Project)
         m_project = value
-        GetProjectContract()
+        'GetProjectContract()
       End Set
     End Property
     Public Property DeliverDate As Date
@@ -362,7 +385,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.Code = oldCode
       Me.AutoGen = oldautogen
     End Sub
-    Private Sub GetProjectContract()
+    Public Sub GetProjectContract()
       Me.ContractAmount = 0
       Me.ReceivedAmount = 0
       Me.MileStoneNumber = 0
@@ -372,7 +395,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Me.NormalDeliverNumber = 0
       Me.UnNormalDeliverNumber = 0
 
-            Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetProjectContract", New SqlParameter("@Project_id", Me.Project.Id), New SqlParameter("@DeliverDate", Me.DeliverDate))
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetProjectContract", New SqlParameter("@Project_id", Me.Project.Id), New SqlParameter("@DeliverDate", Me.DeliverDate))
       For Each row As DataRow In ds.Tables(0).Rows
         Dim drh As New DataRowHelper(row)
 
@@ -469,7 +492,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim sqlparams() As SqlParameter
       sqlparams = CType(paramArrayList.ToArray(GetType(SqlParameter)), SqlParameter())
       Dim ds2 As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetRptGLPayTypeList", sqlparams)
-      Dim dtgli As DataTable = ds2.Tables(1) 'gli and cash amount
+      Dim dtgli As DataTable = ds2.Tables(0) 'gli and cash amount
 
       Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "GetPRPMI")
 

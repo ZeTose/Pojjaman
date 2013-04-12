@@ -311,6 +311,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Overrides"
+    Private Function AccountDataSet() As DataSet
+      Dim command As String = ""
+      command &= "select  account.acct_id,"
+      command &= "account.acct_code,"
+      command &= "account.acct_name,"
+      command &= "account.acct_level,"
+      command &= "account.acct_parid,"
+      command &= "parent.acct_id parent_id,"
+      command &= "parent.acct_code parent_code,"
+      command &= "parent.acct_name parent_name "
+      command &= "from account "
+      command &= "left join account parent on parent.acct_id = account.acct_parid "
+      command &= "where parent.acct_type in ( 4, 5 ) "
+      command &= "order by parent.acct_level,"
+      command &= "parent.acct_code,"
+      command &= "account.acct_code"
+      Dim ds As DataSet = SqlHelper.ExecuteDataset(SimpleBusinessEntityBase.ConnectionString, CommandType.Text, command, Nothing)
+      Return ds
+    End Function
     Public Overrides Function GetSimpleSchemaTable() As Gui.Components.TreeTable
       Return RptGLPayType.GetSchemaTable() 'BOQ.GetWBSMonitorSchemaTable
     End Function
@@ -322,7 +341,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid = grid
 
       Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
-      
+
 
       lkg.DefaultBehavior = False
       lkg.HilightWhenMinus = True
@@ -334,8 +353,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
       RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
       AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
 
-      RemoveHandler m_grid.CellClick, AddressOf CellClick
-      AddHandler m_grid.CellClick, AddressOf CellClick
+      RemoveHandler m_grid.CurrentCellKeyDown, AddressOf CellKeyDown
+      AddHandler m_grid.CurrentCellKeyDown, AddressOf CellKeyDown
+
+      'RemoveHandler m_grid.CellClick, AddressOf CellClick
+      'AddHandler m_grid.CellClick, AddressOf CellClick
 
       lkg.TreeTableStyle = CreateTableStyle()
       'lkg.Model.Rows.Hidden(0) = True
@@ -374,16 +396,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'CreateHeader(tm.Treetable)
       PopulateListing(detailed)
     End Sub
+
+    Private Sub CellKeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs)
+      'Private Sub CellKeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+      'Dim em As Object = e.KeyChar
+      If e.KeyCode = Keys.Enter Then
+        CellClick(sender, CType(sender, Syncfusion.Windows.Forms.Grid.GridControl).CurrentCell.ColIndex, CType(sender, Syncfusion.Windows.Forms.Grid.GridControl).CurrentCell.RowIndex)
+      End If
+    End Sub
     Dim dlgDetailForm As RptGLPayTypeDetailForm
-    Private Sub CellClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+    Private Sub CellClick(ByVal sender As Object, ByVal colIndex As Integer, ByVal rowIndex As Integer) ' ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
       Try
         Dim amount As Decimal = 0
-        Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
+        'Dim colName As String = Me.m_treemanager.Treetable.Columns(e.ColIndex - 1).ColumnName.ToLower
+        Dim colName As String = Me.m_treemanager.Treetable.Columns(colIndex).ColumnName.ToLower
         'Select e.ColIndex
         Select Case colName
           Case "cash", "bank", "remain"
-            If IsNumeric(m_grid(e.RowIndex, e.ColIndex).CellValue) Then
-              amount = CDec(m_grid(e.RowIndex, e.ColIndex).CellValue)
+            If IsNumeric(m_grid(rowIndex, colIndex).CellValue) Then
+              amount = CDec(m_grid(rowIndex, colIndex).CellValue)
             Else
               If Not dlgDetailForm Is Nothing Then
                 dlgDetailForm.Close()
@@ -422,7 +453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If colName = "debit" OrElse colName = "credit" OrElse colName = "balance" Then
           Return
         End If
-        Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(e.RowIndex - 1)
+        Dim tr As TreeRow = Me.m_treemanager.Treetable.Rows(rowIndex - 1)
         If tr Is Nothing Then
           Return
         End If
@@ -471,6 +502,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return
       End If
 
+      'CellClick(sender, e)
+
       If TypeOf tr Is DataRow Then
         Dim dr As DataRow = CType(tr, DataRow)
         Dim drh As New DataRowHelper(dr)
@@ -504,7 +537,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       If Me.m_treemanager Is Nothing Then
         Return
       End If
-      Dim dtacct As DataTable = Me.DataSet.Tables(0)
+      Dim dtacct As DataTable = Me.AccountDataSet.Tables(0) 'Me.DataSet.Tables(0)
       Dim currentAccountCode As String = ""
       Dim currentDoc As String = ""
       Dim currentLine As String = ""
@@ -797,8 +830,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Next
     End Function
     Private Sub SetTransaction(ByVal id As Integer, ByVal tr As TreeRow)
-      If Me.DataSet.Tables.Count > 1 Then
-        Dim dt As DataTable = Me.DataSet.Tables(1)
+      If Me.DataSet.Tables.Count > 0 Then
+        Dim dt As DataTable = Me.DataSet.Tables(0)
         'Dim ComputeDrCr As Boolean = CBool(Me.DataSet.Tables(2).Rows(0).Item("ComputeDrCr"))
         Dim totalbalance As Decimal = 0
         Dim totalCash As Decimal = 0
@@ -871,19 +904,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Dim bank As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("bank"), DigitConfig.Price)
             'Dim remain As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("remain"), DigitConfig.Price)
             'Dim Other As Decimal = Configuration.Format(drh.GetValue(Of Decimal)("other"), DigitConfig.Price)
-            Dim cash As Decimal = Configuration.Format(SumDocCash / SumDoc * gliamtwSign, DigitConfig.Price)
-            Dim bank As Decimal = Configuration.Format(SumDocBank / SumDoc * gliamtwSign, DigitConfig.Price)
-            Dim remain As Decimal = Configuration.Format(SumDocRemain / SumDoc * gliamtwSign, DigitConfig.Price)
-            Dim Other As Decimal = Configuration.Format(SumDocOther / SumDoc * gliamtwSign, DigitConfig.Price)
+
+            Dim cash As Decimal = 0
+            Dim bank As Decimal = 0
+            Dim remain As Decimal = 0
+            Dim Other As Decimal = 0
+
+            If (SumDoc * gliamtwSign) <> 0 Then
+              cash = Configuration.Format(SumDocCash / SumDoc * gliamtwSign, DigitConfig.Price)
+              bank = Configuration.Format(SumDocBank / SumDoc * gliamtwSign, DigitConfig.Price)
+              remain = Configuration.Format(SumDocRemain / SumDoc * gliamtwSign, DigitConfig.Price)
+              Other = Configuration.Format(SumDocOther / SumDoc * gliamtwSign, DigitConfig.Price)
+            End If
+
             Dim fraction As Decimal = gli_balanceamt - cash - bank - remain - Other
             If fraction <> 0 Then
-              ProjectReceivePaymentItem.EqualizeFraction(fraction, cash, bank, remain, Other)
+              'ProjectReceivePaymentItem.EqualizeFraction(fraction, cash, bank, remain, Other)
             End If
 
             totalCash += cash
             totalBank += bank
             totalRemain += remain
             totalOther += Other
+
             theRow2("Cash") = Configuration.FormatToString(cash, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Bank") = Configuration.FormatToString(bank, DigitConfig.Price, True)      ' ยอดคงเหลือ
             theRow2("Remain") = Configuration.FormatToString(remain, DigitConfig.Price, True)      ' ยอดคงเหลือ
@@ -901,7 +944,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'tr.AcceptChanges()
       End If
     End Sub
-    
+
 #End Region
 
 #Region "Select Distinct From DataTable"

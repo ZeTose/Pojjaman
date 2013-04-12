@@ -1712,6 +1712,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Return
       End If
 
+      txtCostCenter.Text = ""
+      RefreshProjectContract()
+
       'txtCode.Text = m_entity.Code
       'txtName.Text = m_entity.Name
       'txtHeader.Text = m_entity.Header
@@ -1900,6 +1903,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If Me.tProjectCode.TextLength <> 0 Then
             dirtyFlag = Project.GetProject(tProjectCode, tProjectName, Me.m_entity.Project)
             Me.SetCostCenter()
+            Me.m_entity.GetProjectContract()
             If Me.m_entity.CostCenter.Originated Then
               Me.txtCostCenter.Text = String.Format("{0} : {1}", Me.m_entity.CostCenter.Code, Me.m_entity.CostCenter.Name)
             End If
@@ -1910,7 +1914,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             tProjectCode.Text = ""
             tProjectName.Text = ""
           End If
-          RefreshProjectContract()
+          UpdateEntityProperties()
+          'RefreshProjectContract()
         Case tContractAmount.Name.ToLower
           If m_numeric Then
             dirtyFlag = True
@@ -2016,7 +2021,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'CheckFormEnable()
     End Sub
     Private Sub SetCostCenter()
-      If m_entity.Originated Then
+      'If m_entity.Originated Then
+      If Not m_entity Is Nothing AndAlso Not m_entity.Project Is Nothing Then
         Dim _id As Integer = m_entity.Project.GetCostCenterForNacc
         If _id > 0 Then
           Me.m_entity.CostCenter = New CostCenter(_id)
@@ -2275,7 +2281,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tProjectCode.Text = e.Code
       Me.WorkbenchWindow.ViewContent.IsDirty = Project.GetProject(tProjectCode, tProjectName, m_entity.Project)
       'Me.ChangeProperty(tProjectCodeq, Nothing)
-      RefreshProjectContract()
+      Me.m_entity.GetProjectContract()
+      Me.SetCostCenter()
+      'Me.RefreshProjectContract()
+      Me.UpdateEntityProperties()
     End Sub
     Private Sub iFindEmployee1_Click(sender As System.Object, e As System.EventArgs) Handles iFindEmployee1.Click, iFindEmployee2.Click
       Dim myEntityPanelService As IEntityPanelService = _

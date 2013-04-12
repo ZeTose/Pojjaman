@@ -377,8 +377,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim dt As DataTable = RefreshSupplier(Key, includeInvisible)
         For Each row As DataRow In dt.Rows
           Dim drh As New DataRowHelper(row)
-          m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
-          m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
+          If Not m_SupplierCollection.Contains(drh.GetValue(Of Integer)("supplier_id")) Then
+            m_SupplierCollection.Add(drh.GetValue(Of Integer)("supplier_id"), row)
+            m_SupplierCollection.Add(drh.GetValue(Of String)("supplier_code").ToLower.Trim, row)
+          End If
         Next
       Else
         If Not m_SupplierCollection.Contains(Key) Then
