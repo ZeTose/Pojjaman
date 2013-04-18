@@ -26,8 +26,8 @@ Namespace Longkong.Pojjaman.Gui.Dialogs
       Dim pjmRealVersion As String = clsAssInfo.RealVersion
       Dim pjmVersionArray As Object() = New Object() {pjmVersion.Major, ".", _
                                                       pjmVersion.Minor.ToString("00"), ".", _
-                                                      pjmVersion.Build.ToString("0000")} ', ".", _
-      'pjmRealVersion}
+                                                      pjmVersion.Build.ToString("0000"), "", _
+                                                      pjmRealVersion}
 
       Me.m_versionTextBox.Text = String.Concat(pjmVersionArray)
       'Me.m_buildTextBox.Text = Me.m_versionTextBox.Text.Trim & "" & pjmRealVersion   'pjmVersion.Revision.ToString
