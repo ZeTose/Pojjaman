@@ -64,8 +64,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColCount = 12
             m_grid.Model.Cols.Hidden(13) = True
 
-            m_grid.ColWidths(1) = 80    '"วันที่จ่าย"
-            m_grid.ColWidths(2) = 100    '"เลขที่ใบกำกับ"
+            m_grid.ColWidths(1) = 120    '"วันที่จ่าย"
+            m_grid.ColWidths(2) = 120    '"เลขที่ใบกำกับ"
             m_grid.ColWidths(3) = 100    '"เลขที่เอกสารทำรายการ"
             m_grid.ColWidths(4) = 100    '"เลขที่เอกสารGL"
             m_grid.ColWidths(5) = 200    '"ผู้หัก ณ ที่จ่าย"
