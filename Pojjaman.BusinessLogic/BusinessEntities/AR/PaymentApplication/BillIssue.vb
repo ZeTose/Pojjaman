@@ -1069,7 +1069,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.Int32"
         dpi.Row = n + 1
         dpi.Table = "Item"
-        dpiColl.Add(dpi)
+                dpiColl.Add(dpi)
 
         'Item.Type
         dpi = New DocPrintingItem
@@ -1380,7 +1380,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.DataType = "System.String"
             dpi.Row = n + 1
             dpi.Table = "Item"
-            dpiColl.Add(dpi)
+                        dpiColl.Add(dpi)
+
+                        'Item.LinenumberNolis
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.LinenumberNolis"
+                        dpi.Value = "" 'n + 1 - y - z
+                        dpi.DataType = "System.Int32"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
 
             'Item.Name
             dpi = New DocPrintingItem
