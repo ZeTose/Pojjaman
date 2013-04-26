@@ -1517,7 +1517,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Next
 
             Me.dtpDocDate.Value = Now
-            Me.chkShowDetail.Checked = False
+            Me.chkShowDetail.Checked = Me.m_entity.ItemCollection.ShowDetail
         End Sub
         Public Overrides Sub SetLabelText()
             If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)

@@ -2266,7 +2266,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dpiColl As New DocPrintingItemCollection
       Dim dpi As DocPrintingItem
 
-      Dim itmArry As New ArrayList
+            'Dim itmArry As New ArrayList
 
       dpi = New DocPrintingItem
       dpi.Mapping = "receives_id"
@@ -2474,7 +2474,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim myVat As Decimal = 0
       Dim myBeforeTax As Decimal = 0
 
-      Dim n As Integer = 0
+            Dim n As Integer = 0
+            Dim y As Integer = 0
+            Dim z As Integer = 0
       Dim n2 As Integer = 0
       Dim line As Integer = 0
       Dim grossitem As Decimal = 0
@@ -4354,54 +4356,168 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim m_item As New Milestone(item.StockId)
 
           For Each miDetailRow As TreeRow In m_item.ItemTable.Childs
-            n += 1
-            'y += 1
-            Dim childText As String = miDetailRow("milestonei_desc").ToString
-            'Item.Name
-            dpi = New DocPrintingItem
-            dpi.Mapping = "Item.Name"
-            dpi.Value = childText
-            dpi.DataType = "System.String"
-            dpi.Row = n + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+                        'n += 1
+                        ''y += 1
+                        'Dim childText As String = miDetailRow("milestonei_desc").ToString
+                        ''Item.Name
+                        'dpi = New DocPrintingItem
+                        'dpi.Mapping = "Item.Name"
+                        'dpi.Value = childText
+                        'dpi.DataType = "System.String"
+                        'dpi.Row = n + 1
+                        'dpi.Table = "Item"
+                        'dpiColl.Add(dpi)
 
-            'Item.Name
-            dpi = New DocPrintingItem
-            'dpi.Mapping = "Item.RefCode"
-            dpi.Mapping = "Item.RefCode"
-            dpi.Value = childText
-            dpi.DataType = "System.String"
-            dpi.Row = n + 1
-            dpi.Table = "Item"
-            dpiColl.Add(dpi)
+                        ''Item.Name
+                        'dpi = New DocPrintingItem
+                        ''dpi.Mapping = "Item.RefCode"
+                        'dpi.Mapping = "Item.RefCode"
+                        'dpi.Value = childText
+                        'dpi.DataType = "System.String"
+                        'dpi.Row = n + 1
+                        'dpi.Table = "Item"
+                        'dpiColl.Add(dpi)
 
-            Dim derow As Integer = dpi.Row
-            itmArry.Add(derow)
-          Next
-          'n = n - y
+                        'Dim derow As Integer = dpi.Row
+                        '            itmArry.Add(derow)
 
-        End If
+                        '--------------------------------------------------------------------------------
 
-        n += 1
+                        'n += 1
+                        'y += 1
+
+                        ''Item.LineNumber
+                        'dpi = New DocPrintingItem
+                        'dpi.Mapping = "Item.LineNumber"
+                        'If Not miDetailRow.IsNull("milestonei_linenumber") Then
+
+                        '    dpi.Value = CInt(n + 1 - y - z) & "." & CInt(miDetailRow("milestonei_linenumber"))
+                        '    'Configuration.FormatToString(CInt(miDetailRow("milestonei_linenumber")), DigitConfig.Qty)
+                        'End If
+                        'dpi.DataType = "System.String"
+                        'dpi.Row = n + 1
+                        'dpi.Table = "Item"
+                        'dpiColl.Add(dpi)
+
+                        ''Item.LinenumberNolis
+                        'dpi = New DocPrintingItem
+                        'dpi.Mapping = "Item.LinenumberNolis"
+                        'dpi.Value = "" 'n + 1 - y - z
+                        'dpi.DataType = "System.Int32"
+                        'dpi.Row = n + 1
+                        'dpi.Table = "Item"
+                        'dpiColl.Add(dpi)
+
+
+                        'Item.Name
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.Name"
+                        If Not miDetailRow.IsNull("milestonei_desc") Then
+                            dpi.Value = miDetailRow("milestonei_desc").ToString
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+                        'Item.Name
+                        dpi = New DocPrintingItem
+                        'dpi.Mapping = "Item.RefCode"
+                        dpi.Mapping = "Item.RefCode"
+                        If Not miDetailRow.IsNull("milestonei_desc") Then
+                            dpi.Value = miDetailRow("milestonei_desc").ToString
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+                        'Item.Unit
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.Unit"
+                        If Not miDetailRow.IsNull("Unit") Then
+                            dpi.Value = miDetailRow("Unit").ToString
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+                        'Item.Qty
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.Qty"
+                        If Not miDetailRow.IsNull("milestonei_qty") AndAlso IsNumeric(miDetailRow("milestonei_qty")) Then
+                            dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_qty")), DigitConfig.Qty)
+                        Else
+                            dpi.Value = ""
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+                        'Item.UnitPrice
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.UnitPrice"
+                        If Not miDetailRow.IsNull("milestonei_unitprice") AndAlso IsNumeric(miDetailRow("milestonei_unitprice")) Then
+                            dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_unitprice")), DigitConfig.Price)
+                        Else
+                            dpi.Value = ""
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+                        'Item.Amount
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.Amount"
+                        If Not miDetailRow.IsNull("milestonei_amt") AndAlso IsNumeric(miDetailRow("milestonei_amt")) Then
+                            dpi.Value = Configuration.FormatToString(CDec(miDetailRow("milestonei_amt")), DigitConfig.Price)
+                        Else
+                            dpi.Value = ""
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+                        'Item.Note
+                        dpi = New DocPrintingItem
+                        dpi.Mapping = "Item.Note"
+                        If Not miDetailRow.IsNull("milestonei_note") Then
+                            dpi.Value = miDetailRow("milestonei_note").ToString
+                        End If
+                        dpi.DataType = "System.String"
+                        dpi.Row = n + 1
+                        dpi.Table = "Item"
+                        dpiColl.Add(dpi)
+
+
+
+                    Next
+
+                End If
+
+                n += 1
       Next
 
-      For Each d As DocPrintingItem In dpiColl
-        If d.Mapping.ToLower = "item.amount" Then
-          For Each r As Object In itmArry
-            If d.Row = CInt(r) Then
-              d.Value = ""
-            End If
-          Next
-        End If
-        If d.Mapping.ToLower = "item.linenumber" Then
-          For Each r As Object In itmArry
-            If d.Row = CInt(r) Then
-              d.Value = ""
-            End If
-          Next
-        End If
-      Next
+            'For Each d As DocPrintingItem In dpiColl
+            '  If d.Mapping.ToLower = "item.amount" Then
+            '    For Each r As Object In itmArry
+            '      If d.Row = CInt(r) Then
+            '        d.Value = ""
+            '      End If
+            '    Next
+            '  End If
+            '  If d.Mapping.ToLower = "item.linenumber" Then
+            '    For Each r As Object In itmArry
+            '      If d.Row = CInt(r) Then
+            '        d.Value = ""
+            '      End If
+            '    Next
+            '  End If
+            'Next
 
       'GrossItem
       dpi = New DocPrintingItem

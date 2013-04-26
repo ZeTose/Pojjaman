@@ -872,6 +872,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.string"
       dpiColl.Add(dpi)
 
+            'TaxAmount
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TaxAmount_NoFormat"
+            If Me.Vat.Amount > 0 Then
+                dpi.Value = Configuration.FormatToString(Me.Vat.Amount, DigitConfig.Price)
+            Else
+                dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTaxAmount(Nothing, False), DigitConfig.Price)
+            End If
+            dpi.DataType = "System.string"
+            dpiColl.Add(dpi)
+
       'AfterTax
       dpi = New DocPrintingItem
       dpi.Mapping = "AfterTax"

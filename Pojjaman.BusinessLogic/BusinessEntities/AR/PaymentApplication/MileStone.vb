@@ -2993,7 +2993,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       Next
       Return amt
-    End Function
+        End Function
+        Public Function GetTaxAmount(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
+            Dim amt As Decimal
+            For Each item As Milestone In Me
+                If IncludeThisItem(item, pma) Then
+                    Dim itemAmount As Decimal = item.TaxAmount
+                    If roundBeforeSum Then
+                        itemAmount = Configuration.Format(itemAmount, DigitConfig.Price)
+                    End If
+                    If TypeOf item Is VariationOrderDe Then
+                        amt -= itemAmount
+                    Else
+                        amt += itemAmount
+                    End If
+                End If
+            Next
+            Return amt
+        End Function
     Public Function GetBeforeTax(Optional ByVal pma As PaymentApplication = Nothing, Optional ByVal roundBeforeSum As Boolean = True) As Decimal
       Dim amt As Decimal
       For Each item As Milestone In Me
