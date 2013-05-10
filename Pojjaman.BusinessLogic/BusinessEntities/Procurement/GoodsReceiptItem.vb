@@ -1659,15 +1659,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Case 88, 289, 291
                   wbsd.BudgetRemain = drh.GetValue(Of Decimal)("labactual")
                   'wbsd.WBS.GetTotalLabFromDB()
-                  wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget") 'wbsd.WBS.OwnerLabBudgetAmount
+                  wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget")
+
+                  'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget") 'wbsd.WBS.OwnerLabBudgetAmount
                 Case 89
                   wbsd.BudgetRemain = drh.GetValue(Of Decimal)("eqactual")
                   'wbsd.WBS.GetTotalEQFromDB()
-                  wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget") 'wbsd.WBS.OwnerEqBudgetAmount
+                  wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget")
+
+                  'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_ulcbudget") 'wbsd.WBS.OwnerEqBudgetAmount
                 Case Else
                   wbsd.BudgetRemain = drh.GetValue(Of Decimal)("matactual")
                   'wbsd.WBS.GetTotalMatFromDB()
-                  wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget") 'wbsd.WBS.OwnerMatBudgetAmount
+                  wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_umcbudget")
+
+                  'wbsd.OwnerBudgetAmount = drh.GetValue(Of Decimal)("wbs_uecbudget") 'wbsd.WBS.OwnerMatBudgetAmount
               End Select
               'Trace.WriteLine(wbsd.WBS.Code & ":" & Configuration.FormatToString(wbsd.BudgetRemain, 2))
             End If
