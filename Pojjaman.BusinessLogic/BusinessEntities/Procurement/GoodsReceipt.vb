@@ -6078,8 +6078,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Select Case item.POitem.ItemType.Value
                   Case 160, 162
                   Case Else
-                    remainQty = ((item.POitem.StockQty - item.POitem.ReceivedQty) - (item.Qty * item.Conversion)) / item.Conversion
-                    poRemainQty = (item.POitem.StockQty - item.POitem.ReceivedQty) - (item.Qty * item.Conversion)
+                    Dim receiveQty As Decimal = 0
+                    'If Me.POitem.ReceivedQty <> Decimal.MinValue Then
+                    'receiveQty = Me.POitem.ReceivedQty ' หน่วยตาม PO
+                    receiveQty = (item.Qty * item.Conversion) / item.POitem.Conversion
+
+                    'remainQty = ((item.POitem.StockQty - item.POitem.ReceivedQty) - (item.Qty * item.Conversion)) / item.Conversion
+                    'poRemainQty = (item.POitem.StockQty - item.POitem.ReceivedQty) - (item.Qty * item.Conversion)
+                    remainQty = (((item.POitem.Qty - item.POitem.ReceivedQty) - receiveQty) * item.POitem.Conversion) / item.Conversion
+                    poRemainQty = (((item.POitem.Qty - item.POitem.ReceivedQty) - receiveQty) * item.POitem.Conversion)
+
                 End Select
               End If
             End If
@@ -6126,7 +6134,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Table = "Item"
             dpiColl.Add(dpi)
 
-            'Item.POItemQtyRemaining
+            'Item.POItemQtyRemaining ตาม item ของ po
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.POItemQtyRemaining"
             dpi.Value = Configuration.FormatToString(poRemainQty, DigitConfig.Qty)
@@ -6134,17 +6142,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
             dpi.Row = n + 1
             dpi.Table = "Item"
             dpiColl.Add(dpi)
+
+            'Item.RemainingQty ตาม item ของ gr
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.RemainingQty"
+            dpi.Value = Configuration.FormatToString(remainQty, DigitConfig.Price)
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
           End If
           '##########################################################################################
-
-          'Item.RemainingQty
-          dpi = New DocPrintingItem
-          dpi.Mapping = "Item.RemainingQty"
-          dpi.Value = Configuration.FormatToString(remainQty, DigitConfig.Price)
-          dpi.DataType = "System.String"
-          dpi.Row = n + 1
-          dpi.Table = "Item"
-          dpiColl.Add(dpi)
 
           'Item.Amount
           dpi = New DocPrintingItem
