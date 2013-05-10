@@ -396,6 +396,25 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
     Public Overrides Sub UpdateEntityProperties()
       m_isInitialized = False
+
+      If Me.m_entity.FullClassName.ToLower().Equals("Longkong.Pojjaman.BusinessLogic.ToolGroup".ToLower()) Then
+        'Me.Validator.SetRegularExpression(Me.txtAccountCode, "")
+        Me.Validator.SetRequired(Me.txtAccountCode, False)
+        Me.txtAccountCode.Visible = False
+        Me.txtAccountName.Visible = False
+        Me.btnAccountEdit.Visible = False
+        Me.btnAccountFind.Visible = False
+        Me.lblAccount.Visible = False
+      Else
+        Me.Validator.SetRequired(Me.txtAccountCode, True)
+        Me.txtAccountCode.Visible = True
+        Me.txtAccountName.Visible = True
+        Me.btnAccountEdit.Visible = True
+        Me.btnAccountFind.Visible = True
+        Me.lblAccount.Visible = True
+      End If
+
+
       ClearDetail()
       If m_entity Is Nothing Then
         Return
