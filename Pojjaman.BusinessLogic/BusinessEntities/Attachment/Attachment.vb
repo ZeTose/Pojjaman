@@ -119,51 +119,62 @@ Public Class AttachmentCollection
 #End Region
 
 #Region "Class Methods"
-        Public Function Save() As SaveErrorException
-            Try
-                Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
-                Dim conn As New SqlConnection(sqlConString)
-                Dim cmd As SqlCommand = conn.CreateCommand
-                cmd.CommandText = "Execute GetAttachmentForSaving " & m_entityId & ", " & m_entityType
+    Public Function Save() As SaveErrorException
+      Try
+        Dim sqlConString As String = RecentCompanies.CurrentCompany.ConnectionString
+        Dim conn As New SqlConnection(sqlConString)
+        Dim cmd As SqlCommand = conn.CreateCommand
+        cmd.CommandText = "Execute GetAttachmentForSaving " & m_entityId & ", " & m_entityType
 
-                Dim m_dataset As New DataSet
-                Dim m_da As New SqlDataAdapter
-                m_da.SelectCommand = cmd
+        Dim m_dataset As New DataSet
+        Dim m_da As New SqlDataAdapter
+        m_da.SelectCommand = cmd
 
-                m_da.Fill(m_dataset)
-                Dim cmdBuilder As New SqlCommandBuilder(m_da)
+        m_da.Fill(m_dataset)
+        Dim cmdBuilder As New SqlCommandBuilder(m_da)
 
-                Dim dt As DataTable = m_dataset.Tables(0)
-                For Each dr As DataRow In dt.Rows
-                    dr.Delete()
-                Next
-                Dim i As Integer = 0
-                For Each file As Attachment In Me
-                    i += 1
-                    Dim drNew As DataRow = dt.NewRow
-                    drNew("attch_entityId") = m_entityId
-                    drNew("attch_entitytype") = m_entityType
-                    drNew("attch_lineNumber") = i   'file.LineNumber
-                    drNew("attch_fileName") = file.FileName
-                    drNew("attch_fileNameInServer") = file.FileNameInServer
-                    drNew("attch_fileSize") = file.FileSize
-                    drNew("attch_CRC32") = file.CRC32
-                    drNew("attch_originator") = file.Originator
-                    drNew("attch_originDate") = file.OriginDate
-                    dt.Rows.Add(drNew)
-                Next
-                ' First process deletes.
-                m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
-                ' Next process updates.
-                m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
-                ' Finally process inserts.
-                m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
+        Dim dt As DataTable = m_dataset.Tables(0)
+        For Each dr As DataRow In dt.Rows
+          dr.Delete()
+        Next
+        Dim i As Integer = 0
+        For Each file As Attachment In Me
+          i += 1
+          Dim drNew As DataRow = dt.NewRow
+          drNew("attch_entityId") = m_entityId
+          drNew("attch_entitytype") = m_entityType
+          drNew("attch_lineNumber") = i   'file.LineNumber
+          drNew("attch_fileName") = file.FileName
+          drNew("attch_fileNameInServer") = file.FileNameInServer
+          drNew("attch_fileSize") = file.FileSize
+          drNew("attch_CRC32") = file.CRC32
+          drNew("attch_originator") = file.Originator
+          drNew("attch_originDate") = file.OriginDate
+          dt.Rows.Add(drNew)
+        Next
+        ' First process deletes.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Deleted))
+        ' Next process updates.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.ModifiedCurrent))
+        ' Finally process inserts.
+        m_da.Update(dt.Select(Nothing, Nothing, DataViewRowState.Added))
 
-                Return New SaveErrorException("1")
-            Catch ex As Exception
-                MessageBox.Show("Error Saving:" & ex.ToString)
-            End Try
-        End Function
+        UpdateAttachToList(i)
+
+        Return New SaveErrorException("1")
+      Catch ex As Exception
+        MessageBox.Show("Error Saving:" & ex.ToString)
+      End Try
+    End Function
+
+    Private Function UpdateAttachToList(ByVal ItemAmount As Integer) As Boolean
+      Try
+        SqlHelper.ExecuteNonQuery(SimpleBusinessEntityBase.ConnectionString, CommandType.StoredProcedure, "UpdateAttachToList", New SqlParameter("@entityId", m_entityId), New SqlParameter("@entityType", m_entityType), New SqlParameter("@ItemAmount", ItemAmount))
+      Catch ex As Exception
+        Throw New Exception(ex.Message)
+      End Try
+    End Function
+
 #End Region
 
 #Region "Collection Methods"
