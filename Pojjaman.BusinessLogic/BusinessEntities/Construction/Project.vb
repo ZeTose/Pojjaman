@@ -550,6 +550,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End Try
     End Function
     Public Function UpdateProjectNACC() As SaveErrorException
+      If ProjectNACC Is Nothing Then
+        Return New SaveErrorException("1")
+      End If
 
       'Dim companyTaxId As String = Configuration.GetConfig("CompanyTaxId").ToString
       'Dim companyName As String = Configuration.GetConfig("CompanyName").ToString
