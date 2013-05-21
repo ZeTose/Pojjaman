@@ -49,9 +49,9 @@
 			<EntityTab id="rptmatbudgetbycc">
 				<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 			</EntityTab>	
-			<!--<EntityTab id="rptwbsmonitor">
+			<EntityTab id="rptwbsmonitor">
 				<EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
-			</EntityTab>-->
+			</EntityTab>
 		<EntityTab id="rptwbsmonitorall">
 		  <EntityTab id="ReportPreviewPanel" view="Longkong.Pojjaman.Gui.Panels.ReportPreviewPanel"/>
 		</EntityTab>
