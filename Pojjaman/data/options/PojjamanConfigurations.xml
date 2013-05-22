@@ -4,7 +4,7 @@
     <XmlConvertableProperty key="Longkong.Pojjaman.PojjamanRealRelease">
       <PojjamanRealRelease>
         <RealRelease>
-          <PojjamanRealRelease release="_PreRelease_02" />
+          <PojjamanRealRelease release="" />
         </RealRelease>
       </PojjamanRealRelease>
     </XmlConvertableProperty>
