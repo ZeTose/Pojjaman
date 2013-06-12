@@ -1638,7 +1638,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub New()
       MyBase.New()
       m_deliveryMethod = "CR"
-      m_pickupCode = "01"
+            m_pickupCode = "35"
     End Sub
 
     Public Sub New(ByVal ds As System.Data.DataSet, ByVal aliasPrefix As String)
