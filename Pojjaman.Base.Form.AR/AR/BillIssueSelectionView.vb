@@ -454,6 +454,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                                     Dim due As Date = CDate(childRow("DueDate"))
                                     newItem.CreditPeriod = CInt(DateDiff(DateInterval.Day, due, newItem.Date))
                                 End If
+                                If Not childRow.IsNull("milestone_note") Then
+                                    Dim config As Boolean = CBool(Configuration.GetConfig("GetNoteFromBillIssueMileStoneNote"))
+                                    newItem.Note = childRow("milestone_note")
+                                End If
                                 bi.Tag = newItem
                                 m_basketItems.Add(bi)
                             End If

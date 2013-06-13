@@ -923,6 +923,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             myDatatable.Columns.Add(New DataColumn("salebillii_billedamt", GetType(Decimal)))
             myDatatable.Columns.Add(New DataColumn("salebillii_unreceivedamt", GetType(Decimal)))
             myDatatable.Columns.Add(New DataColumn("salebillii_linenumber", GetType(Integer)))
+            myDatatable.Columns.Add(New DataColumn("milestone_note", GetType(String)))
 
             Dim tmp As Object = Configuration.GetConfig("ARRetentionPoint")
             Dim arRetentionPoint As Integer = 0
@@ -968,6 +969,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 row("salebillii_unreceivedamt") = Configuration.FormatToString(receivable.GetRemainingAmountReceiveSelection(receives_id), DigitConfig.Price)
                 row("salebillii_billedamt") = CDec(tableRow("milestone_aftertax")) + CDec(tableRow("milestone_retention"))
                 row("salebillii_linenumber") = tableRow("billii_linenumber")
+                row("milestone_note") = tableRow("milestone_note")
                 row.State = RowExpandState.None
             Next
             Return myDatatable
