@@ -548,8 +548,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Else
         row("stocki_transferUnitPrice") = Configuration.FormatToString(Me.TransferUnitPrice, DigitConfig.UnitPrice)
       End If
-      If Me.TransferAmount <> 0 Then
-        row("stocki_transferamt") = Configuration.FormatToString(Me.TransferAmount, DigitConfig.Price)
+      If Me.UnitCost <> 0 Then
+        row("stocki_transferamt") = Configuration.FormatToString(Me.UnitCost * Me.StockQty, DigitConfig.Price)
       Else
         row("stocki_transferamt") = DBNull.Value
       End If
