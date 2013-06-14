@@ -4032,201 +4032,201 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim sumDiscount As Decimal = 0
         Dim sumMilestoneAmount As Decimal = 0
         Dim sumAftertax As Decimal = 0
-                Dim isVariationOrderDE As Decimal = 0
+        Dim isVariationOrderDE As Decimal = 0
         For Each lineText As String In ls
           j += 1
           If Not showSpecificLineOnly OrElse (j = Me.LineNumber OrElse ls.Count <> myCount) Then
             Dim lineTexts As String() = lineText.Split("|"c)
             Dim typeValue As Integer = 0
-                        If lineTexts.Length > 1 Then
+            If lineTexts.Length > 1 Then
 
-                            If lineTexts.Length = 15 Then
-                                typeValue = CInt(lineTexts(13))
-                            Else
-                                typeValue = -1
-                            End If
+              If lineTexts.Length = 15 Then
+                typeValue = CInt(lineTexts(13))
+              Else
+                typeValue = -1
+              End If
 
-                            'Vati_vat
+              'Vati_vat
 
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "vati_vat"
-                            If Not Vat Is Nothing Then
-                                dpi.Value = Me.Vat.Id
-                            End If
-                            dpi.DataType = "System.String"
-                            dpi.Row = i + 1
-                            dpi.Table = "Item"
-                            dpiColl.Add(dpi)
+              dpi = New DocPrintingItem
+              dpi.Mapping = "vati_vat"
+              If Not Vat Is Nothing Then
+                dpi.Value = Me.Vat.Id
+              End If
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
 
-                            'Item.Name
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "Item.Name"
-                            dpi.Value = lineTexts(0)
-                            dpi.DataType = "System.String"
-                            dpi.Row = i + 1
-                            dpi.Table = "Item"
-                            dpiColl.Add(dpi)
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
+              dpi.Value = lineTexts(0)
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
 
-                            If Not (typeValue = 160 OrElse typeValue = 162) Then
+              If Not (typeValue = 160 OrElse typeValue = 162) Then
 
-                                'Item.LineNumber
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.LineNumber"
-                                If lineTexts(13) = "Detail" Then
-                                    dpi.Value = ""
-                                Else
-                                    dpi.Value = y + 1
-                                End If
-                                dpi.DataType = "System.Int32"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.LineNumber
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.LineNumber"
+                If lineTexts(13) = "Detail" Then
+                  dpi.Value = ""
+                Else
+                  dpi.Value = y + 1
+                End If
+                dpi.DataType = "System.Int32"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
 
 
-                                'Item.Unit
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Unit"
-                                dpi.Value = lineTexts(8)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.Unit
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Unit"
+                dpi.Value = lineTexts(8)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.Qty
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Qty"
-                                dpi.Value = lineTexts(9)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.Qty
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Qty"
+                dpi.Value = lineTexts(9)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.UnitPrice
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.UnitPrice"
-                                dpi.Value = lineTexts(1)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.UnitPrice
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.UnitPrice"
+                dpi.Value = lineTexts(1)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.UnitPrice
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.RealUnitPrice"
-                                dpi.Value = lineTexts(1)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.UnitPrice
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.RealUnitPrice"
+                dpi.Value = lineTexts(1)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.Amount
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Amount"
-                                dpi.Value = lineTexts(2)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.Amount
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Amount"
+                dpi.Value = lineTexts(2)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.DiscountRate
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.DiscountRate"
-                                dpi.Value = lineTexts(10)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.DiscountRate
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.DiscountRate"
+                dpi.Value = lineTexts(10)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.DiscountAmount()
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.DiscountAmount"
-                                dpi.Value = lineTexts(4)
-                                dpi.DataType = "System.Decimal"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.DiscountAmount()
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.DiscountAmount"
+                dpi.Value = lineTexts(4)
+                dpi.DataType = "System.Decimal"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.Note
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.Note"
-                                dpi.Value = lineTexts(3)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.Note
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.Note"
+                dpi.Value = lineTexts(3)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                ''Item.Amount
-                                'dpi = New DocPrintingItem
-                                'dpi.Mapping = "Item.Amount"
-                                'dpi.Value = lineTexts(2)
-                                'dpi.DataType = "System.String"
-                                'dpi.Row = i + 1
-                                'dpi.Table = "Item"
-                                'dpiColl.Add(dpi)
+                ''Item.Amount
+                'dpi = New DocPrintingItem
+                'dpi.Mapping = "Item.Amount"
+                'dpi.Value = lineTexts(2)
+                'dpi.DataType = "System.String"
+                'dpi.Row = i + 1
+                'dpi.Table = "Item"
+                'dpiColl.Add(dpi)
 
-                                'Item.UnitPriceWithoutDeduct
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.UnitPriceWithoutDeduct"
-                                dpi.Value = lineTexts(6)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.UnitPriceWithoutDeduct
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.UnitPriceWithoutDeduct"
+                dpi.Value = lineTexts(6)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.AmountWithoutDeduct
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.AmountWithoutDeduct"
-                                dpi.Value = lineTexts(6)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.AmountWithoutDeduct
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.AmountWithoutDeduct"
+                dpi.Value = lineTexts(6)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                'Item.TaxBase
-                                dpi = New DocPrintingItem
-                                dpi.Mapping = "Item.TaxBase"
-                                dpi.Value = lineTexts(12)
-                                dpi.DataType = "System.String"
-                                dpi.Row = i + 1
-                                dpi.Table = "Item"
-                                dpiColl.Add(dpi)
+                'Item.TaxBase
+                dpi = New DocPrintingItem
+                dpi.Mapping = "Item.TaxBase"
+                dpi.Value = lineTexts(12)
+                dpi.DataType = "System.String"
+                dpi.Row = i + 1
+                dpi.Table = "Item"
+                dpiColl.Add(dpi)
 
-                                If IsNumeric(lineTexts(13)) Then
-                                    isVariationOrderDE = CDec(lineTexts(13))
+                If IsNumeric(lineTexts(13)) Then
+                  isVariationOrderDE = CDec(lineTexts(13))
 
-                                    If IsNumeric(lineTexts(4)) Then
-                                        sumDiscount += CDec(lineTexts(4))
-                                    End If
-                                    If IsNumeric(lineTexts(5)) Then
-                                        sumAdvance += CDec(lineTexts(5))
-                                    End If
-                                    If IsNumeric(lineTexts(6)) Then
-                                        sumMilestoneAmount += CDec(lineTexts(6)) * isVariationOrderDE
-                                    End If
-                                    If IsNumeric(lineTexts(7)) Then
-                                        sumRetention += CDec(lineTexts(7)) * isVariationOrderDE
-                                    End If
-                                    If IsNumeric(lineTexts(11)) Then
-                                        sumAftertax += CDec(lineTexts(11)) * isVariationOrderDE
-                                    End If
-                                End If
+                  If IsNumeric(lineTexts(4)) Then
+                    sumDiscount += CDec(lineTexts(4))
+                  End If
+                  If IsNumeric(lineTexts(5)) Then
+                    sumAdvance += CDec(lineTexts(5))
+                  End If
+                  If IsNumeric(lineTexts(6)) Then
+                    sumMilestoneAmount += CDec(lineTexts(6)) * isVariationOrderDE
+                  End If
+                  If IsNumeric(lineTexts(7)) Then
+                    sumRetention += CDec(lineTexts(7)) * isVariationOrderDE
+                  End If
+                  If IsNumeric(lineTexts(11)) Then
+                    sumAftertax += CDec(lineTexts(11)) * isVariationOrderDE
+                  End If
+                End If
 
-                            End If
+              End If
 
-                            y += 1
-                        Else
-                            'Item.Name
-                            dpi = New DocPrintingItem
-                            dpi.Mapping = "Item.Name"
-                            dpi.Value = lineTexts(0)
-                            dpi.DataType = "System.String"
-                            dpi.Row = i + 1
-                            dpi.Table = "Item"
-                            dpiColl.Add(dpi)
-                        End If
-                            i += 1
-                        End If
+              y += 1
+            Else
+              'Item.Name
+              dpi = New DocPrintingItem
+              dpi.Mapping = "Item.Name"
+              dpi.Value = lineTexts(0)
+              dpi.DataType = "System.String"
+              dpi.Row = i + 1
+              dpi.Table = "Item"
+              dpiColl.Add(dpi)
+            End If
+            i += 1
+          End If
         Next
         '************************************End Line Items***********************************************
         Dim distRate As String = ""
@@ -4345,69 +4345,69 @@ Namespace Longkong.Pojjaman.BusinessLogic
             If Not Me.Milestone Is Nothing Then 'มี Milestone แปะอยู่
               Dim item As Milestone = Me.Milestone
               Dim itemText As String = ""
-                            itemText = item.Name
-                            itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
-                            itemText = itemText & "|" & item.Note
-                            itemText = itemText & "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price)
-                            itemText = itemText & "|รายการ"
-                            itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
-                            itemText = itemText & "|" & item.Discount.Rate
-                            itemText = itemText & "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
-                            'itemText = item.Name & "|"
-                            If TypeOf item Is VariationOrderDe Then
-                                itemText = itemText & "|-1"
-                            Else
-                                itemText = itemText & "|1"
-                            End If
+              itemText = item.Name
+              itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
+              itemText = itemText & "|" & item.Note
+              itemText = itemText & "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price)
+              itemText = itemText & "|รายการ"
+              itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
+              itemText = itemText & "|" & item.Discount.Rate
+              itemText = itemText & "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
+              'itemText = item.Name & "|"
+              If TypeOf item Is VariationOrderDe Then
+                itemText = itemText & "|-1"
+              Else
+                itemText = itemText & "|1"
+              End If
               Me.m_lines.Add(itemText)
 
             Else 'ไม่มี Milestone แปะอยู่
               For Each item As Milestone In bi.ItemCollection
                 Dim itemText As String = ""
-                                itemText = item.Name
-                                itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
-                                itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
-                                itemText = itemText & "|" & item.Note
-                                itemText = itemText & "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price)
-                                itemText = itemText & "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price)
-                                itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
-                                itemText = itemText & "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price)
-                                itemText = itemText & "|รายการ"
-                                itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
-                                itemText = itemText & "|" & item.Discount.Rate
-                                itemText = itemText & "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
-                                itemText = itemText & "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
-                                'itemText = item.Name & "|"
-                                If TypeOf item Is VariationOrderDe Then
-                                    itemText = itemText & "|-1"
-                                Else
-                                    itemText = itemText & "|1"
-                                End If
+                itemText = item.Name
+                itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
+                itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
+                itemText = itemText & "|" & item.Note
+                itemText = itemText & "|" & Configuration.FormatToString(item.Discount.Amount + item.Penalty, DigitConfig.Price)
+                itemText = itemText & "|" & Configuration.FormatToString(item.Advance, DigitConfig.Price)
+                itemText = itemText & "|" & Configuration.FormatToString(item.RealMileStoneAmount, DigitConfig.Price)
+                itemText = itemText & "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price)
+                itemText = itemText & "|รายการ"
+                itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
+                itemText = itemText & "|" & item.Discount.Rate
+                itemText = itemText & "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
+                itemText = itemText & "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
+                'itemText = item.Name & "|"
+                If TypeOf item Is VariationOrderDe Then
+                  itemText = itemText & "|-1"
+                Else
+                  itemText = itemText & "|1"
+                End If
 
                 Me.m_lines.Add(itemText)
                 If bi.ShowDetail Then
                   For Each miDetailRow As TreeRow In item.ItemTable.Childs
                     'miDetailRow("milestonei_desc").ToString
                     Dim itext As String = ""
-                                        itext = miDetailRow("milestonei_desc").ToString & _
-                                        "|" & miDetailRow("milestonei_unitprice").ToString & _
-                                        "|" & miDetailRow("milestonei_amt").ToString & _
-                                        "|" & miDetailRow("milestonei_note").ToString & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & miDetailRow("Unit").ToString & _
-                                        "|" & miDetailRow("milestonei_qty").ToString & _
-                                        "|" & _
-                                        "|" & _
-                                        "|" & _
-                                        "|Detail"
+                    itext = miDetailRow("milestonei_desc").ToString & _
+                    "|" & miDetailRow("milestonei_unitprice").ToString & _
+                    "|" & miDetailRow("milestonei_amt").ToString & _
+                    "|" & miDetailRow("milestonei_note").ToString & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|" & miDetailRow("Unit").ToString & _
+                    "|" & miDetailRow("milestonei_qty").ToString & _
+                    "|" & _
+                    "|" & _
+                    "|" & _
+                    "|Detail"
                     Me.m_lines.Add(itext)
                   Next
                 End If
@@ -4435,25 +4435,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 adv = 0
               End If
               Dim itemText As String = ""
-                            itemText = item.Name
-                            itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
-                            itemText = itemText & "|" & item.Note
-                            itemText = itemText & "|" & Configuration.FormatToString(dsc, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(adv, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price)
-                            itemText = itemText & "|รายการ"
-                            itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
-                            itemText = itemText & "|" & item.Discount.Rate
-                            itemText = itemText & "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
-                            itemText = itemText & "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
-                            '"|"
-                            If TypeOf item Is VariationOrderDe Then
-                                itemText = itemText & "|-1"
-                            Else
-                                itemText = itemText & "|1"
-                            End If
+              itemText = item.Name
+              itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
+              itemText = itemText & "|" & item.Note
+              itemText = itemText & "|" & Configuration.FormatToString(dsc, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(adv, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.Retention, DigitConfig.Price)
+              itemText = itemText & "|รายการ"
+              itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
+              itemText = itemText & "|" & item.Discount.Rate
+              itemText = itemText & "|" & Configuration.FormatToString(item.AfterTax, DigitConfig.Price)
+              itemText = itemText & "|" & Configuration.FormatToString(item.RealTaxBase, DigitConfig.Price)
+              '"|"
+              If TypeOf item Is VariationOrderDe Then
+                itemText = itemText & "|-1"
+              Else
+                itemText = itemText & "|1"
+              End If
               Me.m_lines.Add(itemText)
             Else 'ไม่มี Milestone แปะอยู่       
               If rs.SingleVat Then
@@ -4486,45 +4486,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   OrElse rcItem.EntityId.Equals(86) Then          'MileStone
                     Dim mi As New Milestone(rcItem.Id)
                     Dim itemText As String = ""
-                                        itemText = mi.Name
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price)
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price)
-                                        itemText = itemText & "|" & mi.Note
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.Discount.Amount + mi.Penalty, DigitConfig.Price)
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.Advance, DigitConfig.Price)
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price)
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price)
-                                        itemText = itemText & "|รายการ"
-                                        itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
-                                        itemText = itemText & "|" & mi.Discount.Rate
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price)
-                                        itemText = itemText & "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
-                                        '"|"
-                                        If rcItem.EntityId.Equals(79) Then
-                                            itemText = itemText & "|-1"
-                                        Else
-                                            itemText = itemText & "|1"
-                                        End If
+                    itemText = mi.Name
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price)
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price)
+                    itemText = itemText & "|" & mi.Note
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.Discount.Amount + mi.Penalty, DigitConfig.Price)
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.Advance, DigitConfig.Price)
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.RealMileStoneAmount, DigitConfig.Price)
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price)
+                    itemText = itemText & "|รายการ"
+                    itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
+                    itemText = itemText & "|" & mi.Discount.Rate
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price)
+                    itemText = itemText & "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
+                    '"|"
+                    If rcItem.EntityId.Equals(79) Then
+                      itemText = itemText & "|-1"
+                    Else
+                      itemText = itemText & "|1"
+                    End If
                     Me.m_lines.Add(itemText)
                     'Dim mitem As New Milestone(rcItem.StockId)
                     If rs.ItemCollection.ShowDetail Then
                       For Each miDetailRow As TreeRow In mi.ItemTable.Childs
                         'miDetailRow("milestonei_desc").ToString
                         Dim itext As String = ""
-                                                itext = miDetailRow("milestonei_desc").ToString & _
-                                                                "|" & miDetailRow("milestonei_unitprice").ToString & _
-                                                                "|" & miDetailRow("milestonei_amt").ToString & _
-                                                                "|" & miDetailRow("milestonei_note").ToString & _
-                                                                "|" & _
-                                                                "|" & _
-                                                                "|" & _
-                                                                "|" & _
-                                                                "|" & miDetailRow("Unit").ToString & _
-                                                                "|" & miDetailRow("milestonei_qty").ToString & _
-                                                                "|" & _
-                                                                "|" & _
-                                                                "|" & _
-                                                                "|Detail"
+                        itext = miDetailRow("milestonei_desc").ToString & _
+                                        "|" & miDetailRow("milestonei_unitprice").ToString & _
+                                        "|" & miDetailRow("milestonei_amt").ToString & _
+                                        "|" & miDetailRow("milestonei_note").ToString & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & miDetailRow("Unit").ToString & _
+                                        "|" & miDetailRow("milestonei_qty").ToString & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & _
+                                        "|Detail"
                         Me.m_lines.Add(itext)
                       Next
                     End If
@@ -4532,7 +4532,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Next
               Else ' หลายใบ
                 Dim i As Integer = Me.Vat.ItemCollection.IndexOf(Me)
-                Dim rcItem As SaleBillIssueItem = rs.ItemCollection(i)
+                Dim rcItem As SaleBillIssueItem '= rs.ItemCollection(i)
+                If Me.Vat.ItemCollection.Count <> rs.ItemCollection.Count Then
+                  rcItem = rs.ItemCollection(0)
+                Else
+                  rcItem = rs.ItemCollection(i)
+                End If
                 If rcItem.EntityId = 83 Then 'GoodsSold
                   Dim gs As New GoodsSold(rcItem.Id)
                   For Each gsItem As GoodsSoldItem In gs.ItemCollection
@@ -4551,7 +4556,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
                     "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
                     "|" & gsItem.ItemType.Value.ToString & _
-              "|"
+                    "|"
                     Me.m_lines.Add(itemText)
                   Next
                 ElseIf rcItem.EntityId.Equals(75) _
@@ -4569,45 +4574,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     adv = 0
                   End If
                   Dim itemText As String = ""
-                                    itemText = mi.Name
-                                    itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
-                                    itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
-                                    itemText = itemText & "|" & mi.Note
-                                    itemText = itemText & "|" & Configuration.FormatToString(dsc, DigitConfig.Price)
-                                    itemText = itemText & "|" & Configuration.FormatToString(adv, DigitConfig.Price)
-                                    itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
-                                    itemText = itemText & "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price)
-                                    itemText = itemText & "|รายการ"
-                                    itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
-                                    itemText = itemText & "|" & mi.Discount.Rate
-                                    itemText = itemText & "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price)
-                                    itemText = itemText & "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
-                                    '"|"
-                                    If rcItem.EntityId.Equals(79) Then
-                                        itemText = itemText & "|-1"
-                                    Else
-                                        itemText = itemText & "|1"
-                                    End If
+                  itemText = mi.Name
+                  itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
+                  itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
+                  itemText = itemText & "|" & mi.Note
+                  itemText = itemText & "|" & Configuration.FormatToString(dsc, DigitConfig.Price)
+                  itemText = itemText & "|" & Configuration.FormatToString(adv, DigitConfig.Price)
+                  itemText = itemText & "|" & Configuration.FormatToString(tb, DigitConfig.Price)
+                  itemText = itemText & "|" & Configuration.FormatToString(mi.Retention, DigitConfig.Price)
+                  itemText = itemText & "|รายการ"
+                  itemText = itemText & "|" & Configuration.FormatToString(1, DigitConfig.Qty)
+                  itemText = itemText & "|" & mi.Discount.Rate
+                  itemText = itemText & "|" & Configuration.FormatToString(mi.AfterTax, DigitConfig.Price)
+                  itemText = itemText & "|" & Configuration.FormatToString(mi.RealTaxBase, DigitConfig.Price)
+                  '"|"
+                  If rcItem.EntityId.Equals(79) Then
+                    itemText = itemText & "|-1"
+                  Else
+                    itemText = itemText & "|1"
+                  End If
                   Me.m_lines.Add(itemText)
                   'Dim mitem As New Milestone(rcItem.StockId)
                   If rs.ItemCollection.ShowDetail Then
                     For Each miDetailRow As TreeRow In mi.ItemTable.Childs
                       'miDetailRow("milestonei_desc").ToString
                       Dim itext As String = ""
-                                            itext = miDetailRow("milestonei_desc").ToString & _
-                                                              "|" & miDetailRow("milestonei_unitprice").ToString & _
-                                                              "|" & miDetailRow("milestonei_amt").ToString & _
-                                                              "|" & miDetailRow("milestonei_note").ToString & _
-                                                              "|" & _
-                                                              "|" & _
-                                                              "|" & _
-                                                              "|" & _
-                                                              "|" & miDetailRow("Unit").ToString & _
-                                                              "|" & miDetailRow("milestonei_qty").ToString & _
-                                                              "|" & _
-                                                              "|" & _
-                                                              "|" & _
-                                                              "|Detail"
+                      itext = miDetailRow("milestonei_desc").ToString & _
+                                        "|" & miDetailRow("milestonei_unitprice").ToString & _
+                                        "|" & miDetailRow("milestonei_amt").ToString & _
+                                        "|" & miDetailRow("milestonei_note").ToString & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & miDetailRow("Unit").ToString & _
+                                        "|" & miDetailRow("milestonei_qty").ToString & _
+                                        "|" & _
+                                        "|" & _
+                                        "|" & _
+                                        "|Detail"
                       Me.m_lines.Add(itext)
                     Next
                   End If
