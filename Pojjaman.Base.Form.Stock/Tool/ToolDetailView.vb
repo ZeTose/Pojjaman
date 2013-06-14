@@ -65,9 +65,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents IbtnAddRow As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents btnDel As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents ibtnCopyMe As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents lblPicSize As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
-      Me.components = New System.ComponentModel.Container()
       Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ToolDetailView))
       Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
       Me.IbtnAddRow = New Longkong.Pojjaman.Gui.Components.ImageButton()
@@ -104,8 +104,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtUnitName = New System.Windows.Forms.TextBox()
       Me.btnGroupEdit = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.btnGroupFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
-      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
+      Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider()
+      Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator()
+      Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.grbDetail.SuspendLayout()
       CType(Me.picImage, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -114,8 +115,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.ibtnCopyMe)
       Me.grbDetail.Controls.Add(Me.IbtnAddRow)
       Me.grbDetail.Controls.Add(Me.btnDel)
       Me.grbDetail.Controls.Add(Me.cmbCode)
@@ -194,8 +196,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lv.Alignment = System.Windows.Forms.ListViewAlignment.Left
       Me.lv.AllowSort = True
       Me.lv.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.lv.FullRowSelect = True
       Me.lv.GridLines = True
       Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
@@ -242,6 +244,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtCostcenterCode, System.Drawing.Color.Empty)
       Me.txtCostcenterCode.Location = New System.Drawing.Point(130, 171)
       Me.txtCostcenterCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtCostcenterCode, "")
       Me.Validator.SetMinValue(Me.txtCostcenterCode, "")
       Me.txtCostcenterCode.Name = "txtCostcenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostcenterCode, "")
@@ -267,6 +270,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(242, 171)
+      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -342,6 +346,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtRent, -15)
       Me.Validator.SetInvalidBackColor(Me.txtRent, System.Drawing.Color.Empty)
       Me.txtRent.Location = New System.Drawing.Point(130, 147)
+      Me.Validator.SetMaxValue(Me.txtRent, "")
       Me.Validator.SetMinValue(Me.txtRent, "")
       Me.txtRent.Name = "txtRent"
       Me.Validator.SetRegularExpression(Me.txtRent, "")
@@ -413,6 +418,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtGroupCode, System.Drawing.Color.Empty)
       Me.txtGroupCode.Location = New System.Drawing.Point(130, 99)
       Me.txtGroupCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtGroupCode, "")
       Me.Validator.SetMinValue(Me.txtGroupCode, "")
       Me.txtGroupCode.Name = "txtGroupCode"
       Me.Validator.SetRegularExpression(Me.txtGroupCode, "")
@@ -441,6 +447,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtName, System.Drawing.Color.Empty)
       Me.txtName.Location = New System.Drawing.Point(130, 51)
       Me.txtName.MaxLength = 255
+      Me.Validator.SetMaxValue(Me.txtName, "")
       Me.Validator.SetMinValue(Me.txtName, "")
       Me.txtName.Name = "txtName"
       Me.Validator.SetRegularExpression(Me.txtName, "")
@@ -478,6 +485,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGroupName, System.Drawing.Color.Empty)
       Me.txtGroupName.Location = New System.Drawing.Point(242, 99)
+      Me.Validator.SetMaxValue(Me.txtGroupName, "")
       Me.Validator.SetMinValue(Me.txtGroupName, "")
       Me.txtGroupName.Name = "txtGroupName"
       Me.txtGroupName.ReadOnly = True
@@ -497,6 +505,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetInvalidBackColor(Me.txtUnitCode, System.Drawing.Color.Empty)
       Me.txtUnitCode.Location = New System.Drawing.Point(130, 75)
       Me.txtUnitCode.MaxLength = 20
+      Me.Validator.SetMaxValue(Me.txtUnitCode, "")
       Me.Validator.SetMinValue(Me.txtUnitCode, "")
       Me.txtUnitCode.Name = "txtUnitCode"
       Me.Validator.SetRegularExpression(Me.txtUnitCode, "")
@@ -524,6 +533,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtfairprice, -15)
       Me.Validator.SetInvalidBackColor(Me.txtfairprice, System.Drawing.Color.Empty)
       Me.txtfairprice.Location = New System.Drawing.Point(130, 123)
+      Me.Validator.SetMaxValue(Me.txtfairprice, "")
       Me.Validator.SetMinValue(Me.txtfairprice, "")
       Me.txtfairprice.Name = "txtfairprice"
       Me.Validator.SetRegularExpression(Me.txtfairprice, "")
@@ -563,6 +573,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtUnitName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtUnitName, System.Drawing.Color.Empty)
       Me.txtUnitName.Location = New System.Drawing.Point(242, 75)
+      Me.Validator.SetMaxValue(Me.txtUnitName, "")
       Me.Validator.SetMinValue(Me.txtUnitName, "")
       Me.txtUnitName.Name = "txtUnitName"
       Me.txtUnitName.ReadOnly = True
@@ -607,6 +618,18 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.GotFocusBackColor = System.Drawing.Color.Empty
       Me.Validator.HasNewRow = False
       Me.Validator.InvalidBackColor = System.Drawing.Color.Empty
+      '
+      'ibtnCopyMe
+      '
+      Me.ibtnCopyMe.FlatStyle = System.Windows.Forms.FlatStyle.System
+      Me.ibtnCopyMe.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+      Me.ibtnCopyMe.ForeColor = System.Drawing.SystemColors.Control
+      Me.ibtnCopyMe.Location = New System.Drawing.Point(292, 25)
+      Me.ibtnCopyMe.Name = "ibtnCopyMe"
+      Me.ibtnCopyMe.Size = New System.Drawing.Size(24, 23)
+      Me.ibtnCopyMe.TabIndex = 348
+      Me.ibtnCopyMe.TabStop = False
+      Me.ibtnCopyMe.ThemedImage = CType(resources.GetObject("ibtnCopyMe.ThemedImage"), System.Drawing.Bitmap)
       '
       'ToolDetailView
       '
@@ -972,7 +995,21 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Event of Control"
-
+    Private Sub ibtnCopyMe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnCopyMe.Click
+      Dim newEntity As ISimpleEntity = CType(Me.m_entity.GetNewEntity, ISimpleEntity)
+      CType(Me.WorkbenchWindow.ViewContent, ISimpleListPanel).SelectedEntity = newEntity
+      Me.Entity = newEntity
+      For i As Integer = 2 To Me.WorkbenchWindow.SubViewContents.Count - 1
+        If TypeOf Me.WorkbenchWindow.SubViewContents(i) Is AbstractEntityDetailPanelView Then
+          If TypeOf Me.WorkbenchWindow.SubViewContents(i) Is ISetNothingEntity Then
+            CType(Me.WorkbenchWindow.SubViewContents(i), ISetNothingEntity).SetNothing()
+          End If
+          'Dim myView As AbstractEntityDetailPanelView = CType(Me.WorkbenchWindow.SubViewContents(i), AbstractEntityDetailPanelView)
+          'myView.Entity = newEntity
+        End If
+      Next
+      Me.WorkbenchWindow.ViewContent.IsDirty = True
+    End Sub
 #End Region
 
 #Region "IReversibleEntityProperty"

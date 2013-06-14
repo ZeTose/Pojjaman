@@ -781,6 +781,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+
+    Sub New()
+      ' TODO: Complete member initialization 
+    End Sub
+
     Default Public Property Item(ByVal index As Integer) As ToolLot
       Get
         Return CType(MyBase.List.Item(index), ToolLot)

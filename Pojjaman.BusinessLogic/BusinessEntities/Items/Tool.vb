@@ -10,7 +10,7 @@ Imports Longkong.Pojjaman.Services
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class Tool
     Inherits SimpleBusinessEntityBase
-    Implements IHasRentalRate, IHasImage, IHasUnit, IHasPrice, IHasGroup, IEqtItem, IHasToCostCenter
+    Implements IHasRentalRate, IHasImage, IHasUnit, IHasPrice, IHasGroup, IEqtItem, IHasToCostCenter, IDuplicable
 
 #Region "Members"
     Private tool_name As String
@@ -1395,11 +1395,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
 #End Region
 
+#Region "IHasGroup"
     Public ReadOnly Property GroupForCode() As ISimpleEntity Implements IHasGroup.Group
       Get
         Return Me.tool_group
       End Get
     End Property
+#End Region
+
+#Region "IDuplicable"
+    Public Function GetNewEntity() As Object Implements IDuplicable.GetNewEntity
+      MyBase.ClearReference()
+
+      Me.Status.Value = -1
+      If Not Me.Originated Then
+        Return Me
+      End If
+      Me.Id = 0
+      Me.Code = "Copy of " & Me.Code
+      Me.Canceled = False
+      Me.CancelPerson = New User
+
+      Me.ItemCollection = New ToolLotCollection()
+
+      Return Me
+
+      'Private tool_name As String
+      'Private tool_group As ToolGroup
+      'Private tool_unit As Unit
+      'Private m_qty As Integer
+      'Private tool_fairprice As Decimal
+      'Private tool_rentalrate As Decimal
+      'Private m_cc As CostCenter
+      ''Private m_Itemcollection As EquipmentItemCollection
+      'Private m_Toollotcollection As ToolLotCollection
+      'Private m_image As Image
+      'Private m_toollot As ToolLot
+      'Private m_equipmentitem As EquipmentItem
+      'Private m_itemTable As TreeTable
+    End Function
+#End Region
+
   End Class
   'TODO : เหน่งกลับมาทำ ToolGroup ด้วยนะครับ
   Public Class ToolGroup
