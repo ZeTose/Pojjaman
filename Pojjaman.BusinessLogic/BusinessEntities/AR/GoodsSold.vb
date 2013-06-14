@@ -1918,7 +1918,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
       'ส่วนลดการค้า
       ji = New JournalEntryItem
-      ji.Mapping = "C10.7"
+      ji.Mapping = "RV1.4"
       ji.Amount = Me.DiscountAmount
       If Me.FromCostCenter.Originated Then
         ji.CostCenter = Me.FromCostCenter
@@ -2099,9 +2099,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   ji = New JournalEntryItem
                   ji.Mapping = "C10.4"
                   If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
-                    ji.Amount += itemAmount
+                    ji.Amount += itemAmount + item.DiscountFromParent
                   Else
-                    ji.Amount += itemRemainAmount
+                    ji.Amount += itemRemainAmount + item.DiscountFromParent
                   End If
                   ji.Account = realAccount
                   If Me.FromCostCenter.Originated Then
@@ -2712,9 +2712,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   ji = New JournalEntryItem
                   ji.Mapping = "C10.4"
                   If Me.TaxType.Value = 0 Or Me.TaxType.Value = 1 Or item.UnVatable Then
-                    ji.Amount += itemAmount
+                    ji.Amount += itemAmount + item.DiscountFromParent
                   Else
-                    ji.Amount += itemRemainAmount
+                    ji.Amount += itemRemainAmount + item.DiscountFromParent
                   End If
                   ji.Account = realAccount
                   If Me.FromCostCenter.Originated Then
