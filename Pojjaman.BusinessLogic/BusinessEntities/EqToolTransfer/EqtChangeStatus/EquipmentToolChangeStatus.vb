@@ -877,6 +877,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.DateTime"
       dpiColl.Add(dpi)
 
+      'FromStatus
+      dpi = New DocPrintingItem
+      dpi.Mapping = "FromStatus"
+      dpi.Value = Me.FromStatus.Description
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
+      'ToStatus
+      dpi = New DocPrintingItem
+      dpi.Mapping = "ToStatus"
+      dpi.Value = Me.ToStatus.Description
+      dpi.DataType = "System.String"
+      dpiColl.Add(dpi)
+
       If Not Me.Storeperson Is Nothing AndAlso Me.Storeperson.Originated Then
         'FromPerson
         dpi = New DocPrintingItem
