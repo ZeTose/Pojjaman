@@ -2974,12 +2974,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Dim entities As New ArrayList
         entities.Add(New SCForVO)
         'entities.Add(New CostCenter)
-        'If Me.m_entity.SC.SubContractor.Originated Then
-        '	entities.Add(Me.m_entity.SC.SubContractor)
-        'End If
-        'If Me.m_entity.SC.CostCenter.Originated Then
-        '	entities.Add(Me.m_entity.SC.CostCenter)
-        'End If
+        If Me.m_entity.SC.SubContractor.Originated Then
+          entities.Add(Me.m_entity.SC.SubContractor)
+        End If
+        If Me.m_entity.SC.CostCenter.Originated Then
+          entities.Add(Me.m_entity.SC.CostCenter)
+        End If
         'Dim poNeedsApproval As Boolean = False
         ''poNeedsApproval = CBool(Configuration.GetConfig("ApprovePO"))
         'Dim filters(0) As Filter

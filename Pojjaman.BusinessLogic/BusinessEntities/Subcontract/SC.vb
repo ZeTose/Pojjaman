@@ -5756,6 +5756,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "SCForVO"
       End Get
     End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "SCForVO"
+      End Get
+    End Property
   End Class
 
   Public Class SCForDR
@@ -5766,6 +5771,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return "SCForDR"
       End Get
     End Property
+    Public Overrides ReadOnly Property ClassName As String
+      Get
+        Return "SCForDR"
+      End Get
+    End Property
   End Class
+
+  'Public Class SCForSelection
+  '  Inherits SC
+  '  Implements IVisibleButtonShowColorListAble
+  '  Public Overrides ReadOnly Property CodonName As String
+  '    Get
+  '      Return "SCForSelection"
+  '    End Get
+  '  End Property
+  'End Class
 
 End Namespace
