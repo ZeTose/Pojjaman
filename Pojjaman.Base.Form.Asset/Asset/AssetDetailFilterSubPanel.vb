@@ -910,10 +910,15 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         ElseIf TypeOf entity Is CheckBox Then
           Me.chkShowRemainingOnly.Checked = CType(entity, CheckBox).Checked
-          'Me.chkShowRemainingOnly.Enabled = False
+          'Me.chkShowRemainingOnly.Enabled = False        
+        End If
+
+        If TypeOf entity Is IAssetFilterEnableOption Then
+          Me.chkShowRemainingOnly.Enabled = False
         End If
 
       Next
+    
     End Sub
 
     Private Sub chkOnlyCalcEndedStillRemaining_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlyCalcEndedStillRemaining.CheckedChanged,

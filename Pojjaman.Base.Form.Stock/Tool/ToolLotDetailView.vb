@@ -774,9 +774,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       lblWriteOff.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblWriteOff}") 'Write Off :
       lblReference.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lblReference}") 'สถานะถูกอ้างอิง :
 
-            ibtnNewLot.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.ibtnNewLot}") 'เพิ่ม Lot ใหม่
-            ibtnSave.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.ibtnSave}") 'บันทึก Lot
-            ibtnDel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.ibtnDel}") 'ลบ Lot
+      ibtnNewLot.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.ibtnNewLot}") 'เพิ่ม Lot ใหม่
+      ibtnSave.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.ibtnSave}") 'บันทึก Lot
+      ibtnDel.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.ibtnDel}") 'ลบ Lot
 
 
 
@@ -1668,16 +1668,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Dim lvColumn As ColumnHeader
       lvColumn = New ColumnHeader
       lvColumn.Name = "linenumber"
-            'lvColumn.Text = "ลำดับ"
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.linenumber}")
+      'lvColumn.Text = "ลำดับ"
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.linenumber}")
       lvColumn.TextAlign = HorizontalAlignment.Left
       lvColumn.Width = 80
       lv.Columns.Add(lvColumn)
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "lotno"
-            'lvColumn.Text = "Lot No."
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lotno}")
+      'lvColumn.Text = "Lot No."
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.lotno}")
       lvColumn.TextAlign = HorizontalAlignment.Left
       lvColumn.Width = 120
       lv.Columns.Add(lvColumn)
@@ -1691,40 +1691,40 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "assetcode"
-            'lvColumn.Text = "สินทรัพย์"
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.assetcode}")
+      'lvColumn.Text = "สินทรัพย์"
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.assetcode}")
       lvColumn.TextAlign = HorizontalAlignment.Left
       lvColumn.Width = 150
       lv.Columns.Add(lvColumn)
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "buyqty"
-            'lvColumn.Text = "จำนวน"
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.buyqty}")
+      'lvColumn.Text = "จำนวน"
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.buyqty}")
       lvColumn.TextAlign = HorizontalAlignment.Right
       lvColumn.Width = 100
       lv.Columns.Add(lvColumn)
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "writeoffqty"
-            'lvColumn.Text = "จำนวน Write off"
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.writeoffqty}")
+      'lvColumn.Text = "จำนวน Write off"
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.writeoffqty}")
       lvColumn.TextAlign = HorizontalAlignment.Right
       lvColumn.Width = 100
       lv.Columns.Add(lvColumn)
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "remainqty"
-            'lvColumn.Text = "คงเหลือจาก write off"
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.remainqty}")
+      'lvColumn.Text = "คงเหลือจาก write off"
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.remainqty}")
       lvColumn.TextAlign = HorizontalAlignment.Right
       lvColumn.Width = 100
       lv.Columns.Add(lvColumn)
 
       lvColumn = New ColumnHeader
       lvColumn.Name = "refstatus"
-            ' lvColumn.Text = "สถานะการอ้างอิง"
-            lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.refstatus}")
+      ' lvColumn.Text = "สถานะการอ้างอิง"
+      lvColumn.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ToolLotDetailView.refstatus}")
       lvColumn.TextAlign = HorizontalAlignment.Left
       lvColumn.Width = 100
       lv.Columns.Add(lvColumn)
@@ -2264,7 +2264,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'Dim filters(0) As Filter
       'filters(0) = New Filter("OnlyAssetNotRelateObject", True)
 
-      myEntityPanelService.OpenListDialog(New AssetForToollotSelection, AddressOf SetAssetDialog)
+      'myEntityPanelService.OpenListDialog(New AssetForToollotSelection, AddressOf SetAssetDialog)
+      Dim entities As New ArrayList
+      entities.Add(New AssetForToollotSelection)
+      myEntityPanelService.OpenListDialog(New AssetForToollotSelection, AddressOf SetAssetDialog, Nothing, entities)
     End Sub
     Private Sub SetAssetDialog(ByVal e As ISimpleEntity)
       Dim doc As ToolLot = Me.m_entity.ToolLot 'Me.CurrentTagItem

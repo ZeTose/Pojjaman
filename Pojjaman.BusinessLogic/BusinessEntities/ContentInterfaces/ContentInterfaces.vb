@@ -32,6 +32,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
   End Class
+  Public Interface IAssetFilterEnableOption
+
+  End Interface
   Public Interface IAbleValidateItemQuantity
     ReadOnly Property ItemEntityHashTable As Hashtable
   End Interface

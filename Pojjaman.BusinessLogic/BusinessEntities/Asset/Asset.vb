@@ -3271,6 +3271,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
   Public Class AssetForToollotSelection
     Inherits Asset
+    Implements IAssetFilterEnableOption
 
     Public Sub New()
       MyBase.New()
