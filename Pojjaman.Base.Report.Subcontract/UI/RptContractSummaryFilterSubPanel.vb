@@ -1090,10 +1090,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
           If (Me.txtSCEnd.Text.Trim().Length() = 0) Then
             Me.SCEnd = New SC
           End If
-        Case "txtcccodestart"
+        Case txtCCStart.Name.ToLower()
           Dim txtName As New TextBox
           CostCenter.GetCostCenter(Me.txtCCStart, txtName, m_ccStart, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
-        Case "txtcccodeend"
+        Case txtCCEnd.Name.ToLower()
           Dim txtName As New TextBox
           CostCenter.GetCostCenter(Me.txtCCEnd, txtName, m_ccEnd, CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
         Case "txtsupplicodestart"
