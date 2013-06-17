@@ -203,8 +203,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Public Property ItemType() As EqtItemType      Get        Return m_itemtype      End Get      Set(ByVal Value As EqtItemType)        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
         If m_itemtype Is Nothing Then
-          m_itemtype = Value
           Me.Clear()
+          m_itemtype = Value
           Return
         End If
         If Not Value Is Nothing AndAlso Value.Value = m_itemtype.Value Then

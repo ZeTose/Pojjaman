@@ -970,6 +970,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         If Not TypeOf row.Tag Is EquipmentToolWithdrawItem Then
           Return Nothing
         End If
+        If CType(row.Tag, EquipmentToolWithdrawItem).Entity Is Nothing OrElse CType(row.Tag, EquipmentToolWithdrawItem).Entity.Id = 0 Then
+          Return Nothing
+        End If
+
         Return CType(row.Tag, EquipmentToolWithdrawItem)
       End Get
     End Property
