@@ -6,6 +6,8 @@ Imports System.Configuration
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports System.Collections.Generic
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class BillIssueStatus
     Inherits CodeDescription
@@ -872,16 +874,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.DataType = "System.string"
       dpiColl.Add(dpi)
 
-            'TaxAmount
-            dpi = New DocPrintingItem
-            dpi.Mapping = "TaxAmount_NoFormat"
-            If Me.Vat.Amount > 0 Then
-                dpi.Value = Configuration.FormatToString(Me.Vat.Amount, DigitConfig.Price)
-            Else
-                dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTaxAmount(Nothing, False), DigitConfig.Price)
-            End If
-            dpi.DataType = "System.string"
-            dpiColl.Add(dpi)
+      'TaxAmount
+      dpi = New DocPrintingItem
+      dpi.Mapping = "TaxAmount_NoFormat"
+      If Me.Vat.Amount > 0 Then
+        dpi.Value = Configuration.FormatToString(Me.Vat.Amount, DigitConfig.Price)
+      Else
+        dpi.Value = Configuration.FormatToString(Me.ItemCollection.GetTaxAmount(Nothing, False), DigitConfig.Price)
+      End If
+      dpi.DataType = "System.string"
+      dpiColl.Add(dpi)
 
       'AfterTax
       dpi = New DocPrintingItem
@@ -1022,6 +1024,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Dim contractActiveDateLIst As New ArrayList
       'Dim contractFinishDateList As New ArrayList
 
+      Dim LineNumberNolisDic As New Dictionary(Of Integer, Integer)
+
       For Each item As Milestone In Me.ItemCollection
         If Not item.PaymentApplication Is Nothing AndAlso Not item.PaymentApplication.ContractNumber Is Nothing AndAlso item.PaymentApplication.ContractNumber.Trim.Length > 0 Then
           If Not contractNumberLIst.Contains(item.PaymentApplication.ContractNumber) Then
@@ -1080,7 +1084,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.DataType = "System.Int32"
         dpi.Row = n + 1
         dpi.Table = "Item"
-                dpiColl.Add(dpi)
+        dpiColl.Add(dpi)
+
+        'Item.LinenumberNolis
+        dpi = New DocPrintingItem
+        dpi.Mapping = "Item.LinenumberNolis"
+        Dim lNumber As Integer = CInt(n + 1 - y - z)
+        If Not LineNumberNolisDic.ContainsKey(lNumber) Then
+          LineNumberNolisDic.Add(lNumber, lNumber)
+          dpi.Value = lNumber
+        Else
+          dpi.Value = ""
+        End If
+        dpi.DataType = "System.String"
+        dpi.Row = n + 1
+        dpi.Table = "Item"
+        dpiColl.Add(dpi)
 
         'Item.Type
         dpi = New DocPrintingItem
@@ -1383,24 +1402,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
             'Item.LineNumber
             dpi = New DocPrintingItem
             dpi.Mapping = "Item.LineNumber"
-                        If Not miDetailRow.IsNull("milestonei_linenumber") Then
+            If Not miDetailRow.IsNull("milestonei_linenumber") Then
 
-                            dpi.Value = CInt(n + 1 - y - z) & "." & CInt(miDetailRow("milestonei_linenumber"))
-                            'Configuration.FormatToString(CInt(miDetailRow("milestonei_linenumber")), DigitConfig.Qty)
-                        End If
+              dpi.Value = CInt(n + 1 - y - z) & "." & CInt(miDetailRow("milestonei_linenumber"))
+              'Configuration.FormatToString(CInt(miDetailRow("milestonei_linenumber")), DigitConfig.Qty)
+            End If
             dpi.DataType = "System.String"
             dpi.Row = n + 1
             dpi.Table = "Item"
-                        dpiColl.Add(dpi)
+            dpiColl.Add(dpi)
 
-                        'Item.LinenumberNolis
-                        dpi = New DocPrintingItem
-                        dpi.Mapping = "Item.LinenumberNolis"
-                        dpi.Value = "" 'n + 1 - y - z
-                        dpi.DataType = "System.Int32"
-                        dpi.Row = n + 1
-                        dpi.Table = "Item"
-                        dpiColl.Add(dpi)
+
+            'Item.LinenumberNolis
+            dpi = New DocPrintingItem
+            dpi.Mapping = "Item.LinenumberNolis"
+            Dim lNumber1 As Integer = CInt(n + 1 - y - z)
+            If Not LineNumberNolisDic.ContainsKey(lNumber1) Then
+              LineNumberNolisDic.Add(lNumber1, lNumber1)
+              dpi.Value = lNumber1
+            Else
+              dpi.Value = ""
+            End If
+            dpi.DataType = "System.String"
+            dpi.Row = n + 1
+            dpi.Table = "Item"
+            dpiColl.Add(dpi)
 
 
             'Item.Name
@@ -2380,7 +2406,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               vatAmt = sumAmt - amt       'sumAmt - amt - aAmt
             End If
 
-            
+
 
             'Dim miType As Integer
             'For Each mi As Milestone In Me.ItemCollection
@@ -3207,21 +3233,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each item As Milestone In Me.ItemCollection
         If item.PMAId = pmaId Then
           If Not (TypeOf item Is Retention OrElse TypeOf item Is AdvanceMileStone) Then
-              If item.TaxType.Value <> 0 Then
-                If TypeOf item Is VariationOrderDe Then
-                  amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
-                Else
-                  amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
-                End If
+            If item.TaxType.Value <> 0 Then
+              If TypeOf item Is VariationOrderDe Then
+                amt -= Configuration.Format(item.TaxBase, DigitConfig.Price)
               Else
-                If TypeOf item Is VariationOrderDe Then
-                  amt -= Configuration.Format(item.BeforeTax, DigitConfig.Price)
-                Else
-                  amt += Configuration.Format(item.BeforeTax, DigitConfig.Price)
-                End If
+                amt += Configuration.Format(item.TaxBase, DigitConfig.Price)
+              End If
+            Else
+              If TypeOf item Is VariationOrderDe Then
+                amt -= Configuration.Format(item.BeforeTax, DigitConfig.Price)
+              Else
+                amt += Configuration.Format(item.BeforeTax, DigitConfig.Price)
               End If
             End If
           End If
+        End If
       Next
       Return Configuration.Format(amt, DigitConfig.Price)
     End Function
