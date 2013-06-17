@@ -564,17 +564,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
         End Select
       Else
-        If Me.m_je.Status.Value = 4 Then
-          Me.Status.Value = 4
-          Me.m_payment.Status.Value = 4
-        End If
-        If Me.Status.Value = -1 Then
-          Me.Status.Value = 2
-        End If
+        'If Me.m_je.Status.Value = 4 Then
+        '  Me.Status.Value = 4
+        '  Me.m_payment.Status.Value = 4
+        'End If
+        'If Me.Status.Value = -1 Then
+        '  Me.Status.Value = 2
+        'End If
         If Me.m_je.AutoGen Then
           Me.m_je.Code = m_je.GetNextCode
         End If
       End If
+
+      If Me.m_je.Status.Value = 4 Then
+        Me.Status.Value = 4
+        Me.m_payment.Status.Value = 4
+      End If
+      If Me.Status.Value = -1 Then
+        Me.Status.Value = 2
+      End If
+
       Me.m_je.DocDate = Me.DocDate
       Me.m_payment.Code = m_je.Code
       Me.m_payment.DocDate = m_je.DocDate
