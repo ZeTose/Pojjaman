@@ -1486,6 +1486,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End If
       End If
 
+      Dim ableNotSpecifyUnitPrice As Boolean = CBool(Configuration.GetConfig("SCAbleNotSpecifyUnitPrice"))
+      If Not ableNotSpecifyUnitPrice Then
+        'If Me.ItemCollection.Amount = 0 Then
+        '  Return New SaveErrorException("${res:Global.Error.ItemUnitPriceMissing}")
+        'End If
+        For Each item As SCItem In Me.ItemCollection
+          If item.ItemType.Value = 160 OrElse item.ItemType.Value = 162 Then
+
+          Else
+            If item.Amount = 0 Then
+              Return New SaveErrorException("${res:Global.Error.ItemUnitPriceMissing}")
+            End If
+          End If
+        Next
+      End If
+
       Dim diffAcceptAmount As Decimal = CDec(Configuration.GetConfig("AcceptDifferenceValueOfSCItem"))
 
       Dim diffAmount As Decimal = 0

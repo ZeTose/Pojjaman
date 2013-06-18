@@ -55,6 +55,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblStartDate As System.Windows.Forms.Label
     Friend WithEvents btnApprove As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents imAttachment As System.Windows.Forms.PictureBox
+    Friend WithEvents chkNotSpicifyUnitPrice As System.Windows.Forms.CheckBox
     Friend WithEvents ibtnBlankSubItem As Longkong.Pojjaman.Gui.Components.ImageButton
     <System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
       Me.components = New System.ComponentModel.Container()
@@ -100,6 +101,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ibtnCopyMe = New Longkong.Pojjaman.Gui.Components.ImageButton()
       Me.chkClosed = New System.Windows.Forms.CheckBox()
       Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+      Me.chkNotSpicifyUnitPrice = New System.Windows.Forms.CheckBox()
       CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
       CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
       Me.grbDetail.SuspendLayout()
@@ -112,8 +114,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.tgItem.AllowNew = False
       Me.tgItem.AllowSorting = False
       Me.tgItem.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.tgItem.AutoColumnResize = True
       Me.tgItem.CaptionVisible = False
       Me.tgItem.Cellchanged = False
@@ -178,6 +180,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtGross, System.Drawing.Color.Empty)
       Me.txtGross.Location = New System.Drawing.Point(620, 464)
+      Me.Validator.SetMaxValue(Me.txtGross, "")
       Me.Validator.SetMinValue(Me.txtGross, "")
       Me.txtGross.Name = "txtGross"
       Me.txtGross.ReadOnly = True
@@ -190,13 +193,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'txtNote
       '
       Me.txtNote.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
       Me.Validator.SetDataType(Me.txtNote, Longkong.Pojjaman.Gui.Components.DataTypeConstants.StringType)
       Me.Validator.SetDisplayName(Me.txtNote, "")
       Me.Validator.SetGotFocusBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtNote, System.Drawing.Color.Empty)
       Me.txtNote.Location = New System.Drawing.Point(104, 464)
       Me.txtNote.MaxLength = 1000
+      Me.Validator.SetMaxValue(Me.txtNote, "")
       Me.Validator.SetMinValue(Me.txtNote, "")
       Me.txtNote.Multiline = True
       Me.txtNote.Name = "txtNote"
@@ -224,7 +228,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblStatus.AutoSize = True
       Me.lblStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
       Me.lblStatus.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-      Me.lblStatus.Location = New System.Drawing.Point(242, 93)
+      Me.lblStatus.Location = New System.Drawing.Point(476, 99)
       Me.lblStatus.Name = "lblStatus"
       Me.lblStatus.Size = New System.Drawing.Size(38, 13)
       Me.lblStatus.TabIndex = 38
@@ -252,6 +256,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtDocDate, -13)
       Me.Validator.SetInvalidBackColor(Me.txtDocDate, System.Drawing.Color.Empty)
       Me.txtDocDate.Location = New System.Drawing.Point(347, 16)
+      Me.Validator.SetMaxValue(Me.txtDocDate, "")
       Me.Validator.SetMinValue(Me.txtDocDate, "")
       Me.txtDocDate.Name = "txtDocDate"
       Me.Validator.SetRegularExpression(Me.txtDocDate, "")
@@ -267,6 +272,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtStartDate, -13)
       Me.Validator.SetInvalidBackColor(Me.txtStartDate, System.Drawing.Color.Empty)
       Me.txtStartDate.Location = New System.Drawing.Point(561, 16)
+      Me.Validator.SetMaxValue(Me.txtStartDate, "")
       Me.Validator.SetMinValue(Me.txtStartDate, "")
       Me.txtStartDate.Name = "txtStartDate"
       Me.Validator.SetRegularExpression(Me.txtStartDate, "")
@@ -282,6 +288,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.ErrorProvider1.SetIconPadding(Me.txtEndDate, -13)
       Me.Validator.SetInvalidBackColor(Me.txtEndDate, System.Drawing.Color.Empty)
       Me.txtEndDate.Location = New System.Drawing.Point(561, 40)
+      Me.Validator.SetMaxValue(Me.txtEndDate, "")
       Me.Validator.SetMinValue(Me.txtEndDate, "")
       Me.txtEndDate.Name = "txtEndDate"
       Me.Validator.SetRegularExpression(Me.txtEndDate, "")
@@ -296,6 +303,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterCode, System.Drawing.Color.Empty)
       Me.txtCostCenterCode.Location = New System.Drawing.Point(104, 40)
+      Me.Validator.SetMaxValue(Me.txtCostCenterCode, "")
       Me.Validator.SetMinValue(Me.txtCostCenterCode, "")
       Me.txtCostCenterCode.Name = "txtCostCenterCode"
       Me.Validator.SetRegularExpression(Me.txtCostCenterCode, "")
@@ -310,6 +318,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDirectorCode, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDirectorCode, System.Drawing.Color.Empty)
       Me.txtDirectorCode.Location = New System.Drawing.Point(104, 64)
+      Me.Validator.SetMaxValue(Me.txtDirectorCode, "")
       Me.Validator.SetMinValue(Me.txtDirectorCode, "")
       Me.txtDirectorCode.Name = "txtDirectorCode"
       Me.Validator.SetRegularExpression(Me.txtDirectorCode, "")
@@ -325,6 +334,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtCostCenterName, System.Drawing.Color.Empty)
       Me.txtCostCenterName.Location = New System.Drawing.Point(205, 40)
+      Me.Validator.SetMaxValue(Me.txtCostCenterName, "")
       Me.Validator.SetMinValue(Me.txtCostCenterName, "")
       Me.txtCostCenterName.Name = "txtCostCenterName"
       Me.txtCostCenterName.ReadOnly = True
@@ -342,6 +352,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.Validator.SetGotFocusBackColor(Me.txtDirectorName, System.Drawing.Color.Empty)
       Me.Validator.SetInvalidBackColor(Me.txtDirectorName, System.Drawing.Color.Empty)
       Me.txtDirectorName.Location = New System.Drawing.Point(205, 64)
+      Me.Validator.SetMaxValue(Me.txtDirectorName, "")
       Me.Validator.SetMinValue(Me.txtDirectorName, "")
       Me.txtDirectorName.Name = "txtDirectorName"
       Me.txtDirectorName.ReadOnly = True
@@ -364,8 +375,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       'grbDetail
       '
       Me.grbDetail.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                  Or System.Windows.Forms.AnchorStyles.Left) _
-                  Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+              Or System.Windows.Forms.AnchorStyles.Left) _
+              Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+      Me.grbDetail.Controls.Add(Me.chkNotSpicifyUnitPrice)
       Me.grbDetail.Controls.Add(Me.imAttachment)
       Me.grbDetail.Controls.Add(Me.btnApprove)
       Me.grbDetail.Controls.Add(Me.ibtnBlankSubItem)
@@ -520,7 +532,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.lblDirector.Name = "lblDirector"
       Me.lblDirector.Size = New System.Drawing.Size(88, 18)
       Me.lblDirector.TabIndex = 22
-            Me.lblDirector.Text = "ผู้ขอจ้าง:"
+      Me.lblDirector.Text = "ผู้ขอจ้าง:"
       Me.lblDirector.TextAlign = System.Drawing.ContentAlignment.MiddleRight
       '
       'btnCCEdit
@@ -626,6 +638,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkClosed.TabIndex = 12
       Me.chkClosed.Text = "ปิด SC"
       Me.chkClosed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+      '
+      'chkNotSpicifyUnitPrice
+      '
+      Me.chkNotSpicifyUnitPrice.AutoSize = True
+      Me.chkNotSpicifyUnitPrice.Location = New System.Drawing.Point(232, 93)
+      Me.chkNotSpicifyUnitPrice.Name = "chkNotSpicifyUnitPrice"
+      Me.chkNotSpicifyUnitPrice.Size = New System.Drawing.Size(118, 17)
+      Me.chkNotSpicifyUnitPrice.TabIndex = 352
+      Me.chkNotSpicifyUnitPrice.Text = "ไม่กำหนดจำนวนเงิน"
+      Me.chkNotSpicifyUnitPrice.UseVisualStyleBackColor = True
       '
       'WRPanelView
       '
@@ -1207,6 +1229,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
         CheckClosed()
       End If
 
+      Dim ableNotSpecifyUnitPrice As Boolean = CBool(Configuration.GetConfig("WRAbleNotSpecifyUnitPrice"))
+      If ableNotSpecifyUnitPrice Then
+        chkNotSpicifyUnitPrice.Visible = True
+      Else
+        chkNotSpicifyUnitPrice.Visible = False
+      End If
+
+
       If CBool(Configuration.GetConfig("ApproveWR")) Then
         'ถ้าใช้การอนุมัติแบบใหม่ PJMModule
         'If m_ApproveDocModule.Activated Then
@@ -1280,6 +1310,27 @@ Namespace Longkong.Pojjaman.Gui.Panels
         For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
           colStyle.ReadOnly = CBool(m_tableStyleEnable(colStyle))
         Next
+
+        If m_entity.Notspecifyprice Then
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            If colStyle.MappingName.ToLower().Equals("wri_unitprice") OrElse
+              colStyle.MappingName.ToLower().Equals("wri_mat") OrElse
+              colStyle.MappingName.ToLower().Equals("wri_lab") OrElse
+              colStyle.MappingName.ToLower().Equals("wri_eq") Then
+              colStyle.ReadOnly = True
+            End If
+          Next
+        Else
+          For Each colStyle As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+            If colStyle.MappingName.ToLower().Equals("wri_unitprice") OrElse
+             colStyle.MappingName.ToLower().Equals("wri_mat") OrElse
+             colStyle.MappingName.ToLower().Equals("wri_lab") OrElse
+             colStyle.MappingName.ToLower().Equals("wri_eq") Then
+              colStyle.ReadOnly = False
+            End If
+          Next
+        End If
+
         If Not Me.m_entity.CostCenter.Originated Then
           Me.ibtnGetFromBOQ.Enabled = False
         Else
@@ -1424,6 +1475,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
       AddHandler txtDirectorCode.Validated, AddressOf Me.ChangeProperty
       AddHandler txtDirectorCode.TextChanged, AddressOf Me.TextHandler
 
+      AddHandler chkNotSpicifyUnitPrice.CheckedChanged, AddressOf Me.ChangeProperty
+
+
       'AddHandler txtRetention.Validated, AddressOf Me.ChangeProperty
       'AddHandler txtRetention.TextChanged, AddressOf Me.TextHandler
 
@@ -1511,6 +1565,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.chkClosed.Checked = Me.m_entity.Closed
 
+      Me.chkNotSpicifyUnitPrice.Checked = Me.m_entity.Notspecifyprice
+
       If Me.m_entity.Closed Then
         Me.chkClosed.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.chkClosedCancel}")
       Else
@@ -1569,7 +1625,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
     End Sub
     Private Sub RefreshDocs()
       Me.m_isInitialized = False
-      Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, Me.tgItem)
+
+      Dim notspicifyPrice As Boolean = Me.m_entity.Notspecifyprice
+
+      If notspicifyPrice Then
+        Me.m_entity.ItemCollection.PopulateWithNoUnitPrice(m_treeManager.Treetable, Me.tgItem)
+      Else
+        Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable, Me.tgItem)
+      End If
       'RefreshBlankGrid()
       Me.m_treeManager.Treetable.AcceptChanges()
       Me.UpdateAmount()
@@ -1601,6 +1664,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         'dirtyFlag = True
         'Case "txtrealtaxamount"
         'dirtyFlag = True
+        Case chkNotSpicifyUnitPrice.Name.ToLower()
+          dirtyFlag = True
+          m_entity.Notspecifyprice = Me.chkNotSpicifyUnitPrice.Checked
+          Me.RefreshDocs()
         Case "txtrealgross"
           dirtyFlag = True
         Case "cmbcode"

@@ -57,6 +57,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
     Private m_itemCollection As wrItemCollection
     Private m_approveDocColl As ApproveDocCollection
+    Private m_notspecifyprice As Boolean
 #End Region
 
 #Region "Constructors"
@@ -98,6 +99,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         .m_note = ""
         .m_approvePerson = New User
         .AutoCodeFormat = New AutoCodeFormat(Me)
+        .m_notspecifyprice = False
 
       End With
       m_itemCollection = New wrItemCollection(Me)
@@ -192,6 +194,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
             .m_approvePerson = New User(dr, "approvePerson.")
           End If
         End If
+        If dr.Table.Columns.Contains("wr_notspecifyunitprice") Then
+          If Not dr.IsNull("wr_notspecifyunitprice") Then
+            .m_notspecifyprice = CBool(dr("wr_notspecifyunitprice"))
+          End If
+        End If
 
         Me.AutoCodeFormat = New AutoCodeFormat(Me)
 
@@ -206,6 +213,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Properties"
+    Public Property Notspecifyprice As Boolean
+      Get
+        Return m_notspecifyprice
+      End Get
+      Set(value As Boolean)
+        m_notspecifyprice = value
+        If m_notspecifyprice Then
+          If Not m_itemCollection Is Nothing Then
+            For Each item As WRItem In m_itemCollection
+              Dim _qty As Decimal = item.Qty
+              item.SetUnitPrice(0)
+              item.SetMat(0)
+              item.SetLab(0)
+              item.SetEq(0)
+              item.SetAmount(0)
+              item.SetQty(_qty)
+            Next
+          End If
+        End If
+      End Set
+    End Property
     Public Property ApproveDocColl As ApproveDocCollection
       Get
         Return m_approveDocColl
@@ -929,6 +957,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Return New SaveErrorException("${res:Global.Error.SaveCanceled}")
         End If
       End If
+
+      Dim ableNotSpecifyUnitPrice As Boolean = CBool(Configuration.GetConfig("WRAbleNotSpecifyUnitPrice"))
+      If Not ableNotSpecifyUnitPrice Then
+        'If Me.ItemCollection.Amount = 0 Then
+        '  Return New SaveErrorException("${res:Global.Error.ItemUnitPriceMissing}")
+        'End If
+        For Each item As SCItem In Me.ItemCollection
+          If item.ItemType.Value = 160 OrElse item.ItemType.Value = 162 Then
+
+          Else
+            If item.Amount = 0 Then
+              Return New SaveErrorException("${res:Global.Error.ItemUnitPriceMissing}")
+            End If
+          End If
+        Next
+      End If
+
       'If i > 0 And c = 0 Then
       'If msgServ.AskQuestion("${res:Global.Question.NotChildItemAndWantToAutoCreateChild}") Then
       'Return New SaveErrorException("-2")
@@ -1140,6 +1185,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_director", ValidIdOrDBNull(Me.Director)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approveperson", ValidIdOrDBNull(Me.ApprovePerson)))
         paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_approvedate", Me.ValidDateOrDBNull(Me.ApproveDate)))
+        paramArrayList.Add(New SqlParameter("@" & Me.Prefix & "_notspecifyunitprice", Me.Notspecifyprice))
         SetOriginEditCancelStatus(paramArrayList, currentUserId, theTime)
 
         '---==Validated การทำ before save ของหน้าย่อยอื่นๆ ====
