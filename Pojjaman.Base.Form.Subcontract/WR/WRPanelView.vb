@@ -1438,6 +1438,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       Me.lblNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.lblNote}")
       Me.lblGross.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.lblGross}")
+      Me.chkNotSpicifyUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.chkNotSpicifyUnitPrice}")
       'Me.lblDiscount.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.lblDiscount}")
       'Me.lblBeforeTax.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.lblBeforeTax}")
       'Me.lblTaxBase.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.WRPanelView.lblTaxBase}")
