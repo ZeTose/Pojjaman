@@ -963,7 +963,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         'If Me.ItemCollection.Amount = 0 Then
         '  Return New SaveErrorException("${res:Global.Error.ItemUnitPriceMissing}")
         'End If
-        For Each item As SCItem In Me.ItemCollection
+        For Each item As WRItem In Me.ItemCollection
           If item.ItemType.Value = 160 OrElse item.ItemType.Value = 162 Then
 
           Else
