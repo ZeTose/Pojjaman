@@ -1,5 +1,5 @@
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
@@ -55,7 +55,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents lblAccountEnd As System.Windows.Forms.Label
     Friend WithEvents btnAccountStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeStart As System.Windows.Forms.TextBox
-        Friend WithEvents lblAccountStart As System.Windows.Forms.Label
+    Friend WithEvents lblAccountStart As System.Windows.Forms.Label
     Friend WithEvents chkShowDetail As System.Windows.Forms.CheckBox
     Friend WithEvents ibtnCostCenterEnd As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtCostCenterEnd As System.Windows.Forms.TextBox
@@ -654,10 +654,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' Global {ถึง}
       Me.lblAdvmEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.Validator.SetDisplayName(txtAdvmCodeStart, lblAdvmStart.Text)
+      Me.Validator.SetDisplayName(txtAdvmCodeStart, lblAdvmStart.Text)
 
-            Me.lblCustEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.lblCustEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+      Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
 
       ' Button
       Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
@@ -665,11 +665,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       ' GroupBox
       Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.grbMaster}")
-            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.grbDetail}")
-            Me.lblCustStart.Text = Me.StringParserService.Parse("${res:Global.CustStart}")
-            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
-            Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Global.ShowDetail}")
+      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.grbDetail}")
+      Me.lblCustStart.Text = Me.StringParserService.Parse("${res:Global.CustStart}")
+      Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Global.AccountBookStart}")
+      Me.chkShowDetail.Text = Me.StringParserService.Parse("${res:Global.ShowDetail}")
 
+      Me.lblCostCenterStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.lblCostCenterStart}")
+      Me.lblCostCenterEnd.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAdvanceMoneyFilterSubPanel.lblCostCenterEnd}")
 
     End Sub
 #End Region
