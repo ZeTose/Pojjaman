@@ -31,7 +31,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
   Public Class SaleCN
     Inherits SimpleBusinessEntityBase
     Implements IGLAble, IVatable, ISaleBillIssuable, IPrintableEntity,  _
-    IApprovAble, IHasIBillablePerson, IPayable, IWitholdingTaxable, ICancelable, IDocStatus, INewPrintableEntity
+    IApprovAble, IHasIBillablePerson, IPayable, IWitholdingTaxable, ICancelable, IDocStatus, INewPrintableEntity, IHasVat
 
 #Region "Members"
     Private m_customer As Customer
@@ -362,7 +362,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Return Me.Discount.Amount
       End Get
     End Property
-    Public Property TaxRate() As Decimal
+    Public Property TaxRate() As Decimal Implements IHasVat.Taxrate
       Get
         Return m_taxRate
       End Get
@@ -380,7 +380,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         m_taxbase = Value
       End Set
     End Property
-    Public Property TaxType() As TaxType
+    Public Property TaxType() As TaxType Implements IHasVat.Taxtype
       Get
         Return m_taxType
       End Get

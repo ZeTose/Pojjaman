@@ -348,6 +348,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.txtVatRate.TabIndex = 282
       Me.txtVatRate.TabStop = False
       Me.txtVatRate.Text = ""
+      Me.txtVatRate.TextAlign = HorizontalAlignment.Right
       '
       'lblPercent
       '
@@ -908,6 +909,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Me.dtpDocDate.Value = MinDateToNow(vi.DocDate) ' MinDateToNow(vi.DocDate)
         m_oldCode = vi.Code
+        If TypeOf Me.m_entity Is IHasVat Then
+          Dim refdoc As IHasVat = CType(Me.m_entity, IHasVat)
+          If (vi.TaxRate <> refdoc.Taxrate) Then
+            vi.TaxRate = refdoc.Taxrate
+          End If
+        End If
         Me.txtVatRate.Text = Configuration.FormatToString(vi.TaxRate, DigitConfig.Price)
         Me.txtPrintAddress.Text = vi.PrintAddress
         Me.txtPrintName.Text = vi.PrintName
