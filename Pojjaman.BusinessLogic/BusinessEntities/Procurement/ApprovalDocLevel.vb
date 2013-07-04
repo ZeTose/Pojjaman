@@ -443,6 +443,11 @@ Public Class ApproveDocCollection
             m_DocMethod = SaveDocMultiApprovalMethod.Approve
           End If
 
+          SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, "UpdateApproveDoc",
+                                    New SqlParameter("@entity_id", m_entityId),
+                                    New SqlParameter("@entity_type", m_entityType)
+                                    )
+
           SqlHelper.ExecuteNonQuery(conn, CommandType.StoredProcedure, "UpdateCommentDocForMultiApproval",
                                     New SqlParameter("@apvdoc_originator", myApvDoc.Originator),
                                     New SqlParameter("@method", m_DocMethod),
