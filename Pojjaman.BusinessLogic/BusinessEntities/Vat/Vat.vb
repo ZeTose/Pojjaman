@@ -3536,6 +3536,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each dr As DataRow In ds.Tables(0).Rows
         Dim vitem As New VatItem(dr, "")
         Dim row As TreeRow = myDatatable.Childs.Add
+
         row("vati_vat") = dr("vati_vat")
         row("vati_linenumber") = dr("vati_linenumber")
         row("vati_group") = dr("vati_group")
@@ -3549,6 +3550,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         row("VatGroupCode") = vitem.VatGroup.Code
         row("VatGroupName") = vitem.VatGroup.Name
         row("SubmitalDate") = CDate(vitem.SubmitalDate).ToShortDateString
+        If CInt(dr("vat_status")) = 0 Then
+          row("Code") = "*" + vitem.Code + "*"
+          row("SupplierName") = dr("EntityName")
+          row("TaxBase") = Configuration.FormatToString(0, DigitConfig.Price)
+          row("TaxRate") = Configuration.FormatToString(0, DigitConfig.Price)
+          row("TaxAmount") = Configuration.FormatToString(0, DigitConfig.Price)
+        End If
+
       Next
       Return myDatatable
     End Function
