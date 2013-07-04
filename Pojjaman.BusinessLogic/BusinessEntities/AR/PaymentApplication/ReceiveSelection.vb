@@ -2495,7 +2495,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim sumAdvanceWitdraw As Decimal = 0
             Dim sumRemainAmount As Decimal = 0
             Dim rowNumber As Integer = 0
-            Dim contractNumberLIst As New ArrayList
+      Dim contractNumberLIst As New ArrayList
+      Dim detailinenumber As Integer = 0
             For Each item As SaleBillIssueItem In Me.ItemCollection
                 rowNumber += 1
 
@@ -4416,7 +4417,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = miDetailRow("milestonei_desc").ToString
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
@@ -4428,7 +4429,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = miDetailRow("milestonei_desc").ToString
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
@@ -4439,7 +4440,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = miDetailRow("Unit").ToString
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
@@ -4452,7 +4453,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = ""
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
@@ -4465,7 +4466,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = ""
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
@@ -4478,7 +4479,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = ""
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
@@ -4489,17 +4490,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             dpi.Value = miDetailRow("milestonei_note").ToString
                         End If
                         dpi.DataType = "System.String"
-                        dpi.Row = n + 1
+            dpi.Row = detailinenumber + 1
                         dpi.Table = "Item"
                         dpiColl.Add(dpi)
 
-
+            detailinenumber += 1
 
                     Next
 
                 End If
 
-                n += 1
+        n += 1
             Next
 
             'For Each d As DocPrintingItem In dpiColl

@@ -2118,7 +2118,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         newRow("Code") = bai.Code
         If ShowDetail Then
           'แสดงรายละเอียด
-          If bai.EntityId = 75 Then
+          If bai.EntityId = 75 OrElse bai.EntityId = 78 OrElse bai.EntityId = 79 Then
             newRow.State = RowExpandState.Expanded
             Dim item As New Milestone(bai.StockId)
             'item.ReLoadItems()
