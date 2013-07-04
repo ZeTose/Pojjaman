@@ -133,7 +133,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
         tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DebtDebit}") '"ยอดล้างเจ้าหนี้"
         tr("col17") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.RefDocCode}") '"เลขที่เอกสารอ้างอิง"
         tr("col18") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.VatitemCode}") '"เลขที่ใบกำกับภาษี"
-      End If
+                tr("col19") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.OtherDocCode}") '"เลขที่ใบส่งของ"
+                tr("col20") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.OtherDocDate}") '"วันที่ไปส่งของ"
+            End If
     End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(1)
@@ -339,7 +341,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trDetail("col16") = Configuration.FormatToString(deh.GetValue(Of Decimal)("PaysGross"), DigitConfig.Price)
 
               trDetail("col17") = deh.GetValue(Of String)("RefDocCode")
-              trDetail("col18") = deh.GetValue(Of String)("VatitemCode")
+                            trDetail("col18") = deh.GetValue(Of String)("VatitemCode")
+                            trDetail("col19") = deh.GetValue(Of String)("OtherCode")
+                            trDetail("col20") = deh.GetValue(Of String)("OtherDate")
 
               'If Not detailRow.IsNull("OpeningBalance") Then
               '  trDetail("col5") = Configuration.FormatToString(CDec(detailRow("OpeningBalance")), DigitConfig.Price)
@@ -481,7 +485,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       myDatatable.Columns.Add(New DataColumn("col15", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col16", GetType(String)))
       myDatatable.Columns.Add(New DataColumn("col17", GetType(String)))
-      myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col18", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col19", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col20", GetType(String)))
 
       Return myDatatable
     End Function
@@ -489,7 +495,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim dst As New DataGridTableStyle
       dst.MappingName = "Report"
       Dim widths As New ArrayList
-      Dim iCol As Integer = 18 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
+      Dim iCol As Integer = 20 'IIf(Me.ShowDetailInGrid = 0, 6, 7)
 
       widths.Add(90)
       widths.Add(180)
@@ -508,8 +514,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(95)
       widths.Add(180 * m_showDetailInGrid)
       widths.Add(95 * m_showDetailInGrid)
-      widths.Add(100)
-      widths.Add(100)
+      widths.Add(100 * m_showDetailInGrid)
+      widths.Add(100 * m_showDetailInGrid)
+      widths.Add(80 * m_showDetailInGrid)
+      widths.Add(80 * m_showDetailInGrid)
 
       For i As Integer = 0 To iCol
         If i = 1 Then
@@ -545,7 +553,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           cs.Alignment = HorizontalAlignment.Left
           If m_showDetailInGrid <> 0 Then
             Select Case i
-              Case 0, 1, 2, 3, 4, 15, 17, 18
+              Case 0, 1, 2, 3, 4, 15, 17, 18, 19, 20
                 cs.Alignment = HorizontalAlignment.Left
                 cs.DataAlignment = HorizontalAlignment.Left
                 cs.Format = "s"
