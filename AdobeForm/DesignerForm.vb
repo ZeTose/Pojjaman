@@ -1024,13 +1024,21 @@ Namespace Longkong.AdobeForm
                     Dim p As New PointF(0, 0)
                     Dim tmp As String() = data.Split(vbCrLf)
                     Dim lines As Integer = 0
+
                     For Each s As String In tmp
-                      Dim textSize As SizeF = g.MeasureString(data, dataFont, p, stf)
-                      lines += CInt(Math.Ceiling((textSize.Width) / col.Width))
+                      If s.Trim().Length > 0 Then
+                        If s.Trim().Contains(vbCrLf) Then
+                          s = s.Replace(vbCrLf, "")
+
+                          Dim textSize As SizeF = g.MeasureString(data, dataFont, p, stf)
+                          lines += CInt(Math.Ceiling((textSize.Width) / col.Width))
+
+                        End If
+                      End If
                     Next
                     If lines > maxLines Then
                       'If lines > 1 Then
-                      '    MessageBox.Show(data)
+                      'MessageBox.Show(data)
                       'End If
                       maxLines = lines
                     End If
