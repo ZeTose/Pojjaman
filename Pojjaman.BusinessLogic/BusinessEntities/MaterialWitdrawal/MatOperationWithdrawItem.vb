@@ -512,10 +512,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'Me.m_qty = Math.Max(prItem.Qty - prItem.WithdrawnQty, 0)
       'Me.m_qty = Math.Min(Me.MatOperationWithdraw.GetRemainLCIItem(Me.m_entity.Id), Me.m_qty)
       Me.m_note = prItem.Note
-      'If Not prItem.WBSDistributeCollection Is Nothing Then
-      '  Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
-      '  'Me.InWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
-      'End If
+      If Not prItem.WBSDistributeCollection Is Nothing Then
+        Me.WBSDistributeCollection = prItem.WBSDistributeCollection.Clone(Me)
+        'Me.InWbsdColl = prItem.WBSDistributeCollection.Clone(Me)
+      End If
     End Sub
     'Public Sub SetTransferAmount(ByVal amt As Decimal)    '  m_transferAmount = amt
     'End Sub
@@ -947,6 +947,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim pri As PRItem = CType(item.Tag, PRItem)
           pri.Pr.Id = item.Id
           pri.Pr.Code = item.StockCode
+          pri = New PRItem(pri.Pr.Id, pri.LineNumber)
           arrPRList.Add(pri)
 
           key = pri.Pr.Id.ToString & ":" & pri.LineNumber.ToString
