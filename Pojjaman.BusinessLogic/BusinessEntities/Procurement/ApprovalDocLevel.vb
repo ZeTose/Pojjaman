@@ -376,6 +376,7 @@ Public Class ApproveDocCollection
     End Property
 #End Region
 
+
 #Region "Class Methods"
     Public Function Save() As SaveErrorException
       Try
@@ -486,18 +487,18 @@ Public Class ApproveDocCollection
     Public Function MaxLevelPersonId() As Integer
       Dim ret As Integer = 0
       Dim retUser As Integer = 0
-			For Each temp As ApproveDoc In Me
-				If temp.Reject Then
-					ret = 0
-					retUser = 0
-				Else
-					If temp.Level > ret Then
-						ret = temp.Level
-						retUser = temp.Originator
-					End If
-				End If
-			Next
-			Return retUser
+      For Each temp As ApproveDoc In Me
+        If temp.Reject Then
+          ret = 0
+          retUser = 0
+        Else
+          If temp.Level > ret Then
+            ret = temp.Level
+            retUser = temp.Originator
+          End If
+        End If
+      Next
+      Return retUser
     End Function
     Private MaximumLevelOfApprove As Integer = -1
     Public Function GetMaxLevel() As Integer

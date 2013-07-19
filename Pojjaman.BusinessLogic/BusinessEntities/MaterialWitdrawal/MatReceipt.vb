@@ -111,11 +111,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
         '----------------------------End Tab Entities-----------------------------------------
         .AutoCodeFormat = New AutoCodeFormat(Me)
       End With
+      m_approvalCollection = New ApprovalStoreCommentCollection(Me)
       m_itemCollection = New MatReceiptItemCollection(Me, m_grouping)
       m_oldActualDataSet = New DataSet
       MatActualHashIn = New Hashtable
       MatActualHashOut = New Hashtable
-      m_approvalCollection = New ApprovalStoreCommentCollection(Me)
+
     End Sub
     Protected Overloads Overrides Sub Construct(ByVal dr As System.Data.DataRow, ByVal aliasPrefix As String)
       MyBase.Construct(dr, aliasPrefix)
@@ -224,13 +225,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         If m_je.DocDate = Date.MinValue Then
           m_je.DocDate = Me.DocDate
         End If
+        m_approvalCollection = New ApprovalStoreCommentCollection(Me)
         m_itemCollection = New MatReceiptItemCollection(Me, m_grouping)
         m_oldActualDataSet = Me.GetOldMatOperationWithdrawWBSActual
         MatActualHashIn = New Hashtable
         MatActualHashOut = New Hashtable
       End With
       Me.AutoCodeFormat = New AutoCodeFormat(Me)
-      Me.m_approvalCollection = New ApprovalStoreCommentCollection(Me)
+
     End Sub
 #End Region
 

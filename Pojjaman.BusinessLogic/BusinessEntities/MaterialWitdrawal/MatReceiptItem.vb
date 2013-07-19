@@ -747,6 +747,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
           Dim wbsd As New WBSDistribute(wbsRow, "")
           inWbsdColl.Add(wbsd)
         Next
+
+        If Not Me.MatReceipt.ApprovalCollection.IsApproved Then
+          If Not item.Pritem Is Nothing AndAlso item.Pritem.Pr.Originated Then
+            item.Pritem = New PRItem(item.Pritem.Pr.Id, item.Pritem.LineNumber)
+            If Not item.Pritem.WBSDistributeCollection Is Nothing Then
+              For Each prwbsd As WBSDistribute In item.Pritem.WBSDistributeCollection
+                inWbsdColl.Add(prwbsd)
+              Next
+            End If
+          End If
+        End If
         'If item.WBSDistributeCollection.Count = 0 Then
         '  Dim myPr As New PR
         '  myPr.Id = item.Pritem.Pr.Id
