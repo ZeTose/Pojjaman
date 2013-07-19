@@ -132,7 +132,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim currAssetTypeIndex As Integer = -1
       Dim currDetailIndex As Integer = -1
       Dim currAssetIndex As Integer = -1
-      Dim sumAssetPrice As Decimal = 0
+            Dim sumAssetPrice As Decimal = 0
+            Dim sumBuyPrice As Decimal = 0
+            Dim sumsale As Decimal = 0
+            Dim sumbalance As Decimal = 0
             Dim AssetPrice As Decimal = 0
             Dim BuyPrice As Decimal = 0
       Dim beforeTax As Decimal = 0
@@ -143,8 +146,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
       For Each row As DataRow In dt.Rows
         If (CStr(row("assettype_code")) <> strAssetTypecode) Then
           If Not (strAssetTypecode = "#@null#") Then
-            currAssetTypeIndex = m_grid.RowCount
-            m_grid.RowCount += 1
                         'balance = AssetPrice - sale
                         'currAssetIndex = m_grid.RowCount
                         'm_grid(currAssetIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.sum}") '"รวม"
@@ -160,7 +161,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         'm_grid(currAssetIndex, 4).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetTotal}")
                         'm_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(balance, DigitConfig.Price)
                         'balance = 0
+
                         balance = AssetPrice - sale
+
+                        sumAssetPrice += AssetPrice
+                        sumBuyPrice += BuyPrice
+                        sumsale += sale
+                        sumbalance += balance
+
+                        currAssetTypeIndex = m_grid.RowCount
+                        m_grid.RowCount += 1
+
                         currAssetIndex = m_grid.RowCount
                         m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.sum}") '"รวม"
                         m_grid(currAssetIndex, 4).CellValue = indent & Configuration.FormatToString(BuyPrice, DigitConfig.Price)
@@ -254,23 +265,60 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Next
 
-      m_grid.RowCount += 1
-      balance = AssetPrice - sale
-      currAssetIndex = m_grid.RowCount
+            balance = AssetPrice - sale
+
+            sumAssetPrice += AssetPrice
+            sumBuyPrice += BuyPrice
+            sumsale += sale
+            sumbalance += balance
+
+            If dt.Rows.Count > 0 Then
+
+                m_grid.RowCount += 1
+                currAssetIndex = m_grid.RowCount
+                m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.sum}") '"รวม"
+                m_grid(currAssetIndex, 4).CellValue = indent & Configuration.FormatToString(BuyPrice, DigitConfig.Price)
+                m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(AssetPrice, DigitConfig.Price)
+
+
+                m_grid.RowCount += 1
+                currAssetIndex = m_grid.RowCount
+                m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetBetweenl}") '"รวมขายระหว่างงวด"
+                m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(sale, DigitConfig.Price)
+
+
+                m_grid.RowCount += 1
+                currAssetIndex = m_grid.RowCount
+                m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetTotal}")
+                m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(balance, DigitConfig.Price)
+
+
+            End If
+
+            '-----------------------------------------------------------------------------------------------------------------------------
+
+            m_grid.RowCount += 1
+            currAssetIndex = m_grid.RowCount
+            m_grid.RowStyles(currAssetIndex).BackColor = Color.FromArgb(180, 231, 245)
             m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.sum}") '"รวม"
-            m_grid(currAssetIndex, 4).CellValue = indent & Configuration.FormatToString(BuyPrice, DigitConfig.Price)
-      m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(AssetPrice, DigitConfig.Price)
-      AssetPrice = 0
-      m_grid.RowCount += 1
-      currAssetIndex = m_grid.RowCount
+            m_grid(currAssetIndex, 4).CellValue = indent & Configuration.FormatToString(sumBuyPrice, DigitConfig.Price)
+            m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(sumAssetPrice, DigitConfig.Price)
+
+
+            m_grid.RowCount += 1
+            currAssetIndex = m_grid.RowCount
+            m_grid.RowStyles(currAssetIndex).BackColor = Color.FromArgb(180, 231, 245)
             m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetBetweenl}") '"รวมขายระหว่างงวด"
-      m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(sale, DigitConfig.Price)
-      sale = 0
-      m_grid.RowCount += 1
-      currAssetIndex = m_grid.RowCount
+            m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(sumsale, DigitConfig.Price)
+
+
+            m_grid.RowCount += 1
+            currAssetIndex = m_grid.RowCount
+            m_grid.RowStyles(currAssetIndex).BackColor = Color.FromArgb(180, 231, 245)
             m_grid(currAssetIndex, 3).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Rpt273.assetTotal}")
-      m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(balance, DigitConfig.Price)
-      balance = 0
+            m_grid(currAssetIndex, 5).CellValue = indent & Configuration.FormatToString(sumbalance, DigitConfig.Price)
+
+
     End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"    Public Overrides ReadOnly Property ClassName() As String
