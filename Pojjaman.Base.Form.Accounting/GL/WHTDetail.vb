@@ -1530,11 +1530,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.chkWHT.Enabled = Me.m_whtcol.CanBeDelay
       Me.chkWHT.Checked = Me.m_whtcol.IsBeforePay
 
-      If Me.m_wht.IndicationSubmit = 0 Then
-        Me.rdbNormalSubmit.Checked = True
-      Else
-        Me.rdbMoreSubmit.Checked = True
-      End If
+            If Me.m_wht.IndicationSubmit = 1 Then
+                Me.rdbNormalSubmit.Checked = True
+            ElseIf Me.m_wht.IndicationSubmit = 2 Then
+                Me.rdbMoreSubmit.Checked = True
+            Else
+                Me.rdbNormalSubmit.Checked = True
+            End If
       If Me.m_wht.SubmitNo = 0 Then
         Me.txtSubmitNo.Text = ""
       Else
