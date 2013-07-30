@@ -1399,7 +1399,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       value.FFormat = Me.m_fFormat
       MyBase.List.Insert(index, value)
       If Not Me.m_fFormat Is Nothing AndAlso Not Me.m_fFormat.ItemCollection Is Nothing Then
-        m_fFormat.ItemCollection.ShiftFormula(index, False, True)
+                'm_fFormat.ItemCollection.ShiftFormula(index, False, True)
         For Each item As FFormatItem In Me.m_fFormat.ItemCollection
           If Not item.DataCollection Is Nothing Then
             item.DataCollection.RefreshColumn()
@@ -1411,7 +1411,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       value.FFormat = Nothing
       MyBase.List.Remove(value)
       If Not Me.m_fFormat Is Nothing AndAlso Not Me.m_fFormat.ItemCollection Is Nothing Then
-        m_fFormat.ItemCollection.ShiftFormula(value.LineNumber, False, False)
+                'm_fFormat.ItemCollection.ShiftFormula(value.LineNumber, False, False)
         For Each item As FFormatItem In Me.m_fFormat.ItemCollection
           If Not item.DataCollection Is Nothing Then
             item.DataCollection.RefreshDeletedColumn()
@@ -1797,12 +1797,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Insert(ByVal index As Integer, ByVal value As FFormatItem)
       value.FFormat = Me.m_fFormat
       MyBase.List.Insert(index, value)
-      ShiftFormula(index, True, True)
+            'ShiftFormula(index, True, True)
     End Sub
     Public Sub Remove(ByVal value As FFormatItem)
       value.FFormat = Nothing
       MyBase.List.Remove(value)
-      ShiftFormula(value.LineNumber, True, False)
+            'ShiftFormula(value.LineNumber, True, False)
     End Sub
     Public Sub Remove(ByVal value As FFormatItemCollection)
       For i As Integer = 0 To value.Count - 1
@@ -1812,24 +1812,24 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Sub Remove(ByVal index As Integer)
       MyBase.List.RemoveAt(index)
     End Sub
-    Public Sub ShiftFormula(ByVal index As Integer, ByVal IsRow As Boolean, ByVal IsInsert As Boolean)
-      Dim i As Integer = 0
-      For Each ffi As FFormatItem In Me
-        i += 1
+        Public Sub ShiftFormula(ByVal index As Integer, ByVal IsRow As Boolean, ByVal IsInsert As Boolean)
+            Dim i As Integer = 0
+            For Each ffi As FFormatItem In Me
+                i += 1
 
-        For Each col As FFormatColumn In Me.m_fFormat.ColumnCollection
-          Dim fff As FFormatData = ffi.DataCollection(col)
-          If Not fff Is Nothing Then
-            If fff.IsFormula Then
-              'ค่า linenumber ใน ffi น่าจะยังเป็นของเดิม
-              fff.ShiftFormula(index, IsRow, IsInsert)
-            End If
-          End If
-        Next
+                For Each col As FFormatColumn In Me.m_fFormat.ColumnCollection
+                    Dim fff As FFormatData = ffi.DataCollection(col)
+                    If Not fff Is Nothing Then
+                        If fff.IsFormula Then
+                            'ค่า linenumber ใน ffi น่าจะยังเป็นของเดิม
+                            fff.ShiftFormula(index, IsRow, IsInsert)
+                        End If
+                    End If
+                Next
 
 
-      Next
-    End Sub
+            Next
+        End Sub
 #End Region
 
 
