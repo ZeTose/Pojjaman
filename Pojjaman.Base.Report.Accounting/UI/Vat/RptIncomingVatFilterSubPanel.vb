@@ -592,7 +592,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #Region " SetLabelText "
     Public Sub SetLabelText()
       'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.lblDocDateStart}")
+            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptIncomingVat.DocDate}")
       Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
       Me.lblSubmitalDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptIncomingVatFilterSubPanel.lblSubmitalDateStart}")
