@@ -237,7 +237,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currSupplierIndex, 5).CellValue = row("Status")
           currentSupplierCode = row("SupplierCode").ToString
           lastSupplierCrAmtRecord = CDec(row("CreditAmount"))
-          Dim supRows As DataRow() = Me.DataSet.Tables(0).Select("SupplierCode ='" & currentSupplierCode & "'")
+                    Dim supRows As DataRow() = Me.DataSet.Tables(0).Select("SupplierCode ='" & currentSupplierCode & "'")
+                    sumRetentionRemaining = 0
           If supRows.Length = 1 Then
             m_grid.RowCount += 1
             currDocIndex = m_grid.RowCount
@@ -248,7 +249,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sumOpnBalance += CDec(supRows(0)("OpenningBalance"))
             tmpRemain = CDec(supRows(0)("OpenningBalance"))
             m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(CDec(supRows(0)("RetentionOpenningBalance")), DigitConfig.Price)
-            sumRetentionEndingBalance += CDec(supRows(0)("RetentionOpenningBalance"))
+                        sumRetentionEndingBalance += CDec(supRows(0)("RetentionOpenningBalance"))
           End If
           currentDocCode = ""
 
