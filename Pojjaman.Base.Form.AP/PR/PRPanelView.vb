@@ -2118,6 +2118,9 @@ FinalLine:
     Public Overrides ReadOnly Property EnablePaste() As Boolean
       Get
         Try
+          If Clipboard.GetDataObject Is Nothing Then
+            Return False
+          End If
           Dim data As IDataObject = Clipboard.GetDataObject
           If data.GetDataPresent((dummyEmployee).FullClassName) Then
             If Not Me.ActiveControl Is Nothing Then

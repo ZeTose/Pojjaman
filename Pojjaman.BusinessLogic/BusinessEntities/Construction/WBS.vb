@@ -423,7 +423,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       With Me
         .m_status = New WBSStatus(-1)
         .m_state = RowExpandState.Expanded
-        m_milestone = New Milestone
+        .m_milestone = New Milestone
         .m_noQtyControl = False
         .m_startdate = Now
         .m_finishdate = Now
@@ -508,6 +508,34 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_milestone = New Milestone(CInt(m_dr(m_aliasPrefix & "wbs_milestone")))
         End If
       End If
+    End Sub
+    Public Sub CopyTo(_wbs As WBS)
+      If _wbs.Boq Is Nothing Then
+        _wbs.Boq = New BOQ
+      End If
+      If _wbs.MatCBS Is Nothing Then
+        _wbs.MatCBS = New CBS
+      End If
+      If _wbs.LabCBS Is Nothing Then
+        _wbs.LabCBS = New CBS
+      End If
+      If _wbs.EqCBS Is Nothing Then
+        _wbs.EqCBS = New CBS
+      End If
+
+      _wbs.Id = Me.Id
+      _wbs.Code = Me.Code
+      _wbs.Boq = Me.Boq
+      _wbs.Note = Me.Note
+      _wbs.Status = Me.Status
+      _wbs.Qty = Me.Qty
+      _wbs.Unit = Me.Unit
+      _wbs.ListNumber = Me.ListNumber
+      _wbs.Direction = Me.Direction
+      _wbs.Referenced = Me.Referenced
+      _wbs.MatCBS = Me.MatCBS
+      _wbs.LabCBS = Me.LabCBS
+      _wbs.EqCBS = Me.EqCBS
     End Sub
 #End Region
 

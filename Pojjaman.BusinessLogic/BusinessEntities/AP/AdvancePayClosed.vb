@@ -1246,7 +1246,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Property
     Public ReadOnly Property Payer() As IBillablePerson Implements IReceivable.Payer
       Get
-
+        Return Customer.GetDefaultCustomer()
       End Get
     End Property
 
