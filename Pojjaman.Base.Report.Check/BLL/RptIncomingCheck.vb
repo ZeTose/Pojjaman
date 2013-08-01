@@ -323,7 +323,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(220)
       widths.Add(100)
       widths.Add(100)
-      widths.Add(200)
+            widths.Add(220)
 
       For i As Integer = 0 To 10
         If i = 1 Then
