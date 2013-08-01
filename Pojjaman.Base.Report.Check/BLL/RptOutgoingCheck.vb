@@ -336,9 +336,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If Not prow.IsNull("payment_code") Then
                   TrPV("col6") = prow("payment_code").ToString
                 End If
-                If Not prow.IsNull("gl_code") Then
-                  TrPV("col8") = prow("gl_code").ToString
-                End If
+                                If Not prow.IsNull("gl_refcode") Then
+                                    TrPV("col8") = prow("gl_refcode").ToString
+                                End If
                 'If Not prow.IsNull("GL") Then
                 '  TrPV("col8") = prow("PVRef").ToString
                 'End If
@@ -374,11 +374,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     pvList.Add(prow("payment_code").ToString)
                   End If
                 End If
-                If Not prow.IsNull("gl_code") Then
-                  If Not glList.Contains(prow("gl_code").ToString) Then
-                    glList.Add(prow("gl_code").ToString)
-                  End If
-                End If
+                                If Not prow.IsNull("gl_refcode") Then
+                                    If Not glList.Contains(prow("gl_refcode").ToString) Then
+                                        glList.Add(prow("gl_refcode").ToString)
+                                    End If
+                                End If
 
               End If
             Next
