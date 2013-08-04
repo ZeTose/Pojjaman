@@ -34,62 +34,66 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents Splitter1 As System.Windows.Forms.Splitter
     Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.LKGrid
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
-      Me.pnlFilter = New System.Windows.Forms.Panel
-      Me.Splitter1 = New System.Windows.Forms.Splitter
-      Me.tgItem = New Longkong.Pojjaman.Gui.Components.LKGrid
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
-      Me.SuspendLayout()
-      '
-      'pnlFilter
-      '
-      Me.pnlFilter.Dock = System.Windows.Forms.DockStyle.Top
-      Me.pnlFilter.Location = New System.Drawing.Point(0, 0)
-      Me.pnlFilter.Name = "pnlFilter"
-      Me.pnlFilter.Size = New System.Drawing.Size(768, 152)
-      Me.pnlFilter.TabIndex = 0
-      '
-      'Splitter1
-      '
-      Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Top
-      Me.Splitter1.Location = New System.Drawing.Point(0, 152)
-      Me.Splitter1.Name = "Splitter1"
-      Me.Splitter1.Size = New System.Drawing.Size(768, 3)
-      Me.Splitter1.TabIndex = 1
-      Me.Splitter1.TabStop = False
-      '
-      'tgItem
-      '
-      Me.tgItem.AutoColumnResize = False
-      Me.tgItem.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-      Me.tgItem.ColCount = 0
-      Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(255, Byte), CType(192, Byte), CType(128, Byte)), System.Drawing.Color.Khaki, System.Drawing.Color.FromArgb(CType(255, Byte), CType(224, Byte), CType(192, Byte)), System.Drawing.Color.FromArgb(CType(192, Byte), CType(255, Byte), CType(255, Byte))})
-      Me.tgItem.DefaultBehavior = True
-      Me.tgItem.DefaultColWidth = 100
-      Me.tgItem.Dock = System.Windows.Forms.DockStyle.Fill
-      Me.tgItem.ForeColor = System.Drawing.SystemColors.ControlText
-      Me.tgItem.Location = New System.Drawing.Point(0, 155)
-      Me.tgItem.Name = "tgItem"
-      Me.tgItem.PlusMinusColumnIndex = 0
-      Me.tgItem.RightToLeft = System.Windows.Forms.RightToLeft.No
-      Me.tgItem.RowCount = 0
-      Me.tgItem.Size = New System.Drawing.Size(768, 328)
-      Me.tgItem.SmartSizeBox = False
-      Me.tgItem.TabIndex = 2
-      Me.tgItem.ThemesEnabled = True
-      Me.tgItem.TreeTable = Nothing
-      Me.tgItem.TreeTableStyle = Nothing
-      '
-      'GridReportPanelView
-      '
-      Me.Controls.Add(Me.tgItem)
-      Me.Controls.Add(Me.Splitter1)
-      Me.Controls.Add(Me.pnlFilter)
-      Me.Name = "GridReportPanelView"
-      Me.Size = New System.Drawing.Size(768, 483)
-      CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
-      Me.ResumeLayout(False)
+            Me.pnlFilter = New System.Windows.Forms.Panel()
+            Me.Splitter1 = New System.Windows.Forms.Splitter()
+            Me.tgItem = New Longkong.Pojjaman.Gui.Components.LKGrid()
+            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.SuspendLayout()
+            '
+            'pnlFilter
+            '
+            Me.pnlFilter.AutoScroll = True
+            Me.pnlFilter.Dock = System.Windows.Forms.DockStyle.Top
+            Me.pnlFilter.Location = New System.Drawing.Point(0, 0)
+            Me.pnlFilter.Name = "pnlFilter"
+            Me.pnlFilter.Size = New System.Drawing.Size(768, 152)
+            Me.pnlFilter.TabIndex = 0
+            '
+            'Splitter1
+            '
+            Me.Splitter1.Dock = System.Windows.Forms.DockStyle.Top
+            Me.Splitter1.Location = New System.Drawing.Point(0, 152)
+            Me.Splitter1.Name = "Splitter1"
+            Me.Splitter1.Size = New System.Drawing.Size(768, 3)
+            Me.Splitter1.TabIndex = 1
+            Me.Splitter1.TabStop = False
+            '
+            'tgItem
+            '
+            Me.tgItem.AutoColumnResize = False
+            Me.tgItem.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+            Me.tgItem.ColCount = 0
+            Me.tgItem.ColorList.AddRange(New System.Drawing.Color() {System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer), CType(CType(128, Byte), Integer)), System.Drawing.Color.Khaki, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(192, Byte), Integer)), System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer))})
+            Me.tgItem.DefaultBehavior = True
+            Me.tgItem.DefaultColWidth = 100
+            Me.tgItem.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tgItem.ForeColor = System.Drawing.SystemColors.ControlText
+            Me.tgItem.HideHead = False
+            Me.tgItem.HilightGroupParentText = False
+            Me.tgItem.HilightWhenMinus = False
+            Me.tgItem.Location = New System.Drawing.Point(0, 155)
+            Me.tgItem.Name = "tgItem"
+            Me.tgItem.PlusMinusColumnIndex = 0
+            Me.tgItem.RightToLeft = System.Windows.Forms.RightToLeft.No
+            Me.tgItem.RowCount = 0
+            Me.tgItem.Size = New System.Drawing.Size(768, 328)
+            Me.tgItem.SmartSizeBox = False
+            Me.tgItem.TabIndex = 2
+            Me.tgItem.ThemesEnabled = True
+            Me.tgItem.TreeTable = Nothing
+            Me.tgItem.TreeTableStyle = Nothing
+            '
+            'GridReportPanelView
+            '
+            Me.Controls.Add(Me.tgItem)
+            Me.Controls.Add(Me.Splitter1)
+            Me.Controls.Add(Me.pnlFilter)
+            Me.Name = "GridReportPanelView"
+            Me.Size = New System.Drawing.Size(768, 483)
+            CType(Me.tgItem, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.ResumeLayout(False)
 
-    End Sub
+        End Sub
 
 #End Region
 
