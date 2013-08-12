@@ -69,7 +69,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.CCName}") '"ชื่อโครงการ"
 
       m_grid(1, 1).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.PRCode}")  '"เลขที่ใบขอซื้อ"
-      m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.DocDate}")  '"วันที่ใบขอซื้อ"
+            m_grid(1, 2).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.DocDate}")  '"วันที่ใบขอซื้อ"
+            m_grid(1, 3).Text = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.ReceivingDate}")  '"วันที่กำหนดรับสินค้า "
 
       m_grid(2, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.LciCode}")    '"รหัสวัสดุ"
       m_grid(2, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptUnorderPRAnalysis.LciName}")    '"ชื่อวัสดุ"
@@ -134,7 +135,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
           m_grid(currDocIndex, 1).CellValue = indent & ccrow("DocCode").ToString
           If IsDate(ccrow("pr_docdate")) Then
             m_grid(currDocIndex, 2).CellValue = indent & CDate(ccrow("pr_docdate")).ToShortDateString
-          End If
+                    End If
+                    If IsDate(ccrow("pr_receivingDate")) Then
+                        m_grid(currDocIndex, 3).CellValue = indent & CDate(ccrow("pr_receivingDate")).ToShortDateString
+                    End If
           currDoc = ccrow("cccode").ToString & ccrow("DocCode").ToString
         End If
 
