@@ -233,7 +233,6 @@
   <Extension path="/Pojjaman/Workbench/MainMenu/Reports/APReport">
     <!--รายงานเจ้าหนี้ยกมา [104]--><MenuItem id="rptapopeningbalance" icon="Icons.16x16.RptAPOpeningBalance" label="${res:MainMenu.PurchaseMenu.RptAPOpeningBalance.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPOpeningBalance"/>			
 		<!--รายงานการ์ดเจ้าหนี้ - แยกตามรหัสเจ้าหนี้ [145]--><MenuItem id="rptap" icon="Icons.16x16.RptAP" label="${res:MainMenu.PurchaseMenu.RptAP.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAP"/>
-		<!--รายงานการ์ดเจ้าหนี้จาก GL [277]--><MenuItem id="rptapgl" icon="Icons.16x16.RptAPGL" label="${res:MainMenu.PurchaseMenu.RptAPGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGL"/>
 		<!--รายงานการ์ดเจ้าหนี้แบบแจกแจง [237]--><MenuItem id="rptapenumerate" icon="Icons.16x16.RptAPEnumerate" label="${res:MainMenu.PurchaseMenu.RptAPEnumerate.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPEnumerate"/>
 		<!--รายงานเจ้าหนี้คงค้าง [137]--><MenuItem id="rptapremain" icon="Icons.16x16.RptAPRemain" label="${res:MainMenu.PurchaseMenu.RptAPRemain.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPRemain"/>
 		<!--รายงานเอกสารครบกำหนดชำระเรียงตามเจ้าหนี้ [169]--><MenuItem id="rptapremaindetail" icon="Icons.16x16.RptAPRemainDetail" label="${res:MainMenu.PurchaseMenu.RptAPRemainDetail.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPRemainDetail"/>
@@ -291,6 +290,7 @@
     <!--รายงานบัญชีแยกประเภท Cost Center List [381]--><MenuItem id="rptjournalentrybycclist" icon="Icons.16x16.RptJournalEntryByCCList" label="${res:MainMenu.PurchaseMenu.RptJournalEntryByCCList.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptJournalEntryByCCList"/>
     <!--รายงานงบทดลอง [395]--><MenuItem id="rpttrialbalancebycc" icon="Icons.16x16.RptTrialBalanceByCC" label="${res:MainMenu.PurchaseMenu.RptTrialBalanceByCC.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptTrialBalanceByCC"/>
     <!--รายงานบัญชีแยกประเภทแบ่งชนิดการจ่าย [443]--><MenuItem id="rptglpaytype" icon="Icons.16x16.RptJournalEntry" label="${res:MainMenu.PurchaseMenu.RptGlpaytype.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptGLPaytype"/>
+    <!--รายงานการ์ดเจ้าหนี้จาก GL [277]--><MenuItem id="rptapgl" icon="Icons.16x16.RptAPGL" label="${res:MainMenu.PurchaseMenu.RptAPGL.Description}" class="Longkong.Pojjaman.Commands.EditEntity" entity="Longkong.Pojjaman.BusinessLogic.RptAPGL"/>
   </Extension>
 
   <!--====รายงานเงินสดย่อย/เงินทดรองจ่าย====================================================-->  
