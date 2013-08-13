@@ -149,6 +149,7 @@
     <Compile Include="AssemblyInfo.vb">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BLL\RptReceiveDue.vb" />
     <Compile Include="BLL\RptAdvanceMilestone.vb" />
     <Compile Include="BLL\RptEstimateMilestone.vb" />
     <Compile Include="BLL\RptRefARBillIssueByDueDate.vb" />
@@ -183,8 +184,11 @@
     <Compile Include="BLL\RptCustomer.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\RptReceiveDue.vb">
+    <Compile Include="BLL\RptReceiveDue_OLD.vb">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\RptReceiveDueFilterSubPanel.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptAdvanceMilestoneFilterSubPanel.vb">
       <SubType>UserControl</SubType>
@@ -228,9 +232,12 @@
     <Compile Include="UI\RptCustomerFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\RptReceiveDueFilterSubPanel.vb">
+    <Compile Include="UI\RptReceiveDueFilterSubPanel_OLD.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <EmbeddedResource Include="UI\RptReceiveDueFilterSubPanel.resx">
+      <DependentUpon>RptReceiveDueFilterSubPanel.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\RptAdvanceMilestoneFilterSubPanel.resx">
       <DependentUpon>RptAdvanceMilestoneFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
@@ -273,8 +280,8 @@
     <EmbeddedResource Include="UI\RptCustomerFilterSubPanel.resx">
       <DependentUpon>RptCustomerFilterSubPanel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\RptReceiveDueFilterSubPanel.resx">
-      <DependentUpon>RptReceiveDueFilterSubPanel.vb</DependentUpon>
+    <EmbeddedResource Include="UI\RptReceiveDueFilterSubPanel_OLD.resx">
+      <DependentUpon>RptReceiveDueFilterSubPanel_OLD.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,6 @@
+Option Explicit On 
+Option Strict On
+
 Imports Longkong.Pojjaman.DataAccessLayer
 Imports Longkong.Pojjaman.BusinessLogic
 Imports System.Data.SqlClient
@@ -14,6 +17,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 #Region "Members"
         Private m_reportColumns As ReportColumnCollection
+        Private m_showPeriod As Integer
+        Private m_showByBillDate As Integer
+        Private m_showDetailInGrid As Integer
 #End Region
 
 #Region "Constructors"
@@ -29,110 +35,876 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
         Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
-            m_grid.BeginUpdate()
-            m_grid.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-            m_grid.Model.Options.NumberedColHeaders = False
-            m_grid.Model.Options.WrapCellBehavior = Syncfusion.Windows.Forms.Grid.GridWrapCellBehavior.WrapRow
+
+            Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
+            lkg.DefaultBehavior = False
+            lkg.HilightWhenMinus = True
+            lkg.Init()
+            lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
+            Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
+            ListInGrid(tm)
+            lkg.TreeTableStyle = CreateSimpleTableStyle()
+            lkg.TreeTable = tm.Treetable
+            If m_showDetailInGrid = 0 Then
+                lkg.Rows.HeaderCount = 1
+                lkg.Rows.FrozenCount = 1
+            Else
+                lkg.Rows.HeaderCount = 2
+                lkg.Rows.FrozenCount = 2
+            End If
+            lkg.Refresh()
+        End Sub
+        Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
+            Me.m_treemanager = tm
+            Me.m_treemanager.Treetable.Clear()
+            m_showPeriod = CInt(Me.DataSet.Tables(0).Rows(0).Item("ShowPeriod"))
+            m_showByBillDate = CInt(Me.DataSet.Tables(0).Rows(0)("DueDateBy"))
+            m_showDetailInGrid = CInt(Me.DataSet.Tables(0).Rows(0)("ShowDetail"))
             CreateHeader()
             PopulateData()
-            m_grid.EndUpdate()
         End Sub
         Private Sub CreateHeader()
-            m_grid.RowCount = 0
-            m_grid.ColCount = 9
-
-            m_grid.ColWidths(1) = 100
-            m_grid.ColWidths(2) = 169
-            m_grid.ColWidths(3) = 100
-            m_grid.ColWidths(4) = 100
-            m_grid.ColWidths(5) = 100
-            m_grid.ColWidths(6) = 100
-            m_grid.ColWidths(7) = 100
-            m_grid.ColWidths(8) = 100
-            m_grid.ColWidths(9) = 100
-
-            m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid.ColStyles(3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid.ColStyles(9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-
-            m_grid.Rows.HeaderCount = 0
-            m_grid.Rows.FrozenCount = 0
-
-            m_grid(0, 1).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.ArID}")         '"รหัสลูกหนี้"
-            m_grid(0, 2).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.ArName}")       '"ชื่อลูกหนี้"
-            m_grid(0, 3).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.NotInRange}")   '"ไม่อยู่ในช่วง"
-            m_grid(0, 4).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Range1_7}")     '"ช่วง 0-7 วัน"
-            m_grid(0, 5).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Range8_14}")     '"ช่วง 8-14 วัน"
-            m_grid(0, 6).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Range15_21}")   '"ช่วง 15-21 วัน"
-            m_grid(0, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Range22_28}")   '"ช่วง 22-28 วัน"
-            m_grid(0, 8).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Exceed_28}")    '"เกิน 28 วัน"
-            m_grid(0, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Total}")        '"รวม"            
-
-            m_grid(0, 1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(0, 2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
-            m_grid(0, 3).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(0, 4).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(0, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(0, 6).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(0, 7).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(0, 8).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-            m_grid(0, 9).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
-        End Sub
-        Private Sub PopulateData()
-            Dim dt As DataTable = Me.DataSet.Tables(0)
+            If Me.m_treemanager Is Nothing Then
+                Return
+            End If
 
             Dim indent As String = Space(3)
-            Dim currentCustomerIndex As Integer = -1
 
-            Dim summaryAmount(7) As Decimal
-            For i As Integer = 0 To 6
-                summaryAmount(i) = 0
+            If m_showPeriod = 0 Then
+                ' Level 1.
+                Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.ArID}")          '"รหัสลูกหนี้"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.ArName}")       '"ชื่อลูกหนี้"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.NotInRange}")   '"ไม่อยู่ในช่วง"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range0_7}")     '"ช่วง 0-7 วัน"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range8_14}")    '"ช่วง 8-14 วัน"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range15_21}")   '"ช่วง 15-21 วัน"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range22_28}")   '"ช่วง 22-28 วัน"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Exceed_28}")    '"เกิน 28 วัน"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Total}")        '"รวม"
+                ' Level 2.
+                If m_showDetailInGrid <> 0 Then
+                    tr = Me.m_treemanager.Treetable.Childs.Add
+                    tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.SaleBilliDocCode}") '"รหัสใบวางบิล"
+                    tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.StockCode}")     '"รหัสใบสั่งซื้อ/รับของ"               
+                    tr("col9") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.DueDate}")     '"วันที่กำหนดชำระ"               
+                End If
+
+            ElseIf m_showPeriod = 1 Then
+                ' Level 1.
+                Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.ArID}")         '"รหัสลูกหนี้"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.ArName}")       '"ชื่อลูกหนี้"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.NotInRange}")   '"ไม่อยู่ในช่วง"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range1M}")        '"ช่วง 1 เดือน"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range2M}")        '"ช่วง 2 เดือน"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range3M}")       '"ช่วง 3 เดือน"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range4M}")       '"ช่วง 4 เดือน"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range5M}")       '"ช่วง 5 เดือน"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range6M}")       '"ช่วง 6 เดือน"
+                tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.OverRange6M}")     '"เกิน 6 เดือน"
+                tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Total}")            '"รวม"
+                ' Level 2.
+                If m_showDetailInGrid <> 0 Then
+                    tr = Me.m_treemanager.Treetable.Childs.Add
+                    tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.SaleBilliDocCode}") '"เลขที่ใบวางบิล"
+                    tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.StockCode}")     '"เลขที่เอกสาร"             
+                    tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.DueDate}")     '"วันที่กำหนดชำระ"               
+                End If
+
+            ElseIf m_showPeriod = 2 Then
+                ' Level 1.
+                Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.ArID}")         '"รหัสลูกหนี้"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.ArName}")       '"ชื่อลูกหนี้"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.NotInRange}")   '"ไม่อยู่ในช่วง"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range1Q}")         '"ช่วง 3 เดือน"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range2Q}")        '"ช่วง 6 เดือน"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range3Q}")       '"ช่วง 9 เดือน"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Range4Q}")       '"ช่วง 12 เดือน"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.OverRange4Q}")     '"เกิน 12 เดือน"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.Total}")            '"รวม"
+                ' Level 2.
+                If m_showDetailInGrid <> 0 Then
+                    tr = Me.m_treemanager.Treetable.Childs.Add
+                    tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.SaleBilliDocCode}") '"รหัสใบวางบิล"
+                    tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.StockCode}")     '"รหัสใบสั่งซื้อ/รับของ"               
+                    tr("col9") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARAging.DueDate}")     '"วันที่กำหนดชำระ"               
+                End If
+
+            End If
+        End Sub
+        Private Sub PopulateData()
+            Dim dtsup As DataTable = Me.DataSet.Tables(1) 'Me.DataSet.Tables(m_showPeriod + 1)
+            Dim dtdoc As DataTable = Me.DataSet.Tables(2)
+
+            If dtdoc.Rows.Count = 0 Then
+                Return
+            End If
+
+
+            Dim indent As String = Space(3)
+            Dim currTrIndex As Integer = -1
+            Dim currCustomerCode As String = ""
+            Dim currSupplierState As Boolean = False
+
+            Dim trGL As TreeRow
+            Dim trGLitem As TreeRow
+
+            Dim sumAmount(10) As Decimal
+            Dim sumCol(10) As Decimal
+            Dim sumTotalAmount As Decimal = 0
+            For i As Integer = 0 To 10
+                sumAmount(i) = 0
+                sumCol(i) = 0
             Next
 
-            Dim n As Int32 = 0
-            For Each row As DataRow In dt.Rows
+            Dim currid As Integer
+            For Each suprow As DataRow In dtsup.Rows
+                Dim srh As New DataRowHelper(suprow)
+                trGL = Me.m_treemanager.Treetable.Childs.Add
+                trGL("col0") = srh.GetValue(Of String)("CustomerCode")
+                trGL("col1") = srh.GetValue(Of String)("CustomerName")
+                currid = srh.GetValue(Of Integer)("custId")
 
-                m_grid.RowCount += 1
-                currentCustomerIndex = m_grid.RowCount
-                m_grid.RowStyles(currentCustomerIndex).ReadOnly = True
-                m_grid(currentCustomerIndex, 1).CellValue = row("CustomerCode")
-                m_grid(currentCustomerIndex, 2).CellValue = row("CustomerName")
-                m_grid(currentCustomerIndex, 3).CellValue = Configuration.FormatToString(CDec(row("OutBound")), DigitConfig.Price)
-                m_grid(currentCustomerIndex, 4).CellValue = Configuration.FormatToString(CDec(row("Intv1to7")), DigitConfig.Price)
-                m_grid(currentCustomerIndex, 5).CellValue = Configuration.FormatToString(CDec(row("Intv8to14")), DigitConfig.Price)
-                m_grid(currentCustomerIndex, 6).CellValue = Configuration.FormatToString(CDec(row("Intv15to21")), DigitConfig.Price)
-                m_grid(currentCustomerIndex, 7).CellValue = Configuration.FormatToString(CDec(row("Intv22to28")), DigitConfig.Price)
-                m_grid(currentCustomerIndex, 8).CellValue = Configuration.FormatToString(CDec(row("Over28")), DigitConfig.Price)
-                m_grid(currentCustomerIndex, 9).CellValue = Configuration.FormatToString(CDec(row("OutBound")) + CDec(row("Intv1to7")) + CDec(row("Intv8to14")) + CDec(row("Intv15to21")) + CDec(row("Intv22to28")) + CDec(row("Over28")), DigitConfig.Price)
+                Select Case m_showPeriod
+                    Case 0 'Day
+                        sumCol(2) += srh.GetValue(Of Decimal)("DayOutBound")
+                        sumCol(3) += srh.GetValue(Of Decimal)("Day1to7")
+                        sumCol(4) += srh.GetValue(Of Decimal)("Day8to14")
+                        sumCol(5) += srh.GetValue(Of Decimal)("Day15to21")
+                        sumCol(6) += srh.GetValue(Of Decimal)("Day22to28")
+                        sumCol(7) += srh.GetValue(Of Decimal)("DayOver28")
+                        sumCol(8) += srh.GetValue(Of Decimal)("RemainAmount")
 
-                summaryAmount(0) += CDec(row("OutBound"))
-                summaryAmount(1) += CDec(row("Intv1to7"))
-                summaryAmount(2) += CDec(row("Intv8to14"))
-                summaryAmount(3) += CDec(row("Intv15to21"))
-                summaryAmount(4) += CDec(row("Intv22to28"))
-                summaryAmount(5) += CDec(row("Over28"))
-                summaryAmount(6) += (CDec(row("OutBound")) + CDec(row("Intv1to7")) + CDec(row("Intv8to14")) + CDec(row("Intv15to21")) + CDec(row("Intv22to28")) + CDec(row("Over28")))
+                        trGL("col2") = Configuration.FormatToString(srh.GetValue(Of Decimal)("DayOutBound"), DigitConfig.Price)
+                        trGL("col3") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Day1to7"), DigitConfig.Price)
+                        trGL("col4") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Day8to14"), DigitConfig.Price)
+                        trGL("col5") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Day15to21"), DigitConfig.Price)
+                        trGL("col6") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Day22to28"), DigitConfig.Price)
+                        trGL("col7") = Configuration.FormatToString(srh.GetValue(Of Decimal)("DayOver28"), DigitConfig.Price)
+                        trGL("col8") = Configuration.FormatToString(srh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
+
+                    Case 1 'Month
+
+                        sumCol(2) += srh.GetValue(Of Decimal)("MonthOutBound")
+                        sumCol(3) += srh.GetValue(Of Decimal)("Month1")
+                        sumCol(4) += srh.GetValue(Of Decimal)("Month2")
+                        sumCol(5) += srh.GetValue(Of Decimal)("Month3")
+                        sumCol(6) += srh.GetValue(Of Decimal)("Month4")
+                        sumCol(7) += srh.GetValue(Of Decimal)("Month5")
+                        sumCol(8) += srh.GetValue(Of Decimal)("Month6")
+                        sumCol(9) += srh.GetValue(Of Decimal)("MonthOver6")
+                        sumCol(10) += srh.GetValue(Of Decimal)("RemainAmount")
+
+                        trGL("col2") = Configuration.FormatToString(srh.GetValue(Of Decimal)("MonthOutBound"), DigitConfig.Price)
+                        trGL("col3") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Month1"), DigitConfig.Price)
+                        trGL("col4") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Month2"), DigitConfig.Price)
+                        trGL("col5") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Month3"), DigitConfig.Price)
+                        trGL("col6") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Month4"), DigitConfig.Price)
+                        trGL("col7") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Month5"), DigitConfig.Price)
+                        trGL("col8") = Configuration.FormatToString(srh.GetValue(Of Decimal)("Month6"), DigitConfig.Price)
+                        trGL("col9") = Configuration.FormatToString(srh.GetValue(Of Decimal)("MonthOver6"), DigitConfig.Price)
+                        trGL("col10") = Configuration.FormatToString(srh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
+                    Case 2 'Year
+
+                        sumCol(2) += srh.GetValue(Of Decimal)("QuarterYearOutBound")
+                        sumCol(3) += srh.GetValue(Of Decimal)("QuarterYear1")
+                        sumCol(4) += srh.GetValue(Of Decimal)("QuarterYear2")
+                        sumCol(5) += srh.GetValue(Of Decimal)("QuarterYear3")
+                        sumCol(6) += srh.GetValue(Of Decimal)("QuarterYear4")
+                        sumCol(7) += srh.GetValue(Of Decimal)("QuarterYearOver4")
+                        sumCol(8) += srh.GetValue(Of Decimal)("RemainAmount")
+
+                        trGL("col2") = Configuration.FormatToString(srh.GetValue(Of Decimal)("QuarterYearOutBound"), DigitConfig.Price)
+                        trGL("col3") = Configuration.FormatToString(srh.GetValue(Of Decimal)("QuarterYear1"), DigitConfig.Price)
+                        trGL("col4") = Configuration.FormatToString(srh.GetValue(Of Decimal)("QuarterYear2"), DigitConfig.Price)
+                        trGL("col5") = Configuration.FormatToString(srh.GetValue(Of Decimal)("QuarterYear3"), DigitConfig.Price)
+                        trGL("col6") = Configuration.FormatToString(srh.GetValue(Of Decimal)("QuarterYear4"), DigitConfig.Price)
+                        trGL("col7") = Configuration.FormatToString(srh.GetValue(Of Decimal)("QuarterYearOver4"), DigitConfig.Price)
+                        trGL("col8") = Configuration.FormatToString(srh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
+                End Select
+
+                If m_showDetailInGrid <> 0 Then
+                    trGL.State = RowExpandState.Expanded
+
+                    For Each docrow As DataRow In dtdoc.Select("custId =" & currid.ToString)
+                        Dim drh As New DataRowHelper(docrow)
+                        trGLitem = trGL.Childs.Add
+
+                        trGLitem("col0") = indent & drh.GetValue(Of String)("SaleBilliCode")
+                        trGLitem("col1") = indent & drh.GetValue(Of String)("StockCode")
+                        trGLitem("col9") = drh.GetValue(Of Date)("DueDate").ToShortDateString
+
+
+                        Select Case m_showPeriod
+                            Case 0 'Day
+                                trGLitem("col2") = Configuration.FormatToString(drh.GetValue(Of Decimal)("DayOutBound"), DigitConfig.Price)
+                                trGLitem("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day1to7"), DigitConfig.Price)
+                                trGLitem("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day8to14"), DigitConfig.Price)
+                                trGLitem("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day15to21"), DigitConfig.Price)
+                                trGLitem("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day22to28"), DigitConfig.Price)
+                                trGLitem("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("DayOver28"), DigitConfig.Price)
+                            Case 1 'Month
+                                trGLitem("col2") = Configuration.FormatToString(drh.GetValue(Of Decimal)("MonthOutBound"), DigitConfig.Price)
+                                trGLitem("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month1"), DigitConfig.Price)
+                                trGLitem("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month2"), DigitConfig.Price)
+                                trGLitem("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month3"), DigitConfig.Price)
+                                trGLitem("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month4"), DigitConfig.Price)
+                                trGLitem("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month5"), DigitConfig.Price)
+                                trGLitem("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month6"), DigitConfig.Price)
+                                trGLitem("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("MonthOver6"), DigitConfig.Price)
+                                trGLitem("col11") = drh.GetValue(Of Date)("DueDate").ToShortDateString
+                            Case 2 'Year
+                                trGLitem("col2") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYearOutBound"), DigitConfig.Price)
+                                trGLitem("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear1"), DigitConfig.Price)
+                                trGLitem("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear2"), DigitConfig.Price)
+                                trGLitem("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear3"), DigitConfig.Price)
+                                trGLitem("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear4"), DigitConfig.Price)
+                                trGLitem("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYearOver4"), DigitConfig.Price)
+                        End Select
+                    Next
+                End If
+
+
             Next
 
-            m_grid.RowCount += 1
-            currentCustomerIndex = m_grid.RowCount
-            m_grid.RowStyles(currentCustomerIndex).Font.Bold = True
-            m_grid.RowStyles(currentCustomerIndex).ReadOnly = True
-            m_grid(currentCustomerIndex, 2).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptReceiveDue.Total}") '"รวม
-            m_grid(currentCustomerIndex, 3).CellValue = Configuration.FormatToString(summaryAmount(0), DigitConfig.Price)
-            m_grid(currentCustomerIndex, 4).CellValue = Configuration.FormatToString(summaryAmount(1), DigitConfig.Price)
-            m_grid(currentCustomerIndex, 5).CellValue = Configuration.FormatToString(summaryAmount(2), DigitConfig.Price)
-            m_grid(currentCustomerIndex, 6).CellValue = Configuration.FormatToString(summaryAmount(3), DigitConfig.Price)
-            m_grid(currentCustomerIndex, 7).CellValue = Configuration.FormatToString(summaryAmount(4), DigitConfig.Price)
-            m_grid(currentCustomerIndex, 8).CellValue = Configuration.FormatToString(summaryAmount(5), DigitConfig.Price)
-            m_grid(currentCustomerIndex, 9).CellValue = Configuration.FormatToString(summaryAmount(6), DigitConfig.Price)
+            'Sum Row
+            trGL = Me.m_treemanager.Treetable.Childs.Add
+            trGL("col1") = "รวม"
 
+            Select Case m_showPeriod
+                Case 0 'Day
+                    trGL("col2") = Configuration.FormatToString(sumCol(2), DigitConfig.Price)
+                    trGL("col3") = Configuration.FormatToString(sumCol(3), DigitConfig.Price)
+                    trGL("col4") = Configuration.FormatToString(sumCol(4), DigitConfig.Price)
+                    trGL("col5") = Configuration.FormatToString(sumCol(5), DigitConfig.Price)
+                    trGL("col6") = Configuration.FormatToString(sumCol(6), DigitConfig.Price)
+                    trGL("col7") = Configuration.FormatToString(sumCol(7), DigitConfig.Price)
+                    trGL("col8") = Configuration.FormatToString(sumCol(8), DigitConfig.Price)
+                Case 1 'Month
+                    trGL("col2") = Configuration.FormatToString(sumCol(2), DigitConfig.Price)
+                    trGL("col3") = Configuration.FormatToString(sumCol(3), DigitConfig.Price)
+                    trGL("col4") = Configuration.FormatToString(sumCol(4), DigitConfig.Price)
+                    trGL("col5") = Configuration.FormatToString(sumCol(5), DigitConfig.Price)
+                    trGL("col6") = Configuration.FormatToString(sumCol(6), DigitConfig.Price)
+                    trGL("col7") = Configuration.FormatToString(sumCol(7), DigitConfig.Price)
+                    trGL("col8") = Configuration.FormatToString(sumCol(8), DigitConfig.Price)
+                    trGL("col9") = Configuration.FormatToString(sumCol(9), DigitConfig.Price)
+                    trGL("col10") = Configuration.FormatToString(sumCol(10), DigitConfig.Price)
+                Case 2 'Year
+                    trGL("col2") = Configuration.FormatToString(sumCol(2), DigitConfig.Price)
+                    trGL("col3") = Configuration.FormatToString(sumCol(3), DigitConfig.Price)
+                    trGL("col4") = Configuration.FormatToString(sumCol(4), DigitConfig.Price)
+                    trGL("col5") = Configuration.FormatToString(sumCol(5), DigitConfig.Price)
+                    trGL("col6") = Configuration.FormatToString(sumCol(6), DigitConfig.Price)
+                    trGL("col7") = Configuration.FormatToString(sumCol(7), DigitConfig.Price)
+                    trGL("col8") = Configuration.FormatToString(sumCol(8), DigitConfig.Price)
+            End Select
+
+
+            'For Each row As DataRow In dtsup.Rows
+            '  If m_showPeriod = 0 Then
+            '    If Not currCustomerCode.Equals(row("CustomerCode")) Then
+            '      If currSupplierState = True Then
+            '        trGL("col2") = Configuration.FormatToString(sumAmount(0), DigitConfig.Price)
+            '        trGL("col3") = Configuration.FormatToString(sumAmount(1), DigitConfig.Price)
+            '        trGL("col4") = Configuration.FormatToString(sumAmount(2), DigitConfig.Price)
+            '        trGL("col5") = Configuration.FormatToString(sumAmount(3), DigitConfig.Price)
+            '        trGL("col6") = Configuration.FormatToString(sumAmount(4), DigitConfig.Price)
+            '        trGL("col7") = Configuration.FormatToString(sumAmount(5), DigitConfig.Price)
+            '        sumAmount(6) = 0
+            '        For i As Integer = 0 To 5
+            '          sumAmount(6) += sumAmount(i)
+            '        Next
+            '        trGL("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '      End If
+
+            '      trGL = Me.m_treemanager.Treetable.Childs.Add
+            '      currSupplierState = True
+
+            '      trGL("col0") = row("CustomerCode")
+            '      trGL("col1") = row("CustomerName")
+
+            '      For i As Integer = 0 To 6
+            '        sumAmount(i) = 0
+            '      Next
+            '      trGL.State = RowExpandState.Expanded
+
+            '      currCustomerCode = row("CustomerCode").ToString
+            '    End If
+
+            '    sumAmount(6) = 0
+            '    If IsNumeric(row("DayOutBound")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(0) += CDec(row("DayOutBound"))
+            '        sumAmount(6) += CDec(row("DayOutBound"))
+            '        sumCol(0) += CDec(row("DayOutBound"))
+            '      Else
+            '        sumAmount(0) -= CDec(row("DayOutBound"))
+            '        sumAmount(6) -= CDec(row("DayOutBound"))
+            '        sumCol(0) -= CDec(row("DayOutBound"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Day1to7")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(1) += CDec(row("Day1to7"))
+            '        sumAmount(6) += CDec(row("Day1to7"))
+            '        sumCol(1) += CDec(row("Day1to7"))
+            '      Else
+            '        sumAmount(1) -= CDec(row("Day1to7"))
+            '        sumAmount(6) -= CDec(row("Day1to7"))
+            '        sumCol(1) -= CDec(row("Day1to7"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Day8to14")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(2) += CDec(row("Day8to14"))
+            '        sumAmount(6) += CDec(row("Day8to14"))
+            '        sumCol(2) += CDec(row("Day8to14"))
+            '      Else
+            '        sumAmount(2) -= CDec(row("Day8to14"))
+            '        sumAmount(6) -= CDec(row("Day8to14"))
+            '        sumCol(2) -= CDec(row("Day8to14"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Day15to21")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(3) += CDec(row("Day15to21"))
+            '        sumAmount(6) += CDec(row("Day15to21"))
+            '        sumCol(3) += CDec(row("Day15to21"))
+            '      Else
+            '        sumAmount(3) -= CDec(row("Day15to21"))
+            '        sumAmount(6) -= CDec(row("Day15to21"))
+            '        sumCol(3) -= CDec(row("Day15to21"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Day22to28")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(4) += CDec(row("Day22to28"))
+            '        sumAmount(6) += CDec(row("Day22to28"))
+            '        sumCol(4) += CDec(row("Day22to28"))
+            '      Else
+            '        sumAmount(4) -= CDec(row("Day22to28"))
+            '        sumAmount(6) -= CDec(row("Day22to28"))
+            '        sumCol(4) -= CDec(row("Day22to28"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("DayOver28")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(5) += CDec(row("DayOver28"))
+            '        sumAmount(6) += CDec(row("DayOver28"))
+            '        sumCol(5) += CDec(row("DayOver28"))
+            '      Else
+            '        sumAmount(5) -= CDec(row("DayOver28"))
+            '        sumAmount(6) -= CDec(row("DayOver28"))
+            '        sumCol(5) -= CDec(row("DayOver28"))
+            '      End If
+            '    End If
+
+            '    If m_showDetailInGrid <> 0 Then
+            '      trGLitem = trGL.Childs.Add
+            '      If Not row.IsNull("SaleBilliCode") Then
+            '        trGLitem("col0") = indent & row("SaleBilliCode").ToString
+            '      End If
+
+            '      trGLitem("col1") = indent & row("StockCode").ToString
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        trGLitem("col2") = Configuration.FormatToString(CDec(row("DayOutBound")), DigitConfig.Price)
+            '        trGLitem("col3") = Configuration.FormatToString(CDec(row("Day1to7")), DigitConfig.Price)
+            '        trGLitem("col4") = Configuration.FormatToString(CDec(row("Day8to14")), DigitConfig.Price)
+            '        trGLitem("col5") = Configuration.FormatToString(CDec(row("Day15to21")), DigitConfig.Price)
+            '        trGLitem("col6") = Configuration.FormatToString(CDec(row("Day22to28")), DigitConfig.Price)
+            '        trGLitem("col7") = Configuration.FormatToString(CDec(row("DayOver28")), DigitConfig.Price)
+            '        trGLitem("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '      Else
+            '        trGLitem("col2") = Configuration.FormatToString(CDec(row("DayOutBound")) * -1, DigitConfig.Price)
+            '        trGLitem("col3") = Configuration.FormatToString(CDec(row("Day1to7")) * -1, DigitConfig.Price)
+            '        trGLitem("col4") = Configuration.FormatToString(CDec(row("Day8to14")) * -1, DigitConfig.Price)
+            '        trGLitem("col5") = Configuration.FormatToString(CDec(row("Day15to21")) * -1, DigitConfig.Price)
+            '        trGLitem("col6") = Configuration.FormatToString(CDec(row("Day22to28")) * -1, DigitConfig.Price)
+            '        trGLitem("col7") = Configuration.FormatToString(CDec(row("DayOver28")) * -1, DigitConfig.Price)
+            '        trGLitem("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '      End If
+
+            '      If Not row.IsNull("DueDate") Then
+            '        If IsDate(row("DueDate")) Then
+            '          trGLitem("col9") = CDate(row("DueDate")).ToShortDateString
+            '        End If
+            '      End If
+            '    End If
+            '  ElseIf m_showPeriod = 1 Then
+            '    If Not currCustomerCode.Equals(row("CustomerCode")) Then
+            '      If currSupplierState = True Then
+            '        trGL("col2") = Configuration.FormatToString(sumAmount(0), DigitConfig.Price)
+            '        trGL("col3") = Configuration.FormatToString(sumAmount(1), DigitConfig.Price)
+            '        trGL("col4") = Configuration.FormatToString(sumAmount(2), DigitConfig.Price)
+            '        trGL("col5") = Configuration.FormatToString(sumAmount(3), DigitConfig.Price)
+            '        trGL("col6") = Configuration.FormatToString(sumAmount(4), DigitConfig.Price)
+            '        trGL("col7") = Configuration.FormatToString(sumAmount(5), DigitConfig.Price)
+            '        trGL("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '        trGL("col9") = Configuration.FormatToString(sumAmount(7), DigitConfig.Price)
+            '        sumAmount(8) = 0
+            '        For i As Integer = 0 To 7
+            '          sumAmount(8) += sumAmount(i)
+            '        Next
+            '        trGL("col10") = Configuration.FormatToString(sumAmount(8), DigitConfig.Price)
+            '      End If
+
+            '      trGL = Me.m_treemanager.Treetable.Childs.Add
+            '      currSupplierState = True
+
+            '      trGL("col0") = row("CustomerCode")
+            '      trGL("col1") = row("CustomerName")
+
+            '      For i As Integer = 0 To 8
+            '        sumAmount(i) = 0
+            '      Next
+            '      trGL.State = RowExpandState.Expanded
+
+            '      currCustomerCode = row("CustomerCode").ToString
+            '    End If
+
+            '    sumAmount(8) = 0
+            '    If IsNumeric(row("MonthOutBound")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(0) += CDec(row("MonthOutBound"))
+            '        sumAmount(8) += CDec(row("MonthOutBound"))
+            '        sumCol(0) += CDec(row("MonthOutBound"))
+            '      Else
+            '        sumAmount(0) -= CDec(row("MonthOutBound"))
+            '        sumAmount(8) -= CDec(row("MonthOutBound"))
+            '        sumCol(0) -= CDec(row("MonthOutBound"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Month1")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(1) += CDec(row("Month1"))
+            '        sumAmount(8) += CDec(row("Month1"))
+            '        sumCol(1) += CDec(row("Month1"))
+            '      Else
+            '        sumAmount(1) -= CDec(row("Month1"))
+            '        sumAmount(8) -= CDec(row("Month1"))
+            '        sumCol(1) -= CDec(row("Month1"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Month2")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(2) += CDec(row("Month2"))
+            '        sumAmount(8) += CDec(row("Month2"))
+            '        sumCol(2) += CDec(row("Month2"))
+            '      Else
+            '        sumAmount(2) -= CDec(row("Month2"))
+            '        sumAmount(8) -= CDec(row("Month2"))
+            '        sumCol(2) -= CDec(row("Month2"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Month3")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(3) += CDec(row("Month3"))
+            '        sumAmount(8) += CDec(row("Month3"))
+            '        sumCol(3) += CDec(row("Month3"))
+            '      Else
+            '        sumAmount(3) -= CDec(row("Month3"))
+            '        sumAmount(8) -= CDec(row("Month3"))
+            '        sumCol(3) -= CDec(row("Month3"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Month4")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(4) += CDec(row("Month4"))
+            '        sumAmount(8) += CDec(row("Month4"))
+            '        sumCol(4) += CDec(row("Month4"))
+            '      Else
+            '        sumAmount(4) -= CDec(row("Month4"))
+            '        sumAmount(8) -= CDec(row("Month4"))
+            '        sumCol(4) -= CDec(row("Month4"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Month5")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(5) += CDec(row("Month5"))
+            '        sumAmount(8) += CDec(row("Month5"))
+            '        sumCol(5) += CDec(row("Month5"))
+            '      Else
+            '        sumAmount(5) -= CDec(row("Month5"))
+            '        sumAmount(8) -= CDec(row("Month5"))
+            '        sumCol(5) -= CDec(row("Month5"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("Month6")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(6) += CDec(row("Month6"))
+            '        sumAmount(8) += CDec(row("Month6"))
+            '        sumCol(6) += CDec(row("Month6"))
+            '      Else
+            '        sumAmount(6) -= CDec(row("Month6"))
+            '        sumAmount(8) -= CDec(row("Month6"))
+            '        sumCol(6) -= CDec(row("Month6"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("MonthOver6")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(7) += CDec(row("MonthOver6"))
+            '        sumAmount(8) += CDec(row("MonthOver6"))
+            '        sumCol(7) += CDec(row("MonthOver6"))
+            '      Else
+            '        sumAmount(7) -= CDec(row("MonthOver6"))
+            '        sumAmount(8) -= CDec(row("MonthOver6"))
+            '        sumCol(7) -= CDec(row("MonthOver6"))
+            '      End If
+            '    End If
+
+            '    If m_showDetailInGrid <> 0 Then
+            '      trGLitem = trGL.Childs.Add
+            '      If Not row.IsNull("SaleBilliCode") Then
+            '        trGLitem("col0") = indent & row("SaleBilliCode").ToString
+            '      End If
+            '      trGLitem("col1") = indent & row("StockCode").ToString
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        trGLitem("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")), DigitConfig.Price)
+            '        trGLitem("col3") = Configuration.FormatToString(CDec(row("Month1")), DigitConfig.Price)
+            '        trGLitem("col4") = Configuration.FormatToString(CDec(row("Month2")), DigitConfig.Price)
+            '        trGLitem("col5") = Configuration.FormatToString(CDec(row("Month3")), DigitConfig.Price)
+            '        trGLitem("col6") = Configuration.FormatToString(CDec(row("Month4")), DigitConfig.Price)
+            '        trGLitem("col7") = Configuration.FormatToString(CDec(row("Month5")), DigitConfig.Price)
+            '        trGLitem("col8") = Configuration.FormatToString(CDec(row("Month6")), DigitConfig.Price)
+            '        trGLitem("col9") = Configuration.FormatToString(CDec(row("MonthOver6")), DigitConfig.Price)
+            '      Else
+            '        trGLitem("col2") = Configuration.FormatToString(CDec(row("MonthOutBound")) * -1, DigitConfig.Price)
+            '        trGLitem("col3") = Configuration.FormatToString(CDec(row("Month1")) * -1, DigitConfig.Price)
+            '        trGLitem("col4") = Configuration.FormatToString(CDec(row("Month2")) * -1, DigitConfig.Price)
+            '        trGLitem("col5") = Configuration.FormatToString(CDec(row("Month3")) * -1, DigitConfig.Price)
+            '        trGLitem("col6") = Configuration.FormatToString(CDec(row("Month4")) * -1, DigitConfig.Price)
+            '        trGLitem("col7") = Configuration.FormatToString(CDec(row("Month5")) * -1, DigitConfig.Price)
+            '        trGLitem("col8") = Configuration.FormatToString(CDec(row("Month6")) * -1, DigitConfig.Price)
+            '        trGLitem("col9") = Configuration.FormatToString(CDec(row("MonthOver6")) * -1, DigitConfig.Price)
+            '      End If
+            '      trGLitem("col10") = Configuration.FormatToString(sumAmount(8), DigitConfig.Price)
+            '      If Not row.IsNull("DueDate") Then
+            '        If IsDate(row("DueDate")) Then
+            '          trGLitem("col11") = CDate(row("DueDate")).ToShortDateString
+            '        End If
+            '      End If
+            '    End If
+            '  ElseIf m_showPeriod = 2 Then
+            '    If Not currCustomerCode.Equals(row("CustomerCode")) Then
+            '      If currSupplierState = True Then
+            '        trGL("col2") = Configuration.FormatToString(sumAmount(0), DigitConfig.Price)
+            '        trGL("col3") = Configuration.FormatToString(sumAmount(1), DigitConfig.Price)
+            '        trGL("col4") = Configuration.FormatToString(sumAmount(2), DigitConfig.Price)
+            '        trGL("col5") = Configuration.FormatToString(sumAmount(3), DigitConfig.Price)
+            '        trGL("col6") = Configuration.FormatToString(sumAmount(4), DigitConfig.Price)
+            '        trGL("col7") = Configuration.FormatToString(sumAmount(5), DigitConfig.Price)
+            '        sumAmount(6) = 0
+            '        For i As Integer = 0 To 5
+            '          sumAmount(6) += sumAmount(i)
+            '        Next
+            '        trGL("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '      End If
+
+            '      trGL = Me.m_treemanager.Treetable.Childs.Add
+            '      currSupplierState = True
+
+            '      trGL("col0") = row("CustomerCode")
+            '      trGL("col1") = row("CustomerName")
+
+            '      For i As Integer = 0 To 6
+            '        sumAmount(i) = 0
+            '      Next
+            '      trGL.State = RowExpandState.Expanded
+
+            '      currCustomerCode = row("CustomerCode").ToString
+            '    End If
+
+            '    sumAmount(6) = 0
+            '    If IsNumeric(row("QuarterYearOutBound")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(0) += CDec(row("QuarterYearOutBound"))
+            '        sumAmount(6) += CDec(row("QuarterYearOutBound"))
+            '        sumCol(0) += CDec(row("QuarterYearOutBound"))
+            '      Else
+            '        sumAmount(0) -= CDec(row("QuarterYearOutBound"))
+            '        sumAmount(6) -= CDec(row("QuarterYearOutBound"))
+            '        sumCol(0) -= CDec(row("QuarterYearOutBound"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("QuarterYear1")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(1) += CDec(row("QuarterYear1"))
+            '        sumAmount(6) += CDec(row("QuarterYear1"))
+            '        sumCol(1) += CDec(row("QuarterYear1"))
+            '      Else
+            '        sumAmount(1) -= CDec(row("QuarterYear1"))
+            '        sumAmount(6) -= CDec(row("QuarterYear1"))
+            '        sumCol(1) -= CDec(row("QuarterYear1"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("QuarterYear2")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(2) += CDec(row("QuarterYear2"))
+            '        sumAmount(6) += CDec(row("QuarterYear2"))
+            '        sumCol(2) += CDec(row("QuarterYear2"))
+            '      Else
+            '        sumAmount(2) -= CDec(row("QuarterYear2"))
+            '        sumAmount(6) -= CDec(row("QuarterYear2"))
+            '        sumCol(2) -= CDec(row("QuarterYear2"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("QuarterYear3")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(3) += CDec(row("QuarterYear3"))
+            '        sumAmount(6) += CDec(row("QuarterYear3"))
+            '        sumCol(3) += CDec(row("QuarterYear3"))
+            '      Else
+            '        sumAmount(3) -= CDec(row("QuarterYear3"))
+            '        sumAmount(6) -= CDec(row("QuarterYear3"))
+            '        sumCol(3) -= CDec(row("QuarterYear3"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("QuarterYear4")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(4) += CDec(row("QuarterYear4"))
+            '        sumAmount(6) += CDec(row("QuarterYear4"))
+            '        sumCol(4) += CDec(row("QuarterYear4"))
+            '      Else
+            '        sumAmount(4) -= CDec(row("QuarterYear4"))
+            '        sumAmount(6) -= CDec(row("QuarterYear4"))
+            '        sumCol(4) -= CDec(row("QuarterYear4"))
+            '      End If
+            '    End If
+            '    If IsNumeric(row("QuarterYearOver4")) Then
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        sumAmount(5) += CDec(row("QuarterYearOver4"))
+            '        sumAmount(6) += CDec(row("QuarterYearOver4"))
+            '        sumCol(5) += CDec(row("QuarterYearOver4"))
+            '      Else
+            '        sumAmount(5) -= CDec(row("QuarterYearOver4"))
+            '        sumAmount(6) -= CDec(row("QuarterYearOver4"))
+            '        sumCol(5) -= CDec(row("QuarterYearOver4"))
+            '      End If
+            '    End If
+
+            '    If m_showDetailInGrid <> 0 Then
+            '      trGLitem = trGL.Childs.Add
+            '      If Not row.IsNull("SaleBilliCode") Then
+            '        trGLitem("col0") = indent & row("SaleBilliCode").ToString
+            '      End If
+            '      trGLitem("col1") = indent & row("StockCode").ToString
+            '      If CInt(row("stock_type")) <> 79 Then
+            '        trGLitem("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")), DigitConfig.Price)
+            '        trGLitem("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")), DigitConfig.Price)
+            '        trGLitem("col4") = Configuration.FormatToString(CDec(row("QuarterYear2")), DigitConfig.Price)
+            '        trGLitem("col5") = Configuration.FormatToString(CDec(row("QuarterYear3")), DigitConfig.Price)
+            '        trGLitem("col6") = Configuration.FormatToString(CDec(row("QuarterYear4")), DigitConfig.Price)
+            '        trGLitem("col7") = Configuration.FormatToString(CDec(row("QuarterYearOver4")), DigitConfig.Price)
+            '      Else
+            '        trGLitem("col2") = Configuration.FormatToString(CDec(row("QuarterYearOutBound")) * -1, DigitConfig.Price)
+            '        trGLitem("col3") = Configuration.FormatToString(CDec(row("QuarterYear1")) * -1, DigitConfig.Price)
+            '        trGLitem("col4") = Configuration.FormatToString(CDec(row("QuarterYear2")) * -1, DigitConfig.Price)
+            '        trGLitem("col5") = Configuration.FormatToString(CDec(row("QuarterYear3")) * -1, DigitConfig.Price)
+            '        trGLitem("col6") = Configuration.FormatToString(CDec(row("QuarterYear4")) * -1, DigitConfig.Price)
+            '        trGLitem("col7") = Configuration.FormatToString(CDec(row("QuarterYearOver4")) * -1, DigitConfig.Price)
+            '      End If
+            '      trGLitem("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '      If Not row.IsNull("DueDate") Then
+            '        If IsDate(row("DueDate")) Then
+            '          trGLitem("col9") = CDate(row("DueDate")).ToShortDateString
+            '        End If
+            '      End If
+            '    End If
+            '  End If
+            'Next
+
+            ''สำหรับ Supplier คนสุดท้าย
+            'If m_showPeriod = 0 Then
+            '  trGL("col2") = Configuration.FormatToString(sumAmount(0), DigitConfig.Price)
+            '  trGL("col3") = Configuration.FormatToString(sumAmount(1), DigitConfig.Price)
+            '  trGL("col4") = Configuration.FormatToString(sumAmount(2), DigitConfig.Price)
+            '  trGL("col5") = Configuration.FormatToString(sumAmount(3), DigitConfig.Price)
+            '  trGL("col6") = Configuration.FormatToString(sumAmount(4), DigitConfig.Price)
+            '  trGL("col7") = Configuration.FormatToString(sumAmount(5), DigitConfig.Price)
+            '  sumAmount(6) = 0
+            '  For i As Integer = 0 To 5
+            '    sumAmount(6) += sumAmount(i)
+            '  Next
+            '  trGL("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            'ElseIf m_showPeriod = 1 Then
+            '  trGL("col2") = Configuration.FormatToString(sumAmount(0), DigitConfig.Price)
+            '  trGL("col3") = Configuration.FormatToString(sumAmount(1), DigitConfig.Price)
+            '  trGL("col4") = Configuration.FormatToString(sumAmount(2), DigitConfig.Price)
+            '  trGL("col5") = Configuration.FormatToString(sumAmount(3), DigitConfig.Price)
+            '  trGL("col6") = Configuration.FormatToString(sumAmount(4), DigitConfig.Price)
+            '  trGL("col7") = Configuration.FormatToString(sumAmount(5), DigitConfig.Price)
+            '  trGL("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            '  trGL("col9") = Configuration.FormatToString(sumAmount(7), DigitConfig.Price)
+            '  sumAmount(8) = 0
+            '  For i As Integer = 0 To 7
+            '    sumAmount(8) += sumAmount(i)
+            '  Next
+            '  trGL("col10") = Configuration.FormatToString(sumAmount(8), DigitConfig.Price)
+            'ElseIf m_showPeriod = 2 Then
+            '  trGL("col2") = Configuration.FormatToString(sumAmount(0), DigitConfig.Price)
+            '  trGL("col3") = Configuration.FormatToString(sumAmount(1), DigitConfig.Price)
+            '  trGL("col4") = Configuration.FormatToString(sumAmount(2), DigitConfig.Price)
+            '  trGL("col5") = Configuration.FormatToString(sumAmount(3), DigitConfig.Price)
+            '  trGL("col6") = Configuration.FormatToString(sumAmount(4), DigitConfig.Price)
+            '  trGL("col7") = Configuration.FormatToString(sumAmount(5), DigitConfig.Price)
+            '  sumAmount(6) = 0
+            '  For i As Integer = 0 To 5
+            '    sumAmount(6) += sumAmount(i)
+            '  Next
+            '  trGL("col8") = Configuration.FormatToString(sumAmount(6), DigitConfig.Price)
+            'End If
+
+            'If Not trGL Is Nothing Then
+            '  trGLitem = trGL.Childs.Add
+            '  trGLitem("col0") = ""
+            '  trGLitem("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPAging.Total}")            '"รวม"
+
+            '  trGLitem("col2") = Configuration.FormatToString(sumCol(0), DigitConfig.Price)
+            '  trGLitem("col3") = Configuration.FormatToString(sumCol(1), DigitConfig.Price)
+            '  trGLitem("col4") = Configuration.FormatToString(sumCol(2), DigitConfig.Price)
+            '  trGLitem("col5") = Configuration.FormatToString(sumCol(3), DigitConfig.Price)
+            '  trGLitem("col6") = Configuration.FormatToString(sumCol(4), DigitConfig.Price)
+            '  trGLitem("col7") = Configuration.FormatToString(sumCol(5), DigitConfig.Price)
+            '  If m_showPeriod = 1 Then
+            '    trGLitem("col8") = Configuration.FormatToString(sumCol(6), DigitConfig.Price)
+            '    trGLitem("col9") = Configuration.FormatToString(sumCol(7), DigitConfig.Price)
+            '    sumCol(8) = 0
+            '    For i As Integer = 0 To 7
+            '      sumCol(8) += sumCol(i)
+            '    Next
+            '    trGLitem("col10") = Configuration.FormatToString(sumCol(8), DigitConfig.Price)
+            '  Else
+            '    sumCol(6) = 0
+            '    For i As Integer = 0 To 5
+            '      sumCol(6) += sumCol(i)
+            '    Next
+            '    trGLitem("col8") = Configuration.FormatToString(sumCol(6), DigitConfig.Price)
+            '  End If
+            'End If
+
+        End Sub
+        Private Function SearchTag(ByVal id As Integer) As TreeRow
+            If Me.m_treemanager Is Nothing Then
+                Return Nothing
+            End If
+            Dim dt As TreeTable = m_treemanager.Treetable
+            For Each row As TreeRow In dt.Rows
+                If IsNumeric(row.Tag) AndAlso CInt(row.Tag) = id Then
+                    Return row
+                End If
+            Next
+        End Function
+        Public Overrides Function GetSimpleSchemaTable() As TreeTable
+            Dim myDatatable As New TreeTable("Report")
+
+            myDatatable.Columns.Add(New DataColumn("col0", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col1", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col2", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col3", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col4", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col5", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col6", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col7", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col8", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col9", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col10", GetType(String)))
+            myDatatable.Columns.Add(New DataColumn("col11", GetType(String)))
+
+            Return myDatatable
+        End Function
+        Public Overrides Function CreateSimpleTableStyle() As DataGridTableStyle
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "Report"
+            Dim widths As New ArrayList
+            Dim colCount As Integer = 0
+            If m_showPeriod = 0 Or m_showPeriod = 2 Then
+                colCount = 9
+            ElseIf m_showPeriod = 1 Then
+                colCount = 11
+            End If
+            If m_showDetailInGrid = 0 Then
+                colCount = colCount - 1
+            End If
+
+            widths.Add(120)
+            widths.Add(200)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+
+            For i As Integer = 0 To colCount
+                If i = 1 Then
+                    If m_showDetailInGrid <> 0 Then
+                        Dim cs As New PlusMinusTreeTextColumn
+                        cs.MappingName = "col" & i
+                        cs.HeaderText = ""
+                        cs.Width = CInt(widths(i))
+                        cs.NullText = ""
+                        cs.Alignment = HorizontalAlignment.Left
+                        cs.ReadOnly = True
+                        cs.Format = "s"
+                        AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+                        dst.GridColumnStyles.Add(cs)
+                    Else
+                        Dim cs As New TreeTextColumn(1, True, Color.White)
+                        cs.MappingName = "col" & i
+                        cs.HeaderText = ""
+                        cs.Width = CInt(widths(i))
+                        cs.NullText = ""
+                        cs.Alignment = HorizontalAlignment.Left
+                        cs.ReadOnly = True
+                        cs.Format = "s"
+                        AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+                        dst.GridColumnStyles.Add(cs)
+                    End If
+                Else
+                    Dim realColCount As Integer = colCount
+                    If m_showDetailInGrid = 0 Then
+                        realColCount = realColCount + 1
+                    End If
+                    Dim cs As New TreeTextColumn(i, True, Color.Khaki)
+                    cs.MappingName = "col" & i
+                    cs.HeaderText = ""
+                    cs.Width = CInt(widths(i))
+                    cs.NullText = ""
+                    'cs.Alignment = HorizontalAlignment.Left
+                    cs.ReadOnly = True
+                    Select Case i
+                        Case 0, 1
+                            cs.Alignment = HorizontalAlignment.Left
+                            cs.DataAlignment = HorizontalAlignment.Left
+                            cs.Format = "s"
+                        Case realColCount
+                            cs.Alignment = HorizontalAlignment.Center
+                            cs.DataAlignment = HorizontalAlignment.Center
+                            cs.Format = "s"
+                        Case Else
+                            cs.Alignment = HorizontalAlignment.Right
+                            cs.DataAlignment = HorizontalAlignment.Right
+                            cs.Format = "d"
+                    End Select
+                    AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
+                    dst.GridColumnStyles.Add(cs)
+                End If
+            Next
+
+            Return dst
+        End Function
+        Public Overrides Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
+            e.HilightValue = False
+            If e.Row <= 1 Then
+                e.HilightValue = True
+            End If
         End Sub
 #End Region#Region "Shared"
 #End Region#Region "Properties"        Public Overrides ReadOnly Property ClassName() As String
@@ -184,96 +956,28 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 dpiColl.Add(fixDpi)
             Next
 
-            Dim fn As Font
-
             Dim n As Integer = 0
-            For rowIndex As Integer = 1 To m_grid.RowCount
-                If Not rowIndex.Equals(m_grid.RowCount) Then
+            Dim iRow As Integer = CInt(IIf(m_showDetailInGrid = 0, 1, 2)) + 1
+            For rowIndex As Integer = iRow To m_grid.RowCount
+                Dim fn As Font
+
+                If rowIndex < m_grid.RowCount Then
                     fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
                 Else
                     fn = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
                 End If
-                ''If i > 0 Then
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col0"
-                dpi.Value = m_grid(rowIndex, 1).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
 
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col1"
-                dpi.Value = m_grid(rowIndex, 2).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
+                For colIndex As Integer = 0 To m_grid.ColCount - 1
+                    dpi = New DocPrintingItem
+                    dpi.Mapping = "col" & colIndex.ToString
+                    dpi.Value = m_grid(rowIndex, colIndex + 1).CellValue
+                    dpi.DataType = "System.String"
+                    dpi.Row = n + 1
+                    dpi.Table = "Item"
+                    dpi.Font = fn
+                    dpiColl.Add(dpi)
+                Next
 
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col2"
-                dpi.Value = m_grid(rowIndex, 3).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
-
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col3"
-                dpi.Value = m_grid(rowIndex, 4).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
-
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col4"
-                dpi.Value = m_grid(rowIndex, 5).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
-
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col5"
-                dpi.Value = m_grid(rowIndex, 6).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
-
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col6"
-                dpi.Value = m_grid(rowIndex, 7).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
-
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col7"
-                dpi.Value = m_grid(rowIndex, 8).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
-
-                dpi = New DocPrintingItem
-                dpi.Mapping = "col8"
-                dpi.Value = m_grid(rowIndex, 9).CellValue
-                dpi.DataType = "System.String"
-                dpi.Row = n + 1
-                dpi.Table = "Item"
-                dpi.Font = fn
-                dpiColl.Add(dpi)
                 n += 1
             Next
 
