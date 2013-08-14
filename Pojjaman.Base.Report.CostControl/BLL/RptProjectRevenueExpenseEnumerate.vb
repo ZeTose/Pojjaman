@@ -1024,7 +1024,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trc("POActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("POActual"), dgt)
         trc("POActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), dgt)
         trc("GRActual") = Configuration.FormatToString(drh.GetValue(Of Decimal)("GRActual"), dgt)
-        trc("GRActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("POActual"), dgt)
+                trc("GRActualBalance") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget") - drh.GetValue(Of Decimal)("GRActual"), dgt)
 
         trc("contractbudgetprice") = Configuration.FormatToString(CDec(trc("main")), dgt)
         trc("estimatebudget") = Configuration.FormatToString(drh.GetValue(Of Decimal)("budget"), dgt)
