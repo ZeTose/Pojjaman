@@ -8,6 +8,7 @@ Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Services
 Imports Longkong.Pojjaman.DataAccessLayer
+Imports Syncfusion.Windows.Forms.Grid
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptVatNotDue
@@ -43,7 +44,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
-      lkg.TreeTable = tm.Treetable
+            lkg.TreeTable = tm.Treetable
+            AddjustGrid()
       If m_showDetailInGrid = 0 Then
         lkg.Rows.HeaderCount = 1
         lkg.Rows.FrozenCount = 1
@@ -87,59 +89,148 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Dim indent As String = Space(3)
 
-      If m_showDetailInGrid = 0 Then
-        ' Level 1
-        Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
-        tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
-        tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
-        tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
-        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
-        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
-        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้าและบริการ"
-        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"จำนวนเงินภาษี"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbase}") '"ฐานภาษียังไม่ถึงกำหนดยกมา"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbAmt}") '"ภาษียังไม่ถึงกำหนดยกมา"
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
-        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
-        tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"ฐานภาษียังไม่ถึงกำหนดยกไป"
-        tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"ภาษียังไม่ถึงกำหนดยกไป"
-        tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
-      Else
-        ' Level 1
-        Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
-        tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
-        tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
-        tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
-        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
-        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
-        tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้าและบริการ"
-        tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"จำนวนเงินภาษี"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxbase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
-        tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbase}") '"ฐานภาษียังไม่ถึงกำหนดยกมา"
-        tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbAmt}") '"ภาษียังไม่ถึงกำหนดยกมา"
-        tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
-        tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
-        tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"ฐานภาษียังไม่ถึงกำหนดยกไป"
-        tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"ภาษียังไม่ถึงกำหนดยกไป"
-        tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
+            If m_showDetailInGrid = 0 Then
 
-        ' Level 2
-        tr = Me.m_treemanager.Treetable.Childs.Add
-        tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocCode}") '"เลขที่เอกสารอ้างอิงดึงไปทำกรอกใบกำกับ"
-        tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocDate}") ' "วันที่เอกสารอ้างอิงดึงไปทำกรอกฯ"
-        tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
-        tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
-        tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
-        'tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
-        ' tr("col7") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
-        tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าซื้อถึงกำหนด"
-        tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"ภาษีซื้อ(ถึงกำหนด)"
-        'tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"มูลค่าสินค้าและบริการ(คงเหลือ)"
-        'tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"จำนวนเงินภาษีคงเหลือ"
-      End If
-    End Sub
+                ' Level 0
+                Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
+
+                'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้าและบริการ"
+                'tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"จำนวนเงินภาษี"
+
+                'tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbase}") '"ฐานภาษียังไม่ถึงกำหนดยกมา"
+                'tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbAmt}") '"ภาษียังไม่ถึงกำหนดยกมา"
+
+                'tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
+                'tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
+
+                'tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"ฐานภาษียังไม่ถึงกำหนดยกไป"
+                'tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"ภาษียังไม่ถึงกำหนดยกไป"
+
+                tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
+
+
+                ' Level 1
+                tr = Me.m_treemanager.Treetable.Childs.Add
+                'tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
+                'tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
+                'tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
+                'tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                'tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
+                'tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
+
+
+
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbase}") '"ฐานภาษียังไม่ถึงกำหนดยกมา"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbAmt}") '"ภาษียังไม่ถึงกำหนดยกมา"
+
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้าและบริการ"
+                tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"จำนวนเงินภาษี"
+
+                tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
+                tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
+
+                tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"ฐานภาษียังไม่ถึงกำหนดยกไป"
+                tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"ภาษียังไม่ถึงกำหนดยกไป"
+
+                'tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
+            Else
+                ' Level 0
+                Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+                tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
+                tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
+                tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
+                tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
+
+                'tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้าและบริการ"
+                'tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"จำนวนเงินภาษี"
+
+                'tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbase}") '"ฐานภาษียังไม่ถึงกำหนดยกมา"
+                'tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbAmt}") '"ภาษียังไม่ถึงกำหนดยกมา"
+
+                'tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
+                'tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
+
+                'tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"ฐานภาษียังไม่ถึงกำหนดยกไป"
+                'tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"ภาษียังไม่ถึงกำหนดยกไป"
+
+                tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
+
+
+                ' Level 1
+                tr = Me.m_treemanager.Treetable.Childs.Add
+                'tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
+                'tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
+                'tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
+                'tr("col3") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                'tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
+                'tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
+
+
+
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbase}") '"ฐานภาษียังไม่ถึงกำหนดยกมา"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.bfdeferTaxbAmt}") '"ภาษียังไม่ถึงกำหนดยกมา"
+
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าสินค้า/บริการ"
+                tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีมูลค่าเพิ่ม"
+
+                tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าสินค้าและบริการดึงไปกรอกใบกำกับ"
+                tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"จำนวนเงินภาษีดึงไปกรอกใบกำกับ"
+
+                tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"ฐานภาษียังไม่ถึงกำหนดยกไป"
+                tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"ภาษียังไม่ถึงกำหนดยกไป"
+
+                'tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
+
+                ' Level 2
+                tr = Me.m_treemanager.Treetable.Childs.Add
+                tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocCode}") '"เลขที่เอกสารอ้างอิงดึงไปทำกรอกใบกำกับ"
+                tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.RefDocDate}") ' "วันที่เอกสารอ้างอิงดึงไปทำกรอกฯ"
+                tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.EntityDescription}") '"ประเภทเอกสาร"
+                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierCode}") '"รหัสผู้ขาย"
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.SupplierName}") '"รายชื่อผู้ขาย"
+                'tr("col6") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxbase}") '"มูลค่าเอกสาร"
+                ' tr("col7") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockTaxAmt}") '"ภาษีซื้อเอกสาร"
+                tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatBase}") '"มูลค่าซื้อถึงกำหนด"
+                tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVatAmt}") '"ภาษีซื้อ(ถึงกำหนด)"
+                'tr("col10") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.StockRemain}") '"มูลค่าสินค้าและบริการ(คงเหลือ)"
+                'tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"จำนวนเงินภาษีคงเหลือ"
+            End If
+        End Sub
+        Private Sub AddjustGrid()
+
+            Dim RangeStyle As GridRangeStyle = New GridRangeStyle
+
+            'm_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(row1, col1, row2, col2)})
+
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 1, 2, 1)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 2, 2, 2)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 3, 2, 3)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 4, 2, 4)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 5, 2, 5)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 6, 2, 6)})
+
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 7, 1, 8)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 9, 1, 10)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 11, 1, 12)})
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 13, 1, 14)})
+
+            m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 15, 2, 15)})
+
+
+            m_grid(1, 7).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxOpen}") '"ยอดยกมา"
+            m_grid(1, 9).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTax}") '"ยอดตั้งภาษีซื้อไม่ถึงกำหนด"
+            m_grid(1, 11).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DueVAT}") '"กลับรายการภาษีซื้อไม่ถึงกำหนด"
+            m_grid(1, 13).Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DeferTaxRemain}") '"ภาษีซื้อไม่ถึงกำหนด(คงเหลือ)"
+
+        End Sub
     Private Sub PopulateData()
       Dim dt As DataTable = Me.DataSet.Tables(0)
 
@@ -192,11 +283,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trStockCode("col2") = dhstockrow.GetValue(Of String)("gl_code")
         trStockCode("col3") = dhstockrow.GetValue(Of String)("entity_description")
         trStockCode("col4") = dhstockrow.GetValue(Of String)("supplier_code")
-        trStockCode("col5") = dhstockrow.GetValue(Of String)("supplier_name")
-        trStockCode("col6") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxbase"), DigitConfig.Price)
-        trStockCode("col7") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxAmt"), DigitConfig.Price)
-        trStockCode("col8") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase"), DigitConfig.Price)
-        trStockCode("col9") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt"), DigitConfig.Price)
+                trStockCode("col5") = dhstockrow.GetValue(Of String)("supplier_name")
+
+                trStockCode("col6") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase"), DigitConfig.Price)
+                trStockCode("col7") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt"), DigitConfig.Price)
+
+                trStockCode("col8") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxbase"), DigitConfig.Price)
+                trStockCode("col9") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxAmt"), DigitConfig.Price)
+
         trStockCode("col10") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
         trStockCode("col11") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
         trStockCode("col12") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxBase"), DigitConfig.Price)
@@ -286,8 +380,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trStockCode = Me.m_treemanager.Treetable.Childs.Add
       trStockCode.Tag = "Font.Bold"
       trStockCode("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.Total}") '"รวม"
-      trStockCode("col8") = Configuration.FormatToString(sumbfdeferTaxBase, DigitConfig.Price)
-      trStockCode("col9") = Configuration.FormatToString(sumbfdeferTaxAmt, DigitConfig.Price)
+            trStockCode("col6") = Configuration.FormatToString(sumbfdeferTaxBase, DigitConfig.Price)
+            trStockCode("col7") = Configuration.FormatToString(sumbfdeferTaxAmt, DigitConfig.Price)
       trStockCode("col10") = Configuration.FormatToString(sumDueVatBase, DigitConfig.Price)
       trStockCode("col11") = Configuration.FormatToString(sumDueVatAmt, DigitConfig.Price)
       trStockCode("col12") = Configuration.FormatToString(sumbfdeferTaxBase - sumDueVatBase, DigitConfig.Price)
@@ -345,14 +439,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
       widths.Add(80)
       widths.Add(70)
       widths.Add(150)
-      widths.Add(90)
-      widths.Add(90)
-      widths.Add(90)
-      widths.Add(90)
-      widths.Add(90)
-      widths.Add(90)
-      widths.Add(90)
-      widths.Add(90)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
       widths.Add(100)
 
       For i As Integer = 0 To iCol
@@ -382,7 +476,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               cs.DataAlignment = HorizontalAlignment.Left
               cs.Format = "s"
             Case Else
-              cs.Alignment = HorizontalAlignment.Right
+                            cs.Alignment = HorizontalAlignment.Right
               cs.DataAlignment = HorizontalAlignment.Right
               cs.Format = "d"
           End Select
