@@ -364,7 +364,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'm_grid.RowStyles(currDocIndex).Font.Bold = True
                 m_grid.RowStyles(currDocIndex).ReadOnly = True
 
-                m_grid(currDocIndex, 1).CellValue = row("DocDate")
+                m_grid(currDocIndex, 1).CellValue = CDate(row("DocDate")).ToShortDateString()
                 m_grid(currDocIndex, 2).CellValue = row("DocCode")
                 m_grid(currDocIndex, 3).CellValue = row("TransCode")
                 m_grid(currDocIndex, 4).CellValue = row("DocType")
