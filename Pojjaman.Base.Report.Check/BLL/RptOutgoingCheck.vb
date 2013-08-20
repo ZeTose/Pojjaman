@@ -333,9 +333,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 TrPV = TrCheq.Childs.Add
                 TrPV.Tag = prow
 
-                If Not prow.IsNull("payment_code") Then
-                  TrPV("col6") = prow("payment_code").ToString
-                End If
+                                'If Not prow.IsNull("payment_code") Then
+                                '  TrPV("col6") = prow("payment_code").ToString
+                                '                End If
+                                If Not prow.IsNull("gl_code") Then
+                                    TrPV("col6") = prow("gl_code").ToString
+                                End If
                                 If Not prow.IsNull("gl_refcode") Then
                                     TrPV("col8") = prow("gl_refcode").ToString
                                 End If
@@ -369,11 +372,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   TotalPay += CDec(prow("paymenti_amt"))
                 End If
 
-                If Not prow.IsNull("payment_code") Then
-                  If Not pvList.Contains(prow("payment_code").ToString) Then
-                    pvList.Add(prow("payment_code").ToString)
-                  End If
-                End If
+                                'If Not prow.IsNull("payment_code") Then
+                                '  If Not pvList.Contains(prow("payment_code").ToString) Then
+                                '    pvList.Add(prow("payment_code").ToString)
+                                '  End If
+                                '                End If
+
+                                If Not prow.IsNull("gl_code") Then
+                                    If Not pvList.Contains(prow("gl_code").ToString) Then
+                                        pvList.Add(prow("gl_code").ToString)
+                                    End If
+                                End If
+
                                 If Not prow.IsNull("gl_refcode") Then
                                     If Not glList.Contains(prow("gl_refcode").ToString) Then
                                         glList.Add(prow("gl_refcode").ToString)
