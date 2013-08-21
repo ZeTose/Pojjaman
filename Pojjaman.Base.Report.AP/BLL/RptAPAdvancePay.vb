@@ -219,7 +219,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               If CDec(advanceRow("openningbalanceremain")) > 0 Then
                 advanceRemain = CDec(advanceRow("openningbalanceremain"))
               Else
-                advanceRemain = CDec(advanceRow("aftertax"))
+                                advanceRemain = CDec(advanceRow("beforetax"))
               End If
             End If
             If Not advanceRow.IsNull("status") Then
