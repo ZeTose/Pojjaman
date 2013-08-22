@@ -288,8 +288,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 trStockCode("col6") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase"), DigitConfig.Price)
                 trStockCode("col7") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt"), DigitConfig.Price)
 
-                trStockCode("col8") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxbase"), DigitConfig.Price)
-                trStockCode("col9") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("stock_taxAmt"), DigitConfig.Price)
+                trStockCode("col8") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("deferTaxBase"), DigitConfig.Price)
+                trStockCode("col9") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("deferTaxAmt"), DigitConfig.Price)
 
         trStockCode("col10") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxBase"), DigitConfig.Price)
         trStockCode("col11") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("duetaxAmt"), DigitConfig.Price)
@@ -297,8 +297,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         trStockCode("col13") = Configuration.FormatToString(dhstockrow.GetValue(Of Decimal)("baldeferTaxAmt"), DigitConfig.Price)
         trStockCode("col14") = dhstockrow.GetValue(Of String)("gl_note")
 
-        tmpStockTaxBase = dhstockrow.GetValue(Of Decimal)("stock_taxbase")
-        tmpStockTaxAmt = dhstockrow.GetValue(Of Decimal)("stock_taxAmt")
+                tmpStockTaxBase = dhstockrow.GetValue(Of Decimal)("deferTaxBase")
+                tmpStockTaxAmt = dhstockrow.GetValue(Of Decimal)("deferTaxAmt")
         tmpbfdeferTaxBase = dhstockrow.GetValue(Of Decimal)("bfdeferTaxBase")
         tmpbfdeferTaxAmt = dhstockrow.GetValue(Of Decimal)("bfdeferTaxAmt")
         tmpdueTaxBase = dhstockrow.GetValue(Of Decimal)("duetaxBase")
