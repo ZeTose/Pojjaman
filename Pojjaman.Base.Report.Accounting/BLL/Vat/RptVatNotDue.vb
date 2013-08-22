@@ -41,17 +41,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       lkg.HilightWhenMinus = True
       lkg.Init()
       lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+            Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+            m_showDetailInGrid = CInt(Me.Filters(6).Value)
+
       ListInGrid(tm)
       lkg.TreeTableStyle = CreateSimpleTableStyle()
             lkg.TreeTable = tm.Treetable
-            AddjustGrid()
+            AdjustGrid()
       If m_showDetailInGrid = 0 Then
-        lkg.Rows.HeaderCount = 1
-        lkg.Rows.FrozenCount = 1
+                lkg.Rows.HeaderCount = 2
+                lkg.Rows.FrozenCount = 2
       Else
-        lkg.Rows.HeaderCount = 2
-        lkg.Rows.FrozenCount = 2
+                lkg.Rows.HeaderCount = 3
+                lkg.Rows.FrozenCount = 3
       End If
 
       lkg.Refresh()
@@ -78,7 +80,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
-      m_showDetailInGrid = CInt(Me.Filters(6).Value)
+
       CreateHeader()
       PopulateData()
     End Sub
@@ -88,6 +90,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
       Dim indent As String = Space(3)
+
+
 
             If m_showDetailInGrid = 0 Then
 
@@ -141,7 +145,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlNote}") ' "หมายเหตุ"
             Else
                 ' Level 0
-                Dim tr As TreeRow = Me.m_treemanager.Treetable.Childs.Add
+                Dim tr As TreeRow
+                tr = Me.m_treemanager.Treetable.Childs.Add
                 tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocCode}") '"เลขที่เอกสาร"
                 tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.DocDate}") '"วันที่เอกสาร"
                 tr("col2") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.GlCode}") '"เลขที่ใบสำคัญ"
@@ -204,11 +209,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 'tr("col11") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptVatNotDue.VAtRemain}") '"จำนวนเงินภาษีคงเหลือ"
             End If
         End Sub
-        Private Sub AddjustGrid()
+        Private Sub AdjustGrid()
 
             Dim RangeStyle As GridRangeStyle = New GridRangeStyle
 
             'm_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(row1, col1, row2, col2)})
+
+
 
             m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 1, 2, 1)})
             m_grid.CoveredRanges.AddRange(New GridRangeInfo() {GridRangeInfo.Cells(1, 2, 2, 2)})
@@ -273,7 +280,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Dim dhstockrow As New DataRowHelper(stockRow)
 
         trStockCode = Me.Treemanager.Treetable.Childs.Add
-        trStockCode.Tag = "Font.Bold"
+                'trStockCode.Tag = "Font.Bold"
 
         trStockCode.Tag = stockRow
 
