@@ -382,10 +382,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trStockCode("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPPayment.Total}") '"รวม"
             trStockCode("col6") = Configuration.FormatToString(sumbfdeferTaxBase, DigitConfig.Price)
             trStockCode("col7") = Configuration.FormatToString(sumbfdeferTaxAmt, DigitConfig.Price)
+            trStockCode("col8") = Configuration.FormatToString(sumStockTaxBase, DigitConfig.Price)
+            trStockCode("col9") = Configuration.FormatToString(sumStockTaxAmt, DigitConfig.Price)
       trStockCode("col10") = Configuration.FormatToString(sumDueVatBase, DigitConfig.Price)
       trStockCode("col11") = Configuration.FormatToString(sumDueVatAmt, DigitConfig.Price)
-      trStockCode("col12") = Configuration.FormatToString(sumbfdeferTaxBase - sumDueVatBase, DigitConfig.Price)
-      trStockCode("col13") = Configuration.FormatToString(sumbfdeferTaxAmt - sumDueVatAmt, DigitConfig.Price)
+            trStockCode("col12") = Configuration.FormatToString((sumbfdeferTaxBase + sumStockTaxBase) - sumDueVatBase, DigitConfig.Price)
+            trStockCode("col13") = Configuration.FormatToString((sumbfdeferTaxAmt + sumStockTaxAmt) - sumDueVatAmt, DigitConfig.Price)
 
       Dim lineNumber As Integer = 1
       For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
