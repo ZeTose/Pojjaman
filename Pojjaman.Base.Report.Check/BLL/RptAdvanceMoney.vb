@@ -248,10 +248,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             'tmpAdvmRemainAmt -= PaymentOPBAmt
                             tmpPayAmt += PaymentOPBAmt
 
-                            sumPaymentAmt += PaymentOPBAmt
-                            sumPaymentNetAmt += PaymentOPBAmt
+
+
 
                             If Not (ADVisOPB) Then
+                                sumPaymentNetAmt += PaymentOPBAmt
+                                'sumPaymentAmt += PaymentOPBAmt
 
                                 m_grid.RowCount += 1
                                 currRefDocIndex = m_grid.RowCount
@@ -267,46 +269,46 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                         End If
                         For Each RefDocRow As DataRow In myRefDocRow
-                            If Not RefDocRow("IsOpb") = 1 Then
+                            If Not CBool(RefDocRow("IsOpb")) Then
 
                                 m_hashData(m_grid.RowCount) = RefDocRow
 
-                                If Not (ADVisOPB) Then
-                                    m_grid.RowCount += 1
-                                    currRefDocIndex = m_grid.RowCount
-                                    m_grid.RowStyles(currRefDocIndex).BackColor = Color.FromArgb(250, 227, 197)
-                                    m_grid.RowStyles(currRefDocIndex).Font.Bold = True
-                                    m_grid.RowStyles(currRefDocIndex).ReadOnly = True
-                                End If
+                                'If Not (ADVisOPB) Then
+                                m_grid.RowCount += 1
+                                currRefDocIndex = m_grid.RowCount
+                                m_grid.RowStyles(currRefDocIndex).BackColor = Color.FromArgb(250, 227, 197)
+                                m_grid.RowStyles(currRefDocIndex).Font.Bold = True
+                                m_grid.RowStyles(currRefDocIndex).ReadOnly = True
+                                'End If
 
-                                If Not (ADVisOPB) Then
-                                    If IsDate(RefDocRow("RefDocDate")) Then
-                                        m_grid(currRefDocIndex, 1).CellValue = indent & CDate(RefDocRow("RefDocDate")).ToShortDateString
-                                    End If
-                                    If Not RefDocRow.IsNull("RefDocCode") Then
-                                        m_grid(currRefDocIndex, 2).CellValue = indent & RefDocRow("RefDocCode").ToString
-                                    End If
-                                    If Not RefDocRow.IsNull("RefDocType") Then
-                                        m_grid(currRefDocIndex, 3).CellValue = indent & RefDocRow("RefDocType").ToString
-                                    End If
-                                    If Not RefDocRow.IsNull("CCCode") Then
-                                        m_grid(currRefDocIndex, 5).CellValue = indent & RefDocRow("CCCode").ToString
-                                    End If
-                                    If Not RefDocRow.IsNull("CCName") Then
-                                        m_grid(currRefDocIndex, 6).CellValue = indent & RefDocRow("CCName").ToString
-                                    End If
-                                    If Not RefDocRow.IsNull("Note") Then
-                                        m_grid(currRefDocIndex, 11).CellValue = indent & RefDocRow("Note").ToString
-                                    End If
+                                'If Not (ADVisOPB) Then
+                                If IsDate(RefDocRow("RefDocDate")) Then
+                                    m_grid(currRefDocIndex, 1).CellValue = indent & CDate(RefDocRow("RefDocDate")).ToShortDateString
                                 End If
+                                If Not RefDocRow.IsNull("RefDocCode") Then
+                                    m_grid(currRefDocIndex, 2).CellValue = indent & RefDocRow("RefDocCode").ToString
+                                End If
+                                If Not RefDocRow.IsNull("RefDocType") Then
+                                    m_grid(currRefDocIndex, 3).CellValue = indent & RefDocRow("RefDocType").ToString
+                                End If
+                                If Not RefDocRow.IsNull("CCCode") Then
+                                    m_grid(currRefDocIndex, 5).CellValue = indent & RefDocRow("CCCode").ToString
+                                End If
+                                If Not RefDocRow.IsNull("CCName") Then
+                                    m_grid(currRefDocIndex, 6).CellValue = indent & RefDocRow("CCName").ToString
+                                End If
+                                If Not RefDocRow.IsNull("Note") Then
+                                    m_grid(currRefDocIndex, 11).CellValue = indent & RefDocRow("Note").ToString
+                                End If
+                                'End If
 
 
 
                                 If IsNumeric(RefDocRow("PayAmt")) Then
 
-                                    If Not (ADVisOPB) Then
-                                        m_grid(currRefDocIndex, 9).CellValue = indent & Configuration.FormatToString(CDec(RefDocRow("PayAmt")), DigitConfig.Price)
-                                    End If
+                                    'If Not (ADVisOPB) Then
+                                    m_grid(currRefDocIndex, 9).CellValue = indent & Configuration.FormatToString(CDec(RefDocRow("PayAmt")), DigitConfig.Price)
+                                    'End If
 
                                     tmpAdvmRemainAmt -= CDec(RefDocRow("PayAmt"))
                                     tmpPayAmt += CDec(RefDocRow("PayAmt"))
@@ -315,40 +317,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                     sumPaymentNetAmt += CDec(RefDocRow("PayAmt"))
                                 End If
 
-                                If Not (ADVisOPB) Then
-                                    If IsNumeric(tmpAdvmRemainAmt) Then
-                                        m_grid(currRefDocIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(tmpAdvmRemainAmt), DigitConfig.Price)
-                                    End If
-                                    m_grid(currRefDocIndex, 4).CellValue = indent & RefDocRow("PV").ToString
+                                'If Not (ADVisOPB) Then
+                                If IsNumeric(tmpAdvmRemainAmt) Then
+                                    m_grid(currRefDocIndex, 10).CellValue = indent & Configuration.FormatToString(CDec(tmpAdvmRemainAmt), DigitConfig.Price)
                                 End If
+                                m_grid(currRefDocIndex, 4).CellValue = indent & RefDocRow("PV").ToString
+                                'End If
 
-                                If Not (ADVisOPB) Then
-                                    Dim myItemRow As DataRow() = Me.DataSet.Tables(3).Select("StockId=" & CStr(RefDocRow("RefDocId")))
-                                    For Each ItemRow As DataRow In myItemRow
-                                        If Not ItemRow.IsNull("StockCode") Then
-                                            m_grid.RowCount += 1
-                                            currItemIndex = m_grid.RowCount
-                                            m_grid.RowStyles(currItemIndex).ReadOnly = True
-                                            If Not ItemRow.IsNull("ItemCode") Then
-                                                m_grid(currItemIndex, 1).CellValue = indent & indent & ItemRow("ItemCode").ToString
-                                            End If
-                                            If Not ItemRow.IsNull("ItemName") Then
-                                                m_grid(currItemIndex, 2).CellValue = indent & indent & ItemRow("ItemName").ToString
-                                            End If
-                                            If Not ItemRow.IsNull("Amount") Then
-                                                m_grid(currItemIndex, 9).CellValue = indent & indent & Configuration.FormatToString(CDec(ItemRow("Amount")), DigitConfig.Price)
-                                            End If
-                                            If Not ItemRow.IsNull("Note") Then
-                                                m_grid(currItemIndex, 11).CellValue = indent & indent & ItemRow("Note").ToString
-                                            End If
+                                'If Not (ADVisOPB) Then
+                                Dim myItemRow As DataRow() = Me.DataSet.Tables(3).Select("StockId=" & CStr(RefDocRow("RefDocId")))
+                                For Each ItemRow As DataRow In myItemRow
+                                    If Not ItemRow.IsNull("StockCode") Then
+                                        m_grid.RowCount += 1
+                                        currItemIndex = m_grid.RowCount
+                                        m_grid.RowStyles(currItemIndex).ReadOnly = True
+                                        If Not ItemRow.IsNull("ItemCode") Then
+                                            m_grid(currItemIndex, 1).CellValue = indent & indent & ItemRow("ItemCode").ToString
                                         End If
-                                    Next
-                                End If
+                                        If Not ItemRow.IsNull("ItemName") Then
+                                            m_grid(currItemIndex, 2).CellValue = indent & indent & ItemRow("ItemName").ToString
+                                        End If
+                                        If Not ItemRow.IsNull("Amount") Then
+                                            m_grid(currItemIndex, 9).CellValue = indent & indent & Configuration.FormatToString(CDec(ItemRow("Amount")), DigitConfig.Price)
+                                        End If
+                                        If Not ItemRow.IsNull("Note") Then
+                                            m_grid(currItemIndex, 11).CellValue = indent & indent & ItemRow("Note").ToString
+                                        End If
+                                    End If
+                                Next
+                                'End If
 
                             End If
                         Next
-                        m_grid(currAdvmIndex, 9).CellValue = Configuration.FormatToString(sumPaymentAmt, DigitConfig.Price)
-                        m_grid(currAdvmIndex, 10).CellValue = Configuration.FormatToString(CDec(ADVMrow("AdvmAmt")) - sumPaymentAmt, DigitConfig.Price)
+
+                        If ADVisOPB Then
+                            m_grid(currAdvmIndex, 9).CellValue = Configuration.FormatToString(sumPaymentAmt, DigitConfig.Price)
+                            m_grid(currAdvmIndex, 10).CellValue = Configuration.FormatToString((CDec(ADVMrow("AdvmAmt")) - PaymentOPBAmt) - sumPaymentAmt, DigitConfig.Price)
+                        Else
+                            m_grid(currAdvmIndex, 9).CellValue = Configuration.FormatToString(sumPaymentAmt + PaymentOPBAmt, DigitConfig.Price)
+                            m_grid(currAdvmIndex, 10).CellValue = Configuration.FormatToString((CDec(ADVMrow("AdvmAmt")) - sumPaymentAmt) - PaymentOPBAmt, DigitConfig.Price)
+                        End If
+
                         m_grid(currAdvmIndex, 1).Tag = "Font.Bold"
                         sumPaymentAmt = 0
 
