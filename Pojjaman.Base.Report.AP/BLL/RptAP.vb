@@ -165,12 +165,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim tmpDebit2 As Decimal = 0
       Dim tmpCredit2 As Decimal = 0
       Dim sumSupplier As Int32 = 0
-      Dim sumOpnBalance As Decimal = 0
+            Dim sumOpnBalance As Decimal = 0
+            Dim sumOpnBalanceRetention As Decimal = 0
       Dim sumDebit As Decimal = 0
       Dim sumCredit As Decimal = 0
       Dim sumRetentionDebit As Decimal = 0
       Dim sumRetentionCredit As Decimal = 0
-      Dim sumRetentionEndingBalance As Decimal = 0
+            Dim sumRetentionEndingBalance As Decimal = 0
       Dim sumRetentionRemaining As Decimal = 0
       Dim lastSupplierCrAmtRecord As Decimal = 0
       Dim currSupplierIndex As Integer = -1
@@ -249,7 +250,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             sumOpnBalance += CDec(supRows(0)("OpenningBalance"))
             tmpRemain = CDec(supRows(0)("OpenningBalance"))
             m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(CDec(supRows(0)("RetentionOpenningBalance")), DigitConfig.Price)
-                        sumRetentionEndingBalance += CDec(supRows(0)("RetentionOpenningBalance"))
+                        sumRetentionRemaining = CDec(supRows(0)("RetentionOpenningBalance"))
+                        sumOpnBalanceRetention += CDec(supRows(0)("RetentionOpenningBalance"))
+                        'sumRetentionEndingBalance += sumRetentionRemaining
           End If
           currentDocCode = ""
 
@@ -295,12 +298,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
           If Not row.IsNull("stock_paymentRetention") Then
             m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(CDec(row("stock_paymentRetention")), DigitConfig.Price)
             sumRetentionDebit += CDec(row("stock_paymentRetention"))
-            sumRetentionRemaining -= CDec(row("stock_paymentRetention"))
+                        sumRetentionRemaining -= CDec(row("stock_paymentRetention"))
+                        'sumRetentionEndingBalance -= CDec(row("stock_paymentRetention"))
           End If
           If Not row.IsNull("stock_retention") Then
             m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(CDec(row("stock_retention")), DigitConfig.Price)
             sumRetentionCredit += CDec(row("stock_retention"))
-            sumRetentionRemaining += CDec(row("stock_retention"))
+                        sumRetentionRemaining += CDec(row("stock_retention"))
+                        'sumRetentionEndingBalance += CDec(row("stock_retention"))
           End If
 
           'If Not row.IsNull("stock_retention") Then
@@ -337,7 +342,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currDocIndex, 5).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Right
       m_grid(currDocIndex, 6).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Debit}")  '"เดบิต"
       m_grid(currDocIndex, 7).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Credit}")  '"เครดิต"
-      m_grid(currDocIndex, 8).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Status}")  '"คงเหลือ"
+            m_grid(currDocIndex, 8).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Status}")  '"คงเหลือ"
+            m_grid(currDocIndex, 9).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.OpeningBalance}")  '"ยอดยกมา"
       m_grid(currDocIndex, 10).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Debit}")  '"เดบิต"
       m_grid(currDocIndex, 11).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Credit}")  '"เครดิต"
       m_grid(currDocIndex, 12).CellValue = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAP.Status}")  '"คงเหลือ"
@@ -353,10 +359,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
       m_grid(currDocIndex, 6).CellValue = Configuration.FormatToString(sumDebit, DigitConfig.Price)
       m_grid(currDocIndex, 7).CellValue = Configuration.FormatToString(sumCredit, DigitConfig.Price)
       m_grid(currDocIndex, 8).CellValue = Configuration.FormatToString(sumOpnBalance + (sumCredit - sumDebit), DigitConfig.Price)
-
+            m_grid(currDocIndex, 9).CellValue = Configuration.FormatToString(sumOpnBalanceRetention, DigitConfig.Price)
       m_grid(currDocIndex, 10).CellValue = Configuration.FormatToString(sumRetentionDebit, DigitConfig.Price)
       m_grid(currDocIndex, 11).CellValue = Configuration.FormatToString(sumRetentionCredit, DigitConfig.Price)
-      m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(sumRetentionEndingBalance + sumRetentionRemaining, DigitConfig.Price)
+            m_grid(currDocIndex, 12).CellValue = Configuration.FormatToString(sumOpnBalanceRetention + (sumRetentionCredit - sumRetentionDebit), DigitConfig.Price)
 
     End Sub
 
