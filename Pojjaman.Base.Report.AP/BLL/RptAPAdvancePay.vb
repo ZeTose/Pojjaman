@@ -155,7 +155,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       Dim totalAfterTax As Decimal = 0
       Dim totalAdvance As Decimal = 0
       Dim totalBalance As Decimal = 0
-
+            Dim totalOpenBalance As Decimal = 0
       Dim currentSupplier As String = ""
 
       Dim rowIndex As Integer = 0
@@ -215,7 +215,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               totalAfterTax += CDec(advanceRow("aftertax"))
             End If
             If Not advanceRow.IsNull("openningbalanceremain") Then
-              trDoc("col9") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
+                            trDoc("col9") = Configuration.FormatToString(CDec(advanceRow("openningbalanceremain")), DigitConfig.Price)
+                            totalOpenBalance += CDec(advanceRow("openningbalanceremain"))
               If CDec(advanceRow("openningbalanceremain")) > 0 Then
                 advanceRemain = CDec(advanceRow("openningbalanceremain"))
               Else
@@ -301,7 +302,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
       trSupplier("col6") = Configuration.FormatToString(totalBeforeTax, DigitConfig.Price)
       trSupplier("col7") = Configuration.FormatToString(totalTaxAmount, DigitConfig.Price)
       trSupplier("col8") = Configuration.FormatToString(totalAfterTax, DigitConfig.Price)
-
+            trSupplier("col9") = Configuration.FormatToString(totalOpenBalance, DigitConfig.Price)
       trSupplier("col10") = Configuration.FormatToString(totalAdvance, DigitConfig.Price)
       trSupplier("col11") = Configuration.FormatToString(totalBalance, DigitConfig.Price)
 
