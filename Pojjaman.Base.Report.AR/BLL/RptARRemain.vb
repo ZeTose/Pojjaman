@@ -8,6 +8,7 @@ Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
 Imports Longkong.Pojjaman.Services
+Imports System.Collections.Generic
 
 Namespace Longkong.Pojjaman.BusinessLogic
     Public Class RptARRemain
@@ -146,11 +147,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim dt2 As DataTable
             If CInt(Me.Filters(7).Value) <> 0 Then
                 dt2 = Me.DataSet.Tables(1)
+                CalRetentionBalance()
             End If
 
             If dt.Rows.Count = 0 Then
                 Return
             End If
+
 
             Dim indent As String = Space(3)
 
@@ -169,6 +172,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim sumReceiveRetention As Decimal = 0
             Dim sumBillRetention As Decimal = 0
             Dim retention As Decimal = 0
+
+            Dim DocKey As String = ""
+            Dim DocOpenRetentionBalance As Decimal = 0
+            Dim DocEndRetentionBalance As Decimal = 0
 
             Dim rowIndex As Integer = 0
             m_hashData = New Hashtable
@@ -222,24 +229,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         sumOPBRetention += CDec(supplierRow("OPBRetention"))
                     End If
 
-                    retention = 0
+                    'retention = 0
 
                     If Not supplierRow.IsNull("Retention") Then
-                        retention += CDec(supplierRow("Retention"))
+                        trCustomer("col10") = Configuration.FormatToString(CDec(supplierRow("Retention")), DigitConfig.Price)
                         sumRetention += CDec(supplierRow("Retention"))
                     End If
 
                     If Not supplierRow.IsNull("DecreaseRetention") Then
-                        retention += CDec(supplierRow("DecreaseRetention"))
-                        sumRetention += CDec(supplierRow("DecreaseRetention"))
+                        trCustomer("col11") = Configuration.FormatToString(CDec(supplierRow("DecreaseRetention")), DigitConfig.Price)
+                        sumDecreaseRetention += CDec(supplierRow("DecreaseRetention"))
                     End If
 
-                    trCustomer("col10") = Configuration.FormatToString(retention, DigitConfig.Price)
-
-                    If Not supplierRow.IsNull("ReceiveRetention") Then
-                        trCustomer("col11") = Configuration.FormatToString(CDec(supplierRow("ReceiveRetention")), DigitConfig.Price)
-                        sumReceiveRetention += CDec(supplierRow("ReceiveRetention"))
-                    End If
                     If Not supplierRow.IsNull("EndingBalanceRetention") Then
                         trCustomer("col12") = Configuration.FormatToString(CDec(supplierRow("EndingBalanceRetention")), DigitConfig.Price)
                         sumEndingBalanceRetention += CDec(supplierRow("EndingBalanceRetention"))
@@ -287,24 +288,20 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         sumOPBRetention += CDec(supplierRow("OPBRetention"))
                     End If
 
-                    retention = 0
+                    'retention = 0
 
                     If Not supplierRow.IsNull("Retention") Then
-                        retention += CDec(supplierRow("Retention"))
+                        trCustomer("col11") = Configuration.FormatToString(CDec(supplierRow("Retention")), DigitConfig.Price)
                         sumRetention += CDec(supplierRow("Retention"))
+                    Else
+                        trCustomer("col11") = Configuration.FormatToString(0, DigitConfig.Price)
                     End If
 
                     If Not supplierRow.IsNull("DecreaseRetention") Then
-                        retention += CDec(supplierRow("DecreaseRetention"))
-                        sumRetention += CDec(supplierRow("DecreaseRetention"))
+                        trCustomer("col12") = Configuration.FormatToString(CDec(supplierRow("DecreaseRetention")), DigitConfig.Price)
+                        sumDecreaseRetention += CDec(supplierRow("DecreaseRetention"))
                     End If
 
-                    trCustomer("col11") = Configuration.FormatToString(retention, DigitConfig.Price)
-
-                    If Not supplierRow.IsNull("ReceiveRetention") Then
-                        trCustomer("col12") = Configuration.FormatToString(CDec(supplierRow("ReceiveRetention")), DigitConfig.Price)
-                        sumReceiveRetention += CDec(supplierRow("ReceiveRetention"))
-                    End If
                     If Not supplierRow.IsNull("EndingBalanceRetention") Then
                         trCustomer("col13") = Configuration.FormatToString(CDec(supplierRow("EndingBalanceRetention")), DigitConfig.Price)
                         sumEndingBalanceRetention += CDec(supplierRow("EndingBalanceRetention"))
@@ -325,6 +322,17 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                     For Each detailRow As DataRow In dt2.Select("Customer =" & supplierRow("Cust_ID").ToString)
                         Dim deh As New DataRowHelper(detailRow)
+
+                        DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-")
+
+                        If RetentionBalanceList.ContainsKey(DocKey) Then
+                            DocOpenRetentionBalance = RetentionBalanceList(DocKey).OBalanceRetention
+                            DocEndRetentionBalance = RetentionBalanceList(DocKey).BalanceRetention
+                        Else
+                            DocOpenRetentionBalance = 0
+                            DocEndRetentionBalance = 0
+                        End If
+
 
                         If Not trCustomer Is Nothing Then
                             trDetail = trCustomer.Childs.Add
@@ -361,36 +369,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             '============================================-Retention===================================================
 
                             If Not detailRow.IsNull("OPBRetention") Then
-                                trDetail("col10") = Configuration.FormatToString(CDec(detailRow("OPBRetention")), DigitConfig.Price)
-                                sumOPBRetention += CDec(detailRow("OPBRetention"))
+                                'trDetail("col10") = Configuration.FormatToString(CDec(detailRow("OPBRetention")), DigitConfig.Price)
+                                trDetail("col10") = Configuration.FormatToString(DocOpenRetentionBalance, DigitConfig.Price)
                             End If
 
-                            retention = 0
+                            'retention = 0
 
                             If Not detailRow.IsNull("Retention") Then
-                                retention += CDec(detailRow("Retention"))
-                                sumRetention += CDec(detailRow("Retention"))
+                                trDetail("col11") = Configuration.FormatToString(CDec(detailRow("Retention")), DigitConfig.Price)
+                            Else
+                                trDetail("col11") = Configuration.FormatToString(0, DigitConfig.Price)
                             End If
 
                             If Not detailRow.IsNull("DecreaseRetention") Then
-                                retention += CDec(detailRow("DecreaseRetention"))
-                                sumRetention += CDec(detailRow("DecreaseRetention"))
+                                trDetail("col12") = Configuration.FormatToString(CDec(detailRow("DecreaseRetention")), DigitConfig.Price)
                             End If
 
-                            trDetail("col11") = Configuration.FormatToString(retention, DigitConfig.Price)
-
-                            If Not detailRow.IsNull("ReceiveRetention") Then
-                                trDetail("col12") = Configuration.FormatToString(CDec(detailRow("ReceiveRetention")), DigitConfig.Price)
-                                sumReceiveRetention += CDec(detailRow("ReceiveRetention"))
-                            End If
                             If Not detailRow.IsNull("EndingBalanceRetention") Then
-                                trDetail("col13") = Configuration.FormatToString(CDec(detailRow("EndingBalanceRetention")), DigitConfig.Price)
-                                sumEndingBalanceRetention += CDec(detailRow("EndingBalanceRetention"))
+                                'trDetail("col13") = Configuration.FormatToString(CDec(detailRow("EndingBalanceRetention")), DigitConfig.Price)
+                                trDetail("col13") = Configuration.FormatToString(DocEndRetentionBalance, DigitConfig.Price)
                             End If
 
                             If Not detailRow.IsNull("BillRetention") Then
                                 trDetail("col14") = Configuration.FormatToString(CDec(detailRow("BillRetention")), DigitConfig.Price)
-                                sumBillRetention += CDec(detailRow("BillRetention"))
                             End If
 
                             '=========================================================================================================
@@ -432,7 +433,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     trCustomer("col10") = Configuration.FormatToString(sumRetention, DigitConfig.Price)
                 End If
                 If sumDecreaseRetention > 0 Then
-                    trCustomer("col11") = Configuration.FormatToString(sumReceiveRetention, DigitConfig.Price)
+                    trCustomer("col11") = Configuration.FormatToString(sumDecreaseRetention, DigitConfig.Price)
                 End If
                 trCustomer("col12") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
                 If sumReceiveRetention > 0 Then
@@ -463,7 +464,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     trCustomer("col11") = Configuration.FormatToString(sumRetention, DigitConfig.Price)
                 End If
                 If sumDecreaseRetention > 0 Then
-                    trCustomer("col12") = Configuration.FormatToString(sumReceiveRetention, DigitConfig.Price)
+                    trCustomer("col12") = Configuration.FormatToString(sumDecreaseRetention, DigitConfig.Price)
                 End If
                 trCustomer("col13") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
                 If sumReceiveRetention > 0 Then
@@ -604,6 +605,85 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
         End Sub
 
+        Private RetentionPMAList As Dictionary(Of Integer, RetentionPMA)
+        Private RetentionBalanceList As Dictionary(Of String, RetentionBalance)
+
+        Private Sub CalRetentionBalance()
+
+            Dim RPMA As RetentionPMA
+            Dim RBalance As RetentionBalance
+            Dim dt As DataTable
+
+            RetentionPMAList = New Dictionary(Of Integer, RetentionPMA)
+            RetentionBalanceList = New Dictionary(Of String, RetentionBalance)
+
+            dt = Me.DataSet.Tables(2)
+
+            For Each PMARow As DataRow In dt.Rows
+                RPMA = New RetentionPMA(PMARow)
+                RetentionPMAList.Add(RPMA.pma, RPMA)
+            Next
+
+            dt = Me.DataSet.Tables(3)
+
+            For Each DocRow As DataRow In dt.Rows
+                RBalance = New RetentionBalance(DocRow)
+                RetentionBalanceList.Add(RBalance.ID.ToString & "|" & RBalance.DocType.ToString, RBalance)
+            Next
+
+            Dim Currentpma As Integer
+
+            Currentpma = 0
+
+            For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
+                If RetentionPMAList.ContainsKey(DocRetention.Value.pma) Then
+
+                    If Currentpma <> DocRetention.Value.pma Then
+                        Currentpma = DocRetention.Value.pma
+                        RPMA = RetentionPMAList(Currentpma)
+                    End If
+
+                    If RPMA.OBalanceRetention <= DocRetention.Value.ORetention Then
+                        DocRetention.Value.OBalanceRetention = DocRetention.Value.ORetention - RPMA.OBalanceRetention
+                        RPMA.OBalanceRetention = 0
+                    Else
+                        DocRetention.Value.OBalanceRetention = 0
+                        RPMA.OBalanceRetention = RPMA.OBalanceRetention - DocRetention.Value.ORetention
+                    End If
+
+                End If
+            Next
+
+            Currentpma = 0
+
+            For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
+                If RetentionPMAList.ContainsKey(DocRetention.Value.pma) Then
+
+                    If Currentpma <> DocRetention.Value.pma Then
+                        Currentpma = DocRetention.Value.pma
+                        RPMA = RetentionPMAList(Currentpma)
+                    End If
+
+                    If (RPMA.OBalanceRetention + RPMA.BalanceRetention) <= (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention) Then
+                        DocRetention.Value.BalanceRetention = (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention) - RPMA.BalanceRetention
+                        RPMA.OBalanceRetention = 0
+                        RPMA.BalanceRetention = 0
+                    Else
+                        DocRetention.Value.BalanceRetention = 0
+                        If RPMA.OBalanceRetention >= (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention) Then
+                            RPMA.OBalanceRetention = RPMA.OBalanceRetention - (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention)
+                        Else
+                            RPMA.BalanceRetention = (RPMA.OBalanceRetention + RPMA.BalanceRetention) - (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention)
+                            RPMA.OBalanceRetention = 0
+                        End If
+
+                    End If
+
+                End If
+            Next
+
+        End Sub
+
 #End Region
 
 #Region "Shared"
@@ -701,6 +781,206 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Return dpiColl
         End Function
 #End Region
+
+        Private Class RetentionBalance
+
+            Public Sub New(DocRow As DataRow)
+
+                _ID = CInt(DocRow("ID"))
+                _DocType = CInt(DocRow("DocType"))
+                _pma = CInt(DocRow("pma"))
+
+                _ORetention = CDec(DocRow("OPBRetention"))
+                _ODecreaseRetention = CDec(DocRow("OPBDecreaseRetention"))
+                _OBalanceRetention = 0
+
+                _Retention = CDec(DocRow("Retention"))
+                _DecreaseRetention = CDec(DocRow("DecreaseRetention"))
+                _BalanceRetention = 0
+
+            End Sub
+
+            Private _ID As Integer
+            Public Property ID As Integer
+                Get
+                    Return _ID
+                End Get
+                Set(value As Integer)
+                    _ID = value
+                End Set
+            End Property
+
+            Private _DocType As Integer
+            Public Property DocType As Integer
+                Get
+                    Return _DocType
+                End Get
+                Set(value As Integer)
+                    _DocType = value
+                End Set
+            End Property
+
+            Private _pma As Integer
+            Public Property pma As Integer
+                Get
+                    Return _pma
+                End Get
+                Set(value As Integer)
+                    _pma = value
+                End Set
+            End Property
+
+            Private _ORetention As Decimal
+            Public Property ORetention As Decimal
+                Get
+                    Return _ORetention
+                End Get
+                Set(value As Decimal)
+                    _ORetention = value
+                End Set
+            End Property
+
+            Private _ODecreaseRetention As Decimal
+            Public Property ODecreaseRetention As Decimal
+                Get
+                    Return _ODecreaseRetention
+                End Get
+                Set(value As Decimal)
+                    _ODecreaseRetention = value
+                End Set
+            End Property
+
+            Private _OBalanceRetention As Decimal
+            Public Property OBalanceRetention As Decimal
+                Get
+                    Return _OBalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _OBalanceRetention = value
+                End Set
+            End Property
+
+            Private _Retention As Decimal
+            Public Property Retention As Decimal
+                Get
+                    Return _Retention
+                End Get
+                Set(value As Decimal)
+                    _Retention = value
+                End Set
+            End Property
+
+            Private _DecreaseRetention As Decimal
+            Public Property DecreaseRetention As Decimal
+                Get
+                    Return _DecreaseRetention
+                End Get
+                Set(value As Decimal)
+                    _DecreaseRetention = value
+                End Set
+            End Property
+
+            Private _BalanceRetention As Decimal
+            Public Property BalanceRetention As Decimal
+                Get
+                    Return _BalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _BalanceRetention = value
+                End Set
+            End Property
+
+        End Class
+
+        Private Class RetentionPMA
+
+            Public Sub New(PMARow As DataRow)
+
+                _pma = CInt(PMARow("pma"))
+
+                _ORetention = CDec(PMARow("OPBRetention"))
+                _ODecreaseRetention = CDec(PMARow("OPBDecreaseRetention"))
+                _OBalanceRetention = _ODecreaseRetention
+
+                _Retention = CDec(PMARow("Retention"))
+                _DecreaseRetention = CDec(PMARow("DecreaseRetention"))
+                _BalanceRetention = _DecreaseRetention
+
+            End Sub
+
+
+            Private _pma As Integer
+            Public Property pma As Integer
+                Get
+                    Return _pma
+                End Get
+                Set(value As Integer)
+                    _pma = value
+                End Set
+            End Property
+
+            Private _ORetention As Decimal
+            Public Property ORetention As Decimal
+                Get
+                    Return _ORetention
+                End Get
+                Set(value As Decimal)
+                    _ORetention = value
+                End Set
+            End Property
+
+            Private _ODecreaseRetention As Decimal
+            Public Property ODecreaseRetention As Decimal
+                Get
+                    Return _ODecreaseRetention
+                End Get
+                Set(value As Decimal)
+                    _ODecreaseRetention = value
+                End Set
+            End Property
+
+            Private _OBalanceRetention As Decimal
+            Public Property OBalanceRetention As Decimal
+                Get
+                    Return _OBalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _OBalanceRetention = value
+                End Set
+            End Property
+
+            Private _Retention As Decimal
+            Public Property Retention As Decimal
+                Get
+                    Return _Retention
+                End Get
+                Set(value As Decimal)
+                    _Retention = value
+                End Set
+            End Property
+
+            Private _DecreaseRetention As Decimal
+            Public Property DecreaseRetention As Decimal
+                Get
+                    Return _DecreaseRetention
+                End Get
+                Set(value As Decimal)
+                    _DecreaseRetention = value
+                End Set
+            End Property
+
+            Private _BalanceRetention As Decimal
+            Public Property BalanceRetention As Decimal
+                Get
+                    Return _BalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _BalanceRetention = value
+                End Set
+            End Property
+
+        End Class
+
 
     End Class
 End Namespace

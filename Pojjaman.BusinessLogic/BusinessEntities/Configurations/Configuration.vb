@@ -465,7 +465,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
     End Function
     Public Shared Sub RefreshConfigurationList()
       m_configHash = New Hashtable
-      Dim sqlConString As String = RecentCompanies.CurrentCompany.SiteConnectionString
+            Dim sqlConString As String = SimpleBusinessEntityBase.ConnectionString 'RecentCompanies.CurrentCompany.SiteConnectionString
       Dim ds As DataSet = SqlHelper.ExecuteDataset(sqlConString, CommandType.Text, "select cm.*,isnull(c.config_value,cm.config_default) config_value from configuration c " & _
       "right join configurationmeta cm on cm.config_id = c.config_id")
       Dim myTable As DataTable = ds.Tables(0)
