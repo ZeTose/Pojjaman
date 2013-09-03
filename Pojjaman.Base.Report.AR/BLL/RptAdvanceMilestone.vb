@@ -254,7 +254,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trDoc("col5") = drh.GetValue(Of String)("milestone_name")
               trDoc("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("advrInc"), DigitConfig.Price)
               trDoc("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("advrRel"), DigitConfig.Price)
-              advanceRemain = advanceRemain + drh.GetValue(Of Decimal)("Bal")
+                            advanceRemain = advanceRemain + drh.GetValue(Of Decimal)("advrInc")
+                            advanceRemain = advanceRemain - drh.GetValue(Of Decimal)("advrRel")
               trDoc("col8") = Configuration.FormatToString(advanceRemain, DigitConfig.Price)
               trDoc("col9") = drh.GetValue(Of String)("recsStatus")
               'If dicRecs.ContainsKey(curBillId) Then
