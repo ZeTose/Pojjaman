@@ -69,16 +69,17 @@ Namespace Longkong.Pojjaman.Gui.Panels
     Friend WithEvents btnAccountStartFind As Longkong.Pojjaman.Gui.Components.ImageButton
     Friend WithEvents txtAccountCodeStart As System.Windows.Forms.TextBox
         Friend WithEvents lblAccountStart As System.Windows.Forms.Label
-        Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-        Friend WithEvents chkShowAllRetention As System.Windows.Forms.CheckBox
-        Friend WithEvents chkShowAllAR As System.Windows.Forms.CheckBox
-        Friend WithEvents chkShowAll As System.Windows.Forms.CheckBox
+        Friend WithEvents chkShowRetention As System.Windows.Forms.CheckBox
+        Friend WithEvents chkShowAR As System.Windows.Forms.CheckBox
+        Friend WithEvents chkShowDoc As System.Windows.Forms.CheckBox
         <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RptARRemainFilterSubPanel))
             Me.grbMaster = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
             Me.txtTemp = New System.Windows.Forms.TextBox()
             Me.grbDetail = New Longkong.Pojjaman.Gui.Components.FixedGroupBox()
+            Me.chkShowRetention = New System.Windows.Forms.CheckBox()
+            Me.chkShowAR = New System.Windows.Forms.CheckBox()
             Me.btnAccountEndFind = New Longkong.Pojjaman.Gui.Components.ImageButton()
             Me.txtAccountCodeEnd = New System.Windows.Forms.TextBox()
             Me.lblAccountEnd = New System.Windows.Forms.Label()
@@ -115,16 +116,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.dtpDocDateEnd = New System.Windows.Forms.DateTimePicker()
             Me.lblDocDateStart = New System.Windows.Forms.Label()
             Me.lblDocDateEnd = New System.Windows.Forms.Label()
-            Me.chkShowAll = New System.Windows.Forms.CheckBox()
+            Me.chkShowDoc = New System.Windows.Forms.CheckBox()
             Me.Validator = New Longkong.Pojjaman.Gui.Components.PJMTextboxValidator(Me.components)
             Me.ErrorProvider1 = New System.Windows.Forms.ErrorProvider(Me.components)
-            Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-            Me.chkShowAllAR = New System.Windows.Forms.CheckBox()
-            Me.chkShowAllRetention = New System.Windows.Forms.CheckBox()
             Me.grbMaster.SuspendLayout()
             Me.grbDetail.SuspendLayout()
             CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
-            Me.GroupBox1.SuspendLayout()
             Me.SuspendLayout()
             '
             'grbMaster
@@ -163,7 +160,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'grbDetail
             '
-            Me.grbDetail.Controls.Add(Me.GroupBox1)
+            Me.grbDetail.Controls.Add(Me.chkShowRetention)
+            Me.grbDetail.Controls.Add(Me.chkShowAR)
             Me.grbDetail.Controls.Add(Me.btnAccountEndFind)
             Me.grbDetail.Controls.Add(Me.txtAccountCodeEnd)
             Me.grbDetail.Controls.Add(Me.lblAccountEnd)
@@ -200,7 +198,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.Controls.Add(Me.dtpDocDateEnd)
             Me.grbDetail.Controls.Add(Me.lblDocDateStart)
             Me.grbDetail.Controls.Add(Me.lblDocDateEnd)
-            Me.grbDetail.Controls.Add(Me.chkShowAll)
+            Me.grbDetail.Controls.Add(Me.chkShowDoc)
             Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDetail.Location = New System.Drawing.Point(16, 16)
             Me.grbDetail.Name = "grbDetail"
@@ -208,6 +206,26 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.TabIndex = 0
             Me.grbDetail.TabStop = False
             Me.grbDetail.Text = "ข้อมูลทั่วไป"
+            '
+            'chkShowRetention
+            '
+            Me.chkShowRetention.AutoSize = True
+            Me.chkShowRetention.Location = New System.Drawing.Point(427, 138)
+            Me.chkShowRetention.Name = "chkShowRetention"
+            Me.chkShowRetention.Size = New System.Drawing.Size(73, 17)
+            Me.chkShowRetention.TabIndex = 1
+            Me.chkShowRetention.Text = "Retention"
+            Me.chkShowRetention.UseVisualStyleBackColor = True
+            '
+            'chkShowAR
+            '
+            Me.chkShowAR.AutoSize = True
+            Me.chkShowAR.Location = New System.Drawing.Point(427, 115)
+            Me.chkShowAR.Name = "chkShowAR"
+            Me.chkShowAR.Size = New System.Drawing.Size(54, 17)
+            Me.chkShowAR.TabIndex = 0
+            Me.chkShowAR.Text = "ลูกหนี้"
+            Me.chkShowAR.UseVisualStyleBackColor = True
             '
             'btnAccountEndFind
             '
@@ -436,11 +454,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'chkDetail
             '
             Me.chkDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.chkDetail.Location = New System.Drawing.Point(583, 86)
+            Me.chkDetail.Location = New System.Drawing.Point(153, 193)
             Me.chkDetail.Name = "chkDetail"
             Me.chkDetail.Size = New System.Drawing.Size(128, 24)
             Me.chkDetail.TabIndex = 29
             Me.chkDetail.Text = "แสดงรายละเอียด"
+            Me.chkDetail.Visible = False
             '
             'chkIncludeChildren
             '
@@ -665,14 +684,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblDocDateEnd.Text = "ถึง"
             Me.lblDocDateEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
             '
-            'chkShowAll
+            'chkShowDoc
             '
-            Me.chkShowAll.FlatStyle = System.Windows.Forms.FlatStyle.System
-            Me.chkShowAll.Location = New System.Drawing.Point(427, 86)
-            Me.chkShowAll.Name = "chkShowAll"
-            Me.chkShowAll.Size = New System.Drawing.Size(135, 24)
-            Me.chkShowAll.TabIndex = 29
-            Me.chkShowAll.Text = "แสดงทุกเอกสาร"
+            Me.chkShowDoc.FlatStyle = System.Windows.Forms.FlatStyle.System
+            Me.chkShowDoc.Location = New System.Drawing.Point(427, 85)
+            Me.chkShowDoc.Name = "chkShowDoc"
+            Me.chkShowDoc.Size = New System.Drawing.Size(135, 24)
+            Me.chkShowDoc.TabIndex = 29
+            Me.chkShowDoc.Text = "แสดงทุกเอกสาร"
             '
             'Validator
             '
@@ -687,36 +706,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.ErrorProvider1.ContainerControl = Me
             '
-            'GroupBox1
-            '
-            Me.GroupBox1.Controls.Add(Me.chkShowAllRetention)
-            Me.GroupBox1.Controls.Add(Me.chkShowAllAR)
-            Me.GroupBox1.Location = New System.Drawing.Point(427, 105)
-            Me.GroupBox1.Name = "GroupBox1"
-            Me.GroupBox1.Size = New System.Drawing.Size(135, 60)
-            Me.GroupBox1.TabIndex = 59
-            Me.GroupBox1.TabStop = False
-            '
-            'chkShowAllAR
-            '
-            Me.chkShowAllAR.AutoSize = True
-            Me.chkShowAllAR.Location = New System.Drawing.Point(8, 10)
-            Me.chkShowAllAR.Name = "chkShowAllAR"
-            Me.chkShowAllAR.Size = New System.Drawing.Size(54, 17)
-            Me.chkShowAllAR.TabIndex = 0
-            Me.chkShowAllAR.Text = "ลูกหนี้"
-            Me.chkShowAllAR.UseVisualStyleBackColor = True
-            '
-            'chkShowAllRetention
-            '
-            Me.chkShowAllRetention.AutoSize = True
-            Me.chkShowAllRetention.Location = New System.Drawing.Point(8, 35)
-            Me.chkShowAllRetention.Name = "chkShowAllRetention"
-            Me.chkShowAllRetention.Size = New System.Drawing.Size(73, 17)
-            Me.chkShowAllRetention.TabIndex = 1
-            Me.chkShowAllRetention.Text = "Retention"
-            Me.chkShowAllRetention.UseVisualStyleBackColor = True
-            '
             'RptARRemainFilterSubPanel
             '
             Me.Controls.Add(Me.grbMaster)
@@ -728,8 +717,6 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.ResumeLayout(False)
             Me.grbDetail.PerformLayout()
             CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
-            Me.GroupBox1.ResumeLayout(False)
-            Me.GroupBox1.PerformLayout()
             Me.ResumeLayout(False)
 
         End Sub
@@ -769,9 +756,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkIncludeChildren}")
             Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkDetail}")
 
-            Me.chkShowAll.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkShowAll}")
-            Me.chkShowAllAR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkShowAllAR}")
-            Me.chkShowAllRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkShowAllRetention}")
+            Me.chkShowDoc.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkShowAll}")
+            Me.chkShowAR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkShowAR}")
+            Me.chkShowRetention.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARRemainFilterSubPanel.chkShowRetention}")
 
             Me.lblCustomerGroup.Text = Me.StringParserService.Parse("${res:MainMenu.CustomerMenu.CustomerGroup}")
             Me.chkIncludeChildCust.Text = Me.StringParserService.Parse("${res:Global.chkIncludeChildCust}")
@@ -789,10 +776,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private m_DocDateStart As Date
 
         Private m_cc As CostCenter
-    Private m_csg As CustomerGroup
+        Private m_csg As CustomerGroup
 
-    Private m_AccountBookStart As AccountBook
-    Private m_AccountBookEnd As AccountBook
+        Private m_AccountBookStart As AccountBook
+        Private m_AccountBookEnd As AccountBook
 #End Region
 
 #Region "Constructors"
@@ -840,24 +827,24 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Set(ByVal Value As Costcenter)
                 m_cc = Value
             End Set
-    End Property
+        End Property
 
-    Public Property AccountBookStart() As AccountBook
-      Get
-        Return m_AccountBookStart
-      End Get
-      Set(ByVal Value As AccountBook)
-        m_AccountBookStart = Value
-      End Set
-    End Property
-    Public Property AccountBookEnd() As AccountBook
-      Get
-        Return m_AccountBookEnd
-      End Get
-      Set(ByVal Value As AccountBook)
-        m_AccountBookEnd = Value
-      End Set
-    End Property
+        Public Property AccountBookStart() As AccountBook
+            Get
+                Return m_AccountBookStart
+            End Get
+            Set(ByVal Value As AccountBook)
+                m_AccountBookStart = Value
+            End Set
+        End Property
+        Public Property AccountBookEnd() As AccountBook
+            Get
+                Return m_AccountBookEnd
+            End Get
+            Set(ByVal Value As AccountBook)
+                m_AccountBookEnd = Value
+            End Set
+        End Property
 #End Region
 
 #Region "Methods"
@@ -879,8 +866,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             Me.CustomerStart = New Customer
             Me.CustomerEnd = New Customer
-      Me.AccountBookStart = New AccountBook
-      Me.AccountBookEnd = New AccountBook
+            Me.AccountBookStart = New AccountBook
+            Me.AccountBookEnd = New AccountBook
             Me.Costcenter = New Costcenter
 
             Dim dtStart As Date = Date.Now.Subtract(New TimeSpan(7, 0, 0, 0))
@@ -898,9 +885,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 chkSetting = True
 
                 Me.chkDetail.Checked = False
-                Me.chkShowAll.Checked = False
-                Me.chkShowAllAR.Checked = False
-                Me.chkShowAllRetention.Checked = False
+                Me.chkShowDoc.Checked = False
+                Me.chkShowAR.Checked = False
+                Me.chkShowRetention.Checked = False
 
                 chkSetting = False
             End If
@@ -921,7 +908,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(5) = New Filter("IncludeChildCC", Me.chkIncludeChildren.Checked)
             arr(6) = New Filter("userRight", CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService).CurrentUser.Id)
             arr(7) = New Filter("ShowDetail", Me.chkDetail.Checked)
-            arr(8) = New Filter("ShowAll", Me.chkShowAll.Checked)
+            arr(8) = New Filter("ShowAll", Me.chkShowDoc.Checked)
             arr(9) = New Filter("GLCodeprefix", IIf(txtGLCodeprefix.TextLength > 0, txtGLCodeprefix.Text, DBNull.Value))
             arr(10) = New Filter("RefDocCodePrefix", IIf(txtRefDocCodePrefix.TextLength > 0, txtRefDocCodePrefix.Text, DBNull.Value))
             arr(11) = New Filter("CustGroupCode", IIf(txtCustomerGroupCode.TextLength > 0, txtCustomerGroupCode.Text, DBNull.Value))
@@ -929,8 +916,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
             arr(13) = New Filter("accountbookfrom", IIf(txtAccountCodeStart.TextLength > 0, txtAccountCodeStart.Text, DBNull.Value))
             arr(14) = New Filter("accountbookend", IIf(txtAccountCodeEnd.TextLength > 0, txtAccountCodeEnd.Text, DBNull.Value))
 
-            arr(15) = New Filter("ShowAllAR", Me.chkShowAllAR.Checked)
-            arr(16) = New Filter("ShowAllRetention", Me.chkShowAllRetention.Checked)
+            arr(15) = New Filter("ShowAR", Me.chkShowAR.Checked)
+            arr(16) = New Filter("ShowRetention", Me.chkShowRetention.Checked)
 
             Return arr
         End Function
@@ -1037,13 +1024,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
             AddHandler txtDocDateEnd.Validated, AddressOf Me.ChangeProperty
 
             AddHandler dtpDocDateStart.ValueChanged, AddressOf Me.ChangeProperty
-      AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
+            AddHandler dtpDocDateEnd.ValueChanged, AddressOf Me.ChangeProperty
 
-      AddHandler btnAccountStartFind.Click, AddressOf Me.btnAccountFind_Click
-      AddHandler txtAccountCodeStart.Validated, AddressOf Me.ChangeProperty
+            AddHandler btnAccountStartFind.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler txtAccountCodeStart.Validated, AddressOf Me.ChangeProperty
 
-      AddHandler btnAccountEndFind.Click, AddressOf Me.btnAccountFind_Click
-      AddHandler txtAccountCodeEnd.Validated, AddressOf Me.ChangeProperty
+            AddHandler btnAccountEndFind.Click, AddressOf Me.btnAccountFind_Click
+            AddHandler txtAccountCodeEnd.Validated, AddressOf Me.ChangeProperty
         End Sub
 
         Private m_dateSetting As Boolean
@@ -1097,10 +1084,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         Me.DocDateEnd = Date.MinValue
                     End If
                     m_dateSetting = False
-        Case "txtaccountcodestart"
-          AccountBook.GetAccountBook(txtAccountCodeStart, txtTemp, Me.m_AccountBookStart)
-        Case "txtaccountcodeend"
-          AccountBook.GetAccountBook(txtAccountCodeEnd, txtTemp, Me.m_AccountBookEnd)
+                Case "txtaccountcodestart"
+                    AccountBook.GetAccountBook(txtAccountCodeStart, txtTemp, Me.m_AccountBookStart)
+                Case "txtaccountcodeend"
+                    AccountBook.GetAccountBook(txtAccountCodeEnd, txtTemp, Me.m_AccountBookEnd)
                 Case Else
 
             End Select
@@ -1212,17 +1199,19 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
         Private chkSetting As Boolean = False
 
-        Private Sub chkShowAll_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowAll.CheckedChanged
+        Private Sub chkShowAll_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowDoc.CheckedChanged
             If Not chkSetting Then
                 chkSetting = True
 
-                If Me.chkShowAll.Checked Then
-                    Me.chkShowAllAR.Checked = True
-                    Me.chkShowAllRetention.Checked = True
+                If Me.chkShowDoc.Checked Then
+
+                    '    Me.chkShowAR.Checked = True
+                    '    Me.chkShowRetention.Checked = True
                     Me.chkDetail.Checked = True
                 Else
-                    Me.chkShowAllAR.Checked = False
-                    Me.chkShowAllRetention.Checked = False
+                    '    Me.chkShowAR.Checked = False
+                    '    Me.chkShowRetention.Checked = False
+                    Me.chkDetail.Checked = False
                 End If
 
                 chkSetting = False
@@ -1230,79 +1219,41 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 
         Private Sub chkDetail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDetail.CheckedChanged
-            If Not chkSetting Then
-                chkSetting = True
+            'If Not chkSetting Then
+            '    chkSetting = True
 
-                If Not Me.chkDetail.Checked Then
-                    Me.chkShowAll.Checked = False
-                    Me.chkShowAllAR.Checked = False
-                    Me.chkShowAllRetention.Checked = False
-                End If
+            '    If Not Me.chkDetail.Checked Then
+            '        Me.chkShowDoc.Checked = False
+            '        Me.chkShowAR.Checked = False
+            '        Me.chkShowRetention.Checked = False
+            '    End If
 
-                chkSetting = False
-            End If
+            '    chkSetting = False
+            'End If
         End Sub
-    Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      Select Case CType(sender, Control).Name.ToLower
-        Case "btnaccountstartfind"
-          myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetAcctBookStartDialog)
+        Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            Select Case CType(sender, Control).Name.ToLower
+                Case "btnaccountstartfind"
+                    myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetAcctBookStartDialog)
 
-        Case "btnaccountendfind"
-          myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetAcctBookEndDialog)
+                Case "btnaccountendfind"
+                    myEntityPanelService.OpenListDialog(New AccountBook, AddressOf SetAcctBookEndDialog)
 
-      End Select
-    End Sub
-    Private Sub SetAcctBookStartDialog(ByVal e As ISimpleEntity)
-      Me.txtAccountCodeStart.Text = e.Code
-      AccountBook.GetAccountBook(txtAccountCodeStart, txtTemp, Me.m_AccountBookStart)
-    End Sub
-    Private Sub SetAcctBookEndDialog(ByVal e As ISimpleEntity)
-      Me.txtAccountCodeEnd.Text = e.Code
-      AccountBook.GetAccountBook(txtAccountCodeEnd, txtTemp, Me.m_AccountBookEnd)
-    End Sub
-
-        Private Sub chkShowAllAR_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowAllAR.CheckedChanged
-            If Not chkSetting Then
-                chkSetting = True
-
-                If chkShowAllAR.Checked Then
-                    If Not chkShowAll.Checked Then
-                        chkShowAll.Checked = True
-                    End If
-                    If Not chkDetail.Checked Then
-                        chkDetail.Checked = True
-                    End If
-                Else
-                    If Not chkShowAllRetention.Checked Then
-                        chkShowAll.Checked = False
-                    End If
-                End If
-
-                chkSetting = False
-            End If
+            End Select
+        End Sub
+        Private Sub SetAcctBookStartDialog(ByVal e As ISimpleEntity)
+            Me.txtAccountCodeStart.Text = e.Code
+            AccountBook.GetAccountBook(txtAccountCodeStart, txtTemp, Me.m_AccountBookStart)
+        End Sub
+        Private Sub SetAcctBookEndDialog(ByVal e As ISimpleEntity)
+            Me.txtAccountCodeEnd.Text = e.Code
+            AccountBook.GetAccountBook(txtAccountCodeEnd, txtTemp, Me.m_AccountBookEnd)
         End Sub
 
-        Private Sub chkShowAllRetention_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowAllRetention.CheckedChanged
-            If Not chkSetting Then
-                chkSetting = True
 
-                If chkShowAllRetention.Checked Then
-                    If Not chkShowAll.Checked Then
-                        chkShowAll.Checked = True
-                    End If
-                    If Not chkDetail.Checked Then
-                        chkDetail.Checked = True
-                    End If
-                Else
-                    If Not chkShowAllAR.Checked Then
-                        chkShowAll.Checked = False
-                    End If
-                End If
 
-                chkSetting = False
-            End If
-        End Sub
+
 
     End Class
 End Namespace
