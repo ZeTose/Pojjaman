@@ -357,14 +357,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         End If
 
                         If _
-                            ((ShowAll And Not (ShowAR) And Not (ShowRetention)) And (HasARMove Or HasRetentionMove)) _
-                            Or
-                            ((ShowAR And Not (ShowRetention)) And (DocEndBalance <> 0 Or HasRetentionMove)) _
-                            Or
-                            ((ShowRetention And Not (ShowAR)) And (DocEndRetentionBalance <> 0 Or HasARMove)) _
-                            Or
-                            ((ShowRetention And ShowAR) And (DocEndRetentionBalance <> 0 Or DocEndBalance <> 0)) _
+                            (((ShowAll) And (ShowAR) And (ShowRetention)) And (((HasARMove) And (DocEndBalance <> 0)) And ((HasRetentionMove) And (DocEndRetentionBalance <> 0)))) _
+                            OrElse
+                            (((ShowAll) And (ShowAR) And Not (ShowRetention)) And (((HasARMove) And (DocEndBalance <> 0)) Or ((HasRetentionMove) And (DocEndRetentionBalance <> 0)))) _
+                            OrElse
+                            (((ShowAll) And Not (ShowAR) And (ShowRetention)) And (((HasARMove) And (DocEndBalance <> 0)) Or ((HasRetentionMove) And (DocEndRetentionBalance <> 0)))) _
+                            OrElse
+                            ((Not (ShowAll) And (ShowAR) And Not (ShowRetention)) And (((HasARMove) And (DocEndBalance <> 0)) And (Not (HasRetentionMove) And Not (DocEndRetentionBalance <> 0)))) _
+                            OrElse
+                            ((Not (ShowAll) And Not (ShowAR) And (ShowRetention)) And ((Not (HasARMove) And Not (DocEndBalance <> 0)) And ((HasRetentionMove) And (DocEndRetentionBalance <> 0)))) _
+                            OrElse
+                            ((Not (ShowAll) And (ShowAR) And (ShowRetention)) And (((HasARMove) And (DocEndBalance <> 0)) Or ((HasRetentionMove) And (DocEndRetentionBalance <> 0)))) _
                         Then
+                            'Or
+                            '((ShowAll And Not (ShowAR) And Not (ShowRetention)) And (HasARMove Or HasRetentionMove)) _
+
                             If Not trCustomer Is Nothing Then
                                 trDetail = trCustomer.Childs.Add
 
