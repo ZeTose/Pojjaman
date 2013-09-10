@@ -1197,40 +1197,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         End Sub
 #End Region
 
-        Private chkSetting As Boolean = False
 
-        Private Sub chkShowAll_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowDoc.CheckedChanged
-            If Not chkSetting Then
-                chkSetting = True
-
-                If Me.chkShowDoc.Checked Then
-
-                    '    Me.chkShowAR.Checked = True
-                    '    Me.chkShowRetention.Checked = True
-                    Me.chkDetail.Checked = True
-                Else
-                    '    Me.chkShowAR.Checked = False
-                    '    Me.chkShowRetention.Checked = False
-                    Me.chkDetail.Checked = False
-                End If
-
-                chkSetting = False
-            End If
-        End Sub
-
-        Private Sub chkDetail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDetail.CheckedChanged
-            'If Not chkSetting Then
-            '    chkSetting = True
-
-            '    If Not Me.chkDetail.Checked Then
-            '        Me.chkShowDoc.Checked = False
-            '        Me.chkShowAR.Checked = False
-            '        Me.chkShowRetention.Checked = False
-            '    End If
-
-            '    chkSetting = False
-            'End If
-        End Sub
         Private Sub btnAccountFind_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
             Select Case CType(sender, Control).Name.ToLower
@@ -1242,18 +1209,86 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
             End Select
         End Sub
+
         Private Sub SetAcctBookStartDialog(ByVal e As ISimpleEntity)
             Me.txtAccountCodeStart.Text = e.Code
             AccountBook.GetAccountBook(txtAccountCodeStart, txtTemp, Me.m_AccountBookStart)
         End Sub
+
         Private Sub SetAcctBookEndDialog(ByVal e As ISimpleEntity)
             Me.txtAccountCodeEnd.Text = e.Code
             AccountBook.GetAccountBook(txtAccountCodeEnd, txtTemp, Me.m_AccountBookEnd)
         End Sub
 
+        Private chkSetting As Boolean = False
 
+        Private Sub chkShowDoc_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowDoc.CheckedChanged
+            If Not chkSetting Then
+                chkSetting = True
 
+                If Me.chkShowDoc.Checked Then
+                    Me.chkDetail.Checked = True
+                    Me.chkShowAR.Checked = True
+                    Me.chkShowRetention.Checked = True
+                Else
+                    Me.chkDetail.Checked = False
+                End If
 
+                chkSetting = False
+            End If
+        End Sub
+
+        Private Sub chkDetail_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkDetail.CheckedChanged
+            If Not chkSetting Then
+                chkSetting = True
+
+                If Not Me.chkDetail.Checked Then
+                    Me.chkShowDoc.Checked = False
+                    Me.chkShowAR.Checked = False
+                    Me.chkShowRetention.Checked = False
+                End If
+
+                chkSetting = False
+            End If
+        End Sub
+
+        Private Sub chkShowAR_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowAR.CheckedChanged
+            If Not chkSetting Then
+                chkSetting = True
+
+                If Me.chkShowAR.Checked Then
+                    Me.chkDetail.Checked = True
+                Else
+                    Me.chkDetail.Checked = False
+
+                    If Not Me.chkShowRetention.Checked Then
+                        Me.chkShowDoc.Checked = False
+                    End If
+
+                End If
+
+                chkSetting = False
+            End If
+        End Sub
+
+        Private Sub chkShowRetention_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowRetention.CheckedChanged
+            If Not chkSetting Then
+                chkSetting = True
+
+                If Me.chkShowRetention.Checked Then
+                    Me.chkDetail.Checked = True
+                Else
+                    Me.chkDetail.Checked = False
+
+                    If Not Me.chkShowRetention.Checked Then
+                        Me.chkShowDoc.Checked = False
+                    End If
+
+                End If
+
+                chkSetting = False
+            End If
+        End Sub
 
     End Class
 End Namespace
