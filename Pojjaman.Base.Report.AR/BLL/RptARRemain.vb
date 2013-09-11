@@ -301,7 +301,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     For Each detailRow As DataRow In dt2.Select("Customer =" & supplierRow("Cust_ID").ToString)
                         Dim deh As New DataRowHelper(detailRow)
 
-                        DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-")
+                        DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-") & "|" & deh.GetValue(Of String)("CCID", "-")
                         DocBal = Nothing
                         If DocumentBalanceList.ContainsKey(DocKey) Then
                             DocBal = DocumentBalanceList(DocKey)
@@ -345,30 +345,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 trDetail("col4") = indent & deh.GetValue(Of String)("CostCenter")
                                 trDetail("col5") = Configuration.FormatToString(deh.GetValue(Of Decimal)("OpeningBalance"), DigitConfig.Price)
 
-                                If DocBal.OpeningBalance > 0 Then
+                                If DocBal.OpeningBalance <> 0 Then
                                     sumOpenningBalance += DocBal.OpeningBalance
                                     totalOpenningBalance += DocBal.OpeningBalance
                                 End If
 
-                                If DocBal.Amount > 0 Then
+                                If DocBal.Amount <> 0 Then
                                     trDetail("col6") = Configuration.FormatToString(DocBal.Amount, DigitConfig.Price)
                                     sumAmount += DocBal.Amount
                                     totalAmount += DocBal.Amount
                                 End If
 
-                                If DocBal.SCN > 0 Then
+                                If DocBal.SCN <> 0 Then
                                     trDetail("col7") = Configuration.FormatToString(DocBal.SCN, DigitConfig.Price)
                                     sumSCNAmount += DocBal.SCN
                                     totalSCNAmount += DocBal.SCN
                                 End If
 
-                                If DocBal.ReceiveSelection > 0 Then
+                                If DocBal.ReceiveSelection <> 0 Then
                                     trDetail("col8") = Configuration.FormatToString(DocBal.ReceiveSelection, DigitConfig.Price)
                                     sumReceiveAmount += DocBal.ReceiveSelection
                                     totalReceiveAmount += DocBal.ReceiveSelection
                                 End If
 
-                                If DocBal.EndingBalance > 0 Then
+                                If DocBal.EndingBalance <> 0 Then
                                     trDetail("col9") = Configuration.FormatToString(DocBal.EndingBalance, DigitConfig.Price)
                                     sumEndingBalance += DocBal.EndingBalance
                                     totalEndingBalance += DocBal.EndingBalance
@@ -410,19 +410,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                     Next
 
-                    If sumOpenningBalance > 0 Then
+                    If sumOpenningBalance <> 0 Then
                         trCustomer("col5") = Configuration.FormatToString(sumOpenningBalance, DigitConfig.Price)
                     End If
 
-                    If sumAmount > 0 Then
+                    If sumAmount <> 0 Then
                         trCustomer("col6") = Configuration.FormatToString(sumAmount, DigitConfig.Price)
                     End If
 
-                    If sumSCNAmount > 0 Then
+                    If sumSCNAmount <> 0 Then
                         trCustomer("col7") = Configuration.FormatToString(sumSCNAmount, DigitConfig.Price)
                     End If
 
-                    If sumReceiveAmount > 0 Then
+                    If sumReceiveAmount <> 0 Then
                         trCustomer("col8") = Configuration.FormatToString(sumReceiveAmount, DigitConfig.Price)
                     End If
 
@@ -453,15 +453,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 trCustomer("col4") = Configuration.FormatToString(totalOpenningBalance, DigitConfig.Price)
 
-                If totalAmount > 0 Then
+                If totalAmount <> 0 Then
                     trCustomer("col5") = Configuration.FormatToString(totalAmount, DigitConfig.Price)
                 End If
 
-                If totalSCNAmount > 0 Then
+                If totalSCNAmount <> 0 Then
                     trCustomer("col6") = Configuration.FormatToString(totalSCNAmount, DigitConfig.Price)
                 End If
 
-                If totalReceiveAmount > 0 Then
+                If totalReceiveAmount <> 0 Then
                     trCustomer("col7") = Configuration.FormatToString(totalReceiveAmount, DigitConfig.Price)
                 End If
 
@@ -470,21 +470,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 '============================================-Retention===================================================
 
-                If totalOPBRetention > 0 Then
+                If totalOPBRetention <> 0 Then
                     trCustomer("col9") = Configuration.FormatToString(totalOPBRetention, DigitConfig.Price)
                 End If
 
-                If totalRetention > 0 Then
+                If totalRetention <> 0 Then
                     trCustomer("col10") = Configuration.FormatToString(totalRetention, DigitConfig.Price)
                 End If
 
-                If totalDecreaseRetention > 0 Then
+                If totalDecreaseRetention <> 0 Then
                     trCustomer("col11") = Configuration.FormatToString(totalDecreaseRetention, DigitConfig.Price)
                 End If
 
                 trCustomer("col12") = Configuration.FormatToString(totalEndingBalanceRetention, DigitConfig.Price)
 
-                If totalReceiveRetention > 0 Then
+                If totalReceiveRetention <> 0 Then
                     trCustomer("col13") = Configuration.FormatToString(totalBillRetention, DigitConfig.Price)
                 End If
 
@@ -500,15 +500,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 trCustomer("col5") = Configuration.FormatToString(totalOpenningBalance, DigitConfig.Price)
 
-                If totalAmount > 0 Then
+                If totalAmount <> 0 Then
                     trCustomer("col6") = Configuration.FormatToString(totalAmount, DigitConfig.Price)
                 End If
 
-                If totalSCNAmount > 0 Then
+                If totalSCNAmount <> 0 Then
                     trCustomer("col7") = Configuration.FormatToString(totalSCNAmount, DigitConfig.Price)
                 End If
 
-                If totalReceiveAmount > 0 Then
+                If totalReceiveAmount <> 0 Then
                     trCustomer("col8") = Configuration.FormatToString(totalReceiveAmount, DigitConfig.Price)
                 End If
 
@@ -517,21 +517,21 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 '============================================-Retention===================================================
 
-                If totalOPBRetention > 0 Then
+                If totalOPBRetention <> 0 Then
                     trCustomer("col10") = Configuration.FormatToString(totalOPBRetention, DigitConfig.Price)
                 End If
 
-                If totalRetention > 0 Then
+                If totalRetention <> 0 Then
                     trCustomer("col11") = Configuration.FormatToString(totalRetention, DigitConfig.Price)
                 End If
 
-                If totalDecreaseRetention > 0 Then
+                If totalDecreaseRetention <> 0 Then
                     trCustomer("col12") = Configuration.FormatToString(totalDecreaseRetention, DigitConfig.Price)
                 End If
 
                 trCustomer("col13") = Configuration.FormatToString(totalEndingBalanceRetention, DigitConfig.Price)
 
-                If totalReceiveRetention > 0 Then
+                If totalReceiveRetention <> 0 Then
                     trCustomer("col14") = Configuration.FormatToString(totalBillRetention, DigitConfig.Price)
                 End If
 
@@ -670,7 +670,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             End If
         End Sub
 
-        Private RetentionPMAList As Dictionary(Of Integer, RetentionPMA)
+        Private RetentionPMAList As Dictionary(Of String, RetentionPMA)
         Private RetentionBalanceList As Dictionary(Of String, RetentionBalance)
         Private DocumentBalanceList As Dictionary(Of String, DocumentBalance)
 
@@ -681,7 +681,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim DocBalance As DocumentBalance
             Dim dt As DataTable
 
-            RetentionPMAList = New Dictionary(Of Integer, RetentionPMA)
+            RetentionPMAList = New Dictionary(Of String, RetentionPMA)
             RetentionBalanceList = New Dictionary(Of String, RetentionBalance)
             DocumentBalanceList = New Dictionary(Of String, DocumentBalance)
 
@@ -689,25 +689,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             For Each PMARow As DataRow In dt.Rows
                 RPMA = New RetentionPMA(PMARow)
-                RetentionPMAList.Add(RPMA.pma, RPMA)
+                RetentionPMAList.Add(RPMA.pma.ToString & "|" & RPMA.CCID.ToString, RPMA)
             Next
 
             dt = Me.DataSet.Tables(3)
 
             For Each DocRow As DataRow In dt.Rows
                 RBalance = New RetentionBalance(DocRow)
-                RetentionBalanceList.Add(RBalance.ID.ToString & "|" & RBalance.DocType.ToString & "|" & RBalance.pma.ToString, RBalance)
+                RetentionBalanceList.Add(RBalance.ID.ToString & "|" & RBalance.DocType.ToString & "|" & RBalance.pma.ToString & "|" & RBalance.CCID.ToString, RBalance)
             Next
 
-            Dim Currentpma As Integer
+            Dim Currentpma As String
 
-            Currentpma = 0
+            Currentpma = "0|0"
 
             For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
-                If RetentionPMAList.ContainsKey(DocRetention.Value.pma) Then
+                If RetentionPMAList.ContainsKey(DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
 
-                    If Currentpma <> DocRetention.Value.pma Then
-                        Currentpma = DocRetention.Value.pma
+                    If Currentpma <> (DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
+                        Currentpma = DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString
                         RPMA = RetentionPMAList(Currentpma)
                     End If
 
@@ -722,13 +722,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
             Next
 
-            Currentpma = 0
+            Currentpma = "0|0"
 
             For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
-                If RetentionPMAList.ContainsKey(DocRetention.Value.pma) Then
+                If RetentionPMAList.ContainsKey(DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
 
-                    If Currentpma <> DocRetention.Value.pma Then
-                        Currentpma = DocRetention.Value.pma
+                    If Currentpma <> (DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
+                        Currentpma = DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString
                         RPMA = RetentionPMAList(Currentpma)
                     End If
 
@@ -751,9 +751,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
 
             For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
-                If DocumentBalanceList.ContainsKey(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString) Then
+                If DocumentBalanceList.ContainsKey(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString) Then
 
-                    DocBalance = DocumentBalanceList(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString)
+                    DocBalance = DocumentBalanceList(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString)
 
                     DocBalance.OpeningBalance += DocRetention.Value.OpeningBalance
                     DocBalance.Amount += DocRetention.Value.Amount
@@ -762,7 +762,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.EndingBalance += DocRetention.Value.EndingBalance
 
                     DocBalance.ORetention += DocRetention.Value.ORetention
-                    DocBalance.ODecreaseRetention += DocRetention.Value.ODecreaseRetention
                     DocBalance.OBalanceRetention += DocRetention.Value.OBalanceRetention
 
                     DocBalance.Retention += DocRetention.Value.Retention
@@ -775,6 +774,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance = New DocumentBalance
                     DocBalance.ID = DocRetention.Value.ID
                     DocBalance.DocType = DocRetention.Value.DocType
+                    DocBalance.CCID = DocRetention.Value.CCID
 
                     DocBalance.OpeningBalance = DocRetention.Value.OpeningBalance
                     DocBalance.Amount = DocRetention.Value.Amount
@@ -783,7 +783,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.EndingBalance = DocRetention.Value.EndingBalance
 
                     DocBalance.ORetention = DocRetention.Value.ORetention
-                    DocBalance.ODecreaseRetention = DocRetention.Value.ODecreaseRetention
                     DocBalance.OBalanceRetention = DocRetention.Value.OBalanceRetention
 
                     DocBalance.Retention = DocRetention.Value.Retention
@@ -791,7 +790,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.BalanceRetention = DocRetention.Value.BalanceRetention
                     DocBalance.BillRetention = DocRetention.Value.BillRetention
 
-                    DocumentBalanceList.Add(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString, DocBalance)
+                    DocumentBalanceList.Add(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString, DocBalance)
 
                 End If
             Next
@@ -918,6 +917,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Set
             End Property
 
+            Private _CCID As Integer
+            Public Property CCID As Integer
+                Get
+                    Return _CCID
+                End Get
+                Set(value As Integer)
+                    _CCID = value
+                End Set
+            End Property
 
 #Region "AR Property"
 
@@ -1083,6 +1091,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 _ID = CInt(DocRow("ID"))
                 _DocType = CInt(DocRow("DocType"))
                 _pma = CInt(DocRow("pma"))
+                _CCID = CInt(DocRow("CCID"))
 
                 If Not DocRow.IsNull("OpeningBalance") Then
                     _OpeningBalance = CDec(DocRow("OpeningBalance"))
@@ -1121,11 +1130,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     _ORetention = 0
                 End If
 
-                If Not DocRow.IsNull("OPBDecreaseRetention") Then
-                    _ODecreaseRetention = CDec(DocRow("OPBDecreaseRetention"))
-                Else
-                    _ODecreaseRetention = 0
-                End If
+                'If Not DocRow.IsNull("OPBDecreaseRetention") Then
+                '    _ODecreaseRetention = CDec(DocRow("OPBDecreaseRetention"))
+                'Else
+                '    _ODecreaseRetention = 0
+                'End If
 
                 _OBalanceRetention = 0
 
@@ -1178,6 +1187,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Get
                 Set(value As Integer)
                     _pma = value
+                End Set
+            End Property
+
+            Private _CCID As Integer
+            Public Property CCID As Integer
+                Get
+                    Return _CCID
+                End Get
+                Set(value As Integer)
+                    _CCID = value
                 End Set
             End Property
 
@@ -1259,15 +1278,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Set
             End Property
 
-            Private _ODecreaseRetention As Decimal
-            Public Property ODecreaseRetention As Decimal
-                Get
-                    Return _ODecreaseRetention
-                End Get
-                Set(value As Decimal)
-                    _ODecreaseRetention = value
-                End Set
-            End Property
+            'Private _ODecreaseRetention As Decimal
+            'Public Property ODecreaseRetention As Decimal
+            '    Get
+            '        Return _ODecreaseRetention
+            '    End Get
+            '    Set(value As Decimal)
+            '        _ODecreaseRetention = value
+            '    End Set
+            'End Property
 
             Private _OBalanceRetention As Decimal
             Public Property OBalanceRetention As Decimal
@@ -1344,9 +1363,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Public Sub New(PMARow As DataRow)
 
                 _pma = CInt(PMARow("pma"))
+                _CCID = CInt(PMARow("CCID"))
 
                 _ORetention = CDec(PMARow("OPBRetention"))
-                _ODecreaseRetention = CDec(PMARow("OPBDecreaseRetention"))
                 _OBalanceRetention = _ODecreaseRetention
 
                 _Retention = CDec(PMARow("Retention"))
@@ -1355,7 +1374,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             End Sub
 
-
             Private _pma As Integer
             Public Property pma As Integer
                 Get
@@ -1363,6 +1381,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Get
                 Set(value As Integer)
                     _pma = value
+                End Set
+            End Property
+
+            Private _CCID As Integer
+            Public Property CCID As Integer
+                Get
+                    Return _CCID
+                End Get
+                Set(value As Integer)
+                    _CCID = value
                 End Set
             End Property
 

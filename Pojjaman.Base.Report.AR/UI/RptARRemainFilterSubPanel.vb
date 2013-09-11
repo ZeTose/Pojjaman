@@ -1228,10 +1228,16 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
                 If Me.chkShowDoc.Checked Then
                     Me.chkDetail.Checked = True
-                    Me.chkShowAR.Checked = True
-                    Me.chkShowRetention.Checked = True
+
+                    If Not (Me.chkShowAR.Checked) And Not (Me.chkShowRetention.Checked) Then
+                        Me.chkShowAR.Checked = True
+                        Me.chkShowRetention.Checked = True
+                    End If
+
                 Else
-                    Me.chkDetail.Checked = False
+                    If Not (Me.chkShowAR.Checked) And Not (Me.chkShowRetention.Checked) Then
+                        Me.chkDetail.Checked = False
+                    End If
                 End If
 
                 chkSetting = False
@@ -1259,10 +1265,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 If Me.chkShowAR.Checked Then
                     Me.chkDetail.Checked = True
                 Else
-                    Me.chkDetail.Checked = False
 
                     If Not Me.chkShowRetention.Checked Then
                         Me.chkShowDoc.Checked = False
+                        Me.chkDetail.Checked = False
                     End If
 
                 End If
@@ -1278,10 +1284,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 If Me.chkShowRetention.Checked Then
                     Me.chkDetail.Checked = True
                 Else
-                    Me.chkDetail.Checked = False
 
                     If Not Me.chkShowAR.Checked Then
                         Me.chkShowDoc.Checked = False
+                        Me.chkDetail.Checked = False
                     End If
 
                 End If
