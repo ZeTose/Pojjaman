@@ -1280,7 +1280,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Else
                     Me.chkDetail.Checked = False
 
-                    If Not Me.chkShowRetention.Checked Then
+                    If Not Me.chkShowAR.Checked Then
                         Me.chkShowDoc.Checked = False
                     End If
 

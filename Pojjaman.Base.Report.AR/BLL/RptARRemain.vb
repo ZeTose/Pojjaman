@@ -319,7 +319,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         End If
 
                         If _
-                            (((ShowAll) And (ShowAR) And (ShowRetention))) _
+                            (((ShowAll) And (ShowAR) And (ShowRetention)) And ((HasARMove) Or (HasRetentionMove))) _
                             OrElse
                             (((ShowAll) And (ShowAR) And Not (ShowRetention)) And ((DocEndBalance <> 0) Or (HasRetentionMove))) _
                             OrElse
