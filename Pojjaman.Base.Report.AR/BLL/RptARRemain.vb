@@ -207,241 +207,257 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim rowIndex As Integer = 0
             m_hashData = New Hashtable
 
-            For Each supplierRow As DataRow In dt.Rows
+            Dim HasCustMove As Boolean = False
 
-                trCustomer = Me.Treemanager.Treetable.Childs.Add
-                If ShowDetail Then
-                    trCustomer.Tag = "Font.Bold"
-                End If
+            For Each CustomerRow As DataRow In dt.Rows
 
-                If Not supplierRow.IsNull("cust_code") Then
-                    trCustomer("col0") = supplierRow("cust_code").ToString
-                End If
-                If Not supplierRow.IsNull("cust_name") Then
-                    trCustomer("col1") = supplierRow("cust_name").ToString
-                End If
-
-                If Not ShowDetail Then
-                    If Not supplierRow.IsNull("OpeningBalance") Then
-                        trCustomer("col4") = Configuration.FormatToString(CDec(supplierRow("OpeningBalance")), DigitConfig.Price)
-                        totalOpenningBalance += CDec(supplierRow("OpeningBalance"))
-                    End If
-                    If Not supplierRow.IsNull("Amount") Then
-                        If CDec(supplierRow("Amount")) > 0 Then
-                            trCustomer("col5") = Configuration.FormatToString(CDec(supplierRow("Amount")), DigitConfig.Price)
-                            totalAmount += CDec(supplierRow("Amount"))
-                        End If
-                    End If
-                    If Not supplierRow.IsNull("SCN") Then
-                        If CDec(supplierRow("SCN")) > 0 Then
-                            trCustomer("col6") = Configuration.FormatToString(CDec(supplierRow("SCN")), DigitConfig.Price)
-                            totalSCNAmount += CDec(supplierRow("SCN"))
-                        End If
-                    End If
-                    If Not supplierRow.IsNull("ReceiveSelection") Then
-                        If CDec(supplierRow("ReceiveSelection")) > 0 Then
-                            trCustomer("col7") = Configuration.FormatToString(CDec(supplierRow("ReceiveSelection")), DigitConfig.Price)
-                            totalReceiveAmount += CDec(supplierRow("ReceiveSelection"))
-                        End If
-                    End If
-                    If Not supplierRow.IsNull("EndingBalance") Then
-                        trCustomer("col8") = Configuration.FormatToString(CDec(supplierRow("EndingBalance")), DigitConfig.Price)
-                        totalEndingBalance += CDec(supplierRow("EndingBalance"))
-                    End If
-
-                    '============================================-Retention===================================================
-
-                    If Not supplierRow.IsNull("OPBRetention") Then
-                        trCustomer("col9") = Configuration.FormatToString(CDec(supplierRow("OPBRetention")), DigitConfig.Price)
-                        totalOPBRetention += CDec(supplierRow("OPBRetention"))
-                    End If
-
-                    If Not supplierRow.IsNull("Retention") Then
-                        trCustomer("col10") = Configuration.FormatToString(CDec(supplierRow("Retention")), DigitConfig.Price)
-                        totalRetention += CDec(supplierRow("Retention"))
-                    End If
-
-                    If Not supplierRow.IsNull("DecreaseRetention") Then
-                        trCustomer("col11") = Configuration.FormatToString(CDec(supplierRow("DecreaseRetention")), DigitConfig.Price)
-                        totalDecreaseRetention += CDec(supplierRow("DecreaseRetention"))
-                    End If
-
-                    If Not supplierRow.IsNull("EndingBalanceRetention") Then
-                        trCustomer("col12") = Configuration.FormatToString(CDec(supplierRow("EndingBalanceRetention")), DigitConfig.Price)
-                        totalEndingBalanceRetention += CDec(supplierRow("EndingBalanceRetention"))
-                    End If
-
-                    If Not supplierRow.IsNull("BillRetention") Then
-                        trCustomer("col13") = Configuration.FormatToString(CDec(supplierRow("BillRetention")), DigitConfig.Price)
-                        totalBillRetention += CDec(supplierRow("BillRetention"))
-                    End If
-
-                    '=========================================================================================================
-
-
-                End If
 
 
                 If ShowDetail Then
+                    If CustomerBalanceList.ContainsKey(CustomerRow("Cust_ID").ToString) Then
+                        HasCustMove = CustomerBalanceList(CustomerRow("Cust_ID").ToString).HasARMove Or CustomerBalanceList(CustomerRow("Cust_ID").ToString).HasRetentionMove
+                    Else
+                        HasCustMove = False
+                    End If
+                End If
 
-                    trCustomer.State = RowExpandState.Expanded
+                If (ShowDetail AndAlso HasCustMove) OrElse Not (ShowDetail) Then
 
-                    sumOpenningBalance = 0
-                    sumAmount = 0
-                    sumSCNAmount = 0
-                    sumReceiveAmount = 0
-                    sumEndingBalance = 0
-                    sumOPBRetention = 0
-                    sumRetention = 0
-                    sumDecreaseRetention = 0
-                    sumEndingBalanceRetention = 0
-                    sumReceiveRetention = 0
-                    sumBillRetention = 0
+                    trCustomer = Me.Treemanager.Treetable.Childs.Add
 
-                    For Each detailRow As DataRow In dt2.Select("Customer =" & supplierRow("Cust_ID").ToString)
-                        Dim deh As New DataRowHelper(detailRow)
+                    If ShowDetail Then
+                        trCustomer.Tag = "Font.Bold"
+                    End If
 
-                        DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-") & "|" & deh.GetValue(Of String)("CCID", "-")
-                        DocBal = Nothing
-                        If DocumentBalanceList.ContainsKey(DocKey) Then
-                            DocBal = DocumentBalanceList(DocKey)
-                            DocEndBalance = DocBal.EndingBalance
-                            DocOpenRetentionBalance = DocBal.OBalanceRetention
-                            DocEndRetentionBalance = DocBal.BalanceRetention
-                            HasARMove = DocBal.HasARMove
-                            HasRetentionMove = DocBal.HasRetentionMove
-                        Else
-                            DocEndBalance = 0
-                            DocOpenRetentionBalance = 0
-                            DocEndRetentionBalance = 0
-                            HasARMove = False
-                            HasRetentionMove = False
+                    If Not CustomerRow.IsNull("cust_code") Then
+                        trCustomer("col0") = CustomerRow("cust_code").ToString
+                    End If
+                    If Not CustomerRow.IsNull("cust_name") Then
+                        trCustomer("col1") = CustomerRow("cust_name").ToString
+                    End If
+
+                    If Not ShowDetail Then
+                        If Not CustomerRow.IsNull("OpeningBalance") Then
+                            trCustomer("col4") = Configuration.FormatToString(CDec(CustomerRow("OpeningBalance")), DigitConfig.Price)
+                            totalOpenningBalance += CDec(CustomerRow("OpeningBalance"))
+                        End If
+                        If Not CustomerRow.IsNull("Amount") Then
+                            If CDec(CustomerRow("Amount")) > 0 Then
+                                trCustomer("col5") = Configuration.FormatToString(CDec(CustomerRow("Amount")), DigitConfig.Price)
+                                totalAmount += CDec(CustomerRow("Amount"))
+                            End If
+                        End If
+                        If Not CustomerRow.IsNull("SCN") Then
+                            If CDec(CustomerRow("SCN")) > 0 Then
+                                trCustomer("col6") = Configuration.FormatToString(CDec(CustomerRow("SCN")), DigitConfig.Price)
+                                totalSCNAmount += CDec(CustomerRow("SCN"))
+                            End If
+                        End If
+                        If Not CustomerRow.IsNull("ReceiveSelection") Then
+                            If CDec(CustomerRow("ReceiveSelection")) > 0 Then
+                                trCustomer("col7") = Configuration.FormatToString(CDec(CustomerRow("ReceiveSelection")), DigitConfig.Price)
+                                totalReceiveAmount += CDec(CustomerRow("ReceiveSelection"))
+                            End If
+                        End If
+                        If Not CustomerRow.IsNull("EndingBalance") Then
+                            trCustomer("col8") = Configuration.FormatToString(CDec(CustomerRow("EndingBalance")), DigitConfig.Price)
+                            totalEndingBalance += CDec(CustomerRow("EndingBalance"))
                         End If
 
-                        If _
-                            (((ShowAll) And (ShowAR) And (ShowRetention)) And ((HasARMove) Or (HasRetentionMove))) _
-                            OrElse
-                            (((ShowAll) And (ShowAR) And Not (ShowRetention)) And ((DocEndBalance <> 0) Or (HasRetentionMove))) _
-                            OrElse
-                            (((ShowAll) And Not (ShowAR) And (ShowRetention)) And ((HasARMove) Or (DocEndRetentionBalance <> 0))) _
-                            OrElse
-                            ((Not (ShowAll) And (ShowAR) And Not (ShowRetention)) And (DocEndBalance <> 0)) _
-                            OrElse
-                            ((Not (ShowAll) And Not (ShowAR) And (ShowRetention)) And (DocEndRetentionBalance <> 0)) _
-                            OrElse
-                            ((Not (ShowAll) And (ShowAR) And (ShowRetention)) And ((DocEndBalance <> 0) Or (DocEndRetentionBalance <> 0))) _
-                        Then
+                        '============================================-Retention===================================================
 
-                            If Not trCustomer Is Nothing Then
-                                trDetail = trCustomer.Childs.Add
+                        If Not CustomerRow.IsNull("OPBRetention") Then
+                            trCustomer("col9") = Configuration.FormatToString(CDec(CustomerRow("OPBRetention")), DigitConfig.Price)
+                            totalOPBRetention += CDec(CustomerRow("OPBRetention"))
+                        End If
 
-                                rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trDetail) + 1
-                                m_hashData(rowIndex) = detailRow
+                        If Not CustomerRow.IsNull("Retention") Then
+                            trCustomer("col10") = Configuration.FormatToString(CDec(CustomerRow("Retention")), DigitConfig.Price)
+                            totalRetention += CDec(CustomerRow("Retention"))
+                        End If
 
-                                trDetail("col0") = indent & deh.GetValue(Of String)("entity_description", "-")
-                                trDetail("col1") = indent & deh.GetValue(Of String)("doccode", "-")
-                                trDetail("col2") = indent & deh.GetValue(Of Date)("docdate", Now.Date).ToShortDateString
-                                trDetail("col3") = indent & deh.GetValue(Of String)("glcode", "-")
-                                trDetail("col4") = indent & deh.GetValue(Of String)("CostCenter")
-                                trDetail("col5") = Configuration.FormatToString(deh.GetValue(Of Decimal)("OpeningBalance"), DigitConfig.Price)
+                        If Not CustomerRow.IsNull("DecreaseRetention") Then
+                            trCustomer("col11") = Configuration.FormatToString(CDec(CustomerRow("DecreaseRetention")), DigitConfig.Price)
+                            totalDecreaseRetention += CDec(CustomerRow("DecreaseRetention"))
+                        End If
 
-                                If DocBal.OpeningBalance <> 0 Then
-                                    sumOpenningBalance += DocBal.OpeningBalance
-                                    totalOpenningBalance += DocBal.OpeningBalance
+                        If Not CustomerRow.IsNull("EndingBalanceRetention") Then
+                            trCustomer("col12") = Configuration.FormatToString(CDec(CustomerRow("EndingBalanceRetention")), DigitConfig.Price)
+                            totalEndingBalanceRetention += CDec(CustomerRow("EndingBalanceRetention"))
+                        End If
+
+                        If Not CustomerRow.IsNull("BillRetention") Then
+                            trCustomer("col13") = Configuration.FormatToString(CDec(CustomerRow("BillRetention")), DigitConfig.Price)
+                            totalBillRetention += CDec(CustomerRow("BillRetention"))
+                        End If
+
+                        '=========================================================================================================
+
+
+                    End If
+
+                    If ShowDetail Then
+
+                        trCustomer.State = RowExpandState.Expanded
+
+                        sumOpenningBalance = 0
+                        sumAmount = 0
+                        sumSCNAmount = 0
+                        sumReceiveAmount = 0
+                        sumEndingBalance = 0
+                        sumOPBRetention = 0
+                        sumRetention = 0
+                        sumDecreaseRetention = 0
+                        sumEndingBalanceRetention = 0
+                        sumReceiveRetention = 0
+                        sumBillRetention = 0
+
+                        For Each detailRow As DataRow In dt2.Select("Customer =" & CustomerRow("Cust_ID").ToString)
+                            Dim deh As New DataRowHelper(detailRow)
+
+                            DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-") & "|" & deh.GetValue(Of String)("CCID", "-")
+                            DocBal = Nothing
+                            If DocumentBalanceList.ContainsKey(DocKey) Then
+                                DocBal = DocumentBalanceList(DocKey)
+                                DocEndBalance = DocBal.EndingBalance
+                                DocOpenRetentionBalance = DocBal.OBalanceRetention
+                                DocEndRetentionBalance = DocBal.BalanceRetention
+                                HasARMove = DocBal.HasARMove
+                                HasRetentionMove = DocBal.HasRetentionMove
+                            Else
+                                DocEndBalance = 0
+                                DocOpenRetentionBalance = 0
+                                DocEndRetentionBalance = 0
+                                HasARMove = False
+                                HasRetentionMove = False
+                            End If
+
+                            If _
+                                (((ShowAll) And (ShowAR) And (ShowRetention)) And ((HasARMove) Or (HasRetentionMove))) _
+                                OrElse
+                                (((ShowAll) And (ShowAR) And Not (ShowRetention)) And ((DocEndBalance <> 0) Or (HasRetentionMove))) _
+                                OrElse
+                                (((ShowAll) And Not (ShowAR) And (ShowRetention)) And ((HasARMove) Or (DocEndRetentionBalance <> 0))) _
+                                OrElse
+                                ((Not (ShowAll) And (ShowAR) And Not (ShowRetention)) And (DocEndBalance <> 0)) _
+                                OrElse
+                                ((Not (ShowAll) And Not (ShowAR) And (ShowRetention)) And (DocEndRetentionBalance <> 0)) _
+                                OrElse
+                                ((Not (ShowAll) And (ShowAR) And (ShowRetention)) And ((DocEndBalance <> 0) Or (DocEndRetentionBalance <> 0))) _
+                            Then
+
+                                If Not trCustomer Is Nothing Then
+                                    trDetail = trCustomer.Childs.Add
+
+                                    rowIndex = Me.m_treemanager.Treetable.Rows.IndexOf(trDetail) + 1
+                                    m_hashData(rowIndex) = detailRow
+
+                                    trDetail("col0") = indent & deh.GetValue(Of String)("entity_description", "-")
+                                    trDetail("col1") = indent & deh.GetValue(Of String)("doccode", "-")
+                                    trDetail("col2") = indent & deh.GetValue(Of Date)("docdate", Now.Date).ToShortDateString
+                                    trDetail("col3") = indent & deh.GetValue(Of String)("glcode", "-")
+                                    trDetail("col4") = indent & deh.GetValue(Of String)("CostCenter")
+                                    trDetail("col5") = Configuration.FormatToString(deh.GetValue(Of Decimal)("OpeningBalance"), DigitConfig.Price)
+
+                                    If DocBal.OpeningBalance <> 0 Then
+                                        sumOpenningBalance += DocBal.OpeningBalance
+                                        totalOpenningBalance += DocBal.OpeningBalance
+                                    End If
+
+                                    If DocBal.Amount <> 0 Then
+                                        trDetail("col6") = Configuration.FormatToString(DocBal.Amount, DigitConfig.Price)
+                                        sumAmount += DocBal.Amount
+                                        totalAmount += DocBal.Amount
+                                    End If
+
+                                    If DocBal.SCN <> 0 Then
+                                        trDetail("col7") = Configuration.FormatToString(DocBal.SCN, DigitConfig.Price)
+                                        sumSCNAmount += DocBal.SCN
+                                        totalSCNAmount += DocBal.SCN
+                                    End If
+
+                                    If DocBal.ReceiveSelection <> 0 Then
+                                        trDetail("col8") = Configuration.FormatToString(DocBal.ReceiveSelection, DigitConfig.Price)
+                                        sumReceiveAmount += DocBal.ReceiveSelection
+                                        totalReceiveAmount += DocBal.ReceiveSelection
+                                    End If
+
+                                    If DocBal.EndingBalance <> 0 Then
+                                        trDetail("col9") = Configuration.FormatToString(DocBal.EndingBalance, DigitConfig.Price)
+                                        sumEndingBalance += DocBal.EndingBalance
+                                        totalEndingBalance += DocBal.EndingBalance
+                                    End If
+
+                                    '============================================-Retention===================================================
+
+
+                                    trDetail("col10") = Configuration.FormatToString(DocBal.OBalanceRetention, DigitConfig.Price)
+                                    sumOPBRetention += DocBal.OBalanceRetention
+                                    totalOPBRetention += DocBal.OBalanceRetention
+
+                                    trDetail("col11") = Configuration.FormatToString(DocBal.Retention, DigitConfig.Price)
+                                    sumRetention += DocBal.Retention
+                                    totalRetention += DocBal.Retention
+
+                                    trDetail("col12") = Configuration.FormatToString(DocBal.DecreaseRetention, DigitConfig.Price)
+                                    sumDecreaseRetention += DocBal.DecreaseRetention
+                                    totalDecreaseRetention += DocBal.DecreaseRetention
+
+                                    trDetail("col13") = Configuration.FormatToString(DocBal.BalanceRetention, DigitConfig.Price)
+                                    sumEndingBalanceRetention += DocBal.BalanceRetention
+                                    totalEndingBalanceRetention += DocBal.BalanceRetention
+
+                                    trDetail("col14") = Configuration.FormatToString(DocBal.BillRetention, DigitConfig.Price)
+                                    sumBillRetention += DocBal.BillRetention
+                                    totalBillRetention += DocBal.BillRetention
+
+                                    '=========================================================================================================
+
+                                    trDetail("col15") = detailRow("Glnote").ToString
+
+                                    trDetail("col16") = detailRow("vatcode").ToString
+
                                 End If
-
-                                If DocBal.Amount <> 0 Then
-                                    trDetail("col6") = Configuration.FormatToString(DocBal.Amount, DigitConfig.Price)
-                                    sumAmount += DocBal.Amount
-                                    totalAmount += DocBal.Amount
-                                End If
-
-                                If DocBal.SCN <> 0 Then
-                                    trDetail("col7") = Configuration.FormatToString(DocBal.SCN, DigitConfig.Price)
-                                    sumSCNAmount += DocBal.SCN
-                                    totalSCNAmount += DocBal.SCN
-                                End If
-
-                                If DocBal.ReceiveSelection <> 0 Then
-                                    trDetail("col8") = Configuration.FormatToString(DocBal.ReceiveSelection, DigitConfig.Price)
-                                    sumReceiveAmount += DocBal.ReceiveSelection
-                                    totalReceiveAmount += DocBal.ReceiveSelection
-                                End If
-
-                                If DocBal.EndingBalance <> 0 Then
-                                    trDetail("col9") = Configuration.FormatToString(DocBal.EndingBalance, DigitConfig.Price)
-                                    sumEndingBalance += DocBal.EndingBalance
-                                    totalEndingBalance += DocBal.EndingBalance
-                                End If
-
-                                '============================================-Retention===================================================
-
-
-                                trDetail("col10") = Configuration.FormatToString(DocBal.OBalanceRetention, DigitConfig.Price)
-                                sumOPBRetention += DocBal.OBalanceRetention
-                                totalOPBRetention += DocBal.OBalanceRetention
-
-                                trDetail("col11") = Configuration.FormatToString(DocBal.Retention, DigitConfig.Price)
-                                sumRetention += DocBal.Retention
-                                totalRetention += DocBal.Retention
-
-                                trDetail("col12") = Configuration.FormatToString(DocBal.DecreaseRetention, DigitConfig.Price)
-                                sumDecreaseRetention += DocBal.DecreaseRetention
-                                totalDecreaseRetention += DocBal.DecreaseRetention
-
-                                trDetail("col13") = Configuration.FormatToString(DocBal.BalanceRetention, DigitConfig.Price)
-                                sumEndingBalanceRetention += DocBal.BalanceRetention
-                                totalEndingBalanceRetention += DocBal.BalanceRetention
-
-                                trDetail("col14") = Configuration.FormatToString(DocBal.BillRetention, DigitConfig.Price)
-                                sumBillRetention += DocBal.BillRetention
-                                totalBillRetention += DocBal.BillRetention
-
-                                '=========================================================================================================
-
-                                trDetail("col15") = detailRow("Glnote").ToString
-
-                                trDetail("col16") = detailRow("vatcode").ToString
 
                             End If
 
+
+                        Next
+
+                        If sumOpenningBalance <> 0 Then
+                            trCustomer("col5") = Configuration.FormatToString(sumOpenningBalance, DigitConfig.Price)
                         End If
 
+                        If sumAmount <> 0 Then
+                            trCustomer("col6") = Configuration.FormatToString(sumAmount, DigitConfig.Price)
+                        End If
 
-                    Next
+                        If sumSCNAmount <> 0 Then
+                            trCustomer("col7") = Configuration.FormatToString(sumSCNAmount, DigitConfig.Price)
+                        End If
 
-                    If sumOpenningBalance <> 0 Then
-                        trCustomer("col5") = Configuration.FormatToString(sumOpenningBalance, DigitConfig.Price)
+                        If sumReceiveAmount <> 0 Then
+                            trCustomer("col8") = Configuration.FormatToString(sumReceiveAmount, DigitConfig.Price)
+                        End If
+
+                        trCustomer("col9") = Configuration.FormatToString(sumEndingBalance, DigitConfig.Price)
+
+                        '=============================================Retention===================================================
+
+                        trCustomer("col10") = Configuration.FormatToString(sumOPBRetention, DigitConfig.Price)
+
+                        trCustomer("col11") = Configuration.FormatToString(sumRetention, DigitConfig.Price)
+
+                        trCustomer("col12") = Configuration.FormatToString(sumDecreaseRetention, DigitConfig.Price)
+
+                        trCustomer("col13") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
+
+                        trCustomer("col14") = Configuration.FormatToString(sumBillRetention, DigitConfig.Price)
+
+                        '=========================================================================================================
+
+
                     End If
-
-                    If sumAmount <> 0 Then
-                        trCustomer("col6") = Configuration.FormatToString(sumAmount, DigitConfig.Price)
-                    End If
-
-                    If sumSCNAmount <> 0 Then
-                        trCustomer("col7") = Configuration.FormatToString(sumSCNAmount, DigitConfig.Price)
-                    End If
-
-                    If sumReceiveAmount <> 0 Then
-                        trCustomer("col8") = Configuration.FormatToString(sumReceiveAmount, DigitConfig.Price)
-                    End If
-
-                    trCustomer("col9") = Configuration.FormatToString(sumEndingBalance, DigitConfig.Price)
-
-                    '=============================================Retention===================================================
-
-                    trCustomer("col10") = Configuration.FormatToString(sumOPBRetention, DigitConfig.Price)
-
-                    trCustomer("col11") = Configuration.FormatToString(sumRetention, DigitConfig.Price)
-
-                    trCustomer("col12") = Configuration.FormatToString(sumDecreaseRetention, DigitConfig.Price)
-
-                    trCustomer("col13") = Configuration.FormatToString(sumEndingBalanceRetention, DigitConfig.Price)
-
-                    trCustomer("col14") = Configuration.FormatToString(sumBillRetention, DigitConfig.Price)
-
-                    '=========================================================================================================
-
 
                 End If
 
@@ -484,7 +500,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 trCustomer("col12") = Configuration.FormatToString(totalEndingBalanceRetention, DigitConfig.Price)
 
-                If totalReceiveRetention <> 0 Then
+                If totalBillRetention <> 0 Then
                     trCustomer("col13") = Configuration.FormatToString(totalBillRetention, DigitConfig.Price)
                 End If
 
@@ -531,7 +547,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 trCustomer("col13") = Configuration.FormatToString(totalEndingBalanceRetention, DigitConfig.Price)
 
-                If totalReceiveRetention <> 0 Then
+                If totalBillRetention <> 0 Then
                     trCustomer("col14") = Configuration.FormatToString(totalBillRetention, DigitConfig.Price)
                 End If
 
@@ -673,17 +689,30 @@ Namespace Longkong.Pojjaman.BusinessLogic
         Private RetentionPMAList As Dictionary(Of String, RetentionPMA)
         Private RetentionBalanceList As Dictionary(Of String, RetentionBalance)
         Private DocumentBalanceList As Dictionary(Of String, DocumentBalance)
+        Private CustomerBalanceList As Dictionary(Of String, CustomerBalance)
 
         Private Sub CalRetentionBalance()
+
+            Dim ShowDetail As Boolean = False
+            Dim ShowAll As Boolean = False
+            Dim ShowAR As Boolean = False
+            Dim ShowRetention As Boolean = False
+
+            ShowDetail = CBool(Me.Filters(7).Value)
+            ShowAll = CBool(Me.Filters(8).Value)
+            ShowAR = CBool(Me.Filters(15).Value)
+            ShowRetention = CBool(Me.Filters(16).Value)
 
             Dim RPMA As RetentionPMA
             Dim RBalance As RetentionBalance
             Dim DocBalance As DocumentBalance
+            Dim CustBalance As CustomerBalance
             Dim dt As DataTable
 
             RetentionPMAList = New Dictionary(Of String, RetentionPMA)
             RetentionBalanceList = New Dictionary(Of String, RetentionBalance)
             DocumentBalanceList = New Dictionary(Of String, DocumentBalance)
+            CustomerBalanceList = New Dictionary(Of String, CustomerBalance)
 
             dt = Me.DataSet.Tables(2)
 
@@ -750,6 +779,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End If
             Next
 
+
+
             For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
                 If DocumentBalanceList.ContainsKey(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString) Then
 
@@ -775,6 +806,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.ID = DocRetention.Value.ID
                     DocBalance.DocType = DocRetention.Value.DocType
                     DocBalance.CCID = DocRetention.Value.CCID
+                    DocBalance.CustID = DocRetention.Value.CustID
 
                     DocBalance.OpeningBalance = DocRetention.Value.OpeningBalance
                     DocBalance.Amount = DocRetention.Value.Amount
@@ -793,6 +825,81 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocumentBalanceList.Add(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString, DocBalance)
 
                 End If
+            Next
+
+            Dim HasARMove As Boolean = False
+            Dim HasRetentionMove As Boolean = False
+            Dim DocEndBalance As Decimal = 0
+            Dim DocOpenRetentionBalance As Decimal = 0
+            Dim DocEndRetentionBalance As Decimal = 0
+
+            For Each CustDoc As KeyValuePair(Of String, DocumentBalance) In DocumentBalanceList
+
+                DocEndBalance = CustDoc.Value.EndingBalance
+                DocOpenRetentionBalance = CustDoc.Value.OBalanceRetention
+                DocEndRetentionBalance = CustDoc.Value.BalanceRetention
+                HasARMove = CustDoc.Value.HasARMove
+                HasRetentionMove = CustDoc.Value.HasRetentionMove
+
+                If _
+                    (((ShowAll) And (ShowAR) And (ShowRetention)) And ((HasARMove) Or (HasRetentionMove))) _
+                    OrElse
+                    (((ShowAll) And (ShowAR) And Not (ShowRetention)) And ((DocEndBalance <> 0) Or (HasRetentionMove))) _
+                    OrElse
+                    (((ShowAll) And Not (ShowAR) And (ShowRetention)) And ((HasARMove) Or (DocEndRetentionBalance <> 0))) _
+                    OrElse
+                    ((Not (ShowAll) And (ShowAR) And Not (ShowRetention)) And (DocEndBalance <> 0)) _
+                    OrElse
+                    ((Not (ShowAll) And Not (ShowAR) And (ShowRetention)) And (DocEndRetentionBalance <> 0)) _
+                    OrElse
+                    ((Not (ShowAll) And (ShowAR) And (ShowRetention)) And ((DocEndBalance <> 0) Or (DocEndRetentionBalance <> 0))) _
+                Then
+
+                    If CustomerBalanceList.ContainsKey(CustDoc.Value.CustID.ToString) Then
+
+                        CustBalance = CustomerBalanceList(CustDoc.Value.CustID.ToString)
+
+                        CustBalance.OpeningBalance += CustDoc.Value.OpeningBalance
+                        CustBalance.Amount += CustDoc.Value.Amount
+                        CustBalance.SCN += CustDoc.Value.SCN
+                        CustBalance.ReceiveSelection += CustDoc.Value.ReceiveSelection
+                        CustBalance.EndingBalance += CustDoc.Value.EndingBalance
+
+                        CustBalance.ORetention += CustDoc.Value.ORetention
+                        CustBalance.OBalanceRetention += CustDoc.Value.OBalanceRetention
+
+                        CustBalance.Retention += CustDoc.Value.Retention
+                        CustBalance.DecreaseRetention += CustDoc.Value.DecreaseRetention
+                        CustBalance.BalanceRetention += CustDoc.Value.BalanceRetention
+                        CustBalance.BillRetention += CustDoc.Value.BillRetention
+
+                    Else
+
+                        CustBalance = New CustomerBalance()
+
+                        CustBalance.CustID = CustDoc.Value.CustID
+
+                        CustBalance.OpeningBalance = CustDoc.Value.OpeningBalance
+                        CustBalance.Amount = CustDoc.Value.Amount
+                        CustBalance.SCN = CustDoc.Value.SCN
+                        CustBalance.ReceiveSelection = CustDoc.Value.ReceiveSelection
+                        CustBalance.EndingBalance = CustDoc.Value.EndingBalance
+
+                        CustBalance.ORetention = CustDoc.Value.ORetention
+                        CustBalance.OBalanceRetention = CustDoc.Value.OBalanceRetention
+
+                        CustBalance.Retention = CustDoc.Value.Retention
+                        CustBalance.DecreaseRetention = CustDoc.Value.DecreaseRetention
+                        CustBalance.BalanceRetention = CustDoc.Value.BalanceRetention
+                        CustBalance.BillRetention = CustDoc.Value.BillRetention
+
+                        CustomerBalanceList.Add(CustBalance.CustID.ToString, CustBalance)
+
+                    End If
+
+                End If
+
+
             Next
 
         End Sub
@@ -895,6 +1002,175 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Function
 #End Region
 
+        Private Class CustomerBalance
+
+            Private _CustID As Integer
+            Public Property CustID As Integer
+                Get
+                    Return _CustID
+                End Get
+                Set(value As Integer)
+                    _CustID = value
+                End Set
+            End Property
+
+#Region "AR Property"
+
+            Private _OpeningBalance As Decimal
+            Public Property OpeningBalance As Decimal
+                Get
+                    Return _OpeningBalance
+                End Get
+                Set(value As Decimal)
+                    _OpeningBalance = value
+                End Set
+            End Property
+
+            Private _Amount As Decimal
+            Public Property Amount As Decimal
+                Get
+                    Return _Amount
+                End Get
+                Set(value As Decimal)
+                    _Amount = value
+                End Set
+            End Property
+
+            Private _SCN As Decimal
+            Public Property SCN As Decimal
+                Get
+                    Return _SCN
+                End Get
+                Set(value As Decimal)
+                    _SCN = value
+                End Set
+            End Property
+
+            Private _ReceiveSelection As Decimal
+            Public Property ReceiveSelection As Decimal
+                Get
+                    Return _ReceiveSelection
+                End Get
+                Set(value As Decimal)
+                    _ReceiveSelection = value
+                End Set
+            End Property
+
+            Private _EndingBalance As Decimal
+            Public Property EndingBalance As Decimal
+                Get
+                    Return _EndingBalance
+                End Get
+                Set(value As Decimal)
+                    _EndingBalance = value
+                End Set
+            End Property
+
+            Public ReadOnly Property HasARMove As Boolean
+                Get
+
+                    If (Math.Abs(_OpeningBalance) + Math.Abs(_Amount) + Math.Abs(_SCN) + Math.Abs(_ReceiveSelection)) <> 0 Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+
+                    Return False
+
+                End Get
+            End Property
+#End Region
+
+#Region "Retention Property"
+            Private _ORetention As Decimal
+            Public Property ORetention As Decimal
+                Get
+                    Return _ORetention
+                End Get
+                Set(value As Decimal)
+                    _ORetention = value
+                End Set
+            End Property
+
+            Private _ODecreaseRetention As Decimal
+            Public Property ODecreaseRetention As Decimal
+                Get
+                    Return _ODecreaseRetention
+                End Get
+                Set(value As Decimal)
+                    _ODecreaseRetention = value
+                End Set
+            End Property
+
+            Private _OBalanceRetention As Decimal
+            Public Property OBalanceRetention As Decimal
+                Get
+                    Return _OBalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _OBalanceRetention = value
+                End Set
+            End Property
+
+            Private _Retention As Decimal
+            Public Property Retention As Decimal
+                Get
+                    Return _Retention
+                End Get
+                Set(value As Decimal)
+                    _Retention = value
+                End Set
+            End Property
+
+            Private _DecreaseRetention As Decimal
+            Public Property DecreaseRetention As Decimal
+                Get
+                    Return _DecreaseRetention
+                End Get
+                Set(value As Decimal)
+                    _DecreaseRetention = value
+                End Set
+            End Property
+
+            Private _BalanceRetention As Decimal
+            Public Property BalanceRetention As Decimal
+                Get
+                    Return _BalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _BalanceRetention = value
+                End Set
+            End Property
+
+            Private _BillRetention As Decimal
+            Public Property BillRetention As Decimal
+                Get
+                    Return _BillRetention
+                End Get
+                Set(value As Decimal)
+                    _BillRetention = value
+                End Set
+            End Property
+
+
+            Public ReadOnly Property HasRetentionMove As Boolean
+                Get
+
+                    If (Math.Abs(_OBalanceRetention) + Math.Abs(_Retention) + Math.Abs(_DecreaseRetention) + Math.Abs(_BillRetention)) > 0 Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+
+                    Return False
+
+                End Get
+            End Property
+
+#End Region
+
+        End Class
+
         Private Class DocumentBalance
 
             Private _ID As Integer
@@ -924,6 +1200,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Get
                 Set(value As Integer)
                     _CCID = value
+                End Set
+            End Property
+
+            Private _CustID As Integer
+            Public Property CustID As Integer
+                Get
+                    Return _CustID
+                End Get
+                Set(value As Integer)
+                    _CustID = value
                 End Set
             End Property
 
@@ -1069,7 +1355,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Public ReadOnly Property HasRetentionMove As Boolean
                 Get
 
-                    If (Math.Abs(_OBalanceRetention) + Math.Abs(_Retention) + Math.Abs(_DecreaseRetention)) > 0 Then
+                    If (Math.Abs(_OBalanceRetention) + Math.Abs(_Retention) + Math.Abs(_DecreaseRetention) + Math.Abs(_BillRetention)) > 0 Then
                         Return True
                     Else
                         Return False
@@ -1092,6 +1378,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 _DocType = CInt(DocRow("DocType"))
                 _pma = CInt(DocRow("pma"))
                 _CCID = CInt(DocRow("CCID"))
+                _CustID = CInt(DocRow("Customer"))
 
                 If Not DocRow.IsNull("OpeningBalance") Then
                     _OpeningBalance = CDec(DocRow("OpeningBalance"))
@@ -1197,6 +1484,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Get
                 Set(value As Integer)
                     _CCID = value
+                End Set
+            End Property
+
+            Private _CustID As Integer
+            Public Property CustID As Integer
+                Get
+                    Return _CustID
+                End Get
+                Set(value As Integer)
+                    _CustID = value
                 End Set
             End Property
 
@@ -1341,7 +1638,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Public ReadOnly Property HasRetentionMove As Boolean
                 Get
 
-                    If (Math.Abs(_OBalanceRetention) + Math.Abs(_Retention) + Math.Abs(_DecreaseRetention)) > 0 Then
+                    If (Math.Abs(_OBalanceRetention) + Math.Abs(_Retention) + Math.Abs(_DecreaseRetention) + Math.Abs(_BillRetention)) > 0 Then
                         Return True
                     Else
                         Return False
