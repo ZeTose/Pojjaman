@@ -701,9 +701,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbShowPeriod_Year}"))
       Me.cmbShowPeriod.SelectedIndex = 0
 
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbNotSpecialize}")) 'ไม่ได้ระบุ
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbDuebyPUR}")) 'ใบขายสินค้า/บริการ
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbDuebyBA}")) 'ใบวางบิล
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.cmbNotSpecialize}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.aropeningbalance_24}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.salecn_48}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.billissue_81}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.goodssold_83}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.AssetSold_124}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.salebillissue_125}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.AssetWriteOff_366}"))
       Me.cmbDueDateType.SelectedIndex = 0
 
       Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptARAgingFilterSubPanel.lblDueDate}")
