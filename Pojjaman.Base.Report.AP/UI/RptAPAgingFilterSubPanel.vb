@@ -1,8 +1,5 @@
-Option Explicit On 
-Option Strict On
-
 Imports Longkong.Pojjaman.BusinessLogic
-Imports longkong.Pojjaman.Services
+Imports Longkong.Pojjaman.Services
 Imports Longkong.Core.Services
 
 Namespace Longkong.Pojjaman.Gui.Panels
@@ -652,54 +649,57 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region " SetLabelText "
     Public Sub SetLabelText()
-      'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-			Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblSuppliStart}")
-      Me.Validator.SetDisplayName(txtSuppliCodeStart, lblSuppliStart.Text)
+            'If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+            Me.lblSuppliStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblSuppliStart}")
+            Me.Validator.SetDisplayName(txtSuppliCodeStart, lblSuppliStart.Text)
 
-      'SupplierGroup
-      Me.lblSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblSupplierGroup}")
-      Me.Validator.SetDisplayName(txtSupplierGroupStart, lblSupplierGroup.Text)
-      Me.chkIncludeSGChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.chkIncludeSGChildren}")
+            'SupplierGroup
+            Me.lblSupplierGroup.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblSupplierGroup}")
+            Me.Validator.SetDisplayName(txtSupplierGroupStart, lblSupplierGroup.Text)
+            Me.chkIncludeSGChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.chkIncludeSGChildren}")
 
-      Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblDocDateStart}")
-      Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
+            Me.lblDocDateStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblDocDateStart}")
+            Me.Validator.SetDisplayName(txtDocDateStart, lblDocDateStart.Text)
 
-      Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblCCStart}")
-      Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
+            Me.lblCCStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblCCStart}")
+            Me.Validator.SetDisplayName(txtCCCodeStart, lblCCStart.Text)
 
-      ' Global {ถึง}
-      Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-      Me.Validator.SetDisplayName(txtSuppliCodeEnd, lblSuppliEnd.Text)
+            ' Global {ถึง}
+            Me.lblSuppliEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtSuppliCodeEnd, lblSuppliEnd.Text)
 
-      ' Button
-      Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
-      Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
+            ' Button
+            Me.btnSearch.Text = Me.StringParserService.Parse("${res:Global.SearchButtonText}")
+            Me.btnReset.Text = Me.StringParserService.Parse("${res:Global.ResetButtonText}")
 
-      ' GroupBox
-      Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.grbMaster}")
-      Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.grbDetail}")
+            ' GroupBox
+            Me.grbMaster.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.grbMaster}")
+            Me.grbDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.grbDetail}")
 
-      'Checkbox
-      Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.chkIncludeChildren}")
+            'Checkbox
+            Me.chkIncludeChildren.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.chkIncludeChildren}")
 
-      Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbShowPeriod_Month}"))
-      Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbShowPeriod_6Month}"))
-      Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbShowPeriod_Year}"))
-      Me.cmbShowPeriod.SelectedIndex = 0
+            Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbShowPeriod_Month}"))
+            Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbShowPeriod_6Month}"))
+            Me.cmbShowPeriod.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbShowPeriod_Year}"))
+            Me.cmbShowPeriod.SelectedIndex = 0
 
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.NotSpecialize}")) 'ไม่ระบุ
-      Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbDuebyPUR}")) 'ใบซื้อสินค้าบริการ/รับของ
-            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.cmbDuebyBA}")) 'ใบรับวางบิล
-      Me.cmbDueDateType.SelectedIndex = 0
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.NotSpecialize}")) 'ไม่ระบุ
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.apopeningbalance_15}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.goodsreceipt_45}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.purchasecn_46}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.billacceptance_60}"))
+            Me.cmbDueDateType.Items.Add(Me.StringParserService.Parse("${res:Entity.pa_292}"))
+            Me.cmbDueDateType.SelectedIndex = 0
 
-      Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblDueDate}")
-			Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.chkDetail}")
+            Me.lblDueDate.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblDueDate}")
+            Me.chkDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.chkDetail}")
 
-			Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblAccountStart}")
-			Me.Validator.SetDisplayName(txtAccountCodeStart, lblAccountStart.Text)
+            Me.lblAccountStart.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.RptAPAgingFilterSubPanel.lblAccountStart}")
+            Me.Validator.SetDisplayName(txtAccountCodeStart, lblAccountStart.Text)
 
-			Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
-			Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
+            Me.lblAccountEnd.Text = Me.StringParserService.Parse("${res:Global.FilterPanelTo}")
+            Me.Validator.SetDisplayName(txtAccountCodeEnd, lblAccountEnd.Text)
             Me.grbDisplay.Text = Me.StringParserService.Parse("${res:Global.grbDisplay}")
             Me.lblTerm.Text = Me.StringParserService.Parse("${res:Global.Term}")
 
