@@ -10,6 +10,7 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptARAging
     Inherits Report
@@ -34,25 +35,31 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #Region "Methods"
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
-      m_grid = grid
+            m_grid = grid
 
-      Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
-      lkg.DefaultBehavior = False
-      lkg.HilightWhenMinus = True
-      lkg.Init()
-      lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
-      Dim tm As New Treemanager(GetSimpleSchemaTable, New TreeGrid)
-      ListInGrid(tm)
-      lkg.TreeTableStyle = CreateSimpleTableStyle()
-      lkg.TreeTable = tm.Treetable
-      If m_showDetailInGrid = 0 Then
-        lkg.Rows.HeaderCount = 1
-        lkg.Rows.FrozenCount = 1
-      Else
-                lkg.Rows.HeaderCount = 3
-                lkg.Rows.FrozenCount = 3
-      End If
-      lkg.Refresh()
+            Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
+            lkg.DefaultBehavior = False
+            lkg.HilightWhenMinus = True
+            lkg.Init()
+            lkg.GridVisualStyles = Syncfusion.Windows.Forms.GridVisualStyles.SystemTheme
+            Dim tm As New TreeManager(GetSimpleSchemaTable, New TreeGrid)
+            ListInGrid(tm)
+            lkg.TreeTableStyle = CreateSimpleTableStyle()
+            lkg.TreeTable = tm.Treetable
+            If m_showDetailInGrid = 0 Then
+                lkg.Rows.HeaderCount = 1
+                lkg.Rows.FrozenCount = 1
+            Else
+                If m_showByBillDate = 0 Or m_showByBillDate = 3 Or m_showByBillDate = 6 Then
+                    lkg.Rows.HeaderCount = 3
+                    lkg.Rows.FrozenCount = 3
+                Else
+                    lkg.Rows.HeaderCount = 2
+                    lkg.Rows.FrozenCount = 2
+                End If
+
+            End If
+            lkg.Refresh()
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
       Me.m_treemanager = tm
@@ -224,11 +231,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 Return
             End If
 
-
             Dim indent As String = Space(3)
-            Dim currTrIndex As Integer = -1
-            Dim currCustomerCode As String = ""
-            Dim currSupplierState As Boolean = False
 
             Dim trCustomer As TreeRow
             Dim trDocStock As TreeRow
@@ -237,11 +240,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim trBillMileStone As TreeRow
             Dim trDocMileStone As TreeRow
 
-            Dim sumAmount(10) As Decimal
             Dim sumCol(10) As Decimal
             Dim sumTotalAmount As Decimal = 0
             For i As Integer = 0 To 10
-                sumAmount(i) = 0
                 sumCol(i) = 0
             Next
 
