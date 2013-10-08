@@ -336,9 +336,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
               trDetail("col11") = Configuration.FormatToString(deh.GetValue(Of Decimal)("OpeningBalanceRetention"), DigitConfig.Price)
               trDetail("col12") = Configuration.FormatToString(deh.GetValue(Of Decimal)("Retention"), DigitConfig.Price)
               trDetail("col13") = Configuration.FormatToString(deh.GetValue(Of Decimal)("PayRetention"), DigitConfig.Price)
-              trDetail("col14") = Configuration.FormatToString(deh.GetValue(Of Decimal)("EndingBalanceRetention"), DigitConfig.Price)
-              trDetail("col15") = indent & deh.GetValue(Of String)("glNote", "-")
-              trDetail("col16") = Configuration.FormatToString(deh.GetValue(Of Decimal)("PaysGross"), DigitConfig.Price)
+                            trDetail("col14") = Configuration.FormatToString(deh.GetValue(Of Decimal)("EndingBalanceRetention"), DigitConfig.Price)
+
+                            trDetail("col15") = indent & deh.GetValue(Of String)("glNote", "-")
+
+                            If detailRow.IsNull("PaysGross") Then
+                                trDetail("col16") = ""
+                            Else
+                                trDetail("col16") = Configuration.FormatToString(deh.GetValue(Of Decimal)("PaysGross"), DigitConfig.Price)
+                            End If
+
 
               trDetail("col17") = deh.GetValue(Of String)("RefDocCode")
                             trDetail("col18") = deh.GetValue(Of String)("VatitemCode")
