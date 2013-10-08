@@ -322,7 +322,8 @@ Namespace Longkong.Pojjaman.Gui.Components
                     End If
                     If HilightGroupParentText And CType(Me.m_treetable.Rows(e.RowIndex - 1), TreeRow).Level = 0 Then
                       ' Hilight ที่หัวของ tree นั้นๆที่เป็น Level 0
-                      e.Style.Font.Bold = True
+                                            e.Style.Font.Bold = True
+
                     End If
                     i = 33
                   End If
@@ -427,7 +428,7 @@ Namespace Longkong.Pojjaman.Gui.Components
     Sub GridQueryRowHeight(ByVal sender As Object, ByVal e As GridRowColSizeEventArgs)
       'If e.Index Mod 2 = 0 Then
       '    e.Size = 20
-      '    e.Handled = True
+            'e.Handled = True
       'End If
     End Sub 'GridQueryRowHeight
 
@@ -435,7 +436,7 @@ Namespace Longkong.Pojjaman.Gui.Components
 
     'provide the col widths on demand - optional...
     Sub GridQueryColWidth(ByVal sender As Object, ByVal e As GridRowColSizeEventArgs)
-      'e.Handled = True
+            'e.Handled = True
     End Sub 'GridQueryColWidth
 
     'provide covered range on demand - optional...
@@ -457,7 +458,7 @@ Namespace Longkong.Pojjaman.Gui.Components
 #End Region
   End Class
   Public Class TreeCellModel
-    Inherits GridStaticCellModel
+        Inherits GridTextBoxCellModel '  GridStaticCellModel
     'Constructors
     'Events
     'Methods
@@ -472,7 +473,7 @@ Namespace Longkong.Pojjaman.Gui.Components
     End Function
   End Class
   Public Class TreeCellRenderer
-    Inherits GridStaticCellRenderer
+        Inherits GridTextBoxCellRenderer ' GridStaticCellRenderer
 
 
 #Region "Members"
@@ -527,7 +528,8 @@ Namespace Longkong.Pojjaman.Gui.Components
       rect.Width = PlusMinusSize.Width
       rect.Height = PlusMinusSize.Height
       If rect.Contains(New Point(e.X, e.Y)) Then
-        dt.ToggleRowState(row)
+                dt.ToggleRowState(row)
+
       End If
       MyBase.OnClick(rowIndex, colIndex, e)
     End Sub

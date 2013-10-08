@@ -38,8 +38,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
-            'RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
-            'AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
             Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
             lkg.DefaultBehavior = False
             lkg.HilightWhenMinus = True
@@ -66,44 +66,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
             lkg.Refresh()
     End Sub
     Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
-            'Dim tr As Object = m_hashData(e.RowIndex)
-            'If tr Is Nothing Then
-            '  Return
-            'End If
+      Dim dr As DataRow = CType(m_hashData(e.RowIndex), DataRow)
+            If dr Is Nothing Then
+                Return
+            End If
 
-            'If TypeOf tr Is DataRow Then
-            '  Dim dr As DataRow = CType(tr, DataRow)
-            '  If dr Is Nothing Then
-            '    Return
-            '  End If
+            Dim drh As New DataRowHelper(dr)
 
-            '  Dim drh As New DataRowHelper(dr)
+            Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+            Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
 
-            '  Dim docId As Integer = 0
-            '  Dim docType As Integer = 0
+            Trace.WriteLine(docId.ToString & ":" & docType.ToString)
 
-            '  Dim selectionType As Integer = 0
-            '  If IsNumeric(Me.m_grid(e.RowIndex, 13).CellValue) Then
-            '    selectionType = CInt(Me.m_grid(e.RowIndex, 13).CellValue)
-            '  End If
-
-            '  If selectionType = 0 Then
-            '    docId = drh.GetValue(Of Integer)("stock_id")
-            '    docType = drh.GetValue(Of Integer)("stock_type")
-            '  Else
-            '    docId = drh.GetValue(Of Integer)("billa_id")
-            '    docType = 60
-            '  End If
-
-            '  'Debug.Print(docId.ToString)
-            '  'Debug.Print(docType.ToString)
-
-            '  If docId > 0 AndAlso docType > 0 Then
-            '    Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-            '    Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
-            '    myEntityPanelService.OpenDetailPanel(en)
-            '  End If
-            'End If
+            If docId > 0 AndAlso docType > 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+                myEntityPanelService.OpenDetailPanel(en)
+            End If
     End Sub
     Public Overrides Sub ListInGrid(ByVal tm As TreeManager)
       Me.m_treemanager = tm
@@ -289,6 +268,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim dtDocStock As DataTable = Me.DataSet.Tables(3)
             Dim dtDocBill As DataTable = Me.DataSet.Tables(4)
 
+            m_hashData = New Hashtable
 
             If dtSupplier.Rows.Count = 0 Then
                 Return
@@ -316,6 +296,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each rowSupplier As DataRow In dtSupplier.Rows
                 srh = New DataRowHelper(rowSupplier)
                 trSupplier = Me.m_treemanager.Treetable.Childs.Add
+                trSupplier.Tag = rowSupplier
                 trSupplier("col0") = srh.GetValue(Of String)("SupplierCode")
                 trSupplier("col1") = srh.GetValue(Of String)("SupplierName")
                 currSupplierID = srh.GetValue(Of Integer)("SupplierID")
@@ -423,7 +404,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                         drh = New DataRowHelper(rowDocStock)
                         trDocStock = trSupplier.Childs.Add
-
+                        trDocStock.Tag = rowDocStock
                         trDocStock("col0") = drh.GetValue(Of Date)("StockDueDate").ToShortDateString
                         trDocStock("col1") = drh.GetValue(Of String)("StockCode")
                         trDocStock("col2") = drh.GetValue(Of Date)("StockDocDate").ToShortDateString
@@ -463,7 +444,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                         drh = New DataRowHelper(rowBill)
                         trBill = trSupplier.Childs.Add
-
+                        trBill.Tag = rowBill
                         trBill("col0") = drh.GetValue(Of Date)("BillDueDate").ToShortDateString
                         trBill("col1") = drh.GetValue(Of String)("BillCode")
                         trBill("col2") = drh.GetValue(Of Date)("BillDocDate").ToShortDateString
@@ -503,7 +484,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                             drh = New DataRowHelper(rowDocBill)
                             trDocBill = trBill.Childs.Add
-
+                            trDocBill.Tag = rowDocBill
                             trDocBill("col0") = drh.GetValue(Of Date)("StockDueDate").ToShortDateString
                             trDocBill("col1") = drh.GetValue(Of String)("StockCode")
                             trDocBill("col2") = drh.GetValue(Of Date)("StockDocDate").ToShortDateString
@@ -618,6 +599,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             End Select
 
+            Dim lineNumber As Integer = 1
+            For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+                If Not tr.Tag Is Nothing AndAlso TypeOf tr.Tag Is DataRow Then
+                    m_hashData(lineNumber) = CType(tr.Tag, DataRow)
+                End If
+
+                lineNumber += 1
+            Next
+
         End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
@@ -663,18 +653,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         colCount = colCount - 1
       End If
 
-      widths.Add(120)
+            widths.Add(140)
       widths.Add(200)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-            widths.Add(100)
-            widths.Add(100)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
+            widths.Add(180)
       widths.Add(0)
 
       For i As Integer = 0 To colCount
@@ -686,7 +676,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             cs.Width = CInt(widths(i))
             cs.NullText = ""
             cs.Alignment = HorizontalAlignment.Left
-            cs.ReadOnly = True
+                        cs.ReadOnly = True
             cs.Format = "s"
             AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
             dst.GridColumnStyles.Add(cs)
@@ -697,7 +687,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             cs.Width = CInt(widths(i))
             cs.NullText = ""
             cs.Alignment = HorizontalAlignment.Left
-            cs.ReadOnly = True
+                        cs.ReadOnly = True
             cs.Format = "s"
             AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
             dst.GridColumnStyles.Add(cs)
@@ -725,7 +715,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
               cs.Alignment = HorizontalAlignment.Right
               cs.DataAlignment = HorizontalAlignment.Right
           End Select
-          cs.ReadOnly = True
+                    cs.ReadOnly = True
                     cs.Format = "s"
           AddHandler cs.CheckCellHilighted, AddressOf Me.SetHilightValues
           dst.GridColumnStyles.Add(cs)
