@@ -312,10 +312,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         sumReceiveRetention = 0
                         sumBillRetention = 0
 
-                        For Each detailRow As DataRow In dt2.Select("Customer =" & CustomerRow("Cust_ID").ToString)
+                        For Each detailRow As DataRow In dt2.Select("Customer = " & CustomerRow("Cust_ID").ToString)
                             Dim deh As New DataRowHelper(detailRow)
 
-                            DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-") & "|" & deh.GetValue(Of String)("CCID", "-")
+                            DocKey = deh.GetValue(Of String)("ID", "-") & "|" & deh.GetValue(Of String)("DocType", "-") & "|" & deh.GetValue(Of String)("CCID", "-") & "|" & deh.GetValue(Of String)("Customer", "-")
                             DocBal = Nothing
                             If DocumentBalanceList.ContainsKey(DocKey) Then
                                 DocBal = DocumentBalanceList(DocKey)
@@ -718,73 +718,45 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             For Each PMARow As DataRow In dt.Rows
                 RPMA = New RetentionPMA(PMARow)
-                RetentionPMAList.Add(RPMA.pma.ToString & "|" & RPMA.CCID.ToString, RPMA)
+                RetentionPMAList.Add(RPMA.pma.ToString & "|" & RPMA.CCID.ToString & "|" & RPMA.CustID.ToString, RPMA)
             Next
 
             dt = Me.DataSet.Tables(3)
 
             For Each DocRow As DataRow In dt.Rows
                 RBalance = New RetentionBalance(DocRow)
-                RetentionBalanceList.Add(RBalance.ID.ToString & "|" & RBalance.DocType.ToString & "|" & RBalance.pma.ToString & "|" & RBalance.CCID.ToString, RBalance)
+                RetentionBalanceList.Add(RBalance.ID.ToString & "|" & RBalance.DocType.ToString & "|" & RBalance.pma.ToString & "|" & RBalance.CCID.ToString & "|" & RBalance.CustID.ToString, RBalance)
             Next
 
             Dim Currentpma As String
 
-            Currentpma = "0|0"
+            Currentpma = "0|0|0"
 
             For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
-                If RetentionPMAList.ContainsKey(DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
+                If RetentionPMAList.ContainsKey(DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString & "|" & DocRetention.Value.CustID.ToString) Then
 
-                    If Currentpma <> (DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
-                        Currentpma = DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString
+                    If Currentpma <> (DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString & "|" & DocRetention.Value.CustID.ToString) Then
+                        Currentpma = DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString & "|" & DocRetention.Value.CustID.ToString
                         RPMA = RetentionPMAList(Currentpma)
                     End If
 
-                    If RPMA.OBalanceRetention <= DocRetention.Value.ORetention Then
-                        DocRetention.Value.OBalanceRetention = DocRetention.Value.ORetention - RPMA.OBalanceRetention
-                        RPMA.OBalanceRetention = 0
-                    Else
+
+                    If RPMA.EndingBalanceRetention = 0 Then
+
                         DocRetention.Value.OBalanceRetention = 0
-                        RPMA.OBalanceRetention = RPMA.OBalanceRetention - DocRetention.Value.ORetention
-                    End If
-
-                End If
-            Next
-
-            Currentpma = "0|0"
-
-            For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
-                If RetentionPMAList.ContainsKey(DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
-
-                    If Currentpma <> (DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString) Then
-                        Currentpma = DocRetention.Value.pma.ToString & "|" & DocRetention.Value.CCID.ToString
-                        RPMA = RetentionPMAList(Currentpma)
-                    End If
-
-                    If (RPMA.OBalanceRetention + RPMA.BalanceRetention) <= (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention) Then
-                        DocRetention.Value.BalanceRetention = (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention) - RPMA.BalanceRetention
-                        RPMA.OBalanceRetention = 0
-                        RPMA.BalanceRetention = 0
-                    Else
+                        DocRetention.Value.Retention = 0
+                        DocRetention.Value.DecreaseRetention = 0
                         DocRetention.Value.BalanceRetention = 0
-                        If RPMA.OBalanceRetention >= (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention) Then
-                            RPMA.OBalanceRetention = RPMA.OBalanceRetention - (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention)
-                        Else
-                            RPMA.BalanceRetention = (RPMA.OBalanceRetention + RPMA.BalanceRetention) - (DocRetention.Value.OBalanceRetention + DocRetention.Value.Retention)
-                            RPMA.OBalanceRetention = 0
-                        End If
 
                     End If
 
                 End If
             Next
 
-
-
             For Each DocRetention As KeyValuePair(Of String, RetentionBalance) In RetentionBalanceList
-                If DocumentBalanceList.ContainsKey(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString) Then
+                If DocumentBalanceList.ContainsKey(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString & "|" & DocRetention.Value.CustID.ToString) Then
 
-                    DocBalance = DocumentBalanceList(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString)
+                    DocBalance = DocumentBalanceList(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString & "|" & DocRetention.Value.CustID.ToString)
 
                     DocBalance.OpeningBalance += DocRetention.Value.OpeningBalance
                     DocBalance.Amount += DocRetention.Value.Amount
@@ -792,7 +764,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.ReceiveSelection += DocRetention.Value.ReceiveSelection
                     DocBalance.EndingBalance += DocRetention.Value.EndingBalance
 
-                    DocBalance.ORetention += DocRetention.Value.ORetention
                     DocBalance.OBalanceRetention += DocRetention.Value.OBalanceRetention
 
                     DocBalance.Retention += DocRetention.Value.Retention
@@ -814,7 +785,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.ReceiveSelection = DocRetention.Value.ReceiveSelection
                     DocBalance.EndingBalance = DocRetention.Value.EndingBalance
 
-                    DocBalance.ORetention = DocRetention.Value.ORetention
                     DocBalance.OBalanceRetention = DocRetention.Value.OBalanceRetention
 
                     DocBalance.Retention = DocRetention.Value.Retention
@@ -822,7 +792,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     DocBalance.BalanceRetention = DocRetention.Value.BalanceRetention
                     DocBalance.BillRetention = DocRetention.Value.BillRetention
 
-                    DocumentBalanceList.Add(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString, DocBalance)
+                    DocumentBalanceList.Add(DocRetention.Value.ID.ToString & "|" & DocRetention.Value.DocType.ToString & "|" & DocRetention.Value.CCID.ToString & "|" & DocRetention.Value.CustID.ToString, DocBalance)
 
                 End If
             Next
@@ -865,7 +835,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         CustBalance.ReceiveSelection += CustDoc.Value.ReceiveSelection
                         CustBalance.EndingBalance += CustDoc.Value.EndingBalance
 
-                        CustBalance.ORetention += CustDoc.Value.ORetention
                         CustBalance.OBalanceRetention += CustDoc.Value.OBalanceRetention
 
                         CustBalance.Retention += CustDoc.Value.Retention
@@ -885,7 +854,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         CustBalance.ReceiveSelection = CustDoc.Value.ReceiveSelection
                         CustBalance.EndingBalance = CustDoc.Value.EndingBalance
 
-                        CustBalance.ORetention = CustDoc.Value.ORetention
                         CustBalance.OBalanceRetention = CustDoc.Value.OBalanceRetention
 
                         CustBalance.Retention = CustDoc.Value.Retention
@@ -1082,15 +1050,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Retention Property"
-            Private _ORetention As Decimal
-            Public Property ORetention As Decimal
-                Get
-                    Return _ORetention
-                End Get
-                Set(value As Decimal)
-                    _ORetention = value
-                End Set
-            End Property
+
 
             Private _ODecreaseRetention As Decimal
             Public Property ODecreaseRetention As Decimal
@@ -1281,25 +1241,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Retention Property"
-            Private _ORetention As Decimal
-            Public Property ORetention As Decimal
-                Get
-                    Return _ORetention
-                End Get
-                Set(value As Decimal)
-                    _ORetention = value
-                End Set
-            End Property
-
-            Private _ODecreaseRetention As Decimal
-            Public Property ODecreaseRetention As Decimal
-                Get
-                    Return _ODecreaseRetention
-                End Get
-                Set(value As Decimal)
-                    _ODecreaseRetention = value
-                End Set
-            End Property
 
             Private _OBalanceRetention As Decimal
             Public Property OBalanceRetention As Decimal
@@ -1412,18 +1353,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
                 If Not DocRow.IsNull("OPBRetention") Then
-                    _ORetention = CDec(DocRow("OPBRetention"))
+                    _OBalanceRetention = CDec(DocRow("OPBRetention"))
                 Else
-                    _ORetention = 0
+                    _OBalanceRetention = 0
                 End If
-
-                'If Not DocRow.IsNull("OPBDecreaseRetention") Then
-                '    _ODecreaseRetention = CDec(DocRow("OPBDecreaseRetention"))
-                'Else
-                '    _ODecreaseRetention = 0
-                'End If
-
-                _OBalanceRetention = 0
 
                 If Not DocRow.IsNull("Retention") Then
                     _Retention = CDec(DocRow("Retention"))
@@ -1437,7 +1370,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     _DecreaseRetention = 0
                 End If
 
-                _BalanceRetention = 0
+                If Not DocRow.IsNull("EndingBalanceRetention") Then
+                    _BalanceRetention = CDec(DocRow("EndingBalanceRetention"))
+                Else
+                    _BalanceRetention = 0
+                End If
 
                 If Not DocRow.IsNull("BillRetention") Then
                     _BillRetention = CDec(DocRow("BillRetention"))
@@ -1565,25 +1502,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
 #End Region
 
 #Region "Retention Property"
-            Private _ORetention As Decimal
-            Public Property ORetention As Decimal
-                Get
-                    Return _ORetention
-                End Get
-                Set(value As Decimal)
-                    _ORetention = value
-                End Set
-            End Property
-
-            'Private _ODecreaseRetention As Decimal
-            'Public Property ODecreaseRetention As Decimal
-            '    Get
-            '        Return _ODecreaseRetention
-            '    End Get
-            '    Set(value As Decimal)
-            '        _ODecreaseRetention = value
-            '    End Set
-            'End Property
 
             Private _OBalanceRetention As Decimal
             Public Property OBalanceRetention As Decimal
@@ -1661,13 +1579,10 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 _pma = CInt(PMARow("pma"))
                 _CCID = CInt(PMARow("CCID"))
+                _CustID = CInt(PMARow("Customer"))
 
-                _ORetention = CDec(PMARow("OPBRetention"))
-                _OBalanceRetention = _ODecreaseRetention
 
-                _Retention = CDec(PMARow("Retention"))
-                _DecreaseRetention = CDec(PMARow("DecreaseRetention"))
-                _BalanceRetention = _DecreaseRetention
+                _EndingBalanceRetention = CDec(PMARow("EndingBalanceRetention"))
 
             End Sub
 
@@ -1691,68 +1606,37 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Set
             End Property
 
-            Private _ORetention As Decimal
-            Public Property ORetention As Decimal
+            Private _CustID As Integer
+            Public Property CustID As Integer
                 Get
-                    Return _ORetention
+                    Return _CustID
                 End Get
-                Set(value As Decimal)
-                    _ORetention = value
+                Set(value As Integer)
+                    _CustID = value
                 End Set
             End Property
 
-            Private _ODecreaseRetention As Decimal
-            Public Property ODecreaseRetention As Decimal
-                Get
-                    Return _ODecreaseRetention
-                End Get
-                Set(value As Decimal)
-                    _ODecreaseRetention = value
-                End Set
-            End Property
+            'Private _BalanceRetention As Decimal
+            'Public Property BalanceRetention As Decimal
+            '    Get
+            '        Return _BalanceRetention
+            '    End Get
+            '    Set(value As Decimal)
+            '        _BalanceRetention = value
+            '    End Set
+            'End Property
 
-            Private _OBalanceRetention As Decimal
-            Public Property OBalanceRetention As Decimal
+            Private _EndingBalanceRetention As Decimal
+            Public Property EndingBalanceRetention As Decimal
                 Get
-                    Return _OBalanceRetention
+                    Return _EndingBalanceRetention
                 End Get
                 Set(value As Decimal)
-                    _OBalanceRetention = value
-                End Set
-            End Property
-
-            Private _Retention As Decimal
-            Public Property Retention As Decimal
-                Get
-                    Return _Retention
-                End Get
-                Set(value As Decimal)
-                    _Retention = value
-                End Set
-            End Property
-
-            Private _DecreaseRetention As Decimal
-            Public Property DecreaseRetention As Decimal
-                Get
-                    Return _DecreaseRetention
-                End Get
-                Set(value As Decimal)
-                    _DecreaseRetention = value
-                End Set
-            End Property
-
-            Private _BalanceRetention As Decimal
-            Public Property BalanceRetention As Decimal
-                Get
-                    Return _BalanceRetention
-                End Get
-                Set(value As Decimal)
-                    _BalanceRetention = value
+                    _EndingBalanceRetention = value
                 End Set
             End Property
 
         End Class
-
 
     End Class
 End Namespace
