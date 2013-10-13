@@ -10,6 +10,7 @@ Imports System.Reflection
 Imports Longkong.Pojjaman.Gui.Components
 Imports Longkong.Core.Services
 Imports Longkong.Pojjaman.TextHelper
+Imports Longkong.Pojjaman.Services
 
 Namespace Longkong.Pojjaman.BusinessLogic
   Public Class RptARAging
@@ -20,7 +21,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_reportColumns As ReportColumnCollection
     Private m_showPeriod As Integer
     Private m_showByBillDate As Integer
-    Private m_showDetailInGrid As Integer
+        Private m_showDetailInGrid As Integer
+        Private m_hashData As Hashtable
 #End Region
 
 #Region "Constructors"
@@ -36,7 +38,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
     Private m_grid As Syncfusion.Windows.Forms.Grid.GridControl
     Public Overrides Sub ListInNewGrid(ByVal grid As Syncfusion.Windows.Forms.Grid.GridControl)
             m_grid = grid
-
+            RemoveHandler m_grid.CellDoubleClick, AddressOf CellDblClick
+            AddHandler m_grid.CellDoubleClick, AddressOf CellDblClick
             Dim lkg As Longkong.Pojjaman.Gui.Components.LKGrid = CType(m_grid, Longkong.Pojjaman.Gui.Components.LKGrid)
             lkg.DefaultBehavior = False
             lkg.HilightWhenMinus = True
@@ -60,7 +63,27 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             End If
             lkg.Refresh()
-    End Sub
+        End Sub
+        Private Sub CellDblClick(ByVal sender As Object, ByVal e As Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs)
+            Dim dr As DataRow = CType(m_hashData(e.RowIndex), DataRow)
+            If dr Is Nothing Then
+                Return
+            End If
+
+            Dim drh As New DataRowHelper(dr)
+
+            Dim docId As Integer = drh.GetValue(Of Integer)("DocId")
+            Dim docType As Integer = drh.GetValue(Of Integer)("DocType")
+
+            Trace.WriteLine(docId.ToString & ":" & docType.ToString)
+
+            If docId > 0 AndAlso docType > 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim en As SimpleBusinessEntityBase = SimpleBusinessEntityBase.GetEntity(Entity.GetFullClassName(docType), docId)
+                myEntityPanelService.OpenDetailPanel(en)
+            End If
+        End Sub
+
     Public Overrides Sub ListInGrid(ByVal tm As Treemanager)
       Me.m_treemanager = tm
       Me.m_treemanager.Treetable.Clear()
@@ -227,6 +250,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Dim dtDocSale As DataTable = Me.DataSet.Tables(5)
             Dim dtDocMileStone As DataTable = Me.DataSet.Tables(6)
 
+            m_hashData = New Hashtable
+
             If dtCustomer.Rows.Count = 0 Then
                 Return
             End If
@@ -255,6 +280,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             For Each rowCustomer As DataRow In dtCustomer.Rows
                 srh = New DataRowHelper(rowCustomer)
                 trCustomer = Me.m_treemanager.Treetable.Childs.Add
+                trCustomer.Tag = rowCustomer
                 trCustomer("col0") = srh.GetValue(Of String)("CustomerCode")
                 trCustomer("col1") = srh.GetValue(Of String)("CustomerName")
                 currCustomerId = srh.GetValue(Of Integer)("CustomerId")
@@ -362,6 +388,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                         drh = New DataRowHelper(rowDocStock)
                         trDocStock = trCustomer.Childs.Add
+                        trDocStock.Tag = rowDocStock
 
                         trDocStock("col0") = drh.GetValue(Of Date)("StockDueDate").ToShortDateString
                         trDocStock("col1") = drh.GetValue(Of String)("StockCode")
@@ -402,6 +429,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                         drh = New DataRowHelper(rowBill)
                         trBillSale = trCustomer.Childs.Add
+                        trBillSale.Tag = rowBill
 
                         trBillSale("col0") = drh.GetValue(Of Date)("BillDueDate").ToShortDateString
                         trBillSale("col1") = drh.GetValue(Of String)("BillCode")
@@ -442,6 +470,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                             drh = New DataRowHelper(rowDocSale)
                             trDocSale = trBillSale.Childs.Add
+                            trDocSale.Tag = rowDocSale
 
                             trDocSale("col0") = drh.GetValue(Of Date)("StockDueDate").ToShortDateString
                             trDocSale("col1") = drh.GetValue(Of String)("StockCode")
@@ -483,7 +512,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     For Each rowBill As DataRow In dtBillMileStone.Select("CustomerId = " & currCustomerId.ToString)
 
                         drh = New DataRowHelper(rowBill)
+
                         trBillMileStone = trCustomer.Childs.Add
+                        trBillMileStone.Tag = rowBill
 
                         trBillMileStone("col0") = drh.GetValue(Of Date)("BillDueDate").ToShortDateString
                         trBillMileStone("col1") = drh.GetValue(Of String)("BillCode")
@@ -518,47 +549,47 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 trBillMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
                         End Select
 
-                        trBillMileStone.State = RowExpandState.Expanded
-                        currBillId = drh.GetValue(Of Integer)("BillId")
-                        For Each rowDocMileStone As DataRow In dtDocMileStone.Select("BillId = " & currBillId.ToString)
+                        'trBillMileStone.State = RowExpandState.Expanded
+                        'currBillId = drh.GetValue(Of Integer)("BillId")
+                        'For Each rowDocMileStone As DataRow In dtDocMileStone.Select("BillId = " & currBillId.ToString)
 
-                            drh = New DataRowHelper(rowDocMileStone)
-                            trDocMileStone = trBillMileStone.Childs.Add
+                        '    drh = New DataRowHelper(rowDocMileStone)
+                        '    trDocMileStone = trBillMileStone.Childs.Add
 
-                            trDocMileStone("col0") = "" 'drh.GetValue(Of Date)("StockDueDate").ToShortDateString
-                            trDocMileStone("col1") = drh.GetValue(Of String)("StockCode")
-                            trDocMileStone("col2") = "" 'drh.GetValue(Of Date)("StockDocDate").ToShortDateString
+                        '    trDocMileStone("col0") = "" 'drh.GetValue(Of Date)("StockDueDate").ToShortDateString
+                        '    trDocMileStone("col1") = drh.GetValue(Of String)("StockCode")
+                        '    trDocMileStone("col2") = "" 'drh.GetValue(Of Date)("StockDocDate").ToShortDateString
 
-                            Select Case m_showPeriod
-                                Case 0 'Day
-                                    trDocMileStone("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("DayOutBound"), DigitConfig.Price)
-                                    trDocMileStone("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day1to7"), DigitConfig.Price)
-                                    trDocMileStone("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day8to14"), DigitConfig.Price)
-                                    trDocMileStone("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day15to21"), DigitConfig.Price)
-                                    trDocMileStone("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day22to28"), DigitConfig.Price)
-                                    trDocMileStone("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("DayOver28"), DigitConfig.Price)
-                                    trDocMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
-                                Case 1 'Month
-                                    trDocMileStone("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("MonthOutBound"), DigitConfig.Price)
-                                    trDocMileStone("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month1"), DigitConfig.Price)
-                                    trDocMileStone("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month2"), DigitConfig.Price)
-                                    trDocMileStone("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month3"), DigitConfig.Price)
-                                    trDocMileStone("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month4"), DigitConfig.Price)
-                                    trDocMileStone("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month5"), DigitConfig.Price)
-                                    trDocMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month6"), DigitConfig.Price)
-                                    trDocMileStone("col10") = Configuration.FormatToString(drh.GetValue(Of Decimal)("MonthOver6"), DigitConfig.Price)
-                                    trDocMileStone("col11") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
-                                Case 2 'Year
-                                    trDocMileStone("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYearOutBound"), DigitConfig.Price)
-                                    trDocMileStone("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear1"), DigitConfig.Price)
-                                    trDocMileStone("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear2"), DigitConfig.Price)
-                                    trDocMileStone("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear3"), DigitConfig.Price)
-                                    trDocMileStone("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear4"), DigitConfig.Price)
-                                    trDocMileStone("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYearOver4"), DigitConfig.Price)
-                                    trDocMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
-                            End Select
+                        '    Select Case m_showPeriod
+                        '        Case 0 'Day
+                        '            trDocMileStone("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("DayOutBound"), DigitConfig.Price)
+                        '            trDocMileStone("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day1to7"), DigitConfig.Price)
+                        '            trDocMileStone("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day8to14"), DigitConfig.Price)
+                        '            trDocMileStone("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day15to21"), DigitConfig.Price)
+                        '            trDocMileStone("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Day22to28"), DigitConfig.Price)
+                        '            trDocMileStone("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("DayOver28"), DigitConfig.Price)
+                        '            trDocMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
+                        '        Case 1 'Month
+                        '            trDocMileStone("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("MonthOutBound"), DigitConfig.Price)
+                        '            trDocMileStone("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month1"), DigitConfig.Price)
+                        '            trDocMileStone("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month2"), DigitConfig.Price)
+                        '            trDocMileStone("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month3"), DigitConfig.Price)
+                        '            trDocMileStone("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month4"), DigitConfig.Price)
+                        '            trDocMileStone("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month5"), DigitConfig.Price)
+                        '            trDocMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("Month6"), DigitConfig.Price)
+                        '            trDocMileStone("col10") = Configuration.FormatToString(drh.GetValue(Of Decimal)("MonthOver6"), DigitConfig.Price)
+                        '            trDocMileStone("col11") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
+                        '        Case 2 'Year
+                        '            trDocMileStone("col3") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYearOutBound"), DigitConfig.Price)
+                        '            trDocMileStone("col4") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear1"), DigitConfig.Price)
+                        '            trDocMileStone("col5") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear2"), DigitConfig.Price)
+                        '            trDocMileStone("col6") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear3"), DigitConfig.Price)
+                        '            trDocMileStone("col7") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYear4"), DigitConfig.Price)
+                        '            trDocMileStone("col8") = Configuration.FormatToString(drh.GetValue(Of Decimal)("QuarterYearOver4"), DigitConfig.Price)
+                        '            trDocMileStone("col9") = Configuration.FormatToString(drh.GetValue(Of Decimal)("RemainAmount"), DigitConfig.Price)
+                        '    End Select
 
-                        Next
+                        'Next
 
                     Next
 
@@ -641,6 +672,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             End Select
 
+            Dim lineNumber As Integer = 1
+            For Each tr As TreeRow In Me.m_treemanager.Treetable.Rows
+                If Not tr.Tag Is Nothing AndAlso TypeOf tr.Tag Is DataRow Then
+                    m_hashData(lineNumber) = CType(tr.Tag, DataRow)
+                End If
+
+                lineNumber += 1
+            Next
+
         End Sub
     Private Function SearchTag(ByVal id As Integer) As TreeRow
       If Me.m_treemanager Is Nothing Then
@@ -685,18 +725,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
         colCount = colCount - 1
       End If
 
-      widths.Add(120)
+            widths.Add(140)
       widths.Add(200)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
-      widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
+            widths.Add(100)
 
       For i As Integer = 0 To colCount
         If i = 1 Then
