@@ -83,13 +83,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
             m_grid.ColWidths(2) = 200
             m_grid.ColWidths(3) = 150
             m_grid.ColWidths(4) = 150
-            m_grid.ColWidths(5) = 120
-            m_grid.ColWidths(6) = 120
-            m_grid.ColWidths(7) = 120
-            m_grid.ColWidths(8) = 120
-            m_grid.ColWidths(9) = 120
-            m_grid.ColWidths(10) = 120
-            m_grid.ColWidths(11) = 120
+            m_grid.ColWidths(5) = 140
+            m_grid.ColWidths(6) = 140
+            m_grid.ColWidths(7) = 140
+            m_grid.ColWidths(8) = 140
+            m_grid.ColWidths(9) = 140
+            m_grid.ColWidths(10) = 140
+            m_grid.ColWidths(11) = 140
 
             m_grid.ColStyles(1).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
             m_grid.ColStyles(2).HorizontalAlignment = Syncfusion.Windows.Forms.Grid.GridHorizontalAlignment.Left
