@@ -966,7 +966,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     '=========================================================================================================
 
 
-
                     If ShowDetail Then
 
                         For Each Doc As ARDocument In _ARCustomer.DocumentList
@@ -1000,7 +999,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                             trDetail("col11") = Configuration.FormatToString(Doc.Retention, DigitConfig.Price)
 
-                            trDetail("col12") = Configuration.FormatToString(Doc.DecreaseRetention, DigitConfig.Price)
+                            trDetail("col12") = Configuration.FormatToString(Doc.DecreaseRetention_show, DigitConfig.Price)
 
                             trDetail("col13") = Configuration.FormatToString(Doc.EndingBalanceRetention, DigitConfig.Price)
 
@@ -1020,6 +1019,14 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Next
 
             trCustomer = Me.Treemanager.Treetable.Childs.Add
+
+            If ShowDetail Then
+                trCustomer("col" & 3 + colShift) = "รวม"
+            Else
+                trCustomer("col1") = "รวม"
+            End If
+
+
 
             trCustomer("col" & 4 + colShift) = Configuration.FormatToString(totalOpeningBalance, DigitConfig.Price)
 
@@ -1044,13 +1051,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
             trCustomer("col" & 13 + colShift) = Configuration.FormatToString(totalRetentionBill, DigitConfig.Price)
 
             '=========================================================================================================
-
-
-
-
-
-
-
 
         End Sub
 
@@ -1123,15 +1123,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
 
 
-                    If Doc.RetentionBill <> 0 Then
-                        If Doc.RetentionBill <= objARRetentionCC.RetentionBill Then
-                            objARRetentionCC.RetentionBill = objARRetentionCC.RetentionBill - Doc.OpeningRetention
-                            Doc.RetentionBill = 0
-                        Else
-                            Doc.RetentionBill = Doc.RetentionBill - objARRetentionCC.RetentionBill
-                            objARRetentionCC.RetentionBill = 0
-                        End If
-                    End If
+                    'If Doc.RetentionBill <> 0 Then
+                    '    If Doc.RetentionBill <= objARRetentionCC.RetentionBill Then
+                    '        objARRetentionCC.RetentionBill = objARRetentionCC.RetentionBill - Doc.OpeningRetention
+                    '        Doc.RetentionBill = 0
+                    '    Else
+                    '        Doc.RetentionBill = Doc.RetentionBill - objARRetentionCC.RetentionBill
+                    '        objARRetentionCC.RetentionBill = 0
+                    '    End If
+                    'End If
 
                     If Doc.OpeningRetention <> 0 Then
                         If Doc.OpeningRetention <= objARRetentionCC.EndingRetention Then
@@ -1159,7 +1159,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                     Doc.OpeningRetention = 0
                     Doc.Retention = 0
-                    Doc.RetentionBill = 0
+                    'Doc.RetentionBill = 0
 
                     If Doc.OpeningDecreaseRetention <> 0 Then
                         If Doc.OpeningDecreaseRetention <= objARRetentionCC.EndingDecreaseRetention Then
@@ -1191,7 +1191,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                     Doc.EndingBalanceRetention = 0
 
-                    Doc.RetentionBill = 0
+                    'Doc.RetentionBill = 0
 
                 End If
 
@@ -1230,7 +1230,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                     objARCustomer.OpeningBalanceRetention += Doc.OpeningRetention - Doc.OpeningDecreaseRetention
                     objARCustomer.Retention += Doc.Retention
-                    objARCustomer.DecreaseRetention += Doc.DecreaseRetention
+                    objARCustomer.DecreaseRetention += Doc.DecreaseRetention_Show
                     objARCustomer.EndingBalanceRetention += Doc.EndingBalanceRetention
 
                     objARCustomer.RetentionBill += Doc.RetentionBill
@@ -1431,6 +1431,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 _Retention = CDec(ARRow("Retention"))
                 _DecreaseRetention = CDec(ARRow("DecreaseRetention"))
+                _DecreaseRetention_Show = CDec(ARRow("DecreaseRetention"))
                 _RetentionBill = CDec(ARRow("RetentionBill"))
 
                 _GlCode = CStr(ARRow("GlCode"))
@@ -1607,6 +1608,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Get
                 Set(value As Decimal)
                     _DecreaseRetention = value
+                End Set
+            End Property
+
+            Private _DecreaseRetention_Show As Decimal
+            Public Property DecreaseRetention_Show As Decimal
+                Get
+                    Return _DecreaseRetention_Show
+                End Get
+                Set(value As Decimal)
+                    _DecreaseRetention_Show = value
                 End Set
             End Property
 
