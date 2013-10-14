@@ -184,9 +184,6 @@
     <Compile Include="BLL\RptCustomer.vb">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BLL\RptReceiveDue_OLD.vb">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UI\RptReceiveDueFilterSubPanel.vb">
       <SubType>UserControl</SubType>
     </Compile>
@@ -230,9 +227,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\RptCustomerFilterSubPanel.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\RptReceiveDueFilterSubPanel_OLD.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <EmbeddedResource Include="UI\RptReceiveDueFilterSubPanel.resx">
@@ -279,9 +273,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\RptCustomerFilterSubPanel.resx">
       <DependentUpon>RptCustomerFilterSubPanel.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\RptReceiveDueFilterSubPanel_OLD.resx">
-      <DependentUpon>RptReceiveDueFilterSubPanel_OLD.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
