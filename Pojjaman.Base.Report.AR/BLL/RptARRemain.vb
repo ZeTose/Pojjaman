@@ -396,7 +396,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                             trDetail("col10") = Configuration.FormatToString(Doc.OpeningRetention - Doc.OpeningDecreaseRetention, DigitConfig.Price)
 
-                            trDetail("col11") = Configuration.FormatToString(Doc.Retention, DigitConfig.Price)
+                            trDetail("col11") = Configuration.FormatToString(Doc.Retention_Show, DigitConfig.Price)
 
                             trDetail("col12") = Configuration.FormatToString(Doc.DecreaseRetention_show, DigitConfig.Price)
 
@@ -498,16 +498,53 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ARRetentionCCList.Add("|" & objARRetentionCC.CustomerId.ToString & "|" & objARRetentionCC.CostCenterId.ToString & "|", objARRetentionCC)
             Next
 
-            For Each KV As KeyValuePair(Of String, ARRetentionCC) In ARRetentionCCList
-                objARRetentionCC = KV.Value
+            For Each Doc As ARDocument In ARDocumentList
 
-                If objARRetentionCC.EndingBalanceRetention > 0 Then
-                    objARRetentionCC.EndingRetention = objARRetentionCC.EndingDecreaseRetention
-                    objARRetentionCC.RetentionBill = objARRetentionCC.EndingDecreaseRetention
-                ElseIf objARRetentionCC.EndingBalanceRetention < 0 Then
-                    objARRetentionCC.EndingDecreaseRetention = objARRetentionCC.EndingRetention
+                objARRetentionCC = ARRetentionCCList("|" & Doc.CustomerId.ToString & "|" & Doc.CostCenterId.ToString & "|")
+
+                If objARRetentionCC.OpeningBalanceRetention > 0 Then
+
+                    Doc.OpeningDecreaseRetention = 0
+
+                    If Doc.OpeningRetention <> 0 Then
+                        If Doc.OpeningRetention <= objARRetentionCC.OpeningDecreaseRetention Then
+                            objARRetentionCC.OpeningDecreaseRetention = objARRetentionCC.OpeningDecreaseRetention - Doc.OpeningRetention
+                            Doc.OpeningRetention = 0
+                        Else
+                            Doc.OpeningRetention = Doc.OpeningRetention - objARRetentionCC.OpeningDecreaseRetention
+                            objARRetentionCC.OpeningDecreaseRetention = 0
+                        End If
+                    End If
+
+                    Doc.OpeningBalanceRetention = Doc.OpeningRetention - Doc.OpeningDecreaseRetention
+                    Doc.OpeningBalanceRetention_Show = Doc.OpeningBalanceRetention
+
+                ElseIf objARRetentionCC.OpeningBalanceRetention < 0 Then
+
+                    Doc.OpeningRetention = 0
+
+                    If Doc.OpeningDecreaseRetention <> 0 Then
+                        If Doc.OpeningDecreaseRetention <= objARRetentionCC.OpeningRetention Then
+                            objARRetentionCC.OpeningRetention = objARRetentionCC.OpeningRetention - Doc.OpeningDecreaseRetention
+                            Doc.OpeningDecreaseRetention = 0
+                        Else
+                            Doc.OpeningDecreaseRetention = Doc.OpeningDecreaseRetention - objARRetentionCC.OpeningRetention
+                            objARRetentionCC.OpeningRetention = 0
+                        End If
+                    End If
+
+
+                    Doc.OpeningBalanceRetention = Doc.OpeningRetention - Doc.OpeningDecreaseRetention
+                    Doc.OpeningBalanceRetention_Show = Doc.OpeningBalanceRetention
+
+                Else
+
+                    Doc.OpeningRetention = 0
+                    Doc.OpeningDecreaseRetention = 0
+                    Doc.OpeningBalanceRetention = 0
+                    Doc.OpeningBalanceRetention_Show = 0
+
                 End If
-
 
             Next
 
@@ -515,84 +552,67 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 objARRetentionCC = ARRetentionCCList("|" & Doc.CustomerId.ToString & "|" & Doc.CostCenterId.ToString & "|")
 
+                If Doc.OpeningBalanceRetention > 0 Then
+
+                    If Doc.OpeningBalanceRetention <= objARRetentionCC.DecreaseRetention Then
+                        objARRetentionCC.DecreaseRetention = objARRetentionCC.DecreaseRetention - Doc.OpeningBalanceRetention
+                        Doc.OpeningBalanceRetention = 0
+                    Else
+                        Doc.OpeningBalanceRetention = Doc.OpeningBalanceRetention - objARRetentionCC.DecreaseRetention
+                        objARRetentionCC.DecreaseRetention = 0
+                    End If
+
+                ElseIf Doc.OpeningBalanceRetention < 0 Then
+
+                    If Math.Abs(Doc.OpeningBalanceRetention) <= objARRetentionCC.Retention Then
+                        objARRetentionCC.Retention = objARRetentionCC.Retention - Math.Abs(Doc.OpeningBalanceRetention)
+                        Doc.OpeningBalanceRetention = 0
+                    Else
+                        Doc.OpeningBalanceRetention = -(Math.Abs(Doc.OpeningBalanceRetention) - objARRetentionCC.Retention)
+                        objARRetentionCC.Retention = 0
+                    End If
+
+                End If
+
                 If objARRetentionCC.EndingBalanceRetention > 0 Then
 
-                    Doc.OpeningDecreaseRetention = 0
                     Doc.DecreaseRetention = 0
 
 
-
-                    'If Doc.RetentionBill <> 0 Then
-                    '    If Doc.RetentionBill <= objARRetentionCC.RetentionBill Then
-                    '        objARRetentionCC.RetentionBill = objARRetentionCC.RetentionBill - Doc.OpeningRetention
-                    '        Doc.RetentionBill = 0
-                    '    Else
-                    '        Doc.RetentionBill = Doc.RetentionBill - objARRetentionCC.RetentionBill
-                    '        objARRetentionCC.RetentionBill = 0
-                    '    End If
-                    'End If
-
-                    If Doc.OpeningRetention <> 0 Then
-                        If Doc.OpeningRetention <= objARRetentionCC.EndingRetention Then
-                            objARRetentionCC.EndingRetention = objARRetentionCC.EndingRetention - Doc.OpeningRetention
-                            Doc.OpeningRetention = 0
-                        Else
-                            Doc.OpeningRetention = Doc.OpeningRetention - objARRetentionCC.EndingRetention
-                            objARRetentionCC.EndingRetention = 0
-                        End If
-                    End If
-
                     If Doc.Retention <> 0 Then
-                        If Doc.Retention <= objARRetentionCC.EndingRetention Then
-                            objARRetentionCC.EndingRetention = objARRetentionCC.EndingRetention - Doc.Retention
+                        If Doc.Retention <= objARRetentionCC.DecreaseRetention Then
+                            objARRetentionCC.DecreaseRetention = objARRetentionCC.DecreaseRetention - Doc.Retention
                             Doc.Retention = 0
                         Else
-                            Doc.Retention = Doc.Retention - objARRetentionCC.EndingRetention
-                            objARRetentionCC.EndingRetention = 0
+                            Doc.Retention = Doc.Retention - objARRetentionCC.DecreaseRetention
+                            objARRetentionCC.DecreaseRetention = 0
                         End If
                     End If
-
-                    Doc.EndingBalanceRetention = Doc.OpeningRetention + Doc.Retention
 
                 ElseIf objARRetentionCC.EndingBalanceRetention < 0 Then
 
-                    Doc.OpeningRetention = 0
                     Doc.Retention = 0
-                    'Doc.RetentionBill = 0
-
-                    If Doc.OpeningDecreaseRetention <> 0 Then
-                        If Doc.OpeningDecreaseRetention <= objARRetentionCC.EndingDecreaseRetention Then
-                            objARRetentionCC.EndingDecreaseRetention = objARRetentionCC.EndingDecreaseRetention - Doc.OpeningDecreaseRetention
-                            Doc.OpeningDecreaseRetention = 0
-                        Else
-                            Doc.OpeningDecreaseRetention = Doc.OpeningDecreaseRetention - objARRetentionCC.EndingDecreaseRetention
-                            objARRetentionCC.EndingDecreaseRetention = 0
-                        End If
-                    End If
 
                     If Doc.DecreaseRetention <> 0 Then
-                        If Doc.DecreaseRetention <= objARRetentionCC.EndingDecreaseRetention Then
-                            objARRetentionCC.EndingDecreaseRetention = objARRetentionCC.EndingRetention - Doc.DecreaseRetention
+                        If Doc.DecreaseRetention <= objARRetentionCC.Retention Then
+                            objARRetentionCC.Retention = objARRetentionCC.Retention - Doc.DecreaseRetention
                             Doc.DecreaseRetention = 0
                         Else
-                            Doc.DecreaseRetention = Doc.DecreaseRetention - objARRetentionCC.EndingDecreaseRetention
-                            objARRetentionCC.EndingDecreaseRetention = 0
+                            Doc.DecreaseRetention = Doc.DecreaseRetention - objARRetentionCC.Retention
+                            objARRetentionCC.Retention = 0
                         End If
                     End If
 
-                    Doc.EndingBalanceRetention = -(Doc.OpeningDecreaseRetention + Doc.DecreaseRetention)
                 Else
 
-                    Doc.OpeningRetention = 0
-                    Doc.OpeningDecreaseRetention = 0
+                    Doc.OpeningBalanceRetention = 0
+
                     Doc.Retention = 0
                     Doc.DecreaseRetention = 0
 
-                    Doc.EndingBalanceRetention = 0
-
-                    'Doc.RetentionBill = 0
-
                 End If
+
+                Doc.EndingBalanceRetention = Doc.OpeningBalanceRetention + (Doc.Retention - Doc.DecreaseRetention)
 
             Next
 
@@ -627,7 +647,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     End If
 
 
-                    objARCustomer.OpeningBalanceRetention += Doc.OpeningRetention - Doc.OpeningDecreaseRetention
+                    objARCustomer.OpeningBalanceRetention += Doc.OpeningBalanceRetention_Show
                     objARCustomer.Retention += Doc.Retention_Show
                     objARCustomer.DecreaseRetention += Doc.DecreaseRetention_Show
                     objARCustomer.EndingBalanceRetention += Doc.EndingBalanceRetention
@@ -991,6 +1011,26 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Set
             End Property
 
+            Private _OpeningBalanceRetention As Decimal
+            Public Property OpeningBalanceRetention As Decimal
+                Get
+                    Return _OpeningBalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _OpeningBalanceRetention = value
+                End Set
+            End Property
+
+            Private _OpeningBalanceRetention_Show As Decimal
+            Public Property OpeningBalanceRetention_Show As Decimal
+                Get
+                    Return _OpeningBalanceRetention_Show
+                End Get
+                Set(value As Decimal)
+                    _OpeningBalanceRetention_Show = value
+                End Set
+            End Property
+
             Private _Retention As Decimal
             Public Property Retention As Decimal
                 Get
@@ -1098,7 +1138,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             Public ReadOnly Property HasRetentionMove As Boolean
                 Get
 
-                    If (Math.Abs(_OpeningRetention - _OpeningDecreaseRetention) + Math.Abs(_Retention) + Math.Abs(_DecreaseRetention) + Math.Abs(_RetentionBill)) > 0 Then
+                    If (Math.Abs(_OpeningBalanceRetention_Show) + Math.Abs(_Retention_Show) + Math.Abs(_DecreaseRetention_Show) + Math.Abs(_RetentionBill)) > 0 Then
                         Return True
                     Else
                         Return False
@@ -1120,6 +1160,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
                 _OpeningRetention = CDec(ARRow("OpeningRetention"))
                 _OpeningDecreaseRetention = CDec(ARRow("OpeningDecreaseRetention"))
+                _OpeningBalanceRetention = CDec(ARRow("OpeningBalanceRetention"))
 
                 _Retention = CDec(ARRow("Retention"))
                 _DecreaseRetention = CDec(ARRow("DecreaseRetention"))
@@ -1127,8 +1168,6 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 _EndingRetention = CDec(ARRow("EndingRetention"))
                 _EndingDecreaseRetention = CDec(ARRow("EndingDecreaseRetention"))
                 _EndingBalanceRetention = CDec(ARRow("EndingBalanceRetention"))
-
-                _RetentionBill = CDec(ARRow("RetentionBill"))
 
             End Sub
 
@@ -1169,6 +1208,16 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Get
                 Set(value As Decimal)
                     _OpeningDecreaseRetention = value
+                End Set
+            End Property
+
+            Private _OpeningBalanceRetention As Decimal
+            Public Property OpeningBalanceRetention As Decimal
+                Get
+                    Return _OpeningBalanceRetention
+                End Get
+                Set(value As Decimal)
+                    _OpeningBalanceRetention = value
                 End Set
             End Property
 
@@ -1222,15 +1271,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Set
             End Property
 
-            Private _RetentionBill As Decimal
-            Public Property RetentionBill As Decimal
-                Get
-                    Return _RetentionBill
-                End Get
-                Set(value As Decimal)
-                    _RetentionBill = value
-                End Set
-            End Property
+
 
         End Class
 
