@@ -97,17 +97,18 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 ' Level 1.
                 tr("col0") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.CustomerCode}") '"รหัสลูกหนี้"
                 tr("col1") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.CustomerName}") '"ชื่อลูกหนี้"
-                tr("col4") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.OpenningBalance}") '"ยอดยกมา"
-                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.Debt}") '"ยอดซื้อเชื่อ"
-                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.SCN}") '"ยอดลดหนี้"
-                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.Receive}") '"ยอดรับชำระ"
-                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.EndingBalance}") '"ยอดยกไป"
 
-                tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.OpeningBalanceRetention}") '"ยอด Retention ยกมา"
-                tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.Retention}") '"ยอด Retention"
-                tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.ReceiveRetention}") '"ยอดรับชำระ Retention"
-                tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.EndingBalanceRetention}") '"ยอด Retention ยกไป"
-                tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.BillRetention}") '"วางบิล Retentionลด"   ${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.DecreaseRetention}
+                tr("col5") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.OpenningBalance}") '"ยอดยกมา"
+                tr("col6") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.Debt}") '"ยอดซื้อเชื่อ"
+                tr("col7") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.SCN}") '"ยอดลดหนี้"
+                tr("col8") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.Receive}") '"ยอดรับชำระ"
+                tr("col9") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.EndingBalance}") '"ยอดยกไป"
+
+                tr("col10") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.OpeningBalanceRetention}") '"ยอด Retention ยกมา"
+                tr("col11") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.Retention}") '"ยอด Retention"
+                tr("col12") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.ReceiveRetention}") '"ยอดรับชำระ Retention"
+                tr("col13") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.EndingBalanceRetention}") '"ยอด Retention ยกไป"
+                tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.BillRetention}") '"วางบิล Retentionลด"   ${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.DecreaseRetention}
 
                 'tr("col14") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}") '"หมายเหตุ"
 
@@ -133,9 +134,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 tr = Me.m_treemanager.Treetable.Childs.Add
                 tr("col0") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DocType}") '"ประเภทเอกสาร"
                 tr("col1") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAPRemain.DNDocNo}") '"เลขที่เอกสาร"
+
                 tr("col2") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptARRemain.DocDate}") '"วันที่เอกสาร"
                 tr("col3") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAR.PrCode}") '"เลขที่ใบสำคัญ"
                 tr("col4") = indent & Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.RptAR.CostCenter}") '"เลขที่ใบสำคัญ"
+
                 tr("col15") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.GLNote}") '"หมายเหตุ"
                 tr("col16") = Me.StringParserService.Parse("${res:Longkong.Pojjaman.BusinessLogic.Global.VatCode}") '"ใบกำกับภาษี"
 
@@ -194,7 +197,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             widths.Add(95)
             widths.Add(95)
             widths.Add(95)
-            widths.Add(105 * CInt(Me.Filters(7).Value))
+            widths.Add(200)
             widths.Add(180 * CInt(Me.Filters(7).Value))
             widths.Add(180 * CInt(Me.Filters(7).Value))
 
@@ -330,36 +333,36 @@ Namespace Longkong.Pojjaman.BusinessLogic
                     trCustomer("col1") = _ARCustomer.CustomerName
 
 
-                    trCustomer("col" & 4 + colShift) = Configuration.FormatToString(_ARCustomer.OpeningBalance, DigitConfig.Price)
+                    trCustomer("col5") = Configuration.FormatToString(_ARCustomer.OpeningBalance, DigitConfig.Price)
                     totalOpeningBalance += _ARCustomer.OpeningBalance
 
-                    trCustomer("col" & 5 + colShift) = Configuration.FormatToString(_ARCustomer.Amount, DigitConfig.Price)
+                    trCustomer("col6") = Configuration.FormatToString(_ARCustomer.Amount, DigitConfig.Price)
                     totalAmount += _ARCustomer.Amount
 
-                    trCustomer("col" & 6 + colShift) = Configuration.FormatToString(_ARCustomer.SCN, DigitConfig.Price)
+                    trCustomer("col7") = Configuration.FormatToString(_ARCustomer.SCN, DigitConfig.Price)
                     totalSCN += _ARCustomer.SCN
 
-                    trCustomer("col" & 7 + colShift) = Configuration.FormatToString(_ARCustomer.Receive, DigitConfig.Price)
+                    trCustomer("col8") = Configuration.FormatToString(_ARCustomer.Receive, DigitConfig.Price)
                     totalReceive += _ARCustomer.Receive
 
-                    trCustomer("col" & 8 + colShift) = Configuration.FormatToString(_ARCustomer.EndingBalance, DigitConfig.Price)
+                    trCustomer("col9") = Configuration.FormatToString(_ARCustomer.EndingBalance, DigitConfig.Price)
                     totalEndingBalance += _ARCustomer.EndingBalance
 
                     '============================================-Retention===================================================
 
-                    trCustomer("col" & 9 + colShift) = Configuration.FormatToString(_ARCustomer.OpeningBalanceRetention, DigitConfig.Price)
+                    trCustomer("col10") = Configuration.FormatToString(_ARCustomer.OpeningBalanceRetention, DigitConfig.Price)
                     totalOpeningBalanceRetention += _ARCustomer.OpeningBalanceRetention
 
-                    trCustomer("col" & 10 + colShift) = Configuration.FormatToString(_ARCustomer.Retention, DigitConfig.Price)
+                    trCustomer("col11") = Configuration.FormatToString(_ARCustomer.Retention, DigitConfig.Price)
                     totalRetention += _ARCustomer.Retention
 
-                    trCustomer("col" & 11 + colShift) = Configuration.FormatToString(_ARCustomer.DecreaseRetention, DigitConfig.Price)
+                    trCustomer("col12") = Configuration.FormatToString(_ARCustomer.DecreaseRetention, DigitConfig.Price)
                     totalDecreaseRetention += _ARCustomer.DecreaseRetention
 
-                    trCustomer("col" & 12 + colShift) = Configuration.FormatToString(_ARCustomer.EndingBalanceRetention, DigitConfig.Price)
+                    trCustomer("col13") = Configuration.FormatToString(_ARCustomer.EndingBalanceRetention, DigitConfig.Price)
                     totalEndingBalanceRetention += _ARCustomer.EndingBalanceRetention
 
-                    trCustomer("col" & 13 + colShift) = Configuration.FormatToString(_ARCustomer.RetentionBill, DigitConfig.Price)
+                    trCustomer("col14") = Configuration.FormatToString(_ARCustomer.RetentionBill, DigitConfig.Price)
                     totalRetentionBill += _ARCustomer.RetentionBill
 
                     '=========================================================================================================
@@ -394,7 +397,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                             '============================================-Retention===================================================
 
 
-                            trDetail("col10") = Configuration.FormatToString(Doc.OpeningRetention - Doc.OpeningDecreaseRetention, DigitConfig.Price)
+                            trDetail("col10") = Configuration.FormatToString(Doc.OpeningBalanceRetention_Show, DigitConfig.Price)
 
                             trDetail("col11") = Configuration.FormatToString(Doc.Retention_Show, DigitConfig.Price)
 
@@ -419,35 +422,29 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             trCustomer = Me.Treemanager.Treetable.Childs.Add
 
-            If ShowDetail Then
-                trCustomer("col" & 3 + colShift) = "รวม"
-            Else
-                trCustomer("col1") = "รวม"
-            End If
+            trCustomer("col4") = "รวม"
 
+            trCustomer("col5") = Configuration.FormatToString(totalOpeningBalance, DigitConfig.Price)
 
+            trCustomer("col6") = Configuration.FormatToString(totalAmount, DigitConfig.Price)
 
-            trCustomer("col" & 4 + colShift) = Configuration.FormatToString(totalOpeningBalance, DigitConfig.Price)
+            trCustomer("col7") = Configuration.FormatToString(totalSCN, DigitConfig.Price)
 
-            trCustomer("col" & 5 + colShift) = Configuration.FormatToString(totalAmount, DigitConfig.Price)
+            trCustomer("col8") = Configuration.FormatToString(totalReceive, DigitConfig.Price)
 
-            trCustomer("col" & 6 + colShift) = Configuration.FormatToString(totalSCN, DigitConfig.Price)
-
-            trCustomer("col" & 7 + colShift) = Configuration.FormatToString(totalReceive, DigitConfig.Price)
-
-            trCustomer("col" & 8 + colShift) = Configuration.FormatToString(totalEndingBalance, DigitConfig.Price)
+            trCustomer("col9") = Configuration.FormatToString(totalEndingBalance, DigitConfig.Price)
 
             '============================================-Retention===================================================
 
-            trCustomer("col" & 9 + colShift) = Configuration.FormatToString(totalOpeningBalanceRetention, DigitConfig.Price)
+            trCustomer("col10") = Configuration.FormatToString(totalOpeningBalanceRetention, DigitConfig.Price)
 
-            trCustomer("col" & 10 + colShift) = Configuration.FormatToString(totalRetention, DigitConfig.Price)
+            trCustomer("col11") = Configuration.FormatToString(totalRetention, DigitConfig.Price)
 
-            trCustomer("col" & 11 + colShift) = Configuration.FormatToString(totalDecreaseRetention, DigitConfig.Price)
+            trCustomer("col12") = Configuration.FormatToString(totalDecreaseRetention, DigitConfig.Price)
 
-            trCustomer("col" & 12 + colShift) = Configuration.FormatToString(totalEndingBalanceRetention, DigitConfig.Price)
+            trCustomer("col13") = Configuration.FormatToString(totalEndingBalanceRetention, DigitConfig.Price)
 
-            trCustomer("col" & 13 + colShift) = Configuration.FormatToString(totalRetentionBill, DigitConfig.Price)
+            trCustomer("col14") = Configuration.FormatToString(totalRetentionBill, DigitConfig.Price)
 
             '=========================================================================================================
 
@@ -495,47 +492,58 @@ Namespace Longkong.Pojjaman.BusinessLogic
             ARRetentionCCList = New Dictionary(Of String, ARRetentionCC)
             For Each ARRow As DataRow In dtARRetentionCC.Rows
                 objARRetentionCC = New ARRetentionCC(ARRow)
+
+                If objARRetentionCC.OpeningBalanceRetention > 0 Then
+                    objARRetentionCC.Retention = objARRetentionCC.Retention + objARRetentionCC.OpeningBalanceRetention
+                Else
+                    objARRetentionCC.DecreaseRetention = objARRetentionCC.DecreaseRetention + Math.Abs(objARRetentionCC.OpeningBalanceRetention)
+                End If
+
                 ARRetentionCCList.Add("|" & objARRetentionCC.CustomerId.ToString & "|" & objARRetentionCC.CostCenterId.ToString & "|", objARRetentionCC)
+
             Next
+
+            Dim CC As ARRetentionCC
+
 
             For Each Doc As ARDocument In ARDocumentList
 
-                objARRetentionCC = ARRetentionCCList("|" & Doc.CustomerId.ToString & "|" & Doc.CostCenterId.ToString & "|")
+                CC = ARRetentionCCList("|" & Doc.CustomerId.ToString & "|" & Doc.CostCenterId.ToString & "|")
 
-                If objARRetentionCC.OpeningBalanceRetention > 0 Then
+                If CC.OpeningBalanceRetention > 0 Then
 
                     Doc.OpeningDecreaseRetention = 0
 
                     If Doc.OpeningRetention <> 0 Then
-                        If Doc.OpeningRetention <= objARRetentionCC.OpeningDecreaseRetention Then
-                            objARRetentionCC.OpeningDecreaseRetention = objARRetentionCC.OpeningDecreaseRetention - Doc.OpeningRetention
+                        If Doc.OpeningRetention <= CC.OpeningDecreaseRetention Then
+                            CC.OpeningDecreaseRetention = CC.OpeningDecreaseRetention - Doc.OpeningRetention
                             Doc.OpeningRetention = 0
                         Else
-                            Doc.OpeningRetention = Doc.OpeningRetention - objARRetentionCC.OpeningDecreaseRetention
-                            objARRetentionCC.OpeningDecreaseRetention = 0
+                            Doc.OpeningRetention = Doc.OpeningRetention - CC.OpeningDecreaseRetention
+                            CC.OpeningDecreaseRetention = 0
                         End If
                     End If
 
                     Doc.OpeningBalanceRetention = Doc.OpeningRetention - Doc.OpeningDecreaseRetention
-                    Doc.OpeningBalanceRetention_Show = Doc.OpeningBalanceRetention
+                    Doc.OpeningBalanceRetention_Show = Doc.OpeningRetention - Doc.OpeningDecreaseRetention
 
-                ElseIf objARRetentionCC.OpeningBalanceRetention < 0 Then
+                ElseIf CC.OpeningBalanceRetention < 0 Then
 
                     Doc.OpeningRetention = 0
 
                     If Doc.OpeningDecreaseRetention <> 0 Then
-                        If Doc.OpeningDecreaseRetention <= objARRetentionCC.OpeningRetention Then
-                            objARRetentionCC.OpeningRetention = objARRetentionCC.OpeningRetention - Doc.OpeningDecreaseRetention
+                        If Doc.OpeningDecreaseRetention <= CC.OpeningRetention Then
+                            CC.OpeningRetention = CC.OpeningRetention - Doc.OpeningDecreaseRetention
                             Doc.OpeningDecreaseRetention = 0
                         Else
-                            Doc.OpeningDecreaseRetention = Doc.OpeningDecreaseRetention - objARRetentionCC.OpeningRetention
-                            objARRetentionCC.OpeningRetention = 0
+                            Doc.OpeningDecreaseRetention = Doc.OpeningDecreaseRetention - CC.OpeningRetention
+                            CC.OpeningRetention = 0
                         End If
                     End If
 
 
                     Doc.OpeningBalanceRetention = Doc.OpeningRetention - Doc.OpeningDecreaseRetention
-                    Doc.OpeningBalanceRetention_Show = Doc.OpeningBalanceRetention
+                    Doc.OpeningBalanceRetention_Show = Doc.OpeningRetention - Doc.OpeningDecreaseRetention
 
                 Else
 
@@ -550,69 +558,62 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             For Each Doc As ARDocument In ARDocumentList
 
-                objARRetentionCC = ARRetentionCCList("|" & Doc.CustomerId.ToString & "|" & Doc.CostCenterId.ToString & "|")
-
                 If Doc.OpeningBalanceRetention > 0 Then
 
-                    If Doc.OpeningBalanceRetention <= objARRetentionCC.DecreaseRetention Then
-                        objARRetentionCC.DecreaseRetention = objARRetentionCC.DecreaseRetention - Doc.OpeningBalanceRetention
-                        Doc.OpeningBalanceRetention = 0
-                    Else
-                        Doc.OpeningBalanceRetention = Doc.OpeningBalanceRetention - objARRetentionCC.DecreaseRetention
-                        objARRetentionCC.DecreaseRetention = 0
-                    End If
+                    Doc.Retention = Doc.Retention + Doc.OpeningBalanceRetention
 
                 ElseIf Doc.OpeningBalanceRetention < 0 Then
 
-                    If Math.Abs(Doc.OpeningBalanceRetention) <= objARRetentionCC.Retention Then
-                        objARRetentionCC.Retention = objARRetentionCC.Retention - Math.Abs(Doc.OpeningBalanceRetention)
-                        Doc.OpeningBalanceRetention = 0
-                    Else
-                        Doc.OpeningBalanceRetention = -(Math.Abs(Doc.OpeningBalanceRetention) - objARRetentionCC.Retention)
-                        objARRetentionCC.Retention = 0
-                    End If
+                    Doc.DecreaseRetention = Doc.DecreaseRetention + Math.Abs(Doc.OpeningBalanceRetention)
 
                 End If
 
-                If objARRetentionCC.EndingBalanceRetention > 0 Then
+                'Doc.OpeningBalanceRetention = 0
+
+            Next
+
+            For Each Doc As ARDocument In ARDocumentList
+
+                CC = ARRetentionCCList("|" & Doc.CustomerId.ToString & "|" & Doc.CostCenterId.ToString & "|")
+
+                If CC.EndingBalanceRetention > 0 Then
 
                     Doc.DecreaseRetention = 0
 
 
                     If Doc.Retention <> 0 Then
-                        If Doc.Retention <= objARRetentionCC.DecreaseRetention Then
-                            objARRetentionCC.DecreaseRetention = objARRetentionCC.DecreaseRetention - Doc.Retention
+                        If Doc.Retention <= CC.DecreaseRetention Then
+                            CC.DecreaseRetention = CC.DecreaseRetention - Doc.Retention
                             Doc.Retention = 0
                         Else
-                            Doc.Retention = Doc.Retention - objARRetentionCC.DecreaseRetention
-                            objARRetentionCC.DecreaseRetention = 0
+                            Doc.Retention = Doc.Retention - CC.DecreaseRetention
+                            CC.DecreaseRetention = 0
                         End If
                     End If
 
-                ElseIf objARRetentionCC.EndingBalanceRetention < 0 Then
+                ElseIf CC.EndingBalanceRetention < 0 Then
 
                     Doc.Retention = 0
 
                     If Doc.DecreaseRetention <> 0 Then
-                        If Doc.DecreaseRetention <= objARRetentionCC.Retention Then
-                            objARRetentionCC.Retention = objARRetentionCC.Retention - Doc.DecreaseRetention
+                        If Doc.DecreaseRetention <= CC.Retention Then
+                            CC.Retention = CC.Retention - Doc.DecreaseRetention
                             Doc.DecreaseRetention = 0
                         Else
-                            Doc.DecreaseRetention = Doc.DecreaseRetention - objARRetentionCC.Retention
-                            objARRetentionCC.Retention = 0
+                            Doc.DecreaseRetention = Doc.DecreaseRetention - CC.Retention
+                            CC.Retention = 0
                         End If
                     End If
 
                 Else
 
-                    Doc.OpeningBalanceRetention = 0
 
                     Doc.Retention = 0
                     Doc.DecreaseRetention = 0
 
                 End If
 
-                Doc.EndingBalanceRetention = Doc.OpeningBalanceRetention + (Doc.Retention - Doc.DecreaseRetention)
+                Doc.EndingBalanceRetention = Doc.Retention - Doc.DecreaseRetention
 
             Next
 
@@ -623,9 +624,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 If _
                     (((ShowAll) And (ShowAR) And (ShowRetention)) And ((Doc.HasARMove) Or (Doc.HasRetentionMove))) _
                     OrElse
-                    (((ShowAll) And (ShowAR) And Not (ShowRetention)) And ((Doc.EndingBalance <> 0) Or (Doc.HasRetentionMove))) _
+                    (((ShowAll) And (ShowAR) And Not (ShowRetention)) And ((Doc.HasARMove))) _
                     OrElse
-                    (((ShowAll) And Not (ShowAR) And (ShowRetention)) And ((Doc.HasARMove) Or (Doc.EndingBalanceRetention <> 0))) _
+                    (((ShowAll) And Not (ShowAR) And (ShowRetention)) And ((Doc.HasRetentionMove))) _
                     OrElse
                     ((Not (ShowAll) And (ShowAR) And Not (ShowRetention)) And (Doc.EndingBalance <> 0)) _
                     OrElse
@@ -1165,8 +1166,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 _Retention = CDec(ARRow("Retention"))
                 _DecreaseRetention = CDec(ARRow("DecreaseRetention"))
 
-                _EndingRetention = CDec(ARRow("EndingRetention"))
-                _EndingDecreaseRetention = CDec(ARRow("EndingDecreaseRetention"))
+                '_EndingRetention = CDec(ARRow("EndingRetention"))
+                '_EndingDecreaseRetention = CDec(ARRow("EndingDecreaseRetention"))
                 _EndingBalanceRetention = CDec(ARRow("EndingBalanceRetention"))
 
             End Sub
@@ -1241,25 +1242,25 @@ Namespace Longkong.Pojjaman.BusinessLogic
                 End Set
             End Property
 
-            Private _EndingRetention As Decimal
-            Public Property EndingRetention As Decimal
-                Get
-                    Return _EndingRetention
-                End Get
-                Set(value As Decimal)
-                    _EndingRetention = value
-                End Set
-            End Property
+            'Private _EndingRetention As Decimal
+            'Public Property EndingRetention As Decimal
+            '    Get
+            '        Return _EndingRetention
+            '    End Get
+            '    Set(value As Decimal)
+            '        _EndingRetention = value
+            '    End Set
+            'End Property
 
-            Private _EndingDecreaseRetention As Decimal
-            Public Property EndingDecreaseRetention As Decimal
-                Get
-                    Return _EndingDecreaseRetention
-                End Get
-                Set(value As Decimal)
-                    _EndingDecreaseRetention = value
-                End Set
-            End Property
+            'Private _EndingDecreaseRetention As Decimal
+            'Public Property EndingDecreaseRetention As Decimal
+            '    Get
+            '        Return _EndingDecreaseRetention
+            '    End Get
+            '    Set(value As Decimal)
+            '        _EndingDecreaseRetention = value
+            '    End Set
+            'End Property
 
             Private _EndingBalanceRetention As Decimal
             Public Property EndingBalanceRetention As Decimal
