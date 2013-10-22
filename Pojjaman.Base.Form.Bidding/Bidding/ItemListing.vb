@@ -12,114 +12,114 @@ Imports Longkong.Core.Properties
 Imports System.IO
 Imports Syncfusion.XlsIO
 Namespace Longkong.Pojjaman.Gui.Panels
-  Public Class ItemListing
-    Inherits AbstractEntityDetailPanelView
-    Implements IValidatable
+    Public Class ItemListing
+        Inherits AbstractEntityDetailPanelView
+        Implements IValidatable
 
 #Region " Windows Form Designer generated code "
-    'UserControl overrides dispose to clean up the component list.
-    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-      If disposing Then
-        If Not (components Is Nothing) Then
-          components.Dispose()
-        End If
-      End If
-      MyBase.Dispose(disposing)
-    End Sub
+        'UserControl overrides dispose to clean up the component list.
+        Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+            If disposing Then
+                If Not (components Is Nothing) Then
+                    components.Dispose()
+                End If
+            End If
+            MyBase.Dispose(disposing)
+        End Sub
 
-    'Required by the Windows Form Designer
-    Private components As System.ComponentModel.IContainer
+        'Required by the Windows Form Designer
+        Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
-    Friend WithEvents grbPrice As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents lblBaht As System.Windows.Forms.Label
-    Friend WithEvents lblBaht1 As System.Windows.Forms.Label
-    Friend WithEvents lblMat As System.Windows.Forms.Label
-    Friend WithEvents lblLabor As System.Windows.Forms.Label
-    Friend WithEvents lblTotal As System.Windows.Forms.Label
-    Friend WithEvents lblWorkBreakdown As System.Windows.Forms.Label
-    Friend WithEvents grbUnitPrice As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents lblBaht2 As System.Windows.Forms.Label
-    Friend WithEvents grbSupplier As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents lblEquip As System.Windows.Forms.Label
-    Friend WithEvents grbEquip As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents grbLabor As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents lblBOQCode As System.Windows.Forms.Label
-    Friend WithEvents txtBOQCode As System.Windows.Forms.TextBox
-    Friend WithEvents txtProjectName As System.Windows.Forms.TextBox
-    Friend WithEvents lblProject As System.Windows.Forms.Label
-    Friend WithEvents txtProjectCode As System.Windows.Forms.TextBox
-    Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents lblItemQTY As System.Windows.Forms.Label
-    Friend WithEvents txtItemQty As System.Windows.Forms.TextBox
-    Friend WithEvents ibtnShowUnit As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibtnShowUnitDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents txtItemUnitName As System.Windows.Forms.TextBox
-    Friend WithEvents lblItemUnit As System.Windows.Forms.Label
-    Friend WithEvents txtItemUnitCode As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemDescription As System.Windows.Forms.TextBox
-    Friend WithEvents lblItemDes As System.Windows.Forms.Label
-    Friend WithEvents txtItemNote As System.Windows.Forms.TextBox
-    Friend WithEvents lblItemNote As System.Windows.Forms.Label
-    Friend WithEvents txtItemName As System.Windows.Forms.TextBox
-    Friend WithEvents lblItemCode As System.Windows.Forms.Label
-    Friend WithEvents txtItemCode As System.Windows.Forms.TextBox
-    Friend WithEvents lblItemTotalPrice As System.Windows.Forms.Label
-    Friend WithEvents lblItemUnitPrice As System.Windows.Forms.Label
-    Friend WithEvents txtItemMatUnitPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemTotalLaborPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemTotalUnitPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemTotalPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemTotalEqPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemTotalMatPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemEqUnitPrice As System.Windows.Forms.TextBox
-    Friend WithEvents txtItemLaborUnitPrice As System.Windows.Forms.TextBox
-    Friend WithEvents btnShowLCI As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibnShowLCIDialog As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents tpItemDetail As System.Windows.Forms.TabPage
-    Friend WithEvents lblCurrentPrice As System.Windows.Forms.Label
-    Friend WithEvents txtCurrentPrice As System.Windows.Forms.TextBox
-    Friend WithEvents btnApplyLCIUnitPrice As System.Windows.Forms.Button
-    Friend WithEvents tgLCIUnitPrice As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents tgLCISupplier As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents btnSupplierDetail As System.Windows.Forms.Button
-    Friend WithEvents tgLCIEqCost As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents btnApplyEqCost As System.Windows.Forms.Button
-    Friend WithEvents btnApplyLaborUnitPrice As System.Windows.Forms.Button
-    Friend WithEvents tgLCILabor As Longkong.Pojjaman.Gui.Components.TreeGrid
-    Friend WithEvents tbDetail As System.Windows.Forms.TabControl
-    Friend WithEvents tpUnitPrice As System.Windows.Forms.TabPage
-    Friend WithEvents tpLaborEq As System.Windows.Forms.TabPage
-    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
-    Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
-    Friend WithEvents grbBOQType As Longkong.Pojjaman.Gui.Components.FixedGroupBox
-    Friend WithEvents chkMat As System.Windows.Forms.CheckBox
-    Friend WithEvents chkLabor As System.Windows.Forms.CheckBox
-    Friend WithEvents chkEquip As System.Windows.Forms.CheckBox
-    Friend WithEvents cmbEntityType As System.Windows.Forms.ComboBox
-    Friend WithEvents lblEntityType As System.Windows.Forms.Label
-    Friend WithEvents lblCurrentLabor As System.Windows.Forms.Label
-    Friend WithEvents txtCurrentLabor As System.Windows.Forms.TextBox
-    Friend WithEvents lblCurrentLaborUnit As System.Windows.Forms.Label
-    Friend WithEvents lblCurrentEq As System.Windows.Forms.Label
-    Friend WithEvents txtCurrentEq As System.Windows.Forms.TextBox
-    Friend WithEvents lblCurrenEqUnit As System.Windows.Forms.Label
-    Friend WithEvents ibtnZoomChart As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents grbSummarize As System.Windows.Forms.GroupBox
-    Friend WithEvents lblLevel As System.Windows.Forms.Label
-    Friend WithEvents ibtnZoomOut As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents ibtnZoomIn As Longkong.Pojjaman.Gui.Components.ImageButton
-    Friend WithEvents lblMonth As System.Windows.Forms.Label
-    Friend WithEvents lblMonthPeriod As System.Windows.Forms.Label
-    Friend WithEvents txtMonthPeriod As System.Windows.Forms.NumericUpDown
-    Friend WithEvents btnLockBoq As System.Windows.Forms.Button
-    Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
-    <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
+        'NOTE: The following procedure is required by the Windows Form Designer
+        'It can be modified using the Windows Form Designer.  
+        'Do not modify it using the code editor.
+        Friend WithEvents grbPrice As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents lblBaht As System.Windows.Forms.Label
+        Friend WithEvents lblBaht1 As System.Windows.Forms.Label
+        Friend WithEvents lblMat As System.Windows.Forms.Label
+        Friend WithEvents lblLabor As System.Windows.Forms.Label
+        Friend WithEvents lblTotal As System.Windows.Forms.Label
+        Friend WithEvents lblWorkBreakdown As System.Windows.Forms.Label
+        Friend WithEvents grbUnitPrice As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents lblBaht2 As System.Windows.Forms.Label
+        Friend WithEvents grbSupplier As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents lblEquip As System.Windows.Forms.Label
+        Friend WithEvents grbEquip As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents grbLabor As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents lblBOQCode As System.Windows.Forms.Label
+        Friend WithEvents txtBOQCode As System.Windows.Forms.TextBox
+        Friend WithEvents txtProjectName As System.Windows.Forms.TextBox
+        Friend WithEvents lblProject As System.Windows.Forms.Label
+        Friend WithEvents txtProjectCode As System.Windows.Forms.TextBox
+        Friend WithEvents tgItem As Longkong.Pojjaman.Gui.Components.TreeGrid
+        Friend WithEvents ibtnBlank As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents ibtnDelRow As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents lblItemQTY As System.Windows.Forms.Label
+        Friend WithEvents txtItemQty As System.Windows.Forms.TextBox
+        Friend WithEvents ibtnShowUnit As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents ibtnShowUnitDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents txtItemUnitName As System.Windows.Forms.TextBox
+        Friend WithEvents lblItemUnit As System.Windows.Forms.Label
+        Friend WithEvents txtItemUnitCode As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemDescription As System.Windows.Forms.TextBox
+        Friend WithEvents lblItemDes As System.Windows.Forms.Label
+        Friend WithEvents txtItemNote As System.Windows.Forms.TextBox
+        Friend WithEvents lblItemNote As System.Windows.Forms.Label
+        Friend WithEvents txtItemName As System.Windows.Forms.TextBox
+        Friend WithEvents lblItemCode As System.Windows.Forms.Label
+        Friend WithEvents txtItemCode As System.Windows.Forms.TextBox
+        Friend WithEvents lblItemTotalPrice As System.Windows.Forms.Label
+        Friend WithEvents lblItemUnitPrice As System.Windows.Forms.Label
+        Friend WithEvents txtItemMatUnitPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemTotalLaborPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemTotalUnitPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemTotalPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemTotalEqPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemTotalMatPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemEqUnitPrice As System.Windows.Forms.TextBox
+        Friend WithEvents txtItemLaborUnitPrice As System.Windows.Forms.TextBox
+        Friend WithEvents btnShowLCI As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents ibnShowLCIDialog As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents tpItemDetail As System.Windows.Forms.TabPage
+        Friend WithEvents lblCurrentPrice As System.Windows.Forms.Label
+        Friend WithEvents txtCurrentPrice As System.Windows.Forms.TextBox
+        Friend WithEvents btnApplyLCIUnitPrice As System.Windows.Forms.Button
+        Friend WithEvents tgLCIUnitPrice As Longkong.Pojjaman.Gui.Components.TreeGrid
+        Friend WithEvents tgLCISupplier As Longkong.Pojjaman.Gui.Components.TreeGrid
+        Friend WithEvents btnSupplierDetail As System.Windows.Forms.Button
+        Friend WithEvents tgLCIEqCost As Longkong.Pojjaman.Gui.Components.TreeGrid
+        Friend WithEvents btnApplyEqCost As System.Windows.Forms.Button
+        Friend WithEvents btnApplyLaborUnitPrice As System.Windows.Forms.Button
+        Friend WithEvents tgLCILabor As Longkong.Pojjaman.Gui.Components.TreeGrid
+        Friend WithEvents tbDetail As System.Windows.Forms.TabControl
+        Friend WithEvents tpUnitPrice As System.Windows.Forms.TabPage
+        Friend WithEvents tpLaborEq As System.Windows.Forms.TabPage
+        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Friend WithEvents ErrorProvider1 As System.Windows.Forms.ErrorProvider
+        Friend WithEvents Validator As Longkong.Pojjaman.Gui.Components.PJMTextboxValidator
+        Friend WithEvents grbBOQType As Longkong.Pojjaman.Gui.Components.FixedGroupBox
+        Friend WithEvents chkMat As System.Windows.Forms.CheckBox
+        Friend WithEvents chkLabor As System.Windows.Forms.CheckBox
+        Friend WithEvents chkEquip As System.Windows.Forms.CheckBox
+        Friend WithEvents cmbEntityType As System.Windows.Forms.ComboBox
+        Friend WithEvents lblEntityType As System.Windows.Forms.Label
+        Friend WithEvents lblCurrentLabor As System.Windows.Forms.Label
+        Friend WithEvents txtCurrentLabor As System.Windows.Forms.TextBox
+        Friend WithEvents lblCurrentLaborUnit As System.Windows.Forms.Label
+        Friend WithEvents lblCurrentEq As System.Windows.Forms.Label
+        Friend WithEvents txtCurrentEq As System.Windows.Forms.TextBox
+        Friend WithEvents lblCurrenEqUnit As System.Windows.Forms.Label
+        Friend WithEvents ibtnZoomChart As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents grbSummarize As System.Windows.Forms.GroupBox
+        Friend WithEvents lblLevel As System.Windows.Forms.Label
+        Friend WithEvents ibtnZoomOut As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents ibtnZoomIn As Longkong.Pojjaman.Gui.Components.ImageButton
+        Friend WithEvents lblMonth As System.Windows.Forms.Label
+        Friend WithEvents lblMonthPeriod As System.Windows.Forms.Label
+        Friend WithEvents txtMonthPeriod As System.Windows.Forms.NumericUpDown
+        Friend WithEvents btnLockBoq As System.Windows.Forms.Button
+        Friend WithEvents ibtnSaveAsExcel As Longkong.Pojjaman.Gui.Components.ImageButton
+        <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ItemListing))
             Me.lblItemQTY = New System.Windows.Forms.Label()
@@ -1417,2955 +1417,2965 @@ Namespace Longkong.Pojjaman.Gui.Panels
 #End Region
 
 #Region "Members"
-    Private m_entity As BOQ
-    Private m_isInitialized As Boolean = False
-    Private m_treeManager As TreeManager
-    Private m_oldRow As TreeRow = Nothing
-    Private m_wbs As WBS
-    Private m_item As BoqItem
+        Private m_entity As BOQ
+        Private m_isInitialized As Boolean = False
+        Private m_treeManager As TreeManager
+        Private m_oldRow As TreeRow = Nothing
+        Private m_wbs As WBS
+        Private m_item As BoqItem
 
-    Private m_tableInitialized As Boolean
+        Private m_tableInitialized As Boolean
 
-    Private m_bestPriceManager As TreeManager
-    Private m_selectedPrice As Object
+        Private m_bestPriceManager As TreeManager
+        Private m_selectedPrice As Object
 
-    Private m_supplierManager As TreeManager
-    Private m_selectedSupplier As Object
+        Private m_supplierManager As TreeManager
+        Private m_selectedSupplier As Object
 
-    Private m_eqCostManager As TreeManager
-    Private m_selectedEqCost As Object
+        Private m_eqCostManager As TreeManager
+        Private m_selectedEqCost As Object
 
-    Private m_laborCostManager As TreeManager
-    Private m_seletedLaborCost As Object
+        Private m_laborCostManager As TreeManager
+        Private m_seletedLaborCost As Object
 #End Region
 
 #Region "Constructors"
-    Private Sub Unwire()
-      Dim dt As TreeTable = m_treeManager.TreeTable
-      RemoveHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
-      RemoveHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
-      RemoveHandler dt.RowDeleted, AddressOf ItemDelete
-      RemoveHandler dt.RowExpandStateChanged, AddressOf RowExpandCollapseHandler
-    End Sub
-    Private Sub Wire()
-      Dim dt As TreeTable = m_treeManager.TreeTable
-      AddHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
-      AddHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
-      AddHandler dt.RowDeleted, AddressOf ItemDelete
-      AddHandler dt.RowExpandStateChanged, AddressOf RowExpandCollapseHandler
-      Me.Validator.DataTable = dt
-    End Sub
-    Private Sub RowExpandCollapseHandler(ByVal e As RowExpandCollapseEventArgs)
-      If TypeOf e.Row.Tag Is WBS Then
-        CType(e.Row.Tag, WBS).State = e.Row.State
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      ElseIf TypeOf e.Row.Tag Is Integer Then
-        Me.m_entity.SetState(CInt(e.Row.Tag), e.Row.State)
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
-    End Sub
-    Public Sub New()
-      MyBase.New()
-      Me.InitializeComponent()
-      Me.SetLabelText()
-      Initialize()
+        Private Sub Unwire()
+            Dim dt As TreeTable = m_treeManager.TreeTable
+            RemoveHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
+            RemoveHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
+            RemoveHandler dt.RowDeleted, AddressOf ItemDelete
+            RemoveHandler dt.RowExpandStateChanged, AddressOf RowExpandCollapseHandler
+        End Sub
+        Private Sub Wire()
+            Dim dt As TreeTable = m_treeManager.TreeTable
+            AddHandler dt.ColumnChanging, AddressOf Treetable_ColumnChanging
+            AddHandler dt.ColumnChanged, AddressOf Treetable_ColumnChanged
+            AddHandler dt.RowDeleted, AddressOf ItemDelete
+            AddHandler dt.RowExpandStateChanged, AddressOf RowExpandCollapseHandler
+            Me.Validator.DataTable = dt
+        End Sub
+        Private Sub RowExpandCollapseHandler(ByVal e As RowExpandCollapseEventArgs)
+            If TypeOf e.Row.Tag Is WBS Then
+                CType(e.Row.Tag, WBS).State = e.Row.State
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+            ElseIf TypeOf e.Row.Tag Is Integer Then
+                Me.m_entity.SetState(CInt(e.Row.Tag), e.Row.State)
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+        End Sub
+        Public Sub New()
+            MyBase.New()
+            Me.InitializeComponent()
+            Me.SetLabelText()
+            Initialize()
 
-      Dim dt As TreeTable = BOQ.GetSchemaTable()
-      m_treeManager = New TreeManager(dt, tgItem)
-      m_treeManager.AllowSorting = False
-      m_treeManager.AllowDelete = False
+            Dim dt As TreeTable = BOQ.GetSchemaTable()
+            m_treeManager = New TreeManager(dt, tgItem)
+            m_treeManager.AllowSorting = False
+            m_treeManager.AllowDelete = False
 
-      Wire()
+            Wire()
 
-      Dim bp As TreeTable = LCIItem.GetBestPriceSchema
-      m_bestPriceManager = New TreeManager(bp, Me.tgLCIUnitPrice)
-      m_bestPriceManager.AllowSorting = False
-      m_bestPriceManager.AllowDelete = False
+            Dim bp As TreeTable = LCIItem.GetBestPriceSchema
+            m_bestPriceManager = New TreeManager(bp, Me.tgLCIUnitPrice)
+            m_bestPriceManager.AllowSorting = False
+            m_bestPriceManager.AllowDelete = False
 
-      Dim spt As TreeTable = LCISupplierCostLink.GetSchemaTable
-      m_supplierManager = New TreeManager(spt, Me.tgLCISupplier)
-      m_supplierManager.AllowDelete = False
-      m_supplierManager.AllowSorting = False
+            Dim spt As TreeTable = LCISupplierCostLink.GetSchemaTable
+            m_supplierManager = New TreeManager(spt, Me.tgLCISupplier)
+            m_supplierManager.AllowDelete = False
+            m_supplierManager.AllowSorting = False
 
-      Dim eqt As TreeTable = LCIEquipmentCostLink.GetSchemaTable
-      m_eqCostManager = New TreeManager(eqt, Me.tgLCIEqCost)
-      m_eqCostManager.AllowDelete = False
-      m_eqCostManager.AllowSorting = False
+            Dim eqt As TreeTable = LCIEquipmentCostLink.GetSchemaTable
+            m_eqCostManager = New TreeManager(eqt, Me.tgLCIEqCost)
+            m_eqCostManager.AllowDelete = False
+            m_eqCostManager.AllowSorting = False
 
-      Dim lbt As TreeTable = LCILaborCostLink.GetSchemaTable
-      m_laborCostManager = New TreeManager(lbt, Me.tgLCILabor)
-      m_laborCostManager.AllowDelete = False
-      m_laborCostManager.AllowSorting = False
+            Dim lbt As TreeTable = LCILaborCostLink.GetSchemaTable
+            m_laborCostManager = New TreeManager(lbt, Me.tgLCILabor)
+            m_laborCostManager.AllowDelete = False
+            m_laborCostManager.AllowSorting = False
 
-      EventWiring()
-      ibtnZoomChart.PerformClick()
-    End Sub
+            EventWiring()
+            ibtnZoomChart.PerformClick()
+        End Sub
 #End Region
 
 #Region "Style"
-    Private Function CreateLaborCostStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "LaborCost"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+        Private Function CreateLaborCostStyle() As DataGridTableStyle
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "LaborCost"
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      Dim csName As New TreeTextColumn
-      csName.MappingName = "Name"
-      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatLabDetail.NameHeaderText}")
-      csName.NullText = ""
-      csName.Width = 180
-      csName.TextBox.Name = "Name"
-      'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
-      csName.ReadOnly = True
+            Dim csName As New TreeTextColumn
+            csName.MappingName = "Name"
+            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatLabDetail.NameHeaderText}")
+            csName.NullText = ""
+            csName.Width = 180
+            csName.TextBox.Name = "Name"
+            'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
+            csName.ReadOnly = True
 
-      Dim csCost As New TreeTextColumn(1, False)
-      csCost.MappingName = "Cost"
-      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatLabDetail.CostHeaderText}")
-      csCost.NullText = ""
-      csCost.DataAlignment = HorizontalAlignment.Right
-      csCost.Format = "#,###.##"
-      csCost.TextBox.Name = "Cost"
-      csCost.ReadOnly = True
-      AddHandler csCost.CheckCellHilighted, AddressOf SetLaborHilightValues
+            Dim csCost As New TreeTextColumn(1, False)
+            csCost.MappingName = "Cost"
+            csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatLabDetail.CostHeaderText}")
+            csCost.NullText = ""
+            csCost.DataAlignment = HorizontalAlignment.Right
+            csCost.Format = "#,###.##"
+            csCost.TextBox.Name = "Cost"
+            csCost.ReadOnly = True
+            AddHandler csCost.CheckCellHilighted, AddressOf SetLaborHilightValues
 
-      dst.GridColumnStyles.Add(csName)
-      dst.GridColumnStyles.Add(csCost)
+            dst.GridColumnStyles.Add(csName)
+            dst.GridColumnStyles.Add(csCost)
 
-      Return dst
-    End Function
-    Public Sub SetLaborHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
-      e.HilightValue = False
-      If m_item Is Nothing Then
-        Return
-      End If
-      Dim i As Integer = 0
-      For Each row As DataRow In Me.m_laborCostManager.Treetable.Rows
-        If Not row.IsNull("Cost") AndAlso IsNumeric(row("Cost")) Then
-          If m_item.ULC = CDec(row("Cost")) Then
-            If e.Column = 1 And e.Row = i Then
-              e.HilightValue = True
+            Return dst
+        End Function
+        Public Sub SetLaborHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
+            e.HilightValue = False
+            If m_item Is Nothing Then
+                Return
             End If
-          End If
-        End If
-        i += 1
-      Next
-    End Sub
-    Private Function CreateEqCostStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "EquipmentCost"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-
-      Dim csName As New TreeTextColumn
-      csName.MappingName = "Name"
-      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail.NameHeaderText}")
-      csName.NullText = ""
-      csName.Width = 180
-      csName.TextBox.Name = "Name"
-      'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
-      csName.ReadOnly = True
-
-      Dim csCost As New TreeTextColumn(1, False)
-      csCost.MappingName = "Cost"
-      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail.CostHeaderText}")
-      csCost.NullText = ""
-      csCost.DataAlignment = HorizontalAlignment.Right
-      csCost.Format = "#,###.##"
-      csCost.TextBox.Name = "Cost"
-      csCost.ReadOnly = True
-      AddHandler csCost.CheckCellHilighted, AddressOf SetEqHilightValues
-
-      dst.GridColumnStyles.Add(csName)
-      dst.GridColumnStyles.Add(csCost)
-
-      Return dst
-    End Function
-    Public Sub SetEqHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
-      e.HilightValue = False
-      If m_item Is Nothing Then
-        Return
-      End If
-      Dim i As Integer = 0
-      For Each row As DataRow In Me.m_eqCostManager.Treetable.Rows
-        If Not row.IsNull("Cost") AndAlso IsNumeric(row("Cost")) Then
-          If m_item.UEC = CDec(row("Cost")) Then
-            If e.Column = 1 And e.Row = i Then
-              e.HilightValue = True
-            End If
-          End If
-        End If
-        i += 1
-      Next
-    End Sub
-    Private Function CreateSupplierStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "SupplierCost"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-
-      Dim csName As New TreeTextColumn
-      csName.MappingName = "Name"
-      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatSupDetail.NameHeaderText}")
-      csName.NullText = ""
-      csName.Width = 180
-      csName.TextBox.Name = "Name"
-      'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
-      csName.ReadOnly = True
-
-      Dim csPhone As New TreeTextColumn
-      csPhone.MappingName = "Phone"
-      csPhone.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatSupDetail.PhoneHeaderText}")
-      csPhone.NullText = ""
-      csPhone.Width = 80
-      csPhone.TextBox.Name = "Phone"
-      'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
-      csPhone.ReadOnly = True
-
-      Dim csCost As New TreeTextColumn
-      csCost.MappingName = "lcis_cost"
-      csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatSupDetail.CostHeaderText}")
-      csCost.NullText = ""
-      csCost.DataAlignment = HorizontalAlignment.Right
-      csCost.Format = "#,###.##"
-      csCost.TextBox.Name = "lcis_cost"
-      csCost.ReadOnly = True
-
-      dst.GridColumnStyles.Add(csName)
-      dst.GridColumnStyles.Add(csPhone)
-      dst.GridColumnStyles.Add(csCost)
-      Return dst
-    End Function
-    Private Function CreateBestPriceStyle() As DataGridTableStyle
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "BestPrice"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
-
-
-      Dim csType As New TreeTextColumn
-      csType.MappingName = "Type"
-      csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.TypeHeaderText}")
-      csType.NullText = ""
-      csType.ReadOnly = True
-
-      Dim csAVG As New TreeTextColumn(1, False)
-      csAVG.MappingName = "AVG"
-      csAVG.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.AVGHeaderText}")
-      csAVG.NullText = ""
-      csAVG.DataAlignment = HorizontalAlignment.Right
-      csAVG.Format = "#,###.##"
-      csAVG.ReadOnly = True
-      AddHandler csAVG.CheckCellHilighted, AddressOf SetHilightValues
-
-      Dim csMax As New TreeTextColumn(2, False)
-      csMax.MappingName = "Max"
-      csMax.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.MaxHeaderText}")
-      csMax.NullText = ""
-      csMax.DataAlignment = HorizontalAlignment.Right
-      csMax.Format = "#,###.##"
-      csMax.ReadOnly = True
-      AddHandler csMax.CheckCellHilighted, AddressOf SetHilightValues
-
-      Dim csMin As New TreeTextColumn(3, False)
-      csMin.MappingName = "Min"
-      csMin.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.MinHeaderText}")
-      csMin.NullText = ""
-      csMin.DataAlignment = HorizontalAlignment.Right
-      csMin.Format = "#,###.##"
-      csMin.ReadOnly = True
-      AddHandler csMin.CheckCellHilighted, AddressOf SetHilightValues
-
-      dst.GridColumnStyles.Add(csType)
-      dst.GridColumnStyles.Add(csAVG)
-      dst.GridColumnStyles.Add(csMax)
-      dst.GridColumnStyles.Add(csMin)
-
-      Return dst
-    End Function
-    Public Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
-      e.HilightValue = False
-      If m_item Is Nothing Then
-        Return
-      End If
-      Dim i As Integer = 0
-      For Each row As DataRow In Me.m_bestPriceManager.Treetable.Rows
-        For Each col As DataColumn In Me.m_bestPriceManager.Treetable.Columns
-          If col.Ordinal > 0 Then
-            If Not row.IsNull(col) AndAlso IsNumeric(row(col)) Then
-              If m_item.UMC = CDec(row(col)) Then
-                If e.Column = col.Ordinal And e.Row = i Then
-                  e.HilightValue = True
+            Dim i As Integer = 0
+            For Each row As DataRow In Me.m_laborCostManager.Treetable.Rows
+                If Not row.IsNull("Cost") AndAlso IsNumeric(row("Cost")) Then
+                    If m_item.ULC = CDec(row("Cost")) Then
+                        If e.Column = 1 And e.Row = i Then
+                            e.HilightValue = True
+                        End If
+                    End If
                 End If
-              End If
+                i += 1
+            Next
+        End Sub
+        Private Function CreateEqCostStyle() As DataGridTableStyle
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "EquipmentCost"
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+
+            Dim csName As New TreeTextColumn
+            csName.MappingName = "Name"
+            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail.NameHeaderText}")
+            csName.NullText = ""
+            csName.Width = 180
+            csName.TextBox.Name = "Name"
+            'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
+            csName.ReadOnly = True
+
+            Dim csCost As New TreeTextColumn(1, False)
+            csCost.MappingName = "Cost"
+            csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatEquipmentDetail.CostHeaderText}")
+            csCost.NullText = ""
+            csCost.DataAlignment = HorizontalAlignment.Right
+            csCost.Format = "#,###.##"
+            csCost.TextBox.Name = "Cost"
+            csCost.ReadOnly = True
+            AddHandler csCost.CheckCellHilighted, AddressOf SetEqHilightValues
+
+            dst.GridColumnStyles.Add(csName)
+            dst.GridColumnStyles.Add(csCost)
+
+            Return dst
+        End Function
+        Public Sub SetEqHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
+            e.HilightValue = False
+            If m_item Is Nothing Then
+                Return
             End If
-          End If
-        Next
-        i += 1
-      Next
-    End Sub
-    Private Function GetExcludeString() As String
-      If m_entity Is Nothing Then
-        Return ""
-      End If
-      Dim ret As New ArrayList
-      If Not m_entity.HasMaterialCost Then
-        ret.Add("42")
-      End If
-      If Not m_entity.HasLaborCost Then
-        ret.Add("18")
-      End If
-      If Not m_entity.HasEquipmentCost Then
-        ret.Add("20")
-      End If
-      If ret.Count = 0 Then
-        Return ""
-      End If
-      Dim retStr As String = ""
-      For Each id As String In ret
-        retStr &= id & ","
-      Next
-      If retStr.EndsWith(",") Then
-        retStr = retStr.Substring(0, retStr.Length - 1)
-      End If
-      Return retStr
-    End Function
-    Public Function CreateTableStyle() As DataGridTableStyle
-      Dim includeQtyPerWBS As Boolean = False
-      Dim icq As Object = Configuration.GetConfig("includeQtyPerWBS")
-      If Not IsDBNull(icq) AndAlso Not icq Is Nothing Then
-        includeQtyPerWBS = CBool(icq)
-      End If
-      Dim dst As New DataGridTableStyle
-      dst.MappingName = "BOQ"
-      Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
+            Dim i As Integer = 0
+            For Each row As DataRow In Me.m_eqCostManager.Treetable.Rows
+                If Not row.IsNull("Cost") AndAlso IsNumeric(row("Cost")) Then
+                    If m_item.UEC = CDec(row("Cost")) Then
+                        If e.Column = 1 And e.Row = i Then
+                            e.HilightValue = True
+                        End If
+                    End If
+                End If
+                i += 1
+            Next
+        End Sub
+        Private Function CreateSupplierStyle() As DataGridTableStyle
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "SupplierCost"
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      Dim csLineNumber As New TreeTextColumn
-      csLineNumber.MappingName = "boqi_linenumber"
-      csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
-      csLineNumber.NullText = ""
-      csLineNumber.Width = 30
-      csLineNumber.DataAlignment = HorizontalAlignment.Center
-      csLineNumber.ReadOnly = True
-      csLineNumber.TextBox.Name = "boqi_linenumber"
+            Dim csName As New TreeTextColumn
+            csName.MappingName = "Name"
+            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatSupDetail.NameHeaderText}")
+            csName.NullText = ""
+            csName.Width = 180
+            csName.TextBox.Name = "Name"
+            'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
+            csName.ReadOnly = True
+
+            Dim csPhone As New TreeTextColumn
+            csPhone.MappingName = "Phone"
+            csPhone.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatSupDetail.PhoneHeaderText}")
+            csPhone.NullText = ""
+            csPhone.Width = 80
+            csPhone.TextBox.Name = "Phone"
+            'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
+            csPhone.ReadOnly = True
+
+            Dim csCost As New TreeTextColumn
+            csCost.MappingName = "lcis_cost"
+            csCost.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.MatSupDetail.CostHeaderText}")
+            csCost.NullText = ""
+            csCost.DataAlignment = HorizontalAlignment.Right
+            csCost.Format = "#,###.##"
+            csCost.TextBox.Name = "lcis_cost"
+            csCost.ReadOnly = True
+
+            dst.GridColumnStyles.Add(csName)
+            dst.GridColumnStyles.Add(csPhone)
+            dst.GridColumnStyles.Add(csCost)
+            Return dst
+        End Function
+        Private Function CreateBestPriceStyle() As DataGridTableStyle
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "BestPrice"
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
 
-      Dim csType As DataGridComboColumn
-      Dim excludeString As String = GetExcludeString()
-      If excludeString.Length > 0 Then
-        csType = New DataGridComboColumn("boqi_entityType" _
-        , CodeDescription.GetCodeList("boqi_entityType" _
-        , "code_value not in (" & excludeString & ")") _
-        , "code_description", "code_value")
-        csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TypeHeaderText}")
-        csType.NullText = String.Empty
-      Else
-        csType = New DataGridComboColumn("boqi_entityType" _
-        , CodeDescription.GetCodeList("boqi_entityType") _
-        , "code_description", "code_value")
-        csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TypeHeaderText}")
-        csType.NullText = String.Empty
-      End If
-      csType.Width = 55
+            Dim csType As New TreeTextColumn
+            csType.MappingName = "Type"
+            csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.TypeHeaderText}")
+            csType.NullText = ""
+            csType.ReadOnly = True
 
-      Dim csCode As New TreeTextColumn
-      csCode.MappingName = "Code"
-      csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CodeHeaderText}")
-      csCode.NullText = ""
-      'csCode.ReadOnly = True
-      csCode.TextBox.Name = "Code"
-      csCode.Width = 90
+            Dim csAVG As New TreeTextColumn(1, False)
+            csAVG.MappingName = "AVG"
+            csAVG.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.AVGHeaderText}")
+            csAVG.NullText = ""
+            csAVG.DataAlignment = HorizontalAlignment.Right
+            csAVG.Format = "#,###.##"
+            csAVG.ReadOnly = True
+            AddHandler csAVG.CheckCellHilighted, AddressOf SetHilightValues
 
-      Dim csButton As New DataGridButtonColumn
-      csButton.MappingName = "Button"
-      csButton.HeaderText = ""
-      csButton.NullText = ""
+            Dim csMax As New TreeTextColumn(2, False)
+            csMax.MappingName = "Max"
+            csMax.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.MaxHeaderText}")
+            csMax.NullText = ""
+            csMax.DataAlignment = HorizontalAlignment.Right
+            csMax.Format = "#,###.##"
+            csMax.ReadOnly = True
+            AddHandler csMax.CheckCellHilighted, AddressOf SetHilightValues
 
-      Dim csName As New PlusMinusTreeTextColumn
-      csName.MappingName = "boqi_itemName"
-      csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
-      csName.NullText = ""
-      csName.Width = 360
-      csName.TextBox.Name = "Description"
-      'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
-      'csDescription.ReadOnly = True
+            Dim csMin As New TreeTextColumn(3, False)
+            csMin.MappingName = "Min"
+            csMin.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.BestPrice.MinHeaderText}")
+            csMin.NullText = ""
+            csMin.DataAlignment = HorizontalAlignment.Right
+            csMin.Format = "#,###.##"
+            csMin.ReadOnly = True
+            AddHandler csMin.CheckCellHilighted, AddressOf SetHilightValues
 
-      Dim csUnit As New TreeTextColumn
-      csUnit.MappingName = "Unit"
-      csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UnitHeaderText}")
-      csUnit.NullText = ""
-      csUnit.TextBox.Name = "Unit"
-      'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
-      'csUnit.DataAlignment = HorizontalAlignment.Center
-      csUnit.Width = 50
+            dst.GridColumnStyles.Add(csType)
+            dst.GridColumnStyles.Add(csAVG)
+            dst.GridColumnStyles.Add(csMax)
+            dst.GridColumnStyles.Add(csMin)
 
-      Dim csUnitButton As New DataGridButtonColumn
-      csUnitButton.MappingName = "UnitButton"
-      csUnitButton.HeaderText = ""
-      csUnitButton.NullText = ""
-      AddHandler csUnitButton.Click, AddressOf ButtonClick
+            Return dst
+        End Function
+        Public Sub SetHilightValues(ByVal sender As Object, ByVal e As DataGridHilightEventArgs)
+            e.HilightValue = False
+            If m_item Is Nothing Then
+                Return
+            End If
+            Dim i As Integer = 0
+            For Each row As DataRow In Me.m_bestPriceManager.Treetable.Rows
+                For Each col As DataColumn In Me.m_bestPriceManager.Treetable.Columns
+                    If col.Ordinal > 0 Then
+                        If Not row.IsNull(col) AndAlso IsNumeric(row(col)) Then
+                            If m_item.UMC = CDec(row(col)) Then
+                                If e.Column = col.Ordinal And e.Row = i Then
+                                    e.HilightValue = True
+                                End If
+                            End If
+                        End If
+                    End If
+                Next
+                i += 1
+            Next
+        End Sub
+        Private Function GetExcludeString() As String
+            If m_entity Is Nothing Then
+                Return ""
+            End If
+            Dim ret As New ArrayList
+            If Not m_entity.HasMaterialCost Then
+                ret.Add("42")
+            End If
+            If Not m_entity.HasLaborCost Then
+                ret.Add("18")
+            End If
+            If Not m_entity.HasEquipmentCost Then
+                ret.Add("20")
+            End If
+            If ret.Count = 0 Then
+                Return ""
+            End If
+            Dim retStr As String = ""
+            For Each id As String In ret
+                retStr &= id & ","
+            Next
+            If retStr.EndsWith(",") Then
+                retStr = retStr.Substring(0, retStr.Length - 1)
+            End If
+            Return retStr
+        End Function
+        Public Function CreateTableStyle() As DataGridTableStyle
+            Dim includeQtyPerWBS As Boolean = False
+            Dim icq As Object = Configuration.GetConfig("includeQtyPerWBS")
+            If Not IsDBNull(icq) AndAlso Not icq Is Nothing Then
+                includeQtyPerWBS = CBool(icq)
+            End If
+            Dim dst As New DataGridTableStyle
+            dst.MappingName = "BOQ"
+            Dim myStringParserService As StringParserService = CType(ServiceManager.Services.GetService(GetType(StringParserService)), StringParserService)
 
-      Dim csQty As New TreeTextColumn
-      csQty.MappingName = "boqi_qty"
-      csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.QtyHeaderText}")
-      csQty.NullText = ""
-      csQty.DataAlignment = HorizontalAlignment.Right
-      csQty.Format = "#,###.##"
-      csQty.TextBox.Name = "Qty"
-      csQty.Width = 55
-      csQty.ReadOnly = includeQtyPerWBS
+            Dim csLineNumber As New TreeTextColumn
+            csLineNumber.MappingName = "boqi_linenumber"
+            csLineNumber.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LineNumberHeaderText}")
+            csLineNumber.NullText = ""
+            csLineNumber.Width = 30
+            csLineNumber.DataAlignment = HorizontalAlignment.Center
+            csLineNumber.ReadOnly = True
+            csLineNumber.TextBox.Name = "boqi_linenumber"
 
-      Dim csMCBS As New TreeTextColumn
-      csMCBS.MappingName = "boqi_mcbs"
-      csMCBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.MatCbs}")
-      csMCBS.NullText = ""
-      csMCBS.DataAlignment = HorizontalAlignment.Center
-      csMCBS.TextBox.Name = "boqi_mcbs"
-      csMCBS.Width = 0
 
-      Dim csUMC As New TreeTextColumn
-      csUMC.MappingName = "boqi_umc"
-      csUMC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UMCHeaderText}")
-      csUMC.NullText = ""
-      csUMC.DataAlignment = HorizontalAlignment.Right
-      csUMC.Format = "#,###.##"
-      csUMC.TextBox.Name = "boqi_umc"
-      csUMC.ReadOnly = Not Me.m_entity.HasMaterialCost
-      csUMC.Width = 55
+            Dim csType As DataGridComboColumn
+            Dim excludeString As String = GetExcludeString()
+            If excludeString.Length > 0 Then
+                csType = New DataGridComboColumn("boqi_entityType" _
+                , CodeDescription.GetCodeList("boqi_entityType" _
+                , "code_value not in (" & excludeString & ")") _
+                , "code_description", "code_value")
+                csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TypeHeaderText}")
+                csType.NullText = String.Empty
+            Else
+                csType = New DataGridComboColumn("boqi_entityType" _
+                , CodeDescription.GetCodeList("boqi_entityType") _
+                , "code_description", "code_value")
+                csType.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TypeHeaderText}")
+                csType.NullText = String.Empty
+            End If
+            csType.Width = 55
 
-      Dim csTotalMC As New TreeTextColumn
-      csTotalMC.MappingName = "TotalMaterialCost"
-      csTotalMC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalMaterialCostHeaderText}")
-      csTotalMC.NullText = ""
-      csTotalMC.DataAlignment = HorizontalAlignment.Right
-      csTotalMC.Format = "#,###.##"
-      csTotalMC.TextBox.Name = "TotalMaterialCost"
-      csTotalMC.ReadOnly = Not Me.m_entity.HasMaterialCost
-      csTotalMC.Width = 55
+            Dim csCode As New TreeTextColumn
+            csCode.MappingName = "Code"
+            csCode.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.CodeHeaderText}")
+            csCode.NullText = ""
+            'csCode.ReadOnly = True
+            csCode.TextBox.Name = "Code"
+            csCode.Width = 90
 
-      Dim cslcbs As New TreeTextColumn
-      cslcbs.MappingName = "boqi_lcbs"
-      cslcbs.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LabCbs}")
-      cslcbs.NullText = ""
-      cslcbs.DataAlignment = HorizontalAlignment.Center
-      cslcbs.TextBox.Name = "boqi_lcbs"
-      cslcbs.Width = 0
+            Dim csButton As New DataGridButtonColumn
+            csButton.MappingName = "Button"
+            csButton.HeaderText = ""
+            csButton.NullText = ""
 
-      Dim csULC As New TreeTextColumn
-      csULC.MappingName = "boqi_ulc"
-      csULC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.ULCHeaderText}")
-      csULC.NullText = ""
-      csULC.DataAlignment = HorizontalAlignment.Right
-      csULC.Format = "#,###.##"
-      csULC.TextBox.Name = "boqi_ulc"
-      csULC.ReadOnly = Not Me.m_entity.HasLaborCost
-      csULC.Width = 55
+            Dim csName As New PlusMinusTreeTextColumn
+            csName.MappingName = "boqi_itemName"
+            csName.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.DescriptionHeaderText}")
+            csName.NullText = ""
+            csName.Width = 360
+            csName.TextBox.Name = "Description"
+            'AddHandler csDescription.TextBox.TextChanged, AddressOf ChangeProperty
+            'csDescription.ReadOnly = True
 
-      Dim csTotalLC As New TreeTextColumn
-      csTotalLC.MappingName = "TotalLaborCost"
-      csTotalLC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalLaborCostHeaderText}")
-      csTotalLC.NullText = ""
-      csTotalLC.DataAlignment = HorizontalAlignment.Right
-      csTotalLC.Format = "#,###.##"
-      csTotalLC.TextBox.Name = "TotalLaborCost"
-      csTotalLC.ReadOnly = Not Me.m_entity.HasLaborCost
-      csTotalLC.Width = 55
+            Dim csUnit As New TreeTextColumn
+            csUnit.MappingName = "Unit"
+            csUnit.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UnitHeaderText}")
+            csUnit.NullText = ""
+            csUnit.TextBox.Name = "Unit"
+            'AddHandler csUnit.TextBox.TextChanged, AddressOf ChangeProperty
+            'csUnit.DataAlignment = HorizontalAlignment.Center
+            csUnit.Width = 50
 
-      Dim csecbs As New TreeTextColumn
-      csecbs.MappingName = "boqi_ecbs"
-      csecbs.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.EqCbs}")
-      csecbs.NullText = ""
-      csecbs.DataAlignment = HorizontalAlignment.Center
-      csecbs.TextBox.Name = "boqi_ecbs"
-      csecbs.Width = 0
+            Dim csUnitButton As New DataGridButtonColumn
+            csUnitButton.MappingName = "UnitButton"
+            csUnitButton.HeaderText = ""
+            csUnitButton.NullText = ""
+            AddHandler csUnitButton.Click, AddressOf ButtonClick
 
-      Dim csUEC As New TreeTextColumn
-      csUEC.MappingName = "boqi_uec"
-      csUEC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UECHeaderText}")
-      csUEC.NullText = ""
-      csUEC.DataAlignment = HorizontalAlignment.Right
-      csUEC.Format = "#,###.##"
-      csUEC.TextBox.Name = "boqi_uec"
-      csUEC.ReadOnly = Not Me.m_entity.HasEquipmentCost
-      csUEC.Width = 55
+            Dim csQty As New TreeTextColumn
+            csQty.MappingName = "boqi_qty"
+            csQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.QtyHeaderText}")
+            csQty.NullText = ""
+            csQty.DataAlignment = HorizontalAlignment.Right
+            csQty.Format = "#,###.##"
+            csQty.TextBox.Name = "Qty"
+            csQty.Width = 55
+            csQty.ReadOnly = includeQtyPerWBS
 
-      Dim csTotalEC As New TreeTextColumn
-      csTotalEC.MappingName = "TotalEquipmentCost"
-      csTotalEC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalEquipmentCostHeaderText}")
-      csTotalEC.NullText = ""
-      csTotalEC.DataAlignment = HorizontalAlignment.Right
-      csTotalEC.Format = "#,###.##"
-      csTotalEC.TextBox.Name = "TotalEquipmentCost"
-      csTotalEC.ReadOnly = Not Me.m_entity.HasEquipmentCost
-      csTotalEC.Width = 55
+            Dim csMCBS As New TreeTextColumn
+            csMCBS.MappingName = "boqi_mcbs"
+            csMCBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.MatCbs}")
+            csMCBS.NullText = ""
+            csMCBS.DataAlignment = HorizontalAlignment.Center
+            csMCBS.TextBox.Name = "boqi_mcbs"
+            csMCBS.Width = 0
 
-      Dim csTotal As New TreeTextColumn
-      csTotal.MappingName = "Total"
-      csTotal.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalCostHeaderText}")
-      csTotal.NullText = ""
-      csTotal.DataAlignment = HorizontalAlignment.Right
-      csTotal.Format = "#,###.##"
-      csTotal.TextBox.Name = "Total"
-      csTotal.ReadOnly = True
-      csTotal.Width = 100
+            Dim csUMC As New TreeTextColumn
+            csUMC.MappingName = "boqi_umc"
+            csUMC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UMCHeaderText}")
+            csUMC.NullText = ""
+            csUMC.DataAlignment = HorizontalAlignment.Right
+            csUMC.Format = "#,###.##"
+            csUMC.TextBox.Name = "boqi_umc"
+            csUMC.ReadOnly = Not Me.m_entity.HasMaterialCost
+            csUMC.Width = 55
 
-      Dim csNote As New TreeTextColumn
-      csNote.MappingName = "boqi_note"
-      csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.NoteHeaderText}")
-      csNote.NullText = ""
-      csNote.Width = 180
-      csNote.TextBox.Name = "boqi_note"
+            Dim csTotalMC As New TreeTextColumn
+            csTotalMC.MappingName = "TotalMaterialCost"
+            csTotalMC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalMaterialCostHeaderText}")
+            csTotalMC.NullText = ""
+            csTotalMC.DataAlignment = HorizontalAlignment.Right
+            csTotalMC.Format = "#,###.##"
+            csTotalMC.TextBox.Name = "TotalMaterialCost"
+            csTotalMC.ReadOnly = Not Me.m_entity.HasMaterialCost
+            csTotalMC.Width = 55
 
-      '-------------------------------ธวัชชัย-----------------------------
-      Dim csQtyPerWBS As New TreeTextColumn
-      csQtyPerWBS.MappingName = "QtyPerWBS"
-      csQtyPerWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.QtyPerWBSHeaderText}")
-      csQtyPerWBS.NullText = ""
-      csQtyPerWBS.DataAlignment = HorizontalAlignment.Right
-      csQtyPerWBS.Format = "#,###.##"
-      csQtyPerWBS.TextBox.Name = "QtyPerWBS"
-      csQtyPerWBS.Width = 100
+            Dim cslcbs As New TreeTextColumn
+            cslcbs.MappingName = "boqi_lcbs"
+            cslcbs.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.LabCbs}")
+            cslcbs.NullText = ""
+            cslcbs.DataAlignment = HorizontalAlignment.Center
+            cslcbs.TextBox.Name = "boqi_lcbs"
+            cslcbs.Width = 0
 
-      Dim csWBSQty As New TreeTextColumn
-      csWBSQty.MappingName = "WBSQty"
-      csWBSQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.WBSQtyHeaderText}")
-      csWBSQty.NullText = ""
-      csWBSQty.DataAlignment = HorizontalAlignment.Right
-      csWBSQty.Format = "#,###.##"
-      csWBSQty.TextBox.Name = "WBSQty"
-      csWBSQty.Width = 100
+            Dim csULC As New TreeTextColumn
+            csULC.MappingName = "boqi_ulc"
+            csULC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.ULCHeaderText}")
+            csULC.NullText = ""
+            csULC.DataAlignment = HorizontalAlignment.Right
+            csULC.Format = "#,###.##"
+            csULC.TextBox.Name = "boqi_ulc"
+            csULC.ReadOnly = Not Me.m_entity.HasLaborCost
+            csULC.Width = 55
 
-      Dim csTotalPerWBS As New TreeTextColumn
-      csTotalPerWBS.MappingName = "TotalPerWBS"
-      csTotalPerWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalPerWBSHeaderText}")
-      csTotalPerWBS.NullText = ""
-      csTotalPerWBS.DataAlignment = HorizontalAlignment.Right
-      csTotalPerWBS.Format = "#,###.##"
-      csTotalPerWBS.TextBox.Name = "TotalPerWBS"
-      csTotalPerWBS.ReadOnly = True
-      csTotalPerWBS.Width = 100
-      '-------------------------------End ธวัชชัย-----------------------------
+            Dim csTotalLC As New TreeTextColumn
+            csTotalLC.MappingName = "TotalLaborCost"
+            csTotalLC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalLaborCostHeaderText}")
+            csTotalLC.NullText = ""
+            csTotalLC.DataAlignment = HorizontalAlignment.Right
+            csTotalLC.Format = "#,###.##"
+            csTotalLC.TextBox.Name = "TotalLaborCost"
+            csTotalLC.ReadOnly = Not Me.m_entity.HasLaborCost
+            csTotalLC.Width = 55
 
-      'dst.GridColumnStyles.Add(csLineNumber)
-      dst.GridColumnStyles.Add(csType)
-      dst.GridColumnStyles.Add(csCode)
-      dst.GridColumnStyles.Add(csButton)
-      dst.GridColumnStyles.Add(csName)
-      dst.GridColumnStyles.Add(csUnit)
-      dst.GridColumnStyles.Add(csUnitButton)
+            Dim csecbs As New TreeTextColumn
+            csecbs.MappingName = "boqi_ecbs"
+            csecbs.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.EqCbs}")
+            csecbs.NullText = ""
+            csecbs.DataAlignment = HorizontalAlignment.Center
+            csecbs.TextBox.Name = "boqi_ecbs"
+            csecbs.Width = 0
 
-      If includeQtyPerWBS Then
-        dst.GridColumnStyles.Add(csQtyPerWBS)
-        'dst.GridColumnStyles.Add(csWBSQty)
-      End If
+            Dim csUEC As New TreeTextColumn
+            csUEC.MappingName = "boqi_uec"
+            csUEC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.UECHeaderText}")
+            csUEC.NullText = ""
+            csUEC.DataAlignment = HorizontalAlignment.Right
+            csUEC.Format = "#,###.##"
+            csUEC.TextBox.Name = "boqi_uec"
+            csUEC.ReadOnly = Not Me.m_entity.HasEquipmentCost
+            csUEC.Width = 55
 
-      dst.GridColumnStyles.Add(csQty)
-      dst.GridColumnStyles.Add(csMCBS)
-      dst.GridColumnStyles.Add(csUMC)
-      dst.GridColumnStyles.Add(csTotalMC)
-      dst.GridColumnStyles.Add(cslcbs)
-      dst.GridColumnStyles.Add(csULC)
-      dst.GridColumnStyles.Add(csTotalLC)
-      dst.GridColumnStyles.Add(csecbs)
-      dst.GridColumnStyles.Add(csUEC)
-      dst.GridColumnStyles.Add(csTotalEC)
+            Dim csTotalEC As New TreeTextColumn
+            csTotalEC.MappingName = "TotalEquipmentCost"
+            csTotalEC.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalEquipmentCostHeaderText}")
+            csTotalEC.NullText = ""
+            csTotalEC.DataAlignment = HorizontalAlignment.Right
+            csTotalEC.Format = "#,###.##"
+            csTotalEC.TextBox.Name = "TotalEquipmentCost"
+            csTotalEC.ReadOnly = Not Me.m_entity.HasEquipmentCost
+            csTotalEC.Width = 55
 
-      If includeQtyPerWBS Then
-        dst.GridColumnStyles.Add(csTotalPerWBS)
-      End If
+            Dim csTotal As New TreeTextColumn
+            csTotal.MappingName = "Total"
+            csTotal.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalCostHeaderText}")
+            csTotal.NullText = ""
+            csTotal.DataAlignment = HorizontalAlignment.Right
+            csTotal.Format = "#,###.##"
+            csTotal.TextBox.Name = "Total"
+            csTotal.ReadOnly = True
+            csTotal.Width = 100
 
-      dst.GridColumnStyles.Add(csTotal)
-      dst.GridColumnStyles.Add(csNote)
+            Dim csNote As New TreeTextColumn
+            csNote.MappingName = "boqi_note"
+            csNote.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.NoteHeaderText}")
+            csNote.NullText = ""
+            csNote.Width = 180
+            csNote.TextBox.Name = "boqi_note"
 
-      Return dst
-    End Function
-    Public Sub ButtonClick(ByVal e As ButtonColumnEventArgs)
-      If e.Column = 2 Then
-        Me.ItemButtonClick(e)
-      ElseIf e.Column = 5 Then
-        Me.UnitButtonClick(e)
-      End If
-    End Sub
+            '-------------------------------ธวัชชัย-----------------------------
+            Dim csQtyPerWBS As New TreeTextColumn
+            csQtyPerWBS.MappingName = "QtyPerWBS"
+            csQtyPerWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.QtyPerWBSHeaderText}")
+            csQtyPerWBS.NullText = ""
+            csQtyPerWBS.DataAlignment = HorizontalAlignment.Right
+            csQtyPerWBS.Format = "#,###.##"
+            csQtyPerWBS.TextBox.Name = "QtyPerWBS"
+            csQtyPerWBS.Width = 100
+
+            Dim csWBSQty As New TreeTextColumn
+            csWBSQty.MappingName = "WBSQty"
+            csWBSQty.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.WBSQtyHeaderText}")
+            csWBSQty.NullText = ""
+            csWBSQty.DataAlignment = HorizontalAlignment.Right
+            csWBSQty.Format = "#,###.##"
+            csWBSQty.TextBox.Name = "WBSQty"
+            csWBSQty.Width = 100
+
+            Dim csTotalPerWBS As New TreeTextColumn
+            csTotalPerWBS.MappingName = "TotalPerWBS"
+            csTotalPerWBS.HeaderText = myStringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.TotalPerWBSHeaderText}")
+            csTotalPerWBS.NullText = ""
+            csTotalPerWBS.DataAlignment = HorizontalAlignment.Right
+            csTotalPerWBS.Format = "#,###.##"
+            csTotalPerWBS.TextBox.Name = "TotalPerWBS"
+            csTotalPerWBS.ReadOnly = True
+            csTotalPerWBS.Width = 100
+            '-------------------------------End ธวัชชัย-----------------------------
+
+            'dst.GridColumnStyles.Add(csLineNumber)
+            dst.GridColumnStyles.Add(csType)
+            dst.GridColumnStyles.Add(csCode)
+            dst.GridColumnStyles.Add(csButton)
+            dst.GridColumnStyles.Add(csName)
+            dst.GridColumnStyles.Add(csUnit)
+            dst.GridColumnStyles.Add(csUnitButton)
+
+            If includeQtyPerWBS Then
+                dst.GridColumnStyles.Add(csQtyPerWBS)
+                'dst.GridColumnStyles.Add(csWBSQty)
+            End If
+
+            dst.GridColumnStyles.Add(csQty)
+            dst.GridColumnStyles.Add(csMCBS)
+            dst.GridColumnStyles.Add(csUMC)
+            dst.GridColumnStyles.Add(csTotalMC)
+            dst.GridColumnStyles.Add(cslcbs)
+            dst.GridColumnStyles.Add(csULC)
+            dst.GridColumnStyles.Add(csTotalLC)
+            dst.GridColumnStyles.Add(csecbs)
+            dst.GridColumnStyles.Add(csUEC)
+            dst.GridColumnStyles.Add(csTotalEC)
+
+            If includeQtyPerWBS Then
+                dst.GridColumnStyles.Add(csTotalPerWBS)
+            End If
+
+            dst.GridColumnStyles.Add(csTotal)
+            dst.GridColumnStyles.Add(csNote)
+
+            Return dst
+        End Function
+        Public Sub ButtonClick(ByVal e As ButtonColumnEventArgs)
+            If e.Column = 2 Then
+                Me.ItemButtonClick(e)
+            ElseIf e.Column = 5 Then
+                Me.UnitButtonClick(e)
+            End If
+        End Sub
 #End Region
 
 #Region "TreeTable Handlers"
-    Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      Me.m_treeManager.Treetable.AcceptChanges()
-      If Not Me.m_tableInitialized Then
-        Return
-      End If
-      If CType(e.Row, TreeRow).Tag Is Nothing Then
-        Return
-      End If
-      If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
-        Dim nwbs As WBS = CType(CType(e.Row, TreeRow).Tag, WBS)
-        Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
-
-        Me.m_treeManager.Treetable.AcceptChanges()
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-        Me.tgItem.RefreshHeights()
-        Return
-      End If
-      Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
-      If ValidateRow(CType(e.Row, TreeRow)) Then
-        UpdateAmount(e)
-        UpdateItem()
-
-        Dim nwbs As WBS = CType(CType(e.Row, TreeRow).Tag, BoqItem).WBS
-        Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
-      End If
-      Me.m_treeManager.Treetable.AcceptChanges()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-      Me.tgItem.RefreshHeights()
-    End Sub
-    Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
-      If m_item Is Nothing Then
-        Return
-      End If
-
-    End Sub
-    Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
-      If Not Me.m_tableInitialized Then
-        Return
-      End If
-      If CType(e.Row, TreeRow).Tag Is Nothing Then
-        Return
-      End If
-
-      If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
-        If e.Column.ColumnName.ToLower <> "qtyperwbs" Then 'If e.Column.ColumnName.ToLower <> "wbsqty" Then
-          If e.Column.ColumnName.ToLower <> "unit" Then
-            If e.Column.ColumnName.ToLower <> "boqi_linenumber" Then
-              e.ProposedValue = e.Row(e.Column)
+        Private Sub Treetable_ColumnChanged(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+            Me.m_treeManager.Treetable.AcceptChanges()
+            If Not Me.m_tableInitialized Then
+                Return
             End If
-            Return
-          End If
-        End If
-      End If
-      Try
-        Select Case e.Column.ColumnName.ToLower
-          Case "code"
-            SetCode(e)
-          Case "boqi_itemname"
-            SetName(e)
-          Case "unit"
-            SetUnitValue(e)
-          Case "boqi_qty"
-            SetQty(e)
-          Case "qtyperwbs"
-            SetQtyPerWBS(e)
-          Case "wbsqty"
-            SetWBSQty(e)
-          Case "boqi_umc", "boqi_ulc", "boqi_uec"
-            SetUnitPrice(e)
-          Case "totalmaterialcost", "totallaborcost", "totalequipmentcost"
-            SetTotalUnitPrice(e)
-          Case "boqi_entitytype"
-            SetEntityType(e)
-          Case "boqi_note"
-            SetNote(e)
-        End Select
-        ValidateRow(e)
-      Catch ex As Exception
-        MessageBox.Show(ex.ToString)
-      End Try
-    End Sub
-    Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
-      'Dim code As Object = e.Row("code")
-      'Dim boqi_itemname As Object = e.Row("boqi_itemname")
-      'Dim boqi_entitytype As Object = e.Row("boqi_entitytype")
-      'Dim accountcode As Object = e.Row("accountcode")
-      'Dim unit As Object = e.Row("unit")
-      'Dim boqi_unitprice As Object = e.Row("boqi_unitprice")
-      'Dim boqi_qty As Object = e.Row("boqi_qty")
+            If CType(e.Row, TreeRow).Tag Is Nothing Then
+                Return
+            End If
+            If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
+                Dim nwbs As WBS = CType(CType(e.Row, TreeRow).Tag, WBS)
+                Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
 
-      'Select Case e.Column.ColumnName.ToLower
-      '    Case "code"
-      '        code = e.ProposedValue
-      '    Case "boqi_itemname"
-      '        boqi_itemname = e.ProposedValue
-      '    Case "boqi_entitytype"
-      '        boqi_entitytype = e.ProposedValue
-      '    Case "accountcode"
-      '        accountcode = e.ProposedValue
-      '    Case "unit"
-      '        unit = e.ProposedValue
-      '    Case "boqi_unitprice"
-      '        boqi_unitprice = e.ProposedValue
-      '    Case "boqi_qty"
-      '        boqi_qty = e.ProposedValue
-      '    Case Else
-      '        Return
-      'End Select
+                Me.m_treeManager.Treetable.AcceptChanges()
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+                Me.tgItem.RefreshHeights()
+                Return
+            End If
+            Dim index As Integer = Me.m_treeManager.Treetable.Childs.IndexOf(CType(e.Row, TreeRow))
+            If ValidateRow(CType(e.Row, TreeRow)) Then
+                UpdateAmount(e)
+                UpdateItem()
 
-      'Dim isBlankRow As Boolean = False
-      'If IsDBNull(boqi_entitytype) Then
-      '    isBlankRow = True
-      'End If
+                Dim nwbs As WBS = CType(CType(e.Row, TreeRow).Tag, BoqItem).WBS
+                Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
+            End If
+            Me.m_treeManager.Treetable.AcceptChanges()
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+            Me.tgItem.RefreshHeights()
+        End Sub
+        Private Sub UpdateAmount(ByVal e As DataColumnChangeEventArgs)
+            If m_item Is Nothing Then
+                Return
+            End If
 
-      'If Not isBlankRow Then
-      '    Select Case CInt(boqi_entitytype)
-      '        Case 0 'blank item
-      '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_itemname", "")
-      '            End If
-      '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
-      '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_qty", "")
-      '            End If
-      '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
-      '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_unitprice", "")
-      '            End If
-      '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("accountcode", "")
-      '            End If
-      '            e.Row.SetColumnError("code", "")
-      '        Case 18 'Labor
-      '            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("code", "")
-      '            End If
-      '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_itemname", "")
-      '            End If
-      '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
-      '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_qty", "")
-      '            End If
-      '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
-      '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_unitprice", "")
-      '            End If
-      '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("accountcode", "")
-      '            End If
-      '        Case 20 'Equipment
-      '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_itemname", "")
-      '            End If
-      '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
-      '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_qty", "")
-      '            End If
-      '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
-      '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_unitprice", "")
-      '            End If
-      '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("accountcode", "")
-      '            End If
-      '            e.Row.SetColumnError("code", "")
-      '        Case 42 'LCI
-      '            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("code", "")
-      '            End If
-      '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_itemname", "")
-      '            End If
-      '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
-      '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_qty", "")
-      '            End If
-      '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
-      '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("boqi_unitprice", "")
-      '            End If
-      '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
-      '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
-      '            Else
-      '                e.Row.SetColumnError("accountcode", "")
-      '            End If
-      '        Case Else
-      '            Return
-      '    End Select
-      'End If
+        End Sub
+        Private Sub Treetable_ColumnChanging(ByVal sender As Object, ByVal e As System.Data.DataColumnChangeEventArgs)
+            If Not Me.m_tableInitialized Then
+                Return
+            End If
+            If CType(e.Row, TreeRow).Tag Is Nothing Then
+                Return
+            End If
 
-    End Sub
-    Public Function ValidateRow(ByVal row As TreeRow) As Boolean
-      If row.IsNull("boqi_entitytype") Then
-        Return False
-      End If
-      Return True
-    End Function
-    Private m_updating As Boolean = False
-    Public Sub SetQtyPerWBS(ByVal e As DataColumnChangeEventArgs)
-      If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
-        SetWBSQty(e)
-        Return
-      End If
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Select Case CInt(e.Row("boqi_entityType"))
-        Case 0, 42, 18, 20 'Blank/LCI/Labor/EqCost
-          'ผ่าน
-          m_item.QtyPerWBS = value
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-      e.Row("boqi_qty") = Configuration.FormatToString(m_item.Qty, DigitConfig.UnitPrice)
-      e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
-      e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-      e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
-      e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-      e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
-      e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-      e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      e.Row("TotalPerWBS") = Configuration.FormatToString(m_item.TotalPerWBS, DigitConfig.Price)
-      m_updating = False
-    End Sub
-    Public Sub SetWBSQty(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = 0
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If m_wbs Is Nothing Then
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-
-      m_wbs.Qty = value
-      TreeRow.TraverseRow(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
-      TreeRow.TraverseRowBackward(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
-      m_updating = False
-    End Sub
-    Private Sub UpdateWBSRows(ByVal row As TreeRow)
-      If TypeOf row.Tag Is BoqItem Then
-        row("boqi_qty") = Configuration.FormatToString(CType(row.Tag, BoqItem).Qty, DigitConfig.UnitPrice)
-        row("boqi_umc") = Configuration.FormatToString(CType(row.Tag, BoqItem).UMC, DigitConfig.UnitPrice)
-        row("TotalMaterialCost") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalMaterialCost, DigitConfig.UnitPrice)
-        row("boqi_ulc") = Configuration.FormatToString(CType(row.Tag, BoqItem).ULC, DigitConfig.UnitPrice)
-        row("TotalLaborCost") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalLaborCost, DigitConfig.UnitPrice)
-        row("boqi_uec") = Configuration.FormatToString(CType(row.Tag, BoqItem).UEC, DigitConfig.UnitPrice)
-        row("TotalEquipmentCost") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalEquipmentCost, DigitConfig.UnitPrice)
-        row("Total") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalCost, DigitConfig.UnitPrice)
-        row("TotalPerWBS") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalPerWBS, DigitConfig.Price)
-      End If
-    End Sub
-    Public Sub SetQty(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 OrElse Not IsNumeric(e.ProposedValue) Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Select Case CInt(e.Row("boqi_entityType"))
-        Case 0, 42, 18, 20 'Blank/LCI/Labor/EqCost
-          'ผ่าน
-          m_item.Qty = value
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-      e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
-      e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-      e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
-      e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-      e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
-      e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-      e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      m_updating = False
-    End Sub
-    Public Sub SetUnitPrice(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Select Case CInt(e.Row("boqi_entityType"))
-        Case 0 'Blank
-          'ผ่านตลอด
-          Select Case e.Column.ColumnName.ToLower
-            Case "boqi_umc"
-              m_item.UMC = value
-            Case "boqi_ulc"
-              m_item.ULC = value
-            Case "boqi_uec"
-              m_item.UEC = value
-          End Select
-        Case 42 'Lci
-          'ผ่านตลอด
-          Select Case e.Column.ColumnName.ToLower
-            Case "boqi_umc"
-              m_item.UMC = value
-            Case "boqi_ulc"
-              m_item.ULC = value
-            Case "boqi_uec"
-              m_item.UEC = value
-          End Select
-        Case 18 'Labor
-          Select Case e.Column.ColumnName.ToLower
-            Case "boqi_umc"
-              msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUMC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            Case "boqi_ulc"
-              m_item.ULC = value
-            Case "boqi_uec"
-              msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUEC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-          End Select
-        Case 20 'EqCost
-          Select Case e.Column.ColumnName.ToLower
-            Case "boqi_umc"
-              msgServ.ShowMessage("${res:Global.Error.EQCannotHaveUMC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            Case "boqi_ulc"
-              msgServ.ShowMessage("${res:Global.Error.EQCannotHaveULC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            Case "boqi_uec"
-              m_item.UEC = value
-          End Select
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-      e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-      e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-      e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-      e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      m_updating = False
-    End Sub
-    Public Sub SetTotalUnitPrice(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
-        e.ProposedValue = ""
-        Return
-      End If
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
-      Dim value As Decimal = CDec(e.ProposedValue)
-      Dim qty As Decimal = 0
-      If value <> 0 AndAlso (e.Row.IsNull("boqi_qty") OrElse Not IsNumeric(e.Row("boqi_qty")) OrElse CDec(e.Row("boqi_qty")) = 0) Then
-        msgServ.ShowMessage("${res:Global.Error.QtyISZero}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      Else
-        qty = CDec(e.Row("boqi_qty"))
-      End If
-      m_updating = True
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-
-      Dim unitPrice As Decimal
-      If value <> 0 And qty <> 0 Then
-        unitPrice = value / qty
-      End If
-      Dim unitPriceAfterCalc As Decimal = Configuration.Format(unitPrice, DigitConfig.UnitPrice)
-      Select Case CInt(e.Row("boqi_entityType"))
-        Case 0 'Blank
-          'ผ่านตลอด
-          Select Case e.Column.ColumnName.ToLower
-            Case "totalmaterialcost", "totallaborcost", "totalequipmentcost"
-              m_item.UMC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.Price)
-              e.Row("boqi_umc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-            Case "boqi_ulc"
-              m_item.ULC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.Price)
-              e.Row("boqi_ulc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-            Case "boqi_uec"
-              m_item.UEC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.Price)
-              e.Row("boqi_uec") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-          End Select
-        Case 42 'Lci
-          'ผ่านตลอด
-          Select Case e.Column.ColumnName.ToLower
-            Case "totalmaterialcost"
-              m_item.UMC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.Price)
-              e.Row("boqi_umc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-            Case "totallaborcost"
-              m_item.ULC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.Price)
-              e.Row("boqi_ulc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-            Case "totalequipmentcost"
-              m_item.UEC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.Price)
-              e.Row("boqi_uec") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-          End Select
-        Case 18 'Labor
-          Select Case e.Column.ColumnName.ToLower
-            Case "totalmaterialcost"
-              msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUMC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            Case "totallaborcost"
-              m_item.ULC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.Price)
-              e.Row("boqi_ulc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-            Case "totalequipmentcost"
-              msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUEC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-          End Select
-        Case 20 'EqCost
-          Select Case e.Column.ColumnName.ToLower
-            Case "totalmaterialcost"
-              msgServ.ShowMessage("${res:Global.Error.EQCannotHaveUMC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            Case "totallaborcost"
-              msgServ.ShowMessage("${res:Global.Error.EQCannotHaveULC}")
-              e.ProposedValue = e.Row(e.Column)
-              m_updating = False
-              Return
-            Case "totalequipmentcost"
-              m_item.UEC = unitPriceAfterCalc
-              e.ProposedValue = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.Price)
-              e.Row("boqi_uec") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
-          End Select
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-      e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      m_updating = False
-    End Sub
-    Public Sub SetEntityType(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull(e.Column) Then
-        m_item.ItemType.Value = CInt(e.ProposedValue)
-        ClearRow(e)
-        m_updating = False
-        Return
-      End If
-
-      If CInt(e.ProposedValue) = CInt(e.Row(e.Column)) Then
-        'ผ่านโลด
-        m_updating = False
-        Return
-      End If
-
-      '******************************************************************************
-      m_item.LastItemTypeId = m_item.ItemType.Value
-      m_item.ItemType.Value = CInt(e.ProposedValue)
-      m_item.Entity = New BlankItem("")
-      e.Row("code") = DBNull.Value
-      'If Not (m_item.LastItemTypeId = 0 And m_item.ItemType.Value = 42) Then
-      '  ClearRow(e)
-      'End If
-
-      'If msgServ.AskQuestion("${res:Global.Question.ChangeBOQItemEntityType}") Then
-      '    m_item.ItemType.Value = CInt(e.ProposedValue)
-      '    ClearRow(e)
-      'Else
-      '    e.ProposedValue = e.Row(e.Column)
-      '    m_updating = False
-      '    Return
-      'End If
-      '*******************************************************************************
-      m_updating = False
-    End Sub
-    Private Sub ClearRow(ByVal e As DataColumnChangeEventArgs)
-      'e.Row("boqi_wbs") = DBNull.Value
-      e.Row("boqi_entity") = DBNull.Value
-      'e.Row("boqi_entityType") = DBNull.Value
-      e.Row("code") = DBNull.Value
-      e.Row("boqi_itemname") = DBNull.Value
-      e.Row("boqi_unit") = DBNull.Value
-      e.Row("Unit") = DBNull.Value
-      e.Row("UnitButton") = DBNull.Value
-      e.Row("boqi_qty") = DBNull.Value
-      e.Row("boqi_umc") = DBNull.Value
-      e.Row("TotalMaterialCost") = DBNull.Value
-      e.Row("boqi_ulc") = DBNull.Value
-      e.Row("boqi_uec") = DBNull.Value
-      e.Row("TotalEquipmentCost") = DBNull.Value
-      e.Row("boqi_note") = DBNull.Value
-      e.Row("Total") = DBNull.Value
-      If IsNumeric(e.ProposedValue) AndAlso (CInt(e.ProposedValue) = 0 Or CInt(e.ProposedValue) = 28) Then
-        e.Row("Button") = "invisible"
-      Else
-        e.Row("Button") = ""
-      End If
-    End Sub
-    Public Sub SetName(ByVal e As DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Select Case CInt(e.Row("boqi_entityType"))
-        Case 0
-          'ผ่าน
-          m_item.Entity = New BlankItem(e.ProposedValue.ToString)
-          m_item.EntityName = e.ProposedValue.ToString
-        Case 42, 18, 20
-          If e.ProposedValue.ToString.Length = 0 Then
-            m_updating = False
-            Return
-          End If
-          If Not e.Row.IsNull("Code") AndAlso e.Row("Code").ToString.Length > 0 Then
-            'มี Code อยู่ ---> 
-            If Not IsDBNull(e.ProposedValue) AndAlso Not e.ProposedValue.ToString.Length = 0 Then
-              Dim suffix As String = "<" & m_item.Entity.Name & ">"
-              If e.ProposedValue.ToString <> suffix Then
-                If e.ProposedValue.ToString.EndsWith(suffix) Then
-                  Dim s As String = e.ProposedValue.ToString
-                  e.ProposedValue = s.Remove(s.Length - suffix.Length, suffix.Length)
+            If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
+                If e.Column.ColumnName.ToLower <> "qtyperwbs" Then 'If e.Column.ColumnName.ToLower <> "wbsqty" Then
+                    If e.Column.ColumnName.ToLower <> "unit" Then
+                        If e.Column.ColumnName.ToLower <> "boqi_linenumber" Then
+                            e.ProposedValue = e.Row(e.Column)
+                        End If
+                        Return
+                    End If
                 End If
-              End If
-              m_item.EntityName = e.ProposedValue.ToString
-              If e.ProposedValue.ToString <> m_item.Entity.Name Then
-                e.ProposedValue = e.ProposedValue.ToString & suffix
-              End If
             End If
-          Else
-            msgServ.ShowMessage("${res:Global.Error.ItemCodeMissing}")
-            e.ProposedValue = e.Row(e.Column)
+            Try
+                Select Case e.Column.ColumnName.ToLower
+                    Case "code"
+                        SetCode(e)
+                    Case "boqi_itemname"
+                        SetName(e)
+                    Case "unit"
+                        SetUnitValue(e)
+                    Case "boqi_qty"
+                        SetQty(e)
+                    Case "qtyperwbs"
+                        SetQtyPerWBS(e)
+                    Case "wbsqty"
+                        SetWBSQty(e)
+                    Case "boqi_umc", "boqi_ulc", "boqi_uec"
+                        SetUnitPrice(e)
+                    Case "totalmaterialcost", "totallaborcost", "totalequipmentcost"
+                        SetTotalUnitPrice(e)
+                    Case "boqi_entitytype"
+                        SetEntityType(e)
+                    Case "boqi_note"
+                        SetNote(e)
+                End Select
+                ValidateRow(e)
+            Catch ex As Exception
+                MessageBox.Show(ex.ToString)
+            End Try
+        End Sub
+        Public Sub ValidateRow(ByVal e As DataColumnChangeEventArgs)
+            'Dim code As Object = e.Row("code")
+            'Dim boqi_itemname As Object = e.Row("boqi_itemname")
+            'Dim boqi_entitytype As Object = e.Row("boqi_entitytype")
+            'Dim accountcode As Object = e.Row("accountcode")
+            'Dim unit As Object = e.Row("unit")
+            'Dim boqi_unitprice As Object = e.Row("boqi_unitprice")
+            'Dim boqi_qty As Object = e.Row("boqi_qty")
+
+            'Select Case e.Column.ColumnName.ToLower
+            '    Case "code"
+            '        code = e.ProposedValue
+            '    Case "boqi_itemname"
+            '        boqi_itemname = e.ProposedValue
+            '    Case "boqi_entitytype"
+            '        boqi_entitytype = e.ProposedValue
+            '    Case "accountcode"
+            '        accountcode = e.ProposedValue
+            '    Case "unit"
+            '        unit = e.ProposedValue
+            '    Case "boqi_unitprice"
+            '        boqi_unitprice = e.ProposedValue
+            '    Case "boqi_qty"
+            '        boqi_qty = e.ProposedValue
+            '    Case Else
+            '        Return
+            'End Select
+
+            'Dim isBlankRow As Boolean = False
+            'If IsDBNull(boqi_entitytype) Then
+            '    isBlankRow = True
+            'End If
+
+            'If Not isBlankRow Then
+            '    Select Case CInt(boqi_entitytype)
+            '        Case 0 'blank item
+            '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_itemname", "")
+            '            End If
+            '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
+            '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_qty", "")
+            '            End If
+            '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
+            '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_unitprice", "")
+            '            End If
+            '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("accountcode", "")
+            '            End If
+            '            e.Row.SetColumnError("code", "")
+            '        Case 18 'Labor
+            '            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("code", "")
+            '            End If
+            '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_itemname", "")
+            '            End If
+            '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
+            '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_qty", "")
+            '            End If
+            '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
+            '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_unitprice", "")
+            '            End If
+            '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("accountcode", "")
+            '            End If
+            '        Case 20 'Equipment
+            '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_itemname", "")
+            '            End If
+            '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
+            '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_qty", "")
+            '            End If
+            '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
+            '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_unitprice", "")
+            '            End If
+            '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("accountcode", "")
+            '            End If
+            '            e.Row.SetColumnError("code", "")
+            '        Case 42 'LCI
+            '            If IsDBNull(code) OrElse code.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("code", Me.StringParserService.Parse("${res:Global.Error.ItemCodeMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("code", "")
+            '            End If
+            '            If IsDBNull(boqi_itemname) OrElse boqi_itemname.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("boqi_itemname", Me.StringParserService.Parse("${res:Global.Error.ItemNameMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_itemname", "")
+            '            End If
+            '            If IsDBNull(boqi_qty) OrElse CDec(boqi_qty) <= 0 Then
+            '                e.Row.SetColumnError("boqi_qty", Me.StringParserService.Parse("${res:Global.Error.ItemQtyMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_qty", "")
+            '            End If
+            '            If IsDBNull(boqi_unitprice) OrElse CDec(boqi_unitprice) <= 0 Then
+            '                e.Row.SetColumnError("boqi_unitprice", Me.StringParserService.Parse("${res:Global.Error.ItemUnitPriceMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("boqi_unitprice", "")
+            '            End If
+            '            If IsDBNull(accountcode) OrElse accountcode.ToString.Length = 0 Then
+            '                e.Row.SetColumnError("accountcode", Me.StringParserService.Parse("${res:Global.Error.ItemAccountMissing}"))
+            '            Else
+            '                e.Row.SetColumnError("accountcode", "")
+            '            End If
+            '        Case Else
+            '            Return
+            '    End Select
+            'End If
+
+        End Sub
+        Public Function ValidateRow(ByVal row As TreeRow) As Boolean
+            If row.IsNull("boqi_entitytype") Then
+                Return False
+            End If
+            Return True
+        End Function
+        Private m_updating As Boolean = False
+        Public Sub SetQtyPerWBS(ByVal e As DataColumnChangeEventArgs)
+            If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
+                SetWBSQty(e)
+                Return
+            End If
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+                e.ProposedValue = ""
+                Return
+            End If
+            e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
+            Dim value As Decimal = CDec(e.ProposedValue)
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            Select Case CInt(e.Row("boqi_entityType"))
+                Case 0, 42, 18, 20 'Blank/LCI/Labor/EqCost
+                    'ผ่าน
+                    m_item.QtyPerWBS = value
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
+            e.Row("boqi_qty") = Configuration.FormatToString(m_item.Qty, DigitConfig.UnitPrice)
+            e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
+            e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+            e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
+            e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+            e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
+            e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+            e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+            e.Row("TotalPerWBS") = Configuration.FormatToString(m_item.TotalPerWBS, DigitConfig.Price)
             m_updating = False
-            Return
-          End If
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-      m_updating = False
-    End Sub
-    Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
-      If e.Row.IsNull("boqi_entityType") Then
-        Return False
-      End If
-      If IsDBNull(e.ProposedValue) Then
-        Return False
-      End If
-      For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
-        If Not row Is e.Row Then
-          If Not row.IsNull("boqi_entityType") Then
-            If CInt(row("boqi_entityType")) = CInt(e.Row("boqi_entityType")) Then
-              If Not row.IsNull("code") Then
-                If e.ProposedValue.ToString.ToLower = row("code").ToString.ToLower Then
-                  Return True
+        End Sub
+        Public Sub SetWBSQty(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+                e.ProposedValue = 0
+            End If
+            e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
+            Dim value As Decimal = CDec(e.ProposedValue)
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If m_wbs Is Nothing Then
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+
+            m_wbs.Qty = value
+            TreeRow.TraverseRow(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
+            TreeRow.TraverseRowBackward(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
+            m_updating = False
+        End Sub
+        Private Sub UpdateWBSRows(ByVal row As TreeRow)
+            If TypeOf row.Tag Is BoqItem Then
+                row("boqi_qty") = Configuration.FormatToString(CType(row.Tag, BoqItem).Qty, DigitConfig.UnitPrice)
+                row("boqi_umc") = Configuration.FormatToString(CType(row.Tag, BoqItem).UMC, DigitConfig.UnitPrice)
+                row("TotalMaterialCost") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalMaterialCost, DigitConfig.UnitPrice)
+                row("boqi_ulc") = Configuration.FormatToString(CType(row.Tag, BoqItem).ULC, DigitConfig.UnitPrice)
+                row("TotalLaborCost") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalLaborCost, DigitConfig.UnitPrice)
+                row("boqi_uec") = Configuration.FormatToString(CType(row.Tag, BoqItem).UEC, DigitConfig.UnitPrice)
+                row("TotalEquipmentCost") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalEquipmentCost, DigitConfig.UnitPrice)
+                row("Total") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalCost, DigitConfig.UnitPrice)
+                row("TotalPerWBS") = Configuration.FormatToString(CType(row.Tag, BoqItem).TotalPerWBS, DigitConfig.Price)
+            End If
+        End Sub
+        Public Sub SetQty(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 OrElse Not IsNumeric(e.ProposedValue) Then
+                e.ProposedValue = ""
+                Return
+            End If
+            e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
+            Dim value As Decimal = CDec(e.ProposedValue)
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            Select Case CInt(e.Row("boqi_entityType"))
+                Case 0, 42, 18, 20 'Blank/LCI/Labor/EqCost
+                    'ผ่าน
+                    m_item.Qty = value
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
+            e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
+            e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+            e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
+            e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+            e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
+            e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+            e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+            m_updating = False
+        End Sub
+        Public Sub SetUnitPrice(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+                e.ProposedValue = ""
+                Return
+            End If
+            e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
+            Dim value As Decimal = CDec(e.ProposedValue)
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            Select Case CInt(e.Row("boqi_entityType"))
+                Case 0 'Blank
+                    'ผ่านตลอด
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "boqi_umc"
+                            m_item.UMC = value
+                        Case "boqi_ulc"
+                            m_item.ULC = value
+                        Case "boqi_uec"
+                            m_item.UEC = value
+                    End Select
+                Case 42 'Lci
+                    'ผ่านตลอด
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "boqi_umc"
+                            m_item.UMC = value
+                        Case "boqi_ulc"
+                            m_item.ULC = value
+                        Case "boqi_uec"
+                            m_item.UEC = value
+                    End Select
+                Case 18 'Labor
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "boqi_umc"
+                            msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUMC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        Case "boqi_ulc"
+                            m_item.ULC = value
+                        Case "boqi_uec"
+                            msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUEC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                    End Select
+                Case 20 'EqCost
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "boqi_umc"
+                            msgServ.ShowMessage("${res:Global.Error.EQCannotHaveUMC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        Case "boqi_ulc"
+                            msgServ.ShowMessage("${res:Global.Error.EQCannotHaveULC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        Case "boqi_uec"
+                            m_item.UEC = value
+                    End Select
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
+            e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+            e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+            e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+            e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+            m_updating = False
+        End Sub
+        Public Sub SetTotalUnitPrice(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            If IsDBNull(e.ProposedValue) OrElse e.ProposedValue.ToString.Length = 0 Then
+                e.ProposedValue = ""
+                Return
+            End If
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            e.ProposedValue = Configuration.FormatToString(CDec(TextParser.Evaluate(e.ProposedValue.ToString)), DigitConfig.Qty)
+            Dim value As Decimal = CDec(e.ProposedValue)
+            Dim qty As Decimal = 0
+            If value <> 0 AndAlso (e.Row.IsNull("boqi_qty") OrElse Not IsNumeric(e.Row("boqi_qty")) OrElse CDec(e.Row("boqi_qty")) = 0) Then
+                msgServ.ShowMessage("${res:Global.Error.QtyISZero}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            Else
+                qty = CDec(e.Row("boqi_qty"))
+            End If
+            m_updating = True
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+
+            Dim unitPrice As Decimal
+            If value <> 0 And qty <> 0 Then
+                unitPrice = value / qty
+            End If
+            Dim unitPriceAfterCalc As Decimal = Configuration.Format(unitPrice, DigitConfig.UnitPrice)
+            Select Case CInt(e.Row("boqi_entityType"))
+                Case 0 'Blank
+                    'ผ่านตลอด
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "totalmaterialcost", "totallaborcost", "totalequipmentcost"
+                            m_item.UMC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.Price)
+                            e.Row("boqi_umc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                        Case "boqi_ulc"
+                            m_item.ULC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.Price)
+                            e.Row("boqi_ulc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                        Case "boqi_uec"
+                            m_item.UEC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.Price)
+                            e.Row("boqi_uec") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                    End Select
+                Case 42 'Lci
+                    'ผ่านตลอด
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "totalmaterialcost"
+                            m_item.UMC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.Price)
+                            e.Row("boqi_umc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                        Case "totallaborcost"
+                            m_item.ULC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.Price)
+                            e.Row("boqi_ulc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                        Case "totalequipmentcost"
+                            m_item.UEC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.Price)
+                            e.Row("boqi_uec") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                    End Select
+                Case 18 'Labor
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "totalmaterialcost"
+                            msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUMC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        Case "totallaborcost"
+                            m_item.ULC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.Price)
+                            e.Row("boqi_ulc") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                        Case "totalequipmentcost"
+                            msgServ.ShowMessage("${res:Global.Error.LaborCannotHaveUEC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                    End Select
+                Case 20 'EqCost
+                    Select Case e.Column.ColumnName.ToLower
+                        Case "totalmaterialcost"
+                            msgServ.ShowMessage("${res:Global.Error.EQCannotHaveUMC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        Case "totallaborcost"
+                            msgServ.ShowMessage("${res:Global.Error.EQCannotHaveULC}")
+                            e.ProposedValue = e.Row(e.Column)
+                            m_updating = False
+                            Return
+                        Case "totalequipmentcost"
+                            m_item.UEC = unitPriceAfterCalc
+                            e.ProposedValue = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.Price)
+                            e.Row("boqi_uec") = Configuration.FormatToString(unitPrice, DigitConfig.UnitPrice)
+                    End Select
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
+            e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+            m_updating = False
+        End Sub
+        Public Sub SetEntityType(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull(e.Column) Then
+                m_item.ItemType.Value = CInt(e.ProposedValue)
+                ClearRow(e)
+                m_updating = False
+                Return
+            End If
+
+            If CInt(e.ProposedValue) = CInt(e.Row(e.Column)) Then
+                'ผ่านโลด
+                m_updating = False
+                Return
+            End If
+
+            '******************************************************************************
+            m_item.LastItemTypeId = m_item.ItemType.Value
+            m_item.ItemType.Value = CInt(e.ProposedValue)
+            m_item.Entity = New BlankItem("")
+            e.Row("code") = DBNull.Value
+            'If Not (m_item.LastItemTypeId = 0 And m_item.ItemType.Value = 42) Then
+            '  ClearRow(e)
+            'End If
+
+            'If msgServ.AskQuestion("${res:Global.Question.ChangeBOQItemEntityType}") Then
+            '    m_item.ItemType.Value = CInt(e.ProposedValue)
+            '    ClearRow(e)
+            'Else
+            '    e.ProposedValue = e.Row(e.Column)
+            '    m_updating = False
+            '    Return
+            'End If
+            '*******************************************************************************
+            m_updating = False
+        End Sub
+        Private Sub ClearRow(ByVal e As DataColumnChangeEventArgs)
+            'e.Row("boqi_wbs") = DBNull.Value
+            e.Row("boqi_entity") = DBNull.Value
+            'e.Row("boqi_entityType") = DBNull.Value
+            e.Row("code") = DBNull.Value
+            e.Row("boqi_itemname") = DBNull.Value
+            e.Row("boqi_unit") = DBNull.Value
+            e.Row("Unit") = DBNull.Value
+            e.Row("UnitButton") = DBNull.Value
+            e.Row("boqi_qty") = DBNull.Value
+            e.Row("boqi_umc") = DBNull.Value
+            e.Row("TotalMaterialCost") = DBNull.Value
+            e.Row("boqi_ulc") = DBNull.Value
+            e.Row("boqi_uec") = DBNull.Value
+            e.Row("TotalEquipmentCost") = DBNull.Value
+            e.Row("boqi_note") = DBNull.Value
+            e.Row("Total") = DBNull.Value
+            If IsNumeric(e.ProposedValue) AndAlso (CInt(e.ProposedValue) = 0 Or CInt(e.ProposedValue) = 28) Then
+                e.Row("Button") = "invisible"
+            Else
+                e.Row("Button") = ""
+            End If
+        End Sub
+        Public Sub SetName(ByVal e As DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            Select Case CInt(e.Row("boqi_entityType"))
+                Case 0
+                    'ผ่าน
+                    m_item.Entity = New BlankItem(e.ProposedValue.ToString)
+                    m_item.EntityName = e.ProposedValue.ToString
+                Case 42, 18, 20
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        m_updating = False
+                        Return
+                    End If
+                    If Not e.Row.IsNull("Code") AndAlso e.Row("Code").ToString.Length > 0 Then
+                        'มี Code อยู่ ---> 
+                        If Not IsDBNull(e.ProposedValue) AndAlso Not e.ProposedValue.ToString.Length = 0 Then
+                            Dim suffix As String = "<" & m_item.Entity.Name & ">"
+                            If e.ProposedValue.ToString <> suffix Then
+                                If e.ProposedValue.ToString.EndsWith(suffix) Then
+                                    Dim s As String = e.ProposedValue.ToString
+                                    e.ProposedValue = s.Remove(s.Length - suffix.Length, suffix.Length)
+                                End If
+                            End If
+                            m_item.EntityName = e.ProposedValue.ToString
+                            If e.ProposedValue.ToString <> m_item.Entity.Name Then
+                                e.ProposedValue = e.ProposedValue.ToString & suffix
+                            End If
+                        End If
+                    Else
+                        msgServ.ShowMessage("${res:Global.Error.ItemCodeMissing}")
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    End If
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
+            m_updating = False
+        End Sub
+        Private Function DupCode(ByVal e As DataColumnChangeEventArgs) As Boolean
+            If e.Row.IsNull("boqi_entityType") Then
+                Return False
+            End If
+            If IsDBNull(e.ProposedValue) Then
+                Return False
+            End If
+            For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+                If Not row Is e.Row Then
+                    If Not row.IsNull("boqi_entityType") Then
+                        If CInt(row("boqi_entityType")) = CInt(e.Row("boqi_entityType")) Then
+                            If Not row.IsNull("code") Then
+                                If e.ProposedValue.ToString.ToLower = row("code").ToString.ToLower Then
+                                    Return True
+                                End If
+                            End If
+                        End If
+                    End If
                 End If
-              End If
+            Next
+            Return False
+        End Function
+        Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
             End If
-          End If
-        End If
-      Next
-      Return False
-    End Function
-    Public Sub SetCode(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      'If DupCode(e) Then
-      '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {m_item.ItemType.Description, e.ProposedValue.ToString})
-      '    e.ProposedValue = e.Row(e.Column)
-      '    m_updating = False
-      '    Return
-      'End If
-      Select Case CInt(e.Row("boqi_entityType"))
-        Case 0 'Blank
-          If e.ProposedValue.ToString.Length > 0 Then
-            msgServ.ShowMessage("${res:Global.Error.BlankItemCannotHaveCode}")
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          End If
-        Case 18 'Labor
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLaborDetail}", New String() {e.Row(e.Column).ToString}) Then
-                ClearRow(e)
-              Else
+            If m_entity.Locked Then
                 e.ProposedValue = e.Row(e.Column)
-              End If
+                Return
             End If
-            m_updating = False
-            Return
-          End If
-          Dim myEntity As New Labor(e.ProposedValue.ToString)
-          If Not myEntity.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoLabor}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            'Display
-            Dim myUnit As Unit = myEntity.Unit
-            e.Row("boqi_entity") = myEntity.Id
-            e.ProposedValue = myEntity.Code
-            e.Row("boqi_itemName") = myEntity.Name
-            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-              e.Row("boqi_unit") = myUnit.Id
-              e.Row("Unit") = myUnit.Name
-            Else
-              e.Row("boqi_unit") = DBNull.Value
-              e.Row("Unit") = DBNull.Value
-            End If
-
-            'Set Item Value
-            m_item.Entity = myEntity
-            m_item.ULC = myEntity.Cost
-            m_item.Unit = myEntity.Unit
-
-          End If
-        Case 20 'Equipment
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLaborDetail}", New String() {e.Row(e.Column).ToString}) Then
-                ClearRow(e)
-              Else
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
                 e.ProposedValue = e.Row(e.Column)
-              End If
+                m_updating = False
+                Return
             End If
-            m_updating = False
-            Return
-          End If
-          Dim myEntity As New EqCost(e.ProposedValue.ToString)
-          If Not myEntity.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoEqCost}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          Else
-            'Display
-            Dim myUnit As Unit = myEntity.Unit
-            e.Row("boqi_entity") = myEntity.Id
-            e.ProposedValue = myEntity.Code
-            e.Row("boqi_itemName") = myEntity.Name
-            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-              e.Row("boqi_unit") = myUnit.Id
-              e.Row("Unit") = myUnit.Name
-            Else
-              e.Row("boqi_unit") = DBNull.Value
-              e.Row("Unit") = DBNull.Value
+            'If DupCode(e) Then
+            '    msgServ.ShowMessageFormatted("${res:Global.Error.AlreadyHasCode}", New String() {m_item.ItemType.Description, e.ProposedValue.ToString})
+            '    e.ProposedValue = e.Row(e.Column)
+            '    m_updating = False
+            '    Return
+            'End If
+            Select Case CInt(e.Row("boqi_entityType"))
+                Case 0 'Blank
+                    If e.ProposedValue.ToString.Length > 0 Then
+                        msgServ.ShowMessage("${res:Global.Error.BlankItemCannotHaveCode}")
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    End If
+                Case 18 'Labor
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLaborDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                ClearRow(e)
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim myEntity As New Labor(e.ProposedValue.ToString)
+                    If Not myEntity.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoLabor}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        'Display
+                        Dim myUnit As Unit = myEntity.Unit
+                        e.Row("boqi_entity") = myEntity.Id
+                        e.ProposedValue = myEntity.Code
+                        e.Row("boqi_itemName") = myEntity.Name
+                        If Not myUnit Is Nothing AndAlso myUnit.Originated Then
+                            e.Row("boqi_unit") = myUnit.Id
+                            e.Row("Unit") = myUnit.Name
+                        Else
+                            e.Row("boqi_unit") = DBNull.Value
+                            e.Row("Unit") = DBNull.Value
+                        End If
+
+                        'Set Item Value
+                        m_item.Entity = myEntity
+                        m_item.ULC = myEntity.Cost
+                        m_item.Unit = myEntity.Unit
+
+                    End If
+                Case 20 'Equipment
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLaborDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                ClearRow(e)
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim myEntity As New EqCost(e.ProposedValue.ToString)
+                    If Not myEntity.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoEqCost}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    Else
+                        'Display
+                        Dim myUnit As Unit = myEntity.Unit
+                        e.Row("boqi_entity") = myEntity.Id
+                        e.ProposedValue = myEntity.Code
+                        e.Row("boqi_itemName") = myEntity.Name
+                        If Not myUnit Is Nothing AndAlso myUnit.Originated Then
+                            e.Row("boqi_unit") = myUnit.Id
+                            e.Row("Unit") = myUnit.Name
+                        Else
+                            e.Row("boqi_unit") = DBNull.Value
+                            e.Row("Unit") = DBNull.Value
+                        End If
+
+                        'Set Item Value
+                        m_item.Entity = myEntity
+                        m_item.UEC = myEntity.Cost
+                        m_item.Unit = myEntity.Unit
+
+                    End If
+                Case 42 'LCI
+                    If e.ProposedValue.ToString.Length = 0 Then
+                        If e.Row(e.Column).ToString.Length <> 0 Then
+                            If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {e.Row(e.Column).ToString}) Then
+                                ClearRow(e)
+                            Else
+                                e.ProposedValue = e.Row(e.Column)
+                            End If
+                        End If
+                        m_updating = False
+                        Return
+                    End If
+                    Dim lci As New LCIItem(e.ProposedValue.ToString)
+                    If Not lci.Originated Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {e.ProposedValue.ToString})
+                        e.ProposedValue = e.Row(e.Column)
+                        m_updating = False
+                        Return
+                    ElseIf lci.Canceled Then
+                        msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {e.ProposedValue.ToString})
+                        Return
+                    Else
+                        Dim myUnit As Unit = lci.DefaultUnit
+                        e.Row("boqi_entity") = lci.Id
+                        e.ProposedValue = lci.Code
+                        If m_item.LastItemTypeId = 0 Then
+                            e.Row("boqi_itemName") = m_item.EntityName & "<" & lci.Name & ">"
+                        Else
+                            e.Row("boqi_itemName") = lci.Name
+                        End If
+
+                        If Not myUnit Is Nothing AndAlso myUnit.Originated Then
+                            e.Row("boqi_unit") = myUnit.Id
+                            e.Row("Unit") = myUnit.Name
+                        Else
+                            e.Row("boqi_unit") = DBNull.Value
+                            e.Row("Unit") = DBNull.Value
+                        End If
+
+                        'Set Item Value
+                        m_item.Entity = lci
+                        m_item.UMC = lci.FairPrice
+                        m_item.Unit = lci.DefaultUnit
+                    End If
+                Case Else
+                    msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                    e.ProposedValue = e.Row(e.Column)
+                    m_updating = False
+                    Return
+            End Select
+
+            If Not (m_item.LastItemTypeId = 0 And m_item.ItemType.Value = 42) Then
+                e.Row("boqi_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
+                m_item.Qty = 1
+
+                e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
+                e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+                e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
+                e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+                e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
+                e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+                e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
             End If
 
-            'Set Item Value
-            m_item.Entity = myEntity
-            m_item.UEC = myEntity.Cost
-            m_item.Unit = myEntity.Unit
-
-          End If
-        Case 42 'LCI
-          If e.ProposedValue.ToString.Length = 0 Then
-            If e.Row(e.Column).ToString.Length <> 0 Then
-              If msgServ.AskQuestionFormatted("${res:Global.Question.DeleteLCIDetail}", New String() {e.Row(e.Column).ToString}) Then
-                ClearRow(e)
-              Else
+            m_updating = False
+        End Sub
+        Public Sub SetUnitForWBS(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
+            End If
+            If IsDBNull(e.ProposedValue) Then
+                e.ProposedValue = ""
+            End If
+            m_updating = True
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If m_wbs Is Nothing Then
                 e.ProposedValue = e.Row(e.Column)
-              End If
+                m_updating = False
+                Return
             End If
-            m_updating = False
-            Return
-          End If
-          Dim lci As New LCIItem(e.ProposedValue.ToString)
-          If Not lci.Originated Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.NoLCI}", New String() {e.ProposedValue.ToString})
-            e.ProposedValue = e.Row(e.Column)
-            m_updating = False
-            Return
-          ElseIf lci.Canceled Then
-            msgServ.ShowMessageFormatted("${res:Global.Error.LCIIsCanceled}", New String() {e.ProposedValue.ToString})
-            Return
-          Else
-            Dim myUnit As Unit = lci.DefaultUnit
-            e.Row("boqi_entity") = lci.Id
-            e.ProposedValue = lci.Code
-            If m_item.LastItemTypeId = 0 Then
-              e.Row("boqi_itemName") = m_item.EntityName & "<" & lci.Name & ">"
-            Else
-              e.Row("boqi_itemName") = lci.Name
-            End If
-
+            Dim myUnit As New Unit(e.ProposedValue.ToString)
+            Dim err As String = ""
             If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-              e.Row("boqi_unit") = myUnit.Id
-              e.Row("Unit") = myUnit.Name
+
             Else
-              e.Row("boqi_unit") = DBNull.Value
-              e.Row("Unit") = DBNull.Value
+                err = "${res:Global.Error.InvalidUnit}"
+            End If
+            If err.Length = 0 Then
+                e.Row("boqi_unit") = myUnit.Id
+                e.ProposedValue = myUnit.Name
+                m_wbs.Unit = myUnit
+            Else
+                e.ProposedValue = e.Row(e.Column)
+                msgServ.ShowMessage(err)
+            End If
+            'TreeRow.TraverseRow(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
+            'TreeRow.TraverseRowBackward(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
+            m_updating = False
+        End Sub
+        Public Sub SetUnitValue(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
+                SetUnitForWBS(e)
+                Return
+            End If
+            If m_entity.Locked Then
+                e.ProposedValue = e.Row(e.Column)
+                Return
+            End If
+            If m_updating Then
+                Return
+            End If
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
+            End If
+            Dim oldConversion As Decimal = m_item.Conversion
+            Dim newConversion As Decimal = 1
+            Dim myUnit As New Unit(e.ProposedValue.ToString)
+            Dim err As String = ""
+            If Not myUnit Is Nothing AndAlso myUnit.Originated Then
+                If TypeOf m_item.Entity Is LCIItem Then
+                    If Not CType(m_item.Entity, LCIItem).ValidUnit(myUnit) Then
+                        err = "${res:Global.Error.NoUnitConversion}"
+                    Else
+                        newConversion = CType(m_item.Entity, LCIItem).GetConversion(myUnit)
+                    End If
+                ElseIf TypeOf m_item.Entity Is Labor Then
+                    'If Not (Not CType(m_item.Entity, Labor).Unit Is Nothing AndAlso CType(m_item.Entity, Labor).Unit.Id = myUnit.Id) Then
+                    '  err = "${res:Global.Error.NoUnitConversion}"
+                    'End If
+                ElseIf TypeOf m_item.Entity Is EqCost Then
+                    If Not (Not CType(m_item.Entity, EqCost).Unit Is Nothing AndAlso CType(m_item.Entity, EqCost).Unit.Id = myUnit.Id) Then
+                        err = "${res:Global.Error.NoUnitConversion}"
+                    End If
+                End If
+            Else
+                err = "${res:Global.Error.InvalidUnit}"
             End If
 
-            'Set Item Value
-            m_item.Entity = lci
-            m_item.UMC = lci.FairPrice
-            m_item.Unit = lci.DefaultUnit
-          End If
-        Case Else
-          msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-          e.ProposedValue = e.Row(e.Column)
-          m_updating = False
-          Return
-      End Select
-
-      If Not (m_item.LastItemTypeId = 0 And m_item.ItemType.Value = 42) Then
-        e.Row("boqi_qty") = Configuration.FormatToString(1D, DigitConfig.Qty)
-        m_item.Qty = 1
-
-        e.Row("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
-        e.Row("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-        e.Row("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
-        e.Row("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-        e.Row("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
-        e.Row("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-        e.Row("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      End If
-
-      m_updating = False
-    End Sub
-    Public Sub SetUnitForWBS(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      If IsDBNull(e.ProposedValue) Then
-        e.ProposedValue = ""
-      End If
-      m_updating = True
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If m_wbs Is Nothing Then
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Dim myUnit As New Unit(e.ProposedValue.ToString)
-      Dim err As String = ""
-      If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-
-      Else
-        err = "${res:Global.Error.InvalidUnit}"
-      End If
-      If err.Length = 0 Then
-        e.Row("boqi_unit") = myUnit.Id
-        e.ProposedValue = myUnit.Name
-        m_wbs.Unit = myUnit
-      Else
-        e.ProposedValue = e.Row(e.Column)
-        msgServ.ShowMessage(err)
-      End If
-      'TreeRow.TraverseRow(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
-      'TreeRow.TraverseRowBackward(CType(e.Row, TreeRow), AddressOf UpdateWBSRows)
-      m_updating = False
-    End Sub
-    Public Sub SetUnitValue(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If TypeOf CType(e.Row, TreeRow).Tag Is WBS Then
-        SetUnitForWBS(e)
-        Return
-      End If
-      If m_entity.Locked Then
-        e.ProposedValue = e.Row(e.Column)
-        Return
-      End If
-      If m_updating Then
-        Return
-      End If
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      Dim oldConversion As Decimal = m_item.Conversion
-      Dim newConversion As Decimal = 1
-      Dim myUnit As New Unit(e.ProposedValue.ToString)
-      Dim err As String = ""
-      If Not myUnit Is Nothing AndAlso myUnit.Originated Then
-        If TypeOf m_item.Entity Is LCIItem Then
-          If Not CType(m_item.Entity, LCIItem).ValidUnit(myUnit) Then
-            err = "${res:Global.Error.NoUnitConversion}"
-          Else
-            newConversion = CType(m_item.Entity, LCIItem).GetConversion(myUnit)
-          End If
-        ElseIf TypeOf m_item.Entity Is Labor Then
-          'If Not (Not CType(m_item.Entity, Labor).Unit Is Nothing AndAlso CType(m_item.Entity, Labor).Unit.Id = myUnit.Id) Then
-          '  err = "${res:Global.Error.NoUnitConversion}"
-          'End If
-        ElseIf TypeOf m_item.Entity Is EqCost Then
-          If Not (Not CType(m_item.Entity, EqCost).Unit Is Nothing AndAlso CType(m_item.Entity, EqCost).Unit.Id = myUnit.Id) Then
-            err = "${res:Global.Error.NoUnitConversion}"
-          End If
-        End If
-      Else
-        err = "${res:Global.Error.InvalidUnit}"
-      End If
-
-      If err.Length = 0 Then
-        e.Row("boqi_unit") = myUnit.Id
-        e.ProposedValue = myUnit.Name
-        Me.m_item.Unit = myUnit
-        If Not TypeOf m_item.Entity Is Labor Then
-          If Not e.Row.IsNull("boqi_qty") AndAlso e.Row("boqi_qty").ToString.Length > 0 Then
-            If newConversion <> 0 Then
-              e.Row("boqi_qty") = (oldConversion / newConversion) * CDec(e.Row("boqi_qty"))
+            If err.Length = 0 Then
+                e.Row("boqi_unit") = myUnit.Id
+                e.ProposedValue = myUnit.Name
+                Me.m_item.Unit = myUnit
+                If Not TypeOf m_item.Entity Is Labor Then
+                    If Not e.Row.IsNull("boqi_qty") AndAlso e.Row("boqi_qty").ToString.Length > 0 Then
+                        If newConversion <> 0 Then
+                            e.Row("boqi_qty") = (oldConversion / newConversion) * CDec(e.Row("boqi_qty"))
+                        End If
+                    End If
+                    If Not e.Row.IsNull("boqi_umc") AndAlso e.Row("boqi_umc").ToString.Length > 0 Then
+                        If oldConversion <> 0 Then
+                            e.Row("boqi_umc") = (newConversion / oldConversion) * CDec(e.Row("boqi_umc"))
+                        End If
+                    End If
+                    If Not e.Row.IsNull("boqi_ulc") AndAlso e.Row("boqi_ulc").ToString.Length > 0 Then
+                        If oldConversion <> 0 Then
+                            e.Row("boqi_ulc") = (newConversion / oldConversion) * CDec(e.Row("boqi_ulc"))
+                        End If
+                    End If
+                    If Not e.Row.IsNull("boqi_uec") AndAlso e.Row("boqi_uec").ToString.Length > 0 Then
+                        If oldConversion <> 0 Then
+                            e.Row("boqi_uec") = (newConversion / oldConversion) * CDec(e.Row("boqi_uec"))
+                        End If
+                    End If
+                End If
+            Else
+                e.ProposedValue = e.Row(e.Column)
+                msgServ.ShowMessage(err)
             End If
-          End If
-          If Not e.Row.IsNull("boqi_umc") AndAlso e.Row("boqi_umc").ToString.Length > 0 Then
-            If oldConversion <> 0 Then
-              e.Row("boqi_umc") = (newConversion / oldConversion) * CDec(e.Row("boqi_umc"))
+        End Sub
+        Public Sub SetNote(ByVal e As System.Data.DataColumnChangeEventArgs)
+            If m_updating Then
+                Return
             End If
-          End If
-          If Not e.Row.IsNull("boqi_ulc") AndAlso e.Row("boqi_ulc").ToString.Length > 0 Then
-            If oldConversion <> 0 Then
-              e.Row("boqi_ulc") = (newConversion / oldConversion) * CDec(e.Row("boqi_ulc"))
+            Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+            If e.Row.IsNull("boqi_entityType") Then
+                msgServ.ShowMessage("${res:Global.Error.NoItemType}")
+                e.ProposedValue = e.Row(e.Column)
+                m_updating = False
+                Return
             End If
-          End If
-          If Not e.Row.IsNull("boqi_uec") AndAlso e.Row("boqi_uec").ToString.Length > 0 Then
-            If oldConversion <> 0 Then
-              e.Row("boqi_uec") = (newConversion / oldConversion) * CDec(e.Row("boqi_uec"))
-            End If
-          End If
-        End If
-      Else
-        e.ProposedValue = e.Row(e.Column)
-        msgServ.ShowMessage(err)
-      End If
-    End Sub
-    Public Sub SetNote(ByVal e As System.Data.DataColumnChangeEventArgs)
-      If m_updating Then
-        Return
-      End If
-      Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-      If e.Row.IsNull("boqi_entityType") Then
-        msgServ.ShowMessage("${res:Global.Error.NoItemType}")
-        e.ProposedValue = e.Row(e.Column)
-        m_updating = False
-        Return
-      End If
-      m_item.Note = e.ProposedValue.ToString
-      m_updating = False
-    End Sub
-    Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
-      'Dim row As DataRow = e.Row
-      'Me.m_treeManager.Treetable.Childs.Remove(CType(row, TreeRow))
-      'Try
-      '    If Not Me.m_isInitialized Then
-      '        Return
-      '    End If
+            m_item.Note = e.ProposedValue.ToString
+            m_updating = False
+        End Sub
+        Private Sub ItemDelete(ByVal sender As Object, ByVal e As System.Data.DataRowChangeEventArgs)
+            'Dim row As DataRow = e.Row
+            'Me.m_treeManager.Treetable.Childs.Remove(CType(row, TreeRow))
+            'Try
+            '    If Not Me.m_isInitialized Then
+            '        Return
+            '    End If
 
-      '    Dim index As TreeRow = CType(e.Row, TreeRow)
-      '    Me.m_treeManager.Treetable.Childs.Remove(index)
-      'Catch ex As Exception
-      '    MessageBox.Show(ex.ToString)
-      'End Try
-    End Sub
+            '    Dim index As TreeRow = CType(e.Row, TreeRow)
+            '    Me.m_treeManager.Treetable.Childs.Remove(index)
+            'Catch ex As Exception
+            '    MessageBox.Show(ex.ToString)
+            'End Try
+        End Sub
 #End Region
 
 #Region "IListDetail"
-    Public Overrides Sub CheckFormEnable()
-      '-------- ให้เห็น ปุ่ม lock
-      Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
-      Dim level As Integer = secSrv.GetAccess(349)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
-      Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
-      checkString = BinaryHelper.RevertString(checkString)
+        Public Overrides Sub CheckFormEnable()
+            '-------- ให้เห็น ปุ่ม lock
+            Dim secSrv As SecurityService = CType(ServiceManager.Services.GetService(GetType(SecurityService)), SecurityService)
+            Dim level As Integer = secSrv.GetAccess(349)       'ตรวจสอบ สิทธิปลดล๊อคใบรับของ
+            Dim checkString As String = BinaryHelper.DecToBin(level, 5)      'เปลี่ยนตัวเลขเป็น รหัส 01 5ตัว ตามค่าตัวเลข
+            checkString = BinaryHelper.RevertString(checkString)
 
-      btnLockBoq.Visible = True
-      If Not CBool(checkString.Substring(0, 1)) Then
-        btnLockBoq.Visible = False
-      End If
-      '----------
-    End Sub
-    Public Overrides Sub ClearDetail()
-      For Each crlt As Control In Me.Controls
-        If crlt.Name.StartsWith("txt") Then
-          crlt.Text = ""
-        End If
-      Next
-    End Sub
-    Public Overrides Sub SetLabelText()
-      If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
-      Me.grbPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbPrice}")
-      Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      Me.lblMat.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblMat}")
-      Me.lblLabor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblLabor}")
-      Me.lblTotal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblTotal}")
-      Me.lblWorkBreakdown.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblWorkBreakdown}")
-      Me.grbUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbUnitPrice}")
-      Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
-      Me.grbSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbSupplier}")
-      'Me.chkSubLab.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.chkSubLab}")
-      'Me.chkSubEq.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.chkSubEq}")
-      Me.lblEquip.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblEquip}")
-      Me.grbEquip.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbEquip}")
-      Me.grbLabor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbLabor}")
-      Me.lblBOQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblBOQCode}")
-      Me.lblProject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblProject}")
-      Me.lblItemQTY.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemQTY}")
-      Me.lblItemUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemUnit}")
-      Me.lblItemDes.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemDes}")
-      Me.lblItemNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemNote}")
-      Me.lblItemCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemCode}")
-      Me.lblItemTotalPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemTotalPrice}")
-      Me.lblItemUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemUnitPrice}")
-      Me.lblCurrentPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblCurrentPrice}")
-      Me.btnApplyLCIUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnApplyLCIUnitPrice}")
-      Me.btnSupplierDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnSupplierDetail}")
-      Me.btnApplyEqCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnApplyEqCost}")
-      Me.btnApplyLaborUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnApplyLaborUnitPrice}")
-      Me.tpItemDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.tpItemDetail}")
-      Me.tpLaborEq.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.tpLaborEq}")
-      Me.tpUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.tpUnitPrice}")
-      Me.lblEntityType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblEntityType}")
-      Me.lblMonthPeriod.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblRecentMonth}")
-      Me.lblMonth.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblMonth}")
-    End Sub
-    Protected Overrides Sub EventWiring()
-      AddHandler txtItemCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemDescription.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemUnitCode.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemQty.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemEqUnitPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemTotalEqPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemLaborUnitPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemTotalLaborPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemMatUnitPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemTotalMatPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtItemTotalMatPrice.Validated, AddressOf Me.ChangeProperty
-      AddHandler cmbEntityType.SelectedIndexChanged, AddressOf Me.ChangeProperty
-      AddHandler txtItemNote.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtMonthPeriod.Validated, AddressOf Me.ChangeProperty
-      AddHandler txtMonthPeriod.Click, AddressOf Me.ChangeProperty
-    End Sub
-    ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
-    Public Overrides Sub UpdateEntityProperties()
-      m_isInitialized = False
-      ClearDetail()
-      If m_entity Is Nothing Then
-        Return
-      End If
+            btnLockBoq.Visible = True
+            If Not CBool(checkString.Substring(0, 1)) Then
+                btnLockBoq.Visible = False
+            End If
+            '----------
+        End Sub
+        Public Overrides Sub ClearDetail()
+            For Each crlt As Control In Me.Controls
+                If crlt.Name.StartsWith("txt") Then
+                    crlt.Text = ""
+                End If
+            Next
+        End Sub
+        Public Overrides Sub SetLabelText()
+            If Not m_entity Is Nothing Then Me.Text = Me.StringParserService.Parse(Me.m_entity.TabPageText)
+            Me.grbPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbPrice}")
+            Me.lblBaht.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.lblBaht1.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.lblMat.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblMat}")
+            Me.lblLabor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblLabor}")
+            Me.lblTotal.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblTotal}")
+            Me.lblWorkBreakdown.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblWorkBreakdown}")
+            Me.grbUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbUnitPrice}")
+            Me.lblBaht2.Text = Me.StringParserService.Parse("${res:Global.CurrencyUnit}")
+            Me.grbSupplier.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbSupplier}")
+            'Me.chkSubLab.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.chkSubLab}")
+            'Me.chkSubEq.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.chkSubEq}")
+            Me.lblEquip.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblEquip}")
+            Me.grbEquip.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbEquip}")
+            Me.grbLabor.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.grbLabor}")
+            Me.lblBOQCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblBOQCode}")
+            Me.lblProject.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblProject}")
+            Me.lblItemQTY.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemQTY}")
+            Me.lblItemUnit.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemUnit}")
+            Me.lblItemDes.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemDes}")
+            Me.lblItemNote.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemNote}")
+            Me.lblItemCode.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemCode}")
+            Me.lblItemTotalPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemTotalPrice}")
+            Me.lblItemUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblItemUnitPrice}")
+            Me.lblCurrentPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblCurrentPrice}")
+            Me.btnApplyLCIUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnApplyLCIUnitPrice}")
+            Me.btnSupplierDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnSupplierDetail}")
+            Me.btnApplyEqCost.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnApplyEqCost}")
+            Me.btnApplyLaborUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.btnApplyLaborUnitPrice}")
+            Me.tpItemDetail.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.tpItemDetail}")
+            Me.tpLaborEq.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.tpLaborEq}")
+            Me.tpUnitPrice.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.tpUnitPrice}")
+            Me.lblEntityType.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblEntityType}")
+            Me.lblMonthPeriod.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblRecentMonth}")
+            Me.lblMonth.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.ItemListing.lblMonth}")
+        End Sub
+        Protected Overrides Sub EventWiring()
+            AddHandler txtItemCode.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemDescription.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemUnitCode.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemQty.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemEqUnitPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemTotalEqPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemLaborUnitPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemTotalLaborPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemMatUnitPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemTotalMatPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtItemTotalMatPrice.Validated, AddressOf Me.ChangeProperty
+            AddHandler cmbEntityType.SelectedIndexChanged, AddressOf Me.ChangeProperty
+            AddHandler txtItemNote.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtMonthPeriod.Validated, AddressOf Me.ChangeProperty
+            AddHandler txtMonthPeriod.Click, AddressOf Me.ChangeProperty
+        End Sub
+        ' แสดงค่าข้อมูลของลูกค้าลงใน control ที่อยู่บนฟอร์ม
+        Public Overrides Sub UpdateEntityProperties()
+            m_isInitialized = False
+            ClearDetail()
+            If m_entity Is Nothing Then
+                Return
+            End If
 
-      txtMonthPeriod.Text = Configuration.GetConfig("ActualPricePeriod")
+            txtMonthPeriod.Text = Configuration.GetConfig("ActualPricePeriod")
 
-      txtBOQCode.Text = m_entity.Code
-      txtProjectCode.Text = m_entity.Project.Code
-      txtProjectName.Text = m_entity.Project.Name
+            txtBOQCode.Text = m_entity.Code
+            txtProjectCode.Text = m_entity.Project.Code
+            txtProjectName.Text = m_entity.Project.Name
 
-      chkEquip.Checked = m_entity.HasEquipmentCost
-      chkLabor.Checked = m_entity.HasLaborCost
-      chkMat.Checked = m_entity.HasMaterialCost
+            chkEquip.Checked = m_entity.HasEquipmentCost
+            chkLabor.Checked = m_entity.HasLaborCost
+            chkMat.Checked = m_entity.HasMaterialCost
 
-      If Not m_entity.Originated Then
-        btnLockBoq.Visible = False
-        ibtnDelRow.Enabled = True
-        ibtnBlank.Enabled = True
-      ElseIf m_entity.Locked Then
+            If Not m_entity.Originated Then
+                btnLockBoq.Visible = False
+                ibtnDelRow.Enabled = True
+                ibtnBlank.Enabled = True
+            ElseIf m_entity.Locked Then
                 Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_locked
-        'btnLockBoq.Text = "UnLock"
-        ibtnDelRow.Enabled = False
-        ibtnBlank.Enabled = False
+                'btnLockBoq.Text = "UnLock"
+                ibtnDelRow.Enabled = False
+                ibtnBlank.Enabled = False
             ElseIf Not (m_entity.Locked) Then
                 Me.btnLockBoq.Image = Global.My.Resources.Resources.padlock_unlocked
                 ''btnLockBoq.Text = "Lock"
                 ibtnDelRow.Enabled = True
                 ibtnBlank.Enabled = True
-      End If
+            End If
 
-      If Not Me.m_treeManager.GridTableStyle Is Nothing Then
-        If Me.m_treeManager.GridTableStyle.GridColumnStyles.Contains("UnitButton") Then
-          Dim btnCol As DataGridButtonColumn = CType(Me.m_treeManager.GridTableStyle.GridColumnStyles("UnitButton"), DataGridButtonColumn)
-          RemoveHandler btnCol.Click, AddressOf ButtonClick
-        End If
-      End If
-      Dim dst As DataGridTableStyle = Me.CreateTableStyle()
-      m_treeManager.SetTableStyle(dst)
+            If Not Me.m_treeManager.GridTableStyle Is Nothing Then
+                If Me.m_treeManager.GridTableStyle.GridColumnStyles.Contains("UnitButton") Then
+                    Dim btnCol As DataGridButtonColumn = CType(Me.m_treeManager.GridTableStyle.GridColumnStyles("UnitButton"), DataGridButtonColumn)
+                    RemoveHandler btnCol.Click, AddressOf ButtonClick
+                End If
+            End If
+            Dim dst As DataGridTableStyle = Me.CreateTableStyle()
+            m_treeManager.SetTableStyle(dst)
 
-      Dim excludeString As String = GetExcludeString()
-      If excludeString.Length = 0 Then
-        CodeDescription.ListCodeDescriptionInComboBox(Me.cmbEntityType, "boqi_entityType")
-      Else
-        CodeDescription.ListCodeDescriptionInComboBox(Me.cmbEntityType, "boqi_entityType", "code_value not in (" & excludeString & ")")
-      End If
+            Dim excludeString As String = GetExcludeString()
+            If excludeString.Length = 0 Then
+                CodeDescription.ListCodeDescriptionInComboBox(Me.cmbEntityType, "boqi_entityType")
+            Else
+                CodeDescription.ListCodeDescriptionInComboBox(Me.cmbEntityType, "boqi_entityType", "code_value not in (" & excludeString & ")")
+            End If
 
-      RefreshItems()
+            RefreshItems()
 
-      SetStatus()
-      SetLabelText()
-      CheckFormEnable()
-      m_isInitialized = True
-    End Sub
-    Private m_dateSetting As Boolean = False
-    Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
-      If Me.m_entity Is Nothing Or Not m_isInitialized Then
-        Return
-      End If
-      If Me.m_item Is Nothing Then
-        Return
-      End If
-      Dim row As TreeRow = Me.m_treeManager.SelectedRow
-      If row Is Nothing Then
-        Return
-      End If
-      Dim dirtyFlag As Boolean = False
-      Select Case CType(sender, Control).Name.ToLower
-        Case "txtitemcode"
-          row("code") = txtItemCode.Text
-        Case "txtitemdescription"
-          row("boqi_itemname") = txtItemDescription.Text
-        Case "txtitemunitcode"
-          row("unit") = txtItemUnitCode.Text
-        Case "txtitemqty"
-          row("boqi_qty") = txtItemQty.Text
-        Case "txtitemequnitprice"
-          row("boqi_uec") = txtItemEqUnitPrice.Text
-        Case "txtitemtotaleqprice"
-          row("totalequipmentcost") = txtItemTotalEqPrice.Text
-        Case "txtitemlaborunitprice"
-          row("boqi_ulc") = txtItemLaborUnitPrice.Text
-        Case "txtitemtotallaborprice"
-          row("totallaborcost") = txtItemTotalLaborPrice.Text
-        Case "txtitemmatunitprice"
-          row("boqi_umc") = txtItemMatUnitPrice.Text
-        Case "txtitemtotalmatprice"
-          row("totalmaterialcost") = txtItemTotalMatPrice.Text
-        Case "cmbentitytype"
-          If Me.cmbEntityType.Items.Count > 0 Then
-            row("boqi_entitytype") = CType(cmbEntityType.SelectedItem, IdValuePair).Id
-          End If
-        Case "txtitemnote"
-          row("boqi_note") = txtItemNote.Text
-        Case "txtmonthperiod"
-          If TypeOf Me.m_item.Entity Is LCIItem Then
-            Dim lci As LCIItem = CType(Me.m_item.Entity, LCIItem)
-            lci.MonthPeriod = txtMonthPeriod.Text
-          End If
-          UpdateItem()
-      End Select
-      Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
-      CheckFormEnable()
-    End Sub
-    Public Sub SetStatus()
+            SetStatus()
+            SetLabelText()
+            CheckFormEnable()
+            m_isInitialized = True
+        End Sub
+        Private m_dateSetting As Boolean = False
+        Public Sub ChangeProperty(ByVal sender As Object, ByVal e As EventArgs)
+            If Me.m_entity Is Nothing Or Not m_isInitialized Then
+                Return
+            End If
+            If Me.m_item Is Nothing Then
+                Return
+            End If
+            Dim row As TreeRow = Me.m_treeManager.SelectedRow
+            If row Is Nothing Then
+                Return
+            End If
+            Dim dirtyFlag As Boolean = False
+            Select Case CType(sender, Control).Name.ToLower
+                Case "txtitemcode"
+                    row("code") = txtItemCode.Text
+                Case "txtitemdescription"
+                    row("boqi_itemname") = txtItemDescription.Text
+                Case "txtitemunitcode"
+                    row("unit") = txtItemUnitCode.Text
+                Case "txtitemqty"
+                    row("boqi_qty") = txtItemQty.Text
+                Case "txtitemequnitprice"
+                    row("boqi_uec") = txtItemEqUnitPrice.Text
+                Case "txtitemtotaleqprice"
+                    row("totalequipmentcost") = txtItemTotalEqPrice.Text
+                Case "txtitemlaborunitprice"
+                    row("boqi_ulc") = txtItemLaborUnitPrice.Text
+                Case "txtitemtotallaborprice"
+                    row("totallaborcost") = txtItemTotalLaborPrice.Text
+                Case "txtitemmatunitprice"
+                    row("boqi_umc") = txtItemMatUnitPrice.Text
+                Case "txtitemtotalmatprice"
+                    row("totalmaterialcost") = txtItemTotalMatPrice.Text
+                Case "cmbentitytype"
+                    If Me.cmbEntityType.Items.Count > 0 Then
+                        row("boqi_entitytype") = CType(cmbEntityType.SelectedItem, IdValuePair).Id
+                    End If
+                Case "txtitemnote"
+                    row("boqi_note") = txtItemNote.Text
+                Case "txtmonthperiod"
+                    If TypeOf Me.m_item.Entity Is LCIItem Then
+                        Dim lci As LCIItem = CType(Me.m_item.Entity, LCIItem)
+                        lci.MonthPeriod = txtMonthPeriod.Text
+                    End If
+                    UpdateItem()
+            End Select
+            Me.WorkbenchWindow.ViewContent.IsDirty = Me.WorkbenchWindow.ViewContent.IsDirty Or dirtyFlag
+            CheckFormEnable()
+        End Sub
+        Public Sub SetStatus()
 
-    End Sub
-    Public Overrides Property Entity() As ISimpleEntity
-      Get
-        Return Me.m_entity
-      End Get
-      Set(ByVal Value As ISimpleEntity)
-        If Not Object.ReferenceEquals(Me.m_entity, Value) Then
-          m_level = 0
-          Me.lblLevel.Text = m_level.ToString()
-          If Not Me.m_entity Is Nothing Then
-            Me.m_entity.Dispose()
-            Me.m_entity = Nothing
-          End If
-          Me.m_entity = CType(Value, BOQ)
-        End If
-        'Hack:
-        If Not m_entity Is Nothing Then
-          Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
-        End If
-        If Me.WorkbenchWindow.ActiveViewContent Is Me Then
-          Me.tgItem.Visible = False
-          UpdateEntityProperties()
-          Me.tgItem.Visible = True
-        End If
-      End Set
-    End Property
+        End Sub
+        Public Overrides Property Entity() As ISimpleEntity
+            Get
+                Return Me.m_entity
+            End Get
+            Set(ByVal Value As ISimpleEntity)
+                If Not Object.ReferenceEquals(Me.m_entity, Value) Then
+                    m_level = 0
+                    Me.lblLevel.Text = m_level.ToString()
+                    If Not Me.m_entity Is Nothing Then
+                        Me.m_entity.Dispose()
+                        Me.m_entity = Nothing
+                    End If
+                    Me.m_entity = CType(Value, BOQ)
+                End If
+                'Hack:
+                If Not m_entity Is Nothing Then
+                    Me.m_entity.OnTabPageTextChanged(m_entity, EventArgs.Empty)
+                End If
+                If Me.WorkbenchWindow.ActiveViewContent Is Me Then
+                    Me.tgItem.Visible = False
+                    UpdateEntityProperties()
+                    Me.tgItem.Visible = True
+                End If
+            End Set
+        End Property
 
-    Public Overrides Sub Initialize()
-      'PopulateRequestor()
-      'PopulateCostCenter()
-    End Sub
-    Public Overrides Sub InitProgress()
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim totalWork As Integer = Me.m_entity.WBSCollection.Count + Me.m_entity.ItemCollection.Count
-      Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
-      myStatusBarService.ProgressMonitor.BeginTask("${res:MainWindow.StatusBar.LoadingEntity}", totalWork)
-    End Sub
-    Public Sub WorkDone(ByVal i As Integer)
-      Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
-      myStatusBarService.ProgressMonitor.Worked(i)
-    End Sub
+        Public Overrides Sub Initialize()
+            'PopulateRequestor()
+            'PopulateCostCenter()
+        End Sub
+        Public Overrides Sub InitProgress()
+            If Me.m_entity Is Nothing Then
+                Return
+            End If
+            Dim totalWork As Integer = Me.m_entity.WBSCollection.Count + Me.m_entity.ItemCollection.Count
+            Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
+            myStatusBarService.ProgressMonitor.BeginTask("${res:MainWindow.StatusBar.LoadingEntity}", totalWork)
+        End Sub
+        Public Sub WorkDone(ByVal i As Integer)
+            Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
+            myStatusBarService.ProgressMonitor.Worked(i)
+        End Sub
 #End Region
 
 #Region "Event Handlers"
-    Private Sub ibtnShowUnit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowUnit.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New Unit)
-    End Sub
-    Private Sub ibtnShowUnitDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowUnitDialog.Click
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Unit, AddressOf SetItemUnit)
-    End Sub
-    Private Sub SetItemUnit(ByVal e As ISimpleEntity)
-      Me.txtItemUnitCode.Text = e.Code
-    End Sub
-    Private Sub UpdateItemRow()
-      Dim itr As TreeRow = Me.m_treeManager.SelectedRow
-      If itr Is Nothing Then
-        Return
-      End If
-      If Me.m_item Is Nothing Then
-        Return
-      End If
-      Me.m_tableInitialized = False
-      itr("Code") = m_item.Entity.Code
-      If m_item.EntityName Is Nothing OrElse m_item.EntityName.Length = 0 Then
-        itr("boqi_itemName") = m_item.Entity.Name
-      Else
-        itr("boqi_itemName") = m_item.EntityName & "<" & m_item.Entity.Name & ">"
-      End If
-      itr("boqi_note") = m_item.Note
-      itr("boqi_entity") = m_item.Entity.Id
-      If Not m_item.ItemType Is Nothing Then
-        itr("boqi_entityType") = m_item.ItemType.Value
-        Select Case m_item.ItemType.Value
-          Case 0
-            itr("Button") = "invisible"
-          Case Else
-            itr("Button") = ""
-        End Select
-      Else
-        itr("Button") = ""
-      End If
-      itr("boqi_unit") = m_item.Unit.Id
-      itr("Unit") = m_item.Unit.Name
-      itr("UnitButton") = ""
-      itr("boqi_qty") = m_item.Qty
-      itr("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
-      itr("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-      itr("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
-      itr("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-      itr("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
-      itr("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-      itr("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      itr("boqi_note") = m_item.Note
-      Me.m_tableInitialized = True
-    End Sub
-    Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
-      WorkbenchSingleton.Workbench.RedrawEditComponents()
-      Dim theRow As TreeRow = m_treeManager.SelectedRow
-      If m_oldRow Is theRow Then
-        Return
-      End If
-
-      m_wbs = Nothing
-      m_item = Nothing
-
-      If TypeOf theRow.Tag Is WBS Then
-        m_wbs = CType(theRow.Tag, WBS)
-        UpdateWBS()
-      ElseIf TypeOf theRow.Tag Is BoqItem Then
-        m_item = CType(theRow.Tag, BoqItem)
-        UpdateItem()
-      End If
-      m_oldRow = m_treeManager.SelectedRow
-    End Sub
-    Private Sub tgLCILabor_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCILabor.CurrentCellChanged
-      Dim selectedValue As Object = Me.m_laborCostManager.Treetable.Rows(tgLCILabor.CurrentCell.RowNumber)("Cost")
-      If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
-        Me.m_seletedLaborCost = selectedValue
-        Me.btnApplyLaborUnitPrice.Enabled = True
-      Else
-        m_seletedLaborCost = DBNull.Value
-        Me.btnApplyLaborUnitPrice.Enabled = False
-      End If
-    End Sub
-    Private Sub tgLCIEqCost_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCIEqCost.CurrentCellChanged
-      Dim selectedValue As Object = Me.m_eqCostManager.Treetable.Rows(tgLCIEqCost.CurrentCell.RowNumber)("Cost")
-      If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
-        Me.m_selectedEqCost = selectedValue
-        Me.btnApplyEqCost.Enabled = True
-      Else
-        m_selectedEqCost = DBNull.Value
-        Me.btnApplyEqCost.Enabled = False
-      End If
-    End Sub
-    Private Sub tgLCIUnitPrice_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCIUnitPrice.CurrentCellChanged
-      Dim selectedValue As Object = Me.m_bestPriceManager.Treetable.Rows(tgLCIUnitPrice.CurrentCell.RowNumber)(tgLCIUnitPrice.CurrentCell.ColumnNumber)
-      If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
-        m_selectedPrice = selectedValue
-        Me.btnApplyLCIUnitPrice.Enabled = True
-      Else
-        m_selectedPrice = DBNull.Value
-        Me.btnApplyLCIUnitPrice.Enabled = False
-      End If
-    End Sub
-    Private Sub tgLCISupplier_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCISupplier.CurrentCellChanged
-      Dim selectedValue As Object = Me.m_supplierManager.Treetable.Rows(tgLCISupplier.CurrentCell.RowNumber)("lcis_supplier")
-      If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
-        Me.m_selectedSupplier = selectedValue
-        Me.btnSupplierDetail.Enabled = True
-      Else
-        m_selectedSupplier = DBNull.Value
-        Me.btnSupplierDetail.Enabled = False
-      End If
-    End Sub
-    Private Sub btnApplyLCIUnitPrice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyLCIUnitPrice.Click
-      If m_item Is Nothing Then
-        Return
-      End If
-      If IsDBNull(m_selectedPrice) OrElse Not IsNumeric(m_selectedPrice) Then
-        Return
-      End If
-      Me.m_item.UMC = CDec(m_selectedPrice)
-      Me.UpdateItem()
-      Me.UpdateItemRow()
-      Me.tgItem.RefreshHeights()
-    End Sub
-    Private Sub btnSupplierDetail_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSupplierDetail.Click
-      Dim id As Integer
-      If Not IsDBNull(m_selectedSupplier) AndAlso IsNumeric(m_selectedSupplier) Then
-        id = CInt(m_selectedSupplier)
-      End If
-      If id <> 0 Then
-        Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-        Dim entity As New Supplier(id)
-        myEntityPanelService.OpenDetailPanel(entity)
-      End If
-    End Sub
-    Private Sub btnApplyEqCost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyEqCost.Click
-      If m_item Is Nothing Then
-        Return
-      End If
-      If IsDBNull(m_selectedEqCost) OrElse Not IsNumeric(m_selectedEqCost) Then
-        Return
-      End If
-      Me.m_item.UEC = CDec(m_selectedEqCost)
-      Me.UpdateItem()
-      Me.UpdateItemRow()
-      Me.tgItem.RefreshHeights()
-    End Sub
-    Private Sub btnApplyLaborUnitPrice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyLaborUnitPrice.Click
-      If m_item Is Nothing Then
-        Return
-      End If
-      If IsDBNull(m_seletedLaborCost) OrElse Not IsNumeric(m_seletedLaborCost) Then
-        Return
-      End If
-      Me.m_item.ULC = CDec(m_seletedLaborCost)
-      Me.UpdateItem()
-      Me.UpdateItemRow()
-      Me.tgItem.RefreshHeights()
-    End Sub
-    Private Sub UpdateWBS()
-      Dim flag As Boolean = Me.m_isInitialized
-      Me.m_isInitialized = False
-      Me.txtItemCode.Text = m_wbs.Code
-      Me.txtItemName.Text = m_wbs.Name
-      Me.txtItemNote.Text = m_wbs.Note
-
-      '***************************************************
-      Me.tbDetail.SelectedTab = Me.tpItemDetail
-
-      Me.txtItemDescription.Text = ""
-      Me.txtItemEqUnitPrice.Text = ""
-      Me.txtItemLaborUnitPrice.Text = ""
-      Me.txtItemMatUnitPrice.Text = ""
-      Me.txtItemQty.Text = ""
-      Me.txtItemTotalEqPrice.Text = ""
-      Me.txtItemTotalLaborPrice.Text = ""
-      Me.txtItemTotalMatPrice.Text = ""
-      Me.txtItemTotalUnitPrice.Text = ""
-      Me.txtItemTotalPrice.Text = ""
-      Me.txtItemUnitCode.Text = ""
-      Me.txtItemUnitName.Text = ""
-      Me.txtCurrentPrice.Text = ""
-      Me.txtCurrentEq.Text = ""
-      Me.txtCurrentLabor.Text = ""
-
-      Me.tbDetail.Enabled = False
-      Me.m_isInitialized = flag
-    End Sub
-    Private Sub UpdateItem()
-      If m_item Is Nothing Then
-        Return
-      End If
-      Dim flag As Boolean = Me.m_isInitialized
-      Me.m_isInitialized = False
-      Me.tbDetail.Enabled = True
-
-      Me.txtItemCode.Text = m_item.Entity.Code
-      Me.txtItemName.Text = m_item.Entity.Name
-      Me.txtItemDescription.Text = m_item.EntityName
-      Me.txtItemEqUnitPrice.Text = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
-      Me.txtItemLaborUnitPrice.Text = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
-      Me.txtItemMatUnitPrice.Text = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
-      Me.txtItemQty.Text = Configuration.FormatToString(m_item.Qty, DigitConfig.UnitPrice)
-      Me.txtItemTotalEqPrice.Text = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
-      Me.txtItemTotalLaborPrice.Text = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
-      Me.txtItemTotalMatPrice.Text = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
-      Me.txtItemTotalUnitPrice.Text = Configuration.FormatToString(m_item.TotalUC, DigitConfig.UnitPrice)
-      Me.txtItemTotalPrice.Text = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
-      Me.txtItemUnitCode.Text = m_item.Unit.Code
-      Me.txtItemUnitName.Text = m_item.Unit.Name
-      Me.txtItemNote.Text = m_item.Note
-
-      CodeDescription.ComboSelect(Me.cmbEntityType, m_item.ItemType)
-
-      Me.txtCurrentPrice.Text = Me.txtItemMatUnitPrice.Text
-      Me.txtCurrentEq.Text = Me.txtItemEqUnitPrice.Text
-      Me.txtCurrentLabor.Text = Me.txtItemLaborUnitPrice.Text
-
-      If Not Me.m_bestPriceManager.Treetable Is Nothing Then
-        Me.m_bestPriceManager.Treetable.Clear()
-      End If
-      If Not Me.m_supplierManager.Treetable Is Nothing Then
-        Me.m_supplierManager.Treetable.Clear()
-      End If
-      If Not Me.m_eqCostManager.Treetable Is Nothing Then
-        Me.m_eqCostManager.Treetable.Clear()
-      End If
-      If Not Me.m_laborCostManager.Treetable Is Nothing Then
-        Me.m_laborCostManager.Treetable.Clear()
-      End If
-
-      If TypeOf Me.m_item.Entity Is LCIItem Then
-        Dim lci As LCIItem = CType(Me.m_item.Entity, LCIItem)
-        Dim tt As TreeTable = lci.GetBestPriceTable(m_item.Unit)
-        If Not tt Is Nothing Then
-          Me.m_bestPriceManager.Treetable = tt
-        End If
-        If m_bestPriceManager.GridTableStyle Is Nothing Then
-          Dim bpdst As DataGridTableStyle = Me.CreateBestPriceStyle
-          m_bestPriceManager.SetTableStyle(bpdst)
-        End If
-
-        tt = lci.GetSupplierListTable
-        If Not tt Is Nothing Then
-          Me.m_supplierManager.Treetable = tt
-        End If
-        If m_supplierManager.GridTableStyle Is Nothing Then
-          Dim spst As DataGridTableStyle = Me.CreateSupplierStyle
-          m_supplierManager.SetTableStyle(spst)
-        End If
-
-        tt = lci.GetEqCostListTable(m_item.Unit)
-        If Not tt Is Nothing Then
-          Me.m_eqCostManager.Treetable = tt
-        End If
-        If m_eqCostManager.GridTableStyle Is Nothing Then
-          Dim eqt As DataGridTableStyle = Me.CreateEqCostStyle
-          m_eqCostManager.SetTableStyle(eqt)
-        End If
-
-        tt = lci.GetLaborListTable(m_item.Unit)
-        If Not tt Is Nothing Then
-          Me.m_laborCostManager.Treetable = tt
-        End If
-        If m_laborCostManager.GridTableStyle Is Nothing Then
-          Dim lbt As DataGridTableStyle = Me.CreateLaborCostStyle
-          m_laborCostManager.SetTableStyle(lbt)
-        End If
-      End If
-
-      Me.m_isInitialized = flag
-    End Sub
-    Public Sub UnitButtonClick(ByVal e As ButtonColumnEventArgs)
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      If Not m_wbs Is Nothing Then
-        myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
-        Return
-      End If
-      If m_item Is Nothing Then
-        Return
-      End If
-      Dim filters(0) As Filter
-      Dim includeFilter As Boolean = False
-      If TypeOf m_item.Entity Is Labor Then
-        Dim myEntity As Labor = CType(m_item.Entity, Labor)
-        If Not myEntity.Unit Is Nothing AndAlso myEntity.Unit.Originated Then
-          filters(0) = New Filter("includedId", myEntity.Unit.Id)
-          includeFilter = True
-        End If
-      ElseIf TypeOf m_item.Entity Is EqCost Then
-        Dim myEntity As EqCost = CType(m_item.Entity, EqCost)
-        If Not myEntity.Unit Is Nothing AndAlso myEntity.Unit.Originated Then
-          filters(0) = New Filter("includedId", myEntity.Unit.Id)
-          includeFilter = True
-        End If
-      ElseIf TypeOf m_item.Entity Is LCIItem Then
-        Dim idList As String = CType(m_item.Entity, LCIItem).GetUnitIdList
-        includeFilter = True
-        If idList.Length > 0 Then
-          filters(0) = New Filter("includedId", idList)
-        Else
-          filters(0) = New Filter("includedId", "-1")
-        End If
-      End If
-      If includeFilter Then
-        myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit, filters)
-      Else
-        myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
-      End If
-    End Sub
-    Private Sub SetUnit(ByVal unit As ISimpleEntity)
-      Me.m_treeManager.SelectedRow("Unit") = unit.Code
-    End Sub
-    Private Sub btnShowLCI_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnShowLCI.Click
-      If m_item Is Nothing Then
-        Return
-      End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      If m_item.ItemType Is Nothing Then
-      Else
-        Select Case m_item.ItemType.Value
-          Case 0 'Blank
-            Return
-          Case 18 'Labor
-            myEntityPanelService.OpenPanel(New Labor)
-          Case 20 'EqCost
-            myEntityPanelService.OpenPanel(New EqCost)
-          Case 42 'LCI
-            myEntityPanelService.OpenPanel(New LCIItem)
-          Case Else
-        End Select
-      End If
-    End Sub
-    Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
-      ItemBtnClick()
-    End Sub
-    Private Sub ibnShowLCIDialog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibnShowLCIDialog.Click
-      ItemBtnClick()
-    End Sub
-    Private m_targetType As Integer
-    Private Sub ItemBtnClick()
-      If m_item Is Nothing Then
-        Return
-      End If
-      If m_entity.Locked Then
-        Return
-      End If
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      m_targetType = -1
-      If m_item.ItemType Is Nothing Then
-        Dim entities(2) As ISimpleEntity
-        entities(0) = New LCIItem
-        entities(2) = New LCIForList
-        entities(1) = New Labor
-        entities(3) = New EqCost
-        myEntityPanelService.OpenListDialog(entities, AddressOf SetItems)
-      Else
-        Select Case m_item.ItemType.Value
-          Case 0 'Blank
-            Return
-          Case 18 'Labor
-            myEntityPanelService.OpenListDialog(New Labor, AddressOf SetItems)
-          Case 20 'EqCost
-            myEntityPanelService.OpenListDialog(New EqCost, AddressOf SetItems)
-            'Case 42 'LCI
-            '  myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
-          Case Else
-            If m_item.ItemType.Value = 0 Or m_item.ItemType.Value = 18 Or m_item.ItemType.Value = 20 Or m_item.ItemType.Value = 42 Then
-              m_targetType = m_item.ItemType.Value
-              Dim entities(1) As ISimpleEntity
-              entities(0) = New LCIItem
-              entities(1) = New LCIForList
-              Dim activeIndex As Integer = -1
-              If Not m_item.ItemType Is Nothing Then
-                If m_item.ItemType.Value = 42 Then
-                  activeIndex = 0
-                End If
-              End If
-              myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
+        Private Sub ibtnShowUnit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnShowUnit.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenPanel(New Unit)
+        End Sub
+        Private Sub ibtnShowUnitDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnShowUnitDialog.Click
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenListDialog(New Unit, AddressOf SetItemUnit)
+        End Sub
+        Private Sub SetItemUnit(ByVal e As ISimpleEntity)
+            Me.txtItemUnitCode.Text = e.Code
+        End Sub
+        Private Sub UpdateItemRow()
+            Dim itr As TreeRow = Me.m_treeManager.SelectedRow
+            If itr Is Nothing Then
+                Return
             End If
-        End Select
-      End If
-    End Sub
-    Private Sub SetItems(ByVal items As BasketItemCollection)
-      Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
-      If theRow Is Nothing Then
-        Return
-      End If
-      For i As Integer = 0 To items.Count - 1
-        Dim item As BasketItem = CType(items(i), BasketItem)
-        Dim newItem As IHasName
-        Dim itemType As Integer
-        Select Case item.FullClassName.ToLower
-          Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
-            newItem = New LCIItem(item.Id)
-            itemType = 42
-          Case "longkong.pojjaman.businesslogic.labor"
-            newItem = New Labor(item.Id)
-            itemType = 18
-          Case "longkong.pojjaman.businesslogic.eqcost"
-            newItem = New EqCost(item.Id)
-            itemType = 20
-        End Select
-        If i = 0 Then
-          m_treeManager.SelectedRow("boqi_entitytype") = itemType
-          m_treeManager.SelectedRow("Code") = newItem.Code
-        Else
-          Dim parentRow As ITreeParent
-          Dim parentWBS As WBS
-          parentRow = theRow.Parent
-          parentWBS = CType(CType(parentRow, TreeRow).Tag, WBS)
-          Dim newBOQItem As New BoqItem
-          newBOQItem.WBS = parentWBS
-          Dim nextItem As BoqItem = m_entity.ItemCollection.GetNextItem(m_item)
-          If nextItem Is Nothing Then
-            'just add a new one
-            m_entity.ItemCollection.Add(newBOQItem)
-          Else
-            m_entity.ItemCollection.Insert(m_entity.ItemCollection.IndexOf(nextItem), newBOQItem)
-          End If
-          Dim newRow As TreeRow
-          Dim nextItemRow As TreeRow = FindNextItemRow(parentRow, nextItem)
-          If nextItemRow Is Nothing Then
-            newRow = parentRow.Childs.Add
-          Else
-            newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(nextItemRow))
-          End If
-          newRow.Tag = newBOQItem
-          m_item = newBOQItem
-          newRow("boqi_entitytype") = itemType
-          newRow("Code") = newItem.Code
-        End If
-        Me.m_treeManager.Treetable.AcceptChanges()
-      Next
-      Dim tr As TreeRow = Me.m_treeManager.SelectedRow
-      If TypeOf tr.Tag Is BoqItem Then
-        m_item = CType(tr.Tag, BoqItem)
-      End If
-      Me.tgItem.RefreshHeights()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub ibtnBlank_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
-      Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
-      If theRow Is Nothing Then
-        Return
-      End If
-      Dim parentRow As ITreeParent
-      Dim parentWBS As WBS
-      If TypeOf theRow.Tag Is WBS Then
-        parentRow = theRow
-        parentWBS = CType(theRow.Tag, WBS)
-      ElseIf TypeOf theRow.Tag Is BoqItem Then
-        parentRow = theRow.Parent
-        parentWBS = CType(CType(parentRow, TreeRow).Tag, WBS)
-      End If
-      Dim newItem As New BoqItem
-      newItem.WBS = parentWBS
-      Dim newRow As TreeRow
-      If TypeOf theRow.Tag Is WBS Or parentRow.Childs.Count = 0 Then
-        Dim nextWBSRow As TreeRow = FindWBSChildRow(parentRow)
-        If nextWBSRow Is Nothing Then
-          newRow = parentRow.Childs.Add
-        Else
-          newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(nextWBSRow))
-        End If
-        Me.m_entity.ItemCollection.Add(newItem)
-      ElseIf TypeOf theRow.Tag Is BoqItem Then
-        newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(theRow))
-        Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(CType(theRow.Tag, BoqItem)), newItem)
-      End If
-      newRow("boqi_itemName") = "<NEW>"
-      newRow.Tag = newItem
-      Me.m_item = newItem
-      Me.m_treeManager.Treetable.AcceptChanges()
-      Me.m_treeManager.SelectedRow = newRow
-      UpdateItemRow()
-      'RefreshItems()
-      'ReIndex()
-      Me.tgItem.RefreshHeights()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Sub ibtnDelRow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
-      If Me.m_entity Is Nothing Then
-        Return
-      End If
-      Dim theRow As TreeRow
-      Dim rowsCount As Integer = 0
-      For Each Obj As Object In Me.m_treeManager.SelectedRows
-        If Not Obj Is Nothing Then
-          rowsCount += 1
-          theRow = CType(Obj, TreeRow)
-          If Not theRow Is Nothing Then
-            If TypeOf theRow.Tag Is BoqItem Then
-
-              m_item = CType(theRow.Tag, BoqItem)
-              If Not m_item Is Nothing Then
-
-                Me.m_entity.ItemCollection.Remove(m_item)
-                For Each mk As Markup In Me.m_entity.MarkupCollection
-                  If mk.DistributedItems.Contains(m_item) Then
-                    mk.DistributedItems.Remove(m_item)
-                  End If
-                Next
-                If Me.m_entity.MaterialMarkupItems.Contains(m_item) Then
-                  Me.m_entity.MaterialMarkupItems.Remove(m_item)
-                End If
-                If Me.m_entity.LaborMarkupItems.Contains(m_item) Then
-                  Me.m_entity.LaborMarkupItems.Remove(m_item)
-                End If
-                If Me.m_entity.EquipmentMarkupItems.Contains(m_item) Then
-                  Me.m_entity.EquipmentMarkupItems.Remove(m_item)
-                End If
-
-              End If
-              theRow.Parent.Childs.Remove(theRow)
-
-              Dim nwbs As WBS = m_item.WBS
-              Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
+            If Me.m_item Is Nothing Then
+                Return
             End If
-          End If
-        End If
-      Next
+            Me.m_tableInitialized = False
+            itr("Code") = m_item.Entity.Code
+            If m_item.EntityName Is Nothing OrElse m_item.EntityName.Length = 0 Then
+                itr("boqi_itemName") = m_item.Entity.Name
+            Else
+                itr("boqi_itemName") = m_item.EntityName & "<" & m_item.Entity.Name & ">"
+            End If
+            itr("boqi_note") = m_item.Note
+            itr("boqi_entity") = m_item.Entity.Id
+            If Not m_item.ItemType Is Nothing Then
+                itr("boqi_entityType") = m_item.ItemType.Value
+                Select Case m_item.ItemType.Value
+                    Case 0
+                        itr("Button") = "invisible"
+                    Case Else
+                        itr("Button") = ""
+                End Select
+            Else
+                itr("Button") = ""
+            End If
+            itr("boqi_unit") = m_item.Unit.Id
+            itr("Unit") = m_item.Unit.Name
+            itr("UnitButton") = ""
+            itr("boqi_qty") = m_item.Qty
+            itr("boqi_umc") = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
+            itr("TotalMaterialCost") = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+            itr("boqi_ulc") = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
+            itr("TotalLaborCost") = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+            itr("boqi_uec") = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
+            itr("TotalEquipmentCost") = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+            itr("Total") = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+            itr("boqi_note") = m_item.Note
+            Me.m_tableInitialized = True
+        End Sub
+        Private Sub tgItem_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.CurrentCellChanged
+            WorkbenchSingleton.Workbench.RedrawEditComponents()
+            Dim theRow As TreeRow = m_treeManager.SelectedRow
+            If m_oldRow Is theRow Then
+                Return
+            End If
+
+            m_wbs = Nothing
+            m_item = Nothing
+
+            If TypeOf theRow.Tag Is WBS Then
+                m_wbs = CType(theRow.Tag, WBS)
+                UpdateWBS()
+            ElseIf TypeOf theRow.Tag Is BoqItem Then
+                m_item = CType(theRow.Tag, BoqItem)
+                UpdateItem()
+            End If
+            m_oldRow = m_treeManager.SelectedRow
+        End Sub
+        Private Sub tgLCILabor_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCILabor.CurrentCellChanged
+            Dim selectedValue As Object = Me.m_laborCostManager.Treetable.Rows(tgLCILabor.CurrentCell.RowNumber)("Cost")
+            If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
+                Me.m_seletedLaborCost = selectedValue
+                Me.btnApplyLaborUnitPrice.Enabled = True
+            Else
+                m_seletedLaborCost = DBNull.Value
+                Me.btnApplyLaborUnitPrice.Enabled = False
+            End If
+        End Sub
+        Private Sub tgLCIEqCost_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCIEqCost.CurrentCellChanged
+            Dim selectedValue As Object = Me.m_eqCostManager.Treetable.Rows(tgLCIEqCost.CurrentCell.RowNumber)("Cost")
+            If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
+                Me.m_selectedEqCost = selectedValue
+                Me.btnApplyEqCost.Enabled = True
+            Else
+                m_selectedEqCost = DBNull.Value
+                Me.btnApplyEqCost.Enabled = False
+            End If
+        End Sub
+        Private Sub tgLCIUnitPrice_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCIUnitPrice.CurrentCellChanged
+            Dim selectedValue As Object = Me.m_bestPriceManager.Treetable.Rows(tgLCIUnitPrice.CurrentCell.RowNumber)(tgLCIUnitPrice.CurrentCell.ColumnNumber)
+            If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
+                m_selectedPrice = selectedValue
+                Me.btnApplyLCIUnitPrice.Enabled = True
+            Else
+                m_selectedPrice = DBNull.Value
+                Me.btnApplyLCIUnitPrice.Enabled = False
+            End If
+        End Sub
+        Private Sub tgLCISupplier_CurrentCellChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgLCISupplier.CurrentCellChanged
+            Dim selectedValue As Object = Me.m_supplierManager.Treetable.Rows(tgLCISupplier.CurrentCell.RowNumber)("lcis_supplier")
+            If Not IsDBNull(selectedValue) AndAlso IsNumeric(selectedValue) Then 'Todo: Revise
+                Me.m_selectedSupplier = selectedValue
+                Me.btnSupplierDetail.Enabled = True
+            Else
+                m_selectedSupplier = DBNull.Value
+                Me.btnSupplierDetail.Enabled = False
+            End If
+        End Sub
+        Private Sub btnApplyLCIUnitPrice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyLCIUnitPrice.Click
+            If m_item Is Nothing Then
+                Return
+            End If
+            If IsDBNull(m_selectedPrice) OrElse Not IsNumeric(m_selectedPrice) Then
+                Return
+            End If
+            Me.m_item.UMC = CDec(m_selectedPrice)
+            Me.UpdateItem()
+            Me.UpdateItemRow()
+            Me.tgItem.RefreshHeights()
+        End Sub
+        Private Sub btnSupplierDetail_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSupplierDetail.Click
+            Dim id As Integer
+            If Not IsDBNull(m_selectedSupplier) AndAlso IsNumeric(m_selectedSupplier) Then
+                id = CInt(m_selectedSupplier)
+            End If
+            If id <> 0 Then
+                Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+                Dim entity As New Supplier(id)
+                myEntityPanelService.OpenDetailPanel(entity)
+            End If
+        End Sub
+        Private Sub btnApplyEqCost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyEqCost.Click
+            If m_item Is Nothing Then
+                Return
+            End If
+            If IsDBNull(m_selectedEqCost) OrElse Not IsNumeric(m_selectedEqCost) Then
+                Return
+            End If
+            Me.m_item.UEC = CDec(m_selectedEqCost)
+            Me.UpdateItem()
+            Me.UpdateItemRow()
+            Me.tgItem.RefreshHeights()
+        End Sub
+        Private Sub btnApplyLaborUnitPrice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyLaborUnitPrice.Click
+            If m_item Is Nothing Then
+                Return
+            End If
+            If IsDBNull(m_seletedLaborCost) OrElse Not IsNumeric(m_seletedLaborCost) Then
+                Return
+            End If
+            Me.m_item.ULC = CDec(m_seletedLaborCost)
+            Me.UpdateItem()
+            Me.UpdateItemRow()
+            Me.tgItem.RefreshHeights()
+        End Sub
+        Private Sub UpdateWBS()
+            Dim flag As Boolean = Me.m_isInitialized
+            Me.m_isInitialized = False
+            Me.txtItemCode.Text = m_wbs.Code
+            Me.txtItemName.Text = m_wbs.Name
+            Me.txtItemNote.Text = m_wbs.Note
+
+            '***************************************************
+            Me.tbDetail.SelectedTab = Me.tpItemDetail
+
+            Me.txtItemDescription.Text = ""
+            Me.txtItemEqUnitPrice.Text = ""
+            Me.txtItemLaborUnitPrice.Text = ""
+            Me.txtItemMatUnitPrice.Text = ""
+            Me.txtItemQty.Text = ""
+            Me.txtItemTotalEqPrice.Text = ""
+            Me.txtItemTotalLaborPrice.Text = ""
+            Me.txtItemTotalMatPrice.Text = ""
+            Me.txtItemTotalUnitPrice.Text = ""
+            Me.txtItemTotalPrice.Text = ""
+            Me.txtItemUnitCode.Text = ""
+            Me.txtItemUnitName.Text = ""
+            Me.txtCurrentPrice.Text = ""
+            Me.txtCurrentEq.Text = ""
+            Me.txtCurrentLabor.Text = ""
+
+            Me.tbDetail.Enabled = False
+            Me.m_isInitialized = flag
+        End Sub
+        Private Sub UpdateItem()
+            If m_item Is Nothing Then
+                Return
+            End If
+            Dim flag As Boolean = Me.m_isInitialized
+            Me.m_isInitialized = False
+            Me.tbDetail.Enabled = True
+
+            Me.txtItemCode.Text = m_item.Entity.Code
+            Me.txtItemName.Text = m_item.Entity.Name
+            Me.txtItemDescription.Text = m_item.EntityName
+            Me.txtItemEqUnitPrice.Text = Configuration.FormatToString(m_item.UEC, DigitConfig.UnitPrice)
+            Me.txtItemLaborUnitPrice.Text = Configuration.FormatToString(m_item.ULC, DigitConfig.UnitPrice)
+            Me.txtItemMatUnitPrice.Text = Configuration.FormatToString(m_item.UMC, DigitConfig.UnitPrice)
+            Me.txtItemQty.Text = Configuration.FormatToString(m_item.Qty, DigitConfig.UnitPrice)
+            Me.txtItemTotalEqPrice.Text = Configuration.FormatToString(m_item.TotalEquipmentCost, DigitConfig.UnitPrice)
+            Me.txtItemTotalLaborPrice.Text = Configuration.FormatToString(m_item.TotalLaborCost, DigitConfig.UnitPrice)
+            Me.txtItemTotalMatPrice.Text = Configuration.FormatToString(m_item.TotalMaterialCost, DigitConfig.UnitPrice)
+            Me.txtItemTotalUnitPrice.Text = Configuration.FormatToString(m_item.TotalUC, DigitConfig.UnitPrice)
+            Me.txtItemTotalPrice.Text = Configuration.FormatToString(m_item.TotalCost, DigitConfig.UnitPrice)
+            Me.txtItemUnitCode.Text = m_item.Unit.Code
+            Me.txtItemUnitName.Text = m_item.Unit.Name
+            Me.txtItemNote.Text = m_item.Note
+
+            CodeDescription.ComboSelect(Me.cmbEntityType, m_item.ItemType)
+
+            Me.txtCurrentPrice.Text = Me.txtItemMatUnitPrice.Text
+            Me.txtCurrentEq.Text = Me.txtItemEqUnitPrice.Text
+            Me.txtCurrentLabor.Text = Me.txtItemLaborUnitPrice.Text
+
+            If Not Me.m_bestPriceManager.Treetable Is Nothing Then
+                Me.m_bestPriceManager.Treetable.Clear()
+            End If
+            If Not Me.m_supplierManager.Treetable Is Nothing Then
+                Me.m_supplierManager.Treetable.Clear()
+            End If
+            If Not Me.m_eqCostManager.Treetable Is Nothing Then
+                Me.m_eqCostManager.Treetable.Clear()
+            End If
+            If Not Me.m_laborCostManager.Treetable Is Nothing Then
+                Me.m_laborCostManager.Treetable.Clear()
+            End If
+
+            If TypeOf Me.m_item.Entity Is LCIItem Then
+                Dim lci As LCIItem = CType(Me.m_item.Entity, LCIItem)
+                Dim tt As TreeTable = lci.GetBestPriceTable(m_item.Unit)
+                If Not tt Is Nothing Then
+                    Me.m_bestPriceManager.Treetable = tt
+                End If
+                If m_bestPriceManager.GridTableStyle Is Nothing Then
+                    Dim bpdst As DataGridTableStyle = Me.CreateBestPriceStyle
+                    m_bestPriceManager.SetTableStyle(bpdst)
+                End If
+
+                tt = lci.GetSupplierListTable
+                If Not tt Is Nothing Then
+                    Me.m_supplierManager.Treetable = tt
+                End If
+                If m_supplierManager.GridTableStyle Is Nothing Then
+                    Dim spst As DataGridTableStyle = Me.CreateSupplierStyle
+                    m_supplierManager.SetTableStyle(spst)
+                End If
+
+                tt = lci.GetEqCostListTable(m_item.Unit)
+                If Not tt Is Nothing Then
+                    Me.m_eqCostManager.Treetable = tt
+                End If
+                If m_eqCostManager.GridTableStyle Is Nothing Then
+                    Dim eqt As DataGridTableStyle = Me.CreateEqCostStyle
+                    m_eqCostManager.SetTableStyle(eqt)
+                End If
+
+                tt = lci.GetLaborListTable(m_item.Unit)
+                If Not tt Is Nothing Then
+                    Me.m_laborCostManager.Treetable = tt
+                End If
+                If m_laborCostManager.GridTableStyle Is Nothing Then
+                    Dim lbt As DataGridTableStyle = Me.CreateLaborCostStyle
+                    m_laborCostManager.SetTableStyle(lbt)
+                End If
+            End If
+
+            Me.m_isInitialized = flag
+        End Sub
+        Public Sub UnitButtonClick(ByVal e As ButtonColumnEventArgs)
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            If Not m_wbs Is Nothing Then
+                myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
+                Return
+            End If
+            If m_item Is Nothing Then
+                Return
+            End If
+            Dim filters(0) As Filter
+            Dim includeFilter As Boolean = False
+            If TypeOf m_item.Entity Is Labor Then
+                Dim myEntity As Labor = CType(m_item.Entity, Labor)
+                If Not myEntity.Unit Is Nothing AndAlso myEntity.Unit.Originated Then
+                    filters(0) = New Filter("includedId", myEntity.Unit.Id)
+                    includeFilter = True
+                End If
+            ElseIf TypeOf m_item.Entity Is EqCost Then
+                Dim myEntity As EqCost = CType(m_item.Entity, EqCost)
+                If Not myEntity.Unit Is Nothing AndAlso myEntity.Unit.Originated Then
+                    filters(0) = New Filter("includedId", myEntity.Unit.Id)
+                    includeFilter = True
+                End If
+            ElseIf TypeOf m_item.Entity Is LCIItem Then
+                Dim idList As String = CType(m_item.Entity, LCIItem).GetUnitIdList
+                includeFilter = True
+                If idList.Length > 0 Then
+                    filters(0) = New Filter("includedId", idList)
+                Else
+                    filters(0) = New Filter("includedId", "-1")
+                End If
+            End If
+            If includeFilter Then
+                myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit, filters)
+            Else
+                myEntityPanelService.OpenListDialog(New Unit, AddressOf SetUnit)
+            End If
+        End Sub
+        Private Sub SetUnit(ByVal unit As ISimpleEntity)
+            Me.m_treeManager.SelectedRow("Unit") = unit.Code
+        End Sub
+        Private Sub btnShowLCI_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnShowLCI.Click
+            If m_item Is Nothing Then
+                Return
+            End If
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            If m_item.ItemType Is Nothing Then
+            Else
+                Select Case m_item.ItemType.Value
+                    Case 0 'Blank
+                        Return
+                    Case 18 'Labor
+                        myEntityPanelService.OpenPanel(New Labor)
+                    Case 20 'EqCost
+                        myEntityPanelService.OpenPanel(New EqCost)
+                    Case 42 'LCI
+                        myEntityPanelService.OpenPanel(New LCIItem)
+                    Case Else
+                End Select
+            End If
+        End Sub
+        Public Sub ItemButtonClick(ByVal e As ButtonColumnEventArgs)
+            ItemBtnClick()
+        End Sub
+        Private Sub ibnShowLCIDialog_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibnShowLCIDialog.Click
+            ItemBtnClick()
+        End Sub
+        Private m_targetType As Integer
+        Private Sub ItemBtnClick()
+            If m_item Is Nothing Then
+                Return
+            End If
+            If m_entity.Locked Then
+                Return
+            End If
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            m_targetType = -1
+            If m_item.ItemType Is Nothing Then
+                Dim entities(2) As ISimpleEntity
+                entities(0) = New LCIItem
+                entities(2) = New LCIForList
+                entities(1) = New Labor
+                entities(3) = New EqCost
+                myEntityPanelService.OpenListDialog(entities, AddressOf SetItems)
+            Else
+                Select Case m_item.ItemType.Value
+                    Case 0 'Blank
+                        Return
+                    Case 18 'Labor
+                        myEntityPanelService.OpenListDialog(New Labor, AddressOf SetItems)
+                    Case 20 'EqCost
+                        myEntityPanelService.OpenListDialog(New EqCost, AddressOf SetItems)
+                        'Case 42 'LCI
+                        '  myEntityPanelService.OpenListDialog(New LCIItem, AddressOf SetItems)
+                    Case Else
+                        If m_item.ItemType.Value = 0 Or m_item.ItemType.Value = 18 Or m_item.ItemType.Value = 20 Or m_item.ItemType.Value = 42 Then
+                            m_targetType = m_item.ItemType.Value
+                            Dim entities(1) As ISimpleEntity
+                            entities(0) = New LCIItem
+                            entities(1) = New LCIForList
+                            Dim activeIndex As Integer = -1
+                            If Not m_item.ItemType Is Nothing Then
+                                If m_item.ItemType.Value = 42 Then
+                                    activeIndex = 0
+                                End If
+                            End If
+                            myEntityPanelService.OpenListDialog(entities, AddressOf SetItems, activeIndex)
+                        End If
+                End Select
+            End If
+        End Sub
+        Private Sub SetItems(ByVal items As BasketItemCollection)
+            Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+            If theRow Is Nothing Then
+                Return
+            End If
+            For i As Integer = 0 To items.Count - 1
+                Dim item As BasketItem = CType(items(i), BasketItem)
+                Dim newItem As IHasName
+                Dim itemType As Integer
+                Select Case item.FullClassName.ToLower
+                    Case "longkong.pojjaman.businesslogic.lciitem", "longkong.pojjaman.businesslogic.lciforlist"
+                        newItem = New LCIItem(item.Id)
+                        itemType = 42
+                    Case "longkong.pojjaman.businesslogic.labor"
+                        newItem = New Labor(item.Id)
+                        itemType = 18
+                    Case "longkong.pojjaman.businesslogic.eqcost"
+                        newItem = New EqCost(item.Id)
+                        itemType = 20
+                End Select
+                If i = 0 Then
+                    m_treeManager.SelectedRow("boqi_entitytype") = itemType
+                    m_treeManager.SelectedRow("Code") = newItem.Code
+                Else
+                    Dim parentRow As ITreeParent
+                    Dim parentWBS As WBS
+                    parentRow = theRow.Parent
+                    parentWBS = CType(CType(parentRow, TreeRow).Tag, WBS)
+                    Dim newBOQItem As New BoqItem
+                    newBOQItem.WBS = parentWBS
+                    Dim nextItem As BoqItem = m_entity.ItemCollection.GetNextItem(m_item)
+                    If nextItem Is Nothing Then
+                        'just add a new one
+                        m_entity.ItemCollection.Add(newBOQItem)
+                    Else
+                        m_entity.ItemCollection.Insert(m_entity.ItemCollection.IndexOf(nextItem), newBOQItem)
+                    End If
+                    Dim newRow As TreeRow
+                    Dim nextItemRow As TreeRow = FindNextItemRow(parentRow, nextItem)
+                    If nextItemRow Is Nothing Then
+                        newRow = parentRow.Childs.Add
+                    Else
+                        newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(nextItemRow))
+                    End If
+                    newRow.Tag = newBOQItem
+                    m_item = newBOQItem
+                    newRow("boqi_entitytype") = itemType
+                    newRow("Code") = newItem.Code
+                End If
+                Me.m_treeManager.Treetable.AcceptChanges()
+            Next
+            Dim tr As TreeRow = Me.m_treeManager.SelectedRow
+            If TypeOf tr.Tag Is BoqItem Then
+                m_item = CType(tr.Tag, BoqItem)
+            End If
+            Me.tgItem.RefreshHeights()
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Sub ibtnBlank_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnBlank.Click
+            Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+            If theRow Is Nothing Then
+                Return
+            End If
+            Dim parentRow As ITreeParent
+            Dim parentWBS As WBS
+            If TypeOf theRow.Tag Is WBS Then
+                parentRow = theRow
+                parentWBS = CType(theRow.Tag, WBS)
+            ElseIf TypeOf theRow.Tag Is BoqItem Then
+                parentRow = theRow.Parent
+                parentWBS = CType(CType(parentRow, TreeRow).Tag, WBS)
+            End If
+            Dim newItem As New BoqItem
+            newItem.WBS = parentWBS
+            Dim newRow As TreeRow
+            If TypeOf theRow.Tag Is WBS Or parentRow.Childs.Count = 0 Then
+                Dim nextWBSRow As TreeRow = FindWBSChildRow(parentRow)
+                If nextWBSRow Is Nothing Then
+                    newRow = parentRow.Childs.Add
+                Else
+                    newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(nextWBSRow))
+                End If
+                Me.m_entity.ItemCollection.Add(newItem)
+            ElseIf TypeOf theRow.Tag Is BoqItem Then
+                newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(theRow))
+                Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(CType(theRow.Tag, BoqItem)), newItem)
+            End If
+            newRow("boqi_itemName") = "<NEW>"
+            newRow.Tag = newItem
+            Me.m_item = newItem
+            Me.m_treeManager.Treetable.AcceptChanges()
+            Me.m_treeManager.SelectedRow = newRow
+            UpdateItemRow()
+            'RefreshItems()
+            'ReIndex()
+            Me.tgItem.RefreshHeights()
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Sub ibtnDelRow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles ibtnDelRow.Click
+            If Me.m_entity Is Nothing Then
+                Return
+            End If
+            Dim theRow As TreeRow
+            Dim rowsCount As Integer = 0
+            For Each Obj As Object In Me.m_treeManager.SelectedRows
+                If Not Obj Is Nothing Then
+                    rowsCount += 1
+                    theRow = CType(Obj, TreeRow)
+                    If Not theRow Is Nothing Then
+                        If TypeOf theRow.Tag Is BoqItem Then
+
+                            m_item = CType(theRow.Tag, BoqItem)
+                            If Not m_item Is Nothing Then
+
+                                Me.m_entity.ItemCollection.Remove(m_item)
+                                For Each mk As Markup In Me.m_entity.MarkupCollection
+                                    If mk.DistributedItems.Contains(m_item) Then
+                                        mk.DistributedItems.Remove(m_item)
+                                    End If
+                                Next
+                                If Me.m_entity.MaterialMarkupItems.Contains(m_item) Then
+                                    Me.m_entity.MaterialMarkupItems.Remove(m_item)
+                                End If
+                                If Me.m_entity.LaborMarkupItems.Contains(m_item) Then
+                                    Me.m_entity.LaborMarkupItems.Remove(m_item)
+                                End If
+                                If Me.m_entity.EquipmentMarkupItems.Contains(m_item) Then
+                                    Me.m_entity.EquipmentMarkupItems.Remove(m_item)
+                                End If
+
+                            End If
+                            theRow.Parent.Childs.Remove(theRow)
+
+                            Dim nwbs As WBS = m_item.WBS
+                            Dim nboqi As BoqItemCollection = nwbs.Boqitems(True)
+                        End If
+                    End If
+                End If
+            Next
 
 
-      'If rowsCount.Equals(0) Then
-      '  theRow = Me.m_treeManager.SelectedRow
-      '  If theRow Is Nothing Then
-      '    Return
-      '  End If
-      '  If Not TypeOf theRow.Tag Is BoqItem Then
-      '    Return
-      '  End If
-      '  If Me.m_item Is Nothing Then
-      '    Return
-      '  End If
-      '  Me.m_entity.ItemCollection.Remove(m_item)
-      '  For Each mk As Markup In Me.m_entity.MarkupCollection
-      '    If mk.DistributedItems.Contains(m_item) Then
-      '      mk.DistributedItems.Remove(m_item)
-      '    End If
-      '  Next
-      '  If Me.m_entity.MaterialMarkupItems.Contains(m_item) Then
-      '    Me.m_entity.MaterialMarkupItems.Remove(m_item)
-      '  End If
-      '  If Me.m_entity.LaborMarkupItems.Contains(m_item) Then
-      '    Me.m_entity.LaborMarkupItems.Remove(m_item)
-      '  End If
-      '  If Me.m_entity.EquipmentMarkupItems.Contains(m_item) Then
-      '    Me.m_entity.EquipmentMarkupItems.Remove(m_item)
-      '  End If
-      '  theRow.Parent.Childs.Remove(theRow)
-      'End If
+            'If rowsCount.Equals(0) Then
+            '  theRow = Me.m_treeManager.SelectedRow
+            '  If theRow Is Nothing Then
+            '    Return
+            '  End If
+            '  If Not TypeOf theRow.Tag Is BoqItem Then
+            '    Return
+            '  End If
+            '  If Me.m_item Is Nothing Then
+            '    Return
+            '  End If
+            '  Me.m_entity.ItemCollection.Remove(m_item)
+            '  For Each mk As Markup In Me.m_entity.MarkupCollection
+            '    If mk.DistributedItems.Contains(m_item) Then
+            '      mk.DistributedItems.Remove(m_item)
+            '    End If
+            '  Next
+            '  If Me.m_entity.MaterialMarkupItems.Contains(m_item) Then
+            '    Me.m_entity.MaterialMarkupItems.Remove(m_item)
+            '  End If
+            '  If Me.m_entity.LaborMarkupItems.Contains(m_item) Then
+            '    Me.m_entity.LaborMarkupItems.Remove(m_item)
+            '  End If
+            '  If Me.m_entity.EquipmentMarkupItems.Contains(m_item) Then
+            '    Me.m_entity.EquipmentMarkupItems.Remove(m_item)
+            '  End If
+            '  theRow.Parent.Childs.Remove(theRow)
+            'End If
 
-      Me.m_treeManager.Treetable.AcceptChanges()
-      m_item = Nothing
-      'RefreshItems()
-      'ReIndex()
-      Me.tgItem.RefreshHeights()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Function FindWBSChildRow(ByVal parentRow As ITreeParent) As TreeRow
-      For i As Integer = 0 To parentRow.Childs.Count - 1
-        Dim row As TreeRow = parentRow.Childs(i)
-        If TypeOf row.Tag Is WBS Then
-          Return row
-        End If
-      Next
-      Return Nothing
-    End Function
-    Private Function FindNextItemRow(ByVal parentRow As ITreeParent, ByVal nextitem As BoqItem) As TreeRow
-      For i As Integer = 0 To parentRow.Childs.Count - 1
-        Dim row As TreeRow = parentRow.Childs(i)
-        If row.Tag Is Nothing OrElse Not TypeOf row.Tag Is BoqItem Then
-          Return Nothing
-        End If
-        Dim boqi As BoqItem = CType(row.Tag, BoqItem)
-        If boqi Is nextitem Then
-          Return row
-        End If
-      Next
-      Return Nothing
-    End Function
+            Me.m_treeManager.Treetable.AcceptChanges()
+            m_item = Nothing
+            'RefreshItems()
+            'ReIndex()
+            Me.tgItem.RefreshHeights()
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Function FindWBSChildRow(ByVal parentRow As ITreeParent) As TreeRow
+            For i As Integer = 0 To parentRow.Childs.Count - 1
+                Dim row As TreeRow = parentRow.Childs(i)
+                If TypeOf row.Tag Is WBS Then
+                    Return row
+                End If
+            Next
+            Return Nothing
+        End Function
+        Private Function FindNextItemRow(ByVal parentRow As ITreeParent, ByVal nextitem As BoqItem) As TreeRow
+            For i As Integer = 0 To parentRow.Childs.Count - 1
+                Dim row As TreeRow = parentRow.Childs(i)
+                If row.Tag Is Nothing OrElse Not TypeOf row.Tag Is BoqItem Then
+                    Return Nothing
+                End If
+                Dim boqi As BoqItem = CType(row.Tag, BoqItem)
+                If boqi Is nextitem Then
+                    Return row
+                End If
+            Next
+            Return Nothing
+        End Function
 #End Region
 
 #Region "IValidatable"
-    Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
-      Get
-        Return Me.Validator
-      End Get
-    End Property
+        Public ReadOnly Property FormValidator() As components.PJMTextboxValidator Implements IValidatable.FormValidator
+            Get
+                Return Me.Validator
+            End Get
+        End Property
 #End Region
 
 #Region "Event of Button controls"
-    ' Requestor
-    Private Sub ibtnShowEstimator_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-      Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenPanel(New Employee)
-    End Sub
-    Private Sub ibtnShowEstimatorDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-      Dim myEntityPanelService As IEntityPanelService = _
-       CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
-      myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployeeDialog)
-    End Sub
+        ' Requestor
+        Private Sub ibtnShowEstimator_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim myEntityPanelService As IEntityPanelService = CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenPanel(New Employee)
+        End Sub
+        Private Sub ibtnShowEstimatorDialog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim myEntityPanelService As IEntityPanelService = _
+             CType(ServiceManager.Services.GetService(GetType(IEntityPanelService)), IEntityPanelService)
+            myEntityPanelService.OpenListDialog(New Employee, AddressOf SetEmployeeDialog)
+        End Sub
 
-    Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
-      'Me.txtEstimatorCode.Text = e.Code
-      'Me.WorkbenchWindow.ViewContent.IsDirty = _
-      '    Me.WorkbenchWindow.ViewContent.IsDirty _
-      '    Or Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, Me.m_entity.Estimator)
-    End Sub
+        Private Sub SetEmployeeDialog(ByVal e As ISimpleEntity)
+            'Me.txtEstimatorCode.Text = e.Code
+            'Me.WorkbenchWindow.ViewContent.IsDirty = _
+            '    Me.WorkbenchWindow.ViewContent.IsDirty _
+            '    Or Employee.GetEmployee(txtEstimatorCode, txtEstimatorName, Me.m_entity.Estimator)
+        End Sub
 
 #End Region
 
 #Region "IClipboardHandler Overrides"
-    Public Overrides ReadOnly Property EnableCopy() As Boolean
-      Get
-        Return GetSelectedItems.Count > 0
-      End Get
-    End Property
-    Public Overrides ReadOnly Property EnableCut() As Boolean
-      Get
-        Return False
-      End Get
-    End Property
-    Public Overrides ReadOnly Property EnablePaste() As Boolean
-      Get
-        If m_copiedColl Is Nothing OrElse m_copiedColl.Count = 0 Then
-          Return False
-        End If
-        Return True
-      End Get
-    End Property
-    Private m_copiedColl As BoqItemCollection
-    Public ReadOnly Property CopiedColl() As BoqItemCollection
-      Get
-        Return m_copiedColl
-      End Get
-    End Property
+        Public Overrides ReadOnly Property EnableCopy() As Boolean
+            Get
+                Return GetSelectedItems.Count > 0
+            End Get
+        End Property
+        Public Overrides ReadOnly Property EnableCut() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Public Overrides ReadOnly Property EnablePaste() As Boolean
+            Get
+                If m_copiedColl Is Nothing OrElse m_copiedColl.Count = 0 Then
+                    Return False
+                End If
+                Return True
+            End Get
+        End Property
+        Private m_copiedColl As BoqItemCollection
+        Public ReadOnly Property CopiedColl() As BoqItemCollection
+            Get
+                Return m_copiedColl
+            End Get
+        End Property
 
-    Public Overrides Sub Copy(ByVal sender As Object, ByVal e As System.EventArgs)
-      Dim coll As BoqItemCollection = GetSelectedItems()
-      m_copiedColl = coll
-      WorkbenchSingleton.Workbench.RedrawEditComponents()
-    End Sub
-    Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
-      If m_copiedColl Is Nothing OrElse m_copiedColl.Count = 0 Then
-        Return
-      End If
-      For Each item As BoqItem In m_copiedColl
-        Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
-        If theRow Is Nothing Then
-          Return
-        End If
-        Dim parentRow As ITreeParent
-        Dim parentWBS As WBS
-        If TypeOf theRow.Tag Is WBS Then
-          parentRow = theRow
-          parentWBS = CType(theRow.Tag, WBS)
-        ElseIf TypeOf theRow.Tag Is BoqItem Then
-          parentRow = theRow.Parent
-          parentWBS = CType(CType(parentRow, TreeRow).Tag, WBS)
-        End If
-        Dim newItem As New BoqItem
-        newItem.WBS = parentWBS
+        Public Overrides Sub Copy(ByVal sender As Object, ByVal e As System.EventArgs)
+            Dim coll As BoqItemCollection = GetSelectedItems()
+            m_copiedColl = coll
+            WorkbenchSingleton.Workbench.RedrawEditComponents()
+        End Sub
+        Public Overrides Sub Paste(ByVal sender As Object, ByVal e As System.EventArgs)
+            If m_copiedColl Is Nothing OrElse m_copiedColl.Count = 0 Then
+                Return
+            End If
+            For Each item As BoqItem In m_copiedColl
+                Dim theRow As TreeRow = Me.m_treeManager.SelectedRow
+                If theRow Is Nothing Then
+                    Return
+                End If
+                Dim parentRow As ITreeParent
+                Dim parentWBS As WBS
+                If TypeOf theRow.Tag Is WBS Then
+                    parentRow = theRow
+                    parentWBS = CType(theRow.Tag, WBS)
+                ElseIf TypeOf theRow.Tag Is BoqItem Then
+                    parentRow = theRow.Parent
+                    parentWBS = CType(CType(parentRow, TreeRow).Tag, WBS)
+                End If
+                Dim newItem As New BoqItem
+                newItem.WBS = parentWBS
 
-        newItem.Entity = item.Entity
-        newItem.EntityName = item.EntityName
-        newItem.ItemType = item.ItemType
-        newItem.Note = item.Note
-        newItem.Qty = item.Qty
-        newItem.UEC = item.UEC
-        newItem.ULC = item.ULC
-        newItem.UMC = item.UMC
-        newItem.Unit = item.Unit
+                newItem.Entity = item.Entity
+                newItem.EntityName = item.EntityName
+                newItem.ItemType = item.ItemType
+                newItem.Note = item.Note
+                newItem.Qty = item.Qty
+                newItem.UEC = item.UEC
+                newItem.ULC = item.ULC
+                newItem.UMC = item.UMC
+                newItem.Unit = item.Unit
 
-        Dim newRow As TreeRow
-        If TypeOf theRow.Tag Is WBS Or parentRow.Childs.Count = 0 Then
-          Dim nextWBSRow As TreeRow = FindWBSChildRow(parentRow)
-          If nextWBSRow Is Nothing Then
-            newRow = parentRow.Childs.Add
-          Else
-            newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(nextWBSRow))
-          End If
-          Me.m_entity.ItemCollection.Add(newItem)
-        ElseIf TypeOf theRow.Tag Is BoqItem Then
-          Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(CType(theRow.Tag, BoqItem)), newItem)
-          newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(theRow))
-        End If
-        newRow.Tag = newItem
-        Me.m_item = newItem
-        Me.m_treeManager.Treetable.AcceptChanges()
-        Me.m_treeManager.SelectedRow = newRow
-        UpdateItemRow()
-      Next
-      'm_copiedColl = Nothing
-      'RefreshItems()
-      'ReIndex()
-      Me.tgItem.RefreshHeights()
-      WorkbenchSingleton.Workbench.RedrawEditComponents()
-      Me.WorkbenchWindow.ViewContent.IsDirty = True
-    End Sub
-    Private Function GetSelectedItems() As BoqItemCollection
-      Dim coll As New BoqItemCollection
-      coll.Boq = Me.m_entity
-      For Each myRow As TreeRow In Me.m_treeManager.SelectedRows
-        If TypeOf myRow.Tag Is BoqItem Then
-          coll.Add(CType(myRow.Tag, BoqItem))
-        End If
-      Next
-      Return coll
-    End Function
-    Private Sub tgItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.Click
-      WorkbenchSingleton.Workbench.RedrawEditComponents()
-    End Sub
+                Dim newRow As TreeRow
+                If TypeOf theRow.Tag Is WBS Or parentRow.Childs.Count = 0 Then
+                    Dim nextWBSRow As TreeRow = FindWBSChildRow(parentRow)
+                    If nextWBSRow Is Nothing Then
+                        newRow = parentRow.Childs.Add
+                    Else
+                        newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(nextWBSRow))
+                    End If
+                    Me.m_entity.ItemCollection.Add(newItem)
+                ElseIf TypeOf theRow.Tag Is BoqItem Then
+                    Me.m_entity.ItemCollection.Insert(Me.m_entity.ItemCollection.IndexOf(CType(theRow.Tag, BoqItem)), newItem)
+                    newRow = parentRow.Childs.InsertAt(parentRow.Childs.IndexOf(theRow))
+                End If
+                newRow.Tag = newItem
+                Me.m_item = newItem
+                Me.m_treeManager.Treetable.AcceptChanges()
+                Me.m_treeManager.SelectedRow = newRow
+                UpdateItemRow()
+            Next
+            'm_copiedColl = Nothing
+            'RefreshItems()
+            'ReIndex()
+            Me.tgItem.RefreshHeights()
+            WorkbenchSingleton.Workbench.RedrawEditComponents()
+            Me.WorkbenchWindow.ViewContent.IsDirty = True
+        End Sub
+        Private Function GetSelectedItems() As BoqItemCollection
+            Dim coll As New BoqItemCollection
+            coll.Boq = Me.m_entity
+            For Each myRow As TreeRow In Me.m_treeManager.SelectedRows
+                If TypeOf myRow.Tag Is BoqItem Then
+                    coll.Add(CType(myRow.Tag, BoqItem))
+                End If
+            Next
+            Return coll
+        End Function
+        Private Sub tgItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles tgItem.Click
+            WorkbenchSingleton.Workbench.RedrawEditComponents()
+        End Sub
 #End Region
 
 #Region "IKeyReceiver"
-    Public Overrides Function ProcessKey(ByVal keyPressed As System.Windows.Forms.Keys) As Boolean
-      Try
-        Select Case keyPressed
-          Case Keys.Insert
-            ibtnBlank_Click(Nothing, Nothing)
-            Return True
-          Case Keys.Delete
-            If Me.tgItem.Focused Then
-              ibtnDelRow_Click(Nothing, Nothing)
-              Return True
-            Else
-              Return False
-            End If
-          Case Else
-            Return False
-        End Select
-      Catch ex As Exception
-        Throw ex
-      End Try
-    End Function
+        Public Overrides Function ProcessKey(ByVal keyPressed As System.Windows.Forms.Keys) As Boolean
+            Try
+                Select Case keyPressed
+                    Case Keys.Insert
+                        ibtnBlank_Click(Nothing, Nothing)
+                        Return True
+                    Case Keys.Delete
+                        If Me.tgItem.Focused Then
+                            ibtnDelRow_Click(Nothing, Nothing)
+                            Return True
+                        Else
+                            Return False
+                        End If
+                    Case Else
+                        Return False
+                End Select
+            Catch ex As Exception
+                Throw ex
+            End Try
+        End Function
 #End Region
 
 #Region "Items"
-    Private Sub RefreshItems()
-      InitProgress()
-      Dim index As Integer = Me.tgItem.CurrentRowIndex
-      Me.m_tableInitialized = False
-      Unwire()
-      Me.m_entity.PopulateItemListing(m_treeManager, AddressOf WorkDone)
-      Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
-      myStatusBarService.ProgressMonitor.Done()
-      Wire()
-      Me.m_tableInitialized = True
-      Me.tgItem.CurrentRowIndex = Math.Max(0, index)
-      Me.tgItem.RefreshHeights()
-      'ให้เลือกที่ cell ที่ต้องการ เพราะไปอยู่ col แรกมันจะเผลอ wheel ได้
-      Me.tgItem.CurrentCell = New DataGridCell(Me.tgItem.CurrentRowIndex, 2)
-    End Sub
-    Dim myIndex As Integer
-    Private Sub ReIndex()
-      If Me.m_treeManager.Treetable.Childs.Count = 0 Then
-        Return
-      End If
-      myIndex = 0
-      TreeRow.TraverseRow(Me.m_treeManager.Treetable.Childs(0), AddressOf SetLine)
-    End Sub
-    Private Sub SetLine(ByVal row As TreeRow)
-      myIndex += 1
-      row("boqi_linenumber") = myIndex
-      If TypeOf row.Parent Is TreeRow Then
-        CType(row.Parent, TreeRow)("boqi_linenumber") = row.Index
-      End If
-    End Sub
+        Private Sub RefreshItems()
+            InitProgress()
+            Dim index As Integer = Me.tgItem.CurrentRowIndex
+            Me.m_tableInitialized = False
+            Unwire()
+            Me.m_entity.PopulateItemListing(m_treeManager, AddressOf WorkDone)
+            Dim myStatusBarService As IStatusBarService = CType(ServiceManager.Services.GetService(GetType(IStatusBarService)), IStatusBarService)
+            myStatusBarService.ProgressMonitor.Done()
+            Wire()
+            Me.m_tableInitialized = True
+            Me.tgItem.CurrentRowIndex = Math.Max(0, index)
+            Me.tgItem.RefreshHeights()
+            'ให้เลือกที่ cell ที่ต้องการ เพราะไปอยู่ col แรกมันจะเผลอ wheel ได้
+            Me.tgItem.CurrentCell = New DataGridCell(Me.tgItem.CurrentRowIndex, 2)
+        End Sub
+        Dim myIndex As Integer
+        Private Sub ReIndex()
+            If Me.m_treeManager.Treetable.Childs.Count = 0 Then
+                Return
+            End If
+            myIndex = 0
+            TreeRow.TraverseRow(Me.m_treeManager.Treetable.Childs(0), AddressOf SetLine)
+        End Sub
+        Private Sub SetLine(ByVal row As TreeRow)
+            myIndex += 1
+            row("boqi_linenumber") = myIndex
+            If TypeOf row.Parent Is TreeRow Then
+                CType(row.Parent, TreeRow)("boqi_linenumber") = row.Index
+            End If
+        End Sub
 #End Region
 
 #Region "After the main entity has been saved"
-    Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
-      If Not successful Then
-        Return
-      End If
-      Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
-    End Sub
+        Public Overrides Sub NotifyAfterSave(ByVal successful As Boolean)
+            If Not successful Then
+                Return
+            End If
+            Me.Entity = CType(Me.WorkbenchWindow.SubViewContents(1), ISimpleEntityPanel).Entity
+        End Sub
 #End Region
 
-    Private Sub ibtnZoomChart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnZoomChart.Click
-      If Me.tgItem.Size.Height = 232 Then
-        Me.tgItem.Size = New Size(Me.tgItem.Width, Me.Height - Me.tgItem.Location.Y + 60)
-      Else
-        Me.tgItem.Size = New Size(Me.tgItem.Width, 232)
-      End If
-    End Sub
+        Private Sub ibtnZoomChart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnZoomChart.Click
+            If Me.tgItem.Size.Height = 232 Then
+                Me.tgItem.Size = New Size(Me.tgItem.Width, Me.Height - Me.tgItem.Location.Y + 60)
+            Else
+                Me.tgItem.Size = New Size(Me.tgItem.Width, 232)
+            End If
+        End Sub
 
 #Region "Sumarize"
-    Private m_level As Integer
-    Private Sub ibtnZoomOut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnZoomOut.Click
-      If m_level > 0 Then
-        m_level -= 1
-        Me.m_entity.WBSCollection.Sumarize(m_level)
-        RefreshItems()
-        'Me.m_treeManager.Treetable.Summarize(m_level)
-        Me.lblLevel.Text = m_level.ToString()
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
-    End Sub
-    Private Sub ibtnZoomIn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnZoomIn.Click
-      If m_level < Me.m_entity.WBSCollection.GetMaxLevel + 1 Then
-        m_level += 1
-        Me.m_entity.WBSCollection.Sumarize(m_level)
-        RefreshItems()
-        'Me.m_treeManager.Treetable.Summarize(m_level)
-        Me.lblLevel.Text = m_level.ToString()
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
-    End Sub
+        Private m_level As Integer
+        Private Sub ibtnZoomOut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnZoomOut.Click
+            If m_level > 0 Then
+                m_level -= 1
+                Me.m_entity.WBSCollection.Sumarize(m_level)
+                RefreshItems()
+                'Me.m_treeManager.Treetable.Summarize(m_level)
+                Me.lblLevel.Text = m_level.ToString()
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+        End Sub
+        Private Sub ibtnZoomIn_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnZoomIn.Click
+            If m_level < Me.m_entity.WBSCollection.GetMaxLevel + 1 Then
+                m_level += 1
+                Me.m_entity.WBSCollection.Sumarize(m_level)
+                RefreshItems()
+                'Me.m_treeManager.Treetable.Summarize(m_level)
+                Me.lblLevel.Text = m_level.ToString()
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
+        End Sub
 #End Region
 
-    Private Sub txtItemCode_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtItemCode.TextChanged
+        Private Sub txtItemCode_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtItemCode.TextChanged
 
-    End Sub
+        End Sub
 
-    Private Sub ibtnSaveAsExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnSaveAsExcel.Click
-      Try
-        'Dim Excel As Object = CreateObject("Excel.Application")
-        'If Excel Is Nothing Then
-        '  MessageBox.Show("It appears that Excel is not installed on this machine. This operation requires MS Excel to be installed on this machine.")
-        '  Return
-        'End If
+        Private Sub ibtnSaveAsExcel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ibtnSaveAsExcel.Click
+            Try
+                'Dim Excel As Object = CreateObject("Excel.Application")
+                'If Excel Is Nothing Then
+                '  MessageBox.Show("It appears that Excel is not installed on this machine. This operation requires MS Excel to be installed on this machine.")
+                '  Return
+                'End If
 
-        'Dim locale As String = "en-US"
-        'Dim obj As Object = Configuration.GetConfig("ExcelLocale")
-        'If IsDBNull(obj) AndAlso obj <> Nothing Then
-        '  locale = obj.ToString()
-        'End If
-        'Dim oldCI As System.Globalization.CultureInfo = _
-        'System.Threading.Thread.CurrentThread.CurrentCulture
-        'System.Threading.Thread.CurrentThread.CurrentCulture = _
-        '    New System.Globalization.CultureInfo(locale)
+                'Dim locale As String = "en-US"
+                'Dim obj As Object = Configuration.GetConfig("ExcelLocale")
+                'If IsDBNull(obj) AndAlso obj <> Nothing Then
+                '  locale = obj.ToString()
+                'End If
+                'Dim oldCI As System.Globalization.CultureInfo = _
+                'System.Threading.Thread.CurrentThread.CurrentCulture
+                'System.Threading.Thread.CurrentThread.CurrentCulture = _
+                '    New System.Globalization.CultureInfo(locale)
 
-        Dim ext As String = ".xls"
-        'If CInt(Excel.Version) < 12 Then
-        '  ext = ".xls"
-        'End If
+                Dim ext As String = ".xls"
+                'If CInt(Excel.Version) < 12 Then
+                '  ext = ".xls"
+                'End If
 
-        'Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
-        Dim thePath As String
-        Dim filename As String
-        If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
-          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar '& "BOQItems" & ext
-          filename = "BOQItems" & ext
-        Else
-          thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar '& "BOQ_" & Me.m_entity.Code & ext
-          filename = "BOQ_" & Me.m_entity.Code & ext
-        End If
-
-        'thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
-
-        Dim dialog1 As SaveFileDialog = New SaveFileDialog
-
-        dialog1.OverwritePrompt = True
-        dialog1.AddExtension = True
-        dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
-        dialog1.FileName = filename
-        dialog1.InitialDirectory = thePath '= Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar
-        If dialog1.ShowDialog = DialogResult.OK Then
-          filename = dialog1.FileName
-        Else
-          Return
-        End If
-
-        'If thePath.Length = 0 Then
-        '  If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
-        '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
-
-        '  Else
-        '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQ_" & Me.m_entity.Code & ext
-
-        '  End If
-        'End If
-
-        Dim xl As ExcelEngine = New ExcelEngine()
-
-        Using xl
-
-
-          'instantiate excel application object
-          Dim xlApp As IApplication = xl.Excel
-
-
-          'create a new workbook with 2 worksheets
-          Dim wkbk As IWorkbook = xl.Excel.Workbooks.Create(1)
-
-
-          'get a reference to both worksheets
-          Dim sht1 As IWorksheet = wkbk.Worksheets(0)
-
-          wkbk.Worksheets(0).Name = "BOQ"
-
-          sht1.Range(1, 1).Text = "Type"
-          sht1.Range(1, 1).EntireColumn.ColumnWidth = 7
-          sht1.Range(1, 1).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
-
-          sht1.Range(1, 2).Text = "Level"
-          sht1.Range(1, 2).EntireColumn.ColumnWidth = 7
-          sht1.Range(1, 2).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
-
-          sht1.Range(1, 3).Text = "EntityType"
-          sht1.Range(1, 3).EntireColumn.ColumnWidth = 11
-          sht1.Range(1, 3).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
-
-          sht1.Range(1, 4).Text = "Code"
-          sht1.Range(1, 4).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 5).Text = "Description"
-          sht1.Range(1, 5).EntireColumn.ColumnWidth = 70
-
-          sht1.Range(1, 6).Text = "Qty"
-          sht1.Range(1, 6).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 7).Text = "Unit"
-          sht1.Range(1, 7).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 8).Text = "UMC"
-          sht1.Range(1, 8).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 9).Text = "MC"
-          sht1.Range(1, 9).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 10).Text = "ULC"
-          sht1.Range(1, 10).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 11).Text = "LC"
-          sht1.Range(1, 11).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 12).Text = "UEC"
-          sht1.Range(1, 12).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 13).Text = "EC"
-          sht1.Range(1, 13).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 14).Text = "Total"
-          sht1.Range(1, 14).EntireColumn.ColumnWidth = 15
-
-          sht1.Range(1, 15).Text = "Note"
-          sht1.Range(1, 15).EntireColumn.ColumnWidth = 40
-
-          Dim c As Integer
-
-          For c = 1 To 15
-            sht1.Range(1, c).CellStyle.Font.Bold = True
-            sht1.Range(1, c).CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
-            sht1.Range(1, c).CellStyle.Color = Color.FromArgb(255, 153, 0)
-            sht1.Range(1, c).Borders(ExcelBordersIndex.EdgeBottom).LineStyle = ExcelLineStyle.Thin
-          Next
-
-
-          sht1.Range(2, 6).Text = "จำนวน"
-          sht1.Range(2, 7).Text = "หน่วย"
-          sht1.Range(2, 8).Text = "ค่าวัสดุต่อหน่วย"
-          sht1.Range(2, 9).Text = "ราคาวัสดุ"
-          sht1.Range(2, 10).Text = "ค่าแรงต่อหน่วย"
-          sht1.Range(2, 11).Text = "ราคาค่าแรง"
-          sht1.Range(2, 12).Text = "ค่าเช่าต่อหน่วย"
-          sht1.Range(2, 13).Text = "ราคาค่าเช่า"
-          sht1.Range(2, 14).Text = "รวม"
-          sht1.Range(2, 15).Text = "หมายเหตุ"
-
-          For c = 1 To 15
-            sht1.Range(2, c).CellStyle.Font.Bold = True
-            sht1.Range(2, c).CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
-            sht1.Range(2, c).CellStyle.Color = Color.FromArgb(255, 153, 0)
-            'sht1.Range(2, c).Borders(ExcelBordersIndex.EdgeBottom).LineStyle = ExcelLineStyle.Thin
-          Next
-
-          Dim i As Integer = 3
-          Dim itemWBS As WBS
-          Dim itemBOQ As BoqItem
-
-          For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
-
-            If TypeOf (row.Tag) Is WBS Then
-
-              itemWBS = CType(row.Tag, WBS)
-
-
-
-              sht1.Range(i, 1).Value = "WBS"
-
-
-
-              sht1.Range(i, 2).Value = (itemWBS.Level).ToString
-              sht1.Range(i, 3).Value = ""   'EntityType
-              sht1.Range(i, 4).Text = If(String.IsNullOrEmpty(itemWBS.Code), "", itemWBS.Code)
-              sht1.Range(i, 5).Text = If(String.IsNullOrEmpty(itemWBS.Name), "", itemWBS.Name)
-
-              If Not itemWBS.Unit Is Nothing Then
-                If itemWBS.Qty <> 0 Then
-                  sht1.Range(i, 6).Value = itemWBS.Qty
+                'Dim myPropertyService As PropertyService = CType(ServiceManager.Services.GetService(GetType(PropertyService)), PropertyService)
+                Dim thePath As String
+                Dim filename As String
+                If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
+                    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar '& "BOQItems" & ext
+                    filename = "BOQItems" & ext
                 Else
-                  sht1.Range(i, 6).Value = ""
-                End If
-                'sht1.Range(i, 6).Value = itemWBS.Qty
-                sht1.Range(i, 7).Value = itemWBS.Unit.Name
-              Else
-                sht1.Range(i, 6).Value = ""
-                sht1.Range(i, 7).Value = ""
-              End If
-              sht1.Range(i, 8).Value = ""   'UMC
-              sht1.Range(i, 9).Value = ""   'MC
-              sht1.Range(i, 10).Value = ""  'ULC
-              sht1.Range(i, 11).Value = ""  'LC
-              sht1.Range(i, 12).Value = ""  'UEC
-              sht1.Range(i, 13).Value = ""  'EC
-              sht1.Range(i, 14).Value = ""  'Total
-              sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemWBS.Note), "", itemWBS.Note)
-
-              For c = 1 To 15
-
-                If itemWBS.Level = 0 Then
-                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(218, 83, 8)
-                ElseIf itemWBS.Level >= 3 AndAlso itemWBS.Level Mod 3 = 0 Then
-                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(216, 228, 188)
-                ElseIf itemWBS.Level >= 2 AndAlso itemWBS.Level Mod 2 = 0 Then
-                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(218, 238, 243)
-                Else
-                  sht1.Range(i, c).CellStyle.Color = Color.FromArgb(250, 191, 143)
+                    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar '& "BOQ_" & Me.m_entity.Code & ext
+                    filename = "BOQ_" & Me.m_entity.Code & ext
                 End If
 
-              Next
+                'thePath = Microsoft.VisualBasic.InputBox("เลือก path", "เลือก path", thePath)
 
-              i += 1
+                Dim dialog1 As SaveFileDialog = New SaveFileDialog
+
+                dialog1.OverwritePrompt = True
+                dialog1.AddExtension = True
+                dialog1.Filter = "Microsoft Excel (*.xls)|*.xls|All files|*.*"
+                dialog1.FileName = filename
+                dialog1.InitialDirectory = thePath '= Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar
+                If dialog1.ShowDialog = DialogResult.OK Then
+                    filename = dialog1.FileName
+                Else
+                    Return
+                End If
+
+                'If thePath.Length = 0 Then
+                '  If String.IsNullOrEmpty(Me.m_entity.Code) OrElse Me.m_entity.Code.Trim = "" Then
+                '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQItems" & ext
+
+                '  Else
+                '    thePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) & Path.DirectorySeparatorChar & "BOQ_" & Me.m_entity.Code & ext
+
+                '  End If
+                'End If
+
+                Dim xl As ExcelEngine = New ExcelEngine()
+
+                Using xl
 
 
+                    'instantiate excel application object
+                    Dim xlApp As IApplication = xl.Excel
+
+
+                    'create a new workbook with 2 worksheets
+                    Dim wkbk As IWorkbook = xl.Excel.Workbooks.Create(1)
+
+
+                    'get a reference to both worksheets
+                    Dim sht1 As IWorksheet = wkbk.Worksheets(0)
+
+                    wkbk.Worksheets(0).Name = "BOQ"
+
+                    sht1.Range(1, 1).Text = "Type"
+                    sht1.Range(1, 1).EntireColumn.ColumnWidth = 7
+                    sht1.Range(1, 1).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+
+                    sht1.Range(1, 2).Text = "Level"
+                    sht1.Range(1, 2).EntireColumn.ColumnWidth = 7
+                    sht1.Range(1, 2).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+
+                    sht1.Range(1, 3).Text = "EntityType"
+                    sht1.Range(1, 3).EntireColumn.ColumnWidth = 11
+                    sht1.Range(1, 3).EntireColumn.CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+
+                    sht1.Range(1, 4).Text = "Code"
+                    sht1.Range(1, 4).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 5).Text = "Description"
+                    sht1.Range(1, 5).EntireColumn.ColumnWidth = 70
+
+                    sht1.Range(1, 6).Text = "Qty"
+                    sht1.Range(1, 6).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 7).Text = "Unit"
+                    sht1.Range(1, 7).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 8).Text = "UMC"
+                    sht1.Range(1, 8).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 9).Text = "MC"
+                    sht1.Range(1, 9).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 10).Text = "ULC"
+                    sht1.Range(1, 10).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 11).Text = "LC"
+                    sht1.Range(1, 11).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 12).Text = "UEC"
+                    sht1.Range(1, 12).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 13).Text = "EC"
+                    sht1.Range(1, 13).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 14).Text = "Total"
+                    sht1.Range(1, 14).EntireColumn.ColumnWidth = 15
+
+                    sht1.Range(1, 15).Text = "Note"
+                    sht1.Range(1, 15).EntireColumn.ColumnWidth = 40
+
+                    Dim c As Integer
+
+                    For c = 1 To 15
+                        sht1.Range(1, c).CellStyle.Font.Bold = True
+                        sht1.Range(1, c).CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+                        sht1.Range(1, c).CellStyle.Color = Color.FromArgb(255, 153, 0)
+                        sht1.Range(1, c).Borders(ExcelBordersIndex.EdgeBottom).LineStyle = ExcelLineStyle.Thin
+                    Next
+
+
+                    sht1.Range(2, 6).Text = "จำนวน"
+                    sht1.Range(2, 7).Text = "หน่วย"
+                    sht1.Range(2, 8).Text = "ค่าวัสดุต่อหน่วย"
+                    sht1.Range(2, 9).Text = "ราคาวัสดุ"
+                    sht1.Range(2, 10).Text = "ค่าแรงต่อหน่วย"
+                    sht1.Range(2, 11).Text = "ราคาค่าแรง"
+                    sht1.Range(2, 12).Text = "ค่าเช่าต่อหน่วย"
+                    sht1.Range(2, 13).Text = "ราคาค่าเช่า"
+                    sht1.Range(2, 14).Text = "รวม"
+                    sht1.Range(2, 15).Text = "หมายเหตุ"
+
+                    For c = 1 To 15
+                        sht1.Range(2, c).CellStyle.Font.Bold = True
+                        sht1.Range(2, c).CellStyle.HorizontalAlignment = ExcelHAlign.HAlignCenter
+                        sht1.Range(2, c).CellStyle.Color = Color.FromArgb(255, 153, 0)
+                        'sht1.Range(2, c).Borders(ExcelBordersIndex.EdgeBottom).LineStyle = ExcelLineStyle.Thin
+                    Next
+
+                    Dim i As Integer = 3
+                    Dim itemWBS As WBS
+                    Dim itemBOQ As BoqItem
+
+                    For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+
+                        If TypeOf (row.Tag) Is WBS Then
+
+                            itemWBS = CType(row.Tag, WBS)
+
+                            Trace.WriteLine("error unit of wbs :" & itemWBS.Code)
+
+                            sht1.Range(i, 1).Value = "WBS"
+
+                            sht1.Range(i, 2).Value = (itemWBS.Level).ToString
+                            sht1.Range(i, 3).Value = ""   'EntityType
+                            sht1.Range(i, 4).Text = If(String.IsNullOrEmpty(itemWBS.Code), "", itemWBS.Code)
+                            sht1.Range(i, 5).Text = If(String.IsNullOrEmpty(itemWBS.Name), "", itemWBS.Name)
+
+                            If Not itemWBS.Unit Is Nothing Then
+                                If itemWBS.Qty <> 0 Then
+                                    sht1.Range(i, 6).Value = itemWBS.Qty
+                                Else
+                                    sht1.Range(i, 6).Value = ""
+                                End If
+                                'sht1.Range(i, 6).Value = itemWBS.Qty
+                                Try
+                                    sht1.Range(i, 7).Value = itemWBS.Unit.Name
+                                Catch ex As Exception
+                                    Trace.WriteLine("error unit of wbs :" & itemWBS.Code)
+                                End Try
+                            Else
+                                sht1.Range(i, 6).Value = ""
+                                sht1.Range(i, 7).Value = ""
+                            End If
+                            sht1.Range(i, 8).Value = ""   'UMC
+                            sht1.Range(i, 9).Value = ""   'MC
+                            sht1.Range(i, 10).Value = ""  'ULC
+                            sht1.Range(i, 11).Value = ""  'LC
+                            sht1.Range(i, 12).Value = ""  'UEC
+                            sht1.Range(i, 13).Value = ""  'EC
+                            sht1.Range(i, 14).Value = ""  'Total
+                            sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemWBS.Note), "", itemWBS.Note)
+
+                            For c = 1 To 15
+
+                                If itemWBS.Level = 0 Then
+                                    sht1.Range(i, c).CellStyle.Color = Color.FromArgb(218, 83, 8)
+                                ElseIf itemWBS.Level >= 3 AndAlso itemWBS.Level Mod 3 = 0 Then
+                                    sht1.Range(i, c).CellStyle.Color = Color.FromArgb(216, 228, 188)
+                                ElseIf itemWBS.Level >= 2 AndAlso itemWBS.Level Mod 2 = 0 Then
+                                    sht1.Range(i, c).CellStyle.Color = Color.FromArgb(218, 238, 243)
+                                Else
+                                    sht1.Range(i, c).CellStyle.Color = Color.FromArgb(250, 191, 143)
+                                End If
+
+                            Next
+
+                            i += 1
+
+                        Else
+
+                            itemBOQ = CType(row.Tag, BoqItem)
+
+                            Trace.WriteLine("error unit of boqitem :" & itemBOQ.EntityName)
+
+                            sht1.Range(i, 1).Text = "item"
+                            sht1.Range(i, 2).Text = ""
+                            Select Case itemBOQ.ItemType.Value
+                                Case 0
+                                    sht1.Range(i, 3).Text = "other"
+                                Case 18
+                                    sht1.Range(i, 3).Text = "lab"
+                                Case 20
+                                    sht1.Range(i, 3).Text = "eq"
+                                Case 42
+                                    sht1.Range(i, 3).Text = "lci"
+                            End Select
+
+                            If Not itemBOQ.Entity Is Nothing Then
+                                sht1.Range(i, 4).Text = itemBOQ.Entity.Code
+                            Else
+                                sht1.Range(i, 4).Text = ""
+                            End If
+
+                            sht1.Range(i, 5).Text = IIf(If(String.IsNullOrEmpty(itemBOQ.EntityName), "", itemBOQ.EntityName.Trim) = "", itemBOQ.Entity.Name, itemBOQ.EntityName)
+                            sht1.Range(i, 6).Value = itemBOQ.Qty
+                            If Not itemBOQ.Unit Is Nothing Then
+                                Try
+                                    sht1.Range(i, 7).Text = If(String.IsNullOrEmpty(itemBOQ.Unit.Name), "", itemBOQ.Unit.Name)
+                                Catch ex As Exception
+                                    Trace.WriteLine("error unit of boqitem :" & itemBOQ.EntityName)
+                                End Try
+                                sht1.Range(i, 8).Value = itemBOQ.UMC
+                                sht1.Range(i, 9).Value = itemBOQ.TotalMaterialCost
+                                sht1.Range(i, 10).Value = itemBOQ.ULC
+                                sht1.Range(i, 11).Value = itemBOQ.TotalLaborCost
+                                sht1.Range(i, 12).Value = itemBOQ.UEC
+                                sht1.Range(i, 13).Value = itemBOQ.TotalEquipmentCost
+                                sht1.Range(i, 14).Value = itemBOQ.TotalCost
+                            Else
+                                sht1.Range(i, 7).Text = ""
+                                sht1.Range(i, 8).Value = ""
+                                sht1.Range(i, 9).Value = ""
+                                sht1.Range(i, 10).Value = ""
+                                sht1.Range(i, 11).Value = ""
+                                sht1.Range(i, 12).Value = ""
+                                sht1.Range(i, 13).Value = ""
+                                sht1.Range(i, 14).Value = ""
+                            End If
+
+                            If (Not itemBOQ.Unit Is Nothing) Then
+                                Try
+                                    sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemBOQ.Note), "", itemBOQ.Unit.Name)
+                                Catch ex As Exception
+                                    Trace.WriteLine("error unit of boqitem :" & itemBOQ.EntityName)
+                                End Try
+                            End If
+
+                            i += 1
+                        End If
+                    Next
+
+                    wkbk.SaveAs(filename, ExcelSaveType.SaveAsXLS)
+                    wkbk.Close()
+
+                End Using
+
+                'With Excel
+                '.SheetsInNewWorkbook = 1
+                'Dim oDoc As Object = .Workbooks.Add()
+                '.Worksheets(1).Select()
+
+                'Dim i As Integer = 1
+                'For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                '  .cells(1, i).value = col.HeaderText.Replace("@", "UnitPrice")
+                '  .cells(1, i).EntireRow.Font.Bold = True
+                '  i += 1
+                'Next
+
+
+
+                'i = 2
+                'For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
+                'Dim j As Integer = 1
+                'For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
+                'If Not row.IsNull(col.MappingName) Then
+                '  If TypeOf col Is DataGridComboColumn Then
+                '    .Cells(i, j).Value = New BOQItemType(row(col.MappingName)).Description
+                '  Else
+                '.Cells(i, j).Value = row(col.MappingName).ToString()
+                '  End If
+                'End If
+                'j += 1
+                'Next
+
+
+                'Next
+                '.ActiveCell.Worksheet.SaveAs(thePath)
+
+                'oDoc.Close()
+                '.Quit()
+                'oDoc = Nothing
+                'Excel = Nothing
+                'End With
+
+
+                MessageBox.Show("Items are exported to Excel Succesfully in '" & filename & "'")
+                'System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
+            '' The excel is created and opened for insert value. We most close this excel using this system
+            'Dim pro() As Process = System.Diagnostics.Process.GetProcessesByName("EXCEL")
+            'For Each i As Process In pro
+            '  i.Kill()
+            'Next
+
+        End Sub
+
+        Private Sub btnLockBoq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLockBoq.Click
+            If m_entity.Locked Then
+                m_entity.Locked = False
             Else
-
-              itemBOQ = CType(row.Tag, BoqItem)
-
-              sht1.Range(i, 1).Text = "item"
-              sht1.Range(i, 2).Text = ""
-              Select Case itemBOQ.ItemType.Value
-                Case 0
-                  sht1.Range(i, 3).Text = "other"
-                Case 18
-                  sht1.Range(i, 3).Text = "lab"
-                Case 20
-                  sht1.Range(i, 3).Text = "eq"
-                Case 42
-                  sht1.Range(i, 3).Text = "lci"
-              End Select
-
-              If Not itemBOQ.Entity Is Nothing Then
-                sht1.Range(i, 4).Text = itemBOQ.Entity.Code
-              Else
-                sht1.Range(i, 4).Text = ""
-              End If
-
-              sht1.Range(i, 5).Text = IIf(If(String.IsNullOrEmpty(itemBOQ.EntityName), "", itemBOQ.EntityName.Trim) = "", itemBOQ.Entity.Name, itemBOQ.EntityName)
-              sht1.Range(i, 6).Value = itemBOQ.Qty
-              If Not itemBOQ.Unit Is Nothing Then
-                sht1.Range(i, 7).Text = If(String.IsNullOrEmpty(itemBOQ.Unit.Name), "", itemBOQ.Unit.Name)
-                sht1.Range(i, 8).Value = itemBOQ.UMC
-                sht1.Range(i, 9).Value = itemBOQ.TotalMaterialCost
-                sht1.Range(i, 10).Value = itemBOQ.ULC
-                sht1.Range(i, 11).Value = itemBOQ.TotalLaborCost
-                sht1.Range(i, 12).Value = itemBOQ.UEC
-                sht1.Range(i, 13).Value = itemBOQ.TotalEquipmentCost
-                sht1.Range(i, 14).Value = itemBOQ.TotalCost
-              Else
-                sht1.Range(i, 7).Text = ""
-                sht1.Range(i, 8).Value = ""
-                sht1.Range(i, 9).Value = ""
-                sht1.Range(i, 10).Value = ""
-                sht1.Range(i, 11).Value = ""
-                sht1.Range(i, 12).Value = ""
-                sht1.Range(i, 13).Value = ""
-                sht1.Range(i, 14).Value = ""
-              End If
-
-              sht1.Range(i, 15).Text = If(String.IsNullOrEmpty(itemBOQ.Note), "", itemBOQ.Unit.Name)
-              i += 1
+                m_entity.Locked = True
             End If
 
-
-
-
-          Next
-
-          wkbk.SaveAs(filename, ExcelSaveType.SaveAsXLS)
-          wkbk.Close()
-
-        End Using
-
-        'With Excel
-        '.SheetsInNewWorkbook = 1
-        'Dim oDoc As Object = .Workbooks.Add()
-        '.Worksheets(1).Select()
-
-        'Dim i As Integer = 1
-        'For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-        '  .cells(1, i).value = col.HeaderText.Replace("@", "UnitPrice")
-        '  .cells(1, i).EntireRow.Font.Bold = True
-        '  i += 1
-        'Next
-
-
-
-        'i = 2
-        'For Each row As TreeRow In Me.m_treeManager.Treetable.Rows
-        'Dim j As Integer = 1
-        'For Each col As DataGridColumnStyle In Me.m_treeManager.GridTableStyle.GridColumnStyles
-        'If Not row.IsNull(col.MappingName) Then
-        '  If TypeOf col Is DataGridComboColumn Then
-        '    .Cells(i, j).Value = New BOQItemType(row(col.MappingName)).Description
-        '  Else
-        '.Cells(i, j).Value = row(col.MappingName).ToString()
-        '  End If
-        'End If
-        'j += 1
-        'Next
-
-
-        'Next
-        '.ActiveCell.Worksheet.SaveAs(thePath)
-
-        'oDoc.Close()
-        '.Quit()
-        'oDoc = Nothing
-        'Excel = Nothing
-        'End With
-
-
-        MessageBox.Show("Items are exported to Excel Succesfully in '" & filename & "'")
-        'System.Threading.Thread.CurrentThread.CurrentCulture = oldCI
-      Catch ex As Exception
-        MessageBox.Show(ex.Message)
-      End Try
-
-      '' The excel is created and opened for insert value. We most close this excel using this system
-      'Dim pro() As Process = System.Diagnostics.Process.GetProcessesByName("EXCEL")
-      'For Each i As Process In pro
-      '  i.Kill()
-      'Next
-
-    End Sub
-
-    Private Sub btnLockBoq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLockBoq.Click
-      If m_entity.Locked Then
-        m_entity.Locked = False
-      Else
-        m_entity.Locked = True
-      End If
-
-      UpdateEntityProperties()
-    End Sub
-  End Class
+            UpdateEntityProperties()
+        End Sub
+    End Class
 End Namespace
