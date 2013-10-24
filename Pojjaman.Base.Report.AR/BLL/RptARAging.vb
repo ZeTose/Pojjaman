@@ -727,7 +727,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
             widths.Add(140)
       widths.Add(200)
-            widths.Add(100)
+            If m_showDetailInGrid = 0 Then
+                widths.Add(100)
+            Else
+                widths.Add(80)
+            End If
             widths.Add(100)
             widths.Add(100)
             widths.Add(100)

@@ -654,7 +654,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
       End If
 
             widths.Add(140)
-      widths.Add(200)
+            widths.Add(200)
+
+            If m_showDetailInGrid = 0 Then
+                widths.Add(120)
+            Else
+                widths.Add(80)
+            End If
+
+
             widths.Add(120)
             widths.Add(120)
             widths.Add(120)
@@ -664,8 +672,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
             widths.Add(120)
             widths.Add(120)
             widths.Add(120)
-            widths.Add(120)
-      widths.Add(0)
+            widths.Add(0)
 
       For i As Integer = 0 To colCount
         If i = 1 Then
