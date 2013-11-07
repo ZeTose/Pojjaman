@@ -1659,7 +1659,6 @@
     <Content Include="External\ICSharpCode.SharpZipLib.dll" />
     <Content Include="External\Interop.SHDocVw.dll" />
     <None Include="Resources\Attachment.ico" />
-    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
