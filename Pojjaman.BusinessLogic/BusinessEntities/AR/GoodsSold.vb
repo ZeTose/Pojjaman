@@ -3073,7 +3073,11 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Try
       End Get
       Set(ByVal Value As Date)
+                Try
+                    m_creditPeriod = CInt(DateDiff(DateInterval.Day, DocDate, Value))
+                Catch ex As Exception
 
+                End Try
       End Set
     End Property
     Public Property Receive() As Receive Implements IReceivable.Receive
