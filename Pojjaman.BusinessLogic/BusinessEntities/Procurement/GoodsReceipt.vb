@@ -5564,7 +5564,15 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Mapping = "SupplierNote"
         dpi.Value = Me.Supplier.Note
         dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
+                dpiColl.Add(dpi)
+
+                'SupplierEmail
+                dpi = New DocPrintingItem
+                dpi.Mapping = "SupplierEmail"
+                dpi.Value = Me.Supplier.EmailAddress
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
+
       End If
 
       If Not Me.ToCostCenter Is Nothing AndAlso Me.ToCostCenter.Originated Then
@@ -6967,7 +6975,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierContact", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierAddress", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCurrentAddress", "System.String"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierNote", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierNote", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierEmail", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterInfo", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CostCenterName", "System.String"))

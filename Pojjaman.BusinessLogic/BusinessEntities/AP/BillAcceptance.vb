@@ -836,7 +836,22 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Mapping = "SupplierCurrentAddress"
         dpi.Value = Me.Supplier.Address
         dpi.DataType = "System.String"
-        dpiColl.Add(dpi)
+                dpiColl.Add(dpi)
+
+                'SupplierNote
+                dpi = New DocPrintingItem
+                dpi.Mapping = "SupplierNote"
+                dpi.Value = Me.Supplier.Note
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
+
+                'SupplierEmail
+                dpi = New DocPrintingItem
+                dpi.Mapping = "SupplierEmail"
+                dpi.Value = Me.Supplier.EmailAddress
+                dpi.DataType = "System.String"
+                dpiColl.Add(dpi)
+
       End If
 
       'If Not Me.Employee Is Nothing AndAlso Me.Employee.Originated Then
@@ -1985,7 +2000,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierInfo", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierName", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierAddress", "System.String"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCurrentAddress", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierCurrentAddress", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierNote", "System.String"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("SupplierEmail", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("LastEditor", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("CreditPeriod", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DueDate", "System.DateTime"))
