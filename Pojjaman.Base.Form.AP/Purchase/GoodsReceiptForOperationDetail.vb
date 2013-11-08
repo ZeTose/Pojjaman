@@ -1269,7 +1269,31 @@ Namespace Longkong.Pojjaman.Gui.Panels
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
             End If
-            Dim value As Decimal = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+                        Dim value As Decimal = 0       'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+                        If Not e.ProposedValue = "" Then
+                            If IsNumeric(e.ProposedValue) Then
+                                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+                            End If
+                        End If
+                        If Not doc.POitem Is Nothing Then
+                            Try
+                                Dim percentDoOverPo As Object = Configuration.GetConfig("PercentDoOverPo")
+                                If Not percentDoOverPo Is Nothing Then
+                                    If CStr(percentDoOverPo).Length > 0 Then
+                                        Dim percent As Decimal = CDec(TextParser.Evaluate(CStr(percentDoOverPo)))
+                                        Dim tolerance As Decimal = (percent * doc.POitem.Qty) / 100
+                                        'MessageBox.Show(String.Format("{0}-({1}-{2}+{3})", value, doc.POitem.Qty, Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty), Math.Min(doc.POitem.ReceivedQty, doc.Qty)))
+                                        If Configuration.Compare(tolerance, value - (doc.POitem.Qty - Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty) + Math.Min(doc.POitem.ReceivedQty, doc.Qty)), DigitConfig.Qty) < 0 Then
+                                            msgServ.ShowMessageFormatted("${res:Global.Error.PercentDoOverPoExceeded}", New String() {Configuration.FormatToString(value, DigitConfig.Qty), Configuration.FormatToString(doc.POitem.Qty, DigitConfig.Qty), Configuration.FormatToString(percent, 2)})
+                                            value = Math.Min(value, doc.POitem.Qty - Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty) + Math.Min(doc.POitem.ReceivedQty, doc.Qty) + tolerance)
+                                        End If
+                                    End If
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+                        End If
+
             doc.Qty = value
             m_entity.OnGlChanged()
           Case "accountcode"
