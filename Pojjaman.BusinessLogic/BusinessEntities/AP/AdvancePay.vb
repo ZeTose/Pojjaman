@@ -111,14 +111,19 @@ Namespace Longkong.Pojjaman.BusinessLogic
       'ReLoadItems()
     End Sub
     Protected Overloads Overrides Sub Construct()
-      MyBase.Construct()
+            MyBase.Construct()
+            Dim taxType As Integer
       With Me
         .m_supplier = New Supplier
         .m_creditPeriod = 0
         .m_taxRate = CDec(Configuration.GetConfig("CompanyTaxRate"))
         .m_note = ""
-        .m_type = 0
-        .m_taxType = New TaxType(2)
+                .m_type = 0
+                taxType = CInt(Configuration.GetConfig("CompanyTaxType"))
+                If taxType = 1 Then
+                    taxType = 2
+                End If
+                .m_taxType = New TaxType(taxType) 'New TaxType(2)
         .m_docDate = Date.Now.Date
         .m_status = New AdvancePayStatus(-1)
         Me.m_costCenter = New CostCenter

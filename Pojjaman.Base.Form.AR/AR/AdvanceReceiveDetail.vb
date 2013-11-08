@@ -1027,11 +1027,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
       txtCostCenterCode.Text = m_entity.CostCenter.Code
       txtCostCenterName.Text = m_entity.CostCenter.Name
 
-      For Each item As IdValuePair In Me.cmbTaxType.Items
-        If Me.m_entity.TaxType.Value = item.Id Then
-          Me.cmbTaxType.SelectedItem = item
-        End If
-      Next
+            'For Each item As IdValuePair In Me.cmbTaxType.Items
+            '  If Me.m_entity.TaxType.Value = item.Id Then
+            '    Me.cmbTaxType.SelectedItem = item
+            '  End If
+            'Next
+            CodeDescription.ComboSelect(Me.cmbTaxType, Me.m_entity.TaxType)
 
       'Load Items**********************************************************
       Me.m_treeManager.Treetable = Me.m_entity.ItemTable
