@@ -2070,7 +2070,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpiColl.Add(dpi)
 
       Dim prList As String = ""
-      Dim n As Integer = 0
+            Dim n As Integer = 0
+            Dim q As Decimal = 0
       For Each item As MatTransferItem In Me.ItemCollection
         'Item.LineNumber
         dpi = New DocPrintingItem
@@ -2116,6 +2117,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
         dpi.Row = n + 1
         dpi.Table = "Item"
         dpiColl.Add(dpi)
+                q = q + item.Qty
+
 
         'Item.TransferUnitPrice
         dpi = New DocPrintingItem
@@ -2196,6 +2199,13 @@ Namespace Longkong.Pojjaman.BusinessLogic
       dpi.Value = n
       dpi.DataType = "System.Int32"
       dpiColl.Add(dpi)
+
+            'TotalQty
+            dpi = New DocPrintingItem
+            dpi.Mapping = "TotalQty"
+            dpi.Value = Configuration.FormatToString(q, DigitConfig.Qty)
+            dpi.DataType = "System.Int32"
+            dpiColl.Add(dpi)
 
       'Gross
       dpi = New DocPrintingItem
@@ -2491,7 +2501,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DescribePRCode", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Note", "System.String"))
-      dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Total", "System.Int32"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Total", "System.Int32"))
+            dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TotalQty", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("Gross", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("TransferGross", "System.String"))
       dpiColl.Add(EntitySimpleSchema.NewDocPrintingItem("DiffConversion", "System.String"))
