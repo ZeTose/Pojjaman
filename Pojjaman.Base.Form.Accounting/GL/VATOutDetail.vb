@@ -921,7 +921,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Me.txtNote.Text = vi.Note
 
         Me.chkAutorun.Checked = Me.m_vat.AutoGen
-        Me.UpdateAutogenStatus()
+                'Me.UpdateAutogenStatus()
 
         AddHandler Me.m_vat.PropertyChanged, AddressOf PropChanged
 
@@ -1257,10 +1257,10 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Buttons Event"
     Private Sub chkAutorun_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutorun.CheckedChanged
-      UpdateAutogenStatus()
-      If Me.m_isInitialized Then
-        Me.WorkbenchWindow.ViewContent.IsDirty = True
-      End If
+            If Me.m_isInitialized Then
+                UpdateAutogenStatus()
+                Me.WorkbenchWindow.ViewContent.IsDirty = True
+            End If
     End Sub
     Private m_oldCode As String = ""
     Private Sub UpdateAutogenStatus()

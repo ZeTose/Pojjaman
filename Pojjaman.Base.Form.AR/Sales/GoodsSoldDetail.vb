@@ -1928,6 +1928,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End Select
         End Sub
         Public Overrides Sub UpdateEntityProperties()
+            Dim temp As Boolean = m_isInitialized
             m_isInitialized = False
             ClearDetail()
             If m_entity Is Nothing Then
@@ -1992,7 +1993,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'End If
             m_oldInvoiceCode = Me.txtInvoiceCode.Text
             Me.chkAutoRunVat.Checked = Me.m_entity.Vat.AutoGen
-            Me.UpdateVatAutogenStatus()
+            'Me.UpdateVatAutogenStatus()
 
 
 
@@ -2033,7 +2034,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             SetStatus()
             SetLabelText()
             CheckFormEnable()
-            m_isInitialized = True
+            m_isInitialized = temp
         End Sub
         Private Sub VatInputEnabled(ByVal enable As Boolean)
             Me.txtInvoiceCode.Enabled = enable
@@ -2312,6 +2313,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Private forceUpdateGross As Boolean = False
         Private forceUpdateTaxAmount As Boolean = False
         Private Sub UpdateAmount(ByVal refresh As Boolean)
+            Dim temp As Boolean = m_isInitialized
             m_isInitialized = False
             If refresh Then
                 Me.m_entity.RefreshTaxBase()
@@ -2351,40 +2353,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 txtAdvanceReceiveAmount.Text = Configuration.FormatToString(m_entity.AdvanceReceiveItemCollection.GetAmount, DigitConfig.Price)
             End If
 
-            m_isInitialized = True
+            m_isInitialized = temp
             SetVatInputAfterAmountChange()
         End Sub
         Private Sub SetVatInputAfterAmountChange()
             Dim nv As String = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-            If Me.txtInvoiceDate.Text.Trim.Equals(nv) Then
-                Me.txtInvoiceDate.Text = ""
-            End If
-            'Me.txtInvoiceDate.Text = ""
-            'Me.chkAutoRunVat.Enabled = True
-            'Me.dtpInvoiceDate.Enabled = True
-            'Me.txtInvoiceDate.ReadOnly = False
-            If Me.m_entity.TaxType.Value = 0 Then
-                'ไม่มี Vat
-                'SetVatToNoDoc()
-                'Me.chkAutoRunVat.Enabled = False
-                'Me.dtpInvoiceDate.Enabled = False
-                'Me.txtInvoiceDate.ReadOnly = True
-                Me.txtInvoiceDate.Text = ""
+            If m_isInitialized Then
+                If Me.txtInvoiceDate.Text.Trim.Equals(nv) Then
+                    Me.txtInvoiceDate.Text = ""
+                End If
+                'Me.txtInvoiceDate.Text = ""
+                'Me.chkAutoRunVat.Enabled = True
+                'Me.dtpInvoiceDate.Enabled = True
+                'Me.txtInvoiceDate.ReadOnly = False
+                If Me.m_entity.TaxType.Value = 0 Then
+                    'ไม่มี Vat
+                    'SetVatToNoDoc()
+                    'Me.chkAutoRunVat.Enabled = False
+                    'Me.dtpInvoiceDate.Enabled = False
+                    'Me.txtInvoiceDate.ReadOnly = True
+                    Me.txtInvoiceDate.Text = ""
 
-                Me.VatInputEnabled(False)
-                Me.m_isInitialized = False
-                Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-                Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
-                Me.dtpInvoiceDate.Value = Now
+                    Me.VatInputEnabled(False)
 
-                Me.m_isInitialized = True
-            ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
-                'ไม่มี Vatitem
-                Me.m_entity.Vat.ItemCollection().Add(New VatItem)
-                Me.VatInputEnabled(True)
-            Else
-                'มี Vatitem ใบเดียว
-                Me.VatInputEnabled(True)
+                    ' Me.m_isInitialized = False
+
+                    Me.txtInvoiceCode.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+                    Me.txtInvoiceDate.Text = Me.StringParserService.Parse("${res:Global.NoTaxText}")
+                    Me.dtpInvoiceDate.Value = Now
+
+                    'Me.m_isInitialized = True
+                ElseIf Me.m_entity.Vat.ItemCollection.Count <= 0 Then
+                    'ไม่มี Vatitem
+                    Me.m_entity.Vat.ItemCollection().Add(New VatItem)
+                    Me.VatInputEnabled(True)
+                Else
+                    'มี Vatitem ใบเดียว
+                    Me.VatInputEnabled(True)
+                End If
+
             End If
         End Sub
         Public Sub SetStatus()
@@ -2466,9 +2473,12 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
         End Sub
         Private Sub chkAutoRunVat_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoRunVat.CheckedChanged
-            UpdateVatAutogenStatus()
+            If Me.m_isInitialized Then
+                UpdateVatAutogenStatus()
+            End If
         End Sub
         Private Sub UpdateVatAutogenStatus()
+            'If m_isInitialized Then
             If Me.m_entity.Vat Is Nothing Then
                 Return
             End If
@@ -2526,6 +2536,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.m_entity.Vat.AutoGen = False
                 vi.AutoGen = False
             End If
+
+            'End If
+
         End Sub
         Public Sub AcctButtonClick(ByVal e As ButtonColumnEventArgs)
             Dim doc As GoodsSoldItem = Me.CurrentItem

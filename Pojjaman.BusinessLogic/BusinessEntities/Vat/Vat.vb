@@ -4603,8 +4603,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                             "|" & gsItem.Discount.Rate & _
                                             "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
                                             "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
-                                            "|" & gsItem.ItemType.Value.ToString & _
+                                            "|" & "1" & _
                                             "|"
+                                            'gsItem.ItemType.Value.ToString
                                             Me.m_lines.Add(itemText)
                                         Next
                                     ElseIf rcItem.EntityId.Equals(75) _
@@ -4688,8 +4689,9 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                         "|" & gsItem.Discount.Rate & _
                                         "|" & Configuration.FormatToString(gsItem.AfterTax, DigitConfig.Price) & _
                                         "|" & Configuration.FormatToString(gsItem.TaxBase, DigitConfig.Price) & _
-                                        "|" & gsItem.ItemType.Value.ToString & _
+                                        "|" & "1" & _
                                         "|"
+                                        'gsItem.ItemType.Value.ToString
                                         Me.m_lines.Add(itemText)
                                     Next
                                 ElseIf rcItem.EntityId.Equals(75) _
