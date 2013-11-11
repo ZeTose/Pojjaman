@@ -1015,7 +1015,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
 
       Try
         Me.DeleteRef(conn, trans)
-        SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateVat_PCNRef" _
+                SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateVat_SCNRef" _
         , New SqlParameter("@stock_id", Me.Id))
         SqlHelper.ExecuteNonQuery(conn, trans, CommandType.StoredProcedure, "UpdateStock_StockRef" _
         , New SqlParameter("@refto_id", Me.Id))
