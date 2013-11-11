@@ -2055,13 +2055,14 @@ Namespace Longkong.Pojjaman.Gui.Panels
             End If
         End Sub
         Private Sub RefreshDocs()
+            Dim temp As Boolean = m_isInitialized
             Me.m_isInitialized = False
             Me.m_entity.ItemCollection.Populate(m_treeManager.Treetable)
             RefreshBlankGrid()
             ReIndex()
             Me.m_treeManager.Treetable.AcceptChanges()
             Me.UpdateAmount(True)
-            Me.m_isInitialized = True
+            Me.m_isInitialized = temp
         End Sub
         Private Sub PropChanged(ByVal sender As Object, ByVal e As PropertyChangedEventArgs)
             If Me.m_isInitialized AndAlso (e.Name = "ItemChanged" Or e.Name = "QtyChanged") Then
@@ -2424,6 +2425,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Else
                 End If
                 UpdateEntityProperties()
+                m_isInitialized = True
             End Set
         End Property
         Public Overrides Sub Initialize()
