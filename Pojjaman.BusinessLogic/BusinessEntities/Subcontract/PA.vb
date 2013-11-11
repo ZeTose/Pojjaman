@@ -4099,8 +4099,8 @@ Namespace Longkong.Pojjaman.BusinessLogic
                   WBSName = item.WBSDistributeCollection.Item(0).WBS.Name
                   WBSCodePercent = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Percent, DigitConfig.Price) & "%"
                   WBSCodeAmount = item.WBSDistributeCollection.Item(0).WBS.Code & "=>" & Configuration.FormatToString(item.WBSDistributeCollection.Item(0).Amount, DigitConfig.Price)
-                  WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).BudgetRemain, DigitConfig.Price)
-                  WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemain, DigitConfig.Price)
+                                    WBSRemainAmount = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).RemainSummary, DigitConfig.Price)
+                                    WBSRemainQty = Configuration.FormatToString(item.WBSDistributeCollection.Item(0).QtyRemainSummary, DigitConfig.Price)
                 Else
                   Dim j As Integer
                   For j = 0 To item.WBSDistributeCollection.Count - 1
@@ -4989,7 +4989,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.WBSRemainAmount
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.WBSRemainAmount"
-          dpi.Value = dis.BudgetRemain
+                    dpi.Value = dis.RemainSummary
           dpi.DataType = "System.String"
           dpi.Row = i + 1
           dpi.Table = "Allocate"
@@ -5016,7 +5016,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
           'Item.WBSRemainQty
           dpi = New DocPrintingItem
           dpi.Mapping = "Item.WBSRemainQty"
-          dpi.Value = dis.QtyRemain
+                    dpi.Value = dis.QtyRemainSummary
           dpi.DataType = "System.String"
           dpi.Row = i + 1
           dpi.Table = "Allocate"
