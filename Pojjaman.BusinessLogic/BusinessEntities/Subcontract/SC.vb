@@ -1004,6 +1004,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         lineNumber += 1
                         sci = New SCItem
                         sci.SC = Me
+
                         If Not wri.ItemType Is Nothing Then
                             sci.ItemType = wri.ItemType
                         End If
@@ -1015,7 +1016,7 @@ Namespace Longkong.Pojjaman.BusinessLogic
                         sci.Level = wri.Level
                         sci.WR = Me.WR
                         sci.ItemName = wri.ItemName
-
+                        sci.WRItem = wri
                         If wri.ItemType.Value <> 160 AndAlso wri.ItemType.Value <> 162 Then
                             If Not wri.Unit Is Nothing Then
                                 sci.WRIUnit = wri.Unit
@@ -1034,10 +1035,12 @@ Namespace Longkong.Pojjaman.BusinessLogic
                                 sci.SetWRIQty(wri.Qty)
                                 sci.SetWRIOrigingQty(wri.Qty)
                                 sci.SetQty(wri.Qty)
+
                             Else
                                 sci.SetWRIQty(wri.Qty - wri.OrderedQty)
                                 sci.SetWRIOrigingQty(sci.WRIQty)
                                 sci.SetQty(sci.WRIQty)
+
                             End If
                             'sci.UnitPrice = wri.UnitPrice
                             sci.SetUnitPrice(wri.UnitPrice)

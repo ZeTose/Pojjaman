@@ -58,6 +58,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
         Friend WithEvents Label2 As System.Windows.Forms.Label
         Friend WithEvents txtPercentPOOverPR As System.Windows.Forms.TextBox
         Friend WithEvents lblPercentPOOverPR As System.Windows.Forms.Label
+        Friend WithEvents Label3 As System.Windows.Forms.Label
+        Friend WithEvents txtPercentSCOverWR As System.Windows.Forms.TextBox
+        Friend WithEvents lblPercentSCOverWR As System.Windows.Forms.Label
 		Friend WithEvents rdPRFull As System.Windows.Forms.RadioButton
 		<System.Diagnostics.DebuggerStepThrough()> Protected Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
@@ -86,6 +89,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.rd21 = New System.Windows.Forms.RadioButton()
             Me.rd19 = New System.Windows.Forms.RadioButton()
             Me.lbl7 = New System.Windows.Forms.Label()
+            Me.Label3 = New System.Windows.Forms.Label()
+            Me.txtPercentSCOverWR = New System.Windows.Forms.TextBox()
+            Me.lblPercentSCOverWR = New System.Windows.Forms.Label()
             CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.grbDetail.SuspendLayout()
             Me.grbPRtoMW.SuspendLayout()
@@ -101,7 +107,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'txtPercentDOOverPO
             '
             Me.ErrorProvider1.SetIconPadding(Me.txtPercentDOOverPO, -15)
-            Me.txtPercentDOOverPO.Location = New System.Drawing.Point(293, 224)
+            Me.txtPercentDOOverPO.Location = New System.Drawing.Point(293, 263)
             Me.txtPercentDOOverPO.Name = "txtPercentDOOverPO"
             Me.txtPercentDOOverPO.Size = New System.Drawing.Size(144, 21)
             Me.txtPercentDOOverPO.TabIndex = 4
@@ -110,7 +116,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             'txtPercentPOOverPR
             '
             Me.ErrorProvider1.SetIconPadding(Me.txtPercentPOOverPR, -15)
-            Me.txtPercentPOOverPR.Location = New System.Drawing.Point(293, 183)
+            Me.txtPercentPOOverPR.Location = New System.Drawing.Point(293, 228)
             Me.txtPercentPOOverPR.Name = "txtPercentPOOverPR"
             Me.txtPercentPOOverPR.Size = New System.Drawing.Size(144, 21)
             Me.txtPercentPOOverPR.TabIndex = 9
@@ -118,6 +124,9 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             'grbDetail
             '
+            Me.grbDetail.Controls.Add(Me.Label3)
+            Me.grbDetail.Controls.Add(Me.txtPercentSCOverWR)
+            Me.grbDetail.Controls.Add(Me.lblPercentSCOverWR)
             Me.grbDetail.Controls.Add(Me.Label2)
             Me.grbDetail.Controls.Add(Me.txtPercentPOOverPR)
             Me.grbDetail.Controls.Add(Me.lblPercentPOOverPR)
@@ -131,7 +140,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.grbDetail.FlatStyle = System.Windows.Forms.FlatStyle.System
             Me.grbDetail.Location = New System.Drawing.Point(8, 8)
             Me.grbDetail.Name = "grbDetail"
-            Me.grbDetail.Size = New System.Drawing.Size(498, 367)
+            Me.grbDetail.Size = New System.Drawing.Size(498, 381)
             Me.grbDetail.TabIndex = 0
             Me.grbDetail.TabStop = False
             '
@@ -140,7 +149,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Label2.BackColor = System.Drawing.Color.Transparent
             Me.Label2.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Label2.ForeColor = System.Drawing.SystemColors.WindowText
-            Me.Label2.Location = New System.Drawing.Point(445, 184)
+            Me.Label2.Location = New System.Drawing.Point(445, 229)
             Me.Label2.Name = "Label2"
             Me.Label2.Size = New System.Drawing.Size(16, 18)
             Me.Label2.TabIndex = 10
@@ -152,7 +161,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblPercentPOOverPR.BackColor = System.Drawing.Color.Transparent
             Me.lblPercentPOOverPR.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblPercentPOOverPR.ForeColor = System.Drawing.SystemColors.WindowText
-            Me.lblPercentPOOverPR.Location = New System.Drawing.Point(16, 183)
+            Me.lblPercentPOOverPR.Location = New System.Drawing.Point(16, 228)
             Me.lblPercentPOOverPR.Name = "lblPercentPOOverPR"
             Me.lblPercentPOOverPR.Size = New System.Drawing.Size(271, 18)
             Me.lblPercentPOOverPR.TabIndex = 8
@@ -163,7 +172,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             '
             Me.grbPRtoMW.Controls.Add(Me.rdPRFull)
             Me.grbPRtoMW.Controls.Add(Me.rdPRremainPO)
-            Me.grbPRtoMW.Location = New System.Drawing.Point(16, 271)
+            Me.grbPRtoMW.Location = New System.Drawing.Point(16, 310)
             Me.grbPRtoMW.Name = "grbPRtoMW"
             Me.grbPRtoMW.Size = New System.Drawing.Size(352, 56)
             Me.grbPRtoMW.TabIndex = 7
@@ -191,7 +200,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.Label1.BackColor = System.Drawing.Color.Transparent
             Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Label1.ForeColor = System.Drawing.SystemColors.WindowText
-            Me.Label1.Location = New System.Drawing.Point(445, 225)
+            Me.Label1.Location = New System.Drawing.Point(445, 264)
             Me.Label1.Name = "Label1"
             Me.Label1.Size = New System.Drawing.Size(16, 18)
             Me.Label1.TabIndex = 5
@@ -203,7 +212,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lblPercentDOOverPO.BackColor = System.Drawing.Color.Transparent
             Me.lblPercentDOOverPO.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.lblPercentDOOverPO.ForeColor = System.Drawing.SystemColors.WindowText
-            Me.lblPercentDOOverPO.Location = New System.Drawing.Point(16, 224)
+            Me.lblPercentDOOverPO.Location = New System.Drawing.Point(16, 263)
             Me.lblPercentDOOverPO.Name = "lblPercentDOOverPO"
             Me.lblPercentDOOverPO.Size = New System.Drawing.Size(271, 18)
             Me.lblPercentDOOverPO.TabIndex = 3
@@ -344,12 +353,45 @@ Namespace Longkong.Pojjaman.Gui.Panels
             Me.lbl7.Text = "ราคาที่ใช้ในการออก PR"
             Me.lbl7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
             '
+            'Label3
+            '
+            Me.Label3.BackColor = System.Drawing.Color.Transparent
+            Me.Label3.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.Label3.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.Label3.Location = New System.Drawing.Point(445, 190)
+            Me.Label3.Name = "Label3"
+            Me.Label3.Size = New System.Drawing.Size(16, 18)
+            Me.Label3.TabIndex = 13
+            Me.Label3.Text = "%"
+            Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
+            'txtPercentSCOverWR
+            '
+            Me.ErrorProvider1.SetIconPadding(Me.txtPercentSCOverWR, -15)
+            Me.txtPercentSCOverWR.Location = New System.Drawing.Point(293, 189)
+            Me.txtPercentSCOverWR.Name = "txtPercentSCOverWR"
+            Me.txtPercentSCOverWR.Size = New System.Drawing.Size(144, 21)
+            Me.txtPercentSCOverWR.TabIndex = 12
+            Me.txtPercentSCOverWR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+            '
+            'lblPercentSCOverWR
+            '
+            Me.lblPercentSCOverWR.BackColor = System.Drawing.Color.Transparent
+            Me.lblPercentSCOverWR.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
+            Me.lblPercentSCOverWR.ForeColor = System.Drawing.SystemColors.WindowText
+            Me.lblPercentSCOverWR.Location = New System.Drawing.Point(16, 189)
+            Me.lblPercentSCOverWR.Name = "lblPercentSCOverWR"
+            Me.lblPercentSCOverWR.Size = New System.Drawing.Size(271, 18)
+            Me.lblPercentSCOverWR.TabIndex = 11
+            Me.lblPercentSCOverWR.Text = "เปอร์เซ็นต์ที่ยอมให้สั่งสินค้าเกินจำนวนใบขอซื้อ:"
+            Me.lblPercentSCOverWR.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+            '
             'StockConfigurationView
             '
             Me.Controls.Add(Me.grbDetail)
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(222, Byte))
             Me.Name = "StockConfigurationView"
-            Me.Size = New System.Drawing.Size(516, 388)
+            Me.Size = New System.Drawing.Size(516, 404)
             CType(Me.ErrorProvider1, System.ComponentModel.ISupportInitialize).EndInit()
             Me.grbDetail.ResumeLayout(False)
             Me.grbDetail.PerformLayout()
@@ -365,7 +407,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
 #Region "Members"
     Private m_isInitialized As Boolean
-        Public ConfigFilters(6) As Filter
+        Public ConfigFilters(7) As Filter
     Private Dirty As Boolean
 #End Region
 
@@ -403,7 +445,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
       Me.rd24.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rd24}")
       Me.rd23.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rd23}")
       Me.rd22.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rd22}")
-      Me.lbl8.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.lbl8}")
+            Me.lbl8.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.lbl8}")
+            Me.lblPercentPOOverPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.lblPercentSCOverWR}")
             Me.lblPercentPOOverPR.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.lblPercentPOOverPR}")
       Me.lblPercentDOOverPO.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.lblPercentDOOverPO}")
 			Me.rdPRFull.Text = Me.StringParserService.Parse("${res:Longkong.Pojjaman.Gui.Panels.StockConfigurationView.rdPRFull}")		 '"เบิกได้ตามใบ PR"
@@ -421,7 +464,8 @@ Namespace Longkong.Pojjaman.Gui.Panels
 
       AddHandler rd22.CheckedChanged, AddressOf ChangeProperty
       AddHandler rd23.CheckedChanged, AddressOf ChangeProperty
-      AddHandler rd24.CheckedChanged, AddressOf ChangeProperty
+            AddHandler rd24.CheckedChanged, AddressOf ChangeProperty
+            AddHandler txtPercentSCOverWR.TextChanged, AddressOf ChangeProperty
             AddHandler txtPercentPOOverPR.TextChanged, AddressOf ChangeProperty
 			AddHandler txtPercentDOOverPO.TextChanged, AddressOf ChangeProperty
 
@@ -446,6 +490,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
                         SetFilterValue("PercentPoOverPr", DBNull.Value)
                     Else
                         SetFilterValue("PercentPoOverPr", Configuration.Format(CDec(txtPercentPOOverPR.Text), DigitConfig.Price))
+                    End If
+                    dirtyFlag = True
+                Case "txtpercentscoverwr"
+                    If txtPercentSCOverWR.TextLength = 0 OrElse Not IsNumeric(txtPercentSCOverWR.Text) Then
+                        SetFilterValue("PercentScOverWr", DBNull.Value)
+                    Else
+                        SetFilterValue("PercentScOverWr", Configuration.Format(CDec(txtPercentSCOverWR.Text), DigitConfig.Price))
                     End If
                     dirtyFlag = True
         Case "rd16", "rd17", "rd18"
@@ -497,6 +548,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			ConfigFilters(4) = New Filter("MWPRFull", Configuration.GetConfig("MWPRFull"))
             ConfigFilters(5) = New Filter("MWPRremainPO", Configuration.GetConfig("MWPRremainPO"))
             ConfigFilters(6) = New Filter("PercentPoOverPr", Configuration.GetConfig("PercentPoOverPr"))
+            ConfigFilters(6) = New Filter("PercentScOverWr", Configuration.GetConfig("PercentScOverWr"))
 		End Sub
 		Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
 			For Each filter As filter In ConfigFilters
@@ -569,6 +621,13 @@ Namespace Longkong.Pojjaman.Gui.Panels
                 Me.txtPercentPOOverPR.Text = ""
             Else
                 Me.txtPercentPOOverPR.Text = Configuration.FormatToString(CDec(o), DigitConfig.Price)
+            End If
+
+            o = GetFilterValue("PercentScOverWr")
+            If Not IsNumeric(o) Then
+                Me.txtPercentSCOverWR.Text = ""
+            Else
+                Me.txtPercentSCOverWR.Text = Configuration.FormatToString(CDec(o), DigitConfig.Price)
             End If
 
 			tmp2 = CBool(GetFilterValue("MWPRFull"))

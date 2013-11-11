@@ -1848,13 +1848,33 @@ Namespace Longkong.Pojjaman.Gui.Panels
           Case "sci_qty"
             If IsDBNull(e.ProposedValue) Then
               e.ProposedValue = ""
-            End If
-            Dim value As Decimal = 0 'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-            If Not e.ProposedValue = "" Then
-              If IsNumeric(e.ProposedValue) Then
-                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
-              End If
-            End If
+                        End If
+
+                        Dim value As Decimal = 0       'CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+                        If Not e.ProposedValue = "" Then
+                            If IsNumeric(e.ProposedValue) Then
+                                value = CDec(TextParser.Evaluate(e.ProposedValue.ToString))
+                            End If
+                        End If
+                        If Not (doc.WRItem Is Nothing) AndAlso Not (doc.WRItem.ItemType.Value = 289) Then
+                            Try
+                                Dim percentScOverWr As Object = Configuration.GetConfig("PercentScOverWr")
+                                If Not percentScOverWr Is Nothing Then
+                                    If CStr(percentScOverWr).Length > 0 Then
+                                        Dim percent As Decimal = CDec(TextParser.Evaluate(CStr(percentScOverWr)))
+                                        Dim tolerance As Decimal = (percent * doc.WRItem.Qty) / 100
+                                        'MessageBox.Show(String.Format("{0}-({1}-{2}+{3})", value, doc.POitem.Qty, Math.Min(doc.POitem.ReceivedQty, doc.POitem.Qty), Math.Min(doc.POitem.ReceivedQty, doc.Qty)))
+                                        If Configuration.Compare(tolerance, value - (doc.WRItem.Qty - Math.Min(doc.WRItem.OrderedQty, doc.WRItem.Qty) + Math.Min(doc.WRItem.OrderedQty, doc.Qty)), DigitConfig.Qty) < 0 Then
+                                            msgServ.ShowMessageFormatted("${res:Global.Error.PercentScOverWrExceeded}", New String() {Configuration.FormatToString(value, DigitConfig.Qty), Configuration.FormatToString(doc.WRItem.Qty, DigitConfig.Qty), Configuration.FormatToString(percent, 2)})
+                                            value = Math.Min(value, doc.WRItem.Qty - Math.Min(doc.WRItem.OrderedQty, doc.WRItem.Qty) + Math.Min(doc.WRItem.OrderedQty, doc.Qty) + tolerance)
+                                        End If
+                                    End If
+                                End If
+                            Catch ex As Exception
+
+                            End Try
+                        End If
+
             doc.Qty = value
           Case "sci_entitytype"
             Dim value As SCIItemType

@@ -552,16 +552,23 @@ Namespace Longkong.Pojjaman.BusinessLogic
         End Property        Public Property WRIQty As Decimal            Get                Return m_wriQty
             End Get
             Set(ByVal value As Decimal)
-                If Me.WR.Originated Then
-                    If (m_wriorginQty < value) Then
-                        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
-                        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.QtyOverWR}", _
-                                                         New String() {Configuration.FormatToString(m_wriorginQty, DigitConfig.Price), _
-                                                                       Configuration.FormatToString(value, DigitConfig.Price)})
-                        Return
-                    End If
-                    m_wriQty = value
-                End If
+                'If Me.WR.Originated Then
+                '    If (m_wriorginQty < value) Then
+                '        Dim msgServ As IMessageService = CType(ServiceManager.Services.GetService(GetType(IMessageService)), IMessageService)
+                '        msgServ.ShowMessageFormatted("${res:Longkong.Pojjaman.Gui.Panels.SCItem.QtyOverWR}", _
+                '                                         New String() {Configuration.FormatToString(m_wriorginQty, DigitConfig.Price), _
+                '                                                       Configuration.FormatToString(value, DigitConfig.Price)})
+                '        Return
+                '    End If
+                '    m_wriQty = value
+                'End If
+                m_wriQty = value
+            End Set
+        End Property        Private m_wrItem As WRItem        Public Property WRItem As WRItem            Get
+                Return m_wrItem
+            End Get
+            Set(value As WRItem)
+                m_wrItem = value
             End Set
         End Property        Public ReadOnly Property WRIOriginQty As Decimal
             Get
