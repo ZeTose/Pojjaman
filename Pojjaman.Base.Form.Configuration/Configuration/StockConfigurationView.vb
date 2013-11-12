@@ -548,7 +548,7 @@ Namespace Longkong.Pojjaman.Gui.Panels
 			ConfigFilters(4) = New Filter("MWPRFull", Configuration.GetConfig("MWPRFull"))
             ConfigFilters(5) = New Filter("MWPRremainPO", Configuration.GetConfig("MWPRremainPO"))
             ConfigFilters(6) = New Filter("PercentPoOverPr", Configuration.GetConfig("PercentPoOverPr"))
-            ConfigFilters(6) = New Filter("PercentScOverWr", Configuration.GetConfig("PercentScOverWr"))
+            ConfigFilters(7) = New Filter("PercentScOverWr", Configuration.GetConfig("PercentScOverWr"))
 		End Sub
 		Private Sub SetFilterValue(ByVal name As String, ByVal value As Object)
 			For Each filter As filter In ConfigFilters
